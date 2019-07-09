@@ -350,6 +350,61 @@
           "constants": []
         },
         {
+          "name": "authorship",
+          "prefix": "Authorship",
+          "storage": [
+            {
+              "name": "Uncles",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<UncleEntryItem>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Uncles"
+              ]
+            },
+            {
+              "name": "Author",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "AccountId"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Author of current block."
+              ]
+            },
+            {
+              "name": "DidSetUncles",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Whether uncles were already set in this block."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_uncles",
+              "args": [
+                {
+                  "name": "new_uncles",
+                  "type": "Vec<Header>"
+                }
+              ],
+              "documentation": [
+                " Provide a set of uncles."
+              ]
+            }
+          ],
+          "events": null,
+          "constants": []
+        },
+        {
           "name": "indices",
           "prefix": "Indices",
           "storage": [
@@ -412,61 +467,6 @@
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
                 " The total units issued in the system."
-              ]
-            },
-            {
-              "name": "ExistentialDeposit",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The minimum amount required to keep an account open."
-              ]
-            },
-            {
-              "name": "TransferFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee required to make a transfer."
-              ]
-            },
-            {
-              "name": "CreationFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee required to create an account."
-              ]
-            },
-            {
-              "name": "TransactionBaseFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
-            {
-              "name": "TransactionByteFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the per-byte portion."
               ]
             },
             {
@@ -659,7 +659,48 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [
+            {
+              "name": "ExistentialDeposit",
+              "type": "Balance",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " The minimum amount required to keep an account open."
+              ]
+            },
+            {
+              "name": "TransferFee",
+              "type": "Balance",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee required to make a transfer."
+              ]
+            },
+            {
+              "name": "CreationFee",
+              "type": "Balance",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee required to create an account."
+              ]
+            },
+            {
+              "name": "TransactionBaseFee",
+              "type": "Balance",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "type": "Balance",
+              "value": "0x00e40b54020000000000000000000000",
+              "documentation": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            }
+          ]
         },
         {
           "name": "session",
@@ -711,7 +752,32 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " The next key for a given validator."
+                " The next key to be used for a given validator. At the end of the session, they",
+                " will be moved into the `QueuedKeys` and so changes here will not take effect for",
+                " at least one whole session."
+              ]
+            },
+            {
+              "name": "QueuedChanged",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Queued keys changed."
+              ]
+            },
+            {
+              "name": "QueuedKeys",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(AccountId,Keys)>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The queued keys for the next session. When the next session begins, these keys",
+                " will be used to determine the validator's session keys."
               ]
             },
             {
@@ -1948,7 +2014,7 @@
             {
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
-              "value": "0x80f4030000000000",
+              "value": "0x8097060000000000",
               "documentation": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
@@ -1960,7 +2026,7 @@
             {
               "name": "LaunchPeriod",
               "type": "BlockNumber",
-              "value": "0x00b1030000000000",
+              "value": "0x0027060000000000",
               "documentation": [
                 " How often (in blocks) new public referenda are launched."
               ]
@@ -1968,7 +2034,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x00b1030000000000",
+              "value": "0x0027060000000000",
               "documentation": [
                 " How often (in blocks) to check for new votes."
               ]
@@ -1976,7 +2042,7 @@
             {
               "name": "MinimumDeposit",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x0000c16ff28623000000000000000000",
               "documentation": [
                 " The minimum amount to be used as a deposit for a public referendum proposal."
               ]
@@ -1984,7 +2050,7 @@
             {
               "name": "EmergencyVotingPeriod",
               "type": "BlockNumber",
-              "value": "0x4065000000000000",
+              "value": "0xc0a8000000000000",
               "documentation": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
@@ -1992,7 +2058,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x80f4030000000000",
+              "value": "0x8097060000000000",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -2004,92 +2070,14 @@
           "prefix": "Council",
           "storage": [
             {
-              "name": "CandidacyBond",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x09000000000000000000000000000000",
-              "documentation": [
-                " How much should be locked up in order to submit one's candidacy."
-              ]
-            },
-            {
-              "name": "VotingBond",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " How much should be locked up in order to be able to submit votes."
-              ]
-            },
-            {
-              "name": "VotingFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The amount of fee paid upon each vote submission, unless if they submit a _hole_ index and replace it."
-              ]
-            },
-            {
-              "name": "PresentSlashPerVoter",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x01000000000000000000000000000000",
-              "documentation": [
-                " The punishment, per voter, if you provide an invalid presentation."
-              ]
-            },
-            {
-              "name": "CarryCount",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x02000000",
-              "documentation": [
-                " How many runners-up should have their approvals persist until the next vote."
-              ]
-            },
-            {
               "name": "PresentationDuration",
               "modifier": "Default",
               "type": {
                 "PlainType": "BlockNumber"
               },
-              "fallback": "0xe803000000000000",
+              "fallback": "0x0000000000000000",
               "documentation": [
                 " How long to give each top candidate to present themselves after the vote ends."
-              ]
-            },
-            {
-              "name": "InactiveGracePeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "VoteIndex"
-              },
-              "fallback": "0x01000000",
-              "documentation": [
-                " How many vote indices need to go by after a target voter's last vote before they can be reaped if their",
-                " approvals are moot."
-              ]
-            },
-            {
-              "name": "VotingPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " How often (in blocks) to check for new votes."
               ]
             },
             {
@@ -2098,7 +2086,7 @@
               "type": {
                 "PlainType": "BlockNumber"
               },
-              "fallback": "0x0500000000000000",
+              "fallback": "0x0000000000000000",
               "documentation": [
                 " How long each position is active for."
               ]
@@ -2112,20 +2100,6 @@
               "fallback": "0x00000000",
               "documentation": [
                 " Number of accounts that should be sitting on the council."
-              ]
-            },
-            {
-              "name": "DecayRatio",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x18000000",
-              "documentation": [
-                " Decay factor of weight when being accumulated. It should typically be set to",
-                " __at least__ `council_size -1` to keep the council secure.",
-                " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight increment step `t`.",
-                " 0 will result in no weight being added at all (normal approval voting)."
               ]
             },
             {
@@ -2562,7 +2536,83 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [
+            {
+              "name": "CandidacyBond",
+              "type": "BalanceOf",
+              "value": "0x0080c6a47e8d03000000000000000000",
+              "documentation": [
+                " How much should be locked up in order to submit one's candidacy. A reasonable",
+                " default value is 9."
+              ]
+            },
+            {
+              "name": "VotingBond",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " How much should be locked up in order to be able to submit votes."
+              ]
+            },
+            {
+              "name": "VotingFee",
+              "type": "BalanceOf",
+              "value": "0x0080f420e6b500000000000000000000",
+              "documentation": [
+                " The amount of fee paid upon each vote submission, unless if they submit a",
+                " _hole_ index and replace it."
+              ]
+            },
+            {
+              "name": "PresentSlashPerVoter",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The punishment, per voter, if you provide an invalid presentation. A",
+                " reasonable default value is 1."
+              ]
+            },
+            {
+              "name": "CarryCount",
+              "type": "u32",
+              "value": "0x06000000",
+              "documentation": [
+                " How many runners-up should have their approvals persist until the next",
+                " vote. A reasonable default value is 2."
+              ]
+            },
+            {
+              "name": "InactiveGracePeriod",
+              "type": "VoteIndex",
+              "value": "0x01000000",
+              "documentation": [
+                " How many vote indices need to go by after a target voter's last vote before",
+                " they can be reaped if their approvals are moot. A reasonable default value",
+                " is 1."
+              ]
+            },
+            {
+              "name": "CouncilVotingPeriod",
+              "type": "BlockNumber",
+              "value": "0x8070000000000000",
+              "documentation": [
+                " How often (in blocks) to check for new votes. A reasonable default value",
+                " is 1000."
+              ]
+            },
+            {
+              "name": "DecayRatio",
+              "type": "u32",
+              "value": "0x00000000",
+              "documentation": [
+                " Decay factor of weight when being accumulated. It should typically be set to",
+                " __at least__ `council_size -1` to keep the council secure.",
+                " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight",
+                " increment step `t`. 0 will result in no weight being added at all (normal",
+                " approval voting). A reasonable default value is 24."
+              ]
+            }
+          ]
         },
         {
           "name": "council_motions",
@@ -2770,7 +2820,24 @@
             }
           ],
           "events": null,
-          "constants": []
+          "constants": [
+            {
+              "name": "WindowSize",
+              "type": "BlockNumber",
+              "value": "0x6500000000000000",
+              "documentation": [
+                " The number of recent samples to keep from this chain. Default is 101."
+              ]
+            },
+            {
+              "name": "ReportLatency",
+              "type": "BlockNumber",
+              "value": "0xe803000000000000",
+              "documentation": [
+                " The delay after which point things become suspicious. Default is 1000."
+              ]
+            }
+          ]
         },
         {
           "name": "grandpa",
@@ -2853,62 +2920,6 @@
           "prefix": "Treasury",
           "storage": [
             {
-              "name": "ProposalBond",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Permill"
-              },
-              "fallback": "0x00000000",
-              "documentation": [
-                " Fraction of a proposal's value that should be bonded in order to place the proposal.",
-                " An accepted proposal gets these back. A rejected proposal does not."
-              ]
-            },
-            {
-              "name": "ProposalBondMinimum",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " Minimum amount of funds that should be placed in a deposit for making a proposal."
-              ]
-            },
-            {
-              "name": "SpendPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0100000000000000",
-              "documentation": [
-                " Period between successive spends."
-              ]
-            },
-            {
-              "name": "Burn",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Permill"
-              },
-              "fallback": "0x00000000",
-              "documentation": [
-                " Percentage of spare funds (if any) that are burnt per spend period."
-              ]
-            },
-            {
-              "name": "Pot",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " Total funds available to this module for spending."
-              ]
-            },
-            {
               "name": "ProposalCount",
               "modifier": "Default",
               "type": {
@@ -2970,42 +2981,6 @@
                 " - Limited storage reads.",
                 " - One DB change, one extra DB entry.",
                 " # </weight>"
-              ]
-            },
-            {
-              "name": "set_pot",
-              "args": [
-                {
-                  "name": "new_pot",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Set the balance of funds available to spend."
-              ]
-            },
-            {
-              "name": "configure",
-              "args": [
-                {
-                  "name": "proposal_bond",
-                  "type": "Compact<Permill>"
-                },
-                {
-                  "name": "proposal_bond_minimum",
-                  "type": "Compact<BalanceOf>"
-                },
-                {
-                  "name": "spend_period",
-                  "type": "Compact<BlockNumber>"
-                },
-                {
-                  "name": "burn",
-                  "type": "Compact<Permill>"
-                }
-              ],
-              "documentation": [
-                " (Re-)configure this module."
               ]
             },
             {
@@ -3095,177 +3070,46 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [
+            {
+              "name": "ProposalBond",
+              "type": "Permill",
+              "value": "0x50c30000",
+              "documentation": [
+                " Fraction of a proposal's value that should be bonded in order to place the proposal.",
+                " An accepted proposal gets these back. A rejected proposal does not."
+              ]
+            },
+            {
+              "name": "ProposalBondMinimum",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "SpendPeriod",
+              "type": "BlockNumber",
+              "value": "0x4038000000000000",
+              "documentation": [
+                " Period between successive spends."
+              ]
+            },
+            {
+              "name": "Burn",
+              "type": "Permill",
+              "value": "0x20a10700",
+              "documentation": [
+                " Percentage of spare funds (if any) that are burnt per spend period."
+              ]
+            }
+          ]
         },
         {
           "name": "contracts",
           "prefix": "Contract",
           "storage": [
-            {
-              "name": "SignedClaimHandicap",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " Number of block delay an extrinsic claim surcharge has.",
-                "",
-                " When claim surchage is called by an extrinsic the rent is checked",
-                " for current_block - delay"
-              ]
-            },
-            {
-              "name": "TombstoneDeposit",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The minimum amount required to generate a tombstone."
-              ]
-            },
-            {
-              "name": "StorageSizeOffset",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x00000000",
-              "documentation": [
-                " Size of a contract at the time of creation. This is a simple way to ensure",
-                " that empty contracts eventually gets deleted."
-              ]
-            },
-            {
-              "name": "RentByteFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " Price of a byte of storage per one block interval. Should be greater than 0."
-              ]
-            },
-            {
-              "name": "RentDepositOffset",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The amount of funds a contract should deposit in order to offset",
-                " the cost of one byte.",
-                "",
-                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
-                " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
-                " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
-                " then it would pay 500 BU/day."
-              ]
-            },
-            {
-              "name": "SurchargeReward",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " Reward that is received by the party whose touch has led",
-                " to removal of a contract."
-              ]
-            },
-            {
-              "name": "TransferFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee required to make a transfer."
-              ]
-            },
-            {
-              "name": "CreationFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee required to create an account."
-              ]
-            },
-            {
-              "name": "TransactionBaseFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
-            {
-              "name": "TransactionByteFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the per-byte portion."
-              ]
-            },
-            {
-              "name": "ContractFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x15000000000000000000000000000000",
-              "documentation": [
-                " The fee required to create a contract instance."
-              ]
-            },
-            {
-              "name": "GasPrice",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x01000000000000000000000000000000",
-              "documentation": [
-                " The price of one unit of gas."
-              ]
-            },
-            {
-              "name": "MaxDepth",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x64000000",
-              "documentation": [
-                " The maximum nesting level of a call/create stack."
-              ]
-            },
-            {
-              "name": "BlockGasLimit",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Gas"
-              },
-              "fallback": "0x8096980000000000",
-              "documentation": [
-                " The maximum amount of gas that could be expended per block."
-              ]
-            },
             {
               "name": "GasSpent",
               "modifier": "Default",
@@ -3283,7 +3127,7 @@
               "type": {
                 "PlainType": "Schedule"
               },
-              "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af00000000000000010000000000000001000000000000000400000000000100100000000020000000",
+              "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af0000000000000001000000000000000100000000000000040000000000010010000000004000000020000000",
               "documentation": [
                 " Current cost schedule for contracts."
               ]
@@ -3345,6 +3189,17 @@
               "fallback": "0x00",
               "documentation": [
                 " The code associated with a given account."
+              ]
+            },
+            {
+              "name": "GasPrice",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x01000000000000000000000000000000",
+              "documentation": [
+                " The price of one unit of gas."
               ]
             }
           ],
@@ -3555,7 +3410,144 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [
+            {
+              "name": "SignedClaimHandicap",
+              "type": "BlockNumber",
+              "value": "0x0200000000000000",
+              "documentation": [
+                " Number of block delay an extrinsic claim surcharge has.",
+                "",
+                " When claim surchage is called by an extrinsic the rent is checked",
+                " for current_block - delay"
+              ]
+            },
+            {
+              "name": "TombstoneDeposit",
+              "type": "BalanceOf",
+              "value": "0x10000000000000000000000000000000",
+              "documentation": [
+                " The minimum amount required to generate a tombstone."
+              ]
+            },
+            {
+              "name": "StorageSizeOffset",
+              "type": "u32",
+              "value": "0x08000000",
+              "documentation": [
+                " Size of a contract at the time of creation. This is a simple way to ensure",
+                " that empty contracts eventually gets deleted."
+              ]
+            },
+            {
+              "name": "RentByteFee",
+              "type": "BalanceOf",
+              "value": "0x04000000000000000000000000000000",
+              "documentation": [
+                " Price of a byte of storage per one block interval. Should be greater than 0."
+              ]
+            },
+            {
+              "name": "RentDepositOffset",
+              "type": "BalanceOf",
+              "value": "0xe8030000000000000000000000000000",
+              "documentation": [
+                " The amount of funds a contract should deposit in order to offset",
+                " the cost of one byte.",
+                "",
+                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
+                " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
+                " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
+                " then it would pay 500 BU/day."
+              ]
+            },
+            {
+              "name": "SurchargeReward",
+              "type": "BalanceOf",
+              "value": "0x96000000000000000000000000000000",
+              "documentation": [
+                " Reward that is received by the party whose touch has led",
+                " to removal of a contract."
+              ]
+            },
+            {
+              "name": "TransferFee",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee required to make a transfer."
+              ]
+            },
+            {
+              "name": "CreationFee",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee required to create an account."
+              ]
+            },
+            {
+              "name": "TransactionBaseFee",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "type": "BalanceOf",
+              "value": "0x00e40b54020000000000000000000000",
+              "documentation": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "ContractFee",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The fee required to create a contract instance. A reasonable default value",
+                " is 21."
+              ]
+            },
+            {
+              "name": "CallBaseFee",
+              "type": "Gas",
+              "value": "0xe803000000000000",
+              "documentation": [
+                " The base fee charged for calling into a contract. A reasonable default",
+                " value is 135."
+              ]
+            },
+            {
+              "name": "CreateBaseFee",
+              "type": "Gas",
+              "value": "0xe803000000000000",
+              "documentation": [
+                " The base fee charged for creating a contract. A reasonable default value",
+                " is 175."
+              ]
+            },
+            {
+              "name": "MaxDepth",
+              "type": "u32",
+              "value": "0x00040000",
+              "documentation": [
+                " The maximum nesting level of a call/create stack. A reasonable default",
+                " value is 100."
+              ]
+            },
+            {
+              "name": "BlockGasLimit",
+              "type": "Gas",
+              "value": "0x8096980000000000",
+              "documentation": [
+                " The maximum amount of gas that could be expended per block. A reasonable",
+                " default value is 10_000_000."
+              ]
+            }
+          ]
         },
         {
           "name": "sudo",

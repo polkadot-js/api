@@ -76,9 +76,11 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
   sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignatureOptions>): SumbitableResultResult<ApiType>;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignatureOptions>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -157,6 +159,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   }
 
   const signOrigin = _extrinsic.sign;
+
   Object.defineProperties(
     _extrinsic,
     {
@@ -181,13 +184,13 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       signAndSend: {
-        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
-          let options: Partial<Partial<SignatureOptions>> = {};
+        value: function (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
+          let options: Partial<SignatureOptions> = {};
 
-          if (isFunction(_options)) {
-            statusCb = _options;
+          if (isFunction(optionsOrStatus)) {
+            statusCb = optionsOrStatus;
           } else {
-            options = _options || {};
+            options = optionsOrStatus || {};
           }
 
           const isSubscription = _noStatusCb || !!statusCb;

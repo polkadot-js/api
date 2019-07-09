@@ -1,0 +1,37 @@
+{
+  "name": "@polkadot/api-metadata",
+  "version": "0.82.0-beta.34",
+  "description": "Helpers to extract information from runtime metadata",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "keywords": [
+    "Polkadot",
+    "Merkel Patricia Tree"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-metadata#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.5.0",
+    "@polkadot/types": "^0.82.0-beta.34",
+    "@polkadot/util": "^0.94.0-beta.5",
+    "@polkadot/util-crypto": "^0.94.0-beta.5"
+  },
+  "devDependencies": {
+    "@polkadot/keyring": "^0.94.0-beta.5"
+  }
+}
