@@ -4,6 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
+import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
 import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
@@ -106,12 +107,17 @@ export interface StorageEntryPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
+export interface StorageEntryPromiseMulti {
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>): Promise<Array<T>>;
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback: Callback<Array<T>>): UnsubscribePromise;
+}
+
 export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback?: Callback<Array<T>>) => Promise<Array<T>>;
+  multi: StorageEntryPromiseMulti;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
@@ -194,6 +200,7 @@ export interface ApiOptions {
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterface$Rx {
+  consts: Constants;
   genesisHash: Hash;
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
