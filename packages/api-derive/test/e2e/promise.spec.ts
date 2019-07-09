@@ -14,7 +14,7 @@ const WS = 'ws://127.0.0.1:9944';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 // const WS = 'wss://substrate-rpc.parity.io/';
 
-describe('Api-Promise derive e2e', () => {
+describe.skip('Api-Promise derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
