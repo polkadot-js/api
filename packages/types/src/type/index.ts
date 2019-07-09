@@ -73,6 +73,7 @@ export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as SubId } from './SubId';
 export { default as TreasuryProposal } from './TreasuryProposal';
+export { default as UncleEntryItem } from './UncleEntryItem';
 export { default as UnlockChunk } from './UnlockChunk';
 export { default as UpwardMessage, ParachainDispatchOrigin } from './UpwardMessage';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
