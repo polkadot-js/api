@@ -29,9 +29,6 @@ async function main () {
   // construct an mortal era
   const era = new ExtrinsicEra({ current: currentHeight, period: 10 });
 
-  era.asMortalEra.birth(currentHeight);
-  era.asMortalEra.death(currentHeight);
-
   // Create an extrinsic, transferring 12345 units to Bob
   const transfer = api.tx.balances.transfer(BOB, 12345);
 

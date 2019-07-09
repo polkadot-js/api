@@ -180,17 +180,13 @@ export default function createSubmittableExtrinsic<ApiType> (
     }
 
     const { blockNumber, hash } = header;
-    const era = new ExtrinsicEra({
-      current: blockNumber,
-      period: options.era || DEFAULT_MORTAL_LENGTH
-    });
-
-    era.asMortalEra.birth(blockNumber);
-    era.asMortalEra.death(blockNumber);
 
     return {
       blockHash: hash,
-      era
+      era: new ExtrinsicEra({
+        current: blockNumber,
+        period: options.era || DEFAULT_MORTAL_LENGTH
+      })
     };
   }
 
