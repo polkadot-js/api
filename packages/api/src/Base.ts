@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import {AnyFunction, Codec, CodecArg, Constructor, RegistryTypes} from '@polkadot/types/types';
+import { AnyFunction, Codec, CodecArg, Constructor, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
