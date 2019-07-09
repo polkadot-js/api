@@ -89,7 +89,8 @@ export default function createSubmittableExtrinsic<ApiType> (
 ): Constructor<SubmittableExtrinsic<ApiType>> {
   const _noStatusCb = type === 'rxjs';
   return getTypeRegistry().extends<IExtrinsic, SubmittableExtrinsic<ApiType>>('Extrinsic',
-    (Extrinsic: Constructor<IExtrinsic>) => class extends Extrinsic implements SubmittableExtrinsic<ApiType>{
+    (Extrinsic) => class extends Extrinsic implements SubmittableExtrinsic<ApiType>{
+    static Fallback: undefined;
 
     send (): SumbitableResultResult<ApiType>;
     send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
@@ -221,5 +222,5 @@ export default function createSubmittableExtrinsic<ApiType> (
     }
 
 
-  } as unknown as Constructor<SubmittableExtrinsic<ApiType>>);
+  });
 }
