@@ -556,7 +556,11 @@ export default abstract class ApiBase<ApiType> {
 
         return this._rpcCore.state
           .subscribeStorage(mapped)
-          .pipe(map((results) => new VectorAny(...results)));
+          .pipe(map((results) => {
+            console.error('decorateMulti', JSON.stringify(results));
+
+            return new VectorAny(...results);
+          }));
       });
   }
 

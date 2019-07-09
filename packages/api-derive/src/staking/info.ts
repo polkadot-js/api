@@ -7,7 +7,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, SessionKey, SessionKeys, StakingLedger, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
@@ -93,9 +93,16 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId]
-    ])
+    ]).pipe(
+      tap((result) => {
+        console.error('api.queryMulti (inside derive)', JSON.stringify(result));
+      })
+    )
   ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
+    tap((result) => {
+      console.error('withStashController', JSON.stringify(result));
+    }),
     map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
 
@@ -130,6 +137,9 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<Keys | SessionKey>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]>
   ).pipe(
+    tap((result) => {
+      console.error('withControllerLedger', JSON.stringify(result));
+    }),
     map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
       accountId,
       controllerId,
