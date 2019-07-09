@@ -97,19 +97,25 @@ describe('Api-Promise derive e2e', () => {
 
   describe('Tests for session derive methods', () => {
     it('retrieves all session info', (done) => {
-      let count = 0;
       return api.derive.session.info((info: DerivedSessionInfo) => {
-        console.error(JSON.stringify(info));
-        // 5 blocks only, then go our merry way
-        if (++count === 5) {
-          done();
-        }
+        expect(info).toEqual(expect.objectContaining({
+          currentEra: expect.anything(),
+          currentIndex: expect.anything(),
+          eraLength: expect.anything(),
+          eraProgress: expect.anything(),
+          lastEraLengthChange: expect.anything(),
+          lastLengthChange: expect.anything(),
+          sessionLength: expect.anything(),
+          sessionsPerEra: expect.anything(),
+          sessionProgress: expect.anything()
+        }));
+        done();
       });
     });
   });
 
   describe('Tests for staking derive methods', () => {
-    it('retrieves all staking info (for controller)', (done) => {
+    it('stking.info - retrieves all staking info (for controller)', (done) => {
       const accountId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
       return api.derive.staking.info(accountId, (info: DerivedStaking) => {
@@ -143,7 +149,7 @@ describe('Api-Promise derive e2e', () => {
       });
     });
 
-    describe('verifies derive.staking.unlocking', () => {
+    describe('verifies derive.staking unlocking', () => {
       const UNBOND_VALUE = 1;
       const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
       const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -160,30 +166,31 @@ describe('Api-Promise derive e2e', () => {
           });
       });
 
-      it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
+      it('verifies that derive.staking unlocking isn\'t empty/undefined', () => {
         return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
           expect(info.unlocking).toBeDefined();
         });
       });
     });
 
-    describe('verifies derive.staking.rewardDestination', () => {
+    describe('verifies derive.staking rewardDestination', () => {
       const PAYEE = 2;
       const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
       const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
       const keyring = testKeyring();
       const alicePair = keyring.getPair(ALICE);
 
-      it('Set payee for ALICE to 2', (done) => {
+      beforeAll(async (done) => {
         return api.tx.staking.setPayee(PAYEE)
           .signAndSend(alicePair, (result: SubmittableResult) => {
             if (result.status.isFinalized) {
-
               done();
             }
           });
       });
 
+      // TODO think about beter test setup, the test fails when the suite is run
+      // for the first time on a new node, but it succeeds after that.
       it('verifies payee for ALICE_STASH', (done) => {
         return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
           if (!info.rewardDestination) {

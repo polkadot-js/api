@@ -9,7 +9,7 @@ import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedContractFees, DerivedFees } from '../../src/types';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../src/types';
 
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
@@ -231,6 +231,43 @@ describe('Api-RX derive e2e', () => {
         });
       });
     });
+
+    describe('session.info', () => {
+      it('retrieves all session info', async (done) => {
+        api.derive.session.info().subscribe((info: DerivedSessionInfo) => {
+          expect(info).toEqual(expect.objectContaining({
+            currentEra: expect.anything(),
+            currentIndex: expect.anything(),
+            eraLength: expect.anything(),
+            eraProgress: expect.anything(),
+            lastEraLengthChange: expect.anything(),
+            lastLengthChange: expect.anything(),
+            sessionLength: expect.anything(),
+            sessionsPerEra: expect.anything(),
+            sessionProgress: expect.anything()
+          }));
+          done();
+        });
+      });
+    });
+
+    describe('session.eraLength', () => {
+      it('derive.session.eraLength', async (done) => {
+        api.derive.session.eraLength().subscribe((length: BN) => {
+          expect(length instanceof BN).toBe(true);
+          done();
+        });
+      });
+    });
+
+    describe('session.eraProgress', () => {
+      it('derive.session.eraProgress', async (done) => {
+        api.derive.session.eraProgress().subscribe((progress: BN) => {
+          expect(progress instanceof BN).toBe(true);
+          done();
+        });
+      });
+    });
   });
 
   describe('derive.staking', () => {
@@ -240,6 +277,6 @@ describe('Api-RX derive e2e', () => {
   });
 
   afterAll(() => {
-    jest.setTimeout(5000);
+    jest.setTimeout(10000);
   });
 });
