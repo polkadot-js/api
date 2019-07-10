@@ -16,7 +16,7 @@
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
     "check": "yarn lint",
-    "lint": "tslint --project . && tsc --noEmit --pretty",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage",
@@ -27,7 +27,7 @@
     "@babel/core": "^7.5.0",
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.5.2",
-    "@polkadot/dev": "^0.30.0-beta.18",
+    "@polkadot/dev": "^0.30.0-beta.20",
     "@polkadot/ts": "^0.1.61",
     "gh-pages": "^2.0.1"
   }
