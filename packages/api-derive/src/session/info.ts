@@ -90,7 +90,6 @@ export function info (api: ApiInterface$Rx) {
       // sessionsPerEra:
       // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
       // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
-      // @TODO Switch to `api.constants` after https://github.com/polkadot-js/api/pull/1066 is merged.
       of(api.consts.staking.sessionsPerEra),
       api.queryMulti([
         api.query.session.currentIndex,
