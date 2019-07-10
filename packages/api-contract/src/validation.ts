@@ -6,7 +6,7 @@ import { ContractABI, ContractABIArg } from './types';
 
 import { assert, isNumber, isNull, isString, isObject } from '@polkadot/util';
 
-export function validateArgs (name: string, args: Array<ContractABIArg>): void {
+export function validateArgs (name: string, args: ContractABIArg[]): void {
   assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
 
   args.forEach((arg) => {

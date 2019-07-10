@@ -15,7 +15,7 @@ import { compareArray } from './utils';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+export default abstract class AbstractArray<T extends Codec> extends T[] implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
@@ -50,7 +50,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description Converts the Object to an standard JavaScript Array
    */
-  toArray (): Array<T> {
+  toArray (): T[] {
     return Array.from(this);
   }
 
@@ -113,7 +113,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @param callbackfn The filter function
    * @param thisArg The `this` object to apply the result to
    */
-  filter (callbackfn: (value: T, index: number, array: Array<T>) => any, thisArg?: any): Array<T> {
+  filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): T[] {
     return this.toArray().filter(callbackfn, thisArg);
   }
 
@@ -122,7 +122,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @param callbackfn The mapping function
    * @param thisArg The `this` onject to apply the result to
    */
-  map<U> (callbackfn: (value: T, index: number, array: Array<T>) => U, thisArg?: any): Array<U> {
+  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[] {
     return this.toArray().map(callbackfn, thisArg);
   }
 }

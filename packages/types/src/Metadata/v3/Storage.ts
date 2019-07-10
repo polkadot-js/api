@@ -146,7 +146,7 @@ export type StorageFunctionMetadataValue = {
   modifier: StorageFunctionModifier | AnyNumber,
   type: StorageFunctionType,
   fallback: Bytes,
-  documentation: Vector<Text> | Array<string>
+  documentation: Vector<Text> | string[]
 };
 
 /**

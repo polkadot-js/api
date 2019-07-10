@@ -19,7 +19,7 @@ export type NextAuthorityValue = {
 export type StoredPendingChangeValue = {
   scheduledAt: AnyNumber,
   delay: AnyNumber,
-  nextAuthorities?: Array<Uint8Array | NextAuthorityValue>
+  nextAuthorities?: (Uint8Array | NextAuthorityValue)[]
 };
 
 /**

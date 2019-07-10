@@ -11,10 +11,10 @@ import { drr } from '../util/drr';
 import { all } from './all';
 
 export function votingBalances (api: ApiInterface$Rx) {
-  return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<Array<DerivedBalances>> => {
+  return (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> => {
     return (
       !addresses || !addresses.length
-        ? of([] as Array<DerivedBalances>)
+        ? of([] as DerivedBalances[])
         : combineLatest(addresses.map(all(api)))
     ).pipe(
       drr()

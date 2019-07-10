@@ -126,7 +126,7 @@ export default class Method extends Struct implements IMethod {
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  static filterOrigin (meta?: FunctionMetadataV6): Array<FunctionArgumentMetadata> {
+  static filterOrigin (meta?: FunctionMetadataV6): FunctionArgumentMetadata[] {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
       ? meta.args.filter(({ type }) =>
@@ -178,7 +178,7 @@ export default class Method extends Struct implements IMethod {
   /**
    * @description The arguments for the function call
    */
-  get args (): Array<Codec> {
+  get args (): Codec[] {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }

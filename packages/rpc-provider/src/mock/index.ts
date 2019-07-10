@@ -44,7 +44,7 @@ export default class Mock implements ProviderInterface {
   private requests: { [index: string]: (...params: any[]) => string } = {
     'chain_getBlockHash': (blockNumber: number): string => '0x1234',
     'chain_getRuntimeVersion': (): string => new RuntimeVersion().toHex(),
-    'state_getStorage': (storage: MockState$Db, params: Array<any>): string => {
+    'state_getStorage': (storage: MockState$Db, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]
       );
@@ -91,7 +91,7 @@ export default class Mock implements ProviderInterface {
     this.emitter.on(type, sub);
   }
 
-  async send (method: string, params: Array<any>): Promise<any> {
+  async send (method: string, params: any[]): Promise<any> {
     if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
     }
@@ -99,7 +99,7 @@ export default class Mock implements ProviderInterface {
     return this.requests[method](this.db, params);
   }
 
-  async subscribe (type: string, method: string, ...params: Array<any>): Promise<number> {
+  async subscribe (type: string, method: string, ...params: any[]): Promise<number> {
     l.debug(() => ['subscribe', method, params]);
 
     if (this.subscriptions[method]) {
@@ -135,7 +135,7 @@ export default class Mock implements ProviderInterface {
   }
 
   private init () {
-    const emitEvents: Array<ProviderInterface$Emitted> = ['connected', 'disconnected'];
+    const emitEvents: ProviderInterface$Emitted[] = ['connected', 'disconnected'];
     let emitIndex = 0;
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;

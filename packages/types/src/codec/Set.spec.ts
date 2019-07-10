@@ -25,7 +25,7 @@ const SET_WITHDRAW = {
 };
 
 describe('Set', () => {
-  it('constructs via an Array<string>', () => {
+  it('constructs via an string[]', () => {
     const set = new Set(SET_ROLES, ['full', 'authority']);
 
     expect(set.isEmpty).toEqual(false);

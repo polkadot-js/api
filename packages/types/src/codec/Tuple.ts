@@ -8,7 +8,7 @@ import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
 import { decodeU8a } from './utils';
 import AbstractArray from './AbstractArray';
 
-type TupleConstructors = Array<Constructor> | {
+type TupleConstructors = Constructor[] | {
   [index: string]: Constructor
 };
 
@@ -29,14 +29,14 @@ export default class Tuple extends AbstractArray<Codec> {
     this._Types = Types;
   }
 
-  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
+  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
     if (isU8a(value)) {
       return decodeU8a(value, _Types);
     } else if (isHex(value)) {
       return Tuple.decodeTuple(_Types, hexToU8a(value));
     }
 
-    const Types: Array<Constructor> = Array.isArray(_Types)
+    const Types: Constructor[] = Array.isArray(_Types)
       ? _Types
       : Object.values(_Types);
 
@@ -69,7 +69,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description The types definition of the tuple
    */
-  get Types (): Array<string> {
+  get Types (): string[] {
     return Array.isArray(this._Types)
       ? this._Types.map(({ name }) => name)
       : Object.keys(this._Types);

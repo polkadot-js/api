@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // Quick and dirty flatten (.flat() not available)
-export default function flattenUniq (list: Array<any>): Array<any> {
+export default function flattenUniq (list: any[]): any[] {
   const flat = list.reduce((result, entry) => {
     return result.concat(
       Array.isArray(entry)

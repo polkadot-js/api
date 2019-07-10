@@ -63,7 +63,7 @@ export interface DerivedStaking {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;
-  nominators?: Array<AccountId>;
+  nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
   stakers?: Exposure;
@@ -73,4 +73,4 @@ export interface DerivedStaking {
   validatorPrefs?: ValidatorPrefs;
 }
 
-export type DerivedUnlocking = Array<{remainingBlocks: BN, value: BN}>;
+export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];

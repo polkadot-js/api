@@ -104,7 +104,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): Array<string> {
+  getUniqTypes (throwError: boolean): string[] {
     const types = flattenUniq([this.argNames, this.eventNames, this.storageNames]);
 
     validateTypes(types, throwError);

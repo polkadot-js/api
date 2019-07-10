@@ -9,7 +9,7 @@ export type JsonRpcObject = {
 
 export type JsonRpcRequest = JsonRpcObject & {
   method: string;
-  params: Array<any>;
+  params: any[];
 };
 
 export type JsonRpcResponseBase$Error = {
@@ -48,7 +48,7 @@ export interface ProviderInterface {
   disconnect (): void;
   isConnected (): boolean;
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void;
-  send (method: string, params: Array<any>): Promise<any>;
-  subscribe (type: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number>;
+  send (method: string, params: any[]): Promise<any>;
+  subscribe (type: string, method: string, params: any[], cb: ProviderInterface$Callback): Promise<number>;
   unsubscribe (type: string, method: string, id: number): Promise<boolean>;
 }

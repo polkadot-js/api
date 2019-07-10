@@ -18,10 +18,10 @@ const MAX_LENGTH = 32768;
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
  */
-export default class Vector<T extends Codec> extends AbstractArray<T> {
+export default class Vector<T extends Codec> extends AbstractT[] {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
       ...Vector.decodeVector(Type, value)
     );
@@ -29,7 +29,7 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     this._Type = Type;
   }
 
-  static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any>): Array<T> {
+  static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
       return value.map((entry, index) => {
         try {
@@ -54,7 +54,7 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
 
   static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
     return class extends Vector<O> {
-      constructor (value?: Array<any>) {
+      constructor (value?: any[]) {
         super(Type, value);
       }
 

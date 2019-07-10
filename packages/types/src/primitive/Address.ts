@@ -11,7 +11,7 @@ import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
-type AnyAddress = BN | Address | AccountId | AccountIndex | Array<number> | Uint8Array | number | string;
+type AnyAddress = BN | Address | AccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 

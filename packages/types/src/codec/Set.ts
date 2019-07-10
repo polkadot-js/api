@@ -21,7 +21,7 @@ type SetValues = {
 export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
-  constructor (setValues: SetValues, value?: Array<string> | Set<string> | Uint8Array | number) {
+  constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
     super(
       CodecSet.decodeSet(setValues, value)
     );
@@ -29,7 +29,7 @@ export default class CodecSet extends Set<string> implements Codec {
     this._setValues = setValues;
   }
 
-  static decodeSet (setValues: SetValues, value: Array<string> | Set<string> | Uint8Array | number = 0): Array<string> {
+  static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | number = 0): string[] {
     if (isU8a(value)) {
       return value.length === 0
         ? []
@@ -43,7 +43,7 @@ export default class CodecSet extends Set<string> implements Codec {
         result.push(key);
 
         return result;
-      }, [] as Array<string>);
+      }, [] as string[]);
     }
 
     const result = Object.keys(setValues).reduce((result, key) => {
@@ -52,7 +52,7 @@ export default class CodecSet extends Set<string> implements Codec {
       }
 
       return result;
-    }, [] as Array<string>);
+    }, [] as string[]);
 
     const computed = CodecSet.encodeSet(setValues, result);
 
@@ -61,7 +61,7 @@ export default class CodecSet extends Set<string> implements Codec {
     return result;
   }
 
-  static encodeSet (setValues: SetValues, value: Array<string>): number {
+  static encodeSet (setValues: SetValues, value: string[]): number {
     return value.reduce((result, value) => {
       return result | (setValues[value] || 0);
     }, 0);
@@ -82,9 +82,9 @@ export default class CodecSet extends Set<string> implements Codec {
   }
 
   /**
-   * @description The actual set values as a Array<string>
+   * @description The actual set values as a string[]
    */
-  get strings (): Array<string> {
+  get strings (): string[] {
     return [...super.values()];
   }
 

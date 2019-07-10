@@ -30,13 +30,13 @@ export default class RpcCoder {
     return response.result;
   }
 
-  encodeJson (method: string, params: any | Array<any>): string {
+  encodeJson (method: string, params: any | any[]): string {
     return JSON.stringify(
       this.encodeObject(method, params)
     );
   }
 
-  encodeObject (method: string, params: any | Array<any>): JsonRpcRequest {
+  encodeObject (method: string, params: any | any[]): JsonRpcRequest {
     return {
       id: ++this.id,
       jsonrpc: '2.0',

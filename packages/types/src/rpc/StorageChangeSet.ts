@@ -11,7 +11,7 @@ import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
 
 type StorageChangeSetValue = {
   block?: AnyU8a,
-  changes?: Array<KeyValueOptionValue>
+  changes?: KeyValueOptionValue[]
 };
 
 /**

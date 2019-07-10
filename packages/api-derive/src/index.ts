@@ -29,7 +29,7 @@ export type DeriveSections<AllSections> = {
 
 export interface DeriveCustom {
   [index: string]: {
-    [index: string]: (api: ApiInterface$Rx) => (...args: Array<any>) => Observable<any>
+    [index: string]: (api: ApiInterface$Rx) => (...args: any[]) => Observable<any>
   };
 }
 

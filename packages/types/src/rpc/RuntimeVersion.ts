@@ -61,7 +61,7 @@ type RuntimeVersionValue = {
   authoringVersion?: AnyNumber,
   specVersion?: AnyNumber,
   implVersion?: AnyNumber,
-  apis?: Array<RuntimeVersionApiValue>
+  apis?: RuntimeVersionApiValue[]
 };
 
 /**

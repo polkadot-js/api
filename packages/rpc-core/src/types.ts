@@ -5,7 +5,7 @@
 import { Observable } from 'rxjs';
 
 export interface RpcInterface$Method {
-  (...params: Array<any>): Observable<any>;
+  (...params: any[]): Observable<any>;
 }
 
 export type RpcInterface$Section = {

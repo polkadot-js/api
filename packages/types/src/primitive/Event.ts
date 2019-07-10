@@ -35,9 +35,9 @@ export class EventData extends Tuple {
   private _meta: EventMetadataV6;
   private _method: string;
   private _section: string;
-  private _typeDef: Array<TypeDef>;
+  private _typeDef: TypeDef[];
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV6, section: string, method: string) {
+  constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV6, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -70,7 +70,7 @@ export class EventData extends Tuple {
   /**
    * @description The [[TypeDef]] for this event
    */
-  get typeDef (): Array<TypeDef> {
+  get typeDef (): TypeDef[] {
     return this._typeDef;
   }
 }
@@ -187,7 +187,7 @@ export default class Event extends Struct {
   /**
    * @description The [[TypeDef]] for the event
    */
-  get typeDef (): Array<TypeDef> {
+  get typeDef (): TypeDef[] {
     return this.data.typeDef;
   }
 }

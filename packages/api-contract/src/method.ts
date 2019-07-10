@@ -26,7 +26,7 @@ export function typeToString (type: ContractABITypes): string {
   throw new Error(`Unknown type specified ${JSON.stringify(type)}`);
 }
 
-export function createArgClass (args: Array<ContractABIFn$Arg>, baseDef: { [index: string]: string }): Constructor {
+export function createArgClass (args: ContractABIFn$Arg[], baseDef: { [index: string]: string }): Constructor {
   return createClass(
     JSON.stringify(
       args.reduce((base: { [index: string]: string }, { name, type }) => {
@@ -39,13 +39,13 @@ export function createArgClass (args: Array<ContractABIFn$Arg>, baseDef: { [inde
 }
 
 export function createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-  const args: Array<ContractABIFn$Arg> = method.args.map(({ name, type }) => ({
+  const args: ContractABIFn$Arg[] = method.args.map(({ name, type }) => ({
     name: stringCamelCase(name),
     type: typeToString(type)
   }));
   const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
   const baseStruct: { [index: string]: any } = { __selector: method.selector };
-  const encoder = (...params: Array<CodecArg>): Uint8Array => {
+  const encoder = (...params: CodecArg[]): Uint8Array => {
     assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
     const u8a = new Clazz(

@@ -65,7 +65,7 @@ export default class StorageKey extends Bytes {
         section: value.section
       };
     } else if (Array.isArray(value)) {
-      const [fn, ...arg]: [StorageEntry, ...Array<any>] = value as any;
+      const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
 
       assert(isFunction(fn), 'Expected function input for key construction');
 

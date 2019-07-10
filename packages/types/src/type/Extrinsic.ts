@@ -40,7 +40,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
     }, Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | Array<number> | Uint8Array {
+  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | number[] | Uint8Array {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -79,7 +79,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
    */
-  get args (): Array<Codec> {
+  get args (): Codec[] {
     return this.method.args;
   }
 

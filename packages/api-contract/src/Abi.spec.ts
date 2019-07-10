@@ -17,7 +17,7 @@ describe('Abi', () => {
       abi = new Abi(typesAbi);
     });
 
-    function check (method: string, args: Array<ContractABIFn$Arg>, type: string | null): void {
+    function check (method: string, args: ContractABIFn$Arg[], type: string | null): void {
       const fn = abi.messages[method];
 
       expect(fn.args).toEqual(args);

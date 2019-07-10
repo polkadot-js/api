@@ -10,7 +10,7 @@ import { AccountId, Vector, Vote } from '@polkadot/types';
 import { drr } from '../util/drr';
 
 export function votes (api: ApiInterface$Rx) {
-  return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<Array<Vote>> => {
+  return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
     return ((
       !accountIds || !accountIds.length
         ? of([])

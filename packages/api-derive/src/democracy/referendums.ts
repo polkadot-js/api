@@ -12,7 +12,7 @@ import { drr } from '../util/drr';
 import { referendumInfos } from './referendumInfos';
 
 export function referendums (api: ApiInterface$Rx) {
-  return (): Observable<Array<Option<ReferendumInfoExtended>>> =>
+  return (): Observable<Option<ReferendumInfoExtended>[]> =>
     (api.queryMulti([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount

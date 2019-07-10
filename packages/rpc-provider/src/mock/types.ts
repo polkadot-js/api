@@ -33,5 +33,5 @@ export type MockState$Db = {
 };
 
 export type MockState$Requests = {
-  [index: string]: (db: MockState$Db, params: Array<any>) => string
+  [index: string]: (db: MockState$Db, params: any[]) => string
 };

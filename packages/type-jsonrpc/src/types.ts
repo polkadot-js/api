@@ -18,7 +18,7 @@ export type RpcMethodOpt = {
   isHidden?: boolean,
   isSigned?: boolean,
   isSubscription?: boolean,
-  params: Array<RpcParam>,
+  params: RpcParam[],
   pubsub?: PubSub,
   type: CodecTypes
 };
@@ -31,7 +31,7 @@ export type RpcMethod = {
   isSigned: boolean,
   isSubscription: boolean,
   method: string,
-  params: Array<RpcParam>,
+  params: RpcParam[],
   pubsub: PubSub,
   section: string,
   type: CodecTypes

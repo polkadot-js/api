@@ -42,7 +42,7 @@ function createReply ({ id, reply: { result } }: ReplyDef) {
   };
 }
 
-function mockWs (requests: Array<{ method: string }>) {
+function mockWs (requests: { method: string }[]) {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;

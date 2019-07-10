@@ -45,11 +45,11 @@ export type TypeDef = {
   ext?: TypeDefExtVecFixed, // add additional here as required
   name?: string,
   type: string,
-  sub?: TypeDef | Array<TypeDef>
+  sub?: TypeDef | TypeDef[]
 };
 
 // safely split a string on ', ' while taking care of any nested occurences
-export function typeSplit (type: string): Array<string> {
+export function typeSplit (type: string): string[] {
   let cDepth = 0; // compact/doublemap/linkedmap/option/vector depth
   let fDepth = 0; // vector (fixed) depth
   let sDepth = 0; // struct depth
@@ -193,7 +193,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
       return Enum.with(
-        (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
+        (value.sub as TypeDef[]).reduce((result, sub, index) => {
           result[sub.name as string] = getTypeClass(sub);
 
           return result;
@@ -209,7 +209,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
 
       return Struct.with(
-        (value.sub as Array<TypeDef>).reduce((result, sub) => {
+        (value.sub as TypeDef[]).reduce((result, sub) => {
           result[sub.name as string] = getTypeClass(sub);
 
           return result;
@@ -219,7 +219,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
       return Tuple.with(
-        (value.sub as Array<TypeDef>).map((Type) => getTypeClass(Type))
+        (value.sub as TypeDef[]).map((Type) => getTypeClass(Type))
       );
     case TypeDefInfo.Vector:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');

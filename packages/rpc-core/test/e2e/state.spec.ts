@@ -41,7 +41,7 @@ describe.skip('e2e state', () => {
   it('getKeys(): retrieves storage keys for ":code"', (done) => {
     rpc.state
       .getKeys(CODE)
-      .subscribe((keys: Array<StorageKey>) => {
+      .subscribe((keys: StorageKey[]) => {
         expect(keys.length).toEqual(1);
         done();
       });
@@ -124,7 +124,7 @@ describe.skip('e2e state', () => {
 
       rpc.state
         .getChildKeys(storageKeys[0], '0x')
-        .subscribe((keys: Array<StorageKey>) => {
+        .subscribe((keys: StorageKey[]) => {
           expect(keys.length).toBeGreaterThanOrEqual(1);
           done();
         });

@@ -34,7 +34,7 @@ export default class Type extends Text {
   }
 
   private static decodeType (value: string): string {
-    const mappings: Array<Mapper> = [
+    const mappings: Mapper[] = [
       // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
       Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
       // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>

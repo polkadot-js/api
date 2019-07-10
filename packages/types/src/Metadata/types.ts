@@ -7,5 +7,5 @@ import { Codec } from '../types';
 
 export interface MetadataInterface<Modules extends Codec> extends Codec {
   modules: Vector<Modules>;
-  getUniqTypes (throwError: boolean): Array<string>;
+  getUniqTypes (throwError: boolean): string[];
 }

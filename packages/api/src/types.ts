@@ -95,7 +95,7 @@ export interface StorageEntryObservable {
   creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>) => Observable<Array<T>>;
+  multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 
@@ -108,8 +108,8 @@ export interface StorageEntryPromiseOverloads {
 }
 
 export interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: Array<CodecArg[] | CodecArg>): Promise<Array<T>>;
-  <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback: Callback<Array<T>>): UnsubscribePromise;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
@@ -132,16 +132,16 @@ export interface QueryableModuleStorage<ApiType> {
 
 export type QueryableStorageMultiArg<ApiType> =
   QueryableStorageEntry<ApiType> |
-  [QueryableStorageEntry<ApiType>, ...Array<CodecArg>];
+  [QueryableStorageEntry<ApiType>, ...CodecArg[]];
 
-export type QueryableStorageMultiArgs<ApiType> = Array<QueryableStorageMultiArg<ApiType>>;
+export type QueryableStorageMultiArgs<ApiType> = QueryableStorageMultiArg<ApiType>[];
 
 export interface QueryableStorageMultiBase<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<Array<T>>;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<T[]>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<Array<T>>): UnsubscribePromise;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export type QueryableStorageMulti<ApiType> =
@@ -154,7 +154,7 @@ export interface QueryableStorage<ApiType> {
 }
 
 export interface SubmittableExtrinsicFunction<ApiType> extends MethodFunction {
-  (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType>;
+  (...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 
 export interface SubmittableModuleExtrinsics<ApiType> {

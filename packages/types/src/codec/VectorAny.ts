@@ -12,7 +12,7 @@ import AbstractArray from './AbstractArray';
  * a vector, this can be used to manage array-like structures with variable arguments of
  * any types
  */
-export default class VectorAny<T extends Codec> extends AbstractArray<T> {
+export default class VectorAny<T extends Codec> extends AbstractT[] {
   /**
    * @description Returns the base runtime type name for this instance
    */

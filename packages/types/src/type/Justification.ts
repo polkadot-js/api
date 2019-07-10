@@ -14,7 +14,7 @@ import { BftAuthoritySignature, BftAuthoritySignatureValue } from './Bft';
 export type RhdJustificationValue = {
   roundNumber?: AnyNumber,
   hash?: AnyU8a,
-  signatures?: Array<BftAuthoritySignatureValue>
+  signatures?: BftAuthoritySignatureValue[]
 };
 
 /**

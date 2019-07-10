@@ -400,20 +400,20 @@ export default class Digest extends Struct {
    * @description The [[DigestItem]] logs
    */
   get logs (): Vector<DigestItem> {
-    return this.get('logs') as Vector<DigestItem>;
+    return this.get('logs') as DigestItem[];
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  logsWith (...include: Array<DigestItemTypes>): Vector<DigestItem> {
+  logsWith (...include: DigestItemTypes[]): Vector<DigestItem> {
     return this.logs.filter(({ type }) => include.includes(type)) as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  logsWithout (...exclude: Array<DigestItemTypes>): Vector<DigestItem> {
+  logsWithout (...exclude: DigestItemTypes[]): Vector<DigestItem> {
     return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }

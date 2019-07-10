@@ -30,7 +30,7 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: S;
 
-  constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Map<any, any> | any[] = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
 
     super(
@@ -127,7 +127,7 @@ export default class Struct<
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
-        (Object.keys(Types) as Array<keyof S>).forEach((key) => {
+        (Object.keys(Types) as (keyof S)[]).forEach((key) => {
           // do not clobber existing properties on the object
           if (!isUndefined((this as any)[key])) {
             return;
@@ -162,7 +162,7 @@ export default class Struct<
    */
   get Type (): E {
     return (Object
-      .entries(this._Types) as Array<[keyof S, Constructor]>)
+      .entries(this._Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]) => {
         (result as any)[key] = Type.name;
 
@@ -204,7 +204,7 @@ export default class Struct<
   /**
    * @description Converts the Object to an standard JavaScript Array
    */
-  toArray (): Array<Codec> {
+  toArray (): Codec[] {
     return [...this.values()];
   }
 

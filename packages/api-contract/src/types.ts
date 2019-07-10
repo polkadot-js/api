@@ -29,7 +29,7 @@ export type ContractABITypes$Struct = {
   }
 };
 
-export type ContractABITypes = string | ContractABITypes$Struct | Array<string | ContractABITypes$Struct>;
+export type ContractABITypes = string | ContractABITypes$Struct | (string | ContractABITypes$Struct)[];
 
 export type ContractABIArg = {
   name: string,
@@ -37,7 +37,7 @@ export type ContractABIArg = {
 };
 
 export type ContractABIMethodBase = {
-  args: Array<ContractABIArg>
+  args: ContractABIArg[]
 };
 
 export type ContractABIMethod = ContractABIMethodBase & {
@@ -49,7 +49,7 @@ export type ContractABIMethod = ContractABIMethodBase & {
 
 export type ContractABI = {
   deploy: ContractABIMethodBase,
-  messages: Array<ContractABIMethod>,
+  messages: ContractABIMethod[],
   name: string
 };
 
@@ -59,13 +59,13 @@ export interface ContractABIFn$Arg {
 }
 
 export interface ContractABIFn$Meta {
-  args: Array<ContractABIFn$Arg>;
+  args: ContractABIFn$Arg[];
   isConstant: boolean;
   type: string | null;
 }
 
 export interface ContractABIFn extends ContractABIFn$Meta {
-  (...args: Array<CodecArg>): Uint8Array;
+  (...args: CodecArg[]): Uint8Array;
 }
 
 export interface IAbi$Messages {

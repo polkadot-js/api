@@ -8,10 +8,10 @@ import { MethodResult } from '../types';
 // A technically unsafe version of Object.keys(obj) that assumes that
 // obj only has known properties of T
 function keys<T extends object> (obj: T) {
-  return Object.keys(obj) as Array<keyof T>;
+  return Object.keys(obj) as (keyof T)[];
 }
 
-function decorateMethods<ApiType, Section extends Record<keyof Section, (...args: Array<any>) => any>> (
+function decorateMethods<ApiType, Section extends Record<keyof Section, (...args: any[]) => any>> (
   section: Section,
   decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<ApiType, Method>
 ) {

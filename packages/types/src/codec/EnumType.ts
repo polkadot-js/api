@@ -32,10 +32,10 @@ type Decoded = {
 export default class Enum extends Base<Codec> implements Codec {
   private _def: TypesDef;
   private _index: number;
-  private _indexes: Array<number>;
+  private _indexes: number[];
   private _isBasic: boolean;
 
-  constructor (def: TypesDef | Array<string>, value?: any, index?: number | Enum) {
+  constructor (def: TypesDef | string[], value?: any, index?: number | Enum) {
     const defInfo = Enum.extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
@@ -47,7 +47,7 @@ export default class Enum extends Base<Codec> implements Codec {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static extractDef (def: TypesDef | Array<string>): { def: TypesDef, isBasic: boolean } {
+  private static extractDef (def: TypesDef | string[]): { def: TypesDef, isBasic: boolean } {
     if (!Array.isArray(def)) {
       return {
         def,
@@ -123,7 +123,7 @@ export default class Enum extends Base<Codec> implements Codec {
     };
   }
 
-  static with (Types: TypesDef | Array<string>): EnumConstructor<Enum> {
+  static with (Types: TypesDef | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (value?: any, index?: number) {
         super(Types, value, index);

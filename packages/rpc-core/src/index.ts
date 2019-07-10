@@ -124,7 +124,7 @@ export default class Rpc implements RpcInterface {
   private createMethodSend (method: RpcMethod): RpcInterface$Method {
     const rpcName = `${method.section}_${method.method}`;
 
-    const call = (...values: Array<any>): Observable<any> => {
+    const call = (...values: any[]): Observable<any> => {
       // TODO Warn on deprecated methods
 
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
@@ -167,7 +167,7 @@ export default class Rpc implements RpcInterface {
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
 
-    const call = (...values: Array<any>): Observable<any> => {
+    const call = (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>) => {
         let subscriptionPromise: Promise<number>;
 
@@ -231,7 +231,7 @@ export default class Rpc implements RpcInterface {
     return memoized;
   }
 
-  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
+  private formatInputs (method: RpcMethod, inputs: any[]): Codec[] {
     const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === method.params.length
       ? ''
@@ -244,7 +244,7 @@ export default class Rpc implements RpcInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
+  private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
@@ -273,7 +273,7 @@ export default class Rpc implements RpcInterface {
         }
 
         return results;
-      }, [] as Array<Codec | undefined>);
+      }, [] as (Codec | undefined)[]);
     }
 
     return base;

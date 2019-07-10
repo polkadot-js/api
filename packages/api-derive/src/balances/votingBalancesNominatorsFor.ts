@@ -13,12 +13,12 @@ import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
-  return (address: AccountId | AccountIndex | Address | string): Observable<Array<DerivedBalances>> => {
+  return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> => {
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
         accountId
           ? (api.query.staking.nominatorsFor<Vector<AccountId>>(accountId))
-          : of([] as Array<AccountId>)
+          : of([] as AccountId[])
       ),
       switchMap(votingBalances(api)),
       drr()

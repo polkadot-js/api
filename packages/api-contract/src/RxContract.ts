@@ -32,7 +32,7 @@ export default class RxContract extends RxBase implements IContract {
 
     Object.entries(abi.messages).forEach(([name, fn]) => {
       this.calls[name] = (fn: ContractABIFn) =>
-        (value: BN | number, maxGas: BN | number, ...params: Array<any>): IContractCall =>
+        (value: BN | number, maxGas: BN | number, ...params: any[]): IContractCall =>
           this.apiContracts.call(this.address, value, maxGas, fn(...params));
     });
   }

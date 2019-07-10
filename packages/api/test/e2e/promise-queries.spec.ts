@@ -145,7 +145,7 @@ describe.skip('Promise e2e queries', () => {
       [api.query.balances.freeBalance, keyring.bob.address],
       [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
       [api.query.balances.freeBalance, keyring.ferdie.address]
-    ], (balances: Array<Balance>) => {
+    ], (balances: Balance[]) => {
       expect(balances).toHaveLength(4);
 
       done();

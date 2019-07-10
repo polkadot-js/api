@@ -7,7 +7,7 @@ import { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback = Callback<Array<any>>;
+export type CombinatorCallback = Callback<any[]>;
 export type CombinatorFunction = {
   (cb: Callback<any>): UnsubscribePromise
 };
@@ -15,13 +15,13 @@ export type CombinatorFunction = {
 export default class Combinator {
   protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
-  protected _fired: Array<boolean> = [];
-  protected _fns: Array<CombinatorFunction> = [];
+  protected _fired: boolean[] = [];
+  protected _fns: CombinatorFunction[] = [];
   protected _isActive: boolean = true;
-  protected _results: Array<any> = [];
-  protected _subscriptions: Array<UnsubscribePromise> = [];
+  protected _results: any[] = [];
+  protected _subscriptions: UnsubscribePromise[] = [];
 
-  constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
+  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
     this._subscriptions = fns.map(async (input, index) => {
       const [fn, ...args] = Array.isArray(input)

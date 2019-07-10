@@ -21,7 +21,7 @@ describe('Bytes', () => {
       ).toEqual(CODE);
     });
 
-    it('decodes from Array<number>', () => {
+    it('decodes from number[]', () => {
       expect(
         new Bytes([0x3a, 0x63, 0x6f, 0x64, 0x65]).toU8a()
       ).toEqual(CODE);

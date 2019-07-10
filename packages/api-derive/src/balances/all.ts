@@ -13,7 +13,7 @@ import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 
-type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, Array<BalanceLock>?, Option<VestingSchedule>?, Index?]];
+type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
 const EMPTY_ACCOUNT = new AccountId();
 const ZERO = new Balance(0);

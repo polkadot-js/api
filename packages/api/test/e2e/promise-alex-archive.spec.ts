@@ -39,7 +39,7 @@ describe.skip('alex archive queries (local)', () => {
   it('handles toJSON with no issues', async (done) => {
     return (
       api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock) => {
-        const failed: Array<Extrinsic> = result.block.extrinsics.filter((extrinsic: Extrinsic) => {
+        const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic) => {
           try {
             const json = extrinsic.method.toJSON();
 

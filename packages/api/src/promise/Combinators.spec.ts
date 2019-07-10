@@ -6,7 +6,7 @@ import { UnsubscribePromise } from '../types';
 import Combinator from './Combinator';
 
 describe('Combinator', () => {
-  let fns: Array<(value: any) => void> = [];
+  let fns: ((value: any) => void)[] = [];
   const storeFn = async (cb: (value: any) => void): UnsubscribePromise => {
     fns.push(cb);
 
@@ -21,7 +21,7 @@ describe('Combinator', () => {
     let count = 0;
     const combinator = new Combinator(
       [storeFn],
-      (value: Array<any>) => {
+      (value: any[]) => {
         expect(value[0]).toEqual(`test${count}`);
 
         count++;
@@ -42,7 +42,7 @@ describe('Combinator', () => {
   it('combines values from 2 sources, firing when it has all results', (done) => {
     const combinator = new Combinator(
       [storeFn, storeFn],
-      (value: Array<any>) => {
+      (value: any[]) => {
         expect(value).toEqual(['test0', 'test1']);
 
         done();
@@ -59,7 +59,7 @@ describe('Combinator', () => {
     let count = 0;
     const combinator = new Combinator(
       [storeFn, storeFn],
-      (value: Array<any>) => {
+      (value: any[]) => {
         expect(value).toEqual(
           count === 0
             ? ['test0', 'test1']
@@ -85,7 +85,7 @@ describe('Combinator', () => {
     const combinator = new Combinator([
       mocker,
       async () => () => void 0
-    ], (value: Array<any>) => {
+    ], (value: any[]) => {
       // ignore
     });
 

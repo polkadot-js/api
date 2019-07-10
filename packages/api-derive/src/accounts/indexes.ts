@@ -40,7 +40,7 @@ export function indexes (api: ApiInterface$Rx) {
         switchMap((next: AccountIndex) =>
           api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
         ),
-        map((all: Array<Array<AccountId> | undefined>) =>
+        map((all: (AccountId[] | undefined)[]) =>
           (all || []).reduce((result, list, outerIndex) => {
             (list || []).forEach((accountId, innerIndex) => {
               // re-create the index based on position 0 is [0][0] and likewise

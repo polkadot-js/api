@@ -12,7 +12,7 @@ declare var global: Global;
 let ws: WsProvider;
 let mock: Mock;
 
-function createMock (requests: Array<any>) {
+function createMock (requests: any[]) {
   mock = mockWs(requests);
 }
 

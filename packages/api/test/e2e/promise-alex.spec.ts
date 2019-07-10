@@ -68,7 +68,7 @@ describe.skip('alex queries', () => {
 
   it('derives a list of the controllers', (done) => {
     return (
-      api.derive.staking.controllers((res: [Array<AccountId>, Array<Option<AccountId>>]) => {
+      api.derive.staking.controllers((res: [AccountId[], Option<AccountId>[]]) => {
         console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
         done();

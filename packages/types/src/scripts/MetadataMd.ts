@@ -165,7 +165,7 @@ function addStorage (metadata: MetadataV6) {
   return renderHeading + renderAnchors + sectionLink('substrate') + sections;
 }
 
-function writeFile (name: string, ...chunks: Array<any>) {
+function writeFile (name: string, ...chunks: any[]) {
   const options = { flags: 'w', encoding: 'utf8' };
   const writeStream = fs.createWriteStream(name, options);
 

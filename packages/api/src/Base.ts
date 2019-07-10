@@ -330,7 +330,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  on (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.on(type, handler);
 
     return this;
@@ -357,7 +357,7 @@ export default abstract class ApiBase<ApiType> {
    * api.off('connected', handler);
    * ```
    */
-  off (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  off (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.removeListener(type, handler);
 
     return this;
@@ -382,7 +382,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  once (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.once(type, handler);
 
     return this;
@@ -413,9 +413,9 @@ export default abstract class ApiBase<ApiType> {
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
    * via `deocrateMethod`.
    */
-  protected abstract decorateMethod (method: (...args: Array<any>) => Observable<any>, options?: DecorateMethodOptions): any;
+  protected abstract decorateMethod (method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
-  private emit (type: ApiInterface$Events, ...args: Array<any>): void {
+  private emit (type: ApiInterface$Events, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
   }
 
@@ -549,7 +549,7 @@ export default abstract class ApiBase<ApiType> {
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod(
       (calls: QueryableStorageMultiArgs<ApiType>) => {
-        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Array<CodecArg>] =>
+        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...CodecArg[]] =>
           // the input is a QueryableStorageEntry, convert to StorageEntry
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
@@ -579,7 +579,7 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
-      (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType> =>
+      (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
         createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
@@ -603,7 +603,7 @@ export default abstract class ApiBase<ApiType> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
-        (...args: Array<any>) => {
+        (...args: any[]) => {
 
           return this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
@@ -614,7 +614,7 @@ export default abstract class ApiBase<ApiType> {
             .pipe(
               // state_storage returns an array of values, since we have just subscribed to
               // a single entry, we pull that from the array and return it as-is
-              map((result: Array<Codec>): Codec =>
+              map((result: Codec[]): Codec =>
                 result[0]
               )
             );
@@ -644,7 +644,7 @@ export default abstract class ApiBase<ApiType> {
 
     // When using double map storage function, user need to path double map key as an array
     decorated.multi = decorateMethod(
-      (args: Array<CodecArg[] | CodecArg>) =>
+      (args: (CodecArg[] | CodecArg)[]) =>
         this._rpcCore.state
           .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
     );
@@ -732,7 +732,7 @@ export default abstract class ApiBase<ApiType> {
       () => this._rpcCore.state
         .subscribeStorage([method.headKey])
         .pipe(
-          switchMap(([key]: Array<Codec>) => {
+          switchMap(([key]: Codec[]) => {
             head = key;
 
             return getNext(key);

@@ -94,7 +94,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
         [api.query.staking.stakers, stashId],
         [api.query.staking.validators, stashId]
       ])
-    ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
     map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
@@ -128,7 +128,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId]
-    ]) as any as Observable<[Option<Keys | SessionKey>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]>
+    ]) as any as Observable<[Option<Keys | SessionKey>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]>
   ).pipe(
     map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
       accountId,

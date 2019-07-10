@@ -42,7 +42,7 @@ export default class Blueprint extends RxBase {
     this.codeHash = new Hash(codeHash);
   }
 
-  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: Array<any>): IBlueprintCreate {
+  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): IBlueprintCreate {
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription => {
       return this.apiContracts
         .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))

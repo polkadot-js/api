@@ -15,7 +15,7 @@ export type IKeyringPair = {
   sign: (data: Uint8Array) => Uint8Array;
 };
 
-interface CodecArgArray extends Array<CodecArg> { }
+interface CodecArgArray extends CodecArg[] { }
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type Callback<T> = (result: T) => void | Promise<void>;
@@ -30,10 +30,10 @@ export type AnyNumber = BN | Uint8Array | number | string;
 
 export type AnyString = string | String;
 
-export type AnyU8a = Uint8Array | Array<number> | string;
+export type AnyU8a = Uint8Array | number[] | string;
 
 export type AnyJsonObject = { [key: string]: AnyJson };
-export interface AnyJsonArray extends Array<AnyJson> { }
+export interface AnyJsonArray extends AnyJson[] { }
 export type AnyJson = string | number | boolean | null | undefined | AnyJsonObject | AnyJsonArray;
 
 /**
@@ -91,7 +91,7 @@ export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 export interface Constructor<T = Codec> {
   Fallback?: Constructor<T>;
 
-  new(...value: Array<any>): T;
+  new(...value: any[]): T;
 }
 
 export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
@@ -103,7 +103,7 @@ export type RegistryTypes = {
 };
 
 export interface RuntimeVersionInterface {
-  readonly apis: Array<any>;
+  readonly apis: any[];
   readonly authoringVersion: BN;
   readonly implName: String;
   readonly implVersion: BN;
@@ -125,7 +125,7 @@ export interface ArgsDef {
 export interface IHash extends U8a { }
 
 export interface IMethod extends Codec {
-  readonly args: Array<Codec>;
+  readonly args: Codec[];
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;

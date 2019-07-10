@@ -14,7 +14,7 @@ import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
 export interface ISubmittableResult {
-  readonly events: Array<EventRecord>;
+  readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;
@@ -34,7 +34,7 @@ export type SumbitableResultSubscription<ApiType> =
     : Promise<() => void>;
 
 type SubmittableResultValue = {
-  events?: Array<EventRecord>;
+  events?: EventRecord[];
   status: ExtrinsicStatus;
 };
 
@@ -48,7 +48,7 @@ type SignerOptions = {
 const DEFAULT_MORTAL_LENGTH = 15;
 
 export class SubmittableResult implements ISubmittableResult {
-  readonly events: Array<EventRecord>;
+  readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
 
   constructor ({ events, status }: SubmittableResultValue) {

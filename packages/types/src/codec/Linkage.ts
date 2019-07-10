@@ -5,7 +5,7 @@
 import { Struct, Option, Tuple, Vector } from '.';
 import { Constructor, Codec } from '../types';
 
-type TypeWithValues = [Constructor, Array<any>];
+type TypeWithValues = [Constructor, any[]];
 
 export default class Linkage<T extends Codec> extends Struct {
   constructor (Type: Constructor, value?: any) {

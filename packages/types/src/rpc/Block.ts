@@ -12,7 +12,7 @@ import Extrinsics from '../type/Extrinsics';
 import Header, { HeaderValue } from './Header';
 
 export type BlockValue = {
-  extrinsics?: Array<AnyU8a>
+  extrinsics?: AnyU8a[]
   header?: HeaderValue
 };
 

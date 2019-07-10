@@ -7,7 +7,7 @@ import AccountIndex from './AccountIndex';
 import Address from './Address';
 
 describe('Address', () => {
-  const testDecode = (type: string, input: Address | AccountId | AccountIndex | Array<number> | Uint8Array, expected: string) =>
+  const testDecode = (type: string, input: Address | AccountId | AccountIndex | number[] | Uint8Array, expected: string) =>
     it(`can decode from ${type}`, () => {
       const a = new Address(input);
       expect(a.toString()).toBe(expected);

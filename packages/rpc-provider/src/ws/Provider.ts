@@ -22,13 +22,13 @@ type SubscriptionHandler = {
 type WsState$Awaiting = {
   callback: CallbackHandler,
   method: string,
-  params: Array<any>,
+  params: any[],
   subscription?: SubscriptionHandler
 };
 
 type WsState$Subscription = SubscriptionHandler & {
   method: string,
-  params: Array<any>
+  params: any[]
 };
 
 interface WSProviderInterface extends ProviderInterface {
@@ -176,7 +176,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param params Encoded paramaters as appliucable for the method
    * @param subscription Subscription details (internally used)
    */
-  send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
+  send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
         const json = this.coder.encodeJson(method, params);
@@ -212,7 +212,7 @@ export default class WsProvider implements WSProviderInterface {
    * @summary Allows subscribing to a specific event.
    * @param  {string}                     type     Subscription type
    * @param  {string}                     method   Subscription method
-   * @param  {Array<any>}                 params   Parameters
+   * @param  {any[]}                 params   Parameters
    * @param  {ProviderInterface$Callback} callback Callback
    * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    *
@@ -230,7 +230,7 @@ export default class WsProvider implements WSProviderInterface {
    * })
    * ```
    */
-  async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
+  async subscribe (type: string, method: string, params: any[], callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
 
     return id as number;
@@ -259,7 +259,7 @@ export default class WsProvider implements WSProviderInterface {
     return result as boolean;
   }
 
-  private emit (type: ProviderInterface$Emitted, ...args: Array<any>): void {
+  private emit (type: ProviderInterface$Emitted, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
   }
 

@@ -14,10 +14,10 @@ import Vector from './Vector';
  * @description
  * This manages codec arrays of a fixed length
  */
-export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
+export default class VectorFixed<T extends Codec> extends AbstractT[] {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
       ...VectorFixed.decodeVectorFixed(Type, length, value)
     );
@@ -25,7 +25,7 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
     this._Type = Type;
   }
 
-  static decodeVectorFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VectorFixed<any> | Uint8Array | string | Array<any>): Array<T> {
+  static decodeVectorFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VectorFixed<any> | Uint8Array | string | any[]): T[] {
     const values = Vector.decodeVector(
       Type,
       isU8a(value)
@@ -44,7 +44,7 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
 
   static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VectorFixed<O>> {
     return class extends VectorFixed<O> {
-      constructor (value?: Array<any>) {
+      constructor (value?: any[]) {
         super(Type, length, value);
       }
 

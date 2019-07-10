@@ -89,7 +89,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
-  async send (method: string, params: Array<any>): Promise<any> {
+  async send (method: string, params: any[]): Promise<any> {
     const body = this.coder.encodeJson(method, params);
     const response = await fetch(this.endpoint, {
       body,
@@ -111,7 +111,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
+  async subscribe (types: string, method: string, params: any[], cb: ProviderInterface$Callback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);

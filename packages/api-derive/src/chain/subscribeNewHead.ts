@@ -10,7 +10,7 @@ import { AccountId, Header } from '@polkadot/types';
 import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 
-export type HeaderAndValidators = [Header, Array<AccountId>];
+export type HeaderAndValidators = [Header, AccountId[]];
 
 /**
  * @name subscribeNewHead

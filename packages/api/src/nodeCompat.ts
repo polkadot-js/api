@@ -10,7 +10,7 @@ type Compat = {
   // an array of the spec-name and spec_version that denotes the first version that
   // does not support this feature. i.e. for EventRecord between 0-76, the new version
   // went live at 77 - hence the version here denotes 77
-  nodeSpecs: Array<[string, number]>,
+  nodeSpecs: [string, number][],
   types: {
     [index: string]: Constructor
   }
@@ -18,7 +18,7 @@ type Compat = {
 
 const ANY_VERSION = 0xffffff;
 
-const types: Array<Compat> = [
+const types: Compat[] = [
   {
     nodeSpecs: [
       ['node', 77],

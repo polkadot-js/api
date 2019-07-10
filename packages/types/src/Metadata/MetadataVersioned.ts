@@ -313,7 +313,7 @@ export default class MetadataVersioned extends Struct {
     return this._convertedV6;
   }
 
-  getUniqTypes (throwError: boolean): Array<string> {
+  getUniqTypes (throwError: boolean): string[] {
     return this.asV6.getUniqTypes(throwError);
   }
 }

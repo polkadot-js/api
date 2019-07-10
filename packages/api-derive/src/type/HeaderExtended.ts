@@ -13,7 +13,7 @@ import { AnyJsonObject } from '@polkadot/types/types';
 export default class HeaderExtended extends Header {
   private _author?: AccountId;
 
-  constructor (header: Header | null = null, sessionValidators: Array<AccountId> = []) {
+  constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
     super(header);
 
     if (!header || !header.digest || !sessionValidators.length) {
