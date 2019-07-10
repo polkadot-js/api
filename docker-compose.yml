@@ -26,7 +26,7 @@
 
 version: "3.7"
 services:
-  node-master:
+  substrate-master:
     image: parity/substrate:latest
     ports:
       - "9945:9944"
@@ -37,7 +37,7 @@ services:
       - "--ws-external"
     user: ${CURRENT_UID}
     
-  node-1.0:
+  substrate-1.0:
     image: parity/substrate:v1.0.0 
     ports:
       - "9946:9944"
@@ -47,7 +47,7 @@ services:
       - "--dev"
       - "--ws-external"
 
-  node-2.0:
+  substrate-2.0:
     image: parity/substrate:2.0.0-f981856d4
     ports:
       - "9947:9944"
