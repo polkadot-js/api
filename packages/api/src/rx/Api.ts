@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction } from '@polkadot/types/types';
-import { ApiOptions } from '../types';
+import { ApiOptions, DecoratedRpc, QueryableStorageMulti, SubmittableExtrinsics, QueryableStorage } from '../types';
 
 import { from, Observable } from 'rxjs';
 
@@ -198,7 +198,24 @@ export default class ApiRx extends ApiBase<'rxjs'> {
     });
   }
 
-  protected decorateMethod<Method extends AnyFunction> (method: Method): Method {
+  protected exposeMethod<Method extends AnyFunction> (method: Method): Method {
     return method;
   }
+
+  protected exposeRpc (rpc: DecoratedRpc<'rxjs'>): DecoratedRpc<'rxjs'> {
+    return rpc;
+  }
+
+  protected exposeMulti (multi: QueryableStorageMulti<'rxjs'>): QueryableStorageMulti<'rxjs'> {
+    return multi;
+  }
+
+  protected exposeExtrinsics (extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<'rxjs'> {
+    return extrinsics;
+  }
+
+  protected exposeStorage (storage: QueryableStorage<'rxjs'>): QueryableStorage<'rxjs'> {
+    return storage;
+  }
+
 }

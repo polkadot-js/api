@@ -95,7 +95,7 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
   api: ApiInterface$Rx,
-  decorateMethod: ApiBase<ApiType>['decorateMethod'],
+  decorateMethod: ApiBase<ApiType>['exposeMethod'],
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {

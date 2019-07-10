@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
+import { ApiOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, ExposeMethodOptions, DecoratedRpc, DecoratedRpc$Section, QueryableStorageMulti, SubmittableExtrinsics, SubmittableModuleExtrinsics, QueryableStorage, QueryableModuleStorage } from '../types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -198,7 +198,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
     };
   }
 
-  protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+  protected exposeMethod<Method extends AnyFunction> (method: Method, options?: ExposeMethodOptions): StorageEntryPromiseOverloads {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
     return function (...args: any[]) {
@@ -248,5 +248,74 @@ export default class ApiPromise extends ApiBase<'promise'> {
           .subscribe(callback);
       }) as UnsubscribePromise;
     } as StorageEntryPromiseOverloads;
+  }
+
+  protected exposeRpc (rpc: DecoratedRpc<'rxjs'>): DecoratedRpc<'promise'> {
+    return Object.keys(rpc).reduce((result, _sectionName) => {
+      const sectionName = _sectionName as keyof DecoratedRpc<'rxjs'>;
+
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
+        const method = rpc[sectionName][methodName];
+        section[methodName] = this.exposeMethod(method);
+
+        return section;
+      }, {} as DecoratedRpc$Section<'promise'>);
+
+      return result;
+    }, {} as DecoratedRpc<'promise'>);
+  }
+
+  protected exposeMulti (multi: QueryableStorageMulti<'rxjs'>): QueryableStorageMulti<'promise'> {
+    return this.exposeMethod(multi) as QueryableStorageMulti<'promise'>;
+  }
+
+  protected exposeExtrinsics (_extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<'promise'> {
+    const creator = this.exposeMethod(_extrinsics);
+
+    return Object.keys(_extrinsics).reduce((result, sectionName) => {
+      const section = _extrinsics[sectionName];
+
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.exposeMethod(section[methodName]) as any;
+        result[methodName].meta = section[methodName].meta;
+        result[methodName].method = section[methodName].method;
+        result[methodName].section = section[methodName].section;
+        result[methodName].toJSON = section[methodName].toJSON;
+        if ('callIndex' in section[methodName]) {
+          result[methodName].callIndex = section[methodName].callIndex;
+        }
+
+        return result;
+      }, {} as SubmittableModuleExtrinsics<'promise'>);
+
+      return result;
+    }, creator as any/*?*/ as SubmittableExtrinsics<'promise'>);
+  }
+
+  protected exposeStorage (storage: QueryableStorage<'rxjs'>): QueryableStorage<'promise'> {
+    return Object.keys(storage).reduce((result, sectionName) => {
+      const section = storage[sectionName];
+
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.exposeMethod(section[methodName]) as any;
+        result[methodName].at = this.exposeMethod(section[methodName].at);
+        result[methodName].hash = this.exposeMethod(section[methodName].hash);
+        result[methodName].key = section[methodName].key;
+        result[methodName].multi = this.exposeMethod(section[methodName].multi);
+        result[methodName].size = this.exposeMethod(section[methodName].size);
+        result[methodName].creator = section[methodName].creator;
+        (result[methodName] as any).meta = (section[methodName] as any).meta;
+        (result[methodName] as any).method = (section[methodName] as any).method;
+        (result[methodName] as any).section = (section[methodName] as any).section;
+        (result[methodName] as any).toJSON = (section[methodName] as any).toJSON;
+        if ('callIndex' in section[methodName]) {
+          (result[methodName] as any).callIndex = (section[methodName] as any).callIndex;
+        }
+
+        return result;
+      }, {} as QueryableModuleStorage<'promise'>);
+
+      return result;
+    }, {} as QueryableStorage<'promise'>);
   }
 }

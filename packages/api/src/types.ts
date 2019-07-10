@@ -34,9 +34,9 @@ export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer
 
 export type UnsubscribePromise = Promise<() => void>;
 
-// In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
+// In the abstract `exposeMethod` in Base.ts, we can also pass in some meta-
 // information. This describes it.
-export type DecorateMethodOptions = {
+export type ExposeMethodOptions = {
   methodName?: string
 };
 
