@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
   "dependencies": {
-    "@babel/runtime": "^7.5.2"
+    "@babel/runtime": "^7.5.4"
   }
 }
