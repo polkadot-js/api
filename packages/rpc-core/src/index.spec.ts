@@ -17,7 +17,7 @@ describe('Api', () => {
     const rpc = new Rpc(new MockProvider());
 
     expect(
-      Object.keys(rpc)
+      Object.keys(rpc).filter((key) => !key.startsWith('_'))
     ).toEqual([
       'provider',
       'author', 'chain', 'state', 'system'
