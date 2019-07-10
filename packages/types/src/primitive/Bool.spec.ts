@@ -5,8 +5,8 @@
 import Bool from './Bool';
 import { CodecTo } from '../types';
 
-describe('Bool', () => {
-  describe('decode', () => {
+describe('Bool', (): void => {
+  describe('decode', (): void => {
     const testDecode = (type: string, input: Uint8Array | boolean | Boolean | Bool | number, expected: boolean) =>
       it(`can decode from ${type}`, () => {
         expect(new Bool(input).toJSON()).toBe(expected);
@@ -19,7 +19,7 @@ describe('Bool', () => {
     testDecode('Uint8Array', Uint8Array.from([1]), true);
   });
 
-  describe('encode', () => {
+  describe('encode', (): void => {
     const testEncode = (to: CodecTo, expected: string | Uint8Array | boolean, value: boolean) =>
       it(`can encode ${to}`, () => {
         expect(new Bool(value)[to]()).toEqual(expected);
@@ -32,16 +32,16 @@ describe('Bool', () => {
     testEncode('toU8a', Uint8Array.from([0]), false);
   });
 
-  it('correctly encodes length', () => {
+  it('correctly encodes length', (): void => {
     expect(new Bool(true).encodedLength).toEqual(1);
   });
 
-  describe('utils', () => {
-    it('compares agains a boolean', () => {
+  describe('utils', (): void => {
+    it('compares agains a boolean', (): void => {
       expect(new Bool(true).eq(true)).toBe(true);
     });
 
-    it('compares agains a Bool', () => {
+    it('compares agains a Bool', (): void => {
       expect(new Bool(false).eq(new Bool(false))).toBe(true);
     });
   });

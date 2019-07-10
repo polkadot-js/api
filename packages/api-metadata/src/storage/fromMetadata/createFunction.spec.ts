@@ -8,8 +8,8 @@ import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import createFunction from './createFunction';
 
-describe('createFunction', () => {
-  it('should create timestamp.now correctly', () => {
+describe('createFunction', (): void => {
+  it('should create timestamp.now correctly', (): void => {
     expect(
       createFunction(
         'Timestamp',
@@ -21,7 +21,7 @@ describe('createFunction', () => {
     );
   });
 
-  it('allows overrides on key (keeping name)', () => {
+  it('allows overrides on key (keeping name)', (): void => {
     expect(
       createFunction(
         'Substrate',
@@ -35,7 +35,7 @@ describe('createFunction', () => {
     ).toEqual('authorityCount');
   });
 
-  it('allows overrides on key (unhashed)', () => {
+  it('allows overrides on key (unhashed)', (): void => {
     const key = ':auth:len';
 
     expect(
@@ -56,7 +56,7 @@ describe('createFunction', () => {
     );
   });
 
-  describe('the created double map function', () => {
+  describe('the created double map function', (): void => {
     let storageFn: StorageEntry;
     beforeAll(() => {
       storageFn = createFunction(
@@ -77,19 +77,19 @@ describe('createFunction', () => {
       );
     });
 
-    it('should return correct key', () => {
+    it('should return correct key', (): void => {
       const result = storageFn(['5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP', '5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP']);
       expect(u8aToHex(result)).toEqual('0xc000fa40e72d7173e69ee54b980345ea01cb81e64258502e0247af4303dee91ec0aec2ecd3a60ab080cff7b52a8f6d543b');
     });
 
-    it('needs two arguments', () => {
+    it('needs two arguments', (): void => {
       expect(
         () => storageFn(['5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP'])
       ).toThrow(/metaName expects two arguments/);
     });
   });
 
-  it('allows creates double map function with a Null type key', () => {
+  it('allows creates double map function with a Null type key', (): void => {
     const storageFn = createFunction(
         'System',
         'EventTopics',

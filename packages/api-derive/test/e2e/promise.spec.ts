@@ -15,10 +15,10 @@ const ALICE_STASH = testingPairs().alice_stash.address;
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('derive e2e', () => {
+describe.skip('derive e2e', (): void => {
   let api: ApiPromise;
 
-  beforeAll(() => {
+  beforeAll((): void => {
     jest.setTimeout(30000);
   });
 
@@ -121,7 +121,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-  describe('verifies derive.staking.unlocking', () => {
+  describe('verifies derive.staking.unlocking', (): void => {
     const UNBOND_VALUE = 1;
     const alicePair = testingPairs().alice;
 
@@ -135,14 +135,14 @@ describe.skip('derive e2e', () => {
         });
     });
 
-    it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
+    it('verifies that derive.staking.unlocking isn\'t empty/undefined', (): void => {
       return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
         expect(info.unlocking).toBeDefined();
       });
     });
   });
 
-  describe('verifies derive.staking.rewardDestination', () => {
+  describe('verifies derive.staking.rewardDestination', (): void => {
     const PAYEE = 2;
     const alicePair = testingPairs().alice;
 

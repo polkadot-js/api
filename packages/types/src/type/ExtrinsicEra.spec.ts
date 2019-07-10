@@ -4,21 +4,21 @@
 
 import ExtrinsicEra from './ExtrinsicEra';
 
-describe('ExtrinsicEra', () => {
-  it('decodes an Extrinsic Era with immortal', () => {
+describe('ExtrinsicEra', (): void => {
+  it('decodes an Extrinsic Era with immortal', (): void => {
     const extrinsicEra = new ExtrinsicEra(new Uint8Array([0]));
 
     expect(extrinsicEra.asImmortalEra).toBeDefined();
   });
 
-  it('decodes an Extrinsic Era from u8 as mortal', () => {
+  it('decodes an Extrinsic Era from u8 as mortal', (): void => {
     const extrinsicEra = new ExtrinsicEra(new Uint8Array([78, 156]));
 
     expect(extrinsicEra.asMortalEra.period.toNumber()).toEqual(32768);
     expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(20000);
   });
 
-  it('encode an Extrinsic Era from Object with blocknumber & period as mortal instance', () => {
+  it('encode an Extrinsic Era from Object with blocknumber & period as mortal instance', (): void => {
     const extrinsicEra = new ExtrinsicEra({ current: 1400, period: 200 });
 
     expect(extrinsicEra.asMortalEra.period.toNumber()).toEqual(256);

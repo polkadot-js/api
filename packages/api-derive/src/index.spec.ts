@@ -14,11 +14,11 @@ const testFunction = (api: ApiRx) => {
     Method extends keyof (typeof api.derive[Section])
   >(section: Section, method: Method, inputs: any[]) => {
     describe(`derive.${section}.${method}`, () => {
-      it('should be a function', () => {
+      it('should be a function', (): void => {
         expect(typeof api.derive[section][method]).toBe('function');
       });
 
-      it('should return an Observable', () => {
+      it('should return an Observable', (): void => {
         expect((api.derive[section][method] as any)(...inputs)).toBeInstanceOf(Observable);
       });
     });
@@ -27,11 +27,11 @@ const testFunction = (api: ApiRx) => {
 
 // https://github.com/polkadot-js/api/pull/1066#issuecomment-509142048
 // https://github.com/polkadot-js/api/issues/1064
-describe.skip('derive', () => {
-  describe('builtin', () => {
+describe.skip('derive', (): void => {
+  describe('builtin', (): void => {
     const api = new ApiRx(new MockProvider());
 
-    beforeAll((done) => {
+    beforeAll((done): void => {
       api.isReady.subscribe(() => done());
     });
 
@@ -59,7 +59,7 @@ describe.skip('derive', () => {
     testFunction(api)('session', 'sessionProgress', []);
   });
 
-  describe('custom', () => {
+  describe('custom', (): void => {
     const api = new ApiRx({
       derives: {
         balances: {
@@ -72,7 +72,7 @@ describe.skip('derive', () => {
       provider: new MockProvider()
     });
 
-    beforeAll((done) => {
+    beforeAll((done): void => {
       api.isReady.subscribe(() => done());
     });
 

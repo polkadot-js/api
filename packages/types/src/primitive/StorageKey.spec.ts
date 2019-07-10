@@ -12,8 +12,8 @@ import rpcDataV6 from '@polkadot/types/Metadata/v6/static';
 import Metadata from '../Metadata';
 import StorageKey from './StorageKey';
 
-describe('StorageKey', () => {
-  describe('with MetadataV3 (uses xxHash by default)', () => {
+describe('StorageKey', (): void => {
+  describe('with MetadataV3 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV3));
 
     it(`should correctly get Alice's freeBalance storage key (hex)`, () => {
@@ -42,7 +42,7 @@ describe('StorageKey', () => {
     });
   });
 
-  describe('with MetadataV4 (uses xxHash by default)', () => {
+  describe('with MetadataV4 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV4));
 
     it(`should correctly get Alice's freeBalance storage key (hex)`, () => {
@@ -97,7 +97,7 @@ describe('StorageKey', () => {
     });
   });
 
-  describe('with MetadataV5', () => {
+  describe('with MetadataV5', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV5));
 
     it(`should correctly get the EventTopics double map storage key (hex)`, () => {
@@ -125,7 +125,7 @@ describe('StorageKey', () => {
     });
   });
 
-  describe('with MetadataV6', () => {
+  describe('with MetadataV6', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV6));
 
     it(`should correctly get the EventTopics double map storage key (hex)`, () => {

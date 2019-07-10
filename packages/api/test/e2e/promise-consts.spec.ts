@@ -6,7 +6,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber } from '@polkadot/types';
 
-describe.skip('e2e consts', () => {
+describe.skip('e2e consts', (): void => {
   let api: ApiPromise;
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe.skip('e2e consts', () => {
     jest.setTimeout(30000);
   });
 
-  it('democracy.cooloffPeriod parameter type', () => {
+  it('democracy.cooloffPeriod parameter type', (): void => {
     expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
     expect(api.consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
   });

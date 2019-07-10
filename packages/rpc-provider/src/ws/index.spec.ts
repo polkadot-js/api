@@ -15,14 +15,14 @@ function createWs (requests: any[], autoConnect: boolean | undefined) {
   return ws;
 }
 
-describe('Ws', () => {
+describe('Ws', (): void => {
   afterEach(() => {
     if (mock) {
       mock.done();
     }
   });
 
-  it('returns the connected state', () => {
+  it('returns the connected state', (): void => {
     expect(
       createWs([],true).isConnected()
     ).toEqual(false);

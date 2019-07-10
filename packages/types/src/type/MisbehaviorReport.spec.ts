@@ -4,27 +4,27 @@
 
 import MisbehaviorReport, { BftAtReport } from './MisbehaviorReport';
 
-describe('BftAtReport', () => {
+describe('BftAtReport', (): void => {
   const report = new BftAtReport({
     round: 16,
     a: ['0x1234', '0x5678'],
     b: ['0x8765', '0x4321']
   });
 
-  it('has the correct round', () => {
+  it('has the correct round', (): void => {
     expect(report.round.toNumber()).toEqual(16);
   });
 
-  it('has the correct hash (a)', () => {
+  it('has the correct hash (a)', (): void => {
     expect(report.a.hash.toHex()).toEqual('0x1234000000000000000000000000000000000000000000000000000000000000');
   });
 
-  it('has the correct signature (b)', () => {
+  it('has the correct signature (b)', (): void => {
     expect(report.b.signature.toHex()).toEqual('0x43210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
   });
 });
 
-describe('MisbehaviorReport', () => {
+describe('MisbehaviorReport', (): void => {
   const report = new MisbehaviorReport({
     parentHash: '0x01020304',
     parentNumber: 78,
@@ -32,16 +32,16 @@ describe('MisbehaviorReport', () => {
     misbehavior: 3
   });
 
-  it('has the correct misbehavior type', () => {
+  it('has the correct misbehavior type', (): void => {
     expect(report.misbehavior.type).toEqual('BftDoubleCommit');
   });
 
-  it('has the correct parent block', () => {
+  it('has the correct parent block', (): void => {
     expect(report.parentHash.toHex()).toEqual('0x0102030400000000000000000000000000000000000000000000000000000000');
     expect(report.parentNumber.toNumber()).toEqual(78);
   });
 
-  it('identifies the misbehaving authority', () => {
+  it('identifies the misbehaving authority', (): void => {
     expect(report.target.toHex()).toEqual('0x1111222200000000000000000000000000000000000000000000000000000000');
   });
 });

@@ -169,7 +169,7 @@ function writeFile (name: string, ...chunks: any[]) {
   const options = { flags: 'w', encoding: 'utf8' };
   const writeStream = fs.createWriteStream(name, options);
 
-  writeStream.on('finish', () => {
+  writeStream.on('finish', (): void => {
     console.log(`Completed writing ${name}`);
   });
 

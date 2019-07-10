@@ -22,7 +22,7 @@ function createWs (autoConnect: boolean = true) {
   return ws;
 }
 
-describe('subscribe', () => {
+describe('subscribe', (): void => {
   let globalWs: Constructor<WebSocket>;
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('subscribe', () => {
     }
   });
 
-  it('removes subscriptions', () => {
+  it('removes subscriptions', (): void => {
     createMock([
       {
         id: 1,
@@ -64,7 +64,7 @@ describe('subscribe', () => {
       });
   });
 
-  it('fails when sub not found', () => {
+  it('fails when sub not found', (): void => {
     createMock([{
       id: 1,
       method: 'subscribe_test',

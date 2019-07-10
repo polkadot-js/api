@@ -4,7 +4,7 @@
 
 import Rpc from '.';
 
-describe('methodSend', () => {
+describe('methodSend', (): void => {
   let rpc: Rpc;
   let methods: any;
   let provider: any;

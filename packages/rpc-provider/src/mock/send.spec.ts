@@ -4,14 +4,14 @@
 
 import Mock from './';
 
-describe('send', () => {
+describe('send', (): void => {
   let mock: Mock;
 
   beforeEach(() => {
     mock = new Mock();
   });
 
-  it('fails on non-supported methods', () => {
+  it('fails on non-supported methods', (): void => {
     return mock
       .send('something_invalid', [])
       .catch((error) => {
@@ -19,7 +19,7 @@ describe('send', () => {
       });
   });
 
-  it('returns values for mocked requests', () => {
+  it('returns values for mocked requests', (): void => {
     return mock
       .send('system_name', [])
       .then((result) => {

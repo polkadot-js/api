@@ -4,14 +4,14 @@
 
 import Mock from './';
 
-describe('subscribe', () => {
+describe('subscribe', (): void => {
   let mock: Mock;
 
   beforeEach(() => {
     mock = new Mock();
   });
 
-  it('fails on unknown methods', () => {
+  it('fails on unknown methods', (): void => {
     return mock
       .subscribe('test', 'test_notFound')
       .catch((error) => {
@@ -19,7 +19,7 @@ describe('subscribe', () => {
       });
   });
 
-  it('returns a subscription id', () => {
+  it('returns a subscription id', (): void => {
     return mock
       .subscribe('chain_newHead', 'chain_subscribeNewHead', () => void 0)
       .then((id) => {

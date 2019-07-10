@@ -4,7 +4,7 @@
 
 import WsProvider from './';
 
-describe('WsProvider', () => {
+describe('WsProvider', (): void => {
   let provider: WsProvider;
 
   beforeEach(() => {

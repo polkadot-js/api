@@ -4,14 +4,14 @@
 
 import ValidatorPrefs from './ValidatorPrefs';
 
-describe('ValidatorPrefs', () => {
-  it('starts with empty values', () => {
+describe('ValidatorPrefs', (): void => {
+  it('starts with empty values', (): void => {
     expect(
       new ValidatorPrefs().validatorPayment.toNumber()
     ).toEqual(0);
   });
 
-  it('exposes the internal values via get', () => {
+  it('exposes the internal values via get', (): void => {
     const prefs = new ValidatorPrefs({
       unstakeThreshold: 3,
       validatorPayment: 12345

@@ -4,7 +4,7 @@
 
 import WsProvider from './';
 
-describe('onMessageSubscribe', () => {
+describe('onMessageSubscribe', (): void => {
   let provider: WsProvider;
 
   beforeEach(() => {

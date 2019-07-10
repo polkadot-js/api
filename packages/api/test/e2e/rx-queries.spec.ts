@@ -11,7 +11,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-describe.skip('Rx e2e queries', () => {
+describe.skip('Rx e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -21,7 +21,7 @@ describe.skip('Rx e2e queries', () => {
     done();
   });
 
-  it('makes the runtime, rpc, state & extrinsics available', () => {
+  it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();

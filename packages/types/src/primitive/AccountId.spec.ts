@@ -10,24 +10,24 @@ import jsonVec from '../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
 import StorageData from './StorageData';
 
-describe('AccountId', () => {
-  describe('defaults', () => {
+describe('AccountId', (): void => {
+  describe('defaults', (): void => {
     const id = new AccountId();
 
-    it('has a 32-byte length', () => {
+    it('has a 32-byte length', (): void => {
       expect(id).toHaveLength(32);
     });
 
-    it('is empty by default', () => {
+    it('is empty by default', (): void => {
       expect(id.isEmpty).toBe(true);
     });
 
-    it('equals the empty address', () => {
+    it('equals the empty address', (): void => {
       expect(id.eq('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM')).toBe(true);
     });
   });
 
-  describe('decoding', () => {
+  describe('decoding', (): void => {
     const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string) =>
       it(`can decode from ${type}`, () => {
         const a = new AccountId(input);
@@ -59,7 +59,7 @@ describe('AccountId', () => {
     );
   });
 
-  describe('encoding', () => {
+  describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input: string = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF') =>
       it(`can encode ${to}`, () => {
         const a = new AccountId(input);
@@ -76,13 +76,13 @@ describe('AccountId', () => {
       1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
     ]));
 
-    it('decodes to a non-empty value', () => {
+    it('decodes to a non-empty value', (): void => {
       expect(new AccountId('7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
     });
   });
 
-  describe('storage decoding', () => {
-    it('has the correct entries', () => {
+  describe('storage decoding', (): void => {
+    it('has the correct entries', (): void => {
       setAddressPrefix(68);
 
       const data = new StorageData(jsonVec.params.result.changes[0][1]);

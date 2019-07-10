@@ -7,12 +7,12 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import Method from '../primitive/Method';
 import Extrinsic from './Extrinsic';
 
-describe('Extrinsic', () => {
+describe('Extrinsic', (): void => {
   beforeAll(() => {
     Method.injectMethods(extrinsics);
   });
 
-  it.skip('decodes a non-signed properly via JSON', () => {
+  it.skip('decodes a non-signed properly via JSON', (): void => {
     const extrinsic = new Extrinsic('0x010200ea51b75b00000000');
 
     expect(extrinsic.isSigned).toEqual(false);
@@ -20,7 +20,7 @@ describe('Extrinsic', () => {
     expect(extrinsic.data).toEqual(new Uint8Array([234, 81, 183, 91, 0, 0, 0, 0]));
   });
 
-  it('decodes an actual transaction (new format)', () => {
+  it('decodes an actual transaction (new format)', (): void => {
     const extrinsic = new Extrinsic('0x250281ffbfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e0c00' +
     '0400' + // balances.transfer
     'ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0');
@@ -35,7 +35,7 @@ describe('Extrinsic', () => {
     expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
   });
 
-  it('decodes an actual transaction (old format)', () => {
+  it('decodes an actual transaction (old format)', (): void => {
     const extrinsic = new Extrinsic(
       '0x81ffbfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e0c00' +
       '0400' + // balances.transfer

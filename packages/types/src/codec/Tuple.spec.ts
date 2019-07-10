@@ -13,7 +13,7 @@ import Proposal from '../type/Proposal';
 import VoteThreshold from '../type/VoteThreshold';
 import Tuple from './Tuple';
 
-describe('Tuple', () => {
+describe('Tuple', (): void => {
   let tuple: Tuple;
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('Tuple', () => {
     );
   });
 
-  describe('decoding', () => {
+  describe('decoding', (): void => {
     const testDecode = (type: string, input: any) =>
       it(`can decode from ${type}`, () => {
         const t = new Tuple([
@@ -40,7 +40,7 @@ describe('Tuple', () => {
     testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
   });
 
-  describe('encoding', () => {
+  describe('encoding', (): void => {
     const testEncode = (to: CodecTo | 'toArray', expected: any) =>
       it(`can encode ${to}`, () => {
         expect(tuple[to]()).toEqual(expected);
@@ -52,7 +52,7 @@ describe('Tuple', () => {
     testEncode('toString', '["bazzing",69]');
   });
 
-  it.skip('creates properly via actual hex string', () => {
+  it.skip('creates properly via actual hex string', (): void => {
     Method.injectMethods(extrinsics);
 
     const test = new (Tuple.with([
@@ -65,11 +65,11 @@ describe('Tuple', () => {
     expect((test[2] as VoteThreshold).toNumber()).toEqual(1);
   });
 
-  it('exposes the Types', () => {
+  it('exposes the Types', (): void => {
     expect(tuple.Types).toEqual(['Text', 'U32']);
   });
 
-  it('exposes the Types (object creation)', () => {
+  it('exposes the Types (object creation)', (): void => {
     const test = new Tuple({
       BlockNumber, VoteThreshold
     }, []);
@@ -77,32 +77,32 @@ describe('Tuple', () => {
     expect(test.Types).toEqual(['BlockNumber', 'VoteThreshold']);
   });
 
-  it('exposes filter', () => {
+  it('exposes filter', (): void => {
     expect(tuple.filter((v) => v.toJSON() === 69)).toEqual([new U32(69)]);
   });
 
-  it('exposes map', () => {
+  it('exposes map', (): void => {
     expect(tuple.map(v => v.toString())).toEqual(['bazzing', '69']);
   });
 
-  describe('utils', () => {
-    it('compares against inputs', () => {
+  describe('utils', (): void => {
+    it('compares against inputs', (): void => {
       expect(tuple.eq(['bazzing', 69])).toBe(true);
     });
 
-    it('compares against inputs (mismatch)', () => {
+    it('compares against inputs (mismatch)', (): void => {
       expect(tuple.eq(['bazzing', 72])).toBe(false);
     });
   });
 
-  describe('toRawType', () => {
-    it('generates sane value with array types', () => {
+  describe('toRawType', (): void => {
+    it('generates sane value with array types', (): void => {
       expect(
         new Tuple([U32, BlockNumber]).toRawType()
       ).toEqual('(u32,u64)');
     });
 
-    it('generates sane value with object types', () => {
+    it('generates sane value with object types', (): void => {
       expect(
         new Tuple({ number: U32, blockNumber: BlockNumber }).toRawType()
       ).toEqual('(u32,u64)');

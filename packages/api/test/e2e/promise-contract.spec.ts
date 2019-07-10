@@ -17,7 +17,7 @@ import { ApiPromise, SubmittableResult } from '../../src';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describe.skip('Promise e2e contracts', () => {
+describe.skip('Promise e2e contracts', (): void => {
   let address: Address;
   let codeHash: Hash;
   let keyring: {
@@ -36,7 +36,7 @@ describe.skip('Promise e2e contracts', () => {
     done();
   });
 
-  describe('flipper', () => {
+  describe('flipper', (): void => {
     const MAX_GAS = 500000;
     let abi: Abi;
 

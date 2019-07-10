@@ -11,8 +11,8 @@ import json3 from '../json/Header.003.json';
 import block00300 from '../json/SignedBlock.003.00.json';
 import block00301 from '../json/SignedBlock.003.01.json';
 
-describe('Header', () => {
-  it('decodes an actual JSON response', () => {
+describe('Header', (): void => {
+  it('decodes an actual JSON response', (): void => {
     const header = new Header(json1.result);
 
     expect(
@@ -32,7 +32,7 @@ describe('Header', () => {
     ).toEqual('[]');
   });
 
-  it('parses old-style JSON headers (deprecated)', () => {
+  it('parses old-style JSON headers (deprecated)', (): void => {
     const header = new Header(json2.result);
 
     expect(
@@ -40,7 +40,7 @@ describe('Header', () => {
     ).toHaveLength(1);
   });
 
-  it('creates a valid hash (incl. digest & compact)', () => {
+  it('creates a valid hash (incl. digest & compact)', (): void => {
     const header = new Header(json3.result);
 
     expect(
@@ -51,7 +51,7 @@ describe('Header', () => {
     ).toBe(true);
   });
 
-  it('calculates correct hash, matching with parentHash', () => {
+  it('calculates correct hash, matching with parentHash', (): void => {
     const blockHash = new Header(block00300.result.block.header).hash.toHex();
 
     expect(blockHash).toEqual(block00301.result.block.header.parentHash);

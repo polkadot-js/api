@@ -4,8 +4,8 @@
 
 import interfaces from './';
 
-describe('jsonrpc', () => {
-  it('exports the available interfaces', () => {
+describe('jsonrpc', (): void => {
+  it('exports the available interfaces', (): void => {
     expect(interfaces).toBeDefined();
     expect(Object.keys(interfaces).length).toBeGreaterThan(0);
   });

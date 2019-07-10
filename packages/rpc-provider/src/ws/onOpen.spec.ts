@@ -16,14 +16,14 @@ function createWs (requests: any[], autoConnect: boolean | undefined) {
   return ws;
 }
 
-describe('onOpen', () => {
+describe('onOpen', (): void => {
   afterEach(() => {
     if (mock) {
       mock.done();
     }
   });
 
-  it('sends messages when connected', () => {
+  it('sends messages when connected', (): void => {
     const ws = createWs([{
       id: 1,
       method: 'test_queue',

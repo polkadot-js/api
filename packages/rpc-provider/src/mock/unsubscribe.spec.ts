@@ -4,7 +4,7 @@
 
 import Mock from './';
 
-describe('unsubscribe', () => {
+describe('unsubscribe', (): void => {
   let mock: Mock;
   let id: number;
 
@@ -18,7 +18,7 @@ describe('unsubscribe', () => {
       });
   });
 
-  it('fails on unknown ids', () => {
+  it('fails on unknown ids', (): void => {
     return mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)
       .catch((error) => {
@@ -26,11 +26,11 @@ describe('unsubscribe', () => {
       });
   });
 
-  it('unsubscribes successfully', () => {
+  it('unsubscribes successfully', (): void => {
     return mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id);
   });
 
-  it('fails on double unsubscribe', () => {
+  it('fails on double unsubscribe', (): void => {
     return mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
       .then(() => mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id))
       .catch((error) => {

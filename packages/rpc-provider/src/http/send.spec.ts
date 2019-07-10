@@ -6,7 +6,7 @@ import Http from './';
 import { Mock } from './../mock/types';
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-describe('send', () => {
+describe('send', (): void => {
   let http: Http;
   let mock: Mock;
 
@@ -20,7 +20,7 @@ describe('send', () => {
     }
   });
 
-  it('passes the body through correctly', () => {
+  it('passes the body through correctly', (): void => {
     mock = mockHttp([{
       method: 'test_body',
       reply: {
@@ -40,7 +40,7 @@ describe('send', () => {
       });
   });
 
-  it('throws error when !response.ok', () => {
+  it('throws error when !response.ok', (): void => {
     mock = mockHttp([{
       code: 500,
       method: 'test_error'

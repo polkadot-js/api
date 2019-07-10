@@ -6,7 +6,7 @@ import WsProvider from './';
 import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-describe('onConnect', () => {
+describe('onConnect', (): void => {
   let mock: Mock;
 
   beforeEach(() => {
@@ -19,20 +19,20 @@ describe('onConnect', () => {
     }
   });
 
-  it('Does not connect when autoConnect is false', () => {
+  it('Does not connect when autoConnect is false', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
     // We need to access the private WsProvider property 'websocket' here which would otherwise trigger a tslint error.
     // @ts-ignore
     expect(provider.websocket).toBeNull();
   });
 
-  it('Does connect when autoConnect is true', () => {
+  it('Does connect when autoConnect is true', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, true);
     // @ts-ignore
     expect(provider.websocket).not.toBeNull();
   });
 
-  it('Creates a new WebSocket instance by calling the connect() method', () => {
+  it('Creates a new WebSocket instance by calling the connect() method', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
     // @ts-ignore
     expect(provider.websocket).toBeNull();
@@ -45,7 +45,7 @@ describe('onConnect', () => {
     expect(provider.websocket instanceof WebSocket).toBe(true);
   });
 
-  it('Creates the on handlers', () => {
+  it('Creates the on handlers', (): void => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL);
 
     // @ts-ignore

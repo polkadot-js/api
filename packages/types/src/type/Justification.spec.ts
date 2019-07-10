@@ -5,7 +5,7 @@
 import rpc from '../json/SignedBlock.001.json';
 import { RhdJustification } from './Justification';
 
-describe('RhdJustification', () => {
+describe('RhdJustification', (): void => {
   const just = new RhdJustification({
     roundNumber: 32,
     hash: '0xabcd',
@@ -15,21 +15,21 @@ describe('RhdJustification', () => {
     ]
   });
 
-  it('has the correct hash', () => {
+  it('has the correct hash', (): void => {
     expect(just.hash.toHex()).toEqual('0xabcd000000000000000000000000000000000000000000000000000000000000');
   });
 
-  it('has the correct round', () => {
+  it('has the correct round', (): void => {
     expect(just.roundNumber.toNumber()).toEqual(32);
   });
 
-  it('has the correct signatures', () => {
+  it('has the correct signatures', (): void => {
     const sig = just.signatures[1];
 
     expect(sig.authorityId.toHex()).toEqual('0x9876000000000000000000000000000000000000000000000000000000000000');
   });
 
-  it('creates from a JSON strusture', () => {
+  it('creates from a JSON strusture', (): void => {
     const viaRpc = new RhdJustification(rpc.result.justification);
 
     expect(

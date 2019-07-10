@@ -7,7 +7,7 @@ import MockProvider from '@polkadot/rpc-provider/mock';
 
 import Rpc from '.';
 
-describe('replay', () => {
+describe('replay', (): void => {
   let rpc: Rpc;
 
   beforeEach(() => {

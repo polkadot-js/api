@@ -8,15 +8,15 @@ import latestSubstrateV0 from './latest.substrate.v0.json';
 import rpcData from './static';
 import { defaultValues, toV6 } from '../util/testUtil';
 
-describe('Metadata', () => {
-  it('works with fallback', () => {
+describe('Metadata', (): void => {
+  it('works with fallback', (): void => {
     const metadata = new Metadata(rpcData);
     const metadataV0 = new MetadataV0(rpcData);
 
     expect(metadata.asV0.toString()).toEqual(metadataV0.toString());
   });
 
-  it('decodes latest substrate properly', () => {
+  it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(rpcData);
     const json = metadata.asV0.toJSON();
 

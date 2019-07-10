@@ -4,8 +4,8 @@
 
 import { storage } from './storage';
 
-describe('storage', () => {
-  it('should return well known keys', () => {
+describe('storage', (): void => {
+  it('should return well known keys', (): void => {
     expect(typeof storage.substrate).toBe('object');
 
     // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys

@@ -11,7 +11,7 @@ const Types = Classes as { [index: string]: Constructor };
 const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
 describe('types', (): void => {
-  describe('default creation', () => {
+  describe('default creation', (): void => {
     Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name}`, () => {
         const constructFn = () =>

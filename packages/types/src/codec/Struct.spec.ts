@@ -13,8 +13,8 @@ import Option from './Option';
 import Struct from './Struct';
 import Vector from './Vector';
 
-describe('Struct', () => {
-  describe('decoding', () => {
+describe('Struct', (): void => {
+  describe('decoding', (): void => {
     const testDecode = (type: string, input: any) =>
       it(`can decode from ${type}`, () => {
         const s = new Struct({
@@ -35,7 +35,7 @@ describe('Struct', () => {
     testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
   });
 
-  describe('encoding', () => {
+  describe('encoding', (): void => {
     const testEncode = (to: CodecTo, expected: any) =>
       it(`can encode ${to}`, () => {
         const s = new Struct({
@@ -51,7 +51,7 @@ describe('Struct', () => {
     testEncode('toString', '{"foo":"bazzing","bar":69}');
   });
 
-  it('decodes null', () => {
+  it('decodes null', (): void => {
     expect(
       new (
         Struct.with({
@@ -62,7 +62,7 @@ describe('Struct', () => {
     ).toEqual('{}');
   });
 
-  it('decodes a more complicated type', () => {
+  it('decodes a more complicated type', (): void => {
     const s = new Struct({
       foo: Vector.with(Struct.with({
         bar: Text
@@ -71,7 +71,7 @@ describe('Struct', () => {
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
   });
 
-  it('decodes from a Map input', () => {
+  it('decodes from a Map input', (): void => {
     const input = new Struct({
       a: U32,
       txt: Text
@@ -84,7 +84,7 @@ describe('Struct', () => {
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
   });
 
-  it('throws when it cannot decode', () => {
+  it('throws when it cannot decode', (): void => {
     expect(
       () => new (
         Struct.with({
@@ -95,7 +95,7 @@ describe('Struct', () => {
     ).toThrowError(/Struct: cannot decode type/);
   });
 
-  it('provides a clean toString()', () => {
+  it('provides a clean toString()', (): void => {
     expect(
       new (
         Struct.with({
@@ -106,7 +106,7 @@ describe('Struct', () => {
     ).toEqual('{"txt":"foo","u32":1193046}');
   });
 
-  it('exposes the properties on the object', () => {
+  it('exposes the properties on the object', (): void => {
     const struct = new (
       Struct.with({
         txt: Text,
@@ -118,7 +118,7 @@ describe('Struct', () => {
     expect((struct as any).u32.toNumber()).toEqual(0x123456);
   });
 
-  it('correctly encodes length', () => {
+  it('correctly encodes length', (): void => {
     expect(
       new (
         Struct.with({
@@ -129,7 +129,7 @@ describe('Struct', () => {
     ).toEqual(5);
   });
 
-  it('exposes the types', () => {
+  it('exposes the types', (): void => {
     expect(
       new Struct({
         foo: Text,
@@ -147,7 +147,7 @@ describe('Struct', () => {
     });
   });
 
-  it('gets the value at a particular index', () => {
+  it('gets the value at a particular index', (): void => {
     expect(
       new (
         Struct.with({
@@ -160,8 +160,8 @@ describe('Struct', () => {
     ).toEqual('1234');
   });
 
-  describe('utils', () => {
-    it('compares against other objects', () => {
+  describe('utils', (): void => {
+    it('compares against other objects', (): void => {
       const test = {
         foo: 'foo',
         bar: 'bar',
@@ -178,7 +178,7 @@ describe('Struct', () => {
     });
   });
 
-  it('allows toString with large numbers', () => {
+  it('allows toString with large numbers', (): void => {
     // replicate https://github.com/polkadot-js/api/issues/640
     expect(
       new Struct({
@@ -187,7 +187,7 @@ describe('Struct', () => {
     ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
   });
 
-  it('generates sane toRawType', () => {
+  it('generates sane toRawType', (): void => {
     expect(
       new Struct({
         accountId: AccountId,
@@ -209,7 +209,7 @@ describe('Struct', () => {
     }));
   });
 
-  it('generates sane toRawType (via with)', () => {
+  it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
       accountId: AccountId,
       balance: Balance

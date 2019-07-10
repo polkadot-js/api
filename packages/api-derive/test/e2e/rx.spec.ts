@@ -19,10 +19,10 @@ const WS = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('Api-RX derive e2e', () => {
+describe.skip('Api-RX derive e2e', (): void => {
   let api: ApiRx;
 
-  beforeAll(() => {
+  beforeAll((): void => {
     jest.setTimeout(10000);
   });
 
@@ -33,8 +33,8 @@ describe.skip('Api-RX derive e2e', () => {
 
   // These derive.accounts tests only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe('derive.accounts', () => {
-    describe('idAndIndex', () => {
+  describe('derive.accounts', (): void => {
+    describe('idAndIndex', (): void => {
       it('looks up AccountId & AccountIndex from AccountId', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]) => {
@@ -64,7 +64,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('indexToId', () => {
+    describe('indexToId', (): void => {
       it('looks up AccountId from AccountIndex', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.indexToId(IX).subscribe((accountId) => {
@@ -80,7 +80,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('idToIndex', () => {
+    describe('idToIndex', (): void => {
       it('looks up AccountIndex from AccountId', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.idToIndex(ID).subscribe((accountIndex) => {
@@ -96,7 +96,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('indexes', () => {
+    describe('indexes', (): void => {
       it('looks up all AccountIndexes', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.indexes().subscribe((accountIndexes) => {
@@ -113,8 +113,8 @@ describe.skip('Api-RX derive e2e', () => {
 
   // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe('derive.balances', () => {
-    describe('all', () => {
+  describe('derive.balances', (): void => {
+    describe('all', (): void => {
       it('It returns an object with all relevant balance information of an account', async (done) => {
         api.derive.balances.all(ID).subscribe((balances: DerivedBalances) => {
           expect(balances).toEqual(expect.objectContaining({
@@ -132,7 +132,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('fees', () => {
+    describe('fees', (): void => {
       it('fees: It returns an object with all relevant fees of type BN', async (done) => {
         api.derive.balances.fees().subscribe((fees: DerivedFees) => {
           expect(fees).toEqual(expect.objectContaining({
@@ -148,8 +148,8 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.chain', () => {
-    describe('bestNumber', () => {
+  describe('derive.chain', (): void => {
+    describe('bestNumber', (): void => {
       it('Get the latest block number', async (done) => {
         api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
@@ -159,7 +159,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('bestNumberFinalized', () => {
+    describe('bestNumberFinalized', (): void => {
       it('Get the latest finalised block number', async (done) => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
@@ -169,7 +169,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('bestNumberLag', () => {
+    describe('bestNumberLag', (): void => {
       it('lag between finalised head and best head', async (done) => {
         api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber) => {
           expect(numberLag instanceof BlockNumber).toBe(true);
@@ -180,7 +180,7 @@ describe.skip('Api-RX derive e2e', () => {
     });
 
     // FIXME https://github.com/polkadot-js/api/issues/868
-    describe.skip('getHeader', () => {
+    describe.skip('getHeader', (): void => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
           // WIP
@@ -190,7 +190,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('subscribeNewHead', () => {
+    describe('subscribeNewHead', (): void => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
         api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended) => {
           // WIP https://github.com/polkadot-js/api/issues/868
@@ -200,8 +200,8 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.contracts', () => {
-    describe('fees', () => {
+  describe('derive.contracts', (): void => {
+    describe('fees', (): void => {
       it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
         api.derive.contracts.fees().subscribe((fees: DerivedContractFees) => {
           expect(fees).toEqual(expect.objectContaining({
@@ -222,8 +222,8 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.session', () => {
-    describe('sessionProgress', () => {
+  describe('derive.session', (): void => {
+    describe('sessionProgress', (): void => {
       it('derive.session.sessionProgress', async (done) => {
         api.derive.session.sessionProgress().subscribe((progress: BN) => {
           expect(progress instanceof BN).toBe(true);
@@ -232,7 +232,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('session.info', () => {
+    describe('session.info', (): void => {
       it('retrieves all session info', async (done) => {
         api.derive.session.info().subscribe((info: DerivedSessionInfo) => {
           expect(info).toEqual(expect.objectContaining({
@@ -251,7 +251,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('session.eraLength', () => {
+    describe('session.eraLength', (): void => {
       it('derive.session.eraLength', async (done) => {
         api.derive.session.eraLength().subscribe((length: BN) => {
           expect(length instanceof BN).toBe(true);
@@ -260,7 +260,7 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('session.eraProgress', () => {
+    describe('session.eraProgress', (): void => {
       it('derive.session.eraProgress', async (done) => {
         api.derive.session.eraProgress().subscribe((progress: BN) => {
           expect(progress instanceof BN).toBe(true);
@@ -270,8 +270,8 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.staking', () => {
-    describe('controllers', () => {
+  describe('derive.staking', (): void => {
+    describe('controllers', (): void => {
       // @TODO https://github.com/polkadot-js/api/issues/868
     });
   });

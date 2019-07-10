@@ -24,8 +24,8 @@ const SET_WITHDRAW = {
   Fee: 0b00001000
 };
 
-describe('Set', () => {
-  it('constructs via an string[]', () => {
+describe('Set', (): void => {
+  it('constructs via an string[]', (): void => {
     const set = new Set(SET_ROLES, ['full', 'authority']);
 
     expect(set.isEmpty).toEqual(false);
@@ -34,65 +34,65 @@ describe('Set', () => {
     );
   });
 
-  it('throws with invalid values', () => {
+  it('throws with invalid values', (): void => {
     expect(
       () => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
     ).toThrow(/Invalid key 'invalid'/);
   });
 
-  it('throws with add on invalid', () => {
+  it('throws with add on invalid', (): void => {
     expect(
       () => (new Set(SET_ROLES, [])).add('invalid')
     ).toThrow(/Invalid key 'invalid'/);
   });
 
-  it('allows construction via number', () => {
+  it('allows construction via number', (): void => {
     expect(
       (new Set(SET_WITHDRAW, 15)).eq(['TransactionPayment', 'Transfer', 'Reserve', 'Fee'])
     ).toBe(true);
   });
 
-  it('does not allow invalid number', () => {
+  it('does not allow invalid number', (): void => {
     expect(
       () => new Set(SET_WITHDRAW, 31)
     ).toThrow(/Mismatch decoding '31', computed as '15'/);
   });
 
-  it('hash a valid encoding', () => {
+  it('hash a valid encoding', (): void => {
     const set = new Set(SET_FIELDS, ['header', 'body', 'justification']);
 
     expect(set.toU8a()).toEqual(new Uint8Array([19]));
   });
 
-  describe('utils', () => {
+  describe('utils', (): void => {
     const set = new Set(SET_ROLES, ['full', 'authority']);
 
-    it('compares against string array', () => {
+    it('compares against string array', (): void => {
       expect(
         set.eq(['authority', 'full'])
       ).toBe(true);
     });
 
-    it('compares against number (encoded)', () => {
+    it('compares against number (encoded)', (): void => {
       expect(
         set.eq(SET_ROLES.full | SET_ROLES.authority)
       ).toBe(true);
     });
 
-    it('compares against other sets', () => {
+    it('compares against other sets', (): void => {
       expect(
         set.eq(new Set(SET_ROLES, ['authority', 'full']))
       ).toBe(true);
     });
 
-    it('returns false on other values', () => {
+    it('returns false on other values', (): void => {
       expect(
         set.eq('full')
       ).toBe(false);
     });
   });
 
-  it('has a sane toRawType representation', () => {
+  it('has a sane toRawType representation', (): void => {
     expect(
       new Set({ a: 1, b: 2, c: 345 }).toRawType()
     ).toEqual(JSON.stringify({

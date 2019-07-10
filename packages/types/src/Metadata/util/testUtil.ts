@@ -46,7 +46,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  * unique types.
  */
 export function toV6<Modules extends Codec> (version: number, rpcData: string) {
-  it('converts to V6', () => {
+  it('converts to V6', (): void => {
     injectDefinitions();
 
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];

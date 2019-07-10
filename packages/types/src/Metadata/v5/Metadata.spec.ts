@@ -8,7 +8,7 @@ import polkadotData from './static.polkadot';
 import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
 
-describe('MetadataV5 (substrate)', () => {
+describe('MetadataV5 (substrate)', (): void => {
   decodeLatestSubstrate(5, substrateData, substrateJson);
 
   toV6(5, substrateData);
@@ -16,7 +16,7 @@ describe('MetadataV5 (substrate)', () => {
   defaultValues(substrateData);
 });
 
-describe('MetadataV5 (polkadot)', () => {
+describe('MetadataV5 (polkadot)', (): void => {
   decodeLatestSubstrate(5, polkadotData, polkadotJson);
 
   toV6(5, polkadotData);

@@ -22,7 +22,7 @@ function createWs (autoConnect: boolean = true) {
   return provider;
 }
 
-describe('send', () => {
+describe('send', (): void => {
   let globalWs: Constructor<WebSocket>;
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('send', () => {
     }
   });
 
-  it('handles internal errors', () => {
+  it('handles internal errors', (): void => {
     createMock([]);
 
     (global as any).WebSocket = class {
@@ -57,7 +57,7 @@ describe('send', () => {
       });
   });
 
-  it('passes the body through correctly', () => {
+  it('passes the body through correctly', (): void => {
     createMock([{
       id: 1,
       method: 'test_body',
@@ -75,7 +75,7 @@ describe('send', () => {
       });
   });
 
-  it('throws error when !response.ok', () => {
+  it('throws error when !response.ok', (): void => {
     createMock([{
       id: 1,
       error: {
@@ -91,7 +91,7 @@ describe('send', () => {
       });
   });
 
-  it('adds subscriptions', () => {
+  it('adds subscriptions', (): void => {
     createMock([{
       id: 1,
       method: 'test_sub',

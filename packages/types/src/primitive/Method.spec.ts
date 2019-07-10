@@ -6,14 +6,14 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import Method from './Method';
 
-describe('Method', () => {
+describe('Method', (): void => {
   beforeEach(() => {
     Method.injectMethods(extrinsics);
   });
 
   // FIXME susbtrate master does not currently expose the new system module calls in meta,
   // once it does the index here will change, so a different method would be refrerred to
-  it('handles decoding correctly (bare)', () => {
+  it('handles decoding correctly (bare)', (): void => {
     expect(
       new Method({
         args: [],
@@ -22,31 +22,31 @@ describe('Method', () => {
     ).toEqual(new Uint8Array([4, 1, 0, 0, 0]));
   });
 
-  it('handles creation from a hex value properly', () => {
+  it('handles creation from a hex value properly', (): void => {
     expect(
       new Method('0x0401').toU8a()
     ).toEqual(new Uint8Array([4, 1, 0, 0, 0])); // balances.setBalance
   });
 
-  describe('hasOrigin', () => {
+  describe('hasOrigin', (): void => {
     const test = {
       args: [],
       callIndex: [2, 2] // timestamp
     };
 
-    it('is false with no arguments', () => {
+    it('is false with no arguments', (): void => {
       expect(
         new Method(test, { args: [] } as any).hasOrigin
       ).toEqual(false);
     });
 
-    it('is false with first argument as non-Origin', () => {
+    it('is false with first argument as non-Origin', (): void => {
       expect(
         new Method(test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
       ).toEqual(false);
     });
 
-    it('is false with first argument as non-Origin', () => {
+    it('is false with first argument as non-Origin', (): void => {
       expect(
         new Method(test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
       ).toEqual(true);

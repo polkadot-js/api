@@ -6,7 +6,7 @@ import { ProviderInterface$Emitted } from '../types';
 
 import Mock from './';
 
-describe('on', () => {
+describe('on', (): void => {
   let mock: Mock;
 
   beforeEach(() => {

@@ -32,7 +32,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('Promise e2e transactions', () => {
+describe.skip('Promise e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -163,7 +163,7 @@ describe.skip('Promise e2e transactions', () => {
     });
   });
 
-  describe('eras', () => {
+  describe('eras', (): void => {
     it('makes a transfer (specified era)', async (done) => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
