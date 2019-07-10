@@ -9,8 +9,9 @@ import { BlockNumber } from '@polkadot/types';
 describe.skip('e2e consts', () => {
   let api: ApiPromise;
 
-  beforeAll(() => {
+  beforeEach(() => {
     api = new ApiPromise(new WsProvider('ws://127.0.0.1:9944'));
+
     return api.isReady;
   });
 

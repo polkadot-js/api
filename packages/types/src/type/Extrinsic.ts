@@ -4,21 +4,20 @@
 
 import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
 
-import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
+import Base from '../codec/Base';
 import Compact from '../codec/Compact';
-import Struct from '../codec/Struct';
 import { FunctionMetadata } from '../Metadata/v6/Calls';
 import Method from '../primitive/Method';
 import Address from '../primitive/Address';
 import Hash from '../primitive/Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
+import ExtrinsicV1, { ExtrinsicValueV1 } from './ExtrinsicV1';
 
-type ExtrinsicValue = {
-  method?: Method
-  signature?: ExtrinsicSignature
-};
+type ExtrinsicValue = ExtrinsicValueV1;
+
+const UNMASK_VERSION = 0b01111111;
 
 /**
  * @name Extrinsic
@@ -32,15 +31,12 @@ type ExtrinsicValue = {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Struct implements IExtrinsic {
+export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, Codec {
   constructor (value?: ExtrinsicValue | AnyU8a | Method) {
-    super({
-      signature: ExtrinsicSignature,
-      method: Method
-    }, Extrinsic.decodeExtrinsic(value));
+    super(Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | number[] | Uint8Array {
+  public static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicV1 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -58,7 +54,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
       );
     } else if (isU8a(value)) {
       if (!value.length) {
-        return new Uint8Array();
+        return new ExtrinsicV1(new Uint8Array());
       }
 
       const [offset, length] = Compact.decodeU8a(value);
@@ -66,14 +62,27 @@ export default class Extrinsic extends Struct implements IExtrinsic {
 
       assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
-      return value.subarray(offset, total);
+      return Extrinsic.decodeU8a(value.subarray(offset, total));
     } else if (value instanceof Method) {
-      return {
+      return new ExtrinsicV1({
         method: value
-      };
+      });
     }
 
-    return value;
+    return new ExtrinsicV1(value);
+  }
+
+  static decodeU8a (value: Uint8Array): ExtrinsicV1 {
+    // decode the actual version string
+    const version = value[0] & UNMASK_VERSION;
+
+    switch (version) {
+      case 1:
+        return new ExtrinsicV1(value);
+
+      default:
+        throw new Error(`Unsupported extrinsic version ${version}`);
+    }
   }
 
   /**
@@ -108,67 +117,70 @@ export default class Extrinsic extends Struct implements IExtrinsic {
    * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
-    const length = this.length;
-
-    return length + Compact.encodeU8a(length).length;
+    return this.raw.encodedLength;
   }
 
   /**
    * @description Convernience function, encodes the extrinsic and returns the actual hash
    */
   get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
+    return this.raw.hash;
   }
 
   /**
    * @description `true` is method has `Origin` argument (compatibility with [[Method]])
    */
   get hasOrigin (): boolean {
-    return this.method.hasOrigin;
+    return this.raw.hasOrigin;
+  }
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.raw.isEmpty;
   }
 
   /**
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return this.signature.isSigned;
+    return this.raw.isSigned;
   }
 
   /**
    * @description The length of the encoded value
    */
   get length (): number {
-    return this.toU8a(true).length;
+    return this.raw.length;
   }
 
   /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
   get meta (): FunctionMetadata {
-    return this.method.meta;
+    return this.raw.meta;
   }
 
   /**
    * @description The [[Method]] this extrinsic wraps
    */
   get method (): Method {
-    return this.get('method') as Method;
+    return this.raw.method;
   }
 
   /**
    * @description The [[ExtrinsicSignature]]
    */
   get signature (): ExtrinsicSignature {
-    return this.get('signature') as ExtrinsicSignature;
+    return this.raw.signature;
   }
 
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
-    this.signature.addSignature(signer, signature, nonce, era);
+    this.raw.addSignature(signer, signature, nonce, era);
 
     return this;
   }
@@ -177,30 +189,43 @@ export default class Extrinsic extends Struct implements IExtrinsic {
    * @description Sign the extrinsic with a specific keypair
    */
   sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
-    this.signature.sign(this.method, account, options);
+    this.raw.sign(account, options);
 
     return this;
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return this.raw.eq(other);
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
-    return u8aToHex(this.toU8a());
+    return this.raw.toHex();
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): string {
-    return this.toHex();
+    return this.raw.toJSON();
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return this.raw.toString();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {
-    // We are treating this in the same way we do a primitive, this is known
     return 'Extrinsic';
   }
 
@@ -209,10 +234,6 @@ export default class Extrinsic extends Struct implements IExtrinsic {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = super.toU8a();
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
+    return this.raw.toU8a(isBare);
   }
 }
