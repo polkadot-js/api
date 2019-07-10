@@ -13,13 +13,13 @@ import { BlockNumber, Option } from '@polkadot/types';
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
-type Result_pre_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
+type Result_0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
 type Result = [BN, [BN, BN]];
 
 const ZERO = new BN(0);
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerived_pre_94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result_pre_94): DerivedSessionInfo {
+function createDerived_0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result_0_94): DerivedSessionInfo {
   const eraLength = sessionLength.mul(sessionsPerEra);
   const lastLengthChange = _lastLengthChange
     ? _lastLengthChange.unwrapOr(ZERO)
@@ -82,8 +82,8 @@ export function info (api: ApiInterface$Rx) {
           api.query.staking.lastEraLengthChange,
           api.query.staking.sessionsPerEra
         ])
-      ]) as any as Observable<Result_pre_94>).pipe(
-        map(createDerived_pre_94),
+      ]) as any as Observable<Result_0_94>).pipe(
+        map(createDerived_0_94),
         drr()
       )
     : (combineLatest([
