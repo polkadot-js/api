@@ -21,11 +21,11 @@ describe.skip('Promise e2e contracts', (): void => {
   let address: Address;
   let codeHash: Hash;
   let keyring: {
-    [index: string]: KeyringPair
+    [index: string]: KeyringPair;
   };
   let api: ApiPromise;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     if (!api) {
       api = await ApiPromise.create();
 
@@ -40,7 +40,7 @@ describe.skip('Promise e2e contracts', (): void => {
     const MAX_GAS = 500000;
     let abi: Abi;
 
-    beforeEach(() => {
+    beforeEach((): void => {
       abi = new Abi(flipperAbi);
     });
 

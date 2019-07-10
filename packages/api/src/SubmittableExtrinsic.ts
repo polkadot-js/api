@@ -33,23 +33,23 @@ export type SumbitableResultSubscription<ApiType> =
     ? Observable<ISubmittableResult>
     : Promise<() => void>;
 
-type SubmittableResultValue = {
+interface SubmittableResultValue {
   events?: EventRecord[];
   status: ExtrinsicStatus;
-};
+}
 
-type SignerOptions = {
-  blockHash: AnyU8a,
-  era?: IExtrinsicEra | number,
-  nonce: AnyNumber
+interface SignerOptions {
+  blockHash: AnyU8a;
+  era?: IExtrinsicEra | number;
+  nonce: AnyNumber;
 };
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
 const DEFAULT_MORTAL_LENGTH = 15;
 
 export class SubmittableResult implements ISubmittableResult {
-  readonly events: EventRecord[];
-  readonly status: ExtrinsicStatus;
+  public readonly events: EventRecord[];
+  public readonly status: ExtrinsicStatus;
 
   public constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
@@ -71,8 +71,8 @@ export class SubmittableResult implements ISubmittableResult {
   /**
    * @description Finds an EventRecord for the specified method & section
    */
-  findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }) =>
+  public findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }): boolean =>
       event.section === section && event.method === method
     );
   }
@@ -160,7 +160,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   }
 
   function expandOptions (options: Partial<SignerOptions>): SignatureOptions {
-    return options = {
+    return {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options

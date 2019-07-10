@@ -166,11 +166,11 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
     this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better
-      new Promise((resolveReady) =>
-        super.on('ready', () =>
-          resolveReady(this)
-        )
-      )
+      new Promise((resolve): void => {
+        super.on('ready', (): void => {
+          resolve(this);
+        });
+      })
     ) as Observable<ApiRx>;
   }
 
@@ -191,7 +191,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
   /**
    * @description Returns a clone of this ApiRx instance (new underlying provider connection)
    */
-  clone (): ApiRx {
+  public clone (): ApiRx {
     return new ApiRx({
       ...this._options,
       source: this

@@ -34,12 +34,12 @@ import injectNodeCompat from './nodeCompat';
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 import { decorateSections } from './util/decorate';
 
-type MetaDecoration = {
-  callIndex?: Uint8Array,
-  meta: any,
-  method: string,
-  section: string,
-  toJSON: () => any
+interface MetaDecoration {
+  callIndex?: Uint8Array;
+  meta: any;
+  method: string;
+  section: string;
+  toJSON: () => any;
 };
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
@@ -187,7 +187,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
-  setSigner (signer: Signer) {
+  public setSigner (signer: Signer): void {
     this._rx.signer = signer;
   }
 
@@ -314,7 +314,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Disconnect from the underlying provider, halting all comms
    */
-  disconnect (): void {
+  public disconnect (): void {
     this._rpcCore.disconnect();
   }
 
@@ -337,7 +337,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public on (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.on(type, handler);
 
     return this;
@@ -364,7 +364,7 @@ export default abstract class ApiBase<ApiType> {
    * api.off('connected', handler);
    * ```
    */
-  off (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public off (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.removeListener(type, handler);
 
     return this;
@@ -389,7 +389,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  once (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public once (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
     this._eventemitter.once(type, handler);
 
     return this;
@@ -398,7 +398,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
-  registerTypes (types?: RegistryTypes): void {
+  public registerTypes (types?: RegistryTypes): void {
     if (types) {
       getTypeRegistry().register(types);
     }
@@ -439,7 +439,7 @@ export default abstract class ApiBase<ApiType> {
       }
     });
 
-    this._rpcCore.provider.on('error', (error) => {
+    this._rpcCore.provider.on('error', (error): void => {
       this.emit('error', error);
     });
 

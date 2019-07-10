@@ -8,9 +8,9 @@ import { UnsubscribePromise } from '../types';
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = Callback<any[]>;
-export type CombinatorFunction = {
-  (cb: Callback<any>): UnsubscribePromise
-};
+export interface CombinatorFunction {
+  (cb: Callback<any>): UnsubscribePromise;
+}
 
 export default class Combinator {
   protected _allHasFired: boolean = false;

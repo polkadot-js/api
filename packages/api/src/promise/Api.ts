@@ -146,11 +146,11 @@ export default class ApiPromise extends ApiBase<'promise'> {
   public constructor (options?: ApiOptions | ProviderInterface) {
     super(options, 'promise');
 
-    this._isReadyPromise = new Promise((resolveReady) =>
-      super.once('ready', () =>
-        resolveReady(this)
-      )
-    );
+    this._isReadyPromise = new Promise((resolve): void => {
+      super.once('ready', (): void => {
+        resolve(this);
+      });
+    });
   }
 
   /**
@@ -163,7 +163,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   /**
    * @description Returns a clone of this ApiPromise instance (new underlying provider connection)
    */
-  clone (): ApiPromise {
+  public clone (): ApiPromise {
     return new ApiPromise({
       ...this._options,
       source: this
@@ -190,7 +190,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
+  public async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {

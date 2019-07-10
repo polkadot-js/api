@@ -15,7 +15,7 @@ describe.skip('Rx e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await Api.create().toPromise();
     jest.setTimeout(3000000);
     done();
@@ -31,7 +31,7 @@ describe.skip('Rx e2e queries', (): void => {
     expect(api.derive).toBeDefined();
   });
 
-  it('queries state for a balance', (done) => {
+  it('queries state for a balance', (done): void => {
     api.query.balances.freeBalance(keyring.alice.address).subscribe((balance) => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
@@ -39,7 +39,7 @@ describe.skip('Rx e2e queries', (): void => {
     });
   });
 
-  it('makes a query at a specific block', (done) => {
+  it('makes a query at a specific block', (done): void => {
     (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
         switchMap(({ hash }: Header) =>
