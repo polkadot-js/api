@@ -11,10 +11,10 @@ import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
 import Hash from '../primitive/Hash';
+import Signature from '../primitive/Signature';
 import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
 import AuthorityId from '../type/AuthorityId';
-import Signature from '../type/Signature';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'

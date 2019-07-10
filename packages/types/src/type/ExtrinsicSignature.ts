@@ -7,11 +7,11 @@ import { AnyNumber, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '
 import Struct from '../codec/Struct';
 import Address from '../primitive/Address';
 import Method from '../primitive/Method';
+import Signature from '../primitive/Signature';
 import U8 from '../primitive/U8';
 import RuntimeVersion from '../rpc/RuntimeVersion';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
-import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 
 export const IMMORTAL_ERA = new Uint8Array([0]);

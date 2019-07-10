@@ -4,7 +4,7 @@
 
 import Struct from '../codec/Struct';
 import AccountId from '../primitive/AccountId';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 
 /**
  * @name TreasuryProposal

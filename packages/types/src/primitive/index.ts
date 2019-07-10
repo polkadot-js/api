@@ -14,6 +14,9 @@ export { default as AccountId, AccountIdOf } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as AccountInfo } from './AccountInfo';
 export { default as Address } from './Address';
+// Balance is technically not a primitive, however since it is used in a number of interfaces
+// and actually is problematic/impossible to be overridden, it is included here as well
+export { default as Balance, BalanceOf } from './Balance';
 export { default as Event, EventIndex } from './Event';
 export { default as EventRecord, EventRecord_0_76 } from './EventRecord';
 export { default as Bool, default as bool } from './Bool';
@@ -33,6 +36,7 @@ export { default as Method } from './Method';
 export { default as Moment, MomentOf } from './Moment';
 export { default as Null } from './Null';
 export { default as Origin } from './Origin';
+export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as StorageData } from './StorageData';
 export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';

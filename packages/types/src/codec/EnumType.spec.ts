@@ -63,6 +63,14 @@ describe('Enum', () => {
       ).toEqual('Null');
     });
 
+    it('has correct isXyz/asXyz (Enum.with)', () => {
+      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))({ 'Second': 42 }) as any as { isSecond: boolean, asSecond: U32, asThird: never };
+
+      expect(test.isSecond).toEqual(true);
+      expect(test.asSecond.toNumber()).toEqual(42);
+      expect(() => test.asThird).toThrow(/Cannot convert Second via asThird/);
+    });
+
     it('stringifies with custom types', () => {
       class A extends Null { }
       class B extends Null { }
@@ -183,6 +191,12 @@ describe('Enum', () => {
       expect(
         new Enum(['foo', 'bar', 'baz', 'gaz', 'jaz'], 4).toNumber()
       ).toEqual(4);
+    });
+
+    it('has correct isXyz getters (Enum.with)', () => {
+      const test = new (Enum.with(['First', 'Second', 'Third']))('Second') as any as { isSecond: boolean, asSecond: never };
+
+      expect(test.isSecond).toEqual(true);
     });
 
     describe('utils', () => {
