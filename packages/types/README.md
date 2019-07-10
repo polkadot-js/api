@@ -143,6 +143,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[TreasuryProposal]] | A Proposal made for Treasury |
 | [[UncleEntryItem]] | Information about an uncle to include |
 | [[UnlockChunk]] | Just a Balance/BlockNumber tuple to encode when a chunk of funds will be unlocked |
+| [[ValidatorId]] | Validator in the system, maps to an AccountId |
 | [[ValidatorPrefs]] | Validator preferences |
 | [[VestingSchedule]] | Struct to encode the vesting schedule of an individual account |
 | [[Vote]] | A number of lock periods, plus a vote, one way or the other |
