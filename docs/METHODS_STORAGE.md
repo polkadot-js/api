@@ -242,25 +242,19 @@ ___
 
 ### session
 
-▸ **active**(`u32`): `Vec<OpaqueKey>`
-- **summary**:   The keys that are currently active.
-
 ▸ **changed**(): `bool`
 - **summary**:   True if anything has changed in this session.
 
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
-▸ **nextKeyFor**(`AccountId`): `Option<Keys>`
-- **summary**:   The next key to be used for a given validator. At the end of the session, they  will be moved into the `QueuedKeys` and so changes here will not take effect for  at least one whole session.
-
 ▸ **queuedChanged**(): `bool`
 - **summary**:   Queued keys changed.
 
-▸ **queuedKeys**(): `Vec<(AccountId,Keys)>`
+▸ **queuedKeys**(): `Vec<(ValidatorId,Keys)>`
 - **summary**:   The queued keys for the next session. When the next session begins, these keys  will be used to determine the validator's session keys.
 
-▸ **validators**(): `Vec<AccountId>`
+▸ **validators**(): `Vec<ValidatorId>`
 - **summary**:   The current set of validators.
 
 ___
@@ -270,6 +264,9 @@ ___
 
 ▸ **bonded**(`AccountId`): `Option<AccountId>`
 - **summary**:   Map from all locked "stash" accounts to the controller account.
+
+▸ **bondedEras**(): `Vec<(EraIndex,SessionIndex)>`
+- **summary**:   A mapping from still-bonded eras to the first session index of that era.
 
 ▸ **currentElected**(): `Vec<AccountId>`
 - **summary**:   The currently elected validator set keyed by stash account ID.

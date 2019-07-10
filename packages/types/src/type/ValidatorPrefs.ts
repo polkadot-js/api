@@ -6,8 +6,8 @@ import { AnyNumber } from '../types';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
+import Balance from '../primitive/Balance';
 import U32 from '../primitive/U32';
-import Balance from './Balance';
 
 type ValidatorPrefsValue = {
   unstakeThreshold?: AnyNumber,

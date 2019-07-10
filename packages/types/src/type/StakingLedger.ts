@@ -6,7 +6,7 @@ import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
 import AccountId from '../primitive/AccountId';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 import BlockNumber from './BlockNumber';
 import UnlockChunk from './UnlockChunk';
 

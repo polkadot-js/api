@@ -196,7 +196,7 @@ ___
 ### session
 
 ▸ **setKeys**(keys: `Keys`, proof: `Bytes`)
-- **summary**:   Sets the session key(s) of the function caller to `key`.  Allows an account to set its session key prior to becoming a validator.  This doesn't take effect until the next session.   The dispatch origin of this function must be signed.   # <weight>  - O(1).  - One extra DB entry.  # </weight>
+- **summary**:   Sets the session key(s) of the function caller to `key`.  Allows an account to set its session key prior to becoming a validator.  This doesn't take effect until the next session.   The dispatch origin of this function must be signed.   # <weight>  - O(log n) in number of accounts.  - One extra DB entry.  # </weight>
 
 ___
 
