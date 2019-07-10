@@ -1,14 +1,13 @@
 # Docker compose file to run Polkadot-JS API e2e test files on supported versions of Polkadot and Substrate
 # Setup:
 #
-# Builds 3 Substrate nodes and the 2 Polkadot node
+# Builds 5 containers with different supported versions of Substrate and Polkadot.
 # Runs Polkadot-JS API Tests 
 #
-# Before you can run this script, you need to install Docker and `Docker Compose on your machine.
+# Before you can run this script, you need to install Docker and 'Docker Compose' on your machine.
 # Please follow the steps described here (including the prerequisites): https://docs.docker.com/compose/install/
 #
 # Usage:
-#
 # 1. BUILD: Run `docker-compose up -d` to run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
 # 2. INFO: Run `docker ps` to get a list of Docker containers running in the background including their mapped ports on localhost
 # 3. TEST: Run `docker-compose logs -f js-api-tests` to run the API tests and print the logs
