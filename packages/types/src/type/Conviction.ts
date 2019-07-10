@@ -10,7 +10,7 @@ import Enum from '../codec/Enum';
  * A value denoting the strength of conviction of a vote.
  */
 export default class Conviction extends Enum {
-  constructor (value: any) {
+  public constructor (value: any) {
     super([
       // 0.1x votes, unlocked.
       'None',

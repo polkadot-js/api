@@ -18,7 +18,7 @@ export class TrieId extends Bytes {
 }
 
 export class AliveContractInfo extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       trieId: TrieId,
       storageSize: U32,
@@ -29,27 +29,27 @@ export class AliveContractInfo extends Struct {
     }, value);
   }
 
-  get codeHash (): CodeHash {
+  public get codeHash (): CodeHash {
     return this.get('codeHash') as CodeHash;
   }
 
-  get deductBlock (): BlockNumber {
+  public get deductBlock (): BlockNumber {
     return this.get('deductBlock') as BlockNumber;
   }
 
-  get lastWrite (): Option<BlockNumber> {
+  public get lastWrite (): Option<BlockNumber> {
     return this.get('lastWrite') as Option<BlockNumber>;
   }
 
-  get rentAllowance (): Balance {
+  public get rentAllowance (): Balance {
     return this.get('rentAllowance') as Balance;
   }
 
-  get storageSize (): U32 {
+  public get storageSize (): U32 {
     return this.get('storageSize') as U32;
   }
 
-  get trieId (): TrieId {
+  public get trieId (): TrieId {
     return this.get('trieId') as TrieId;
   }
 }
@@ -69,7 +69,7 @@ export class Tombstone extends TombstoneContractInfo {
  * The contract information for a given contract
  */
 export default class ContractInfo extends Enum {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       Alive,
       Tombstone

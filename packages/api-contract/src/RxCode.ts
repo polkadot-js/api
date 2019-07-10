@@ -38,7 +38,7 @@ export interface ICodePutCode {
 class CodePutCodeResult extends SubmittableResult {
   readonly blueprint?: RxBlueprint;
 
-  constructor (result: ISubmittableResult, blueprint?: RxBlueprint) {
+  public constructor (result: ISubmittableResult, blueprint?: RxBlueprint) {
     super(result);
 
     this.blueprint = blueprint;
@@ -49,7 +49,7 @@ class CodePutCodeResult extends SubmittableResult {
 export default class RxCode extends RxBase {
   readonly code: Uint8Array;
 
-  constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
+  public constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
     super(api, abi);
 
     this.code = u8aToU8a(wasm);

@@ -16,7 +16,7 @@ import { AnyU8a, Codec } from '../types';
  * @noInheritDoc
  */
 export default class U8a extends Uint8Array implements Codec {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     super(
       U8a.decodeU8a(value)
     );
@@ -33,7 +33,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.length;
   }
 
@@ -47,7 +47,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description The length of the value
    */
-  get length (): number {
+  public get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
   }
@@ -55,7 +55,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq ( other?: any): boolean {
     if (other instanceof Uint8Array) {
       return (this.length === other.length) && isUndefined(
         this.find((value, index) => value !== other[index])
@@ -77,28 +77,28 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex ( ): string {
     return u8aToHex(this);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string {
+  public toJSON ( ): string {
     return this.toHex();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     return `Vec<u8>`;
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString ( ): string {
     return this.toHex();
   }
 
@@ -106,7 +106,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     return Uint8Array.from(this);
   }
 }

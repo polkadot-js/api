@@ -12,7 +12,7 @@ import UInt from '../codec/UInt';
  * A 128-bit unsigned integer
  */
 export default class U128 extends UInt {
-  constructor (value?: AnyNumber) {
+  public constructor (value?: AnyNumber) {
     super(value, 128);
   }
 }

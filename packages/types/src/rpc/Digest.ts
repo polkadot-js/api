@@ -44,14 +44,14 @@ export class ChangesTrieRoot extends Hash {
  * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
 export class ConsensusEngineId extends U32 {
-  static idToString (input: number | BN): string {
+  public static idToString (input: number | BN): string {
     return bnToBn(input)
       .toArray('le')
       .map((code) => String.fromCharCode(code))
       .join('');
   }
 
-  static stringToId (input: string): number {
+  public static stringToId (input: string): number {
     return input
       .split('')
       .reverse()
@@ -94,7 +94,7 @@ export class ConsensusEngineId extends U32 {
   /**
    * @description Override the default toString to return a 4-byte string
    */
-  toString (): string {
+  public toString ( ): string {
     return ConsensusEngineId.idToString(this as BN);
   }
 }
@@ -105,7 +105,7 @@ export class ConsensusEngineId extends U32 {
  * Log item indicating consensus
  */
 export class Consensus extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -115,21 +115,21 @@ export class Consensus extends Tuple {
   /**
    * @description The wrapped engine [[ConsensusEngineId]]
    */
-  get engine (): ConsensusEngineId {
+  public get engine (): ConsensusEngineId {
     return this[0] as ConsensusEngineId;
   }
 
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Bytes;
   }
 
   /**
    * @description The slot extracted from the raw data (fails on non-Aura)
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this.engine.extractSlot(this.data);
   }
 }
@@ -140,7 +140,7 @@ export class Consensus extends Tuple {
  * Log item indicating a sealing event. This has been replaced in later versions with a renamed [[Seal]], we however have kept compatibility with the old version
  */
 export class SealV0 extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       U64,
       Signature
@@ -150,14 +150,14 @@ export class SealV0 extends Tuple {
   /**
    * @description The wrapped [[Signature]]
    */
-  get signature (): Signature {
+  public get signature (): Signature {
     return this[1] as Signature;
   }
 
   /**
    * @description The wrapped [[U64]] slot
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this[0] as U64;
   }
 }
@@ -168,7 +168,7 @@ export class SealV0 extends Tuple {
  * Log item indicating a sealing event.
  */
 export class Seal extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -178,14 +178,14 @@ export class Seal extends Tuple {
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Signature;
   }
 
   /**
    * @description The wrapped [[U64]] slot
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this[0] as U64;
   }
 }
@@ -204,7 +204,7 @@ export class Other extends Bytes {
  * These are messages from the consensus engine to the runtime, although the consensus engine the consensus engine can (and should) read them itself to avoid ode and state duplication.
  */
 export class PreRuntime extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -214,21 +214,21 @@ export class PreRuntime extends Tuple {
   /**
    * @description The wrapped [[ConsensusEngineId]]
    */
-  get engine (): ConsensusEngineId {
+  public get engine (): ConsensusEngineId {
     return this[0] as ConsensusEngineId;
   }
 
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Bytes;
   }
 
   /**
    * @description The slot extracted from the raw data (fails on non-Aura)
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this.engine.extractSlot(this.data);
   }
 }
@@ -253,7 +253,7 @@ type DigestItemTypes = keyof typeof DigestItemEnumMap;
  * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends Enum {
-  constructor (value: any) {
+  public constructor (value: any) {
     super(DigestItemEnumMap, value);
   }
 
@@ -372,14 +372,14 @@ export class DigestItem extends Enum {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers. For logs, we overrides to produce the hex version (sligning with substrate gives in actual JSON responses)
    */
-  toJSON (): string {
+  public toJSON ( ): string {
     return this.toHex();
   }
 
   /**
    * @description Returns the type of engine, we just override here to get the typings correct
    */
-  get type (): DigestItemTypes {
+  public get type (): DigestItemTypes {
     return super.type as DigestItemTypes;
   }
 }
@@ -390,7 +390,7 @@ export class DigestItem extends Enum {
  * A [[Header]] Digest
  */
 export default class Digest extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       logs: Vector.with(DigestItem)
     }, value);
@@ -399,7 +399,7 @@ export default class Digest extends Struct {
   /**
    * @description The [[DigestItem]] logs
    */
-  get logs (): Vector<DigestItem> {
+  public get logs (): Vector<DigestItem> {
     return this.get('logs') as DigestItem[];
   }
 

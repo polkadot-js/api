@@ -100,7 +100,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
+  public constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
@@ -139,7 +139,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
-  get genesisHash (): Hash {
+  public get genesisHash (): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
@@ -148,21 +148,21 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return this._rpcCore.provider.hasSubscriptions;
   }
 
   /**
    * @description The library information name & version (from package.json)
    */
-  get libraryInfo (): string {
+  public get libraryInfo (): string {
     return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata (): Metadata {
+  public get runtimeMetadata (): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
     return this._runtimeMetadata as Metadata;
@@ -171,7 +171,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Contains the version information for the current runtime.
    */
-  get runtimeVersion (): RuntimeVersion {
+  public get runtimeVersion (): RuntimeVersion {
     assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
 
     return this._runtimeVersion as RuntimeVersion;
@@ -180,7 +180,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description The type of this API instance, either 'rxjs' or 'promise'
    */
-  get type (): ApiTypes {
+  public get type (): ApiTypes {
     return this._type;
   }
 
@@ -203,7 +203,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
+  public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
     return this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>;
@@ -221,7 +221,7 @@ export default abstract class ApiBase<ApiType> {
    * console.log(api.consts.democracy.enactmentPeriod.toString())
    * ```
    */
-  get consts (): Constants {
+  public get consts (): Constants {
     assert(!isUndefined(this._consts), INIT_ERROR);
 
     return this._consts as Constants;
@@ -241,7 +241,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get query (): QueryableStorage<ApiType> {
+  public get query (): QueryableStorage<ApiType> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
     return this._query as QueryableStorage<ApiType>;
@@ -269,7 +269,7 @@ export default abstract class ApiBase<ApiType> {
    * );
    * ```
    */
-  get queryMulti (): QueryableStorageMulti<ApiType> {
+  public get queryMulti (): QueryableStorageMulti<ApiType> {
     return this._queryMulti;
   }
 
@@ -287,7 +287,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get rpc (): DecoratedRpc<ApiType> {
+  public get rpc (): DecoratedRpc<ApiType> {
     return this._rpc;
   }
 
@@ -305,7 +305,7 @@ export default abstract class ApiBase<ApiType> {
    *   });
    * ```
    */
-  get tx (): SubmittableExtrinsics<ApiType> {
+  public get tx (): SubmittableExtrinsics<ApiType> {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
     return this._extrinsics as SubmittableExtrinsics<ApiType>;

@@ -67,11 +67,11 @@ export default class Mock implements ProviderInterface {
     [index: number]: string
   } = {};
 
-  constructor () {
+  public constructor () {
     this.init();
   }
 
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return true;
   }
 

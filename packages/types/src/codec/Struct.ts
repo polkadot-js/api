@@ -30,7 +30,7 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: S;
 
-  constructor (Types: S, value: V | Map<any, any> | any[] = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  public constructor (Types: S, value: V | Map<any, any> | any[] = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
 
     super(
@@ -120,11 +120,11 @@ export default class Struct<
     }, {} as T);
   }
 
-  static with<
+  public static with<
     S extends ConstructorDef
   > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
+      public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key) => {
@@ -160,7 +160,7 @@ export default class Struct<
   /**
    * @description Returns the Type description to sthe structure
    */
-  get Type (): E {
+  public get Type (): E {
     return (Object
       .entries(this._Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]) => {
@@ -173,7 +173,7 @@ export default class Struct<
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
@@ -182,7 +182,7 @@ export default class Struct<
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq ( other?: any): boolean {
     return compareMap(this, other);
   }
 
@@ -190,7 +190,7 @@ export default class Struct<
    * @description Returns a specific names entry in the structure
    * @param name The name of the entry to retrieve
    */
-  get (name: keyof S): Codec | undefined {
+  public get (name: keyof S): Codec | undefined {
     return super.get(name);
   }
 
@@ -211,14 +211,14 @@ export default class Struct<
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex () {
+  public toHex ( ) {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJsonObject | string {
+  public toJSON ( ): AnyJsonObject | string {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key) => {
@@ -234,7 +234,7 @@ export default class Struct<
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     return JSON.stringify(
       Object.entries(this._Types).reduce((result, [key, Type]) => {
         result[key] = new Type().toRawType();
@@ -247,7 +247,7 @@ export default class Struct<
   /**
    * @description Returns the string representation of the value
    */
-  toString () {
+  public toString ( ) {
     return JSON.stringify(this.toJSON());
   }
 
@@ -255,7 +255,7 @@ export default class Struct<
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.toArray().map((entry) =>
         entry.toU8a(isBare)

@@ -120,7 +120,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+  public static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -143,7 +143,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
+  public constructor (options?: ApiOptions | ProviderInterface) {
     super(options, 'promise');
 
     this._isReadyPromise = new Promise((resolveReady) =>

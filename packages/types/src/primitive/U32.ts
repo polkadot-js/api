@@ -12,7 +12,7 @@ import UInt from '../codec/UInt';
  * A 32-bit unsigned integer
  */
 export default class U32 extends UInt {
-  constructor (value?: AnyNumber) {
+  public constructor (value?: AnyNumber) {
     super(value, 32);
   }
 }

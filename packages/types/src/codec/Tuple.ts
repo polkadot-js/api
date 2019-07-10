@@ -21,7 +21,7 @@ type TupleConstructors = Constructor[] | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (Types: TupleConstructors, value?: any) {
+  public constructor (Types: TupleConstructors, value?: any) {
     super(
       ...Tuple.decodeTuple(Types, value)
     );
@@ -49,9 +49,9 @@ export default class Tuple extends AbstractArray<Codec> {
     });
   }
 
-  static with (Types: TupleConstructors): Constructor<Tuple> {
+  public static with (Types: TupleConstructors): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(Types, value);
       }
     };
@@ -60,7 +60,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
@@ -69,7 +69,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description The types definition of the tuple
    */
-  get Types (): string[] {
+  public get Types (): string[] {
     return Array.isArray(this._Types)
       ? this._Types.map(({ name }) => name)
       : Object.keys(this._Types);
@@ -78,7 +78,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     const types = (
       Array.isArray(this._Types)
         ? this._Types
@@ -91,7 +91,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the string representation of the value
    */
-  toString () {
+  public toString ( ) {
     // Overwrite the default toString representation of Array.
     return JSON.stringify(this.toJSON());
   }
@@ -100,7 +100,7 @@ export default class Tuple extends AbstractArray<Codec> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.map((entry) =>
         entry.toU8a(isBare)

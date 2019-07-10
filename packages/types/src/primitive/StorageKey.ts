@@ -35,7 +35,7 @@ export default class StorageKey extends Bytes {
   private _outputType?: string;
   private _section?: string;
 
-  constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]) {
+  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
     super(key);
@@ -46,7 +46,7 @@ export default class StorageKey extends Bytes {
     this._section = section;
   }
 
-  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
+  public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {
         key: value,
@@ -79,7 +79,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV6 | undefined {
+  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV6 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -93,7 +93,7 @@ export default class StorageKey extends Bytes {
     return undefined;
   }
 
-  static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
+  public static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -110,28 +110,28 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  get meta (): MetaV6 | undefined {
+  public get meta (): MetaV6 | undefined {
     return this._meta;
   }
 
   /**
    * @description The key method or `undefined` when not specified
    */
-  get method (): string | undefined {
+  public get method (): string | undefined {
     return this._method;
   }
 
   /**
    * @description The output type, `null` when not available
    */
-  get outputType (): string | undefined {
+  public get outputType (): string | undefined {
     return this._outputType;
   }
 
   /**
    * @description The key section or `undefined` when not specified
    */
-  get section (): string | undefined {
+  public get section (): string | undefined {
     return this._section;
   }
 }

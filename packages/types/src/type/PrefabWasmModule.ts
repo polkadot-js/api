@@ -17,7 +17,7 @@ class PrefabWasmModuleReserved extends Option<Null> {
  * @description Struct to encode the vesting schedule of an individual account
  */
 export default class PrefabWasmModule extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       scheduleVersion: Compact.with(U32),
       initial: Compact.with(U32),
@@ -30,28 +30,28 @@ export default class PrefabWasmModule extends Struct {
   /**
    * @description The code as [[Bytes]]
    */
-  get code (): Bytes {
+  public get code (): Bytes {
     return this.get('code') as Bytes;
   }
 
   /**
    * @description The initial as [[Compact]]
    */
-  get initial (): Compact {
+  public get initial (): Compact {
     return this.get('initial') as Compact;
   }
 
   /**
    * @description The maximum as [[Compact]]
    */
-  get maximum (): Compact {
+  public get maximum (): Compact {
     return this.get('maximum') as Compact;
   }
 
   /**
    * @description The scheduleVersion value as [[Compact]]
    */
-  get scheduleVersion (): Compact {
+  public get scheduleVersion (): Compact {
     return this.get('scheduleVersion') as Compact;
   }
 }

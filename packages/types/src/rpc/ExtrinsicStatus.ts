@@ -72,7 +72,7 @@ export class Usurped extends Hash {
  * An [[Enum]] that indicates the status of the [[Extrinsic]] as been submitted
  */
 export default class ExtrinsicStatus extends Enum {
-  constructor (value: any, index?: number) {
+  public constructor (value: any, index?: number) {
     super({
       Future,
       Ready,

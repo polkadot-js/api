@@ -18,7 +18,7 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 export default class Type extends Text {
   private _originalLength: number;
 
-  constructor (value: Text | Uint8Array | string = '') {
+  public constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value);
 
@@ -79,7 +79,7 @@ export default class Type extends Text {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
     // only the decoding leg, allowing the decoders to work with original pointers
@@ -90,7 +90,7 @@ export default class Type extends Text {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     // Note Since we are mangling what we get in beyond recognition, we really should
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
     // helper, so treat it as such.
@@ -241,7 +241,7 @@ export default class Type extends Text {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     return 'Type';
   }
 }

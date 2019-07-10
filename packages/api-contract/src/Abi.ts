@@ -14,7 +14,7 @@ export default class ContractAbi implements IAbi {
   readonly deploy: ContractABIFn;
   readonly messages: IAbi$Messages = {};
 
-  constructor (abi: ContractABI) {
+  public constructor (abi: ContractABI) {
     validateAbi(abi);
 
     this.abi = abi;

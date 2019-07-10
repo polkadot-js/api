@@ -22,7 +22,7 @@ import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 
 class MetadataEnum extends Enum {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
@@ -156,7 +156,7 @@ class MetadataEnum extends Enum {
   /**
    * @description The version this metadata represents
    */
-  get version (): number {
+  public get version (): number {
     return this.index;
   }
 }
@@ -174,7 +174,7 @@ export default class MetadataVersioned extends Struct {
   private _convertedV5?: MetadataV5;
   private _convertedV6?: MetadataV6;
 
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
       metadata: MetadataEnum
@@ -184,7 +184,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description
    */
-  get magicNumber (): MagicNumber {
+  public get magicNumber (): MagicNumber {
     return this.get('magicNumber') as MagicNumber;
   }
 
@@ -198,7 +198,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description the metadata version this structure represents
    */
-  get version (): number {
+  public get version (): number {
     return this.metadata.index;
   }
 

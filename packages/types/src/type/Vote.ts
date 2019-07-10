@@ -17,7 +17,7 @@ export default class Vote extends U8a {
   private _aye: Bool;
   private _conviction: Conviction; // for V1, default to None
 
-  constructor (value?: any) {
+  public constructor (value?: any) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101
@@ -60,7 +60,7 @@ export default class Vote extends U8a {
   /**
    * @description returns a V2 conviction
    */
-  get conviction (): Conviction {
+  public get conviction (): Conviction {
     return this._conviction;
   }
 

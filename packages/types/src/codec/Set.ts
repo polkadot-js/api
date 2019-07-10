@@ -21,7 +21,7 @@ type SetValues = {
 export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
-  constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
+  public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
     super(
       CodecSet.decodeSet(setValues, value)
     );
@@ -29,7 +29,7 @@ export default class CodecSet extends Set<string> implements Codec {
     this._setValues = setValues;
   }
 
-  static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | number = 0): string[] {
+  public static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | number = 0): string[] {
     if (isU8a(value)) {
       return value.length === 0
         ? []
@@ -61,7 +61,7 @@ export default class CodecSet extends Set<string> implements Codec {
     return result;
   }
 
-  static encodeSet (setValues: SetValues, value: string[]): number {
+  public static encodeSet (setValues: SetValues, value: string[]): number {
     return value.reduce((result, value) => {
       return result | (setValues[value] || 0);
     }, 0);
@@ -70,7 +70,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 1;
   }
 
@@ -84,14 +84,14 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description The actual set values as a string[]
    */
-  get strings (): string[] {
+  public get strings (): string[] {
     return [...super.values()];
   }
 
   /**
    * @description The encoded value for the set members
    */
-  get valueEncoded (): number {
+  public get valueEncoded (): number {
     return CodecSet.encodeSet(this._setValues, this.strings);
   }
 
@@ -111,7 +111,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq ( other?: any): boolean {
     if (Array.isArray(other)) {
       // we don't actually care about the order, sort the values
       return compareArray(this.strings.sort(), other.sort());
@@ -127,14 +127,14 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex ( ): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string[] {
+  public toJSON ( ): string[] {
     return this.strings;
   }
 
@@ -148,7 +148,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     // FIXME We don't cater for this in createType as of yet
     return JSON.stringify({ _set: this._setValues });
   }
@@ -156,7 +156,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString ( ): string {
     return `[${this.strings.join(', ')}]`;
   }
 
@@ -164,7 +164,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     return new Uint8Array([this.valueEncoded]);
   }
 }

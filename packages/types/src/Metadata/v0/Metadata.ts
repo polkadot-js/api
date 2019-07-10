@@ -22,7 +22,7 @@ import { RuntimeModuleMetadata } from './Modules';
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV0 extends Struct implements MetadataInterface<RuntimeModuleMetadata> {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
       modules: Vector.with(RuntimeModuleMetadata),
@@ -30,7 +30,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
     }, MetadataV0.decodeMetadata(value));
   }
 
-  static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
+  public static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
       // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
@@ -55,21 +55,21 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[OuterDispatchCall]]
    */
-  get calls (): Vector<OuterDispatchCall> {
+  public get calls (): Vector<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
 
   /**
    * @description Wrapped [[OuterEventEventMetadata]]
    */
-  get events (): Vector<OuterEventEventMetadata> {
+  public get events (): Vector<OuterEventEventMetadata> {
     return (this.get('outerEvent') as OuterEventMetadata).events;
   }
 
   /**
    * @description Wrapped [[RuntimeModuleMetadata]]
    */
-  get modules (): Vector<RuntimeModuleMetadata> {
+  public get modules (): Vector<RuntimeModuleMetadata> {
     return this.get('modules') as Vector<RuntimeModuleMetadata>;
   }
 

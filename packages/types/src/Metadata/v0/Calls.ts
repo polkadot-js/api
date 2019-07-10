@@ -8,7 +8,7 @@ import Text from '../../primitive/Text';
 import U16 from '../../primitive/U16';
 
 export class OuterDispatchCall extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       prefix: Text,
@@ -19,27 +19,27 @@ export class OuterDispatchCall extends Struct {
   /**
    * @description The [[U16]] index for the call
    */
-  get index (): U16 {
+  public get index (): U16 {
     return this.get('index') as U16;
   }
 
   /**
    * @description The name for the call
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description The call prefix (or section)
    */
-  get prefix (): Text {
+  public get prefix (): Text {
     return this.get('prefix') as Text;
   }
 }
 
 export class OuterDispatchMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       calls: Vector.with(OuterDispatchCall)
@@ -49,14 +49,14 @@ export class OuterDispatchMetadata extends Struct {
   /**
    * @description The [[OuterDispathCall]] wrapped
    */
-  get calls (): Vector<OuterDispatchCall> {
+  public get calls (): Vector<OuterDispatchCall> {
     return this.get('calls') as Vector<OuterDispatchCall>;
   }
 
   /**
    * @description The name for the dispatch
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 }

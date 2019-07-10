@@ -8,7 +8,7 @@ import { Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
 
 export class TypeRegistry {
-  static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
+  public static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
   private _registry: Map<string, Constructor> = new Map();
 
@@ -45,7 +45,7 @@ export class TypeRegistry {
     });
   }
 
-  get (name: string): Constructor | undefined {
+  public get (name: string): Constructor | undefined {
     return this._registry.get(name);
   }
 

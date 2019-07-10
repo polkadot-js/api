@@ -25,7 +25,7 @@ export interface IBlueprintCreate {
 class BlueprintCreateResult extends SubmittableResult {
   readonly contract?: RxContract;
 
-  constructor (result: ISubmittableResult, contract?: RxContract) {
+  public constructor (result: ISubmittableResult, contract?: RxContract) {
     super(result);
 
     this.contract = contract;
@@ -36,7 +36,7 @@ class BlueprintCreateResult extends SubmittableResult {
 export default class Blueprint extends RxBase {
   readonly codeHash: Hash;
 
-  constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
+  public constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
     super(api, abi);
 
     this.codeHash = new Hash(codeHash);

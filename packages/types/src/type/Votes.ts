@@ -9,7 +9,7 @@ import MemberCount from './MemberCount';
 import ProposalIndex from './ProposalIndex';
 
 export default class Votes extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       index: ProposalIndex,
       threshold: MemberCount,
@@ -21,28 +21,28 @@ export default class Votes extends Struct {
   /**
    * @description The current set of voters that approved it.
    */
-  get ayes (): Vector<AccountId> {
+  public get ayes (): Vector<AccountId> {
     return this.get('ayes') as Vector<AccountId>;
   }
 
   /**
    * @description The proposal's unique index.
    */
-  get index (): ProposalIndex {
+  public get index (): ProposalIndex {
     return this.get('index') as ProposalIndex;
   }
 
   /**
    * @description The current set of voters that rejected it.
    */
-  get nays (): Vector<AccountId> {
+  public get nays (): Vector<AccountId> {
     return this.get('nays') as Vector<AccountId>;
   }
 
   /**
    * @description The number of approval votes that are needed to pass the motion.
    */
-  get threshold (): MemberCount {
+  public get threshold (): MemberCount {
     return this.get('threshold') as MemberCount;
   }
 }

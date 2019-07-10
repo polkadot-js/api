@@ -11,7 +11,7 @@ import SessionKey from './SessionKey';
  * Wrapper for the session and authority ids
  */
 export default class SessionKeys extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       grandpaKey: SessionKey,
       auraKey: SessionKey
@@ -21,14 +21,14 @@ export default class SessionKeys extends Struct {
   /**
    * @description The Aura session
    */
-  get auraKey (): SessionKey {
+  public get auraKey (): SessionKey {
     return this.get('auraKey') as SessionKey;
   }
 
   /**
    * @description The Grandpa Authority
    */
-  get grandpaKey (): SessionKey {
+  public get grandpaKey (): SessionKey {
     return this.get('grandpaKey') as SessionKey;
   }
 }

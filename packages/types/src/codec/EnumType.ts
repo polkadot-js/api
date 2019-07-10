@@ -35,7 +35,7 @@ export default class Enum extends Base<Codec> implements Codec {
   private _indexes: number[];
   private _isBasic: boolean;
 
-  constructor (def: TypesDef | string[], value?: any, index?: number | Enum) {
+  public constructor (def: TypesDef | string[], value?: any, index?: number | Enum) {
     const defInfo = Enum.extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
@@ -123,9 +123,9 @@ export default class Enum extends Base<Codec> implements Codec {
     };
   }
 
-  static with (Types: TypesDef | string[]): EnumConstructor<Enum> {
+  public static with (Types: TypesDef | string[]): EnumConstructor<Enum> {
     return class extends Enum {
-      constructor (value?: any, index?: number) {
+      public constructor (value?: any, index?: number) {
         super(Types, value, index);
 
         Object.keys(this._def).forEach((_key) => {
@@ -158,14 +158,14 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 1 + this.raw.encodedLength;
   }
 
   /**
    * @description The index of the metadata value
    */
-  get index (): number {
+  public get index (): number {
     return this._index;
   }
 
@@ -193,21 +193,21 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description The name of the type this enum value represents
    */
-  get type (): string {
+  public get type (): string {
     return Object.keys(this._def)[this._index];
   }
 
   /**
    * @description The value of the enum
    */
-  get value (): Codec {
+  public get value (): Codec {
     return this.raw;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq ( other?: any): boolean {
     // cater for the case where we only pass the enum index
     if (isNumber(other)) {
       return this.toNumber() === other;
@@ -222,14 +222,14 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex ( ): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJson {
+  public toJSON ( ): AnyJson {
     return this._isBasic
       ? this._index
       : { [this.type]: this.raw.toJSON() };
@@ -245,7 +245,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType ( ): string {
     const _enum = this._isBasic
       ? Object.keys(this._def)
       : Object.entries(this._def).reduce((result, [key, Type]) => {
@@ -260,7 +260,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString ( ): string {
     return this.isNull
       ? this.type
       : JSON.stringify(this.toJSON());
@@ -270,7 +270,7 @@ export default class Enum extends Base<Codec> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     const index = this._indexes[this._index];
 
     return u8aConcat(

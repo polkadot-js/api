@@ -12,15 +12,15 @@ import Null from './Null';
  * A type that should not be constructed
  */
 export default class Unconstructable extends Null {
-  constructor () {
+  public constructor () {
     super();
 
     throw new Error('Unconstructable should not be constructed, it is only a placeholder for compatibility');
   }
 
-  static with (typeDef: any): Constructor {
+  public static with (typeDef: any): Constructor {
     return class extends Null {
-      constructor () {
+      public constructor () {
         super();
 
         throw new Error(`Unabdle to construct ${JSON.stringify(typeDef)}`);

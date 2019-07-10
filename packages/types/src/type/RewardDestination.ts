@@ -10,7 +10,7 @@ import Enum from '../codec/Enum';
  * A destination account for payment
  */
 export default class RewardDestination extends Enum {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super([
       // Pay into the stash account, increasing the amount at stake accordingly.
       'Staked',

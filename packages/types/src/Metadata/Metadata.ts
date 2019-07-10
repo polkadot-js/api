@@ -13,7 +13,7 @@ import MetadataVersioned from './MetadataVersioned';
  * The versioned runtime metadata as a decoded structure
  */
 export default class Metadata extends MetadataVersioned {
-  constructor (value?: Uint8Array | string) {
+  public constructor (value?: Uint8Array | string) {
     super(Metadata.decodeMetadata(value));
   }
 

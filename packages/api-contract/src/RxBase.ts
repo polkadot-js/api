@@ -15,7 +15,7 @@ export default abstract class RxBase implements IContractBase<'rxjs'> {
   readonly api: ApiObject<'rxjs'>;
   readonly apiContracts: SubmittableModuleExtrinsics<'rxjs'>;
 
-  constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
+  public constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
     this.abi = abi instanceof Abi
       ? abi
       : new Abi(abi);

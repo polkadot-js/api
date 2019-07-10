@@ -9,7 +9,7 @@
 export default class Base<T> {
   protected raw: T;
 
-  constructor (value?: any) {
+  public constructor (value?: any) {
     this.raw = value;
   }
 }

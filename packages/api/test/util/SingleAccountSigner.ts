@@ -12,7 +12,7 @@ let id = 0;
 export default class SingleAccountSigner {
   private keyringPair: KeyringPair;
 
-  constructor (keyringPair: KeyringPair) {
+  public constructor (keyringPair: KeyringPair) {
     this.keyringPair = keyringPair;
   }
 

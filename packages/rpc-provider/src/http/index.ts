@@ -42,7 +42,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  constructor (endpoint: string = defaults.HTTP_URL) {
+  public constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.coder = new Coder();
@@ -52,7 +52,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary `true` when this provider supports subscriptions
    */
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return false;
   }
 

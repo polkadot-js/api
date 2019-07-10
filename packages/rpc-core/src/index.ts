@@ -61,7 +61,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface) {
+  public constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this.provider = provider;
@@ -87,7 +87,7 @@ export default class Rpc implements RpcInterface {
    * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
    * ```
    */
-  static signature ({ method, params, type }: RpcMethod): string {
+  public static signature ({ method, params, type }: RpcMethod): string {
     const inputs = params.map(({ name, type }) =>
       `${name}: ${type}`
     ).join(', ');

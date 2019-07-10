@@ -27,7 +27,7 @@ const VALID_IMMORTAL = new U8a([0]);
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       ImmortalEra,
       MortalEra
@@ -53,7 +53,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   /**
    * @description Overide the encoded length method
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     if (this.index === 0) {
       return this.asImmortalEra.encodedLength;
     } else {
@@ -97,7 +97,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     if (this.index === 0) {
       return this.asImmortalEra.toU8a(isBare);
     } else {
@@ -112,7 +112,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
  * The ImmortalEra for an extrinsic
  */
 export class ImmortalEra extends U8a {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
     super(VALID_IMMORTAL);
@@ -125,7 +125,7 @@ export class ImmortalEra extends U8a {
  * The MortalEra for an extrinsic, indicating period and phase
  */
 export class MortalEra extends Tuple {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       period: U64,
       phase: U64
@@ -167,21 +167,21 @@ export class MortalEra extends Tuple {
   /**
    * @description Encoded length for mortals occupy 2 bytes, different from the actual Tuple since it is encoded. This is a shortcut fro `toU8a().length`
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 2;
   }
 
   /**
    * @description The period of this Mortal wraps as a [[U64]]
    */
-  get period (): U64 {
+  public get period (): U64 {
     return this[0] as U64;
   }
 
   /**
    * @description The phase of this Mortal wraps as a [[U64]]
    */
-  get phase (): U64 {
+  public get phase (): U64 {
     return this[1] as U64;
   }
 
@@ -195,7 +195,7 @@ export class MortalEra extends Tuple {
    *     greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
    *     `period` is.
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a ( isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
     const phase = this.phase.toNumber();
     const quantizeFactor = Math.max(period >> 12, 1);

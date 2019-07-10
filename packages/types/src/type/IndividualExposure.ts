@@ -13,7 +13,7 @@ import Balance from '../primitive/Balance';
  * The Substrate IndividualExposure for staking
  */
 export default class IndividualExposure extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       who: AccountId,
       value: Compact.with(Balance)
@@ -23,14 +23,14 @@ export default class IndividualExposure extends Struct {
   /**
    * @description The value
    */
-  get value (): Balance {
+  public get value (): Balance {
     return (this.get('value') as Compact).toBn() as Balance;
   }
 
   /**
    * @description The AccountId
    */
-  get who (): AccountId {
+  public get who (): AccountId {
     return this.get('who') as AccountId;
   }
 }

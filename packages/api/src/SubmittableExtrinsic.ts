@@ -51,7 +51,7 @@ export class SubmittableResult implements ISubmittableResult {
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
 
-  constructor ({ events, status }: SubmittableResultValue) {
+  public constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
     this.status = status;
   }

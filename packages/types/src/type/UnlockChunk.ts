@@ -13,7 +13,7 @@ import BlockNumber from './BlockNumber';
  * Just a Balance/BlockNumber tuple to encode when a chunk of funds will be unlocked
  */
 export default class UnlockChunk extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       value: Compact.with(Balance),
       era: Compact.with(BlockNumber)
@@ -23,14 +23,14 @@ export default class UnlockChunk extends Struct {
   /**
    * @description Era number at which point it'll be unlocked
    */
-  get era (): BlockNumber {
+  public get era (): BlockNumber {
     return (this.get('era') as Compact).toBn() as BlockNumber;
   }
 
   /**
    * @description Amount of funds to be unlocked
    */
-  get value (): Balance {
+  public get value (): Balance {
     return (this.get('value') as Compact).toBn() as Balance;
   }
 }

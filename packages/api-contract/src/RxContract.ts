@@ -25,7 +25,7 @@ export default class RxContract extends RxBase implements IContract {
   readonly address: Address;
   readonly calls: IContract$Calls = {};
 
-  constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
+  public constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
     super(api, abi);
 
     this.address = new Address(address);

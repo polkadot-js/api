@@ -76,7 +76,7 @@ describe('Enum', () => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (value?: string, index?: number) {
+        public constructor (value?: string, index?: number) {
           super({
             a: A,
             b: B,

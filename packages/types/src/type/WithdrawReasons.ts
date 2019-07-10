@@ -10,7 +10,7 @@ import Set from '../codec/Set';
  * The Substrate WithdrawReasons for staking
  */
 export default class WithdrawReasons extends Set {
-  constructor (value: any = []) {
+  public constructor (value: any = []) {
     super({
       TransactionPayment: 0b00000001,
       Transfer: 0b00000010,

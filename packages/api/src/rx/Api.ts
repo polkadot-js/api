@@ -135,7 +135,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
+  public static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
@@ -161,7 +161,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  constructor (provider?: ApiOptions | ProviderInterface) {
+  public constructor (provider?: ApiOptions | ProviderInterface) {
     super(provider, 'rxjs');
 
     this._isReadyRx = from(

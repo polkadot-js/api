@@ -37,7 +37,7 @@ export class EventData extends Tuple {
   private _section: string;
   private _typeDef: TypeDef[];
 
-  constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV6, section: string, method: string) {
+  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV6, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -49,28 +49,28 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  get meta (): EventMetadataV6 {
+  public get meta (): EventMetadataV6 {
     return this._meta;
   }
 
   /**
    * @description The method as a string
    */
-  get method (): string {
+  public get method (): string {
     return this._method;
   }
 
   /**
    * @description The section as a string
    */
-  get section (): string {
+  public get section (): string {
     return this._section;
   }
 
   /**
    * @description The [[TypeDef]] for this event
    */
-  get typeDef (): TypeDef[] {
+  public get typeDef (): TypeDef[] {
     return this._typeDef;
   }
 }
@@ -82,7 +82,7 @@ export class EventData extends Tuple {
  * that indicates the actual event fired
  */
 export class EventId extends U8aFixed {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super(value, 16);
   }
 }
@@ -96,7 +96,7 @@ export class EventId extends U8aFixed {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value?: Uint8Array) {
+  public constructor (_value?: Uint8Array) {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
@@ -105,7 +105,7 @@ export default class Event extends Struct {
     }, value);
   }
 
-  static decodeEvent (value: Uint8Array = new Uint8Array()) {
+  public static decodeEvent (value: Uint8Array = new Uint8Array()) {
     if (!value.length) {
       return {
         DataType: Null
@@ -128,7 +128,7 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
-  static injectMetadata (metadata: Metadata): void {
+  public static injectMetadata (metadata: Metadata): void {
     metadata.asV6.modules
       .filter((section) => section.events.isSome)
       .forEach((section, sectionIndex) => {
@@ -141,7 +141,7 @@ export default class Event extends Struct {
           const Types = typeDef.map((typeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
-            constructor (value: Uint8Array) {
+            public constructor (value: Uint8Array) {
               super(Types, value, typeDef, meta, sectionName, methodName);
             }
           };
@@ -152,42 +152,42 @@ export default class Event extends Struct {
   /**
    * @description The wrapped [[EventData]]
    */
-  get data (): EventData {
+  public get data (): EventData {
     return this.get('data') as EventData;
   }
 
   /**
    * @description The [[EventId]], identifying the raw event
    */
-  get index (): EventId {
+  public get index (): EventId {
     return this.get('index') as EventId;
   }
 
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  get meta (): EventMetadataV6 {
+  public get meta (): EventMetadataV6 {
     return this.data.meta;
   }
 
   /**
    * @description The method string identifying the event
    */
-  get method (): string {
+  public get method (): string {
     return this.data.method;
   }
 
   /**
    * @description The section string identifying the event
    */
-  get section (): string {
+  public get section (): string {
     return this.data.section;
   }
 
   /**
    * @description The [[TypeDef]] for the event
    */
-  get typeDef (): TypeDef[] {
+  public get typeDef (): TypeDef[] {
     return this.data.typeDef;
   }
 }

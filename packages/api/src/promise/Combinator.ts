@@ -21,7 +21,7 @@ export default class Combinator {
   protected _results: any[] = [];
   protected _subscriptions: UnsubscribePromise[] = [];
 
-  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
+  public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
     this._subscriptions = fns.map(async (input, index) => {
       const [fn, ...args] = Array.isArray(input)

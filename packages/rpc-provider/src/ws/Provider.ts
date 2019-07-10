@@ -87,7 +87,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string = defaults.WS_URL, autoConnect: boolean = true) {
+  public constructor (endpoint: string = defaults.WS_URL, autoConnect: boolean = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._eventemitter = new EventEmitter();
@@ -108,7 +108,7 @@ export default class WsProvider implements WSProviderInterface {
   /**
    * @summary `true` when this provider supports subscriptions
    */
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return true;
   }
 

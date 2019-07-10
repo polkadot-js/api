@@ -14,7 +14,7 @@ import BlockNumber from '../type/BlockNumber';
  * A system peer info indicator, reported back over RPC
  */
 export default class PeerInfo extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       peerId: Text,
       roles: Text,
@@ -27,35 +27,35 @@ export default class PeerInfo extends Struct {
   /**
    * @description The best block hash for the peer
    */
-  get bestHash (): Hash {
+  public get bestHash (): Hash {
     return this.get('bestHash') as Hash;
   }
 
   /**
    * @description The best block hash for the peer
    */
-  get bestNumber (): BlockNumber {
+  public get bestNumber (): BlockNumber {
     return this.get('bestNumber') as BlockNumber;
   }
 
   /**
    * @description The p2p network id for the peer
    */
-  get peerId (): Text {
+  public get peerId (): Text {
     return this.get('peerId') as Text;
   }
 
   /**
    * @description The index of the peer in our list
    */
-  get protocolVersion (): U32 {
+  public get protocolVersion (): U32 {
     return this.get('protocolVersion') as U32;
   }
 
   /**
    * @description The roles of the peer on the network
    */
-  get roles (): Text {
+  public get roles (): Text {
     return this.get('roles') as Text;
   }
 }
