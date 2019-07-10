@@ -131,10 +131,10 @@ export default class Event extends Struct {
   public static injectMetadata (metadata: Metadata): void {
     metadata.asV6.modules
       .filter((section) => section.events.isSome)
-      .forEach((section, sectionIndex) => {
+      .forEach((section, sectionIndex): void => {
         const sectionName = stringCamelCase(section.name.toString());
 
-        section.events.unwrap().forEach((meta, methodIndex) => {
+        section.events.unwrap().forEach((meta, methodIndex): void => {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
           const typeDef = meta.args.map((arg) => getTypeDef(arg));

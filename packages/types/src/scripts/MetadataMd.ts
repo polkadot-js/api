@@ -173,9 +173,9 @@ function writeFile (name: string, ...chunks: any[]) {
     console.log(`Completed writing ${name}`);
   });
 
-  chunks.forEach((chunk) =>
-    writeStream.write(chunk)
-  );
+  chunks.forEach((chunk): void => {
+    writeStream.write(chunk);
+  });
 
   writeStream.end();
 }

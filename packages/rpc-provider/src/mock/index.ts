@@ -18,13 +18,13 @@ import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
-  [], Object.values(interfaces).map((area) =>
+  [], Object.values(interfaces).map((area): string[] =>
     Object
       .values(area.methods)
-      .filter((method) =>
+      .filter((method): boolean =>
         method.isSubscription
       )
-      .map(({ method, section }) =>
+      .map(({ method, section }): string =>
         `${section}_${method}`
       )
   )

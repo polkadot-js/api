@@ -125,7 +125,7 @@ export default abstract class ApiBase<ApiType> {
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
       // first register the definitions we have, i.e. those where there are no type classes
-      Object.values(srmlTypes).forEach(({ types }) =>
+      Object.values(srmlTypes).forEach(({ types }): void =>
         this.registerTypes(types)
       );
 

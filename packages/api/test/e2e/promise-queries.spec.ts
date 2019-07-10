@@ -185,7 +185,7 @@ describe.skip('Promise e2e queries', (): void => {
 
     expect(events.length).not.toEqual(0);
 
-    events.forEach(({ event: { data, method, section }, phase, topics }: EventRecord) => {
+    events.forEach(({ event: { data, method, section }, phase, topics }: EventRecord): void => {
       console.error(phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
     });
   });

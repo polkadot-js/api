@@ -22,7 +22,7 @@ const logEvents = (done: () => {}) =>
       console.log('Completed at block hash', status.value.toHex());
       console.log('Events:');
 
-      events.forEach(({ phase, event: { data, method, section } }: EventRecord) => {
+      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
         console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
       });
 

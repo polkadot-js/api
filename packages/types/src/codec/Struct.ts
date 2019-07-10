@@ -25,8 +25,7 @@ export default class Struct<
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-  > extends Map<keyof S, Codec> implements Codec {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: S;
 
@@ -127,7 +126,7 @@ export default class Struct<
       public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
-        (Object.keys(Types) as (keyof S)[]).forEach((key) => {
+        (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
           // do not clobber existing properties on the object
           if (!isUndefined((this as any)[key])) {
             return;
@@ -135,7 +134,7 @@ export default class Struct<
 
           Object.defineProperty(this, key, {
             enumerable: true,
-            get: () => this.get(key)
+            get: (): Codec | undefined => this.get(key)
           });
         });
       }

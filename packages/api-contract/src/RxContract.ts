@@ -22,15 +22,15 @@ export interface IContractCall {
 
 // NOTE Experimental, POC, bound to change
 export default class RxContract extends RxBase implements IContract {
-  readonly address: Address;
-  readonly calls: IContract$Calls = {};
+  public readonly address: Address;
+  public readonly calls: IContract$Calls = {};
 
   public constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
     super(api, abi);
 
     this.address = new Address(address);
 
-    Object.entries(abi.messages).forEach(([name, fn]) => {
+    Object.entries(abi.messages).forEach(([name]): void => {
       this.calls[name] = (fn: ContractABIFn) =>
         (value: BN | number, maxGas: BN | number, ...params: any[]): IContractCall =>
           this.apiContracts.call(this.address, value, maxGas, fn(...params));

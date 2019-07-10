@@ -10,9 +10,9 @@ import { createMethod } from './method';
 import { validateAbi } from './validation';
 
 export default class ContractAbi implements IAbi {
-  readonly abi: ContractABI;
-  readonly deploy: ContractABIFn;
-  readonly messages: IAbi$Messages = {};
+  public readonly abi: ContractABI;
+  public readonly deploy: ContractABIFn;
+  public readonly messages: IAbi$Messages = {};
 
   public constructor (abi: ContractABI) {
     validateAbi(abi);
@@ -20,7 +20,7 @@ export default class ContractAbi implements IAbi {
     this.abi = abi;
     this.deploy = createMethod('deploy', abi.deploy);
 
-    abi.messages.forEach((method) => {
+    abi.messages.forEach((method): void => {
       const name = stringCamelCase(method.name);
 
       this.messages[name] = createMethod(`messages.${name}`, method);

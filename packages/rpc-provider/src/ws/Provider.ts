@@ -374,7 +374,7 @@ export default class WsProvider implements WSProviderInterface {
 
     this.subscriptions = {};
 
-    Object.keys(subscriptions).forEach(async (id) => {
+    Object.keys(subscriptions).forEach(async (id): Promise<void> => {
       const { callback, method, params, type } = subscriptions[id];
 
       // only re-create subscriptions which are not in author (only area where
@@ -393,7 +393,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private sendQueue (): void {
-    Object.keys(this.queued).forEach((id) => {
+    Object.keys(this.queued).forEach((id): void => {
       try {
         // @ts-ignore we have done the websocket check in onSocketOpen, if an issue, will catch it
         this.websocket.send(

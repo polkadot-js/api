@@ -23,7 +23,7 @@ export default class StructAny extends Map<string, any> implements Codec {
     super(decoded);
 
     // like we are doing with structs, add the keys as getters
-    decoded.forEach(([key]) => {
+    decoded.forEach(([key]): void => {
       // do not clobber existing properties on the object
       if (!isUndefined((this as any)[key])) {
         return;
@@ -31,7 +31,7 @@ export default class StructAny extends Map<string, any> implements Codec {
 
       Object.defineProperty(this, key, {
         enumerable: true,
-        get: () => this.get(key)
+        get: (): Codec | undefined => this.get(key)
       });
     });
   }
@@ -89,7 +89,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString () {
+  public toString (): string {
     return JSON.stringify(this.toJSON());
   }
 

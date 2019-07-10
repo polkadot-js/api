@@ -38,13 +38,13 @@ export default class Combinator {
 
   protected allHasFired (): boolean {
     if (!this._allHasFired) {
-      this._allHasFired = this._fired.filter((hasFired) => !hasFired).length === 0;
+      this._allHasFired = this._fired.filter((hasFired): boolean => !hasFired).length === 0;
     }
 
     return this._allHasFired;
   }
 
-  protected createCallback (index: number) {
+  protected createCallback (index: number): (value: any) => void {
     return (value: any): void => {
       this._fired[index] = true;
       this._results[index] = value;
@@ -65,14 +65,14 @@ export default class Combinator {
     }
   }
 
-  unsubscribe (): void {
+  public unsubscribe (): void {
     if (!this._isActive) {
       return;
     }
 
     this._isActive = false;
 
-    this._subscriptions.forEach(async (subscription) => {
+    this._subscriptions.forEach(async (subscription): Promise<void> => {
       try {
         const unsubscribe = await subscription;
 

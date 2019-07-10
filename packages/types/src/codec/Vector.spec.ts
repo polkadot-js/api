@@ -74,7 +74,7 @@ describe('Vector', () => {
     it('exposes a working forEach', () => {
       const result: { [index: number]: string } = {};
 
-      vector.forEach((e, i) => {
+      vector.forEach((e, i): void => {
         result[i] = e.toString();
       });
 

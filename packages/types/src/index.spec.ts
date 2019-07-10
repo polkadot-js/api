@@ -4,15 +4,15 @@
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { Constructor } from './types';
+import { Codec, Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as { [index: string]: Constructor };
 const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
-describe('types', () => {
+describe('types', (): void => {
   describe('default creation', () => {
-    Object.keys(Types).forEach((name) => {
+    Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name}`, () => {
         const constructFn = () =>
           new Types[name]();
@@ -26,12 +26,12 @@ describe('types', () => {
     });
   });
 
-  describe('default creation (empty bytes)', () => {
+  describe('default creation (empty bytes)', (): void => {
     (Types.Method as any).injectMethods(extrinsics);
 
-    Object.keys(Types).forEach((name) => {
-      it(`creates an empty ${name} (from empty bytes)`, () => {
-        const constructFn = () =>
+    Object.keys(Types).forEach((name): void => {
+      it(`creates an empty ${name} (from empty bytes)`, (): void => {
+        const constructFn = (): Codec =>
           new Types[name](new Types.Bytes());
 
         if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {

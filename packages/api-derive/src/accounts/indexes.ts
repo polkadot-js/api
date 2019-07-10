@@ -41,8 +41,8 @@ export function indexes (api: ApiInterface$Rx) {
           api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
         ),
         map((all: (AccountId[] | undefined)[]) =>
-          (all || []).reduce((result, list, outerIndex) => {
-            (list || []).forEach((accountId, innerIndex) => {
+          (all || []).reduce((result, list, outerIndex): void => {
+            (list || []).forEach((accountId, innerIndex): void => {
               // re-create the index based on position 0 is [0][0] and likewise
               // 64 (0..63 in first) is [1][0] (the first index value in set 2)
               const index = (outerIndex * enumsetSize) + innerIndex;

@@ -128,7 +128,7 @@ export default class Enum extends Base<Codec> implements Codec {
       public constructor (value?: any, index?: number) {
         super(Types, value, index);
 
-        Object.keys(this._def).forEach((_key) => {
+        Object.keys(this._def).forEach((_key): void => {
           const askey = `as${_key}`;
           const iskey = `is${_key}`;
 
@@ -136,14 +136,14 @@ export default class Enum extends Base<Codec> implements Codec {
           if (isUndefined((this as any)[iskey])) {
             Object.defineProperty(this, iskey, {
               enumerable: true,
-              get: () => this.type === _key
+              get: (): boolean => this.type === _key
             });
           }
 
           if (isUndefined((this as any)[askey])) {
             Object.defineProperty(this, askey, {
               enumerable: true,
-              get: () => {
+              get: (): Codec => {
                 assert((this as any)[iskey], `Cannot convert ${this.type} via ${askey}`);
 
                 return this.value;
@@ -238,7 +238,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns the number representation for the value
    */
-  toNumber (): number {
+  public toNumber (): number {
     return this._index;
   }
 

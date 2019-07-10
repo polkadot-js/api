@@ -168,10 +168,10 @@ export default class Method extends Struct implements IMethod {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system extrinsics to be used in lookups
   public static injectMethods (moduleMethods: ModulesWithMethods): void {
-    Object.values(moduleMethods).forEach((methods) =>
-      Object.values(methods).forEach((method) =>
-        injected[method.callIndex.toString()] = method
-      )
+    Object.values(moduleMethods).forEach((methods): void =>
+      Object.values(methods).forEach((method): void => {
+        injected[method.callIndex.toString()] = method;
+      })
     );
   }
 

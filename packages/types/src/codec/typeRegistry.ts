@@ -62,8 +62,9 @@ export class TypeRegistry {
 
 let defaultRegistry: TypeRegistry;
 
-export default function getDefaultRegistry () {
+export default function getDefaultRegistry (): TypeRegistry {
   if (!defaultRegistry) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const defaultTypes = require('../index.types');
 
     defaultRegistry = new TypeRegistry();
