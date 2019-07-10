@@ -95,7 +95,7 @@ export interface StorageEntryObservable {
   creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>) => Observable<Codec>;
+  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>) => Observable<Array<T>>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 
@@ -107,12 +107,17 @@ export interface StorageEntryPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
+export interface StorageEntryPromiseMulti {
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>): Promise<Array<T>>;
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback: Callback<Array<T>>): UnsubscribePromise;
+}
+
 export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback?: Callback<Array<T>>) => Promise<Array<T>>;
+  multi: StorageEntryPromiseMulti;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
@@ -132,7 +137,7 @@ export type QueryableStorageMultiArg<ApiType> =
 export type QueryableStorageMultiArgs<ApiType> = Array<QueryableStorageMultiArg<ApiType>>;
 
 export interface QueryableStorageMultiBase<ApiType> {
-  (calls: QueryableStorageMultiArgs<ApiType>): UnsubscribePromise;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<Array<T>>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {

@@ -66,6 +66,7 @@ export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as UncleEntryItem } from './UncleEntryItem';
 export { default as UnlockChunk } from './UnlockChunk';
+export { default as ValidatorId } from './ValidatorId';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VestingSchedule } from './VestingSchedule';
 export { default as Vote } from './Vote';

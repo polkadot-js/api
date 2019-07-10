@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
+import { AnyU8a, IExtrinsicEra } from '../types';
+
+import BN from 'bn.js';
+import { assert, bnToBn, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Tuple from '../codec/Tuple';
 import U8a from '../codec/U8a';
 import U64 from '../primitive/U64';
-import { AnyU8a, IExtrinsicEra } from '../types';
 
 type MortalEraValue = [U64, U64];
 
@@ -163,6 +165,13 @@ export class MortalEra extends Tuple {
   }
 
   /**
+   * @description Encoded length for mortals occupy 2 bytes, different from the actual Tuple since it is encoded. This is a shortcut fro `toU8a().length`
+   */
+  get encodedLength (): number {
+    return 2;
+  }
+
+  /**
    * @description The period of this Mortal wraps as a [[U64]]
    */
   get period (): U64 {
@@ -180,11 +189,11 @@ export class MortalEra extends Tuple {
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    * Period and phase are encoded:
-   * The period of validity from the block hash found in the signing material.
-   * The phase in the period that this transaction's lifetime begins (and, importantly,
-   * implies which block hash is included in the signature material). If the `period` is
-   * greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
-   * `period` is.
+   *   - The period of validity from the block hash found in the signing material.
+   *   - The phase in the period that this transaction's lifetime begins (and, importantly,
+   *     implies which block hash is included in the signature material). If the `period` is
+   *     greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
+   *     `period` is.
    */
   toU8a (isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
@@ -201,14 +210,20 @@ export class MortalEra extends Tuple {
   /**
    * @description Get the block number of the start of the era whose properties this object describes that `current` belongs to.
    */
-  birth (current: number) {
-    return Math.floor((Math.max(current,this.phase.toNumber()) - this.phase.toNumber()) / this.period.toNumber()) * this.period.toNumber() + this.phase.toNumber();
+  birth (current: BN | number) {
+    // FIXME No toNumber() here
+    return Math.floor(
+      (
+        Math.max(bnToBn(current).toNumber(), this.phase.toNumber()) - this.phase.toNumber()
+      ) / this.period.toNumber()
+    ) * this.period.toNumber() + this.phase.toNumber();
   }
 
   /**
    * @description Get the block number of the first block at which the era has ended.
    */
-  death (current: number) {
+  death (current: BN | number) {
+    // FIXME No toNumber() here
     return this.birth(current) + this.period.toNumber();
   }
 
