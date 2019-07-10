@@ -207,7 +207,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     // cater for the case where we only pass the enum index
     if (isNumber(other)) {
       return this.toNumber() === other;
@@ -222,14 +222,14 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ): string {
+  public toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): AnyJson {
+  public toJSON (): AnyJson {
     return this._isBasic
       ? this._index
       : { [this.type]: this.raw.toJSON() };
@@ -245,7 +245,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     const _enum = this._isBasic
       ? Object.keys(this._def)
       : Object.entries(this._def).reduce((result, [key, Type]) => {
@@ -260,7 +260,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     return this.isNull
       ? this.type
       : JSON.stringify(this.toJSON());
@@ -270,7 +270,7 @@ export default class Enum extends Base<Codec> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const index = this._indexes[this._index];
 
     return u8aConcat(

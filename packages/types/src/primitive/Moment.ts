@@ -62,7 +62,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return Moment.decodeMoment(other).getTime() === this.getTime();
   }
 
@@ -83,7 +83,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( isLe: boolean = false): string {
+  public toHex (isLe: boolean = false): string {
     return bnToHex(this.toBn(), {
       bitLength: BITLENGTH,
       isLe,
@@ -94,7 +94,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): any {
+  public toJSON (): any {
     // FIXME Return type should be number, but conflicts with Date.toJSON()
     // which returns string
     return this.toNumber();
@@ -110,14 +110,14 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Moment';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
   }
@@ -126,7 +126,7 @@ export default class Moment extends Date implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 }

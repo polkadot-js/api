@@ -19,7 +19,7 @@ export default class ContractStorageKey extends U8aFixed {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return '[u8; 32]';
   }
 }

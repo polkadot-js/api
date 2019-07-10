@@ -43,28 +43,28 @@ export default class AccountId extends U8aFixed {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return super.eq(AccountId.decodeAccountId(other));
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     return AccountId.encode(this);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'AccountId';
   }
 }

@@ -11,16 +11,16 @@ import U64 from '../primitive/U64';
 import BlockNumber from './BlockNumber';
 import SessionKey from './SessionKey';
 
-export type NextAuthorityValue = {
-  index?: AnyNumber,
-  sessionKey?: AnyU8a
-};
+export interface NextAuthorityValue {
+  index?: AnyNumber;
+  sessionKey?: AnyU8a;
+}
 
-export type StoredPendingChangeValue = {
-  scheduledAt: AnyNumber,
-  delay: AnyNumber,
-  nextAuthorities?: (Uint8Array | NextAuthorityValue)[]
-};
+export interface StoredPendingChangeValue {
+  scheduledAt: AnyNumber;
+  delay: AnyNumber;
+  nextAuthorities?: (Uint8Array | NextAuthorityValue)[];
+}
 
 /**
  * @name NextAuthority

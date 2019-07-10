@@ -25,7 +25,7 @@ export class StorageFunctionModifier extends Enum {
     return this.toNumber() === 0;
   }
 
-  public toJSON ( ): string {
+  public toJSON (): string {
     // This looks prettier in the generated JSON
     return this.toString();
   }
@@ -113,7 +113,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     if (this.isMap) {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;

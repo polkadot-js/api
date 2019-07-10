@@ -68,7 +68,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return isString(other)
       ? this.toString() === other.toString()
       : false;
@@ -77,7 +77,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ): string {
+  public toHex (): string {
     // like  with Vec<u8>, when we are encoding to hex, we don't actually add
     // the length prefix (it is already implied by the actual string length)
     return u8aToHex(this.toU8a(true));
@@ -86,21 +86,21 @@ export default class Text extends String implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Text';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
   }
@@ -109,7 +109,7 @@ export default class Text extends String implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const encoded = stringToU8a(this.toString());
 
     return isBare

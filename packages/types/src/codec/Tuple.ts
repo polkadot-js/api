@@ -9,7 +9,7 @@ import { decodeU8a } from './utils';
 import AbstractArray from './AbstractArray';
 
 type TupleConstructors = Constructor[] | {
-  [index: string]: Constructor
+  [index: string]: Constructor;
 };
 
 /**
@@ -40,7 +40,7 @@ export default class Tuple extends AbstractArray<Codec> {
       ? _Types
       : Object.values(_Types);
 
-    return Types.map((Type, index) => {
+    return Types.map((Type, index): Codec => {
       try {
         return new Type(value && value[index]);
       } catch (error) {
@@ -61,7 +61,7 @@ export default class Tuple extends AbstractArray<Codec> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((length, entry) => {
+    return this.reduce((length: number, entry: Codec): number => {
       return length += entry.encodedLength;
     }, 0);
   }
@@ -71,14 +71,14 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map(({ name }) => name)
+      ? this._Types.map(({ name }): strring => name)
       : Object.keys(this._Types);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     const types = (
       Array.isArray(this._Types)
         ? this._Types
@@ -91,7 +91,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ) {
+  public toString () {
     // Overwrite the default toString representation of Array.
     return JSON.stringify(this.toJSON());
   }
@@ -100,7 +100,7 @@ export default class Tuple extends AbstractArray<Codec> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.map((entry) =>
         entry.toU8a(isBare)

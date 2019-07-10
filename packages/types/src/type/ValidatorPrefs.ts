@@ -9,10 +9,10 @@ import Struct from '../codec/Struct';
 import Balance from '../primitive/Balance';
 import U32 from '../primitive/U32';
 
-type ValidatorPrefsValue = {
-  unstakeThreshold?: AnyNumber,
-  validatorPayment?: AnyNumber
-};
+interface ValidatorPrefsValue {
+  unstakeThreshold?: AnyNumber;
+  validatorPayment?: AnyNumber;
+}
 
 /**
  * @name ValidatorPrefs

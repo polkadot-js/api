@@ -237,7 +237,7 @@ export default class Method extends Struct implements IMethod {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Call';
   }
 }

@@ -35,8 +35,8 @@ export default class Vote extends U8a {
   private static decodeVote (value?: any): Uint8Array {
     if (isBoolean(value)) {
       return value
-              ? new Uint8Array([0b10000000])
-              : new Uint8Array([0b0]);
+        ? new Uint8Array([0b10000000])
+        : new Uint8Array([0b0]);
     } else if (value instanceof Bool) {
       return Vote.decodeVote(value.valueOf());
     } else if (isNumber(value)) {

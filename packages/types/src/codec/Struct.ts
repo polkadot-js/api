@@ -182,7 +182,7 @@ export default class Struct<
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return compareMap(this, other);
   }
 
@@ -211,14 +211,14 @@ export default class Struct<
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ) {
+  public toHex () {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): AnyJsonObject | string {
+  public toJSON (): AnyJsonObject | string {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key) => {
@@ -234,7 +234,7 @@ export default class Struct<
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return JSON.stringify(
       Object.entries(this._Types).reduce((result, [key, Type]) => {
         result[key] = new Type().toRawType();
@@ -247,7 +247,7 @@ export default class Struct<
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ) {
+  public toString () {
     return JSON.stringify(this.toJSON());
   }
 
@@ -255,7 +255,7 @@ export default class Struct<
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.toArray().map((entry) =>
         entry.toU8a(isBare)

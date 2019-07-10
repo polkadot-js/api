@@ -85,7 +85,7 @@ export default class AccountIndex extends U32 {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     // shortcut for BN or Number, don't create an object
     if (isBn(other) || isNumber(other)) {
       return super.eq(other);
@@ -98,14 +98,14 @@ export default class AccountIndex extends U32 {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
@@ -114,7 +114,7 @@ export default class AccountIndex extends U32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'AccountIndex';
   }
 }

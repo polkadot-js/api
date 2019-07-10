@@ -142,21 +142,21 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ): string {
+  public toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): string {
+  public toJSON (): string {
     return this.toHex();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     // We are treating this in the same way we do a primitive, this is known
     return 'Extrinsic';
   }
@@ -165,7 +165,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const encoded = super.toU8a();
 
     return isBare

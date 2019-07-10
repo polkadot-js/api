@@ -32,7 +32,7 @@ export default class ReferendumInfoExtended extends ReferendumInfo {
   /**
    * @description Creates the JSON representation
    */
-  public toJSON ( ): AnyJsonObject {
+  public toJSON (): AnyJsonObject {
     return {
       ...super.toJSON() as AnyJsonObject,
       index: this.index.toJSON()

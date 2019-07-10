@@ -92,7 +92,7 @@ export default class Vector<T extends Codec> extends AbstractT[] {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return `Vec<${new this._Type().toRawType()}>`;
   }
 }

@@ -20,7 +20,7 @@ export default class H256 extends U8aFixed {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'H256';
   }
 }

@@ -66,7 +66,7 @@ export default class HeaderExtended extends Header {
   /**
    * @description Creates the JSON representation
    */
-  public toJSON ( ): AnyJsonObject {
+  public toJSON (): AnyJsonObject {
     return {
       ...super.toJSON() as AnyJsonObject,
       author: this.author

@@ -43,7 +43,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return compareArray(this, other);
   }
 
@@ -57,14 +57,14 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ): string {
+  public toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): AnyJsonArray {
+  public toJSON (): AnyJsonArray {
     return this.map((entry) =>
       entry.toJSON()
     );
@@ -78,7 +78,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     // Overwrite the default toString representation of Array.
     const data = this.map((entry) =>
       entry.toString()
@@ -91,7 +91,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const encoded = this.map((entry) =>
       entry.toU8a(isBare)
     );

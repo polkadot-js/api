@@ -93,7 +93,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     if (other instanceof Option) {
       return (this.isSome === other.isSome) && this.value.eq(other.value);
     }
@@ -104,7 +104,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex ( ): string {
+  public toHex (): string {
     // This attempts to align with the JSON encoding - actually in this case
     // the isSome value is correct, however the `isNone` may be problematic
     return this.isNone
@@ -115,21 +115,21 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): AnyJson {
+  public toJSON (): AnyJson {
     return this.raw.toJSON();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return `Option<${new this._Type().toRawType()}>`;
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     return this.raw.toString();
   }
 
@@ -137,7 +137,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
       return this.raw.toU8a(true);
     }

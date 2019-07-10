@@ -97,7 +97,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     if (this.index === 0) {
       return this.asImmortalEra.toU8a(isBare);
     } else {
@@ -195,7 +195,7 @@ export class MortalEra extends Tuple {
    *     greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
    *     `period` is.
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
     const phase = this.phase.toNumber();
     const quantizeFactor = Math.max(period >> 12, 1);

@@ -95,7 +95,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     if (this.isMap) {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;

@@ -129,7 +129,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ): string {
+  public toString (): string {
     if (this.isDoubleMap) {
       return `DoubleMap<${this.asDoubleMap.value.toString()}>`;
     }

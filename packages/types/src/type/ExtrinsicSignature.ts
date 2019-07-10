@@ -163,7 +163,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return this.isSigned
       ? super.toU8a(isBare)
       : new Uint8Array([this.version]);

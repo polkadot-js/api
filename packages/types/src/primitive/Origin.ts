@@ -20,7 +20,7 @@ export default class Origin extends Null {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Origin'; // yes, we cannot instantiate, but for consistency
   }
 }

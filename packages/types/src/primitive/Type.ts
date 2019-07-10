@@ -90,7 +90,7 @@ export default class Type extends Text {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     // Note Since we are mangling what we get in beyond recognition, we really should
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
     // helper, so treat it as such.
@@ -241,7 +241,7 @@ export default class Type extends Text {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Type';
   }
 }

@@ -84,7 +84,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     // Here we are actually overriding the built-in .eq to take care of both
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
@@ -109,7 +109,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): any {
+  public toJSON (): any {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
@@ -127,7 +127,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns the string representation of the value
    * @param base The base to use for the conversion
    */
-  public toString ( base?: number): string {
+  public toString (base?: number): string {
     // only included here since we do not inherit docs
     return super.toString(base);
   }

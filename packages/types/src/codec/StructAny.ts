@@ -57,21 +57,21 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq ( other?: any): boolean {
+  public eq (other?: any): boolean {
     return compareMap(this, other);
   }
 
   /**
    * @description Unimplemented, will throw
    */
-  public toHex ( ): string {
+  public toHex (): string {
     throw new Error('Unimplemented');
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON ( ): AnyJsonObject {
+  public toJSON (): AnyJsonObject {
     return [...this.entries()].reduce((json, [key, value]) => {
       json[key] = value;
 
@@ -82,21 +82,21 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return 'Json';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString ( ) {
+  public toString () {
     return JSON.stringify(this.toJSON());
   }
 
   /**
    * @description Unimplemented, will throw
    */
-  public toU8a ( isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     throw new Error('Unimplemented');
   }
 }

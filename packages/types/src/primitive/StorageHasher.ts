@@ -50,7 +50,7 @@ export default class StorageHasher extends Enum {
     return this.toNumber() === 4;
   }
 
-  public toJSON ( ): string {
+  public toJSON (): string {
     // This looks prettier in the generated JSON
     return this.toString();
   }

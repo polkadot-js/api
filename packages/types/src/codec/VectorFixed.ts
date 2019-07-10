@@ -61,14 +61,14 @@ export default class VectorFixed<T extends Codec> extends AbstractT[] {
     return this._Type.name;
   }
 
-  public toU8a ( ): Uint8Array {
+  public toU8a (): Uint8Array {
     return super.toU8a(true);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType ( ): string {
+  public toRawType (): string {
     return `[${new this._Type().toRawType()};${this.length}`;
   }
 }
