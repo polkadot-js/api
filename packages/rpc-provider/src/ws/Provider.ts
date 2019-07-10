@@ -294,8 +294,6 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageResult = (response: JsonRpcResponse): void => {
-    l.debug(() => ['handling: response =', response, 'id =', response.id]);
-
     const handler = this.handlers[response.id];
 
     if (!handler) {
@@ -335,9 +333,6 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const method = ALIASSES[response.method as string] || response.method;
     const subId = `${method}::${response.params.subscription}`;
-
-    l.debug(() => ['handling: response =', response, 'subscription =', subId]);
-
     const handler = this.subscriptions[subId];
 
     if (!handler) {

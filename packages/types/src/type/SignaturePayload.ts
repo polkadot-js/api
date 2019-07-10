@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
+import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -17,7 +17,7 @@ import Nonce from './NonceCompact';
 type SignaturePayloadValue = {
   nonce?: AnyNumber,
   method?: Method,
-  era?: AnyU8a | ExtrinsicEra
+  era?: AnyU8a | IExtrinsicEra
   blockHash?: AnyU8a
 };
 
@@ -36,9 +36,9 @@ function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  *
- *   8 bytes: The Transaction Index/Nonce as provided in the transaction itself.
+ *   1-8 bytes: The Transaction Compact<Index/Nonce> as provided in the transaction itself.
  *   2+ bytes: The Function Descriptor as provided in the transaction itself.
- *   2 bytes: The Transaction Era as provided in the transaction itself.
+ *   1/2 bytes: The Transaction Era as provided in the transaction itself.
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class SignaturePayload extends Struct {
