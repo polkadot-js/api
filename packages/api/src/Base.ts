@@ -321,11 +321,11 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.on('connected', () => {
+   * api.on('connected', (): void => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
-   * api.on('disconnected', () => {
+   * api.on('disconnected', (): void => {
    *   console.log('API has been disconnected from the endpoint');
    * });
    * ```
@@ -346,7 +346,7 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * const handler = () => {
+   * const handler = (): void => {
    *  console.log('Connected !);
    * };
    *
@@ -373,11 +373,11 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.once('connected', () => {
+   * api.once('connected', (): void => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
-   * api.once('disconnected', () => {
+   * api.once('disconnected', (): void => {
    *   console.log('API has been disconnected from the endpoint');
    * });
    * ```
@@ -422,7 +422,7 @@ export default abstract class ApiBase<ApiType> {
   private init (): void {
     let healthTimer: NodeJS.Timeout | null = null;
 
-    this._rpcCore.provider.on('disconnected', () => {
+    this._rpcCore.provider.on('disconnected', (): void => {
       this.emit('disconnected');
       this._isConnected.next(false);
 
@@ -436,7 +436,7 @@ export default abstract class ApiBase<ApiType> {
       this.emit('error', error);
     });
 
-    this._rpcCore.provider.on('connected', async () => {
+    this._rpcCore.provider.on('connected', async (): Promise<void> => {
       this.emit('connected');
       this._isConnected.next(true);
 
@@ -452,8 +452,8 @@ export default abstract class ApiBase<ApiType> {
           this.emit('ready', this);
         }
 
-        healthTimer = setInterval(() => {
-          this._rpcCore.system.health().toPromise().catch(() => {
+        healthTimer = setInterval((): void => {
+          this._rpcCore.system.health().toPromise().catch((): void => {
             // ignore
           });
         }, KEEPALIVE_INTERVAL);

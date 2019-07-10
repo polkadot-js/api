@@ -237,7 +237,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
               return EMPTY;
             }),
             // upon the first result, resolve the with the unsub function
-            tap(() => {
+            tap((): void => {
               if (!isCompleted) {
                 isCompleted = true;
 

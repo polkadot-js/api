@@ -7,21 +7,21 @@ import { Extrinsic, SignedBlock } from '@polkadot/types';
 import Api from './../../src/promise';
 
 // To run these tests locally you need to run a Alexander full archive node locally
-describe.skip('alex archive queries (local)', () => {
+describe.skip('alex archive queries (local)', (): void => {
   let api: Api;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async () => {
+  beforeEach(async (): Promise<void> => {
     api = await Api.create();
 
     return api;
   });
 
   // https://github.com/polkadot-js/api/issues/845
-  it('retrieves block with no issues', async () => {
+  it('retrieves block with no issues', async (): Promise<void> => {
     const metadata = await api.rpc.state.getMetadata('0x6f6f9bba0eed8e3ae9446c37eee763f93118b52a315a7b46090453ba6288da1f');
 
     console.error(JSON.stringify(metadata, null, 2));

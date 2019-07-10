@@ -259,7 +259,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                   });
                 }
               }),
-              switchMap(() => {
+              switchMap((): void => {
                 return isSubscription
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???

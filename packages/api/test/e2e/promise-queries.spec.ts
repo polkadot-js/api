@@ -17,7 +17,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('Promise e2e queries', () => {
+describe.skip('Promise e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -32,7 +32,7 @@ describe.skip('Promise e2e queries', () => {
     done();
   });
 
-  it('makes the runtime, rpc, state & extrinsics available', () => {
+  it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
@@ -42,20 +42,20 @@ describe.skip('Promise e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it('allows retrieval of an fallback entry (once-off query)', async () => {
+  it('allows retrieval of an fallback entry (once-off query)', async (): Promise<void> => {
     const nonce = await api.query.system.accountNonce('5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
 
     expect(nonce.toHex()).toEqual('0x0000000000000000');
   });
 
-  it('allows retrieval of fallback when at query is made', async () => {
+  it('allows retrieval of fallback when at query is made', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
     const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
 
     expect(nonce.toHex()).toEqual('0x0000000000000000');
   });
 
-  it('queries state for a balance', async () => {
+  it('queries state for a balance', async (): Promise<void> => {
     return (
       api.query.balances.freeBalance(keyring.alice.address, (balance: Balance) => {
         expect(balance).toBeInstanceOf(BN);
@@ -172,14 +172,14 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
-  it('can retrive header by hash', async () => {
+  it('can retrive header by hash', async (): Promise<void> => {
     const latest = await api.rpc.chain.getHeader() as Header;
     const specific = await api.rpc.chain.getHeader(latest.hash) as Header;
 
     expect(latest.hash).toEqual(specific.hash);
   });
 
-  it('makes a query at a latest block (specified)', async () => {
+  it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
     const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 
@@ -199,14 +199,14 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
-  describe('with plain type', () => {
-    it('queries a correct value', async () => {
+  describe('with plain type', (): void => {
+    it('queries a correct value', async (): Promise<void> => {
       const sessionIndex = await api.query.session.currentIndex() as SessionIndex;
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
-    it('queries correct value at a specified block', async () => {
+    it('queries correct value at a specified block', async (): Promise<void> => {
       const header = await api.rpc.chain.getHeader() as Header;
       const sessionIndex = await api.query.session.currentIndex.at(header.hash) as SessionIndex;
 
@@ -220,13 +220,13 @@ describe.skip('Promise e2e queries', () => {
       });
     });
 
-    it('queries correct hash', async () => {
+    it('queries correct hash', async (): Promise<void> => {
       const hash: Hash = await api.query.session.currentIndex.hash();
 
       expect(hash).toBeDefined();
     });
 
-    it('gets correct key', async () => {
+    it('gets correct key', async (): Promise<void> => {
       const key = api.query.session.currentIndex.key();
       const sessionIndexData = await api.rpc.state.getStorage(key) as Option<any>;
       const sessionIndexRPC = new SessionIndex(sessionIndexData.unwrapOr(undefined));
@@ -234,7 +234,7 @@ describe.skip('Promise e2e queries', () => {
       expect(sessionIndexRPC.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
-    it('queries correct size', async () => {
+    it('queries correct size', async (): Promise<void> => {
       const size = await api.query.session.currentIndex.size();
 
       expect(size).not.toHaveLength(0);
@@ -242,14 +242,14 @@ describe.skip('Promise e2e queries', () => {
     });
   });
 
-  describe('with map type', () => {
-    it('queries correct value', async () => {
+  describe('with map type', (): void => {
+    it('queries correct value', async (): Promise<void> => {
       const balance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
 
       expect(balance.isZero()).toBe(false);
     });
 
-    it('queries correct value at a specified block', async () => {
+    it('queries correct value at a specified block', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice.address);
       const header = await api.rpc.chain.getHeader() as Header;
@@ -270,13 +270,13 @@ describe.skip('Promise e2e queries', () => {
       });
     });
 
-    it('queries correct hash', async () => {
+    it('queries correct hash', async (): Promise<void> => {
       const hash = await api.query.balances.freeBalance.hash(keyring.alice.address);
 
       expect(hash).toBeDefined();
     });
 
-    it('gets correct key', async () => {
+    it('gets correct key', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const key = api.query.balances.freeBalance.key(keyring.alice.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
@@ -288,7 +288,7 @@ describe.skip('Promise e2e queries', () => {
       expect(balanceRPC.toString()).toEqual(balance.toString());
     });
 
-    it('queries multiple results', async () => {
+    it('queries multiple results', async (): Promise<void> => {
       // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
       const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address);
       const balanceBob = await api.query.balances.freeBalance(keyring.bob.address);
@@ -319,7 +319,7 @@ describe.skip('Promise e2e queries', () => {
       });
     });
 
-    it('queries correct size', async () => {
+    it('queries correct size', async (): Promise<void> => {
       const size = await api.query.balances.freeBalance.size(keyring.alice.address);
 
       expect(size.toNumber()).not.toEqual(0);
@@ -327,16 +327,16 @@ describe.skip('Promise e2e queries', () => {
   });
 
   // TODO Update ['any', '0x1234'] to the key of a known event topic and update EXPECTED_VALUE to the expected value
-  describe('with double map type', () => {
+  describe('with double map type', (): void => {
     const KEY1 = 'any';
     const KEY2 = '0x1234';
-    it('queries correct value', async () => {
+    it('queries correct value', async (): Promise<void> => {
       const eventTopics = await api.query.system.eventTopics(KEY1, KEY2);
 
       expect(eventTopics.toJSON()).toEqual([]);
     });
 
-    it('queries correct value at a specified block', async () => {
+    it('queries correct value at a specified block', async (): Promise<void> => {
       const header = await api.rpc.chain.getHeader() as Header;
 
       // TODO check & fix: this will throw the error: Encoding for input doesn't match output, created 0x00 from 0x
@@ -354,20 +354,20 @@ describe.skip('Promise e2e queries', () => {
       });
     });
 
-    it('queries correct hash', async () => {
+    it('queries correct hash', async (): Promise<void> => {
       const hash = await api.query.system.eventTopics(KEY1, KEY2);
 
       expect(hash).toBeDefined();
     });
 
-    it('gets correct key', async () => {
+    it('gets correct key', async (): Promise<void> => {
       const key = api.query.system.eventTopics.key(KEY1, KEY2);
       const eventTopicsData = await api.rpc.state.getStorage(key) as Option<any>;
 
       expect(eventTopicsData.unwrapOr(undefined)).toEqual(undefined);
     });
 
-    it('queries multiple results', async () => {
+    it('queries multiple results', async (): Promise<void> => {
       const eventTopicsList = await api.query.system.eventTopics.multi([
         [KEY1, KEY2]
       ]);
@@ -386,7 +386,7 @@ describe.skip('Promise e2e queries', () => {
       });
     });
 
-    it('queries correct size', async () => {
+    it('queries correct size', async (): Promise<void> => {
       const size = await api.query.system.eventTopics.size(KEY1, KEY2);
 
       expect(size.toNumber()).toEqual(0);

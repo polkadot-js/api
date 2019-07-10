@@ -95,7 +95,7 @@ describe.skip('Promise e2e transactions', () => {
       .signAndSend(keyring.charlie.address, logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer) with undefined Signer', async () => {
+  it('makes a transfer (signAndSend via Signer) with undefined Signer', async (): Promise<void> => {
     const signer: any = undefined;
     // no signer
     api.setSigner(signer);
@@ -105,7 +105,7 @@ describe.skip('Promise e2e transactions', () => {
       .signAndSend(keyring.alice.address)).rejects.toThrow('no signer exists');
   });
 
-  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async () => {
+  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async (): Promise<void> => {
     const signer: Signer = new SingleAccountSigner(keyring.dave);
 
     api.setSigner(signer);
@@ -116,14 +116,14 @@ describe.skip('Promise e2e transactions', () => {
       .signAndSend(keyring.alice.address)).rejects.toThrow('does not have the keyringPair');
   });
 
-  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async () => {
+  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async (): Promise<void> => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.alice.address, (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
   });
 
-  it('makes a transfer (no callback)', async () => {
+  it('makes a transfer (no callback)', async (): Promise<void> => {
     const hash = await api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.dave);
@@ -131,7 +131,7 @@ describe.skip('Promise e2e transactions', () => {
     expect(hash.toHex()).toHaveLength(66);
   });
 
-  it('makes a proposal', async () => {
+  it('makes a proposal', async (): Promise<void> => {
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const hash: Hash = await api.tx.democracy

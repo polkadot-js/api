@@ -5,7 +5,7 @@
 import { UnsubscribePromise } from '../types';
 import Combinator from './Combinator';
 
-describe('Combinator', () => {
+describe('Combinator', (): void => {
   let fns: ((value: any) => void)[] = [];
   const storeFn = async (cb: (value: any) => void): UnsubscribePromise => {
     fns.push(cb);
@@ -13,7 +13,7 @@ describe('Combinator', () => {
     return () => undefined;
   };
 
-  beforeEach(() => {
+  beforeEach((): void => {
     fns = [];
   });
 

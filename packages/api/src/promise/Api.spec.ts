@@ -8,15 +8,15 @@ import Mock from '@polkadot/rpc-provider/mock/index';
 import { ApiPromise } from './..';
 import { ApiOptions } from './../types';
 
-describe.skip('Metadata queries', () => {
+describe.skip('Metadata queries', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(3000000);
     mock = new Mock();
   });
 
-  it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async () => {
+  it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
     const rpcData = await mock.send('state_getMetadata',[]);
     const genesisHash = new Hash(await mock.send('chain_getBlockHash',[])).toHex();
     const specVersion = 0;
@@ -34,7 +34,7 @@ describe.skip('Metadata queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async () => {
+  it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
     const metadata = {};
     const api = await ApiPromise.create({
       provider: mock, metadata

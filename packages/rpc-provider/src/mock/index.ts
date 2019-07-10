@@ -141,7 +141,7 @@ export default class Mock implements ProviderInterface {
     let counter = -1;
 
     // Do something every 1 seconds
-    setInterval(() => {
+    setInterval((): void => {
       if (!this.isUpdating) {
         return;
       }

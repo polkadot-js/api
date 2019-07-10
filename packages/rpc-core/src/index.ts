@@ -193,7 +193,7 @@ export default class Rpc implements RpcInterface {
         }
 
         // Teardown logic
-        return () => {
+        return (): void => {
           // Delete from cache
           // Reason:
           // ```

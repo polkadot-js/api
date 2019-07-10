@@ -52,7 +52,7 @@ function mockWs (requests: { method: string }[]) {
     server: Server,
     done: any
   } = { body: {}, requests: 0, server, done: () =>
-      server.stop(() => {
+      server.stop((): void => {
         // ignore
       })
   };

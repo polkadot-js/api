@@ -10,14 +10,14 @@ import Api from './../../src/promise';
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
-describe.skip('alex queries', () => {
+describe.skip('alex queries', (): void => {
   let api: Api;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async () => {
+  beforeEach(async (): Promise<void> => {
     api = await Api.create({
       provider: new WsProvider(WS_URL)
     });
@@ -36,7 +36,7 @@ describe.skip('alex queries', () => {
     );
   });
 
-  describe('retrieves a single value', () => {
+  describe('retrieves a single value', (): void => {
     it('retrieves the list of stash validators', (done) => {
       return (
         api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
@@ -76,7 +76,7 @@ describe.skip('alex queries', () => {
     );
   });
 
-  it('makes a query at a latest block (specified)', async () => {
+  it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
     const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 

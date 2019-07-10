@@ -21,10 +21,10 @@ const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
-describe.skip('e2e state', () => {
+describe.skip('e2e state', (): void => {
   let rpc: Rpc;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
     rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
@@ -47,7 +47,7 @@ describe.skip('e2e state', () => {
       });
   });
 
-  describe('test-suite getStorage()', () => {
+  describe('test-suite getStorage()', (): void => {
     it('retrieves code', (done) => {
       rpc.state
         .getStorage([
@@ -86,7 +86,7 @@ describe.skip('e2e state', () => {
     });
   });
 
-  describe('e2e state child methods', () => {
+  describe('e2e state child methods', (): void => {
     // `child_storage` is currently not used anywhere in substrate, that's why we need to
     // add a Smart Contract that is using `child_storage` before being able to test it.
     let codeHash: Hash;
@@ -112,7 +112,7 @@ describe.skip('e2e state', () => {
           done();
         });
 
-      return putCode.then(() => {
+      return putCode.then((): void => {
         return apiPromise.tx.contract
           .create(12345, 50000, codeHash, abi.deploy())
           .signAndSend(keyring.bob);

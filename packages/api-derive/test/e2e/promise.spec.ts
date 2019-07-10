@@ -27,7 +27,7 @@ describe.skip('derive e2e', () => {
     done();
   });
 
-  it('returns correct results', async () => {
+  it('returns correct results', async (): Promise<void> => {
     // https://github.com/polkadot-js/api/issues/777
     const block1 = await api.derive.chain.bestNumber();
     await new Promise((resolve) => setTimeout(resolve, 15000));
@@ -194,7 +194,7 @@ describe.skip('derive e2e', () => {
       }).catch(console.error);
 
       // Wait a bit, and change reward destination
-      setTimeout(async () => {
+      setTimeout(async (): Promise<void> => {
         await api.tx.staking
           .setPayee(new RewardDestination('Stash'))
           .signAndSend(testingPairs().alice, ({ status }) => {
