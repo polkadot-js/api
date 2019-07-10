@@ -40,7 +40,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return !this.length || isUndefined(this.find((value) => !!value));
   }
 

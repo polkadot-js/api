@@ -23,7 +23,7 @@ export default class Health extends Struct {
   /**
    * @description The sync status
    */
-  get isSyncing (): Bool {
+  public get isSyncing (): Bool {
     return this.get('isSyncing') as Bool;
   }
 

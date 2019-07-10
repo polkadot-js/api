@@ -132,7 +132,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description `true` id the extrinsic is signed
    */
-  get isSigned (): boolean {
+  public get isSigned (): boolean {
     return this.signature.isSigned;
   }
 

@@ -44,7 +44,7 @@ export class Phase extends Enum {
   /**
    * @description Returns the item as a [[ApplyExtrinsic]]
    */
-  get asApplyExtrinsic (): ApplyExtrinsic {
+  public get asApplyExtrinsic (): ApplyExtrinsic {
     assert(this.isApplyExtrinsic, `Cannot convert '${this.type}' via asApplyExtrinsic`);
 
     return this.value as ApplyExtrinsic;
@@ -53,7 +53,7 @@ export class Phase extends Enum {
   /**
    * @description Returns the item as a [[Finalization]]
    */
-  get asFinalization (): Finalization {
+  public get asFinalization (): Finalization {
     assert(this.isFinalization, `Cannot convert '${this.type}' via asFinalization`);
 
     return this.value as Finalization;
@@ -62,14 +62,14 @@ export class Phase extends Enum {
   /**
    * @description true when this is a ApplyExtrinsic
    */
-  get isApplyExtrinsic (): boolean {
+  public get isApplyExtrinsic (): boolean {
     return this.type === 'ApplyExtrinsic';
   }
 
   /**
    * @description true when this is a ApplyExtrinsic
    */
-  get isFinalization (): boolean {
+  public get isFinalization (): boolean {
     return this.type === 'Finalization';
   }
 }

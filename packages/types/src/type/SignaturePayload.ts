@@ -56,7 +56,7 @@ export default class SignaturePayload extends Struct {
   /**
    * @description `true` if the payload refers to a valid signature
    */
-  get isSigned (): boolean {
+  public get isSigned (): boolean {
     return !!(this._signature && this._signature.length === 64);
   }
 

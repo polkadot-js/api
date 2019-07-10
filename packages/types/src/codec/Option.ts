@@ -65,21 +65,21 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Checks if the Option has no value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.isNone;
   }
 
   /**
    * @description Checks if the Option has no value
    */
-  get isNone (): boolean {
+  public get isNone (): boolean {
     return this.raw instanceof Null;
   }
 
   /**
    * @description Checks if the Option has a value
    */
-  get isSome (): boolean {
+  public get isSome (): boolean {
     return !this.isNone;
   }
 

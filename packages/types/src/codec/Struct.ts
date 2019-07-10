@@ -145,7 +145,7 @@ export default class Struct<
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     const items = this.toArray();
 
     for (let i = 0; i < items.length; i++) {

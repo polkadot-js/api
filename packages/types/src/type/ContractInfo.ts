@@ -79,7 +79,7 @@ export default class ContractInfo extends Enum {
   /**
    * @description Returns the item as an [[Alive]]
    */
-  get asAlive (): Alive {
+  public get asAlive (): Alive {
     assert(this.isAlive, `Cannot convert '${this.type}' via asAlive`);
 
     return this.value as Alive;
@@ -88,7 +88,7 @@ export default class ContractInfo extends Enum {
   /**
    * @description Returns the item as an [[Tombstone]]
    */
-  get asTombstone (): Tombstone {
+  public get asTombstone (): Tombstone {
     assert(this.isTombstone, `Cannot convert '${this.type}' via asTombstone`);
 
     return this.value as Tombstone;
@@ -97,14 +97,14 @@ export default class ContractInfo extends Enum {
   /**
    * @description value is an [[Alive]]
    */
-  get isAlive (): boolean {
+  public get isAlive (): boolean {
     return this.toNumber() === 0;
   }
 
   /**
    * @description value is an [[Tombstone]]
    */
-  get isTombstone (): boolean {
+  public get isTombstone (): boolean {
     return this.toNumber() === 1;
   }
 }

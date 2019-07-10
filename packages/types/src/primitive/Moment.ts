@@ -55,7 +55,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.getTime() === 0;
   }
 

@@ -56,15 +56,15 @@ export class SubmittableResult implements ISubmittableResult {
     this.status = status;
   }
 
-  get isCompleted (): boolean {
+  public get isCompleted (): boolean {
     return this.isError || this.isFinalized;
   }
 
-  get isError (): boolean {
+  public get isError (): boolean {
     return this.status.isDropped || this.status.isInvalid || this.status.isUsurped;
   }
 
-  get isFinalized (): boolean {
+  public get isFinalized (): boolean {
     return this.status.isFinalized;
   }
 

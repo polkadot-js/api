@@ -21,7 +21,7 @@ export default class Null implements Codec {
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return true;
   }
 

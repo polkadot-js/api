@@ -79,7 +79,7 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.raw.isEmpty;
   }
 

@@ -77,7 +77,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description true is the Set contains no values
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.size === 0;
   }
 

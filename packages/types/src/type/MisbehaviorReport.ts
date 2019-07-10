@@ -133,7 +133,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoubleCommit]]
    */
-  get asBftDoubleCommit (): BftDoubleCommit {
+  public get asBftDoubleCommit (): BftDoubleCommit {
     assert(this.isBftDoubleCommit, `Cannot convert '${this.type}' via asBftDoubleCommit`);
 
     return this.value as BftDoubleCommit;
@@ -142,7 +142,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoublePrepare]]
    */
-  get asBftDoublePrepare (): BftDoublePrepare {
+  public get asBftDoublePrepare (): BftDoublePrepare {
     assert(this.isBftDoublePrepare, `Cannot convert '${this.type}' via asBftDoublePrepare`);
 
     return this.value as BftDoublePrepare;
@@ -151,7 +151,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoublePropose]]
    */
-  get asBftDoublePropose (): BftDoublePropose {
+  public get asBftDoublePropose (): BftDoublePropose {
     assert(this.isBftDoublePropose, `Cannot convert '${this.type}' via asBftDoublePropose`);
 
     return this.value as BftDoublePropose;
@@ -160,7 +160,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftProposeOutOfTurn]]
    */
-  get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
+  public get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
     assert(this.isBftProposeOutOfTurn, `Cannot convert '${this.type}' via asBftProposeOutOfTurn`);
 
     return this.value as BftProposeOutOfTurn;
@@ -169,28 +169,28 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description true when this is a BftDoubleCommit
    */
-  get isBftDoubleCommit (): boolean {
+  public get isBftDoubleCommit (): boolean {
     return this.type === 'BftDoubleCommit';
   }
 
   /**
    * @description true when this is a BftDoublePrepare
    */
-  get isBftDoublePrepare (): boolean {
+  public get isBftDoublePrepare (): boolean {
     return this.type === 'BftDoublePrepare';
   }
 
   /**
    * @description true when this is a BftDoublePropose
    */
-  get isBftDoublePropose (): boolean {
+  public get isBftDoublePropose (): boolean {
     return this.type === 'BftDoublePropose';
   }
 
   /**
    * @description true when this is a BftProposeOutOfTurn
    */
-  get isBftProposeOutOfTurn (): boolean {
+  public get isBftProposeOutOfTurn (): boolean {
     return this.type === 'BftProposeOutOfTurn';
   }
 }

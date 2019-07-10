@@ -71,7 +71,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   /**
    * @description `true` if the signature is valid
    */
-  get isSigned (): boolean {
+  public get isSigned (): boolean {
     return (this.version & BIT_SIGNED) === BIT_SIGNED;
   }
 

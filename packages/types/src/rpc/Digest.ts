@@ -61,21 +61,21 @@ export class ConsensusEngineId extends U32 {
   /**
    * @description `true` if the engine matches aura
    */
-  get isAura (): boolean {
+  public get isAura (): boolean {
     return this.eq(CID_AURA);
   }
 
   /**
    * @description `true` is the engine matches babe
    */
-  get isBabe (): boolean {
+  public get isBabe (): boolean {
     return this.eq(CID_BABE);
   }
 
   /**
    * @description `true` is the engine matches grandpa
    */
-  get isGrandpa (): boolean {
+  public get isGrandpa (): boolean {
     return this.eq(CID_GRPA);
   }
 
@@ -260,7 +260,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[AuthoritiesChange]]
    */
-  get asAuthoritiesChange (): AuthoritiesChange {
+  public get asAuthoritiesChange (): AuthoritiesChange {
     assert(this.isAuthoritiesChange, `Cannot convert '${this.type}' via asAuthoritiesChange`);
 
     return this.value as AuthoritiesChange;
@@ -269,7 +269,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[ChangesTrieRoot]]
    */
-  get asChangesTrieRoot (): ChangesTrieRoot {
+  public get asChangesTrieRoot (): ChangesTrieRoot {
     assert(this.isChangesTrieRoot, `Cannot convert '${this.type}' via asChangesTrieRoot`);
 
     return this.value as ChangesTrieRoot;
@@ -278,7 +278,7 @@ export class DigestItem extends Enum {
   /**
    * @desciption Retuns the item as a [[Consensus]]
    */
-  get asConsensus (): Consensus {
+  public get asConsensus (): Consensus {
     assert(this.isConsensus, `Cannot convert '${this.type}' via asConsensus`);
 
     return this.value as Consensus;
@@ -287,7 +287,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[Other]]
    */
-  get asOther (): Other {
+  public get asOther (): Other {
     assert(this.isOther, `Cannot convert '${this.type}' via asOther`);
 
     return this.value as Other;
@@ -296,7 +296,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[PreRuntime]]
    */
-  get asPreRuntime (): PreRuntime {
+  public get asPreRuntime (): PreRuntime {
     assert(this.isPreRuntime, `Cannot convert '${this.type}' via asPreRuntime`);
 
     return this.value as PreRuntime;
@@ -305,7 +305,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[Seal]]
    */
-  get asSeal (): Seal {
+  public get asSeal (): Seal {
     assert(this.isSeal, `Cannot convert '${this.type}' via asSeal`);
 
     return this.value as Seal;
@@ -314,7 +314,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[SealV0]]
    */
-  get asSealV0 (): SealV0 {
+  public get asSealV0 (): SealV0 {
     assert(this.isSealV0, `Cannot convert '${this.type}' via asSealV0`);
 
     return this.value as SealV0;
@@ -323,49 +323,49 @@ export class DigestItem extends Enum {
   /**
    * @description Returns true on [[AuthoritiesChange]]
    */
-  get isAuthoritiesChange (): boolean {
+  public get isAuthoritiesChange (): boolean {
     return this.type === 'AuthoritiesChange';
   }
 
   /**
    * @description Returns true on [[ChangesTrieRoot]]
    */
-  get isChangesTrieRoot (): boolean {
+  public get isChangesTrieRoot (): boolean {
     return this.type === 'ChangesTrieRoot';
   }
 
   /**
    * @description Returns true on [[Consensus]]
    */
-  get isConsensus (): boolean {
+  public get isConsensus (): boolean {
     return this.type === 'Consensus';
   }
 
   /**
    * @description Returns true on [[Other]]
    */
-  get isOther (): boolean {
+  public get isOther (): boolean {
     return this.type === 'Other';
   }
 
   /**
    * @description Returns true on [[PreRuntime]]
    */
-  get isPreRuntime (): boolean {
+  public get isPreRuntime (): boolean {
     return this.type === 'PreRuntime';
   }
 
   /**
    * @description Returns true on [[Seal]]
    */
-  get isSeal (): boolean {
+  public get isSeal (): boolean {
     return this.type === 'Seal';
   }
 
   /**
    * @description Returns true on [[SealV0]]
    */
-  get isSealV0 (): boolean {
+  public get isSealV0 (): boolean {
     return this.type === 'SealV0';
   }
 

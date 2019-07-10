@@ -76,7 +76,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.raw.isEmpty;
   }
 

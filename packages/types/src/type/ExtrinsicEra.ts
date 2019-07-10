@@ -64,7 +64,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   /**
    * @description Returns the item as a [[ImmortalEra]]
    */
-  get asImmortalEra (): ImmortalEra {
+  public get asImmortalEra (): ImmortalEra {
     assert(this.isImmortalEra, `Cannot convert '${this.type}' via asImmortalEra`);
 
     return this.value as ImmortalEra;
@@ -73,7 +73,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   /**
    * @description Returns the item as a [[MortalEra]]
    */
-  get asMortalEra (): MortalEra {
+  public get asMortalEra (): MortalEra {
     assert(this.isMortalEra, `Cannot convert '${this.type}' via asMortalEra`);
 
     return this.value as MortalEra;
@@ -82,14 +82,14 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   /**
    * @description `true` if Immortal
    */
-  get isImmortalEra (): boolean {
+  public get isImmortalEra (): boolean {
     return this.index === 0;
   }
 
   /**
    * @description `true` if Mortal
    */
-  get isMortalEra (): boolean {
+  public get isMortalEra (): boolean {
     return this.index > 0;
   }
 

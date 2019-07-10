@@ -39,7 +39,7 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description Checks if the value is an empty value (always false)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return false;
   }
 

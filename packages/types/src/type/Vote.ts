@@ -67,14 +67,14 @@ export default class Vote extends U8a {
   /**
    * @description true if the wrapped value is a positive vote
    */
-  get isAye (): boolean {
+  public get isAye (): boolean {
     return this._aye.eq(true);
   }
 
   /**
    * @description true if the wrapped value is a negative vote
    */
-  get isNay (): boolean {
+  public get isNay (): boolean {
     return !this.isAye;
   }
 }

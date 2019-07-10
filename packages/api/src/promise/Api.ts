@@ -156,7 +156,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   /**
    * @description Promise that returns the first time we are connected and loaded
    */
-  get isReady (): Promise<ApiPromise> {
+  public get isReady (): Promise<ApiPromise> {
     return this._isReadyPromise;
   }
 

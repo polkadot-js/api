@@ -148,21 +148,21 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.isEmpty;
   }
 
   /**
    * @description Checks if the Enum points to a [[Null]] type
    */
-  get isNone (): boolean {
+  public get isNone (): boolean {
     return this.isNull;
   }
 
   /**
    * @description Checks if the Enum points to a [[Null]] type (deprecated, use isNone)
    */
-  get isNull (): boolean {
+  public get isNull (): boolean {
     return this.raw instanceof Null;
   }
 

@@ -81,7 +81,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  get asDoubleMap (): DoubleMapType {
+  public get asDoubleMap (): DoubleMapType {
     assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
 
     return this.value as DoubleMapType;
@@ -90,7 +90,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  get asMap (): MapType {
+  public get asMap (): MapType {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
     return this.value as MapType;
@@ -99,7 +99,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  get asType (): PlainType {
+  public get asType (): PlainType {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
     return this.value as PlainType;
@@ -108,21 +108,21 @@ export class StorageFunctionType extends Enum {
   /**
    * @description `true` if the storage entry is a doublemap
    */
-  get isDoubleMap (): boolean {
+  public get isDoubleMap (): boolean {
     return this.toNumber() === 2;
   }
 
   /**
    * @description `true` if the storage entry is a map
    */
-  get isMap (): boolean {
+  public get isMap (): boolean {
     return this.toNumber() === 1;
   }
 
   /**
    * @description `true` if the storage entry is a plain type
    */
-  get isPlainType (): boolean {
+  public get isPlainType (): boolean {
     return this.toNumber() === 0;
   }
 

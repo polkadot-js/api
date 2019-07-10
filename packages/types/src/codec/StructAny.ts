@@ -50,7 +50,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return [...this.keys()].length === 0;
   }
 
