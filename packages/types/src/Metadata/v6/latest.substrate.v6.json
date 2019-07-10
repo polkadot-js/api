@@ -710,7 +710,7 @@
               "name": "Validators",
               "modifier": "Default",
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "PlainType": "Vec<ValidatorId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -740,24 +740,6 @@
               ]
             },
             {
-              "name": "NextKeyFor",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "AccountId",
-                  "value": "Keys",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The next key to be used for a given validator. At the end of the session, they",
-                " will be moved into the `QueuedKeys` and so changes here will not take effect for",
-                " at least one whole session."
-              ]
-            },
-            {
               "name": "QueuedChanged",
               "modifier": "Default",
               "type": {
@@ -772,28 +754,12 @@
               "name": "QueuedKeys",
               "modifier": "Default",
               "type": {
-                "PlainType": "Vec<(AccountId,Keys)>"
+                "PlainType": "Vec<(ValidatorId,Keys)>"
               },
               "fallback": "0x00",
               "documentation": [
                 " The queued keys for the next session. When the next session begins, these keys",
                 " will be used to determine the validator's session keys."
-              ]
-            },
-            {
-              "name": "Active",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "u32",
-                  "value": "Vec<OpaqueKey>",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The keys that are currently active."
               ]
             }
           ],
@@ -818,7 +784,7 @@
                 " The dispatch origin of this function must be signed.",
                 "",
                 " # <weight>",
-                " - O(1).",
+                " - O(log n) in number of accounts.",
                 " - One extra DB entry.",
                 " # </weight>"
               ]
@@ -1105,6 +1071,17 @@
               "fallback": "0x00",
               "documentation": [
                 " True if the next session change will be a new era regardless of index."
+              ]
+            },
+            {
+              "name": "BondedEras",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(EraIndex,SessionIndex)>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " A mapping from still-bonded eras to the first session index of that era."
               ]
             }
           ],
