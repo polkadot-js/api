@@ -95,7 +95,7 @@ export interface StorageEntryObservable {
   creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>) => Observable<Codec>;
+  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>) => Observable<Array<T>>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 
@@ -137,7 +137,7 @@ export type QueryableStorageMultiArg<ApiType> =
 export type QueryableStorageMultiArgs<ApiType> = Array<QueryableStorageMultiArg<ApiType>>;
 
 export interface QueryableStorageMultiBase<ApiType> {
-  (calls: QueryableStorageMultiArgs<ApiType>): UnsubscribePromise;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<Array<T>>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {
