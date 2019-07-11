@@ -34,6 +34,6 @@
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^0.94.0-beta.8"
+    "@polkadot/keyring": "^0.94.0-beta.9"
   }
 }
