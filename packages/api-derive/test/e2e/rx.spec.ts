@@ -11,7 +11,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { HeaderExtended } from '../../src/type';
 import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../src/types';
 
-const WS = 'ws://127.0.0.1:9944/';
+const WS = 'ws://127.0.0.1:9945/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 // const WS = 'wss://substrate-rpc.parity.io/';
 
@@ -19,7 +19,7 @@ const WS = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('Api-RX derive e2e', () => {
+describe('Api-RX derive e2e', () => {
   let api: ApiRx;
 
   beforeAll(() => {

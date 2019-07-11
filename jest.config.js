@@ -19,5 +19,13 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/rpc-provider/build',
     '<rootDir>/packages/type-jsonrpc/build',
     '<rootDir>/packages/types/build'
-  ]
+  ],
+  globals: {
+    'ws_local': 'ws://127.0.0.1:9944/',
+    'wsSubstrate_master': 'ws://127.0.0.1:9945/',
+    'wsSubstrate_1': 'ws://127.0.0.1:9946/',
+    'wsSubstrate_2': 'ws://127.0.0.1:9947/',
+    'wsPolkadot_master': 'ws://127.0.0.1:9948/',
+    'wsPolkadot_alexander': 'ws://127.0.0.1:9949/'
+  },
 });

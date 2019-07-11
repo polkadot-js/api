@@ -12,10 +12,10 @@ import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from
 import { SubmittableResult } from '../../../api/src';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
-const WS = 'ws://127.0.0.1:9944/';
+const WS = 'ws://127.0.0.1:9945/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('derive e2e', () => {
+describe('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -23,7 +23,7 @@ describe.skip('derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiPromise.create(new WsProvider(WS));
+    api = await ApiPromise.create(new WsProvider(global.wsSubstrate_master));
     done();
   });
 
