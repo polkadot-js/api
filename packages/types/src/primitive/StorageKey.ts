@@ -13,15 +13,16 @@ export interface StorageEntry {
   headKey?: Uint8Array;
   meta: MetaV6;
   method: string;
+  prefix: string;
   section: string;
   toJSON: () => any;
 }
 
-type Decoded = {
+interface Decoded {
   key?: Uint8Array | string;
   method?: string;
   section?: string;
-};
+}
 
 /**
  * @name StorageKey

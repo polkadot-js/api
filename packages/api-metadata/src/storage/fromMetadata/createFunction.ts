@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Bytes, Compact, StorageKey, Text, U8a } from '@polkadot/types';
+import { createType, Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
 import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
@@ -12,6 +12,13 @@ import getHasher, { HasherFunction } from './getHasher';
 export interface CreateItemOptions {
   key?: string;
   skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
+}
+
+export interface CreateItemFn {
+  meta: StorageEntryMetadata;
+  method: string;
+  prefix: string;
+  section: string;
 }
 
 /**
@@ -24,10 +31,10 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (section: Text | string, method: Text | string, meta: StorageEntryMetadata, options: CreateItemOptions = {}): StorageEntry {
+export default function createFunction ({ meta, method, prefix, section }: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
   const stringKey = options.key
     ? options.key
-    : `${section.toString()} ${method.toString()}`;
+    : `${prefix} ${method}`;
   const rawKey = stringToU8a(stringKey);
 
   // Get the hashing function
@@ -46,7 +53,7 @@ export default function createFunction (section: Text | string, method: Text | s
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
   // - storage.timestamp.blockPeriod()
-  const storageFn = (arg?: any): Uint8Array => {
+  const _storageFn = (arg?: any): Uint8Array => {
     let key = rawKey;
 
     if (meta.type.isDoubleMap) {
@@ -78,6 +85,8 @@ export default function createFunction (section: Text | string, method: Text | s
     );
   };
 
+  const storageFn = _storageFn as StorageEntry;
+
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = () => keyHash;
@@ -92,9 +101,10 @@ export default function createFunction (section: Text | string, method: Text | s
   }
 
   storageFn.meta = meta;
-  storageFn.method = stringLowerFirst(method.toString());
-  storageFn.section = stringLowerFirst(section.toString());
+  storageFn.method = stringLowerFirst(method);
+  storageFn.prefix = prefix;
+  storageFn.section = section;
   storageFn.toJSON = (): any => meta.toJSON();
 
-  return storageFn as StorageEntry;
+  return storageFn;
 }

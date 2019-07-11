@@ -22,10 +22,18 @@ export default function fromMetadata (metadata: Metadata): Storage {
     }
 
     const { name, prefix } = moduleMetadata;
+    const section = stringCamelCase(name.toString());
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[stringCamelCase(name.toString())] = moduleMetadata.storage.unwrap().reduce((newModule, storageFnMeta) => {
-      newModule[stringLowerFirst(storageFnMeta.name.toString())] = createFunction(prefix, storageFnMeta.name, storageFnMeta);
+    result[section] = moduleMetadata.storage.unwrap().reduce((newModule, meta) => {
+      const method = meta.name.toString();
+
+      newModule[stringLowerFirst(method)] = createFunction({
+        meta,
+        method,
+        prefix: prefix.toString(),
+        section
+      });
 
       return newModule;
     }, {} as ModuleStorage);
