@@ -1,5 +1,5 @@
 {
-  "version": "0.82.0-beta.37",
+  "version": "0.82.0-beta.46",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -15,19 +15,20 @@
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
+    "build:srmlTs": "node packages/types/src/scripts/srmlTSWrapper.js",
     "check": "yarn lint",
     "lint": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage",
-    "test:skip-e2e": "jest --coverage --testPathIgnorePatterns e2e",
+    "test": "jest --coverage --testPathIgnorePatterns e2e",
+    "test:all": "jest",
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.0",
+    "@babel/core": "^7.5.4",
     "@babel/register": "^7.4.4",
-    "@babel/runtime": "^7.5.2",
-    "@polkadot/dev": "^0.30.0-beta.18",
+    "@babel/runtime": "^7.5.4",
+    "@polkadot/dev": "^0.30.0-beta.20",
     "@polkadot/ts": "^0.1.61",
     "gh-pages": "^2.0.1"
   }

@@ -36,9 +36,9 @@ function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  *
- *   8 bytes: The Transaction Index/Nonce as provided in the transaction itself.
+ *   1-8 bytes: The Transaction Compact<Index/Nonce> as provided in the transaction itself.
  *   2+ bytes: The Function Descriptor as provided in the transaction itself.
- *   2 bytes: The Transaction Era as provided in the transaction itself.
+ *   1/2 bytes: The Transaction Era as provided in the transaction itself.
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class SignaturePayload extends Struct {

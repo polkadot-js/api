@@ -4,7 +4,7 @@
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 import BlockNumber from './BlockNumber';
 
 /**

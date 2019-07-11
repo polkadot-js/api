@@ -13,13 +13,13 @@ import { BlockNumber, Option } from '@polkadot/types';
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
-type Result0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
+type Result_0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
 type Result = [BN, [BN, BN]];
 
 const ZERO = new BN(0);
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerived0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result0_94): DerivedSessionInfo {
+function createDerived_0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result_0_94): DerivedSessionInfo {
   const eraLength = sessionLength.mul(sessionsPerEra);
   const lastLengthChange = _lastLengthChange
     ? _lastLengthChange.unwrapOr(ZERO)
@@ -65,12 +65,13 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
 }
 
 /**
- * @description Retrieves all the session and era info and calculates specific valus on it sunh as the length of the session and eras
+ * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterface$Rx) {
   return (): Observable<DerivedSessionInfo> => {
-    // with 94, the era and session has been explicitly exposed, pre-94
-    // we had more info and needed to calculate (handle old/Alex first)
+    // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
+    // pre-94 we had more info and needed to calculate (handle old/Alex first)
+    // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
     return api.query.session.lastLengthChange
       ? (combineLatest([
         bestNumber(api)(),
@@ -81,13 +82,15 @@ export function info (api: ApiInterface$Rx) {
           api.query.staking.lastEraLengthChange,
           api.query.staking.sessionsPerEra
         ])
-      ]) as any as Observable<Result0_94>).pipe(
-        map(createDerived0_94),
+      ]) as any as Observable<Result_0_94>).pipe(
+        map(createDerived_0_94),
         drr()
       )
     : (combineLatest([
-      // sessionsPerEra, hardcoded, due to https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
-      of(new BN(6)),
+      // sessionsPerEra:
+      // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
+      // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
+      of(api.consts.staking.sessionsPerEra),
       api.queryMulti([
         api.query.session.currentIndex,
         api.query.staking.currentEra

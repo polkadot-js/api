@@ -22,9 +22,10 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
+import * as srmlTypes from '@polkadot/types/srml/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -123,6 +124,12 @@ export default abstract class ApiBase<ApiType> {
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
+      // first register the definitions we have, i.e. those where there are no type classes
+      Object.values(srmlTypes).forEach(({ types }) =>
+        this.registerTypes(types)
+      );
+
+      // next register all the user types
       this.registerTypes(options.types);
     }
 
@@ -556,9 +563,7 @@ export default abstract class ApiBase<ApiType> {
             : [arg.creator] as any
         );
 
-        return this._rpcCore.state
-          .subscribeStorage(mapped)
-          .pipe(map((results) => new VectorAny(...results)));
+        return this._rpcCore.state.subscribeStorage(mapped);
       });
   }
 
@@ -649,7 +654,6 @@ export default abstract class ApiBase<ApiType> {
       (args: Array<CodecArg[] | CodecArg>) =>
         this._rpcCore.state
           .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
-          .pipe(map((results) => new VectorAny(...results)))
     );
 
     decorated.size = decorateMethod(
