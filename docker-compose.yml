@@ -1,6 +1,6 @@
 # Docker compose file to run Polkadot-JS API e2e test files on supported versions of Polkadot and Substrate
+# 
 # Setup:
-#
 # Builds 5 containers with different supported versions of Substrate and Polkadot.
 # Runs Polkadot-JS API Tests 
 #
@@ -35,7 +35,6 @@ services:
     command:
       - "--dev"
       - "--ws-external"
-    user: ${CURRENT_UID}
     
   substrate-1.0:
     image: parity/substrate:v1.0.0 
