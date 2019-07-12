@@ -6,14 +6,14 @@ import { StorageChangeSet } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/api-metadata/storage/static';
 
-import Rpc from '../../src';
+import Rpc from '../../../../rpc-core/src';
 
-describe.skip('e2e subscriptions', () => {
+describe('e2e subscriptions', () => {
   let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider((global as any).ws_local));
   });
 
   it('retrieves current timestamp', (done) => {

@@ -7,15 +7,15 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { RewardDestination } from '@polkadot/types';
 
-import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
-import { SubmittableResult } from '../../../api/src';
+import { HeaderExtended } from '../../../../api-derive/src/type';
+import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../../../api-derive/src/types';
+import { SubmittableResult } from '../../../src';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
-const WS = 'ws://127.0.0.1:9944/';
+const WS = (global as any).ws_local;
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('derive e2e', () => {
+describe('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {

@@ -5,9 +5,9 @@
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import Api from './../../../src/promise';
 
-const WS_URL = 'wss://poc3-rpc.polkadot.io/';
+const WS_URL = (global as any).ws_local_polkadot_alex;
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
 describe.skip('alex queries', () => {

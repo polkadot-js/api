@@ -8,10 +8,10 @@ import ApiRx from '@polkadot/api/rx/Api';
 import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../src/types';
+import { HeaderExtended } from '../../../../api-derive/src/type';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../../../api-derive/src/types';
 
-const WS = 'ws://127.0.0.1:9944/';
+const WS = (global as any).ws_local;
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 // const WS = 'wss://substrate-rpc.parity.io/';
 

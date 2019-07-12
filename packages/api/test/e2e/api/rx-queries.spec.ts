@@ -9,15 +9,15 @@ import { switchMap } from 'rxjs/operators';
 import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from '../../src/rx';
+import Api from '../../../src/rx';
 
-describe.skip('Rx e2e queries', () => {
+describe('Rx e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
   beforeEach(async (done) => {
-    api = await Api.create().toPromise();
-    jest.setTimeout(3000000);
+    api = await Api.create((global as any).ws_local).toPromise();
+    jest.setTimeout(30000);
     done();
   });
 

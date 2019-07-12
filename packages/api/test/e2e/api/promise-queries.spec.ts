@@ -11,13 +11,13 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import Api from './../../../src/promise';
 
 const ZERO = new BN(0);
-const WS_URL = 'ws://127.0.0.1:9944';
+const WS_URL = (global as any).ws_local;
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('Promise e2e queries', () => {
+describe('Promise e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 

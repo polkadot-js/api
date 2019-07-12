@@ -14,19 +14,19 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
-import Rpc from '../../src';
+import Rpc from '../../../../rpc-core/src';
 import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
-describe.skip('e2e state', () => {
+describe('e2e state', () => {
   let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider((global as any).ws_local));
   });
 
   it('getMetadata(): retrieves the wasm metadata', (done) => {

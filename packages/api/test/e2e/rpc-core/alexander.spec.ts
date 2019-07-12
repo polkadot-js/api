@@ -6,16 +6,16 @@ import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { BlockNumber, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
 
-import Rpc from '../../src';
+import Rpc from '../../../../rpc-core/src';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
-describe.skip('e2e Alexander - Polkadot', () => {
+describe('e2e Alexander - Polkadot', () => {
   let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
+    rpc = new Rpc(new WsProvider((global as any).ws_local_polkadot_alex));
   });
 
   it('subscribes to storage', (done) => {

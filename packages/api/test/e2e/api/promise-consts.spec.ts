@@ -6,11 +6,11 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber } from '@polkadot/types';
 
-describe.skip('e2e consts', () => {
+describe('e2e consts', () => {
   let api: ApiPromise;
 
   beforeEach(() => {
-    api = new ApiPromise(new WsProvider('ws://127.0.0.1:9944'));
+    api = new ApiPromise(new WsProvider((global as any).ws_local));
 
     return api.isReady;
   });
