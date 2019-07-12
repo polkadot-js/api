@@ -10,7 +10,7 @@ describe.skip('e2e consts', () => {
   let api: ApiPromise;
 
   beforeEach(() => {
-    api = new ApiPromise(new WsProvider('ws://127.0.0.1:9944'));
+    api = new ApiPromise(new WsProvider((global as any).ws_local));
 
     return api.isReady;
   });

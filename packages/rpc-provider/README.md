@@ -22,7 +22,7 @@ WebSocket Initialisation -
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 // this is the actual default endpoint
-const provider = new WsProvider('ws://127.0.0.1:9944');
+const provider = new WsProvider((global as any).ws_local);
 const version = await provider.send('client_version', []);
 
 console.log('client version', version);

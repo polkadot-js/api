@@ -44,7 +44,7 @@ const EMPTY_META = {
  * import Rpc from '@polkadot/rpc-core';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * const provider = new WsProvider('ws://127.0.0.1:9944');
+ * const provider = new WsProvider((global as any).ws_local);
  * const rpc = new Rpc(provider);
  * ```
  */

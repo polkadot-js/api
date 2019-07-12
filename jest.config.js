@@ -21,7 +21,7 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/types/build'
   ],
   globals: {
-    'ws_local': 'ws://127.0.0.1:9944/',
+    'ws_local': 'ws://127.0.0.1:9948/',
     'ws_local_substrate_master': 'ws://127.0.0.1:9945/',
     'ws_local_substrate_1': 'ws://127.0.0.1:9946/',
     'ws_local_substrate_2': 'ws://127.0.0.1:9947/',

@@ -39,7 +39,7 @@ describe('Promise e2e transactions', () => {
   beforeEach(async (done) => {
     if (!api) {
       api = await Api.create({
-        provider: new WsProvider('ws://127.0.0.1:9944')
+        provider: new WsProvider((global as any).ws_local)
       });
     }
 

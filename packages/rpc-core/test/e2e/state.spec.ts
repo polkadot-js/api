@@ -27,7 +27,7 @@ describe('e2e state', () => {
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider((global as any).ws_local));
   });
 
   it('getMetadata(): retrieves the wasm metadata', (done) => {
@@ -93,7 +93,7 @@ describe('e2e state', () => {
     let codeHash: Hash;
 
     beforeAll(async (done) => {
-      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
+      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider((global as any).ws_local));
 
       const txPath = apiPromise.tx.contracts || apiPromise.tx.contract;
 

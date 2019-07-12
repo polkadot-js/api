@@ -57,7 +57,7 @@ const l = logger('api-ws');
  * import Api from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * const provider = new WsProvider('ws://127.0.0.1:9944');
+ * const provider = new WsProvider((global as any).ws_local);
  * const api = new Api(provider);
  * ```
  *
@@ -220,7 +220,7 @@ export default class WsProvider implements WSProviderInterface {
    * <BR>
    *
    * ```javascript
-   * const provider = new WsProvider('ws://127.0.0.1:9944');
+   * const provider = new WsProvider((global as any).ws_local);
    * const rpc = new Rpc(provider);
    *
    * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
