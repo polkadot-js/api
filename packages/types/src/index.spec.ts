@@ -13,8 +13,8 @@ const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 describe('types', (): void => {
   describe('default creation', (): void => {
     Object.keys(Types).forEach((name): void => {
-      it(`creates an empty ${name}`, () => {
-        const constructFn = () =>
+      it(`creates an empty ${name}`, (): void => {
+        const constructFn = (): Codec =>
           new Types[name]();
 
         if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {

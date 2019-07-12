@@ -20,7 +20,9 @@ export const DEFAULT_UINT_BITS = 64;
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export default abstract class AbstractInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
+
   private _isHexJson: boolean;
+
   private _isNegative: boolean;
 
   public constructor (
@@ -77,13 +79,14 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength (): UIntBitLength {
+  public bitLength (): UIntBitLength {
     return this._bitLength;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public eq (other?: any): boolean {
     // Here we are actually overriding the built-in .eq to take care of both
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
@@ -97,7 +100,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
-  toBn (): BN {
+  public toBn (): BN {
     return this;
   }
 

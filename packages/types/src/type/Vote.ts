@@ -15,6 +15,7 @@ import Bool from '../primitive/Bool';
  */
 export default class Vote extends U8a {
   private _aye: Bool;
+
   private _conviction: Conviction; // for V1, default to None
 
   public constructor (value?: any) {
