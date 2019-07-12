@@ -21,25 +21,29 @@ interface Options {
   apiType?: 'promise' | 'rxjs';
 }
 
+// From the options and the WITH_DOCKER flag, calculate on which endpoints we
+// should run the tests
+function getWsEndpoints (options?: Options): WsName[] {
+  let wsEndpoints: WsName[] = []; // The ws endpoints to test
+
+  if (options && options.only) {
+    wsEndpoints = options.only;
+  } else {
+    wsEndpoints = (Object.keys(WS_ENDPOINTS) as WsName[])
+      .filter((wsName) => !options || !options.except || !options.except.includes(wsName));
+  }
+
+  // If there's no WITH_DOCKER flag, we only run local node
+  if (!process.env.WITH_DOCKER) {
+    wsEndpoints = wsEndpoints.filter((wsName) => wsName === 'local');
+  }
+
+  return wsEndpoints;
+}
+
 export default function describeE2E (options?: Options) {
-  return function (
-    message: string,
-    inner: (wsUrl: string) => any
-  ) {
-    let wsEndpoints: WsName[] = []; // The ws endpoints to test
-    if (options && options.only) {
-      wsEndpoints = options.only;
-    } else {
-      wsEndpoints = (Object.keys(WS_ENDPOINTS) as WsName[])
-        .filter((wsName) => !options || !options.except || !options.except.includes(wsName));
-    }
-
-    // If there's no WITH_DOCKER flag, we only run local node
-    if (!process.env.WITH_DOCKER) {
-      wsEndpoints = wsEndpoints.filter((wsName) => wsName === 'local');
-    }
-
-    wsEndpoints
+  return function (message: string, inner: (wsUrl: string) => any) {
+    getWsEndpoints(options)
       .map((wsName) => [wsName, WS_ENDPOINTS[wsName]])
       .forEach(([wsName, wsUrl]) => {
         describe(`${message} on ${wsName}`, () => {
