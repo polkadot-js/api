@@ -22,6 +22,7 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage --testPathIgnorePatterns e2e",
     "test:all": "jest",
+    "test:one": "jest",
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
