@@ -8,33 +8,39 @@ describe('unsubscribe', (): void => {
   let mock: Mock;
   let id: number;
 
-  beforeEach(() => {
+  beforeEach((): Promise<void> => {
     mock = new Mock();
 
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', () => void 0)
-      .then((_id) => {
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => void 0)
+      .then((_id): void => {
         id = _id;
       });
   });
 
-  it('fails on unknown ids', (): void => {
+  it('fails on unknown ids', (): Promise<boolean> => {
     return mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)
-      .catch((error) => {
+      .catch((error): boolean => {
         expect(error.message).toMatch(/Unable to find/);
+
+        return false;
       });
   });
 
-  it('unsubscribes successfully', (): void => {
+  it('unsubscribes successfully', (): Promise<boolean> => {
     return mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id);
   });
 
-  it('fails on double unsubscribe', (): void => {
+  it('fails on double unsubscribe', (): Promise<boolean> => {
     return mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
-      .then(() => mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id))
-      .catch((error) => {
+      .then((): Promise<boolean> =>
+        mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
+      )
+      .catch((error): boolean => {
         expect(error.message).toMatch(/Unable to find/);
+
+        return false;
       });
   });
 });

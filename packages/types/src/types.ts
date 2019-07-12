@@ -146,7 +146,7 @@ export interface IMethod extends Codec {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends Codec {
   readonly isSigned: boolean;
-  era: IExtrinsicEra;
+  readonly era: IExtrinsicEra;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix

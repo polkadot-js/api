@@ -157,7 +157,7 @@ export default function createSubmittableExtrinsic<ApiType> (
         switchMap((status) =>
           statusObservable(status)
         ),
-        tap((status) => {
+        tap((status): void => {
           updateSigner(updateId, status);
         })
       );
@@ -264,7 +264,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                   throw new Error('no signer exists');
                 }
               }),
-              switchMap((): void => {
+              switchMap(() => {
                 return isSubscription
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???

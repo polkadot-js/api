@@ -9,7 +9,7 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 let ws: WsProvider;
 let mock: Mock;
 
-function createWs (requests: any[], autoConnect: boolean | undefined) {
+function createWs (requests: any[], autoConnect: boolean | undefined): WsProvider {
   mock = mockWs(requests);
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
@@ -17,13 +17,13 @@ function createWs (requests: any[], autoConnect: boolean | undefined) {
 }
 
 describe('onOpen', (): void => {
-  afterEach(() => {
+  afterEach((): void => {
     if (mock) {
       mock.done();
     }
   });
 
-  it('sends messages when connected', (): void => {
+  it('sends messages when connected', (): Promise<void> => {
     const ws = createWs([{
       id: 1,
       method: 'test_queue',
@@ -35,7 +35,7 @@ describe('onOpen', (): void => {
 
     ws.connect();
 
-    return sendPromise.then((result) => {
+    return sendPromise.then((result): void => {
       expect(result).toEqual('ok');
     });
   });

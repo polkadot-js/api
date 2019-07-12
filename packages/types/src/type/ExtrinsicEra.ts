@@ -30,98 +30,6 @@ interface ImmortalEnumDef {
 const VALID_IMMORTAL = new U8a([0]);
 
 /**
- * @name ExtrinsicEra
- * @description
- * The era for an extrinsic, indicating either a mortal or immortal extrinsic
- */
-export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  public constructor (value?: any) {
-    super({
-      ImmortalEra,
-      MortalEra
-    }, ExtrinsicEra.decodeExtrinsicEra(value));
-  }
-
-  private static decodeExtrinsicEra (value: MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (isHex(value)) {
-      return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
-    } else if (isU8a(value)) {
-      if (!value.length || value[0] === 0) {
-        return new Uint8Array([0, 0]);
-      } else {
-        return new Uint8Array([1, value[0], value[1]]);
-      }
-    } else if (isObject(value)) {
-      // this is to de-serialize from JSON
-      if ((value as MortalEnumDef).MortalEra) {
-        return { MortalEra: (value as MortalEnumDef).MortalEra };
-      } else if ((value as ImmortalEnumDef).ImmortalEra) {
-        return { ImmortalEra: (value as ImmortalEnumDef).ImmortalEra };
-      }
-
-      return { MortalEra: value };
-    }
-
-    throw new Error('Invalid data passed to Era');
-  }
-
-  /**
-   * @description Overide the encoded length method
-   */
-  public get encodedLength (): number {
-    if (this.index === 0) {
-      return this.asImmortalEra.encodedLength;
-    } else {
-      return this.asMortalEra.encodedLength;
-    }
-  }
-
-  /**
-   * @description Returns the item as a [[ImmortalEra]]
-   */
-  public get asImmortalEra (): ImmortalEra {
-    assert(this.isImmortalEra, `Cannot convert '${this.type}' via asImmortalEra`);
-
-    return this.value as ImmortalEra;
-  }
-
-  /**
-   * @description Returns the item as a [[MortalEra]]
-   */
-  public get asMortalEra (): MortalEra {
-    assert(this.isMortalEra, `Cannot convert '${this.type}' via asMortalEra`);
-
-    return this.value as MortalEra;
-  }
-
-  /**
-   * @description `true` if Immortal
-   */
-  public get isImmortalEra (): boolean {
-    return this.index === 0;
-  }
-
-  /**
-   * @description `true` if Mortal
-   */
-  public get isMortalEra (): boolean {
-    return this.index > 0;
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  public toU8a (isBare?: boolean): Uint8Array {
-    if (this.index === 0) {
-      return this.asImmortalEra.toU8a(isBare);
-    } else {
-      return this.asMortalEra.toU8a(isBare);
-    }
-  }
-}
-
-/**
  * @name ImmortalEra
  * @description
  * The ImmortalEra for an extrinsic
@@ -261,5 +169,98 @@ export class MortalEra extends Tuple {
     }
 
     return index;
+  }
+}
+
+/**
+ * @name ExtrinsicEra
+ * @description
+ * The era for an extrinsic, indicating either a mortal or immortal extrinsic
+ */
+export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
+  public constructor (value?: any) {
+    super({
+      ImmortalEra,
+      MortalEra
+    }, ExtrinsicEra.decodeExtrinsicEra(value));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  private static decodeExtrinsicEra (value: MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
+    if (isHex(value)) {
+      return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
+    } else if (isU8a(value)) {
+      if (!value.length || value[0] === 0) {
+        return new Uint8Array([0, 0]);
+      } else {
+        return new Uint8Array([1, value[0], value[1]]);
+      }
+    } else if (isObject(value)) {
+      // this is to de-serialize from JSON
+      if ((value as MortalEnumDef).MortalEra) {
+        return { MortalEra: (value as MortalEnumDef).MortalEra };
+      } else if ((value as ImmortalEnumDef).ImmortalEra) {
+        return { ImmortalEra: (value as ImmortalEnumDef).ImmortalEra };
+      }
+
+      return { MortalEra: value };
+    }
+
+    throw new Error('Invalid data passed to Era');
+  }
+
+  /**
+   * @description Overide the encoded length method
+   */
+  public get encodedLength (): number {
+    if (this.index === 0) {
+      return this.asImmortalEra.encodedLength;
+    } else {
+      return this.asMortalEra.encodedLength;
+    }
+  }
+
+  /**
+   * @description Returns the item as a [[ImmortalEra]]
+   */
+  public get asImmortalEra (): ImmortalEra {
+    assert(this.isImmortalEra, `Cannot convert '${this.type}' via asImmortalEra`);
+
+    return this.value as ImmortalEra;
+  }
+
+  /**
+   * @description Returns the item as a [[MortalEra]]
+   */
+  public get asMortalEra (): MortalEra {
+    assert(this.isMortalEra, `Cannot convert '${this.type}' via asMortalEra`);
+
+    return this.value as MortalEra;
+  }
+
+  /**
+   * @description `true` if Immortal
+   */
+  public get isImmortalEra (): boolean {
+    return this.index === 0;
+  }
+
+  /**
+   * @description `true` if Mortal
+   */
+  public get isMortalEra (): boolean {
+    return this.index > 0;
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    if (this.index === 0) {
+      return this.asImmortalEra.toU8a(isBare);
+    } else {
+      return this.asMortalEra.toU8a(isBare);
+    }
   }
 }

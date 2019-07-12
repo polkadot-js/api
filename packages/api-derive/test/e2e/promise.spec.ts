@@ -22,7 +22,7 @@ describe.skip('derive e2e', (): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiPromise.create(new WsProvider(WS));
     done();
   });
@@ -30,14 +30,18 @@ describe.skip('derive e2e', (): void => {
   it('returns correct results', async (): Promise<void> => {
     // https://github.com/polkadot-js/api/issues/777
     const block1 = await api.derive.chain.bestNumber();
-    await new Promise((resolve) => setTimeout(resolve, 15000));
+
+    await new Promise((resolve): void => {
+      setTimeout(resolve, 15000);
+    });
+
     const block2 = await api.derive.chain.bestNumber();
 
     expect(block1.eq(block2)).toBe(false);
   });
 
-  it('subscribes to newHead, retrieving the actual validator', (done) => {
-    return api.derive.chain.subscribeNewHead(({ author }: HeaderExtended) => {
+  it('subscribes to newHead, retrieving the actual validator', (done): Promise<() => void> => {
+    return api.derive.chain.subscribeNewHead(({ author }: HeaderExtended): void => {
       console.log('author', author && author.toString());
 
       if (author) {
@@ -105,11 +109,12 @@ describe.skip('derive e2e', (): void => {
   it('retrieves all staking info (for stash)', (done) => {
     const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
-    return api.derive.staking.info(accountId, (info: DerivedStaking) => {
+    return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
       console.error(JSON.stringify(info));
 
       if (!info.stashId || !info.controllerId || !info.stakingLedger) {
-        return done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
+        done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
+        return;
       }
 
       expect(info.accountId.eq(accountId)).toBe(true);
@@ -125,18 +130,17 @@ describe.skip('derive e2e', (): void => {
     const UNBOND_VALUE = 1;
     const alicePair = testingPairs().alice;
 
-    it('unbonds dots for Alice (from Alice Stash)', (done) => {
+    it('unbonds dots for Alice (from Alice Stash)', (done): Promise<() => void> => {
       return api.tx.staking.unbond(UNBOND_VALUE)
-        .signAndSend(alicePair, (result: SubmittableResult) => {
+        .signAndSend(alicePair, (result: SubmittableResult): void => {
           if (result.status.isFinalized) {
-
             done();
           }
         });
     });
 
-    it('verifies that derive.staking.unlocking isn\'t empty/undefined', (): void => {
-      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+    it('verifies that derive.staking.unlocking isn\'t empty/undefined', (): Promise<() => void> => {
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking): void => {
         expect(info.unlocking).toBeDefined();
       });
     });

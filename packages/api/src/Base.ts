@@ -40,14 +40,14 @@ interface MetaDecoration {
   method: string;
   section: string;
   toJSON: () => any;
-};
+}
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
 
-let pkgJson: { name: string, version: string };
+let pkgJson: { name: string; version: string };
 
 try {
   pkgJson = require('./package.json');
@@ -66,20 +66,35 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
 
 export default abstract class ApiBase<ApiType> {
   private _consts?: Constants;
+
   private _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
+
   private _eventemitter: EventEmitter;
+
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
+
   private _genesisHash?: Hash;
+
   protected _isConnected: BehaviorSubject<boolean>;
+
   private _isReady: boolean = false;
+
   protected readonly _options: ApiOptions;
+
   private _query?: QueryableStorage<ApiType>;
+
   private _queryMulti: QueryableStorageMulti<ApiType>;
+
   private _rpc: DecoratedRpc<ApiType>;
+
   protected _rpcCore: RpcCore;
+
   private _runtimeMetadata?: Metadata;
+
   private _runtimeVersion?: RuntimeVersion;
+
   private _rx: Partial<ApiInterface$Rx> = {};
+
   private _type: ApiTypes;
 
   /**

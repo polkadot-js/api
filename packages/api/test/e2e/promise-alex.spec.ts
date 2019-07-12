@@ -17,7 +17,7 @@ describe.skip('alex queries', (): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async (): Promise<void> => {
+  beforeEach(async (): Promise<Api> => {
     api = await Api.create({
       provider: new WsProvider(WS_URL)
     });
@@ -25,9 +25,9 @@ describe.skip('alex queries', (): void => {
     return api;
   });
 
-  it('retrieves the list of validators', (done) => {
+  it('retrieves the list of validators', (done): Promise<() => void> => {
     return (
-      api.query.staking.validators((res) => {
+      api.query.staking.validators((res): void => {
         console.error(res);
         console.log('api.query.staking.validators():', res.toJSON());
 

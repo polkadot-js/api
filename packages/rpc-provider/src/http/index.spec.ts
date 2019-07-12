@@ -8,19 +8,19 @@ import Http from './';
 describe('Http', (): void => {
   let http: Http;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     http = new Http(TEST_HTTP_URL);
   });
 
   it('requires an http:// prefixed endpoint', (): void => {
     expect(
-      () => new Http('ws://')
+      (): Http => new Http('ws://')
     ).toThrow(/with 'http/);
   });
 
   it('allows https:// endpoints', (): void => {
     expect(
-      () => new Http('https://')
+      (): Http => new Http('https://')
     ).not.toThrow();
   });
 
@@ -28,14 +28,16 @@ describe('Http', (): void => {
     expect(http.isConnected()).toEqual(true);
   });
 
-  it('does not (yet) support subscribe', (): void => {
-    return http.subscribe('', '', [], (cb) => { expect(cb).toEqual(expect.anything()); }).catch((error) => {
+  it('does not (yet) support subscribe', (): Promise<number | void> => {
+    return http.subscribe('', '', [], (cb): void => {
+      expect(cb).toEqual(expect.anything());
+    }).catch((error): void => {
       expect(error.message).toMatch(/does not have subscriptions/);
     });
   });
 
-  it('does not (yet) support unsubscribe', (): void => {
-    return http.unsubscribe('', '', 0).catch((error) => {
+  it('does not (yet) support unsubscribe', (): Promise<boolean | void> => {
+    return http.unsubscribe('', '', 0).catch((error): void => {
       expect(error.message).toMatch(/does not have subscriptions/);
     });
   });

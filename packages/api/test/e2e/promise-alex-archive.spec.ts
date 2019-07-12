@@ -14,14 +14,14 @@ describe.skip('alex archive queries (local)', (): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async (): Promise<void> => {
+  beforeEach(async (): Promise<Api> => {
     api = await Api.create();
 
     return api;
   });
 
   // https://github.com/polkadot-js/api/issues/845
-  it('retrieves block with no issues', async (): Promise<void> => {
+  it('retrieves block with no issues', async (): Promise<boolean> => {
     const metadata = await api.rpc.state.getMetadata('0x6f6f9bba0eed8e3ae9446c37eee763f93118b52a315a7b46090453ba6288da1f');
 
     console.error(JSON.stringify(metadata, null, 2));
@@ -38,8 +38,8 @@ describe.skip('alex archive queries (local)', (): void => {
   // https://github.com/polkadot-js/api/issues/846
   it('handles toJSON with no issues', async (done) => {
     return (
-      api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock) => {
-        const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic) => {
+      api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock): void => {
+        const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic): boolean => {
           try {
             const json = extrinsic.method.toJSON();
 

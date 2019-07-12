@@ -5,7 +5,7 @@
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
-import { AnyJsonArray, Codec } from '../types';
+import { AnyJson, AnyJsonArray, Codec } from '../types';
 import { compareArray } from './utils';
 
 /**
@@ -15,7 +15,7 @@ import { compareArray } from './utils';
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
  */
-export default abstract class AbstractArray<T extends Codec> extends T[] implements Codec {
+export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
@@ -27,7 +27,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.reduce((total, raw) => {
+    return this.reduce((total, raw): number => {
       return total + raw.encodedLength;
     }, Compact.encodeU8a(this.length).length);
   }
@@ -50,7 +50,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
   /**
    * @description Converts the Object to an standard JavaScript Array
    */
-  toArray (): T[] {
+  public toArray (): T[] {
     return Array.from(this);
   }
 
@@ -65,7 +65,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJsonArray {
-    return this.map((entry) =>
+    return this.map((entry): AnyJson =>
       entry.toJSON()
     );
   }
@@ -92,7 +92,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.map((entry) =>
+    const encoded = this.map((entry): Uint8Array =>
       entry.toU8a(isBare)
     );
 
@@ -113,7 +113,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @param callbackfn The filter function
    * @param thisArg The `this` object to apply the result to
    */
-  filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): T[] {
+  public filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): T[] {
     return this.toArray().filter(callbackfn, thisArg);
   }
 
@@ -122,7 +122,7 @@ export default abstract class AbstractArray<T extends Codec> extends T[] impleme
    * @param callbackfn The mapping function
    * @param thisArg The `this` onject to apply the result to
    */
-  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[] {
+  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[] {
     return this.toArray().map(callbackfn, thisArg);
   }
 }

@@ -62,7 +62,9 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get encodedLength (): number {
     return this.reduce((length: number, entry: Codec): number => {
-      return length += entry.encodedLength;
+      length += entry.encodedLength;
+
+      return length;
     }, 0);
   }
 
@@ -71,7 +73,7 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map(({ name }): strring => name)
+      ? this._Types.map(({ name }): string => name)
       : Object.keys(this._Types);
   }
 
@@ -83,7 +85,7 @@ export default class Tuple extends AbstractArray<Codec> {
       Array.isArray(this._Types)
         ? this._Types
         : Object.values(this._Types)
-    ).map((Type) => new Type().toRawType());
+    ).map((Type): string => new Type().toRawType());
 
     return `(${types.join(',')})`;
   }
@@ -91,7 +93,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the string representation of the value
    */
-  public toString () {
+  public toString (): string {
     // Overwrite the default toString representation of Array.
     return JSON.stringify(this.toJSON());
   }
@@ -102,7 +104,7 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...this.map((entry) =>
+      ...this.map((entry): Uint8Array =>
         entry.toU8a(isBare)
       )
     );

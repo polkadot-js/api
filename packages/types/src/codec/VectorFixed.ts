@@ -14,7 +14,7 @@ import Vector from './Vector';
  * @description
  * This manages codec arrays of a fixed length
  */
-export default class VectorFixed<T extends Codec> extends AbstractT[] {
+export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
   public constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | any[] = [] as any[]) {

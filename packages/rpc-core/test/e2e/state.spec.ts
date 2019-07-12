@@ -29,42 +29,42 @@ describe.skip('e2e state', (): void => {
     rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('getMetadata(): retrieves the wasm metadata', (done) => {
+  it('getMetadata(): retrieves the wasm metadata', (done): void => {
     rpc.state
       .getMetadata()
-      .subscribe((meta: Metadata) => {
+      .subscribe((meta: Metadata): void => {
         console.error(JSON.stringify(meta.toJSON()));
         done();
       });
   });
 
-  it('getKeys(): retrieves storage keys for ":code"', (done) => {
+  it('getKeys(): retrieves storage keys for ":code"', (done): void => {
     rpc.state
       .getKeys(CODE)
-      .subscribe((keys: StorageKey[]) => {
+      .subscribe((keys: StorageKey[]): void => {
         expect(keys.length).toEqual(1);
         done();
       });
   });
 
   describe('test-suite getStorage()', (): void => {
-    it('retrieves code', (done) => {
+    it('retrieves code', (done): void => {
       rpc.state
         .getStorage([
           storage.substrate.code
         ])
-        .subscribe((code: Bytes) => {
+        .subscribe((code: Bytes): void => {
           console.error(code.toHex().substr(0, 256), '...');
           done();
         });
     });
 
-    it('retrieves balances', (done) => {
+    it('retrieves balances', (done): void => {
       rpc.state
         .getStorage([
           storage.balances.freeBalance, ALICE
         ])
-        .subscribe((balance: Balance) => {
+        .subscribe((balance: Balance): void => {
           console.error(balance);
 
           expect(balance.isZero()).not.toEqual(true);
@@ -72,12 +72,12 @@ describe.skip('e2e state', (): void => {
         });
     });
 
-    it('retrieves timestamp', (done) => {
+    it('retrieves timestamp', (done): void => {
       rpc.state
         .getStorage([
           storage.timestamp.now
         ])
-        .subscribe((moment: Moment) => {
+        .subscribe((moment: Moment): void => {
           console.error(moment);
 
           expect(moment.toNumber()).not.toEqual(0);
@@ -91,17 +91,15 @@ describe.skip('e2e state', (): void => {
     // add a Smart Contract that is using `child_storage` before being able to test it.
     let codeHash: Hash;
 
-    beforeAll(async (done) => {
+    beforeAll(async (done): Promise<Hash> => {
       const code: string = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
       const abi = new Abi(flipperAbi);
       const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
-      const keyring: {
-        [index: string]: KeyringPair
-      } = testingPairs({ type: 'sr25519' });
+      const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
 
       const putCode = apiPromise.tx.contract
         .putCode(50000, `0x${code}`)
-        .signAndSend(keyring.eve, (result: SubmittableResult) => {
+        .signAndSend(keyring.eve, (result: SubmittableResult): void => {
           if (result.status.isFinalized) {
             const record = result.findRecord('contract', 'CodeStored');
 
@@ -109,10 +107,11 @@ describe.skip('e2e state', (): void => {
               codeHash = record.event.data[0] as Hash;
             }
           }
+
           done();
         });
 
-      return putCode.then((): void => {
+      return putCode.then((): Promise<Hash> => {
         return apiPromise.tx.contract
           .create(12345, 50000, codeHash, abi.deploy())
           .signAndSend(keyring.bob);

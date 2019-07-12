@@ -47,7 +47,7 @@ export class ConsensusEngineId extends U32 {
   public static idToString (input: number | BN): string {
     return bnToBn(input)
       .toArray('le')
-      .map((code) => String.fromCharCode(code))
+      .map((code): string => String.fromCharCode(code))
       .join('');
   }
 
@@ -55,7 +55,7 @@ export class ConsensusEngineId extends U32 {
     return input
       .split('')
       .reverse()
-      .reduce((result, char) => (result * 256) + char.charCodeAt(0), 0);
+      .reduce((result, char): number => (result * 256) + char.charCodeAt(0), 0);
   }
 
   /**
@@ -82,7 +82,7 @@ export class ConsensusEngineId extends U32 {
   /**
    * @description From the input bytes, decode into an aura-tuple
    */
-  extractSlot (bytes: Bytes): U64 {
+  public extractSlot (bytes: Bytes): U64 {
     assert(this.isAura, 'Invalid engine for asAura conversion');
 
     return new U64(
@@ -400,21 +400,21 @@ export default class Digest extends Struct {
    * @description The [[DigestItem]] logs
    */
   public get logs (): Vector<DigestItem> {
-    return this.get('logs') as DigestItem[];
+    return this.get('logs') as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  logsWith (...include: DigestItemTypes[]): Vector<DigestItem> {
-    return this.logs.filter(({ type }) => include.includes(type)) as Vector<DigestItem>;
+  public logsWith (...include: DigestItemTypes[]): Vector<DigestItem> {
+    return this.logs.filter(({ type }): boolean => include.includes(type)) as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  logsWithout (...exclude: DigestItemTypes[]): Vector<DigestItem> {
-    return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
+  public logsWithout (...exclude: DigestItemTypes[]): Vector<DigestItem> {
+    return this.logs.filter(({ type }): boolean => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }
 

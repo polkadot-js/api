@@ -12,11 +12,11 @@ declare var global: Global;
 let ws: WsProvider;
 let mock: Mock;
 
-function createMock (requests: any) {
+function createMock (requests: any): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect: boolean = true) {
+function createWs (autoConnect: boolean = true): WsProvider {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -25,11 +25,11 @@ function createWs (autoConnect: boolean = true) {
 describe('subscribe', (): void => {
   let globalWs: Constructor<WebSocket>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.WebSocket = globalWs;
 
     if (mock) {
@@ -37,7 +37,7 @@ describe('subscribe', (): void => {
     }
   });
 
-  it('removes subscriptions', (): void => {
+  it('removes subscriptions', (): Promise<boolean> => {
     createMock([
       {
         id: 1,
@@ -58,13 +58,15 @@ describe('subscribe', (): void => {
     const ws = createWs(true);
 
     return ws
-      .subscribe('test', 'subscribe_test', [], (cb) => { expect(cb).toEqual(expect.anything()); })
-      .then((id) => {
+      .subscribe('test', 'subscribe_test', [], (cb): void => {
+        expect(cb).toEqual(expect.anything());
+      })
+      .then((id): Promise<boolean> => {
         return ws.unsubscribe('test', 'subscribe_test', id);
       });
   });
 
-  it('fails when sub not found', (): void => {
+  it('fails when sub not found', (): Promise<void> => {
     createMock([{
       id: 1,
       method: 'subscribe_test',
@@ -76,11 +78,13 @@ describe('subscribe', (): void => {
     const ws = createWs(true);
 
     return ws
-      .subscribe('test', 'subscribe_test', [], (cb) => { expect(cb).toEqual(expect.anything()); })
-      .then((id) => {
+      .subscribe('test', 'subscribe_test', [], (cb): void => {
+        expect(cb).toEqual(expect.anything());
+      })
+      .then((id): Promise<boolean> => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })
-      .then((result) => {
+      .then((result): void => {
         expect(result).toBe(false);
       });
   });

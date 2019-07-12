@@ -11,7 +11,6 @@ import Metadata from '../Metadata';
 import Method from '../../primitive/Method';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
-import { ModuleMetadata } from '../v6/Metadata';
 
 function injectDefinitions (): void {
   Object.values(srmlTypes).forEach(({ types }): void =>
@@ -28,7 +27,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
   rpcData: string,
   latestSubstrate: object
 ): void {
-  it('decodes latest substrate properly', (): TypeRegistry => {
+  it('decodes latest substrate properly', (): void => {
     injectDefinitions();
 
     const metadata = new Metadata(rpcData);
@@ -45,7 +44,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  * Given a `version`, MetadataV6 and MetadataV{version} should output the same
  * unique types.
  */
-export function toV6<Modules extends Codec> (version: number, rpcData: string) {
+export function toV6<Modules extends Codec> (version: number, rpcData: string): void {
   it('converts to V6', (): void => {
     injectDefinitions();
 
@@ -70,7 +69,7 @@ export function defaultValues (rpcData: string): void {
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
     metadata.asV6.modules
-      .filter(({ storage }): ModuleMetadata => storage.isSome)
+      .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.prefix}.${name}, type ${type}`, (): void => {

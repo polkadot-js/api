@@ -55,13 +55,11 @@ describe.skip('Promise e2e queries', (): void => {
     expect(nonce.toHex()).toEqual('0x0000000000000000');
   });
 
-  it('queries state for a balance', async (): Promise<void> => {
-    return (
-      api.query.balances.freeBalance(keyring.alice.address, (balance: Balance) => {
-        expect(balance).toBeInstanceOf(BN);
-        expect(balance.isZero()).toBe(false);
-      })
-    );
+  it('queries state for a balance', async (): Promise<() => void> => {
+    return api.query.balances.freeBalance(keyring.alice.address, (balance: Balance): void => {
+      expect(balance).toBeInstanceOf(BN);
+      expect(balance.isZero()).toBe(false);
+    });
   });
 
   it('subscribes to rpc', (done) => {
