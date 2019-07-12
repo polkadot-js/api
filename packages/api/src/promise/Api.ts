@@ -203,7 +203,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
 
     return function (...args: any[]) {
       let callback: Callback<Codec> | undefined;
-      let actualArgs = args.slice();
+      const actualArgs = args.slice();
 
       // If the last arg is a function, we pop it, put it into callback.
       // actualArgs will then hold the actual arguments to be passed to `method`
@@ -221,7 +221,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
       // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
       // when I remove it...
       // tslint:disable-next-line
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject): void => {
         let isCompleted = false;
         const subscription = method(...actualArgs)
           .pipe(
