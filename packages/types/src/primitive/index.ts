@@ -34,7 +34,7 @@ export { default as I128, default as i128 } from './I128';
 export { default as I256, default as i256 } from './I256';
 export { default as Method } from './Method';
 export { default as Moment, MomentOf } from './Moment';
-export { default as Null } from './Null';
+export { default as Null, Phantom } from './Null';
 export { default as Origin } from './Origin';
 export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as StorageData } from './StorageData';
