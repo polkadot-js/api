@@ -7,25 +7,23 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import Method from './Method';
 
 describe('Method', (): void => {
-  beforeEach(() => {
+  beforeEach((): void => {
     Method.injectMethods(extrinsics);
   });
 
-  // FIXME susbtrate master does not currently expose the new system module calls in meta,
-  // once it does the index here will change, so a different method would be refrerred to
   it('handles decoding correctly (bare)', (): void => {
     expect(
       new Method({
         args: [],
-        callIndex: [4, 1] // balances.setBalance
+        callIndex: [5, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([4, 1, 0, 0, 0]));
+    ).toEqual(new Uint8Array([5, 1, 0, 0, 0]));
   });
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Method('0x0401').toU8a()
-    ).toEqual(new Uint8Array([4, 1, 0, 0, 0])); // balances.setBalance
+      new Method('0x0501').toU8a()
+    ).toEqual(new Uint8Array([5, 1, 0, 0, 0])); // balances.setBalance
   });
 
   describe('hasOrigin', (): void => {

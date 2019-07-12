@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
@@ -216,9 +217,10 @@ export type ApiInterface$Events = ProviderInterface$Emitted | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 
-export type SignerOptions = SignatureOptions & {
-  genesisHash: Hash
-};
+export interface SignerOptions extends SignatureOptions {
+  blockNumber: BN;
+  genesisHash: Hash;
+}
 
 export interface Signer {
   /**

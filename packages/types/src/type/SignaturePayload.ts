@@ -126,6 +126,13 @@ export class SignaturePayloadRaw extends Struct {
   }
 
   /**
+   * @description The [[ExtrinsicEra]]
+   */
+  public get era (): ExtrinsicEra {
+    return this.get('era') as ExtrinsicEra;
+  }
+
+  /**
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {

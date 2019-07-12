@@ -4,15 +4,17 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiTypes, Signer } from './types';
+import { ApiInterface$Rx, ApiTypes } from './types';
 
+import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
@@ -42,13 +44,15 @@ interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber;
-};
+}
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
-const DEFAULT_MORTAL_LENGTH = 15;
+const ONE_MINUTE = 15;
+const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 export class SubmittableResult implements ISubmittableResult {
   public readonly events: EventRecord[];
+
   public readonly status: ExtrinsicStatus;
 
   public constructor ({ events, status }: SubmittableResultValue) {
@@ -123,7 +127,7 @@ export default function createSubmittableExtrinsic<ApiType> (
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ]).pipe(
-      map(([signedBlock, allEvents]) => {
+      map(([signedBlock, allEvents]): SubmittableResult => {
         const result = new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
           status
@@ -140,7 +144,7 @@ export default function createSubmittableExtrinsic<ApiType> (
     return (api.rpc.author
       .submitExtrinsic(_extrinsic) as Observable<Hash>)
       .pipe(
-        tap((hash) => {
+        tap((hash): void => {
           updateSigner(updateId, hash);
         })
       );
@@ -250,13 +254,14 @@ export default function createSubmittableExtrinsic<ApiType> (
 
                 if (isKeyringPair) {
                   this.sign(account as IKeyringPair, { ...options, ...eraOptions, nonce });
-                } else {
-                  assert(api.signer, 'no signer exists');
-
-                  updateId = await (api.signer as Signer).sign(_extrinsic, address, {
+                } else if (api.signer) {
+                  updateId = await api.signer.sign(_extrinsic, address, {
                     ...expandOptions({ ...options, ...eraOptions, nonce }),
+                    blockNumber: header ? header.blockNumber : new BN(0),
                     genesisHash: api.genesisHash
                   });
+                } else {
+                  throw new Error('no signer exists');
                 }
               }),
               switchMap((): void => {
