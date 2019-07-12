@@ -6,6 +6,7 @@ import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes } from './types';
 
+import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
@@ -38,11 +39,11 @@ type SubmittableResultValue = {
   status: ExtrinsicStatus;
 };
 
-type SignerOptions = {
-  blockHash: AnyU8a,
-  era?: IExtrinsicEra | number,
-  nonce: AnyNumber
-};
+interface SignerOptions {
+  blockHash: AnyU8a;
+  era?: IExtrinsicEra | number;
+  nonce: AnyNumber;
+}
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
 const ONE_MINUTE = 15;
@@ -254,6 +255,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                 } else if (api.signer) {
                   updateId = await api.signer.sign(_extrinsic, address, {
                     ...expandOptions({ ...options, ...eraOptions, nonce }),
+                    blockNumber: header ? header.blockNumber : new BN(0),
                     genesisHash: api.genesisHash
                   });
                 } else {
