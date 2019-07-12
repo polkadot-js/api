@@ -6,7 +6,7 @@ import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
@@ -208,6 +208,17 @@ describe.skip('Promise e2e transactions', () => {
 
       expect(hash.toHex()).toHaveLength(66);
       done();
+    });
+
+    it('should fire an error with invalid transaction', async (done) => {
+      const aliceBalance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
+
+      return api.tx.balances
+        .transfer(keyring.bob.address, aliceBalance.muln(2))
+        .signAndSend(keyring.alice).catch((error) => {
+          expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+          done();
+        });
     });
   });
 });
