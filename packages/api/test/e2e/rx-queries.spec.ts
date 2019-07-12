@@ -8,14 +8,22 @@ import { switchMap } from 'rxjs/operators';
 
 import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiRx from '../../src/rx';
 import describeE2E from '../util/describeE2E';
 
 describeE2E({
   apiType: 'rxjs'
-})('Rx e2e queries', (api: ApiRx) => {
+})('Rx e2e queries', (wsUrl) => {
   const keyring = testingPairs({ type: 'ed25519' });
+  let api: ApiRx;
+
+  beforeEach(async (done) => {
+    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
+
+    done();
+  });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {
     expect(api.genesisHash).toBeDefined();

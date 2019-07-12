@@ -4,11 +4,21 @@
 
 import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/types';
 
+import WsProvider from '@polkadot/rpc-provider/ws';
+
+import ApiPromise from '../../src/promise';
 import describeE2E from '../util/describeE2E';
 
 describeE2E({
   only: ['remote-polkadot-alexander']
-})('alex queries', (api) => {
+})('alex queries', (wsUrl) => {
+  let api: ApiPromise;
+
+  beforeEach(async (done) => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
 
   it('retrieves the list of validators', (done) => {
     return (

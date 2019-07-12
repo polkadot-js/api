@@ -2,13 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Extrinsic, SignedBlock } from '@polkadot/types';
 
+import ApiPromise from '../../src/promise';
 import describeE2E from '../util/describeE2E';
 
 describeE2E({
   only: [] // To run these tests locally you need to run a Alexander full archive node locally
-})('alex archive queries (local)', (api) => {
+})('alex archive queries (local)', (wsUrl) => {
+  let api: ApiPromise;
+
+  beforeEach(async (done) => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
 
   // https://github.com/polkadot-js/api/issues/845
   it('retrieves block with no issues', async () => {

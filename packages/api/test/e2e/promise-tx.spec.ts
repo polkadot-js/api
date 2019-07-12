@@ -4,10 +4,12 @@
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
 import { SubmittableResult } from './../../src';
+import ApiPromise from '../../src/promise';
 import { Signer } from './../../src/types';
 import describeE2E from '../util/describeE2E';
 import SingleAccountSigner from '../util/SingleAccountSigner';
@@ -33,8 +35,15 @@ const logEvents = (done: () => {}) =>
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
-})('Promise e2e transactions', (api) => {
+})('Promise e2e transactions', (wsUrl) => {
   const keyring = testingPairs({ type: 'ed25519' });
+  let api: ApiPromise;
+
+  beforeEach(async (done) => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
 
   it('can submit an extrinsic from hex', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;

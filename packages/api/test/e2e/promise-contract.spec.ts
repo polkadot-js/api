@@ -8,17 +8,26 @@ import path from 'path';
 import { Abi } from '@polkadot/api-contract';
 import flipperAbi from '@polkadot/api-contract/test/contracts/flipper.json';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Address, Hash } from '@polkadot/types';
 
 import { SubmittableResult } from '../../src';
+import ApiPromise from '../../src/promise';
 import describeE2E from '../util/describeE2E';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describeE2E()('Promise e2e contracts', (api) => {
+describeE2E()('Promise e2e contracts', (wsUrl) => {
   let address: Address;
   let codeHash: Hash;
   const keyring = testingPairs({ type: 'sr25519' });
+  let api: ApiPromise;
+
+  beforeEach(async (done) => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
 
   describe('flipper', () => {
     const MAX_GAS = 500000;

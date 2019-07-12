@@ -7,14 +7,24 @@ import BN from 'bn.js';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
+import ApiPromise from '../../src/promise';
 import describeE2E from '../util/describeE2E';
 
 const ZERO = new BN(0);
 
-describeE2E()('Promise e2e queries', (api) => {
+describeE2E()('Promise e2e queries', (wsUrl) => {
+  let api: ApiPromise;
+
+  beforeEach(async (done) => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
+
   const keyring = testingPairs({ type: 'ed25519' });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {

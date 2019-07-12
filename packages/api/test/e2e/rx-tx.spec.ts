@@ -7,6 +7,7 @@ import { first, switchMap } from 'rxjs/operators';
 
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiRx from './../../src/rx';
 import { SubmittableResult } from './../../src';
@@ -14,8 +15,15 @@ import describeE2E from '../util/describeE2E';
 
 describeE2E({
   apiType: 'rxjs'
-})('Rx e2e transactions', (api: ApiRx) => {
+})('Rx e2e transactions', (wsUrl) => {
   const keyring = testingPairs({ type: 'ed25519' });
+  let api: ApiRx;
+
+  beforeEach(async (done) => {
+    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
+
+    done();
+  });
 
   it('makes a transfer', (done) => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)

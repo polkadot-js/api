@@ -2,10 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WsProvider } from '@polkadot/rpc-provider';
-
-import { ApiPromise, ApiRx } from '../../src';
-
 const WS_ENDPOINTS = {
   'local': 'ws://127.0.0.1:9944/',
   'substrate-master': 'ws://127.0.0.1:9945/',
@@ -26,12 +22,9 @@ interface Options {
 }
 
 export default function describeE2E (options?: Options) {
-  const apiType = options && options.apiType === 'rxjs' ? 'rxjs' : 'promise';
-  const Api = options && options.apiType === 'rxjs' ? ApiRx : ApiPromise;
-
   return function (
     message: string,
-    inner: (api: typeof apiType extends 'rxjs' ? ApiRx : ApiPromise) => any
+    inner: (wsUrl: string) => any
   ) {
     let wsEndpoints: WsName[] = []; // The ws endpoints to test
     if (options && options.only) {
@@ -47,25 +40,19 @@ export default function describeE2E (options?: Options) {
     }
 
     wsEndpoints
-      .map((wsName) => WS_ENDPOINTS[wsName])
-      .forEach((wsUrl) => {
-        describe(`${message} with ${wsUrl}`, () => {
-          let api: any;
+      .map((wsName) => [wsName, WS_ENDPOINTS[wsName]])
+      .forEach(([wsName, wsUrl]) => {
+        describe(`${message} on ${wsName}`, () => {
 
           beforeAll(() => {
             jest.setTimeout(30000);
-          });
-
-          beforeEach(async (done) => {
-            api = await Api.create(new WsProvider(wsUrl));
-            done();
           });
 
           afterAll(() => {
             jest.setTimeout(5000);
           });
 
-          inner(api);
+          inner(wsUrl);
         });
       });
   };
