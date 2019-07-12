@@ -68,7 +68,9 @@ export default class Type extends Text {
       // HACK duplication between contracts & primitives, however contracts prefixed with exec
       Type._alias('exec::StorageKey', 'ContractStorageKey'),
       // flattens tuples with one value, `(AccountId)` -> `AccountId`
-      Type._flattenSingleTuple()
+      Type._flattenSingleTuple(),
+      // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
+      Type._removeColonPrefix()
     ];
 
     return mappings.reduce((result, fn) => {
@@ -145,6 +147,12 @@ export default class Type extends Text {
   private static _flattenSingleTuple (): Mapper {
     return (value: string): string => {
       return value.replace(/\(([^,]*)\)/, '$1');
+    };
+  }
+
+  private static _removeColonPrefix (): Mapper {
+    return (value: string): string => {
+      return value.replace(/^::/, '');
     };
   }
 

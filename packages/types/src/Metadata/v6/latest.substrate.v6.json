@@ -2114,7 +2114,7 @@
                 "MapType": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
-                  "value": "::Proposal",
+                  "value": "Proposal",
                   "isLinked": false
                 }
               },
@@ -2183,7 +2183,7 @@
               "args": [
                 {
                   "name": "proposal",
-                  "type": "::Proposal"
+                  "type": "Proposal"
                 }
               ],
               "documentation": [
@@ -2201,7 +2201,7 @@
                 },
                 {
                   "name": "proposal",
-                  "type": "::Proposal"
+                  "type": "Proposal"
                 }
               ],
               "documentation": [
@@ -2335,7 +2335,7 @@
                 "MapType": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
-                  "value": "::Proposal",
+                  "value": "Proposal",
                   "isLinked": false
                 }
               },
@@ -2404,7 +2404,7 @@
               "args": [
                 {
                   "name": "proposal",
-                  "type": "::Proposal"
+                  "type": "Proposal"
                 }
               ],
               "documentation": [
@@ -2422,7 +2422,7 @@
                 },
                 {
                   "name": "proposal",
-                  "type": "::Proposal"
+                  "type": "Proposal"
                 }
               ],
               "documentation": [
