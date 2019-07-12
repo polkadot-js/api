@@ -2,39 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/keyring/types';
-
 import fs from 'fs';
 import path from 'path';
 
 import { Abi } from '@polkadot/api-contract';
+import flipperAbi from '@polkadot/api-contract/test/contracts/flipper.json';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Address, Hash } from '@polkadot/types';
 
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
-
-import { ApiPromise, SubmittableResult } from '../../src';
+import { SubmittableResult } from '../../src';
+import describeE2E from '../util/describeE2E';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describe.skip('Promise e2e contracts', () => {
+describeE2E()('Promise e2e contracts', (api) => {
   let address: Address;
   let codeHash: Hash;
-  let keyring: {
-    [index: string]: KeyringPair
-  };
-  let api: ApiPromise;
-
-  beforeEach(async (done) => {
-    if (!api) {
-      api = await ApiPromise.create();
-
-      keyring = testingPairs({ type: 'sr25519' });
-    }
-
-    jest.setTimeout(10000);
-    done();
-  });
+  const keyring = testingPairs({ type: 'sr25519' });
 
   describe('flipper', () => {
     const MAX_GAS = 500000;

@@ -8,22 +8,14 @@ import { first, switchMap } from 'rxjs/operators';
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from './../../src/rx';
+import ApiRx from './../../src/rx';
 import { SubmittableResult } from './../../src';
+import describeE2E from '../util/describeE2E';
 
-describe.skip('Rx e2e transactions', () => {
+describeE2E({
+  apiType: 'rxjs'
+})('Rx e2e transactions', (api: ApiRx) => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
-
-  beforeEach(async (done) => {
-    api = await Api.create().toPromise();
-    jest.setTimeout(30000);
-    done();
-  });
-
-  afterEach(() => {
-    jest.setTimeout(5000);
-  });
 
   it('makes a transfer', (done) => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)

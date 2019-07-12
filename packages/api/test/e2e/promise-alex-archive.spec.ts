@@ -4,21 +4,11 @@
 
 import { Extrinsic, SignedBlock } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import describeE2E from '../util/describeE2E';
 
-// To run these tests locally you need to run a Alexander full archive node locally
-describe.skip('alex archive queries (local)', () => {
-  let api: Api;
-
-  beforeEach(() => {
-    jest.setTimeout(30000);
-  });
-
-  beforeEach(async () => {
-    api = await Api.create();
-
-    return api;
-  });
+describeE2E({
+  only: [] // To run these tests locally you need to run a Alexander full archive node locally
+})('alex archive queries (local)', (api) => {
 
   // https://github.com/polkadot-js/api/issues/845
   it('retrieves block with no issues', async () => {

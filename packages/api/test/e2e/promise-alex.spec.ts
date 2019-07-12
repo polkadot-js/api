@@ -2,28 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import WsProvider from '@polkadot/rpc-provider/ws';
 import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import describeE2E from '../util/describeE2E';
 
-const WS_URL = 'wss://poc3-rpc.polkadot.io/';
-// const WS_URL = 'wss://substrate-rpc.parity.io/';
-
-describe.skip('alex queries', () => {
-  let api: Api;
-
-  beforeEach(() => {
-    jest.setTimeout(30000);
-  });
-
-  beforeEach(async () => {
-    api = await Api.create({
-      provider: new WsProvider(WS_URL)
-    });
-
-    return api;
-  });
+describeE2E({
+  only: ['remote-polkadot-alexander']
+})('alex queries', (api) => {
 
   it('retrieves the list of validators', (done) => {
     return (

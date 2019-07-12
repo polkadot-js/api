@@ -5,13 +5,12 @@
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
-import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
 import { Signer } from './../../src/types';
-import Api from './../../src/promise';
+import describeE2E from '../util/describeE2E';
+import SingleAccountSigner from '../util/SingleAccountSigner';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>
@@ -32,24 +31,10 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('Promise e2e transactions', () => {
+describeE2E({
+  except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
+})('Promise e2e transactions', (api) => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
-
-  beforeEach(async (done) => {
-    if (!api) {
-      api = await Api.create({
-        provider: new WsProvider('ws://127.0.0.1:9944')
-      });
-    }
-
-    jest.setTimeout(30000);
-    done();
-  });
-
-  afterEach(() => {
-    jest.setTimeout(5000);
-  });
 
   it('can submit an extrinsic from hex', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
