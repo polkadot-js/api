@@ -94,7 +94,7 @@ describe('e2e state', () => {
     beforeAll(async (done) => {
       const code: string = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
       const abi = new Abi(flipperAbi);
-      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
+      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider((global as any).ws_local));
       const keyring: {
         [index: string]: KeyringPair
       } = testingPairs({ type: 'sr25519' });

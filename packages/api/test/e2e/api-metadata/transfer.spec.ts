@@ -8,17 +8,17 @@ import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import extrinsics from './../../static';
+import extrinsics from './../../../../api-metadata/static';
 
 const keyring = testingPairs({ type: 'ed25519' });
 
 // @TODO 1: All three tests below are broken, fix or find better way to test transfers.
 // @TODO 2: Move tests out of ./type-metadata to ./api folder
-describe.skip('e2e transfer', () => {
+describe('e2e transfer', () => {
   let api: RpcInterface;
 
   beforeAll(() => {
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    api = new Rpc(new WsProvider((global as any).ws_local));
   });
 
   beforeEach(() => {
