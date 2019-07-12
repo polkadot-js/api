@@ -5,13 +5,15 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[balances](#balances)**
 
+- **[collective](#collective)**
+
+- **[collective](#collective)**
+
 - **[contract](#contract)**
 
-- **[council](#council)**
-
-- **[councilMotions](#councilMotions)**
-
 - **[democracy](#democracy)**
+
+- **[council](#council)**
 
 - **[](#)**
 
@@ -52,6 +54,40 @@ ___
 ___
 
 
+### collective
+
+▸ **execute**(proposal: `Proposal`)
+- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
+
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
+- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
+
+▸ **setMembers**(new_members: `Vec<AccountId>`)
+- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
+
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
+- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
+
+___
+
+
+### collective
+
+▸ **execute**(proposal: `Proposal`)
+- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
+
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
+- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
+
+▸ **setMembers**(new_members: `Vec<AccountId>`)
+- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
+
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
+- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
+
+___
+
+
 ### contract
 
 ▸ **call**(dest: `Address`, value: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
@@ -71,55 +107,6 @@ ___
 
 ▸ **updateSchedule**(schedule: `Schedule`)
 - **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
-
-___
-
-
-### council
-
-▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
-- **summary**:   Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()`  `signed` should have at least   # <weight>  - O(voters) compute.  - One DB change.  # </weight>
-
-▸ **proxySetApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`)
-- **summary**:   Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots  are registered.   # <weight>  - Same as `set_approvals` with one additional storage read.  # </weight>
-
-▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
-- **summary**:   Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices  must now be either unregistered or registered to a candidate that registered the slot after  the voter gave their last approval set.   Both indices must be provided as explained in [`voter_at`] function.   May be called by anyone. Returns the voter deposit to `signed`.   # <weight>  - O(1).  - Two fewer DB entries, one DB change.  # </weight>
-
-▸ **removeMember**(who: `Address`)
-- **summary**:   Remove a particular member from the council. This is effective immediately.   Note: A tally should happen instantly (if not already in a presentation  period) to fill the seat if removal means that the desired members are not met.
-
-▸ **retractVoter**(index: `Compact<u32>`)
-- **summary**:   Remove a voter. All votes are cancelled and the voter deposit is returned.   The index must be provided as explained in [`voter_at`] function.   Also removes the lock on the balance of the voter. See [`do_set_approvals()`].   # <weight>  - O(1).  - Two fewer DB entries, one DB change.  # </weight>
-
-▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`)
-- **summary**:   Set candidate approvals. Approval slots stay valid as long as candidates in those slots  are registered.   Locks the total balance of caller indefinitely.  Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.   `hint` argument is interpreted differently based on:  - if `origin` is setting approvals for the first time: The index will be checked  for being a valid _hole_ in the voter list.    - if the hint is correctly pointing to a hole, no fee is deducted from `origin`.    - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk    with free space happens. If the new push causes a new chunk to be created, a fee indicated by    [`VotingFee`] is deducted.  - if `origin` is already a voter: the index __must__ be valid and point to the correct  position of the `origin` in the current voters list.   Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate  and voting false, are equal.   # <weight>  - O(1).  - Two extra DB entries, one DB change.  - Argument `votes` is limited in length to number of candidates.  # </weight>
-
-▸ **setDesiredSeats**(count: `Compact<u32>`)
-- **summary**:   Set the desired member count; if lower than the current count, then seats will not be up  election when they expire. If more, then a new vote will be started if one is not  already in progress.
-
-▸ **setPresentationDuration**(count: `Compact<BlockNumber>`)
-- **summary**:   Set the presentation duration. If there is currently a vote being presented for, will  invoke `finalize_vote`.
-
-▸ **setTermDuration**(count: `Compact<BlockNumber>`)
-- **summary**:   Set the presentation duration. If there is current a vote being presented for, will  invoke `finalize_vote`.
-
-▸ **submitCandidacy**(slot: `Compact<u32>`)
-- **summary**:   Submit oneself for candidacy.   Account must have enough transferrable funds in it to pay the bond.   NOTE: if `origin` has already assigned approvals via [`set_approvals`],  it will NOT have any usable funds to pass candidacy bond and must first retract.  Note that setting approvals will lock the entire balance of the voter until  retraction or being reported.   # <weight>  - Independent of input.  - Three DB changes.  # </weight>
-
-___
-
-
-### councilMotions
-
-▸ **execute**(proposal: `Proposal`)
-- **summary**:   Dispatch a proposal from a councilor using the `Member` origin.   Origin must be a council member.
-
-▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
-- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
-
-▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
-- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
 
 ___
 
@@ -146,6 +133,9 @@ ___
 
 ▸ **externalProposeMajority**(proposal: `Proposal`)
 - **summary**:   Schedule a majority-carries referendum to be tabled next once it is legal to schedule  an external referendum.
+
+▸ **externalPush**(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
+- **summary**:   Schedule the currently externally-proposed majority-carries referendum to be tabled  immediately. If there is no externally-proposed referendum currently, or if there is one  but it is not a majority-carries referendum then it fails.   - `proposal_hash`: The hash of the current external proposal.  - `voting_period`: The period that is allowed for voting on this proposal.  - `delay`: The number of block after voting has ended in approval and this should be    enacted. Increased to `EmergencyVotingPeriod` if too low.
 
 ▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
 - **summary**:   Propose a sensitive action to be taken.   # <weight>  - O(1).  - Two DB changes, one DB entry.  # </weight>
@@ -177,6 +167,41 @@ ___
 ___
 
 
+### council
+
+▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
+- **summary**:   Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()`  `signed` should have at least   # <weight>  - O(voters) compute.  - One DB change.  # </weight>
+
+▸ **proxySetApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`)
+- **summary**:   Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots  are registered.   # <weight>  - Same as `set_approvals` with one additional storage read.  # </weight>
+
+▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
+- **summary**:   Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices  must now be either unregistered or registered to a candidate that registered the slot after  the voter gave their last approval set.   Both indices must be provided as explained in [`voter_at`] function.   May be called by anyone. Returns the voter deposit to `signed`.   # <weight>  - O(1).  - Two fewer DB entries, one DB change.  # </weight>
+
+▸ **removeMember**(who: `Address`)
+- **summary**:   Remove a particular member from the set. This is effective immediately.   Note: A tally should happen instantly (if not already in a presentation  period) to fill the seat if removal means that the desired members are not met.
+
+▸ **retractVoter**(index: `Compact<u32>`)
+- **summary**:   Remove a voter. All votes are cancelled and the voter deposit is returned.   The index must be provided as explained in [`voter_at`] function.   Also removes the lock on the balance of the voter. See [`do_set_approvals()`].   # <weight>  - O(1).  - Two fewer DB entries, one DB change.  # </weight>
+
+▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`)
+- **summary**:   Set candidate approvals. Approval slots stay valid as long as candidates in those slots  are registered.   Locks the total balance of caller indefinitely.  Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.   `hint` argument is interpreted differently based on:  - if `origin` is setting approvals for the first time: The index will be checked  for being a valid _hole_ in the voter list.    - if the hint is correctly pointing to a hole, no fee is deducted from `origin`.    - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk    with free space happens. If the new push causes a new chunk to be created, a fee indicated by    [`VotingFee`] is deducted.  - if `origin` is already a voter: the index __must__ be valid and point to the correct  position of the `origin` in the current voters list.   Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate  and voting false, are equal.   # <weight>  - O(1).  - Two extra DB entries, one DB change.  - Argument `votes` is limited in length to number of candidates.  # </weight>
+
+▸ **setDesiredSeats**(count: `Compact<u32>`)
+- **summary**:   Set the desired member count; if lower than the current count, then seats will not be up  election when they expire. If more, then a new vote will be started if one is not  already in progress.
+
+▸ **setPresentationDuration**(count: `Compact<BlockNumber>`)
+- **summary**:   Set the presentation duration. If there is currently a vote being presented for, will  invoke `finalize_vote`.
+
+▸ **setTermDuration**(count: `Compact<BlockNumber>`)
+- **summary**:   Set the presentation duration. If there is current a vote being presented for, will  invoke `finalize_vote`.
+
+▸ **submitCandidacy**(slot: `Compact<u32>`)
+- **summary**:   Submit oneself for candidacy.   Account must have enough transferrable funds in it to pay the bond.   NOTE: if `origin` has already assigned approvals via [`set_approvals`],  it will NOT have any usable funds to pass candidacy bond and must first retract.  Note that setting approvals will lock the entire balance of the voter until  retraction or being reported.   # <weight>  - Independent of input.  - Three DB changes.  # </weight>
+
+___
+
+
 ### 
 
 ▸ **finalHint**(hint: `Compact<BlockNumber>`)
@@ -204,10 +229,10 @@ ___
 ### staking
 
 ▸ **bond**(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
-- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will  be the  account that controls it.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.   NOTE: At the moment, there are no financial restrictions to bond  (which creates a bunch of storage items for an account). In essence, nothing prevents many accounts from  spamming `Staking` storage by bonding 1 UNIT. See test case: `bond_with_no_staked_value`.  # </weight>
+- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will  be the account that controls it.   `value` must be more than the `existential_deposit` defined in the Balances module.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.  # </weight>
 
 ▸ **bondExtra**(max_additional: `Compact<BalanceOf>`)
-- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up  for  staking.   Use this if there are additional funds in your stash account that you wish to bond.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - O(1).  - One DB entry.  # </weight>
+- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up  for staking.   Use this if there are additional funds in your stash account that you wish to bond.  Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount  that can be added.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - O(1).  - One DB entry.  # </weight>
 
 ▸ **chill**()
 - **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains one read.  - Writes are limited to the `origin` account key.  # </weight>
@@ -240,7 +265,7 @@ ___
 - **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
 
 ▸ **withdrawUnbonded**()
-- **summary**:   Remove any unlocked chunks from the `unlocking` queue from our management.   This essentially frees up that balance to be used by the stash account to do  whatever it wants.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::unbond`].   # <weight>  - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies    `consolidate_unlocked` which loops over `Ledger.unlocking`, which is indirectly    user-controlled. See [`unbond`] for more detail.  - Contains a limited number of reads, yet the size of which could be large based on `ledger`.  - Writes are limited to the `origin` account key.  # </weight>
+- **summary**:   Remove any unlocked chunks from the `unlocking` queue from our management.   This essentially frees up that balance to be used by the stash account to do  whatever it wants.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::unbond`].   # <weight>  - Could be dependent on the `origin` argument and how much `unlocking` chunks exist.   It implies `consolidate_unlocked` which loops over `Ledger.unlocking`, which is   indirectly user-controlled. See [`unbond`] for more detail.  - Contains a limited number of reads, yet the size of which could be large based on `ledger`.  - Writes are limited to the `origin` account key.  # </weight>
 
 ___
 

@@ -11,11 +11,12 @@ import createFunction from './createFunction';
 describe('createFunction', () => {
   it('should create timestamp.now correctly', () => {
     expect(
-      createFunction(
-        'Timestamp',
-        'Now',
-        { type: {} } as any
-      )()
+      createFunction({
+        prefix: 'Timestamp',
+        section: 'timestamp',
+        method: 'Now',
+        meta: { type: {} } as any
+      })()
     ).toEqual(
       Uint8Array.from([64, 14, 73, 68, 207, 217, 141, 111, 76, 195, 116, 209, 111, 90, 78, 63, 156]) // Length-prefixed
     );
@@ -24,9 +25,12 @@ describe('createFunction', () => {
   it('allows overrides on key (keeping name)', () => {
     expect(
       createFunction(
-        'Substrate',
-        'authorityCount',
-        { type: {} } as any,
+        {
+          prefix: 'Substrate',
+          section: 'substrate',
+          method: 'authorityCount',
+          meta: { type: {} } as any
+        },
         {
           key: ':auth:len',
           skipHashing: true
@@ -40,9 +44,12 @@ describe('createFunction', () => {
 
     expect(
       createFunction(
-        'Substrate',
-        'authorityCount',
-        { type: {} } as any,
+        {
+          prefix: 'Substrate',
+          section: 'substrate',
+          method: 'authorityCount',
+          meta: { type: {} } as any
+        },
         {
           key,
           skipHashing: true
@@ -59,9 +66,11 @@ describe('createFunction', () => {
   describe('the created double map function', () => {
     let storageFn: StorageEntry;
     beforeAll(() => {
-      storageFn = createFunction(
-        'GenericAsset',
-        'FreeBalance', {
+      storageFn = createFunction({
+        prefix: 'GenericAsset',
+        section: 'genericAsset',
+        method: 'FreeBalance',
+        meta: {
           name: 'metaName',
           type: {
             isDoubleMap: true,
@@ -74,7 +83,7 @@ describe('createFunction', () => {
             }
           }
         } as any
-      );
+      });
     });
 
     it('should return correct key', () => {
@@ -90,22 +99,24 @@ describe('createFunction', () => {
   });
 
   it('allows creates double map function with a Null type key', () => {
-    const storageFn = createFunction(
-        'System',
-        'EventTopics',
-        {
-          type: {
-            isDoubleMap: true,
-            asDoubleMap: {
-              hasher: new StorageHasher('Blake2_256'),
-              key1: new Text('Null'),
-              key2: new Text('Hash'),
-              value: new Text('Vec<(BlockNumber,EventIndex)>'),
-              key2Hasher: new Text('blake2_256')
-            }
+    const storageFn = createFunction({
+      prefix: 'System',
+      section: 'system',
+      method: 'EventTopics',
+      meta: {
+        type: {
+          isDoubleMap: true,
+          asDoubleMap: {
+            hasher: new StorageHasher('Blake2_256'),
+            key1: new Text('Null'),
+            key2: new Text('Hash'),
+            value: new Text('Vec<(BlockNumber,EventIndex)>'),
+            key2Hasher: new Text('blake2_256')
           }
-        } as any
-      );
+        }
+      } as any
+    });
+
     // the value of the Null type key does not effect the result
     expect(u8aToHex(storageFn(['any', [1, 2, 3]]))).toEqual(u8aToHex(storageFn([[1, 2, 3], [1, 2, 3]])));
     // the value of the not Null type key does effect the result

@@ -267,9 +267,32 @@
         },
         {
           "name": "aura",
-          "prefix": "",
-          "storage": null,
-          "calls": null,
+          "prefix": "Aura",
+          "storage": [
+            {
+              "name": "LastTimestamp",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Moment"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " The last timestamp."
+              ]
+            },
+            {
+              "name": "Authorities",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AuthorityId>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The current authorities"
+              ]
+            }
+          ],
+          "calls": [],
           "events": null,
           "constants": []
         },
@@ -703,108 +726,6 @@
           ]
         },
         {
-          "name": "session",
-          "prefix": "Session",
-          "storage": [
-            {
-              "name": "Validators",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<ValidatorId>"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The current set of validators."
-              ]
-            },
-            {
-              "name": "CurrentIndex",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "SessionIndex"
-              },
-              "fallback": "0x00000000",
-              "documentation": [
-                " Current index of the session."
-              ]
-            },
-            {
-              "name": "Changed",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "bool"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " True if anything has changed in this session."
-              ]
-            },
-            {
-              "name": "QueuedChanged",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "bool"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Queued keys changed."
-              ]
-            },
-            {
-              "name": "QueuedKeys",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<(ValidatorId,Keys)>"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The queued keys for the next session. When the next session begins, these keys",
-                " will be used to determine the validator's session keys."
-              ]
-            }
-          ],
-          "calls": [
-            {
-              "name": "set_keys",
-              "args": [
-                {
-                  "name": "keys",
-                  "type": "Keys"
-                },
-                {
-                  "name": "proof",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Sets the session key(s) of the function caller to `key`.",
-                " Allows an account to set its session key prior to becoming a validator.",
-                " This doesn't take effect until the next session.",
-                "",
-                " The dispatch origin of this function must be signed.",
-                "",
-                " # <weight>",
-                " - O(log n) in number of accounts.",
-                " - One extra DB entry.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "NewSession",
-              "args": [
-                "SessionIndex"
-              ],
-              "documentation": [
-                " New session has happened. Note that the argument is the session index, not the block",
-                " number as the type might suggest."
-              ]
-            }
-          ],
-          "constants": []
-        },
-        {
           "name": "staking",
           "prefix": "Staking",
           "storage": [
@@ -1104,7 +1025,9 @@
               ],
               "documentation": [
                 " Take the origin account as a stash and lock up `value` of its balance. `controller` will",
-                " be the  account that controls it.",
+                " be the account that controls it.",
+                "",
+                " `value` must be more than the `existential_deposit` defined in the Balances module.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the stash account.",
                 "",
@@ -1115,10 +1038,6 @@
                 "",
                 " NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless",
                 " the `origin` falls below _existential deposit_ and gets removed as dust.",
-                "",
-                " NOTE: At the moment, there are no financial restrictions to bond",
-                " (which creates a bunch of storage items for an account). In essence, nothing prevents many accounts from",
-                " spamming `Staking` storage by bonding 1 UNIT. See test case: `bond_with_no_staked_value`.",
                 " # </weight>"
               ]
             },
@@ -1132,9 +1051,11 @@
               ],
               "documentation": [
                 " Add some extra amount that have appeared in the stash `free_balance` into the balance up",
-                " for  staking.",
+                " for staking.",
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
+                " Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount",
+                " that can be added.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
                 "",
@@ -1193,9 +1114,9 @@
                 " See also [`Call::unbond`].",
                 "",
                 " # <weight>",
-                " - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies",
-                "   `consolidate_unlocked` which loops over `Ledger.unlocking`, which is indirectly",
-                "   user-controlled. See [`unbond`] for more detail.",
+                " - Could be dependent on the `origin` argument and how much `unlocking` chunks exist.",
+                "  It implies `consolidate_unlocked` which loops over `Ledger.unlocking`, which is",
+                "  indirectly user-controlled. See [`unbond`] for more detail.",
                 " - Contains a limited number of reads, yet the size of which could be large based on `ledger`.",
                 " - Writes are limited to the `origin` account key.",
                 " # </weight>"
@@ -1407,6 +1328,108 @@
               ]
             }
           ]
+        },
+        {
+          "name": "session",
+          "prefix": "Session",
+          "storage": [
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<ValidatorId>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The current set of validators."
+              ]
+            },
+            {
+              "name": "CurrentIndex",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "SessionIndex"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " Current index of the session."
+              ]
+            },
+            {
+              "name": "Changed",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " True if anything has changed in this session."
+              ]
+            },
+            {
+              "name": "QueuedChanged",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Queued keys changed."
+              ]
+            },
+            {
+              "name": "QueuedKeys",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(ValidatorId,Keys)>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The queued keys for the next session. When the next session begins, these keys",
+                " will be used to determine the validator's session keys."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_keys",
+              "args": [
+                {
+                  "name": "keys",
+                  "type": "Keys"
+                },
+                {
+                  "name": "proof",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Sets the session key(s) of the function caller to `key`.",
+                " Allows an account to set its session key prior to becoming a validator.",
+                " This doesn't take effect until the next session.",
+                "",
+                " The dispatch origin of this function must be signed.",
+                "",
+                " # <weight>",
+                " - O(log n) in number of accounts.",
+                " - One extra DB entry.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewSession",
+              "args": [
+                "SessionIndex"
+              ],
+              "documentation": [
+                " New session has happened. Note that the argument is the session index, not the block",
+                " number as the type might suggest."
+              ]
+            }
+          ],
+          "constants": []
         },
         {
           "name": "democracy",
@@ -1784,6 +1807,33 @@
               ]
             },
             {
+              "name": "external_push",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "voting_period",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "delay",
+                  "type": "BlockNumber"
+                }
+              ],
+              "documentation": [
+                " Schedule the currently externally-proposed majority-carries referendum to be tabled",
+                " immediately. If there is no externally-proposed referendum currently, or if there is one",
+                " but it is not a majority-carries referendum then it fails.",
+                "",
+                " - `proposal_hash`: The hash of the current external proposal.",
+                " - `voting_period`: The period that is allowed for voting on this proposal.",
+                " - `delay`: The number of block after voting has ended in approval and this should be",
+                "   enacted. Increased to `EmergencyVotingPeriod` if too low."
+              ]
+            },
+            {
               "name": "veto_external",
               "args": [
                 {
@@ -2043,7 +2093,449 @@
           ]
         },
         {
-          "name": "council",
+          "name": "collective",
+          "prefix": "Collective",
+          "storage": [
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<Hash>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The hashes of the active proposals."
+              ]
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Actual proposal for a given hash, if it's current."
+              ]
+            },
+            {
+              "name": "Voting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "Votes",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Votes on a given proposal, if it is ongoing."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " Proposals so far."
+              ]
+            },
+            {
+              "name": "Members",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The current members of the collective. This is stored sorted (just by value)."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_members",
+              "args": [
+                {
+                  "name": "new_members",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Set the collective's membership manually to `new_members`. Be nice to the chain and",
+                " provide it pre-sorted.",
+                "",
+                " Requires root origin."
+              ]
+            },
+            {
+              "name": "execute",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Dispatch a proposal from a member using the `Member` origin.",
+                "",
+                " Origin must be a member of the collective."
+              ]
+            },
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "Compact<MemberCount>"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage reads and writes.",
+                " - Argument `threshold` has bearing on weight.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Hash"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<ProposalIndex>"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage read and writes.",
+                " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "_Phantom",
+              "args": [
+                "Phantom"
+              ],
+              "documentation": [
+                " Dummy to manage the fact we have instancing."
+              ]
+            },
+            {
+              "name": "Proposed",
+              "args": [
+                "AccountId",
+                "ProposalIndex",
+                "Hash",
+                "MemberCount"
+              ],
+              "documentation": [
+                " A motion (given hash) has been proposed (by given account) with a threshold (given",
+                " `MemberCount`)."
+              ]
+            },
+            {
+              "name": "Voted",
+              "args": [
+                "AccountId",
+                "Hash",
+                "bool",
+                "MemberCount",
+                "MemberCount"
+              ],
+              "documentation": [
+                " A motion (given hash) has been voted on by given account, leaving",
+                " a tally (yes votes and no votes given respectively as `MemberCount`)."
+              ]
+            },
+            {
+              "name": "Approved",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A motion was approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Disapproved",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A motion was not approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Executed",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A motion was executed; `bool` is true if returned without error."
+              ]
+            },
+            {
+              "name": "MemberExecuted",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A single member did some action; `bool` is true if returned without error."
+              ]
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "collective",
+          "prefix": "Collective",
+          "storage": [
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<Hash>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The hashes of the active proposals."
+              ]
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Actual proposal for a given hash, if it's current."
+              ]
+            },
+            {
+              "name": "Voting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "Votes",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Votes on a given proposal, if it is ongoing."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " Proposals so far."
+              ]
+            },
+            {
+              "name": "Members",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The current members of the collective. This is stored sorted (just by value)."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_members",
+              "args": [
+                {
+                  "name": "new_members",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Set the collective's membership manually to `new_members`. Be nice to the chain and",
+                " provide it pre-sorted.",
+                "",
+                " Requires root origin."
+              ]
+            },
+            {
+              "name": "execute",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Dispatch a proposal from a member using the `Member` origin.",
+                "",
+                " Origin must be a member of the collective."
+              ]
+            },
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "Compact<MemberCount>"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage reads and writes.",
+                " - Argument `threshold` has bearing on weight.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Hash"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<ProposalIndex>"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage read and writes.",
+                " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "_Phantom",
+              "args": [
+                "Phantom"
+              ],
+              "documentation": [
+                " Dummy to manage the fact we have instancing."
+              ]
+            },
+            {
+              "name": "Proposed",
+              "args": [
+                "AccountId",
+                "ProposalIndex",
+                "Hash",
+                "MemberCount"
+              ],
+              "documentation": [
+                " A motion (given hash) has been proposed (by given account) with a threshold (given",
+                " `MemberCount`)."
+              ]
+            },
+            {
+              "name": "Voted",
+              "args": [
+                "AccountId",
+                "Hash",
+                "bool",
+                "MemberCount",
+                "MemberCount"
+              ],
+              "documentation": [
+                " A motion (given hash) has been voted on by given account, leaving",
+                " a tally (yes votes and no votes given respectively as `MemberCount`)."
+              ]
+            },
+            {
+              "name": "Approved",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A motion was approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Disapproved",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A motion was not approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Executed",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A motion was executed; `bool` is true if returned without error."
+              ]
+            },
+            {
+              "name": "MemberExecuted",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A single member did some action; `bool` is true if returned without error."
+              ]
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "elections",
           "prefix": "Council",
           "storage": [
             {
@@ -2076,20 +2568,20 @@
               },
               "fallback": "0x00000000",
               "documentation": [
-                " Number of accounts that should be sitting on the council."
+                " Number of accounts that should constitute the collective."
               ]
             },
             {
-              "name": "ActiveCouncil",
+              "name": "Members",
               "modifier": "Default",
               "type": {
                 "PlainType": "Vec<(AccountId,BlockNumber)>"
               },
               "fallback": "0x00",
               "documentation": [
-                " The current council. When there's a vote going on, this should still be used for executive",
+                " The current membership. When there's a vote going on, this should still be used for executive",
                 " matters. The block number (second element in the tuple) is the block that their position is",
-                " active until (calculated by the sum of the block number when the council member was elected",
+                " active until (calculated by the sum of the block number when the member was elected",
                 " and their term duration)."
               ]
             },
@@ -2238,6 +2730,23 @@
               "documentation": [
                 " Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;",
                 " It may be the direct summed approval stakes, or a weighted version of it."
+              ]
+            },
+            {
+              "name": "Proxy",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "AccountId",
+                  "value": "AccountId",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Who is able to vote for whom. Value is the fund-holding account, key is the",
+                " vote-transaction-sending account."
               ]
             }
           ],
@@ -2440,7 +2949,7 @@
                 }
               ],
               "documentation": [
-                " Remove a particular member from the council. This is effective immediately.",
+                " Remove a particular member from the set. This is effective immediately.",
                 "",
                 " Note: A tally should happen instantly (if not already in a presentation",
                 " period) to fill the seat if removal means that the desired members are not met."
@@ -2499,7 +3008,7 @@
                 "u32"
               ],
               "documentation": [
-                " A tally (for approval votes of council seat(s)) has started."
+                " A tally (for approval votes of seat(s)) has started."
               ]
             },
             {
@@ -2509,7 +3018,7 @@
                 "Vec<AccountId>"
               ],
               "documentation": [
-                " A tally (for approval votes of council seat(s)) has ended (with one or more new members)."
+                " A tally (for approval votes of seat(s)) has ended (with one or more new members)."
               ]
             }
           ],
@@ -2569,7 +3078,7 @@
               ]
             },
             {
-              "name": "CouncilVotingPeriod",
+              "name": "VotingPeriod",
               "type": "BlockNumber",
               "value": "0x8070000000000000",
               "documentation": [
@@ -2583,199 +3092,13 @@
               "value": "0x00000000",
               "documentation": [
                 " Decay factor of weight when being accumulated. It should typically be set to",
-                " __at least__ `council_size -1` to keep the council secure.",
+                " __at least__ `membership_size -1` to keep the collective secure.",
                 " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight",
                 " increment step `t`. 0 will result in no weight being added at all (normal",
                 " approval voting). A reasonable default value is 24."
               ]
             }
           ]
-        },
-        {
-          "name": "council_motions",
-          "prefix": "CouncilMotions",
-          "storage": [
-            {
-              "name": "Proposals",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<Hash>"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The hashes of the active proposals."
-              ]
-            },
-            {
-              "name": "ProposalOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "Hash",
-                  "value": "Proposal",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Actual proposal for a given hash, if it's current."
-              ]
-            },
-            {
-              "name": "Voting",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "Hash",
-                  "value": "Votes",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Votes on a given proposal, if it is ongoing."
-              ]
-            },
-            {
-              "name": "ProposalCount",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x00000000",
-              "documentation": [
-                " Proposals so far."
-              ]
-            }
-          ],
-          "calls": [
-            {
-              "name": "execute",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": [
-                " Dispatch a proposal from a councilor using the `Member` origin.",
-                "",
-                " Origin must be a council member."
-              ]
-            },
-            {
-              "name": "propose",
-              "args": [
-                {
-                  "name": "threshold",
-                  "type": "Compact<MemberCount>"
-                },
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": [
-                " # <weight>",
-                " - Bounded storage reads and writes.",
-                " - Argument `threshold` has bearing on weight.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "vote",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Hash"
-                },
-                {
-                  "name": "index",
-                  "type": "Compact<ProposalIndex>"
-                },
-                {
-                  "name": "approve",
-                  "type": "bool"
-                }
-              ],
-              "documentation": [
-                " # <weight>",
-                " - Bounded storage read and writes.",
-                " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "Proposed",
-              "args": [
-                "AccountId",
-                "ProposalIndex",
-                "Hash",
-                "MemberCount"
-              ],
-              "documentation": [
-                " A motion (given hash) has been proposed (by given account) with a threshold (given",
-                " `MemberCount`)."
-              ]
-            },
-            {
-              "name": "Voted",
-              "args": [
-                "AccountId",
-                "Hash",
-                "bool",
-                "MemberCount",
-                "MemberCount"
-              ],
-              "documentation": [
-                " A motion (given hash) has been voted on by given account, leaving",
-                " a tally (yes votes and no votes given respectively as `MemberCount`)."
-              ]
-            },
-            {
-              "name": "Approved",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " A motion was approved by the required threshold."
-              ]
-            },
-            {
-              "name": "Disapproved",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " A motion was not approved by the required threshold."
-              ]
-            },
-            {
-              "name": "Executed",
-              "args": [
-                "Hash",
-                "bool"
-              ],
-              "documentation": [
-                " A motion was executed; `bool` is true if returned without error."
-              ]
-            },
-            {
-              "name": "MemberExecuted",
-              "args": [
-                "Hash",
-                "bool"
-              ],
-              "documentation": [
-                " A single councillor did some action; `bool` is true if returned without error."
-              ]
-            }
-          ],
-          "constants": []
         },
         {
           "name": "finality_tracker",
@@ -3395,7 +3718,7 @@
               "documentation": [
                 " Number of block delay an extrinsic claim surcharge has.",
                 "",
-                " When claim surchage is called by an extrinsic the rent is checked",
+                " When claim surcharge is called by an extrinsic the rent is checked",
                 " for current_block - delay"
               ]
             },

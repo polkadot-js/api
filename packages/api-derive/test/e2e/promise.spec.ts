@@ -12,7 +12,7 @@ import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from
 import { SubmittableResult } from '../../../api/src';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
-const WS = 'ws://127.0.0.1:9945/';
+const WS = (global as any).ws_local;
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe('derive e2e', () => {
@@ -23,7 +23,7 @@ describe('derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiPromise.create(new WsProvider(global.wsSubstrate_master));
+    api = await ApiPromise.create(new WsProvider(WS));
     done();
   });
 
@@ -74,16 +74,10 @@ describe('derive e2e', () => {
     });
   });
 
-  it('retrieves all session info', (done) => {
-    let count = 0;
-
+  it('retrieves all session info', async (done) => {
     return api.derive.session.info((info: DerivedSessionInfo) => {
       console.error(JSON.stringify(info));
-
-      // 5 blocks only, then go our merry way
-      if (++count === 5) {
-        done();
-      }
+      done();
     });
   });
 
@@ -183,11 +177,11 @@ describe('derive e2e', () => {
       let count = 0; // The # of times we got a callback response from api.derive.staking.info
 
       // Subscribe to staking.info
-      api.derive.staking.info(stashId, (result) => {
-        ++count;
-
+      await api.derive.staking.info(stashId, (result) => {
         console.error('***', count, JSON.stringify(result));
-
+        count++;
+        console.log('RESULT');
+        console.log(result);
         if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
           done();
         }

@@ -3,13 +3,15 @@
 Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.
 - **[balances](#balances)**
 
+- **[collective](#collective)**
+
+- **[collective](#collective)**
+
 - **[contracts](#contracts)**
 
-- **[council](#council)**
-
-- **[councilMotions](#councilMotions)**
-
 - **[democracy](#democracy)**
+
+- **[elections](#elections)**
 
 - **[grandpa](#grandpa)**
 
@@ -43,6 +45,58 @@ ___
 ___
 
 
+### collective
+
+▸ **_Phantom**(`Phantom`)
+- **summary**:   Dummy to manage the fact we have instancing.
+
+▸ **Approved**(`Hash`)
+- **summary**:   A motion was approved by the required threshold.
+
+▸ **Disapproved**(`Hash`)
+- **summary**:   A motion was not approved by the required threshold.
+
+▸ **Executed**(`Hash`, `bool`)
+- **summary**:   A motion was executed; `bool` is true if returned without error.
+
+▸ **MemberExecuted**(`Hash`, `bool`)
+- **summary**:   A single member did some action; `bool` is true if returned without error.
+
+▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
+
+▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
+
+___
+
+
+### collective
+
+▸ **_Phantom**(`Phantom`)
+- **summary**:   Dummy to manage the fact we have instancing.
+
+▸ **Approved**(`Hash`)
+- **summary**:   A motion was approved by the required threshold.
+
+▸ **Disapproved**(`Hash`)
+- **summary**:   A motion was not approved by the required threshold.
+
+▸ **Executed**(`Hash`, `bool`)
+- **summary**:   A motion was executed; `bool` is true if returned without error.
+
+▸ **MemberExecuted**(`Hash`, `bool`)
+- **summary**:   A single member did some action; `bool` is true if returned without error.
+
+▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
+
+▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
+
+___
+
+
 ### contracts
 
 ▸ **CodeStored**(`Hash`)
@@ -62,46 +116,6 @@ ___
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
 - **summary**:   Transfer happened `from` to `to` with given `value` as part of a `call` or `create`.
-
-___
-
-
-### council
-
-▸ **BadReaperSlashed**(`AccountId`)
-- **summary**:   slashed reaper
-
-▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
-- **summary**:   A tally (for approval votes of council seat(s)) has ended (with one or more new members).
-
-▸ **TallyStarted**(`u32`)
-- **summary**:   A tally (for approval votes of council seat(s)) has started.
-
-▸ **VoterReaped**(`AccountId`, `AccountId`)
-- **summary**:   reaped voter, reaper
-
-___
-
-
-### councilMotions
-
-▸ **Approved**(`Hash`)
-- **summary**:   A motion was approved by the required threshold.
-
-▸ **Disapproved**(`Hash`)
-- **summary**:   A motion was not approved by the required threshold.
-
-▸ **Executed**(`Hash`, `bool`)
-- **summary**:   A motion was executed; `bool` is true if returned without error.
-
-▸ **MemberExecuted**(`Hash`, `bool`)
-- **summary**:   A single councillor did some action; `bool` is true if returned without error.
-
-▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
-- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
-
-▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
-- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
 
 ___
 
@@ -129,6 +143,23 @@ ___
 ▸ **Undelegated**(`AccountId`)
 
 ▸ **Vetoed**(`AccountId`, `Hash`, `BlockNumber`)
+
+___
+
+
+### elections
+
+▸ **BadReaperSlashed**(`AccountId`)
+- **summary**:   slashed reaper
+
+▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
+- **summary**:   A tally (for approval votes of seat(s)) has ended (with one or more new members).
+
+▸ **TallyStarted**(`u32`)
+- **summary**:   A tally (for approval votes of seat(s)) has started.
+
+▸ **VoterReaped**(`AccountId`, `AccountId`)
+- **summary**:   reaped voter, reaper
 
 ___
 
