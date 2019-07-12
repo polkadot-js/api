@@ -9,6 +9,7 @@ describe('ExtrinsicEra', () => {
     const extrinsicEra = new ExtrinsicEra(new Uint8Array([0]));
 
     expect(extrinsicEra.asImmortalEra).toBeDefined();
+    expect(extrinsicEra.toJSON()).toEqual({ ImmortalEra: '0x00' });
   });
 
   it('decodes an Extrinsic Era from u8 as mortal', () => {
@@ -23,5 +24,15 @@ describe('ExtrinsicEra', () => {
 
     expect(extrinsicEra.asMortalEra.period.toNumber()).toEqual(256);
     expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(120);
+  });
+
+  it('serializes and de-serializes from JSON', () => {
+    const extrinsicEra = new ExtrinsicEra(new Uint8Array([78, 156]));
+    const u8a = extrinsicEra.toU8a();
+    const json = extrinsicEra.toJSON();
+
+    expect(u8a).toEqual(new Uint8Array([78, 156]));
+    expect(json).toEqual({ MortalEra: '0x4e9c' });
+    expect(new ExtrinsicEra(json).toU8a()).toEqual(u8a);
   });
 });

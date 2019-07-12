@@ -19,6 +19,14 @@ interface MortalMethod {
   period: number;
 }
 
+interface MortalEnumDef {
+  MortalEra: string;
+}
+
+interface ImmortalEnumDef {
+  ImmortalEra: string;
+}
+
 const VALID_IMMORTAL = new U8a([0]);
 
 /**
@@ -34,7 +42,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
     }, ExtrinsicEra.decodeExtrinsicEra(value));
   }
 
-  private static decodeExtrinsicEra (value: MortalMethod | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
+  private static decodeExtrinsicEra (value: MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
     if (isHex(value)) {
       return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
     } else if (isU8a(value)) {
@@ -44,6 +52,13 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
         return new Uint8Array([1, value[0], value[1]]);
       }
     } else if (isObject(value)) {
+      // this is to de-serialize from JSON
+      if ((value as MortalEnumDef).MortalEra) {
+        return { MortalEra: (value as MortalEnumDef).MortalEra };
+      } else if ((value as ImmortalEnumDef).ImmortalEra) {
+        return { ImmortalEra: (value as ImmortalEnumDef).ImmortalEra };
+      }
+
       return { MortalEra: value };
     }
 
@@ -125,31 +140,31 @@ export class ImmortalEra extends U8a {
  * The MortalEra for an extrinsic, indicating period and phase
  */
 export class MortalEra extends Tuple {
-  constructor (value?: any) {
+  constructor (value?: MortalMethod | Uint8Array | number[] | string) {
     super({
       period: U64,
       phase: U64
     }, MortalEra.decodeMortalEra(value));
   }
 
-  private static decodeMortalEra (value: MortalMethod | Uint8Array): MortalEraValue {
-    if (isU8a(value)) {
+  private static decodeMortalEra (value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
+    if (isHex(value)) {
+      return MortalEra.decodeMortalEra(hexToU8a(value));
+    } else if (Array.isArray(value)) {
+      return MortalEra.decodeMortalEra(new Uint8Array(value));
+    } else if (isU8a(value)) {
       const first = u8aToBn(value.subarray(0, 1)).toNumber();
       const second = u8aToBn(value.subarray(1, 2)).toNumber();
       const encoded: number = first + (second << 8);
       const period = 2 << (encoded % (1 << 4));
       const quantizeFactor = Math.max(period >> 12, 1);
       const phase = (encoded >> 4) * quantizeFactor;
-      if (period >= 4 && phase < period) {
 
-        return [new U64(period), new U64(phase)];
-      }
+      assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
 
-      throw new Error('Invalid data passed to Mortal era');
+      return [new U64(period), new U64(phase)];
     } else if (isObject(value)) {
-      const { current } = value;
-      const { period } = value;
-
+      const { current, period } = value;
       let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
       calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
       const phase = current % calPeriod;
@@ -183,6 +198,13 @@ export class MortalEra extends Tuple {
    */
   get phase (): U64 {
     return this[1] as U64;
+  }
+
+  /**
+   * @description Returns a JSON representation of the actual value
+   */
+  toJSON (): any {
+    return this.toHex();
   }
 
   /**
