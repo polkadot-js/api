@@ -9,17 +9,17 @@ import Mock from './';
 describe('on', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     mock = new Mock();
   });
 
-  it('it emits both connected and disconnected events', (done) => {
-    const events: { [index: string]: boolean } = { connected: false, disconnected: false };
-    const handler = (type: ProviderInterfaceEmitted) => {
-      mock.on(type, () => {
+  it('it emits both connected and disconnected events', (done): void => {
+    const events: Record<string, boolean> = { connected: false, disconnected: false };
+    const handler = (type: ProviderInterfaceEmitted): void => {
+      mock.on(type, (): void => {
         events[type] = true;
 
-        if (Object.values(events).filter((value) => value).length === 2) {
+        if (Object.values(events).filter((value): boolean => value).length === 2) {
           done();
         }
       });

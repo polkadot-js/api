@@ -81,7 +81,7 @@ describe('subscribe', (): void => {
       .subscribe('test', 'subscribe_test', [], (cb): void => {
         expect(cb).toEqual(expect.anything());
       })
-      .then((id): Promise<boolean> => {
+      .then((): Promise<boolean> => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })
       .then((result): void => {

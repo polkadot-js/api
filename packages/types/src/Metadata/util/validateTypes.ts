@@ -24,7 +24,7 @@ export default function validateTypes (types: string[], throwError: boolean): vo
 
         case TypeDefInfo.Tuple:
           return extractTypes(
-            (decoded.sub as TypeDef[]).map((sub) => sub.type)
+            (decoded.sub as TypeDef[]).map((sub): string => sub.type)
           );
 
         default:

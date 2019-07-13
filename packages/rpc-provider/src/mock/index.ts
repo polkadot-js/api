@@ -46,6 +46,7 @@ export default class Mock implements ProviderInterface {
   public isUpdating: boolean = true;
 
   private requests: Record<string, (...params: any[]) => string> = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
     chain_getRuntimeVersion: (): string => new RuntimeVersion().toHex(),
     state_getStorage: (storage: MockStateDb, params: any[]): string => {

@@ -249,7 +249,7 @@ export default class WsProvider implements WSProviderInterface {
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
     if (isUndefined(this.subscriptions[subscription])) {
-      l.debug(() => `Unable to find active subscription=${subscription}`);
+      l.debug((): any => `Unable to find active subscription=${subscription}`);
 
       return false;
     }

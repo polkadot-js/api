@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import MetadataV5 from './Metadata';
-import MetadataV6, { ModuleMetadataV6 } from '../v6';
+import MetadataV6 from '../v6';
 
 /**
  * Convert from MetadataV5 to MetadataV6

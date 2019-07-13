@@ -4,7 +4,7 @@
 
 // Quick and dirty flatten (.flat() not available)
 export default function flattenUniq (list: any[]): any[] {
-  const flat = list.reduce((result, entry) => {
+  const flat = list.reduce((result, entry): any[] => {
     return result.concat(
       Array.isArray(entry)
         ? flattenUniq(entry)
@@ -13,6 +13,6 @@ export default function flattenUniq (list: any[]): any[] {
   }, []);
 
   return [...new Set(flat)]
-    .filter((value: any) => value)
+    .filter((value: any): any => value)
     .sort();
 }

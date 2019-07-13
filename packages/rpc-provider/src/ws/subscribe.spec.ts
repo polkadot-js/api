@@ -47,7 +47,9 @@ describe('subscribe', (): void => {
     }]);
 
     return createWs(true)
-      .subscribe('type', 'test_sub', [], (cb) => { expect(cb).toEqual(expect.anything()); })
+      .subscribe('type', 'test_sub', [], (cb): void => {
+        expect(cb).toEqual(expect.anything());
+      })
       .then((id): void => {
         expect(id).toEqual(1);
       });
