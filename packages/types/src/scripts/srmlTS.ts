@@ -19,7 +19,7 @@ interface TypeImports {
   ownTypes: string[];
 }
 
-const HEADER = '// Auto-generated, do not edit\n\n';
+const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
 
 function setImports ({ codecTypes, otherTypes, ownTypes }: TypeImports, type: string | null, codecType: string | null): void {
@@ -111,7 +111,7 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
-function generateTsDef (srmlName: string, { types }: { types: { [index: string]: any } }): void {
+function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)

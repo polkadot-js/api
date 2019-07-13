@@ -14,14 +14,14 @@ import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
 
-type BftAtReportValueSingle = {
-  round?: AnyNumber,
-  a?: BftHashSignatureValue
-};
+interface BftAtReportValueSingle {
+  round?: AnyNumber;
+  a?: BftHashSignatureValue;
+}
 
-type BftAtReportValue = BftAtReportValueSingle & {
-  b?: BftHashSignatureValue
-};
+interface BftAtReportValue extends BftAtReportValueSingle {
+  b?: BftHashSignatureValue;
+}
 
 /**
  * @name BftAtReport
@@ -195,12 +195,12 @@ export class MisbehaviorKind extends Enum {
   }
 }
 
-type MisbehaviorReportValue = {
-  misbehavior?: MisbehaviorKind | number,
-  parentHash?: Hash | Uint8Array | string,
-  parentNumber?: AnyNumber,
-  target?: AuthorityId | string
-};
+interface MisbehaviorReportValue {
+  misbehavior?: MisbehaviorKind | number;
+  parentHash?: Hash | Uint8Array | string;
+  parentNumber?: AnyNumber;
+  target?: AuthorityId | string;
+}
 
 /**
  * @name MisbehaviorReport

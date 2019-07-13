@@ -5,7 +5,7 @@
 
 import { Constructor } from '@polkadot/types/types';
 
-import { EventRecord_0_76, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
+import { EventRecord0to76, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
 
 interface Compat {
   // an array of the spec-name and spec_version that denotes the first version that
@@ -27,7 +27,7 @@ const types: Compat[] = [
       ['node-template', ANY_VERSION]
     ],
     types: {
-      'EventRecord': EventRecord_0_76
+      EventRecord: EventRecord0to76
     }
   }
 ];

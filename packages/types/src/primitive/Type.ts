@@ -52,7 +52,7 @@ export default class Type extends Text {
       // alias String -> Text (compat with jsonrpc methods)
       Type._alias('String', 'Text'),
       // alias () -> Null
-      Type._alias('\\\(\\\)', 'Null'),
+      Type._alias('\\(\\)', 'Null'),
       // alias Vec<u8> -> Bytes
       Type._alias('Compact<Index>', 'IndexCompact'),
       // alias Vec<u8> -> Bytes
@@ -73,7 +73,7 @@ export default class Type extends Text {
       Type._removeColonPrefix()
     ];
 
-    return mappings.reduce((result, fn) => {
+    return mappings.reduce((result, fn): string => {
       return fn(result);
     }, value).trim();
   }
@@ -92,6 +92,7 @@ export default class Type extends Text {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     // Note Since we are mangling what we get in beyond recognition, we really should
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
@@ -161,7 +162,7 @@ export default class Type extends Text {
       for (let index = 0; index < value.length; index++) {
         if (value[index] === '<') {
           // check against the allowed wrappers, be it Vec<..>, Option<...> ...
-          const box = ALLOWED_BOXES.find((box) => {
+          const box = ALLOWED_BOXES.find((box): boolean => {
             const start = index - box.length;
 
             return start >= 0 && value.substr(start, box.length) === box;

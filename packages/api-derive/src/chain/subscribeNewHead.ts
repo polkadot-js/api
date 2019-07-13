@@ -4,7 +4,7 @@
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Header } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
@@ -25,7 +25,7 @@ export type HeaderAndValidators = [Header, AccountId[]];
  * });
  * ```
  */
-export function subscribeNewHead (api: ApiInterface$Rx) {
+export function subscribeNewHead (api: ApiInterfaceRx) {
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(

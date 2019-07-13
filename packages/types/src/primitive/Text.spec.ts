@@ -8,8 +8,8 @@ import Text from './Text';
 
 describe('Text', (): void => {
   describe('decode', (): void => {
-    const testDecode = (type: string, input: string | Uint8Array | { toString: () => string }, expected: string, toFn: 'toString' | 'toHex' = 'toString') =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: string | Uint8Array | { toString: () => string }, expected: string, toFn: 'toString' | 'toHex' = 'toString'): void =>
+      it(`can decode from ${type}`, (): void => {
         expect(new Text(input)[toFn]()).toBe(expected);
       });
 
@@ -22,8 +22,8 @@ describe('Text', (): void => {
   });
 
   describe('encode', (): void => {
-    const testEncode = (to: CodecTo, expected: string | Uint8Array) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: CodecTo, expected: string | Uint8Array): void =>
+      it(`can encode ${to}`, (): void => {
         expect(new Text('foo')[to]()).toEqual(expected);
       });
 
@@ -38,7 +38,7 @@ describe('Text', (): void => {
     });
 
     it('compares actual String values', (): void => {
-      expect(new Text('XYX').eq(new String('XYX'))).toBe(true);
+      expect(new Text('XYX').eq(String('XYX'))).toBe(true);
     });
 
     it('compares actual non-string values (fails)', (): void => {

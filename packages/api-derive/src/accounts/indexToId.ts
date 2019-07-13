@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
 import { AccountId, AccountIndex, Vector } from '@polkadot/types';
 
@@ -23,7 +23,7 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function indexToId (api: ApiInterface$Rx) {
+export function indexToId (api: ApiInterfaceRx) {
   return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
     const querySection = api.query.indices || api.query.balances;
     const accountIndex = _accountIndex instanceof AccountIndex
@@ -39,5 +39,4 @@ export function indexToId (api: ApiInterface$Rx) {
         drr()
       );
   };
-
 }

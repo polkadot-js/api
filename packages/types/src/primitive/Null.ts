@@ -75,7 +75,7 @@ export default class Null implements Codec {
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Phantom extends Null {
-  toRawType (): string {
+  public toRawType (): string {
     return 'Phantom';
   }
 }

@@ -11,10 +11,10 @@ import Hash from '../primitive/Hash';
 import Extrinsics from '../type/Extrinsics';
 import Header, { HeaderValue } from './Header';
 
-export type BlockValue = {
-  extrinsics?: AnyU8a[]
-  header?: HeaderValue
-};
+export interface BlockValue {
+  extrinsics?: AnyU8a[];
+  header?: HeaderValue;
+}
 
 /**
  * @name Block

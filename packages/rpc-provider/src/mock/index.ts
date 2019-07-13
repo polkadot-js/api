@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
+import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
 import BN from 'bn.js';
@@ -92,7 +92,7 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  public on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
     this.emitter.on(type, sub);
   }
 
@@ -140,7 +140,7 @@ export default class Mock implements ProviderInterface {
   }
 
   private init (): void {
-    const emitEvents: ProviderInterface$Emitted[] = ['connected', 'disconnected'];
+    const emitEvents: ProviderInterfaceEmitted[] = ['connected', 'disconnected'];
     let emitIndex = 0;
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;

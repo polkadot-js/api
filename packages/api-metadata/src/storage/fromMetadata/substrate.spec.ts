@@ -5,7 +5,6 @@
 import { authorityCount, authorityPrefix, changesTrieConfig, childStorageKeyPrefix, code, extrinsicIndex, heapPages } from './substrate';
 
 describe('substrate', (): void => {
-
   // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
   // have been removed in https://github.com/paritytech/substrate/pull/2802
   it('authorityCount should return the correct storage key', (): void => {
@@ -21,7 +20,7 @@ describe('substrate', (): void => {
   });
 
   it('childStorageKeyPrefix should return the correct storage key', (): void => {
-    expect(childStorageKeyPrefix()).toEqual(Uint8Array.from([ 60, 58, 99, 104, 105, 108, 100, 95, 115, 116, 111, 114, 97, 103, 101, 58])); // Length-prefixed
+    expect(childStorageKeyPrefix()).toEqual(Uint8Array.from([60, 58, 99, 104, 105, 108, 100, 95, 115, 116, 111, 114, 97, 103, 101, 58])); // Length-prefixed
   });
 
   it('code should return the correct storage key', (): void => {

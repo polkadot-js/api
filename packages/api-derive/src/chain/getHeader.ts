@@ -4,7 +4,7 @@
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Header } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
@@ -25,7 +25,7 @@ import { HeaderAndValidators } from './subscribeNewHead';
  * console.log(`block #${blockNumber} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterface$Rx) {
+export function getHeader (api: ApiInterfaceRx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     // tslint:disable-next-line
     (combineLatest([

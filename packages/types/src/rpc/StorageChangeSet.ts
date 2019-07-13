@@ -9,10 +9,10 @@ import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
 import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
 
-type StorageChangeSetValue = {
-  block?: AnyU8a,
-  changes?: KeyValueOptionValue[]
-};
+interface StorageChangeSetValue {
+  block?: AnyU8a;
+  changes?: KeyValueOptionValue[];
+}
 
 /**
  * @name StorageChangeSet

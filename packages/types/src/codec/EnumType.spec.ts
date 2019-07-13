@@ -31,7 +31,7 @@ describe('Enum', (): void => {
       expect(
         new Enum(
           { Text, U32 },
-          { 'text': 'some text value' }
+          { text: 'some text value' }
         ).value.toString()
       ).toEqual('some text value');
     });
@@ -49,7 +49,7 @@ describe('Enum', (): void => {
       expect(
         new Enum(
           { Text, U32 },
-          { 'U32': 42 }
+          { U32: 42 }
         ).value.toString()
       ).toEqual('42');
     });
@@ -64,11 +64,11 @@ describe('Enum', (): void => {
     });
 
     it('has correct isXyz/asXyz (Enum.with)', (): void => {
-      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))({ 'Second': 42 }) as any as { isSecond: boolean, asSecond: U32, asThird: never };
+      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))({ Second: 42 }) as any as { isSecond: boolean; asSecond: U32; asThird: never };
 
       expect(test.isSecond).toEqual(true);
       expect(test.asSecond.toNumber()).toEqual(42);
-      expect(() => test.asThird).toThrow(/Cannot convert Second via asThird/);
+      expect((): never => test.asThird).toThrow(/Cannot convert Second via asThird/);
     });
 
     it('stringifies with custom types', (): void => {
@@ -142,15 +142,15 @@ describe('Enum', (): void => {
   });
 
   describe('string-only construction (old Enum)', (): void => {
-    const testDecode = (type: string, input: any, expected: any) =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: any, expected: any): void =>
+      it(`can decode from ${type}`, (): void => {
         const e = new Enum(['foo', 'bar'], input);
 
         expect(e.toString()).toBe(expected);
       });
 
-    const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         const e = new Enum(['foo', 'bar'], 1);
 
         expect(e[to]()).toEqual(expected);
@@ -194,7 +194,7 @@ describe('Enum', (): void => {
     });
 
     it('has correct isXyz getters (Enum.with)', (): void => {
-      const test = new (Enum.with(['First', 'Second', 'Third']))('Second') as any as { isSecond: boolean, asSecond: never };
+      const test = new (Enum.with(['First', 'Second', 'Third']))('Second') as any as { isSecond: boolean; asSecond: never };
 
       expect(test.isSecond).toEqual(true);
     });

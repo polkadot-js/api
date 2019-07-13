@@ -14,7 +14,7 @@ import EventRecord from './EventRecord';
 
 describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
-    beforeEach(() => {
+    beforeEach((): void => {
       Event.injectMetadata(
         new Metadata(metadataV0)
       );
@@ -29,7 +29,7 @@ describe('EventRecord', (): void => {
   });
 
   describe('EventRecord (current)', (): void => {
-    beforeEach(() => {
+    beforeEach((): void => {
       Event.injectMetadata(
         new Metadata(metadata)
       );

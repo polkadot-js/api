@@ -69,14 +69,14 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength (): UIntBitLength {
+  public bitLength (): UIntBitLength {
     return BITLENGTH;
   }
 
   /**
    * @description Returns the BN representation of the timestamp
    */
-  toBn (): BN {
+  public toBn (): BN {
     return new BN(this.toNumber());
   }
 
@@ -103,7 +103,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns the number representation for the timestamp
    */
-  toNumber (): number {
+  public toNumber (): number {
     return Math.ceil(this.getTime() / 1000);
   }
 

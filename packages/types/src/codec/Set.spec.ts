@@ -5,16 +5,16 @@
 import Set from './Set';
 
 const SET_FIELDS = {
-  header:        0b00000001,
-  body:          0b00000010,
-  receipt:       0b00000100,
-  messageQueue:  0b00001000,
+  header: 0b00000001,
+  body: 0b00000010,
+  receipt: 0b00000100,
+  messageQueue: 0b00001000,
   justification: 0b00010000
 };
 const SET_ROLES = {
-  none:      0b00000000,
-  full:      0b00000001,
-  light:     0b00000010,
+  none: 0b00000000,
+  full: 0b00000001,
+  light: 0b00000010,
   authority: 0b00000100
 };
 const SET_WITHDRAW = {
@@ -36,13 +36,13 @@ describe('Set', (): void => {
 
   it('throws with invalid values', (): void => {
     expect(
-      () => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
+      (): Set => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
     ).toThrow(/Invalid key 'invalid'/);
   });
 
   it('throws with add on invalid', (): void => {
     expect(
-      () => (new Set(SET_ROLES, [])).add('invalid')
+      (): Set => (new Set(SET_ROLES, [])).add('invalid')
     ).toThrow(/Invalid key 'invalid'/);
   });
 
@@ -54,7 +54,7 @@ describe('Set', (): void => {
 
   it('does not allow invalid number', (): void => {
     expect(
-      () => new Set(SET_WITHDRAW, 31)
+      (): Set => new Set(SET_WITHDRAW, 31)
     ).toThrow(/Mismatch decoding '31', computed as '15'/);
   });
 

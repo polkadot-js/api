@@ -32,8 +32,11 @@ interface Decoded {
  */
 export default class StorageKey extends Bytes {
   private _meta?: MetaV6;
+
   private _method?: string;
+
   private _outputType?: string;
+
   private _section?: string;
 
   public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]) {

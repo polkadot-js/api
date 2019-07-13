@@ -5,12 +5,12 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { drr } from '../util/drr';
 import { info } from './info';
 
-export function eraLength (api: ApiInterface$Rx) {
+export function eraLength (api: ApiInterfaceRx) {
   return (): Observable<BN> =>
     info(api)().pipe(
       map(({ eraLength }) => eraLength),

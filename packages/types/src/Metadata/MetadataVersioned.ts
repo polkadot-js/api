@@ -168,10 +168,15 @@ class MetadataEnum extends Enum {
  */
 export default class MetadataVersioned extends Struct {
   private _convertedV1?: MetadataV1;
+
   private _convertedV2?: MetadataV2;
+
   private _convertedV3?: MetadataV3;
+
   private _convertedV4?: MetadataV4;
+
   private _convertedV5?: MetadataV5;
+
   private _convertedV6?: MetadataV6;
 
   public constructor (value?: any) {
@@ -313,7 +318,7 @@ export default class MetadataVersioned extends Struct {
     return this._convertedV6;
   }
 
-  getUniqTypes (throwError: boolean): string[] {
+  public getUniqTypes (throwError: boolean): string[] {
     return this.asV6.getUniqTypes(throwError);
   }
 }

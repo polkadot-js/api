@@ -9,10 +9,10 @@ import Hash from '../primitive/Hash';
 import Justification from '../type/Justification';
 import Block, { BlockValue } from './Block';
 
-type SignedBlockValue = {
-  block?: BlockValue,
-  justification?: AnyU8a
-};
+interface SignedBlockValue {
+  block?: BlockValue;
+  justification?: AnyU8a;
+}
 
 /**
  * @name SignedBlock

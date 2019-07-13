@@ -12,83 +12,85 @@ export type ApiObject<ApiType> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
 
-export type ContractABITypes$Struct = {
+export interface ContractABITypesStruct {
   'Option<T>'?: {
-    T: ContractABITypes
-  },
+    T: ContractABITypes;
+  };
   'Result<T,E>'?: {
-    T: ContractABITypes,
-    E: ContractABITypes
-  },
+    T: ContractABITypes;
+    E: ContractABITypes;
+  };
   'Vec<T>'?: {
-    T: ContractABITypes
-  },
+    T: ContractABITypes;
+  };
   '[T;n]'?: {
-    T: ContractABITypes,
-    n: number
-  }
-};
+    T: ContractABITypes;
+    n: number;
+  };
+}
 
-export type ContractABITypes = string | ContractABITypes$Struct | (string | ContractABITypes$Struct)[];
+export type ContractABITypes = string | ContractABITypesStruct | (string | ContractABITypesStruct)[];
 
-export type ContractABIArg = {
-  name: string,
-  type: ContractABITypes
-};
+export interface ContractABIArg {
+  name: string;
+  type: ContractABITypes;
+}
 
-export type ContractABIMethodBase = {
-  args: ContractABIArg[]
-};
+export interface ContractABIMethodBase {
+  args: ContractABIArg[];
+}
 
-export type ContractABIMethod = ContractABIMethodBase & {
-  mutates?: boolean,
-  name: string,
-  selector: number,
-  return_type: ContractABITypes | null
-};
+export interface ContractABIMethod extends ContractABIMethodBase {
+  mutates?: boolean;
+  name: string;
+  selector: number;
+  return_type: ContractABITypes | null;
+}
 
-export type ContractABI = {
-  deploy: ContractABIMethodBase,
-  messages: ContractABIMethod[],
-  name: string
-};
+export interface ContractABI {
+  deploy: ContractABIMethodBase;
+  messages: ContractABIMethod[];
+  name: string;
+}
 
-export interface ContractABIFn$Arg {
+export interface ContractABIMetaArg {
   name: string;
   type: string;
 }
 
-export interface ContractABIFn$Meta {
-  args: ContractABIFn$Arg[];
+export interface ContractABIMeta {
+  args: ContractABIArg[];
   isConstant: boolean;
   type: string | null;
 }
 
-export interface ContractABIFn extends ContractABIFn$Meta {
+export interface ContractABIFn extends ContractABIMeta {
   (...args: CodecArg[]): Uint8Array;
 }
 
-export interface IAbi$Messages {
-  [index: string]: ContractABIFn;
-}
+export type IAbiMessages = Record<string, ContractABIFn>;
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IAbi {
   readonly abi: ContractABI;
   readonly deploy: ContractABIFn;
-  readonly messages: IAbi$Messages;
+  readonly messages: IAbiMessages;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IContractBase<ApiType> {
   readonly abi: IAbi;
   readonly api: ApiObject<ApiType>;
   readonly apiContracts: SubmittableModuleExtrinsics<ApiType>;
 }
 
-export interface IContract$Calls {
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IContractCalls {
   [index: string]: Function;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IContract {
   readonly address: Address;
-  readonly calls: IContract$Calls;
+  readonly calls: IContractCalls;
 }

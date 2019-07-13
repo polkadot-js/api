@@ -34,7 +34,7 @@ export default class AccountId extends U8aFixed {
     } else if (isHex(value)) {
       return hexToU8a(value.toString());
     } else if (isString(value)) {
-      return decodeAddress((value as String).toString());
+      return decodeAddress((value as string).toString());
     }
 
     return value;

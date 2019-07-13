@@ -31,12 +31,13 @@ type ICodePutCodeResultSubscription = Observable<CodePutCodeResult>;
 // is hanging where, with the bare-mainimum from a simplicity perspective
 // Very obvious is that it supports only 1 version of signAndSend
 // (we need to revisit this, but probably ok for initial?)
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ICodePutCode {
   signAndSend (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription;
 }
 
 class CodePutCodeResult extends SubmittableResult {
-  readonly blueprint?: RxBlueprint;
+  public readonly blueprint?: RxBlueprint;
 
   public constructor (result: ISubmittableResult, blueprint?: RxBlueprint) {
     super(result);
@@ -47,7 +48,7 @@ class CodePutCodeResult extends SubmittableResult {
 
 // NOTE Experimental, POC, bound to change
 export default class RxCode extends RxBase {
-  readonly code: Uint8Array;
+  public readonly code: Uint8Array;
 
   public constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
     super(api, abi);

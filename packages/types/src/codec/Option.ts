@@ -155,7 +155,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Returns the value that the Option represents (if available), throws if null
    */
-  unwrap (): T {
+  public unwrap (): T {
     if (this.isNone) {
       throw new Error('Option: unwrapping a None value');
     }
@@ -167,7 +167,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns the value that the Option represents (if available) or defaultValue if none
    * @param defaultValue The value to return if the option isNone
    */
-  unwrapOr<O> (defaultValue: O): T | O {
+  public unwrapOr<O> (defaultValue: O): T | O {
     return this.isSome
       ? this.unwrap()
       : defaultValue;

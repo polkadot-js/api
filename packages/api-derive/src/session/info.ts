@@ -7,19 +7,19 @@ import { DerivedSessionInfo } from '../types';
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { BlockNumber, Option } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
-type Result_0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
+type Result0to94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
 type Result = [BN, [BN, BN]];
 
 const ZERO = new BN(0);
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerived_0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result_0_94): DerivedSessionInfo {
+function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result0to94): DerivedSessionInfo {
   const eraLength = sessionLength.mul(sessionsPerEra);
   const lastLengthChange = _lastLengthChange
     ? _lastLengthChange.unwrapOr(ZERO)
@@ -45,7 +45,7 @@ function createDerived_0_94 ([bestNumber, [currentIndex, _lastLengthChange, sess
     sessionLength,
     sessionsPerEra,
     sessionProgress
-  } as DerivedSessionInfo;
+  } as unknown as DerivedSessionInfo;
 }
 
 function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): DerivedSessionInfo {
@@ -61,13 +61,13 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
     sessionLength: ZERO,
     sessionsPerEra,
     sessionProgress: ZERO
-  } as DerivedSessionInfo;
+  } as unknown as DerivedSessionInfo;
 }
 
 /**
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
-export function info (api: ApiInterface$Rx) {
+export function info (api: ApiInterfaceRx) {
   return (): Observable<DerivedSessionInfo> => {
     // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
     // pre-94 we had more info and needed to calculate (handle old/Alex first)
@@ -82,8 +82,8 @@ export function info (api: ApiInterface$Rx) {
           api.query.staking.lastEraLengthChange,
           api.query.staking.sessionsPerEra
         ])
-      ]) as any as Observable<Result_0_94>).pipe(
-        map(createDerived_0_94),
+      ]) as any as Observable<Result0to94>).pipe(
+        map(createDerived0to94),
         drr()
       )
     : (combineLatest([
@@ -95,7 +95,7 @@ export function info (api: ApiInterface$Rx) {
         api.query.session.currentIndex,
         api.query.staking.currentEra
       ])
-    ]) as any as Observable<Result>).pipe(
+    ]) as unknown as Observable<Result>).pipe(
       map(createDerived),
       drr()
     );

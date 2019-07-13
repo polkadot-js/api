@@ -26,8 +26,9 @@ describe.skip('Api-RX derive e2e', (): void => {
     jest.setTimeout(10000);
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiRx.create(new WsProvider(WS)).toPromise();
+
     done();
   });
 
@@ -181,7 +182,7 @@ describe.skip('Api-RX derive e2e', (): void => {
 
     // FIXME https://github.com/polkadot-js/api/issues/868
     describe.skip('getHeader', (): void => {
-      it('gets a specific block header and extended with it\`s author', async (done) => {
+      it('gets a specific block header and extended with it`s author', async (done) => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));

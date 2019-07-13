@@ -11,9 +11,11 @@ import Abi from './Abi';
 
 // NOTE Experimental, POC, bound to change
 export default abstract class RxBase implements IContractBase<'rxjs'> {
-  readonly abi: Abi;
-  readonly api: ApiObject<'rxjs'>;
-  readonly apiContracts: SubmittableModuleExtrinsics<'rxjs'>;
+  public readonly abi: Abi;
+
+  public readonly api: ApiObject<'rxjs'>;
+
+  public readonly apiContracts: SubmittableModuleExtrinsics<'rxjs'>;
 
   public constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
     this.abi = abi instanceof Abi

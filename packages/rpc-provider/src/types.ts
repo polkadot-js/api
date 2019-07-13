@@ -36,19 +36,19 @@ export type JsonRpcResponseBase = JsonRpcResponseSingle & JsonRpcResponseSubscri
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
-export type ProviderInterface$Callback = (result: any) => void;
+export type ProviderInterfaceCallback = (result: any) => void;
 
-export type ProviderInterface$Emitted = 'connected' | 'disconnected' | 'error';
+export type ProviderInterfaceEmitted = 'connected' | 'disconnected' | 'error';
 
-export type ProviderInterface$EmitCb = (value?: any) => any;
+export type ProviderInterfaceEmitCb = (value?: any) => any;
 
 export interface ProviderInterface {
   readonly hasSubscriptions: boolean;
   clone (): ProviderInterface;
   disconnect (): void;
   isConnected (): boolean;
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void;
+  on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void;
   send (method: string, params: any[]): Promise<any>;
-  subscribe (type: string, method: string, params: any[], cb: ProviderInterface$Callback): Promise<number>;
+  subscribe (type: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number>;
   unsubscribe (type: string, method: string, id: number): Promise<boolean>;
 }

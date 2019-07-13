@@ -98,15 +98,15 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     return this.modules.map((mod) =>
       mod.calls.isNone
         ? []
-        : mod.calls.unwrap().map((fn) =>
-          fn.args.map((arg) => arg.type.toString())
+        : mod.calls.unwrap().map((fn): string[] =>
+          fn.args.map((arg): string => arg.type.toString())
         )
     );
   }
 
-  private get constantNames () {
-    return this.modules.map((mod) =>
-      mod.constants.map((c) =>
+  private get constantNames (): string[][] {
+    return this.modules.map((mod): string[] =>
+      mod.constants.map((c): string =>
         c.type.toString()
       )
     );
@@ -116,8 +116,8 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     return this.modules.map((mod) =>
       mod.events.isNone
         ? []
-        : mod.events.unwrap().map((event) =>
-          event.args.map((arg) => arg.toString())
+        : mod.events.unwrap().map((event): string[] =>
+          event.args.map((arg): string => arg.toString())
         )
     );
   }
@@ -126,7 +126,7 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     return this.modules.map((mod) =>
       mod.storage.isNone
         ? []
-        : mod.storage.unwrap().map((fn) => {
+        : mod.storage.unwrap().map((fn): string[] => {
           if (fn.type.isMap) {
             return [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()];
           } else if (fn.type.isDoubleMap) {
@@ -141,7 +141,7 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): string[] {
+  public getUniqTypes (throwError: boolean): string[] {
     const types = flattenUniq([this.callNames, this.constantNames, this.eventNames, this.storageNames]);
 
     validateTypes(types, throwError);

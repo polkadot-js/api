@@ -11,11 +11,11 @@ import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
 import { BftAuthoritySignature, BftAuthoritySignatureValue } from './Bft';
 
-export type RhdJustificationValue = {
-  roundNumber?: AnyNumber,
-  hash?: AnyU8a,
-  signatures?: BftAuthoritySignatureValue[]
-};
+export interface RhdJustificationValue {
+  roundNumber?: AnyNumber;
+  hash?: AnyU8a;
+  signatures?: BftAuthoritySignatureValue[];
+}
 
 /**
  * @name Justification

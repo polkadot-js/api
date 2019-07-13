@@ -4,19 +4,19 @@
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Vector, Vote } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
-export function votes (api: ApiInterface$Rx) {
+export function votes (api: ApiInterfaceRx) {
   return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
     return ((
       !accountIds || !accountIds.length
         ? of([])
         : api.query.democracy.voteOf.multi(
-            accountIds.map((accountId) => [referendumId, accountId])
-          )
-     ) as Observable<Vector<Vote>>).pipe(drr());
+          accountIds.map((accountId) => [referendumId, accountId])
+        )
+    ) as Observable<Vector<Vote>>).pipe(drr());
   };
 }

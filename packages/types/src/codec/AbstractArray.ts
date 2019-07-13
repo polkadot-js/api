@@ -80,7 +80,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    */
   public toString (): string {
     // Overwrite the default toString representation of Array.
-    const data = this.map((entry) =>
+    const data = this.map((entry): string =>
       entry.toString()
     );
 

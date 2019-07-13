@@ -8,7 +8,7 @@ import Type from './Type';
 describe('Type', (): void => {
   it('fails to cleanup invalid boxes', (): void => {
     expect(
-      () => new Type('Box<Proposal')
+      (): Type => new Type('Box<Proposal')
     ).toThrow(/find closing matching/);
   });
 
@@ -68,7 +68,7 @@ describe('Type', (): void => {
 
   it('does not allow toU8a', (): void => {
     expect(
-      () => new Type().toU8a()
+      (): Uint8Array => new Type().toU8a()
     ).toThrow(/unimplemented/);
   });
 

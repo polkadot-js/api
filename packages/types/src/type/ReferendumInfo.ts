@@ -9,12 +9,12 @@ import BlockNumber from './BlockNumber';
 import Proposal from './Proposal';
 import VoteThreshold from './VoteThreshold';
 
-type ReferendumInfoValue = {
-  end?: BlockNumber,
-  proposal?: Proposal,
-  threshold?: VoteThreshold,
-  delay?: BlockNumber
-};
+interface ReferendumInfoValue {
+  end?: BlockNumber;
+  proposal?: Proposal;
+  threshold?: VoteThreshold;
+  delay?: BlockNumber;
+}
 
 /**
  * @name ReferendumInfo

@@ -12,13 +12,13 @@ import Hash from '../primitive/Hash';
 import BlockNumber from '../type/BlockNumber';
 import Digest, { DigestItem } from './Digest';
 
-export type HeaderValue = {
-  digest?: Digest | { logs: DigestItem[] },
-  extrinsicsRoot?: AnyU8a,
-  number?: AnyNumber,
-  parentHash?: AnyU8a,
-  stateRoot?: AnyU8a
-};
+export interface HeaderValue {
+  digest?: Digest | { logs: DigestItem[] };
+  extrinsicsRoot?: AnyU8a;
+  number?: AnyNumber;
+  parentHash?: AnyU8a;
+  stateRoot?: AnyU8a;
+}
 
 /**
  * @name Header

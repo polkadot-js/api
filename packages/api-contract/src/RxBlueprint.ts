@@ -18,12 +18,13 @@ import RxContract from './RxContract';
 
 type IBlueprintCreateResultSubscription = Observable<BlueprintCreateResult>;
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IBlueprintCreate {
   signAndSend (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription;
 }
 
 class BlueprintCreateResult extends SubmittableResult {
-  readonly contract?: RxContract;
+  public readonly contract?: RxContract;
 
   public constructor (result: ISubmittableResult, contract?: RxContract) {
     super(result);
@@ -34,7 +35,7 @@ class BlueprintCreateResult extends SubmittableResult {
 
 // NOTE Experimental, POC, bound to change
 export default class Blueprint extends RxBase {
-  readonly codeHash: Hash;
+  public readonly codeHash: Hash;
 
   public constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
     super(api, abi);

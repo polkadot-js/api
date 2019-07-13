@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIFn$Arg } from './types';
+import { ContractABIArg } from './types';
 
 import typesAbi from '../test/abi/types.json';
 import erc20Abi from '../test/contracts/erc20.json';
@@ -17,7 +17,7 @@ describe('Abi', (): void => {
       abi = new Abi(typesAbi);
     });
 
-    function check (method: string, args: ContractABIFn$Arg[], type: string | null): void {
+    function check (method: string, args: ContractABIArg[], type: string | null): void {
       const fn = abi.messages[method];
 
       expect(fn.args).toEqual(args);

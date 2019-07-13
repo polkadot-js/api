@@ -9,7 +9,7 @@ import Method from '../primitive/Method';
 import Block from './Block';
 
 describe('Block', (): void => {
-  beforeEach(() => {
+  beforeEach((): void => {
     Method.injectMethods(extrinsics);
   });
 

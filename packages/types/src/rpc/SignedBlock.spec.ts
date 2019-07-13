@@ -11,7 +11,7 @@ import mortalTxs from '../json/SignedBlock.004.mortal.json';
 import SignedBlock from './SignedBlock';
 
 describe('SignedBlock', (): void => {
-  beforeEach(() => {
+  beforeEach((): void => {
     Method.injectMethods(extrinsics);
   });
 

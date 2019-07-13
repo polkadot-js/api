@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
+import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import './polyfill';
 
@@ -165,10 +165,10 @@ export default class WsProvider implements WSProviderInterface {
 
   /**
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
-   * @param  {ProviderInterface$Emitted} type Event
-   * @param  {ProviderInterface$EmitCb}  sub  Callback
+   * @param  {ProviderInterfaceEmitted} type Event
+   * @param  {ProviderInterfaceEmitCb}  sub  Callback
    */
-  public on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
     this._eventemitter.on(type, sub);
   }
 
@@ -215,7 +215,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param  {string}                     type     Subscription type
    * @param  {string}                     method   Subscription method
    * @param  {any[]}                 params   Parameters
-   * @param  {ProviderInterface$Callback} callback Callback
+   * @param  {ProviderInterfaceCallback} callback Callback
    * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    *
    * @example
@@ -232,7 +232,7 @@ export default class WsProvider implements WSProviderInterface {
    * })
    * ```
    */
-  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterface$Callback): Promise<number> {
+  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
 
     return id as number;
@@ -261,7 +261,7 @@ export default class WsProvider implements WSProviderInterface {
     return result as boolean;
   }
 
-  private emit (type: ProviderInterface$Emitted, ...args: any[]): void {
+  private emit (type: ProviderInterfaceEmitted, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
   }
 

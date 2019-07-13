@@ -38,12 +38,12 @@ export interface ModulesWithMethods {
   [key: string]: Methods; // Will hold modules returned by state_getMetadata
 }
 
-const FN_UNKNOWN = {
+const FN_UNKNOWN: Partial<MethodFunction> = {
   method: 'unknown',
   section: 'unknown'
-} as MethodFunction;
+};
 
-const injected: { [index: string]: MethodFunction } = {};
+const injected: Record<string, MethodFunction> = {};
 
 /**
  * @name MethodIndex
@@ -129,7 +129,7 @@ export default class Method extends Struct implements IMethod {
   public static filterOrigin (meta?: FunctionMetadataV6): FunctionArgumentMetadata[] {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
-      ? meta.args.filter(({ type }) =>
+      ? meta.args.filter(({ type }): boolean =>
         type.toString() !== 'Origin'
       )
       : [];
@@ -155,14 +155,14 @@ export default class Method extends Struct implements IMethod {
    * @param meta - The function metadata used to get the definition.
    */
   private static getArgsDef (meta: FunctionMetadataV6): ArgsDef {
-    return Method.filterOrigin(meta).reduce((result, { name, type }) => {
+    return Method.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
       const Type = getTypeClass(
         getTypeDef(type)
       );
       result[name.toString()] = Type;
 
       return result;
-    }, {} as ArgsDef);
+    }, {} as unknown as ArgsDef);
   }
 
   // This is called/injected by the API on init, allowing a snapshot of

@@ -185,13 +185,13 @@ export class StorageFunctionType extends Enum {
   }
 }
 
-export type StorageFunctionMetadataValue = {
-  name: string | Text,
-  modifier: StorageFunctionModifier | AnyNumber,
-  type: StorageFunctionType,
-  fallback: Bytes,
-  documentation: Vector<Text> | string[]
-};
+export interface StorageFunctionMetadataValue {
+  name: string | Text;
+  modifier: StorageFunctionModifier | AnyNumber;
+  type: StorageFunctionType;
+  fallback: Bytes;
+  documentation: Vector<Text> | string[];
+}
 
 /**
  * @name StorageFunctionMetadata

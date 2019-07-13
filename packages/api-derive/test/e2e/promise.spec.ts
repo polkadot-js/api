@@ -154,7 +154,6 @@ describe.skip('derive e2e', (): void => {
       return api.tx.staking.setPayee(PAYEE)
         .signAndSend(alicePair, (result: SubmittableResult) => {
           if (result.status.isFinalized) {
-
             done();
           }
         });

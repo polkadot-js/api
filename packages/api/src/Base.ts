@@ -5,8 +5,8 @@
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
-  ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
-  DecoratedRpc, DecoratedRpc$Section,
+  ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions,
+  DecoratedRpc, DecoratedRpcSection,
   QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
@@ -93,7 +93,7 @@ export default abstract class ApiBase<ApiType> {
 
   private _runtimeVersion?: RuntimeVersion;
 
-  private _rx: Partial<ApiInterface$Rx> = {};
+  private _rx: Partial<ApiInterfaceRx> = {};
 
   private _type: ApiTypes;
 
@@ -117,7 +117,7 @@ export default abstract class ApiBase<ApiType> {
    */
   public constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as ApiOptions
+      ? { provider } as unknown as ApiOptions
       : provider as ApiOptions;
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -352,7 +352,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  public on (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public on (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.on(type, handler);
 
     return this;
@@ -379,7 +379,7 @@ export default abstract class ApiBase<ApiType> {
    * api.off('connected', handler);
    * ```
    */
-  public off (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public off (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.removeListener(type, handler);
 
     return this;
@@ -404,7 +404,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  public once (type: ApiInterface$Events, handler: (...args: any[]) => any): this {
+  public once (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.once(type, handler);
 
     return this;
@@ -437,7 +437,7 @@ export default abstract class ApiBase<ApiType> {
    */
   protected abstract decorateMethod (method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
-  private emit (type: ApiInterface$Events, ...args: any[]): void {
+  private emit (type: ApiInterfaceEvents, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
   }
 
@@ -529,7 +529,7 @@ export default abstract class ApiBase<ApiType> {
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
     this._rx.consts = constants;
-    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
+    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
@@ -554,18 +554,18 @@ export default abstract class ApiBase<ApiType> {
   }
 
   private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType> {
-    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
+    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<ApiType> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType>;
 
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName): DecoratedRpcSection<ApiType> => {
         const method = rpc[sectionName][methodName];
         section[methodName] = decorateMethod(method, { methodName });
 
         return section;
-      }, {} as DecoratedRpc$Section<ApiType>);
+      }, {} as unknown as DecoratedRpcSection<ApiType>);
 
       return result;
-    }, {} as DecoratedRpc<ApiType>);
+    }, {} as unknown as DecoratedRpc<ApiType>);
   }
 
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
@@ -584,7 +584,7 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
+      createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -593,16 +593,16 @@ export default abstract class ApiBase<ApiType> {
         result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
 
         return result;
-      }, {} as SubmittableModuleExtrinsics<ApiType>);
+      }, {} as unknown as SubmittableModuleExtrinsics<ApiType>);
 
       return result;
-    }, creator as SubmittableExtrinsics<ApiType>);
+    }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
   private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
-        createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
+        createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
@@ -615,10 +615,10 @@ export default abstract class ApiBase<ApiType> {
         result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
 
         return result;
-      }, {} as QueryableModuleStorage<ApiType>);
+      }, {} as unknown as QueryableModuleStorage<ApiType>);
 
       return result;
-    }, {} as QueryableStorage<ApiType>);
+    }, {} as unknown as QueryableStorage<ApiType>);
   }
 
   private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
@@ -763,7 +763,7 @@ export default abstract class ApiBase<ApiType> {
     );
   }
 
-  private decorateDerive (apiRx: ApiInterface$Rx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
+  private decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 

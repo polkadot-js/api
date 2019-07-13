@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
 import { AccountId, AccountIndex } from '@polkadot/types';
 
@@ -29,7 +29,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * });
  * ```
  */
-export function indexes (api: ApiInterface$Rx) {
+export function indexes (api: ApiInterfaceRx) {
   return (): Observable<AccountIndexes> => {
     return (api.query.indices.nextEnumSet<AccountIndex>())
       .pipe(
@@ -51,7 +51,7 @@ export function indexes (api: ApiInterface$Rx) {
             });
 
             return result;
-          }, {} as AccountIndexes)),
+          }, {} as unknown as AccountIndexes)),
         drr()
       );
   };

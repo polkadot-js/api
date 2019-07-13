@@ -22,10 +22,10 @@ export class ApiId extends U8aFixed {
   }
 }
 
-type RuntimeVersionApiValue = {
-  id?: AnyU8a,
-  version?: AnyNumber
-};
+interface RuntimeVersionApiValue {
+  id?: AnyU8a;
+  version?: AnyNumber;
+}
 
 /**
  * @name RuntimeVersionApi
@@ -55,14 +55,14 @@ export class RuntimeVersionApi extends Tuple {
   }
 }
 
-type RuntimeVersionValue = {
-  specName?: string,
-  implName?: string,
-  authoringVersion?: AnyNumber,
-  specVersion?: AnyNumber,
-  implVersion?: AnyNumber,
-  apis?: RuntimeVersionApiValue[]
-};
+interface RuntimeVersionValue {
+  specName?: string;
+  implName?: string;
+  authoringVersion?: AnyNumber;
+  specVersion?: AnyNumber;
+  implVersion?: AnyNumber;
+  apis?: RuntimeVersionApiValue[];
+}
 
 /**
  * @name RuntimeVersion

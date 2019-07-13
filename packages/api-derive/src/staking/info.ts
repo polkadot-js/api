@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
@@ -16,13 +16,35 @@ import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { drr } from '../util/drr';
 
+function groupByEra (list: UnlockChunk[]): Record<string, BN> {
+  return list.reduce((map, { era, value }): Record<string, BN> => {
+    const key = era.toString();
+
+    if (!map[key]) {
+      map[key] = value;
+    } else {
+      map[key] = map[key].add(value);
+    }
+
+    return map;
+  }, {} as unknown as Record<string, BN>);
+}
+
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
+  const remaining = eraLength.mul(era).sub(bestNumber);
+
+  return remaining.lten(0) ? new BN(0) : remaining;
+}
+
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
   // select the Unlockchunks that can't be redeemed yet.
-  const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
+  const unlockingChunks = stakingLedger.unlocking.filter((chunk): boolean =>
+    remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0)
+  );
 
   if (!unlockingChunks.length) {
     return undefined;
@@ -38,36 +60,16 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   return results.length ? results : undefined;
 }
 
-function groupByEra (list: UnlockChunk[]) {
-  return list.reduce((map, { era, value }) => {
-    const key = era.toString();
-
-    if (!map[key]) {
-      map[key] = value;
-    } else {
-      map[key] = map[key].add(value);
-    }
-
-    return map;
-  }, {} as { [index: string]: BN });
-}
-
-function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): BN {
   if (isUndefined(stakingLedger)) {
     return new BN(0);
   }
 
   return stakingLedger.unlocking
-    .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
-    .reduce((curr, prev) => {
+    .filter((chunk): boolean => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev): BN => {
       return curr.add(prev.value);
     }, new BN(0));
-}
-
-function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
-  const remaining = eraLength.mul(era).sub(bestNumber);
-
-  return remaining.lten(0) ? new BN(0) : remaining;
 }
 
 function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | undefined {
@@ -79,7 +81,7 @@ function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | und
     : undefined;
 }
 
-function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function withStashController (api: ApiInterfaceRx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
@@ -111,13 +113,13 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
         stashId,
         unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs
-      } as DerivedStaking;
+      } as unknown as DerivedStaking;
     }),
     drr()
   );
 }
 
-function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
+function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
 
@@ -140,7 +142,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       stakingLedger,
       stashId,
       validatorPrefs
-    } as DerivedStaking)),
+    } as unknown as DerivedStaking)),
     drr()
   );
 }
@@ -148,7 +150,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 /**
  * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
-export function info (api: ApiInterface$Rx) {
+export function info (api: ApiInterfaceRx) {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = new AccountId(_accountId);
 
@@ -166,7 +168,7 @@ export function info (api: ApiInterface$Rx) {
             stakingLedger.isSome
               ? withControllerLedger(api, accountId, stakingLedger.unwrap())
               // dangit, this is something else, ok, we are done
-              : of({ accountId } as DerivedStaking)
+              : of({ accountId } as unknown as DerivedStaking)
           )
       ),
       drr()

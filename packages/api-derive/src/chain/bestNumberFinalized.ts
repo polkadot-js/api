@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { BlockNumber, Header } from '@polkadot/types';
 
 import { drr } from '../util/drr';
@@ -22,7 +22,7 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function bestNumberFinalized (api: ApiInterface$Rx) {
+export function bestNumberFinalized (api: ApiInterfaceRx) {
   return (): Observable<BlockNumber> =>
     (api.rpc.chain.subscribeFinalizedHeads() as Observable<Header>)
       .pipe(

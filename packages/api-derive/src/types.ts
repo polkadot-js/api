@@ -16,9 +16,7 @@ export interface DerivedBalances {
   vestedBalance: BN;
 }
 
-export type DerivedBalancesMap = {
-  [index: string]: DerivedBalances
-};
+export type DerivedBalancesMap = Record<string, DerivedBalances>;
 
 export interface DerivedContractFees {
   callBaseFee: BN;

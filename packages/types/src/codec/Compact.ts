@@ -39,7 +39,9 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
    * @param u8a - The Uint8Array to be prefixed
    */
   public static addLengthPrefix = compactAddLength;
+
   public static decodeU8a = compactFromU8a;
+
   public static encodeU8a = compactToU8a;
 
   public static stripLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_BITLENGTH): Uint8Array {
@@ -83,7 +85,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength (): UIntBitLength {
+  public bitLength (): UIntBitLength {
     return this.raw.bitLength();
   }
 
@@ -101,7 +103,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns the BN representation of the number
    */
-  toBn (): BN {
+  public toBn (): BN {
     return this.raw.toBn();
   }
 
@@ -122,7 +124,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns the number representation for the value
    */
-  toNumber (): number {
+  public toNumber (): number {
     return this.raw.toNumber();
   }
 
@@ -151,7 +153,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
-  unwrap (): UInt | Moment {
+  public unwrap (): UInt | Moment {
     return this.raw;
   }
 }

@@ -15,10 +15,10 @@ import Address from '../primitive/Address';
 import Hash from '../primitive/Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
-export type ExtrinsicValueV1 = {
-  method?: Method
-  signature?: ExtrinsicSignature
-};
+export interface ExtrinsicValueV1 {
+  method?: Method;
+  signature?: ExtrinsicSignature;
+}
 
 /**
  * @name ExtrinsicV1
@@ -36,7 +36,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
    */
-  public get args (): Array<Codec> {
+  public get args (): Codec[] {
     return this.method.args;
   }
 
@@ -124,7 +124,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): ExtrinsicV1 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): ExtrinsicV1 {
     this.signature.addSignature(signer, signature, nonce, era);
 
     return this;
@@ -133,7 +133,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV1 {
+  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV1 {
     this.signature.sign(this.method, account, options);
 
     return this;

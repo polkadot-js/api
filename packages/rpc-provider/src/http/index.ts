@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
+import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import './polyfill';
 
@@ -83,7 +83,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Events are not supported with the HttpProvider, see [[WsProvider]].
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
-  public on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
     l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
@@ -113,7 +113,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async subscribe (types: string, method: string, params: any[], cb: ProviderInterface$Callback): Promise<number> {
+  public async subscribe (types: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);

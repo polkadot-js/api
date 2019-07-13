@@ -80,8 +80,7 @@ export class Phase extends Enum {
  * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
  * application.
  */
-// tslint:disable-next-line
-export class EventRecord_0_76 extends Struct {
+export class EventRecord0to76 extends Struct {
   public constructor (value: any) {
     super({
       phase: Phase,
@@ -126,7 +125,7 @@ export default class EventRecord extends Struct {
     }, value);
   }
 
-  public static Fallback = EventRecord_0_76;
+  public static Fallback = EventRecord0to76;
 
   /**
    * @description The [[Event]] this record refers to

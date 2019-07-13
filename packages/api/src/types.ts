@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
-import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
+import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
@@ -59,7 +59,7 @@ export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs
   ? RxResult<F>
   : PromiseResult<F>;
 
-type DecoratedRpc$Method<ApiType> = ApiType extends 'rxjs'
+type DecoratedRpcMethod<ApiType> = ApiType extends 'rxjs'
   ? {
     (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>
     <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>
@@ -77,16 +77,16 @@ type DecoratedRpc$Method<ApiType> = ApiType extends 'rxjs'
   };
 
 // FIXME https://github.com/polkadot-js/api/issues/1009
-export interface DecoratedRpc$Section<ApiType> {
-  [index: string]: DecoratedRpc$Method<ApiType>;
+export interface DecoratedRpcSection<ApiType> {
+  [index: string]: DecoratedRpcMethod<ApiType>;
 }
 
 // FIXME https://github.com/polkadot-js/api/issues/1009
 export interface DecoratedRpc<ApiType> {
-  author: DecoratedRpc$Section<ApiType>;
-  chain: DecoratedRpc$Section<ApiType>;
-  state: DecoratedRpc$Section<ApiType>;
-  system: DecoratedRpc$Section<ApiType>;
+  author: DecoratedRpcSection<ApiType>;
+  chain: DecoratedRpcSection<ApiType>;
+  state: DecoratedRpcSection<ApiType>;
+  system: DecoratedRpcSection<ApiType>;
 }
 
 export interface StorageEntryObservable {
@@ -200,7 +200,7 @@ export interface ApiOptions {
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
-export interface ApiInterface$Rx {
+export interface ApiInterfaceRx {
   consts: Constants;
   genesisHash: Hash;
   hasSubscriptions: boolean;
@@ -213,7 +213,7 @@ export interface ApiInterface$Rx {
   signer?: Signer;
 }
 
-export type ApiInterface$Events = ProviderInterface$Emitted | 'ready';
+export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 

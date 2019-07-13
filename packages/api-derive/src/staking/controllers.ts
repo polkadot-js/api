@@ -4,7 +4,7 @@
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Option } from '@polkadot/types';
 
 import { drr } from '../util/drr';
@@ -12,7 +12,7 @@ import { drr } from '../util/drr';
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
-export function controllers (api: ApiInterface$Rx) {
+export function controllers (api: ApiInterfaceRx) {
   return (): Observable<[AccountId[], Option<AccountId>[]]> =>
     (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
       .pipe(

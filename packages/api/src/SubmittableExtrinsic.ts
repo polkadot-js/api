@@ -4,7 +4,7 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiTypes } from './types';
+import { ApiInterfaceRx, ApiTypes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -98,7 +98,7 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
 export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
-  api: ApiInterface$Rx,
+  api: ApiInterfaceRx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
@@ -168,7 +168,7 @@ export default function createSubmittableExtrinsic<ApiType> (
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options
-    } as SignatureOptions;
+    } as unknown as SignatureOptions;
   }
 
   function setupEraOptions (header: Header | null, options: Partial<SignerOptions>): Partial<SignatureOptions> {

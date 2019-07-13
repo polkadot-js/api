@@ -33,8 +33,11 @@ export class EventIndex extends U32 {
  */
 export class EventData extends Tuple {
   private _meta: EventMetadataV6;
+
   private _method: string;
+
   private _section: string;
+
   private _typeDef: TypeDef[];
 
   public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV6, section: string, method: string) {
@@ -130,7 +133,7 @@ export default class Event extends Struct {
   // the available system events to be used in lookups
   public static injectMetadata (metadata: Metadata): void {
     metadata.asV6.modules
-      .filter((section) => section.events.isSome)
+      .filter((section): boolean => section.events.isSome)
       .forEach((section, sectionIndex): void => {
         const sectionName = stringCamelCase(section.name.toString());
 

@@ -4,14 +4,14 @@
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, ReferendumIndex } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
 import { referendumInfos } from './referendumInfos';
 
-export function referendums (api: ApiInterface$Rx) {
+export function referendums (api: ApiInterfaceRx) {
   return (): Observable<Option<ReferendumInfoExtended>[]> =>
     (api.queryMulti([
       api.query.democracy.nextTally,

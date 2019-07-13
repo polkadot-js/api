@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, Option, VestingSchedule } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
@@ -54,7 +54,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
     reservedBalance,
     vestedBalance,
     votingBalance: freeBalance.add(reservedBalance)
-  } as DerivedBalances;
+  } as unknown as DerivedBalances;
 }
 
 /**
@@ -73,7 +73,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
  * });
  * ```
  */
-export function all (api: ApiInterface$Rx) {
+export function all (api: ApiInterfaceRx) {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
