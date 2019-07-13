@@ -23,8 +23,7 @@ const types: Array<Compat> = [
     nodeSpecs: [
       ['node', 77],
       ['polkadot', 1000],
-      ['node-template', ANY_VERSION],
-      ['edgeware', ANY_VERSION]
+      ['node-template', ANY_VERSION]
     ],
     types: {
       'EventRecord': EventRecord_0_76

@@ -3,13 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import ApiPromise from '@polkadot/api/promise/Api';
-import testKeyring from '@polkadot/keyring/testing';
+import testingPairs from '@polkadot/keyring/testingPairs';
 import { WsProvider } from '@polkadot/rpc-provider';
+import { RewardDestination } from '@polkadot/types';
 
 import { HeaderExtended } from '../../src/type';
 import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
 import { SubmittableResult } from '../../../api/src';
 
+const ALICE_STASH = testingPairs().alice_stash.address;
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
@@ -121,10 +123,7 @@ describe.skip('derive e2e', () => {
 
   describe('verifies derive.staking.unlocking', () => {
     const UNBOND_VALUE = 1;
-    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
-    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-    const keyring = testKeyring();
-    const alicePair = keyring.getPair(ALICE);
+    const alicePair = testingPairs().alice;
 
     it('unbonds dots for Alice (from Alice Stash)', (done) => {
       return api.tx.staking.unbond(UNBOND_VALUE)
@@ -145,10 +144,7 @@ describe.skip('derive e2e', () => {
 
   describe('verifies derive.staking.rewardDestination', () => {
     const PAYEE = 2;
-    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
-    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-    const keyring = testKeyring();
-    const alicePair = keyring.getPair(ALICE);
+    const alicePair = testingPairs().alice;
 
     it('Set payee for ALICE to 2', (done) => {
       return api.tx.staking.setPayee(PAYEE)
@@ -170,6 +166,43 @@ describe.skip('derive e2e', () => {
 
         done();
       });
+    });
+
+    it('staking.info updates itself after changing reward destination', async (done) => {
+      const stashId = testingPairs().alice_stash.address;
+
+      // start by setting the reqred to Staked, so we have a common starting point
+      await api.tx.staking
+        .setPayee(new RewardDestination('Staked'))
+        .signAndSend(testingPairs().alice, ({ status }) => {
+          if (status.isFinalized) {
+            console.error('setPayee(Staked) isFinalized');
+          }
+        });
+
+      let count = 0; // The # of times we got a callback response from api.derive.staking.info
+
+      // Subscribe to staking.info
+      api.derive.staking.info(stashId, (result) => {
+        ++count;
+
+        console.error('***', count, JSON.stringify(result));
+
+        if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
+          done();
+        }
+      }).catch(console.error);
+
+      // Wait a bit, and change reward destination
+      setTimeout(async () => {
+        await api.tx.staking
+          .setPayee(new RewardDestination('Stash'))
+          .signAndSend(testingPairs().alice, ({ status }) => {
+            if (status.isFinalized) {
+              console.error('setPayee(Stash) isFinalized');
+            }
+          });
+      }, 5000);
     });
   });
 });

@@ -11,7 +11,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { Codec } from '@polkadot/types/types';
-import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
+import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -49,6 +49,7 @@ const EMPTY_META = {
  * ```
  */
 export default class Rpc implements RpcInterface {
+  private _storageCache = new Map<string, Option<StorageData>>();
   readonly provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
@@ -296,20 +297,24 @@ export default class Rpc implements RpcInterface {
     return createType(type, isNull ? meta.fallback : base, true);
   }
 
-  private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec | undefined {
+  private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec {
     // Fallback to Data (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Data';
-
-    // see if we have a result value for this specific key
     const hexKey = key.toHex();
-    const { value } = base.changes.find((item) =>
-      item.key.toHex() === hexKey
-    ) || { value: null };
     const meta = key.meta || EMPTY_META;
 
-    if (!value) {
-      return;
-    } else if (meta.type.isMap && meta.type.asMap.isLinked) {
+    // see if we have a result value for this specific key, fallback to the cache value
+    // when the value in the set is not available, or is null/empty.
+    const { value } = base.changes.find(({ key, value }) =>
+      value.isSome && key.toHex() === hexKey
+    ) || { value: this._storageCache.get(hexKey) || new Option<StorageData>(StorageData, null) };
+
+    // store the retrieved result - the only issue with this cache is that there is no
+    // clearning of it, so very long running processes (not just a couple of hours, longer)
+    // will increase memory beyond what is allowed.
+    this._storageCache.set(hexKey, value);
+
+    if (meta.type.isMap && meta.type.asMap.isLinked) {
       return createType(type, value.unwrapOr(null), true);
     } else if (meta.modifier.isOptional) {
       return new Option(

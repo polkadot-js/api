@@ -11,7 +11,7 @@ import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Metadata from '../Metadata';
-import { EventMetadata as EventMetadataV5 } from '../Metadata/v5/Events';
+import { EventMetadata as EventMetadataV6 } from '../Metadata/v6/Events';
 import Null from './Null';
 import U32 from './U32';
 import Unconstructable from './Unconstructable';
@@ -32,12 +32,12 @@ export class EventIndex extends U32 {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadataV5;
+  private _meta: EventMetadataV6;
   private _method: string;
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV5, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV6, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -49,7 +49,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  get meta (): EventMetadataV5 {
+  get meta (): EventMetadataV6 {
     return this._meta;
   }
 
@@ -129,7 +129,7 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   static injectMetadata (metadata: Metadata): void {
-    metadata.asV5.modules
+    metadata.asV6.modules
       .filter((section) => section.events.isSome)
       .forEach((section, sectionIndex) => {
         const sectionName = stringCamelCase(section.name.toString());
@@ -166,7 +166,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  get meta (): EventMetadataV5 {
+  get meta (): EventMetadataV6 {
     return this.data.meta;
   }
 

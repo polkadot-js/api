@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 
 import U8a from './codec/U8a';
-import { FunctionMetadata } from './Metadata/v5/Calls';
+import { FunctionMetadata } from './Metadata/v6/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
 
@@ -99,7 +99,7 @@ export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 export type TypeDef = { [index: string]: Codec };
 
 export type RegistryTypes = {
-  [name: string]: Constructor | string | { [name: string]: string }
+  [name: string]: Constructor | string | { [name: string]: string } | { _enum: Array<string> | { [index: string]: string } }
 };
 
 export interface RuntimeVersionInterface {
@@ -113,7 +113,7 @@ export interface RuntimeVersionInterface {
 
 export type SignatureOptions = {
   blockHash: AnyU8a,
-  era?: Uint8Array,
+  era?: IExtrinsicEra,
   nonce: AnyNumber,
   version?: RuntimeVersionInterface
 };

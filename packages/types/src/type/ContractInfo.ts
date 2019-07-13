@@ -8,9 +8,9 @@ import Option from '../codec/Option';
 import Bytes from '../primitive/Bytes';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
+import Balance from '../primitive/Balance';
 import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
-import Balance from './Balance';
 import BlockNumber from './BlockNumber';
 import CodeHash from './CodeHash';
 

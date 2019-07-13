@@ -49,7 +49,7 @@ describe.skip('Rx e2e transactions', () => {
         first(),
         switchMap((nonce: Index) =>
           api.tx.democracy
-            .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
+            .propose(api.tx.system.setCode('0xdeadbeef'), 10000)
             .sign(keyring.alice, { nonce })
             .send()
         )

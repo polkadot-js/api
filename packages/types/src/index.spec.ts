@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/extrinsics/static';
+import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as { [index: string]: Constructor };
-const UNCONSTRUCTABLE = ['origin', 'usize'];
+const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
 describe('types', () => {
   describe('default creation', () => {

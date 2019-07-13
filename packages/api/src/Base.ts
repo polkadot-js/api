@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { Storage } from '@polkadot/storage/types';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
@@ -16,14 +15,18 @@ import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
+import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
+import { Storage } from '@polkadot/api-metadata/storage/types';
+import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import * as srmlTypes from '@polkadot/types/srml/definitions';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -62,6 +65,7 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
 }
 
 export default abstract class ApiBase<ApiType> {
+  private _consts?: Constants;
   private _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
   private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
@@ -120,6 +124,12 @@ export default abstract class ApiBase<ApiType> {
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
+      // first register the definitions we have, i.e. those where there are no type classes
+      Object.values(srmlTypes).forEach(({ types }) =>
+        this.registerTypes(types)
+      );
+
+      // next register all the user types
       this.registerTypes(options.types);
     }
 
@@ -200,6 +210,24 @@ export default abstract class ApiBase<ApiType> {
   }
 
   /**
+   * @description Contains the parameter types (constants) of all modules.
+   *
+   * The values are instances of the appropriate type and are accessible using `section`.`constantName`,
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * console.log(api.consts.democracy.enactmentPeriod.toString())
+   * ```
+   */
+  get consts (): Constants {
+    assert(!isUndefined(this._consts), INIT_ERROR);
+
+    return this._consts as Constants;
+  }
+
+  /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    *
    * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
@@ -226,15 +254,17 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.queryMulti(
+   * const unsub = await api.queryMulti(
    *   [
    *     // you can include the storage without any parameters
-   *     api.query.balances.existentialDeposit,
+   *     api.query.balances.totalIssuance,
    *     // or you can pass parameters to the storage query
    *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
    *   ([existential, balance]) => {
    *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *
+   *     unsub();
    *   }
    * );
    * ```
@@ -473,14 +503,17 @@ export default abstract class ApiBase<ApiType> {
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
+    const constants = constantsFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
+    this._consts = constants;
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
+    this._rx.consts = constants;
     this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
     // only inject if we are not a clone (global init)
@@ -523,16 +556,14 @@ export default abstract class ApiBase<ApiType> {
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod(
       (calls: QueryableStorageMultiArgs<ApiType>) => {
-        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageFunction<ApiType>, ...Array<CodecArg>] =>
-          // the input is a QueryableStorageFunction, convert to StorageFunction
+        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Array<CodecArg>] =>
+          // the input is a QueryableStorageEntry, convert to StorageEntry
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
             : [arg.creator] as any
         );
 
-        return this._rpcCore.state
-          .subscribeStorage(mapped)
-          .pipe(map((results) => new VectorAny(...results)));
+        return this._rpcCore.state.subscribeStorage(mapped);
       });
   }
 
@@ -575,7 +606,7 @@ export default abstract class ApiBase<ApiType> {
     }, {} as QueryableStorage<ApiType>);
   }
 
-  private decorateStorageEntry<ApiType> (creator: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageFunction<ApiType> {
+  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
@@ -623,7 +654,6 @@ export default abstract class ApiBase<ApiType> {
       (args: Array<CodecArg[] | CodecArg>) =>
         this._rpcCore.state
           .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
-          .pipe(map((results) => new VectorAny(...results)))
     );
 
     decorated.size = decorateMethod(
@@ -633,10 +663,10 @@ export default abstract class ApiBase<ApiType> {
           : [creator, arg1])
     );
 
-    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageFunction<ApiType>;
+    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (method: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (method: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;

@@ -51,6 +51,7 @@ export class TypeRegistry {
 
   getOrThrow (name: string, msg?: string): Constructor {
     const type = this.get(name);
+
     if (isUndefined(type)) {
       throw new Error(msg || `type ${name} not found`);
     }

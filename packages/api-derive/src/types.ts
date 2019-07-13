@@ -27,10 +27,10 @@ export interface DerivedContractFees {
   creationFee: BN;
   rentByteFee: BN;
   rentDepositOffset: BN;
+  tombstoneDeposit: BN;
   transactionBaseFee: BN;
   transactionByteFee: BN;
   transferFee: BN;
-  tombstoneDeposit: BN;
 }
 
 export interface DerivedFees {

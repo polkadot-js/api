@@ -3,7 +3,7 @@
 const { ApiPromise } = require('@polkadot/api');
 
 // Our address for Alice on the dev chain
-const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 async function main () {
   // Create our API with a default connection to the local node
@@ -16,7 +16,7 @@ async function main () {
     api.query.session.validators()
   ]);
 
-  console.log(`accountNonce(${Alice}) ${accountNonce}`);
+  console.log(`accountNonce(${ALICE}) ${accountNonce}`);
   console.log(`blockPeriod ${blockPeriod.toNumber()} seconds`);
 
   if (validators && validators.length > 0) {

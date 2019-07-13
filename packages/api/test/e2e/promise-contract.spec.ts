@@ -49,11 +49,8 @@ describe.skip('Promise e2e contracts', () => {
         api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
           .signAndSend(keyring.eve, (result: SubmittableResult) => {
-            console.error('putCode', JSON.stringify(result));
-
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
-
               if (record) {
                 codeHash = record.event.data[0] as Hash;
 

@@ -2,13 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
+import { getTypeRegistry } from '@polkadot/types';
+import * as srmlTypes from '@polkadot/types/srml/definitions';
 
 import createType from '../../codec/createType';
 import Metadata from '../Metadata';
 import Method from '../../primitive/Method';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
+
+function injectDefinitions () {
+  Object.values(srmlTypes).forEach(({ types }) =>
+    getTypeRegistry().register(types)
+  );
+}
 
 /**
  * Given the static `rpcData` and the `latestSubstrate` JSON file, Metadata
@@ -20,6 +28,8 @@ export function decodeLatestSubstrate<Modules extends Codec> (
   latestSubstrate: object
 ) {
   it('decodes latest substrate properly', () => {
+    injectDefinitions();
+
     const metadata = new Metadata(rpcData);
 
     console.error(JSON.stringify(metadata.toJSON()));
@@ -31,17 +41,19 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV5 and MetadataV{version} should output the same
+ * Given a `version`, MetadataV6 and MetadataV{version} should output the same
  * unique types.
  */
-export function toV5<Modules extends Codec> (version: number, rpcData: string) {
-  it('converts to V5', () => {
+export function toV6<Modules extends Codec> (version: number, rpcData: string) {
+  it('converts to V6', () => {
+    injectDefinitions();
+
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV5 = new Metadata(rpcData).asV5;
+    const metadataV6 = new Metadata(rpcData).asV6;
 
     expect(
       (metadata as unknown as MetadataInterface<Modules>).getUniqTypes(true)
-    ).toEqual(metadataV5.getUniqTypes(true));
+    ).toEqual(metadataV6.getUniqTypes(true));
   });
 }
 
@@ -50,10 +62,13 @@ export function toV5<Modules extends Codec> (version: number, rpcData: string) {
  */
 export function defaultValues (rpcData: string) {
   describe('storage with default values', () => {
+    injectDefinitions();
+
     const metadata = new Metadata(rpcData);
+
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV5.modules
+    metadata.asV6.modules
       .filter(({ storage }) => storage.isSome)
       .map((mod) =>
         mod.storage.unwrap().forEach(({ fallback, name, type }) => {

@@ -5,7 +5,7 @@
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 import IndividualExposure from './IndividualExposure';
 
 /**

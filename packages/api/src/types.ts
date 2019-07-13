@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
+import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
 import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
 import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
@@ -87,18 +89,18 @@ export interface DecoratedRpc<ApiType> {
   system: DecoratedRpc$Section<ApiType>;
 }
 
-export interface StorageFunctionObservable {
+export interface StorageEntryObservable {
   (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
-  creator: StorageFunction;
+  creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>) => Observable<Codec>;
+  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>) => Observable<Array<T>>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 
-export interface StorageFunctionPromiseOverloads {
+export interface StorageEntryPromiseOverloads {
   (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Promise<T>;
   <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
@@ -106,32 +108,37 @@ export interface StorageFunctionPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
-export interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
+export interface StorageEntryPromiseMulti {
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>): Promise<Array<T>>;
+  <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback: Callback<Array<T>>): UnsubscribePromise;
+}
+
+export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
-  creator: StorageFunction;
+  creator: StorageEntry;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback?: Callback<Array<T>>) => Promise<Array<T>>;
+  multi: StorageEntryPromiseMulti;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
-export type QueryableStorageFunction<ApiType> =
+export type QueryableStorageEntry<ApiType> =
   ApiType extends 'rxjs'
-    ? StorageFunctionObservable
-    : StorageFunctionPromise;
+    ? StorageEntryObservable
+    : StorageEntryPromise;
 
 export interface QueryableModuleStorage<ApiType> {
-  [index: string]: QueryableStorageFunction<ApiType>;
+  [index: string]: QueryableStorageEntry<ApiType>;
 }
 
 export type QueryableStorageMultiArg<ApiType> =
-  QueryableStorageFunction<ApiType> |
-  [QueryableStorageFunction<ApiType>, ...Array<CodecArg>];
+  QueryableStorageEntry<ApiType> |
+  [QueryableStorageEntry<ApiType>, ...Array<CodecArg>];
 
 export type QueryableStorageMultiArgs<ApiType> = Array<QueryableStorageMultiArg<ApiType>>;
 
 export interface QueryableStorageMultiBase<ApiType> {
-  (calls: QueryableStorageMultiArgs<ApiType>): UnsubscribePromise;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<Array<T>>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {
@@ -194,6 +201,7 @@ export interface ApiOptions {
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterface$Rx {
+  consts: Constants;
   genesisHash: Hash;
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
@@ -209,9 +217,10 @@ export type ApiInterface$Events = ProviderInterface$Emitted | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 
-export type SignerOptions = SignatureOptions & {
-  genesisHash: Hash
-};
+export interface SignerOptions extends SignatureOptions {
+  blockNumber: BN;
+  genesisHash: Hash;
+}
 
 export interface Signer {
   /**

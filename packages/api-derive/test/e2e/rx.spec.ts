@@ -5,20 +5,21 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/types';
+import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedFees } from '../../src/types';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../src/types';
 
-const WS_LOCAL = 'ws://127.0.0.1:9944/';
-// const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
+const WS = 'ws://127.0.0.1:9944/';
+// const WS = 'wss://poc3-rpc.polkadot.io/';
+// const WS = 'wss://substrate-rpc.parity.io/';
 
 // Dev account Alice
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('derive e2e', () => {
+describe.skip('Api-RX derive e2e', () => {
   let api: ApiRx;
 
   beforeAll(() => {
@@ -26,7 +27,7 @@ describe.skip('derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiRx.create(new WsProvider(WS_LOCAL)).toPromise();
+    api = await ApiRx.create(new WsProvider(WS)).toPromise();
     done();
   });
 
@@ -119,12 +120,12 @@ describe.skip('derive e2e', () => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
             accountNonce: expect.any(Index),
-            availableBalance: expect.any(Balance),
-            freeBalance: expect.any(Balance),
-            lockedBalance: expect.any(Balance),
-            reservedBalance: expect.any(Balance),
-            vestedBalance: expect.any(Balance),
-            votingBalance: expect.any(Balance)
+            availableBalance: expect.any(BN),
+            freeBalance: expect.any(BN),
+            lockedBalance: expect.any(BN),
+            reservedBalance: expect.any(BN),
+            vestedBalance: expect.any(BN),
+            votingBalance: expect.any(BN)
           }));
           done();
         });
@@ -199,10 +200,69 @@ describe.skip('derive e2e', () => {
     });
   });
 
+  describe('derive.contracts', () => {
+    describe('fees', () => {
+      it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
+        api.derive.contracts.fees().subscribe((fees: DerivedContractFees) => {
+          expect(fees).toEqual(expect.objectContaining({
+            callBaseFee: expect.any(BN),
+            contractFee: expect.any(BN),
+            createBaseFee: expect.any(BN),
+            creationFee: expect.any(BN),
+            rentByteFee: expect.any(BN),
+            rentDepositOffset: expect.any(BN),
+            tombstoneDeposit: expect.any(BN),
+            transactionBaseFee: expect.any(BN),
+            transactionByteFee: expect.any(BN),
+            transferFee: expect.any(BN)
+          }));
+          done();
+        });
+      });
+    });
+  });
+
   describe('derive.session', () => {
     describe('sessionProgress', () => {
       it('derive.session.sessionProgress', async (done) => {
         api.derive.session.sessionProgress().subscribe((progress: BN) => {
+          expect(progress instanceof BN).toBe(true);
+          done();
+        });
+      });
+    });
+
+    describe('session.info', () => {
+      it('retrieves all session info', async (done) => {
+        api.derive.session.info().subscribe((info: DerivedSessionInfo) => {
+          expect(info).toEqual(expect.objectContaining({
+            currentEra: expect.anything(),
+            currentIndex: expect.anything(),
+            eraLength: expect.anything(),
+            eraProgress: expect.anything(),
+            lastEraLengthChange: expect.anything(),
+            lastLengthChange: expect.anything(),
+            sessionLength: expect.anything(),
+            sessionsPerEra: expect.anything(),
+            sessionProgress: expect.anything()
+          }));
+          done();
+        });
+      });
+    });
+
+    describe('session.eraLength', () => {
+      it('derive.session.eraLength', async (done) => {
+        api.derive.session.eraLength().subscribe((length: BN) => {
+          expect(length instanceof BN).toBe(true);
+          done();
+        });
+      });
+    });
+
+    describe('session.eraProgress', () => {
+      it('derive.session.eraProgress', async (done) => {
+        api.derive.session.eraProgress().subscribe((progress: BN) => {
           expect(progress instanceof BN).toBe(true);
           done();
         });
@@ -217,6 +277,6 @@ describe.skip('derive e2e', () => {
   });
 
   afterAll(() => {
-    jest.setTimeout(5000);
+    jest.setTimeout(10000);
   });
 });

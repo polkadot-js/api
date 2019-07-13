@@ -83,18 +83,18 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
   const stashId = accountId;
 
   return (
-  combineLatest([
-    eraLength(api)(),
-    bestNumber(api)(),
-    api.queryMulti([
-      [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.ledger, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ])
-  ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    combineLatest([
+      eraLength(api)(),
+      bestNumber(api)(),
+      api.queryMulti([
+        [api.query.session.nextKeyFor, controllerId],
+        [api.query.staking.ledger, controllerId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId]
+      ])
+    ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
     map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;

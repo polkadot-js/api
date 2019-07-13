@@ -174,6 +174,15 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   return value;
 }
 
+// create an array of constructors from the input
+export function getTypeClassMap (defs: Array<TypeDef>): { [index: string]: Constructor } {
+  return defs.reduce((result, sub) => {
+    result[sub.name as string] = getTypeClass(sub);
+
+    return result;
+  }, {} as { [index: string]: Constructor });
+}
+
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef, Fallback?: Constructor): Constructor {
   const Type = getRegistry().get(value.type);
@@ -193,11 +202,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
       return Enum.with(
-        (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
-          result[sub.name as string] = getTypeClass(sub);
-
-          return result;
-        }, {} as { [index: string]: Constructor })
+        getTypeClassMap(value.sub as Array<TypeDef>)
       );
     case TypeDefInfo.Option:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
@@ -209,11 +214,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
 
       return Struct.with(
-        (value.sub as Array<TypeDef>).reduce((result, sub) => {
-          result[sub.name as string] = getTypeClass(sub);
-
-          return result;
-        }, {} as { [index: string]: Constructor })
+        getTypeClassMap(value.sub as Array<TypeDef>)
       );
     case TypeDefInfo.Tuple:
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
@@ -260,6 +261,11 @@ export function createClass (type: Text | string): Constructor {
   return getTypeClass(
     getTypeDef(type)
   );
+}
+
+// alias for createClass
+export function ClassOf (name: string): Constructor {
+  return createClass(name);
 }
 
 function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec {

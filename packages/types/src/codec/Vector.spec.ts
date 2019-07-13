@@ -4,7 +4,7 @@
 
 import { Codec, CodecTo } from '../types';
 
-import extrinsics from '@polkadot/extrinsics/static';
+import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import AccountId from '../primitive/AccountId';
 import Method from '../primitive/Method';

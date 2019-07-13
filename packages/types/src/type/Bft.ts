@@ -6,8 +6,8 @@ import { AnyU8a } from '../types';
 
 import Tuple from '../codec/Tuple';
 import Hash from '../primitive/Hash';
+import Signature from '../primitive/Signature';
 import AuthorityId from './AuthorityId';
-import Signature from './Signature';
 
 export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 
