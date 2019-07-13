@@ -11,11 +11,11 @@ declare let global: Global;
 describe('ws/polyfill', (): void => {
   let origWs: Constructor<WebSocket>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     origWs = global.WebSocket;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.WebSocket = origWs;
   });
 
@@ -27,7 +27,7 @@ describe('ws/polyfill', (): void => {
   });
 
   it('polyfills with no exceptions (without WebSocket)', (): void => {
-    (global as any).WebSocket = () => true;
+    (global as any).WebSocket = (): boolean => true;
     require('./polyfill');
 
     expect(global.WebSocket).toBeDefined();

@@ -9,11 +9,11 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 describe('onConnect', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     mock = mockWs([]);
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     if (mock) {
       mock.done();
     }

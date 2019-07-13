@@ -7,8 +7,9 @@ import { CodecTo } from '../types';
 
 describe('Bool', (): void => {
   describe('decode', (): void => {
-    const testDecode = (type: string, input: Uint8Array | boolean | Boolean | Bool | number, expected: boolean) =>
-      it(`can decode from ${type}`, () => {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const testDecode = (type: string, input: Uint8Array | boolean | Boolean | Bool | number, expected: boolean): void =>
+      it(`can decode from ${type}`, (): void => {
         expect(new Bool(input).toJSON()).toBe(expected);
       });
 
@@ -20,8 +21,8 @@ describe('Bool', (): void => {
   });
 
   describe('encode', (): void => {
-    const testEncode = (to: CodecTo, expected: string | Uint8Array | boolean, value: boolean) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: CodecTo, expected: string | Uint8Array | boolean, value: boolean): void =>
+      it(`can encode ${to}`, (): void => {
         expect(new Bool(value)[to]()).toEqual(expected);
       });
 

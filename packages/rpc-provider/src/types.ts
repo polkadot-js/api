@@ -2,37 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export type JsonRpcObject = {
+export interface JsonRpcObject {
   id: number;
   jsonrpc: '2.0';
-};
+}
 
-export type JsonRpcRequest = JsonRpcObject & {
+export interface JsonRpcRequest extends JsonRpcObject {
   method: string;
   params: any[];
-};
+}
 
-export type JsonRpcResponseBase$Error = {
-  code: number,
-  data?: number | string,
-  message: string
-};
+export interface JsonRpcResponseBaseError {
+  code: number;
+  data?: number | string;
+  message: string;
+}
 
-type JsonRpcResponse$Single = {
-  error?: JsonRpcResponseBase$Error;
+interface JsonRpcResponseSingle {
+  error?: JsonRpcResponseBaseError;
   result?: any;
-};
+}
 
-type JsonRpcResponse$Subscription = {
+interface JsonRpcResponseSubscription {
   method?: string;
   params: {
-    error?: JsonRpcResponseBase$Error;
+    error?: JsonRpcResponseBaseError;
     result: any;
     subscription: number;
-  }
-};
+  };
+}
 
-export type JsonRpcResponseBase = JsonRpcResponse$Single & JsonRpcResponse$Subscription;
+export type JsonRpcResponseBase = JsonRpcResponseSingle & JsonRpcResponseSubscription;
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 

@@ -9,11 +9,11 @@ declare const global: Global;
 describe('http/polyfill', (): void => {
   let origFetch: GlobalFetch;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     origFetch = global.fetch;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.fetch = origFetch;
   });
 
@@ -25,7 +25,7 @@ describe('http/polyfill', (): void => {
   });
 
   it('polyfills with no exceptions (with fetch)', (): void => {
-    (global as any).fetch = () => true;
+    (global as any).fetch = (): boolean => true;
     require('./polyfill');
 
     expect(global.fetch).toBeDefined();

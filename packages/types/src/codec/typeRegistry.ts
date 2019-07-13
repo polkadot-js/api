@@ -12,9 +12,13 @@ export class TypeRegistry {
 
   private _registry: Map<string, Constructor> = new Map();
 
-  register (type: Constructor | RegistryTypes): void;
-  register (name: string, type: Constructor): void;
-  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
+  public register (type: Constructor | RegistryTypes): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (name: string, type: Constructor): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
     if (isString(arg1)) {
       const name = arg1;
       const type = arg2!;
@@ -30,8 +34,8 @@ export class TypeRegistry {
     }
   }
 
-  private registerObject (obj: RegistryTypes, overwrite: boolean = true) {
-    Object.entries(obj).forEach(([name, type]) => {
+  private registerObject (obj: RegistryTypes, overwrite: boolean = true): void {
+    Object.entries(obj).forEach(([name, type]): void => {
       if (overwrite || !this.get(name)) {
         if (isString(type)) {
           this._registry.set(name, createClass(type));
@@ -49,7 +53,7 @@ export class TypeRegistry {
     return this._registry.get(name);
   }
 
-  getOrThrow (name: string, msg?: string): Constructor {
+  public getOrThrow (name: string, msg?: string): Constructor {
     const type = this.get(name);
 
     if (isUndefined(type)) {

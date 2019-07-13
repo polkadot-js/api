@@ -7,9 +7,7 @@ import { assert, isU8a, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
 import { Codec } from '../types';
 import { compareArray } from './utils';
 
-type SetValues = {
-  [index: string]: number
-};
+type SetValues = Record<string, number>;
 
 /**
  * @name Set
@@ -37,7 +35,7 @@ export default class CodecSet extends Set<string> implements Codec {
     } else if (value instanceof Set) {
       return CodecSet.decodeSet(setValues, [...value.values()]);
     } else if (Array.isArray(value)) {
-      return value.reduce((result, key) => {
+      return value.reduce((result, key): string[] => {
         assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
 
         result.push(key);
@@ -46,7 +44,7 @@ export default class CodecSet extends Set<string> implements Codec {
       }, [] as string[]);
     }
 
-    const result = Object.keys(setValues).reduce((result, key) => {
+    const result = Object.keys(setValues).reduce((result, key): string[] => {
       if ((value & setValues[key]) === setValues[key]) {
         result.push(key);
       }
@@ -62,7 +60,7 @@ export default class CodecSet extends Set<string> implements Codec {
   }
 
   public static encodeSet (setValues: SetValues, value: string[]): number {
-    return value.reduce((result, value) => {
+    return value.reduce((result, value): number => {
       return result | (setValues[value] || 0);
     }, 0);
   }
@@ -98,7 +96,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description adds a value to the Set (extended to allow for validity checking)
    */
-  add (key: string): this {
+  public add (key: string): this {
     // we have the isUndefined(this._setValues) in here as well, add is used internally
     // in the Set constructor (so it is undefined at this point, and should allow)
     assert(isUndefined(this._setValues) || !isUndefined(this._setValues[key]), `Set: Invalid key '${key}' on add`);
@@ -141,7 +139,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description The encoded value for the set members
    */
-  toNumber (): number {
+  public toNumber (): number {
     return this.valueEncoded;
   }
 

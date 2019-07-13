@@ -7,13 +7,13 @@ import WsProvider from './';
 describe('state', (): void => {
   it('requires an ws:// prefixed endpoint', (): void => {
     expect(
-      () => new WsProvider('http://', false)
+      (): WsProvider => new WsProvider('http://', false)
     ).toThrow(/with 'ws/);
   });
 
   it('allows wss:// endpoints', (): void => {
     expect(
-      () => new WsProvider('wss://', false)
+      (): WsProvider => new WsProvider('wss://', false)
     ).not.toThrow();
   });
 });

@@ -70,7 +70,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @param begin The position to start at
    * @param end The position to end at
    */
-  subarray (begin: number, end?: number): Uint8Array {
+  public subarray (begin: number, end?: number): Uint8Array {
     return Uint8Array.from(this).subarray(begin, end);
   }
 

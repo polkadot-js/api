@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,31 +15,31 @@ import defaults from '../defaults';
 
 type CallbackHandler = (error?: null | Error, value?: any) => void;
 
-type SubscriptionHandler = {
-  callback: CallbackHandler,
-  type: string
-};
+interface SubscriptionHandler {
+  callback: CallbackHandler;
+  type: string;
+}
 
-type WsState$Awaiting = {
-  callback: CallbackHandler,
-  method: string,
-  params: any[],
-  subscription?: SubscriptionHandler
-};
+interface WsStateAwaiting {
+  callback: CallbackHandler;
+  method: string;
+  params: any[];
+  subscription?: SubscriptionHandler;
+}
 
-type WsState$Subscription = SubscriptionHandler & {
-  method: string,
-  params: any[]
-};
+interface WsStateSubscription extends SubscriptionHandler {
+  method: string;
+  params: any[];
+}
 
 interface WSProviderInterface extends ProviderInterface {
   connect (): void;
 }
 
 const ALIASSES: { [index: string]: string } = {
-  'chain_finalisedHead': 'chain_finalizedHead',
-  'chain_subscribeFinalisedHeads': 'chain_subscribeFinalizedHeads',
-  'chain_unsubscribeFinalisedHeads': 'chain_unsubscribeFinalizedHeads'
+  chain_finalisedHead: 'chain_finalizedHead',
+  chain_subscribeFinalisedHeads: 'chain_subscribeFinalizedHeads',
+  chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
 
 const l = logger('api-ws');
@@ -65,22 +66,23 @@ const l = logger('api-ws');
  */
 export default class WsProvider implements WSProviderInterface {
   private _eventemitter: EventEmitter;
+
   private _isConnected: boolean = false;
+
   private autoConnect: boolean;
+
   private coder: Coder;
+
   private endpoint: string;
-  private handlers: {
-    [index: string]: WsState$Awaiting
-  };
-  private queued: {
-    [index: string]: string
-  };
-  private subscriptions: {
-    [index: string]: WsState$Subscription
-  };
-  private waitingForId: {
-    [index: string]: JsonRpcResponse
-  };
+
+  private handlers: Record<string, WsStateAwaiting>;
+
+  private queued: Record<string, string>;
+
+  private subscriptions: Record<string, WsStateSubscription>;
+
+  private waitingForId: Record<string, JsonRpcResponse>;
+
   private websocket: WebSocket | null;
 
   /**
@@ -115,7 +117,7 @@ export default class WsProvider implements WSProviderInterface {
   /**
    * @description Returns a clone of the object
    */
-  clone (): WsProvider {
+  public clone (): WsProvider {
     return new WsProvider(this.endpoint);
   }
 
@@ -124,7 +126,7 @@ export default class WsProvider implements WSProviderInterface {
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
    */
-  connect (): void {
+  public connect (): void {
     try {
       this.websocket = new WebSocket(this.endpoint);
 
@@ -140,7 +142,7 @@ export default class WsProvider implements WSProviderInterface {
   /**
    * @description Manually disconnect from the connection, clearing autoconnect logic
    */
-  disconnect (): void {
+  public disconnect (): void {
     if (isNull(this.websocket)) {
       throw new Error('Cannot disconnect on a non-open websocket');
     }
@@ -157,7 +159,7 @@ export default class WsProvider implements WSProviderInterface {
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
-  isConnected (): boolean {
+  public isConnected (): boolean {
     return this._isConnected;
   }
 
@@ -166,7 +168,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param  {ProviderInterface$Emitted} type Event
    * @param  {ProviderInterface$EmitCb}  sub  Callback
    */
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  public on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
     this._eventemitter.on(type, sub);
   }
 
@@ -176,18 +178,18 @@ export default class WsProvider implements WSProviderInterface {
    * @param params Encoded paramaters as appliucable for the method
    * @param subscription Subscription details (internally used)
    */
-  send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
+  public send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
         const json = this.coder.encodeJson(method, params);
         const id = this.coder.getId();
-        const callback = (error?: Error | null, result?: any) => {
+        const callback = (error?: Error | null, result?: any): void => {
           error
             ? reject(error)
             : resolve(result);
         };
 
-        l.debug(() => ['calling', method, params, json, !!subscription]);
+        l.debug((): any[] => ['calling', method, params, json, !!subscription]);
 
         this.handlers[id] = {
           callback,
@@ -230,7 +232,7 @@ export default class WsProvider implements WSProviderInterface {
    * })
    * ```
    */
-  async subscribe (type: string, method: string, params: any[], callback: ProviderInterface$Callback): Promise<number> {
+  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
 
     return id as number;
@@ -239,7 +241,7 @@ export default class WsProvider implements WSProviderInterface {
   /**
    * @summary Allows unsubscribing to subscriptions made with [[subscribe]].
    */
-  async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
 
     // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub
@@ -272,19 +274,19 @@ export default class WsProvider implements WSProviderInterface {
     this.emit('disconnected');
 
     if (this.autoConnect) {
-      setTimeout(() => {
+      setTimeout((): void => {
         this.connect();
       }, 1000);
     }
   }
 
   private onSocketError = (error: Event): void => {
-    l.debug(() => ['socket error', error]);
+    l.debug((): any => ['socket error', error]);
     this.emit('error', error);
   }
 
   private onSocketMessage = (message: MessageEvent): void => {
-    l.debug(() => ['received', message.data]);
+    l.debug((): any => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);
 
@@ -297,7 +299,7 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.handlers[response.id];
 
     if (!handler) {
-      l.debug(() => `Unable to find handler for id=${response.id}`);
+      l.debug((): string => `Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -339,7 +341,7 @@ export default class WsProvider implements WSProviderInterface {
       // store the JSON, we could have out-of-order subid coming in
       this.waitingForId[subId] = response;
 
-      l.debug(() => `Unable to find handler for subscription=${subId}`);
+      l.debug((): string => `Unable to find handler for subscription=${subId}`);
       return;
     }
 
@@ -358,7 +360,7 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketOpen = (): boolean => {
     assert(!isNull(this.websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug(() => ['connected to', this.endpoint]);
+    l.debug((): any[] => ['connected to', this.endpoint]);
 
     this._isConnected = true;
     this.emit('connected');

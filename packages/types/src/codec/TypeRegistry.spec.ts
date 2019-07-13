@@ -9,7 +9,7 @@ import U32 from '../primitive/U32';
 describe('TypeRegistry', (): void => {
   let registry: TypeRegistry;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     registry = new TypeRegistry();
   });
 
@@ -31,7 +31,7 @@ describe('TypeRegistry', (): void => {
     it('can register multiple types', (): void => {
       registry.register({
         Text,
-        'U32Renamed': U32
+        U32Renamed: U32
       });
       expect(registry.get('Text')).toBe(Text);
       expect(registry.get('U32Renamed')).toBe(U32);
@@ -39,16 +39,16 @@ describe('TypeRegistry', (): void => {
 
     it('can create types from string', (): void => {
       registry.register({
-        'U32Renamed': 'u32'
+        U32Renamed: 'u32'
       });
       expect(registry.get('U32Renamed')).toBe(U32);
     });
 
     it('can create structs via definition', (): void => {
       registry.register({
-        'SomeStruct': {
-          'foo': 'u32',
-          'bar': 'Text'
+        SomeStruct: {
+          foo: 'u32',
+          bar: 'Text'
         }
       });
 

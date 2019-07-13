@@ -7,7 +7,7 @@ import Coder from './';
 describe('encodeObject', (): void => {
   let coder: Coder;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     coder = new Coder();
   });
 
