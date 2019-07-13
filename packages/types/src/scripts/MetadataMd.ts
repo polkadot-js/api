@@ -9,7 +9,7 @@ import interfaces from '../../../type-jsonrpc/src';
 import Method from '../primitive/Method';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
-import MetadataV6 from '../Metadata/v6';
+import MetadataV6, { ModuleMetadataV6 } from '../Metadata/v6';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -100,7 +100,7 @@ function addEvents (metadata: MetadataV6): string {
 
 function addExtrinsics (metadata: MetadataV6): string {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.map((i) => i).sort(sortByName);
+  const orderedSections = metadata.modules.map((i): ModuleMetadataV6 => i).sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, meta): string => {
     if (meta.calls.isNone || !meta.calls.unwrap().length) {

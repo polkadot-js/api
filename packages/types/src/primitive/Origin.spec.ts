@@ -7,7 +7,7 @@ import Origin from './Origin';
 describe('Origin', (): void => {
   it('does not allow construction', (): void => {
     expect(
-      () => new Origin()
+      (): Origin => new Origin()
     ).toThrow(/placeholder/);
   });
 });

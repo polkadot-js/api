@@ -7,16 +7,16 @@ import Bytes from '../primitive/Bytes';
 import U32 from '../primitive/U32';
 import Text from '../primitive/Text';
 
-const testDecode = (type: string, input: any, expected: any) =>
-  it(`can decode from ${type}`, () => {
+const testDecode = (type: string, input: any, expected: any): void =>
+  it(`can decode from ${type}`, (): void => {
     const o = new Option(Text, input);
 
     expect(o.toString()).toBe(expected);
     expect(o.isNone).toBe(!expected.length);
   });
 
-const testEncode = (to: string, expected: any) =>
-  it(`can encode ${to}`, () => {
+const testEncode = (to: string, expected: any): void =>
+  it(`can encode ${to}`, (): void => {
     const e = new Option(Text, 'foo');
 
     expect((e as any)[to]()).toEqual(expected);

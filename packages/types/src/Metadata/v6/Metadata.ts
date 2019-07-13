@@ -94,8 +94,8 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     return this.get('modules') as Vector<ModuleMetadata>;
   }
 
-  private get callNames () {
-    return this.modules.map((mod) =>
+  private get callNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.calls.isNone
         ? []
         : mod.calls.unwrap().map((fn): string[] =>
@@ -112,8 +112,8 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     );
   }
 
-  private get eventNames () {
-    return this.modules.map((mod) =>
+  private get eventNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.events.isNone
         ? []
         : mod.events.unwrap().map((event): string[] =>
@@ -122,8 +122,8 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     );
   }
 
-  private get storageNames () {
-    return this.modules.map((mod) =>
+  private get storageNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.storage.isNone
         ? []
         : mod.storage.unwrap().map((fn): string[] => {

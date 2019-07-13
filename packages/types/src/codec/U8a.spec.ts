@@ -5,22 +5,24 @@
 import { CodecTo } from '../types';
 import U8a from './U8a';
 
-const testDecode = (type: string, input: any, expected: string) =>
-  it(`can decode from ${type}`, () => {
+const testDecode = (type: string, input: any, expected: string): void =>
+  it(`can decode from ${type}`, (): void => {
     const e = new U8a(input);
+
     expect(e.toString()).toBe(expected);
   });
 
-const testEncode = (to: CodecTo, expected: any) =>
-  it(`can encode ${to}`, () => {
+const testEncode = (to: CodecTo, expected: any): void =>
+  it(`can encode ${to}`, (): void => {
     const e = new U8a([1, 2, 3, 4, 5]);
+
     expect(e[to]()).toEqual(expected);
   });
 
 describe('U8a', (): void => {
   let u8a: U8a;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     u8a = new U8a([1, 2, 3, 4, 5]);
   });
 

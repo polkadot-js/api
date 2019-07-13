@@ -10,8 +10,8 @@ import U64 from './U64';
 
 describe('Moment', (): void => {
   describe('decode', (): void => {
-    const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false) =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false): void =>
+      it(`can decode from ${type}`, (): void => {
         expect(new Moment(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });
 
@@ -22,8 +22,8 @@ describe('Moment', (): void => {
   });
 
   describe('encode', (): void => {
-    const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array): void =>
+      it(`can encode ${to}`, (): void => {
         expect(new Moment(421)[to]()).toEqual(expected);
       });
 
@@ -34,7 +34,7 @@ describe('Moment', (): void => {
     testEncode('toNumber', 421);
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
 
-    it(`can encode toString`, () => {
+    it(`can encode toString`, (): void => {
       expect(
         new Moment(421)
           .toString()

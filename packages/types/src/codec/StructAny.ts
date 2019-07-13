@@ -72,7 +72,7 @@ export default class StructAny extends Map<string, any> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJsonObject {
-    return [...this.entries()].reduce((json, [key, value]) => {
+    return [...this.entries()].reduce((json, [key, value]): AnyJsonObject => {
       json[key] = value;
 
       return json;
@@ -96,6 +96,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     throw new Error('Unimplemented');
   }

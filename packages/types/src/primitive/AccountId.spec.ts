@@ -28,8 +28,8 @@ describe('AccountId', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string) =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
+      it(`can decode from ${type}`, (): void => {
         const a = new AccountId(input);
         expect(a.toString()).toBe(expected);
       });
@@ -60,8 +60,8 @@ describe('AccountId', (): void => {
   });
 
   describe('encoding', (): void => {
-    const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input: string = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF') =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input: string = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'): void =>
+      it(`can encode ${to}`, (): void => {
         const a = new AccountId(input);
 
         expect(a[to]()).toEqual(expected);
@@ -86,7 +86,7 @@ describe('AccountId', (): void => {
       setAddressPrefix(68);
 
       const data = new StorageData(jsonVec.params.result.changes[0][1]);
-      const list = new Vector(AccountId, data).map((accountId) => accountId.toString());
+      const list = new Vector(AccountId, data).map((accountId): string => accountId.toString());
 
       expect(list).toEqual([
         '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTLup',

@@ -39,8 +39,9 @@ describe('AccountIndex', (): void => {
   });
 
   describe('calcLength', (): void => {
-    const testLength = (value: number, length: number) =>
+    const testLength = (value: number, length: number): void => {
       expect(AccountIndex.calcLength(value)).toEqual(length);
+    };
 
     it('returns 1 for <= 0xef', (): void => {
       testLength(0xef, 1);

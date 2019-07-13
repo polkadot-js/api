@@ -41,7 +41,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description Returns true if the type wraps an empty/default all-0 value
    */
   public get isEmpty (): boolean {
-    return !this.length || isUndefined(this.find((value) => !!value));
+    return !this.length || isUndefined(this.find((value): boolean => !!value));
   }
 
   /**
@@ -58,7 +58,7 @@ export default class U8a extends Uint8Array implements Codec {
   public eq (other?: any): boolean {
     if (other instanceof Uint8Array) {
       return (this.length === other.length) && isUndefined(
-        this.find((value, index) => value !== other[index])
+        this.find((value, index): boolean => value !== other[index])
       );
     }
 
@@ -106,6 +106,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     return Uint8Array.from(this);
   }

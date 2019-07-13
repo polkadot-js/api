@@ -10,7 +10,7 @@ import { getTypeRegistry } from '../../codec';
 
 export default function validateTypes (types: string[], throwError: boolean): void {
   const extractTypes = (types: string[]): any[] => {
-    return types.map((type) => {
+    return types.map((type): any => {
       const decoded = getTypeDef(type);
 
       switch (decoded.info) {
@@ -34,7 +34,7 @@ export default function validateTypes (types: string[], throwError: boolean): vo
   };
 
   const typeRegistry = getTypeRegistry();
-  const missing = flattenUniq(extractTypes(types)).filter((type) =>
+  const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     isUndefined(typeRegistry.get(type))
   );
 

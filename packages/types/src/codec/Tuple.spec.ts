@@ -16,7 +16,7 @@ import Tuple from './Tuple';
 describe('Tuple', (): void => {
   let tuple: Tuple;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     tuple = new Tuple(
       [Text, U32],
       ['bazzing', 69]
@@ -24,8 +24,8 @@ describe('Tuple', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: any) =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: any): void =>
+      it(`can decode from ${type}`, (): void => {
         const t = new Tuple([
           Text,
           U32
@@ -41,8 +41,8 @@ describe('Tuple', (): void => {
   });
 
   describe('encoding', (): void => {
-    const testEncode = (to: CodecTo | 'toArray', expected: any) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: CodecTo | 'toArray', expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         expect(tuple[to]()).toEqual(expected);
       });
 
@@ -78,11 +78,11 @@ describe('Tuple', (): void => {
   });
 
   it('exposes filter', (): void => {
-    expect(tuple.filter((v) => v.toJSON() === 69)).toEqual([new U32(69)]);
+    expect(tuple.filter((v): boolean => v.toJSON() === 69)).toEqual([new U32(69)]);
   });
 
   it('exposes map', (): void => {
-    expect(tuple.map(v => v.toString())).toEqual(['bazzing', '69']);
+    expect(tuple.map((v): string => v.toString())).toEqual(['bazzing', '69']);
   });
 
   describe('utils', (): void => {

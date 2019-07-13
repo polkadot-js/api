@@ -7,7 +7,7 @@ import U8aFixed from './U8aFixed';
 describe('U8aFixed', (): void => {
   let u8a: U8aFixed;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     u8a = new U8aFixed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
   });
 

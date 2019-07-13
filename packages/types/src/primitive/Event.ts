@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from '../types';
+import { Constructor, Codec } from '../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
@@ -16,7 +16,7 @@ import Null from './Null';
 import U32 from './U32';
 import Unconstructable from './Unconstructable';
 
-const EventTypes: { [index: string]: Constructor<EventData> } = {};
+const EventTypes: Record<string, Constructor<EventData>> = {};
 
 /**
  * @name EventIndex
@@ -108,7 +108,7 @@ export default class Event extends Struct {
     }, value);
   }
 
-  public static decodeEvent (value: Uint8Array = new Uint8Array()) {
+  public static decodeEvent (value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
       return {
         DataType: Null
@@ -140,8 +140,8 @@ export default class Event extends Struct {
         section.events.unwrap().forEach((meta, methodIndex): void => {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-          const typeDef = meta.args.map((arg) => getTypeDef(arg));
-          const Types = typeDef.map((typeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
+          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg));
+          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef, Unconstructable.with(typeDef)));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
             public constructor (value: Uint8Array) {

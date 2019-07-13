@@ -15,15 +15,15 @@ import Vector from './Vector';
 
 describe('Struct', (): void => {
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: any) =>
-      it(`can decode from ${type}`, () => {
+    const testDecode = (type: string, input: any): void =>
+      it(`can decode from ${type}`, (): void => {
         const s = new Struct({
           foo: Text,
           bar: U32
         }, input);
         expect([...s.keys()]).toEqual(['foo', 'bar']);
         expect(
-          [...s.values()].map((v) =>
+          [...s.values()].map((v): string =>
             v.toString()
           )
         ).toEqual(['bazzing', '69']);
@@ -36,8 +36,8 @@ describe('Struct', (): void => {
   });
 
   describe('encoding', (): void => {
-    const testEncode = (to: CodecTo, expected: any) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: CodecTo, expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         const s = new Struct({
           foo: Text,
           bar: U32
@@ -86,7 +86,7 @@ describe('Struct', (): void => {
 
   it('throws when it cannot decode', (): void => {
     expect(
-      () => new (
+      (): Struct<any> => new (
         Struct.with({
           txt: Text,
           u32: U32

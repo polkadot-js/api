@@ -85,31 +85,31 @@ export default class MetadataV1 extends Struct implements MetadataInterface<Modu
     return this.get('modules') as Vector<ModuleMetadata>;
   }
 
-  private get callNames () {
-    return this.modules.map((mod) =>
+  private get callNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.calls.isNone
         ? []
-        : mod.calls.unwrap().map((fn) =>
-          fn.args.map((arg) => arg.type.toString())
+        : mod.calls.unwrap().map((fn): string[] =>
+          fn.args.map((arg): string => arg.type.toString())
         )
     );
   }
 
-  private get eventNames () {
-    return this.modules.map((mod) =>
+  private get eventNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.events.isNone
         ? []
-        : mod.events.unwrap().map((event) =>
-          event.args.map((arg) => arg.toString())
+        : mod.events.unwrap().map((event): string[] =>
+          event.args.map((arg): string => arg.toString())
         )
     );
   }
 
-  private get storageNames () {
-    return this.modules.map((mod) =>
+  private get storageNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.storage.isNone
         ? []
-        : mod.storage.unwrap().map((fn) =>
+        : mod.storage.unwrap().map((fn): string[] =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
