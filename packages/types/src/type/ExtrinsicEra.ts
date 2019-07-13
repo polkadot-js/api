@@ -35,6 +35,7 @@ const VALID_IMMORTAL = new U8a([0]);
  * The ImmortalEra for an extrinsic
  */
 export class ImmortalEra extends U8a {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor (value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
@@ -125,6 +126,7 @@ export class MortalEra extends Tuple {
    *     greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
    *     `period` is.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
     const phase = this.phase.toNumber();

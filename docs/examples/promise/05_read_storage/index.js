@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 
@@ -11,7 +11,7 @@ async function main () {
 
   // Make our basic chain state/storage queries, all in one go
   const [accountNonce, blockPeriod, validators] = await Promise.all([
-    api.query.system.accountNonce(Alice),
+    api.query.system.accountNonce(ALICE),
     api.query.timestamp.blockPeriod(),
     api.query.session.validators()
   ]);
@@ -35,4 +35,4 @@ async function main () {
   }
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error).finally(() => process.exit());

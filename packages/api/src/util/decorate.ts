@@ -7,7 +7,7 @@ import { MethodResult } from '../types';
 
 // A technically unsafe version of Object.keys(obj) that assumes that
 // obj only has known properties of T
-function keys<T extends object> (obj: T) {
+function keys<T extends object> (obj: T): (keyof T)[] {
   return Object.keys(obj) as (keyof T)[];
 }
 
@@ -26,7 +26,7 @@ function decorateMethods<ApiType, Section extends Record<keyof Section, (...args
 
       return acc;
     },
-    {} as { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> }
+    {} as unknown as { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> }
   );
 }
 
@@ -48,6 +48,6 @@ export function decorateSections<ApiType, AllSections extends {
 
       return acc;
     },
-    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } }
+    {} as unknown as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } }
   );
 }

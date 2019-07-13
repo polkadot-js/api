@@ -18,7 +18,7 @@ import Tuple from './Tuple';
 describe('Vector', (): void => {
   let vector: Vector<Codec>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
     Method.injectMethods(extrinsics);
@@ -89,26 +89,26 @@ describe('Vector', (): void => {
 
     it('exposes a working filter', (): void => {
       expect(
-        vector.filter((e, i) => i >= 3).toString()
+        vector.filter((e, i): boolean => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 
     it('exposes a working map', (): void => {
       expect(
-        vector.map((e) => e.toString().substr(0, 1))
+        vector.map((e): string => e.toString().substr(0, 1))
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
     it('exposes a working reduce', (): void => {
       expect(
-        vector.reduce((r, e) => `${r}${e}`, '')
+        vector.reduce((r, e): string => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
   });
 
   describe('encode', (): void => {
-    const testEncode = (to: CodecTo, expected: any) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: CodecTo, expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         expect(vector[to]()).toEqual(expected);
       });
 

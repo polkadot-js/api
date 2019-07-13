@@ -20,15 +20,20 @@ import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic
 type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer R) => void)
   ? R
   : never;
+
 // Append an element V onto the end of a tuple T
 // Push<[1,2,3],4> is [1,2,3,4]
 // note that this DOES NOT PRESERVE optionality/readonly in tuples.
 // So unfortunately Push<[1, 2?, 3?], 4> is [1,2|undefined,3|undefined,4]
-type Push<T extends any[], V> = (Cons<any, Required<T>> extends infer R
-  ? { [K in keyof R]: K extends keyof T ? T[K] : V }
-  : never) extends infer P
+type Push<T extends any[], V> = (
+  (
+    Cons<any, Required<T>> extends infer R
+      ? { [K in keyof R]: K extends keyof T ? T[K] : V }
+      : never
+  ) extends infer P
     ? P extends any[] ? P : never
-    : never;
+    : never
+);
 
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
@@ -37,9 +42,9 @@ export type UnsubscribePromise = Promise<() => void>;
 
 // In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
 // information. This describes it.
-export type DecorateMethodOptions = {
-  methodName?: string
-};
+export interface DecorateMethodOptions {
+  methodName?: string;
+}
 
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
@@ -50,10 +55,13 @@ export type DecorateMethodOptions = {
 // These are the types that don't lose type information (used for api.derive.*)
 // Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
+
+// eslint-disable-next-line @typescript-eslint/prefer-interface
 export type PromiseResult<F extends AnyFunction> = {
-  (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>,
-  (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise
+  (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
+  (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
 };
+
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs'
   ? RxResult<F>
@@ -61,8 +69,8 @@ export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs
 
 type DecoratedRpcMethod<ApiType> = ApiType extends 'rxjs'
   ? {
-    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>
-    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>
+    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>;
+    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>;
   }
   : {
     // These signatures are allowed and exposed here (bit or a stoopid way, but checked
@@ -176,9 +184,7 @@ export interface ApiOptions {
    * @description prebundles is a map of 'genesis hash and runtime spec version' as key to metadata's hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */
-  metadata?: {
-    [key: string]: string
-  };
+  metadata?: Record<string, string>;
   /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`

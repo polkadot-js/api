@@ -13,7 +13,7 @@ describe('Abi', (): void => {
   describe('types encoding', (): void => {
     let abi: Abi;
 
-    beforeAll(() => {
+    beforeAll((): void => {
       abi = new Abi(typesAbi);
     });
 

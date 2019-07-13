@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType, { TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
+import { Codec, Constructor } from '../types';
+
+import createType, { TypeDef, TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
 
 describe('typeSplit', (): void => {
   it('splits simple types into an array', (): void => {
@@ -37,13 +39,13 @@ describe('typeSplit', (): void => {
 
   it('checks for unclosed vec', (): void => {
     expect(
-      () => typeSplit('Text, Vec<u64')
+      (): string[] => typeSplit('Text, Vec<u64')
     ).toThrow(/Invalid defintion/);
   });
 
   it('checks for unclosed tuple', (): void => {
     expect(
-      () => typeSplit('Text, (u64, u32')
+      (): string[] => typeSplit('Text, (u64, u32')
     ).toThrow(/Invalid defintion/);
   });
 });
@@ -51,13 +53,13 @@ describe('typeSplit', (): void => {
 describe('getTypeValue', (): void => {
   it('does not allow invalid tuples, end )', (): void => {
     expect(
-      () => getTypeDef('(u64, u32')
+      (): TypeDef => getTypeDef('(u64, u32')
     ).toThrow(/Expected '\(' closing with '\)'/);
   });
 
   it('does not allow invalid vectors, end >', (): void => {
     expect(
-      () => getTypeDef('Vec<u64')
+      (): TypeDef => getTypeDef('Vec<u64')
     ).toThrow(/Expected 'Vec<' closing with '>'/);
   });
 
@@ -203,7 +205,7 @@ describe('getTypeValue', (): void => {
 describe('getTypeClass', (): void => {
   it('does not allow invalid types', (): void => {
     expect(
-      () => getTypeClass('SomethingInvalid' as any)
+      (): Constructor<Codec> => getTypeClass('SomethingInvalid' as any)
     ).toThrow(/determine type/);
   });
 });
@@ -249,7 +251,7 @@ describe('createType', (): void => {
     const base = createType('StorageData', null);
 
     expect(
-      () => createType('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
+      (): Codec => createType('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
     ).toThrow(/ Input doesn't match output, received 0x, created 0x00/);
   });
 
@@ -257,7 +259,7 @@ describe('createType', (): void => {
     const base = createType('StorageData', null);
 
     expect(
-      () => createType('Vec<(BlockNumber,EventIndex)>', base, true)
+      (): Codec => createType('Vec<(BlockNumber,EventIndex)>', base, true)
     ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
   });
 });

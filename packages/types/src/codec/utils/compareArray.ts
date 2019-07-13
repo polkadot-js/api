@@ -9,7 +9,7 @@ import { isFunction, isUndefined } from '@polkadot/util';
 export default function compareArray (a: any[], b?: any): boolean {
   if (Array.isArray(b)) {
     return (a.length === b.length) && isUndefined(
-      a.find((value, index) =>
+      a.find((value, index): boolean =>
         isFunction(value.eq)
           ? !value.eq(b[index])
           : value !== b[index]

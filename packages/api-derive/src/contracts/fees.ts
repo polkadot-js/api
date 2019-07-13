@@ -79,7 +79,7 @@ export function fees (api: ApiInterfaceRx) {
           api.consts.contracts.transactionBaseFee,
           api.consts.contracts.transactionByteFee,
           api.consts.contracts.transferFee
-        ]) as unknown as Observable<Array<BN>>
+        ]) as unknown as Observable<BN[]>
         // Support versions pre spec_version 101 and get values from storage
         : api.queryMulti([
           queryBase.callBaseFee,
@@ -92,8 +92,9 @@ export function fees (api: ApiInterfaceRx) {
           queryBase.transactionBaseFee,
           queryBase.transactionByteFee,
           queryBase.transferFee
-        ]) as unknown as Observable<Array<BN>>
-      ).pipe(map(
+        ]) as unknown as Observable<BN[]>
+    ).pipe(
+      map(
         ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
           callBaseFee,
           contractFee,

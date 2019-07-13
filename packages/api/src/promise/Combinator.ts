@@ -14,11 +14,17 @@ export interface CombinatorFunction {
 
 export default class Combinator {
   protected _allHasFired: boolean = false;
+
   protected _callback: CombinatorCallback;
+
   protected _fired: boolean[] = [];
+
   protected _fns: CombinatorFunction[] = [];
+
   protected _isActive: boolean = true;
+
   protected _results: any[] = [];
+
   protected _subscriptions: UnsubscribePromise[] = [];
 
   public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {

@@ -626,7 +626,6 @@ export default abstract class ApiBase<ApiType> {
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
         (...args: any[]) => {
-
           return this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
             .subscribeStorage([

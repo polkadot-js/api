@@ -17,13 +17,13 @@ describe.skip('Metadata queries', (): void => {
   });
 
   it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
-    const rpcData = await mock.send('state_getMetadata',[]);
-    const genesisHash = new Hash(await mock.send('chain_getBlockHash',[])).toHex();
+    const rpcData = await mock.send('state_getMetadata', []);
+    const genesisHash = new Hash(await mock.send('chain_getBlockHash', [])).toHex();
     const specVersion = 0;
     const metadata: any = {};
     const key = `${genesisHash}-${specVersion}`;
     metadata[key] = rpcData;
-    const api = await ApiPromise.create({ provider: mock, metadata } as ApiOptions);
+    const api = await ApiPromise.create({ provider: mock, metadata } as unknown as ApiOptions);
 
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata.toJSON()).toEqual(new Metadata(rpcData).toJSON());
@@ -48,5 +48,4 @@ describe.skip('Metadata queries', (): void => {
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
   });
-
 });

@@ -73,31 +73,35 @@ export function info (api: ApiInterfaceRx) {
     // pre-94 we had more info and needed to calculate (handle old/Alex first)
     // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
     return api.query.session.lastLengthChange
-      ? (combineLatest([
-        bestNumber(api)(),
-        api.queryMulti([
-          api.query.session.currentIndex,
-          api.query.session.lastLengthChange,
-          api.query.session.sessionLength,
-          api.query.staking.lastEraLengthChange,
-          api.query.staking.sessionsPerEra
-        ])
-      ]) as any as Observable<Result0to94>).pipe(
+      ? (
+        combineLatest([
+          bestNumber(api)(),
+          api.queryMulti([
+            api.query.session.currentIndex,
+            api.query.session.lastLengthChange,
+            api.query.session.sessionLength,
+            api.query.staking.lastEraLengthChange,
+            api.query.staking.sessionsPerEra
+          ])
+        ]) as any as Observable<Result0to94>
+      ).pipe(
         map(createDerived0to94),
         drr()
       )
-    : (combineLatest([
-      // sessionsPerEra:
-      // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
-      // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
-      of(api.consts.staking.sessionsPerEra),
-      api.queryMulti([
-        api.query.session.currentIndex,
-        api.query.staking.currentEra
-      ])
-    ]) as unknown as Observable<Result>).pipe(
-      map(createDerived),
-      drr()
-    );
+      : (
+        combineLatest([
+          // sessionsPerEra:
+          // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
+          // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
+          of(api.consts.staking.sessionsPerEra),
+          api.queryMulti([
+            api.query.session.currentIndex,
+            api.query.staking.currentEra
+          ])
+        ]) as unknown as Observable<Result>
+      ).pipe(
+        map(createDerived),
+        drr()
+      );
   };
 }
