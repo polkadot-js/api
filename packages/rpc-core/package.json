@@ -30,7 +30,7 @@
     "@polkadot/jsonrpc": "^0.82.0-beta.54",
     "@polkadot/rpc-provider": "^0.82.0-beta.54",
     "@polkadot/types": "^0.82.0-beta.54",
-    "@polkadot/util": "^0.94.0-beta.9",
+    "@polkadot/util": "^0.94.0-beta.10",
     "memoizee": "^0.4.14",
     "rxjs": "^6.5.2"
   }
