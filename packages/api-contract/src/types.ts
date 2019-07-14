@@ -53,13 +53,13 @@ export interface ContractABI {
   name: string;
 }
 
-export interface ContractABIMetaArg {
+export interface ContractABIFnArg {
   name: string;
   type: string;
 }
 
 export interface ContractABIMeta {
-  args: ContractABIArg[];
+  args: ContractABIFnArg[];
   isConstant: boolean;
   type: string | null;
 }
