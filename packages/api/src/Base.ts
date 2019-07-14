@@ -546,7 +546,7 @@ export default abstract class ApiBase<ApiType> {
     return true;
   }
 
-    /**
+  /**
    * @description Returns true if the api is connected to a substrate node v2.
    *
    *

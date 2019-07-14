@@ -8,6 +8,7 @@ import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/
 import Api from './../../src/promise';
 
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
+// const WS_URL = 'ws://127.0.0.1:9944/'
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
 describe.skip('alex queries', (): void => {
@@ -25,9 +26,8 @@ describe.skip('alex queries', (): void => {
     return api;
   });
 
-  it('verifies that node is v1', (done) => {
+  it('verifies that node is v1', () => {
     expect(api.isSubstrateV2).toBe(false);
-    done();
   });
 
   it('retrieves the list of validators', (done): Promise<() => void> => {
