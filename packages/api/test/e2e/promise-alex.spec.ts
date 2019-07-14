@@ -26,7 +26,7 @@ describe.skip('alex queries', (): void => {
   });
 
   it('verifies that node is v1', (done) => {
-    expect(api.isV2).toBe(false);
+    expect(api.isSubstrateV2).toBe(false);
     done();
   });
 

@@ -56,7 +56,7 @@ class MetadataEnum extends Enum {
    * @description Returns the wrapped values as a V2 object
    */
   public get asV2 (): MetadataV2 {
-    assert(this.isV2, `Cannot convert '${this.type}' via asV2`);
+    assert(this.isSubstrateV2, `Cannot convert '${this.type}' via asV2`);
 
     return this.value as MetadataV2;
   }
@@ -121,7 +121,7 @@ class MetadataEnum extends Enum {
   /**
    * @description `true` if V2
    */
-  public get isV2 (): boolean {
+  public get isSubstrateV2 (): boolean {
     return this.type === 'MetadataV2';
   }
 

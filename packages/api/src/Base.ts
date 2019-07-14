@@ -79,7 +79,7 @@ export default abstract class ApiBase<ApiType> {
 
   private _isReady: boolean = false;
 
-  private _isV2: boolean = true;
+  private _isSubstrateV2: boolean = true;
 
   protected readonly _options: ApiOptions;
 
@@ -477,7 +477,7 @@ export default abstract class ApiBase<ApiType> {
         }
 
         if (!Object.keys(this.consts).length) {
-          this._isV2 = false;
+          this._isSubstrateV2 = false;
         }
 
         healthTimer = setInterval((): void => {
@@ -554,13 +554,13 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * const isV2 = await api.isV2();
+   * const isSubstrateV2 = await api.isSubstrateV2();
    * ```
    */
-  public get isV2 (): boolean {
-    assert(!isUndefined(this._isV2), INIT_ERROR);
+  public get isSubstrateV2 (): boolean {
+    assert(!isUndefined(this._isSubstrateV2), INIT_ERROR);
 
-    return this._isV2;
+    return this._isSubstrateV2;
   }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
