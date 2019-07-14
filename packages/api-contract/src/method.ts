@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecArg, Constructor } from '@polkadot/types/types';
-import { ContractABIFn, ContractABIArg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
+import { ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
 
 import { Compact, createClass } from '@polkadot/types';
 import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
@@ -26,7 +26,7 @@ export function typeToString (type: ContractABITypes): string {
   throw new Error(`Unknown type specified ${JSON.stringify(type)}`);
 }
 
-export function createArgClass (args: ContractABIArg[], baseDef: Record<string, string>): Constructor {
+export function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
   return createClass(
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
@@ -39,7 +39,7 @@ export function createArgClass (args: ContractABIArg[], baseDef: Record<string, 
 }
 
 export function createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-  const args: ContractABIArg[] = method.args.map(({ name, type }): ContractABIArg => ({
+  const args: ContractABIFnArg[] = method.args.map(({ name, type }): ContractABIFnArg => ({
     name: stringCamelCase(name),
     type: typeToString(type)
   }));
