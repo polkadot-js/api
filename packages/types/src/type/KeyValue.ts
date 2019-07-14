@@ -20,7 +20,7 @@ type KeyValueValue = [AnyU8a, AnyU8a];
  * is actually for Maps, whereas this is a representation of actual storage values)
  */
 export default class KeyValue extends Tuple {
-  constructor (value?: KeyValueValue | Uint8Array) {
+  public constructor (value?: KeyValueValue | Uint8Array) {
     super({
       key: StorageKey,
       value: StorageData
@@ -30,14 +30,14 @@ export default class KeyValue extends Tuple {
   /**
    * @description The [[StorageKey]]
    */
-  get key (): StorageKey {
+  public get key (): StorageKey {
     return this[0] as StorageKey;
   }
 
   /**
    * @description The [[StorageData]]
    */
-  get value (): StorageData {
+  public get value (): StorageData {
     return this[1] as StorageData;
   }
 }
@@ -52,7 +52,7 @@ export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
  * from a [[Tuple]], indicating the use inside areas such as [[StorageChangeSet]]
  */
 export class KeyValueOption extends Tuple {
-  constructor (value?: KeyValueOptionValue | Uint8Array) {
+  public constructor (value?: KeyValueOptionValue | Uint8Array) {
     super({
       StorageKey,
       'Option<StorageData>': Option.with(StorageData)
@@ -62,14 +62,14 @@ export class KeyValueOption extends Tuple {
   /**
    * @description The [[StorageKey]]
    */
-  get key (): StorageKey {
+  public get key (): StorageKey {
     return this[0] as StorageKey;
   }
 
   /**
    * @description The [[Option]] [[StorageData]]
    */
-  get value (): Option<StorageData> {
+  public get value (): Option<StorageData> {
     return this[1] as Option<StorageData>;
   }
 }

@@ -2,24 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface$Emitted } from '../types';
+import { ProviderInterfaceEmitted } from '../types';
 
 import Mock from './';
 
-describe('on', () => {
+describe('on', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     mock = new Mock();
   });
 
-  it('it emits both connected and disconnected events', (done) => {
-    const events: { [index: string]: boolean } = { connected: false, disconnected: false };
-    const handler = (type: ProviderInterface$Emitted) => {
-      mock.on(type, () => {
+  it('it emits both connected and disconnected events', (done): void => {
+    const events: Record<string, boolean> = { connected: false, disconnected: false };
+    const handler = (type: ProviderInterfaceEmitted): void => {
+      mock.on(type, (): void => {
         events[type] = true;
 
-        if (Object.values(events).filter((value) => value).length === 2) {
+        if (Object.values(events).filter((value): boolean => value).length === 2) {
           done();
         }
       });

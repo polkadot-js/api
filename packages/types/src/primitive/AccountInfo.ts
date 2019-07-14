@@ -12,7 +12,7 @@ import U64 from './U64';
  * An Account information structure for contracts
  */
 export default class AccountInfo extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       trieId: Bytes,
       currentMemStored: U64
@@ -22,14 +22,14 @@ export default class AccountInfo extends Struct {
   /**
    * @description The size of stored value in octet
    */
-  get currentMemStored (): U64 {
+  public get currentMemStored (): U64 {
     return this.get('currentMemStored') as U64;
   }
 
   /**
    * @description Unique ID for the subtree encoded as a byte
    */
-  get trieId (): Bytes {
+  public get trieId (): Bytes {
     return this.get('trieId') as Bytes;
   }
 }

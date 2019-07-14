@@ -14,7 +14,7 @@ import { Constants, ModuleConstants } from './types';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Constants {
-  return metadata.asV6.modules.reduce((result, moduleMetadata) => {
+  return metadata.asV6.modules.reduce((result, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;
     }
@@ -22,11 +22,11 @@ export default function fromMetadata (metadata: Metadata): Constants {
     const { name } = moduleMetadata;
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, constantMeta) => {
+    result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, constantMeta): ModuleConstants => {
       newModule[stringCamelCase(constantMeta.name.toString())] = createType(constantMeta.type, constantMeta.value);
       return newModule;
-    }, {} as ModuleConstants);
+    }, {} as unknown as ModuleConstants);
 
     return result;
-  }, { } as Constants);
+  }, {} as unknown as Constants);
 }

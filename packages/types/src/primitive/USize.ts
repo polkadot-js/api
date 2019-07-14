@@ -12,7 +12,7 @@ import U32 from './U32';
  * It is not to be used, since it created consensus mismatches.
  */
 export default class USize extends U32 {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super(value);
 
     throw new Error('The `usize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.');
@@ -21,7 +21,7 @@ export default class USize extends U32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'usize';
   }
 }

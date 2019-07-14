@@ -10,7 +10,7 @@ import Set from '../codec/Set';
  * The Substrate WithdrawReasons for staking
  */
 export default class WithdrawReasons extends Set {
-  constructor (value: any = []) {
+  public constructor (value: any = []) {
     super({
       TransactionPayment: 0b00000001,
       Transfer: 0b00000010,
@@ -22,28 +22,28 @@ export default class WithdrawReasons extends Set {
   /**
    * @description In order to reserve some funds for a later return or repatriation
    */
-  get isReserve (): boolean {
+  public get isReserve (): boolean {
     return this.strings.includes('Reserve');
   }
 
   /**
    * @description In order to pay for (system) transaction costs
    */
-  get isTransactionPayment (): boolean {
+  public get isTransactionPayment (): boolean {
     return this.strings.includes('TransactionPayment');
   }
 
   /**
    * @description In order to transfer ownership
    */
-  get isTransfer (): boolean {
+  public get isTransfer (): boolean {
     return this.strings.includes('Transfer');
   }
 
   /**
    * @description /// In order to pay some other (higher-level) fees.
    */
-  get isFee (): boolean {
+  public get isFee (): boolean {
     return this.strings.includes('Fee');
   }
 }

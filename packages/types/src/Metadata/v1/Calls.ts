@@ -8,7 +8,7 @@ import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
 export class FunctionArgumentMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       type: Type
@@ -18,14 +18,14 @@ export class FunctionArgumentMetadata extends Struct {
   /**
    * @description The argument name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description The [[Type]]
    */
-  get type (): Type {
+  public get type (): Type {
     return this.get('type') as Type;
   }
 }
@@ -36,7 +36,7 @@ export class FunctionArgumentMetadata extends Struct {
  * The definition of a call
  */
 export class FunctionMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       args: Vector.with(FunctionArgumentMetadata),
@@ -47,14 +47,14 @@ export class FunctionMetadata extends Struct {
   /**
    * @description The [[FunctionArgumentMetadata]] for arguments
    */
-  get args (): Vector<FunctionArgumentMetadata> {
+  public get args (): Vector<FunctionArgumentMetadata> {
     return this.get('args') as Vector<FunctionArgumentMetadata>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
+  public get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
   }
 
@@ -62,14 +62,14 @@ export class FunctionMetadata extends Struct {
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  get docs (): Vector<Text> {
+  public get docs (): Vector<Text> {
     return this.documentation;
   }
 
   /**
    * @description The call name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 }

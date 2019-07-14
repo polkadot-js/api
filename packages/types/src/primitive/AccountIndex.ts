@@ -27,13 +27,13 @@ const MAX_4BYTE = new BN(1).shln(32);
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
 export default class AccountIndex extends U32 {
-  constructor (value: AnyNumber = new BN(0)) {
+  public constructor (value: AnyNumber = new BN(0)) {
     super(
       AccountIndex.decodeAccountIndex(value)
     );
   }
 
-  static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
+  public static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
     if (value instanceof AccountIndex) {
       // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
       // AccountIndex), which has the initial `toString()` implementation.
@@ -45,7 +45,7 @@ export default class AccountIndex extends U32 {
     return AccountIndex.decodeAccountIndex(decodeAddress(value));
   }
 
-  static calcLength (_value: BN | number): number {
+  public static calcLength (_value: BN | number): number {
     const value = bnToBn(_value);
 
     if (value.lte(MAX_1BYTE)) {
@@ -59,7 +59,7 @@ export default class AccountIndex extends U32 {
     return 8;
   }
 
-  static readLength (input: Uint8Array): [number, number] {
+  public static readLength (input: Uint8Array): [number, number] {
     const first = input[0];
 
     if (first === PREFIX_2BYTE) {
@@ -73,7 +73,7 @@ export default class AccountIndex extends U32 {
     return [0, 1];
   }
 
-  static writeLength (input: Uint8Array): Uint8Array {
+  public static writeLength (input: Uint8Array): Uint8Array {
     switch (input.length) {
       case 2: return new Uint8Array([PREFIX_2BYTE]);
       case 4: return new Uint8Array([PREFIX_4BYTE]);
@@ -85,7 +85,7 @@ export default class AccountIndex extends U32 {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     // shortcut for BN or Number, don't create an object
     if (isBn(other) || isNumber(other)) {
       return super.eq(other);
@@ -98,14 +98,14 @@ export default class AccountIndex extends U32 {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
@@ -114,7 +114,7 @@ export default class AccountIndex extends U32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'AccountIndex';
   }
 }

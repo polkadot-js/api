@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated, do not edit
 
 import { Codec } from '../../types';

@@ -17,17 +17,17 @@ import createUnchecked from './createUnchecked';
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   return metadata.asV6.modules
-    .filter((modul) => modul.calls.isSome)
-    .reduce((result, modul: ModuleMetadata, sectionIndex) => {
+    .filter((modul): boolean => modul.calls.isSome)
+    .reduce((result, modul: ModuleMetadata, sectionIndex): ModulesWithMethods => {
       const section = stringCamelCase(modul.name.toString());
 
-      result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
+      result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex): Methods => {
         const method = stringCamelCase(callMetadata.name.toString());
 
         newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
-      }, {} as Methods);
+      }, {} as unknown as Methods);
 
       return result;
     }, { ...extrinsics });

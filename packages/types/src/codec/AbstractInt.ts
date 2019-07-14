@@ -20,10 +20,12 @@ export const DEFAULT_UINT_BITS = 64;
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export default abstract class AbstractInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
+
   private _isHexJson: boolean;
+
   private _isNegative: boolean;
 
-  constructor (
+  public constructor (
     isNegative: boolean,
     value: AnyNumber = 0,
     bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
@@ -36,7 +38,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     this._isNegative = isNegative;
   }
 
-  static decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
+  public static decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
     // This function returns a string, which will be passed in the BN
     // constructor. It would be ideal to actually return a BN, but there's a
     // bug: https://github.com/indutny/bn.js/issues/206.
@@ -63,28 +65,29 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this._bitLength / 8;
   }
 
   /**
    * @description Checks if the value is a zero value (align elsewhere)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.isZero();
   }
 
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength (): UIntBitLength {
+  public bitLength (): UIntBitLength {
     return this._bitLength;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public eq (other?: any): boolean {
     // Here we are actually overriding the built-in .eq to take care of both
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
@@ -97,7 +100,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
-  toBn (): BN {
+  public toBn (): BN {
     return this;
   }
 
@@ -109,7 +112,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  public toJSON (): any {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
@@ -127,7 +130,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns the string representation of the value
    * @param base The base to use for the conversion
    */
-  toString (base?: number): string {
+  public toString (base?: number): string {
     // only included here since we do not inherit docs
     return super.toString(base);
   }

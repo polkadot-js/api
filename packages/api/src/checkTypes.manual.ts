@@ -12,7 +12,7 @@ import { Header, Nonce } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
-export default async function test () {
+export default async function test (): Promise<void> {
   const api = await ApiPromise.create();
   const keyring = testKeyring();
 
@@ -23,29 +23,29 @@ export default async function test () {
   const multiUnsub = await api.queryMulti([
     [api.query.system.accountNonce, keyring.eve.address],
     [api.query.system.accountNonce, keyring.bob.address]
-  ], (balances) => {
+  ], (balances): void => {
     console.log('balances', balances);
 
     multiUnsub();
   });
 
-  await api.query.staking.intentions((intentions) => {
+  await api.query.staking.intentions((intentions): void => {
     console.log('intentions:', intentions);
   });
 
-  await api.rpc.chain.subscribeNewHead<Header>((header) => {
+  await api.rpc.chain.subscribeNewHead<Header>((header): void => {
     console.log('current blockNumber:', header.blockNumber);
   });
 
-  await api.rpc.chain.subscribeNewHead((header: Header) => {
+  await api.rpc.chain.subscribeNewHead((header: Header): void => {
     console.log('current blockNumber:', header.blockNumber);
   });
 
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
 
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
 
@@ -68,7 +68,7 @@ export default async function test () {
   // just with the callback
   const unsub = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, ({ status }: SubmittableResult) => {
+    .signAndSend(keyring.alice, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
 
       unsub();
@@ -78,7 +78,7 @@ export default async function test () {
   const nonce2 = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
-    .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult) => {
+    .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
 
       unsub2();

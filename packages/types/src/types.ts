@@ -9,14 +9,16 @@ import { FunctionMetadata } from './Metadata/v6/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
 
-export type IKeyringPair = {
-  address: string,
-  publicKey: Uint8Array,
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IKeyringPair {
+  address: string;
+  publicKey: Uint8Array;
   sign: (data: Uint8Array) => Uint8Array;
-};
+}
 
-interface CodecArgArray extends Array<CodecArg> { }
-export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface CodecArgArray extends Array<CodecArg> {}
+export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type Callback<T> = (result: T) => void | Promise<void>;
 
@@ -24,16 +26,19 @@ interface CodecArgObject {
   [index: string]: CodecArg;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any[]) => any;
 
 export type AnyNumber = BN | Uint8Array | number | string;
 
-export type AnyString = string | String;
+export type AnyString = string | string;
 
-export type AnyU8a = Uint8Array | Array<number> | string;
+export type AnyU8a = Uint8Array | number[] | string;
 
-export type AnyJsonObject = { [key: string]: AnyJson };
-export interface AnyJsonArray extends Array<AnyJson> { }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnyJsonObject extends Record<string, AnyJson> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnyJsonArray extends Array<AnyJson> {}
 export type AnyJson = string | number | boolean | null | undefined | AnyJsonObject | AnyJsonArray;
 
 /**
@@ -57,6 +62,7 @@ export interface Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eq (other?: any): boolean;
 
   /**
@@ -91,41 +97,45 @@ export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 export interface Constructor<T = Codec> {
   Fallback?: Constructor<T>;
 
-  new(...value: Array<any>): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new(...value: any[]): T;
 }
 
-export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
-export type TypeDef = { [index: string]: Codec };
+export type TypeDef = Record<string, Codec>;
 
-export type RegistryTypes = {
-  [name: string]: Constructor | string | { [name: string]: string } | { _enum: Array<string> | { [index: string]: string } }
-};
+export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string> }>;
 
 export interface RuntimeVersionInterface {
-  readonly apis: Array<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly apis: any[];
   readonly authoringVersion: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   readonly implName: String;
   readonly implVersion: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   readonly specName: String;
   readonly specVersion: BN;
 }
 
-export type SignatureOptions = {
-  blockHash: AnyU8a,
-  era?: IExtrinsicEra,
-  nonce: AnyNumber,
-  version?: RuntimeVersionInterface
-};
+export interface SignatureOptions {
+  blockHash: AnyU8a;
+  era?: IExtrinsicEra;
+  nonce: AnyNumber;
+  version?: RuntimeVersionInterface;
+}
 
 export interface ArgsDef {
   [index: string]: Constructor;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
 export interface IHash extends U8a { }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
-  readonly args: Array<Codec>;
+  readonly args: Codec[];
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
@@ -133,16 +143,19 @@ export interface IMethod extends Codec {
   readonly meta: FunctionMetadata;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends Codec {
   readonly isSigned: boolean;
-  era: IExtrinsicEra;
+  readonly era: IExtrinsicEra;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicEra {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends IMethod {
   hash: IHash;
   isSigned: boolean;

@@ -11,7 +11,7 @@ import Null from './Null';
  * never actually be constructed
  */
 export default class Origin extends Null {
-  constructor () {
+  public constructor () {
     super();
 
     throw new Error('Origin should not be constructed, it is only a placeholder for compatibility');
@@ -20,7 +20,7 @@ export default class Origin extends Null {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Origin'; // yes, we cannot instantiate, but for consistency
   }
 }
