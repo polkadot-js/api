@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethodOpt, RpcSection } from './types';
+import { RpcMethodOpt } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
@@ -51,4 +51,4 @@ export default {
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
     submitAndWatchExtrinsic: createMethod(section, 'submitAndWatchExtrinsic', submitAndWatchExtrinsic)
   }
-} as RpcSection;
+};

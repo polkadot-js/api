@@ -19,25 +19,30 @@ const WS = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('Api-RX derive e2e', () => {
+describe.skip('Api-RX derive e2e', (): void => {
   let api: ApiRx;
 
-  beforeAll(() => {
+  beforeAll((): void => {
     jest.setTimeout(10000);
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiRx.create(new WsProvider(WS)).toPromise();
+
     done();
+  });
+
+  afterAll((): void => {
+    jest.setTimeout(10000);
   });
 
   // These derive.accounts tests only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe('derive.accounts', () => {
-    describe('idAndIndex', () => {
-      it('looks up AccountId & AccountIndex from AccountId', async (done) => {
+  describe('derive.accounts', (): void => {
+    describe('idAndIndex', (): void => {
+      it('looks up AccountId & AccountIndex from AccountId', async (done): Promise<void> => {
         // @ts-ignore silence warning until we have static types here
-        api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]) => {
+        api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]): void => {
           expect(accountId!.toString()).toEqual(ID);
           // The first emitted value for ix is undefined when passing the ID
           if (accountIndex) {
@@ -49,9 +54,9 @@ describe.skip('Api-RX derive e2e', () => {
         });
       });
 
-      it('looks up AccountId & AccountIndex from AccountIndex', async (done) => {
+      it('looks up AccountId & AccountIndex from AccountIndex', async (done): Promise<void> => {
         // @ts-ignore silence warning until we have static types here
-        api.derive.accounts.idAndIndex(IX).subscribe(([accountId, accountIndex]) => {
+        api.derive.accounts.idAndIndex(IX).subscribe(([accountId, accountIndex]): void => {
           // The first emitted value for id is undefined when passing the IX
           if (accountId) {
             expect(accountId.toString()).toEqual(ID);
@@ -64,10 +69,10 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('indexToId', () => {
-      it('looks up AccountId from AccountIndex', async (done) => {
+    describe('indexToId', (): void => {
+      it('looks up AccountId from AccountIndex', async (done): Promise<void> => {
         // @ts-ignore silence warning until we have static types here
-        api.derive.accounts.indexToId(IX).subscribe((accountId) => {
+        api.derive.accounts.indexToId(IX).subscribe((accountId): void => {
           // The first emitted value for accountId is undefined when passing the IX
           if (accountId) {
             expect(accountId instanceof AccountId).toBe(true);
@@ -80,10 +85,10 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('idToIndex', () => {
-      it('looks up AccountIndex from AccountId', async (done) => {
+    describe('idToIndex', (): void => {
+      it('looks up AccountIndex from AccountId', async (done): Promise<void> => {
         // @ts-ignore silence warning until we have static types here
-        api.derive.accounts.idToIndex(ID).subscribe((accountIndex) => {
+        api.derive.accounts.idToIndex(ID).subscribe((accountIndex): void => {
           // The first emitted value for AccountIndex is undefined when passing the ID
           if (accountIndex) {
             expect(accountIndex instanceof AccountIndex).toBe(true);
@@ -96,10 +101,10 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('indexes', () => {
-      it('looks up all AccountIndexes', async (done) => {
+    describe('indexes', (): void => {
+      it('looks up all AccountIndexes', async (done): Promise<void> => {
         // @ts-ignore silence warning until we have static types here
-        api.derive.accounts.indexes().subscribe((accountIndexes) => {
+        api.derive.accounts.indexes().subscribe((accountIndexes): void => {
           // A local dev chain should have the AccountIndex of Alice
           expect(accountIndexes).toHaveProperty(
             ID,
@@ -113,10 +118,10 @@ describe.skip('Api-RX derive e2e', () => {
 
   // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe('derive.balances', () => {
-    describe('all', () => {
-      it('It returns an object with all relevant balance information of an account', async (done) => {
-        api.derive.balances.all(ID).subscribe((balances: DerivedBalances) => {
+  describe('derive.balances', (): void => {
+    describe('all', (): void => {
+      it('It returns an object with all relevant balance information of an account', async (done): Promise<void> => {
+        api.derive.balances.all(ID).subscribe((balances: DerivedBalances): void => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
             accountNonce: expect.any(Index),
@@ -132,9 +137,9 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('fees', () => {
-      it('fees: It returns an object with all relevant fees of type BN', async (done) => {
-        api.derive.balances.fees().subscribe((fees: DerivedFees) => {
+    describe('fees', (): void => {
+      it('fees: It returns an object with all relevant fees of type BN', async (done): Promise<void> => {
+        api.derive.balances.fees().subscribe((fees: DerivedFees): void => {
           expect(fees).toEqual(expect.objectContaining({
             creationFee: expect.any(BN),
             existentialDeposit: expect.any(BN),
@@ -148,10 +153,10 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.chain', () => {
-    describe('bestNumber', () => {
-      it('Get the latest block number', async (done) => {
-        api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
+  describe('derive.chain', (): void => {
+    describe('bestNumber', (): void => {
+      it('Get the latest block number', async (done): Promise<void> => {
+        api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber): void => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
@@ -159,9 +164,9 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('bestNumberFinalized', () => {
-      it('Get the latest finalised block number', async (done) => {
-        api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber) => {
+    describe('bestNumberFinalized', (): void => {
+      it('Get the latest finalised block number', async (done): Promise<void> => {
+        api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber): void => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
@@ -169,9 +174,9 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('bestNumberLag', () => {
-      it('lag between finalised head and best head', async (done) => {
-        api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber) => {
+    describe('bestNumberLag', (): void => {
+      it('lag between finalised head and best head', async (done): Promise<void> => {
+        api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber): void => {
           expect(numberLag instanceof BlockNumber).toBe(true);
           expect(numberLag.gten(0)).toBe(true);
           done();
@@ -180,9 +185,9 @@ describe.skip('Api-RX derive e2e', () => {
     });
 
     // FIXME https://github.com/polkadot-js/api/issues/868
-    describe.skip('getHeader', () => {
-      it('gets a specific block header and extended with it\`s author', async (done) => {
-        api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
+    describe.skip('getHeader', (): void => {
+      it('gets a specific block header and extended with it`s author', async (done): Promise<void> => {
+        api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined): void => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));
           done();
@@ -190,9 +195,10 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('subscribeNewHead', () => {
-      it('gets an observable of the current block header and it\'s author', async (done) => {
-        api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended) => {
+    describe('subscribeNewHead', (): void => {
+      it('gets an observable of the current block header and it\'s author', async (done): Promise<void> => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended): void => {
           // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });
@@ -200,10 +206,10 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.contracts', () => {
-    describe('fees', () => {
-      it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
-        api.derive.contracts.fees().subscribe((fees: DerivedContractFees) => {
+  describe('derive.contracts', (): void => {
+    describe('fees', (): void => {
+      it('fees: It returns an object with all relevant constract fees of type Balance', async (done): Promise<void> => {
+        api.derive.contracts.fees().subscribe((fees: DerivedContractFees): void => {
           expect(fees).toEqual(expect.objectContaining({
             callBaseFee: expect.any(BN),
             contractFee: expect.any(BN),
@@ -222,19 +228,19 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.session', () => {
-    describe('sessionProgress', () => {
-      it('derive.session.sessionProgress', async (done) => {
-        api.derive.session.sessionProgress().subscribe((progress: BN) => {
+  describe('derive.session', (): void => {
+    describe('sessionProgress', (): void => {
+      it('derive.session.sessionProgress', async (done): Promise<void> => {
+        api.derive.session.sessionProgress().subscribe((progress: BN): void => {
           expect(progress instanceof BN).toBe(true);
           done();
         });
       });
     });
 
-    describe('session.info', () => {
-      it('retrieves all session info', async (done) => {
-        api.derive.session.info().subscribe((info: DerivedSessionInfo) => {
+    describe('session.info', (): void => {
+      it('retrieves all session info', async (done): Promise<void> => {
+        api.derive.session.info().subscribe((info: DerivedSessionInfo): void => {
           expect(info).toEqual(expect.objectContaining({
             currentEra: expect.anything(),
             currentIndex: expect.anything(),
@@ -251,18 +257,18 @@ describe.skip('Api-RX derive e2e', () => {
       });
     });
 
-    describe('session.eraLength', () => {
-      it('derive.session.eraLength', async (done) => {
-        api.derive.session.eraLength().subscribe((length: BN) => {
+    describe('session.eraLength', (): void => {
+      it('derive.session.eraLength', async (done): Promise<void> => {
+        api.derive.session.eraLength().subscribe((length: BN): void => {
           expect(length instanceof BN).toBe(true);
           done();
         });
       });
     });
 
-    describe('session.eraProgress', () => {
-      it('derive.session.eraProgress', async (done) => {
-        api.derive.session.eraProgress().subscribe((progress: BN) => {
+    describe('session.eraProgress', (): void => {
+      it('derive.session.eraProgress', async (done): Promise<void> => {
+        api.derive.session.eraProgress().subscribe((progress: BN): void => {
           expect(progress instanceof BN).toBe(true);
           done();
         });
@@ -270,13 +276,9 @@ describe.skip('Api-RX derive e2e', () => {
     });
   });
 
-  describe('derive.staking', () => {
-    describe('controllers', () => {
+  describe('derive.staking', (): void => {
+    describe('controllers', (): void => {
       // @TODO https://github.com/polkadot-js/api/issues/868
     });
-  });
-
-  afterAll(() => {
-    jest.setTimeout(10000);
   });
 });

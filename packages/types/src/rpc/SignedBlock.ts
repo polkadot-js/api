@@ -9,10 +9,10 @@ import Hash from '../primitive/Hash';
 import Justification from '../type/Justification';
 import Block, { BlockValue } from './Block';
 
-type SignedBlockValue = {
-  block?: BlockValue,
-  justification?: AnyU8a
-};
+interface SignedBlockValue {
+  block?: BlockValue;
+  justification?: AnyU8a;
+}
 
 /**
  * @name SignedBlock
@@ -20,7 +20,7 @@ type SignedBlockValue = {
  * A [[Block]] that has been signed and contains a [[Justification]]
  */
 export default class SignedBlock extends Struct {
-  constructor (value?: SignedBlockValue | Uint8Array) {
+  public constructor (value?: SignedBlockValue | Uint8Array) {
     super({
       block: Block,
       justification: Justification
@@ -30,21 +30,21 @@ export default class SignedBlock extends Struct {
   /**
    * @description The wrapped [[Block]]
    */
-  get block (): Block {
+  public get block (): Block {
     return this.get('block') as Block;
   }
 
   /**
    * @description Block/header [[Hash]]
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return this.block.hash;
   }
 
   /**
    * @description The wrapped [[Justification]]
    */
-  get justification (): Justification {
+  public get justification (): Justification {
     return this.get('justification') as Justification;
   }
 }

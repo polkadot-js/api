@@ -34,7 +34,7 @@ export class Finalization extends Null {
  * An [[Enum]] that indicates the specific phase where the [[EventRecord]] was generated
  */
 export class Phase extends Enum {
-  constructor (value: any, index?: number) {
+  public constructor (value: any, index?: number) {
     super({
       ApplyExtrinsic,
       Finalization
@@ -44,7 +44,7 @@ export class Phase extends Enum {
   /**
    * @description Returns the item as a [[ApplyExtrinsic]]
    */
-  get asApplyExtrinsic (): ApplyExtrinsic {
+  public get asApplyExtrinsic (): ApplyExtrinsic {
     assert(this.isApplyExtrinsic, `Cannot convert '${this.type}' via asApplyExtrinsic`);
 
     return this.value as ApplyExtrinsic;
@@ -53,7 +53,7 @@ export class Phase extends Enum {
   /**
    * @description Returns the item as a [[Finalization]]
    */
-  get asFinalization (): Finalization {
+  public get asFinalization (): Finalization {
     assert(this.isFinalization, `Cannot convert '${this.type}' via asFinalization`);
 
     return this.value as Finalization;
@@ -62,14 +62,14 @@ export class Phase extends Enum {
   /**
    * @description true when this is a ApplyExtrinsic
    */
-  get isApplyExtrinsic (): boolean {
+  public get isApplyExtrinsic (): boolean {
     return this.type === 'ApplyExtrinsic';
   }
 
   /**
    * @description true when this is a ApplyExtrinsic
    */
-  get isFinalization (): boolean {
+  public get isFinalization (): boolean {
     return this.type === 'Finalization';
   }
 }
@@ -80,9 +80,8 @@ export class Phase extends Enum {
  * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
  * application.
  */
-// tslint:disable-next-line
-export class EventRecord_0_76 extends Struct {
-  constructor (value: any) {
+export class EventRecord0to76 extends Struct {
+  public constructor (value: any) {
     super({
       phase: Phase,
       event: Event
@@ -92,21 +91,21 @@ export class EventRecord_0_76 extends Struct {
   /**
    * @description The [[Event]] this record refers to
    */
-  get event (): Event {
+  public get event (): Event {
     return this.get('event') as Event;
   }
 
   /**
    * @description The [[Phase]] where the event was generated
    */
-  get phase (): Phase {
+  public get phase (): Phase {
     return this.get('phase') as Phase;
   }
 
   /**
    * @description The [[Hash]] topics for this event (empty, compat)
    */
-  get topics (): Vector<Hash> {
+  public get topics (): Vector<Hash> {
     return new (Vector.with(Hash))();
   }
 }
@@ -118,7 +117,7 @@ export class EventRecord_0_76 extends Struct {
  * application.
  */
 export default class EventRecord extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       phase: Phase,
       event: Event,
@@ -126,26 +125,26 @@ export default class EventRecord extends Struct {
     }, value);
   }
 
-  static Fallback = EventRecord_0_76;
+  public static Fallback = EventRecord0to76;
 
   /**
    * @description The [[Event]] this record refers to
    */
-  get event (): Event {
+  public get event (): Event {
     return this.get('event') as Event;
   }
 
   /**
    * @description The [[Phase]] where the event was generated
    */
-  get phase (): Phase {
+  public get phase (): Phase {
     return this.get('phase') as Phase;
   }
 
   /**
    * @description The [[Hash]] topics for this event
    */
-  get topics (): Vector<Hash> {
+  public get topics (): Vector<Hash> {
     return this.get('topics') as Vector<Hash>;
   }
 }

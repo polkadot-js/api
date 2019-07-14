@@ -4,25 +4,25 @@
 
 import Mock from './';
 
-describe('send', () => {
+describe('send', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     mock = new Mock();
   });
 
-  it('fails on non-supported methods', () => {
+  it('fails on non-supported methods', (): Promise<any> => {
     return mock
       .send('something_invalid', [])
-      .catch((error) => {
+      .catch((error): void => {
         expect(error.message).toMatch(/Invalid method/);
       });
   });
 
-  it('returns values for mocked requests', () => {
+  it('returns values for mocked requests', (): Promise<void> => {
     return mock
       .send('system_name', [])
-      .then((result) => {
+      .then((result): void => {
         expect(result).toBe('mockClient');
       });
   });

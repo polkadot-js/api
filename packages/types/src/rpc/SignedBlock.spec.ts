@@ -10,12 +10,12 @@ import immortalTxs from '../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../json/SignedBlock.004.mortal.json';
 import SignedBlock from './SignedBlock';
 
-describe('SignedBlock', () => {
-  beforeEach(() => {
+describe('SignedBlock', (): void => {
+  beforeEach((): void => {
     Method.injectMethods(extrinsics);
   });
 
-  it('decodes a full block', () => {
+  it('decodes a full block', (): void => {
     const s = new SignedBlock(events.result);
 
     expect(
@@ -34,8 +34,8 @@ describe('SignedBlock', () => {
     ]);
   });
 
-  describe('extrinsics', () => {
-    it('can decode immortals', () => {
+  describe('extrinsics', (): void => {
+    it('can decode immortals', (): void => {
       const s = new SignedBlock(immortalTxs.result);
       const immortalTx = s.block.extrinsics[2];
 
@@ -43,7 +43,7 @@ describe('SignedBlock', () => {
       expect(immortalTx.method.sectionName).toEqual('balances');
     });
 
-    it('can decode mortals', () => {
+    it('can decode mortals', (): void => {
       const s = new SignedBlock(mortalTxs.result);
       const mortalTx = s.block.extrinsics[2];
 

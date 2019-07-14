@@ -17,15 +17,15 @@ import U32 from '../primitive/U32';
  * An identifier for the runtime API
  */
 export class ApiId extends U8aFixed {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     super(value, 64);
   }
 }
 
-type RuntimeVersionApiValue = {
-  id?: AnyU8a,
-  version?: AnyNumber
-};
+interface RuntimeVersionApiValue {
+  id?: AnyU8a;
+  version?: AnyNumber;
+}
 
 /**
  * @name RuntimeVersionApi
@@ -33,7 +33,7 @@ type RuntimeVersionApiValue = {
  * A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version
  */
 export class RuntimeVersionApi extends Tuple {
-  constructor (value?: RuntimeVersionApiValue | Uint8Array) {
+  public constructor (value?: RuntimeVersionApiValue | Uint8Array) {
     super({
       ApiId,
       U32
@@ -43,26 +43,26 @@ export class RuntimeVersionApi extends Tuple {
   /**
    * @description The [[ApiId]]
    */
-  get id (): ApiId {
+  public get id (): ApiId {
     return this[0] as ApiId;
   }
 
   /**
    * @description The specific version as [[U32]]
    */
-  get version (): U32 {
+  public get version (): U32 {
     return this[1] as U32;
   }
 }
 
-type RuntimeVersionValue = {
-  specName?: string,
-  implName?: string,
-  authoringVersion?: AnyNumber,
-  specVersion?: AnyNumber,
-  implVersion?: AnyNumber,
-  apis?: Array<RuntimeVersionApiValue>
-};
+interface RuntimeVersionValue {
+  specName?: string;
+  implName?: string;
+  authoringVersion?: AnyNumber;
+  specVersion?: AnyNumber;
+  implVersion?: AnyNumber;
+  apis?: RuntimeVersionApiValue[];
+}
 
 /**
  * @name RuntimeVersion
@@ -70,7 +70,7 @@ type RuntimeVersionValue = {
  * A defintion of the runtime and the associated versions thereof
  */
 export default class RuntimeVersion extends Struct implements RuntimeVersionInterface {
-  constructor (value?: RuntimeVersionValue | Uint8Array) {
+  public constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({
       specName: Text,
       implName: Text,
@@ -84,42 +84,42 @@ export default class RuntimeVersion extends Struct implements RuntimeVersionInte
   /**
    * @description The available APIs as [[RuntimeVersionApi]]
    */
-  get apis (): Vector<RuntimeVersionApi> {
+  public get apis (): Vector<RuntimeVersionApi> {
     return this.get('apis') as Vector<RuntimeVersionApi>;
   }
 
   /**
    * @description The authoring version as [[U32]]
    */
-  get authoringVersion (): U32 {
+  public get authoringVersion (): U32 {
     return this.get('authoringVersion') as U32;
   }
 
   /**
    * @description The implementation name
    */
-  get implName (): Text {
+  public get implName (): Text {
     return this.get('implName') as Text;
   }
 
   /**
    * @description The implementation version
    */
-  get implVersion (): U32 {
+  public get implVersion (): U32 {
     return this.get('implVersion') as U32;
   }
 
   /**
    * @description The specification name
    */
-  get specName (): Text {
+  public get specName (): Text {
     return this.get('specName') as Text;
   }
 
   /**
    * @description The specification version
    */
-  get specVersion (): U32 {
+  public get specVersion (): U32 {
     return this.get('specVersion') as U32;
   }
 }

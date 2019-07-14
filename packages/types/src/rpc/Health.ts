@@ -12,7 +12,7 @@ import U64 from '../primitive/U64';
  * A system health indicator, reported back over RPC
  */
 export default class Health extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       peers: U64,
       isSyncing: Bool,
@@ -23,21 +23,21 @@ export default class Health extends Struct {
   /**
    * @description The sync status
    */
-  get isSyncing (): Bool {
+  public get isSyncing (): Bool {
     return this.get('isSyncing') as Bool;
   }
 
   /**
    * @description The numbers of peers as [[U64]]
    */
-  get peers (): U64 {
+  public get peers (): U64 {
     return this.get('peers') as U64;
   }
 
   /**
    * @description Should this node have peers (not active on --dev)
    */
-  get shouldHavePeers (): Bool {
+  public get shouldHavePeers (): Bool {
     return this.get('shouldHavePeers') as Bool;
   }
 }

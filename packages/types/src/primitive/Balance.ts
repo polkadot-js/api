@@ -13,7 +13,7 @@ export default class Balance extends U128 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     // NOTE Balance we treat as a special case, don't return the base u128 - there
     // is typically special processing downstream, i.e. different inputs, it gets
     // treated as a primitive in this case

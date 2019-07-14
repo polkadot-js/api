@@ -25,12 +25,12 @@ export default class Struct<
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-  > extends Map<keyof S, Codec> implements Codec {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
+
   protected _Types: S;
 
-  constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  public constructor (Types: S, value: V | Map<any, any> | any[] = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
 
     super(
@@ -69,14 +69,14 @@ export default class Struct<
       const values = decodeU8a(value, Object.values(Types));
 
       // Transform array of values to {key: value} mapping
-      return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+      return Object.keys(Types).reduce((raw: T, key: keyof S, index): T => {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         (raw as any)[key] = values[index];
 
         return raw;
-      }, {} as T);
+      }, {} as unknown as T);
     } else if (!value) {
-      return {} as T;
+      return {} as unknown as T;
     }
 
     // We assume from here that value is a JS object (Array, Map, Object)
@@ -88,7 +88,7 @@ export default class Struct<
     _,
     T extends { [K in keyof S]: Codec }
   > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
-    return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+    return Object.keys(Types).reduce((raw: T, key: keyof S, index): T => {
       // The key in the JSON can be snake_case (or other cases), but in our
       // Types, result or any other maps, it's camelCase
       const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
@@ -117,17 +117,17 @@ export default class Struct<
       }
 
       return raw;
-    }, {} as T);
+    }, {} as unknown as T);
   }
 
-  static with<
+  public static with<
     S extends ConstructorDef
   > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
+      public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
-        (Object.keys(Types) as Array<keyof S>).forEach((key) => {
+        (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
           // do not clobber existing properties on the object
           if (!isUndefined((this as any)[key])) {
             return;
@@ -135,7 +135,7 @@ export default class Struct<
 
           Object.defineProperty(this, key, {
             enumerable: true,
-            get: () => this.get(key)
+            get: (): Codec | undefined => this.get(key)
           });
         });
       }
@@ -145,7 +145,7 @@ export default class Struct<
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     const items = this.toArray();
 
     for (let i = 0; i < items.length; i++) {
@@ -160,29 +160,31 @@ export default class Struct<
   /**
    * @description Returns the Type description to sthe structure
    */
-  get Type (): E {
+  public get Type (): E {
     return (Object
-      .entries(this._Types) as Array<[keyof S, Constructor]>)
-      .reduce((result: E, [key, Type]) => {
+      .entries(this._Types) as [keyof S, Constructor][])
+      .reduce((result: E, [key, Type]): E => {
         (result as any)[key] = Type.name;
 
         return result;
-      }, {} as E);
+      }, {} as unknown as E);
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
-    return this.toArray().reduce((length, entry) => {
-      return length += entry.encodedLength;
+  public get encodedLength (): number {
+    return this.toArray().reduce((length, entry): number => {
+      length += entry.encodedLength;
+
+      return length;
     }, 0);
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return compareMap(this, other);
   }
 
@@ -190,38 +192,38 @@ export default class Struct<
    * @description Returns a specific names entry in the structure
    * @param name The name of the entry to retrieve
    */
-  get (name: keyof S): Codec | undefined {
+  public get (name: keyof S): Codec | undefined {
     return super.get(name);
   }
 
   /**
    * @description Returns the values of a member at a specific index (Rather use get(name) for performance)
    */
-  getAtIndex (index: number): Codec {
+  public getAtIndex (index: number): Codec {
     return this.toArray()[index];
   }
 
   /**
    * @description Converts the Object to an standard JavaScript Array
    */
-  toArray (): Array<Codec> {
+  public toArray (): Codec[] {
     return [...this.values()];
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex () {
+  public toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJsonObject | string {
+  public toJSON (): AnyJsonObject | string {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
-    return [...this.keys()].reduce((json, key) => {
+    return [...this.keys()].reduce((json, key): any => {
       const jsonKey = this._jsonMap.get(key) || key;
       const value = this.get(key);
 
@@ -234,20 +236,20 @@ export default class Struct<
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return JSON.stringify(
-      Object.entries(this._Types).reduce((result, [key, Type]) => {
+      Object.entries(this._Types).reduce((result, [key, Type]): Record<string, string> => {
         result[key] = new Type().toRawType();
 
         return result;
-      }, {} as { [index: string]: string })
+      }, {} as unknown as Record<string, string>)
     );
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString () {
+  public toString (): string {
     return JSON.stringify(this.toJSON());
   }
 
@@ -255,9 +257,9 @@ export default class Struct<
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...this.toArray().map((entry) =>
+      ...this.toArray().map((entry): Uint8Array =>
         entry.toU8a(isBare)
       )
     );

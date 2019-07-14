@@ -4,17 +4,15 @@
 
 import { Observable } from 'rxjs';
 
-export interface RpcInterface$Method {
-  (...params: Array<any>): Observable<any>;
+export interface RpcInterfaceMethod {
+  (...params: any[]): Observable<any>;
 }
 
-export type RpcInterface$Section = {
-  [index: string]: RpcInterface$Method
-};
+export type RpcInterfaceSection = Record<string, RpcInterfaceMethod>;
 
 export interface RpcInterface {
-  readonly author: RpcInterface$Section;
-  readonly chain: RpcInterface$Section;
-  readonly state: RpcInterface$Section;
-  readonly system: RpcInterface$Section;
+  readonly author: RpcInterfaceSection;
+  readonly chain: RpcInterfaceSection;
+  readonly state: RpcInterfaceSection;
+  readonly system: RpcInterfaceSection;
 }

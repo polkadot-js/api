@@ -14,12 +14,12 @@ import RuntimeVersion from '../rpc/RuntimeVersion';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
 
-type SignaturePayloadValue = {
-  nonce?: AnyNumber,
-  method?: Method,
-  era?: AnyU8a | IExtrinsicEra
-  blockHash?: AnyU8a
-};
+interface SignaturePayloadValue {
+  nonce?: AnyNumber;
+  method?: Method;
+  era?: AnyU8a | IExtrinsicEra;
+  blockHash?: AnyU8a;
+}
 
 // a helper function for both types of payloads, Raw and metadata-known
 function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
@@ -102,6 +102,7 @@ export default class SignaturePayload extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public sign (signerPair: IKeyringPair, version?: RuntimeVersion): Uint8Array {
     this._signature = sign(signerPair, this.toU8a());
 

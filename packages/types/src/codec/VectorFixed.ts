@@ -17,7 +17,7 @@ import Vector from './Vector';
 export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
+  public constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
       ...VectorFixed.decodeVectorFixed(Type, length, value)
     );
@@ -25,7 +25,7 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
     this._Type = Type;
   }
 
-  static decodeVectorFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VectorFixed<any> | Uint8Array | string | Array<any>): Array<T> {
+  public static decodeVectorFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VectorFixed<any> | Uint8Array | string | any[]): T[] {
     const values = Vector.decodeVector(
       Type,
       isU8a(value)
@@ -42,13 +42,13 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
     return values;
   }
 
-  static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VectorFixed<O>> {
+  public static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VectorFixed<O>> {
     return class extends VectorFixed<O> {
-      constructor (value?: Array<any>) {
+      public constructor (value?: any[]) {
         super(Type, length, value);
       }
 
-      static Fallback = Type.Fallback
+      public static Fallback = Type.Fallback
         ? VectorFixed.with(Type.Fallback, length)
         : undefined;
     };
@@ -57,18 +57,18 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
   /**
    * @description The type for the items
    */
-  get Type (): string {
+  public get Type (): string {
     return this._Type.name;
   }
 
-  toU8a (): Uint8Array {
+  public toU8a (): Uint8Array {
     return super.toU8a(true);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return `[${new this._Type().toRawType()};${this.length}`;
   }
 }

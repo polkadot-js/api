@@ -11,16 +11,16 @@ import U64 from '../primitive/U64';
 import BlockNumber from './BlockNumber';
 import SessionKey from './SessionKey';
 
-export type NextAuthorityValue = {
-  index?: AnyNumber,
-  sessionKey?: AnyU8a
-};
+export interface NextAuthorityValue {
+  index?: AnyNumber;
+  sessionKey?: AnyU8a;
+}
 
-export type StoredPendingChangeValue = {
-  scheduledAt: AnyNumber,
-  delay: AnyNumber,
-  nextAuthorities?: Array<Uint8Array | NextAuthorityValue>
-};
+export interface StoredPendingChangeValue {
+  scheduledAt: AnyNumber;
+  delay: AnyNumber;
+  nextAuthorities?: (Uint8Array | NextAuthorityValue)[];
+}
 
 /**
  * @name NextAuthority
@@ -28,18 +28,18 @@ export type StoredPendingChangeValue = {
  * The next authority available as [[SessionKey]]
  */
 export class NextAuthority extends Tuple {
-  constructor (value?: Uint8Array | NextAuthorityValue) {
+  public constructor (value?: Uint8Array | NextAuthorityValue) {
     super({
       SessionKey,
       U64
     }, value);
   }
 
-  get index (): U64 {
+  public get index (): U64 {
     return this[1] as U64;
   }
 
-  get sessionKey (): SessionKey {
+  public get sessionKey (): SessionKey {
     return this[0] as SessionKey;
   }
 }
@@ -50,7 +50,7 @@ export class NextAuthority extends Tuple {
  * Stored pending change for a Grandpa events
  */
 export default class StoredPendingChange extends Struct {
-  constructor (value?: Uint8Array | StoredPendingChangeValue) {
+  public constructor (value?: Uint8Array | StoredPendingChangeValue) {
     super({
       scheduledAt: BlockNumber,
       delay: BlockNumber,
@@ -58,15 +58,15 @@ export default class StoredPendingChange extends Struct {
     }, value);
   }
 
-  get delay (): BlockNumber {
+  public get delay (): BlockNumber {
     return this.get('delay') as BlockNumber;
   }
 
-  get nextAuthorities (): Vector<NextAuthority> {
+  public get nextAuthorities (): Vector<NextAuthority> {
     return this.get('nextAuthorities') as Vector<NextAuthority>;
   }
 
-  get scheduledAt (): BlockNumber {
+  public get scheduledAt (): BlockNumber {
     return this.get('scheduledAt') as BlockNumber;
   }
 }

@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 
@@ -27,4 +27,4 @@ async function main () {
   console.log(`Current balances for Alice and Bob are ${balances[0]} and ${balances[1]}`);
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error).finally(() => process.exit());

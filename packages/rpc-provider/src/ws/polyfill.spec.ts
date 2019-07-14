@@ -8,26 +8,26 @@ import { Global } from './../mock/types';
 
 declare let global: Global;
 
-describe('ws/polyfill', () => {
+describe('ws/polyfill', (): void => {
   let origWs: Constructor<WebSocket>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     origWs = global.WebSocket;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.WebSocket = origWs;
   });
 
-  it('polyfills with no exceptions (with WebSocket)', () => {
+  it('polyfills with no exceptions (with WebSocket)', (): void => {
     (global as any).WebSocket = undefined;
     require('./polyfill');
 
     expect(global.WebSocket).toBeDefined();
   });
 
-  it('polyfills with no exceptions (without WebSocket)', () => {
-    (global as any).WebSocket = () => true;
+  it('polyfills with no exceptions (without WebSocket)', (): void => {
+    (global as any).WebSocket = (): boolean => true;
     require('./polyfill');
 
     expect(global.WebSocket).toBeDefined();

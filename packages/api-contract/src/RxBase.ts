@@ -3,19 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { ApiObject, ContractABI, IContractBase } from './types';
+import { ApiObject, ContractABI, ContractBase } from './types';
 
 import { assert } from '@polkadot/util';
 
 import Abi from './Abi';
 
 // NOTE Experimental, POC, bound to change
-export default abstract class RxBase implements IContractBase<'rxjs'> {
-  readonly abi: Abi;
-  readonly api: ApiObject<'rxjs'>;
-  readonly apiContracts: SubmittableModuleExtrinsics<'rxjs'>;
+export default abstract class RxBase implements ContractBase<'rxjs'> {
+  public readonly abi: Abi;
 
-  constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
+  public readonly api: ApiObject<'rxjs'>;
+
+  public readonly apiContracts: SubmittableModuleExtrinsics<'rxjs'>;
+
+  public constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
     this.abi = abi instanceof Abi
       ? abi
       : new Abi(abi);

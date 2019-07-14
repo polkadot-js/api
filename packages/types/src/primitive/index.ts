@@ -18,7 +18,7 @@ export { default as Address } from './Address';
 // and actually is problematic/impossible to be overridden, it is included here as well
 export { default as Balance, BalanceOf } from './Balance';
 export { default as Event, EventIndex } from './Event';
-export { default as EventRecord, EventRecord_0_76 } from './EventRecord';
+export { default as EventRecord, EventRecord0to76 } from './EventRecord';
 export { default as Bool, default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';

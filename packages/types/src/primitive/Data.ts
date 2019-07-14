@@ -13,7 +13,7 @@ export default class Data extends U8a {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Data';
   }
 }

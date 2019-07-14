@@ -6,7 +6,7 @@ import substrateJson from './latest.substrate.v6.json';
 import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
 
-describe('MetadataV6 (substrate)', () => {
+describe('MetadataV6 (substrate)', (): void => {
   decodeLatestSubstrate(6, substrateData, substrateJson);
 
   toV6(6, substrateData);

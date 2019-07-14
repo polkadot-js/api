@@ -15,9 +15,10 @@ import Bool from '../primitive/Bool';
  */
 export default class Vote extends U8a {
   private _aye: Bool;
+
   private _conviction: Conviction; // for V1, default to None
 
-  constructor (value?: any) {
+  public constructor (value?: any) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101
@@ -35,8 +36,8 @@ export default class Vote extends U8a {
   private static decodeVote (value?: any): Uint8Array {
     if (isBoolean(value)) {
       return value
-              ? new Uint8Array([0b10000000])
-              : new Uint8Array([0b0]);
+        ? new Uint8Array([0b10000000])
+        : new Uint8Array([0b0]);
     } else if (value instanceof Bool) {
       return Vote.decodeVote(value.valueOf());
     } else if (isNumber(value)) {
@@ -60,21 +61,21 @@ export default class Vote extends U8a {
   /**
    * @description returns a V2 conviction
    */
-  get conviction (): Conviction {
+  public get conviction (): Conviction {
     return this._conviction;
   }
 
   /**
    * @description true if the wrapped value is a positive vote
    */
-  get isAye (): boolean {
+  public get isAye (): boolean {
     return this._aye.eq(true);
   }
 
   /**
    * @description true if the wrapped value is a negative vote
    */
-  get isNay (): boolean {
+  public get isNay (): boolean {
     return !this.isAye;
   }
 }

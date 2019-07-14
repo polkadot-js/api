@@ -16,7 +16,7 @@ import U8a from '../codec/U8a';
  * as what is found in [[Text]] and [[Vector]])
  */
 export default class Bytes extends U8a {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     super(Bytes.decodeBytes(value));
   }
 
@@ -65,14 +65,14 @@ export default class Bytes extends U8a {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.length + Compact.encodeU8a(this.length).length;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Bytes';
   }
 
@@ -80,7 +80,7 @@ export default class Bytes extends U8a {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return isBare
       ? super.toU8a(isBare)
       : Compact.addLengthPrefix(this);

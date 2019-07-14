@@ -10,14 +10,14 @@ import Api from './../../src/promise';
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
-describe.skip('alex queries', () => {
+describe.skip('alex queries', (): void => {
   let api: Api;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async () => {
+  beforeEach(async (): Promise<Api> => {
     api = await Api.create({
       provider: new WsProvider(WS_URL)
     });
@@ -25,9 +25,9 @@ describe.skip('alex queries', () => {
     return api;
   });
 
-  it('retrieves the list of validators', (done) => {
+  it('retrieves the list of validators', (done): Promise<() => void> => {
     return (
-      api.query.staking.validators((res) => {
+      api.query.staking.validators((res): void => {
         console.error(res);
         console.log('api.query.staking.validators():', res.toJSON());
 
@@ -36,10 +36,10 @@ describe.skip('alex queries', () => {
     );
   });
 
-  describe('retrieves a single value', () => {
-    it('retrieves the list of stash validators', (done) => {
+  describe('retrieves a single value', (): void => {
+    it('retrieves the list of stash validators', (done): Promise<() => void> => {
       return (
-        api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
+        api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res): void => {
           console.error(res);
           console.log('api.query.staking.validators(id):', res.toJSON());
           done();
@@ -47,18 +47,18 @@ describe.skip('alex queries', () => {
       );
     });
 
-    it('Gets the hash of the last finalized header', async (done) => {
+    it('Gets the hash of the last finalized header', async (done): Promise<() => void> => {
       return (
-        api.rpc.chain.getFinalizedHead((head) => {
+        api.rpc.chain.getFinalizedHead((head): void => {
           expect(head instanceof Hash).toBe(true);
           done();
         })
       );
     });
 
-    it('Subscribes to the best finalized header on ALEX', async (done) => {
+    it('Subscribes to the best finalized header on ALEX', async (done): Promise<() => void> => {
       return (
-        api.rpc.chain.subscribeFinalizedHeads((head) => {
+        api.rpc.chain.subscribeFinalizedHeads((head): void => {
           expect(head instanceof Header).toBe(true);
           done();
         })
@@ -66,9 +66,9 @@ describe.skip('alex queries', () => {
     });
   });
 
-  it('derives a list of the controllers', (done) => {
+  it('derives a list of the controllers', (done): Promise<() => void> => {
     return (
-      api.derive.staking.controllers((res: [Array<AccountId>, Array<Option<AccountId>>]) => {
+      api.derive.staking.controllers((res: [AccountId[], Option<AccountId>[]]): void => {
         console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
         done();
@@ -76,15 +76,15 @@ describe.skip('alex queries', () => {
     );
   });
 
-  it('makes a query at a latest block (specified)', async () => {
+  it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
     const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 
     expect(events.length).not.toEqual(0);
   });
 
-  it('subscribes to events', (done) => {
-    return api.query.system.events((events: Vector<EventRecord>) => {
+  it('subscribes to events', (done): Promise<() => void> => {
+    return api.query.system.events((events: Vector<EventRecord>): void => {
       expect(events).not.toHaveLength(0);
       done();
     });

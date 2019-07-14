@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // Quick and dirty flatten (.flat() not available)
-export default function flattenUniq (list: Array<any>): Array<any> {
-  const flat = list.reduce((result, entry) => {
+export default function flattenUniq (list: any[]): any[] {
+  const flat = list.reduce((result, entry): any[] => {
     return result.concat(
       Array.isArray(entry)
         ? flattenUniq(entry)
@@ -13,6 +13,6 @@ export default function flattenUniq (list: Array<any>): Array<any> {
   }, []);
 
   return [...new Set(flat)]
-    .filter((value: any) => value)
+    .filter((value: any): any => value)
     .sort();
 }

@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
@@ -8,7 +8,7 @@ const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 async function main () {
   // Instantiate the API
-  const api = await ApiPromise.create(); //remove provider
+  const api = await ApiPromise.create(); // default provider
 
   // Constuct the keying after the API (crypto has an async init)
   const keyring = new Keyring({ type: 'sr25519' });

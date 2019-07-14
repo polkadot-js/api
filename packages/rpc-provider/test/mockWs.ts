@@ -8,22 +8,30 @@ const TEST_WS_URL = 'ws://localhost:9955';
 
 let server: Server;
 
-type ErrorDef = {
-  id: number,
+interface Scope {
+  body: { [index: string]: {} };
+  requests: number;
+  server: Server;
+  done: any;
+}
+
+interface ErrorDef {
+  id: number;
   error: {
-    code: number,
-    message: string
-  }
-};
+    code: number;
+    message: string;
+  };
+}
 
-type ReplyDef = {
-  id: number,
+interface ReplyDef {
+  id: number;
   reply: {
-    result: any
-  }
-};
+    result: any;
+  };
+}
 
-function createError ({ id, error: { code, message } }: ErrorDef) {
+// should be JSONRPC def return
+function createError ({ id, error: { code, message } }: ErrorDef): any {
   return {
     id,
     jsonrpc: '2.0',
@@ -34,7 +42,8 @@ function createError ({ id, error: { code, message } }: ErrorDef) {
   };
 }
 
-function createReply ({ id, reply: { result } }: ReplyDef) {
+// should be JSONRPC def return
+function createReply ({ id, reply: { result } }: ReplyDef): any {
   return {
     id,
     jsonrpc: '2.0',
@@ -42,24 +51,25 @@ function createReply ({ id, reply: { result } }: ReplyDef) {
   };
 }
 
-function mockWs (requests: Array<{ method: string }>) {
+// scope definition returned
+function mockWs (requests: { method: string }[]): Scope {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;
-  const scope: {
-    body: { [index: string]: {} },
-    requests: number,
-    server: Server,
-    done: any
-  } = { body: {}, requests: 0, server, done: () =>
-      server.stop(() => {
+  const scope: Scope = {
+    body: {},
+    done: (): void => {
+      server.stop((): void => {
         // ignore
-      })
+      });
+    },
+    requests: 0,
+    server
   };
 
-  server.on('connection', (socket) => {
+  server.on('connection', (socket): void => {
     // @ts-ignore definitions are wrong, this is 'on', not 'onmessage'
-    socket.on('message', (body: { [index: string]: {} }) => {
+    socket.on('message', (body: { [index: string]: {} }): void => {
       const request = requests[requestCount];
       // @ts-ignore Yes, SHOULD be fixed, this is a mess
       const response = request.error

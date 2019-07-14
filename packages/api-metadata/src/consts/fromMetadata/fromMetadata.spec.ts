@@ -11,8 +11,8 @@ import fromMetadata from '../fromMetadata';
 const metadata = new Metadata(json);
 const consts = fromMetadata(metadata);
 
-describe('fromMetadata', () => {
-  it('should return constants with the correct type and value', () => {
+describe('fromMetadata', (): void => {
+  it('should return constants with the correct type and value', (): void => {
     expect(consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
     expect(consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
   });

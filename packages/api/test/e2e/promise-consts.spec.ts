@@ -6,20 +6,20 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber } from '@polkadot/types';
 
-describe.skip('e2e consts', () => {
+describe.skip('e2e consts', (): void => {
   let api: ApiPromise;
 
-  beforeEach(() => {
+  beforeEach((): Promise<ApiPromise> => {
     api = new ApiPromise(new WsProvider('ws://127.0.0.1:9944'));
 
     return api.isReady;
   });
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
   });
 
-  it('democracy.cooloffPeriod parameter type', () => {
+  it('democracy.cooloffPeriod parameter type', (): void => {
     expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
     expect(api.consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
   });

@@ -23,7 +23,7 @@ const BITLENGTH: UIntBitLength = 64;
 export default class Moment extends Date implements Codec {
   protected raw: Date; // FIXME Remove this once we convert all types out of Base
 
-  constructor (value: Moment | Date | AnyNumber = 0) {
+  public constructor (value: Moment | Date | AnyNumber = 0) {
     super(
       Moment.decodeMoment(value)
     );
@@ -31,7 +31,7 @@ export default class Moment extends Date implements Codec {
     this.raw = this;
   }
 
-  static decodeMoment (value: Moment | Date | AnyNumber): Date {
+  public static decodeMoment (value: Moment | Date | AnyNumber): Date {
     if (value instanceof Date) {
       return value;
     } else if (isU8a(value)) {
@@ -48,42 +48,42 @@ export default class Moment extends Date implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return BITLENGTH / 8;
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.getTime() === 0;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return Moment.decodeMoment(other).getTime() === this.getTime();
   }
 
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength (): UIntBitLength {
+  public bitLength (): UIntBitLength {
     return BITLENGTH;
   }
 
   /**
    * @description Returns the BN representation of the timestamp
    */
-  toBn (): BN {
+  public toBn (): BN {
     return new BN(this.toNumber());
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (isLe: boolean = false): string {
+  public toHex (isLe: boolean = false): string {
     return bnToHex(this.toBn(), {
       bitLength: BITLENGTH,
       isLe,
@@ -94,7 +94,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  public toJSON (): any {
     // FIXME Return type should be number, but conflicts with Date.toJSON()
     // which returns string
     return this.toNumber();
@@ -103,21 +103,21 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns the number representation for the timestamp
    */
-  toNumber (): number {
+  public toNumber (): number {
     return Math.ceil(this.getTime() / 1000);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Moment';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
   }
@@ -126,7 +126,8 @@ export default class Moment extends Date implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 }
