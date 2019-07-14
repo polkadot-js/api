@@ -10,10 +10,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { drr } from '../util/drr';
 import { info } from './info';
 
-export function eraLength (api: ApiInterfaceRx) {
+export function eraLength (api: ApiInterfaceRx): () => Observable<BN> {
   return (): Observable<BN> =>
     info(api)().pipe(
-      map(({ eraLength }) => eraLength),
+      map(({ eraLength }): BN => eraLength),
       drr()
     );
 }

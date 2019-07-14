@@ -12,15 +12,15 @@ import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
 import { constructInfo } from './referendumInfo';
 
-export function referendumInfos (api: ApiInterfaceRx) {
+export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<Option<ReferendumInfoExtended>[]> {
   return (ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
     return (
       !ids || !ids.length
         ? of([] as Option<ReferendumInfo>[])
         : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vector<Option<ReferendumInfo>>>
     ).pipe(
-      map((infos) =>
-        ids.map((id, index) =>
+      map((infos): Option<ReferendumInfoExtended>[] =>
+        ids.map((id, index): Option<ReferendumInfoExtended> =>
           constructInfo(id, infos[index])
         )
       ),

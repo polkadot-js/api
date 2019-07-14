@@ -25,13 +25,11 @@ export type HeaderAndValidators = [Header, AccountId[]];
  * });
  * ```
  */
-export function subscribeNewHead (api: ApiInterfaceRx) {
+export function subscribeNewHead (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
-        filter((header: Header) =>
-          header && !!header.blockNumber
-        ),
+        filter((header: Header): boolean => !!header && !!header.blockNumber),
         switchMap((header: Header): Observable<HeaderAndValidators> =>
           (combineLatest([
             of(header),
@@ -43,7 +41,7 @@ export function subscribeNewHead (api: ApiInterfaceRx) {
               : of([])
           ]) as Observable<HeaderAndValidators>)
         ),
-        map(([header, validators]) =>
+        map(([header, validators]): HeaderExtended =>
           new HeaderExtended(header, validators)
         ),
         drr()

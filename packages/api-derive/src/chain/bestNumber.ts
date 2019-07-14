@@ -21,12 +21,12 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function bestNumber (api: ApiInterfaceRx) {
+export function bestNumber (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
-        filter((header: Header) => header && !!header.blockNumber),
-        map(({ blockNumber }: Header) => blockNumber),
+        filter((header: Header): boolean => !!header && !!header.blockNumber),
+        map(({ blockNumber }: Header): BlockNumber => blockNumber),
         drr()
       );
 }

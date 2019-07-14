@@ -26,7 +26,7 @@ const ZERO = new BN(0);
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx) {
+export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return (): Observable<DerivedContractFees> => {
     const queryBase = api.query.contracts || api.query.contract;
 
@@ -48,7 +48,7 @@ export function fees (api: ApiInterfaceRx) {
         map(([
           [rentByteFee, rentDepositOffset, tombstoneDeposit],
           [callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]
-        ]) => ({
+        ]): DerivedContractFees => ({
           callBaseFee,
           contractFee,
           createBaseFee,
@@ -95,7 +95,7 @@ export function fees (api: ApiInterfaceRx) {
         ]) as unknown as Observable<BN[]>
     ).pipe(
       map(
-        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees => ({
           callBaseFee,
           contractFee,
           createBaseFee,

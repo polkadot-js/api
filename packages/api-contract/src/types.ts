@@ -68,29 +68,25 @@ export interface ContractABIFn extends ContractABIMeta {
   (...args: CodecArg[]): Uint8Array;
 }
 
-export type IAbiMessages = Record<string, ContractABIFn>;
+export type AbiMessages = Record<string, ContractABIFn>;
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IAbi {
+export interface InterfaceAbi {
   readonly abi: ContractABI;
   readonly deploy: ContractABIFn;
-  readonly messages: IAbiMessages;
+  readonly messages: AbiMessages;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IContractBase<ApiType> {
-  readonly abi: IAbi;
+export interface ContractBase<ApiType> {
+  readonly abi: InterfaceAbi;
   readonly api: ApiObject<ApiType>;
   readonly apiContracts: SubmittableModuleExtrinsics<ApiType>;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IContractCalls {
+export interface InterfaceContractCalls {
   [index: string]: Function;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IContract {
+export interface InterfaceContract {
   readonly address: Address;
-  readonly calls: IContractCalls;
+  readonly calls: InterfaceContractCalls;
 }

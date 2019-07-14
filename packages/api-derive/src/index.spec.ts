@@ -12,8 +12,8 @@ const testFunction = (api: ApiRx) => {
   return <
     Section extends keyof Derive,
     Method extends keyof (typeof api.derive[Section])
-  >(section: Section, method: Method, inputs: any[]) => {
-    describe(`derive.${section}.${method}`, () => {
+  >(section: Section, method: Method, inputs: any[]): void => {
+    describe(`derive.${section}.${method}`, (): void => {
       it('should be a function', (): void => {
         expect(typeof api.derive[section][method]).toBe('function');
       });
@@ -32,7 +32,7 @@ describe.skip('derive', (): void => {
     const api = new ApiRx(new MockProvider());
 
     beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
+      api.isReady.subscribe((): void => done());
     });
 
     testFunction(api)('accounts', 'idAndIndex', []);
@@ -73,7 +73,7 @@ describe.skip('derive', (): void => {
     });
 
     beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
+      api.isReady.subscribe((): void => done());
     });
 
     // override

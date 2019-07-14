@@ -16,11 +16,10 @@ import Abi from './Abi';
 import RxBase from './RxBase';
 import RxContract from './RxContract';
 
-type IBlueprintCreateResultSubscription = Observable<BlueprintCreateResult>;
+type BlueprintCreateResultSubscription = Observable<BlueprintCreateResult>;
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IBlueprintCreate {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription;
+export interface BlueprintCreate {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription;
 }
 
 class BlueprintCreateResult extends SubmittableResult {
@@ -43,13 +42,13 @@ export default class Blueprint extends RxBase {
     this.codeHash = new Hash(codeHash);
   }
 
-  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): IBlueprintCreate {
-    const signAndSend = (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription => {
+  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
+    const signAndSend = (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription => {
       return this.apiContracts
         .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
         .signAndSend(account)
         .pipe(
-          map((result: SubmittableResult) => {
+          map((result: SubmittableResult): BlueprintCreateResult => {
             let contract: RxContract | undefined;
 
             if (result.isFinalized) {

@@ -24,12 +24,14 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function idToIndex (api: ApiInterfaceRx) {
+export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexes(api)()
       .pipe(
         startWith({}),
-        map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()]),
+        map((indexes: AccountIndexes): AccountIndex | undefined =>
+          (indexes || {})[accountId.toString()]
+        ),
         drr()
       );
 }

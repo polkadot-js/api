@@ -24,7 +24,7 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx) {
+export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
   return (): Observable<DerivedFees> => {
     return (
       api.consts.balances
@@ -46,7 +46,7 @@ export function fees (api: ApiInterfaceRx) {
           api.query.balances.transferFee
         ]) as any as Observable<[BN, BN, BN, BN, BN]>
     ).pipe(
-      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,

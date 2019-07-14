@@ -8,22 +8,22 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Balance, Vector, Vote } from '@polkadot/types';
 
-import { DerivedReferendumVote } from '../types';
+import { DerivedBalances, DerivedReferendumVote } from '../types';
 import { drr } from '../util/drr';
 import { votes } from './votes';
 import { votingBalances } from '../balances/votingBalances';
 
-export function referendumVotesFor (api: ApiInterfaceRx) {
+export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | number) => Observable<DerivedReferendumVote[]> {
   return (referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
     (api.query.democracy.votersFor<Vector<AccountId>>(referendumId)).pipe(
-      switchMap((votersFor) =>
+      switchMap((votersFor): Observable<[Vector<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
           votes(api)(referendumId as BN, votersFor),
           votingBalances(api)(votersFor)
         ])
       ),
-      map(([votersFor, votes, balances]) =>
+      map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
           accountId,
           balance: balances[index].votingBalance || new Balance(0),

@@ -24,10 +24,10 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
-    const totals = locks.filter((value) => bestNumber && value.until.gt(bestNumber));
+    const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     lockedBalance = totals[0]
-      ? bnMax(...totals.map(({ amount }) => amount)) as Balance
+      ? bnMax(...totals.map(({ amount }): Balance => amount)) as Balance
       : ZERO;
   }
 
@@ -73,10 +73,10 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
  * });
  * ```
  */
-export function all (api: ApiInterfaceRx) {
+export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]) =>
+      switchMap(([accountId]): Observable<Result> =>
         (accountId
           ? combineLatest([
             of(accountId),

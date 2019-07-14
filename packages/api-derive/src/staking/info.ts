@@ -52,7 +52,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // group the Unlockchunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
-  const results = Object.entries(groupedResult).map(([eraString, value]) => ({
+  const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
     value,
     remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
   }));
@@ -98,7 +98,7 @@ function withStashController (api: ApiInterfaceRx, accountId: AccountId, control
       ])
     ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
+    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
 
       return {
@@ -132,7 +132,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<Keys | SessionKey>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
+    map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]): DerivedStaking => ({
       accountId,
       controllerId,
       nextSessionId: nextSessionId(nextKeyFor),
@@ -150,7 +150,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
 /**
  * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
-export function info (api: ApiInterfaceRx) {
+export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = new AccountId(_accountId);
 
@@ -160,7 +160,7 @@ export function info (api: ApiInterfaceRx) {
         [api.query.staking.ledger, accountId] // try to map to stash
       ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>]>
     ).pipe(
-      switchMap(([controllerId, stakingLedger]) =>
+      switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
         controllerId.isSome
           // we have a controller, so input was a stash, great
           ? withStashController(api, accountId, controllerId.unwrap())

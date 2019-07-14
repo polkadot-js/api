@@ -10,10 +10,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { drr } from '../util/drr';
 import { info } from './info';
 
-export function eraProgress (api: ApiInterfaceRx) {
+export function eraProgress (api: ApiInterfaceRx): () => Observable<BN> {
   return (): Observable<BN> =>
     info(api)().pipe(
-      map(({ eraProgress }) => eraProgress),
+      map(({ eraProgress }): BN => eraProgress),
       drr()
     );
 }

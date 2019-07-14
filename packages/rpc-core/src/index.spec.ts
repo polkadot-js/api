@@ -9,7 +9,7 @@ import Rpc from '.';
 describe('Api', (): void => {
   it('requires a provider with a send method', (): void => {
     expect(
-      () => new Rpc({} as any)
+      (): Rpc => new Rpc({} as any)
     ).toThrow(/Expected Provider/);
   });
 
@@ -17,7 +17,7 @@ describe('Api', (): void => {
     const rpc = new Rpc(new MockProvider());
 
     expect(
-      Object.keys(rpc).filter((key) => !key.startsWith('_'))
+      Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
       'provider',
       'author', 'chain', 'state', 'system'

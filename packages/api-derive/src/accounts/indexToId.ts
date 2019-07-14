@@ -23,8 +23,8 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function indexToId (api: ApiInterfaceRx) {
-  return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
+export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
+  return (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
     const querySection = api.query.indices || api.query.balances;
     const accountIndex = _accountIndex instanceof AccountIndex
       ? _accountIndex
@@ -33,7 +33,7 @@ export function indexToId (api: ApiInterfaceRx) {
     return (querySection.enumSet<Vector<AccountId>>(accountIndex.div(ENUMSET_SIZE)))
       .pipe(
         startWith([]),
-        map((accounts) =>
+        map((accounts): AccountId | undefined =>
           (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]
         ),
         drr()

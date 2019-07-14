@@ -12,11 +12,11 @@ import { drr } from '../util/drr';
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
-export function controllers (api: ApiInterfaceRx) {
+export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[], Option<AccountId>[]]> {
   return (): Observable<[AccountId[], Option<AccountId>[]]> =>
     (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
       .pipe(
-        switchMap(([stashIds]) =>
+        switchMap(([stashIds]): Observable<[AccountId[], Option<AccountId>[]]> =>
           combineLatest([
             of(stashIds),
             api.query.staking.bonded.multi(stashIds) as any as Observable<Option<AccountId>[]>

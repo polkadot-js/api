@@ -29,7 +29,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * });
  * ```
  */
-export function indexes (api: ApiInterfaceRx) {
+export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return (): Observable<AccountIndexes> => {
     return (api.query.indices.nextEnumSet<AccountIndex>())
       .pipe(
@@ -37,11 +37,11 @@ export function indexes (api: ApiInterfaceRx) {
         // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
         // specific index - each query can return up to ENUMSET_SIZE (64) records, each
         // containing an AccountId
-        switchMap((next: AccountIndex) =>
+        switchMap((next: AccountIndex): Observable<any> =>
           api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
         ),
-        map((all: (AccountId[] | undefined)[]) =>
-          (all || []).reduce((result, list, outerIndex) => {
+        map((all: (AccountId[] | undefined)[]): AccountIndexes =>
+          (all || []).reduce((result, list, outerIndex): AccountIndexes => {
             (list || []).forEach((accountId, innerIndex): void => {
               // re-create the index based on position 0 is [0][0] and likewise
               // 64 (0..63 in first) is [1][0] (the first index value in set 2)

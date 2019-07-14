@@ -67,7 +67,7 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
 /**
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
-export function info (api: ApiInterfaceRx) {
+export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
   return (): Observable<DerivedSessionInfo> => {
     // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
     // pre-94 we had more info and needed to calculate (handle old/Alex first)

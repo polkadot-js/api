@@ -49,7 +49,7 @@ export function createMethod (name: string, method: Partial<ContractABIMethod> &
     assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
     const u8a = new Clazz(
-      args.reduce((mapped, { name }, index) => {
+      args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
         mapped[name] = params[index];
 
         return mapped;

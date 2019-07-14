@@ -118,48 +118,49 @@ describe.skip('e2e state', (): void => {
       });
     });
 
-    it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async (done) => {
+    it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async (done):
+    Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
 
       rpc.state
         .getChildKeys(storageKeys[0], '0x')
-        .subscribe((keys: StorageKey[]) => {
+        .subscribe((keys: StorageKey[]): void => {
           expect(keys.length).toBeGreaterThanOrEqual(1);
           done();
         });
     });
 
-    it('getChildStorage(): retrieves the default value of the flipper smart contract', async (done) => {
+    it('getChildStorage(): retrieves the default value of the flipper smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
       const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
       rpc.state
         .getChildStorage(storageKeys[0], childStorageKeys[0])
-        .subscribe((storage: StorageData) => {
+        .subscribe((storage: StorageData): void => {
           expect(storage.toString()).toBe('0x00');
           done();
         });
     });
 
-    it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async (done) => {
+    it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
       const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
       rpc.state
         .getChildStorageHash(storageKeys[0], childStorageKeys[0])
-        .subscribe((storage: StorageData) => {
+        .subscribe((storage: StorageData): void => {
           expect(storage.toString()).toBe('0x03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314');
           done();
         });
     });
 
-    it('getChildStorageSize(): retrieves the size of the flipper smart contract', async (done) => {
+    it('getChildStorageSize(): retrieves the size of the flipper smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
       const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
       rpc.state
         .getChildStorageSize(storageKeys[0], childStorageKeys[0])
-        .subscribe((storage: StorageData) => {
+        .subscribe((storage: StorageData): void => {
           expect(storage.toString()).toBe('1');
           done();
         });

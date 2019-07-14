@@ -28,7 +28,7 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
  * });
  * ```
  */
-export function idAndIndex (api: ApiInterfaceRx) {
+export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
   return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
@@ -41,7 +41,7 @@ export function idAndIndex (api: ApiInterfaceRx) {
 
         return idToIndex(api)(accountId).pipe(
           startWith(undefined),
-          map((accountIndex) => [accountId, accountIndex] as AccountIdAndIndex),
+          map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
           drr()
         );
       }
@@ -50,7 +50,7 @@ export function idAndIndex (api: ApiInterfaceRx) {
 
       return indexToId(api)(accountIndex).pipe(
         startWith(undefined),
-        map((accountId) => [accountId, accountIndex] as AccountIdAndIndex),
+        map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
         drr()
       );
     } catch (error) {

@@ -10,7 +10,7 @@ import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { all } from './all';
 
-export function votingBalances (api: ApiInterfaceRx) {
+export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> {
   return (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> => {
     return (
       !addresses || !addresses.length

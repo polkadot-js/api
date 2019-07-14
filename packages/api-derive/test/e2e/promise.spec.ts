@@ -50,16 +50,16 @@ describe.skip('derive e2e', (): void => {
     });
   });
 
-  it('retrieves the fees (api.queryMulti)', (done) => {
-    return api.derive.balances.fees((fees: DerivedFees) => {
+  it('retrieves the fees (api.queryMulti)', (done): Promise<() => void> => {
+    return api.derive.balances.fees((fees: DerivedFees): void => {
       console.error('fees', JSON.stringify(fees));
 
       done();
     });
   });
 
-  it('retrieves the balances', (done) => {
-    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance: DerivedBalances) => {
+  it('retrieves the balances', (done): Promise<() => void> => {
+    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance: DerivedBalances): void => {
       console.error(JSON.stringify(balance));
 
       if (balance.freeBalance.gtn(1)) {
@@ -68,8 +68,8 @@ describe.skip('derive e2e', (): void => {
     });
   });
 
-  it('retrieves balances for a problematic account', (done) => {
-    return api.derive.balances.all('5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N', (balance: DerivedBalances) => {
+  it('retrieves balances for a problematic account', (done): Promise<() => void> => {
+    return api.derive.balances.all('5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N', (balance: DerivedBalances): void => {
       console.error(JSON.stringify(balance));
 
       if (balance.availableBalance.eqn(0)) {
@@ -78,10 +78,10 @@ describe.skip('derive e2e', (): void => {
     });
   });
 
-  it('retrieves all session info', (done) => {
+  it('retrieves all session info', (done): Promise<() => void> => {
     let count = 0;
 
-    return api.derive.session.info((info: DerivedSessionInfo) => {
+    return api.derive.session.info((info: DerivedSessionInfo): void => {
       console.error(JSON.stringify(info));
 
       // 5 blocks only, then go our merry way
@@ -91,10 +91,10 @@ describe.skip('derive e2e', (): void => {
     });
   });
 
-  it('retrieves all staking info (for controller)', (done) => {
+  it('retrieves all staking info (for controller)', (done): Promise<() => void> => {
     const accountId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
-    return api.derive.staking.info(accountId, (info: DerivedStaking) => {
+    return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
       console.error(JSON.stringify(info));
 
       expect(info.accountId.eq(accountId)).toBe(true);
@@ -106,7 +106,7 @@ describe.skip('derive e2e', (): void => {
     });
   });
 
-  it('retrieves all staking info (for stash)', (done) => {
+  it('retrieves all staking info (for stash)', (done): Promise<() => void> => {
     const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
     return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
@@ -150,17 +150,18 @@ describe.skip('derive e2e', (): void => {
     const PAYEE = 2;
     const alicePair = testingPairs().alice;
 
-    it('Set payee for ALICE to 2', (done) => {
-      return api.tx.staking.setPayee(PAYEE)
-        .signAndSend(alicePair, (result: SubmittableResult) => {
+    it('Set payee for ALICE to 2', (done): Promise<() => void> => {
+      return api.tx.staking
+        .setPayee(PAYEE)
+        .signAndSend(alicePair, (result: SubmittableResult): void => {
           if (result.status.isFinalized) {
             done();
           }
         });
     });
 
-    it('verifies payee for ALICE_STASH', (done) => {
-      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+    it('verifies payee for ALICE_STASH', (done): Promise<() => void> => {
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking): void => {
         if (!info.rewardDestination) {
           return done.fail(new Error('rewardDestination is undefined.'));
         } else {
@@ -171,13 +172,13 @@ describe.skip('derive e2e', (): void => {
       });
     });
 
-    it('staking.info updates itself after changing reward destination', async (done) => {
+    it('staking.info updates itself after changing reward destination', async (done): Promise<void> => {
       const stashId = testingPairs().alice_stash.address;
 
       // start by setting the reqred to Staked, so we have a common starting point
       await api.tx.staking
         .setPayee(new RewardDestination('Staked'))
-        .signAndSend(testingPairs().alice, ({ status }) => {
+        .signAndSend(testingPairs().alice, ({ status }): void => {
           if (status.isFinalized) {
             console.error('setPayee(Staked) isFinalized');
           }
@@ -186,7 +187,7 @@ describe.skip('derive e2e', (): void => {
       let count = 0; // The # of times we got a callback response from api.derive.staking.info
 
       // Subscribe to staking.info
-      api.derive.staking.info(stashId, (result) => {
+      api.derive.staking.info(stashId, (result): void => {
         ++count;
 
         console.error('***', count, JSON.stringify(result));
@@ -200,7 +201,7 @@ describe.skip('derive e2e', (): void => {
       setTimeout(async (): Promise<void> => {
         await api.tx.staking
           .setPayee(new RewardDestination('Stash'))
-          .signAndSend(testingPairs().alice, ({ status }) => {
+          .signAndSend(testingPairs().alice, ({ status }): void => {
             if (status.isFinalized) {
               console.error('setPayee(Stash) isFinalized');
             }

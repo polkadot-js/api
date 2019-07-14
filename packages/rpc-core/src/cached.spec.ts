@@ -12,7 +12,7 @@ describe('Cached Observables', (): void => {
   let rpc: Rpc;
   const keyring = testingPairs();
 
-  beforeEach(() => {
+  beforeEach((): void => {
     rpc = new Rpc(new MockProvider());
   });
 

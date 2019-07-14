@@ -9,13 +9,15 @@ import { AccountId, Vector, Vote } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
-export function votes (api: ApiInterfaceRx) {
+export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
   return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
     return ((
       !accountIds || !accountIds.length
         ? of([])
         : api.query.democracy.voteOf.multi(
-          accountIds.map((accountId) => [referendumId, accountId])
+          accountIds.map((accountId): [BN, AccountId] =>
+            [referendumId, accountId]
+          )
         )
     ) as Observable<Vector<Vote>>).pipe(drr());
   };

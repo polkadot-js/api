@@ -4,13 +4,13 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
+import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 
 import memoize from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
@@ -139,15 +139,15 @@ export default class Rpc implements RpcInterface {
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1)
         .pipe(
-          map(() => this.formatInputs(method, values)),
-          switchMap((params) =>
+          map((): Codec[] => this.formatInputs(method, values)),
+          switchMap((params): Observable<[Codec[], any]> =>
             combineLatest([
               of(params),
-              from(this.provider.send(rpcName, params.map((param) => param.toJSON())))
+              from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
             ])
           ),
-          map(([params, result]) => this.formatOutput(method, params, result)),
-          catchError((error) => {
+          map(([params, result]): any => this.formatOutput(method, params, result)),
+          catchError((error): any => {
             const message = this.createErrorMessage(method, error);
 
             l.error(message);
@@ -172,13 +172,13 @@ export default class Rpc implements RpcInterface {
     const subType = `${method.section}_${updateType}`;
 
     const call = (...values: any[]): Observable<any> => {
-      return new Observable((observer: Observer<any>) => {
+      return new Observable((observer: Observer<any>): VoidCallback => {
         let subscriptionPromise: Promise<number>;
 
         try {
           const params = this.formatInputs(method, values);
-          const paramsJson = params.map((param) => param.toJSON());
-          const update = (error?: Error, result?: any) => {
+          const paramsJson = params.map((param): AnyJson => param.toJSON());
+          const update = (error?: Error, result?: any): void => {
             if (error) {
               l.error(this.createErrorMessage(method, error));
               return;
@@ -211,8 +211,10 @@ export default class Rpc implements RpcInterface {
           memoized.delete(...values);
           // Unsubscribe from provider
           subscriptionPromise
-            .then((subscriptionId) => this.provider.unsubscribe(subType, unsubName, subscriptionId))
-            .catch((error: Error) => {
+            .then((subscriptionId): Promise<boolean> =>
+              this.provider.unsubscribe(subType, unsubName, subscriptionId)
+            )
+            .catch((error: Error): void => {
               const message = this.createErrorMessage(method, error);
 
               l.error(message);
