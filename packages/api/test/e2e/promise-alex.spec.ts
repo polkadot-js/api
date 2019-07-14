@@ -25,6 +25,11 @@ describe.skip('alex queries', (): void => {
     return api;
   });
 
+  it('verifies that node is v1', (done) => {
+    expect(api.isV2).toBe(false);
+    done();
+  });
+
   it('retrieves the list of validators', (done): Promise<() => void> => {
     return (
       api.query.staking.validators((res): void => {

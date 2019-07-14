@@ -79,6 +79,8 @@ export default abstract class ApiBase<ApiType> {
 
   private _isReady: boolean = false;
 
+  private _isV2: boolean = true;
+
   protected readonly _options: ApiOptions;
 
   private _query?: QueryableStorage<ApiType>;
@@ -474,6 +476,10 @@ export default abstract class ApiBase<ApiType> {
           this.emit('ready', this);
         }
 
+        if (!Object.keys(this.consts).length) {
+          this._isV2 = false;
+        }
+
         healthTimer = setInterval((): void => {
           this._rpcCore.system.health().toPromise().catch((): void => {
             // ignore
@@ -538,6 +544,23 @@ export default abstract class ApiBase<ApiType> {
     }
 
     return true;
+  }
+
+    /**
+   * @description Returns true if the api is connected to a substrate node v2.
+   *
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * const isV2 = await api.isV2();
+   * ```
+   */
+  public get isV2 (): boolean {
+    assert(!isUndefined(this._isV2), INIT_ERROR);
+
+    return this._isV2;
   }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
