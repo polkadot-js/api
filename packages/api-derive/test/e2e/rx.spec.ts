@@ -197,6 +197,7 @@ describe.skip('Api-RX derive e2e', (): void => {
 
     describe('subscribeNewHead', (): void => {
       it('gets an observable of the current block header and it\'s author', async (done): Promise<void> => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended): void => {
           // WIP https://github.com/polkadot-js/api/issues/868
           done();

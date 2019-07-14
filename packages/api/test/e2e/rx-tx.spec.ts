@@ -29,14 +29,14 @@ describe.skip('Rx e2e transactions', (): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.balances
             .transfer(keyring.bob.address, 12345)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }
@@ -47,14 +47,14 @@ describe.skip('Rx e2e transactions', (): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.democracy
             .propose(api.tx.system.setCode('0xdeadbeef'), 10000)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }

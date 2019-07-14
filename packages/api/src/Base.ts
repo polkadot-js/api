@@ -22,7 +22,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, U64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import * as srmlTypes from '@polkadot/types/srml/definitions';
@@ -570,7 +570,7 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod(
-      (calls: QueryableStorageMultiArgs<ApiType>) => {
+      (calls: QueryableStorageMultiArgs<ApiType>): Observable<Codec[]> => {
         const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...CodecArg[]] =>
           // the input is a QueryableStorageEntry, convert to StorageEntry
           Array.isArray(arg)
@@ -625,7 +625,7 @@ export default abstract class ApiBase<ApiType> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
-        (...args: any[]) => {
+        (...args: any[]): Observable<Codec> => {
           return this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
             .subscribeStorage([
@@ -646,18 +646,22 @@ export default abstract class ApiBase<ApiType> {
     decorated.creator = creator;
 
     decorated.at = decorateMethod(
-      (hash: Hash, arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorage(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1],
-        hash)
+      (hash: Hash, arg1?: CodecArg, arg2?: CodecArg): Observable<Codec> =>
+        this._rpcCore.state.getStorage(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1],
+          hash
+        )
     );
 
     decorated.hash = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageHash(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1])
+      (arg1?: CodecArg, arg2?: CodecArg): Observable<Hash> =>
+        this._rpcCore.state.getStorageHash(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1]
+        )
     );
 
     decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
@@ -665,16 +669,21 @@ export default abstract class ApiBase<ApiType> {
 
     // When using double map storage function, user need to path double map key as an array
     decorated.multi = decorateMethod(
-      (args: (CodecArg[] | CodecArg)[]) =>
+      (args: (CodecArg | CodecArg[])[]): Observable<Codec[]> =>
         this._rpcCore.state
-          .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
+          .subscribeStorage(
+            args.map((arg: CodecArg[] | CodecArg): [StorageEntry, CodecArg | CodecArg[]] =>
+              [creator, arg]
+            )
+          )
     );
 
     decorated.size = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageSize(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1])
+      (arg1?: CodecArg, arg2?: CodecArg): Observable<U64> =>
+        this._rpcCore.state.getStorageSize(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1])
     );
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
@@ -750,18 +759,21 @@ export default abstract class ApiBase<ApiType> {
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
     return decorateMethod(
-      () => this._rpcCore.state
-        .subscribeStorage([method.headKey])
-        .pipe(
-          switchMap(([key]: Codec[]) => {
-            head = key;
+      (): Observable<LinkageResult> =>
+        this._rpcCore.state
+          .subscribeStorage([method.headKey])
+          .pipe(
+            switchMap(([key]: Codec[]): Observable<LinkageResult> => {
+              head = key;
 
-            return getNext(key);
-          })
-        )
+              return getNext(key);
+            })
+          )
     );
   }
 
+  // FIXME I have no idea how to get this done
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);

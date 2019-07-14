@@ -11,15 +11,16 @@ function keys<T extends object> (obj: T): (keyof T)[] {
   return Object.keys(obj) as (keyof T)[];
 }
 
+// FIXME the return value typings here is horrible and not DRY
 function decorateMethods<ApiType, Section extends Record<keyof Section, (...args: any[]) => any>> (
   section: Section,
   decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<ApiType, Method>
-) {
+): { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> } {
   return keys(section).reduce(
     <MethodName extends keyof Section>(
       acc: { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> },
       methodName: MethodName
-    ) => {
+    ): { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> } => {
       const method = section[methodName];
 
       acc[methodName] = decorateMethod(method) as any;
@@ -33,17 +34,18 @@ function decorateMethods<ApiType, Section extends Record<keyof Section, (...args
 /**
  * This is a section decorator which keeps all type information.
  */
+// FIXME the return value typings here is horrible and not DRY
 export function decorateSections<ApiType, AllSections extends {
   [SectionName in keyof AllSections]: Record<keyof AllSections[SectionName], (...args: any[]) => any>
 }> (
   allSections: AllSections,
   decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<ApiType, Method>
-) {
+): { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } } {
   return keys(allSections).reduce(
     <MethodName extends keyof AllSections>(
       acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } },
       sectionName: MethodName
-    ) => {
+    ): { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } } => {
       acc[sectionName] = decorateMethods(allSections[sectionName], decorateMethod);
 
       return acc;

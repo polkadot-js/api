@@ -58,6 +58,8 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
 export const derive = { accounts, balances, chain, contracts, democracy, session, staking };
 export type Derive = typeof derive;
 
+// FIXME I have no idea how to get this done
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}) {
   return {
     ...injectFunctions(api, derive),
