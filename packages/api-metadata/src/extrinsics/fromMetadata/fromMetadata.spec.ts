@@ -13,11 +13,11 @@ const newExtrinsics = fromV6(metadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {
-    expect(() => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
+    expect((): any => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {
-    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
+    expect((): any => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
   });
 
   it('should return properly-encoded transactions', (): void => {

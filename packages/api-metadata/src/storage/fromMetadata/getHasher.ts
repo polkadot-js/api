@@ -12,28 +12,28 @@ export type HasherFunction = (data: HasherInput) => Uint8Array;
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
   // This one is the default for PlainType storage keys
   if (!hasher) {
-    return (data: HasherInput) => xxhashAsU8a(data, 128);
+    return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
   }
 
   if (hasher.isBlake2128) {
-    return (data: HasherInput) => blake2AsU8a(data, 128);
+    return (data: HasherInput): Uint8Array => blake2AsU8a(data, 128);
   }
 
   if (hasher.isBlake2256) {
-    return (data: HasherInput) => blake2AsU8a(data, 256);
+    return (data: HasherInput): Uint8Array => blake2AsU8a(data, 256);
   }
 
   if (hasher.isTwox128) {
-    return (data: HasherInput) => xxhashAsU8a(data, 128);
+    return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
   }
 
   if (hasher.isTwox256) {
-    return (data: HasherInput) => xxhashAsU8a(data, 256);
+    return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 256);
   }
 
   // FIXME Add Twox128Concat
 
   // All cases should be handled above, but if not, return Twox128 for
   // backwards-compatbility
-  return (data: HasherInput) => xxhashAsU8a(data, 128);
+  return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
 }

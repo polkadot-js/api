@@ -586,10 +586,10 @@ export default abstract class ApiBase<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
+    return Object.keys(extrinsics).reduce((result, sectionName): SubmittableExtrinsics<ApiType> => {
       const section = extrinsics[sectionName];
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+      result[sectionName] = Object.keys(section).reduce((result, methodName): SubmittableModuleExtrinsics<ApiType> => {
         result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
 
         return result;
@@ -608,10 +608,10 @@ export default abstract class ApiBase<ApiType> {
   }
 
   private decorateStorage<ApiType> (storage: Storage, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
-    return Object.keys(storage).reduce((result, sectionName) => {
+    return Object.keys(storage).reduce((result, sectionName): QueryableStorage<ApiType> => {
       const section = storage[sectionName];
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+      result[sectionName] = Object.keys(section).reduce((result, methodName): QueryableModuleStorage<ApiType> => {
         result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
 
         return result;
@@ -691,7 +691,7 @@ export default abstract class ApiBase<ApiType> {
     const getNext = (key: Codec): Observable<LinkageResult> => {
       return this._rpcCore.state.subscribeStorage([[method, key]])
         .pipe(
-          switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
+          switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
             const linkage = data[1];
 
             result.set(key, data);

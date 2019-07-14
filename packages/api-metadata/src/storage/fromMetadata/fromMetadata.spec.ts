@@ -16,11 +16,11 @@ const storage = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if the storage function expects an argument', (): void => {
-    expect(() => storage.balances.freeBalance()).toThrowError(/expects one argument/);
+    expect((): any => storage.balances.freeBalance()).toThrowError(/expects one argument/);
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {
-    expect(() => storage.timestamp.now()).not.toThrow();
+    expect((): any => storage.timestamp.now()).not.toThrow();
   });
 
   it('should return the correct length-prefixed storage key', (): void => {

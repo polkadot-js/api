@@ -14,8 +14,8 @@ import { Signer } from './../../src/types';
 import Api from './../../src/promise';
 
 // log all events for the transfare, calling done() when finalized
-const logEvents = (done: () => {}) =>
-  ({ events, status }: SubmittableResult) => {
+const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
+  ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
 
     if (status.isFinalized) {
@@ -36,7 +36,7 @@ describe.skip('Promise e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     if (!api) {
       api = await Api.create({
         provider: new WsProvider('ws://127.0.0.1:9944')
@@ -47,11 +47,11 @@ describe.skip('Promise e2e transactions', (): void => {
     done();
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     jest.setTimeout(5000);
   });
 
-  it('can submit an extrinsic from hex', async (done) => {
+  it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
@@ -61,7 +61,7 @@ describe.skip('Promise e2e transactions', (): void => {
     return api.tx(hex).send(logEvents(done));
   });
 
-  it('makes a transfer (sign, then send)', async (done) => {
+  it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
@@ -70,7 +70,7 @@ describe.skip('Promise e2e transactions', (): void => {
       .send(logEvents(done));
   });
 
-  it('makes a transfer (sign, then send - compat version)', async (done) => {
+  it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
@@ -79,13 +79,13 @@ describe.skip('Promise e2e transactions', (): void => {
       .send(logEvents(done));
   });
 
-  it('makes a transfer (signAndSend, immortal)', async (done) => {
+  it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer)', async (done) => {
+  it('makes a transfer (signAndSend via Signer)', async (done): Promise<() => void> => {
     const signer = new SingleAccountSigner(keyring.charlie) as Signer;
 
     api.setSigner(signer);
@@ -120,7 +120,8 @@ describe.skip('Promise e2e transactions', (): void => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.alice.address, (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async (): Promise<void> => {
@@ -142,29 +143,29 @@ describe.skip('Promise e2e transactions', (): void => {
   });
 
   // this one is slightly difficult with the current testnet config - CantPay
-  it.skip('makes a transfer, and uses new balance to transfers to new', async (done) => {
+  it.skip('makes a transfer, and uses new balance to transfers to new', async (done): Promise<() => void> => {
     const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
-    function doOne (cb: any) {
+    function doOne (cb: any): Promise<() => void> {
       return api.tx.balances
         .transfer(pair.address, 1234567)
         .signAndSend(keyring.dave, logEvents(cb));
     }
 
-    function doTwo (cb: any) {
+    function doTwo (cb: any): Promise<() => void> {
       return api.tx.balances
         .transfer(keyring.alice.address, 1111111)
         .signAndSend(pair, logEvents(cb));
     }
 
     // return doTwo(done);
-    return doOne(() => {
+    return doOne((): Promise<() => void> => {
       return doTwo(done);
     });
   });
 
   describe('eras', (): void => {
-    it('makes a transfer (specified era)', async (done) => {
+    it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
@@ -178,7 +179,7 @@ describe.skip('Promise e2e transactions', (): void => {
       done();
     });
 
-    it('makes a transfer with invalid time', async (done) => {
+    it('makes a transfer with invalid time', async (done): Promise<() => void> => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
@@ -188,7 +189,7 @@ describe.skip('Promise e2e transactions', (): void => {
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       return (
-        api.rpc.chain.subscribeNewHead(async (header: Header) => {
+        api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
           if (header.blockNumber.toNumber() === eraDeath - 1) {
             try {
               await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
@@ -201,7 +202,7 @@ describe.skip('Promise e2e transactions', (): void => {
       );
     });
 
-    it('makes a transfer with custom numeric era', async (done) => {
+    it('makes a transfer with custom numeric era', async (done): Promise<void> => {
       const hash = await api.tx.balances
         .transfer(keyring.eve.address, 12345)
         .signAndSend(keyring.charlie, { era: 2 });

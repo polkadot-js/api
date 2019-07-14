@@ -8,7 +8,7 @@ import MockProvider from '@polkadot/rpc-provider/mock';
 
 import { Derive } from '.';
 
-const testFunction = (api: ApiRx) => {
+const testFunction = (api: ApiRx): any => {
   return <
     Section extends keyof Derive,
     Method extends keyof (typeof api.derive[Section])
@@ -63,10 +63,10 @@ describe.skip('derive', (): void => {
     const api = new ApiRx({
       derives: {
         balances: {
-          fees: () => () => from(['a', 'b'])
+          fees: (): any => (): Observable<any> => from(['a', 'b'])
         },
         custom: {
-          test: () => () => from([1, 2, 3])
+          test: (): any => (): Observable<any> => from([1, 2, 3])
         }
       },
       provider: new MockProvider()

@@ -154,7 +154,7 @@ export default function createSubmittableExtrinsic<ApiType> (
     return (api.rpc.author
       .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
       .pipe(
-        switchMap((status) =>
+        switchMap((status): Observable<ISubmittableResult> =>
           statusObservable(status)
         ),
         tap((status): void => {
@@ -235,7 +235,7 @@ export default function createSubmittableExtrinsic<ApiType> (
           let updateId: number | undefined;
 
           return decorateMethod(
-            () => ((
+            (): Observable<Codec> => ((
               combineLatest([
                 // if we have a nonce already, don't retrieve the latest, use what is there
                 isUndefined(options.nonce)
@@ -249,7 +249,7 @@ export default function createSubmittableExtrinsic<ApiType> (
               ])
             ).pipe(
               first(),
-              mergeMap(async ([nonce, header]) => {
+              mergeMap(async ([nonce, header]): Promise<void> => {
                 const eraOptions = setupEraOptions(header, options);
 
                 if (isKeyringPair) {
@@ -264,7 +264,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                   throw new Error('no signer exists');
                 }
               }),
-              switchMap(() => {
+              switchMap((): Observable<ISubmittableResult> | Observable<Hash> => {
                 return isSubscription
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???

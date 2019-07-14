@@ -32,7 +32,7 @@ describe.skip('Rx e2e queries', (): void => {
   });
 
   it('queries state for a balance', (done): void => {
-    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance) => {
+    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();
@@ -42,11 +42,11 @@ describe.skip('Rx e2e queries', (): void => {
   it('makes a query at a specific block', (done): void => {
     (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
-        switchMap(({ hash }: Header) =>
+        switchMap(({ hash }: Header): Observable<any> =>
           api.query.system.events.at(hash)
         )
       )
-      .subscribe((events: any) => {
+      .subscribe((events: any): void => {
         expect(events.length).not.toEqual(0);
         done();
       });

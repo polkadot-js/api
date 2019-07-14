@@ -6,7 +6,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
-import { EMPTY } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
@@ -201,7 +201,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
-    return function (...args: any[]) {
+    return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
       let callback: Callback<Codec> | undefined;
       const actualArgs = args.slice();
 
@@ -226,7 +226,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
         const subscription = method(...actualArgs)
           .pipe(
             // if we find an error (invalid params, etc), reject the promise
-            catchError((error) => {
+            catchError((error): Observable<never> => {
               if (!isCompleted) {
                 isCompleted = true;
 
@@ -241,7 +241,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
               if (!isCompleted) {
                 isCompleted = true;
 
-                resolve(() => subscription.unsubscribe());
+                resolve((): void => subscription.unsubscribe());
               }
             })
           )

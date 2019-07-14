@@ -118,6 +118,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
 
       api.state
         .subscribeStorage([[call, '0x00']])
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .subscribe((value: any): void => {
           // console.error(value);
 

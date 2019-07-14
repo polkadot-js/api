@@ -21,7 +21,7 @@ describe.skip('Promise e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     if (!api) {
       api = await Api.create({
         provider: new WsProvider(WS_URL)
@@ -62,9 +62,9 @@ describe.skip('Promise e2e queries', (): void => {
     });
   });
 
-  it('subscribes to rpc', (done) => {
+  it('subscribes to rpc', (done): Promise<() => void> => {
     return (
-      api.rpc.chain.subscribeNewHead((header: Header) => {
+      api.rpc.chain.subscribeNewHead((header: Header): void => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -72,9 +72,9 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to finalized', (done) => {
+  it('subscribes to finalized', (done): Promise<() => void> => {
     return (
-      api.rpc.chain.subscribeFinalizedHeads((header: Header) => {
+      api.rpc.chain.subscribeFinalizedHeads((header: Header): void => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -82,9 +82,9 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to derive', (done) => {
+  it('subscribes to derive', (done): Promise<() => void> => {
     return (
-      api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
+      api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -92,9 +92,9 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to queries', (done) => {
+  it('subscribes to queries', (done): Promise<() => void> => {
     return (
-      api.query.system.accountNonce(keyring.ferdie.address, (nonce: Index) => {
+      api.query.system.accountNonce(keyring.ferdie.address, (nonce: Index): void => {
         expect(nonce instanceof BN).toBe(true);
 
         done();
@@ -102,9 +102,9 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it.skip('subscribes to queries (default)', (done) => {
+  it.skip('subscribes to queries (default)', (done): Promise<() => void> => {
     return (
-      api.query.staking.validators(keyring.ferdie.address, (prefs: ValidatorPrefs) => {
+      api.query.staking.validators(keyring.ferdie.address, (prefs: ValidatorPrefs): void => {
         expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
         done();
@@ -112,9 +112,9 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to a linked map (staking.validators)', (done) => {
+  it('subscribes to a linked map (staking.validators)', (done): Promise<() => void> => {
     return (
-      api.query.staking.validators((prefs: LinkageResult) => {
+      api.query.staking.validators((prefs: LinkageResult): void => {
         expect(prefs instanceof LinkageResult).toBe(true);
 
         done();
@@ -122,14 +122,14 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to multiple results (freeBalance.multi)', (done) => {
+  it('subscribes to multiple results (freeBalance.multi)', (done): Promise<() => void> => {
     return (
       api.query.balances.freeBalance.multi([
         keyring.alice.address,
         keyring.bob.address,
         '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
         keyring.ferdie.address
-      ], (balances) => {
+      ], (balances): void => {
         expect(balances).toHaveLength(4);
 
         done();
@@ -137,24 +137,24 @@ describe.skip('Promise e2e queries', (): void => {
     );
   });
 
-  it('subscribes to multiple results (api.queryMulti)', (done) => {
+  it('subscribes to multiple results (api.queryMulti)', (done): Promise<() => void> => {
     return api.queryMulti([
       [api.query.balances.freeBalance, keyring.alice.address],
       [api.query.balances.freeBalance, keyring.bob.address],
       [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
       [api.query.balances.freeBalance, keyring.ferdie.address]
-    ], (balances: Balance[]) => {
+    ], (balances: Balance[]): void => {
       expect(balances).toHaveLength(4);
 
       done();
     });
   });
 
-  it('subscribes to derived balances (balances.all)', (done) => {
+  it('subscribes to derived balances (balances.all)', (done): Promise<() => void> => {
     return (
       api.derive.balances.all(
         keyring.alice.address,
-        (all: DerivedBalances) => {
+        (all: DerivedBalances): void => {
           expect(all.accountId.toString()).toEqual(keyring.alice.address);
 
           expect(all.freeBalance).toBeDefined();
@@ -188,9 +188,9 @@ describe.skip('Promise e2e queries', (): void => {
     });
   });
 
-  it('subscribes to events', (done) => {
+  it('subscribes to events', (done): Promise<() => void> => {
     return (
-      api.query.system.events((events) => {
+      api.query.system.events((events): void => {
         expect(events).not.toHaveLength(0);
         done();
       })
@@ -211,8 +211,8 @@ describe.skip('Promise e2e queries', (): void => {
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
-    it('subscribes to query and get correct result', (done) => {
-      return api.query.session.currentIndex((sessionIndex: SessionIndex) => {
+    it('subscribes to query and get correct result', (done): Promise<() => void> => {
+      return api.query.session.currentIndex((sessionIndex: SessionIndex): void => {
         expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
         done();
       });
@@ -257,11 +257,11 @@ describe.skip('Promise e2e queries', (): void => {
       expect(balanceAt.toString()).toEqual(balance.toString());
     });
 
-    it('subscribes to query and get correct result', async (done) => {
+    it('subscribes to query and get correct result', async (done): Promise<() => void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice.address);
 
-      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed: Balance) => {
+      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed: Balance): void => {
         expect(balanceSubscribed.isZero()).toBe(false);
         expect(balanceSubscribed.toString()).toEqual(balance.toString());
         done();
@@ -301,7 +301,7 @@ describe.skip('Promise e2e queries', (): void => {
       expect((balances as any)[1].toString()).toEqual(balanceBob.toString());
     });
 
-    it('subscribes to multiple queries and get correct results', async (done) => {
+    it('subscribes to multiple queries and get correct results', async (done): Promise<() => void> => {
       // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
       const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address);
       const balanceBob = await api.query.balances.freeBalance(keyring.bob.address);
@@ -309,7 +309,7 @@ describe.skip('Promise e2e queries', (): void => {
       return api.query.balances.freeBalance.multi([
         keyring.alice.address,
         keyring.bob.address
-      ], (balances) => {
+      ], (balances): void => {
         expect(balances).toHaveLength(2);
         expect(balances[0].toString()).toEqual(balanceAlice.toString());
         expect(balances[1].toString()).toEqual(balanceBob.toString());
@@ -345,8 +345,8 @@ describe.skip('Promise e2e queries', (): void => {
       // expect(eventTopicsAt.toJSON()).toEqual([]);
     });
 
-    it('subscribes to query and get correct result', async (done) => {
-      return api.query.system.eventTopics(KEY1, KEY2, (eventTopicsAt) => {
+    it('subscribes to query and get correct result', async (done): Promise<() => void> => {
+      return api.query.system.eventTopics(KEY1, KEY2, (eventTopicsAt): void => {
         expect(eventTopicsAt.toJSON()).toEqual([]);
         done();
       });
@@ -374,10 +374,10 @@ describe.skip('Promise e2e queries', (): void => {
       expect((eventTopicsList as any)[0].toJSON()).toEqual([]);
     });
 
-    it('subscribes to multiple queries and get correct results', async (done) => {
+    it('subscribes to multiple queries and get correct results', async (done): Promise<() => void> => {
       return api.query.system.eventTopics.multi([
         [KEY1, KEY2]
-      ], (eventTopicsList) => {
+      ], (eventTopicsList): void => {
         expect(eventTopicsList).toHaveLength(1);
         expect(eventTopicsList[0].toJSON()).toEqual([]);
         done();

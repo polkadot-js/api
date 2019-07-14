@@ -44,11 +44,11 @@ describe.skip('Promise e2e contracts', (): void => {
       abi = new Abi(flipperAbi);
     });
 
-    it('allows putCode', (done) => {
+    it('allows putCode', (done): Promise<() => void> => {
       return (
         api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
-          .signAndSend(keyring.eve, (result: SubmittableResult) => {
+          .signAndSend(keyring.eve, (result: SubmittableResult): void => {
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
               if (record) {
@@ -61,13 +61,13 @@ describe.skip('Promise e2e contracts', (): void => {
       );
     });
 
-    it('allows contract create', (done) => {
+    it('allows contract create', (done): Promise<() => void> => {
       expect(codeHash).toBeDefined();
 
       return (
         api.tx.contracts
           .create(12345, MAX_GAS, codeHash, abi.deploy())
-          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+          .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('create', JSON.stringify(result));
 
             if (result.status.isFinalized) {
@@ -83,13 +83,13 @@ describe.skip('Promise e2e contracts', (): void => {
       );
     });
 
-    it('allows contract call', (done) => {
+    it('allows contract call', (done): Promise<() => void> => {
       expect(address).toBeDefined();
 
       return (
         api.tx.contracts
           .call(address, 12345, MAX_GAS, abi.messages.flip())
-          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+          .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('call', JSON.stringify(result));
 
             if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {

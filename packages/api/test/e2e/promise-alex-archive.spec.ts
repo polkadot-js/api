@@ -36,7 +36,7 @@ describe.skip('alex archive queries (local)', (): void => {
   });
 
   // https://github.com/polkadot-js/api/issues/846
-  it('handles toJSON with no issues', async (done) => {
+  it('handles toJSON with no issues', async (done): Promise<() => void> => {
     return (
       api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock): void => {
         const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic): boolean => {

@@ -15,17 +15,17 @@ describe.skip('Rx e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await Api.create().toPromise();
     jest.setTimeout(30000);
     done();
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     jest.setTimeout(5000);
   });
 
-  it('makes a transfer', (done) => {
+  it('makes a transfer', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
@@ -43,7 +43,7 @@ describe.skip('Rx e2e transactions', (): void => {
       });
   });
 
-  it('makes a proposal', (done) => {
+  it('makes a proposal', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),

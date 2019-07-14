@@ -29,7 +29,7 @@ export default class Combinator {
 
   public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
-    this._subscriptions = fns.map(async (input, index) => {
+    this._subscriptions = fns.map(async (input, index): UnsubscribePromise => {
       const [fn, ...args] = Array.isArray(input)
         ? input
         : [input];

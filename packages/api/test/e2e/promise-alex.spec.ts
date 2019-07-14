@@ -37,9 +37,9 @@ describe.skip('alex queries', (): void => {
   });
 
   describe('retrieves a single value', (): void => {
-    it('retrieves the list of stash validators', (done) => {
+    it('retrieves the list of stash validators', (done): Promise<() => void> => {
       return (
-        api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
+        api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res): void => {
           console.error(res);
           console.log('api.query.staking.validators(id):', res.toJSON());
           done();
@@ -47,18 +47,18 @@ describe.skip('alex queries', (): void => {
       );
     });
 
-    it('Gets the hash of the last finalized header', async (done) => {
+    it('Gets the hash of the last finalized header', async (done): Promise<() => void> => {
       return (
-        api.rpc.chain.getFinalizedHead((head) => {
+        api.rpc.chain.getFinalizedHead((head): void => {
           expect(head instanceof Hash).toBe(true);
           done();
         })
       );
     });
 
-    it('Subscribes to the best finalized header on ALEX', async (done) => {
+    it('Subscribes to the best finalized header on ALEX', async (done): Promise<() => void> => {
       return (
-        api.rpc.chain.subscribeFinalizedHeads((head) => {
+        api.rpc.chain.subscribeFinalizedHeads((head): void => {
           expect(head instanceof Header).toBe(true);
           done();
         })
@@ -66,9 +66,9 @@ describe.skip('alex queries', (): void => {
     });
   });
 
-  it('derives a list of the controllers', (done) => {
+  it('derives a list of the controllers', (done): Promise<() => void> => {
     return (
-      api.derive.staking.controllers((res: [AccountId[], Option<AccountId>[]]) => {
+      api.derive.staking.controllers((res: [AccountId[], Option<AccountId>[]]): void => {
         console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
         done();
@@ -83,8 +83,8 @@ describe.skip('alex queries', (): void => {
     expect(events.length).not.toEqual(0);
   });
 
-  it('subscribes to events', (done) => {
-    return api.query.system.events((events: Vector<EventRecord>) => {
+  it('subscribes to events', (done): Promise<() => void> => {
+    return api.query.system.events((events: Vector<EventRecord>): void => {
       expect(events).not.toHaveLength(0);
       done();
     });
