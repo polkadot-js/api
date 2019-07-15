@@ -5,11 +5,15 @@
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { BlockNumber } from '@polkadot/types';
 
-import ApiPromise from '../../src/promise';
-import describeE2E from '../util/describeE2E';
+import ApiPromise from '../../../src/promise';
+import describeE2E from '../../util/describeE2E';
 
 describeE2E({
-  except: ['remote-substrate-1.0', 'substrate-1.0']
+  only: [
+    'docker-polkadot-master',
+    'docker-substrate-master',
+    'docker-substrate-2.0'
+  ]
 })('e2e consts', (wsUrl): void => {
   let api: ApiPromise;
 

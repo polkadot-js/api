@@ -6,11 +6,11 @@ import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import ApiPromise from '../../src/promise';
-import describeE2E from '../util/describeE2E';
+import ApiPromise from '../../../src/promise';
+import describeE2E from '../../util/describeE2E';
 
 describeE2E({
-  only: ['remote-polkadot-alexander']
+  only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']
 })('alex queries', (wsUrl): void => {
   let api: ApiPromise;
 

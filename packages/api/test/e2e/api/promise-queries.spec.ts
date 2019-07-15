@@ -11,8 +11,8 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
-import ApiPromise from '../../src/promise';
-import describeE2E from '../util/describeE2E';
+import ApiPromise from '../../../src/promise';
+import describeE2E from '../../util/describeE2E';
 
 const ZERO = new BN(0);
 
