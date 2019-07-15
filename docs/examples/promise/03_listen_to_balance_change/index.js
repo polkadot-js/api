@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 

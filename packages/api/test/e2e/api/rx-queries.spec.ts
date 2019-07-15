@@ -9,19 +9,19 @@ import { switchMap } from 'rxjs/operators';
 import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from '../../../src/rx';
+import Api from '../../src/rx';
 
-describe('Rx e2e queries', () => {
+describe.skip('Rx e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
-    api = await Api.create((global as any).ws_local).toPromise();
-    jest.setTimeout(30000);
+  beforeEach(async (done): Promise<void> => {
+    api = await Api.create().toPromise();
+    jest.setTimeout(3000000);
     done();
   });
 
-  it('makes the runtime, rpc, state & extrinsics available', () => {
+  it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
@@ -31,22 +31,22 @@ describe('Rx e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it('queries state for a balance', (done) => {
-    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance) => {
+  it('queries state for a balance', (done): void => {
+    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();
     });
   });
 
-  it('makes a query at a specific block', (done) => {
+  it('makes a query at a specific block', (done): void => {
     (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
-        switchMap(({ hash }: Header) =>
+        switchMap(({ hash }: Header): Observable<any> =>
           api.query.system.events.at(hash)
         )
       )
-      .subscribe((events: any) => {
+      .subscribe((events: any): void => {
         expect(events.length).not.toEqual(0);
         done();
       });

@@ -4,18 +4,18 @@
 
 import Coder from './';
 
-describe('encodeObject', () => {
+describe('encodeObject', (): void => {
   let coder: Coder;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     coder = new Coder();
   });
 
-  it('starts with id === 0 (nothing sent)', () => {
+  it('starts with id === 0 (nothing sent)', (): void => {
     expect(coder.getId()).toEqual(0);
   });
 
-  it('encodes a valid JsonRPC object', () => {
+  it('encodes a valid JsonRPC object', (): void => {
     expect(
       coder.encodeObject('method', 'params')
     ).toEqual({

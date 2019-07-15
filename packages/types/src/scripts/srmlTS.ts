@@ -10,34 +10,17 @@ import * as definitions from '../srml/definitions';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
-type TypeExist = {
-  [index: string]: boolean
-};
-type TypeImports = {
-  codecTypes: TypeExist,
-  otherTypes: TypeExist,
-  ownTypes: Array<string>
-};
+interface TypeExist {
+  [index: string]: boolean;
+}
+interface TypeImports {
+  codecTypes: TypeExist;
+  otherTypes: TypeExist;
+  ownTypes: string[];
+}
 
-const HEADER = '// Auto-generated, do not edit\n\n';
+const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
-
-// handlers are defined externally to use - this means that when we do a
-// `generators[typedef.info](...)` TS will show any unhandled types. Rather
-// we are being explicit in having no handlers where we do not support (yet)
-const generators = {
-  [TypeDefInfo.Compact]: errorUnhandled,
-  [TypeDefInfo.DoubleMap]: errorUnhandled,
-  [TypeDefInfo.Enum]: tsEnum,
-  [TypeDefInfo.Linkage]: errorUnhandled,
-  [TypeDefInfo.Null]: errorUnhandled,
-  [TypeDefInfo.Option]: errorUnhandled,
-  [TypeDefInfo.Plain]: tsPlain,
-  [TypeDefInfo.Struct]: tsStruct,
-  [TypeDefInfo.Tuple]: tsTuple,
-  [TypeDefInfo.Vector]: tsVector,
-  [TypeDefInfo.VectorFixed]: tsVector
-};
 
 function setImports ({ codecTypes, otherTypes, ownTypes }: TypeImports, type: string | null, codecType: string | null): void {
   if (type && !ownTypes.includes(type) && !otherTypes[type]) {
@@ -49,6 +32,7 @@ function setImports ({ codecTypes, otherTypes, ownTypes }: TypeImports, type: st
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorUnhandled (def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
@@ -56,7 +40,7 @@ function errorUnhandled (def: TypeDef, imports: TypeImports): string {
 function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(imports, null, 'Enum');
 
-  const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
+  const keys = (sub as TypeDef[]).map(({ info, name, type }, index): string => {
     const [enumType, asGetter] = type === 'Null'
       ? ['', '']
       : [`(${type})`, `  readonly as${name}: ${type};\n`];
@@ -95,7 +79,7 @@ function _tsStructGetterType (structName: string | undefined, { info, sub, type 
 }
 
 function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
-  const keys = (sub as Array<TypeDef>).map((typedef) => {
+  const keys = (sub as TypeDef[]).map((typedef): string => {
     const [embedType, returnType] = _tsStructGetterType(structName, typedef);
 
     setImports(imports, embedType, 'Struct');
@@ -107,7 +91,7 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
 }
 
 function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
-  const types = (sub as Array<TypeDef>).map(({ type }) => {
+  const types = (sub as TypeDef[]).map(({ type }): string => {
     setImports(imports, type, 'Tuple');
 
     return type;
@@ -127,20 +111,37 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
-function generateTsDef (srmlName: string, { types }: { types: { [index: string]: any } }): void {
+function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
+  // handlers are defined externally to use - this means that when we do a
+  // `generators[typedef.info](...)` TS will show any unhandled types. Rather
+  // we are being explicit in having no handlers where we do not support (yet)
+  const generators = {
+    [TypeDefInfo.Compact]: errorUnhandled,
+    [TypeDefInfo.DoubleMap]: errorUnhandled,
+    [TypeDefInfo.Enum]: tsEnum,
+    [TypeDefInfo.Linkage]: errorUnhandled,
+    [TypeDefInfo.Null]: errorUnhandled,
+    [TypeDefInfo.Option]: errorUnhandled,
+    [TypeDefInfo.Plain]: tsPlain,
+    [TypeDefInfo.Struct]: tsStruct,
+    [TypeDefInfo.Tuple]: tsTuple,
+    [TypeDefInfo.Vector]: tsVector,
+    [TypeDefInfo.VectorFixed]: tsVector
+  };
+
   const codecTypes: TypeExist = {};
   const otherTypes: TypeExist = {};
   const ownTypes = Object.keys(types);
-  const interfaces = Object.entries(types).map(([name, type]) => {
+  const interfaces = Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
     return [name, generators[def.info](def, { codecTypes, otherTypes, ownTypes })];
   });
 
   let header = HEADER;
-  const codecImports = Object.keys(codecTypes).filter((name) => name !== 'Tuple').sort();
-  const primitiveImports = Object.keys(otherTypes).filter((type) => otherTypes[type]).sort();
-  const sortedDefs = interfaces.sort((a, b) => a[0].localeCompare(b[0])).map(([, definition]) => definition);
+  const codecImports = Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple').sort();
+  const primitiveImports = Object.keys(otherTypes).filter((type): boolean => otherTypes[type]).sort();
+  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition);
 
   if (codecTypes['Tuple']) {
     header = header.concat(`import { Codec } from '../../types';\n`);
@@ -157,6 +158,6 @@ function generateTsDef (srmlName: string, { types }: { types: { [index: string]:
   fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat('\n').concat(sortedDefs.join('\n\n')).concat(FOOTER), { flag: 'w' });
 }
 
-Object.entries(definitions).forEach(([name, obj]) =>
+Object.entries(definitions).forEach(([name, obj]): void =>
   generateTsDef(name, obj)
 );

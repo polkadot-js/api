@@ -8,53 +8,53 @@ import { first, switchMap } from 'rxjs/operators';
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from './../../../src/rx';
-import { SubmittableResult } from './../../../src';
+import Api from './../../src/rx';
+import { SubmittableResult } from './../../src';
 
-describe('Rx e2e transactions', () => {
+describe.skip('Rx e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
-  beforeEach(async (done) => {
-    api = await Api.create((global as any).ws_local).toPromise();
+  beforeEach(async (done): Promise<void> => {
+    api = await Api.create().toPromise();
     jest.setTimeout(30000);
     done();
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     jest.setTimeout(5000);
   });
 
-  it('makes a transfer', (done) => {
+  it('makes a transfer', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.balances
             .transfer(keyring.bob.address, 12345)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }
       });
   });
 
-  it('makes a proposal', (done) => {
+  it('makes a proposal', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.democracy
             .propose(api.tx.system.setCode('0xdeadbeef'), 10000)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }

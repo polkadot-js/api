@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedFees } from '../types';
 
 import BN from 'bn.js';
@@ -24,7 +24,7 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function fees (api: ApiInterface$Rx) {
+export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
   return (): Observable<DerivedFees> => {
     return (
       api.consts.balances
@@ -45,13 +45,14 @@ export function fees (api: ApiInterface$Rx) {
           api.query.balances.transactionByteFee,
           api.query.balances.transferFee
         ]) as any as Observable<[BN, BN, BN, BN, BN]>
-      ).pipe(map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+    ).pipe(
+      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,
         transactionByteFee,
         transferFee
-      } as DerivedFees)),
+      } as unknown as DerivedFees)),
       drr()
     );
   };

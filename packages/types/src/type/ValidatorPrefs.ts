@@ -9,10 +9,10 @@ import Struct from '../codec/Struct';
 import Balance from '../primitive/Balance';
 import U32 from '../primitive/U32';
 
-type ValidatorPrefsValue = {
-  unstakeThreshold?: AnyNumber,
-  validatorPayment?: AnyNumber
-};
+interface ValidatorPrefsValue {
+  unstakeThreshold?: AnyNumber;
+  validatorPayment?: AnyNumber;
+}
 
 /**
  * @name ValidatorPrefs
@@ -20,7 +20,7 @@ type ValidatorPrefsValue = {
  * Validator preferences
  */
 export default class ValidatorPrefs extends Struct {
-  constructor (value?: ValidatorPrefsValue | Uint8Array) {
+  public constructor (value?: ValidatorPrefsValue | Uint8Array) {
     super({
       unstakeThreshold: Compact.with(U32),
       validatorPayment: Compact.with(Balance)
@@ -30,14 +30,14 @@ export default class ValidatorPrefs extends Struct {
   /**
    * @description The unstake threshold as [[U32]]
    */
-  get unstakeThreshold (): U32 {
+  public get unstakeThreshold (): U32 {
     return this.get('unstakeThreshold') as U32;
   }
 
   /**
    * @description The payment config for the validator as a [[Compact]] [[Balance]]
    */
-  get validatorPayment (): Compact {
+  public get validatorPayment (): Compact {
     return this.get('validatorPayment') as Compact;
   }
 }

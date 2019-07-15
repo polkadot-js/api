@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedContractFees } from '../types';
 
 import BN from 'bn.js';
@@ -26,7 +26,7 @@ const ZERO = new BN(0);
  * });
  * ```
  */
-export function fees (api: ApiInterface$Rx) {
+export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return (): Observable<DerivedContractFees> => {
     const queryBase = api.query.contracts || api.query.contract;
 
@@ -44,11 +44,11 @@ export function fees (api: ApiInterface$Rx) {
           queryBase.transactionByteFee,
           queryBase.transferFee
         ])
-      ]) as any as Observable<Array<Array<BN>>>).pipe(
+      ]) as unknown as Observable<BN[][]>).pipe(
         map(([
           [rentByteFee, rentDepositOffset, tombstoneDeposit],
           [callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]
-        ]) => ({
+        ]): DerivedContractFees => ({
           callBaseFee,
           contractFee,
           createBaseFee,
@@ -59,7 +59,7 @@ export function fees (api: ApiInterface$Rx) {
           transactionBaseFee,
           transactionByteFee,
           transferFee
-        } as DerivedContractFees)),
+        } as unknown as DerivedContractFees)),
         drr()
       );
     }
@@ -79,7 +79,7 @@ export function fees (api: ApiInterface$Rx) {
           api.consts.contracts.transactionBaseFee,
           api.consts.contracts.transactionByteFee,
           api.consts.contracts.transferFee
-        ]) as any as Observable<Array<BN>>
+        ]) as unknown as Observable<BN[]>
         // Support versions pre spec_version 101 and get values from storage
         : api.queryMulti([
           queryBase.callBaseFee,
@@ -92,9 +92,10 @@ export function fees (api: ApiInterface$Rx) {
           queryBase.transactionBaseFee,
           queryBase.transactionByteFee,
           queryBase.transferFee
-        ]) as any as Observable<Array<BN>>
-      ).pipe(map(
-        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+        ]) as unknown as Observable<BN[]>
+    ).pipe(
+      map(
+        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees => ({
           callBaseFee,
           contractFee,
           createBaseFee,
@@ -105,7 +106,7 @@ export function fees (api: ApiInterface$Rx) {
           transactionBaseFee,
           transactionByteFee,
           transferFee
-        } as DerivedContractFees)
+        } as unknown as DerivedContractFees)
       ),
       drr()
     );

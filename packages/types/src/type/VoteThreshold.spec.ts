@@ -4,14 +4,14 @@
 
 import VoteThreshold from './VoteThreshold';
 
-describe('VoteThreshold', () => {
-  it('starts with default value', () => {
+describe('VoteThreshold', (): void => {
+  it('starts with default value', (): void => {
     expect(
       new VoteThreshold().toString()
     ).toEqual('Super majority approval');
   });
 
-  it('allows setting value in constructor', () => {
+  it('allows setting value in constructor', (): void => {
     expect(
       new VoteThreshold(2).toNumber()
     ).toEqual(2);

@@ -10,7 +10,7 @@ import U8aFixed from '../codec/U8aFixed';
  * The Substrate LockIdentifier for staking
  */
 export default class LockIdentifier extends U8aFixed {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super(value, 64); // [u8; 8]
   }
 }

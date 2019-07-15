@@ -17,7 +17,7 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 1024 | 2048;
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
 export default class U8aFixed extends U8a {
-  constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
+  public constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(
       U8aFixed.decodeU8aFixed(value, bitLength)
     );
@@ -46,9 +46,9 @@ export default class U8aFixed extends U8a {
     return value;
   }
 
-  static with (bitLength: BitLength): Constructor<U8aFixed> {
+  public static with (bitLength: BitLength): Constructor<U8aFixed> {
     return class extends U8aFixed {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(value, bitLength);
       }
     };
@@ -57,14 +57,14 @@ export default class U8aFixed extends U8a {
   /**
    * @description Returns the number of bits in the value
    */
-  bitLength () {
+  public bitLength (): number {
     return this.length * 8;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     // FIEXME We don't cater for this in createType
     return `[u8;${this.length}]`;
   }

@@ -89,7 +89,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     const keyHash = new U8a(hasher(`head of ${stringKey}`));
-    const keyFn: any = () => keyHash;
+    const keyFn: any = (): U8a => keyHash;
     keyFn.meta = new StorageEntryMetadata({
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),

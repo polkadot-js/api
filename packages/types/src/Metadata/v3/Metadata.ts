@@ -20,7 +20,7 @@ import { StorageFunctionMetadata } from './Storage';
  * The definition of a module in the system
  */
 export class ModuleMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       prefix: Text,
@@ -33,35 +33,35 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the module calls
    */
-  get calls (): Option<Vector<FunctionMetadata>> {
+  public get calls (): Option<Vector<FunctionMetadata>> {
     return this.get('calls') as Option<Vector<FunctionMetadata>>;
   }
 
   /**
    * @description the module events
    */
-  get events (): Option<Vector<EventMetadata>> {
+  public get events (): Option<Vector<EventMetadata>> {
     return this.get('events') as Option<Vector<EventMetadata>>;
   }
 
   /**
    * @description the module name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description the module prefix
    */
-  get prefix (): Text {
+  public get prefix (): Text {
     return this.get('prefix') as Text;
   }
 
   /**
    * @description the associated module storage
    */
-  get storage (): Option<Vector<StorageFunctionMetadata>> {
+  public get storage (): Option<Vector<StorageFunctionMetadata>> {
     return this.get('storage') as Option<Vector<StorageFunctionMetadata>>;
   }
 }
@@ -72,7 +72,7 @@ export class ModuleMetadata extends Struct {
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV3 extends Struct implements MetadataInterface<ModuleMetadata> {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       modules: Vector.with(ModuleMetadata)
     }, value);
@@ -81,35 +81,35 @@ export default class MetadataV3 extends Struct implements MetadataInterface<Modu
   /**
    * @description The associated modules for this structure
    */
-  get modules (): Vector<ModuleMetadata> {
+  public get modules (): Vector<ModuleMetadata> {
     return this.get('modules') as Vector<ModuleMetadata>;
   }
 
-  private get callNames () {
-    return this.modules.map((mod) =>
+  private get callNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.calls.isNone
         ? []
-        : mod.calls.unwrap().map((fn) =>
-          fn.args.map((arg) => arg.type.toString())
+        : mod.calls.unwrap().map((fn): string[] =>
+          fn.args.map((arg): string => arg.type.toString())
         )
     );
   }
 
-  private get eventNames () {
-    return this.modules.map((mod) =>
+  private get eventNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.events.isNone
         ? []
-        : mod.events.unwrap().map((event) =>
-          event.args.map((arg) => arg.toString())
+        : mod.events.unwrap().map((event): string[] =>
+          event.args.map((arg): string => arg.toString())
         )
     );
   }
 
-  private get storageNames () {
-    return this.modules.map((mod) =>
+  private get storageNames (): string[][][] {
+    return this.modules.map((mod): string[][] =>
       mod.storage.isNone
         ? []
-        : mod.storage.unwrap().map((fn) => {
+        : mod.storage.unwrap().map((fn): string[] => {
           if (fn.type.isMap) {
             return [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()];
           } else if (fn.type.isDoubleMap) {
@@ -124,7 +124,7 @@ export default class MetadataV3 extends Struct implements MetadataInterface<Modu
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): Array<string> {
+  public getUniqTypes (throwError: boolean): string[] {
     const types = flattenUniq([this.callNames, this.eventNames, this.storageNames]);
 
     validateTypes(types, throwError);

@@ -6,21 +6,21 @@ import Http from './';
 import { Mock } from './../mock/types';
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-describe('send', () => {
+describe('send', (): void => {
   let http: Http;
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     http = new Http(TEST_HTTP_URL);
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     if (mock) {
       mock.done();
     }
   });
 
-  it('passes the body through correctly', () => {
+  it('passes the body through correctly', (): Promise<void> => {
     mock = mockHttp([{
       method: 'test_body',
       reply: {
@@ -30,7 +30,7 @@ describe('send', () => {
 
     return http
       .send('test_body', ['param'])
-      .then((result) => {
+      .then((): void => {
         expect((mock.body as any)['test_body']).toEqual({
           id: 1,
           jsonrpc: '2.0',
@@ -40,7 +40,7 @@ describe('send', () => {
       });
   });
 
-  it('throws error when !response.ok', () => {
+  it('throws error when !response.ok', (): Promise<any> => {
     mock = mockHttp([{
       code: 500,
       method: 'test_error'
@@ -48,7 +48,7 @@ describe('send', () => {
 
     return http
       .send('test_error', [])
-      .catch((error) => {
+      .catch((error): void => {
         expect(error.message).toMatch(/\[500\]: Internal Server/);
       });
   });

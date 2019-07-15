@@ -4,8 +4,9 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiTypes } from './types';
+import { ApiInterfaceRx, ApiTypes } from './types';
 
+import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
@@ -13,8 +14,9 @@ import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
-  readonly events: Array<EventRecord>;
+  readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;
@@ -33,47 +35,48 @@ export type SumbitableResultSubscription<ApiType> =
     ? Observable<ISubmittableResult>
     : Promise<() => void>;
 
-type SubmittableResultValue = {
-  events?: Array<EventRecord>;
+interface SubmittableResultValue {
+  events?: EventRecord[];
   status: ExtrinsicStatus;
-};
+}
 
-type SignerOptions = {
-  blockHash: AnyU8a,
-  era?: IExtrinsicEra | number,
-  nonce: AnyNumber
-};
+interface SignerOptions {
+  blockHash: AnyU8a;
+  era?: IExtrinsicEra | number;
+  nonce: AnyNumber;
+}
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
 const ONE_MINUTE = 15;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 export class SubmittableResult implements ISubmittableResult {
-  readonly events: Array<EventRecord>;
-  readonly status: ExtrinsicStatus;
+  public readonly events: EventRecord[];
 
-  constructor ({ events, status }: SubmittableResultValue) {
+  public readonly status: ExtrinsicStatus;
+
+  public constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
     this.status = status;
   }
 
-  get isCompleted (): boolean {
+  public get isCompleted (): boolean {
     return this.isError || this.isFinalized;
   }
 
-  get isError (): boolean {
+  public get isError (): boolean {
     return this.status.isDropped || this.status.isInvalid || this.status.isUsurped;
   }
 
-  get isFinalized (): boolean {
+  public get isFinalized (): boolean {
     return this.status.isFinalized;
   }
 
   /**
    * @description Finds an EventRecord for the specified method & section
    */
-  findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }) =>
+  public findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }): boolean =>
       event.section === section && event.method === method
     );
   }
@@ -95,7 +98,7 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
 export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
-  api: ApiInterface$Rx,
+  api: ApiInterfaceRx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
@@ -124,7 +127,7 @@ export default function createSubmittableExtrinsic<ApiType> (
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ]).pipe(
-      map(([signedBlock, allEvents]) => {
+      map(([signedBlock, allEvents]): SubmittableResult => {
         const result = new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
           status
@@ -141,7 +144,7 @@ export default function createSubmittableExtrinsic<ApiType> (
     return (api.rpc.author
       .submitExtrinsic(_extrinsic) as Observable<Hash>)
       .pipe(
-        tap((hash) => {
+        tap((hash): void => {
           updateSigner(updateId, hash);
         })
       );
@@ -151,21 +154,21 @@ export default function createSubmittableExtrinsic<ApiType> (
     return (api.rpc.author
       .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
       .pipe(
-        switchMap((status) =>
+        switchMap((status): Observable<ISubmittableResult> =>
           statusObservable(status)
         ),
-        tap((status) => {
+        tap((status): void => {
           updateSigner(updateId, status);
         })
       );
   }
 
   function expandOptions (options: Partial<SignerOptions>): SignatureOptions {
-    return options = {
+    return {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options
-    } as SignatureOptions;
+    } as unknown as SignatureOptions;
   }
 
   function setupEraOptions (header: Header | null, options: Partial<SignerOptions>): Partial<SignatureOptions> {
@@ -232,7 +235,7 @@ export default function createSubmittableExtrinsic<ApiType> (
           let updateId: number | undefined;
 
           return decorateMethod(
-            () => ((
+            (): Observable<Codec> => ((
               combineLatest([
                 // if we have a nonce already, don't retrieve the latest, use what is there
                 isUndefined(options.nonce)
@@ -246,7 +249,7 @@ export default function createSubmittableExtrinsic<ApiType> (
               ])
             ).pipe(
               first(),
-              mergeMap(async ([nonce, header]) => {
+              mergeMap(async ([nonce, header]): Promise<void> => {
                 const eraOptions = setupEraOptions(header, options);
 
                 if (isKeyringPair) {
@@ -254,13 +257,14 @@ export default function createSubmittableExtrinsic<ApiType> (
                 } else if (api.signer) {
                   updateId = await api.signer.sign(_extrinsic, address, {
                     ...expandOptions({ ...options, ...eraOptions, nonce }),
+                    blockNumber: header ? header.blockNumber : new BN(0),
                     genesisHash: api.genesisHash
                   });
                 } else {
                   throw new Error('no signer exists');
                 }
               }),
-              switchMap(() => {
+              switchMap((): Observable<ISubmittableResult> | Observable<Hash> => {
                 return isSubscription
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???

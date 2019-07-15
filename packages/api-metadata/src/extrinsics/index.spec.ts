@@ -9,8 +9,8 @@ import extrinsics from './static';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-describe('extrinsics', () => {
-  it('encodes extrinsic correctly (nobody)', () => {
+describe('extrinsics', (): void => {
+  it('encodes extrinsic correctly (nobody)', (): void => {
     expect(
       new Extrinsic(
         extrinsics.timestamp.set(10101)
@@ -26,7 +26,7 @@ describe('extrinsics', () => {
     ]));
   });
 
-  it('encodes an actual transfer (actual data)', () => {
+  it('encodes an actual transfer (actual data)', (): void => {
     expect(
       new Extrinsic(
         extrinsics.balances.transfer(keyring.bob.publicKey, 6969)

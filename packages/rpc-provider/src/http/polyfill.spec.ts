@@ -6,26 +6,26 @@ import { Global } from './../mock/types';
 
 declare const global: Global;
 
-describe('http/polyfill', () => {
+describe('http/polyfill', (): void => {
   let origFetch: GlobalFetch;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     origFetch = global.fetch;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.fetch = origFetch;
   });
 
-  it('polyfills with no exceptions (without fetch)', () => {
+  it('polyfills with no exceptions (without fetch)', (): void => {
     (global as any).fetch = undefined;
     require('./polyfill');
 
     expect(global.fetch).toBeDefined();
   });
 
-  it('polyfills with no exceptions (with fetch)', () => {
-    (global as any).fetch = () => true;
+  it('polyfills with no exceptions (with fetch)', (): void => {
+    (global as any).fetch = (): boolean => true;
     require('./polyfill');
 
     expect(global.fetch).toBeDefined();

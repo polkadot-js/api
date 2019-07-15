@@ -4,7 +4,7 @@
 
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types';
 
 import { drr } from '../util/drr';
@@ -24,13 +24,13 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  * });
  * ```
  */
-export function bestNumberLag (api: ApiInterface$Rx) {
+export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
     combineLatest([
       bestNumber(api)(),
       bestNumberFinalized(api)()
     ]).pipe(
-      map(([bestNumber, bestNumberFinalized]) =>
+      map(([bestNumber, bestNumberFinalized]): BlockNumber =>
         new BlockNumber(bestNumber.sub(bestNumberFinalized))
       ),
       drr()
