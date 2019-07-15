@@ -13,22 +13,14 @@ import SessionKey from './SessionKey';
 export default class SessionKeys extends Struct {
   public constructor (value?: any) {
     super({
-      grandpaKey: SessionKey,
-      auraKey: SessionKey
+      ed25519: SessionKey
     }, value);
   }
 
   /**
    * @description The Aura session
    */
-  public get auraKey (): SessionKey {
-    return this.get('auraKey') as SessionKey;
-  }
-
-  /**
-   * @description The Grandpa Authority
-   */
-  public get grandpaKey (): SessionKey {
-    return this.get('grandpaKey') as SessionKey;
+  public get ed25519 (): SessionKey {
+    return this.get('ed25519') as SessionKey;
   }
 }
