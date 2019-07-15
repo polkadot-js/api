@@ -14,6 +14,7 @@ import MetadataV6, { ModuleMetadataV6 } from '../Metadata/v6';
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
 
+const DESC_CONSTANTS = '\n\n_The following sections contain the module constants, also known as parameter types.\n';
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime._\n';
 const DESC_EVENTS = '\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
 const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._';
@@ -65,6 +66,36 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
   const nameB = b.name.toString().toUpperCase();
 
   return nameA.localeCompare(nameB);
+}
+
+function addConstants(metadata: MetadataV6): string {
+  const renderHeading = `## ${ANCHOR_TOP}Constants${DESC_CONSTANTS}`;
+  const orderedSections = metadata.modules.sort(sortByName);
+  let renderAnchors = '';
+  const sections = orderedSections.reduce((md, moduleMetadata): string => {
+    if (moduleMetadata.constants.isEmpty) {
+      return md;
+    }
+
+    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+
+    renderAnchors += sectionLink(sectionName);
+
+    const renderSection = generateSectionHeader(md, sectionName);
+    const orderedConstants = moduleMetadata.constants.sort(sortByName);
+
+    return orderedConstants.reduce((md, func): string => {
+      const methodName = stringLowerFirst(func.name.toString());
+      const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
+      const type = func.type;
+      const renderSignature = `${md}\n▸ **${methodName}**: ` + '`' + type + '`';
+      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+
+      return renderSignature + renderSummary;
+    }, renderSection);
+  }, '');
+
+  return renderHeading + renderAnchors + sections;
 }
 
 function addEvents (metadata: MetadataV6): string {
@@ -181,6 +212,10 @@ function writeToRpcMd (): void {
   writeFile('docs/METHODS_RPC.md', addRpc());
 }
 
+function writeToConstantsMd(metadata: MetadataV6): void {
+  writeFile('docs/METHODS_CONSTANTS.md', addConstants(metadata));
+}
+
 function writeToStorageMd (metadata: MetadataV6): void {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', options);
@@ -199,6 +234,7 @@ function writeToEventsMd (metadata: MetadataV6): void {
 const metadata = new Metadata(rpcdata).asV6;
 
 writeToRpcMd();
+writeToConstantsMd(metadata);
 writeToStorageMd(metadata);
 writeToExtrinsicsMd(metadata);
 writeToEventsMd(metadata);

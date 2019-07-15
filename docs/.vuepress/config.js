@@ -45,6 +45,7 @@ module.exports = {
         sidebarDepth: 0,
         children: [
           ['/METHODS_RPC.md', 'Substrate RPC'],
+          ['/METHODS_CONSTANTS.md', 'Constants (defaults)'],
           ['/METHODS_STORAGE.md', 'State storage (defaults)'],
           ['/METHODS_EXTRINSICS.md', 'Extrinsics (defaults)'],
           ['/METHODS_EVENTS.md', 'System events (defaults)']
