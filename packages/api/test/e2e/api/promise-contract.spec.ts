@@ -6,7 +6,6 @@ import fs from 'fs';
 import path from 'path';
 
 import { Abi } from '@polkadot/api-contract';
-import flipperAbi from '@polkadot/api-contract/test/contracts/flipper.json';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Address, Hash } from '@polkadot/types';
@@ -15,7 +14,8 @@ import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
 
-const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
+const flipperCode = fs.readFileSync(path.join(__dirname, '../../util/contracts/code/flipper-pruned.wasm')).toString('hex');
+const flipperAbi = '../../util/contracts/code/flipper.json';
 
 describeE2E()('Promise e2e contracts', (wsUrl): void => {
   let address: Address;
