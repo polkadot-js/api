@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, ExposeMethodOptions, DecoratedRpc, DecoratedRpc$Section, QueryableStorageMulti, SubmittableExtrinsics, SubmittableModuleExtrinsics, QueryableStorage, QueryableModuleStorage } from '../types';
+import { ApiOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, ExposeMethodOptions, DecoratedRpc, DecoratedRpc$Section, QueryableStorageMulti, SubmittableExtrinsics, SubmittableModuleExtrinsics, QueryableStorage, QueryableModuleStorage, StorageEntryObservable, StorageEntryPromise } from '../types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -198,7 +198,14 @@ export default class ApiPromise extends ApiBase<'promise'> {
     };
   }
 
-  protected exposeMethod<Method extends AnyFunction> (method: Method, options?: ExposeMethodOptions): StorageEntryPromiseOverloads {
+  /**
+   * @description Expose a method while preserving its properties
+   */
+  protected exposeCallable<Method extends AnyFunction> (method: Method, options?: ExposeMethodOptions): AnyFunction & { [key in keyof Method]: Method[key] } {
+    return Object.assign(this.exposeMethod(method, options), { ...method });
+  }
+
+  protected exposeMethod<Method extends AnyFunction> (method: Method, options?: ExposeMethodOptions): AnyFunction {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
     return function (...args: any[]) {
@@ -247,18 +254,14 @@ export default class ApiPromise extends ApiBase<'promise'> {
           )
           .subscribe(callback);
       }) as UnsubscribePromise;
-    } as StorageEntryPromiseOverloads;
+    };
   }
 
   protected exposeRpc (rpc: DecoratedRpc<'rxjs'>): DecoratedRpc<'promise'> {
-    return Object.keys(rpc).reduce((result, _sectionName) => {
-      const sectionName = _sectionName as keyof DecoratedRpc<'rxjs'>;
-
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
-        const method = rpc[sectionName][methodName];
-        section[methodName] = this.exposeMethod(method);
-
-        return section;
+    return (Object.keys(rpc) as (keyof DecoratedRpc<'rxjs'>)[]).reduce((result, sectionName) => {
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((resultSection, methodName) => {
+        resultSection[methodName] = this.exposeCallable(rpc[sectionName][methodName], { methodName });
+        return resultSection;
       }, {} as DecoratedRpc$Section<'promise'>);
 
       return result;
@@ -269,27 +272,17 @@ export default class ApiPromise extends ApiBase<'promise'> {
     return this.exposeMethod(multi) as QueryableStorageMulti<'promise'>;
   }
 
-  protected exposeExtrinsics (_extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<'promise'> {
-    const creator = this.exposeMethod(_extrinsics);
+  protected exposeExtrinsics (extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<'promise'> {
+    const creator = this.exposeMethod(extrinsics);
 
-    return Object.keys(_extrinsics).reduce((result, sectionName) => {
-      const section = _extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.exposeMethod(section[methodName]) as any;
-        result[methodName].meta = section[methodName].meta;
-        result[methodName].method = section[methodName].method;
-        result[methodName].section = section[methodName].section;
-        result[methodName].toJSON = section[methodName].toJSON;
-        if ('callIndex' in section[methodName]) {
-          result[methodName].callIndex = section[methodName].callIndex;
-        }
-
-        return result;
+    return Object.keys(extrinsics).reduce((result, sectionName) => {
+      result[sectionName] = Object.keys(extrinsics[sectionName]).reduce((resultSection, methodName) => {
+        resultSection[methodName] = this.exposeCallable(extrinsics[sectionName][methodName]);
+        return resultSection;
       }, {} as SubmittableModuleExtrinsics<'promise'>);
 
       return result;
-    }, creator as any/*?*/ as SubmittableExtrinsics<'promise'>);
+    }, creator as SubmittableExtrinsics<'promise'>);
   }
 
   protected exposeStorage (storage: QueryableStorage<'rxjs'>): QueryableStorage<'promise'> {
@@ -297,21 +290,21 @@ export default class ApiPromise extends ApiBase<'promise'> {
       const section = storage[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.exposeMethod(section[methodName]) as any;
-        result[methodName].at = this.exposeMethod(section[methodName].at);
-        result[methodName].hash = this.exposeMethod(section[methodName].hash);
-        result[methodName].key = section[methodName].key;
-        result[methodName].multi = this.exposeMethod(section[methodName].multi);
-        result[methodName].size = this.exposeMethod(section[methodName].size);
-        result[methodName].creator = section[methodName].creator;
-        (result[methodName] as any).meta = (section[methodName] as any).meta;
-        (result[methodName] as any).method = (section[methodName] as any).method;
-        (result[methodName] as any).section = (section[methodName] as any).section;
-        (result[methodName] as any).toJSON = (section[methodName] as any).toJSON;
-        if ('callIndex' in section[methodName]) {
-          (result[methodName] as any).callIndex = (section[methodName] as any).callIndex;
-        }
-
+        result[methodName] = (Object.keys(section[methodName]) as (keyof StorageEntryObservable)[])
+          .reduce((acc, key) => {
+            switch (key) {
+              case 'at':
+              case 'hash':
+              case 'key':
+              case 'multi':
+              case 'size':
+                (acc[key] as StorageEntryPromiseOverloads) = this.exposeMethod(section[methodName][key]);
+                break;
+              default:
+                acc[key] = section[methodName][key];
+            }
+            return acc;
+          }, this.exposeMethod(section[methodName]) as StorageEntryPromise);
         return result;
       }, {} as QueryableModuleStorage<'promise'>);
 
