@@ -9,7 +9,7 @@ import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
+import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorCount, Vector } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -35,26 +35,6 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
     expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
-  });
-
-  it('allows retrieval of an fallback entry (once-off query)', async (): Promise<void> => {
-    const nonce = await api.query.system.accountNonce('5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
-
-    expect(nonce.toHex()).toEqual('0x0000000000000000');
-  });
-
-  it('allows retrieval of fallback when at query is made', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
-    const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
-
-    expect(nonce.toHex()).toEqual('0x0000000000000000');
-  });
-
-  it('queries state for a balance', async (): Promise<() => void> => {
-    return api.query.balances.freeBalance(keyring.alice.address, (balance: Balance): void => {
-      expect(balance).toBeInstanceOf(BN);
-      expect(balance.isZero()).toBe(false);
-    });
   });
 
   it('subscribes to rpc', (done): Promise<() => void> => {
@@ -87,26 +67,6 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
     );
   });
 
-  it('subscribes to queries', (done): Promise<() => void> => {
-    return (
-      api.query.system.accountNonce(keyring.ferdie.address, (nonce: Index): void => {
-        expect(nonce instanceof BN).toBe(true);
-
-        done();
-      })
-    );
-  });
-
-  it.skip('subscribes to queries (default)', (done): Promise<() => void> => {
-    return (
-      api.query.staking.validators(keyring.ferdie.address, (prefs: ValidatorPrefs): void => {
-        expect(prefs.unstakeThreshold.toNumber()).toBe(3);
-
-        done();
-      })
-    );
-  });
-
   it('subscribes to a linked map (staking.validators)', (done): Promise<() => void> => {
     return (
       api.query.staking.validators((prefs: LinkageResult): void => {
@@ -114,54 +74,6 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
 
         done();
       })
-    );
-  });
-
-  it('subscribes to multiple results (freeBalance.multi)', (done): Promise<() => void> => {
-    return (
-      api.query.balances.freeBalance.multi([
-        keyring.alice.address,
-        keyring.bob.address,
-        '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
-        keyring.ferdie.address
-      ], (balances): void => {
-        expect(balances).toHaveLength(4);
-
-        done();
-      })
-    );
-  });
-
-  it('subscribes to multiple results (api.queryMulti)', (done): Promise<() => void> => {
-    return api.queryMulti([
-      [api.query.balances.freeBalance, keyring.alice.address],
-      [api.query.balances.freeBalance, keyring.bob.address],
-      [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
-      [api.query.balances.freeBalance, keyring.ferdie.address]
-    ], (balances: Balance[]): void => {
-      expect(balances).toHaveLength(4);
-
-      done();
-    });
-  });
-
-  it('subscribes to derived balances (balances.all)', (done): Promise<() => void> => {
-    return (
-      api.derive.balances.all(
-        keyring.alice.address,
-        (all: DerivedBalances): void => {
-          expect(all.accountId.toString()).toEqual(keyring.alice.address);
-
-          expect(all.freeBalance).toBeDefined();
-          expect(all.freeBalance.gt(ZERO)).toBe(true);
-          expect(all.availableBalance).toBeDefined();
-          expect(all.availableBalance.gt(ZERO)).toBe(true);
-          expect(all.reservedBalance).toBeDefined();
-          expect(all.lockedBalance).toBeDefined();
-          expect(all.vestedBalance).toBeDefined();
-          done();
-        }
-      )
     );
   });
 
@@ -234,19 +146,125 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
       expect(size.toNumber()).toBeGreaterThanOrEqual(0);
     });
   });
+});
+
+// The following tests require a development node with the default funded testing accounts
+describeE2E({
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
+})('Promise e2e development queries', (wsUrl): void => {
+  let api: ApiPromise;
+
+  beforeEach(async (done): Promise<void> => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
+
+  const keyring = testingPairs({ type: 'ed25519' });
+
+  it('allows retrieval of an fallback entry (once-off query)', async (): Promise<void> => {
+    const nonce = await api.query.system.accountNonce('5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
+  it('allows retrieval of fallback when at query is made', async (): Promise<void> => {
+    const header = await api.rpc.chain.getHeader() as Header;
+    const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
+  it('queries state for a balance', async (): Promise<() => void> => {
+    return api.query.balances.freeBalance(keyring.alice_stash.address, (balance: Balance): void => {
+      expect(balance).toBeInstanceOf(BN);
+      expect(balance.isZero()).toBe(false);
+    });
+  });
+
+  it('subscribes to queries', (done): Promise<() => void> => {
+    return (
+      api.query.system.accountNonce(keyring.ferdie.address, (nonce: Index): void => {
+        expect(nonce instanceof BN).toBe(true);
+
+        done();
+      })
+    );
+  });
+
+  it('subscribes to queries (default)', (done): Promise<() => void> => {
+    return (
+      api.query.staking.minimumValidatorCount((defaultCount: ValidatorCount): void => {
+        expect(defaultCount.toNumber()).toBe(1);
+
+        done();
+      })
+    );
+  });
+
+  it('subscribes to multiple results (freeBalance.multi)', (done): Promise<() => void> => {
+    return (
+      api.query.balances.freeBalance.multi([
+        keyring.alice.address,
+        keyring.bob.address,
+        '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
+        keyring.ferdie.address
+      ], (balances): void => {
+        expect(balances).toHaveLength(4);
+
+        done();
+      })
+    );
+  });
+
+  it('subscribes to multiple results (api.queryMulti)', (done): Promise<() => void> => {
+    return api.queryMulti([
+      [api.query.balances.freeBalance, keyring.alice.address],
+      [api.query.balances.freeBalance, keyring.bob.address],
+      [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
+      [api.query.balances.freeBalance, keyring.ferdie.address]
+    ], (balances: Balance[]): void => {
+      expect(balances).toHaveLength(4);
+
+      done();
+    });
+  });
+
+  it('subscribes to derived balances (balances.all)', (done): Promise<() => void> => {
+    return (
+      api.derive.balances.all(
+        keyring.alice_stash.address,
+        (all: DerivedBalances): void => {
+          expect(all.accountId.toString()).toEqual(keyring.alice_stash.address);
+
+          expect(all.freeBalance).toBeDefined();
+          expect(all.freeBalance.gt(ZERO)).toBe(true);
+          expect(all.availableBalance).toBeDefined();
+          expect(all.availableBalance.gt(ZERO)).toBe(true);
+          expect(all.reservedBalance).toBeDefined();
+          expect(all.lockedBalance).toBeDefined();
+          expect(all.vestedBalance).toBeDefined();
+          done();
+        }
+      )
+    );
+  });
 
   describe('with map type', (): void => {
     it('queries correct value', async (): Promise<void> => {
-      const balance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
+      const balance = await api.query.balances.freeBalance(keyring.bob_stash.address) as Balance;
 
       expect(balance.isZero()).toBe(false);
     });
 
     it('queries correct value at a specified block', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const balance = await api.query.balances.freeBalance(keyring.alice.address);
+      const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
       const header = await api.rpc.chain.getHeader() as Header;
-      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice.address) as Balance;
+      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address) as Balance;
 
       expect(balanceAt.isZero()).toBe(false);
       expect(balanceAt.toString()).toEqual(balance.toString());
@@ -254,9 +272,9 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
 
     it('subscribes to query and get correct result', async (done): Promise<() => void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const balance = await api.query.balances.freeBalance(keyring.alice.address);
+      const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 
-      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed: Balance): void => {
+      return api.query.balances.freeBalance(keyring.alice_stash.address, (balanceSubscribed: Balance): void => {
         expect(balanceSubscribed.isZero()).toBe(false);
         expect(balanceSubscribed.toString()).toEqual(balance.toString());
         done();
@@ -271,11 +289,11 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
 
     it('gets correct key', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const key = api.query.balances.freeBalance.key(keyring.alice.address);
+      const key = api.query.balances.freeBalance.key(keyring.alice_stash.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
       const balanceRPC = new Balance(balanceData.unwrapOr(undefined));
 
-      const balance = await api.query.balances.freeBalance(keyring.alice.address);
+      const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 
       expect(balanceRPC.isZero()).toBe(false);
       expect(balanceRPC.toString()).toEqual(balance.toString());
@@ -313,12 +331,28 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
     });
 
     it('queries correct size', async (): Promise<void> => {
-      const size = await api.query.balances.freeBalance.size(keyring.alice.address);
+      const size = await api.query.balances.freeBalance.size(keyring.alice_stash.address);
 
       expect(size.toNumber()).not.toEqual(0);
     });
   });
+});
 
+// The following tests only run on nodes that support doubleMapType introduced by metadata v5 
+describeE2E({
+  only: [
+    'docker-polkadot-master',
+    'docker-substrate-master',
+    'docker-substrate-2.0'
+  ]
+})('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl): void => {
+  let api: ApiPromise;
+
+  beforeEach(async (done): Promise<void> => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
+
+    done();
+  });
   // TODO Update ['any', '0x1234'] to the key of a known event topic and update EXPECTED_VALUE to the expected value
   describe('with double map type', (): void => {
     const KEY1 = 'any';

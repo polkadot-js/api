@@ -11,7 +11,7 @@ import describeE2E from '../../util/describeE2E';
 
 describeE2E({
   only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']
-})('alex queries', (wsUrl): void => {
+})('Promise e2e alex queries', (wsUrl): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
