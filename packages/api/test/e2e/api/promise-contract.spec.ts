@@ -14,8 +14,8 @@ import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
 
-import flipperAbi from '../../util/contracts/code/flipper.json';
-const flipperCode = fs.readFileSync(path.join(__dirname, '../../util/contracts/code/flipper-pruned.wasm')).toString('hex');
+import flipperAbi from '../../util/contracts/flipper.json';
+const flipperCode = fs.readFileSync(path.join(__dirname, '../../util/contracts/flipper-pruned.wasm')).toString('hex');
 
 describeE2E()('Promise e2e contracts', (wsUrl): void => {
   let address: Address;

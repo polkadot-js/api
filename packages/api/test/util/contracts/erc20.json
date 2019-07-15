@@ -1,0 +1,100 @@
+{
+  "name": "Erc20",
+  "deploy": {
+    "args": [
+      {
+        "name": "init_value",
+        "type": "Balance"
+      }
+    ]
+  },
+  "messages": [
+    {
+      "name": "total_supply",
+      "selector": 949181842,
+      "mutates": false,
+      "args": [],
+      "return_type": "Balance"
+    },
+    {
+      "name": "balance_of",
+      "selector": 3827153702,
+      "mutates": false,
+      "args": [
+        {
+          "name": "owner",
+          "type": "Address"
+        }
+      ],
+      "return_type": "Balance"
+    },
+    {
+      "name": "allowance",
+      "selector": 3057219184,
+      "mutates": false,
+      "args": [
+        {
+          "name": "owner",
+          "type": "Address"
+        },
+        {
+          "name": "spender",
+          "type": "Address"
+        }
+      ],
+      "return_type": "Balance"
+    },
+    {
+      "name": "transfer",
+      "selector": 3374842663,
+      "mutates": true,
+      "args": [
+        {
+          "name": "to",
+          "type": "Address"
+        },
+        {
+          "name": "value",
+          "type": "Balance"
+        }
+      ],
+      "return_type": "bool"
+    },
+    {
+      "name": "approve",
+      "selector": 431186122,
+      "mutates": true,
+      "args": [
+        {
+          "name": "spender",
+          "type": "Address"
+        },
+        {
+          "name": "value",
+          "type": "Balance"
+        }
+      ],
+      "return_type": "bool"
+    },
+    {
+      "name": "transfer_from",
+      "selector": 197482595,
+      "mutates": true,
+      "args": [
+        {
+          "name": "from",
+          "type": "Address"
+        },
+        {
+          "name": "to",
+          "type": "Address"
+        },
+        {
+          "name": "value",
+          "type": "Balance"
+        }
+      ],
+      "return_type": "bool"
+    }
+  ]
+}

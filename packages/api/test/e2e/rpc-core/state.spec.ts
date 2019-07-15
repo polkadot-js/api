@@ -15,7 +15,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
-import flipperAbi from '../../util/contracts/code/flipper.json';
+import flipperAbi from '../../util/contracts/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
@@ -92,7 +92,7 @@ describe.skip('e2e state', (): void => {
     let codeHash: Hash;
 
     beforeAll(async (done): Promise<Hash> => {
-      const code: string = fs.readFileSync(path.join(__dirname, '../../util/contracts/code/flipper-pruned.wasm')).toString('hex');
+      const code: string = fs.readFileSync(path.join(__dirname, '../../util/contracts/flipper-pruned.wasm')).toString('hex');
       const abi = new Abi(flipperAbi);
       const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
       const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
