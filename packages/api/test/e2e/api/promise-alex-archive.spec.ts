@@ -2,22 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Extrinsic, SignedBlock } from '@polkadot/types';
 
-import Api from './../../../src/promise';
+import ApiPromise from '../../src/promise';
+import describeE2E from '../util/describeE2E';
 
-// To run these tests locally you need to run a Alexander full archive node locally
-describe.skip('alex archive queries (local)', (): void => {
-  let api: Api;
+describeE2E({
+  only: [] // To run these tests locally you need to run a Alexander full archive node locally
+})('alex archive queries (local)', (wsUrl): void => {
+  let api: ApiPromise;
 
-  beforeEach((): void => {
-    jest.setTimeout(30000);
-  });
+  beforeEach(async (done): Promise<void> => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
 
-  beforeEach(async (): Promise<Api> => {
-    api = await Api.create();
-
-    return api;
+    done();
   });
 
   // https://github.com/polkadot-js/api/issues/845

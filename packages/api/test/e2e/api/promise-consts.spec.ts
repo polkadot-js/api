@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ApiPromise } from '@polkadot/api';
 import { BlockNumber } from '@polkadot/types';
 
-describe.skip('e2e consts', (): void => {
+import ApiPromise from '../../src/promise';
+import describeE2E from '../util/describeE2E';
+
+describeE2E({
+  except: ['remote-substrate-1.0', 'substrate-1.0']
+})('e2e consts', (wsUrl): void => {
   let api: ApiPromise;
 
-  beforeEach((): Promise<ApiPromise> => {
-    api = new ApiPromise(new WsProvider('ws://127.0.0.1:9944'));
+  beforeEach(async (done): Promise<void> => {
+    api = await ApiPromise.create(new WsProvider(wsUrl));
 
-    return api.isReady;
-  });
-
-  beforeEach((): void => {
-    jest.setTimeout(30000);
+    done();
   });
 
   it('democracy.cooloffPeriod parameter type', (): void => {

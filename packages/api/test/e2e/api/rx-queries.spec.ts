@@ -8,16 +8,20 @@ import { switchMap } from 'rxjs/operators';
 
 import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
-import { ApiRx } from '../../../src';
+import ApiRx from '../../src/rx';
+import describeE2E from '../util/describeE2E';
 
-describe.skip('Rx e2e queries', (): void => {
+describeE2E({
+  apiType: 'rxjs'
+})('Rx e2e queries', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiRx.create().toPromise();
-    jest.setTimeout(3000000);
+    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
+
     done();
   });
 

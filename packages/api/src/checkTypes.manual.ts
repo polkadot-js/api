@@ -49,6 +49,12 @@ export default async function test (): Promise<void> {
     console.log('current author:', header.author);
   });
 
+  // constants has actual value & metadata
+  console.log(
+    api.consts.balances.creationFee.toHex(),
+    api.consts.balances.creationFee.meta.documentation.map((s) => s.toString()).join('')
+  );
+
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
   console.log('transfer as Method', transfer as IMethod);

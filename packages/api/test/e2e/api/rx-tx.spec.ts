@@ -7,21 +7,22 @@ import { first, switchMap } from 'rxjs/operators';
 
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
-import { ApiRx, SubmittableResult } from './../../../src';
+import ApiRx from './../../src/rx';
+import { SubmittableResult } from './../../src';
+import describeE2E from '../util/describeE2E';
 
-describe.skip('Rx e2e transactions', (): void => {
+describeE2E({
+  apiType: 'rxjs'
+})('Rx e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiRx.create().toPromise();
-    jest.setTimeout(30000);
-    done();
-  });
+    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
 
-  afterEach((): void => {
-    jest.setTimeout(5000);
+    done();
   });
 
   it('makes a transfer', (done): void => {
