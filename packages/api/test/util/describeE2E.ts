@@ -21,7 +21,7 @@ interface Options {
   apiType?: 'promise' | 'rxjs';
 }
 
-function filterProcessEnv (wsEndpoints: Options): WsName[] {
+function filterProcessEnv (wsEndpoints: WsName[]): WsName[] {
   // If there's a TEST_DOCKER flag, we  only run tests to Docker endpoints
   // If there's a TEST_REMOTE flag, we only run tests to remote endpoints
   // If none of the two is present, we only run tests on local node
