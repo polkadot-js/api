@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiRx } = require('@polkadot/api');
-// Import dependencies from RxJs
 const { combineLatest, of } = require('rxjs');
 const { first, switchMap } = require('rxjs/operators');
 
@@ -9,7 +9,7 @@ const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 function main () {
   // Create our API with a default connection to the local node
-  new ApiRx(provider).isReady
+  new ApiRx().isReady
     .pipe(
       // Here we ake our basic chain state/storage queries
       switchMap((api) => combineLatest(
@@ -48,4 +48,4 @@ function main () {
     });
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error).finally(() => process.exit());

@@ -21,7 +21,7 @@ const MAX_LENGTH = 32768;
 export default class Vector<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
+  public constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
       ...Vector.decodeVector(Type, value)
     );
@@ -29,9 +29,9 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     this._Type = Type;
   }
 
-  static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any>): Array<T> {
+  public static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
-      return value.map((entry, index) => {
+      return value.map((entry, index): T => {
         try {
           return entry instanceof Type
             ? entry
@@ -52,13 +52,13 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
-  static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
+  public static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
     return class extends Vector<O> {
-      constructor (value?: Array<any>) {
+      public constructor (value?: any[]) {
         super(Type, value);
       }
 
-      static Fallback = Type.Fallback
+      public static Fallback = Type.Fallback
         ? Vector.with(Type.Fallback)
         : undefined;
     };
@@ -67,14 +67,14 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
   /**
    * @description The type for the items
    */
-  get Type (): string {
+  public get Type (): string {
     return this._Type.name;
   }
 
   /**
    * @description Finds the index of the value in the array
    */
-  indexOf (_other?: any): number {
+  public indexOf (_other?: any): number {
     // convert type first, this removes overhead from the eq
     const other = _other instanceof this._Type
       ? _other
@@ -92,7 +92,7 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return `Vec<${new this._Type().toRawType()}>`;
   }
 }

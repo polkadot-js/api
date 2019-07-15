@@ -8,10 +8,10 @@ import { CodecTo } from '../types';
 import Moment from './Moment';
 import U64 from './U64';
 
-describe('Moment', () => {
-  describe('decode', () => {
-    const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false) =>
-      it(`can decode from ${type}`, () => {
+describe('Moment', (): void => {
+  describe('decode', (): void => {
+    const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false): void =>
+      it(`can decode from ${type}`, (): void => {
         expect(new Moment(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });
 
@@ -21,9 +21,9 @@ describe('Moment', () => {
     testDecode('U64', new U64(69), 69, true);
   });
 
-  describe('encode', () => {
-    const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array) =>
-      it(`can encode ${to}`, () => {
+  describe('encode', (): void => {
+    const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array): void =>
+      it(`can encode ${to}`, (): void => {
         expect(new Moment(421)[to]()).toEqual(expected);
       });
 
@@ -34,7 +34,7 @@ describe('Moment', () => {
     testEncode('toNumber', 421);
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
 
-    it(`can encode toString`, () => {
+    it(`can encode toString`, (): void => {
       expect(
         new Moment(421)
           .toString()
@@ -42,25 +42,25 @@ describe('Moment', () => {
       ).toBe(true);
     });
 
-    it('encodes default BE hex', () => {
+    it('encodes default BE hex', (): void => {
       expect(
         new Moment(3).toHex()
       ).toEqual('0x0000000000000003');
     });
 
-    it('encodes options LE hex', () => {
+    it('encodes options LE hex', (): void => {
       expect(
         new Moment(3).toHex(true)
       ).toEqual('0x0300000000000000');
     });
   });
 
-  describe('utils', () => {
-    it('compares values', () => {
+  describe('utils', (): void => {
+    it('compares values', (): void => {
       expect(new Moment(123).eq(123)).toBe(true);
     });
 
-    it('compares values (non-match)', () => {
+    it('compares values (non-match)', (): void => {
       expect(new Moment(123).eq(456)).toBe(false);
     });
   });

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethodOpt, RpcSection } from './types';
+import { RpcMethodOpt } from './types';
 
 import createMethod from './create/method';
 
@@ -70,4 +70,4 @@ export default {
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)
   }
-} as RpcSection;
+};

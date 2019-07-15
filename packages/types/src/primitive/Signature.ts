@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import H512 from '../primitive/H512';
+import H512 from './H512';
 
 /**
  * @name Signature

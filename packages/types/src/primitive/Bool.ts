@@ -13,7 +13,8 @@ import { Codec } from '../types';
  * @noInheritDoc
  */
 export default class Bool extends Boolean implements Codec {
-  constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  public constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
     super(
       Bool.decodeBool(value)
     );
@@ -32,21 +33,21 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 1;
   }
 
   /**
    * @description Checks if the value is an empty value (always false)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return false;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return this.valueOf() === (
       other instanceof Boolean
         ? other.valueOf()
@@ -57,28 +58,28 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): boolean {
+  public toJSON (): boolean {
     return this.valueOf();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'bool';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return `${this.toJSON()}`;
   }
 
@@ -86,7 +87,8 @@ export default class Bool extends Boolean implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array([this.valueOf() ? 1 : 0]);
   }
 }

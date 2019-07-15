@@ -4,16 +4,16 @@
 
 import BN from 'bn.js';
 
+import Balance from '../primitive/Balance';
 import Moment from '../primitive/Moment';
 import U32 from '../primitive/U32';
-import Balance from '../type/Balance';
 import BlockNumber from '../type/BlockNumber';
 import Compact from './Compact';
 import UInt from './UInt';
 
-describe('Compact', () => {
-  describe('encodeU8a', () => {
-    it('encodes short u8', () => {
+describe('Compact', (): void => {
+  describe('encodeU8a', (): void => {
+    it('encodes short u8', (): void => {
       expect(
         Compact.encodeU8a(18)
       ).toEqual(
@@ -21,7 +21,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encodes max u8 values', () => {
+    it('encodes max u8 values', (): void => {
       expect(
         Compact.encodeU8a(new UInt(63))
       ).toEqual(
@@ -29,7 +29,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encodes basic u16 value', () => {
+    it('encodes basic u16 value', (): void => {
       expect(
         Compact.encodeU8a(511)
       ).toEqual(
@@ -37,7 +37,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encodes basic ua6 (not at edge)', () => {
+    it('encodes basic ua6 (not at edge)', (): void => {
       expect(
         Compact.encodeU8a(111)
       ).toEqual(
@@ -45,7 +45,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encodes basic u32 values (short)', () => {
+    it('encodes basic u32 values (short)', (): void => {
       expect(
         Compact.encodeU8a(0xffff)
       ).toEqual(
@@ -53,7 +53,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encodes basic u32 values (full)', () => {
+    it('encodes basic u32 values (full)', (): void => {
       expect(
         Compact.encodeU8a(0xfffffff9)
       ).toEqual(
@@ -61,7 +61,7 @@ describe('Compact', () => {
       );
     });
 
-    it('encondes a large balance', () => {
+    it('encondes a large balance', (): void => {
       expect(
         Compact.encodeU8a(new Balance('0x5af3107a4000'))
       ).toEqual(
@@ -73,86 +73,86 @@ describe('Compact', () => {
     });
   });
 
-  describe('decodeU8a', () => {
-    it('decoded u8 value', () => {
+  describe('decodeU8a', (): void => {
+    it('decoded u8 value', (): void => {
       expect(
         Compact.decodeU8a(new Uint8Array([0b11111100]), 32)
       ).toEqual([1, new BN(63)]);
     });
 
-    it('decodes from same u16 encoded value', () => {
+    it('decodes from same u16 encoded value', (): void => {
       expect(
         Compact.decodeU8a(new Uint8Array([0b11111101, 0b00000111]), 32)
       ).toEqual([2, new BN(511)]);
     });
 
-    it('decodes from same u32 encoded value (short)', () => {
+    it('decodes from same u32 encoded value (short)', (): void => {
       expect(
         Compact.decodeU8a(new Uint8Array([254, 255, 3, 0]), 32)
       ).toEqual([4, new BN(0xffff)]);
     });
 
-    it('decodes from same u32 encoded value (full)', () => {
+    it('decodes from same u32 encoded value (full)', (): void => {
       expect(
         Compact.decodeU8a(new Uint8Array([3, 249, 255, 255, 255]), 32)
       ).toEqual([5, new BN(0xfffffff9)]);
     });
 
-    it('decodes from same u32 as u64 encoded value (full, default)', () => {
+    it('decodes from same u32 as u64 encoded value (full, default)', (): void => {
       expect(
         Compact.decodeU8a(new Uint8Array([3, 249, 255, 255, 255]), 64)
       ).toEqual([5, new BN(0xfffffff9)]);
     });
   });
 
-  describe('constructor', () => {
-    it('has the correct bitLength for constructor values (BlockNumber)', () => {
+  describe('constructor', (): void => {
+    it('has the correct bitLength for constructor values (BlockNumber)', (): void => {
       expect(
         new Compact(BlockNumber, 0xfffffff9).bitLength()
       ).toEqual(64);
     });
 
-    it('has the correct encodedLength for constructor values (BlockNumber)', () => {
+    it('has the correct encodedLength for constructor values (BlockNumber)', (): void => {
       expect(
         new Compact(BlockNumber, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 
-    it('has the correct encodedLength for constructor values (u32)', () => {
+    it('has the correct encodedLength for constructor values (u32)', (): void => {
       expect(
         new Compact(U32, 0xffff9).encodedLength
       ).toEqual(4);
     });
 
-    it('constructs properly via U8a as U32', () => {
+    it('constructs properly via U8a as U32', (): void => {
       expect(
         new Compact(U32, new Uint8Array([254, 255, 3, 0])).toNumber()
       ).toEqual(new BN(0xffff).toNumber());
     });
 
-    it('constructs properly via number as Moment', () => {
+    it('constructs properly via number as Moment', (): void => {
       expect(
         new Compact(Moment, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
       ).toBe(true);
     });
   });
 
-  describe('utils', () => {
-    it('compares against another Compact', () => {
+  describe('utils', (): void => {
+    it('compares against another Compact', (): void => {
       expect(new Compact(U32, 12345).eq(new Compact(U32, 12345))).toBe(true);
     });
 
-    it('compares against a primitive', () => {
+    it('compares against a primitive', (): void => {
       expect(new Compact(U32, 12345).eq(12345)).toBe(true);
     });
 
-    it('unwraps to the wrapped value', () => {
+    it('unwraps to the wrapped value', (): void => {
       expect(new Compact(U32, 12345).unwrap() instanceof U32).toBe(true);
     });
   });
 
-  describe('helpers', () => {
-    it('correctly adds the length prefix', () => {
+  describe('helpers', (): void => {
+    it('correctly adds the length prefix', (): void => {
       expect(
         Compact.addLengthPrefix(Uint8Array.from([12, 13]))
       ).toEqual(Uint8Array.from([2 << 2, 12, 13]));

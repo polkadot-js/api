@@ -5,29 +5,29 @@
 import Bytes from './Bytes';
 import StorageData from './StorageData';
 
-describe('Bytes', () => {
+describe('Bytes', (): void => {
   const CODE = new Uint8Array([0x14, 0x3a, 0x63, 0x6f, 0x64, 0x65]);
 
-  describe('construction', () => {
-    it('decodes when input is string', () => {
+  describe('construction', (): void => {
+    it('decodes when input is string', (): void => {
       expect(
         new Bytes(':code').toU8a()
       ).toEqual(CODE);
     });
 
-    it('decodes when hex is not length prefixed', () => {
+    it('decodes when hex is not length prefixed', (): void => {
       expect(
         new Bytes('0x3a636f6465').toU8a()
       ).toEqual(CODE);
     });
 
-    it('decodes from Array<number>', () => {
+    it('decodes from number[]', (): void => {
       expect(
         new Bytes([0x3a, 0x63, 0x6f, 0x64, 0x65]).toU8a()
       ).toEqual(CODE);
     });
 
-    it('creates via storagedata (no prefix)', () => {
+    it('creates via storagedata (no prefix)', (): void => {
       expect(
         new Bytes(
           new StorageData('0x3a636f6465')
@@ -35,7 +35,7 @@ describe('Bytes', () => {
       ).toEqual(CODE);
     });
 
-    it('creates via storagedata (with length prefix)', () => {
+    it('creates via storagedata (with length prefix)', (): void => {
       expect(
         new Bytes(
           new StorageData('0x143a636f6465')

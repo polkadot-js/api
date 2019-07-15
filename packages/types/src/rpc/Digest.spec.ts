@@ -6,8 +6,8 @@ import json3 from '../json/Header.003.json';
 import block1 from '../json/SignedBlock.003.00.json';
 import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
 
-describe('Digest', () => {
-  it('decodes logs with consensus', () => {
+describe('Digest', (): void => {
+  it('decodes logs with consensus', (): void => {
     const digest = new Digest(json3.result.digest);
 
     expect(digest.logs.length).toEqual(1);
@@ -21,27 +21,27 @@ describe('Digest', () => {
     ]);
   });
 
-  it('filters logs, excluding items', () => {
+  it('filters logs, excluding items', (): void => {
     const logs = new Digest(block1.result.block.header.digest).logsWith('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('PreRuntime');
   });
 
-  it('filters logs, including items', () => {
+  it('filters logs, including items', (): void => {
     const logs = new Digest(block1.result.block.header.digest).logsWithout('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('Seal');
   });
 
-  describe('ConsensusId', () => {
-    it('creates a valid id for aura', () => {
+  describe('ConsensusId', (): void => {
+    it('creates a valid id for aura', (): void => {
       expect(ConsensusEngineId.stringToId('FRNK')).toEqual(CID_GRPA);
       expect(ConsensusEngineId.stringToId('aura')).toEqual(CID_AURA);
     });
 
-    it('reverses an id to string for babe', () => {
+    it('reverses an id to string for babe', (): void => {
       expect(ConsensusEngineId.idToString(CID_BABE)).toEqual('babe');
     });
   });

@@ -4,8 +4,8 @@
 
 import NewAccountOutcome from './NewAccountOutcome';
 
-describe('NewAccountOutcome', () => {
-  it('allows setting value in constructor', () => {
+describe('NewAccountOutcome', (): void => {
+  it('allows setting value in constructor', (): void => {
     expect(
       new NewAccountOutcome(2).toNumber()
     ).toEqual(2);

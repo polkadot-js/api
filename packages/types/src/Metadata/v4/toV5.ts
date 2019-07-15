@@ -60,7 +60,8 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
  */
 export default function toV5 (metadataV4: MetadataV4): MetadataV5 {
   return new MetadataV5({
-    modules: metadataV4.modules.map((modul) => {
+    // FIXME, this needs typing, not any
+    modules: metadataV4.modules.map((modul): any => {
       return {
         name: modul.name,
         prefix: modul.prefix,

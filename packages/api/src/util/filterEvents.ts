@@ -6,10 +6,10 @@ import { EventRecord, SignedBlock, U8a } from '@polkadot/types';
 
 import l from './logging';
 
-export default function filterEvents (extHash: U8a, { block: { extrinsics, header } }: SignedBlock, allEvents: Array<EventRecord>): Array<EventRecord> | undefined {
+export default function filterEvents (extHash: U8a, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[]): EventRecord[] | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
-  const allHashes = extrinsics.map((ext) => ext.hash.toHex());
+  const allHashes = extrinsics.map((ext): string => ext.hash.toHex());
 
   // find the index of our extrinsic in the block
   const index = allHashes.indexOf(myHash);
@@ -20,7 +20,7 @@ export default function filterEvents (extHash: U8a, { block: { extrinsics, heade
     return;
   }
 
-  return allEvents.filter(({ phase }) =>
+  return allEvents.filter(({ phase }): boolean =>
     // only ApplyExtrinsic has the extrinsic index
     phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(index)
   );

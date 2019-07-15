@@ -5,8 +5,9 @@
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
-  ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes,
-  DecoratedRpc, DecoratedRpc$Section, ExposeMethodOptions,
+  ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes,
+  DecoratedRpc, DecoratedRpcSection,
+  ExposeMethodOptions,
   QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
@@ -22,31 +23,31 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, U64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
+import * as srmlTypes from '@polkadot/types/srml/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import injectNodeCompat from './nodeCompat';
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 import { decorateSections } from './util/decorate';
 
-type MetaDecoration = {
-  callIndex?: Uint8Array,
-  meta: any,
-  method: string,
-  section: string,
-  toJSON: () => any
-};
+interface MetaDecoration {
+  callIndex?: Uint8Array;
+  meta: any;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
 
-let pkgJson: { name: string, version: string };
+let pkgJson: { name: string; version: string };
 
 try {
   pkgJson = require('./package.json');
@@ -57,20 +58,35 @@ try {
 
 export default abstract class ApiBase<ApiType> {
   private _consts?: Constants;
+
   private _derive?: ReturnType<ApiBase<ApiType>['exposeDerive']>;
+
   private _eventemitter: EventEmitter;
+
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
+
   private _genesisHash?: Hash;
+
   protected _isConnected: BehaviorSubject<boolean>;
+
   private _isReady: boolean = false;
+
   protected readonly _options: ApiOptions;
+
   private _query?: QueryableStorage<ApiType>;
+
   private _queryMulti: QueryableStorageMulti<ApiType>;
+
   private _rpc: DecoratedRpc<ApiType>;
+
   protected _rpcCore: RpcCore;
+
   private _runtimeMetadata?: Metadata;
+
   private _runtimeVersion?: RuntimeVersion;
-  private _rx: Partial<ApiInterface$Rx> = {};
+
+  private _rx: Partial<ApiInterfaceRx> = {};
+
   private _type: ApiTypes;
 
   /**
@@ -91,9 +107,9 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
+  public constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as ApiOptions
+      ? { provider } as unknown as ApiOptions
       : provider as ApiOptions;
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
@@ -116,6 +132,12 @@ export default abstract class ApiBase<ApiType> {
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
+      // first register the definitions we have, i.e. those where there are no type classes
+      Object.values(srmlTypes).forEach(({ types }): void =>
+        this.registerTypes(types)
+      );
+
+      // next register all the user types
       this.registerTypes(options.types);
     }
 
@@ -125,7 +147,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
-  get genesisHash (): Hash {
+  public get genesisHash (): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
@@ -134,21 +156,21 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return this._rpcCore.provider.hasSubscriptions;
   }
 
   /**
    * @description The library information name & version (from package.json)
    */
-  get libraryInfo (): string {
+  public get libraryInfo (): string {
     return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata (): Metadata {
+  public get runtimeMetadata (): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
     return this._runtimeMetadata as Metadata;
@@ -157,7 +179,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Contains the version information for the current runtime.
    */
-  get runtimeVersion (): RuntimeVersion {
+  public get runtimeVersion (): RuntimeVersion {
     assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
 
     return this._runtimeVersion as RuntimeVersion;
@@ -166,14 +188,14 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description The type of this API instance, either 'rxjs' or 'promise'
    */
-  get type (): ApiTypes {
+  public get type (): ApiTypes {
     return this._type;
   }
 
   /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
-  setSigner (signer: Signer) {
+  public setSigner (signer: Signer): void {
     this._rx.signer = signer;
   }
 
@@ -189,7 +211,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get derive (): ReturnType<ApiBase<ApiType>['exposeDerive']> {
+  public get derive (): ReturnType<ApiBase<ApiType>['exposeDerive']> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
     return this._derive as ReturnType<ApiBase<ApiType>['exposeDerive']>;
@@ -207,7 +229,7 @@ export default abstract class ApiBase<ApiType> {
    * console.log(api.consts.democracy.enactmentPeriod.toString())
    * ```
    */
-  get consts (): Constants {
+  public get consts (): Constants {
     assert(!isUndefined(this._consts), INIT_ERROR);
 
     return this._consts as Constants;
@@ -227,7 +249,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get query (): QueryableStorage<ApiType> {
+  public get query (): QueryableStorage<ApiType> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
     return this._query as QueryableStorage<ApiType>;
@@ -255,7 +277,7 @@ export default abstract class ApiBase<ApiType> {
    * );
    * ```
    */
-  get queryMulti (): QueryableStorageMulti<ApiType> {
+  public get queryMulti (): QueryableStorageMulti<ApiType> {
     return this._queryMulti;
   }
 
@@ -273,7 +295,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  get rpc (): DecoratedRpc<ApiType> {
+  public get rpc (): DecoratedRpc<ApiType> {
     return this._rpc;
   }
 
@@ -291,7 +313,7 @@ export default abstract class ApiBase<ApiType> {
    *   });
    * ```
    */
-  get tx (): SubmittableExtrinsics<ApiType> {
+  public get tx (): SubmittableExtrinsics<ApiType> {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
     return this._extrinsics as SubmittableExtrinsics<ApiType>;
@@ -300,7 +322,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Disconnect from the underlying provider, halting all comms
    */
-  disconnect (): void {
+  public disconnect (): void {
     this._rpcCore.disconnect();
   }
 
@@ -314,16 +336,16 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.on('connected', () => {
+   * api.on('connected', (): void => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
-   * api.on('disconnected', () => {
+   * api.on('disconnected', (): void => {
    *   console.log('API has been disconnected from the endpoint');
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  public on (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.on(type, handler);
 
     return this;
@@ -339,7 +361,7 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * const handler = () => {
+   * const handler = (): void => {
    *  console.log('Connected !);
    * };
    *
@@ -350,7 +372,7 @@ export default abstract class ApiBase<ApiType> {
    * api.off('connected', handler);
    * ```
    */
-  off (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  public off (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.removeListener(type, handler);
 
     return this;
@@ -366,16 +388,16 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.once('connected', () => {
+   * api.once('connected', (): void => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
-   * api.once('disconnected', () => {
+   * api.once('disconnected', (): void => {
    *   console.log('API has been disconnected from the endpoint');
    * });
    * ```
    */
-  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  public once (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
     this._eventemitter.once(type, handler);
 
     return this;
@@ -384,7 +406,7 @@ export default abstract class ApiBase<ApiType> {
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
-  registerTypes (types?: RegistryTypes): void {
+  public registerTypes (types?: RegistryTypes): void {
     if (types) {
       getTypeRegistry().register(types);
     }
@@ -404,22 +426,26 @@ export default abstract class ApiBase<ApiType> {
    *
    * We could easily imagine other user-facing interfaces, which are simply
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
-   * via `deocrateMethod`.
+   * via `exposeMethod`.
    */
-  protected abstract exposeMethod (method: (...args: Array<any>) => Observable<any>, options?: ExposeMethodOptions): any;
+  protected abstract exposeMethod (method: (...args: any[]) => Observable<any>, options?: ExposeMethodOptions): any;
+
   protected abstract exposeRpc (rpc: DecoratedRpc<'rxjs'>): DecoratedRpc<ApiType>;
+
   protected abstract exposeMulti (multi: QueryableStorageMulti<'rxjs'>): QueryableStorageMulti<ApiType>;
+
   protected abstract exposeExtrinsics (extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<ApiType>;
+
   protected abstract exposeStorage (storage: QueryableStorage<'rxjs'>): QueryableStorage<ApiType>;
 
-  private emit (type: ApiInterface$Events, ...args: Array<any>): void {
+  private emit (type: ApiInterfaceEvents, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
   }
 
   private init (): void {
     let healthTimer: NodeJS.Timeout | null = null;
 
-    this._rpcCore.provider.on('disconnected', () => {
+    this._rpcCore.provider.on('disconnected', (): void => {
       this.emit('disconnected');
       this._isConnected.next(false);
 
@@ -429,11 +455,11 @@ export default abstract class ApiBase<ApiType> {
       }
     });
 
-    this._rpcCore.provider.on('error', (error) => {
+    this._rpcCore.provider.on('error', (error): void => {
       this.emit('error', error);
     });
 
-    this._rpcCore.provider.on('connected', async () => {
+    this._rpcCore.provider.on('connected', async (): Promise<void> => {
       this.emit('connected');
       this._isConnected.next(true);
 
@@ -449,8 +475,8 @@ export default abstract class ApiBase<ApiType> {
           this.emit('ready', this);
         }
 
-        healthTimer = setInterval(() => {
-          this._rpcCore.system.health().toPromise().catch(() => {
+        healthTimer = setInterval((): void => {
+          this._rpcCore.system.health().toPromise().catch((): void => {
             // ignore
           });
         }, KEEPALIVE_INTERVAL);
@@ -489,8 +515,6 @@ export default abstract class ApiBase<ApiType> {
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    injectNodeCompat(this._runtimeVersion as RuntimeVersion);
-
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
     const constants = constantsFromMeta(this.runtimeMetadata);
@@ -505,7 +529,7 @@ export default abstract class ApiBase<ApiType> {
     this._query = this.exposeStorage(this._rx.query);
     this._consts = constants;
 
-    this._derive = this.exposeDerive(this._rx as ApiInterface$Rx);
+    this._derive = this.exposeDerive(this._rx as ApiInterfaceRx);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
@@ -530,28 +554,28 @@ export default abstract class ApiBase<ApiType> {
   }
 
   private decorateRpc (rpc: RpcCore): DecoratedRpc<'rxjs'> {
-    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
+    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<'rxjs'> => {
       const sectionName = _sectionName as keyof DecoratedRpc<'rxjs'>;
 
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName): DecoratedRpcSection<'rxjs'> => {
         const method = rpc[sectionName][methodName];
         section[methodName] = method;
 
         return section;
-      }, {} as DecoratedRpc$Section<'rxjs'>);
+      }, {} as unknown as DecoratedRpcSection<'rxjs'>);
 
       return result;
-    }, {} as DecoratedRpc<'rxjs'>);
+    }, {} as unknown as DecoratedRpc<'rxjs'>);
   }
 
   private decorateMulti (): QueryableStorageMulti<'rxjs'> {
-    return (calls: QueryableStorageMultiArgs<'rxjs'>) => {
-      const mapped = calls.map((arg: QueryableStorageMultiArg<'rxjs'>): [QueryableStorageEntry<'rxjs'>, ...Array<CodecArg>] =>
-          // the input is a QueryableStorageEntry, convert to StorageEntry
-          Array.isArray(arg)
-            ? [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator] as any
-        );
+    return (calls: QueryableStorageMultiArgs<'rxjs'>): Observable<Codec[]> => {
+      const mapped = calls.map((arg: QueryableStorageMultiArg<'rxjs'>): [QueryableStorageEntry<'rxjs'>, ...CodecArg[]] =>
+        // the input is a QueryableStorageEntry, convert to StorageEntry
+        Array.isArray(arg)
+          ? [arg[0].creator, ...arg.slice(1)]
+          : [arg.creator] as any
+      );
 
       return this._rpcCore.state.subscribeStorage(mapped);
     };
@@ -559,16 +583,16 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<'rxjs'> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<'rxjs'> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, (x: any) => x, value);
+      createSubmittable(this.type, this._rx as ApiInterfaceRx, (x: any): typeof x => x, value);
 
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
+    return Object.keys(extrinsics).reduce((result, sectionName): SubmittableExtrinsics<'rxjs'> => {
       const section = extrinsics[sectionName];
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+      result[sectionName] = Object.keys(section).reduce((result, methodName): SubmittableModuleExtrinsics<'rxjs'> => {
         result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
 
         return result;
-      }, {} as SubmittableModuleExtrinsics<'rxjs'>);
+      }, {} as unknown as SubmittableModuleExtrinsics<'rxjs'>);
 
       return result;
     }, creator as SubmittableExtrinsics<'rxjs'>);
@@ -576,71 +600,73 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction<'rxjs'> {
     const decorated =
-      (...params: Array<CodecArg>): SubmittableExtrinsic<'rxjs'> =>
-        createSubmittable(this.type, this._rx as ApiInterface$Rx, (x: any) => x, method(...params));
+      (...params: CodecArg[]): SubmittableExtrinsic<'rxjs'> =>
+        createSubmittable(this.type, this._rx as ApiInterfaceRx, (x: any): typeof x => x, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<'rxjs'>;
   }
 
   private decorateStorage (storage: Storage): QueryableStorage<'rxjs'> {
-    return Object.keys(storage).reduce((result, sectionName) => {
+    return Object.keys(storage).reduce((result, sectionName): QueryableStorage<'rxjs'> => {
       const section = storage[sectionName];
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+      result[sectionName] = Object.keys(section).reduce((result, methodName): QueryableModuleStorage<'rxjs'> => {
         result[methodName] = this.decorateStorageEntry(section[methodName]);
 
         return result;
-      }, {} as QueryableModuleStorage<'rxjs'>);
+      }, {} as unknown as QueryableModuleStorage<'rxjs'>);
 
       return result;
-    }, {} as QueryableStorage<'rxjs'>);
+    }, {} as unknown as QueryableStorage<'rxjs'>);
   }
 
   private decorateStorageEntry (creator: StorageEntry): QueryableStorageEntry<'rxjs'> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator)
-      : (...args: Array<any>) => {
-
+      : (...args: any[]): Observable<Codec> => {
         return this._rpcCore.state
-            // Unfortunately for one-shot calls we also use .subscribeStorage here
-            .subscribeStorage([
-              creator.meta.type.isDoubleMap
-                ? [creator, args]
-                : [creator, ...args]])
-            .pipe(
-              // state_storage returns an array of values, since we have just subscribed to
-              // a single entry, we pull that from the array and return it as-is
-              map((result: Array<Codec>): Codec =>
-                result[0]
-              )
-            );
+        // Unfortunately for one-shot calls we also use .subscribeStorage here
+          .subscribeStorage([
+            creator.meta.type.isDoubleMap
+              ? [creator, args]
+              : [creator, ...args]])
+          .pipe(
+            // state_storage returns an array of values, since we have just subscribed to
+            // a single entry, we pull that from the array and return it as-is
+            map((result: Codec[]): Codec =>
+              result[0]
+            )
+          );
       };
 
     decorated.creator = creator;
 
-    decorated.at = (hash: Hash, arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorage(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1],
-        hash);
+    decorated.at = (hash: Hash, arg1?: CodecArg, arg2?: CodecArg): Observable<Codec> => this._rpcCore.state.getStorage(
+      creator.meta.type.isDoubleMap
+        ? [creator, [arg1, arg2]]
+        : [creator, arg1],
+      hash);
 
-    decorated.hash = (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageHash(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1]);
+    decorated.hash = (arg1?: CodecArg, arg2?: CodecArg): Observable<Hash> => this._rpcCore.state.getStorageHash(
+      creator.meta.type.isDoubleMap
+        ? [creator, [arg1, arg2]]
+        : [creator, arg1]);
 
     decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
     // When using double map storage function, user need to path double map key as an array
-    decorated.multi = (args: Array<CodecArg[] | CodecArg>) =>
-        this._rpcCore.state
-          .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]));
+    decorated.multi = (args: (CodecArg | CodecArg[])[]): Observable<Codec[]> =>
+      this._rpcCore.state
+        .subscribeStorage(args.map((arg: CodecArg[] | CodecArg): [StorageEntry, CodecArg | CodecArg[]] =>
+          [creator, arg]
+        )
+        );
 
-    decorated.size = (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageSize(
-        creator.meta.type.isDoubleMap
-          ? [creator, [arg1, arg2]]
-          : [creator, arg1]);
+    decorated.size = (arg1?: CodecArg, arg2?: CodecArg): Observable<U64> => this._rpcCore.state.getStorageSize(
+      creator.meta.type.isDoubleMap
+        ? [creator, [arg1, arg2]]
+        : [creator, arg1]);
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<'rxjs'>;
   }
@@ -656,7 +682,7 @@ export default abstract class ApiBase<ApiType> {
     const getNext = (key: Codec): Observable<LinkageResult> => {
       return this._rpcCore.state.subscribeStorage([[method, key]])
         .pipe(
-          switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
+          switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
             const linkage = data[1];
 
             result.set(key, data);
@@ -714,18 +740,20 @@ export default abstract class ApiBase<ApiType> {
 
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
-    return () => this._rpcCore.state
-        .subscribeStorage([method.headKey])
-        .pipe(
-          switchMap(([key]: Array<Codec>) => {
-            head = key;
+    return (): Observable<LinkageResult> => this._rpcCore.state
+      .subscribeStorage([method.headKey])
+      .pipe(
+        switchMap(([key]: Codec[]): Observable<LinkageResult> => {
+          head = key;
 
-            return getNext(key);
-          })
-        );
+          return getNext(key);
+        })
+      );
   }
 
-  private exposeDerive (apiRx: ApiInterface$Rx) {
+  // FIXME I have no idea how to get this done
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  private exposeDerive (apiRx: ApiInterfaceRx) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 

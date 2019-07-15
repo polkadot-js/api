@@ -11,7 +11,7 @@ import U8a from '../codec/U8a';
  * Enum to track the outcome for creation of an [[AccountId]]
  */
 export default class NewAccountOutcome extends Enum {
-  constructor (index?: U8a | Uint8Array | number) {
+  public constructor (index?: U8a | Uint8Array | number) {
     super([
       'NoHint',
       'GoodHint',

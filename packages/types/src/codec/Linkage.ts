@@ -5,35 +5,35 @@
 import { Struct, Option, Tuple, Vector } from '.';
 import { Constructor, Codec } from '../types';
 
-type TypeWithValues = [Constructor, Array<any>];
+type TypeWithValues = [Constructor, any[]];
 
 export default class Linkage<T extends Codec> extends Struct {
-  constructor (Type: Constructor, value?: any) {
+  public constructor (Type: Constructor, value?: any) {
     super({
       previous: Option.with(Type),
       next: Option.with(Type)
     }, value);
   }
 
-  static withKey<O extends Codec> (Type: Constructor): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: Constructor): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(Type, value);
       }
     };
   }
 
-  get previous (): Option<T> {
+  public get previous (): Option<T> {
     return this.get('previous') as Option<T>;
   }
 
-  get next (): Option<T> {
+  public get next (): Option<T> {
     return this.get('next') as Option<T>;
   }
 }
 
 export class LinkageResult extends Tuple {
-  constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+  public constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
     super({
       Keys: Vector.with(TypeKey),
       Values: Vector.with(TypeValue)

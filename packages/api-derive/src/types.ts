@@ -16,9 +16,7 @@ export interface DerivedBalances {
   vestedBalance: BN;
 }
 
-export type DerivedBalancesMap = {
-  [index: string]: DerivedBalances
-};
+export type DerivedBalancesMap = Record<string, DerivedBalances>;
 
 export interface DerivedContractFees {
   callBaseFee: BN;
@@ -27,10 +25,10 @@ export interface DerivedContractFees {
   creationFee: BN;
   rentByteFee: BN;
   rentDepositOffset: BN;
+  tombstoneDeposit: BN;
   transactionBaseFee: BN;
   transactionByteFee: BN;
   transferFee: BN;
-  tombstoneDeposit: BN;
 }
 
 export interface DerivedFees {
@@ -63,9 +61,10 @@ export interface DerivedStaking {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;
-  nominators?: Array<AccountId>;
+  nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
+  sessionId?: AccountId;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
@@ -73,4 +72,4 @@ export interface DerivedStaking {
   validatorPrefs?: ValidatorPrefs;
 }
 
-export type DerivedUnlocking = Array<{remainingBlocks: BN, value: BN}>;
+export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];

@@ -56,6 +56,7 @@ These primitive types are available:
 | [[Moment]] | A wrapper around seconds/timestamps. Internally the representation only has second precicion (aligning with Rust) |
 | [[Null]] | Implements a type that does not contain anything (apart from `null`) |
 | [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
+| [[Signature]] | The default signature that is used accross the system |
 | [[StorageData]] | Data retrieved via Storage queries and data for key-value pairs |
 | [[StorageKey]] |  A representation of a storage key (typically hashed) in the system |
 | [[Text]] | This is a string wrapper, along with the length. |
@@ -78,7 +79,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[Amount]] | The Substrate Amount representation as a [[Balance]] |
 | [[ApprovalFlag]] | Approval flag, implemented as a [[U32]] |
 | [[AssetOf]] | The Substrate AssetOf representation as a [[Balance]] |
-| [[AttestedCandidate]] | An attested candidate |
 | [[AuthorityId]] | Wrapper for a AuthorityId. Same as an normal AccountId |
 | [[AuthoritiesChange]] | Log for Authories changed |
 | [[AuthorityWeight]] | The weight of an authority |
@@ -135,7 +135,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
 | [[SessionKeys]] | Wrapper for the session and authority ids |
 | [[SetIndex]] | Set index, implemented as a [[U32]] |
-| [[Signature]] | The default signature that is used accross the system |
 | [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
 | [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
@@ -161,6 +160,7 @@ These types are only available in Polkadot chains -
 | **Types** | |
 | --- | --- |
 | [[AuctionIndex]] | A parachain auction index as a [[U32]] |
+| [[AttestedCandidate]] | An attested candidate |
 | [[Bidder]] | The desired target of a bidder in an auction. |
 | [[LeasePeriod]] | The length of the lease for a parachain |
 | [[LeasePeriodOf]] | The length of the lease for a parachain |
@@ -173,7 +173,7 @@ These types are only available in Polkadot chains -
 | [[SubId]] | A sub-bidder identifier. Used to distinguish between different logical bidders coming from the same account ID. |
 | [[UpwardMessage]] | A message from a parachain to its Relay Chain |
 | [[WinningData]] | Winning data type. This encodes the top bidders of each range together with their bid. |
-| [[WinningDataentry]] | And entry in the [[WinningData]] fixed vector |
+| [[WinningDataEntry]] | And entry in the [[WinningData]] fixed vector |
 
 
 ## RPC types

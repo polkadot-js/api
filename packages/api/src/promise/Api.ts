@@ -4,9 +4,9 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, ExposeMethodOptions, DecoratedRpc, DecoratedRpc$Section, QueryableStorageMulti, SubmittableExtrinsics, SubmittableModuleExtrinsics, QueryableStorage, QueryableModuleStorage, StorageEntryObservable, StorageEntryPromise } from '../types';
+import { ApiOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, ExposeMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableStorageMulti, SubmittableExtrinsics, SubmittableModuleExtrinsics, QueryableStorage, QueryableModuleStorage, StorageEntryObservable, StorageEntryPromise } from '../types';
 
-import { EMPTY } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
@@ -120,7 +120,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+  public static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -143,27 +143,27 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
+  public constructor (options?: ApiOptions | ProviderInterface) {
     super(options, 'promise');
 
-    this._isReadyPromise = new Promise((resolveReady) =>
-      super.once('ready', () =>
-        resolveReady(this)
-      )
-    );
+    this._isReadyPromise = new Promise((resolve): void => {
+      super.once('ready', (): void => {
+        resolve(this);
+      });
+    });
   }
 
   /**
    * @description Promise that returns the first time we are connected and loaded
    */
-  get isReady (): Promise<ApiPromise> {
+  public get isReady (): Promise<ApiPromise> {
     return this._isReadyPromise;
   }
 
   /**
    * @description Returns a clone of this ApiPromise instance (new underlying provider connection)
    */
-  clone (): ApiPromise {
+  public clone (): ApiPromise {
     return new ApiPromise({
       ...this._options,
       source: this
@@ -190,7 +190,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubscribePromise {
+  public async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -208,9 +208,9 @@ export default class ApiPromise extends ApiBase<'promise'> {
   protected exposeMethod<Method extends AnyFunction> (method: Method, options?: ExposeMethodOptions): AnyFunction {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
-    return function (...args: any[]) {
+    return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
       let callback: Callback<Codec> | undefined;
-      let actualArgs = args.slice();
+      const actualArgs = args.slice();
 
       // If the last arg is a function, we pop it, put it into callback.
       // actualArgs will then hold the actual arguments to be passed to `method`
@@ -228,12 +228,12 @@ export default class ApiPromise extends ApiBase<'promise'> {
       // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
       // when I remove it...
       // tslint:disable-next-line
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject): void => {
         let isCompleted = false;
         const subscription = method(...actualArgs)
           .pipe(
             // if we find an error (invalid params, etc), reject the promise
-            catchError((error) => {
+            catchError((error): Observable<never> => {
               if (!isCompleted) {
                 isCompleted = true;
 
@@ -244,11 +244,11 @@ export default class ApiPromise extends ApiBase<'promise'> {
               return EMPTY;
             }),
             // upon the first result, resolve the with the unsub function
-            tap(() => {
+            tap((): void => {
               if (!isCompleted) {
                 isCompleted = true;
 
-                resolve(() => subscription.unsubscribe());
+                resolve((): void => subscription.unsubscribe());
               }
             })
           )
@@ -258,14 +258,14 @@ export default class ApiPromise extends ApiBase<'promise'> {
   }
 
   protected exposeRpc (rpc: DecoratedRpc<'rxjs'>): DecoratedRpc<'promise'> {
-    return (Object.keys(rpc) as (keyof DecoratedRpc<'rxjs'>)[]).reduce((result, sectionName) => {
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((resultSection, methodName) => {
+    return (Object.keys(rpc) as (keyof DecoratedRpc<'rxjs'>)[]).reduce((result, sectionName): DecoratedRpc<'promise'> => {
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((resultSection, methodName): DecoratedRpcSection<'promise'> => {
         resultSection[methodName] = this.exposeCallable(rpc[sectionName][methodName], { methodName });
         return resultSection;
-      }, {} as DecoratedRpc$Section<'promise'>);
+      }, {} as unknown as DecoratedRpcSection<'promise'>);
 
       return result;
-    }, {} as DecoratedRpc<'promise'>);
+    }, {} as unknown as DecoratedRpc<'promise'>);
   }
 
   protected exposeMulti (multi: QueryableStorageMulti<'rxjs'>): QueryableStorageMulti<'promise'> {
@@ -275,23 +275,23 @@ export default class ApiPromise extends ApiBase<'promise'> {
   protected exposeExtrinsics (extrinsics: SubmittableExtrinsics<'rxjs'>): SubmittableExtrinsics<'promise'> {
     const creator = this.exposeMethod(extrinsics);
 
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      result[sectionName] = Object.keys(extrinsics[sectionName]).reduce((resultSection, methodName) => {
+    return Object.keys(extrinsics).reduce((result, sectionName): SubmittableExtrinsics<'promise'> => {
+      result[sectionName] = Object.keys(extrinsics[sectionName]).reduce((resultSection, methodName): SubmittableModuleExtrinsics<'promise'> => {
         resultSection[methodName] = this.exposeCallable(extrinsics[sectionName][methodName]);
         return resultSection;
-      }, {} as SubmittableModuleExtrinsics<'promise'>);
+      }, {} as unknown as SubmittableModuleExtrinsics<'promise'>);
 
       return result;
     }, creator as SubmittableExtrinsics<'promise'>);
   }
 
   protected exposeStorage (storage: QueryableStorage<'rxjs'>): QueryableStorage<'promise'> {
-    return Object.keys(storage).reduce((result, sectionName) => {
+    return Object.keys(storage).reduce((result, sectionName): QueryableStorage<'promise'> => {
       const section = storage[sectionName];
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+      result[sectionName] = Object.keys(section).reduce((result, methodName): QueryableModuleStorage<'promise'> => {
         result[methodName] = (Object.keys(section[methodName]) as (keyof StorageEntryObservable)[])
-          .reduce((acc, key) => {
+          .reduce((acc, key): StorageEntryPromise => {
             switch (key) {
               case 'at':
               case 'hash':
@@ -306,9 +306,9 @@ export default class ApiPromise extends ApiBase<'promise'> {
             return acc;
           }, this.exposeMethod(section[methodName]) as StorageEntryPromise);
         return result;
-      }, {} as QueryableModuleStorage<'promise'>);
+      }, {} as unknown as QueryableModuleStorage<'promise'>);
 
       return result;
-    }, {} as QueryableStorage<'promise'>);
+    }, {} as unknown as QueryableStorage<'promise'>);
   }
 }

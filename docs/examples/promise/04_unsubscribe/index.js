@@ -1,9 +1,8 @@
-// @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 
 async function main () {
-
   // Create a new instance of the api
   const api = await ApiPromise.create();
 
@@ -16,7 +15,7 @@ async function main () {
   // returned by the api call function after 20s.
   setTimeout(() => {
     unsubscribe();
-    console.log('Unsubscribed')
+    console.log('Unsubscribed');
   }, 20000);
 }
 
