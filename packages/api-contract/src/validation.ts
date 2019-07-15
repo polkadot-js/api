@@ -6,11 +6,11 @@ import { ContractABI, ContractABIArg } from './types';
 
 import { assert, isNumber, isNull, isString, isObject } from '@polkadot/util';
 
-export function validateArgs (name: string, args: Array<ContractABIArg>): void {
+export function validateArgs (name: string, args: ContractABIArg[]): void {
   assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
 
-  args.forEach((arg) => {
-    const unknownKeys = Object.keys(arg).filter((key) => !['name', 'type'].includes(key));
+  args.forEach((arg): void => {
+    const unknownKeys = Object.keys(arg).filter((key): boolean => !['name', 'type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for ${name}`);
     assert(isString(arg.name), `${name} args should have valid name `);
@@ -19,7 +19,7 @@ export function validateArgs (name: string, args: Array<ContractABIArg>): void {
 }
 
 export function validateDeploy ({ deploy }: ContractABI): void {
-  const unknownKeys = Object.keys(deploy).filter((key) => !['args'].includes(key));
+  const unknownKeys = Object.keys(deploy).filter((key): boolean => !['args'].includes(key));
 
   assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI deploy`);
 
@@ -27,8 +27,8 @@ export function validateDeploy ({ deploy }: ContractABI): void {
 }
 
 export function validateMethods ({ messages }: ContractABI): void {
-  messages.forEach((method) => {
-    const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
+  messages.forEach((method): void => {
+    const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
     assert(isString(method.name), `Expected name for messages.${method.name}`);
@@ -40,7 +40,7 @@ export function validateMethods ({ messages }: ContractABI): void {
 }
 
 export function validateAbi (abi: ContractABI): void {
-  const unknownKeys = Object.keys(abi).filter((key) => !['deploy', 'messages', 'name'].includes(key));
+  const unknownKeys = Object.keys(abi).filter((key): boolean => !['deploy', 'messages', 'name'].includes(key));
 
   assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
   assert(abi.deploy && abi.messages && isString(abi.name), 'ABI should have deploy, messages & name sections');

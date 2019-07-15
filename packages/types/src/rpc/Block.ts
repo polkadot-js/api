@@ -11,10 +11,10 @@ import Hash from '../primitive/Hash';
 import Extrinsics from '../type/Extrinsics';
 import Header, { HeaderValue } from './Header';
 
-export type BlockValue = {
-  extrinsics?: Array<AnyU8a>
-  header?: HeaderValue
-};
+export interface BlockValue {
+  extrinsics?: AnyU8a[];
+  header?: HeaderValue;
+}
 
 /**
  * @name Block
@@ -22,7 +22,7 @@ export type BlockValue = {
  * A block encoded with header and extrinsics
  */
 export default class Block extends Struct {
-  constructor (value?: BlockValue | Uint8Array) {
+  public constructor (value?: BlockValue | Uint8Array) {
     super({
       header: Header,
       extrinsics: Extrinsics
@@ -32,7 +32,7 @@ export default class Block extends Struct {
   /**
    * @description Encodes a content [[Hash]] for the block
    */
-  get contentHash (): Hash {
+  public get contentHash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
@@ -41,21 +41,21 @@ export default class Block extends Struct {
   /**
    * @description The [[Extrinsics]] contained in the block
    */
-  get extrinsics (): Extrinsics {
+  public get extrinsics (): Extrinsics {
     return this.get('extrinsics') as Extrinsics;
   }
 
   /**
    * @description Block/header [[Hash]]
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return this.header.hash;
   }
 
   /**
    * @description The [[Header]] of the block
    */
-  get header (): Header {
+  public get header (): Header {
     return this.get('header') as Header;
   }
 }

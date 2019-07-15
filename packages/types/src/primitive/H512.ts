@@ -12,14 +12,14 @@ import U8aFixed from '../codec/U8aFixed';
  * Hash containing 512 bits (64 bytes), typically used for signatures
  */
 export default class H512 extends U8aFixed {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     super(value, 512);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'H512';
   }
 }

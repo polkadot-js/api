@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../codec/Struct';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 import VoteIndex from './VoteIndex';
 
 /**
@@ -13,7 +13,7 @@ import VoteIndex from './VoteIndex';
  */
 
 export default class VoterInfo extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       lastActive: VoteIndex,
       lastWin: VoteIndex,
@@ -25,7 +25,7 @@ export default class VoterInfo extends Struct {
   /**
    * @description Last VoteIndex in which this voter assigned (or initialized) approvals.
    */
-  get lastActive (): VoteIndex {
+  public get lastActive (): VoteIndex {
     return this.get('lastActive') as VoteIndex;
   }
 
@@ -33,21 +33,21 @@ export default class VoterInfo extends Struct {
    * @description  Last VoteIndex in which one of this voter's approvals won.
    * Note that `last_win = N` indicates a last win at index `N-1`, hence `last_win = 0` means no win ever.
    */
-  get lastWin (): VoteIndex {
+  public get lastWin (): VoteIndex {
     return this.get('lastWin') as VoteIndex;
   }
 
   /**
    * @description The amount of stored weight as a result of not winning but changing approvals.
    */
-  get pot (): Balance {
+  public get pot (): Balance {
     return this.get('pot') as Balance;
   }
 
   /**
    * @description Current staked amount. A lock equal to this value always exists.
    */
-  get stake (): Balance {
+  public get stake (): Balance {
     return this.get('stake') as Balance;
   }
 }

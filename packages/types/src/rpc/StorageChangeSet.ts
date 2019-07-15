@@ -9,10 +9,10 @@ import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
 import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
 
-type StorageChangeSetValue = {
-  block?: AnyU8a,
-  changes?: Array<KeyValueOptionValue>
-};
+interface StorageChangeSetValue {
+  block?: AnyU8a;
+  changes?: KeyValueOptionValue[];
+}
 
 /**
  * @name StorageChangeSet
@@ -22,7 +22,7 @@ type StorageChangeSetValue = {
  * [[KeyValueOption]]
  */
 export default class StorageChangeSet extends Struct {
-  constructor (value?: StorageChangeSetValue | Uint8Array) {
+  public constructor (value?: StorageChangeSetValue | Uint8Array) {
     super({
       block: Hash,
       changes: Vector.with(KeyValueOption)
@@ -32,14 +32,14 @@ export default class StorageChangeSet extends Struct {
   /**
    * @description The applicable changes as [[KeyValueOption]]
    */
-  get changes (): Vector<KeyValueOption> {
+  public get changes (): Vector<KeyValueOption> {
     return this.get('changes') as Vector<KeyValueOption>;
   }
 
   /**
    * @description The block [[Hash]]
    */
-  get block (): Hash {
+  public get block (): Hash {
     return this.get('block') as Hash;
   }
 }

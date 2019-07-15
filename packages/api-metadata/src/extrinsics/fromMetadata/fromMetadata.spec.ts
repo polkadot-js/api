@@ -11,16 +11,16 @@ import fromV6 from '.';
 const metadata = new Metadata(json);
 const newExtrinsics = fromV6(metadata);
 
-describe('fromMetadata', () => {
-  it('should throw if an incorrect number of args is supplied', () => {
-    expect(() => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
+describe('fromMetadata', (): void => {
+  it('should throw if an incorrect number of args is supplied', (): void => {
+    expect((): any => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
   });
 
-  it('should return a value if the storage function does not expect an argument', () => {
-    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
+  it('should return a value if the storage function does not expect an argument', (): void => {
+    expect((): any => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
   });
 
-  it('should return properly-encoded transactions', () => {
+  it('should return properly-encoded transactions', (): void => {
     expect(
       new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
@@ -30,7 +30,7 @@ describe('fromMetadata', () => {
         // version, no signature
         1,
         // index
-        1, 0,
+        2, 0,
         // values, Compact<Moment>
         116
       ])

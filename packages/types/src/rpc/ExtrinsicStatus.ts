@@ -72,7 +72,7 @@ export class Usurped extends Hash {
  * An [[Enum]] that indicates the status of the [[Extrinsic]] as been submitted
  */
 export default class ExtrinsicStatus extends Enum {
-  constructor (value: any, index?: number) {
+  public constructor (value: any, index?: number) {
     super({
       Future,
       Ready,
@@ -87,7 +87,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Broadcast]]
    */
-  get asBroadcast (): Broadcast {
+  public get asBroadcast (): Broadcast {
     assert(this.isBroadcast, `Cannot convert '${this.type}' via asBroadcast`);
 
     return this.value as Broadcast;
@@ -96,7 +96,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Dropped]]
    */
-  get asDropped (): Dropped {
+  public get asDropped (): Dropped {
     assert(this.isDropped, `Cannot convert '${this.type}' via asDropped`);
 
     return this.value as Dropped;
@@ -105,7 +105,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Finalized]]
    */
-  get asFinalized (): Finalized {
+  public get asFinalized (): Finalized {
     assert(this.isFinalized, `Cannot convert '${this.type}' via asFinalized`);
 
     return this.value as Finalized;
@@ -114,7 +114,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Future]]
    */
-  get asFuture (): Future {
+  public get asFuture (): Future {
     assert(this.isFuture, `Cannot convert '${this.type}' via asFuture`);
 
     return this.value as Future;
@@ -123,7 +123,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Invalid]]
    */
-  get asInvalid (): Invalid {
+  public get asInvalid (): Invalid {
     assert(this.isInvalid, `Cannot convert '${this.type}' via asInvalid`);
 
     return this.value as Invalid;
@@ -132,7 +132,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Ready]]
    */
-  get asReady (): Ready {
+  public get asReady (): Ready {
     assert(this.isReady, `Cannot convert '${this.type}' via asReady`);
 
     return this.value as Ready;
@@ -141,7 +141,7 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns the item as a [[Usurped]]
    */
-  get asUsurped (): Usurped {
+  public get asUsurped (): Usurped {
     assert(this.isUsurped, `Cannot convert '${this.type}' via asUsurped`);
 
     return this.value as Usurped;
@@ -150,49 +150,49 @@ export default class ExtrinsicStatus extends Enum {
   /**
    * @description Returns true if the status is boadcast
    */
-  get isBroadcast (): boolean {
+  public get isBroadcast (): boolean {
     return this.type === 'Broadcast';
   }
 
   /**
    * @description Returns true if the status is dropped
    */
-  get isDropped (): boolean {
+  public get isDropped (): boolean {
     return this.type === 'Dropped';
   }
 
   /**
    * @description Returns true if the status is finalized
    */
-  get isFinalized (): boolean {
+  public get isFinalized (): boolean {
     return this.type === 'Finalized';
   }
 
   /**
    * @description Returns true if the status is future
    */
-  get isFuture (): boolean {
+  public get isFuture (): boolean {
     return this.type === 'Future';
   }
 
   /**
    * @description Returns true if the status is invalid
    */
-  get isInvalid (): boolean {
+  public get isInvalid (): boolean {
     return this.type === 'Invalid';
   }
 
   /**
    * @description Returns true if the status is eady
    */
-  get isReady (): boolean {
+  public get isReady (): boolean {
     return this.type === 'Ready';
   }
 
   /**
    * @description Returns true if the status is usurped
    */
-  get isUsurped (): boolean {
+  public get isUsurped (): boolean {
     return this.type === 'Usurped';
   }
 }

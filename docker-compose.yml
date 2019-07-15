@@ -1,0 +1,92 @@
+# Docker compose file to run Polkadot-JS API e2e test files on supported versions of Polkadot and Substrate
+# 
+# Setup:
+# Builds 5 containers with different supported versions of Substrate and Polkadot.
+# Runs Polkadot-JS API Tests 
+#
+# Before you can run this script, you need to install Docker and 'Docker Compose' on your machine.
+# Please follow the steps described here (including the prerequisites): https://docs.docker.com/compose/install/
+#
+# Usage:
+# 1. BUILD: Run `docker-compose up -d` to run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
+# 2. INFO: Run `docker ps` to get a list of Docker containers running in the background including their mapped ports on localhost
+# 3. TEST: Run `docker-compose logs -f js-api-tests` to run the API tests and print the logs
+# 4. QUIT: Run `docker-compose down` to stop and remove all running containers.
+#
+# Provided Endpoints for localhost:
+#   - Substrate Master: ws://127.0.0.1:9945/
+#   - Substrate 1.0: ws://127.0.0.1:9946/
+#   - Substrate 2.0: ws://127.0.0.1:9947/
+#   - Polkadot Master: ws://127.0.0.1:9948/
+#   - Polkadot Alexander: ws://127.0.0.1:9949/
+# 
+# Find more Docker images of Substrate https://hub.docker.com/r/parity/substrate/tags
+# Find more Docker images of Polkadot https://hub.docker.com/r/parity/polkadot/tags
+
+
+version: "3.7"
+services:
+  substrate-master:
+    image: parity/substrate:latest
+    ports:
+      - "9945:9944"
+    networks:
+      - internet
+    command:
+      - "--dev"
+      - "--ws-external"
+    
+  substrate-1.0:
+    image: parity/substrate:v1.0.0 
+    ports:
+      - "9946:9944"
+    networks:
+      - internet
+    command:
+      - "--dev"
+      - "--ws-external"
+
+  substrate-2.0:
+    image: parity/substrate:2.0.0-f981856d4
+    ports:
+      - "9947:9944"
+    networks:
+      - internet
+    command:
+      - "--dev"
+      - "--ws-external"
+  
+  pokadot-master:
+    image: parity/polkadot:latest
+    ports:
+      - "9948:9944"
+    networks:
+      - internet
+    command:
+      - "--dev"
+      - "--ws-external"
+
+  pokadot-alexander:
+      image: parity/polkadot:v0.4.4
+      ports:
+        - "9949:9944"
+      networks:
+        - internet
+      command:
+        - "--dev"
+        - "--ws-external"
+
+  # This is the container running the API tests
+  js-api-tests:
+    image: node:11
+    volumes: 
+      - ./:/polkadot-js/api
+    working_dir: /polkadot-js/api
+    network_mode: host
+    tty: true
+    environment: 
+      - TERM=xterm-256color`
+    command: bash -c "NODE_ENV=abc /usr/local/bin/yarn && /usr/local/bin/yarn test:all"
+
+networks:
+  internet:

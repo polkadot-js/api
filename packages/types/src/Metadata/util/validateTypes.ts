@@ -8,9 +8,9 @@ import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
-export default function validateTypes (types: Array<string>, throwError: boolean): void {
-  const extractTypes = (types: Array<string>): Array<any> => {
-    return types.map((type) => {
+export default function validateTypes (types: string[], throwError: boolean): void {
+  const extractTypes = (types: string[]): any[] => {
+    return types.map((type): any => {
       const decoded = getTypeDef(type);
 
       switch (decoded.info) {
@@ -24,7 +24,7 @@ export default function validateTypes (types: Array<string>, throwError: boolean
 
         case TypeDefInfo.Tuple:
           return extractTypes(
-            (decoded.sub as Array<TypeDef>).map((sub) => sub.type)
+            (decoded.sub as TypeDef[]).map((sub): string => sub.type)
           );
 
         default:
@@ -34,7 +34,7 @@ export default function validateTypes (types: Array<string>, throwError: boolean
   };
 
   const typeRegistry = getTypeRegistry();
-  const missing = flattenUniq(extractTypes(types)).filter((type) =>
+  const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     isUndefined(typeRegistry.get(type))
   );
 

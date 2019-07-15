@@ -6,18 +6,18 @@ import MockProvider from '@polkadot/rpc-provider/mock';
 
 import Rpc from '.';
 
-describe('Api', () => {
-  it('requires a provider with a send method', () => {
+describe('Api', (): void => {
+  it('requires a provider with a send method', (): void => {
     expect(
-      () => new Rpc({} as any)
+      (): Rpc => new Rpc({} as any)
     ).toThrow(/Expected Provider/);
   });
 
-  it('creates an instance with all sections', () => {
+  it('creates an instance with all sections', (): void => {
     const rpc = new Rpc(new MockProvider());
 
     expect(
-      Object.keys(rpc)
+      Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
       'provider',
       'author', 'chain', 'state', 'system'

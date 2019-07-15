@@ -11,11 +11,11 @@ import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
 import { BftAuthoritySignature, BftAuthoritySignatureValue } from './Bft';
 
-export type RhdJustificationValue = {
-  roundNumber?: AnyNumber,
-  hash?: AnyU8a,
-  signatures?: Array<BftAuthoritySignatureValue>
-};
+export interface RhdJustificationValue {
+  roundNumber?: AnyNumber;
+  hash?: AnyU8a;
+  signatures?: BftAuthoritySignatureValue[];
+}
 
 /**
  * @name Justification
@@ -31,7 +31,7 @@ export default class Justification extends Bytes {
  * [[Justification]] for the Rhododendron consensus algorithm
  */
 export class RhdJustification extends Struct {
-  constructor (value?: RhdJustificationValue | Uint8Array) {
+  public constructor (value?: RhdJustificationValue | Uint8Array) {
     super({
       roundNumber: U32,
       hash: Hash,
@@ -42,21 +42,21 @@ export class RhdJustification extends Struct {
   /**
    * @description The justification [[Hash]]
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return this.get('hash') as Hash;
   }
 
   /**
    * @description The round this justification wraps as a [[U32]]
    */
-  get roundNumber (): U32 {
+  public get roundNumber (): U32 {
     return this.get('roundNumber') as U32;
   }
 
   /**
    * @description The [[BftAuthoritySignature]] array
    */
-  get signatures (): Vector<BftAuthoritySignature> {
+  public get signatures (): Vector<BftAuthoritySignature> {
     return this.get('signatures') as Vector<BftAuthoritySignature>;
   }
 }

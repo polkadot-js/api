@@ -16,14 +16,17 @@ interface SubstrateMetadata {
 // Small helper function to factorize code on this page.
 const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageEntry =>
   createFunction(
-    new Text('Substrate'),
-    new Text(method),
     {
-      documentation: new Vector(Text, [documentation]),
-      modifier: new StorageEntryModifier(1), // default
-      type: new StorageEntryType(type, 0),
-      toJSON: (): any => key
-    } as StorageEntryMetadata,
+      meta: {
+        documentation: new Vector(Text, [documentation]),
+        modifier: new StorageEntryModifier(1), // default
+        type: new StorageEntryType(type, 0),
+        toJSON: (): any => key
+      } as unknown as StorageEntryMetadata,
+      method,
+      prefix: 'Substrate',
+      section: 'substrate'
+    },
     {
       key,
       skipHashing: true

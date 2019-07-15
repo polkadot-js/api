@@ -11,7 +11,8 @@ import MetadataV6 from '../v6';
  */
 export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
   return new MetadataV6({
-    modules: metadataV5.modules.map((modul) => {
+    // FIXME, this needs typing, not any
+    modules: metadataV5.modules.map((modul): any => {
       return {
         name: modul.name,
         prefix: modul.prefix,

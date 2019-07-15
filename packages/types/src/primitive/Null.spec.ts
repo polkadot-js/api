@@ -4,16 +4,16 @@
 
 import Null from './Null';
 
-describe('Null', () => {
-  it('compares against null', () => {
+describe('Null', (): void => {
+  it('compares against null', (): void => {
     expect(new Null().eq(null)).toBe(true);
   });
 
-  it('compares against Null', () => {
+  it('compares against Null', (): void => {
     expect(new Null().eq(new Null())).toBe(true);
   });
 
-  it('compares against other (failed)', () => {
+  it('compares against other (failed)', (): void => {
     expect(new Null().eq()).toBe(false);
   });
 });

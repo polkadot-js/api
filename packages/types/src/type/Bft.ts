@@ -6,8 +6,8 @@ import { AnyU8a } from '../types';
 
 import Tuple from '../codec/Tuple';
 import Hash from '../primitive/Hash';
+import Signature from '../primitive/Signature';
 import AuthorityId from './AuthorityId';
-import Signature from './Signature';
 
 export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 
@@ -18,7 +18,7 @@ export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
  * network behaviour.
  */
 export class BftAuthoritySignature extends Tuple {
-  constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
+  public constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
     super({
       AuthorityId,
       Signature
@@ -28,14 +28,14 @@ export class BftAuthoritySignature extends Tuple {
   /**
    * @description The wrapped [[AuthoriyId]]
    */
-  get authorityId (): AuthorityId {
+  public get authorityId (): AuthorityId {
     return this[0] as AuthorityId;
   }
 
   /**
    * @description The wrapped [[Signature]] value
    */
-  get signature (): Signature {
+  public get signature (): Signature {
     return this[1] as Signature;
   }
 }
@@ -49,7 +49,7 @@ export type BftHashSignatureValue = [AnyU8a, AnyU8a];
  * network behaviour.
  */
 export class BftHashSignature extends Tuple {
-  constructor (value?: BftHashSignatureValue | Uint8Array) {
+  public constructor (value?: BftHashSignatureValue | Uint8Array) {
     super({
       Hash,
       Signature
@@ -59,14 +59,14 @@ export class BftHashSignature extends Tuple {
   /**
    * @description The wrapped [[Hash]]
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return this[0] as Hash;
   }
 
   /**
    * @description The wrapped [[Signature]]
    */
-  get signature (): Signature {
+  public get signature (): Signature {
     return this[1] as Signature;
   }
 }

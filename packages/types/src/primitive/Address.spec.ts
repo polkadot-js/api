@@ -6,27 +6,27 @@ import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 import Address from './Address';
 
-describe('Address', () => {
-  const testDecode = (type: string, input: Address | AccountId | AccountIndex | Array<number> | Uint8Array, expected: string) =>
-    it(`can decode from ${type}`, () => {
+describe('Address', (): void => {
+  const testDecode = (type: string, input: Address | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
+    it(`can decode from ${type}`, (): void => {
       const a = new Address(input);
       expect(a.toString()).toBe(expected);
     });
 
-  describe('utility', () => {
-    it('equals on AccountId', () => {
+  describe('utility', (): void => {
+    it('equals on AccountId', (): void => {
       const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
       expect(new Address(addr).eq(addr)).toBe(true);
     });
 
-    it('equals on AccountIndex', () => {
+    it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
       expect(new Address('2jpAFn').eq('25GUyv')).toBe(true);
     });
   });
 
-  describe('decoding', () => {
+  describe('decoding', (): void => {
     testDecode(
       'Address',
       new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
@@ -91,9 +91,9 @@ describe('Address', () => {
     // );
   });
 
-  describe('encoding', () => {
-    const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array) =>
-      it(`can encode ${to}`, () => {
+  describe('encoding', (): void => {
+    const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array): void =>
+      it(`can encode ${to}`, (): void => {
         const a = new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
         expect(a[to]()).toEqual(expected);
       });

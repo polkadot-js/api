@@ -7,9 +7,9 @@ import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 
-describe('Enum', () => {
-  describe('typed enum (previously EnumType)', () => {
-    it('provides a clean toString() (value)', () => {
+describe('Enum', (): void => {
+  describe('typed enum (previously EnumType)', (): void => {
+    it('provides a clean toString() (value)', (): void => {
       expect(
         new Enum(
           { Text, U32 },
@@ -18,7 +18,7 @@ describe('Enum', () => {
       ).toEqual('12');
     });
 
-    it('provides a clean toString() (enum)', () => {
+    it('provides a clean toString() (enum)', (): void => {
       expect(
         new Enum(
           { Text, U32 },
@@ -27,16 +27,16 @@ describe('Enum', () => {
       ).toEqual('{"U32":3289352}');
     });
 
-    it('decodes from a JSON input (lowercase)', () => {
+    it('decodes from a JSON input (lowercase)', (): void => {
       expect(
         new Enum(
           { Text, U32 },
-          { 'text': 'some text value' }
+          { text: 'some text value' }
         ).value.toString()
       ).toEqual('some text value');
     });
 
-    it('decodes from hex', () => {
+    it('decodes from hex', (): void => {
       expect(
         new Enum(
           { Text, U32 },
@@ -45,16 +45,16 @@ describe('Enum', () => {
       ).toEqual('4660'); // 0x1234 in decimal
     });
 
-    it('decodes from a JSON input (mixed case)', () => {
+    it('decodes from a JSON input (mixed case)', (): void => {
       expect(
         new Enum(
           { Text, U32 },
-          { 'U32': 42 }
+          { U32: 42 }
         ).value.toString()
       ).toEqual('42');
     });
 
-    it('decodes from JSON string', () => {
+    it('decodes from JSON string', (): void => {
       expect(
         new Enum(
           { Null, U32 },
@@ -63,12 +63,20 @@ describe('Enum', () => {
       ).toEqual('Null');
     });
 
-    it('stringifies with custom types', () => {
+    it('has correct isXyz/asXyz (Enum.with)', (): void => {
+      const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))({ Second: 42 }) as any as { isSecond: boolean; asSecond: U32; asThird: never };
+
+      expect(test.isSecond).toEqual(true);
+      expect(test.asSecond.toNumber()).toEqual(42);
+      expect((): never => test.asThird).toThrow(/Cannot convert Second via asThird/);
+    });
+
+    it('stringifies with custom types', (): void => {
       class A extends Null { }
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (value?: string, index?: number) {
+        public constructor (value?: string, index?: number) {
           super({
             a: A,
             b: B,
@@ -80,7 +88,7 @@ describe('Enum', () => {
       expect(new Test().toJSON()).toEqual({ a: null });
     });
 
-    it('creates via with', () => {
+    it('creates via with', (): void => {
       class A extends Null { }
       class B extends U32 { }
       class C extends Null { }
@@ -93,7 +101,7 @@ describe('Enum', () => {
     // We are currently not using this approach, none of the types in Substrate currently
     // have any overrides. Instead of trying to support it (just-in-case), rather have it
     // removed to simplify the code - it can be pulled-back if needed
-    it.skip('allows checking against defined indexes', () => {
+    it.skip('allows checking against defined indexes', (): void => {
       expect(
         new Enum(
           { 1: Text, 5: U32 },
@@ -102,7 +110,7 @@ describe('Enum', () => {
       ).toEqual('Text');
     });
 
-    it('allows accessing the type and value', () => {
+    it('allows accessing the type and value', (): void => {
       const text = new Text('foo');
       const enumType = new Enum(
         { Text, U32 },
@@ -113,19 +121,19 @@ describe('Enum', () => {
       expect(enumType.value).toEqual(text);
     });
 
-    describe('utils', () => {
+    describe('utils', (): void => {
       const eqtest = new Enum(
         { U32, Text },
         new Uint8Array([1, 3 << 2, 88, 89, 90])
       );
 
-      it('compares against index', () => {
+      it('compares against index', (): void => {
         expect(
           eqtest.eq(1)
         ).toBe(true);
       });
 
-      it('compares against values', () => {
+      it('compares against values', (): void => {
         expect(
           eqtest.eq('XYZ')
         ).toBe(true);
@@ -133,16 +141,16 @@ describe('Enum', () => {
     });
   });
 
-  describe('string-only construction (old Enum)', () => {
-    const testDecode = (type: string, input: any, expected: any) =>
-      it(`can decode from ${type}`, () => {
+  describe('string-only construction (old Enum)', (): void => {
+    const testDecode = (type: string, input: any, expected: any): void =>
+      it(`can decode from ${type}`, (): void => {
         const e = new Enum(['foo', 'bar'], input);
 
         expect(e.toString()).toBe(expected);
       });
 
-    const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any) =>
-      it(`can encode ${to}`, () => {
+    const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         const e = new Enum(['foo', 'bar'], 1);
 
         expect(e[to]()).toEqual(expected);
@@ -161,50 +169,56 @@ describe('Enum', () => {
     testEncode('toString', 'bar');
     testEncode('toU8a', Uint8Array.from([1]));
 
-    it('provides a clean toString()', () => {
+    it('provides a clean toString()', (): void => {
       expect(
         new Enum(['foo', 'bar']).toString()
       ).toEqual('foo');
     });
 
-    it('provides a clean toString() (enum)', () => {
+    it('provides a clean toString() (enum)', (): void => {
       expect(
         new Enum(['foo', 'bar'], new Enum(['foo', 'bar'], 1)).toNumber()
       ).toEqual(1);
     });
 
-    it('converts to and from U8a', () => {
+    it('converts to and from U8a', (): void => {
       expect(
         new Enum(['foo', 'bar'], new Uint8Array([1])).toU8a()
       ).toEqual(new Uint8Array([1]));
     });
 
-    it('converts from JSON', () => {
+    it('converts from JSON', (): void => {
       expect(
         new Enum(['foo', 'bar', 'baz', 'gaz', 'jaz'], 4).toNumber()
       ).toEqual(4);
     });
 
-    describe('utils', () => {
-      it('compares agains the index value', () => {
+    it('has correct isXyz getters (Enum.with)', (): void => {
+      const test = new (Enum.with(['First', 'Second', 'Third']))('Second') as any as { isSecond: boolean; asSecond: never };
+
+      expect(test.isSecond).toEqual(true);
+    });
+
+    describe('utils', (): void => {
+      it('compares agains the index value', (): void => {
         expect(
           new Enum(['foo', 'bar'], 1).eq(1)
         ).toBe(true);
       });
 
-      it('compares agains the index value (false)', () => {
+      it('compares agains the index value (false)', (): void => {
         expect(
           new Enum(['foo', 'bar'], 1).eq(0)
         ).toBe(false);
       });
 
-      it('compares agains the string value', () => {
+      it('compares agains the string value', (): void => {
         expect(
           new Enum(['foo', 'bar'], 1).eq('bar')
         ).toBe(true);
       });
 
-      it('compares agains the string value (false)', () => {
+      it('compares agains the string value (false)', (): void => {
         expect(
           new Enum(['foo', 'bar'], 1).eq('foo')
         ).toBe(false);
@@ -212,14 +226,14 @@ describe('Enum', () => {
     });
   });
 
-  describe('toRawType', () => {
-    it('has a sane output for basic enums', () => {
+  describe('toRawType', (): void => {
+    it('has a sane output for basic enums', (): void => {
       expect(
         new Enum(['foo', 'bar']).toRawType()
       ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
     });
 
-    it('has a sane output for types enums', () => {
+    it('has a sane output for types enums', (): void => {
       expect(
         new Enum({ foo: Text, bar: U32 }).toRawType()
       ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));

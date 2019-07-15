@@ -11,10 +11,10 @@ import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
 import Hash from '../primitive/Hash';
+import Signature from '../primitive/Signature';
 import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
 import AuthorityId from '../type/AuthorityId';
-import Signature from '../type/Signature';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'
@@ -44,45 +44,45 @@ export class ChangesTrieRoot extends Hash {
  * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
 export class ConsensusEngineId extends U32 {
-  static idToString (input: number | BN): string {
+  public static idToString (input: number | BN): string {
     return bnToBn(input)
       .toArray('le')
-      .map((code) => String.fromCharCode(code))
+      .map((code): string => String.fromCharCode(code))
       .join('');
   }
 
-  static stringToId (input: string): number {
+  public static stringToId (input: string): number {
     return input
       .split('')
       .reverse()
-      .reduce((result, char) => (result * 256) + char.charCodeAt(0), 0);
+      .reduce((result, char): number => (result * 256) + char.charCodeAt(0), 0);
   }
 
   /**
    * @description `true` if the engine matches aura
    */
-  get isAura (): boolean {
+  public get isAura (): boolean {
     return this.eq(CID_AURA);
   }
 
   /**
    * @description `true` is the engine matches babe
    */
-  get isBabe (): boolean {
+  public get isBabe (): boolean {
     return this.eq(CID_BABE);
   }
 
   /**
    * @description `true` is the engine matches grandpa
    */
-  get isGrandpa (): boolean {
+  public get isGrandpa (): boolean {
     return this.eq(CID_GRPA);
   }
 
   /**
    * @description From the input bytes, decode into an aura-tuple
    */
-  extractSlot (bytes: Bytes): U64 {
+  public extractSlot (bytes: Bytes): U64 {
     assert(this.isAura, 'Invalid engine for asAura conversion');
 
     return new U64(
@@ -94,7 +94,7 @@ export class ConsensusEngineId extends U32 {
   /**
    * @description Override the default toString to return a 4-byte string
    */
-  toString (): string {
+  public toString (): string {
     return ConsensusEngineId.idToString(this as BN);
   }
 }
@@ -105,7 +105,7 @@ export class ConsensusEngineId extends U32 {
  * Log item indicating consensus
  */
 export class Consensus extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -115,21 +115,21 @@ export class Consensus extends Tuple {
   /**
    * @description The wrapped engine [[ConsensusEngineId]]
    */
-  get engine (): ConsensusEngineId {
+  public get engine (): ConsensusEngineId {
     return this[0] as ConsensusEngineId;
   }
 
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Bytes;
   }
 
   /**
    * @description The slot extracted from the raw data (fails on non-Aura)
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this.engine.extractSlot(this.data);
   }
 }
@@ -140,7 +140,7 @@ export class Consensus extends Tuple {
  * Log item indicating a sealing event. This has been replaced in later versions with a renamed [[Seal]], we however have kept compatibility with the old version
  */
 export class SealV0 extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       U64,
       Signature
@@ -150,14 +150,14 @@ export class SealV0 extends Tuple {
   /**
    * @description The wrapped [[Signature]]
    */
-  get signature (): Signature {
+  public get signature (): Signature {
     return this[1] as Signature;
   }
 
   /**
    * @description The wrapped [[U64]] slot
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this[0] as U64;
   }
 }
@@ -168,7 +168,7 @@ export class SealV0 extends Tuple {
  * Log item indicating a sealing event.
  */
 export class Seal extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -178,14 +178,14 @@ export class Seal extends Tuple {
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Signature;
   }
 
   /**
    * @description The wrapped [[U64]] slot
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this[0] as U64;
   }
 }
@@ -204,7 +204,7 @@ export class Other extends Bytes {
  * These are messages from the consensus engine to the runtime, although the consensus engine the consensus engine can (and should) read them itself to avoid ode and state duplication.
  */
 export class PreRuntime extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       ConsensusEngineId,
       Bytes
@@ -214,21 +214,21 @@ export class PreRuntime extends Tuple {
   /**
    * @description The wrapped [[ConsensusEngineId]]
    */
-  get engine (): ConsensusEngineId {
+  public get engine (): ConsensusEngineId {
     return this[0] as ConsensusEngineId;
   }
 
   /**
    * @description The wrapped [[Bytes]]
    */
-  get data (): Bytes {
+  public get data (): Bytes {
     return this[1] as Bytes;
   }
 
   /**
    * @description The slot extracted from the raw data (fails on non-Aura)
    */
-  get slot (): U64 {
+  public get slot (): U64 {
     return this.engine.extractSlot(this.data);
   }
 }
@@ -253,14 +253,14 @@ type DigestItemTypes = keyof typeof DigestItemEnumMap;
  * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends Enum {
-  constructor (value: any) {
+  public constructor (value: any) {
     super(DigestItemEnumMap, value);
   }
 
   /**
    * @description Returns the item as a [[AuthoritiesChange]]
    */
-  get asAuthoritiesChange (): AuthoritiesChange {
+  public get asAuthoritiesChange (): AuthoritiesChange {
     assert(this.isAuthoritiesChange, `Cannot convert '${this.type}' via asAuthoritiesChange`);
 
     return this.value as AuthoritiesChange;
@@ -269,7 +269,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[ChangesTrieRoot]]
    */
-  get asChangesTrieRoot (): ChangesTrieRoot {
+  public get asChangesTrieRoot (): ChangesTrieRoot {
     assert(this.isChangesTrieRoot, `Cannot convert '${this.type}' via asChangesTrieRoot`);
 
     return this.value as ChangesTrieRoot;
@@ -278,7 +278,7 @@ export class DigestItem extends Enum {
   /**
    * @desciption Retuns the item as a [[Consensus]]
    */
-  get asConsensus (): Consensus {
+  public get asConsensus (): Consensus {
     assert(this.isConsensus, `Cannot convert '${this.type}' via asConsensus`);
 
     return this.value as Consensus;
@@ -287,7 +287,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[Other]]
    */
-  get asOther (): Other {
+  public get asOther (): Other {
     assert(this.isOther, `Cannot convert '${this.type}' via asOther`);
 
     return this.value as Other;
@@ -296,7 +296,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[PreRuntime]]
    */
-  get asPreRuntime (): PreRuntime {
+  public get asPreRuntime (): PreRuntime {
     assert(this.isPreRuntime, `Cannot convert '${this.type}' via asPreRuntime`);
 
     return this.value as PreRuntime;
@@ -305,7 +305,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[Seal]]
    */
-  get asSeal (): Seal {
+  public get asSeal (): Seal {
     assert(this.isSeal, `Cannot convert '${this.type}' via asSeal`);
 
     return this.value as Seal;
@@ -314,7 +314,7 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[SealV0]]
    */
-  get asSealV0 (): SealV0 {
+  public get asSealV0 (): SealV0 {
     assert(this.isSealV0, `Cannot convert '${this.type}' via asSealV0`);
 
     return this.value as SealV0;
@@ -323,63 +323,63 @@ export class DigestItem extends Enum {
   /**
    * @description Returns true on [[AuthoritiesChange]]
    */
-  get isAuthoritiesChange (): boolean {
+  public get isAuthoritiesChange (): boolean {
     return this.type === 'AuthoritiesChange';
   }
 
   /**
    * @description Returns true on [[ChangesTrieRoot]]
    */
-  get isChangesTrieRoot (): boolean {
+  public get isChangesTrieRoot (): boolean {
     return this.type === 'ChangesTrieRoot';
   }
 
   /**
    * @description Returns true on [[Consensus]]
    */
-  get isConsensus (): boolean {
+  public get isConsensus (): boolean {
     return this.type === 'Consensus';
   }
 
   /**
    * @description Returns true on [[Other]]
    */
-  get isOther (): boolean {
+  public get isOther (): boolean {
     return this.type === 'Other';
   }
 
   /**
    * @description Returns true on [[PreRuntime]]
    */
-  get isPreRuntime (): boolean {
+  public get isPreRuntime (): boolean {
     return this.type === 'PreRuntime';
   }
 
   /**
    * @description Returns true on [[Seal]]
    */
-  get isSeal (): boolean {
+  public get isSeal (): boolean {
     return this.type === 'Seal';
   }
 
   /**
    * @description Returns true on [[SealV0]]
    */
-  get isSealV0 (): boolean {
+  public get isSealV0 (): boolean {
     return this.type === 'SealV0';
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers. For logs, we overrides to produce the hex version (sligning with substrate gives in actual JSON responses)
    */
-  toJSON (): string {
+  public toJSON (): string {
     return this.toHex();
   }
 
   /**
    * @description Returns the type of engine, we just override here to get the typings correct
    */
-  get type (): DigestItemTypes {
+  public get type (): DigestItemTypes {
     return super.type as DigestItemTypes;
   }
 }
@@ -390,7 +390,7 @@ export class DigestItem extends Enum {
  * A [[Header]] Digest
  */
 export default class Digest extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       logs: Vector.with(DigestItem)
     }, value);
@@ -399,22 +399,22 @@ export default class Digest extends Struct {
   /**
    * @description The [[DigestItem]] logs
    */
-  get logs (): Vector<DigestItem> {
+  public get logs (): Vector<DigestItem> {
     return this.get('logs') as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  logsWith (...include: Array<DigestItemTypes>): Vector<DigestItem> {
-    return this.logs.filter(({ type }) => include.includes(type)) as Vector<DigestItem>;
+  public logsWith (...include: DigestItemTypes[]): Vector<DigestItem> {
+    return this.logs.filter(({ type }): boolean => include.includes(type)) as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  logsWithout (...exclude: Array<DigestItemTypes>): Vector<DigestItem> {
-    return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
+  public logsWithout (...exclude: DigestItemTypes[]): Vector<DigestItem> {
+    return this.logs.filter(({ type }): boolean => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }
 

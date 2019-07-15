@@ -19,7 +19,7 @@ export class InclusionHeight extends BlockNumber {
  * @name Uncle
  */
 export class Uncle extends Tuple {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       hash: Hash,
       author: Option.with(AccountId)
@@ -33,7 +33,7 @@ export class Uncle extends Tuple {
  * @description Information about an uncle to include
  */
 export default class UncleEntryItem extends Enum {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       InclusionHeight,
       Uncle

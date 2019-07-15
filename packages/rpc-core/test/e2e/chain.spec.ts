@@ -7,20 +7,20 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';
 
-describe.skip('e2e chain', () => {
+describe.skip('e2e chain', (): void => {
   let rpc: Rpc;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
     rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('subscribes via subscribeNewHead', (done) => {
-    let count: number = 0;
+  it('subscribes via subscribeNewHead', (done): void => {
+    let count = 0;
 
     rpc.chain
       .subscribeNewHead()
-      .subscribe((header: Header) => {
+      .subscribe((header: Header): void => {
         expect(header).toBeInstanceOf(Header);
 
         if (++count === 3) {
@@ -29,10 +29,10 @@ describe.skip('e2e chain', () => {
       });
   });
 
-  it('retrieves the runtime version', (done) => {
+  it('retrieves the runtime version', (done): void => {
     rpc.chain
       .getRuntimeVersion()
-      .subscribe((version: RuntimeVersion) => {
+      .subscribe((version: RuntimeVersion): void => {
         expect(version).toBeInstanceOf(RuntimeVersion);
         done();
       });

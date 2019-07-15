@@ -4,7 +4,7 @@
 
 import Struct from '../codec/Struct';
 import AccountId from '../primitive/AccountId';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 
 /**
  * @name TreasuryProposal
@@ -12,7 +12,7 @@ import Balance from './Balance';
  * A Proposal made for Treasury
  */
 export default class TreasuryProposal extends Struct {
-  constructor (value: any) {
+  public constructor (value: any) {
     super({
       proposer: AccountId,
       value: Balance,
@@ -24,28 +24,28 @@ export default class TreasuryProposal extends Struct {
   /**
    * @description The beneficiary
    */
-  get beneficiary (): AccountId {
+  public get beneficiary (): AccountId {
     return this.get('beneficiary') as AccountId;
   }
 
   /**
    * @description The bond
    */
-  get bond (): Balance {
+  public get bond (): Balance {
     return this.get('bond') as Balance;
   }
 
   /**
    * @description The proposer
    */
-  get proposer (): AccountId {
+  public get proposer (): AccountId {
     return this.get('proposer') as AccountId;
   }
 
   /**
    * @description The bond
    */
-  get value (): Balance {
+  public get value (): Balance {
     return this.get('value') as Balance;
   }
 }

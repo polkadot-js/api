@@ -14,14 +14,14 @@ import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
 
-type BftAtReportValueSingle = {
-  round?: AnyNumber,
-  a?: BftHashSignatureValue
-};
+interface BftAtReportValueSingle {
+  round?: AnyNumber;
+  a?: BftHashSignatureValue;
+}
 
-type BftAtReportValue = BftAtReportValueSingle & {
-  b?: BftHashSignatureValue
-};
+interface BftAtReportValue extends BftAtReportValueSingle {
+  b?: BftHashSignatureValue;
+}
 
 /**
  * @name BftAtReport
@@ -33,7 +33,7 @@ type BftAtReportValue = BftAtReportValueSingle & {
 // items in the structure is called, except a & b (one should be expected, the
 // other actual)
 export class BftAtReport extends Struct {
-  constructor (value?: BftAtReportValue | Uint8Array) {
+  public constructor (value?: BftAtReportValue | Uint8Array) {
     super({
       round: U32,
       a: BftHashSignature,
@@ -44,21 +44,21 @@ export class BftAtReport extends Struct {
   /**
    * @description The first report [[BftHashSignature]]
    */
-  get a (): BftHashSignature {
+  public get a (): BftHashSignature {
     return this.get('a') as BftHashSignature;
   }
 
   /**
    * @description The second report [[BftHashSignature]]
    */
-  get b (): BftHashSignature {
+  public get b (): BftHashSignature {
     return this.get('b') as BftHashSignature;
   }
 
   /**
    * @description The round this report applies to as [[U32]]
    */
-  get round (): U32 {
+  public get round (): U32 {
     return this.get('round') as U32;
   }
 }
@@ -69,7 +69,7 @@ export class BftAtReport extends Struct {
  * A report for out-of-turn proposals
  */
 export class BftProposeOutOfTurn extends Struct {
-  constructor (value?: BftAtReportValue | Uint8Array) {
+  public constructor (value?: BftAtReportValue | Uint8Array) {
     super({
       round: U32,
       a: BftHashSignature
@@ -79,14 +79,14 @@ export class BftProposeOutOfTurn extends Struct {
   /**
    * @description The [[BftHashSignature]] the report applies to
    */
-  get a (): BftHashSignature {
+  public get a (): BftHashSignature {
     return this.get('a') as BftHashSignature;
   }
 
   /**
    * @description The round as [[u32]]
    */
-  get round (): U32 {
+  public get round (): U32 {
     return this.get('round') as U32;
   }
 }
@@ -121,7 +121,7 @@ export class BftDoubleCommit extends BftAtReport {
  * An [[Enum]] containing a Bft misbehaviour
  */
 export class MisbehaviorKind extends Enum {
-  constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
+  public constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
     super({
       BftProposeOutOfTurn,
       BftDoublePropose,
@@ -133,7 +133,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoubleCommit]]
    */
-  get asBftDoubleCommit (): BftDoubleCommit {
+  public get asBftDoubleCommit (): BftDoubleCommit {
     assert(this.isBftDoubleCommit, `Cannot convert '${this.type}' via asBftDoubleCommit`);
 
     return this.value as BftDoubleCommit;
@@ -142,7 +142,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoublePrepare]]
    */
-  get asBftDoublePrepare (): BftDoublePrepare {
+  public get asBftDoublePrepare (): BftDoublePrepare {
     assert(this.isBftDoublePrepare, `Cannot convert '${this.type}' via asBftDoublePrepare`);
 
     return this.value as BftDoublePrepare;
@@ -151,7 +151,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftDoublePropose]]
    */
-  get asBftDoublePropose (): BftDoublePropose {
+  public get asBftDoublePropose (): BftDoublePropose {
     assert(this.isBftDoublePropose, `Cannot convert '${this.type}' via asBftDoublePropose`);
 
     return this.value as BftDoublePropose;
@@ -160,7 +160,7 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description Returns the item as a [[BftProposeOutOfTurn]]
    */
-  get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
+  public get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
     assert(this.isBftProposeOutOfTurn, `Cannot convert '${this.type}' via asBftProposeOutOfTurn`);
 
     return this.value as BftProposeOutOfTurn;
@@ -169,38 +169,38 @@ export class MisbehaviorKind extends Enum {
   /**
    * @description true when this is a BftDoubleCommit
    */
-  get isBftDoubleCommit (): boolean {
+  public get isBftDoubleCommit (): boolean {
     return this.type === 'BftDoubleCommit';
   }
 
   /**
    * @description true when this is a BftDoublePrepare
    */
-  get isBftDoublePrepare (): boolean {
+  public get isBftDoublePrepare (): boolean {
     return this.type === 'BftDoublePrepare';
   }
 
   /**
    * @description true when this is a BftDoublePropose
    */
-  get isBftDoublePropose (): boolean {
+  public get isBftDoublePropose (): boolean {
     return this.type === 'BftDoublePropose';
   }
 
   /**
    * @description true when this is a BftProposeOutOfTurn
    */
-  get isBftProposeOutOfTurn (): boolean {
+  public get isBftProposeOutOfTurn (): boolean {
     return this.type === 'BftProposeOutOfTurn';
   }
 }
 
-type MisbehaviorReportValue = {
-  misbehavior?: MisbehaviorKind | number,
-  parentHash?: Hash | Uint8Array | string,
-  parentNumber?: AnyNumber,
-  target?: AuthorityId | string
-};
+interface MisbehaviorReportValue {
+  misbehavior?: MisbehaviorKind | number;
+  parentHash?: Hash | Uint8Array | string;
+  parentNumber?: AnyNumber;
+  target?: AuthorityId | string;
+}
 
 /**
  * @name MisbehaviorReport
@@ -208,7 +208,7 @@ type MisbehaviorReportValue = {
  * A Misbehaviour report of [[MisbehavioirKind]] against a specific [[AuthorityId]]
  */
 export default class MisbehaviorReport extends Struct {
-  constructor (value?: MisbehaviorReportValue | Uint8Array) {
+  public constructor (value?: MisbehaviorReportValue | Uint8Array) {
     super({
       parentHash: Hash,
       parentNumber: BlockNumber,
@@ -220,28 +220,28 @@ export default class MisbehaviorReport extends Struct {
   /**
    * @description The [[MisbehaviorKind]]
    */
-  get misbehavior (): MisbehaviorKind {
+  public get misbehavior (): MisbehaviorKind {
     return this.get('misbehavior') as MisbehaviorKind;
   }
 
   /**
    * @description The [[Hash]] of the parent block
    */
-  get parentHash (): Hash {
+  public get parentHash (): Hash {
     return this.get('parentHash') as Hash;
   }
 
   /**
    * @description The [[BlockNumber]] of the parent
    */
-  get parentNumber (): BlockNumber {
+  public get parentNumber (): BlockNumber {
     return this.get('parentNumber') as BlockNumber;
   }
 
   /**
    * @description The [[authorityId]] the report applies to
    */
-  get target (): AuthorityId {
+  public get target (): AuthorityId {
     return this.get('target') as AuthorityId;
   }
 }

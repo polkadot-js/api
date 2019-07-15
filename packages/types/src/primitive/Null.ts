@@ -14,49 +14,49 @@ export default class Null implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 0;
   }
 
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return true;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return other instanceof Null || isNull(other);
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     return '0x';
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): null {
+  public toJSON (): null {
     return null;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Null';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return '';
   }
 
@@ -64,7 +64,19 @@ export default class Null implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array();
+  }
+}
+
+/**
+ * @name Phantom
+ * @description
+ * Implements a type that does not contain anything (apart from `null`)
+ */
+export class Phantom extends Null {
+  public toRawType (): string {
+    return 'Phantom';
   }
 }

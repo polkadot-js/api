@@ -9,7 +9,7 @@ import chain from './chain';
 import state from './state';
 import system from './system';
 
-const interfaces: { [key: string]: RpcSection } = {
+const interfaces: Record<string, RpcSection> = {
   author,
   chain,
   state,

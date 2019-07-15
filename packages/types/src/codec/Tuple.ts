@@ -8,8 +8,8 @@ import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
 import { decodeU8a } from './utils';
 import AbstractArray from './AbstractArray';
 
-type TupleConstructors = Array<Constructor> | {
-  [index: string]: Constructor
+type TupleConstructors = Constructor[] | {
+  [index: string]: Constructor;
 };
 
 /**
@@ -21,7 +21,7 @@ type TupleConstructors = Array<Constructor> | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (Types: TupleConstructors, value?: any) {
+  public constructor (Types: TupleConstructors, value?: any) {
     super(
       ...Tuple.decodeTuple(Types, value)
     );
@@ -29,18 +29,18 @@ export default class Tuple extends AbstractArray<Codec> {
     this._Types = Types;
   }
 
-  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
+  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
     if (isU8a(value)) {
       return decodeU8a(value, _Types);
     } else if (isHex(value)) {
       return Tuple.decodeTuple(_Types, hexToU8a(value));
     }
 
-    const Types: Array<Constructor> = Array.isArray(_Types)
+    const Types: Constructor[] = Array.isArray(_Types)
       ? _Types
       : Object.values(_Types);
 
-    return Types.map((Type, index) => {
+    return Types.map((Type, index): Codec => {
       try {
         return new Type(value && value[index]);
       } catch (error) {
@@ -49,9 +49,9 @@ export default class Tuple extends AbstractArray<Codec> {
     });
   }
 
-  static with (Types: TupleConstructors): Constructor<Tuple> {
+  public static with (Types: TupleConstructors): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(Types, value);
       }
     };
@@ -60,30 +60,32 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
-    return this.reduce((length, entry) => {
-      return length += entry.encodedLength;
+  public get encodedLength (): number {
+    return this.reduce((length: number, entry: Codec): number => {
+      length += entry.encodedLength;
+
+      return length;
     }, 0);
   }
 
   /**
    * @description The types definition of the tuple
    */
-  get Types (): Array<string> {
+  public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map(({ name }) => name)
+      ? this._Types.map(({ name }): string => name)
       : Object.keys(this._Types);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     const types = (
       Array.isArray(this._Types)
         ? this._Types
         : Object.values(this._Types)
-    ).map((Type) => new Type().toRawType());
+    ).map((Type): string => new Type().toRawType());
 
     return `(${types.join(',')})`;
   }
@@ -91,7 +93,7 @@ export default class Tuple extends AbstractArray<Codec> {
   /**
    * @description Returns the string representation of the value
    */
-  toString () {
+  public toString (): string {
     // Overwrite the default toString representation of Array.
     return JSON.stringify(this.toJSON());
   }
@@ -100,9 +102,9 @@ export default class Tuple extends AbstractArray<Codec> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...this.map((entry) =>
+      ...this.map((entry): Uint8Array =>
         entry.toU8a(isBare)
       )
     );

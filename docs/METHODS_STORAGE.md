@@ -1,17 +1,21 @@
 ## Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
+- **[aura](#aura)**
+
 - **[authorship](#authorship)**
 
 - **[balances](#balances)**
 
+- **[collective](#collective)**
+
+- **[collective](#collective)**
+
 - **[contracts](#contracts)**
 
-- **[council](#council)**
-
-- **[councilMotions](#councilMotions)**
-
 - **[democracy](#democracy)**
+
+- **[elections](#elections)**
 
 - **[grandpa](#grandpa)**
 
@@ -31,6 +35,17 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[substrate](#substrate)**
 
+
+___
+
+
+### aura
+
+▸ **authorities**(): `Vec<AuthorityId>`
+- **summary**:   The current authorities
+
+▸ **lastTimestamp**(): `Moment`
+- **summary**:   The last timestamp.
 
 ___
 
@@ -69,6 +84,46 @@ ___
 ___
 
 
+### collective
+
+▸ **members**(): `Vec<AccountId>`
+- **summary**:   The current members of the collective. This is stored sorted (just by value).
+
+▸ **proposalCount**(): `u32`
+- **summary**:   Proposals so far.
+
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
+- **summary**:   Actual proposal for a given hash, if it's current.
+
+▸ **proposals**(): `Vec<Hash>`
+- **summary**:   The hashes of the active proposals.
+
+▸ **voting**(`Hash`): `Option<Votes>`
+- **summary**:   Votes on a given proposal, if it is ongoing.
+
+___
+
+
+### collective
+
+▸ **members**(): `Vec<AccountId>`
+- **summary**:   The current members of the collective. This is stored sorted (just by value).
+
+▸ **proposalCount**(): `u32`
+- **summary**:   Proposals so far.
+
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
+- **summary**:   Actual proposal for a given hash, if it's current.
+
+▸ **proposals**(): `Vec<Hash>`
+- **summary**:   The hashes of the active proposals.
+
+▸ **voting**(`Hash`): `Option<Votes>`
+- **summary**:   Votes on a given proposal, if it is ongoing.
+
+___
+
+
 ### contracts
 
 ▸ **accountCounter**(): `u64`
@@ -91,73 +146,6 @@ ___
 
 ▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
-
-___
-
-
-### council
-
-▸ **activeCouncil**(): `Vec<(AccountId,BlockNumber)>`
-- **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the council member was elected  and their term duration).
-
-▸ **approvalsOf**(`(AccountId,SetIndex)`): `Vec<ApprovalFlag>`
-- **summary**:   A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.   In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].   Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`.
-
-▸ **candidateCount**(): `u32`
-- **summary**:   Current number of active candidates
-
-▸ **candidates**(): `Vec<AccountId>`
-- **summary**:   The present candidate list.
-
-▸ **desiredSeats**(): `u32`
-- **summary**:   Number of accounts that should be sitting on the council.
-
-▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
-- **summary**:   Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;  It may be the direct summed approval stakes, or a weighted version of it.
-
-▸ **nextFinalize**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
-- **summary**:   The accounts holding the seats that will become free on the next tally.
-
-▸ **nextVoterSet**(): `SetIndex`
-- **summary**:   the next free set to store a voter in. This will keep growing.
-
-▸ **presentationDuration**(): `BlockNumber`
-- **summary**:   How long to give each top candidate to present themselves after the vote ends.
-
-▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
-- **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
-
-▸ **termDuration**(): `BlockNumber`
-- **summary**:   How long each position is active for.
-
-▸ **voteCount**(): `VoteIndex`
-- **summary**:   The total number of vote rounds that have happened or are in progress.
-
-▸ **voterCount**(): `SetIndex`
-- **summary**:   Current number of Voters.
-
-▸ **voterInfoOf**(`AccountId`): `Option<VoterInfo>`
-- **summary**:   Basic information about a voter.
-
-▸ **voters**(`SetIndex`): `Vec<Option<AccountId>>`
-- **summary**:   The present voter list (chunked and capped at [`VOTER_SET_SIZE`]).
-
-___
-
-
-### council_motions
-
-▸ **proposalCount**(): `u32`
-- **summary**:   Proposals so far.
-
-▸ **proposalOf**(`Hash`): `Option<Proposal>`
-- **summary**:   Actual proposal for a given hash, if it's current.
-
-▸ **proposals**(): `Vec<Hash>`
-- **summary**:   The hashes of the active proposals.
-
-▸ **voting**(`Hash`): `Option<Votes>`
-- **summary**:   Votes on a given proposal, if it is ongoing.
 
 ___
 
@@ -212,6 +200,59 @@ ___
 ___
 
 
+### elections
+
+▸ **approvalsOf**(`(AccountId,SetIndex)`): `Vec<ApprovalFlag>`
+- **summary**:   A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.   In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].   Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`.
+
+▸ **candidateCount**(): `u32`
+- **summary**:   Current number of active candidates
+
+▸ **candidates**(): `Vec<AccountId>`
+- **summary**:   The present candidate list.
+
+▸ **desiredSeats**(): `u32`
+- **summary**:   Number of accounts that should constitute the collective.
+
+▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
+- **summary**:   Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;  It may be the direct summed approval stakes, or a weighted version of it.
+
+▸ **members**(): `Vec<(AccountId,BlockNumber)>`
+- **summary**:   The current membership. When there's a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the member was elected  and their term duration).
+
+▸ **nextFinalize**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
+- **summary**:   The accounts holding the seats that will become free on the next tally.
+
+▸ **nextVoterSet**(): `SetIndex`
+- **summary**:   the next free set to store a voter in. This will keep growing.
+
+▸ **presentationDuration**(): `BlockNumber`
+- **summary**:   How long to give each top candidate to present themselves after the vote ends.
+
+▸ **proxy**(`AccountId`): `Option<AccountId>`
+- **summary**:   Who is able to vote for whom. Value is the fund-holding account, key is the  vote-transaction-sending account.
+
+▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
+- **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
+
+▸ **termDuration**(): `BlockNumber`
+- **summary**:   How long each position is active for.
+
+▸ **voteCount**(): `VoteIndex`
+- **summary**:   The total number of vote rounds that have happened or are in progress.
+
+▸ **voterCount**(): `SetIndex`
+- **summary**:   Current number of Voters.
+
+▸ **voterInfoOf**(`AccountId`): `Option<VoterInfo>`
+- **summary**:   Basic information about a voter.
+
+▸ **voters**(`SetIndex`): `Vec<Option<AccountId>>`
+- **summary**:   The present voter list (chunked and capped at [`VOTER_SET_SIZE`]).
+
+___
+
+
 ### grandpa
 
 ▸ **authorities**(): `Vec<(AuthorityId,AuthorityWeight)>`
@@ -242,25 +283,19 @@ ___
 
 ### session
 
-▸ **active**(`u32`): `Vec<OpaqueKey>`
-- **summary**:   The keys that are currently active.
-
 ▸ **changed**(): `bool`
 - **summary**:   True if anything has changed in this session.
 
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
-▸ **nextKeyFor**(`AccountId`): `Option<Keys>`
-- **summary**:   The next key to be used for a given validator. At the end of the session, they  will be moved into the `QueuedKeys` and so changes here will not take effect for  at least one whole session.
-
 ▸ **queuedChanged**(): `bool`
 - **summary**:   Queued keys changed.
 
-▸ **queuedKeys**(): `Vec<(AccountId,Keys)>`
+▸ **queuedKeys**(): `Vec<(ValidatorId,Keys)>`
 - **summary**:   The queued keys for the next session. When the next session begins, these keys  will be used to determine the validator's session keys.
 
-▸ **validators**(): `Vec<AccountId>`
+▸ **validators**(): `Vec<ValidatorId>`
 - **summary**:   The current set of validators.
 
 ___
@@ -270,6 +305,9 @@ ___
 
 ▸ **bonded**(`AccountId`): `Option<AccountId>`
 - **summary**:   Map from all locked "stash" accounts to the controller account.
+
+▸ **bondedEras**(): `Vec<(EraIndex,SessionIndex)>`
+- **summary**:   A mapping from still-bonded eras to the first session index of that era.
 
 ▸ **currentElected**(): `Vec<AccountId>`
 - **summary**:   The currently elected validator set keyed by stash account ID.
