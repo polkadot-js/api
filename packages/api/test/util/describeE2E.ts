@@ -48,19 +48,25 @@ function getWsEndpoints (options?: Options): WsName[] {
 export default function describeE2E (options?: Options): (message: string, inner: (wsUrl: string) => void) => void {
   return function (message: string, inner: (wsUrl: string) => void): void {
     const wsEndpoints = getWsEndpoints(options);
-    wsEndpoints.map((wsName): [string, string] => [wsName, WS_ENDPOINTS[wsName]])
-      .forEach(([wsName, wsUrl]): void => {
-        describe(`${message} on ${wsName}`, (): void => {
-          beforeAll((): void => {
-            jest.setTimeout(15000);
-          });
-
-          afterAll((): void => {
-            jest.setTimeout(5000);
-          });
-
-          inner(wsUrl);
-        });
+    if (!wsEndpoints.length) {
+      describe(`Empty test Suite:`, (): void => {
+        it('No tests found for passed endpoints', (): void => {});
       });
+    } else {
+      wsEndpoints.map((wsName): [string, string] => [wsName, WS_ENDPOINTS[wsName]])
+        .forEach(([wsName, wsUrl]): void => {
+          describe(`${message} on ${wsName}`, (): void => {
+            beforeAll((): void => {
+              jest.setTimeout(15000);
+            });
+
+            afterAll((): void => {
+              jest.setTimeout(5000);
+            });
+
+            inner(wsUrl);
+          });
+        });
+    }
   };
 }
