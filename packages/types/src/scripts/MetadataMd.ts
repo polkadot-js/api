@@ -139,7 +139,7 @@ function addExtrinsics (metadata: MetadataV6): string {
     }
 
     const calls = meta.calls.unwrap();
-    const sectionName = stringCamelCase(meta.prefix.toString());
+    const sectionName = stringCamelCase(meta.name.toString());
 
     renderAnchors += sectionLink(sectionName);
 
