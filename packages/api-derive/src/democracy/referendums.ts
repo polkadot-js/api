@@ -17,7 +17,7 @@ export function referendums (api: ApiInterfaceRx): () => Observable<Option<Refer
     (api.queryMulti([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount
-    ]) as any as Observable<[ReferendumIndex?, ReferendumIndex?]>).pipe(
+    ]) as Observable<[ReferendumIndex?, ReferendumIndex?]>).pipe(
       switchMap(([nextTally, referendumCount]): Observable<Option<ReferendumInfoExtended>[]> =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? referendumInfos(api)(
