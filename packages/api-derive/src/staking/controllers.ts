@@ -19,7 +19,7 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[]
         switchMap(([stashIds]): Observable<[AccountId[], Option<AccountId>[]]> =>
           combineLatest([
             of(stashIds),
-            api.query.staking.bonded.multi(stashIds) as any as Observable<Option<AccountId>[]>
+            api.query.staking.bonded.multi(stashIds) as Observable<Option<AccountId>[]>
           ])
         ),
         drr()

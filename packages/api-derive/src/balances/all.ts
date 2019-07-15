@@ -90,7 +90,7 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
             ])
           ])
           : of([undefined, undefined, [undefined, undefined, undefined, undefined, undefined]])
-        ) as any as Observable<Result>
+        ) as Observable<Result>
       ),
       map(calcBalances),
       drr()
