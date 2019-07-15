@@ -4,14 +4,15 @@
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import { randomAsHex } from '@polkadot/util-crypto';
+import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
-import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
+import ApiPromise from '../../src/promise';
 import { Signer } from './../../src/types';
-import Api from './../../src/promise';
+import describeE2E from '../util/describeE2E';
+import SingleAccountSigner from '../util/SingleAccountSigner';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
@@ -32,23 +33,16 @@ const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
     }
   };
 
-describe.skip('Promise e2e transactions', (): void => {
+describeE2E({
+  except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
+})('Promise e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
+  let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    if (!api) {
-      api = await Api.create({
-        provider: new WsProvider('ws://127.0.0.1:9944')
-      });
-    }
+    api = await ApiPromise.create(new WsProvider(wsUrl));
 
-    jest.setTimeout(30000);
     done();
-  });
-
-  afterEach((): void => {
-    jest.setTimeout(5000);
   });
 
   it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
@@ -209,6 +203,17 @@ describe.skip('Promise e2e transactions', (): void => {
 
       expect(hash.toHex()).toHaveLength(66);
       done();
+    });
+
+    it('should fire an error with invalid transaction', async (done): Promise<Hash | void> => {
+      const aliceBalance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
+
+      return api.tx.balances
+        .transfer(keyring.bob.address, aliceBalance.muln(2))
+        .signAndSend(keyring.alice).catch((error): void => {
+          expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+          done();
+        });
     });
   });
 });
