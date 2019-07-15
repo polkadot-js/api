@@ -6,31 +6,26 @@ import BN from 'bn.js';
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import ApiPromise from '../../src/promise';
+import describeE2E from '../util/describeE2E';
 
 const ZERO = new BN(0);
-const WS_URL = 'ws://127.0.0.1:9944';
-// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('Promise e2e queries', (): void => {
-  const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
+describeE2E()('Promise e2e queries', (wsUrl): void => {
+  let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    if (!api) {
-      api = await Api.create({
-        provider: new WsProvider(WS_URL)
-      });
-    }
+    api = await ApiPromise.create(new WsProvider(wsUrl));
 
-    jest.setTimeout(30000);
     done();
   });
+
+  const keyring = testingPairs({ type: 'ed25519' });
 
   it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
