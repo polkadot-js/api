@@ -11,7 +11,7 @@ import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import { Signer } from '../../../src/types';
-import describeE2E from '../util/describeE2E';
+import describeE2E from '../../util/describeE2E';
 import SingleAccountSigner from '../../util/SingleAccountSigner';
 
 // log all events for the transfare, calling done() when finalized

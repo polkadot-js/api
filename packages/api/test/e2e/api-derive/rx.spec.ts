@@ -10,7 +10,7 @@ import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo }
 import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-const WS = (global as any).ws_local;
+const WS = 'ws://127.0.0.1:9944/';
 
 // Dev account Alice
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';

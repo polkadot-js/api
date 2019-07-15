@@ -7,8 +7,8 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { RewardDestination } from '@polkadot/types';
 
-import { HeaderExtended } from '@polkadot/api-derive';
-import { DerivedBalances, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
+import { HeaderExtended } from '../../../../api-derive/src/type';
+import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../../../api-derive/src/types';
 import { SubmittableResult } from '../../../../api/src';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
