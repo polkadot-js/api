@@ -8,15 +8,14 @@ import { first, switchMap } from 'rxjs/operators';
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from './../../src/rx';
-import { SubmittableResult } from './../../src';
+import { ApiRx, SubmittableResult } from './../../../src';
 
 describe.skip('Rx e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
+  let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {
-    api = await Api.create().toPromise();
+    api = await ApiRx.create().toPromise();
     jest.setTimeout(30000);
     done();
   });

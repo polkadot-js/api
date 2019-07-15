@@ -8,10 +8,9 @@ import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
-import SingleAccountSigner from '../util/SingleAccountSigner';
-import { SubmittableResult } from './../../src';
-import { Signer } from './../../src/types';
-import Api from './../../src/promise';
+import SingleAccountSigner from './../../util/SingleAccountSigner';
+import { ApiPromise, SubmittableResult } from './../../../src';
+import { Signer } from './../../../src/types';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
@@ -34,11 +33,11 @@ const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
 
 describe.skip('Promise e2e transactions', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
+  let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
     if (!api) {
-      api = await Api.create({
+      api = await ApiPromise.create({
         provider: new WsProvider('ws://127.0.0.1:9944')
       });
     }

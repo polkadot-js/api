@@ -5,15 +5,12 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
+import { HeaderExtended } from '@polkadot/api-derive';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-import { HeaderExtended } from '../../../../api-derive/src/type';
-import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../../../api-derive/src/types';
-
 const WS = (global as any).ws_local;
-// const WS = 'wss://poc3-rpc.polkadot.io/';
-// const WS = 'wss://substrate-rpc.parity.io/';
 
 // Dev account Alice
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';

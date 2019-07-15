@@ -11,11 +11,11 @@ import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Address, Hash } from '@polkadot/types';
 
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
+import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';
 
-import { ApiPromise, SubmittableResult } from '../../src';
+import { ApiPromise, SubmittableResult } from '../../../src';
 
-const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
+const flipperCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
 describe.skip('Promise e2e contracts', (): void => {
   let address: Address;

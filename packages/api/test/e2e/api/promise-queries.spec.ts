@@ -11,19 +11,18 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
-import Api from './../../src/promise';
+import { ApiPromise } from './../../../src';
 
 const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
-// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('Promise e2e queries', (): void => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: Api;
+  let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
     if (!api) {
-      api = await Api.create({
+      api = await ApiPromise.create({
         provider: new WsProvider(WS_URL)
       });
     }
