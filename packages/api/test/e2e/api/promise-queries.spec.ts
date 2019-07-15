@@ -25,8 +25,6 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
     done();
   });
 
-  const keyring = testingPairs({ type: 'ed25519' });
-
   it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata).toBeDefined();
@@ -338,7 +336,7 @@ describeE2E({
   });
 });
 
-// The following tests only run on nodes that support doubleMapType introduced by metadata v5 
+// The following tests only run on nodes that support doubleMapType introduced by metadata v5
 describeE2E({
   only: [
     'docker-polkadot-master',
