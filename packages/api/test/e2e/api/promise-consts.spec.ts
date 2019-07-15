@@ -24,7 +24,11 @@ describeE2E({
   });
 
   it('democracy.cooloffPeriod parameter type', (): void => {
+    console.log(api.consts.democracy.cooloffPeriod)
     expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
-    expect(api.consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
+    expect(
+      api.consts.democracy.cooloffPeriod.eq(432000) || // Substrate 
+      api.consts.democracy.cooloffPeriod.eq(259200) // Polkadot
+    ).toBeTruthy();
   });
 });
