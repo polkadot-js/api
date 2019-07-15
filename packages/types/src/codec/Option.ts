@@ -19,7 +19,7 @@ import Null from '../primitive/Null';
 export default class Option<T extends Codec> extends Base<T> implements Codec {
   private _Type: Constructor;
 
-  constructor (Type: Constructor, value?: any) {
+  public constructor (Type: Constructor, value?: any) {
     super(
       Option.decodeOption(Type, value)
     );
@@ -27,7 +27,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     this._Type = Type;
   }
 
-  static decodeOption (Type: Constructor, value?: any): Codec {
+  public static decodeOption (Type: Constructor, value?: any): Codec {
     if (isNull(value) || isUndefined(value) || value instanceof Null) {
       return new Null();
     } else if (value instanceof Option) {
@@ -46,9 +46,9 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     return new Type(value);
   }
 
-  static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
     return class extends Option<O> {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(Type, value);
       }
     };
@@ -57,7 +57,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.raw.encodedLength;
   }
@@ -65,35 +65,35 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Checks if the Option has no value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.isNone;
   }
 
   /**
    * @description Checks if the Option has no value
    */
-  get isNone (): boolean {
+  public get isNone (): boolean {
     return this.raw instanceof Null;
   }
 
   /**
    * @description Checks if the Option has a value
    */
-  get isSome (): boolean {
+  public get isSome (): boolean {
     return !this.isNone;
   }
 
   /**
    * @description The actual value for the Option
    */
-  get value (): Codec {
+  public get value (): Codec {
     return this.raw;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     if (other instanceof Option) {
       return (this.isSome === other.isSome) && this.value.eq(other.value);
     }
@@ -104,7 +104,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     // This attempts to align with the JSON encoding - actually in this case
     // the isSome value is correct, however the `isNone` may be problematic
     return this.isNone
@@ -115,21 +115,21 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJson {
+  public toJSON (): AnyJson {
     return this.raw.toJSON();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return `Option<${new this._Type().toRawType()}>`;
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return this.raw.toString();
   }
 
@@ -137,7 +137,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
       return this.raw.toU8a(true);
     }
@@ -155,7 +155,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Returns the value that the Option represents (if available), throws if null
    */
-  unwrap (): T {
+  public unwrap (): T {
     if (this.isNone) {
       throw new Error('Option: unwrapping a None value');
     }
@@ -167,7 +167,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns the value that the Option represents (if available) or defaultValue if none
    * @param defaultValue The value to return if the option isNone
    */
-  unwrapOr<O> (defaultValue: O): T | O {
+  public unwrapOr<O> (defaultValue: O): T | O {
     return this.isSome
       ? this.unwrap()
       : defaultValue;

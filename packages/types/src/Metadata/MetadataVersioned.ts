@@ -22,7 +22,7 @@ import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 
 class MetadataEnum extends Enum {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
@@ -37,7 +37,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V0 object
    */
-  get asV0 (): MetadataV0 {
+  public get asV0 (): MetadataV0 {
     assert(this.isV0, `Cannot convert '${this.type}' via asV0`);
 
     return this.value as MetadataV0;
@@ -46,7 +46,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V1 object
    */
-  get asV1 (): MetadataV1 {
+  public get asV1 (): MetadataV1 {
     assert(this.isV1, `Cannot convert '${this.type}' via asV1`);
 
     return this.value as MetadataV1;
@@ -55,7 +55,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V2 object
    */
-  get asV2 (): MetadataV2 {
+  public get asV2 (): MetadataV2 {
     assert(this.isV2, `Cannot convert '${this.type}' via asV2`);
 
     return this.value as MetadataV2;
@@ -64,7 +64,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V3 object
    */
-  get asV3 (): MetadataV3 {
+  public get asV3 (): MetadataV3 {
     assert(this.isV3, `Cannot convert '${this.type}' via asV3`);
 
     return this.value as MetadataV3;
@@ -73,7 +73,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V4 object
    */
-  get asV4 (): MetadataV4 {
+  public get asV4 (): MetadataV4 {
     assert(this.isV4, `Cannot convert '${this.type}' via asV4`);
 
     return this.value as MetadataV4;
@@ -82,7 +82,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V5 object
    */
-  get asV5 (): MetadataV5 {
+  public get asV5 (): MetadataV5 {
     assert(this.isV5, `Cannot convert '${this.type}' via asV5`);
 
     return this.value as MetadataV5;
@@ -91,7 +91,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V6 object
    */
-  get asV6 (): MetadataV6 {
+  public get asV6 (): MetadataV6 {
     assert(this.isV6, `Cannot convert '${this.type}' via asV6`);
 
     return this.value as MetadataV6;
@@ -100,63 +100,63 @@ class MetadataEnum extends Enum {
   /**
    * @description `true` if Deprecated
    */
-  get isDeprecated (): boolean {
+  public get isDeprecated (): boolean {
     return this.type === 'MetadataDeprectated';
   }
 
   /**
    * @description `true` if V0
    */
-  get isV0 (): boolean {
+  public get isV0 (): boolean {
     return this.type === 'MetadataV0';
   }
 
   /**
    * @description `true` if V1
    */
-  get isV1 (): boolean {
+  public get isV1 (): boolean {
     return this.type === 'MetadataV1';
   }
 
   /**
    * @description `true` if V2
    */
-  get isV2 (): boolean {
+  public get isV2 (): boolean {
     return this.type === 'MetadataV2';
   }
 
   /**
    * @description `true` if V3
    */
-  get isV3 (): boolean {
+  public get isV3 (): boolean {
     return this.type === 'MetadataV3';
   }
 
   /**
    * @description `true` if V4
    */
-  get isV4 (): boolean {
+  public get isV4 (): boolean {
     return this.type === 'MetadataV4';
   }
 
   /**
    * @description `true` if V5
    */
-  get isV5 (): boolean {
+  public get isV5 (): boolean {
     return this.type === 'MetadataV5';
   }
 
   /**
    * @description `true` if V6
    */
-  get isV6 (): boolean {
+  public get isV6 (): boolean {
     return this.type === 'MetadataV6';
   }
 
   /**
    * @description The version this metadata represents
    */
-  get version (): number {
+  public get version (): number {
     return this.index;
   }
 }
@@ -168,13 +168,18 @@ class MetadataEnum extends Enum {
  */
 export default class MetadataVersioned extends Struct {
   private _convertedV1?: MetadataV1;
+
   private _convertedV2?: MetadataV2;
+
   private _convertedV3?: MetadataV3;
+
   private _convertedV4?: MetadataV4;
+
   private _convertedV5?: MetadataV5;
+
   private _convertedV6?: MetadataV6;
 
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
       metadata: MetadataEnum
@@ -184,7 +189,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description
    */
-  get magicNumber (): MagicNumber {
+  public get magicNumber (): MagicNumber {
     return this.get('magicNumber') as MagicNumber;
   }
 
@@ -198,14 +203,14 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description the metadata version this structure represents
    */
-  get version (): number {
+  public get version (): number {
     return this.metadata.index;
   }
 
   /**
    * @description Returns the wrapped metadata as a V0 object
    */
-  get asV0 (): MetadataV0 {
+  public get asV0 (): MetadataV0 {
     assert(this.metadata.version === 0, `Cannot convert metadata from v${this.metadata.version} to v0`);
 
     return this.metadata.asV0;
@@ -214,7 +219,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V1 object
    */
-  get asV1 (): MetadataV1 {
+  public get asV1 (): MetadataV1 {
     assert(this.metadata.version <= 1, `Cannot convert metadata from v${this.metadata.version} to v1`);
 
     if (this.metadata.version === 1) {
@@ -231,7 +236,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V2 object
    */
-  get asV2 (): MetadataV2 {
+  public get asV2 (): MetadataV2 {
     assert(this.metadata.version <= 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
 
     if (this.metadata.version === 2) {
@@ -248,7 +253,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V3 object
    */
-  get asV3 (): MetadataV3 {
+  public get asV3 (): MetadataV3 {
     assert(this.metadata.version <= 3, `Cannot convert metadata from v${this.metadata.version} to v3`);
 
     if (this.metadata.version === 3) {
@@ -265,7 +270,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V4 object
    */
-  get asV4 (): MetadataV4 {
+  public get asV4 (): MetadataV4 {
     assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
 
     if (this.metadata.version === 4) {
@@ -282,7 +287,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V5 object
    */
-  get asV5 (): MetadataV5 {
+  public get asV5 (): MetadataV5 {
     assert(this.metadata.version <= 5, `Cannot convert metadata from v${this.metadata.version} to v5`);
 
     if (this.metadata.version === 5) {
@@ -299,7 +304,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a V6 object
    */
-  get asV6 (): MetadataV6 {
+  public get asV6 (): MetadataV6 {
     assert(this.metadata.version <= 6, `Cannot convert metadata from v${this.metadata.version} to v6`);
 
     if (this.metadata.version === 6) {
@@ -313,7 +318,7 @@ export default class MetadataVersioned extends Struct {
     return this._convertedV6;
   }
 
-  getUniqTypes (throwError: boolean): Array<string> {
+  public getUniqTypes (throwError: boolean): string[] {
     return this.asV6.getUniqTypes(throwError);
   }
 }

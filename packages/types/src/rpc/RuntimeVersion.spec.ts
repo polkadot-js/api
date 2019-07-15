@@ -5,26 +5,26 @@
 import rpc from '../json/RuntimeVersion.002.json';
 import RuntimeVersion from './RuntimeVersion';
 
-describe('RuntimeVersion', () => {
+describe('RuntimeVersion', (): void => {
   const version = new RuntimeVersion(rpc.result);
 
-  it('has the correct authoring', () => {
+  it('has the correct authoring', (): void => {
     expect(version.authoringVersion.toNumber()).toEqual(10);
   });
 
-  it('has the apis', () => {
+  it('has the apis', (): void => {
     const api = version.apis[0];
 
     expect(api.id.toHex()).toEqual('0xdf6acb689907609b');
     expect(api.version.toNumber()).toEqual(2);
   });
 
-  it('has the correct implementation', () => {
+  it('has the correct implementation', (): void => {
     expect(version.implName.toString()).toEqual('substrate-node');
     expect(version.implVersion.toNumber()).toEqual(60);
   });
 
-  it('has the correct spec', () => {
+  it('has the correct spec', (): void => {
     expect(version.specName.toString()).toEqual('node');
     expect(version.specVersion.toNumber()).toEqual(60);
   });

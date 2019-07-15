@@ -35,21 +35,21 @@ export enum TypeDefInfo {
   Null
 }
 
-export type TypeDefExtVecFixed = {
-  length: number,
-  type: string
-};
+export interface TypeDefExtVecFixed {
+  length: number;
+  type: string;
+}
 
-export type TypeDef = {
-  info: TypeDefInfo,
-  ext?: TypeDefExtVecFixed, // add additional here as required
-  name?: string,
-  type: string,
-  sub?: TypeDef | Array<TypeDef>
-};
+export interface TypeDef {
+  info: TypeDefInfo;
+  ext?: TypeDefExtVecFixed; // add additional here as required
+  name?: string;
+  type: string;
+  sub?: TypeDef | TypeDef[];
+}
 
 // safely split a string on ', ' while taking care of any nested occurences
-export function typeSplit (type: string): Array<string> {
+export function typeSplit (type: string): string[] {
   let cDepth = 0; // compact/doublemap/linkedmap/option/vector depth
   let fDepth = 0; // vector (fixed) depth
   let sDepth = 0; // struct depth
@@ -119,7 +119,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
   if (startingWith(type, '(', ')')) {
     value.info = TypeDefInfo.Tuple;
-    value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
+    value.sub = typeSplit(subType).map((inner): TypeDef => getTypeDef(inner));
   } else if (startingWith(type, '[', ']')) {
     // this handles e.g. [u8;32]
     const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
@@ -129,7 +129,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     assert(vecLen <= 256, `Only support for [Type; <length>], where length <= 256`);
 
     value.info = TypeDefInfo.VectorFixed;
-    value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
+    value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
     const keys = Object.keys(parsed);
@@ -139,12 +139,12 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
       // not as pretty, but remain compatible with oo7 for both struct and Array types
       value.sub = Array.isArray(details)
-        ? details.map((name) => ({
+        ? details.map((name): TypeDef => ({
           info: TypeDefInfo.Plain,
           name,
           type: 'Null'
         }))
-        : Object.keys(details).map((name) => ({
+        : Object.keys(details).map((name): TypeDef => ({
           info: TypeDefInfo.Plain,
           name,
           type: details[name] || 'Null'
@@ -152,7 +152,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
       value.info = TypeDefInfo.Enum;
     } else {
       value.info = TypeDefInfo.Struct;
-      value.sub = keys.map((name) => getTypeDef(parsed[name], name));
+      value.sub = keys.map((name): TypeDef => getTypeDef(parsed[name], name));
     }
   } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
@@ -174,13 +174,21 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   return value;
 }
 
+export function createClass (type: Text | string): Constructor {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return getTypeClass(
+    getTypeDef(type)
+  );
+}
+
 // create an array of constructors from the input
-export function getTypeClassMap (defs: Array<TypeDef>): { [index: string]: Constructor } {
-  return defs.reduce((result, sub) => {
+export function getTypeClassMap (defs: TypeDef[]): { [index: string]: Constructor } {
+  return defs.reduce((result, sub): Record<string, Constructor> => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     result[sub.name as string] = getTypeClass(sub);
 
     return result;
-  }, {} as { [index: string]: Constructor });
+  }, {} as unknown as Record<string, Constructor>);
 }
 
 // Returns the type Class for construction
@@ -202,7 +210,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
       return Enum.with(
-        getTypeClassMap(value.sub as Array<TypeDef>)
+        getTypeClassMap(value.sub as TypeDef[])
       );
     case TypeDefInfo.Option:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
@@ -214,13 +222,13 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
 
       return Struct.with(
-        getTypeClassMap(value.sub as Array<TypeDef>)
+        getTypeClassMap(value.sub as TypeDef[])
       );
     case TypeDefInfo.Tuple:
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
       return Tuple.with(
-        (value.sub as Array<TypeDef>).map((Type) => getTypeClass(Type))
+        (value.sub as TypeDef[]).map((Type): Constructor<Codec> => getTypeClass(Type))
       );
     case TypeDefInfo.Vector:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
@@ -255,12 +263,6 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);
-}
-
-export function createClass (type: Text | string): Constructor {
-  return getTypeClass(
-    getTypeDef(type)
-  );
 }
 
 // alias for createClass

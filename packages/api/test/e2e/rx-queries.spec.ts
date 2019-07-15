@@ -15,17 +15,17 @@ import describeE2E from '../util/describeE2E';
 
 describeE2E({
   apiType: 'rxjs'
-})('Rx e2e queries', (wsUrl) => {
+})('Rx e2e queries', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
 
     done();
   });
 
-  it('makes the runtime, rpc, state & extrinsics available', () => {
+  it('makes the runtime, rpc, state & extrinsics available', (): void => {
     expect(api.genesisHash).toBeDefined();
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
@@ -35,22 +35,22 @@ describeE2E({
     expect(api.derive).toBeDefined();
   });
 
-  it('queries state for a balance', (done) => {
-    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance) => {
+  it('queries state for a balance', (done): void => {
+    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();
     });
   });
 
-  it('makes a query at a specific block', (done) => {
+  it('makes a query at a specific block', (done): void => {
     (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
-        switchMap(({ hash }: Header) =>
+        switchMap(({ hash }: Header): Observable<any> =>
           api.query.system.events.at(hash)
         )
       )
-      .subscribe((events: any) => {
+      .subscribe((events: any): void => {
         expect(events.length).not.toEqual(0);
         done();
       });

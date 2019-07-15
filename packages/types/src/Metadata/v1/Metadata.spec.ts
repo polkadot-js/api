@@ -6,7 +6,7 @@ import latestSubstrate from './latest.substrate.v1.json';
 import rpcData from './static';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
 
-describe('MetadataV1', () => {
+describe('MetadataV1', (): void => {
   decodeLatestSubstrate(1, rpcData, latestSubstrate);
 
   toV6(1, rpcData);

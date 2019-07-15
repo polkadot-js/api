@@ -16,7 +16,7 @@ import { storage } from './storage';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Storage {
-  return metadata.asV6.modules.reduce((result, moduleMetadata) => {
+  return metadata.asV6.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }
@@ -25,7 +25,7 @@ export default function fromMetadata (metadata: Metadata): Storage {
     const section = stringCamelCase(name.toString());
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[section] = moduleMetadata.storage.unwrap().reduce((newModule, meta) => {
+    result[section] = moduleMetadata.storage.unwrap().reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 
       newModule[stringLowerFirst(method)] = createFunction({
@@ -36,7 +36,7 @@ export default function fromMetadata (metadata: Metadata): Storage {
       });
 
       return newModule;
-    }, {} as ModuleStorage);
+    }, {} as unknown as ModuleStorage);
 
     return result;
   }, { ...storage });

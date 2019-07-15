@@ -15,46 +15,46 @@ import describeE2E from '../util/describeE2E';
 
 describeE2E({
   apiType: 'rxjs'
-})('Rx e2e transactions', (wsUrl) => {
+})('Rx e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
 
     done();
   });
 
-  it('makes a transfer', (done) => {
+  it('makes a transfer', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.balances
             .transfer(keyring.bob.address, 12345)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }
       });
   });
 
-  it('makes a proposal', (done) => {
+  it('makes a proposal', (done): void => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
-        switchMap((nonce: Index) =>
+        switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.democracy
             .propose(api.tx.system.setCode('0xdeadbeef'), 10000)
             .sign(keyring.alice, { nonce })
             .send()
         )
       )
-      .subscribe(({ status }: SubmittableResult) => {
+      .subscribe(({ status }: SubmittableResult): void => {
         if (status.isFinalized) {
           done();
         }

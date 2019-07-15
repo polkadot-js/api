@@ -13,14 +13,14 @@ export default class ChainProperties extends StructAny {
   /**
    * @description The token decimals, if defined (de-facto standard only)
    */
-  get tokenDecimals (): number | undefined {
+  public get tokenDecimals (): number | undefined {
     return this.get('tokenDecimals');
   }
 
   /**
    * @description The token system, if defined (de-facto standard only)
    */
-  get tokenSymbol (): string | undefined {
+  public get tokenSymbol (): string | undefined {
     return this.get('tokenSymbol');
   }
 }

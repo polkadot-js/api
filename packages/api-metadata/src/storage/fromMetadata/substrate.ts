@@ -22,7 +22,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
         modifier: new StorageEntryModifier(1), // default
         type: new StorageEntryType(type, 0),
         toJSON: (): any => key
-      } as StorageEntryMetadata,
+      } as unknown as StorageEntryMetadata,
       method,
       prefix: 'Substrate',
       section: 'substrate'

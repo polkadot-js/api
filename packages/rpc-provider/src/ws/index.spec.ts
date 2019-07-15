@@ -9,22 +9,23 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 let ws: WsProvider;
 let mock: Mock;
 
-function createWs (requests: Array<any>, autoConnect: boolean | undefined) {
+function createWs (requests: any[], autoConnect: boolean | undefined): WsProvider {
   mock = mockWs(requests);
   ws = new WsProvider(TEST_WS_URL, autoConnect);
+
   return ws;
 }
 
-describe('Ws', () => {
-  afterEach(() => {
+describe('Ws', (): void => {
+  afterEach((): void => {
     if (mock) {
       mock.done();
     }
   });
 
-  it('returns the connected state', () => {
+  it('returns the connected state', (): void => {
     expect(
-      createWs([],true).isConnected()
+      createWs([], true).isConnected()
     ).toEqual(false);
   });
 });

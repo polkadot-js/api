@@ -8,12 +8,12 @@ import block00300 from '../json/SignedBlock.003.00.json';
 import Method from '../primitive/Method';
 import Block from './Block';
 
-describe('Block', () => {
-  beforeEach(() => {
+describe('Block', (): void => {
+  beforeEach((): void => {
     Method.injectMethods(extrinsics);
   });
 
-  it('has a valid toRawType', () => {
+  it('has a valid toRawType', (): void => {
     expect(
       new Block().toRawType()
     ).toEqual(
@@ -33,7 +33,7 @@ describe('Block', () => {
     );
   });
 
-  it('re-encodes digest items correctly', () => {
+  it('re-encodes digest items correctly', (): void => {
     const digest = new Block(block00300.result.block).header.digest;
 
     expect(digest.logs[0].toHex()).toEqual(block00300.result.block.header.digest.logs[0]);

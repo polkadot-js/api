@@ -32,11 +32,11 @@ const UNMASK_VERSION = 0b01111111;
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, Codec {
-  constructor (value?: ExtrinsicValue | AnyU8a | Method) {
+  public constructor (value?: ExtrinsicValue | AnyU8a | Method) {
     super(Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicV1 {
+  public static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicV1 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -72,7 +72,7 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
     return new ExtrinsicV1(value);
   }
 
-  static decodeU8a (value: Uint8Array): ExtrinsicV1 {
+  public static decodeU8a (value: Uint8Array): ExtrinsicV1 {
     // decode the actual version string
     const version = value[0] & UNMASK_VERSION;
 
@@ -88,98 +88,98 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
    */
-  get args (): Array<Codec> {
+  public get args (): Codec[] {
     return this.method.args;
   }
 
   /**
    * @description Thge argument defintions, compatible with [[Method]]
    */
-  get argsDef (): ArgsDef {
+  public get argsDef (): ArgsDef {
     return this.method.argsDef;
   }
 
   /**
    * @description The actual `[sectionIndex, methodIndex]` as used in the Method
    */
-  get callIndex (): Uint8Array {
+  public get callIndex (): Uint8Array {
     return this.method.callIndex;
   }
 
   /**
    * @description The actual data for the Method
    */
-  get data (): Uint8Array {
+  public get data (): Uint8Array {
     return this.method.data;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.raw.encodedLength;
   }
 
   /**
    * @description Convernience function, encodes the extrinsic and returns the actual hash
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return this.raw.hash;
   }
 
   /**
    * @description `true` is method has `Origin` argument (compatibility with [[Method]])
    */
-  get hasOrigin (): boolean {
+  public get hasOrigin (): boolean {
     return this.raw.hasOrigin;
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.raw.isEmpty;
   }
 
   /**
    * @description `true` id the extrinsic is signed
    */
-  get isSigned (): boolean {
+  public get isSigned (): boolean {
     return this.raw.isSigned;
   }
 
   /**
    * @description The length of the encoded value
    */
-  get length (): number {
+  public get length (): number {
     return this.raw.length;
   }
 
   /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
-  get meta (): FunctionMetadata {
+  public get meta (): FunctionMetadata {
     return this.raw.meta;
   }
 
   /**
    * @description The [[Method]] this extrinsic wraps
    */
-  get method (): Method {
+  public get method (): Method {
     return this.raw.method;
   }
 
   /**
    * @description The [[ExtrinsicSignature]]
    */
-  get signature (): ExtrinsicSignature {
+  public get signature (): ExtrinsicSignature {
     return this.raw.signature;
   }
 
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
     this.raw.addSignature(signer, signature, nonce, era);
 
     return this;
@@ -188,7 +188,7 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
+  public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
     this.raw.sign(account, options);
 
     return this;
@@ -197,35 +197,35 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return this.raw.eq(other);
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     return this.raw.toHex();
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string {
+  public toJSON (): string {
     return this.raw.toJSON();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return this.raw.toString();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Extrinsic';
   }
 
@@ -233,7 +233,7 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     return this.raw.toU8a(isBare);
   }
 }

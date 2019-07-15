@@ -22,23 +22,23 @@ const BALANCE_KEYS = [
 ];
 const OPTION_BYTES_HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
 
-function formattingTests (version: string, storage: Storage, encodedValues: [string, string, string]) {
+function formattingTests (version: string, storage: Storage, encodedValues: [string, string, string]): void {
   const [ENC_ONE, ENC_TWO, CONTRACT_KEY] = encodedValues;
 
-  describe(`formatting with Metadata ${version}`, () => {
+  describe(`formatting with Metadata ${version}`, (): void => {
     let api: Api;
     let provider: any;
 
-    beforeEach(() => {
+    beforeEach((): void => {
       provider = {
-        send: jest.fn((method, [key]) =>
+        send: jest.fn((method, [key]): Promise<any> =>
           Promise.resolve(
             BALANCE_KEYS.includes(key)
               ? '0x01020000000000000000000000000000'
               : null
           )
         ),
-        subscribe: jest.fn((type, method, params, cb) => {
+        subscribe: jest.fn((type, method, params, cb): void => {
           // this emulates https://github.com/polkadot-js/api/issues/1051
           params[0][0] === CONTRACT_KEY
             ? cb(null, {
@@ -60,10 +60,10 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
       api = new Api(provider);
     });
 
-    it('encodes key (with params), decoding response', (done) => {
+    it('encodes key (with params), decoding response', (done): void => {
       api.state
         .getStorage([storage.balances.freeBalance, ADDR_ONE])
-        .subscribe((value) => {
+        .subscribe((value): void => {
           expect(
             provider.send
           ).toHaveBeenCalledWith(
@@ -75,22 +75,22 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
         });
     });
 
-    it('returns the fallback result on not-found values', (done) => {
+    it('returns the fallback result on not-found values', (done): void => {
       api.state
         .getStorage([storage.system.accountNonce, ADDR_ONE])
-        .subscribe((value) => {
+        .subscribe((value): void => {
           expect(value.toHex()).toEqual('0x0000000000000000');
           done();
         });
     });
 
-    it('encodes multiple keys, decoding multiple results', (done) => {
+    it('encodes multiple keys, decoding multiple results', (done): void => {
       api.state.subscribeStorage(
         [
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
         ]
-      ).subscribe((value: any) => {
+      ).subscribe((value: any): void => {
         console.error(value);
 
         expect(
@@ -102,7 +102,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
           expect.anything()
         );
         expect(
-          value.map((balance: BN) =>
+          value.map((balance: BN): number =>
             balance.toNumber()
           )
         ).toEqual([0x0201, 0x0102]);
@@ -111,11 +111,15 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
       });
     });
 
-    it('handles the case where Option<Bytes> are retrieved', (done) => {
-      let call = Number(version.slice(1)) <= 5 ? storage.contract.pristineCode : storage.contracts.pristineCode;
+    it('handles the case where Option<Bytes> are retrieved', (done): void => {
+      const call = Number(version.slice(1)) <= 5
+        ? storage.contract.pristineCode
+        : storage.contracts.pristineCode;
+
       api.state
         .subscribeStorage([[call, '0x00']])
-        .subscribe((value: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .subscribe((value: any): void => {
           // console.error(value);
 
           // expect(value.toHex()).toBe(OPTION_BYTES_HEX);

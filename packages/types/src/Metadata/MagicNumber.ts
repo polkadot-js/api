@@ -9,7 +9,7 @@ import U32 from '../primitive/U32';
 export const MAGIC_NUMBER = new U32(0x6174656d); // `meta`, reversed for Little Endian encoding
 
 export default class MagicNumber extends U32 {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super(value);
 
     assert(this.eq(MAGIC_NUMBER), `MagicNumber mismatch: expected ${MAGIC_NUMBER.toHex()}, found ${this.toHex()}`);

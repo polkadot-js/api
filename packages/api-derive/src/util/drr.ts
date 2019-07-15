@@ -6,6 +6,8 @@ import { catchError, distinctUntilChanged, publishReplay, refCount } from 'rxjs/
 import { Observable } from 'rxjs';
 import { logger } from '@polkadot/util';
 
+type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
+
 const l = logger('drr');
 
 /**
@@ -13,12 +15,12 @@ const l = logger('drr');
  *
  * @ignore
  */
-export const drr = () => <T>(source$: Observable<T>): Observable<T> =>
+export const drr = (): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(
-    catchError(err => {
-      l.error(err);
+    catchError((error): Observable<never> => {
+      l.error(error);
 
-      throw err;
+      throw error;
     }),
     distinctUntilChanged(),
     publishReplay(1),

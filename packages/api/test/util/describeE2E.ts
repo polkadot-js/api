@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const WS_ENDPOINTS = {
-  'local': 'ws://127.0.0.1:9944/',
+  local: 'ws://127.0.0.1:9944/',
   'substrate-master': 'ws://127.0.0.1:9945/',
   'substrate-1.0': 'ws://127.0.0.1:9946/',
   'substrate-2.0': 'ws://127.0.0.1:9947/',
@@ -30,29 +30,28 @@ function getWsEndpoints (options?: Options): WsName[] {
     wsEndpoints = options.only;
   } else {
     wsEndpoints = (Object.keys(WS_ENDPOINTS) as WsName[])
-      .filter((wsName) => !options || !options.except || !options.except.includes(wsName));
+      .filter((wsName): boolean => !options || !options.except || !options.except.includes(wsName));
   }
 
   // If there's no WITH_DOCKER flag, we only run local node
   if (!process.env.WITH_DOCKER) {
-    wsEndpoints = wsEndpoints.filter((wsName) => wsName === 'local');
+    wsEndpoints = wsEndpoints.filter((wsName): boolean => wsName === 'local');
   }
 
   return wsEndpoints;
 }
 
-export default function describeE2E (options?: Options) {
-  return function (message: string, inner: (wsUrl: string) => any) {
+export default function describeE2E (options?: Options): (message: string, inner: (wsUrl: string) => void) => void {
+  return function (message: string, inner: (wsUrl: string) => void): void {
     getWsEndpoints(options)
-      .map((wsName) => [wsName, WS_ENDPOINTS[wsName]])
-      .forEach(([wsName, wsUrl]) => {
-        describe(`${message} on ${wsName}`, () => {
-
-          beforeAll(() => {
+      .map((wsName): [string, string] => [wsName, WS_ENDPOINTS[wsName]])
+      .forEach(([wsName, wsUrl]): void => {
+        describe(`${message} on ${wsName}`, (): void => {
+          beforeAll((): void => {
             jest.setTimeout(30000);
           });
 
-          afterAll(() => {
+          afterAll((): void => {
             jest.setTimeout(5000);
           });
 

@@ -22,7 +22,7 @@ import { RuntimeModuleMetadata } from './Modules';
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV0 extends Struct implements MetadataInterface<RuntimeModuleMetadata> {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
       modules: Vector.with(RuntimeModuleMetadata),
@@ -30,7 +30,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
     }, MetadataV0.decodeMetadata(value));
   }
 
-  static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
+  public static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
       // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
@@ -55,44 +55,44 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[OuterDispatchCall]]
    */
-  get calls (): Vector<OuterDispatchCall> {
+  public get calls (): Vector<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
 
   /**
    * @description Wrapped [[OuterEventEventMetadata]]
    */
-  get events (): Vector<OuterEventEventMetadata> {
+  public get events (): Vector<OuterEventEventMetadata> {
     return (this.get('outerEvent') as OuterEventMetadata).events;
   }
 
   /**
    * @description Wrapped [[RuntimeModuleMetadata]]
    */
-  get modules (): Vector<RuntimeModuleMetadata> {
+  public get modules (): Vector<RuntimeModuleMetadata> {
     return this.get('modules') as Vector<RuntimeModuleMetadata>;
   }
 
-  private get argNames () {
-    return this.modules.map((modul) =>
-      modul.module.call.functions.map((fn) =>
-        fn.args.map((argument) => argument.type.toString())
+  private get argNames (): string[][][] {
+    return this.modules.map((modul): string[][] =>
+      modul.module.call.functions.map((fn): string[] =>
+        fn.args.map((argument): string => argument.type.toString())
       )
     );
   }
 
-  private get eventNames () {
-    return this.events.map((modul) =>
-      modul.events.map((event) =>
-        event.args.map((argument) => argument.toString())
+  private get eventNames (): string[][][] {
+    return this.events.map((modul): string[][] =>
+      modul.events.map((event): string[] =>
+        event.args.map((argument): string => argument.toString())
       )
     );
   }
 
-  private get storageNames () {
-    return this.modules.map((modul) =>
+  private get storageNames (): string[][][] {
+    return this.modules.map((modul): string[][] =>
       modul.storage.isSome
-        ? modul.storage.unwrap().functions.map((fn) =>
+        ? modul.storage.unwrap().functions.map((fn): string[] =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
@@ -104,7 +104,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): Array<string> {
+  public getUniqTypes (throwError: boolean): string[] {
     const types = flattenUniq([this.argNames, this.eventNames, this.storageNames]);
 
     validateTypes(types, throwError);

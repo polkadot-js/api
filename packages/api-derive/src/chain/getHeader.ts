@@ -4,7 +4,7 @@
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Header } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
@@ -25,7 +25,7 @@ import { HeaderAndValidators } from './subscribeNewHead';
  * console.log(`block #${blockNumber} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterface$Rx) {
+export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     // tslint:disable-next-line
     (combineLatest([
@@ -34,10 +34,10 @@ export function getHeader (api: ApiInterface$Rx) {
         ? api.query.session.validators.at(hash)
         : of([])
     ]) as Observable<HeaderAndValidators>).pipe(
-      map(([header, validators]) =>
+      map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
       ),
-      catchError(() =>
+      catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
         // we supplied an invalid hash. (Due to defaults, storeage will have an
         // empty value, so only the RPC is affected). So return undefined

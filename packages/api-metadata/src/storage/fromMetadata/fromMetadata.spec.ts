@@ -14,16 +14,16 @@ const keyring = testingPairs({ type: 'ed25519' });
 const metadata = new Metadata(json);
 const storage = fromMetadata(metadata);
 
-describe('fromMetadata', () => {
-  it('should throw if the storage function expects an argument', () => {
-    expect(() => storage.balances.freeBalance()).toThrowError(/expects one argument/);
+describe('fromMetadata', (): void => {
+  it('should throw if the storage function expects an argument', (): void => {
+    expect((): any => storage.balances.freeBalance()).toThrowError(/expects one argument/);
   });
 
-  it('should return a value if the storage function does not expect an argument', () => {
-    expect(() => storage.timestamp.now()).not.toThrow();
+  it('should return a value if the storage function does not expect an argument', (): void => {
+    expect((): any => storage.timestamp.now()).not.toThrow();
   });
 
-  it('should return the correct length-prefixed storage key', () => {
+  it('should return the correct length-prefixed storage key', (): void => {
     expect(
       u8aToHex(
         storage.balances.freeBalance(keyring.alice.address)

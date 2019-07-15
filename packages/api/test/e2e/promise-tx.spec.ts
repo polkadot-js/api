@@ -15,15 +15,15 @@ import describeE2E from '../util/describeE2E';
 import SingleAccountSigner from '../util/SingleAccountSigner';
 
 // log all events for the transfare, calling done() when finalized
-const logEvents = (done: () => {}) =>
-  ({ events, status }: SubmittableResult) => {
+const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
+  ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
 
     if (status.isFinalized) {
       console.log('Completed at block hash', status.value.toHex());
       console.log('Events:');
 
-      events.forEach(({ phase, event: { data, method, section } }: EventRecord) => {
+      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
         console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
       });
 
@@ -35,17 +35,17 @@ const logEvents = (done: () => {}) =>
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
-})('Promise e2e transactions', (wsUrl) => {
+})('Promise e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromise;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
   });
 
-  it('can submit an extrinsic from hex', async (done) => {
+  it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
@@ -55,7 +55,7 @@ describeE2E({
     return api.tx(hex).send(logEvents(done));
   });
 
-  it('makes a transfer (sign, then send)', async (done) => {
+  it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
@@ -64,7 +64,7 @@ describeE2E({
       .send(logEvents(done));
   });
 
-  it('makes a transfer (sign, then send - compat version)', async (done) => {
+  it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
@@ -73,13 +73,13 @@ describeE2E({
       .send(logEvents(done));
   });
 
-  it('makes a transfer (signAndSend, immortal)', async (done) => {
+  it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer)', async (done) => {
+  it('makes a transfer (signAndSend via Signer)', async (done): Promise<() => void> => {
     const signer = new SingleAccountSigner(keyring.charlie) as Signer;
 
     api.setSigner(signer);
@@ -89,7 +89,7 @@ describeE2E({
       .signAndSend(keyring.charlie.address, logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer) with undefined Signer', async () => {
+  it('makes a transfer (signAndSend via Signer) with undefined Signer', async (): Promise<void> => {
     const signer: any = undefined;
     // no signer
     api.setSigner(signer);
@@ -99,7 +99,7 @@ describeE2E({
       .signAndSend(keyring.alice.address)).rejects.toThrow('no signer exists');
   });
 
-  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async () => {
+  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async (): Promise<void> => {
     const signer: Signer = new SingleAccountSigner(keyring.dave);
 
     api.setSigner(signer);
@@ -110,14 +110,15 @@ describeE2E({
       .signAndSend(keyring.alice.address)).rejects.toThrow('does not have the keyringPair');
   });
 
-  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async () => {
+  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async (): Promise<void> => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.alice.address, (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ })).rejects.toThrow('does not have the keyringPair');
   });
 
-  it('makes a transfer (no callback)', async () => {
+  it('makes a transfer (no callback)', async (): Promise<void> => {
     const hash = await api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.dave);
@@ -125,7 +126,7 @@ describeE2E({
     expect(hash.toHex()).toHaveLength(66);
   });
 
-  it('makes a proposal', async () => {
+  it('makes a proposal', async (): Promise<void> => {
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const hash: Hash = await api.tx.democracy
@@ -136,29 +137,29 @@ describeE2E({
   });
 
   // this one is slightly difficult with the current testnet config - CantPay
-  it.skip('makes a transfer, and uses new balance to transfers to new', async (done) => {
+  it.skip('makes a transfer, and uses new balance to transfers to new', async (done): Promise<() => void> => {
     const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
-    function doOne (cb: any) {
+    function doOne (cb: any): Promise<() => void> {
       return api.tx.balances
         .transfer(pair.address, 1234567)
         .signAndSend(keyring.dave, logEvents(cb));
     }
 
-    function doTwo (cb: any) {
+    function doTwo (cb: any): Promise<() => void> {
       return api.tx.balances
         .transfer(keyring.alice.address, 1111111)
         .signAndSend(pair, logEvents(cb));
     }
 
     // return doTwo(done);
-    return doOne(() => {
+    return doOne((): Promise<() => void> => {
       return doTwo(done);
     });
   });
 
-  describe('eras', () => {
-    it('makes a transfer (specified era)', async (done) => {
+  describe('eras', (): void => {
+    it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
@@ -172,7 +173,7 @@ describeE2E({
       done();
     });
 
-    it('makes a transfer with invalid time', async (done) => {
+    it('makes a transfer with invalid time', async (done): Promise<() => void> => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
@@ -182,7 +183,7 @@ describeE2E({
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       return (
-        api.rpc.chain.subscribeNewHead(async (header: Header) => {
+        api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
           if (header.blockNumber.toNumber() === eraDeath - 1) {
             try {
               await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
@@ -195,7 +196,7 @@ describeE2E({
       );
     });
 
-    it('makes a transfer with custom numeric era', async (done) => {
+    it('makes a transfer with custom numeric era', async (done): Promise<void> => {
       const hash = await api.tx.balances
         .transfer(keyring.eve.address, 12345)
         .signAndSend(keyring.charlie, { era: 2 });
@@ -204,12 +205,12 @@ describeE2E({
       done();
     });
 
-    it('should fire an error with invalid transaction', async (done) => {
+    it('should fire an error with invalid transaction', async (done): Promise<Hash | void> => {
       const aliceBalance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
 
       return api.tx.balances
         .transfer(keyring.bob.address, aliceBalance.muln(2))
-        .signAndSend(keyring.alice).catch((error) => {
+        .signAndSend(keyring.alice).catch((error): void => {
           expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
           done();
         });

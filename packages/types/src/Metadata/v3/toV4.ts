@@ -50,7 +50,8 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
  */
 export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
   return new MetadataV4({
-    modules: metadataV3.modules.map((modul) => {
+    // FIXME, this needs typing, not any
+    modules: metadataV3.modules.map((modul): any => {
       return {
         name: modul.name,
         prefix: modul.prefix,

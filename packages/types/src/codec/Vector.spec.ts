@@ -15,24 +15,24 @@ import createType from './createType';
 import Vector from './Vector';
 import Tuple from './Tuple';
 
-describe('Vector', () => {
+describe('Vector', (): void => {
   let vector: Vector<Codec>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
     Method.injectMethods(extrinsics);
   });
 
-  it('wraps a sequence of values', () => {
+  it('wraps a sequence of values', (): void => {
     expect(vector.length).toEqual(5); // eslint-disable-line
   });
 
-  it('has a sane representation for toString', () => {
+  it('has a sane representation for toString', (): void => {
     expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
   });
 
-  it('encodes with length prefix', () => {
+  it('encodes with length prefix', (): void => {
     expect(vector.toU8a()).toEqual(new Uint8Array([
       5 << 2,
       1 << 2, 49,
@@ -43,17 +43,17 @@ describe('Vector', () => {
     ]));
   });
 
-  it('allows contruction via JSON', () => {
+  it('allows contruction via JSON', (): void => {
     expect(
       new Vector(Text, ['6', '7']).toJSON()
     ).toEqual(['6', '7']);
   });
 
-  it('exposes the type', () => {
+  it('exposes the type', (): void => {
     expect(vector.Type).toEqual('Text');
   });
 
-  it.skip('decodes a complex type via construction', () => {
+  it.skip('decodes a complex type via construction', (): void => {
     const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
       4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ]));
@@ -64,17 +64,17 @@ describe('Vector', () => {
     expect((first[2] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
-  describe('vector-like functions', () => {
-    it('allows retrieval of a specific item', () => {
+  describe('vector-like functions', (): void => {
+    it('allows retrieval of a specific item', (): void => {
       expect(
         vector[2].toString()
       ).toEqual('345');
     });
 
-    it('exposes a working forEach', () => {
+    it('exposes a working forEach', (): void => {
       const result: { [index: number]: string } = {};
 
-      vector.forEach((e, i) => {
+      vector.forEach((e, i): void => {
         result[i] = e.toString();
       });
 
@@ -87,28 +87,28 @@ describe('Vector', () => {
       });
     });
 
-    it('exposes a working filter', () => {
+    it('exposes a working filter', (): void => {
       expect(
-        vector.filter((e, i) => i >= 3).toString()
+        vector.filter((e, i): boolean => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 
-    it('exposes a working map', () => {
+    it('exposes a working map', (): void => {
       expect(
-        vector.map((e) => e.toString().substr(0, 1))
+        vector.map((e): string => e.toString().substr(0, 1))
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
-    it('exposes a working reduce', () => {
+    it('exposes a working reduce', (): void => {
       expect(
-        vector.reduce((r, e) => `${r}${e}`, '')
+        vector.reduce((r, e): string => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
   });
 
-  describe('encode', () => {
-    const testEncode = (to: CodecTo, expected: any) =>
-      it(`can encode ${to}`, () => {
+  describe('encode', (): void => {
+    const testEncode = (to: CodecTo, expected: any): void =>
+      it(`can encode ${to}`, (): void => {
         expect(vector[to]()).toEqual(expected);
       });
 
@@ -118,18 +118,18 @@ describe('Vector', () => {
     testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
 
-  describe('utils', () => {
+  describe('utils', (): void => {
     const vec = new Vector(Text, ['123', '456']);
 
-    it('compares against codec types', () => {
+    it('compares against codec types', (): void => {
       expect(vec.eq([new Text('123'), new Text('456')])).toBe(true);
     });
 
-    it('compares against codec + primitive types', () => {
+    it('compares against codec + primitive types', (): void => {
       expect(vec.eq(['123', new Text('456')])).toBe(true);
     });
 
-    it('finds the index of an value', () => {
+    it('finds the index of an value', (): void => {
       const myId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
       const vec = new Vector(AccountId, [
         '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'

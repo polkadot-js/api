@@ -5,9 +5,9 @@
 import { CodecTypes } from '@polkadot/types/classes';
 import { RpcParam } from '../types';
 
-type RpcParamOptions = {
-  isOptional?: boolean
-};
+interface RpcParamOptions {
+  isOptional?: boolean;
+}
 
 export default function createParam (name: string, type: CodecTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
   return {

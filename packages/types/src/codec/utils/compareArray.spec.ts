@@ -5,28 +5,28 @@
 import U32 from '../../primitive/U32';
 import compareArray from './compareArray';
 
-describe('compareArray', () => {
+describe('compareArray', (): void => {
   const a = [new U32(123), new U32(456), new U32(789)];
 
-  it('returns false when second param is a non-array', () => {
+  it('returns false when second param is a non-array', (): void => {
     expect(
       compareArray(a, 123)
     ).toBe(false);
   });
 
-  it('compares array of codec agains primitive', () => {
+  it('compares array of codec agains primitive', (): void => {
     expect(
       compareArray(a, [123, 456, 789])
     ).toBe(true);
   });
 
-  it('compares array of codec agains codec', () => {
+  it('compares array of codec agains codec', (): void => {
     expect(
       compareArray(a, [new U32(123), new U32(456), new U32(789)])
     ).toBe(true);
   });
 
-  it('compares primitive against primitive', () => {
+  it('compares primitive against primitive', (): void => {
     expect(
       compareArray(
         [123, 456], [123, 456]
@@ -34,13 +34,13 @@ describe('compareArray', () => {
     ).toBe(true);
   });
 
-  it('returns false when lengths are not matching', () => {
+  it('returns false when lengths are not matching', (): void => {
     expect(
       compareArray(a, [123])
     ).toBe(false);
   });
 
-  it('returns false when value mismatches', () => {
+  it('returns false when value mismatches', (): void => {
     expect(
       compareArray(a, [123, 456, 999])
     ).toBe(false);

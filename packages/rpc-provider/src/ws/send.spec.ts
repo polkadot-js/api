@@ -12,24 +12,24 @@ declare const global: Global;
 let provider: WsProvider;
 let mock: Mock;
 
-function createMock (requests: Array<any>) {
+function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect: boolean = true) {
+function createWs (autoConnect: boolean = true): WsProvider {
   provider = new WsProvider(TEST_WS_URL, autoConnect);
 
   return provider;
 }
 
-describe('send', () => {
+describe('send', (): void => {
   let globalWs: Constructor<WebSocket>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.WebSocket = globalWs;
 
     if (mock) {
@@ -37,11 +37,11 @@ describe('send', () => {
     }
   });
 
-  it('handles internal errors', () => {
+  it('handles internal errors', (): Promise<any> => {
     createMock([]);
 
     (global as any).WebSocket = class {
-      send () {
+      public send (): void {
         throw new Error('send error');
       }
     };
@@ -52,12 +52,12 @@ describe('send', () => {
 
     return provider
       .send('test_encoding', ['param'])
-      .catch((error) => {
+      .catch((error): void => {
         expect(error.message).toEqual('send error');
       });
   });
 
-  it('passes the body through correctly', () => {
+  it('passes the body through correctly', (): Promise<void> => {
     createMock([{
       id: 1,
       method: 'test_body',
@@ -68,14 +68,14 @@ describe('send', () => {
 
     return createWs(true)
       .send('test_body', ['param'])
-      .then((result) => {
+      .then((): void => {
         expect(
           (mock.body as any)['test_body']
         ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
       });
   });
 
-  it('throws error when !response.ok', () => {
+  it('throws error when !response.ok', (): Promise<any> => {
     createMock([{
       id: 1,
       error: {
@@ -86,12 +86,12 @@ describe('send', () => {
 
     return createWs(true)
       .send('test_error', [])
-      .catch((error) => {
+      .catch((error): void => {
         expect(error.message).toMatch(/666: error/);
       });
   });
 
-  it('adds subscriptions', () => {
+  it('adds subscriptions', (): Promise<void> => {
     createMock([{
       id: 1,
       method: 'test_sub',
@@ -102,7 +102,7 @@ describe('send', () => {
 
     return createWs(true)
       .send('test_sub', [])
-      .then((id) => {
+      .then((id): void => {
         expect(id).toEqual(1);
       });
   });

@@ -17,31 +17,31 @@ import describeE2E from '../util/describeE2E';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describeE2E()('Promise e2e contracts', (wsUrl) => {
+describeE2E()('Promise e2e contracts', (wsUrl): void => {
   let address: Address;
   let codeHash: Hash;
   const keyring = testingPairs({ type: 'sr25519' });
   let api: ApiPromise;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
   });
 
-  describe('flipper', () => {
+  describe('flipper', (): void => {
     const MAX_GAS = 500000;
     let abi: Abi;
 
-    beforeEach(() => {
+    beforeEach((): void => {
       abi = new Abi(flipperAbi);
     });
 
-    it('allows putCode', (done) => {
+    it('allows putCode', (done): Promise<() => void> => {
       return (
         api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
-          .signAndSend(keyring.eve, (result: SubmittableResult) => {
+          .signAndSend(keyring.eve, (result: SubmittableResult): void => {
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
               if (record) {
@@ -54,13 +54,13 @@ describeE2E()('Promise e2e contracts', (wsUrl) => {
       );
     });
 
-    it('allows contract create', (done) => {
+    it('allows contract create', (done): Promise<() => void> => {
       expect(codeHash).toBeDefined();
 
       return (
         api.tx.contracts
           .create(12345, MAX_GAS, codeHash, abi.deploy())
-          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+          .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('create', JSON.stringify(result));
 
             if (result.status.isFinalized) {
@@ -76,13 +76,13 @@ describeE2E()('Promise e2e contracts', (wsUrl) => {
       );
     });
 
-    it('allows contract call', (done) => {
+    it('allows contract call', (done): Promise<() => void> => {
       expect(address).toBeDefined();
 
       return (
         api.tx.contracts
           .call(address, 12345, MAX_GAS, abi.messages.flip())
-          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+          .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('call', JSON.stringify(result));
 
             if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {

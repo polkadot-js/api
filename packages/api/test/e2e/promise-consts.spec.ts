@@ -10,16 +10,16 @@ import describeE2E from '../util/describeE2E';
 
 describeE2E({
   except: ['remote-substrate-1.0', 'substrate-1.0']
-})('e2e consts', (wsUrl) => {
+})('e2e consts', (wsUrl): void => {
   let api: ApiPromise;
 
-  beforeEach(async (done) => {
+  beforeEach(async (done): Promise<void> => {
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
   });
 
-  it('democracy.cooloffPeriod parameter type', () => {
+  it('democracy.cooloffPeriod parameter type', (): void => {
     expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
     expect(api.consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
   });
