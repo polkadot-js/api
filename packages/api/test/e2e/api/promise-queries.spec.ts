@@ -236,9 +236,9 @@ describeE2E({
   it('subscribes to derived balances (balances.all)', (done): Promise<() => void> => {
     return (
       api.derive.balances.all(
-        keyring.alice_stash.address,
+        keyring.bob_stash.address,
         (all: DerivedBalances): void => {
-          expect(all.accountId.toString()).toEqual(keyring.alice_stash.address);
+          expect(all.accountId.toString()).toEqual(keyring.bob_stash.address);
 
           expect(all.freeBalance).toBeDefined();
           expect(all.freeBalance.gt(ZERO)).toBe(true);
