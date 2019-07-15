@@ -64,6 +64,7 @@ export interface DerivedStaking {
   nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
+  sessionId?: AccountId;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
