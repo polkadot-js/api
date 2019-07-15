@@ -21,6 +21,17 @@ interface Options {
   apiType?: 'promise' | 'rxjs';
 }
 
+function filterProcessEnv (wsEndpoints: Options): WsName[] {
+  // If there's a TEST_DOCKER flag, we  only run tests to Docker endpoints
+  // If there's a TEST_REMOTE flag, we only run tests to remote endpoints
+  // If none of the two is present, we only run tests on local node
+  return process.env.TEST_REMOTE || process.env.TEST_DOCKER
+    ? process.env.TEST_REMOTE
+      ? wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('remote-'))
+      : wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('docker-'))
+    : wsEndpoints.filter((wsName): boolean => wsName === 'local');
+}
+
 // From the options and the TEST_DOCKER and TEST_REMOTE flags, calculate on which endpoints we
 // should run the tests
 function getWsEndpoints (options?: Options): WsName[] {
@@ -33,16 +44,7 @@ function getWsEndpoints (options?: Options): WsName[] {
       .filter((wsName): boolean => !options || !options.except || !options.except.includes(wsName));
   }
 
-  // If there's a TEST_DOCKER flag, we  only run tests to Docker endpoints
-  // If there's a TEST_REMOTE flag, we only run tests to remote endpoints
-  // If none of the two is present, we only run tests on local node
-  wsEndpoints = process.env.TEST_REMOTE || process.env.TEST_DOCKER
-    ? process.env.TEST_REMOTE
-      ? wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('remote-'))
-      : wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('docker-'))
-    : wsEndpoints.filter((wsName): boolean => wsName === 'local');
-
-  return wsEndpoints;
+  return filterProcessEnv(wsEndpoints);
 }
 
 export default function describeE2E (options?: Options): (message: string, inner: (wsUrl: string) => void) => void {
