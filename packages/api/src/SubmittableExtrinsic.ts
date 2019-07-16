@@ -50,6 +50,10 @@ interface SignerOptions {
 const ONE_MINUTE = 15;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
+function isKeyringPair (account: string | IKeyringPair | AccountId | Address): account is IKeyringPair {
+  return isFunction((account as IKeyringPair).sign);
+}
+
 export class SubmittableResult implements ISubmittableResult {
   public readonly events: EventRecord[];
 
@@ -163,15 +167,16 @@ export default function createSubmittableExtrinsic<ApiType> (
       );
   }
 
-  function expandOptions (options: Partial<SignerOptions>): SignatureOptions {
+  function expandOptions (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
     return {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
-      ...options
+      ...options,
+      ...extras
     } as unknown as SignatureOptions;
   }
 
-  function setupEraOptions (header: Header | null, options: Partial<SignerOptions>): Partial<SignatureOptions> {
+  function expandEraOptions (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions {
     if (!header) {
       if (isNumber(options.era)) {
         // since we have no header, it is immortal, remove any option overrides
@@ -180,18 +185,19 @@ export default function createSubmittableExtrinsic<ApiType> (
         delete options.blockHash;
       }
 
-      return {};
+      return expandOptions(options, { nonce });
     }
 
     const { blockNumber, hash } = header;
 
-    return {
+    return expandOptions(options, {
       blockHash: hash,
       era: new ExtrinsicEra({
         current: blockNumber,
         period: options.era || DEFAULT_MORTAL_LENGTH
-      })
-    };
+      }),
+      nonce
+    });
   }
 
   const signOrigin = _extrinsic.sign;
@@ -207,14 +213,14 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       sign: {
-        value: function (account: IKeyringPair, _options: Partial<SignerOptions>): SubmittableExtrinsic<ApiType> {
+        value: function (account: IKeyringPair, optionOrNonce: Partial<SignerOptions>): SubmittableExtrinsic<ApiType> {
           // HACK here we actually override nonce if it was specified (backwards compat for
           // the previous signature - don't let userspace break, but allow then time to upgrade)
-          const options: Partial<SignerOptions> = isBn(_options) || isNumber(_options)
-            ? { nonce: _options as any as number }
-            : _options;
+          const options: Partial<SignerOptions> = isBn(optionOrNonce) || isNumber(optionOrNonce)
+            ? { nonce: optionOrNonce }
+            : optionOrNonce;
 
-          signOrigin.apply(_extrinsic, [account, expandOptions(options)]);
+          signOrigin.apply(_extrinsic, [account, expandOptions(options, {})]);
 
           return this;
         }
@@ -230,8 +236,7 @@ export default function createSubmittableExtrinsic<ApiType> (
           }
 
           const isSubscription = _noStatusCb || !!statusCb;
-          const isKeyringPair = isFunction((account as IKeyringPair).sign);
-          const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
+          const address = isKeyringPair(account) ? account.address : account.toString();
           let updateId: number | undefined;
 
           return decorateMethod(
@@ -250,13 +255,13 @@ export default function createSubmittableExtrinsic<ApiType> (
             ).pipe(
               first(),
               mergeMap(async ([nonce, header]): Promise<void> => {
-                const eraOptions = setupEraOptions(header, options);
+                const eraOptions = expandEraOptions(options, { header, nonce });
 
-                if (isKeyringPair) {
-                  this.sign(account as IKeyringPair, { ...options, ...eraOptions, nonce });
+                if (isKeyringPair(account)) {
+                  this.sign(account, eraOptions);
                 } else if (api.signer) {
                   updateId = await api.signer.sign(_extrinsic, address, {
-                    ...expandOptions({ ...options, ...eraOptions, nonce }),
+                    ...eraOptions,
                     blockNumber: header ? header.blockNumber : new BN(0),
                     genesisHash: api.genesisHash
                   });
@@ -267,7 +272,7 @@ export default function createSubmittableExtrinsic<ApiType> (
               switchMap((): Observable<ISubmittableResult> | Observable<Hash> => {
                 return isSubscription
                   ? subscribeObservable(updateId)
-                  : sendObservable(updateId) as any; // ???
+                  : sendObservable(updateId);
               })
             ) as Observable<Codec>)
           )(statusCb);
