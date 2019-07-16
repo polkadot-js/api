@@ -11,6 +11,7 @@
 ## Interfaces
 
 - [RPC](METHODS_RPC.md)
+- [Constants (runtime)](METHODS_CONSTANTS.md)
 - [Chain state (runtime)](METHODS_STORAGE.md)
 - [Extrinsics (runtime)](METHODS_EXTRINSICS.md)
 - [Events (runtime)](METHODS_EVENTS.md)
