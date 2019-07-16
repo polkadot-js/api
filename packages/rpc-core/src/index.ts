@@ -12,7 +12,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
-import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
+import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -173,7 +173,7 @@ export default class Rpc implements RpcInterface {
 
     const call = (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
-        let subscriptionPromise: Promise<number>;
+        let subscriptionPromise: Promise<number | void>;
 
         const errorHandler = (error: Error): void => {
           const message = this.createErrorMessage(method, error);
@@ -197,11 +197,7 @@ export default class Rpc implements RpcInterface {
 
           subscriptionPromise = this.provider
             .subscribe(subType, subName, paramsJson, update)
-            .catch((error): number => {
-              errorHandler(error);
-
-              return -1;
-            });
+            .catch(errorHandler);
         } catch (error) {
           errorHandler(error);
         }
@@ -221,11 +217,11 @@ export default class Rpc implements RpcInterface {
           memoized.delete(...values);
 
           // Unsubscribe from provider
-          subscriptionPromise
+          subscriptionPromise && subscriptionPromise
             .then((subscriptionId): Promise<boolean> =>
-              subscriptionId === -1
-                ? Promise.resolve(false)
-                : this.provider.unsubscribe(subType, unsubName, subscriptionId)
+              isNumber(subscriptionId)
+                ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
+                : Promise.resolve(false)
             )
             .catch((error: Error): void => {
               const message = this.createErrorMessage(method, error);
