@@ -19,6 +19,13 @@ describe('ExtrinsicEra', (): void => {
     expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(20000);
   });
 
+  it('decoded from an existing ExtrinsicEra', (): void => {
+    const extrinsicEra = new ExtrinsicEra(new ExtrinsicEra(new Uint8Array([78, 156])));
+
+    expect(extrinsicEra.asMortalEra.period.toNumber()).toEqual(32768);
+    expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(20000);
+  });
+
   it('encode an Extrinsic Era from Object with blocknumber & period as mortal instance', (): void => {
     const extrinsicEra = new ExtrinsicEra({ current: 1400, period: 200 });
 

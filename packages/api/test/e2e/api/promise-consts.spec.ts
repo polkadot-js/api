@@ -5,12 +5,17 @@
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { BlockNumber } from '@polkadot/types';
 
-import ApiPromise from '../../src/promise';
-import describeE2E from '../util/describeE2E';
+import ApiPromise from '../../../src/promise';
+import describeE2E from '../../util/describeE2E';
 
 describeE2E({
-  except: ['remote-substrate-1.0', 'substrate-1.0']
-})('e2e consts', (wsUrl): void => {
+  only: [
+    'local',
+    'docker-polkadot-master',
+    'docker-substrate-master',
+    'docker-substrate-2.0'
+  ]
+})('Promise e2e consts', (wsUrl): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
@@ -21,6 +26,9 @@ describeE2E({
 
   it('democracy.cooloffPeriod parameter type', (): void => {
     expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
-    expect(api.consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
+    expect(
+      api.consts.democracy.cooloffPeriod.eq(432000) || // Substrate
+      api.consts.democracy.cooloffPeriod.eq(259200) // Polkadot
+    ).toBeTruthy();
   });
 });

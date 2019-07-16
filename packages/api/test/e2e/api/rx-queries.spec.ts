@@ -10,12 +10,10 @@ import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import ApiRx from '../../src/rx';
-import describeE2E from '../util/describeE2E';
+import ApiRx from '../../../src/rx';
+import describeE2E from '../../util/describeE2E';
 
-describeE2E({
-  apiType: 'rxjs'
-})('Rx e2e queries', (wsUrl): void => {
+describeE2E()('Rx e2e queries', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
@@ -36,7 +34,7 @@ describeE2E({
   });
 
   it('queries state for a balance', (done): void => {
-    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance): void => {
+    api.query.balances.freeBalance(keyring.alice_stash.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();

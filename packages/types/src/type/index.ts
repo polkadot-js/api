@@ -24,7 +24,7 @@ export { default as ContractStorageKey } from './ContractStorageKey';
 export { default as EraIndex } from './EraIndex';
 export { default as Exposure } from './Exposure';
 export { default as Extrinsic } from './Extrinsic';
-export { default as ExtrinsicEra } from './ExtrinsicEra';
+export { default as ExtrinsicEra, MortalEra, ImmortalEra } from './ExtrinsicEra';
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';

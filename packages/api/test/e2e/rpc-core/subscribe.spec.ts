@@ -6,7 +6,7 @@ import { StorageChangeSet } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/api-metadata/storage/static';
 
-import Rpc from '../../src';
+import Rpc from '@polkadot/rpc-core';
 
 describe.skip('e2e subscriptions', (): void => {
   let rpc: Rpc;

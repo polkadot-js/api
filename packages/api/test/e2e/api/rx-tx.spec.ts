@@ -9,13 +9,11 @@ import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import ApiRx from './../../src/rx';
-import { SubmittableResult } from './../../src';
-import describeE2E from '../util/describeE2E';
+import ApiRx from '../../../src/rx';
+import { SubmittableResult } from '../../../src';
+import describeE2E from '../../util/describeE2E';
 
-describeE2E({
-  apiType: 'rxjs'
-})('Rx e2e transactions', (wsUrl): void => {
+describeE2E()('Rx e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 

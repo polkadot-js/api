@@ -62,6 +62,10 @@ export class MortalEra extends Tuple {
     } else if (Array.isArray(value)) {
       return MortalEra.decodeMortalEra(new Uint8Array(value));
     } else if (isU8a(value)) {
+      if (value.length === 0) {
+        return [new U64(), new U64()];
+      }
+
       const first = u8aToBn(value.subarray(0, 1)).toNumber();
       const second = u8aToBn(value.subarray(1, 2)).toNumber();
       const encoded: number = first + (second << 8);
@@ -188,8 +192,10 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  private static decodeExtrinsicEra (value: MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (isHex(value)) {
+  private static decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
+    if (value instanceof ExtrinsicEra) {
+      return ExtrinsicEra.decodeExtrinsicEra(value.toU8a());
+    } else if (isHex(value)) {
       return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
     } else if (isU8a(value)) {
       if (!value.length || value[0] === 0) {
@@ -259,10 +265,8 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    if (this.index === 0) {
-      return this.asImmortalEra.toU8a(isBare);
-    } else {
-      return this.asMortalEra.toU8a(isBare);
-    }
+    return this.isMortalEra
+      ? this.asMortalEra.toU8a(isBare)
+      : this.asImmortalEra.toU8a(isBare);
   }
 }

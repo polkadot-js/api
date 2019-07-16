@@ -16,7 +16,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
-import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
+import { Constants } from '@polkadot/api-metadata/consts/types';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
@@ -30,7 +30,6 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import injectNodeCompat from './nodeCompat';
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 import { decorateSections } from './util/decorate';
 
@@ -513,8 +512,6 @@ export default abstract class ApiBase<ApiType> {
       this._runtimeVersion = this._options.source.runtimeVersion;
       this._genesisHash = this._options.source.genesisHash;
     }
-
-    injectNodeCompat(this._runtimeVersion as RuntimeVersion);
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);

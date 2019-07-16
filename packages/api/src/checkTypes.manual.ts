@@ -6,6 +6,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
+import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { Header, Nonce } from '@polkadot/types';
@@ -52,7 +53,7 @@ export default async function test (): Promise<void> {
   // constants has actual value & metadata
   console.log(
     api.consts.balances.creationFee.toHex(),
-    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
+    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
   );
 
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
