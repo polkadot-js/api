@@ -52,7 +52,7 @@ export default async function test (): Promise<void> {
   // constants has actual value & metadata
   console.log(
     api.consts.balances.creationFee.toHex(),
-    api.consts.balances.creationFee.meta.documentation.map((s) => s.toString()).join('')
+    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
   );
 
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);

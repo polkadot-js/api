@@ -12,7 +12,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
-import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
+import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -173,7 +173,15 @@ export default class Rpc implements RpcInterface {
 
     const call = (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
-        let subscriptionPromise: Promise<number>;
+        let subscriptionPromise: Promise<number | void>;
+
+        const errorHandler = (error: Error): void => {
+          const message = this.createErrorMessage(method, error);
+
+          l.error(message);
+
+          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+        };
 
         try {
           const params = this.formatInputs(method, values);
@@ -187,13 +195,11 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider.subscribe(subType, subName, paramsJson, update);
+          subscriptionPromise = this.provider
+            .subscribe(subType, subName, paramsJson, update)
+            .catch(errorHandler);
         } catch (error) {
-          const message = this.createErrorMessage(method, error);
-
-          l.error(message);
-
-          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+          errorHandler(error);
         }
 
         // Teardown logic
@@ -209,10 +215,13 @@ export default class Rpc implements RpcInterface {
           // ```
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           memoized.delete(...values);
+
           // Unsubscribe from provider
-          subscriptionPromise
+          subscriptionPromise && subscriptionPromise
             .then((subscriptionId): Promise<boolean> =>
-              this.provider.unsubscribe(subType, unsubName, subscriptionId)
+              isNumber(subscriptionId)
+                ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
+                : Promise.resolve(false)
             )
             .catch((error: Error): void => {
               const message = this.createErrorMessage(method, error);
