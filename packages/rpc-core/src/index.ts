@@ -175,6 +175,14 @@ export default class Rpc implements RpcInterface {
       return new Observable((observer: Observer<any>): VoidCallback => {
         let subscriptionPromise: Promise<number>;
 
+        const errorHandler = (error: Error): void => {
+          const message = this.createErrorMessage(method, error);
+
+          l.error(message);
+
+          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+        };
+
         try {
           const params = this.formatInputs(method, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
@@ -187,13 +195,15 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider.subscribe(subType, subName, paramsJson, update);
+          subscriptionPromise = this.provider
+            .subscribe(subType, subName, paramsJson, update)
+            .catch((error): number => {
+              errorHandler(error);
+
+              return -1;
+            });
         } catch (error) {
-          const message = this.createErrorMessage(method, error);
-
-          l.error(message);
-
-          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+          errorHandler(error);
         }
 
         // Teardown logic
@@ -209,10 +219,13 @@ export default class Rpc implements RpcInterface {
           // ```
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           memoized.delete(...values);
+
           // Unsubscribe from provider
           subscriptionPromise
             .then((subscriptionId): Promise<boolean> =>
-              this.provider.unsubscribe(subType, unsubName, subscriptionId)
+              subscriptionId === -1
+                ? Promise.resolve(false)
+                : this.provider.unsubscribe(subType, unsubName, subscriptionId)
             )
             .catch((error: Error): void => {
               const message = this.createErrorMessage(method, error);
