@@ -68,7 +68,7 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
   return nameA.localeCompare(nameB);
 }
 
-function addConstants(metadata: MetadataV6): string {
+function addConstants (metadata: MetadataV6): string {
   const renderHeading = `## ${ANCHOR_TOP}Constants${DESC_CONSTANTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -212,7 +212,7 @@ function writeToRpcMd (): void {
   writeFile('docs/METHODS_RPC.md', addRpc());
 }
 
-function writeToConstantsMd(metadata: MetadataV6): void {
+function writeToConstantsMd (metadata: MetadataV6): void {
   writeFile('docs/METHODS_CONSTANTS.md', addConstants(metadata));
 }
 
