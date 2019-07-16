@@ -62,6 +62,10 @@ export class MortalEra extends Tuple {
     } else if (Array.isArray(value)) {
       return MortalEra.decodeMortalEra(new Uint8Array(value));
     } else if (isU8a(value)) {
+      if (value.length === 0) {
+        return [new U64(), new U64()];
+      }
+
       const first = u8aToBn(value.subarray(0, 1)).toNumber();
       const second = u8aToBn(value.subarray(1, 2)).toNumber();
       const encoded: number = first + (second << 8);
