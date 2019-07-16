@@ -47,7 +47,7 @@ services:
       - "--ws-external"
 
   substrate-2.0:
-    image: parity/substrate:2.0.0-f981856d4
+    image: parity/substrate:2.0.0-b65c315a1
     ports:
       - "9947:9944"
     networks:

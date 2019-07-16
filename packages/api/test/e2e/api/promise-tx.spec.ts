@@ -8,11 +8,11 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
-import { SubmittableResult } from './../../src';
-import ApiPromise from '../../src/promise';
-import { Signer } from './../../src/types';
-import describeE2E from '../util/describeE2E';
-import SingleAccountSigner from '../util/SingleAccountSigner';
+import { SubmittableResult } from '../../../src';
+import ApiPromise from '../../../src/promise';
+import { Signer } from '../../../src/types';
+import describeE2E from '../../util/describeE2E';
+import SingleAccountSigner from '../../util/SingleAccountSigner';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
