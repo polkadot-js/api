@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
+import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '../types';
 
 import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -179,7 +179,7 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): Extrinsic {
     this.raw.addSignature(signer, signature, nonce, era);
 
     return this;

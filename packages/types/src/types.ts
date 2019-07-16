@@ -161,6 +161,6 @@ export interface IExtrinsic extends IMethod {
   isSigned: boolean;
   method: Method;
   signature: IExtrinsicSignature;
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }
