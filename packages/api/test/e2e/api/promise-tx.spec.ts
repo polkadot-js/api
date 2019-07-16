@@ -6,7 +6,7 @@ import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { Balance, EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
@@ -79,45 +79,6 @@ describeE2E({
       .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer)', async (done): Promise<() => void> => {
-    const signer = new SingleAccountSigner(keyring.charlie) as Signer;
-
-    api.setSigner(signer);
-
-    return api.tx.balances
-      .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.charlie.address, logEvents(done));
-  });
-
-  it('makes a transfer (signAndSend via Signer) with undefined Signer', async (): Promise<void> => {
-    const signer: any = undefined;
-    // no signer
-    api.setSigner(signer);
-
-    await expect(api.tx.balances
-      .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.alice.address)).rejects.toThrow('no signer exists');
-  });
-
-  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async (): Promise<void> => {
-    const signer: Signer = new SingleAccountSigner(keyring.dave);
-
-    api.setSigner(signer);
-
-    // no callback
-    await expect(api.tx.balances
-      .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.alice.address)).rejects.toThrow('does not have the keyringPair');
-  });
-
-  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async (): Promise<void> => {
-    // with callback
-    await expect(api.tx.balances
-      .transfer(keyring.eve.address, 12345)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ })).rejects.toThrow('does not have the keyringPair');
-  });
-
   it('makes a transfer (no callback)', async (): Promise<void> => {
     const hash = await api.tx.balances
       .transfer(keyring.eve.address, 12345)
@@ -158,22 +119,33 @@ describeE2E({
     });
   });
 
+  // TODO split this into a separate file
   describe('eras', (): void => {
     it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
-      const hash = await ex.signAndSend(keyring.charlie, {
+
+      await ex.signAndSend(keyring.charlie, {
         blockHash: signedBlock.block.header.hash,
         era: exERA
-      });
-
-      expect(hash.toHex()).toHaveLength(66);
-      done();
+      }, logEvents(done));
     });
 
-    it('makes a transfer with invalid time', async (done): Promise<() => void> => {
+    it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
+      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const currentHeight = signedBlock.block.header.number.subn(1);
+      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
+
+      await ex.signAndSend(keyring.charlie, {
+        blockHash: signedBlock.block.header.parentHash,
+        era: exERA
+      }, logEvents(done));
+    });
+
+    it('fails on a transfer with invalid time', async (done): Promise<void> => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
@@ -182,38 +154,75 @@ describeE2E({
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-      return (
-        api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
-          if (header.blockNumber.toNumber() === eraDeath - 1) {
-            try {
-              await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
-            } catch (error) {
-              expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
-              done();
-            }
+      await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
+        if (header.blockNumber.toNumber() === eraDeath - 1) {
+          try {
+            await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
+          } catch (error) {
+            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            done();
           }
-        })
-      );
+        }
+      });
     });
 
     it('makes a transfer with custom numeric era', async (done): Promise<void> => {
-      const hash = await api.tx.balances
+      await api.tx.balances
         .transfer(keyring.eve.address, 12345)
-        .signAndSend(keyring.charlie, { era: 2 });
+        .signAndSend(keyring.charlie, { era: 2 }, logEvents(done));
+    });
+  });
 
-      expect(hash.toHex()).toHaveLength(66);
-      done();
+  // TODO split this into a seperate file
+  describe('Signer injection', (): void => {
+    it('makes a transfer (signAndSend via Signer)', async (done): Promise<void> => {
+      const signer = new SingleAccountSigner(keyring.charlie);
+
+      api.setSigner(signer);
+
+      await api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        .signAndSend(keyring.charlie.address, logEvents(done));
     });
 
-    it('should fire an error with invalid transaction', async (done): Promise<Hash | void> => {
-      const aliceBalance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
+    it('succeeds when waiting some blocks before submission', async (done): Promise<void> => {
+      // 10 second delay
+      const signer = new SingleAccountSigner(keyring.charlie, 10000);
 
-      return api.tx.balances
-        .transfer(keyring.bob.address, aliceBalance.muln(2))
-        .signAndSend(keyring.alice).catch((error): void => {
-          expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
-          done();
-        });
+      api.setSigner(signer);
+
+      await api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        .signAndSend(keyring.charlie.address, logEvents(done));
+    });
+
+    it('fails (signAndSend via Signer) with undefined Signer', async (): Promise<void> => {
+      const signer: any = undefined;
+      // no signer
+      api.setSigner(signer);
+
+      await expect(api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        .signAndSend(keyring.alice.address)).rejects.toThrow('no signer exists');
+    });
+
+    it('fails (signAndSend via Signer) with the wrong keyring pair', async (): Promise<void> => {
+      const signer: Signer = new SingleAccountSigner(keyring.dave);
+
+      api.setSigner(signer);
+
+      // no callback
+      await expect(api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        .signAndSend(keyring.alice.address)).rejects.toThrow('does not have the keyringPair');
+    });
+
+    it('fails (signAndSend via Signer) with the wrong keyring pair with a callback', async (): Promise<void> => {
+      // with callback
+      await expect(api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ })).rejects.toThrow('no signer exists');
     });
   });
 });
