@@ -8,7 +8,7 @@ import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import extrinsics from './../../static';
+import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 const keyring = testingPairs({ type: 'ed25519' });
 

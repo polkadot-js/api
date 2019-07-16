@@ -5,7 +5,7 @@
 import { ChainProperties, PendingExtrinsics } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import Rpc from '../../src';
+import Rpc from '@polkadot/rpc-core';
 
 describe.skip('e2e basics', (): void => {
   let rpc: Rpc;

@@ -6,7 +6,7 @@ import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { BlockNumber, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
 
-import Rpc from '../../src';
+import Rpc from '@polkadot/rpc-core';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
