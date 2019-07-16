@@ -18,7 +18,6 @@ type WsName = keyof typeof WS_ENDPOINTS;
 interface Options {
   except?: WsName[]; // Only one of the two keys `except` `only` should be set
   only?: WsName[];
-  apiType?: 'promise' | 'rxjs';
 }
 
 function filterProcessEnv (wsEndpoints: WsName[]): WsName[] {
@@ -27,8 +26,8 @@ function filterProcessEnv (wsEndpoints: WsName[]): WsName[] {
   // If none of the two is present, we only run tests on local node
   return process.env.TEST_REMOTE || process.env.TEST_DOCKER
     ? process.env.TEST_REMOTE
-      ? wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('remote-'))
-      : wsEndpoints.filter((wsName): boolean => String(wsName).startsWith('docker-'))
+      ? wsEndpoints.filter((wsName): boolean => wsName.startsWith('remote-'))
+      : wsEndpoints.filter((wsName): boolean => wsName.startsWith('docker-'))
     : wsEndpoints.filter((wsName): boolean => wsName === 'local');
 }
 

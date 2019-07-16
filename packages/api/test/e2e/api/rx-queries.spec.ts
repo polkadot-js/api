@@ -13,9 +13,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import ApiRx from '../../../src/rx';
 import describeE2E from '../../util/describeE2E';
 
-describeE2E({
-  apiType: 'rxjs'
-})('Rx e2e queries', (wsUrl): void => {
+describeE2E()('Rx e2e queries', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 

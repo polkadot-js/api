@@ -11,6 +11,7 @@ import describeE2E from '../../util/describeE2E';
 // The following tests only run on nodes that support doubleMapType introduced by metadata v5
 describeE2E({
   only: [
+    'local',
     'docker-polkadot-master',
     'docker-substrate-master',
     'docker-substrate-2.0'
