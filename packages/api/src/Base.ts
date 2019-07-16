@@ -16,7 +16,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
-import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
+import { Constants } from '@polkadot/api-metadata/consts/types';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
