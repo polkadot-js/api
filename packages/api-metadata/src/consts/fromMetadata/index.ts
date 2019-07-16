@@ -24,14 +24,13 @@ export default function fromMetadata (metadata: Metadata): Constants {
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, meta): ModuleConstants => {
       const codec = createType(meta.type, meta.value);
-      const ccodec = codec as ConstantCodec;
 
       // This is not a perfect idea, however as it stands with number-only constants on the metadata
       // does not have any effect. However, this could become problematic in cases where items are
       // exposed that contain their own metadata. As of now, the compatibility with current, e.g.
       // storage is the driving factor, one consistent way of handling interfaces
-      ccodec.meta = meta;
-      newModule[stringCamelCase(meta.name.toString())] = ccodec;
+      (codec as ConstantCodec).meta = meta;
+      newModule[stringCamelCase(meta.name.toString())] = codec;
 
       return newModule;
     }, {} as unknown as ModuleConstants);

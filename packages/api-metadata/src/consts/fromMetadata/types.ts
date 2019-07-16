@@ -9,6 +9,6 @@ export interface ConstantCodec extends Codec {
   meta: MetaV6;
 }
 
-export type ModuleConstants = Record<string, ConstantCodec>;
+export type ModuleConstants = Record<string, Codec>;
 
 export type Constants = Record<string, ModuleConstants>;
