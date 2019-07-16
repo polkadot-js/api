@@ -36,7 +36,7 @@ describeE2E({
   });
 
   it('queries state for a balance', (done): void => {
-    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance): void => {
+    api.query.balances.freeBalance(keyring.alice_stash.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();
