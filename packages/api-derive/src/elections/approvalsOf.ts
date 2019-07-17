@@ -19,7 +19,9 @@ export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observabl
   return (who: AccountId): Observable<Vector<ApprovalFlag>> =>
     api.query.elections.nextVoterSet().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vector<ApprovalFlag>[]> =>
-        api.query.elections.approvalsOf.multi([...Array(+nextVoterSet + 1)].map((_, i): number => [who, i]))
+        api.query.elections.approvalsOf.multi(
+          [...Array(+nextVoterSet + 1)].map((_, i): [AccountId, number] => [who, i])
+        )
       ),
       map((votes: Vector<ApprovalFlag>[]): Vector<ApprovalFlag> =>
         votes.find((v) => v.length > 0) || new Vector(ApprovalFlag, [])),
