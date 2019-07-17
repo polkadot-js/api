@@ -13,6 +13,8 @@ _The following sections contain the module constants, also known as parameter ty
 
 - **[staking](#staking)**
 
+- **[timestamp](#timestamp)**
+
 - **[treasury](#treasury)**
 
 
@@ -58,6 +60,9 @@ ___
 
 ▸ **maxDepth**: `u32`
 - **summary**:   The maximum nesting level of a call/create stack. A reasonable default  value is 100.
+
+▸ **maxValueSize**: `u32`
+- **summary**:   The maximum size of a storage value in bytes. A reasonable default is 16 KiB.
 
 ▸ **rentByteFee**: `BalanceOf`
 - **summary**:   Price of a byte of storage per one block interval. Should be greater than 0.
@@ -159,6 +164,14 @@ ___
 
 ▸ **sessionsPerEra**: `SessionIndex`
 - **summary**:   Number of sessions per era.
+
+___
+
+
+### timestamp
+
+▸ **minimumPeriod**: `Moment`
+- **summary**:   The minimum period between blocks. Beware that this is different to the *expected* period  that the block production apparatus provides. Your chosen consensus system will generally  work with this to determine a sensible block time. e.g. For Aura, it will be double this  period on default settings.
 
 ___
 

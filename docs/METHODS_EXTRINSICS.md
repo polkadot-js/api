@@ -304,7 +304,7 @@ ___
 ### timestamp
 
 ▸ **set**(now: `Compact<Moment>`)
-- **summary**:   Set the current time.   This call should be invoked exactly once per block. It will panic at the finalization phase,  if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by `minimum_period`.   The dispatch origin for this call must be `Inherent`.
+- **summary**:   Set the current time.   This call should be invoked exactly once per block. It will panic at the finalization  phase, if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by  `MinimumPeriod`.   The dispatch origin for this call must be `Inherent`.
 
 ___
 
