@@ -1,8 +1,8 @@
 import BN from 'bn.js';
-import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
-import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { drr } from '../util/drr';
 
 export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
@@ -17,7 +17,7 @@ export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
 
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<Vector<ApprovalFlag>> {
   return (who: AccountId): Observable<Vector<ApprovalFlag>> =>
-    api.query.elections.nextVoterSet().pipe(
+    api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vector<ApprovalFlag>[]> =>
         api.query.elections.approvalsOf.multi(
           [...Array(+nextVoterSet + 1)].map((_, i): [AccountId, number] => [who, i])
