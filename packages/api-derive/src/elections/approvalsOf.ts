@@ -12,7 +12,8 @@ export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
       bools.push(!flag.toBn().uand((new BN(1)).shln(bit)).isZero());
     }
   }
-  return bools;
+  const lastApproval: number = bools.lastIndexOf(true);
+  return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
 }
 
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<Vector<ApprovalFlag>> {
