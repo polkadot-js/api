@@ -26,15 +26,15 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.5.4",
+    "@babel/runtime": "^7.5.5",
     "@polkadot/api-derive": "^0.82.0-beta.71",
     "@polkadot/api-metadata": "^0.82.0-beta.71",
     "@polkadot/rpc-core": "^0.82.0-beta.71",
     "@polkadot/rpc-provider": "^0.82.0-beta.71",
     "@polkadot/types": "^0.82.0-beta.71",
-    "@polkadot/util-crypto": "^0.94.0-beta.15"
+    "@polkadot/util-crypto": "^0.94.0-beta.16"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^0.94.0-beta.15"
+    "@polkadot/keyring": "^0.94.0-beta.16"
   }
 }

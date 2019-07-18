@@ -12,6 +12,7 @@ import * as balances from './balances';
 import * as chain from './chain';
 import * as contracts from './contracts';
 import * as democracy from './democracy';
+import * as elections from './elections';
 import * as session from './session';
 import * as staking from './staking';
 
@@ -55,7 +56,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
     }, {} as unknown as DeriveSections<AllSections>);
 }
 
-export const derive = { accounts, balances, chain, contracts, democracy, session, staking };
+export const derive = { accounts, balances, chain, contracts, democracy, elections, session, staking };
 export type Derive = typeof derive;
 
 // FIXME I have no idea how to get this done
