@@ -1,20 +1,12 @@
-import BN from 'bn.js';
+// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { drr } from '../util/drr';
-
-export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
-  const bools: boolean[] = [];
-  for (const flag of flags) {
-    for (const bit of [...Array(flag.bitLength())].map((_, i): number => i)) {
-      bools.push(!flag.toBn().uand((new BN(1)).shln(bit)).isZero());
-    }
-  }
-  const lastApproval: number = bools.lastIndexOf(true);
-  return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
-}
 
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<Vector<ApprovalFlag>> {
   return (who: AccountId): Observable<Vector<ApprovalFlag>> =>
