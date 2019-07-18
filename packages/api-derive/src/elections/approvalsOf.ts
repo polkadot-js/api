@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterfaceRx } from "@polkadot/api/types";
-import { Observable } from "rxjs";
-import { AccountId, Vector, SetIndex, ApprovalFlag } from "@polkadot/types";
-import { switchMap, map } from "rxjs/operators";
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { Observable } from 'rxjs';
+import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
+import { switchMap, map } from 'rxjs/operators';
 import { drr } from '../util/drr';
 import { approvalFlagsToBools } from './approvalsOfAt';
 
@@ -26,11 +26,11 @@ export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observabl
     (api.query.elections.nextVoterSet<SetIndex>())
       .pipe(
         switchMap((nextVoterSet: SetIndex): Observable<Vector<ApprovalFlag>[]> =>
-          api.query.elections.approvalsOf.multi([...Array(nextVoterSet.toNumber() + 1).keys()].map(i => [who.toString(), i])) as any as Observable<Vector<ApprovalFlag>[]>
+          api.query.elections.approvalsOf.multi([...Array(nextVoterSet.toNumber() + 1).keys()].map((i): [string, number] => [who.toString(), i])) as any as Observable<Vector<ApprovalFlag>[]>
         ),
-        map((votes: Vector<ApprovalFlag>[]) =>
-          votes.map((flags: Vector<ApprovalFlag>) => approvalFlagsToBools(flags))
+        map((votes: Vector<ApprovalFlag>[]): boolean[][] =>
+          votes.map((flags: Vector<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags))
         ),
         drr()
-    )
+      );
 }

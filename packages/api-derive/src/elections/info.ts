@@ -33,7 +33,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
         api.query.elections.candidateCount,
         api.query.elections.desiredSeats,
         api.query.elections.termDuration,
-        api.query.elections.voteCount,
+        api.query.elections.voteCount
       ]) as any as Observable<[[string, BlockNumber][], string[], BN, BN, BN, BN]>
     ).pipe(
       map(([members, candidates, candidateCount, desiredSeats, termDuration, voteCount]): DerivedElectionsInfo => ({

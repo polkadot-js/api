@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterfaceRx } from "@polkadot/api/types";
-import { Observable } from "rxjs";
-import { AccountId, Vector, SetIndex, ApprovalFlag } from "@polkadot/types";
-import { map } from "rxjs/operators";
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { Observable } from 'rxjs';
+import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
+import { map } from 'rxjs/operators';
 import { drr } from '../util/drr';
 
 export function approvalFlagsToBools(flags: Vector<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
-  flags.forEach((flag: ApprovalFlag) => {
+  flags.forEach((flag: ApprovalFlag): void => {
     const str = flag.toString(2);
     for (const bit of str) {
       bools.push(!!parseInt(bit, 10));
@@ -35,7 +35,7 @@ export function approvalsOfAt (api: ApiInterfaceRx): (who: AccountId, at: SetInd
   return (who: AccountId, at: SetIndex): Observable<boolean[]> =>
     (api.query.elections.approvalsOf<Vector<ApprovalFlag>>([who.toString(), at]))
       .pipe(
-        map((flags: Vector<ApprovalFlag>) => {console.log(flags); return approvalFlagsToBools(flags);}),
+        map((flags: Vector<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
         drr()
-    )
+      );
 }

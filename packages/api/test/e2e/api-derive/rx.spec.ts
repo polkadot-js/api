@@ -235,7 +235,7 @@ describe.skip('Api-RX derive e2e', (): void => {
             candidateCount: expect.any(BN),
             desiredSeats: expect.any(BN),
             termDuration: expect.any(BN),
-            voteCount: expect.any(BN),
+            voteCount: expect.any(BN)
           }));
           done();
         });
