@@ -8,7 +8,7 @@
 # Please follow the steps described here (including the prerequisites): https://docs.docker.com/compose/install/
 #
 # Usage:
-# 1. BUILD: Run `docker-compose up -d` to run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
+# 1. BUILD: Run `docker-compose pull && docker-compose up -d` to pull the latest docker imaged and run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
 # 2. INFO: Run `docker ps` to get a list of Docker containers running in the background including their mapped ports on localhost
 # 3. TEST: Run `docker-compose logs -f js-api-tests` to run the API tests and print the logs
 # 4. QUIT: Run `docker-compose down` to stop and remove all running containers.
