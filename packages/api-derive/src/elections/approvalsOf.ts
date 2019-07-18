@@ -8,11 +8,12 @@ import { drr } from '../util/drr';
 export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
   for (const flag of flags) {
-    for (const bit of Array(flag.bitLength()).map((_, i): number => i)) {
+    for (const bit of [...Array(flag.bitLength())].map((_, i): number => i)) {
       bools.push(!flag.toBn().uand((new BN(1)).shln(bit)).isZero());
     }
   }
-  return bools;
+  const lastApproval: number = bools.lastIndexOf(true);
+  return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
 }
 
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<Vector<ApprovalFlag>> {
