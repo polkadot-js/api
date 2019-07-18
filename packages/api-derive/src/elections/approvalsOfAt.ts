@@ -8,7 +8,7 @@ import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { map } from 'rxjs/operators';
 import { drr } from '../util/drr';
 
-export function approvalFlagsToBools(flags: Vector<ApprovalFlag>): boolean[] {
+export function approvalFlagsToBools (flags: Vector<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
   flags.forEach((flag: ApprovalFlag): void => {
     const str = flag.toString(2);

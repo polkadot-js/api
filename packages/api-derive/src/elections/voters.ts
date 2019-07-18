@@ -24,7 +24,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<{[key: string]: S
   return (): Observable<{[key: string]: SetIndex}> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vector<Option<AccountId>>[]> =>
-        api.query.elections.voters.multi([...Array(+nextVoterSet + 1).keys()].map((_, i) => [i])) as any as Observable<Vector<Option<AccountId>>[]>
+        api.query.elections.voters.multi([...Array(+nextVoterSet + 1).keys()].map((_, i): [number] => [i])) as any as Observable<Vector<Option<AccountId>>[]>
       ),
       map((voters: Vector<Option<AccountId>>[]): {[key: string]: SetIndex} =>
         voters.reduce((result: {[key: string]: SetIndex}, vec, setIndex): {[key: string]: SetIndex} => {
@@ -40,7 +40,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<{[key: string]: S
 
           return result;
         }, {}),
+      ),
       drr()
-    )
-  );
+    );
 }
