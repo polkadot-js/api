@@ -6,8 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
 import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
+import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
 import { drr } from '../util/drr';
-import { approvalFlagsToBools } from './approvalsOfAt';
 
 /**
  * @name approvalsOf

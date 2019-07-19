@@ -6,18 +6,8 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
 import { AccountId, Vector, SetIndex, ApprovalFlag } from '@polkadot/types';
 import { map } from 'rxjs/operators';
+import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
 import { drr } from '../util/drr';
-
-export function approvalFlagsToBools (flags: Vector<ApprovalFlag>): boolean[] {
-  const bools: boolean[] = [];
-  flags.forEach((flag: ApprovalFlag): void => {
-    const str = flag.toString(2);
-    for (const bit of str) {
-      bools.push(!!parseInt(bit, 10));
-    }
-  });
-  return bools;
-}
 
 /**
  * @name approvalsOfAt

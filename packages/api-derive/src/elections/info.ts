@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types';
+import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
 import { drr } from '../util/drr';
@@ -33,16 +33,24 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
         api.query.elections.candidateCount,
         api.query.elections.desiredSeats,
         api.query.elections.termDuration,
-        api.query.elections.voteCount
-      ]) as any as Observable<[[string, BlockNumber][], string[], BN, BN, BN, BN]>
+        api.query.elections.voteCount,
+        api.query.elections.voterCount
+      ]) as any as Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, BlockNumber, VoteIndex, SetIndex]>
     ).pipe(
-      map(([members, candidates, candidateCount, desiredSeats, termDuration, voteCount]): DerivedElectionsInfo => ({
-        members,
+      map(([members, candidates, candidateCount, desiredSeats, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
+        members: members.reduce(
+          (record: Record<string, BlockNumber>, [accountId, blockNumber]) => {
+            record[accountId.toString()] = blockNumber;
+            return record;
+          },
+          {}
+        ),
         candidates,
         candidateCount,
         desiredSeats,
         termDuration,
-        voteCount
+        voteCount,
+        voterCount
       } as unknown as DerivedElectionsInfo)),
       drr()
     );

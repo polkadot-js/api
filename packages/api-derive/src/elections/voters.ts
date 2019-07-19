@@ -20,14 +20,14 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function voters (api: ApiInterfaceRx): () => Observable<{[key: string]: SetIndex}> {
-  return (): Observable<{[key: string]: SetIndex}> =>
+export function voters (api: ApiInterfaceRx): () => Observable<Record<string, SetIndex>> {
+  return (): Observable<Record<string, SetIndex>> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vector<Option<AccountId>>[]> =>
         api.query.elections.voters.multi([...Array(+nextVoterSet + 1).keys()].map((_, i): [number] => [i])) as any as Observable<Vector<Option<AccountId>>[]>
       ),
-      map((voters: Vector<Option<AccountId>>[]): {[key: string]: SetIndex} =>
-        voters.reduce((result: {[key: string]: SetIndex}, vec, setIndex): {[key: string]: SetIndex} => {
+      map((voters: Vector<Option<AccountId>>[]): Record<string, SetIndex> =>
+        voters.reduce((result: Record<string, SetIndex>, vec, setIndex): Record<string, SetIndex> => {
           vec.forEach((e): void => {
             // re-create the index based on position 0 is [0][0] and likewise
             // 64 (0..63 in first) is [1][0] (the first index value in set 2)
