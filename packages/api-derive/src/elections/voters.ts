@@ -39,7 +39,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<{[key: string]: S
           });
 
           return result;
-        }, {}),
+        }, {})
       ),
       drr()
     );
