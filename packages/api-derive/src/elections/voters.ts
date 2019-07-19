@@ -29,7 +29,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<Vector<AccountId>
           new Vector(
             AccountId,
             Object.keys(voterSets).map(
-              address => new AccountId(address)
+              (address: string): AccountId => new AccountId(address)
             )
           )
       ),
