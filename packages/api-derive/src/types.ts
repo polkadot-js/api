@@ -32,7 +32,7 @@ export interface DerivedContractFees {
 }
 
 export interface DerivedElectionsInfo {
-  members: [AccountId, BlockNumber][];
+  members: Record<string, BlockNumber>;
   candidates: AccountId[];
   candidateCount: BN;
   desiredSeats: BN;
