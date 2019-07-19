@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, Exposure, Index, RewardDestination, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;
@@ -29,6 +29,16 @@ export interface DerivedContractFees {
   transactionBaseFee: BN;
   transactionByteFee: BN;
   transferFee: BN;
+}
+
+export interface DerivedElectionsInfo {
+  members: [AccountId, BlockNumber][];
+  candidates: AccountId[];
+  candidateCount: BN;
+  desiredSeats: BN;
+  termDuration: BlockNumber;
+  voteCount: VoteIndex;
+  voterCount: SetIndex;
 }
 
 export interface DerivedFees {

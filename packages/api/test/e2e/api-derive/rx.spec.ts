@@ -6,7 +6,7 @@ import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
@@ -218,6 +218,24 @@ describe.skip('Api-RX derive e2e', (): void => {
             transactionBaseFee: expect.any(BN),
             transactionByteFee: expect.any(BN),
             transferFee: expect.any(BN)
+          }));
+          done();
+        });
+      });
+    });
+  });
+
+  describe('derive.elections', (): void => {
+    describe('info', (): void => {
+      it('It returns an object with all relevant elections properties', async (done): Promise<void> => {
+        api.derive.elections.info().subscribe((info: DerivedElectionsInfo): void => {
+          expect(info).toEqual(expect.objectContaining({
+            members: expect.anything(),
+            candidates: expect.anything(),
+            candidateCount: expect.any(BN),
+            desiredSeats: expect.any(BN),
+            termDuration: expect.any(BN),
+            voteCount: expect.any(BN)
           }));
           done();
         });

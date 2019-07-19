@@ -2,22 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Vector, Option, SetIndex } from '@polkadot/types';
+import { Observable } from 'rxjs';
+import { AccountId, Vector, SetIndex } from '@polkadot/types';
+import { map } from 'rxjs/operators';
 import { drr } from '../util/drr';
+import { voterSets } from './voterSets';
 
-export function voters (api: ApiInterfaceRx): () => Observable<Option<AccountId>[]> {
-  return (): Observable<Option<AccountId>[]> =>
-    api.query.elections.nextVoterSet<SetIndex>().pipe(
-      switchMap((nextVoterSet: SetIndex): Observable<Vector<Option<AccountId>>[]> =>
-        api.query.elections.voters.multi<Vector<Option<AccountId>>>(
-          [...Array(+nextVoterSet + 1)].map((_, i): number => i)
-        )
+/**
+ * @name voters
+ * @returns An array of all current voters from all sets.
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.elections.voters((voters) => {
+ *   console.log(`There are ${voters.length} current voters.`);
+ * });
+ * ```
+ */
+export function voters (api: ApiInterfaceRx): () => Observable<Vector<AccountId>> {
+  return (): Observable<Vector<AccountId>> =>
+    voterSets(api)().pipe(
+      map(
+        (voterSets: Record<string, SetIndex>): Vector<AccountId> =>
+          new Vector(
+            AccountId,
+            Object.keys(voterSets).map(
+              address => new AccountId(address)
+            )
+          )
       ),
-      map((voters: Vector<Option<AccountId>>[]): Option<AccountId>[] =>
-        Array.prototype.concat.apply([], voters)),
       drr()
     );
 }
