@@ -1853,14 +1853,14 @@
     typescript "^3.5.3"
     vuepress "^1.0.2"
 
-"@polkadot/keyring@^0.94.0-beta.18":
-  version "0.94.0-beta.18"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.94.0-beta.18.tgz#9b8b6400d53788bd7c2841d72c3da6b56ec42dc5"
-  integrity sha512-R0BG5FZemijmrmfFTJ0ljgsqpfmLFv9s8LwzFCE2WnMMfiq/mwNLqFw1bpgjf3Kcgk9v56n9BWDE0p15c3ogkQ==
+"@polkadot/keyring@^0.94.0-beta.19":
+  version "0.94.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.94.0-beta.19.tgz#e4b1ac839823d6bc337fb90291960f93e13ec506"
+  integrity sha512-F9t0vppFBnRSPGy4yJPBmrGes4ovuj7iLrvEK6X1WzcgSPai+MPV22Hawyx8RovNDPiMlKFuE4WifGyB/bojJg==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/util" "^0.94.0-beta.18"
-    "@polkadot/util-crypto" "^0.94.0-beta.18"
+    "@polkadot/util" "^0.94.0-beta.19"
+    "@polkadot/util-crypto" "^0.94.0-beta.19"
 
 "@polkadot/ts@^0.1.62":
   version "0.1.62"
@@ -1869,14 +1869,14 @@
   dependencies:
     "@types/chrome" "^0.0.86"
 
-"@polkadot/util-crypto@^0.94.0-beta.18":
-  version "0.94.0-beta.18"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.94.0-beta.18.tgz#ae6cccf5fb02cbd92ab4f9851b2e2c3ea546c3ca"
-  integrity sha512-Ph4KPpRxumh1IKvnwRNlyqltf4m0NBClTLpivew3RqWctrYzm33rqS/l8HI0jfnpBXXDBPG1m8AOT4ogy2ekqw==
+"@polkadot/util-crypto@^0.94.0-beta.19":
+  version "0.94.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.94.0-beta.19.tgz#7805e6aa3b1dc1290fb674bf293c1e567895f561"
+  integrity sha512-PQYNX8oT0miwDsjX/njub67Ik+QEgpw+XA61VXcOvIJs9oAdIpoHowHc9Su9ra+jeKO781snalNKj+Prnnv88Q==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/util" "^0.94.0-beta.18"
-    "@polkadot/wasm-crypto" "^0.13.0-beta.3"
+    "@polkadot/util" "^0.94.0-beta.19"
+    "@polkadot/wasm-crypto" "^0.13.0-beta.4"
     "@types/bip39" "^2.4.2"
     "@types/bs58" "^4.0.0"
     "@types/pbkdf2" "^3.0.0"
@@ -1891,10 +1891,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.94.0-beta.18":
-  version "0.94.0-beta.18"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.94.0-beta.18.tgz#363581e1092a1972d1f14df0db18d85a3a27f380"
-  integrity sha512-SzcKGFeskHQMdrZDnsRQ72lFYkUBWAJBAhjMrpUZR0iMvOSnjaX663034PLr3hvUKunh9W6NjQHJAOrpBgaFfA==
+"@polkadot/util@^0.94.0-beta.19":
+  version "0.94.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.94.0-beta.19.tgz#ed2f379cc644e5663941ac9058050e6227bb9c23"
+  integrity sha512-jJaMPXuCW7Ch+AKvu4YYT39uL2l/JwKL4jPQDO4StVshyOfr5fvpMSGxE2NGbsntFjLqvb0kODIsv2sFdbMF4Q==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/bn.js" "^4.11.5"
@@ -1905,10 +1905,10 @@
     ip-regex "^4.1.0"
     moment "^2.24.0"
 
-"@polkadot/wasm-crypto@^0.13.0-beta.3":
-  version "0.13.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-0.13.0-beta.3.tgz#03649e2e89f2110f940db630eb81f5988e70f7ea"
-  integrity sha512-tyZcTl3iPeHHzOKfrCJB9Ga0+RVVsntRoMoOCOtVQW6GMdJAY+0W8hP0oLAzYI+QArdGo4EhW5bBK1ftJnW0yg==
+"@polkadot/wasm-crypto@^0.13.0-beta.4":
+  version "0.13.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-0.13.0-beta.4.tgz#7c19c465712b3cdcea288f2dbd1f128df6d7d10a"
+  integrity sha512-RjdcsnWIfpXxgMKwJtfzUYtu4bbtcjItSGvBWgdAiTjh/WqXF0dyPHXOYToxJRCqg84wHmC8mP6D/rn0IalZcQ==
 
 "@types/babel__core@^7.1.0":
   version "7.1.2"

@@ -32,9 +32,9 @@
     "@polkadot/rpc-core": "^0.82.0-beta.75",
     "@polkadot/rpc-provider": "^0.82.0-beta.75",
     "@polkadot/types": "^0.82.0-beta.75",
-    "@polkadot/util-crypto": "^0.94.0-beta.18"
+    "@polkadot/util-crypto": "^0.94.0-beta.19"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^0.94.0-beta.18"
+    "@polkadot/keyring": "^0.94.0-beta.19"
   }
 }
