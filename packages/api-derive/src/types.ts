@@ -38,7 +38,7 @@ export interface DerivedElectionsInfo {
   desiredSeats: BN;
   termDuration: BlockNumber;
   voteCount: VoteIndex;
-  voterCount: SetIndex
+  voterCount: SetIndex;
 }
 
 export interface DerivedFees {

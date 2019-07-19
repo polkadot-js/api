@@ -39,7 +39,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
     ).pipe(
       map(([members, candidates, candidateCount, desiredSeats, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
         members: members.reduce(
-          (record: Record<string, BlockNumber>, [accountId, blockNumber]) => {
+          (record: Record<string, BlockNumber>, [accountId, blockNumber]): Record<string, BlockNumber> => {
             record[accountId.toString()] = blockNumber;
             return record;
           },
