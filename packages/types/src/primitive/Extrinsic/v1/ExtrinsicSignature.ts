@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../types';
+import { AnyNumber, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
-import Struct from '../codec/Struct';
-import Address from '../primitive/Address';
-import Method from '../primitive/Method';
-import Signature from '../primitive/Signature';
-import U8 from '../primitive/U8';
-import RuntimeVersion from '../rpc/RuntimeVersion';
-import ExtrinsicEra from './ExtrinsicEra';
-import Nonce from './NonceCompact';
+import Struct from '../../../codec/Struct';
+import Address from '../../../primitive/Address';
+import Method from '../../../primitive/Method';
+import Signature from '../../../primitive/Signature';
+import U8 from '../../../primitive/U8';
+import RuntimeVersion from '../../../rpc/RuntimeVersion';
+import ExtrinsicEra from '../ExtrinsicEra';
+import Nonce from '../../NonceCompact';
 import SignaturePayload from './SignaturePayload';
 
 export const IMMORTAL_ERA = new Uint8Array([0]);

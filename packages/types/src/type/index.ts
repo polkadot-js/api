@@ -23,9 +23,6 @@ export { default as ContractInfo } from './ContractInfo';
 export { default as ContractStorageKey } from './ContractStorageKey';
 export { default as EraIndex } from './EraIndex';
 export { default as Exposure } from './Exposure';
-export { default as Extrinsic } from './Extrinsic';
-export { default as ExtrinsicEra, MortalEra, ImmortalEra } from './ExtrinsicEra';
-export { default as ExtrinsicSignature } from './ExtrinsicSignature';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
@@ -60,7 +57,6 @@ export { default as SessionIndex } from './SessionIndex';
 export { default as SessionKey } from './SessionKey';
 export { default as SessionKeys } from './SessionKeys';
 export { default as SetIndex } from './SetIndex';
-export { default as SignaturePayload, SignaturePayloadRaw } from './SignaturePayload';
 export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as TreasuryProposal } from './TreasuryProposal';

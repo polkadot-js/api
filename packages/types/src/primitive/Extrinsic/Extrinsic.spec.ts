@@ -4,7 +4,7 @@
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import Method from '../primitive/Method';
+import Method from '../../primitive/Method';
 import Extrinsic from './Extrinsic';
 
 describe('Extrinsic', (): void => {

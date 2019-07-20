@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '../types';
+import { AnyNumber, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '../../../types';
 
 import { u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import Compact from '../codec/Compact';
-import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v6/Calls';
-import Method from '../primitive/Method';
-import Address from '../primitive/Address';
-import Hash from '../primitive/Hash';
+import Compact from '../../../codec/Compact';
+import Struct from '../../../codec/Struct';
+import { FunctionMetadata } from '../../../Metadata/v6/Calls';
+import Method from '../../Method';
+import Address from '../../Address';
+import Hash from '../../Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 export interface ExtrinsicValueV1 {
