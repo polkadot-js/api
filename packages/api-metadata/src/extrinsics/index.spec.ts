@@ -10,22 +10,6 @@ import extrinsics from './static';
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('extrinsics', (): void => {
-  it('encodes extrinsic correctly (nobody)', (): void => {
-    expect(
-      new Extrinsic(
-        extrinsics.timestamp.set(10101)
-      ).sign(
-        keyring.nobody,
-        {
-          blockHash: new Uint8Array(),
-          nonce: 1234
-        }
-      ).toU8a(true)
-    ).toEqual(new Uint8Array([
-      129, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 73, 19, 0, 2, 0, 213, 157
-    ]));
-  });
-
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
       new Extrinsic(
@@ -41,7 +25,7 @@ describe('extrinsics', (): void => {
       'ffd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' + // who
       'fa4c192f6960a3bcdbdee5bcd9c26a3f971b131081912abcc31eab6a0b7589ab' + // sig1
       '7f99b81a01738cb5e2a911a19d5daa5c0b654d4b8dbc521a6b29090c6d205903' + // sig2
-      '0000' + // nonce
+      '0000' + // nonce & era
       '0500' + // balances.transfer
       'ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' + // to
       'e56c' // value

@@ -4,7 +4,6 @@
 
 import { AnyNumber, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '../../../types';
 
-import { u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../../../codec/Compact';
@@ -19,6 +18,8 @@ export interface ExtrinsicValueV1 {
   method?: Method;
   signature?: ExtrinsicSignature;
 }
+
+const TRANSACTION_VERSION = 1;
 
 /**
  * @name ExtrinsicV1
@@ -122,6 +123,13 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   }
 
   /**
+   * @description The version for the signature
+   */
+  public get version (): number {
+    return TRANSACTION_VERSION;
+  }
+
+  /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): ExtrinsicV1 {
@@ -137,39 +145,5 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
     this.signature.sign(this.method, account, options);
 
     return this;
-  }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (): string {
-    return u8aToHex(this.toU8a());
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string {
-    return this.toHex();
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    // We are treating this in the same way we do a primitive, this is known
-    return 'Extrinsic';
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = super.toU8a();
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
   }
 }

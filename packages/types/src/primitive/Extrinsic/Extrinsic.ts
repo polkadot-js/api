@@ -4,7 +4,7 @@
 
 import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
 
-import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
@@ -14,10 +14,9 @@ import Address from '../Address';
 import Hash from '../Hash';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
+import { BIT_SIGNED, BIT_UNSIGNED, UNMASK_VERSION } from './constants';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
-
-const UNMASK_VERSION = 0b01111111;
 
 /**
  * @name Extrinsic
@@ -180,6 +179,13 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
+   * @description Returns the encoded version flag
+  */
+  public get version (): number {
+    return this.raw.version | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
+  }
+
+  /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): Extrinsic {
@@ -208,14 +214,14 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
-    return this.raw.toHex();
+    return u8aToHex(this.toU8a());
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): string {
-    return this.raw.toJSON();
+    return this.toHex();
   }
 
   /**
@@ -237,6 +243,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    return this.raw.toU8a(isBare);
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a(isBare));
+
+    return isBare
+      ? encoded
+      : Compact.addLengthPrefix(encoded);
   }
 }

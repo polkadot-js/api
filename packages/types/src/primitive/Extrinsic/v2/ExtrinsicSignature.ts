@@ -9,17 +9,11 @@ import Address from '../../Address';
 import Balance from '../../Balance';
 import Method from '../../Method';
 import Signature from '../../Signature';
-import U8 from '../../U8';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import ExtrinsicEra from '../ExtrinsicEra';
 import Nonce from '../../../type/NonceCompact';
 import SignaturePayload from '../v1/SignaturePayload';
-
-export const IMMORTAL_ERA = new Uint8Array([0]);
-
-const BIT_SIGNED = 0b10000000;
-const BIT_UNSIGNED = 0;
-const BIT_VERSION = 0b0000001;
+import { BIT_SIGNED, EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 
 /**
  * @name ExtrinsicSignature
@@ -28,14 +22,12 @@ const BIT_VERSION = 0b0000001;
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
   // Signature Information.
-  //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format
   //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
   //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
   public constructor (value?: Uint8Array) {
     super({
-      version: U8,
       signer: Address,
       signature: Signature,
       nonce: Nonce,
@@ -44,37 +36,28 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value));
   }
 
-  public static decodeExtrinsicSignature (value?: Uint8Array): object | Uint8Array {
+  public static decodeExtrinsicSignature (value?: Uint8Array): Uint8Array {
     if (!value) {
-      return {
-        // we always explicitly set the unsigned version
-        version: BIT_VERSION | BIT_UNSIGNED
-      };
+      return EMPTY_U8A;
     }
 
-    const version = value[0];
-
-    // only decode the full Uint8Array if we have the signed indicator,
-    // alternatively only return the version (default for others)
-    return (version & BIT_SIGNED) === BIT_SIGNED
-      ? value
-      : { version };
+    return (value[0] & BIT_SIGNED) === BIT_SIGNED
+      ? value.subarray(1)
+      : EMPTY_U8A;
   }
 
   /**
-   * @description The length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array (This includes the version/signature information, although not contained, it is passed in as part of the decoding)
    */
   public get encodedLength (): number {
-    return this.isSigned
-      ? super.encodedLength
-      : 1;
+    return 1 + (this.isSigned ? super.encodedLength : 0);
   }
 
   /**
    * @description `true` if the signature is valid
    */
   public get isSigned (): boolean {
-    return (this.version & BIT_SIGNED) === BIT_SIGNED;
+    return !this.signature.isEmpty;
   }
 
   /**
@@ -119,23 +102,11 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.get('tip') as Balance;
   }
 
-  /**
-   * @description The encoded version for the signature
-   */
-  public get version (): number {
-    // Version Information.
-    // 1 byte: version information:
-    // - 7 low bits: version identifier (should be 0b0000001).
-    // - 1 high bit: signed flag: 1 if this is a transaction (e.g. contains a signature).
-    return (this.get('version') as U8).toNumber();
-  }
-
   private injectSignature ({ era, nonce, signer, signature }: { signature: Signature; signer: Address; nonce: Nonce; era: ExtrinsicEra }): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
     this.set('signature', signature);
-    this.set('version', new U8(BIT_VERSION | BIT_SIGNED));
 
     return this;
   }
@@ -180,6 +151,6 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   public toU8a (isBare?: boolean): Uint8Array {
     return this.isSigned
       ? super.toU8a(isBare)
-      : new Uint8Array([this.version]);
+      : new Uint8Array();
   }
 }

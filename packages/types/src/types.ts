@@ -153,21 +153,22 @@ export interface IExtrinsicSignature extends Codec {
   readonly signature: IHash;
   readonly signer: Address;
   readonly tip: Balance;
-  readonly version: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicEra {
+export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends IMethod {
-  hash: IHash;
-  isSigned: boolean;
-  method: Method;
-  signature: IExtrinsicSignature;
+  readonly hash: IHash;
+  readonly isSigned: boolean;
+  readonly method: Method;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }
