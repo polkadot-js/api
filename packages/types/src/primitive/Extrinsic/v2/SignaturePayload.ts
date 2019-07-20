@@ -6,19 +6,27 @@ import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair } from '../../../types';
 
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
+import Balance from '../../Balance';
 import Hash from '../../Hash';
 import Method from '../../Method';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import Nonce from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
+import { extraDefinition } from './ExtrinsicExtra';
 import { sign } from '../util';
 
-interface SignaturePayloadValueV1 {
+interface SignaturePayloadValueV2 {
   blockHash?: AnyU8a;
   era?: AnyU8a | IExtrinsicEra;
   method?: Method;
   nonce?: AnyNumber;
+  tip?: AnyNumber;
 }
+
+const basePayload = {
+  ...extraDefinition,
+  blockHash: Hash
+};
 
 /**
  * @name SignaturePayload
@@ -31,15 +39,13 @@ interface SignaturePayloadValueV1 {
  *   1/2 bytes: The Transaction Era as provided in the transaction itself.
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
-export default class SignaturePayloadV1 extends Struct {
+export default class SignaturePayloadV2 extends Struct {
   protected _signature?: Uint8Array;
 
-  public constructor (value?: SignaturePayloadValueV1 | Uint8Array | string) {
+  public constructor (value?: SignaturePayloadValueV2 | Uint8Array | string) {
     super({
-      nonce: Nonce,
       method: Method,
-      era: ExtrinsicEra,
-      blockHash: Hash
+      ...basePayload
     }, value);
   }
 
@@ -90,6 +96,13 @@ export default class SignaturePayloadV1 extends Struct {
   }
 
   /**
+   * @description The tip [[Balance]]
+   */
+  public get tip (): Balance {
+    return this.get('tip') as Balance;
+  }
+
+  /**
    * @description Sign the payload with the keypair
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -105,13 +118,11 @@ export default class SignaturePayloadV1 extends Struct {
  * @description
  * A version of [[SignaturePayload]] where it does not rely on [[Method]] being initalized with metadata. When constructing, it treats the [[Method]] as a raw stream of bytes, so will always apply the signature over this without any additional checking. Unlike the [[SignaturePayload]], it assumed that you will only construct and sign, thereby providing no insigt into constructed values
  */
-export class SignaturePayloadRawV1 extends Struct {
+export class SignaturePayloadRawV2 extends Struct {
   public constructor (value?: any) {
     super({
-      nonce: Nonce,
       method: U8a,
-      era: ExtrinsicEra,
-      blockHash: Hash
+      ...basePayload
     }, value);
   }
 

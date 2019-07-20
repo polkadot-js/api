@@ -2,19 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
+import { AnyU8a, ArgsDef, Codec, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v6/Calls';
-import Method from '../Method';
+import Nonce from '../../type/NonceCompact';
 import Address from '../Address';
+import Balance from '../Balance';
+import Method from '../Method';
 import Hash from '../Hash';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import { BIT_SIGNED, BIT_UNSIGNED, UNMASK_VERSION } from './constants';
+import { ExtrinsicEra } from '..';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
@@ -116,6 +120,13 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
+   * @description The era for thios extrinsic
+   */
+  public get era (): ExtrinsicEra {
+    return this.raw.signature.era;
+  }
+
+  /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
@@ -126,14 +137,16 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    * @description Convernience function, encodes the extrinsic and returns the actual hash
    */
   public get hash (): Hash {
-    return this.raw.hash;
+    return new Hash(
+      blake2AsU8a(this.toU8a(), 256)
+    );
   }
 
   /**
    * @description `true` is method has `Origin` argument (compatibility with [[Method]])
    */
   public get hasOrigin (): boolean {
-    return this.raw.hasOrigin;
+    return this.method.hasOrigin;
   }
 
   /**
@@ -147,21 +160,14 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return this.raw.isSigned;
-  }
-
-  /**
-   * @description The length of the encoded value
-   */
-  public get length (): number {
-    return this.raw.length;
+    return this.raw.signature.isSigned;
   }
 
   /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
   public get meta (): FunctionMetadata {
-    return this.raw.meta;
+    return this.method.meta;
   }
 
   /**
@@ -172,10 +178,31 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
+   * @description The nonce for this extrinsic
+   */
+  public get nonce (): Nonce {
+    return this.raw.signature.nonce;
+  }
+
+  /**
    * @description The [[ExtrinsicSignature]]
    */
-  public get signature (): IExtrinsicSignature {
-    return this.raw.signature;
+  public get signature (): IHash {
+    return this.raw.signature.signature;
+  }
+
+  /**
+   * @description The [[Address]] that signed
+   */
+  public get signer (): Address {
+    return this.raw.signature.signer;
+  }
+
+  /**
+   * @description Forwards compat
+   */
+  public get tip (): Balance {
+    return this.raw.signature.tip;
   }
 
   /**
@@ -188,8 +215,8 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): Extrinsic {
-    this.raw.addSignature(signer, signature, nonce, era);
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): Extrinsic {
+    this.raw.addSignature(signer, signature, payload);
 
     return this;
   }

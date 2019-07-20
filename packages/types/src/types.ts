@@ -125,6 +125,7 @@ export interface SignatureOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra;
   nonce: AnyNumber;
+  tip?: AnyNumber;
   version?: RuntimeVersionInterface;
 }
 
@@ -145,8 +146,7 @@ export interface IMethod extends Codec {
   readonly meta: FunctionMetadata;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicSignature extends Codec {
+interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
   readonly nonce: Nonce;
@@ -156,19 +156,33 @@ export interface IExtrinsicSignature extends Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  sign (method: Method, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsic extends IMethod {
-  readonly hash: IHash;
-  readonly isSigned: boolean;
+export interface IExtrinsicImpl {
   readonly method: Method;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
 
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): IExtrinsic;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicImpl;
+  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+  readonly hash: IHash;
+  readonly method: Method;
+  readonly version: number;
+
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

@@ -20,7 +20,7 @@ describe('Extrinsic', (): void => {
     expect(extrinsic.data).toEqual(new Uint8Array([234, 81, 183, 91, 0, 0, 0, 0]));
   });
 
-  it('decodes an actual transaction (new format)', (): void => {
+  it('decodes an actual transaction (length prefix)', (): void => {
     const extrinsic = new Extrinsic(
       '0x' +
       '2502' +
@@ -38,16 +38,16 @@ describe('Extrinsic', (): void => {
     );
 
     expect(extrinsic.isSigned).toEqual(true);
-    expect(extrinsic.signature.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
-    expect(extrinsic.signature.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
-    expect(extrinsic.signature.nonce.toNumber()).toEqual(3);
-    expect(extrinsic.signature.era.toU8a()).toEqual(new Uint8Array([0]));
+    expect(extrinsic.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
+    expect(extrinsic.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
+    expect(extrinsic.nonce.toNumber()).toEqual(3);
+    expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
     expect(extrinsic.callIndex).toEqual(new Uint8Array([5, 0]));
     expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
     expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
   });
 
-  it('decodes an actual transaction (old format)', (): void => {
+  it('decodes an actual transaction (no length prefix, old version)', (): void => {
     const extrinsic = new Extrinsic(
       '0x' +
       '81' +
@@ -64,10 +64,10 @@ describe('Extrinsic', (): void => {
     );
 
     expect(extrinsic.isSigned).toEqual(true);
-    expect(extrinsic.signature.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
-    expect(extrinsic.signature.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
-    expect(extrinsic.signature.nonce.toNumber()).toEqual(3);
-    expect(extrinsic.signature.era.toU8a()).toEqual(new Uint8Array([0]));
+    expect(extrinsic.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
+    expect(extrinsic.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
+    expect(extrinsic.nonce.toNumber()).toEqual(3);
+    expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
     expect(extrinsic.callIndex).toEqual(new Uint8Array([5, 0]));
     expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
     expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');

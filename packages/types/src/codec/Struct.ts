@@ -30,7 +30,7 @@ export default class Struct<
 
   protected _Types: S;
 
-  public constructor (Types: S, value: V | Map<any, any> | any[] = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
+  public constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
 
     super(

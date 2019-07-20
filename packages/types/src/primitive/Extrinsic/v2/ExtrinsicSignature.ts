@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
@@ -12,8 +12,9 @@ import Signature from '../../Signature';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import ExtrinsicEra from '../ExtrinsicEra';
 import Nonce from '../../../type/NonceCompact';
-import SignaturePayload from '../v1/SignaturePayload';
+import SignaturePayload from './SignaturePayload';
 import { BIT_SIGNED, EMPTY_U8A, IMMORTAL_ERA } from '../constants';
+import ExtrinsicExtra from './ExtrinsicExtra';
 
 /**
  * @name ExtrinsicSignature
@@ -21,18 +22,11 @@ import { BIT_SIGNED, EMPTY_U8A, IMMORTAL_ERA } from '../constants';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  // Signature Information.
-  //   1/3/5/9/33 bytes: The signing account identity, in Address format
-  //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
-  //   1-8 bytes: The Compact<Nonce> of the signing account
-  //   1/2 bytes: The Transaction Era
   public constructor (value?: Uint8Array) {
     super({
       signer: Address,
       signature: Signature,
-      nonce: Nonce,
-      tip: Balance,
-      era: ExtrinsicEra
+      extra: ExtrinsicExtra
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value));
   }
 
@@ -61,24 +55,24 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
+   * @description Returns the extra extrinsic info
    */
-  public get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+  public get extra (): ExtrinsicExtra {
+    return this.get('extra') as ExtrinsicExtra;
   }
 
   /**
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
-  public set era (era: ExtrinsicEra) {
-    this.set('era', era);
+  public get era (): ExtrinsicEra {
+    return this.extra.era;
   }
 
   /**
    * @description The [[Nonce]] for the signature
    */
   public get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+    return this.extra.nonce;
   }
 
   /**
@@ -99,14 +93,15 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description The [[Balance]] tip
    */
   public get tip (): Balance {
-    return this.get('tip') as Balance;
+    return this.extra.tip;
   }
 
-  private injectSignature ({ era, nonce, signer, signature }: { signature: Signature; signer: Address; nonce: Nonce; era: ExtrinsicEra }): IExtrinsicSignature {
+  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: SignaturePayload): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
     this.set('signature', signature);
+    this.set('tip', tip);
 
     return this;
   }
@@ -114,34 +109,29 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description Adds a raw signature
    */
-  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | string, _nonce: AnyNumber, _era: Uint8Array | IExtrinsicEra): IExtrinsicSignature {
-    const signer = new Address(_signer);
-    const nonce = new Nonce(_nonce);
-    const era = new ExtrinsicEra(_era);
-    const signature = new Signature(_signature);
-
-    return this.injectSignature({ signature, signer, nonce, era });
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature {
+    return this.injectSignature(
+      new Address(signer),
+      new Signature(signature),
+      new SignaturePayload(payload)
+    );
   }
 
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, version }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, tip, version }: SignatureOptions): IExtrinsicSignature {
     const signer = new Address(account.publicKey);
-    const signingPayload = new SignaturePayload({
-      nonce,
-      method,
+    const payload = new SignaturePayload({
+      blockHash,
       era: era || this.era || IMMORTAL_ERA,
-      blockHash
+      method,
+      nonce,
+      tip
     });
-    const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
+    const signature = new Signature(payload.sign(account, version as RuntimeVersion));
 
-    return this.injectSignature({
-      era: signingPayload.era,
-      nonce: signingPayload.nonce,
-      signature,
-      signer
-    });
+    return this.injectSignature(signer, signature, payload);
   }
 
   /**

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
@@ -101,7 +101,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     return new Balance(0);
   }
 
-  private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): IExtrinsicSignature {
+  private injectSignature (signer: Address, signature: Signature, { era, nonce }: SignaturePayload): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -113,13 +113,12 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Adds a raw signature
    */
-  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | string, _nonce: AnyNumber, _era: Uint8Array | IExtrinsicEra): IExtrinsicSignature {
-    const signer = new Address(_signer);
-    const nonce = new Nonce(_nonce);
-    const era = new ExtrinsicEra(_era);
-    const signature = new Signature(_signature);
-
-    return this.injectSignature(signature, signer, nonce, era);
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature {
+    return this.injectSignature(
+      new Address(signer),
+      new Signature(signature),
+      new SignaturePayload(payload)
+    );
   }
 
   /**
@@ -127,15 +126,15 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
    */
   public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, version }: SignatureOptions): IExtrinsicSignature {
     const signer = new Address(account.publicKey);
-    const signingPayload = new SignaturePayload({
+    const payload = new SignaturePayload({
       nonce,
       method,
       era: era || this.era || IMMORTAL_ERA,
       blockHash
     });
-    const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
+    const signature = new Signature(payload.sign(account, version as RuntimeVersion));
 
-    return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
+    return this.injectSignature(signer, signature, payload);
   }
 
   /**
