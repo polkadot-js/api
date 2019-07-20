@@ -208,6 +208,7 @@ export interface ApiOptions {
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx {
   consts: Constants;
+  extrinsicVersion: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;

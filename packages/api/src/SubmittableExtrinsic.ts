@@ -107,7 +107,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
-  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<ApiType>;
+  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic, api.extrinsicVersion) as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | ISubmittableResult): void {

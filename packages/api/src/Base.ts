@@ -22,7 +22,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, U64 } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, SignedBlock, Null, U64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import * as srmlTypes from '@polkadot/types/srml/definitions';
@@ -71,6 +71,8 @@ export default abstract class ApiBase<ApiType> {
   private _eventemitter: EventEmitter;
 
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
+
+  private _extrinsicVersion: number = 1;
 
   private _genesisHash?: Hash;
 
@@ -148,6 +150,13 @@ export default abstract class ApiBase<ApiType> {
     }
 
     this.init();
+  }
+
+  /**
+   * @description  Returns th version of extrinsics in-use on this chain
+   */
+  public get extrinsicVersion (): number {
+    return this._extrinsicVersion;
   }
 
   /**
@@ -498,7 +507,9 @@ export default abstract class ApiBase<ApiType> {
         this._rpcCore.chain.getBlockHash(0).toPromise(),
         this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
+
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+
       if (metadataKey in metadata) {
         this._runtimeMetadata = new Metadata(metadata[metadataKey]);
       } else {
@@ -508,6 +519,7 @@ export default abstract class ApiBase<ApiType> {
       // get unique types & validate
       this.runtimeMetadata.getUniqTypes(false);
     } else {
+      this._extrinsicVersion = this._options.source.extrinsicVersion;
       this._runtimeMetadata = this._options.source.runtimeMetadata;
       this._runtimeVersion = this._options.source.runtimeVersion;
       this._genesisHash = this._options.source.genesisHash;
@@ -517,22 +529,29 @@ export default abstract class ApiBase<ApiType> {
     const storage = storageFromMeta(this.runtimeMetadata);
     const constants = constantsFromMeta(this.runtimeMetadata);
 
+    // only inject if we are not a clone (global init)
+    if (!this._options.source) {
+      Event.injectMetadata(this.runtimeMetadata);
+      Method.injectMethods(extrinsics);
+
+      // detect the extrinsic version in-use based on the last block
+      const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
+
+      this._extrinsicVersion = lastBlock.block.extrinsics[0].versionFormat;
+    }
+
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
     this._consts = constants;
 
+    this._rx.extrinsicVersion = this._extrinsicVersion;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
     this._rx.consts = constants;
-    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
 
-    // only inject if we are not a clone (global init)
-    if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
-    }
+    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
 
     return true;
   }
