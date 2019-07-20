@@ -10,7 +10,7 @@ import { assert, bnToBn, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polk
 import Enum from '../../codec/Enum';
 import Tuple from '../../codec/Tuple';
 import U8a from '../../codec/U8a';
-import U64 from '../../primitive/U64';
+import U64 from '../U64';
 
 type MortalEraValue = [U64, U64];
 

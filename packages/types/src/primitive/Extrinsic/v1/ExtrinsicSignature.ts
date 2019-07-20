@@ -5,13 +5,13 @@
 import { AnyNumber, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import Struct from '../../../codec/Struct';
-import Address from '../../../primitive/Address';
-import Method from '../../../primitive/Method';
-import Signature from '../../../primitive/Signature';
-import U8 from '../../../primitive/U8';
+import Address from '../../Address';
+import Method from '../../Method';
+import Signature from '../../Signature';
+import U8 from '../../U8';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import ExtrinsicEra from '../ExtrinsicEra';
-import Nonce from '../../NonceCompact';
+import Nonce from '../../../type/NonceCompact';
 import SignaturePayload from './SignaturePayload';
 
 export const IMMORTAL_ERA = new Uint8Array([0]);

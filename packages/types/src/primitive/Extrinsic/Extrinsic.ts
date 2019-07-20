@@ -9,11 +9,11 @@ import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v6/Calls';
-import Method from '../../primitive/Method';
-import Address from '../../primitive/Address';
-import Hash from '../../primitive/Hash';
-import ExtrinsicSignature from './ExtrinsicSignature';
-import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/ExtrinsicV1';
+import Method from '../Method';
+import Address from '../Address';
+import Hash from '../Hash';
+import ExtrinsicSignature from './v1/ExtrinsicSignature';
+import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 
 type ExtrinsicValue = ExtrinsicValueV1;
 

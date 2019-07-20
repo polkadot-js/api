@@ -8,11 +8,11 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
-import Hash from '../../../primitive/Hash';
-import Method from '../../../primitive/Method';
+import Hash from '../../Hash';
+import Method from '../../Method';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import ExtrinsicEra from '../ExtrinsicEra';
-import Nonce from '../../NonceCompact';
+import Nonce from '../../../type/NonceCompact';
 
 interface SignaturePayloadValue {
   nonce?: AnyNumber;
