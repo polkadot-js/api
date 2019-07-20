@@ -41,7 +41,7 @@ function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
  *   1/2 bytes: The Transaction Era as provided in the transaction itself.
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
-export default class SignaturePayload extends Struct {
+export default class SignaturePayloadV1 extends Struct {
   protected _signature?: Uint8Array;
 
   public constructor (value?: SignaturePayloadValue | Uint8Array) {

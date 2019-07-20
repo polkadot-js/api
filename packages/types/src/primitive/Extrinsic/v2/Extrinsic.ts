@@ -15,7 +15,7 @@ import Address from '../../Address';
 import Hash from '../../Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
-export interface ExtrinsicValueV1 {
+export interface ExtrinsicValueV2 {
   method?: Method;
   signature?: ExtrinsicSignature;
 }
@@ -25,8 +25,8 @@ export interface ExtrinsicValueV1 {
  * @description
  * The first generation of compact extrinsics
  */
-export default class ExtrinsicV1 extends Struct implements IExtrinsic {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1) {
+export default class ExtrinsicV2 extends Struct implements IExtrinsic {
+  public constructor (value?: Uint8Array | ExtrinsicValueV2) {
     super({
       signature: ExtrinsicSignature,
       method: Method
@@ -124,7 +124,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): ExtrinsicV1 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): ExtrinsicV2 {
     this.signature.addSignature(signer, signature, nonce, era);
 
     return this;
@@ -133,7 +133,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsic {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV1 {
+  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV2 {
     this.signature.sign(this.method, account, options);
 
     return this;

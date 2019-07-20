@@ -6,8 +6,10 @@ import BN from 'bn.js';
 
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v6/Calls';
+import Balance from './primitive/Balance';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
+import Nonce from './type/NonceCompact';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -147,6 +149,11 @@ export interface IMethod extends Codec {
 export interface IExtrinsicSignature extends Codec {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
+  readonly nonce: Nonce;
+  readonly signature: IHash;
+  readonly signer: Address;
+  readonly tip: Balance;
+  readonly version: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '../../types';
+import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IExtrinsicEra, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -12,10 +12,10 @@ import { FunctionMetadata } from '../../Metadata/v6/Calls';
 import Method from '../Method';
 import Address from '../Address';
 import Hash from '../Hash';
-import ExtrinsicSignature from './v1/ExtrinsicSignature';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
+import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 
-type ExtrinsicValue = ExtrinsicValueV1;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
 const UNMASK_VERSION = 0b01111111;
 
@@ -31,12 +31,12 @@ const UNMASK_VERSION = 0b01111111;
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, Codec {
+export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic, Codec {
   public constructor (value?: ExtrinsicValue | AnyU8a | Method) {
     super(Extrinsic.decodeExtrinsic(value));
   }
 
-  public static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicV1 {
+  public static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicV1 | ExtrinsicV2 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -69,16 +69,19 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
       });
     }
 
-    return new ExtrinsicV1(value);
+    return new ExtrinsicV1(value as ExtrinsicValueV1);
   }
 
-  public static decodeU8a (value: Uint8Array): ExtrinsicV1 {
+  public static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {
     // decode the actual version string
     const version = value[0] & UNMASK_VERSION;
 
     switch (version) {
       case 1:
         return new ExtrinsicV1(value);
+
+      case 2:
+        return new ExtrinsicV2(value);
 
       default:
         throw new Error(`Unsupported extrinsic version ${version}`);
@@ -172,7 +175,7 @@ export default class Extrinsic extends Base<ExtrinsicV1> implements IExtrinsic, 
   /**
    * @description The [[ExtrinsicSignature]]
    */
-  public get signature (): ExtrinsicSignature {
+  public get signature (): IExtrinsicSignature {
     return this.raw.signature;
   }
 

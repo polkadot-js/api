@@ -11,9 +11,9 @@ import Method from '../../Method';
 import Signature from '../../Signature';
 import U8 from '../../U8';
 import RuntimeVersion from '../../../rpc/RuntimeVersion';
-import Nonce from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
-import SignaturePayload from './SignaturePayload';
+import Nonce from '../../../type/NonceCompact';
+import SignaturePayload from '../v1/SignaturePayload';
 
 export const IMMORTAL_ERA = new Uint8Array([0]);
 
@@ -26,7 +26,7 @@ const BIT_VERSION = 0b0000001;
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
-export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSignature {
+export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
   // Signature Information.
   //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format
@@ -39,8 +39,9 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
       signer: Address,
       signature: Signature,
       nonce: Nonce,
+      tip: Balance,
       era: ExtrinsicEra
-    }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value));
+    }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value));
   }
 
   public static decodeExtrinsicSignature (value?: Uint8Array): object | Uint8Array {
@@ -112,10 +113,10 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description Forwards compat
+   * @description The [[Balance]] tip
    */
   public get tip (): Balance {
-    return new Balance(0);
+    return this.get('tip') as Balance;
   }
 
   /**
@@ -129,7 +130,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     return (this.get('version') as U8).toNumber();
   }
 
-  private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): IExtrinsicSignature {
+  private injectSignature ({ era, nonce, signer, signature }: { signature: Signature; signer: Address; nonce: Nonce; era: ExtrinsicEra }): IExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -148,7 +149,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     const era = new ExtrinsicEra(_era);
     const signature = new Signature(_signature);
 
-    return this.injectSignature(signature, signer, nonce, era);
+    return this.injectSignature({ signature, signer, nonce, era });
   }
 
   /**
@@ -164,7 +165,12 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     });
     const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
 
-    return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
+    return this.injectSignature({
+      era: signingPayload.era,
+      nonce: signingPayload.nonce,
+      signature,
+      signer
+    });
   }
 
   /**
