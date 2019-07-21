@@ -36,7 +36,7 @@ describe('SignerPayload', (): void => {
         nonce: 0x1234,
         tip: 0x5678,
         version: 2
-      }).toJSON()
+      }).toPayload()
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
       blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
@@ -52,7 +52,7 @@ describe('SignerPayload', (): void => {
 
   it('re-constructs from JSON', (): void => {
     expect(
-      new SignerPayload(TEST).toJSON()
+      new SignerPayload(TEST).toPayload()
     ).toEqual(TEST);
   });
 
@@ -60,12 +60,12 @@ describe('SignerPayload', (): void => {
     expect(
       new SignerPayload(
         new SignerPayload(TEST)
-      ).toJSON()
+      ).toPayload()
     ).toEqual(TEST);
   });
 
   it('can be used as a feed to SignaturePayload', (): void => {
-    const signer = new SignerPayload(TEST).toJSON();
+    const signer = new SignerPayload(TEST).toPayload();
     const payload = new SignaturePayload(signer, signer.version);
 
     expect(payload.era.toHex()).toEqual(TEST.era);

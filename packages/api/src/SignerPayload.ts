@@ -39,8 +39,7 @@ export default class SignerPayload extends Struct.with({
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
-  // @ts-ignore Cannot assign ISignerPayload to AnyJsonObject (index sig)
-  public toJSON (): ISignerPayload {
+  public toPayload (): ISignerPayload {
     const { address, blockHash, blockNumber, era, genesisHash, method, nonce, tip, version } = this.self;
 
     return {

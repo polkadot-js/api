@@ -4,6 +4,8 @@
 
 import { IKeyringPair } from '../../types';
 
+import { u8aToHex } from '@polkadot/util';
+
 import Base from '../../codec/Base';
 import U8a from '../../codec/U8a';
 import NonceCompact from '../../type/NonceCompact';
@@ -84,9 +86,13 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public sign (signerPair: IKeyringPair): Uint8Array {
-    return this.raw.sign(signerPair);
+  public sign (signerPair: IKeyringPair): { payload: string; signature: string } {
+    const signature = this.raw.sign(signerPair);
+
+    return {
+      payload: this.toHex(),
+      signature: u8aToHex(signature)
+    };
   }
 
   /**

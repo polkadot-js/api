@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra, SignaturePayload } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
@@ -11,8 +11,9 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
-import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
+import ApiBase from './Base';
+import SignerPayload from './SignerPayload';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
@@ -44,6 +45,7 @@ interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber;
+  tip?: AnyNumber;
 }
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
@@ -260,12 +262,36 @@ export default function createSubmittableExtrinsic<ApiType> (
                 if (isKeyringPair(account)) {
                   this.sign(account, eraOptions);
                 } else if (api.signer) {
-                  updateId = await api.signer.sign(_extrinsic, address, {
-                    ...eraOptions,
-                    blockNumber: header ? header.blockNumber : new BN(0),
-                    extrinsicVersion: this.api.extrinsicVersion,
-                    genesisHash: api.genesisHash
-                  });
+                  if (api.signer.signPayload) {
+                    const signPayload = new SignerPayload({
+                      ...eraOptions,
+                      address,
+                      method: _extrinsic.method,
+                      blockNumber: header ? header.blockNumber : new BN(0),
+                      genesisHash: api.genesisHash,
+                      version: this.api.extrinsicVersion
+                    }).toPayload();
+                    const result = await api.signer.signPayload(signPayload);
+
+                    // we don't trust the signer 100% - so construct our own version of the
+                    // payload, if that doesn't match with what went in... well, we should no
+                    // really be sending this at all
+                    const payload = new SignaturePayload(signPayload, this.api.extrinsicVersion).toU8a();
+
+                    updateId = result.id;
+                    _extrinsic.addSignature(address, result.signature, payload);
+                  } else if (api.signer.sign) {
+                    console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
+
+                    updateId = await api.signer.sign(_extrinsic, address, {
+                      ...eraOptions,
+                      blockNumber: header ? header.blockNumber : new BN(0),
+                      extrinsicVersion: this.api.extrinsicVersion,
+                      genesisHash: api.genesisHash
+                    });
+                  } else {
+                    throw new Error('Invalid signer interface');
+                  }
                 } else {
                   throw new Error('no signer exists');
                 }

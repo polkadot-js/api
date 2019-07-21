@@ -284,6 +284,11 @@ export interface SignerResult {
   id: number;
 
   /**
+   * @description The actual payload that was signed
+   */
+  payload: string;
+
+  /**
    * @description The resulting signature in hex
    */
   signature: string;
@@ -294,7 +299,7 @@ export interface Signer {
    * @deprecated Implement and use signPayload instead
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: IExtrinsic, address: string, options: SignerOptions): Promise<number>;
+  sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
 
   /**
    * @description signs an extrinsic payload from a serialized form
