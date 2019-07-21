@@ -16,10 +16,7 @@ export { default as BalanceLock } from './BalanceLock';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;
 export { default as BlockNumber } from './BlockNumber';
-export { default as CodeHash } from './CodeHash';
 export { default as Conviction } from './Conviction';
-export { default as ContractInfo } from './ContractInfo';
-export { default as ContractStorageKey } from './ContractStorageKey';
 export { default as EraIndex } from './EraIndex';
 export { default as Exposure } from './Exposure';
 export { default as Extrinsic } from './Extrinsic';
@@ -27,13 +24,11 @@ export { default as ExtrinsicEra, MortalEra, ImmortalEra } from './ExtrinsicEra'
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
-export { default as Gas } from './Gas';
 export { default as IndividualExposure } from './IndividualExposure';
 export { default as InherentOfflineReport } from './InherentOfflineReport';
 export { default as Key } from './Key';
 export { default as Keys } from './Keys';
 export { default as KeyValue } from './KeyValue';
-export { default as LeasePeriod, LeasePeriodOf } from './LeasePeriod';
 export { default as LockIdentifier } from './LockIdentifier';
 export { default as LockPeriods } from './LockPeriods';
 // NOTE Nonce is renamed to Index
@@ -46,14 +41,12 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as OpaqueKey } from './OpaqueKey';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
-export { default as PrefabWasmModule } from './PrefabWasmModule';
 export { default as PropIndex } from './PropIndex';
 export { default as Proposal } from './Proposal';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as ReferendumInfo } from './ReferendumInfo';
 export { default as RewardDestination } from './RewardDestination';
-export { default as Schedule } from './Schedule';
 export { default as SeedOf } from './SeedOf';
 export { default as SessionIndex } from './SessionIndex';
 export { default as SessionKey } from './SessionKey';
