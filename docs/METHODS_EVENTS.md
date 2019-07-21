@@ -15,6 +15,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[grandpa](#grandpa)**
 
+- **[imOnline](#imOnline)**
+
 - **[indices](#indices)**
 
 - **[session](#session)**
@@ -47,9 +49,6 @@ ___
 
 ### collective
 
-▸ **_Phantom**(`Phantom`)
-- **summary**:   Dummy to manage the fact we have instancing.
-
 ▸ **Approved**(`Hash`)
 - **summary**:   A motion was approved by the required threshold.
 
@@ -72,9 +71,6 @@ ___
 
 
 ### collective
-
-▸ **_Phantom**(`Phantom`)
-- **summary**:   Dummy to manage the fact we have instancing.
 
 ▸ **Approved**(`Hash`)
 - **summary**:   A motion was approved by the required threshold.
@@ -168,6 +164,20 @@ ___
 
 ▸ **NewAuthorities**(`Vec<(AuthorityId,u64)>`)
 - **summary**:   New authority set has been applied.
+
+▸ **Paused**()
+- **summary**:   Current authority set has been paused.
+
+▸ **Resumed**()
+- **summary**:   Current authority set has been resumed.
+
+___
+
+
+### imOnline
+
+▸ **HeartbeatReceived**(`BlockNumber`, `AuthorityId`)
+- **summary**:   A new heartbeat was received at this `BlockNumber` from `AuthorityId`
 
 ___
 

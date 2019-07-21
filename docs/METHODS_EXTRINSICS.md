@@ -19,6 +19,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[grandpa](#grandpa)**
 
+- **[imOnline](#imOnline)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -214,6 +216,13 @@ ___
 
 ▸ **reportMisbehavior**(_report: `Bytes`)
 - **summary**:   Report some misbehavior.
+
+___
+
+
+### imOnline
+
+▸ **heartbeat**(heartbeat: `Heartbeat`, _signature: `Bytes`)
 
 ___
 
