@@ -3972,7 +3972,7 @@
               "name": "LastNewEraStart",
               "modifier": "Optional",
               "type": {
-                "PlainType": "session::SessionIndex"
+                "PlainType": "SessionIndex"
               },
               "fallback": "0x00",
               "documentation": []
@@ -3983,7 +3983,7 @@
               "type": {
                 "DoubleMapType": {
                   "hasher": "Blake2_256",
-                  "key1": "session::SessionIndex",
+                  "key1": "SessionIndex",
                   "key2": "AuthorityId",
                   "value": "Bytes",
                   "key2Hasher": "Blake2_256"
@@ -4024,7 +4024,7 @@
           "constants": [
             {
               "name": "SessionsPerEra",
-              "type": "session::SessionIndex",
+              "type": "SessionIndex",
               "value": "0x06000000",
               "documentation": [
                 " Number of sessions per era."

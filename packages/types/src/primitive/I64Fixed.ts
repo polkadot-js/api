@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import U64 from '../primitive/U64';
+import I64 from './I64';
 
 /**
- * @name AuthorityWeight
+ * @name I64Fixed
  * @description
- * The weight of an authority
+ * A 64-bit signed integer (Fixed64 in Rust)
  */
-export default class AuthorityWeight extends U64 {
+export default class I64Fixed extends I64 {
 }

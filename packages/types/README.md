@@ -68,6 +68,8 @@ These primitive types are available:
 | [[U128]] | A 128-bit unsigned integer |
 | [[U256]] | A 256-bit unsigned integer |
 | [[USize]] | A System default unsigned number, typically used in RPC to report non-consensus data |
+| [[Weight]] | Numeric range of a transaction weight. |
+| [[WeightMultiplier]] | Representation of a weight multiplier. This represents how a fee value can be computed from a weighted transaction. |
 
 
 ## Substrate types
@@ -102,6 +104,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Extrinsics]] | A [[Vector]] of [[Extrinsic]] |
 | [[ExtrinsicSignature]] | A container for the [[Signature]] associated with a specific [[Extrinsic]] |
 | [[Gas]] | A gas number type for Substrate, extending [[U64]] |
+| [[Heartbeat]] | Heartbeat which is send/received. |
 | [[IndividualExposure]] | The Substrate IndividualExposure for staking |
 | [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
 | [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
@@ -139,6 +142,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |
+| [[StoredState]] | Current state of the GRANDPA authority set. State transitions must happen in the same order of states defined below, e.g. `Paused` implies a prior `PendingPause` |
 | [[TreasuryProposal]] | A Proposal made for Treasury |
 | [[UncleEntryItem]] | Information about an uncle to include |
 | [[UnlockChunk]] | Just a Balance/BlockNumber tuple to encode when a chunk of funds will be unlocked |
