@@ -226,7 +226,6 @@ export type ApiTypes = 'promise' | 'rxjs';
 
 export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
-  extrinsicVersion: number;
   genesisHash: Hash;
 }
 
