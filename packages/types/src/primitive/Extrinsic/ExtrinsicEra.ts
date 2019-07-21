@@ -11,6 +11,7 @@ import Enum from '../../codec/Enum';
 import Tuple from '../../codec/Tuple';
 import U8a from '../../codec/U8a';
 import U64 from '../U64';
+import { IMMORTAL_ERA } from './constants';
 
 type MortalEraValue = [U64, U64];
 
@@ -27,8 +28,6 @@ interface ImmortalEnumDef {
   ImmortalEra: string;
 }
 
-const VALID_IMMORTAL = new U8a([0]);
-
 /**
  * @name ImmortalEra
  * @description
@@ -39,7 +38,7 @@ export class ImmortalEra extends U8a {
   public constructor (value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
-    super(VALID_IMMORTAL);
+    super(IMMORTAL_ERA);
   }
 }
 
@@ -193,13 +192,15 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
-    if (value instanceof ExtrinsicEra) {
+    if (!value) {
+      return new Uint8Array([0]);
+    } else if (value instanceof ExtrinsicEra) {
       return ExtrinsicEra.decodeExtrinsicEra(value.toU8a());
     } else if (isHex(value)) {
       return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
     } else if (isU8a(value)) {
       if (!value.length || value[0] === 0) {
-        return new Uint8Array([0, 0]);
+        return new Uint8Array([0]);
       } else {
         return new Uint8Array([1, value[0], value[1]]);
       }

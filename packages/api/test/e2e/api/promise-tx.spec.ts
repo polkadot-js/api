@@ -96,7 +96,7 @@ describeE2E({
       .send(logEvents(done));
   });
 
-  it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
+  it.only('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));

@@ -24,18 +24,20 @@ export interface ExtrinsicValueV2 {
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV2, isSigned?: boolean) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV2 | Method, isSigned?: boolean) {
     super({
       signature: ExtrinsicSignature,
       method: Method
     }, ExtrinsicV2.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV2, isSigned?: boolean): ExtrinsicValueV2 {
+  public static decodeExtrinsic (value?: Method | Uint8Array | ExtrinsicValueV2, isSigned?: boolean): ExtrinsicValueV2 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV2) {
       return value;
+    } else if (value instanceof Method) {
+      return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, isSigned);

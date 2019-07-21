@@ -61,13 +61,6 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
-   */
-  public set era (era: ExtrinsicEra) {
-    this.set('era', era);
-  }
-
-  /**
    * @description The [[Nonce]] for the signature
    */
   public get nonce (): NonceCompact {
@@ -123,7 +116,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     const payload = new SignaturePayload({
       nonce,
       method: method.toU8a(),
-      era: era || this.era || IMMORTAL_ERA,
+      era: era || IMMORTAL_ERA,
       blockHash
     });
     const signature = new Signature(payload.sign(account));

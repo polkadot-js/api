@@ -40,13 +40,6 @@ export default class ExtrinsicExtraV2 extends Struct {
   }
 
   /**
-   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
-   */
-  public set era (era: ExtrinsicEra) {
-    this.set('era', era);
-  }
-
-  /**
    * @description The [[NonceCompact]] for the signature
    */
   public get nonce (): NonceCompact {

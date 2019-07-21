@@ -37,15 +37,6 @@ type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
   public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number = DEFAULT_VERSION) {
     super(Extrinsic.decodeExtrinsic(value, extrinsicVersion));
-
-    console.error('(2) constructed', {
-      era: u8aToHex(this.era.toU8a()),
-      nonce: u8aToHex(this.nonce.toU8a()),
-      tip: u8aToHex(this.tip.toU8a()),
-      signature: u8aToHex(this.raw.signature.toU8a()),
-      method: u8aToHex(this.raw.method.toU8a()),
-      u8a: u8aToHex(this.toU8a())
-    });
   }
 
   private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 {

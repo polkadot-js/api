@@ -91,11 +91,12 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: SignaturePayload): IExtrinsicSignature {
-    this.set('era', era);
-    this.set('nonce', nonce);
+    this.extra.set('era', era);
+    this.extra.set('nonce', nonce);
+    this.extra.set('tip', tip);
+
     this.set('signer', signer);
     this.set('signature', signature);
-    this.set('tip', tip);
 
     return this;
   }
@@ -118,7 +119,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     const signer = new Address(account.publicKey);
     const payload = new SignaturePayload({
       blockHash,
-      era: era || this.era || IMMORTAL_ERA,
+      era: era || IMMORTAL_ERA,
       method: method.toU8a(),
       nonce,
       tip: tip || 0

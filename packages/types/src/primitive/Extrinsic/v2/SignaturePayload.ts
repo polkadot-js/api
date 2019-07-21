@@ -15,7 +15,7 @@ import { sign } from '../util';
 
 export interface SignaturePayloadValueV2 {
   blockHash: AnyU8a;
-  era: IExtrinsicEra;
+  era: Uint8Array | IExtrinsicEra;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
   tip: AnyNumber;
