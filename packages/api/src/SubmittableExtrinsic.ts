@@ -259,6 +259,9 @@ export default function createSubmittableExtrinsic<ApiType> (
               mergeMap(async ([nonce, header]): Promise<void> => {
                 const eraOptions = expandEraOptions(options, { header, nonce });
 
+                // FIXME This is becoming real messy with all the options - way past
+                // "a method should fit on a single screen" stage. (Probably want to
+                // clean this when we remove `api.signer.sign` in the next beta cycle)
                 if (isKeyringPair(account)) {
                   this.sign(account, eraOptions);
                 } else if (api.signer) {
@@ -270,11 +273,14 @@ export default function createSubmittableExtrinsic<ApiType> (
                       blockNumber: header ? header.blockNumber : 0,
                       genesisHash: api.genesisHash,
                       version: api.extrinsicVersion
-                    }).toPayload();
-                    const result = await api.signer.signPayload(signPayload);
+                    });
+                    const result = await api.signer.signPayload(signPayload.toPayload());
 
+                    // Here we explicitly call `toPayload()` again instead of working with an object
+                    // (reference) as passed to the signer. This means that we are sure that the
+                    // payload data is not modified from our inputs, but the signer
+                    _extrinsic.addSignature(address, result.signature, signPayload.toPayload());
                     updateId = result.id;
-                    _extrinsic.addSignature(address, result.signature, signPayload);
                   } else if (api.signer.sign) {
                     console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
 
