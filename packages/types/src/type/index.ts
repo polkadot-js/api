@@ -12,7 +12,6 @@ export { default as Amount } from './Amount';
 export { default as ApprovalFlag } from './ApprovalFlag';
 export { default as AssetOf } from './AssetOf';
 export { default as AuthorityId } from './AuthorityId';
-export { default as AuthorityWeight } from './AuthorityWeight';
 export { default as BalanceLock } from './BalanceLock';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;
@@ -58,7 +57,6 @@ export { default as SessionKey } from './SessionKey';
 export { default as SessionKeys } from './SessionKeys';
 export { default as SetIndex } from './SetIndex';
 export { default as StakingLedger } from './StakingLedger';
-export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as UncleEntryItem } from './UncleEntryItem';
 export { default as UnlockChunk } from './UnlockChunk';

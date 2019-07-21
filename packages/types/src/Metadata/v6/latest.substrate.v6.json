@@ -38,11 +38,34 @@
               "name": "AllExtrinsicsWeight",
               "modifier": "Optional",
               "type": {
-                "PlainType": "u32"
+                "PlainType": "Weight"
               },
               "fallback": "0x00",
               "documentation": [
                 " Total weight for all extrinsics put together, for the current block."
+              ]
+            },
+            {
+              "name": "AllExtrinsicsLen",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Total length (in bytes) for all extrinsics put together, for the current block."
+              ]
+            },
+            {
+              "name": "NextWeightMultiplier",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "WeightMultiplier"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " The next weight multiplier. This should be updated at the end of each block based on the",
+                " saturation level (weight)."
               ]
             },
             {
@@ -2225,15 +2248,6 @@
           ],
           "events": [
             {
-              "name": "_Phantom",
-              "args": [
-                "Phantom"
-              ],
-              "documentation": [
-                " Dummy to manage the fact we have instancing."
-              ]
-            },
-            {
               "name": "Proposed",
               "args": [
                 "AccountId",
@@ -2445,15 +2459,6 @@
             }
           ],
           "events": [
-            {
-              "name": "_Phantom",
-              "args": [
-                "Phantom"
-              ],
-              "documentation": [
-                " Dummy to manage the fact we have instancing."
-              ]
-            },
             {
               "name": "Proposed",
               "args": [
@@ -3143,6 +3148,17 @@
               ]
             },
             {
+              "name": "State",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "StoredState"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " State of the current authority set."
+              ]
+            },
+            {
               "name": "PendingChange",
               "modifier": "Optional",
               "type": {
@@ -3198,6 +3214,20 @@
               ],
               "documentation": [
                 " New authority set has been applied."
+              ]
+            },
+            {
+              "name": "Paused",
+              "args": [],
+              "documentation": [
+                " Current authority set has been paused."
+              ]
+            },
+            {
+              "name": "Resumed",
+              "args": [],
+              "documentation": [
+                " Current authority set has been resumed."
               ]
             }
           ],
@@ -3924,6 +3954,83 @@
             }
           ],
           "constants": []
+        },
+        {
+          "name": "im_online",
+          "prefix": "ImOnline",
+          "storage": [
+            {
+              "name": "GossipAt",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": []
+            },
+            {
+              "name": "LastNewEraStart",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "SessionIndex"
+              },
+              "fallback": "0x00",
+              "documentation": []
+            },
+            {
+              "name": "ReceivedHeartbeats",
+              "modifier": "Default",
+              "type": {
+                "DoubleMapType": {
+                  "hasher": "Blake2_256",
+                  "key1": "SessionIndex",
+                  "key2": "AuthorityId",
+                  "value": "Bytes",
+                  "key2Hasher": "Blake2_256"
+                }
+              },
+              "fallback": "0x00",
+              "documentation": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "heartbeat",
+              "args": [
+                {
+                  "name": "heartbeat",
+                  "type": "Heartbeat"
+                },
+                {
+                  "name": "_signature",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": []
+            }
+          ],
+          "events": [
+            {
+              "name": "HeartbeatReceived",
+              "args": [
+                "BlockNumber",
+                "AuthorityId"
+              ],
+              "documentation": [
+                " A new heartbeat was received at this `BlockNumber` from `AuthorityId`"
+              ]
+            }
+          ],
+          "constants": [
+            {
+              "name": "SessionsPerEra",
+              "type": "SessionIndex",
+              "value": "0x06000000",
+              "documentation": [
+                " Number of sessions per era."
+              ]
+            }
+          ]
         }
       ]
     }

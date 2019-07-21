@@ -6,8 +6,7 @@ export default {
   types: {
     AuctionIndex: 'u32',
     CollatorSignature: 'Signature',
-    // Until we are able to import the SessionKey from grandpa, define as AccountId
-    AvailabilityVote: '(AccountId, CollatorSignature)', // '(SessionKey, CollatorSignature)',
+    AvailabilityVote: '(SessionKey, CollatorSignature)',
     ValidityAttestation: {
       _enum: {
         // This Null is not in the original, however indexes start at 1, so add a

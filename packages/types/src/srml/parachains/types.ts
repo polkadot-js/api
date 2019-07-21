@@ -4,6 +4,7 @@
 import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { AccountId, BalanceOf, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
+import { SessionKey } from '../../type';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
@@ -13,7 +14,7 @@ export interface AttestedCandidate extends Struct {
 
 export interface AuctionIndex extends u32 {}
 
-type _AvailabilityVote = [AccountId, CollatorSignature];
+type _AvailabilityVote = [SessionKey, CollatorSignature];
 export interface AvailabilityVote extends Codec, _AvailabilityVote {}
 
 type _BalanceUpload = [AccountId, u64];
