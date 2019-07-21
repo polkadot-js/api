@@ -9,7 +9,6 @@ import Address from '../../Address';
 import Balance from '../../Balance';
 import Method from '../../Method';
 import Signature from '../../Signature';
-import RuntimeVersion from '../../../rpc/RuntimeVersion';
 import Nonce from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
 import SignaturePayload from './SignaturePayload';
@@ -124,15 +123,15 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, version }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce }: SignatureOptions): IExtrinsicSignature {
     const signer = new Address(account.publicKey);
     const payload = new SignaturePayload({
       nonce,
-      method,
+      method: method.toU8a(),
       era: era || this.era || IMMORTAL_ERA,
       blockHash
     });
-    const signature = new Signature(payload.sign(account, version as RuntimeVersion));
+    const signature = new Signature(payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

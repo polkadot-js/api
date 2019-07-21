@@ -24,7 +24,7 @@ export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
 export { default as Extrinsic } from './Extrinsic/Extrinsic';
 export { default as ExtrinsicEra, MortalEra, ImmortalEra } from './Extrinsic/ExtrinsicEra';
-// export { default as ExtrinsicPayloadRaw } from './Extrinsic/ExtrinsicPayloadRaw';
+export { default as SignaturePayload } from './Extrinsic/SignaturePayload';
 export { default as H160 } from './H160';
 export { default as H256 } from './H256';
 export { default as H512 } from './H512';

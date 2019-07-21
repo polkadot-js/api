@@ -7,7 +7,7 @@ import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactTo
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import Moment from '../primitive/Moment';
-import { AnyNumber, Codec, Constructor } from '../types';
+import { AnyNumber, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 import UInt from './UInt';
@@ -20,7 +20,7 @@ import UInt from './UInt';
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact extends Base<UInt | Moment> implements Codec {
+export default class Compact extends Base<UInt | Moment> {
   public constructor (Type: Constructor<UInt | Moment>, value: Compact | AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
   }
@@ -69,20 +69,6 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   }
 
   /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return this.toU8a().length;
-  }
-
-  /**
-   * @description Checks if the value is an empty value
-   */
-  public get isEmpty (): boolean {
-    return this.raw.isEmpty;
-  }
-
-  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): UIntBitLength {
@@ -108,20 +94,6 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   }
 
   /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (isLe?: boolean): any {
-    return this.raw.toHex(isLe);
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string | number {
-    return this.raw.toJSON();
-  }
-
-  /**
    * @description Returns the number representation for the value
    */
   public toNumber (): number {
@@ -133,13 +105,6 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
    */
   public toRawType (): string {
     return `Compact<${this.raw.toRawType()}>`;
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  public toString (): string {
-    return this.raw.toString();
   }
 
   /**

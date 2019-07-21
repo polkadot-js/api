@@ -17,7 +17,7 @@ import Method from '../Method';
 import Hash from '../Hash';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
-import { BIT_SIGNED, BIT_UNSIGNED, UNMASK_VERSION } from './constants';
+import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 import { ExtrinsicEra } from '..';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
@@ -34,21 +34,16 @@ type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic, Codec {
-  public constructor (value?: ExtrinsicValue | AnyU8a | Method, extrinsicVersion: number = 1) {
+export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
+  public constructor (value: ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number = DEFAULT_VERSION) {
     super(Extrinsic.decodeExtrinsic(value, extrinsicVersion));
   }
 
   private static newFromValue (value: any, extrinsicVersion: number): ExtrinsicV1 | ExtrinsicV2 {
     switch (extrinsicVersion) {
-      case 1:
-        return new ExtrinsicV1(value);
-
-      case 2:
-        return new ExtrinsicV2(value);
-
-      default:
-        throw new Error(`Unsupported extrinsic version ${extrinsicVersion}`);
+      case 1: return new ExtrinsicV1(value);
+      case 2: return new ExtrinsicV2(value);
+      default: throw new Error(`Unsupported extrinsic version ${extrinsicVersion}`);
     }
   }
 
@@ -150,13 +145,6 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description Checks if the value is an empty value
-   */
-  public get isEmpty (): boolean {
-    return this.raw.isEmpty;
-  }
-
-  /**
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
@@ -238,13 +226,6 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description Compares the value of the input to see if there is a match
-   */
-  public eq (other?: any): boolean {
-    return this.raw.eq(other);
-  }
-
-  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
@@ -256,13 +237,6 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    */
   public toJSON (): string {
     return this.toHex();
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  public toString (): string {
-    return this.raw.toString();
   }
 
   /**

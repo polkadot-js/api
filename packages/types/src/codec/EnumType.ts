@@ -29,7 +29,7 @@ interface Decoded {
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-export default class Enum extends Base<Codec> implements Codec {
+export default class Enum extends Base<Codec> {
   private _def: TypesDef;
 
   private _index: number;
@@ -170,13 +170,6 @@ export default class Enum extends Base<Codec> implements Codec {
    */
   public get index (): number {
     return this._index;
-  }
-
-  /**
-   * @description Checks if the value is an empty value
-   */
-  public get isEmpty (): boolean {
-    return this.isEmpty;
   }
 
   /**

@@ -12,14 +12,6 @@ describe('Extrinsic', (): void => {
     Method.injectMethods(extrinsics);
   });
 
-  it.skip('decodes a non-signed properly via JSON', (): void => {
-    const extrinsic = new Extrinsic('0x010300ea51b75b00000000');
-
-    expect(extrinsic.isSigned).toEqual(false);
-    expect(extrinsic.callIndex).toEqual(new Uint8Array([3, 0]));
-    expect(extrinsic.data).toEqual(new Uint8Array([234, 81, 183, 91, 0, 0, 0, 0]));
-  });
-
   it('decodes an actual transaction (length prefix)', (): void => {
     const extrinsic = new Extrinsic(
       '0x' +

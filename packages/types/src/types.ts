@@ -64,7 +64,6 @@ export interface Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eq (other?: any): boolean;
 
   /**
@@ -129,9 +128,7 @@ export interface SignatureOptions {
   version?: RuntimeVersionInterface;
 }
 
-export interface ArgsDef {
-  [index: string]: Constructor;
-}
+export type ArgsDef = Record<string, Constructor>;
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
 export interface IHash extends U8a { }

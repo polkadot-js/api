@@ -24,6 +24,7 @@ import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, SignedBlock, Null, U64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
+import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import * as srmlTypes from '@polkadot/types/srml/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -72,7 +73,7 @@ export default abstract class ApiBase<ApiType> {
 
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  private _extrinsicVersion: number = 1;
+  private _extrinsicVersion: number = EXTRINSIC_DEFAULT_VERSION;
 
   private _genesisHash?: Hash;
 

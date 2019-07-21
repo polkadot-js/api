@@ -263,6 +263,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                   updateId = await api.signer.sign(_extrinsic, address, {
                     ...eraOptions,
                     blockNumber: header ? header.blockNumber : new BN(0),
+                    extrinsicVersion: this.api.extrinsicVersion,
                     genesisHash: api.genesisHash
                   });
                 } else {
