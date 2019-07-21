@@ -539,8 +539,6 @@ export default abstract class ApiBase<ApiType> {
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       this._extrinsicVersion = lastBlock.block.extrinsics[0].versionFormat;
-
-      console.error('Setting extrinsic version', this._extrinsicVersion);
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
