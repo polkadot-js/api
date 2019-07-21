@@ -6,8 +6,9 @@ import { IKeyringPair } from '../../types';
 
 import Base from '../../codec/Base';
 import U8a from '../../codec/U8a';
-import Hash from '../Hash';
 import NonceCompact from '../../type/NonceCompact';
+import BalanceCompact from '../BalanceCompact';
+import Hash from '../Hash';
 import SignaturePayloadV1, { SignaturePayloadValueV1 } from './v1/SignaturePayload';
 import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePayload';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -64,6 +65,13 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
    */
   public get nonce (): NonceCompact {
     return this.raw.nonce;
+  }
+
+  /**
+   * @description The [[BalanceCompact]]
+   */
+  public get tip (): BalanceCompact {
+    return (this.raw as SignaturePayloadV2).tip || new BalanceCompact(0);
   }
 
   /**
