@@ -48,8 +48,11 @@ interface SignerOptions {
   tip?: AnyNumber;
 }
 
-// pick a default - in the case of 4s blocktimes, this translates to 60 seconds
-const ONE_MINUTE = 15;
+// The default for 6s allowing for 5min eras. When translating this to faster blocks -
+//   - 4s = (10 / 15) * 5 = 3.3m
+//   - 2s = (10 / 20) * 5 = 2.5m
+const BLOCKTIME = 6;
+const ONE_MINUTE = 60 / BLOCKTIME;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 function isKeyringPair (account: string | IKeyringPair | AccountId | Address): account is IKeyringPair {
