@@ -283,11 +283,6 @@ export interface SignerResult {
   id: number;
 
   /**
-   * @description The actual payload that was signed
-   */
-  payload: string;
-
-  /**
    * @description The resulting signature in hex
    */
   signature: string;

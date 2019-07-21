@@ -41,6 +41,7 @@ describeE2E({
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
+    jest.setTimeout(30000);
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
@@ -182,7 +183,7 @@ describeE2E({
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
-            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            expect(error.message).toMatch(/1010: Invalid Transaction \(-127\)/);
             done();
           }
         }
@@ -207,7 +208,7 @@ describeE2E({
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
-            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            expect(error.message).toMatch(/1010: Invalid Transaction \(-127\)/);
             done();
           }
         }

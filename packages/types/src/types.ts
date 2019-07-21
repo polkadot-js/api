@@ -152,6 +152,13 @@ interface ExtrinsicSignatureBase {
   readonly tip: BalanceCompact;
 }
 
+export interface ExtrinsicPayloadValue {
+  era: IExtrinsicEra | AnyU8a;
+  method: AnyU8a;
+  nonce: AnyNumber;
+  tip: AnyNumber;
+}
+
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
@@ -170,7 +177,7 @@ export interface IExtrinsicImpl extends Codec {
   readonly signature: IExtrinsicSignature;
   readonly version: number;
 
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicImpl;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
 }
 
@@ -182,6 +189,6 @@ export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
   readonly version: number;
   readonly versionFormat: number;
 
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsic;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

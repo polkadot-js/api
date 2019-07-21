@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra, SignaturePayload } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
@@ -269,17 +269,12 @@ export default function createSubmittableExtrinsic<ApiType> (
                       method: _extrinsic.method,
                       blockNumber: header ? header.blockNumber : 0,
                       genesisHash: api.genesisHash,
-                      version: this.api.extrinsicVersion
+                      version: api.extrinsicVersion
                     }).toPayload();
                     const result = await api.signer.signPayload(signPayload);
 
-                    // we don't trust the signer 100% - so construct our own version of the
-                    // payload, if that doesn't match with what went in... well, we should no
-                    // really be sending this at all
-                    const payload = new SignaturePayload(signPayload, this.api.extrinsicVersion).toU8a();
-
                     updateId = result.id;
-                    _extrinsic.addSignature(address, result.signature, payload);
+                    _extrinsic.addSignature(address, result.signature, signPayload);
                   } else if (api.signer.sign) {
                     console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
 

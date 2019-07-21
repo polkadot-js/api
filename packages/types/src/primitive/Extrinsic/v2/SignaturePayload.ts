@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
+import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
 
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
@@ -33,7 +33,7 @@ const basePayload = {
  * on the contents included
  */
 export default class SignaturePayloadV2 extends Struct {
-  public constructor (value?: SignaturePayloadValueV2 | Uint8Array | string) {
+  public constructor (value?: ExtrinsicPayloadValue | SignaturePayloadValueV2 | Uint8Array | string) {
     super({
       method: U8a,
       ...basePayload

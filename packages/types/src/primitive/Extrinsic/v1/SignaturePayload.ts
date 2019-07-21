@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
+import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
 
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
@@ -30,7 +30,7 @@ export interface SignaturePayloadValueV1 {
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class SignaturePayloadV1 extends Struct {
-  public constructor (value?: SignaturePayloadValueV1 | Uint8Array | string) {
+  public constructor (value?: ExtrinsicPayloadValue | SignaturePayloadValueV1 | Uint8Array | string) {
     super({
       nonce: NonceCompact,
       method: U8a,

@@ -86,11 +86,14 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   /**
    * @description Sign the payload with the keypair
    */
-  public sign (signerPair: IKeyringPair): { payload: string; signature: string } {
+  public sign (signerPair: IKeyringPair): { signature: string } {
     const signature = this.raw.sign(signerPair);
 
+    // This is extensible, so we could quite readily extend to send back extra
+    // information, such as for instance the payload, i.e. `payload: this.toHex()`
+    // For the case here we sign via the extrinsic, we ignore the return, so generally
+    // thisis applicable for external signing
     return {
-      payload: this.toHex(),
       signature: u8aToHex(signature)
     };
   }

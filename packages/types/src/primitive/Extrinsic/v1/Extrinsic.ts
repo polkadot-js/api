@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
 
 import { isU8a } from '@polkadot/util';
 
@@ -81,7 +81,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): ExtrinsicV1 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): ExtrinsicV1 {
     this.signature.addSignature(signer, signature, payload);
 
     return this;
