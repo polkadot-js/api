@@ -61,7 +61,6 @@ These primitive types are available:
 | [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
 | [[Signature]] | The default signature that is used accross the system |
 | [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
-| [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
 | [[StorageData]] | Data retrieved via Storage queries and data for key-value pairs |
 | [[StorageKey]] |  A representation of a storage key (typically hashed) in the system |
 | [[Text]] | This is a string wrapper, along with the length. |
