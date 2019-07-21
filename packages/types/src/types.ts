@@ -6,10 +6,10 @@ import BN from 'bn.js';
 
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v6/Calls';
-import Balance from './primitive/Balance';
+import BalanceCompact from './primitive/BalanceCompact';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
-import Nonce from './type/NonceCompact';
+import NonceCompact from './type/NonceCompact';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -146,10 +146,10 @@ export interface IMethod extends Codec {
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
-  readonly nonce: Nonce;
+  readonly nonce: NonceCompact;
   readonly signature: IHash;
   readonly signer: Address;
-  readonly tip: Balance;
+  readonly tip: BalanceCompact;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -165,7 +165,7 @@ export interface IExtrinsicEra extends Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicImpl {
+export interface IExtrinsicImpl extends Codec {
   readonly method: Method;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
@@ -177,6 +177,7 @@ export interface IExtrinsicImpl {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
   readonly hash: IHash;
+  readonly length: number;
   readonly method: Method;
   readonly version: number;
   readonly versionFormat: number;

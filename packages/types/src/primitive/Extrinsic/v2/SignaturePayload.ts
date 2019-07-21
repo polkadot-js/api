@@ -6,9 +6,9 @@ import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair, IMethod } from '../../.
 
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
-import Balance from '../../Balance';
+import BalanceCompact from '../../BalanceCompact';
 import Hash from '../../Hash';
-import Nonce from '../../../type/NonceCompact';
+import NonceCompact from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { extraDefinition } from './ExtrinsicExtra';
 import { sign } from '../util';
@@ -62,17 +62,17 @@ export default class SignaturePayloadV2 extends Struct {
   }
 
   /**
-   * @description The [[Nonce]]
+   * @description The [[NonceCompact]]
    */
-  public get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+  public get nonce (): NonceCompact {
+    return this.get('nonce') as NonceCompact;
   }
 
   /**
-   * @description The tip [[Balance]]
+   * @description The tip [[BalanceCompact]]
    */
-  public get tip (): Balance {
-    return this.get('tip') as Balance;
+  public get tip (): BalanceCompact {
+    return this.get('tip') as BalanceCompact;
   }
 
   /**

@@ -6,13 +6,13 @@ import { IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../ty
 
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
-import Balance from '../../Balance';
+import BalanceCompact from '../../BalanceCompact';
 import Method from '../../Method';
 import Signature from '../../Signature';
-import Nonce from '../../../type/NonceCompact';
+import NonceCompact from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
+import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import SignaturePayload from './SignaturePayload';
-import { BIT_SIGNED, EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 
 /**
  * @name ExtrinsicSignature
@@ -25,30 +25,25 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
   //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
-  public constructor (value?: Uint8Array) {
+  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, isSigned: boolean = false) {
     super({
       signer: Address,
       signature: Signature,
-      nonce: Nonce,
+      nonce: NonceCompact,
       era: ExtrinsicEra
-    }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value));
+    }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value?: Uint8Array): Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV1 | Uint8Array | undefined, isSigned: boolean): ExtrinsicSignatureV1 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
+    } else if (value instanceof ExtrinsicSignatureV1) {
+      return value;
     }
 
-    return (value[0] & BIT_SIGNED) === BIT_SIGNED
-      ? value.subarray(1)
+    return isSigned
+      ? value
       : EMPTY_U8A;
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array (This includes the version/signature information, although not contained, it is passed in as part of the decoding)
-   */
-  public get encodedLength (): number {
-    return 1 + (this.isSigned ? super.encodedLength : 0);
   }
 
   /**
@@ -75,8 +70,8 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description The [[Nonce]] for the signature
    */
-  public get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+  public get nonce (): NonceCompact {
+    return this.get('nonce') as NonceCompact;
   }
 
   /**
@@ -96,8 +91,8 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Forwards compat
    */
-  public get tip (): Balance {
-    return new Balance(0);
+  public get tip (): BalanceCompact {
+    return new BalanceCompact(0);
   }
 
   private injectSignature (signer: Address, signature: Signature, { era, nonce }: SignaturePayload): IExtrinsicSignature {

@@ -2,16 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber } from '../../../types';
+
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
-import Balance from '../../Balance';
+import BalanceCompact from '../../BalanceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
-import Nonce from '../../../type/NonceCompact';
+import NonceCompact from '../../../type/NonceCompact';
+
+interface ExtrinsicExtraValueV2 {
+  era?: Uint8Array;
+  nonce?: AnyNumber;
+  tip?: AnyNumber;
+}
 
 export const extraDefinition = {
   era: ExtrinsicEra,
-  nonce: Nonce,
-  tip: Balance
+  nonce: NonceCompact,
+  tip: BalanceCompact
 };
 
 /**
@@ -20,7 +28,7 @@ export const extraDefinition = {
  * A container for the extra information in an extrinsic
  */
 export default class ExtrinsicExtraV2 extends Struct {
-  public constructor (value?: Uint8Array) {
+  public constructor (value?: ExtrinsicExtraValueV2 | Uint8Array) {
     super(extraDefinition, value);
   }
 
@@ -39,10 +47,10 @@ export default class ExtrinsicExtraV2 extends Struct {
   }
 
   /**
-   * @description The [[Nonce]] for the signature
+   * @description The [[NonceCompact]] for the signature
    */
-  public get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+  public get nonce (): NonceCompact {
+    return this.get('nonce') as NonceCompact;
   }
 
   /**
@@ -53,9 +61,9 @@ export default class ExtrinsicExtraV2 extends Struct {
   }
 
   /**
-   * @description The [[Balance]] tip
+   * @description The [[BalanceCompact]] tip
    */
-  public get tip (): Balance {
-    return this.get('tip') as Balance;
+  public get tip (): BalanceCompact {
+    return this.get('tip') as BalanceCompact;
   }
 }

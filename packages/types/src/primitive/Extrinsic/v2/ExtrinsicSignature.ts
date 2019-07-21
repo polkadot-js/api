@@ -6,13 +6,13 @@ import { IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../ty
 
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
-import Balance from '../../Balance';
+import BalanceCompact from '../../BalanceCompact';
 import Method from '../../Method';
 import Signature from '../../Signature';
 import ExtrinsicEra from '../ExtrinsicEra';
-import Nonce from '../../../type/NonceCompact';
+import NonceCompact from '../../../type/NonceCompact';
 import SignaturePayload from './SignaturePayload';
-import { BIT_SIGNED, EMPTY_U8A, IMMORTAL_ERA } from '../constants';
+import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
 /**
@@ -21,29 +21,24 @@ import ExtrinsicExtra from './ExtrinsicExtra';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value?: Uint8Array) {
+  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean = false) {
     super({
       signer: Address,
       signature: Signature,
       extra: ExtrinsicExtra
-    }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value));
+    }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value?: Uint8Array): Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean): ExtrinsicSignatureV2 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
+    } else if (value instanceof ExtrinsicSignatureV2) {
+      return value;
     }
 
-    return (value[0] & BIT_SIGNED) === BIT_SIGNED
-      ? value.subarray(1)
+    return isSigned
+      ? value
       : EMPTY_U8A;
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array (This includes the version/signature information, although not contained, it is passed in as part of the decoding)
-   */
-  public get encodedLength (): number {
-    return 1 + (this.isSigned ? super.encodedLength : 0);
   }
 
   /**
@@ -68,9 +63,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[Nonce]] for the signature
+   * @description The [[NonceCompact]] for the signature
    */
-  public get nonce (): Nonce {
+  public get nonce (): NonceCompact {
     return this.extra.nonce;
   }
 
@@ -91,7 +86,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): Balance {
+  public get tip (): BalanceCompact {
     return this.extra.tip;
   }
 

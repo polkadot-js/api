@@ -7,7 +7,7 @@ import { AnyNumber, AnyU8a, IExtrinsicEra, IKeyringPair, IMethod } from '../../.
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
 import Hash from '../../Hash';
-import Nonce from '../../../type/NonceCompact';
+import NonceCompact from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
@@ -32,7 +32,7 @@ export interface SignaturePayloadValueV1 {
 export default class SignaturePayloadV1 extends Struct {
   public constructor (value?: SignaturePayloadValueV1 | Uint8Array | string) {
     super({
-      nonce: Nonce,
+      nonce: NonceCompact,
       method: U8a,
       era: ExtrinsicEra,
       blockHash: Hash
@@ -61,10 +61,10 @@ export default class SignaturePayloadV1 extends Struct {
   }
 
   /**
-   * @description The [[Nonce]]
+   * @description The [[NonceCompact]]
    */
-  public get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+  public get nonce (): NonceCompact {
+    return this.get('nonce') as NonceCompact;
   }
 
   /**

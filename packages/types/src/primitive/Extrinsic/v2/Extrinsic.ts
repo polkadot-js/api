@@ -4,7 +4,8 @@
 
 import { IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
 
-import Compact from '../../../codec/Compact';
+import { isU8a } from '@polkadot/util';
+
 import Struct from '../../../codec/Struct';
 import Method from '../../Method';
 import Address from '../../Address';
@@ -23,27 +24,37 @@ export interface ExtrinsicValueV2 {
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV2) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV2, isSigned?: boolean) {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, value);
+    }, ExtrinsicV2.decodeExtrinsic(value, isSigned));
+  }
+
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV2, isSigned?: boolean): ExtrinsicValueV2 {
+    if (!value) {
+      return {};
+    } else if (value instanceof ExtrinsicV2) {
+      return value;
+    } else if (isU8a(value)) {
+      // here we decode manually since we need to pull through the version information
+      const signature = new ExtrinsicSignature(value, isSigned);
+      const method = new Method(value.subarray(signature.encodedLength));
+
+      return {
+        method,
+        signature
+      };
+    }
+
+    return value;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    const length = this.length;
-
-    return length + Compact.encodeU8a(length).length;
-  }
-
-  /**
-   * @description The length of the encoded value
-   */
-  public get length (): number {
-    return this.toU8a(true).length;
+    return this.toU8a().length;
   }
 
   /**

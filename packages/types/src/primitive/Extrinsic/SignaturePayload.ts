@@ -7,7 +7,7 @@ import { IKeyringPair } from '../../types';
 import Base from '../../codec/Base';
 import U8a from '../../codec/U8a';
 import Hash from '../Hash';
-import Nonce from '../../type/NonceCompact';
+import NonceCompact from '../../type/NonceCompact';
 import SignaturePayloadV1, { SignaturePayloadValueV1 } from './v1/SignaturePayload';
 import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePayload';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -26,7 +26,11 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
     );
   }
 
-  public static decodeSignaturePayload (value: SignaturePayloadValueV1 | SignaturePayloadValueV2 |Uint8Array | string | undefined, extrinsicVersion: number = DEFAULT_VERSION): SignaturePayloadV1 | SignaturePayloadV2 {
+  public static decodeSignaturePayload (value: SignaturePayload | SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, extrinsicVersion: number = DEFAULT_VERSION): SignaturePayloadV1 | SignaturePayloadV2 {
+    if (value instanceof SignaturePayload) {
+      return value.raw;
+    }
+
     switch (extrinsicVersion) {
       case 1: return new SignaturePayloadV1(value as Uint8Array);
       case 2: return new SignaturePayloadV2(value as Uint8Array);
@@ -56,9 +60,9 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   }
 
   /**
-   * @description The [[Nonce]]
+   * @description The [[NonceCompact]]
    */
-  public get nonce (): Nonce {
+  public get nonce (): NonceCompact {
     return this.raw.nonce;
   }
 

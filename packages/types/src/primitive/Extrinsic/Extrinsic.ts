@@ -10,15 +10,15 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v6/Calls';
-import Nonce from '../../type/NonceCompact';
+import NonceCompact from '../../type/NonceCompact';
 import Address from '../Address';
-import Balance from '../Balance';
+import BalanceCompact from '../BalanceCompact';
 import Method from '../Method';
 import Hash from '../Hash';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
+import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
-import { ExtrinsicEra } from '..';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
@@ -35,19 +35,35 @@ type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
-  public constructor (value: ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number = DEFAULT_VERSION) {
+  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number = DEFAULT_VERSION) {
     super(Extrinsic.decodeExtrinsic(value, extrinsicVersion));
+
+    console.error('(2) constructed', {
+      era: u8aToHex(this.era.toU8a()),
+      nonce: u8aToHex(this.nonce.toU8a()),
+      tip: u8aToHex(this.tip.toU8a()),
+      signature: u8aToHex(this.raw.signature.toU8a()),
+      method: u8aToHex(this.raw.method.toU8a()),
+      u8a: u8aToHex(this.toU8a())
+    });
   }
 
-  private static newFromValue (value: any, extrinsicVersion: number): ExtrinsicV1 | ExtrinsicV2 {
+  private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 {
+    if (value instanceof Extrinsic) {
+      return value.raw;
+    }
+
+    const extrinsicVersion = version & UNMASK_VERSION;
+    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+
     switch (extrinsicVersion) {
-      case 1: return new ExtrinsicV1(value);
-      case 2: return new ExtrinsicV2(value);
+      case 1: return new ExtrinsicV1(value, isSigned);
+      case 2: return new ExtrinsicV2(value, isSigned);
       default: throw new Error(`Unsupported extrinsic version ${extrinsicVersion}`);
     }
   }
 
-  public static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number): ExtrinsicV1 | ExtrinsicV2 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -83,7 +99,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {
-    return Extrinsic.newFromValue(value, value[0] & UNMASK_VERSION);
+    return Extrinsic.newFromValue(value.subarray(1), value[0]);
   }
 
   /**
@@ -125,7 +141,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.raw.encodedLength;
+    return this.toU8a().length;
   }
 
   /**
@@ -152,6 +168,13 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
+   * @description The length of the actual data, excluding prefix
+   */
+  public get length (): number {
+    return this.toU8a(true).length;
+  }
+
+  /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
   public get meta (): FunctionMetadata {
@@ -168,7 +191,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description The nonce for this extrinsic
    */
-  public get nonce (): Nonce {
+  public get nonce (): NonceCompact {
     return this.raw.signature.nonce;
   }
 
@@ -189,7 +212,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description Forwards compat
    */
-  public get tip (): Balance {
+  public get tip (): BalanceCompact {
     return this.raw.signature.tip;
   }
 
