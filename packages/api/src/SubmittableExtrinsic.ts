@@ -49,8 +49,8 @@ interface SignerOptions {
 }
 
 // The default for 6s allowing for 5min eras. When translating this to faster blocks -
-//   - 4s = (10 / 15) * 5 = 3.3m
-//   - 2s = (10 / 20) * 5 = 2.5m
+//   - 4s = (10 / 15) * 5 = 3.33m
+//   - 2s = (10 / 30) * 5 = 1.66m
 const BLOCKTIME = 6;
 const ONE_MINUTE = 60 / BLOCKTIME;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
