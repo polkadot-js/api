@@ -9,5 +9,5 @@ import U32 from './U32';
  * @description
  * Numeric range of a transaction weight.
  */
-export default class Balance extends U32 {
+export default class Weight extends U32 {
 }
