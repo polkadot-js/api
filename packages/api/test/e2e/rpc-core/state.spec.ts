@@ -11,12 +11,12 @@ import storage from '@polkadot/api-metadata/storage/static';
 import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
+import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
-import Rpc from '../../src';
 import flipperAbiPre97 from '../../../api-contract/test/contracts_0_96/Flipper.json';
-import flipperAbiPost97 from '../../../api-contract/test/contracts>=spec_version-97/Flipper.json';
+import flipperAbiPost97 from '../../../api-contract/test/contracts_97/Flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
@@ -42,7 +42,7 @@ describe('e2e state', () => {
   it('getKeys(): retrieves storage keys for ":code"', (done) => {
     rpc.state
       .getKeys(CODE)
-      .subscribe((keys: Array<StorageKey>) => {
+      .subscribe((keys: StorageKey[]) => {
         expect(keys.length).toEqual(1);
         done();
       });
@@ -97,14 +97,14 @@ describe('e2e state', () => {
 
       const txPath = apiPromise.tx.contracts || apiPromise.tx.contract;
 
-      const pathName: string = apiPromise.runtimeVersion.specVersion.toNumber() < 97 ? 'contracts_0_96' : 'contracts>=spec_version-97';
+      const pathName: string = apiPromise.runtimeVersion.specVersion.toNumber() < 97 ? 'contracts_0_96' : 'contracts_97';
       const code: string = fs.readFileSync(path.join(__dirname, `../../../api-contract/test/${pathName}/flipper-pruned.wasm`)).toString('hex');
       const abi = apiPromise.runtimeVersion.specVersion.toNumber() > 97
         ? new Abi(flipperAbiPre97)
         : new Abi(flipperAbiPost97);
 
       const keyring: {
-        [index: string]: KeyringPair
+        [index: string]: KeyringPair;
       } = testingPairs({ type: 'sr25519' });
 
       console.log('CODE');
@@ -136,7 +136,7 @@ describe('e2e state', () => {
 
       rpc.state
         .getChildKeys(storageKeys[0], '0x')
-        .subscribe((keys: Array<StorageKey>) => {
+        .subscribe((keys: StorageKey[]) => {
           expect(keys.length).toBeGreaterThanOrEqual(1);
           done();
         });

@@ -5,11 +5,10 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
+import { HeaderExtended } from '@polkadot/api-derive/type';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
 import { WsProvider } from '@polkadot/rpc-provider';
-
-import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo } from '../../src/types';
+import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 
 const WS = 'ws://127.0.0.1:9945/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
@@ -181,7 +180,7 @@ describe('Api-RX derive e2e', () => {
 
     // FIXME https://github.com/polkadot-js/api/issues/868
     describe('getHeader', () => {
-      it('gets a specific block header and extended with it\`s author', async (done) => {
+      it('gets a specific block header and extended with it`s author', async (done) => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));

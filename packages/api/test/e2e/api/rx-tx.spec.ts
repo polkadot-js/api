@@ -8,8 +8,8 @@ import { first, switchMap } from 'rxjs/operators';
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from './../../src/rx';
-import { SubmittableResult } from './../../src';
+import Api from './../../../src/rx';
+import { SubmittableResult } from './../../../src';
 
 describe('Rx e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });

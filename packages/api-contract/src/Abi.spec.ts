@@ -5,7 +5,7 @@
 import { ContractABIArg } from './types';
 
 import typesAbi from '../test/abi/types.json';
-import erc20Abi from '../test/contracts>=spec_version-97/Erc20.json';
+import erc20Abi from '../test/contracts_97/Erc20.json';
 
 import { Abi } from '.';
 
