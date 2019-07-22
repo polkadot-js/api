@@ -13,8 +13,8 @@ export interface SignerPayloadType {
   era: ExtrinsicEra;
   genesisHash: Hash;
   method: Method;
-  nonce: Compact;
-  tip: Compact;
+  nonce: Compact<Nonce>;
+  tip: Compact<Balance>;
   version: U8;
 }
 
@@ -30,7 +30,7 @@ export default class SignerPayload extends Struct.with({
   version: U8
 }) {
   /**
-   * @description Returns this as a SignerPayloadType. this works since the Struct.with injects all the getters automaticall
+   * @description Returns this as a SignerPayloadType. This works since the Struct.with injects all the getters automatically (just ensure the 2 definitiona are matching)
    */
   public get self (): SignerPayloadType {
     return this as any as SignerPayloadType;
