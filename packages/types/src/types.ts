@@ -6,8 +6,10 @@ import BN from 'bn.js';
 
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v6/Calls';
+import BalanceCompact from './primitive/BalanceCompact';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
+import NonceCompact from './type/NonceCompact';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -62,7 +64,6 @@ export interface Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eq (other?: any): boolean;
 
   /**
@@ -123,12 +124,11 @@ export interface SignatureOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra;
   nonce: AnyNumber;
+  tip?: AnyNumber;
   version?: RuntimeVersionInterface;
 }
 
-export interface ArgsDef {
-  [index: string]: Constructor;
-}
+export type ArgsDef = Record<string, Constructor>;
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
 export interface IHash extends U8a { }
@@ -143,24 +143,52 @@ export interface IMethod extends Codec {
   readonly meta: FunctionMetadata;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicSignature extends Codec {
+interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
+  readonly nonce: NonceCompact;
+  readonly signature: IHash;
+  readonly signer: Address;
+  readonly tip: BalanceCompact;
+}
+
+export interface ExtrinsicPayloadValue {
+  era: IExtrinsicEra | AnyU8a;
+  method: AnyU8a;
+  nonce: AnyNumber;
+  tip: AnyNumber;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicEra {
+export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  sign (method: Method, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsic extends IMethod {
-  hash: IHash;
-  isSigned: boolean;
-  method: Method;
-  signature: IExtrinsicSignature;
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era: Uint8Array | IExtrinsicEra): IExtrinsic;
+export interface IExtrinsicImpl extends Codec {
+  readonly method: Method;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
+  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+  readonly hash: IHash;
+  readonly length: number;
+  readonly method: Method;
+  readonly type: number;
+  readonly version: number;
+
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

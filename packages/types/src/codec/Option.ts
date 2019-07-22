@@ -5,7 +5,7 @@
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { AnyJson, Codec, Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
 
 /**
@@ -16,7 +16,7 @@ import Null from '../primitive/Null';
  * implements that - decodes, checks for optionality and wraps the required structure
  * with a value if/as required/found.
  */
-export default class Option<T extends Codec> extends Base<T> implements Codec {
+export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
   public constructor (Type: Constructor, value?: any) {
@@ -113,24 +113,10 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): AnyJson {
-    return this.raw.toJSON();
-  }
-
-  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
     return `Option<${new this._Type().toRawType()}>`;
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  public toString (): string {
-    return this.raw.toString();
   }
 
   /**

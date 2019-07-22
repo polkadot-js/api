@@ -41,6 +41,7 @@ describeE2E({
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
+    jest.setTimeout(30000);
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
@@ -182,7 +183,10 @@ describeE2E({
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
-            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            // NOTE This will fail on any version with v1 Extrinsics, the code returned there
+            // is simply (0), so it doesn't have an "invalid-era" specific message. (the -127
+            // error code is introduced along with the transaction version 2
+            expect(error.message).toMatch(/1010: Invalid Transaction \(-127\)/);
             done();
           }
         }
@@ -207,7 +211,8 @@ describeE2E({
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
-            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            // NOTE As per above 0 vs -127 note
+            expect(error.message).toMatch(/1010: Invalid Transaction \(-127\)/);
             done();
           }
         }

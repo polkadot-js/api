@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../types';
-
 import BN from 'bn.js';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
@@ -24,7 +22,7 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class Address extends Base<AccountId | AccountIndex> implements Codec {
+export default class Address extends Base<AccountId | AccountIndex> {
   public constructor (value: AnyAddress = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
@@ -78,13 +76,6 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   }
 
   /**
-   * @description Checks if the value is an empty value
-   */
-  public get isEmpty (): boolean {
-    return this.raw.isEmpty;
-  }
-
-  /**
    * @description The length of the raw value, either AccountIndex or AccountId
    */
   public get rawLength (): number {
@@ -94,31 +85,10 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   }
 
   /**
-   * @description Compares the value of the input to see if there is a match
-   */
-  public eq (other?: any): boolean {
-    return this.raw.eq(other);
-  }
-
-  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
     return u8aToHex(this.toU8a());
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string {
-    return this.raw.toJSON();
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  public toString (): string {
-    return this.raw.toString();
   }
 
   /**

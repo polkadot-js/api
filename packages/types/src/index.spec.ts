@@ -7,7 +7,7 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import { Codec, Constructor } from './types';
 import * as Classes from './index.types';
 
-const Types = Classes as { [index: string]: Constructor };
+const Types = Classes as Record<string, Constructor>;
 const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
 describe('types', (): void => {
