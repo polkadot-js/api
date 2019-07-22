@@ -8,7 +8,7 @@
 # Please follow the steps described here (including the prerequisites): https://docs.docker.com/compose/install/
 #
 # Usage:
-# 1. BUILD: Run `docker-compose up -d` to run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
+# 1. BUILD: Run `docker-compose pull && docker-compose up -d` to pull the latest docker imaged and run docker-compose in detached mode. This will run the substrate and polkadot containers in the background.
 # 2. INFO: Run `docker ps` to get a list of Docker containers running in the background including their mapped ports on localhost
 # 3. TEST: Run `docker-compose logs -f js-api-tests` to run the API tests and print the logs
 # 4. QUIT: Run `docker-compose down` to stop and remove all running containers.
@@ -30,51 +30,61 @@ services:
     image: parity/substrate:latest
     ports:
       - "9945:9944"
+      - "9935:9933"
     networks:
       - internet
     command:
       - "--dev"
       - "--ws-external"
+      - "--rpc-external"
     
   substrate-1.0:
-    image: parity/substrate:v1.0.0 
+    image: parity/substrate:v1.0.0
     ports:
       - "9946:9944"
+      - "9936:9933"
     networks:
       - internet
     command:
       - "--dev"
       - "--ws-external"
+      - "--rpc-external"
 
   substrate-2.0:
     image: parity/substrate:2.0.0-b65c315a1
     ports:
       - "9947:9944"
+      - "9937:9933"
     networks:
       - internet
     command:
       - "--dev"
       - "--ws-external"
+      - "--rpc-external"
   
   pokadot-master:
     image: parity/polkadot:latest
     ports:
       - "9948:9944"
+      - "9938:9933"
     networks:
       - internet
     command:
       - "--dev"
       - "--ws-external"
+      - "--rpc-external"
 
   pokadot-alexander:
       image: parity/polkadot:v0.4.4
       ports:
         - "9949:9944"
+        - "9939:9933"
       networks:
         - internet
       command:
         - "--dev"
         - "--ws-external"
+        - "--rpc-external"
 
   # This is the container running the API tests
   js-api-tests:
