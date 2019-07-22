@@ -1,5 +1,5 @@
 {
-  "version": "0.82.0-beta.51",
+  "version": "0.82.0-beta.70",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -17,11 +17,14 @@
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
     "build:srmlTs": "node packages/types/src/scripts/srmlTSWrapper.js",
     "check": "yarn lint",
-    "lint": "tslint --project . && tsc --noEmit --pretty",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage --testPathIgnorePatterns e2e",
     "test:all": "jest",
+    "test:e2e": "jest packages/api/test/e2e",
+    "test:e2e-docker": "TEST_DOCKER=1 jest packages/api/test/e2e",
+    "test:e2e-remote": "TEST_REMOTE=1 jest packages/api/test/e2e",
     "test:one": "jest",
     "test:watch": "jest --coverage --watch"
   },
@@ -29,7 +32,7 @@
     "@babel/core": "^7.5.4",
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.5.4",
-    "@polkadot/dev": "^0.30.0-beta.21",
+    "@polkadot/dev": "^0.30.0-beta.22",
     "@polkadot/ts": "^0.1.62",
     "gh-pages": "^2.0.1"
   }

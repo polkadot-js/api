@@ -3,7 +3,7 @@ A breaking change was introduced by substrate runtime spec version 97. https://g
 The change had to be implemented in ink! which changed the structure of the Wasm files.
 That's why we need two different versions of the generated contract files.
 
-Contract files before the breaking change can be found in the folder `contracts<spec_version-97`
+Contract files before the breaking change can be found in the folder `contracts_0_96`
 Contract files compiled with an ink! version after the  breaking change are located here: `contracts>=spec_version-97`
 
 **Compatibility**

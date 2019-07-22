@@ -14,7 +14,7 @@ import { AnyJsonObject } from '@polkadot/types/types';
 export default class ReferendumInfoExtended extends ReferendumInfo {
   private _index: ReferendumIndex;
 
-  constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
+  public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
     super(value);
 
     this._index = value instanceof ReferendumInfoExtended
@@ -25,14 +25,14 @@ export default class ReferendumInfoExtended extends ReferendumInfo {
   /**
    * @description Convenience getter, returns the referendumIndex
    */
-  get index (): ReferendumIndex {
+  public get index (): ReferendumIndex {
     return this._index;
   }
 
   /**
    * @description Creates the JSON representation
    */
-  toJSON (): AnyJsonObject {
+  public toJSON (): AnyJsonObject {
     return {
       ...super.toJSON() as AnyJsonObject,
       index: this.index.toJSON()

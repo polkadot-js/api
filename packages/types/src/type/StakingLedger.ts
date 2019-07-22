@@ -16,7 +16,7 @@ import UnlockChunk from './UnlockChunk';
  * The ledger of a (bonded) stash
  */
 export default class StakingLedger extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       stash: AccountId,
       total: Compact.with(Balance),
@@ -28,28 +28,28 @@ export default class StakingLedger extends Struct {
   /**
    * @description The total amount of the stash's balance that will be at stake in any forthcoming rounds
    */
-  get active (): Balance {
+  public get active (): Balance {
     return (this.get('active') as Compact).toBn() as BlockNumber;
   }
 
   /**
    * @description The stash account whose balance is actually locked and at stake
    */
-  get stash (): AccountId {
+  public get stash (): AccountId {
     return this.get('stash') as AccountId;
   }
 
   /**
    * @description The total amount of the stash's balance that we are currently accounting for. It's just `active` plus all the `unlocking` balances
    */
-  get total (): Balance {
+  public get total (): Balance {
     return (this.get('total') as Compact).toBn() as Balance;
   }
 
   /**
    * @description Any balance that is becoming free, which may eventually be transferred out of the stash (assuming it doesn't get slashed first)
    */
-  get unlocking (): Vector<UnlockChunk> {
+  public get unlocking (): Vector<UnlockChunk> {
     return this.get('unlocking') as Vector<UnlockChunk>;
   }
 }

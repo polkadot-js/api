@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
+import { ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
 import './polyfill';
 
@@ -37,12 +37,13 @@ const l = logger('api-http');
  */
 export default class HttpProvider implements ProviderInterface {
   private coder: Coder;
+
   private endpoint: string;
 
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  constructor (endpoint: string = defaults.HTTP_URL) {
+  public constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.coder = new Coder();
@@ -52,21 +53,21 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary `true` when this provider supports subscriptions
    */
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return false;
   }
 
   /**
    * @description Returns a clone of the object
    */
-  clone (): HttpProvider {
+  public clone (): HttpProvider {
     throw new Error('Unimplemented');
   }
 
   /**
    * @description Manually disconnect from the connection
    */
-  disconnect (): void {
+  public disconnect (): void {
     // noop
   }
 
@@ -74,7 +75,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
-  isConnected (): boolean {
+  public isConnected (): boolean {
     return true;
   }
 
@@ -82,19 +83,20 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Events are not supported with the HttpProvider, see [[WsProvider]].
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
     l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
   /**
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
-  async send (method: string, params: Array<any>): Promise<any> {
+  public async send (method: string, params: any[]): Promise<any> {
     const body = this.coder.encodeJson(method, params);
     const response = await fetch(this.endpoint, {
       body,
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Length': `${body.length}`,
         'Content-Type': 'application/json'
       },
@@ -111,7 +113,8 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async subscribe (types: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
@@ -120,7 +123,8 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);

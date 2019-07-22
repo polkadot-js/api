@@ -312,31 +312,6 @@
               ]
             },
             {
-              "name": "BlockPeriod",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "Moment"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Old storage item provided for compatibility. Remove after all networks upgraded."
-              ]
-            },
-            {
-              "name": "MinimumPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Moment"
-              },
-              "fallback": "0x0300000000000000",
-              "documentation": [
-                " The minimum period between blocks. Beware that this is different to the *expected* period",
-                " that the block production apparatus provides. Your chosen consensus system will generally",
-                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
-                " period on default settings."
-              ]
-            },
-            {
               "name": "DidUpdate",
               "modifier": "Default",
               "type": {
@@ -360,17 +335,30 @@
               "documentation": [
                 " Set the current time.",
                 "",
-                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
-                " if this call hasn't been invoked by that time.",
+                " This call should be invoked exactly once per block. It will panic at the finalization",
+                " phase, if this call hasn't been invoked by that time.",
                 "",
-                " The timestamp should be greater than the previous one by the amount specified by `minimum_period`.",
+                " The timestamp should be greater than the previous one by the amount specified by",
+                " `MinimumPeriod`.",
                 "",
                 " The dispatch origin for this call must be `Inherent`."
               ]
             }
           ],
           "events": null,
-          "constants": []
+          "constants": [
+            {
+              "name": "MinimumPeriod",
+              "type": "Moment",
+              "value": "0x0300000000000000",
+              "documentation": [
+                " The minimum period between blocks. Beware that this is different to the *expected* period",
+                " that the block production apparatus provides. Your chosen consensus system will generally",
+                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
+                " period on default settings."
+              ]
+            }
+          ]
         },
         {
           "name": "authorship",
@@ -3836,6 +3824,14 @@
               "documentation": [
                 " The maximum nesting level of a call/create stack. A reasonable default",
                 " value is 100."
+              ]
+            },
+            {
+              "name": "MaxValueSize",
+              "type": "u32",
+              "value": "0x00400000",
+              "documentation": [
+                " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
               ]
             },
             {

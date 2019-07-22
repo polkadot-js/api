@@ -6,7 +6,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
-import { EMPTY } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
@@ -120,7 +120,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+  public static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -143,27 +143,27 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
+  public constructor (options?: ApiOptions | ProviderInterface) {
     super(options, 'promise');
 
-    this._isReadyPromise = new Promise((resolveReady) =>
-      super.once('ready', () =>
-        resolveReady(this)
-      )
-    );
+    this._isReadyPromise = new Promise((resolve): void => {
+      super.once('ready', (): void => {
+        resolve(this);
+      });
+    });
   }
 
   /**
    * @description Promise that returns the first time we are connected and loaded
    */
-  get isReady (): Promise<ApiPromise> {
+  public get isReady (): Promise<ApiPromise> {
     return this._isReadyPromise;
   }
 
   /**
    * @description Returns a clone of this ApiPromise instance (new underlying provider connection)
    */
-  clone (): ApiPromise {
+  public clone (): ApiPromise {
     return new ApiPromise({
       ...this._options,
       source: this
@@ -190,7 +190,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubscribePromise {
+  public async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -201,9 +201,9 @@ export default class ApiPromise extends ApiBase<'promise'> {
   protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
-    return function (...args: any[]) {
+    return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
       let callback: Callback<Codec> | undefined;
-      let actualArgs = args.slice();
+      const actualArgs = args.slice();
 
       // If the last arg is a function, we pop it, put it into callback.
       // actualArgs will then hold the actual arguments to be passed to `method`
@@ -221,12 +221,12 @@ export default class ApiPromise extends ApiBase<'promise'> {
       // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
       // when I remove it...
       // tslint:disable-next-line
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject): void => {
         let isCompleted = false;
         const subscription = method(...actualArgs)
           .pipe(
             // if we find an error (invalid params, etc), reject the promise
-            catchError((error) => {
+            catchError((error): Observable<never> => {
               if (!isCompleted) {
                 isCompleted = true;
 
@@ -237,11 +237,11 @@ export default class ApiPromise extends ApiBase<'promise'> {
               return EMPTY;
             }),
             // upon the first result, resolve the with the unsub function
-            tap(() => {
+            tap((): void => {
               if (!isCompleted) {
                 isCompleted = true;
 
-                resolve(() => subscription.unsubscribe());
+                resolve((): void => subscription.unsubscribe());
               }
             })
           )

@@ -12,11 +12,11 @@ import rpcDataV6 from '@polkadot/types/Metadata/v6/static';
 import Metadata from '../Metadata';
 import StorageKey from './StorageKey';
 
-describe('StorageKey', () => {
-  describe('with MetadataV3 (uses xxHash by default)', () => {
+describe('StorageKey', (): void => {
+  describe('with MetadataV3 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV3));
 
-    it(`should correctly get Alice's freeBalance storage key (hex)`, () => {
+    it(`should correctly get Alice's freeBalance storage key (hex)`, (): void => {
       expect(
         new StorageKey(
           storage
@@ -27,7 +27,7 @@ describe('StorageKey', () => {
       ).toBe('0xc99f5446efa57788f39ab529311f4550'); // FIXME OK this should be length-prefixed in reality
     });
 
-    it(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
+    it(`should correctly get Alice's freeBalance storage key (u8a)`, (): void => {
       expect(
         new StorageKey(
           storage
@@ -42,10 +42,10 @@ describe('StorageKey', () => {
     });
   });
 
-  describe('with MetadataV4 (uses xxHash by default)', () => {
+  describe('with MetadataV4 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV4));
 
-    it(`should correctly get Alice's freeBalance storage key (hex)`, () => {
+    it(`should correctly get Alice's freeBalance storage key (hex)`, (): void => {
       expect(
         new StorageKey(
           storage
@@ -56,12 +56,12 @@ describe('StorageKey', () => {
       ).toBe('0x7f864e18e3dd8b58386310d2fe0919eef27c6e558564b7f67f22d99d20f587bb');
     });
 
-    it(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
+    it(`should correctly get Alice's freeBalance storage key (u8a)`, (): void => {
       expect(
         new StorageKey(
           storage
-          .balances
-          .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
+            .balances
+            .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
         )
           .toU8a()
       ).toEqual(
@@ -72,63 +72,7 @@ describe('StorageKey', () => {
       );
     });
 
-    it(`should correctly get the EventTopics double map storage key (hex)`, () => {
-      expect(
-        new StorageKey([
-          storage
-          .system
-          .eventTopics,
-          ['any', [1, 2, 3]]
-        ])
-          .toHex()
-      ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
-    });
-
-    it(`should correctly get the EventTopics double map storage key (u8a)`, () => {
-      expect(
-        new StorageKey([
-          storage
-          .system
-          .eventTopics,
-          ['any', [1, 2, 3]]
-        ])
-          .toU8a()
-      ).toEqual(Uint8Array.from([1, 1, 48, 7, 201, 255, 112, 39, 246, 89, 0, 171, 205, 252, 164, 253, 177, 7, 234, 212, 126, 42, 158, 53, 88, 224, 27, 105, 27, 15, 74, 95, 133, 24, 212, 135, 50, 102, 20, 240, 102, 65, 99, 8, 191, 106, 164, 229, 4, 29, 25, 73, 146, 142, 75, 38, 237, 233, 142, 60, 235, 179, 106, 59, 23, 38]));
-    });
-  });
-
-  describe('with MetadataV5', () => {
-    const storage = fromMetadata(new Metadata(rpcDataV5));
-
-    it(`should correctly get the EventTopics double map storage key (hex)`, () => {
-      expect(
-        new StorageKey([
-          storage
-          .system
-          .eventTopics,
-          ['any', [1, 2, 3]]
-        ])
-          .toHex()
-      ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
-    });
-
-    it(`should correctly get the EventTopics double map storage key (u8a)`, () => {
-      expect(
-        new StorageKey([
-          storage
-          .system
-          .eventTopics,
-          ['any', [1, 2, 3]]
-        ])
-          .toU8a()
-      ).toEqual(Uint8Array.from([1, 1, 48, 7, 201, 255, 112, 39, 246, 89, 0, 171, 205, 252, 164, 253, 177, 7, 234, 212, 126, 42, 158, 53, 88, 224, 27, 105, 27, 15, 74, 95, 133, 24, 212, 135, 50, 102, 20, 240, 102, 65, 99, 8, 191, 106, 164, 229, 4, 29, 25, 73, 146, 142, 75, 38, 237, 233, 142, 60, 235, 179, 106, 59, 23, 38]));
-    });
-  });
-
-  describe('with MetadataV6', () => {
-    const storage = fromMetadata(new Metadata(rpcDataV6));
-
-    it(`should correctly get the EventTopics double map storage key (hex)`, () => {
+    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
       expect(
         new StorageKey([
           storage
@@ -140,7 +84,63 @@ describe('StorageKey', () => {
       ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
     });
 
-    it(`should correctly get the EventTopics double map storage key (u8a)`, () => {
+    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+      expect(
+        new StorageKey([
+          storage
+            .system
+            .eventTopics,
+          ['any', [1, 2, 3]]
+        ])
+          .toU8a()
+      ).toEqual(Uint8Array.from([1, 1, 48, 7, 201, 255, 112, 39, 246, 89, 0, 171, 205, 252, 164, 253, 177, 7, 234, 212, 126, 42, 158, 53, 88, 224, 27, 105, 27, 15, 74, 95, 133, 24, 212, 135, 50, 102, 20, 240, 102, 65, 99, 8, 191, 106, 164, 229, 4, 29, 25, 73, 146, 142, 75, 38, 237, 233, 142, 60, 235, 179, 106, 59, 23, 38]));
+    });
+  });
+
+  describe('with MetadataV5', (): void => {
+    const storage = fromMetadata(new Metadata(rpcDataV5));
+
+    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+      expect(
+        new StorageKey([
+          storage
+            .system
+            .eventTopics,
+          ['any', [1, 2, 3]]
+        ])
+          .toHex()
+      ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
+    });
+
+    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+      expect(
+        new StorageKey([
+          storage
+            .system
+            .eventTopics,
+          ['any', [1, 2, 3]]
+        ])
+          .toU8a()
+      ).toEqual(Uint8Array.from([1, 1, 48, 7, 201, 255, 112, 39, 246, 89, 0, 171, 205, 252, 164, 253, 177, 7, 234, 212, 126, 42, 158, 53, 88, 224, 27, 105, 27, 15, 74, 95, 133, 24, 212, 135, 50, 102, 20, 240, 102, 65, 99, 8, 191, 106, 164, 229, 4, 29, 25, 73, 146, 142, 75, 38, 237, 233, 142, 60, 235, 179, 106, 59, 23, 38]));
+    });
+  });
+
+  describe('with MetadataV6', (): void => {
+    const storage = fromMetadata(new Metadata(rpcDataV6));
+
+    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+      expect(
+        new StorageKey([
+          storage
+            .system
+            .eventTopics,
+          ['any', [1, 2, 3]]
+        ])
+          .toHex()
+      ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
+    });
+
+    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
       expect(
         new StorageKey([
           storage

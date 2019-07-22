@@ -17,14 +17,14 @@ import U8aFixed from '../codec/U8aFixed';
  * just a Uint8Array wrapper with a fixed length.
  */
 export default class AccountId extends U8aFixed {
-  constructor (value: AnyU8a = new Uint8Array()) {
+  public constructor (value: AnyU8a = new Uint8Array()) {
     super(
       AccountId.decodeAccountId(value),
       256
     );
   }
 
-  static encode (value: Uint8Array): string {
+  public static encode (value: Uint8Array): string {
     return encodeAddress(value);
   }
 
@@ -34,7 +34,7 @@ export default class AccountId extends U8aFixed {
     } else if (isHex(value)) {
       return hexToU8a(value.toString());
     } else if (isString(value)) {
-      return decodeAddress((value as String).toString());
+      return decodeAddress((value as string).toString());
     }
 
     return value;
@@ -43,28 +43,28 @@ export default class AccountId extends U8aFixed {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return super.eq(AccountId.decodeAccountId(other));
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return AccountId.encode(this);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'AccountId';
   }
 }

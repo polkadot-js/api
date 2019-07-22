@@ -15,7 +15,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
 import Rpc from '../../src';
-import flipperAbiPre97 from '../../../api-contract/test/contracts<spec_version-97/Flipper.json';
+import flipperAbiPre97 from '../../../api-contract/test/contracts_0_96/Flipper.json';
 import flipperAbiPost97 from '../../../api-contract/test/contracts>=spec_version-97/Flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -97,7 +97,7 @@ describe('e2e state', () => {
 
       const txPath = apiPromise.tx.contracts || apiPromise.tx.contract;
 
-      const pathName: string = apiPromise.runtimeVersion.specVersion.toNumber() < 97 ? 'contracts<spec_version-97' : 'contracts>=spec_version-97';
+      const pathName: string = apiPromise.runtimeVersion.specVersion.toNumber() < 97 ? 'contracts_0_96' : 'contracts>=spec_version-97';
       const code: string = fs.readFileSync(path.join(__dirname, `../../../api-contract/test/${pathName}/flipper-pruned.wasm`)).toString('hex');
       const abi = apiPromise.runtimeVersion.specVersion.toNumber() > 97
         ? new Abi(flipperAbiPre97)

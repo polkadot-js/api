@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, Option, VestingSchedule } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
@@ -14,7 +14,7 @@ import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 
-type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, Array<BalanceLock>?, Option<VestingSchedule>?, Index?]];
+type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
 const EMPTY_ACCOUNT = new AccountId();
 const ZERO = new Balance(0);
@@ -24,10 +24,10 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
-    const totals = locks.filter((value) => bestNumber && value.until.gt(bestNumber));
+    const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     lockedBalance = totals[0]
-      ? bnMax(...totals.map(({ amount }) => amount)) as Balance
+      ? bnMax(...totals.map(({ amount }): Balance => amount)) as Balance
       : ZERO;
   }
 
@@ -54,7 +54,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
     reservedBalance,
     vestedBalance,
     votingBalance: freeBalance.add(reservedBalance)
-  } as DerivedBalances;
+  } as unknown as DerivedBalances;
 }
 
 /**
@@ -73,10 +73,10 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
  * });
  * ```
  */
-export function all (api: ApiInterface$Rx) {
+export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]) =>
+      switchMap(([accountId]): Observable<Result> =>
         (accountId
           ? combineLatest([
             of(accountId),
@@ -90,7 +90,7 @@ export function all (api: ApiInterface$Rx) {
             ])
           ])
           : of([undefined, undefined, [undefined, undefined, undefined, undefined, undefined]])
-        ) as any as Observable<Result>
+        ) as Observable<Result>
       ),
       map(calcBalances),
       drr()

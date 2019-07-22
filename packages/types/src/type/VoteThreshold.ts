@@ -10,7 +10,7 @@ import Enum from '../codec/Enum';
  * Voting threshold, used inside proposals to set change the voting tally
  */
 export default class VoteThreshold extends Enum {
-  constructor (index?: number | Uint8Array) {
+  public constructor (index?: number | Uint8Array) {
     super([
       'Super majority approval',
       'Super majority rejection',

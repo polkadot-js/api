@@ -14,21 +14,21 @@ import { EventMetadata } from '../v1/Events';
 import MetadataV1, { ModuleMetadata } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
-function toV1Calls (modul: RuntimeModuleMetadata) {
+function toV1Calls (modul: RuntimeModuleMetadata): Option<FunctionMetadata> {
   return modul.module.call.functions.length === 0
     ? new Option(Vector.with(FunctionMetadata))
     : new Option(Vector.with(FunctionMetadata), modul.module.call.functions);
 }
 
-function toV1Events (metadataV0: MetadataV0, prefix: Text) {
-  const events = metadataV0.events.find((event) => event.name.eq(prefix));
+function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadata> {
+  const events = metadataV0.events.find((event): boolean => event.name.eq(prefix));
 
   return events
     ? new Option(Vector.with(EventMetadata), events.events)
     : new Option(Vector.with(EventMetadata));
 }
 
-function toV1Storage (modul: RuntimeModuleMetadata) {
+function toV1Storage (modul: RuntimeModuleMetadata): Option<StorageFunctionMetadata> {
   return modul.storage.isNone
     ? new Option(Vector.with(StorageFunctionMetadata))
     : new Option(
@@ -42,7 +42,7 @@ function toV1Storage (modul: RuntimeModuleMetadata) {
  */
 export default function toV1 (metadataV0: MetadataV0): MetadataV1 {
   return new MetadataV1({
-    modules: metadataV0.modules.map((modul) => {
+    modules: metadataV0.modules.map((modul): ModuleMetadata => {
       // The prefix of this module (capitalized)
       const prefix = modul.storage.isSome
         ? modul.storage.unwrap().prefix.toString()

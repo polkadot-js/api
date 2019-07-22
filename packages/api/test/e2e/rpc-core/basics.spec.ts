@@ -5,29 +5,29 @@
 import { ChainProperties, PendingExtrinsics } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import Rpc from '../../src';
+import Rpc from '@polkadot/rpc-core';
 
-describe('e2e basics', () => {
+describe.skip('e2e basics', (): void => {
   let rpc: Rpc;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider((global as any).ws_local));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('retrieves the pending extrinsics', (done) => {
+  it('retrieves the pending extrinsics', (done): void => {
     rpc.author
       .pendingExtrinsics()
-      .subscribe((extrinsics: PendingExtrinsics) => {
+      .subscribe((extrinsics: PendingExtrinsics): void => {
         expect(extrinsics).toBeInstanceOf(PendingExtrinsics);
         done();
       });
   });
 
-  it('retrieves the system properties', (done) => {
+  it('retrieves the system properties', (done): void => {
     rpc.system
       .properties()
-      .subscribe((properties: ChainProperties) => {
+      .subscribe((properties: ChainProperties): void => {
         expect(properties).toBeInstanceOf(ChainProperties);
         console.log('properties', properties);
         done();

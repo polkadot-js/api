@@ -14,7 +14,7 @@ import WithdrawReasons from './WithdrawReasons';
  * The Substrate BalanceLock for staking
  */
 export default class BalanceLock extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       id: LockIdentifier,
       amount: Balance,
@@ -26,28 +26,28 @@ export default class BalanceLock extends Struct {
   /**
    * @description The amount
    */
-  get amount (): Balance {
+  public get amount (): Balance {
     return this.get('amount') as Balance;
   }
 
   /**
    * @description The lock id
    */
-  get id (): LockIdentifier {
+  public get id (): LockIdentifier {
     return this.get('id') as LockIdentifier;
   }
 
   /**
    * @description The reasons
    */
-  get reasons (): WithdrawReasons {
+  public get reasons (): WithdrawReasons {
     return this.get('reasons') as WithdrawReasons;
   }
 
   /**
    * @description Until when this is available
    */
-  get until (): BlockNumber {
+  public get until (): BlockNumber {
     return this.get('until') as BlockNumber;
   }
 }

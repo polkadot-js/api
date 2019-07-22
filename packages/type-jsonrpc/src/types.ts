@@ -6,43 +6,41 @@ import { CodecTypes } from '@polkadot/types/classes';
 
 type PubSub = [string, string, string];
 
-export type RpcParam = {
-  isOptional: boolean,
-  name: string,
-  type: CodecTypes
-};
+export interface RpcParam {
+  isOptional: boolean;
+  name: string;
+  type: CodecTypes;
+}
 
-export type RpcMethodOpt = {
-  description: string,
-  isDeprecated?: boolean,
-  isHidden?: boolean,
-  isSigned?: boolean,
-  isSubscription?: boolean,
-  params: Array<RpcParam>,
-  pubsub?: PubSub,
-  type: CodecTypes
-};
+export interface RpcMethodOpt {
+  description: string;
+  isDeprecated?: boolean;
+  isHidden?: boolean;
+  isSigned?: boolean;
+  isSubscription?: boolean;
+  params: RpcParam[];
+  pubsub?: PubSub;
+  type: CodecTypes;
+}
 
-export type RpcMethod = {
-  alias?: string,
-  description: string,
-  isDeprecated: boolean,
-  isHidden: boolean,
-  isSigned: boolean,
-  isSubscription: boolean,
-  method: string,
-  params: Array<RpcParam>,
-  pubsub: PubSub,
-  section: string,
-  type: CodecTypes
-};
+export interface RpcMethod {
+  alias?: string;
+  description: string;
+  isDeprecated: boolean;
+  isHidden: boolean;
+  isSigned: boolean;
+  isSubscription: boolean;
+  method: string;
+  params: RpcParam[];
+  pubsub: PubSub;
+  section: string;
+  type: CodecTypes;
+}
 
-export type RpcSection = {
-  isDeprecated: boolean,
-  isHidden: boolean,
-  description: string,
-  section: string,
-  methods: {
-    [index: string]: RpcMethod
-  }
-};
+export interface RpcSection {
+  isDeprecated: boolean;
+  isHidden: boolean;
+  description: string;
+  section: string;
+  methods: Record<string, RpcMethod>;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Required imports
 const { zip } = require('rxjs');
 const { ApiRx } = require('@polkadot/api');
@@ -16,9 +17,7 @@ function main () {
     api.rpc.system.chain(),
     api.rpc.system.name(),
     api.rpc.system.version()
-  )
-  // Then we subscribe to the result
-  .subscribe(([chain, nodeName, nodeVersion]) => {
+  ).subscribe(([chain, nodeName, nodeVersion]) => {
     console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
   });
 }

@@ -423,14 +423,8 @@ ___
 
 ### timestamp
 
-▸ **blockPeriod**(): `Option<Moment>`
-- **summary**:   Old storage item provided for compatibility. Remove after all networks upgraded.
-
 ▸ **didUpdate**(): `bool`
 - **summary**:   Did the timestamp get updated in this block?
-
-▸ **minimumPeriod**(): `Moment`
-- **summary**:   The minimum period between blocks. Beware that this is different to the *expected* period  that the block production apparatus provides. Your chosen consensus system will generally  work with this to determine a sensible block time. e.g. For Aura, it will be double this  period on default settings.
 
 ▸ **now**(): `Moment`
 - **summary**:   Current time for the current block.

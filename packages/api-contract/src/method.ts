@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecArg, Constructor } from '@polkadot/types/types';
-import { ContractABIFn, ContractABIFn$Arg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
+import { ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
 
 import { Compact, createClass } from '@polkadot/types';
 import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
@@ -12,7 +12,7 @@ export function typeToString (type: ContractABITypes): string {
   if (isString(type)) {
     return type;
   } else if (Array.isArray(type)) {
-    return `(${type.map((type) => typeToString(type)).join(',')})`;
+    return `(${type.map((type): string => typeToString(type)).join(',')})`;
   } else if (type['Option<T>']) {
     return `Option<${typeToString(type['Option<T>'].T)}>`;
   } else if (type['Result<T,E>']) {
@@ -26,10 +26,10 @@ export function typeToString (type: ContractABITypes): string {
   throw new Error(`Unknown type specified ${JSON.stringify(type)}`);
 }
 
-export function createArgClass (args: Array<ContractABIFn$Arg>, baseDef: { [index: string]: string }): Constructor {
+export function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
   return createClass(
     JSON.stringify(
-      args.reduce((base: { [index: string]: string }, { name, type }) => {
+      args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
         base[name] = type;
 
         return base;
@@ -39,17 +39,17 @@ export function createArgClass (args: Array<ContractABIFn$Arg>, baseDef: { [inde
 }
 
 export function createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-  const args: Array<ContractABIFn$Arg> = method.args.map(({ name, type }) => ({
+  const args: ContractABIFnArg[] = method.args.map(({ name, type }): ContractABIFnArg => ({
     name: stringCamelCase(name),
     type: typeToString(type)
   }));
   const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
   const baseStruct: { [index: string]: any } = { __selector: method.selector };
-  const encoder = (...params: Array<CodecArg>): Uint8Array => {
+  const encoder = (...params: CodecArg[]): Uint8Array => {
     assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
     const u8a = new Clazz(
-      args.reduce((mapped, { name }, index) => {
+      args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
         mapped[name] = params[index];
 
         return mapped;

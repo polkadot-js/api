@@ -12,17 +12,24 @@ let id = 0;
 export default class SingleAccountSigner {
   private keyringPair: KeyringPair;
 
-  constructor (keyringPair: KeyringPair) {
+  private signDelay: number;
+
+  public constructor (keyringPair: KeyringPair, signDelay: number = 0) {
     this.keyringPair = keyringPair;
+    this.signDelay = signDelay;
   }
 
-  async sign (extrinsic: Extrinsic, address: string, options: SignatureOptions) {
+  public async sign (extrinsic: Extrinsic, address: string, options: SignatureOptions): Promise<number> {
     if (!this.keyringPair || String(address) !== this.keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 
-    extrinsic.sign(this.keyringPair, options);
+    return new Promise((resolve): void => {
+      setTimeout((): void => {
+        extrinsic.sign(this.keyringPair, options);
 
-    return ++id;
+        resolve(++id);
+      }, this.signDelay);
+    });
   }
 }

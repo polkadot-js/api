@@ -14,7 +14,7 @@ import IndividualExposure from './IndividualExposure';
  * A snapshot of the stake backing a single validator in the system
  */
 export default class Exposure extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       total: Compact.with(Balance),
       own: Compact.with(Balance),
@@ -25,21 +25,21 @@ export default class Exposure extends Struct {
   /**
    * @description The validator's own stash that is exposed
    */
-  get own (): Balance {
+  public get own (): Balance {
     return (this.get('own') as Compact).toBn() as Balance;
   }
 
   /**
    * @description The total balance backing this validator
    */
-  get total (): Balance {
+  public get total (): Balance {
     return (this.get('total') as Compact).toBn() as Balance;
   }
 
   /**
    * @description The portions of nominators stashes that are exposed
    */
-  get others (): Vector<IndividualExposure> {
+  public get others (): Vector<IndividualExposure> {
     return this.get('others') as Vector<IndividualExposure>;
   }
 }

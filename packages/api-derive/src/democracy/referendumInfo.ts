@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, ReferendumInfo } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
@@ -25,15 +25,14 @@ export function constructInfo (index: BN | number, optionInfo?: Option<Referendu
   );
 }
 
-export function referendumInfo (api: ApiInterface$Rx) {
+export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<Option<ReferendumInfoExtended>> {
   return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
     return (api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index))
       .pipe(
-        map((optionInfo) =>
+        map((optionInfo): Option<ReferendumInfoExtended> =>
           constructInfo(index, optionInfo)
         ),
         drr()
       );
   };
-
 }

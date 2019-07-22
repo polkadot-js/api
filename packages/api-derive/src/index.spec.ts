@@ -8,29 +8,31 @@ import MockProvider from '@polkadot/rpc-provider/mock';
 
 import { Derive } from '.';
 
-const testFunction = (api: ApiRx) => {
+const testFunction = (api: ApiRx): any => {
   return <
     Section extends keyof Derive,
     Method extends keyof (typeof api.derive[Section])
-  >(section: Section, method: Method, inputs: any[]) => {
-    describe(`derive.${section}.${method}`, () => {
-      it('should be a function', () => {
+  >(section: Section, method: Method, inputs: any[]): void => {
+    describe(`derive.${section}.${method}`, (): void => {
+      it('should be a function', (): void => {
         expect(typeof api.derive[section][method]).toBe('function');
       });
 
-      it('should return an Observable', () => {
+      it('should return an Observable', (): void => {
         expect((api.derive[section][method] as any)(...inputs)).toBeInstanceOf(Observable);
       });
     });
   };
 };
 
-describe('derive', () => {
-  describe('builtin', () => {
+// https://github.com/polkadot-js/api/pull/1066#issuecomment-509142048
+// https://github.com/polkadot-js/api/issues/1064
+describe.skip('derive', (): void => {
+  describe('builtin', (): void => {
     const api = new ApiRx(new MockProvider());
 
-    beforeAll((done) => {
-      api.isReady.subscribe(() => done());
+    beforeAll((done): void => {
+      api.isReady.subscribe((): void => done());
     });
 
     testFunction(api)('accounts', 'idAndIndex', []);
@@ -46,9 +48,6 @@ describe('derive', () => {
 
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
-    testFunction(api)('chain', 'bestNumberLag', []);
-    testFunction(api)('chain', 'getHeader', []);
-    testFunction(api)('chain', 'subscribeNewHead', []);
 
     testFunction(api)('democracy', 'referendumInfos', []);
     testFunction(api)('democracy', 'referendums', []);
@@ -60,21 +59,21 @@ describe('derive', () => {
     testFunction(api)('session', 'sessionProgress', []);
   });
 
-  describe('custom', () => {
+  describe('custom', (): void => {
     const api = new ApiRx({
       derives: {
         balances: {
-          fees: () => () => from(['a', 'b'])
+          fees: (): any => (): Observable<any> => from(['a', 'b'])
         },
         custom: {
-          test: () => () => from([1, 2, 3])
+          test: (): any => (): Observable<any> => from([1, 2, 3])
         }
       },
       provider: new MockProvider()
     });
 
-    beforeAll((done) => {
-      api.isReady.subscribe(() => done());
+    beforeAll((done): void => {
+      api.isReady.subscribe((): void => done());
     });
 
     // override

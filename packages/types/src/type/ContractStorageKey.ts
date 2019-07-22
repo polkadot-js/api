@@ -12,14 +12,14 @@ import U8aFixed from '../codec/U8aFixed';
  * A [u8; 32] representing a storeage key in contracts
  */
 export default class ContractStorageKey extends U8aFixed {
-  constructor (value?: AnyU8a) {
+  public constructor (value?: AnyU8a) {
     super(value, 256);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return '[u8; 32]';
   }
 }

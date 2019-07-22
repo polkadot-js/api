@@ -12,13 +12,13 @@ import Hash from '../primitive/Hash';
 import BlockNumber from '../type/BlockNumber';
 import Digest, { DigestItem } from './Digest';
 
-export type HeaderValue = {
-  digest?: Digest | { logs: DigestItem[] },
-  extrinsicsRoot?: AnyU8a,
-  number?: AnyNumber,
-  parentHash?: AnyU8a,
-  stateRoot?: AnyU8a
-};
+export interface HeaderValue {
+  digest?: Digest | { logs: DigestItem[] };
+  extrinsicsRoot?: AnyU8a;
+  number?: AnyNumber;
+  parentHash?: AnyU8a;
+  stateRoot?: AnyU8a;
+}
 
 /**
  * @name Header
@@ -26,7 +26,7 @@ export type HeaderValue = {
  * A [[Block]] header
  */
 export default class Header extends Struct {
-  constructor (value?: HeaderValue | Uint8Array | null) {
+  public constructor (value?: HeaderValue | Uint8Array | null) {
     super({
       parentHash: Hash,
       number: Compact.with(BlockNumber),
@@ -39,28 +39,28 @@ export default class Header extends Struct {
   /**
    * @description The wrapped [[BlockNumber]]
    */
-  get blockNumber (): BlockNumber {
+  public get blockNumber (): BlockNumber {
     return (this.get('number') as Compact).toBn() as BlockNumber;
   }
 
   /**
    * @description The wrapped [[Digest]]
    */
-  get digest (): Digest {
+  public get digest (): Digest {
     return this.get('digest') as Digest;
   }
 
   /**
    * @description The wrapped extrisics root as a [[Hash]]
    */
-  get extrinsicsRoot (): Hash {
+  public get extrinsicsRoot (): Hash {
     return this.get('extrinsicsRoot') as Hash;
   }
 
   /**
    * @description Convenience method, encodes the header and calculates the [[Hash]]
    */
-  get hash (): Hash {
+  public get hash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
@@ -69,21 +69,21 @@ export default class Header extends Struct {
   /**
    * @description Alias for `blockNumber` (this is displayed in JSON)
    */
-  get number (): BlockNumber {
+  public get number (): BlockNumber {
     return this.blockNumber;
   }
 
   /**
    * @description The wrapped parent as a [[Hash]]
    */
-  get parentHash (): Hash {
+  public get parentHash (): Hash {
     return this.get('parentHash') as Hash;
   }
 
   /**
    * @description The wrapped state root as a [[Hash]]
    */
-  get stateRoot (): Hash {
+  public get stateRoot (): Hash {
     return this.get('stateRoot') as Hash;
   }
 }

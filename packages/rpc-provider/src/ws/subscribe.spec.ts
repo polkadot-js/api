@@ -12,24 +12,24 @@ declare var global: Global;
 let ws: WsProvider;
 let mock: Mock;
 
-function createMock (requests: Array<any>) {
+function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect: boolean = true) {
+function createWs (autoConnect: boolean = true): WsProvider {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;
 }
 
-describe('subscribe', () => {
+describe('subscribe', (): void => {
   let globalWs: Constructor<WebSocket>;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     globalWs = global.WebSocket;
   });
 
-  afterEach(() => {
+  afterEach((): void => {
     global.WebSocket = globalWs;
 
     if (mock) {
@@ -37,7 +37,7 @@ describe('subscribe', () => {
     }
   });
 
-  it('adds subscriptions', () => {
+  it('adds subscriptions', (): Promise<void> => {
     createMock([{
       id: 1,
       method: 'test_sub',
@@ -47,8 +47,10 @@ describe('subscribe', () => {
     }]);
 
     return createWs(true)
-      .subscribe('type', 'test_sub', [], (cb) => { expect(cb).toEqual(expect.anything()); })
-      .then((id) => {
+      .subscribe('type', 'test_sub', [], (cb): void => {
+        expect(cb).toEqual(expect.anything());
+      })
+      .then((id): void => {
         expect(id).toEqual(1);
       });
   });

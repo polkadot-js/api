@@ -12,6 +12,8 @@ The API wrappers provide a standard interface for use -
   - [Storage chain state (runtime node interface)](../METHODS_STORAGE.md)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
   - [Extrinsics (runtime node interface)](../METHODS_EXTRINSICS.md)
+- `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
+  - [Constants (runtime node interface)](../METHODS_CONSTANTS.md)
 
 ## API Selection
 

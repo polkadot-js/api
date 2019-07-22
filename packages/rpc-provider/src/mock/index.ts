@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
-import { MockState$Subscriptions, MockState$Subscription$Callback, MockState$Db } from './types';
+import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
+import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
@@ -18,13 +19,13 @@ import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
-  [], Object.values(interfaces).map((area) =>
+  [], Object.values(interfaces).map((area): string[] =>
     Object
       .values(area.methods)
-      .filter((method) =>
+      .filter((method): boolean =>
         method.isSubscription
       )
-      .map(({ method, section }) =>
+      .map(({ method, section }): string =>
         `${section}_${method}`
       )
   )
@@ -38,60 +39,65 @@ const l = logger('api-mock');
  * @return {ProviderInterface} The mock provider
  */
 export default class Mock implements ProviderInterface {
-  private db: MockState$Db = {};
+  private db: MockStateDb = {};
+
   private emitter = new EventEmitter();
+
   public isUpdating: boolean = true;
-  private requests: { [index: string]: (...params: any[]) => string } = {
-    'chain_getBlockHash': (blockNumber: number): string => '0x1234',
-    'chain_getRuntimeVersion': (): string => new RuntimeVersion().toHex(),
-    'state_getStorage': (storage: MockState$Db, params: Array<any>): string => {
+
+  private requests: Record<string, (...params: any[]) => string> = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    chain_getBlockHash: (blockNumber: number): string => '0x1234',
+    chain_getRuntimeVersion: (): string => new RuntimeVersion().toHex(),
+    state_getStorage: (storage: MockStateDb, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]
       );
     },
-    'system_chain': (): string => 'mockChain',
-    'state_getMetadata': (): string => rpcMetadataV6,
-    'system_name': (): string => 'mockClient',
-    'system_version': (): string => '9.8.7'
+    system_chain: (): string => 'mockChain',
+    state_getMetadata: (): string => rpcMetadataV6,
+    system_name: (): string => 'mockClient',
+    system_version: (): string => '9.8.7'
   };
-  public subscriptions: MockState$Subscriptions = SUBSCRIPTIONS.reduce((subs, name) => {
+
+  public subscriptions: MockStateSubscriptions = SUBSCRIPTIONS.reduce((subs, name): MockStateSubscriptions => {
     subs[name] = {
       callbacks: {},
       lastValue: null
     };
 
     return subs;
-  }, ({} as MockState$Subscriptions));
-  private subscriptionId: number = 0;
-  private subscriptionMap: {
-    [index: number]: string
-  } = {};
+  }, ({} as unknown as MockStateSubscriptions));
 
-  constructor () {
+  private subscriptionId: number = 0;
+
+  private subscriptionMap: Record<number, string> = {};
+
+  public constructor () {
     this.init();
   }
 
-  get hasSubscriptions (): boolean {
+  public get hasSubscriptions (): boolean {
     return true;
   }
 
-  clone (): Mock {
+  public clone (): Mock {
     throw new Error('Unimplemented');
   }
 
-  disconnect (): void {
+  public disconnect (): void {
     // noop
   }
 
-  isConnected (): boolean {
+  public isConnected (): boolean {
     return true;
   }
 
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
     this.emitter.on(type, sub);
   }
 
-  async send (method: string, params: Array<any>): Promise<any> {
+  public async send (method: string, params: any[]): Promise<any> {
     if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
     }
@@ -99,11 +105,11 @@ export default class Mock implements ProviderInterface {
     return this.requests[method](this.db, params);
   }
 
-  async subscribe (type: string, method: string, ...params: Array<any>): Promise<number> {
-    l.debug(() => ['subscribe', method, params]);
+  public async subscribe (type: string, method: string, ...params: any[]): Promise<number> {
+    l.debug((): any => ['subscribe', method, params]);
 
     if (this.subscriptions[method]) {
-      const callback: MockState$Subscription$Callback = params.pop();
+      const callback: MockStateSubscriptionCallback = params.pop();
       const id = ++this.subscriptionId;
 
       this.subscriptions[method].callbacks[id] = callback;
@@ -119,10 +125,10 @@ export default class Mock implements ProviderInterface {
     throw new Error(`provider.subscribe: Invalid method '${method}'`);
   }
 
-  async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 
-    l.debug(() => ['unsubscribe', id, sub]);
+    l.debug((): any => ['unsubscribe', id, sub]);
 
     if (!sub) {
       throw new Error(`Unable to find subscription for ${id}`);
@@ -134,14 +140,14 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  private init () {
-    const emitEvents: Array<ProviderInterface$Emitted> = ['connected', 'disconnected'];
+  private init (): void {
+    const emitEvents: ProviderInterfaceEmitted[] = ['connected', 'disconnected'];
     let emitIndex = 0;
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;
 
     // Do something every 1 seconds
-    setInterval(() => {
+    setInterval((): void => {
       if (!this.isUpdating) {
         return;
       }
@@ -150,7 +156,7 @@ export default class Mock implements ProviderInterface {
       newHead = this.makeBlockHeader(newHead.blockNumber.toBn());
 
       // increment the balances and nonce for each account
-      keyring.getPairs().forEach(({ publicKey }, index) => {
+      keyring.getPairs().forEach(({ publicKey }, index): void => {
         this.setStateBn(storage.balances.freeBalance(publicKey), newHead.blockNumber.muln(3).iaddn(index));
         this.setStateBn(storage.system.accountNonce(publicKey), newHead.blockNumber.addn(index));
       });
@@ -190,12 +196,12 @@ export default class Mock implements ProviderInterface {
     this.db[u8aToHex(key)] = bnToU8a(value, 64, true);
   }
 
-  private updateSubs (method: string, value: Codec) {
+  private updateSubs (method: string, value: Codec): void {
     this.subscriptions[method].lastValue = value;
 
     Object
       .values(this.subscriptions[method].callbacks)
-      .forEach((cb) => {
+      .forEach((cb): void => {
         try {
           cb(null, value.toJSON());
         } catch (error) {

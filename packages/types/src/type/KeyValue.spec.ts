@@ -4,8 +4,8 @@
 
 import KeyValue, { KeyValueOption } from './KeyValue';
 
-describe('KeyValue', () => {
-  it('decodes KeyValue from u8a', () => {
+describe('KeyValue', (): void => {
+  it('decodes KeyValue from u8a', (): void => {
     expect(
       new KeyValue(
         Uint8Array.from([
@@ -18,7 +18,7 @@ describe('KeyValue', () => {
     ).toEqual(['0x11223344', '0x998877665544332211']);
   });
 
-  it('encodes KeyValue from JSON', () => {
+  it('encodes KeyValue from JSON', (): void => {
     expect(
       new KeyValue(['0x11223344', '0x998877665544332211']).toU8a()
     ).toEqual(
@@ -31,7 +31,7 @@ describe('KeyValue', () => {
     );
   });
 
-  it('exposes the properties for key/value', () => {
+  it('exposes the properties for key/value', (): void => {
     const kv = new KeyValue(['0x11223344', '0x998877665544332211']);
 
     expect(kv.key.toHex()).toEqual('0x11223344');
@@ -39,8 +39,8 @@ describe('KeyValue', () => {
   });
 });
 
-describe('KeyValueOption', () => {
-  it('exposes the properties for key/value', () => {
+describe('KeyValueOption', (): void => {
+  it('exposes the properties for key/value', (): void => {
     const kv = new KeyValueOption([
       '0x11223344'
     ]);

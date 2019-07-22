@@ -10,28 +10,20 @@ export interface Global extends NodeJS.Global {
   fetch: GlobalFetch;
 }
 
-export type Mock = {
-  body: Object,
-  requests: Number,
-  server: Server
-  done: () => {}
-};
+export interface Mock {
+  body: Record<string, any>;
+  requests: number;
+  server: Server;
+  done: () => {};
+}
 
-export type MockState$Subscription$Callback = (error: Error | null, value: any) => void;
+export type MockStateSubscriptionCallback = (error: Error | null, value: any) => void;
 
-export type MockState$Subscriptions = {
-  [index: string]: {
-    callbacks: {
-      [index: number]: MockState$Subscription$Callback
-    },
-    lastValue: any
-  }
-};
+export type MockStateSubscriptions = Record<string, {
+  callbacks: Record<number, MockStateSubscriptionCallback>;
+  lastValue: any;
+}>;
 
-export type MockState$Db = {
-  [index: string]: Uint8Array
-};
+export type MockStateDb = Record<string, Uint8Array>;
 
-export type MockState$Requests = {
-  [index: string]: (db: MockState$Db, params: Array<any>) => string
-};
+export type MockStateRequests = Record<string, (db: MockStateDb, params: any[]) => string>;

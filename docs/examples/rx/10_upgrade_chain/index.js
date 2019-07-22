@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API & Provider and some utility functions
-const { ApiRx, WsPovider } = require('@polkadot/api');
+const { ApiRx, WsProvider } = require('@polkadot/api');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 const fs = require('fs');

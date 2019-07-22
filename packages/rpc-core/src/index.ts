@@ -4,15 +4,15 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
-import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
+import { AnyJson, Codec } from '@polkadot/types/types';
+import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 
 import memoize from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
-import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
+import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -50,18 +50,23 @@ const EMPTY_META = {
  */
 export default class Rpc implements RpcInterface {
   private _storageCache = new Map<string, Option<StorageData>>();
-  readonly provider: ProviderInterface;
-  readonly author: RpcInterface$Section;
-  readonly chain: RpcInterface$Section;
-  readonly state: RpcInterface$Section;
-  readonly system: RpcInterface$Section;
+
+  public readonly provider: ProviderInterface;
+
+  public readonly author: RpcInterfaceSection;
+
+  public readonly chain: RpcInterfaceSection;
+
+  public readonly state: RpcInterfaceSection;
+
+  public readonly system: RpcInterfaceSection;
 
   /**
    * @constructor
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface) {
+  public constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this.provider = provider;
@@ -87,8 +92,8 @@ export default class Rpc implements RpcInterface {
    * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
    * ```
    */
-  static signature ({ method, params, type }: RpcMethod): string {
-    const inputs = params.map(({ name, type }) =>
+  public static signature ({ method, params, type }: RpcMethod): string {
+    const inputs = params.map(({ name, type }): string =>
       `${name}: ${type}`
     ).join(', ');
 
@@ -98,19 +103,18 @@ export default class Rpc implements RpcInterface {
   /**
    * @description Manually disconnect from the attached provider
    */
-  disconnect (): void {
+  public disconnect (): void {
     this.provider.disconnect();
   }
 
-  private createErrorMessage (method: RpcMethod, error: Error) {
+  private createErrorMessage (method: RpcMethod, error: Error): string {
     return `${Rpc.signature(method)}:: ${error.message}`;
   }
 
-  private createInterface ({ methods }: RpcSection): RpcInterface$Section {
+  private createInterface ({ methods }: RpcSection): RpcInterfaceSection {
     return Object
       .keys(methods)
-      .reduce((exposed, methodName) => {
-
+      .reduce((exposed, methodName): RpcInterfaceSection => {
         const def = methods[methodName];
 
         exposed[methodName] = def.isSubscription
@@ -118,13 +122,13 @@ export default class Rpc implements RpcInterface {
           : this.createMethodSend(def);
 
         return exposed;
-      }, {} as RpcInterface$Section);
+      }, {} as unknown as RpcInterfaceSection);
   }
 
-  private createMethodSend (method: RpcMethod): RpcInterface$Method {
+  private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
     const rpcName = `${method.section}_${method.method}`;
 
-    const call = (...values: Array<any>): Observable<any> => {
+    const call = (...values: any[]): Observable<any> => {
       // TODO Warn on deprecated methods
 
       // Here, logically, it should be `of(this.formatInputs(method, values))`.
@@ -135,15 +139,15 @@ export default class Rpc implements RpcInterface {
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1)
         .pipe(
-          map(() => this.formatInputs(method, values)),
-          switchMap((params) =>
+          map((): Codec[] => this.formatInputs(method, values)),
+          switchMap((params): Observable<[Codec[], any]> =>
             combineLatest([
               of(params),
-              from(this.provider.send(rpcName, params.map((param) => param.toJSON())))
+              from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
             ])
           ),
-          map(([params, result]) => this.formatOutput(method, params, result)),
-          catchError((error) => {
+          map(([params, result]): any => this.formatOutput(method, params, result)),
+          catchError((error): any => {
             const message = this.createErrorMessage(method, error);
 
             l.error(message);
@@ -158,23 +162,31 @@ export default class Rpc implements RpcInterface {
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
     // `getStorage('123')` returns the current value, but this value can change
     // over time, so we wouldn't want to cache the Observable.
-    return call as RpcInterface$Method;
+    return call as RpcInterfaceMethod;
   }
 
-  private createMethodSubscribe (method: RpcMethod): RpcInterface$Method {
+  private createMethodSubscribe (method: RpcMethod): RpcInterfaceMethod {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
 
-    const call = (...values: Array<any>): Observable<any> => {
-      return new Observable((observer: Observer<any>) => {
-        let subscriptionPromise: Promise<number>;
+    const call = (...values: any[]): Observable<any> => {
+      return new Observable((observer: Observer<any>): VoidCallback => {
+        let subscriptionPromise: Promise<number | void>;
+
+        const errorHandler = (error: Error): void => {
+          const message = this.createErrorMessage(method, error);
+
+          l.error(message);
+
+          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+        };
 
         try {
           const params = this.formatInputs(method, values);
-          const paramsJson = params.map((param) => param.toJSON());
-          const update = (error?: Error, result?: any) => {
+          const paramsJson = params.map((param): AnyJson => param.toJSON());
+          const update = (error?: Error, result?: any): void => {
             if (error) {
               l.error(this.createErrorMessage(method, error));
               return;
@@ -183,17 +195,15 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider.subscribe(subType, subName, paramsJson, update);
+          subscriptionPromise = this.provider
+            .subscribe(subType, subName, paramsJson, update)
+            .catch(errorHandler);
         } catch (error) {
-          const message = this.createErrorMessage(method, error);
-
-          l.error(message);
-
-          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+          errorHandler(error);
         }
 
         // Teardown logic
-        return () => {
+        return (): void => {
           // Delete from cache
           // Reason:
           // ```
@@ -203,11 +213,17 @@ export default class Rpc implements RpcInterface {
           //    api.query.system.accountNonce(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
           //    // that's because all our observables are replay(1)
           // ```
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           memoized.delete(...values);
+
           // Unsubscribe from provider
-          subscriptionPromise
-            .then((subscriptionId) => this.provider.unsubscribe(subType, unsubName, subscriptionId))
-            .catch((error: Error) => {
+          subscriptionPromise && subscriptionPromise
+            .then((subscriptionId): Promise<boolean> =>
+              isNumber(subscriptionId)
+                ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
+                : Promise.resolve(false)
+            )
+            .catch((error: Error): void => {
               const message = this.createErrorMessage(method, error);
 
               l.error(message);
@@ -231,20 +247,20 @@ export default class Rpc implements RpcInterface {
     return memoized;
   }
 
-  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
-    const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
+  private formatInputs (method: RpcMethod, inputs: any[]): Codec[] {
+    const reqArgCount = method.params.filter(({ isOptional }): boolean => !isOptional).length;
     const optText = reqArgCount === method.params.length
       ? ''
       : ` (${method.params.length - reqArgCount} optional)`;
 
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
-    return inputs.map((input, index) =>
+    return inputs.map((input, index): Codec =>
       createType(method.params[index].type, input)
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
+  private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
@@ -263,7 +279,7 @@ export default class Rpc implements RpcInterface {
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey) => {
+      return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
         try {
           results.push(this.formatStorageSet(key, base as StorageChangeSet));
         } catch (error) {
@@ -273,7 +289,7 @@ export default class Rpc implements RpcInterface {
         }
 
         return results;
-      }, [] as Array<Codec | undefined>);
+      }, [] as (Codec | undefined)[]);
     }
 
     return base;
@@ -305,7 +321,7 @@ export default class Rpc implements RpcInterface {
 
     // see if we have a result value for this specific key, fallback to the cache value
     // when the value in the set is not available, or is null/empty.
-    const { value } = base.changes.find(({ key, value }) =>
+    const { value } = base.changes.find(({ key, value }): boolean =>
       value.isSome && key.toHex() === hexKey
     ) || { value: this._storageCache.get(hexKey) || new Option<StorageData>(StorageData, null) };
 

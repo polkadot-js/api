@@ -4,51 +4,51 @@
 
 import Mock from './';
 
-describe('subscribe', () => {
+describe('subscribe', (): void => {
   let mock: Mock;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     mock = new Mock();
   });
 
-  it('fails on unknown methods', () => {
+  it('fails on unknown methods', (): Promise<number | void> => {
     return mock
       .subscribe('test', 'test_notFound')
-      .catch((error) => {
+      .catch((error): void => {
         expect(error.message).toMatch(/Invalid method 'test_notFound'/);
       });
   });
 
-  it('returns a subscription id', () => {
+  it('returns a subscription id', (): Promise<void> => {
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', () => void 0)
-      .then((id) => {
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => void 0)
+      .then((id): void => {
         expect(id).toEqual(1);
       });
   });
 
-  it('calls back with the last known value', (done) => {
+  it('calls back with the last known value', (done): Promise<number> => {
     mock.isUpdating = false;
     mock.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
 
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string) => {
+    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
       expect(value).toEqual('testValue');
       done();
     });
   });
 
-  it('calls back with new headers', (done) => {
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any) => {
+  it('calls back with new headers', (done): Promise<number> => {
+    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any): void => {
       if (header.number === 4) {
         done();
       }
     });
   });
 
-  it('handles errors withing callbacks gracefully', (done) => {
-    let hasThrown: boolean = false;
+  it('handles errors withing callbacks gracefully', (done): Promise<number> => {
+    let hasThrown = false;
 
-    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any) => {
+    return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any): void => {
       if (!hasThrown) {
         hasThrown = true;
 
