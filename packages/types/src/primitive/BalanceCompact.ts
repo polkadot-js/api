@@ -6,7 +6,7 @@ import Compact from '../codec/Compact';
 import Balance from './Balance';
 
 /**
- * @name Nonce
+ * @name BalanceCompact
  * @description
  * The Compact<Balance> or number of transactions sent by a specific account. Generally used
  * with extrinsics to determine the order of execution.
