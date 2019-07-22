@@ -19,9 +19,6 @@ export { default as BlockNumber } from './BlockNumber';
 export { default as Conviction } from './Conviction';
 export { default as EraIndex } from './EraIndex';
 export { default as Exposure } from './Exposure';
-export { default as Extrinsic } from './Extrinsic';
-export { default as ExtrinsicEra, MortalEra, ImmortalEra } from './ExtrinsicEra';
-export { default as ExtrinsicSignature } from './ExtrinsicSignature';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as IndividualExposure } from './IndividualExposure';
@@ -47,7 +44,6 @@ export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as ReferendumInfo } from './ReferendumInfo';
 export { default as RewardDestination } from './RewardDestination';
 export { default as SeedOf } from './SeedOf';
-export { default as SignaturePayload, SignaturePayloadRaw } from './SignaturePayload';
 export { default as StakingLedger } from './StakingLedger';
 export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as UncleEntryItem } from './UncleEntryItem';

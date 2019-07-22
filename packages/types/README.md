@@ -42,6 +42,9 @@ These primitive types are available:
 | [[Data]] | A raw data structure. It is an encoding of a U8a without any length encoding |
 | [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
 | [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
+| [[Extrinsic]] | Representation of an Extrinsic in the system |
+| [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
+| [[ExtrinsicSignature]] | A container for the [[Signature]] associated with a specific [[Extrinsic]] |
 | [[H160]] | Hash containing 160 bits (20 bytes), typically used in blocks, extrinsics and as a sane default |
 | [[H256]] | Hash containing 256 bits (32 bytes), typically used in blocks, extrinsics and as a sane default |
 | [[H512]] | Hash containing 512 bits (64 bytes), typically used for signatures |
@@ -57,6 +60,7 @@ These primitive types are available:
 | [[Null]] | Implements a type that does not contain anything (apart from `null`) |
 | [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
 | [[Signature]] | The default signature that is used accross the system |
+| [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
 | [[StorageData]] | Data retrieved via Storage queries and data for key-value pairs |
 | [[StorageKey]] |  A representation of a storage key (typically hashed) in the system |
 | [[Text]] | This is a string wrapper, along with the length. |
@@ -99,10 +103,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[ContractStorageKey]] | A representation of a storage key for contracts |
 | [[EraIndex]] | A representation for the era count |
 | [[Exposure]] | A snapshot of the stake backing a single validator in the system |
-| [[Extrinsic]] | Representation of an Extrinsic in the system |
-| [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
 | [[Extrinsics]] | A [[Vector]] of [[Extrinsic]] |
-| [[ExtrinsicSignature]] | A container for the [[Signature]] associated with a specific [[Extrinsic]] |
 | [[Gas]] | A gas number type for Substrate, extending [[U64]] |
 | [[Heartbeat]] | Heartbeat which is send/received. |
 | [[IndividualExposure]] | The Substrate IndividualExposure for staking |
@@ -138,8 +139,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
 | [[SessionKeys]] | Wrapper for the session and authority ids |
 | [[SetIndex]] | Set index, implemented as a [[U32]] |
-| [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
-| [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |
 | [[StoredState]] | Current state of the GRANDPA authority set. State transitions must happen in the same order of states defined below, e.g. `Paused` implies a prior `PendingPause` |

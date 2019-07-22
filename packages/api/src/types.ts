@@ -208,6 +208,7 @@ export interface ApiOptions {
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx {
   consts: Constants;
+  extrinsicType: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
@@ -228,11 +229,76 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
+export interface SignerPayload {
+  /**
+   * @description The ss-58 encoded address
+   */
+  address: string;
+
+  /**
+   * @description The checkpoint hash of the block, in hex
+   */
+  blockHash: string;
+
+  /**
+   * @description The checkpoint block number, in hex
+   */
+  blockNumber: string;
+
+  /**
+   * @description The era for this transaction, in hex
+   */
+  era: string;
+
+  /**
+   * @description The genesis hash of the chain, in hex
+   */
+  genesisHash: string;
+
+  /**
+   * @description The encoded method (with arguments) in hex
+   */
+  method: string;
+
+  /**
+   * @description The nonce for this transaction, in hex
+   */
+  nonce: string;
+
+  /**
+   * @description The tip for this transaction, in hex
+   */
+  tip: string;
+
+  /**
+   * @description The version of the extrinsic we are dealing with
+   */
+  version: number;
+}
+
+export interface SignerResult {
+  /**
+   * @description The id for this request
+   */
+  id: number;
+
+  /**
+   * @description The resulting signature in hex
+   */
+  signature: string;
+}
+
 export interface Signer {
   /**
+   * @deprecated Implement and use signPayload instead
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: IExtrinsic, address: string, options: SignerOptions): Promise<number>;
+  sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
+
+  /**
+   * @description signs an extrinsic payload from a serialized form
+   */
+  signPayload (payload: SignerPayload): Promise<SignerResult>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

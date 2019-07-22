@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
-import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
+import ApiBase from './Base';
+import SignerPayload from './SignerPayload';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
@@ -44,10 +45,14 @@ interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber;
+  tip?: AnyNumber;
 }
 
-// pick a default - in the case of 4s blocktimes, this translates to 60 seconds
-const ONE_MINUTE = 15;
+// The default for 6s allowing for 5min eras. When translating this to faster blocks -
+//   - 4s = (10 / 15) * 5 = 3.33m
+//   - 2s = (10 / 30) * 5 = 1.66m
+const BLOCKTIME = 6;
+const ONE_MINUTE = 60 / BLOCKTIME;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 function isKeyringPair (account: string | IKeyringPair | AccountId | Address): account is IKeyringPair {
@@ -107,7 +112,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
-  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<ApiType>;
+  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic, { version: api.extrinsicType }) as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | ISubmittableResult): void {
@@ -257,14 +262,39 @@ export default function createSubmittableExtrinsic<ApiType> (
               mergeMap(async ([nonce, header]): Promise<void> => {
                 const eraOptions = expandEraOptions(options, { header, nonce });
 
+                // FIXME This is becoming real messy with all the options - way past
+                // "a method should fit on a single screen" stage. (Probably want to
+                // clean this when we remove `api.signer.sign` in the next beta cycle)
                 if (isKeyringPair(account)) {
                   this.sign(account, eraOptions);
                 } else if (api.signer) {
-                  updateId = await api.signer.sign(_extrinsic, address, {
-                    ...eraOptions,
-                    blockNumber: header ? header.blockNumber : new BN(0),
-                    genesisHash: api.genesisHash
-                  });
+                  if (api.signer.signPayload) {
+                    const signPayload = new SignerPayload({
+                      ...eraOptions,
+                      address,
+                      method: _extrinsic.method,
+                      blockNumber: header ? header.blockNumber : 0,
+                      genesisHash: api.genesisHash,
+                      version: api.extrinsicType
+                    });
+                    const result = await api.signer.signPayload(signPayload.toPayload());
+
+                    // Here we explicitly call `toPayload()` again instead of working with an object
+                    // (reference) as passed to the signer. This means that we are sure that the
+                    // payload data is not modified from our inputs, but the signer
+                    _extrinsic.addSignature(address, result.signature, signPayload.toPayload());
+                    updateId = result.id;
+                  } else if (api.signer.sign) {
+                    console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
+
+                    updateId = await api.signer.sign(_extrinsic, address, {
+                      ...eraOptions,
+                      blockNumber: header ? header.blockNumber : new BN(0),
+                      genesisHash: api.genesisHash
+                    });
+                  } else {
+                    throw new Error('Invalid signer interface');
+                  }
                 } else {
                   throw new Error('no signer exists');
                 }
