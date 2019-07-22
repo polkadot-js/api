@@ -282,7 +282,6 @@ function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec 
 
       assert(
         inHex === crHex || // check that the hex matches, if matching, all-ok
-        ((inHex === '0x') && created.isEmpty) ||
         (
           (value instanceof StorageData) && // input is from storage
           (created instanceof Uint8Array) && // we are a variable-lneght structure

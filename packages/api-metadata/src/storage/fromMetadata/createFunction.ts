@@ -87,9 +87,16 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
 
   const storageFn = _storageFn as StorageEntry;
 
+  storageFn.meta = meta;
+  storageFn.method = stringLowerFirst(method);
+  storageFn.prefix = prefix;
+  storageFn.section = section;
+  storageFn.toJSON = (): any => meta.toJSON();
+
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = (): U8a => keyHash;
+
     keyFn.meta = new StorageEntryMetadata({
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
@@ -97,14 +104,11 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       fallback: new Bytes(),
       documentation: meta.documentation
     });
-    storageFn.headKey = new StorageKey(keyFn);
+    storageFn.headKey = new StorageKey(keyFn, {
+      method: storageFn.method,
+      section: storageFn.section
+    });
   }
-
-  storageFn.meta = meta;
-  storageFn.method = stringLowerFirst(method);
-  storageFn.prefix = prefix;
-  storageFn.section = section;
-  storageFn.toJSON = (): any => meta.toJSON();
 
   return storageFn;
 }
