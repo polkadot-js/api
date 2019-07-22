@@ -6,7 +6,14 @@
 // layers can re-use types from higher layers as this is being injected. The
 // injection order is critical.
 
+// session before grandpa, ImOnline
+export { default as session } from './session/definitions';
+
+// grandpa before parachains
 export { default as grandpa } from './grandpa/definitions';
+
+// remaining, alphabetical odering
 export { default as contracts } from './contracts/definitions';
+export { default as elections } from './elections/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as parachains } from './parachains/definitions';

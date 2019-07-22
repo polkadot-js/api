@@ -6,6 +6,7 @@ import createType from '../codec/createType';
 import Vector from '../codec/Vector';
 import json1 from '../json/EventRecord.001.json';
 import json3 from '../json/EventRecord.003.json';
+import { injectDefinitions } from '../srml';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
 import metadata from '../Metadata/static';
@@ -15,6 +16,8 @@ import EventRecord from './EventRecord';
 describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
+      injectDefinitions();
+
       Event.injectMetadata(
         new Metadata(metadataV0)
       );
@@ -30,6 +33,8 @@ describe('EventRecord', (): void => {
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
+      injectDefinitions();
+
       Event.injectMetadata(
         new Metadata(metadata)
       );
