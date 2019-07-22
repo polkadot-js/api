@@ -33,14 +33,6 @@ describeE2E()('Rx e2e queries', (wsUrl): void => {
     expect(api.derive).toBeDefined();
   });
 
-  it('queries state for a balance', (done): void => {
-    api.query.balances.freeBalance(keyring.alice_stash.address).subscribe((balance): void => {
-      expect(balance).toBeInstanceOf(BN);
-      expect((balance as Balance).isZero()).toBe(false);
-      done();
-    });
-  });
-
   it('makes a query at a specific block', (done): void => {
     (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
