@@ -224,7 +224,24 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic {
+    // FIXME Support for current extensions where 2 values are being passed in here, i.e.
+    //   addSignature(signer, signature, nonce, era);
+    // The above signature should be changed to the correct format in the next cycle, i.e.
+    //   payload: ExtrinsicPayloadValue | Uint8Array | string
+    let payload = args[0];
+
+    // @ts-ignore
+    if (args.length === 2) {
+      payload = {
+        // @ts-ignore
+        era: args[1] as string,
+        method: this.method.toHex(),
+        nonce: args[0] as string,
+        tip: 0
+      };
+    }
+
     this.raw.addSignature(signer, signature, payload);
 
     return this;
