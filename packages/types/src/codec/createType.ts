@@ -176,7 +176,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
 export function createClass <T extends Codec = Codec> (type: Text | string): Constructor<T> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass(
+  return getTypeClass<T>(
     getTypeDef(type)
   );
 }
@@ -192,11 +192,11 @@ export function getTypeClassMap (defs: TypeDef[]): { [index: string]: Constructo
 }
 
 // Returns the type Class for construction
-export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor): Constructor<T> {
-  const Type = getRegistry().get(value.type);
+export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor<T>): Constructor<T> {
+  const Type = getRegistry().get<T>(value.type);
 
   if (Type) {
-    return Type as unknown as Constructor<T>;
+    return Type;
   }
 
   switch (value.info) {
@@ -261,7 +261,7 @@ export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback
   }
 
   if (Fallback) {
-    return Fallback as unknown as Constructor<T>;
+    return Fallback;
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);

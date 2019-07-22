@@ -6,7 +6,7 @@ import { SetIndex } from '@polkadot/types/srml/elections/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
-import { AccountId, ClassOf, Vector, Option } from '@polkadot/types';
+import { AccountId, Vector, Option, createType } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
 import { drr } from '../util/drr';
 
@@ -36,7 +36,7 @@ export function voterSets (api: ApiInterfaceRx): () => Observable<Record<string,
             const accountId: AccountId | null = e.unwrapOr(null);
 
             if (accountId) {
-              result[accountId.toString()] = new (ClassOf<SetIndex>('SetIndex'))(setIndex);
+              result[accountId.toString()] = createType<SetIndex>('SetIndex', setIndex);
             }
           });
 
