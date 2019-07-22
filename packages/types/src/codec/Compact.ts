@@ -155,6 +155,6 @@ export default class Compact<T extends UInt | Moment> extends Base<T> implements
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
   public unwrap (): T {
-    return this.raw as unknown as T;
+    return this.raw as T;
   }
 }
