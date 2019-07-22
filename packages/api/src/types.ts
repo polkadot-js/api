@@ -251,7 +251,7 @@ export interface SignerPayload {
   era: string;
 
   /**
-   * @description The benesis hash of the chain, in hex
+   * @description The genesis hash of the chain, in hex
    */
   genesisHash: string;
 
