@@ -4,3 +4,4 @@ exclude_patterns:
 - "**/*.test.js"
 - "**/*.test.ts"
 - "docs/**/*.js"
+- "packages/types/src/srml/"
