@@ -73,7 +73,7 @@ export default abstract class ApiBase<ApiType> {
 
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  private _extrinsicVersion: number = EXTRINSIC_DEFAULT_VERSION;
+  private _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
   private _genesisHash?: Hash;
 
@@ -157,7 +157,7 @@ export default abstract class ApiBase<ApiType> {
    * @description  Returns th version of extrinsics in-use on this chain
    */
   public get extrinsicVersion (): number {
-    return this._extrinsicVersion;
+    return this._extrinsicType;
   }
 
   /**
@@ -520,7 +520,7 @@ export default abstract class ApiBase<ApiType> {
       // get unique types & validate
       this.runtimeMetadata.getUniqTypes(false);
     } else {
-      this._extrinsicVersion = this._options.source.extrinsicVersion;
+      this._extrinsicType = this._options.source.extrinsicVersion;
       this._runtimeMetadata = this._options.source.runtimeMetadata;
       this._runtimeVersion = this._options.source.runtimeVersion;
       this._genesisHash = this._options.source.genesisHash;
@@ -538,14 +538,14 @@ export default abstract class ApiBase<ApiType> {
       // detect the extrinsic version in-use based on the last block
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
-      this._extrinsicVersion = lastBlock.block.extrinsics[0].versionFormat;
+      this._extrinsicType = lastBlock.block.extrinsics[0].type;
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
     this._consts = constants;
 
-    this._rx.extrinsicVersion = this._extrinsicVersion;
+    this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);

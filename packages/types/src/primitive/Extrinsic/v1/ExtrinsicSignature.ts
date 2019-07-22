@@ -14,6 +14,10 @@ import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import SignaturePayload from './SignaturePayload';
 
+interface ExtrinsicSignatureV1Options {
+  isSigned?: boolean;
+}
+
 /**
  * @name ExtrinsicSignature
  * @description
@@ -25,7 +29,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
   //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
-  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, isSigned: boolean = false) {
+  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureV1Options = {}) {
     super({
       signer: Address,
       signature: Signature,
@@ -34,7 +38,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV1 | Uint8Array | undefined, isSigned: boolean): ExtrinsicSignatureV1 | Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV1 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV1 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof ExtrinsicSignatureV1) {

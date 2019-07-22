@@ -21,7 +21,7 @@ describe('ExtrinsicSignatureV2', (): void => {
     ]);
 
     expect(
-      new ExtrinsicSignature(u8a, true).toU8a()
+      new ExtrinsicSignature(u8a, { isSigned: true }).toU8a()
     ).toEqual(u8a);
   });
 });

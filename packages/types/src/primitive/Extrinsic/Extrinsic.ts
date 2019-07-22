@@ -22,6 +22,10 @@ import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './con
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
+interface ExtrinsicOptions {
+  version?: number;
+}
+
 /**
  * @name Extrinsic
  * @description
@@ -35,8 +39,8 @@ type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number = DEFAULT_VERSION) {
-    super(Extrinsic.decodeExtrinsic(value, extrinsicVersion));
+  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, { version }: ExtrinsicOptions = {}) {
+    super(Extrinsic.decodeExtrinsic(value, version));
   }
 
   private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 {
@@ -44,17 +48,17 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
       return value.raw;
     }
 
-    const extrinsicVersion = version & UNMASK_VERSION;
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+    const type = version & UNMASK_VERSION;
 
-    switch (extrinsicVersion) {
-      case 1: return new ExtrinsicV1(value, isSigned);
-      case 2: return new ExtrinsicV2(value, isSigned);
-      default: throw new Error(`Unsupported extrinsic version ${extrinsicVersion}`);
+    switch (type) {
+      case 1: return new ExtrinsicV1(value, { isSigned });
+      case 2: return new ExtrinsicV2(value, { isSigned });
+      default: throw new Error(`Unsupported extrinsic version ${type}`);
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, extrinsicVersion: number): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -69,11 +73,11 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
         withPrefix
           ? u8a
           : Compact.addLengthPrefix(u8a),
-        extrinsicVersion
+        version
       );
     } else if (isU8a(value)) {
       if (!value.length) {
-        return Extrinsic.newFromValue(new Uint8Array(), extrinsicVersion);
+        return Extrinsic.newFromValue(new Uint8Array(), version);
       }
 
       const [offset, length] = Compact.decodeU8a(value);
@@ -83,10 +87,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
     } else if (value instanceof Method) {
-      return Extrinsic.newFromValue({ method: value }, extrinsicVersion);
+      return Extrinsic.newFromValue({ method: value }, version);
     }
 
-    return Extrinsic.newFromValue(value, extrinsicVersion);
+    return Extrinsic.newFromValue(value, version);
   }
 
   private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {
@@ -208,17 +212,17 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description Returns the encoded version flag
+   * @description Returns the raw transaction version (not flagged with signing information)
   */
-  public get version (): number {
-    return this.versionFormat | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
+  public get type (): number {
+    return this.raw.version;
   }
 
   /**
-   * @description Returns the raw version (not flagged)
+   * @description Returns the encoded version flag
   */
-  public get versionFormat (): number {
-    return this.raw.version;
+  public get version (): number {
+    return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
   }
 
   /**

@@ -41,7 +41,7 @@ export default class SingleAccountSigner implements Signer {
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signed = new SignaturePayload(payload, payload.version).sign(this.keyringPair);
+        const signed = new SignaturePayload(payload, { version: payload.version }).sign(this.keyringPair);
         const result: SignerResult = { id: ++id, ...signed };
 
         resolve(result);

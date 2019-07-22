@@ -66,7 +66,7 @@ describe('SignerPayload', (): void => {
 
   it('can be used as a feed to SignaturePayload', (): void => {
     const signer = new SignerPayload(TEST).toPayload();
-    const payload = new SignaturePayload(signer, signer.version);
+    const payload = new SignaturePayload(signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
     expect(payload.method.toHex()).toEqual(TEST.method);

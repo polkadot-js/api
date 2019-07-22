@@ -16,6 +16,10 @@ export interface ExtrinsicValueV1 {
   signature?: ExtrinsicSignature;
 }
 
+interface ExtrinsicV1Options {
+  isSigned?: boolean;
+}
+
 const TRANSACTION_VERSION = 1;
 
 /**
@@ -24,21 +28,21 @@ const TRANSACTION_VERSION = 1;
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, isSigned?: boolean) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicV1Options = {}) {
     super({
       signature: ExtrinsicSignature,
       method: Method
     }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned?: boolean): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned: boolean = false): ExtrinsicValueV1 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV1) {
       return value;
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignature(value, isSigned);
+      const signature = new ExtrinsicSignature(value, { isSigned });
       const method = new Method(value.subarray(signature.encodedLength));
 
       return {

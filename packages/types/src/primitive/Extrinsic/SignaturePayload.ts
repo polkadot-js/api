@@ -16,6 +16,10 @@ import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePaylo
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
+interface SignaturePayloadOptions {
+  version?: number;
+}
+
 /**
  * @name SignaturePayload
  * @description
@@ -23,21 +27,21 @@ import { DEFAULT_VERSION } from './constants';
  * on the contents included
  */
 export default class SignaturePayload extends Base<SignaturePayloadV1 | SignaturePayloadV2> {
-  public constructor (value: SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, extrinsicVersion: number) {
+  public constructor (value: SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, { version }: SignaturePayloadOptions = {}) {
     super(
-      SignaturePayload.decodeSignaturePayload(value, extrinsicVersion)
+      SignaturePayload.decodeSignaturePayload(value, version)
     );
   }
 
-  public static decodeSignaturePayload (value: SignaturePayload | SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, extrinsicVersion: number = DEFAULT_VERSION): SignaturePayloadV1 | SignaturePayloadV2 {
+  public static decodeSignaturePayload (value: SignaturePayload | SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): SignaturePayloadV1 | SignaturePayloadV2 {
     if (value instanceof SignaturePayload) {
       return value.raw;
     }
 
-    switch (extrinsicVersion) {
+    switch (version) {
       case 1: return new SignaturePayloadV1(value as Uint8Array);
       case 2: return new SignaturePayloadV2(value as Uint8Array);
-      default: throw new Error(`Unsupported extrinsic version ${extrinsicVersion}`);
+      default: throw new Error(`Unsupported extrinsic version ${version}`);
     }
   }
 

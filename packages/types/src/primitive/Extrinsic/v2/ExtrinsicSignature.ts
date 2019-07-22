@@ -15,13 +15,17 @@ import SignaturePayload from './SignaturePayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
+interface ExtrinsicSignatureV2Options {
+  isSigned?: boolean;
+}
+
 /**
  * @name ExtrinsicSignature
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean = false) {
+  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureV2Options = {}) {
     super({
       signer: Address,
       signature: Signature,
@@ -29,7 +33,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean): ExtrinsicSignatureV2 | Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV2 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof ExtrinsicSignatureV2) {

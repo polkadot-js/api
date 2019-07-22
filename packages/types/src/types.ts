@@ -186,8 +186,8 @@ export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
   readonly hash: IHash;
   readonly length: number;
   readonly method: Method;
+  readonly type: number;
   readonly version: number;
-  readonly versionFormat: number;
 
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
