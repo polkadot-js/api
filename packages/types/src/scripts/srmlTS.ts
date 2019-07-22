@@ -22,7 +22,7 @@ interface TypeImports {
 
 const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
-const OUTPUT_FILE = 'index.ts';
+const OUTPUT_FILE = 'types.ts';
 
 function setImports ({ codecTypes, ownTypes, primitiveTypes, substrateTypes }: TypeImports, type: string | null, codecType: string | null): void {
   if (type && !ownTypes.includes(type)) {
