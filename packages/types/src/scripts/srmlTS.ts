@@ -22,6 +22,7 @@ interface TypeImports {
 
 const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
+const OUTPUT_FILE = 'types.ts';
 
 function setImports ({ codecTypes, ownTypes, primitiveTypes, substrateTypes }: TypeImports, type: string | null, codecType: string | null): void {
   if (type && !ownTypes.includes(type)) {
@@ -40,6 +41,21 @@ function setImports ({ codecTypes, ownTypes, primitiveTypes, substrateTypes }: T
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorUnhandled (def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
+}
+
+function tsCompact ({ name: compactName, sub }: TypeDef, imports: TypeImports): string {
+  const def = (sub as TypeDef);
+
+  setImports(imports, null, 'Compact');
+
+  switch (def.info) {
+    case TypeDefInfo.Plain:
+      setImports(imports, def.type, null);
+      return `export interface ${compactName} extends Compact<${def.type}> {}`;
+
+    default:
+      throw new Error(`Enum: ${compactName}: Unhandled type ${TypeDefInfo[def.info]}`);
+  }
 }
 
 function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string {
@@ -62,6 +78,21 @@ function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string
   return `export interface ${enumName} extends Enum {\n${keys.join('')}}`;
 }
 
+function tsOption ({ name: optionName, sub }: TypeDef, imports: TypeImports): string {
+  const def = (sub as TypeDef);
+
+  setImports(imports, null, 'Option');
+
+  switch (def.info) {
+    case TypeDefInfo.Plain:
+      setImports(imports, def.type, null);
+      return `export interface ${optionName} extends Option<${def.type}> {}`;
+
+    default:
+      throw new Error(`Enum: ${optionName}: Unhandled type ${TypeDefInfo[def.info]}`);
+  }
+}
+
 function tsPlain ({ name: plainName, type }: TypeDef, imports: TypeImports): string {
   setImports(imports, type, null);
 
@@ -69,12 +100,28 @@ function tsPlain ({ name: plainName, type }: TypeDef, imports: TypeImports): str
 }
 
 function _tsStructGetterType (structName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): [string, string] {
+  let _type;
+
   switch (info) {
+    case TypeDefInfo.Compact:
+      _type = (sub as TypeDef).type;
+
+      setImports(imports, null, 'Compact');
+
+      return [_type, `Compact<${_type}>`];
+
+    case TypeDefInfo.Option:
+      _type = (sub as TypeDef).type;
+
+      setImports(imports, null, 'Option');
+
+      return [_type, `Option<${_type}>`];
+
     case TypeDefInfo.Plain:
       return [type, type];
 
     case TypeDefInfo.Vector:
-      const _type = (sub as TypeDef).type;
+      _type = (sub as TypeDef).type;
 
       setImports(imports, null, 'Vector');
 
@@ -123,12 +170,12 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)
   const generators = {
-    [TypeDefInfo.Compact]: errorUnhandled,
+    [TypeDefInfo.Compact]: tsCompact,
     [TypeDefInfo.DoubleMap]: errorUnhandled,
     [TypeDefInfo.Enum]: tsEnum,
     [TypeDefInfo.Linkage]: errorUnhandled,
     [TypeDefInfo.Null]: errorUnhandled,
-    [TypeDefInfo.Option]: errorUnhandled,
+    [TypeDefInfo.Option]: tsOption,
     [TypeDefInfo.Plain]: tsPlain,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
@@ -168,7 +215,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     header = header.concat(`import { ${substrateImports.join(', ')} } from '../../type';\n`);
   }
 
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat('\n').concat(sortedDefs.join('\n\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat('\n').concat(sortedDefs.join('\n\n')).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([name, obj]): void =>

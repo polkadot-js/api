@@ -24,13 +24,13 @@ export default class UnlockChunk extends Struct {
    * @description Era number at which point it'll be unlocked
    */
   public get era (): BlockNumber {
-    return (this.get('era') as Compact).toBn() as BlockNumber;
+    return (this.get('era') as Compact<Balance>).unwrap();
   }
 
   /**
    * @description Amount of funds to be unlocked
    */
   public get value (): Balance {
-    return (this.get('value') as Compact).toBn() as Balance;
+    return (this.get('value') as Compact<Balance>).unwrap();
   }
 }

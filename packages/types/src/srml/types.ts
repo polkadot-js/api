@@ -3,5 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export * from './grandpa/types';
+export * from './contracts/types';
 export * from './imOnline/types';
 export * from './parachains/types';

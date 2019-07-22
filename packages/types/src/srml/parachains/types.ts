@@ -4,7 +4,7 @@
 import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { AccountId, BalanceOf, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
-import { SessionKey } from '../../type';
+import { BlockNumber, SessionKey } from '../../type';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
@@ -78,6 +78,10 @@ export interface IncomingParachainFixed extends Struct {
   readonly codeHash: Hash;
   readonly initialHeadData: Bytes;
 }
+
+export interface LeasePeriod extends BlockNumber {}
+
+export interface LeasePeriodOf extends LeasePeriod {}
 
 export interface NewBidder extends Struct {
   readonly who: AccountId;

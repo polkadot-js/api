@@ -7,5 +7,6 @@
 // injection order is critical.
 
 export { default as grandpa } from './grandpa/definitions';
+export { default as contracts } from './contracts/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as parachains } from './parachains/definitions';

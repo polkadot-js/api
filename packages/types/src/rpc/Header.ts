@@ -40,7 +40,7 @@ export default class Header extends Struct {
    * @description The wrapped [[BlockNumber]]
    */
   public get blockNumber (): BlockNumber {
-    return (this.get('number') as Compact).toBn() as BlockNumber;
+    return (this.get('number') as Compact<BlockNumber>).unwrap();
   }
 
   /**

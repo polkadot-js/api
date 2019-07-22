@@ -19,6 +19,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[grandpa](#grandpa)**
 
+- **[imOnline](#imOnline)**
+
 - **[indices](#indices)**
 
 - **[session](#session)**
@@ -267,6 +269,20 @@ ___
 ▸ **stalled**(): `Option<(BlockNumber,BlockNumber)>`
 - **summary**:   `true` if we are currently stalled.
 
+▸ **state**(): `StoredState`
+- **summary**:   State of the current authority set.
+
+___
+
+
+### im_online
+
+▸ **gossipAt**(): `BlockNumber`
+
+▸ **lastNewEraStart**(): `Option<SessionIndex>`
+
+▸ **receivedHeartbeats**(): `DoubleMap<Bytes>`
+
 ___
 
 
@@ -382,7 +398,10 @@ ___
 ▸ **accountNonce**(`AccountId`): `Index`
 - **summary**:   Extrinsics nonce for accounts.
 
-▸ **allExtrinsicsWeight**(): `Option<u32>`
+▸ **allExtrinsicsLen**(): `Option<u32>`
+- **summary**:   Total length (in bytes) for all extrinsics put together, for the current block.
+
+▸ **allExtrinsicsWeight**(): `Option<Weight>`
 - **summary**:   Total weight for all extrinsics put together, for the current block.
 
 ▸ **blockHash**(`BlockNumber`): `Hash`
@@ -408,6 +427,9 @@ ___
 
 ▸ **extrinsicsRoot**(): `Hash`
 - **summary**:   Extrinsics root of the current block, also part of the block header.
+
+▸ **nextWeightMultiplier**(): `WeightMultiplier`
+- **summary**:   The next weight multiplier. This should be updated at the end of each block based on the  saturation level (weight).
 
 ▸ **number**(): `BlockNumber`
 - **summary**:   The current block number being processed. Set by `execute_block`.

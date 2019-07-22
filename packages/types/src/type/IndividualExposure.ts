@@ -24,7 +24,7 @@ export default class IndividualExposure extends Struct {
    * @description The value
    */
   public get value (): Balance {
-    return (this.get('value') as Compact).toBn() as Balance;
+    return (this.get('value') as Compact<Balance>).unwrap();
   }
 
   /**

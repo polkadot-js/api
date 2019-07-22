@@ -26,14 +26,14 @@ export default class Exposure extends Struct {
    * @description The validator's own stash that is exposed
    */
   public get own (): Balance {
-    return (this.get('own') as Compact).toBn() as Balance;
+    return (this.get('own') as Compact<Balance>).unwrap();
   }
 
   /**
    * @description The total balance backing this validator
    */
   public get total (): Balance {
-    return (this.get('total') as Compact).toBn() as Balance;
+    return (this.get('total') as Compact<Balance>).unwrap();
   }
 
   /**

@@ -7,6 +7,7 @@ import BN from 'bn.js';
 import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
 import Metadata from '@polkadot/types/Metadata';
+import { injectDefinitions } from '@polkadot/types/Metadata/util/testUtil';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
@@ -30,6 +31,8 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
     let provider: any;
 
     beforeEach((): void => {
+      injectDefinitions();
+
       provider = {
         send: jest.fn((method, [key]): Promise<any> =>
           Promise.resolve(

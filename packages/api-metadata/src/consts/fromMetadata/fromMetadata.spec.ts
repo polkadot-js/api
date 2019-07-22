@@ -4,8 +4,11 @@
 
 import { Metadata, BlockNumber } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v6/static';
+import { injectDefinitions } from '@polkadot/types/Metadata/util/testUtil';
 
 import fromMetadata from '../fromMetadata';
+
+injectDefinitions();
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json);
