@@ -30,14 +30,14 @@ export default class ValidatorPrefs extends Struct {
   /**
    * @description The unstake threshold as [[U32]]
    */
-  public get unstakeThreshold (): U32 {
-    return this.get('unstakeThreshold') as U32;
+  public get unstakeThreshold (): Compact<U32> {
+    return this.get('unstakeThreshold') as Compact<U32>;
   }
 
   /**
    * @description The payment config for the validator as a [[Compact]] [[Balance]]
    */
-  public get validatorPayment (): Compact {
-    return this.get('validatorPayment') as Compact;
+  public get validatorPayment (): Compact<Balance> {
+    return this.get('validatorPayment') as Compact<Balance>;
   }
 }

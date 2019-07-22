@@ -29,7 +29,7 @@ export default class StakingLedger extends Struct {
    * @description The total amount of the stash's balance that will be at stake in any forthcoming rounds
    */
   public get active (): Balance {
-    return (this.get('active') as Compact).toBn() as BlockNumber;
+    return (this.get('active') as Compact<BlockNumber>).unwrap();
   }
 
   /**
@@ -43,7 +43,7 @@ export default class StakingLedger extends Struct {
    * @description The total amount of the stash's balance that we are currently accounting for. It's just `active` plus all the `unlocking` balances
    */
   public get total (): Balance {
-    return (this.get('total') as Compact).toBn() as Balance;
+    return (this.get('total') as Compact<Balance>).unwrap();
   }
 
   /**

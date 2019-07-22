@@ -12,7 +12,7 @@ import Method from '../../primitive/Method';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
 
-function injectDefinitions (): void {
+export function injectDefinitions (): void {
   Object.values(srmlTypes).forEach(({ types }): void =>
     getTypeRegistry().register(types)
   );

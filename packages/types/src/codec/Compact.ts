@@ -20,13 +20,13 @@ import UInt from './UInt';
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact extends Base<UInt | Moment> implements Codec {
-  public constructor (Type: Constructor<UInt | Moment>, value: Compact | AnyNumber = 0) {
-    super(Compact.decodeCompact(Type, value));
+export default class Compact<T extends UInt | Moment> extends Base<T> implements Codec {
+  public constructor (Type: Constructor<T>, value: Compact<T> | AnyNumber = 0) {
+    super(Compact.decodeCompact<T>(Type, value));
   }
 
-  public static with (Type: Constructor<UInt | Moment>): Constructor<Compact> {
-    return class extends Compact {
+  public static with<T extends UInt | Moment> (Type: Constructor<T>): Constructor<Compact<T>> {
+    return class extends Compact<T> {
       public constructor (value?: any) {
         super(Type, value);
       }
@@ -50,7 +50,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
     return value;
   }
 
-  public static decodeCompact (Type: Constructor<UInt | Moment>, value: Compact | AnyNumber): Moment | UInt {
+  public static decodeCompact<T extends UInt | Moment> (Type: Constructor<T>, value: Compact<T> | AnyNumber): Moment | UInt {
     if (value instanceof Compact) {
       return new Type(value.raw);
     } else if (isString(value)) {
@@ -154,7 +154,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
-  public unwrap (): UInt | Moment {
-    return this.raw;
+  public unwrap (): T {
+    return this.raw as T;
   }
 }

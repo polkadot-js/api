@@ -63,6 +63,8 @@ export default {
         Deploy: 'IncomingParachainDeploy'
       }
     },
+    LeasePeriod: 'BlockNumber',
+    LeasePeriodOf: 'LeasePeriod',
     ParachainDispatchOrigin: {
       _enum: [
         'Signed',
