@@ -4,10 +4,13 @@
 
 import { IKeyringPair } from '../../types';
 
+import { u8aToHex } from '@polkadot/util';
+
 import Base from '../../codec/Base';
 import U8a from '../../codec/U8a';
-import Hash from '../Hash';
 import NonceCompact from '../../type/NonceCompact';
+import BalanceCompact from '../BalanceCompact';
+import Hash from '../Hash';
 import SignaturePayloadV1, { SignaturePayloadValueV1 } from './v1/SignaturePayload';
 import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePayload';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -67,6 +70,13 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   }
 
   /**
+   * @description The [[BalanceCompact]]
+   */
+  public get tip (): BalanceCompact {
+    return (this.raw as SignaturePayloadV2).tip || new BalanceCompact(0);
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
@@ -76,9 +86,16 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public sign (signerPair: IKeyringPair): Uint8Array {
-    return this.raw.sign(signerPair);
+  public sign (signerPair: IKeyringPair): { signature: string } {
+    const signature = this.raw.sign(signerPair);
+
+    // This is extensible, so we could quite readily extend to send back extra
+    // information, such as for instance the payload, i.e. `payload: this.toHex()`
+    // For the case here we sign via the extrinsic, we ignore the return, so generally
+    // thisis applicable for external signing
+    return {
+      signature: u8aToHex(signature)
+    };
   }
 
   /**
