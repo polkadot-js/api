@@ -126,7 +126,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     const vecLen = parseInt(_vecLen.trim(), 10);
 
     // as a first round, only u8 via u8aFixed, we can add more support
-    assert(vecLen <= 256, `Only support for [Type; <length>], where length <= 256`);
+    assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
     value.info = TypeDefInfo.VectorFixed;
     value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;

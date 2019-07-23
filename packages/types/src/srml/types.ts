@@ -6,6 +6,7 @@
 export * from './session/types';
 export * from './grandpa/types';
 
+export * from './babe/types';
 export * from './contracts/types';
 export * from './elections/types';
 export * from './imOnline/types';

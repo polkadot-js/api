@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { Codec } from '@polkadot/types/types';
 
 import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
+import { Balance } from '@polkadot/types';
 import Metadata from '@polkadot/types/Metadata';
 import { injectDefinitions } from '@polkadot/types/srml';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
@@ -42,21 +43,32 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
           )
         ),
         subscribe: jest.fn((type, method, params, cb): void => {
-          // this emulates https://github.com/polkadot-js/api/issues/1051
-          params[0][0] === CONTRACT_KEY
-            ? cb(null, {
+          if (params[0][0] === CONTRACT_KEY) {
+            // this emulates https://github.com/polkadot-js/api/issues/1051
+            cb(null, {
               block: '0x2345',
               changes: [
                 [CONTRACT_KEY, OPTION_BYTES_HEX]
               ]
-            })
-            : cb(null, {
+            });
+          } else if (params[0][0] === ENC_ONE || params[0][0] === ENC_TWO) {
+            // known values for the balanaces
+            cb(null, {
               block: '0x1234',
               changes: [
                 [ENC_ONE, '0x01020000000000000000000000000000'],
                 [ENC_TWO, '0x02010000000000000000000000000000']
               ]
             });
+          } else {
+            // return empty values for all else
+            cb(null, {
+              block: '0x3456',
+              changes: [
+                [params[0][0], null]
+              ]
+            });
+          }
         })
       };
 
@@ -93,8 +105,8 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
         ]
-      ).subscribe((value: any): void => {
-        console.error(value);
+      ).subscribe((value: Balance[]): void => {
+        // console.error(value);
 
         expect(
           provider.subscribe
@@ -105,7 +117,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
           expect.anything()
         );
         expect(
-          value.map((balance: BN): number =>
+          value.map((balance): number =>
             balance.toNumber()
           )
         ).toEqual([0x0201, 0x0102]);
@@ -122,10 +134,47 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
       api.state
         .subscribeStorage([[call, '0x00']])
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .subscribe((value: any): void => {
+        .subscribe((value: Codec[]): void => {
+          expect(value).toHaveLength(1);
           // console.error(value);
 
           // expect(value.toHex()).toBe(OPTION_BYTES_HEX);
+          done();
+        });
+    });
+
+    it('handles fallbacks for linked heads (new metadata only)', (done): void => {
+      const headKey = storage.staking.validators && storage.staking.validators.headKey;
+
+      // skip for old
+      if (!headKey) {
+        return done();
+      }
+
+      api.state
+        .subscribeStorage([headKey])
+        .subscribe((value: Codec[]): void => {
+          expect(value).toHaveLength(1);
+          // console.error('head fallback', value);
+
+          done();
+        });
+    });
+
+    it('handles fallbacks for linked maps (new metadata only)', (done): void => {
+      const headKey = storage.staking.validators && storage.staking.validators.headKey;
+
+      // skip for old
+      if (!headKey) {
+        return done();
+      }
+
+      api.state
+        .subscribeStorage([[storage.staking.validators, '0x00']])
+        .subscribe((value: Codec): void => {
+          expect(value).toBeDefined();
+          // console.error('linked falklback', value);
+
           done();
         });
     });

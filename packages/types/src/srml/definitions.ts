@@ -13,6 +13,7 @@ export { default as session } from './session/definitions';
 export { default as grandpa } from './grandpa/definitions';
 
 // remaining, alphabetical odering
+export { default as babe } from './babe/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as elections } from './elections/definitions';
 export { default as imOnline } from './imOnline/definitions';

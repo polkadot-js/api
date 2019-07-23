@@ -60,7 +60,6 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       assert(!isUndefined(arg) && !isNull(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
-
       const param1Encoded = u8aConcat(key, createType(type1, arg[0]).toU8a(true));
       const param1Hashed = hasher(param1Encoded);
       const param2Hashed = key2Hasher(createType(type2, arg[1]).toU8a(true));
@@ -87,24 +86,38 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
 
   const storageFn = _storageFn as StorageEntry;
 
-  if (meta.type.isMap && meta.type.asMap.isLinked) {
-    const keyHash = new U8a(hasher(`head of ${stringKey}`));
-    const keyFn: any = (): U8a => keyHash;
-    keyFn.meta = new StorageEntryMetadata({
-      name: meta.name,
-      modifier: new StorageEntryModifier('Required'),
-      type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
-      fallback: new Bytes(),
-      documentation: meta.documentation
-    });
-    storageFn.headKey = new StorageKey(keyFn);
-  }
-
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
   storageFn.prefix = prefix;
   storageFn.section = section;
   storageFn.toJSON = (): any => meta.toJSON();
+
+  if (meta.type.isMap && meta.type.asMap.isLinked) {
+    const keyHash = new U8a(hasher(`head of ${stringKey}`));
+    const keyFn: any = (): U8a => keyHash;
+
+    // metadata with a flabbcak value using the type of the key, the normal
+    // meta fallback only applies to actual entry values, create one for head
+    keyFn.meta = new StorageEntryMetadata({
+      name: meta.name,
+      modifier: new StorageEntryModifier('Required'),
+      type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
+      fallback: new Bytes(createType(meta.type.asMap.key).toHex()),
+      documentation: meta.documentation
+    });
+
+    // here we pass the section/methos through as well - these are not on
+    // the function itself, so specify these explicitly to the constructor
+    storageFn.headKey = new StorageKey(keyFn, {
+      method: storageFn.method,
+      section: `head of ${storageFn.section}`
+    });
+
+    // adjust the fallback value - the metadata only specifies the value
+    // part, add a Linkage<Type> to the fallback aswell. The additional
+    // bytes here is a represnettaion of teh Options for next/prev
+    meta.set('fallback', new Bytes(meta.fallback.toHex().concat('0000')));
+  }
 
   return storageFn;
 }

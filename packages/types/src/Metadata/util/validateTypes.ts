@@ -4,7 +4,7 @@
 
 import { isUndefined } from '@polkadot/util';
 
-import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
+import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
@@ -22,13 +22,16 @@ export default function validateTypes (types: string[], throwError: boolean): vo
         case TypeDefInfo.Vector:
           return extractTypes([(decoded.sub as TypeDef).type]);
 
+        case TypeDefInfo.VectorFixed:
+          return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
+
         case TypeDefInfo.Tuple:
           return extractTypes(
             (decoded.sub as TypeDef[]).map((sub): string => sub.type)
           );
 
         default:
-          throw new Error('Unreachable');
+          throw new Error(`Uhandled: Unnable to create and validate type from ${type}`);
       }
     });
   };

@@ -24,6 +24,11 @@ interface Decoded {
   section?: string;
 }
 
+interface StorageKeyExtra {
+  method: string;
+  section: string;
+}
+
 /**
  * @name StorageKey
  * @description
@@ -39,15 +44,15 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]) {
+  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
     super(key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
-    this._method = method;
+    this._method = override.method || method;
     this._outputType = StorageKey.getType(value as StorageKey);
-    this._section = section;
+    this._section = override.section || section;
   }
 
   public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
