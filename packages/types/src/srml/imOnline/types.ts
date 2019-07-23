@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-// Auto-generated, do not edit
+// Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Struct, Vector } from '../../codec';
 import { Bytes } from '../../primitive';

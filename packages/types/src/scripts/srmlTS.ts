@@ -27,10 +27,12 @@ interface TypeImports {
   substrateTypes: TypeExist;
 }
 
-const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
+const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated via `yarn build:srmlTs`, do not edit\n\n';
 const FOOTER = '\n';
 const OUTPUT_FILE = 'types.ts';
 
+// Maps the types as found to the source location. This is used to generate the
+// imports in the output file, dep-duped and sorted
 function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes }: TypeImports, types: string[]): void {
   types.forEach((type): void => {
     if (ownTypes.includes(type)) {
@@ -183,6 +185,17 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
+// creates the import lines
+function createImportCode (header: string, checks: { file: string; types: string[]}[]): string {
+  return checks.reduce((result, { file, types }): string => {
+    if (types.length) {
+      result += `import { ${types.sort().join(', ')} } from '../${file}';\n`;
+    }
+
+    return result;
+  }, header) + '\n';
+}
+
 function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
@@ -216,38 +229,31 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes })];
   });
 
-  let header = HEADER;
-  const codecImports = Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple').sort();
-  const localImports = Object.keys(localTypes).filter((moduleName): boolean => Object.keys(localTypes[moduleName]).length !== 0);
-  const primitiveImports = Object.keys(primitiveTypes).filter((type): boolean => primitiveTypes[type]).sort();
-  const substrateImports = Object.keys(substrateTypes).filter((type): boolean => substrateTypes[type]).sort();
-  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition);
+  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const header = createImportCode(HEADER, [
+    {
+      file: '../types',
+      types: codecTypes['Tuple'] ? ['Codec'] : []
+    },
+    {
+      file: '../codec',
+      types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: '../primitive',
+      types: Object.keys(primitiveTypes)
+    },
+    {
+      file: '../type',
+      types: Object.keys(substrateTypes)
+    },
+    ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
+      file: `${moduleName}/types`,
+      types: Object.keys(localTypes[moduleName])
+    }))
+  ]);
 
-  if (codecTypes['Tuple']) {
-    header = header.concat(`import { Codec } from '../../types';\n`);
-  }
-
-  if (codecImports.length) {
-    header = header.concat(`import { ${codecImports.join(', ')} } from '../../codec';\n`);
-  }
-
-  if (primitiveImports.length) {
-    header = header.concat(`import { ${primitiveImports.join(', ')} } from '../../primitive';\n`);
-  }
-
-  if (substrateImports.length) {
-    header = header.concat(`import { ${substrateImports.join(', ')} } from '../../type';\n`);
-  }
-
-  if (localImports.length) {
-    header = localImports.reduce((header, moduleName): string => {
-      const types = Object.keys(localTypes[moduleName]).sort();
-
-      return header.concat(`import { ${types.join(', ')} } from '../${moduleName}/types';\n`);
-    }, header);
-  }
-
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat('\n').concat(sortedDefs.join('\n\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([srmlName, obj]): void => {
