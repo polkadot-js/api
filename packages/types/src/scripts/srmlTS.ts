@@ -20,10 +20,12 @@ interface TypeImports {
   substrateTypes: TypeExist;
 }
 
-const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated, do not edit\n\n';
+const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated via `yarn build:srmlTs`, do not edit\n\n';
 const FOOTER = '\n';
 const OUTPUT_FILE = 'types.ts';
 
+// Maps the types as found to the source location. This is used to generate the
+// imports in the output file, dep-duped and sorted
 function setImports ({ codecTypes, ownTypes, primitiveTypes, substrateTypes }: TypeImports, type: string | null, codecType: string | null): void {
   if (type && !ownTypes.includes(type)) {
     if ((primitives as any)[type]) {
@@ -38,8 +40,7 @@ function setImports ({ codecTypes, ownTypes, primitiveTypes, substrateTypes }: T
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function errorUnhandled (def: TypeDef, imports: TypeImports): string {
+function errorUnhandled (def: TypeDef): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
@@ -165,6 +166,17 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
+// creates the import lines
+function createImportCode (header: string, checks: [string, string[]][]): string {
+  return checks.reduce((result, [file, types]): string => {
+    if (types.length) {
+      result += `import { ${types.join(', ')} } from '../${file}';\n`;
+    }
+
+    return result;
+  }, header) + '\n';
+}
+
 function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
@@ -193,29 +205,15 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     return [name, generators[def.info](def, { codecTypes, ownTypes, primitiveTypes, substrateTypes })];
   });
 
-  let header = HEADER;
-  const codecImports = Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple').sort();
-  const primitiveImports = Object.keys(primitiveTypes).filter((type): boolean => primitiveTypes[type]).sort();
-  const substrateImports = Object.keys(substrateTypes).filter((type): boolean => substrateTypes[type]).sort();
-  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition);
+  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const header = createImportCode(HEADER, [
+    ['../types', codecTypes['Tuple'] ? ['Codec'] : []],
+    ['../codec', Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple').sort()],
+    ['../primitive', Object.keys(primitiveTypes).sort()],
+    ['../type', Object.keys(substrateTypes).sort()]
+  ]);
 
-  if (codecTypes['Tuple']) {
-    header = header.concat(`import { Codec } from '../../types';\n`);
-  }
-
-  if (codecImports.length) {
-    header = header.concat(`import { ${codecImports.join(', ')} } from '../../codec';\n`);
-  }
-
-  if (primitiveImports.length) {
-    header = header.concat(`import { ${primitiveImports.join(', ')} } from '../../primitive';\n`);
-  }
-
-  if (substrateImports.length) {
-    header = header.concat(`import { ${substrateImports.join(', ')} } from '../../type';\n`);
-  }
-
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat('\n').concat(sortedDefs.join('\n\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([name, obj]): void =>
