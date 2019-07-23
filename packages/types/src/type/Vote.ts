@@ -6,7 +6,6 @@ import { Conviction } from '../srml/democracy/types';
 
 import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
 
-// import Conviction from './Conviction';
 import createType from '../codec/createType';
 import U8a from '../codec/U8a';
 import Bool from '../primitive/Bool';
