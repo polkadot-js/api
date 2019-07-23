@@ -4,7 +4,13 @@
 
 export default {
   types: {
-    ApprovalFlag: 'u32',
-    SetIndex: 'u32'
+    InclusionHeight: 'BlockNumber',
+    Uncle: '(Hash, Option<AccountId>)',
+    UncleEntryItem: {
+      _enum: {
+        InclusionHeight: 'InclusionHeight',
+        Uncle: 'Uncle'
+      }
+    }
   }
 };

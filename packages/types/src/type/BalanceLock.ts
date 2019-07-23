@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { LockIdentifier } from '../srml/support/types';
+
+import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
 import Balance from '../primitive/Balance';
 import BlockNumber from './BlockNumber';
-import LockIdentifier from './LockIdentifier';
 import WithdrawReasons from './WithdrawReasons';
 
 /**
@@ -16,7 +18,7 @@ import WithdrawReasons from './WithdrawReasons';
 export default class BalanceLock extends Struct {
   public constructor (value?: any) {
     super({
-      id: LockIdentifier,
+      id: ClassOf<LockIdentifier>('LockIdentifier'),
       amount: Balance,
       until: BlockNumber,
       reasons: WithdrawReasons

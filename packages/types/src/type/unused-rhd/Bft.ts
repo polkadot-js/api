@@ -2,12 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AuthorityId } from '../../srml/consensus/types';
 
-import Tuple from '../codec/Tuple';
-import Hash from '../primitive/Hash';
-import Signature from '../primitive/Signature';
-import AuthorityId from './AuthorityId';
+import { AnyU8a } from '../../types';
+
+import Tuple from '../../codec/Tuple';
+import Hash from '../../primitive/Hash';
+import Signature from '../../primitive/Signature';
+
+// should use ClassOf here (AuthorityId)
+import AccountId from '../../primitive/AccountId';
 
 export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 
@@ -20,13 +24,13 @@ export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 export class BftAuthoritySignature extends Tuple {
   public constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
     super({
-      AuthorityId,
+      AccountId,
       Signature
     }, value);
   }
 
   /**
-   * @description The wrapped [[AuthoriyId]]
+   * @description The wrapped [[AuthorityId]]
    */
   public get authorityId (): AuthorityId {
     return this[0] as AuthorityId;

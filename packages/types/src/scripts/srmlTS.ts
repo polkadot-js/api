@@ -164,12 +164,29 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
 }
 
-function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
-  const types = (sub as TypeDef[]).map(({ type }): string => {
-    setImports(imports, ['Tuple', type]);
+function _tsTupleGetterType (tupleName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): string {
+  switch (info) {
+    case TypeDefInfo.Option:
+      setImports(imports, ['Option', (sub as TypeDef).type]);
 
-    return type;
-  });
+      return type;
+
+    case TypeDefInfo.Plain:
+      setImports(imports, [type]);
+
+      return type;
+
+    default:
+      throw new Error(`Struct: ${tupleName}: Unhandled type ${TypeDefInfo[info]}`);
+  }
+}
+
+function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
+  setImports(imports, ['Tuple']);
+
+  const types = (sub as TypeDef[]).map((typedef): string =>
+    _tsTupleGetterType(tupleName, typedef, imports)
+  );
 
   // TODO We need some way here of identifying the fields
   return `type _${tupleName} = [${types.join(', ')}];\nexport interface ${tupleName} extends Codec, _${tupleName} {}`;

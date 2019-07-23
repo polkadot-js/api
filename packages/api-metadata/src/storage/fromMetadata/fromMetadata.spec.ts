@@ -5,11 +5,15 @@
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v6/static';
+import { injectDefinitions } from '@polkadot/types/srml';
 import { u8aToHex } from '@polkadot/util';
 
 import fromMetadata from '../fromMetadata';
 
+injectDefinitions();
+
 const keyring = testingPairs({ type: 'ed25519' });
+
 // Use the pre-generated metadata
 const metadata = new Metadata(json);
 const storage = fromMetadata(metadata);

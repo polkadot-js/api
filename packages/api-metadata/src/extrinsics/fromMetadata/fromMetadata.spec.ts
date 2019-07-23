@@ -3,9 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Extrinsic, Metadata } from '@polkadot/types';
+import { injectDefinitions } from '@polkadot/types/srml';
 import json from '@polkadot/types/Metadata/v6/static';
 
 import fromV6 from '.';
+
+injectDefinitions();
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json);

@@ -2,17 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AuthorityId } from '../../srml/consensus/types';
+
+import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Hash from '../primitive/Hash';
-import U32 from '../primitive/U32';
-import AuthorityId from './AuthorityId';
+import Enum from '../../codec/Enum';
+import Struct from '../../codec/Struct';
+import Hash from '../../primitive/Hash';
+import U32 from '../../primitive/U32';
+import AccountId from '../../primitive/AccountId';
+import BlockNumber from '../BlockNumber';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
-import BlockNumber from './BlockNumber';
 
 interface BftAtReportValueSingle {
   round?: AnyNumber;
@@ -212,7 +214,7 @@ export default class MisbehaviorReport extends Struct {
     super({
       parentHash: Hash,
       parentNumber: BlockNumber,
-      target: AuthorityId,
+      target: AccountId,
       misbehavior: MisbehaviorKind
     }, value);
   }
@@ -239,7 +241,7 @@ export default class MisbehaviorReport extends Struct {
   }
 
   /**
-   * @description The [[authorityId]] the report applies to
+   * @description The [[AuthorityId]] the report applies to
    */
   public get target (): AuthorityId {
     return this.get('target') as AuthorityId;

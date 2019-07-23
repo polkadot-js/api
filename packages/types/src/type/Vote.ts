@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Conviction } from '../srml/democracy/types';
+
 import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
 
-import Conviction from './Conviction';
+// import Conviction from './Conviction';
+import createType from '../codec/createType';
 import U8a from '../codec/U8a';
 import Bool from '../primitive/Bool';
 
@@ -30,7 +33,7 @@ export default class Vote extends U8a {
     const conviction = decoded[0] & 0b01111111;
 
     this._aye = new Bool(msb);
-    this._conviction = new Conviction(conviction);
+    this._conviction = createType<Conviction>('Conviction', conviction);
   }
 
   private static decodeVote (value?: any): Uint8Array {
@@ -46,7 +49,7 @@ export default class Vote extends U8a {
         : new Uint8Array([0b0]);
     } else if (isObject(value) && !isUndefined(value.aye) && !isUndefined(value.conviction)) {
       const aye = new Bool(value.aye);
-      const convictionIndex = new Conviction(value.conviction).index;
+      const convictionIndex = createType<Conviction>('Conviction', value.conviction).index;
 
       const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 

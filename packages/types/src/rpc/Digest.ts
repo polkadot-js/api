@@ -14,7 +14,9 @@ import Hash from '../primitive/Hash';
 import Signature from '../primitive/Signature';
 import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
-import AuthorityId from '../type/AuthorityId';
+
+// Should import AuthorityId (however, move these to generated types)
+import AuthorityId from '../primitive/AccountId';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'

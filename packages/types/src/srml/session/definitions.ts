@@ -5,10 +5,6 @@
 export default {
   types: {
     SessionIndex: 'u32',
-    SessionKey: 'AuthorityId',
-    SessionKeys: {
-      ed25519: 'SessionKey'
-    },
     Keys: 'SessionKeys'
   }
 };

@@ -91,10 +91,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[Balance]] | The Substrate Balance representation as a [[U128]] |
 | [[BalanceLock]] | The Substrate BalanceLock for staking |
 | [[BalanceOf]] | The Substrate BalanceOf representation as a [[Balance]] |
-| [[BftAtReport]] | A report of a/b hash-signature pairs for a specific index |
-| [[BftAuthoritySignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
-| [[BftHashSignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
-| [[BftProposeOutOfTurn]] | A report for out-of-turn proposals |
 | [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
 | [[CodeHash]] | The default contract code hash that is used accross the system |
 | [[Conviction]] | A value denoting the strength of conviction of a vote. |

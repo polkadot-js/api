@@ -4,7 +4,13 @@
 
 export default {
   types: {
-    ApprovalFlag: 'u32',
-    SetIndex: 'u32'
+    MemberCount: 'u64',
+    ProposalIndex: 'u32',
+    Votes: {
+      index: 'ProposalIndex',
+      threshold: 'MemberCount',
+      ayes: 'Vec<AccountId>',
+      nays: 'Vec<AccountId>'
+    }
   }
 };

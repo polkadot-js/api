@@ -5,18 +5,13 @@ import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { AccountId, BalanceOf, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
 import { BlockNumber } from '../../type';
-import { SessionKey } from '../session/types';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
   readonly validityVotes: Vector<ValidityVote>;
-  readonly availabilityVotes: Vector<AvailabilityVote>;
 }
 
 export interface AuctionIndex extends u32 {}
-
-type _AvailabilityVote = [SessionKey, CollatorSignature];
-export interface AvailabilityVote extends Codec, _AvailabilityVote {}
 
 type _BalanceUpload = [AccountId, u64];
 export interface BalanceUpload extends Codec, _BalanceUpload {}
@@ -154,6 +149,8 @@ export interface UpwardMessage extends Struct {
   readonly data: Bytes;
 }
 
+export interface ValidatorIndex extends u32 {}
+
 export interface ValidityAttestation extends Enum {
   /**
    * @description 0:: None
@@ -171,7 +168,7 @@ export interface ValidityAttestation extends Enum {
   readonly asExplicit: CollatorSignature;
 }
 
-type _ValidityVote = [AccountId, ValidityAttestation];
+type _ValidityVote = [ValidatorIndex, ValidityAttestation];
 export interface ValidityVote extends Codec, _ValidityVote {}
 
 export interface WinningData extends Vector<WinningDataEntry> {}
