@@ -302,7 +302,7 @@ export default class Rpc implements RpcInterface {
     const meta = key.meta || EMPTY_META;
 
     if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, base, true);
+      return createType(type, isNull ? meta.fallback : base, true);
     } else if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
@@ -331,7 +331,7 @@ export default class Rpc implements RpcInterface {
     this._storageCache.set(hexKey, value);
 
     if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, value.unwrapOr(null), true);
+      return createType(type, value.unwrapOr(meta.fallback), true);
     } else if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
