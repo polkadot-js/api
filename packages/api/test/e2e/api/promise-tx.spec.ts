@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { u8aToHex } from '@polkadot/util';
@@ -13,7 +12,7 @@ import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
 
-// log all events for the transfare, calling done() when finalized
+// log all events for the transfers, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
   ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
@@ -112,31 +111,13 @@ describeE2E({
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const hash: Hash = await api.tx.democracy
-      .propose(api.tx.system.setCode(randomAsHex(4096)), 10000)
+      .propose(
+        api.tx.system && api.tx.system.setCode
+          ? api.tx.system.setCode(randomAsHex(4096)) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+          : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
+        , 10000)
       .signAndSend(keyring.bob_stash);
 
     expect(hash.toHex()).toHaveLength(66);
-  });
-
-  // this one is slightly difficult with the current testnet config - CantPay
-  it.skip('makes a transfer, and uses new balance to transfers to new', async (done): Promise<() => void> => {
-    const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
-
-    function doOne (cb: any): Promise<() => void> {
-      return api.tx.balances
-        .transfer(pair.address, 1234567)
-        .signAndSend(keyring.bob_stash, logEvents(cb));
-    }
-
-    function doTwo (cb: any): Promise<() => void> {
-      return api.tx.balances
-        .transfer(keyring.alice.address, 1111111)
-        .signAndSend(pair, logEvents(cb));
-    }
-
-    // return doTwo(done);
-    return doOne((): Promise<() => void> => {
-      return doTwo(done);
-    });
   });
 });

@@ -1,0 +1,26 @@
+// Copyright 2017-2019 @polkadot/api authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { EventRecord} from '@polkadot/types';
+
+import { SubmittableResult } from '../../src';
+
+// log all events for the transfers, calling done() when finalized
+export const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
+  ({ events, status }: SubmittableResult): void => {
+    console.log('Transaction status:', status.type);
+
+    if (status.isFinalized) {
+      console.log('Completed at block hash', status.value.toHex());
+      console.log('Events:');
+
+      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
+        console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+      });
+
+      if (events.length) {
+        done();
+      }
+    }
+  };
