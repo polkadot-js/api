@@ -44,29 +44,29 @@ describeE2E({
   });
 
   describe('eras', (): void => {
-    // it('makes a transfer (specified era)', async (done): Promise<void> => {
-    //   const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
-    //   const currentHeight = signedBlock.block.header.number;
-    //   const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
-    //   const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
+    it('makes a transfer (specified era)', async (done): Promise<void> => {
+      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const currentHeight = signedBlock.block.header.number;
+      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-    //   await ex.signAndSend(keyring.charlie, {
-    //     blockHash: signedBlock.block.header.hash,
-    //     era: exERA
-    //   }, logEvents(done));
-    // });
+      await ex.signAndSend(keyring.charlie, {
+        blockHash: signedBlock.block.header.hash,
+        era: exERA
+      }, logEvents(done));
+    });
 
-    // it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
-    //   const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
-    //   const currentHeight = signedBlock.block.header.number.subn(1);
-    //   const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
-    //   const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
+    it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
+      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const currentHeight = signedBlock.block.header.number.subn(1);
+      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-    //   await ex.signAndSend(keyring.charlie, {
-    //     blockHash: signedBlock.block.header.parentHash,
-    //     era: exERA
-    //   }, logEvents(done));
-    // });
+      await ex.signAndSend(keyring.charlie, {
+        blockHash: signedBlock.block.header.parentHash,
+        era: exERA
+      }, logEvents(done));
+    });
 
     it('fails on a transfer with invalid time', async (done): Promise<void> => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
@@ -98,7 +98,7 @@ describeE2E({
 
       api.setSigner(signer);
 
-      const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
+      const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
@@ -121,10 +121,10 @@ describeE2E({
       });
     });
 
-    // it('makes a transfer with custom numeric era', async (done): Promise<void> => {
-    //   await api.tx.balances
-    //     .transfer(keyring.eve.address, 12345)
-    //     .signAndSend(keyring.charlie, { era: 2 }, logEvents(done));
-    // });
+    it('makes a transfer with custom numeric era', async (done): Promise<void> => {
+      await api.tx.balances
+        .transfer(keyring.eve.address, 12345)
+        .signAndSend(keyring.charlie, { era: 2 }, logEvents(done));
+    });
   });
 });

@@ -7,22 +7,24 @@ import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
-
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
+
+import describeE2E from '../../util/describeE2E';
 
 const keyring = testingPairs({ type: 'ed25519' });
 
 // @TODO 1: All three tests below are broken, fix or find better way to test transfers.
 // @TODO 2: Move tests out of ./type-metadata to ./api folder
-describe.skip('e2e transfer', (): void => {
+describeE2E({
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
+})('Metadata e2e transfer', (wsUrl): void => {
   let api: RpcInterface;
 
   beforeAll((): void => {
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
-  });
-
-  beforeEach((): void => {
-    jest.setTimeout(30000);
+    api = new Rpc(new WsProvider(wsUrl));
   });
 
   // Error: [1002]: Inherent transactions cannot be queued.
