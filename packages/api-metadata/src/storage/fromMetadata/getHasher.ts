@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageHasher } from '@polkadot/types/primitive';
+import { u8aConcat, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
 
 type HasherInput = string | Buffer | Uint8Array;
@@ -31,7 +32,9 @@ export default function getHasher (hasher?: StorageHasher): HasherFunction {
     return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 256);
   }
 
-  // FIXME Add Twox128Concat
+  if (hasher.isTwox64Concat) {
+    return (data: HasherInput): Uint8Array => u8aConcat(xxhashAsU8a(data, 64), u8aToU8a(data));
+  }
 
   // All cases should be handled above, but if not, return Twox128 for
   // backwards-compatbility
