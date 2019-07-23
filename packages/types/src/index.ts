@@ -7,6 +7,14 @@
 
 import { assertSingletonPackage } from '@polkadot/util';
 
+// HACK Register our types before anything else - if just means that any use of
+// createType (either here, like in derive) or in users of this app, will have
+// the type available without restoring to juggling imports themselves
+//
+// This was found here in api-derive as well in apps, where `createType` was
+// used on constant definitions, but before the actual API has been injected
+import './injector';
+
 assertSingletonPackage('@polkadot/types');
 
 export * from './codec';
