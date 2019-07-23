@@ -5,11 +5,13 @@
 import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
 
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
 import { FunctionMetadata as FunctionMetadataV6, FunctionArgumentMetadata } from '../Metadata/v6/Calls';
+import Hash from './Hash';
 
 interface DecodeMethodInput {
   args: any;
@@ -202,6 +204,15 @@ export default class Method extends Struct implements IMethod {
    */
   public get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
+  }
+
+  /**
+   * @description Convenience function, encodes the Method and returns the actual hash
+   */
+  public get hash (): Hash {
+    return new Hash(
+      blake2AsU8a(this.toU8a(), 256)
+    );
   }
 
   /**
