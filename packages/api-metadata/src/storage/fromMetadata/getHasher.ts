@@ -4,6 +4,7 @@
 
 import { StorageHasher } from '@polkadot/types/primitive';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
+import { bufferToU8a, isString, stringToU8a, u8aConcat } from '@polkadot/util';
 
 type HasherInput = string | Buffer | Uint8Array;
 
@@ -31,7 +32,20 @@ export default function getHasher (hasher?: StorageHasher): HasherFunction {
     return (data: HasherInput): Uint8Array => xxhashAsU8a(data, 256);
   }
 
-  // FIXME Add Twox128Concat
+  if (hasher.isTwox64Concat) {
+    return (data: HasherInput): Uint8Array => {
+      let dataAsU8a: Uint8Array;
+      if (isString(data)) {
+        dataAsU8a = stringToU8a(data);
+      } else if (data instanceof Buffer) {
+        dataAsU8a = bufferToU8a(data);
+      } else {
+        dataAsU8a = data;
+      }
+
+      return u8aConcat(xxhashAsU8a(data, 64), dataAsU8a);
+    };
+  }
 
   // All cases should be handled above, but if not, return Twox128 for
   // backwards-compatbility
