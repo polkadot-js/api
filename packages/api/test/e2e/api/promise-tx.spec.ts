@@ -45,24 +45,24 @@ describeE2E({
   });
 
   it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .sign(keyring.dave, { nonce })
+      .sign(keyring.bob_stash, { nonce })
       .toHex();
 
     return api.tx(hex).send(logEvents(done));
   });
 
   it('invalid hex does throw a catchable exception', async (done): Promise<void> => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .sign(keyring.dave, { nonce })
+      .sign(keyring.bob_stash, { nonce })
       .toHex();
 
     // change to an invalid signature, 32 * 2 for hex
-    const sigIdx = hex.indexOf(u8aToHex(keyring.dave.publicKey).substr(2)) + 64;
+    const sigIdx = hex.indexOf(u8aToHex(keyring.bob_stash.publicKey).substr(2)) + 64;
     const mangled = hex.replace(
       hex.substr(sigIdx, 32), // first 16 bytes of sig
       hex.substr(2, 32) // replaced by first 16 bytes of tx
@@ -77,33 +77,33 @@ describeE2E({
   });
 
   it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
 
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .sign(keyring.dave, { nonce })
+      .sign(keyring.bob_stash, { nonce })
       .send(logEvents(done));
   });
 
   it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
 
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .sign(keyring.dave, { nonce })
+      .sign(keyring.bob_stash, { nonce })
       .send(logEvents(done));
   });
 
   it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));
+      .signAndSend(keyring.bob_stash, { era: 0 }, logEvents(done));
   });
 
   it('makes a transfer (no callback)', async (): Promise<void> => {
     const hash = await api.tx.balances
       .transfer(keyring.eve.address, 12345)
-      .signAndSend(keyring.dave);
+      .signAndSend(keyring.bob_stash);
 
     expect(hash.toHex()).toHaveLength(66);
   });
@@ -113,7 +113,7 @@ describeE2E({
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const hash: Hash = await api.tx.democracy
       .propose(api.tx.system.setCode(randomAsHex(4096)), 10000)
-      .signAndSend(keyring.bob);
+      .signAndSend(keyring.bob_stash);
 
     expect(hash.toHex()).toHaveLength(66);
   });
@@ -125,7 +125,7 @@ describeE2E({
     function doOne (cb: any): Promise<() => void> {
       return api.tx.balances
         .transfer(pair.address, 1234567)
-        .signAndSend(keyring.dave, logEvents(cb));
+        .signAndSend(keyring.bob_stash, logEvents(cb));
     }
 
     function doTwo (cb: any): Promise<() => void> {

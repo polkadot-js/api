@@ -45,24 +45,24 @@ describeE2E({
 
   describe('Signer injection', (): void => {
     it('makes a transfer (signAndSend via Signer)', async (done): Promise<void> => {
-      const signer = new SingleAccountSigner(keyring.charlie);
+      const signer = new SingleAccountSigner(keyring.bob_stash);
 
       api.setSigner(signer);
 
       await api.tx.balances
         .transfer(keyring.eve.address, 12345)
-        .signAndSend(keyring.charlie.address, logEvents(done));
+        .signAndSend(keyring.bob_stash.address, logEvents(done));
     });
 
     it('succeeds when waiting some blocks before submission', async (done): Promise<void> => {
       // 10 second delay
-      const signer = new SingleAccountSigner(keyring.charlie, 10000);
+      const signer = new SingleAccountSigner(keyring.bob_stash, 10000);
 
       api.setSigner(signer);
 
       await api.tx.balances
         .transfer(keyring.eve.address, 12345)
-        .signAndSend(keyring.charlie.address, logEvents(done));
+        .signAndSend(keyring.bob_stash.address, logEvents(done));
     });
 
     it('fails (signAndSend via Signer) with undefined Signer', async (): Promise<void> => {
