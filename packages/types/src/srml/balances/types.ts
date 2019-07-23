@@ -12,3 +12,8 @@ export interface BalanceLock extends Struct {
   readonly until: BlockNumber;
   readonly reasons: WithdrawReasons;
 }
+
+export interface VestingSchedule extends Struct {
+  readonly offset: Balance;
+  readonly perBlock: Balance;
+}

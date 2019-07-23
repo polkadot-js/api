@@ -99,7 +99,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[ContractStorageKey]] | A representation of a storage key for contracts |
 | [[EraIndex]] | A representation for the era count |
 | [[Exposure]] | A snapshot of the stake backing a single validator in the system |
-| [[Extrinsics]] | A [[Vector]] of [[Extrinsic]] |
 | [[Gas]] | A gas number type for Substrate, extending [[U64]] |
 | [[Heartbeat]] | Heartbeat which is send/received. |
 | [[IndividualExposure]] | The Substrate IndividualExposure for staking |
@@ -192,7 +191,6 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[NetworkState]] | Wraps the properties retrieved from the chain via the `system.network_state` RPC call |
 | [[Metadata]] | The versioned runtime metadata as a decoded structure |
 | [[PeerInfo]] | A system peer info indicator, reported back over RPC |
-| [[PendingExtrinsics]] | A list of pending [[Extrinsics]] |
 | [[RuntimeVersion]] | A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version |
 | [[SignedBlock]] | A [[Block]] that has been signed and contains a [[Justification]] |
 | [[StorageChangeSet]] | A set of storage changes. It contains the [[Block]] hash and a list of the actual changes |

@@ -7,6 +7,7 @@ export default {
     Justification: 'Bytes',
     SessionKeys: {
       ed25519: 'AccountId'
-    }
+    },
+    ValidatorId: 'AccountId'
   }
 };

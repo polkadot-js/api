@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import fs from 'fs';
-import { isString } from '@polkadot/util';
+import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as codecClasses from '../codec';
@@ -81,14 +81,15 @@ function tsCompact ({ name: compactName, sub }: TypeDef, imports: TypeImports): 
 function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(imports, ['Enum']);
 
-  const keys = (sub as TypeDef[]).map(({ info, name, type }, index): string => {
+  const keys = (sub as TypeDef[]).map(({ info, name = '', type }, index): string => {
+    const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const [enumType, asGetter] = type === 'Null'
       ? ['', '']
-      : [`(${type})`, `  readonly as${name}: ${type};\n`];
+      : [`(${type})`, `  readonly as${getter}: ${type};\n`];
 
     switch (info) {
       case TypeDefInfo.Plain:
-        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${name}: boolean;\n${asGetter}`;
+        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${getter}: boolean;\n${asGetter}`;
 
       default:
         throw new Error(`Enum: ${enumName}: Unhandled type ${TypeDefInfo[info]}`);

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties, PendingExtrinsics } from '@polkadot/types';
+import { ChainProperties, Extrinsic, Vector } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '@polkadot/rpc-core';
@@ -18,8 +18,8 @@ describe.skip('e2e basics', (): void => {
   it('retrieves the pending extrinsics', (done): void => {
     rpc.author
       .pendingExtrinsics()
-      .subscribe((extrinsics: PendingExtrinsics): void => {
-        expect(extrinsics).toBeInstanceOf(PendingExtrinsics);
+      .subscribe((extrinsics: Vector<Extrinsic>): void => {
+        expect(extrinsics).toBeInstanceOf(Vector);
         done();
       });
   });

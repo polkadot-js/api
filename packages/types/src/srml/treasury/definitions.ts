@@ -4,7 +4,7 @@
 
 export default {
   types: {
-    TresuryProposal: {
+    TreasuryProposal: {
       proposer: 'AccountId',
       value: 'Balance',
       beneficiary: 'AccountId',

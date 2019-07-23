@@ -4,7 +4,7 @@
 import { Struct } from '../../codec';
 import { AccountId, Balance } from '../../primitive';
 
-export interface TresuryProposal extends Struct {
+export interface TreasuryProposal extends Struct {
   readonly proposer: AccountId;
   readonly value: Balance;
   readonly beneficiary: AccountId;

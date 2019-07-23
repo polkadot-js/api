@@ -3,7 +3,8 @@
 
 import { Enum, Struct } from '../../codec';
 import { Method, u32 } from '../../primitive';
-import { BlockNumber, VoteThreshold } from '../../type';
+import { BlockNumber } from '../../type';
+import { VoteThreshold } from '../elections/types';
 
 export interface Conviction extends Enum {
   /**
@@ -13,23 +14,23 @@ export interface Conviction extends Enum {
   /**
    * @description 1:: Locked1x
    */
-  readonly isLocked1x: boolean;
+  readonly isLocked1X: boolean;
   /**
    * @description 2:: Locked2x
    */
-  readonly isLocked2x: boolean;
+  readonly isLocked2X: boolean;
   /**
    * @description 3:: Locked3x
    */
-  readonly isLocked3x: boolean;
+  readonly isLocked3X: boolean;
   /**
    * @description 4:: Locked4x
    */
-  readonly isLocked4x: boolean;
+  readonly isLocked4X: boolean;
   /**
    * @description 5:: Locked5x
    */
-  readonly isLocked5x: boolean;
+  readonly isLocked5X: boolean;
 }
 
 export interface PropIndex extends u32 {}

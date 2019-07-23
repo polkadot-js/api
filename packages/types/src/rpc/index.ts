@@ -16,7 +16,6 @@ export { default as Header } from './Header';
 export { default as Health } from './Health';
 export { default as NetworkState } from './NetworkState';
 export { default as PeerInfo } from './PeerInfo';
-export { default as PendingExtrinsics } from './PendingExtrinsics';
 export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as SignedBlock } from './SignedBlock';
 export { default as StorageChangeSet } from './StorageChangeSet';

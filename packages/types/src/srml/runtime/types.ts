@@ -9,3 +9,5 @@ export interface Justification extends Bytes {}
 export interface SessionKeys extends Struct {
   readonly ed25519: AccountId;
 }
+
+export interface ValidatorId extends AccountId {}

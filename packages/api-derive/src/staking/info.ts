@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Keys } from '@polkadot/types/srml/session/types';
-import { Exposure } from '@polkadot/types/srml/staking/types';
+import { Exposure, RewardDestination, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
@@ -11,7 +11,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AccountId, BlockNumber, Option, RewardDestination, StakingLedger, Tuple, ValidatorPrefs, Vector, UnlockChunk } from '@polkadot/types';
+import { AccountId, BlockNumber, Option, StakingLedger, Tuple, Vector, UnlockChunk } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 

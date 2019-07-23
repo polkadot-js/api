@@ -13,6 +13,20 @@ export default {
       total: 'Compact<Balance>',
       own: 'Compact<Balance>',
       others: 'Vec<IndividualExposure>'
+    },
+    RewardDestination: {
+      _enum: [
+        // Pay into the stash account, increasing the amount at stake accordingly.
+        'Staked',
+        // Pay into the stash account, not increasing the amount at stake.
+        'Stash',
+        // Pay into the controller account.
+        'Controller'
+      ]
+    },
+    ValidatorPrefs: {
+      unstakeThreshold: 'Compact<u32>',
+      validatorPayment: 'Compact<Balance>'
     }
   }
 };

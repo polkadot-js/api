@@ -9,6 +9,10 @@ export default {
       amount: 'Balance',
       until: 'BlockNumber',
       reasons: 'WithdrawReasons'
+    },
+    VestingSchedule: {
+      offset: 'Balance',
+      perBlock: 'Balance'
     }
   }
 };

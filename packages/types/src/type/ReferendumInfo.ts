@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal } from '../srml/democracy/types';
+import { VoteThreshold } from '../srml/elections/types';
 import { Codec } from '../types';
 
 import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
 import BlockNumber from './BlockNumber';
-import VoteThreshold from './VoteThreshold';
 
 interface ReferendumInfoValue {
   end?: BlockNumber;
@@ -27,7 +27,7 @@ export default class ReferendumInfo extends Struct {
     super({
       end: BlockNumber,
       proposal: ClassOf<Proposal>('Proposal'),
-      threshold: VoteThreshold,
+      threshold: ClassOf<VoteThreshold>('VoteThreshold'),
       delay: BlockNumber
     }, value);
   }

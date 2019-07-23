@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal } from '../srml/democracy/types';
+import { VoteThreshold } from '../srml/elections/types';
 import { CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
@@ -11,14 +12,15 @@ import { ClassOf } from '../codec/createType';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import { injectDefinitions } from '../srml';
 import BlockNumber from '../type/BlockNumber';
-import VoteThreshold from '../type/VoteThreshold';
 import Tuple from './Tuple';
 
 describe('Tuple', (): void => {
   let tuple: Tuple;
 
   beforeEach((): void => {
+    injectDefinitions();
     tuple = new Tuple(
       [Text, U32],
       ['bazzing', 69]
@@ -58,7 +60,7 @@ describe('Tuple', (): void => {
     Method.injectMethods(extrinsics);
 
     const test = new (Tuple.with([
-      BlockNumber, ClassOf<Proposal>('Proposal'), VoteThreshold
+      BlockNumber, ClassOf<Proposal>('Proposal'), ClassOf<VoteThreshold>('VoteThreshold')
     ]
     ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
@@ -73,7 +75,7 @@ describe('Tuple', (): void => {
 
   it('exposes the Types (object creation)', (): void => {
     const test = new Tuple({
-      BlockNumber, VoteThreshold
+      BlockNumber, VoteThreshold: ClassOf<VoteThreshold>('VoteThreshold')
     }, []);
 
     expect(test.Types).toEqual(['BlockNumber', 'VoteThreshold']);
