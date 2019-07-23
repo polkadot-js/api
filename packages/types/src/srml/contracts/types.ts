@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-// Auto-generated, do not edit
+// Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { Balance, Bool, Bytes, Hash, Null, u32, u64, u8 } from '../../primitive';

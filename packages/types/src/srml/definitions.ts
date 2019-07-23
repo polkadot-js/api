@@ -6,6 +6,7 @@
 // layers can re-use types from higher layers as this is being injected. The
 // injection order is critical.
 
+export { default as babe } from './babe/definitions';
 export { default as grandpa } from './grandpa/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as imOnline } from './imOnline/definitions';
