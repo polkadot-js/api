@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SessionKey, Keys } from '@polkadot/types/srml/session/types';
+
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, SessionKey, StakingLedger, Tuple, ValidatorPrefs, Vector, UnlockChunk } from '@polkadot/types';
+import { AccountId, BlockNumber, Exposure, Option, RewardDestination, StakingLedger, Tuple, ValidatorPrefs, Vector, UnlockChunk } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 

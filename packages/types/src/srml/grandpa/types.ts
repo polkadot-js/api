@@ -4,7 +4,8 @@
 import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { u64 } from '../../primitive';
-import { BlockNumber, SessionKey } from '../../type';
+import { BlockNumber } from '../../type';
+import { SessionKey } from '../session/types';
 
 export interface AuthorityWeight extends u64 {}
 

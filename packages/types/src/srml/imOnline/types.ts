@@ -3,7 +3,8 @@
 
 import { Struct, Vector } from '../../codec';
 import { Bytes } from '../../primitive';
-import { AuthorityId, BlockNumber, SessionIndex } from '../../type';
+import { AuthorityId, BlockNumber } from '../../type';
+import { SessionIndex } from '../session/types';
 
 export interface Heartbeat extends Struct {
   readonly blockNumber: BlockNumber;

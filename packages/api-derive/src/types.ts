@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SetIndex } from '@polkadot/types/srml/elections/types';
+
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;

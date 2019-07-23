@@ -24,5 +24,5 @@ export { default as U8a } from './U8a';
 export { default as UInt } from './UInt';
 
 // Type management helper functions
-export { default as createType, createClass, getTypeClass, getTypeDef, TypeDef, TypeDefInfo } from './createType';
+export { default as createType, createClass, getTypeClass, getTypeDef, ClassOf, TypeDef, TypeDefInfo } from './createType';
 export { default as getTypeRegistry } from './typeRegistry';

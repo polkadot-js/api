@@ -4,7 +4,7 @@
 
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
-import { Constructor, RegistryTypes } from '../types';
+import { Codec, Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
 
 export class TypeRegistry {
@@ -49,12 +49,12 @@ export class TypeRegistry {
     });
   }
 
-  public get (name: string): Constructor | undefined {
-    return this._registry.get(name);
+  public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
+    return this._registry.get(name) as unknown as Constructor<T>;
   }
 
-  public getOrThrow (name: string, msg?: string): Constructor {
-    const type = this.get(name);
+  public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
+    const type = this.get<T>(name);
 
     if (isUndefined(type)) {
       throw new Error(msg || `type ${name} not found`);
