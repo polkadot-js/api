@@ -4,7 +4,7 @@
 
 import { Metadata, BlockNumber } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v6/static';
-import { injectDefinitions } from '@polkadot/types/Metadata/util/testUtil';
+import { injectDefinitions } from '@polkadot/types/srml';
 
 import fromMetadata from '../fromMetadata';
 

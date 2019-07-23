@@ -2,13 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import SessionKeys from './SessionKeys';
-
-/**
- * @name Keys
- * @description
- * The session keys
- */
-
-export default class Keys extends SessionKeys {
-}
+export default {
+  types: {
+    SetIndex: 'u32'
+  }
+};
