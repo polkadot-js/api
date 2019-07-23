@@ -173,7 +173,8 @@ export default class Rpc implements RpcInterface {
 
     const call = (...values: any[]): Observable<any> => {
       return new Observable((observer: Observer<any>): VoidCallback => {
-        let subscriptionPromise: Promise<number | void>;
+        // Have at least an empty promise, as used in the unsubscribe
+        let subscriptionPromise: Promise<number | void> = Promise.resolve();
 
         const errorHandler = (error: Error): void => {
           const message = this.createErrorMessage(method, error);
@@ -195,9 +196,12 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider
-            .subscribe(subType, subName, paramsJson, update)
-            .catch(errorHandler);
+          // FIXME This is a work-around, provider.subscribe _should_ always return,
+          // however in some cases `this.provider.subscribe.catch` yields ".catch of
+          // undefined", so here we flatten via Promise.reolve (which doe sfollow)
+          subscriptionPromise = Promise.resolve(
+            this.provider.subscribe(subType, subName, paramsJson, update)
+          ).catch(errorHandler);
         } catch (error) {
           errorHandler(error);
         }
@@ -217,7 +221,7 @@ export default class Rpc implements RpcInterface {
           memoized.delete(...values);
 
           // Unsubscribe from provider
-          subscriptionPromise && subscriptionPromise
+          subscriptionPromise
             .then((subscriptionId): Promise<boolean> =>
               isNumber(subscriptionId)
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
