@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum } from '../../codec';
+import { Enum, Struct } from '../../codec';
+import { Method, u32 } from '../../primitive';
+import { BlockNumber, VoteThreshold } from '../../type';
 
 export interface Conviction extends Enum {
   /**
@@ -28,4 +30,17 @@ export interface Conviction extends Enum {
    * @description 5:: Locked5x
    */
   readonly isLocked5x: boolean;
+}
+
+export interface PropIndex extends u32 {}
+
+export interface Proposal extends Method {}
+
+export interface ReferendumIndex extends u32 {}
+
+export interface ReferendumInfo extends Struct {
+  readonly end: BlockNumber;
+  readonly proposal: Proposal;
+  readonly threshold: VoteThreshold;
+  readonly delay: BlockNumber;
 }

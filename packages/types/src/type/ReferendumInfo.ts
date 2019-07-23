@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Proposal } from '../srml/democracy/types';
 import { Codec } from '../types';
 
+import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
 import BlockNumber from './BlockNumber';
-import Proposal from './Proposal';
 import VoteThreshold from './VoteThreshold';
 
 interface ReferendumInfoValue {
@@ -25,7 +26,7 @@ export default class ReferendumInfo extends Struct {
   public constructor (value?: ReferendumInfoValue | Uint8Array | Map<string, Codec>) {
     super({
       end: BlockNumber,
-      proposal: Proposal,
+      proposal: ClassOf<Proposal>('Proposal'),
       threshold: VoteThreshold,
       delay: BlockNumber
     }, value);

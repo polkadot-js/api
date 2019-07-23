@@ -4,6 +4,7 @@
 
 export * from './authorship/types';
 export * from './babe/types';
+export * from './balances/types';
 export * from './collective/types';
 export * from './consensus/types';
 export * from './contracts/types';
@@ -17,3 +18,4 @@ export * from './runtime/types';
 export * from './session/types';
 export * from './staking/types';
 export * from './support/types';
+export * from './treasury/types';

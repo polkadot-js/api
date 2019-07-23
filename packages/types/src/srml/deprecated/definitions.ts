@@ -8,18 +8,23 @@ export default {
     NewAccountOutcome: {
       _enum: ['NoHint', 'GoodHint', 'BadHint']
     },
+
     // Metadata v1
     // :: fees
+    Amount: 'Balance',
     AssetOf: 'u32',
+
     // Metadata v3
     // :: democracy
     LockPeriods: 'i8',
+
     // Metadata v4
     // :: consensus
     InherentOfflineReport: 'Null', // this is '()' originally (we don't handle that)
     SessionKey: 'AccountId',
+
     // Metadata v5
-    // ::s session
+    // :: session
     OpaqueKey: 'Bytes'
   }
 };

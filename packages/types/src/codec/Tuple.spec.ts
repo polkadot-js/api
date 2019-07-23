@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Proposal } from '../srml/democracy/types';
+import { CodecTo } from '../types';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { CodecTo } from '../types';
+import { ClassOf } from '../codec/createType';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import BlockNumber from '../type/BlockNumber';
-import Proposal from '../type/Proposal';
 import VoteThreshold from '../type/VoteThreshold';
 import Tuple from './Tuple';
 
@@ -56,7 +58,7 @@ describe('Tuple', (): void => {
     Method.injectMethods(extrinsics);
 
     const test = new (Tuple.with([
-      BlockNumber, Proposal, VoteThreshold
+      BlockNumber, ClassOf<Proposal>('Proposal'), VoteThreshold
     ]
     ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 

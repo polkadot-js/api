@@ -19,6 +19,15 @@ export default {
         // 5x votes, locked for 16x...
         'Locked5x'
       ]
+    },
+    PropIndex: 'u32',
+    Proposal: 'Method',
+    ReferendumIndex: 'u32',
+    ReferendumInfo: {
+      end: 'BlockNumber',
+      proposal: 'Proposal',
+      threshold: 'VoteThreshold',
+      delay: 'BlockNumber'
     }
   }
 };

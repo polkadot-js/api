@@ -9,6 +9,9 @@
 // first do the deprecated types, these should be self-standing
 export { default as deprecated } from './deprecated/definitions';
 
+// support before balances (this and runtime is probably good as first items anyway)
+export { default as support } from './support/definitions';
+
 // runtime before session
 export { default as runtime } from './runtime/definitions';
 
@@ -24,6 +27,7 @@ export { default as grandpa } from './grandpa/definitions';
 // remaining, alphabetical odering
 export { default as authorship } from './authorship/definitions';
 export { default as babe } from './babe/definitions';
+export { default as balances } from './balances/definitions';
 export { default as collective } from './collective/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as democracy } from './democracy/definitions';
@@ -31,4 +35,4 @@ export { default as elections } from './elections/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as staking } from './staking/definitions';
-export { default as support } from './support/definitions';
+export { default as treasury } from './treasury/definitions';

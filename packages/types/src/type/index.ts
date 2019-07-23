@@ -8,8 +8,6 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as Amount } from './Amount';
-export { default as BalanceLock } from './BalanceLock';
 export { default as BlockNumber } from './BlockNumber';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
@@ -20,10 +18,6 @@ export { default as Index, default as Nonce } from './Nonce';
 export { default as IndexCompact } from './NonceCompact';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
-export { default as PropIndex } from './PropIndex';
-export { default as Proposal } from './Proposal';
-export { default as ReferendumIndex } from './ReferendumIndex';
-export { default as ReferendumInfo } from './ReferendumInfo';
 export { default as RewardDestination } from './RewardDestination';
 export { default as SeedOf } from './SeedOf';
 export { default as StakingLedger } from './StakingLedger';
