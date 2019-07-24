@@ -174,7 +174,7 @@ function addStorage (metadata: MetadataV7): string {
     renderAnchors += sectionLink(sectionName);
 
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.unwrap().sort(sortByName);
+    const orderedMethods = moduleMetadata.storage.unwrap().items.sort(sortByName);
 
     return orderedMethods.reduce((md, func): string => {
       const methodName = stringLowerFirst(func.name.toString());

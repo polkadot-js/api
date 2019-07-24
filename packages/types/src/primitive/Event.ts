@@ -40,7 +40,7 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadata7, section: string, method: string) {
+  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV7, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
