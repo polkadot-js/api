@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// Re-export classes that haven't changed between V5, V6 & V7
+// Re-export classes that haven't changed between V6 & V7
 export {
   FunctionArgumentMetadata,
   FunctionMetadata
-} from '../v5/Calls';
+} from '../v6/Calls';
