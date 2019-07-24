@@ -291,30 +291,96 @@
           "constants": []
         },
         {
-          "name": "Aura",
+          "name": "Babe",
           "storage": {
-            "prefix": "Aura",
+            "prefix": "Babe",
             "items": [
               {
-                "name": "LastTimestamp",
+                "name": "EpochIndex",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "Moment"
+                  "PlainType": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
-                  " The last timestamp."
+                  " Current epoch index."
                 ]
               },
               {
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "Vec<AuthorityId>"
+                  "PlainType": "Vec<(AuthorityId,BabeWeight)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The current authorities"
+                  " Current epoch authorities."
+                ]
+              },
+              {
+                "name": "EpochStartSlot",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "u64"
+                },
+                "fallback": "0x0000000000000000",
+                "documentation": [
+                  " Slot at which the current epoch started. It is possible that no",
+                  " block was authored at the given slot and the epoch change was",
+                  " signalled later than this."
+                ]
+              },
+              {
+                "name": "CurrentSlot",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "u64"
+                },
+                "fallback": "0x0000000000000000",
+                "documentation": [
+                  " Current slot number."
+                ]
+              },
+              {
+                "name": "Randomness",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "[u8;32]"
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " The epoch randomness for the *current* epoch.",
+                  "",
+                  " # Security",
+                  "",
+                  " This MUST NOT be used for gambling, as it can be influenced by a",
+                  " malicious validator in the short term. It MAY be used in many",
+                  " cryptographic protocols, however, so long as one remembers that this",
+                  " (like everything else on-chain) it is public. For example, it can be",
+                  " used where a number is needed that cannot have been chosen by an",
+                  " adversary, for purposes such as public-coin zero-knowledge proofs."
+                ]
+              },
+              {
+                "name": "NextRandomness",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "[u8;32]"
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " Next epoch randomness."
+                ]
+              },
+              {
+                "name": "UnderConstruction",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "[u8;32]"
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " Randomness under construction."
                 ]
               }
             ]
@@ -776,17 +842,6 @@
                 ]
               },
               {
-                "name": "SessionReward",
-                "modifier": "Default",
-                "type": {
-                  "PlainType": "Perbill"
-                },
-                "fallback": "0x3c000000",
-                "documentation": [
-                  " Maximum reward, per validator, that is provided per acceptable session."
-                ]
-              },
-              {
                 "name": "OfflineSlash",
                 "modifier": "Default",
                 "type": {
@@ -943,26 +998,25 @@
                 ]
               },
               {
-                "name": "CurrentSessionReward",
+                "name": "CurrentEraStart",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "BalanceOf"
+                  "PlainType": "MomentOf"
                 },
-                "fallback": "0x00000000000000000000000000000000",
+                "fallback": "0x0000000000000000",
                 "documentation": [
-                  " Maximum reward, per validator, that is provided per acceptable session."
+                  " The start of the current era."
                 ]
               },
               {
-                "name": "CurrentEraReward",
+                "name": "CurrentEraRewards",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "BalanceOf"
+                  "PlainType": "EraRewards"
                 },
-                "fallback": "0x00000000000000000000000000000000",
+                "fallback": "0x0000000000",
                 "documentation": [
-                  " The accumulated reward for the current era. Reset to zero at the beginning of the era",
-                  " and increased for every successfully finished session."
+                  " Rewards for the current era. Using indices of current elected set."
                 ]
               },
               {
