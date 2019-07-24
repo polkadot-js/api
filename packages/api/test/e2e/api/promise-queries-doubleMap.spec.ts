@@ -97,7 +97,7 @@ describeE2E({
 
   describe('session Keys', (): void => {
     it('sets a session key, retrieves the value', async (done): Promise<void> => {
-      const RAND_SESSION = encodeAddress(randomAsU8a());
+      const ed25519 = encodeAddress(randomAsU8a());
 
       async function queryKeys (): Promise<void> {
         console.error('*** query.session.nextKeys');
@@ -108,9 +108,9 @@ describeE2E({
           )
         );
 
-        console.error(result, RAND_SESSION);
+        console.error(result, ed25519);
 
-        expect(result).toEqual(JSON.stringify({ ed25519: RAND_SESSION }));
+        expect(result).toEqual(JSON.stringify({ ed25519 }));
         done();
       }
 
@@ -118,7 +118,7 @@ describeE2E({
         console.error('*** tx.session.setKeys');
 
         await api.tx.session
-          .setKeys({ ed25519: RAND_SESSION }, new Uint8Array([]))
+          .setKeys({ ed25519 }, new Uint8Array([]))
           .signAndSend(keyring.eve, (result): void => {
             if (result.isCompleted) {
               queryKeys();
