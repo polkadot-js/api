@@ -1,9 +1,9 @@
 ## Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
-- **[aura](#aura)**
-
 - **[authorship](#authorship)**
+
+- **[babe](#babe)**
 
 - **[balances](#balances)**
 
@@ -41,17 +41,6 @@ _The following sections contain Storage methods are part of the default Substrat
 ___
 
 
-### aura
-
-▸ **authorities**(): `Vec<AuthorityId>`
-- **summary**:   The current authorities
-
-▸ **lastTimestamp**(): `Moment`
-- **summary**:   The last timestamp.
-
-___
-
-
 ### authorship
 
 ▸ **author**(): `Option<AccountId>`
@@ -62,6 +51,32 @@ ___
 
 ▸ **uncles**(): `Vec<UncleEntryItem>`
 - **summary**:   Uncles
+
+___
+
+
+### babe
+
+▸ **authorities**(): `Vec<(AuthorityId,BabeWeight)>`
+- **summary**:   Current epoch authorities.
+
+▸ **currentSlot**(): `u64`
+- **summary**:   Current slot number.
+
+▸ **epochIndex**(): `u64`
+- **summary**:   Current epoch index.
+
+▸ **epochStartSlot**(): `u64`
+- **summary**:   Slot at which the current epoch started. It is possible that no  block was authored at the given slot and the epoch change was  signalled later than this.
+
+▸ **nextRandomness**(): `[u8;32]`
+- **summary**:   Next epoch randomness.
+
+▸ **randomness**(): `[u8;32]`
+- **summary**:   The epoch randomness for the *current* epoch.   # Security   This MUST NOT be used for gambling, as it can be influenced by a  malicious validator in the short term. It MAY be used in many  cryptographic protocols, however, so long as one remembers that this  (like everything else on-chain) it is public. For example, it can be  used where a number is needed that cannot have been chosen by an  adversary, for purposes such as public-coin zero-knowledge proofs.
+
+▸ **underConstruction**(): `[u8;32]`
+- **summary**:   Randomness under construction.
 
 ___
 
@@ -317,11 +332,11 @@ ___
 ▸ **currentEra**(): `EraIndex`
 - **summary**:   The current era index.
 
-▸ **currentEraReward**(): `BalanceOf`
-- **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era  and increased for every successfully finished session.
+▸ **currentEraRewards**(): `EraRewards`
+- **summary**:   Rewards for the current era. Using indices of current elected set.
 
-▸ **currentSessionReward**(): `BalanceOf`
-- **summary**:   Maximum reward, per validator, that is provided per acceptable session.
+▸ **currentEraStart**(): `MomentOf`
+- **summary**:   The start of the current era.
 
 ▸ **forceNewEra**(): `bool`
 - **summary**:   True if the next session change will be a new era regardless of index.
@@ -349,9 +364,6 @@ ___
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
 - **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how  many instances they were offline for).
-
-▸ **sessionReward**(): `Perbill`
-- **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
 ▸ **slashCount**(`AccountId`): `u32`
 - **summary**:   The number of times a given validator has been reported offline. This gets decremented  by one each era that passes.
