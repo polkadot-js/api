@@ -8,8 +8,6 @@ type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
-// f4adb4c4f708c4b753657373696f6e204e6578744b657973343a73657373696f
-// 6e3a6b65797354b75224d766c852ac60eb44e1329aec5058574ae8daf703d43bc2fbd9f33d6c
 /**
  * @name Type
  * @description
