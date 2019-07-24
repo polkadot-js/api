@@ -8,6 +8,8 @@ type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
+// f4adb4c4f708c4b753657373696f6e204e6578744b657973343a73657373696f
+// 6e3a6b65797354b75224d766c852ac60eb44e1329aec5058574ae8daf703d43bc2fbd9f33d6c
 /**
  * @name Type
  * @description
@@ -57,8 +59,8 @@ export default class Type extends Text {
       Type._alias('Compact<Index>', 'IndexCompact'),
       // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
-      // alias &[u8] -> Bytes
-      Type._alias('&\\[u8\\]', 'Bytes'),
+      // alias &[u8] -> Data (this has no length-prefix)
+      Type._alias('&\\[u8\\]', 'Data'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address'),
       // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
