@@ -139,6 +139,7 @@ export interface IMethod extends Codec {
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
+  readonly hash: IHash;
   readonly hasOrigin: boolean;
   readonly meta: FunctionMetadata;
 }

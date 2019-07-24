@@ -305,9 +305,7 @@ export default class Rpc implements RpcInterface {
     const type = key.outputType || 'Data';
     const meta = key.meta || EMPTY_META;
 
-    if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, isNull ? meta.fallback : base, true);
-    } else if (meta.modifier.isOptional) {
+    if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
         isNull ? null : createType(type, base, true)
@@ -334,9 +332,7 @@ export default class Rpc implements RpcInterface {
     // will increase memory beyond what is allowed.
     this._storageCache.set(hexKey, value);
 
-    if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, value.unwrapOr(meta.fallback), true);
-    } else if (meta.modifier.isOptional) {
+    if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
         value.isNone ? null : createType(type, value.unwrap(), true)

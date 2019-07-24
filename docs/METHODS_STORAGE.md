@@ -305,6 +305,12 @@ ___
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
+▸ **keyOwner**(): `Option<DoubleMap<ValidatorId>>`
+- **summary**:   The owner of a key. The second key is the `KeyTypeId` + the encoded key.   The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of  the trie. Having all data in the same branch should prevent slowing down other queries.
+
+▸ **nextKeys**(): `Option<DoubleMap<Keys>>`
+- **summary**:   The next session keys for a validator.   The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of  the trie. Having all data in the same branch should prevent slowing down other queries.
+
 ▸ **queuedChanged**(): `bool`
 - **summary**:   Queued keys changed.
 
