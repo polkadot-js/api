@@ -113,7 +113,7 @@ describeE2E({
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const amount = calculateAccountDeposit(api);
-    console.log(amount)
+    console.log(amount);
 
     await api.tx.democracy
       .propose(
