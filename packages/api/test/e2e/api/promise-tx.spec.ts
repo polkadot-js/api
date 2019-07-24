@@ -4,12 +4,13 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { u8aToHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { EventRecord, Hash, Index } from '@polkadot/types';
+import { compactAddLength, u8aToHex } from '@polkadot/util';
+import { EventRecord } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
+import randomAsHex262144 from '../../mock-data/randomAsHex';
 import describeE2E from '../../util/describeE2E';
 
 // log all events for the transfers, calling done() when finalized
@@ -107,17 +108,16 @@ describeE2E({
     expect(hash.toHex()).toHaveLength(66);
   });
 
-  it('makes a proposal', async (): Promise<void> => {
+  it('makes a proposal', async (done): Promise<void> => {
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
-    const hash: Hash = await api.tx.democracy
+
+    await api.tx.democracy
       .propose(
         api.tx.system && api.tx.system.setCode
-          ? api.tx.system.setCode(randomAsHex(4096)) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+          ? api.tx.system.setCode(randomAsHex262144) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
           : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
-        , 10000)
-      .signAndSend(keyring.bob_stash);
-
-    expect(hash.toHex()).toHaveLength(66);
+        , 123456789123456789)
+      .signAndSend(keyring.bob_stash, logEvents(done));
   });
 });

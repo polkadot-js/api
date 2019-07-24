@@ -14,7 +14,6 @@ import { DerivedBalances, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo,
 import describeE2E from '../../util/describeE2E';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
-const WS = 'ws://127.0.0.1:9944/';
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
@@ -22,7 +21,7 @@ describeE2E({
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(WS));
+    api = await ApiPromise.create(new WsProvider(wsUrl));
     done();
   });
 
