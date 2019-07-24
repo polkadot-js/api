@@ -7,7 +7,7 @@ import { EventRecord} from '@polkadot/types';
 import { SubmittableResult } from '../../src';
 
 // log all events for the transfers, calling done() when finalized
-export const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
+export default function (done: () => {}): (r: SubmittableResult) => void =>
   ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
 

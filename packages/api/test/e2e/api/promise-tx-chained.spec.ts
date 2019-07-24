@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -12,8 +10,9 @@ import { EventRecord } from '@polkadot/types';
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
+import calculateAccountDeposit from '../../util/calculateAccountDeposit';
 
-// log all events for the transfare, calling done() when finalized
+// log all events for the transfers, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
   ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
@@ -46,11 +45,7 @@ describeE2E({
 
   it('makes a transfer, and uses new balance to transfers to new', async (done): Promise<() => void> => {
     const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
-    const minimum = api.consts.balances && api.consts.balances.existentialDeposit ? api.consts.balances.existentialDeposit.toString() : 0;
-
-    const amount = new BN(minimum).toNumber() < 100000000000000
-      ? 1234 // Substrate spec_version 0 -100
-      : 1234567891234567; // since Substrate spec_version 101
+    const amount = calculateAccountDeposit(api);
 
     function doOne (cb: any): Promise<() => void> {
       return api.tx.balances
