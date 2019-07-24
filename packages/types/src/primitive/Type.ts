@@ -57,8 +57,8 @@ export default class Type extends Text {
       Type._alias('Compact<Index>', 'IndexCompact'),
       // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
-      // alias &[u8] -> Data (this has no length-prefix)
-      Type._alias('&\\[u8\\]', 'Data'),
+      // alias &[u8] -> Bytes
+      Type._alias('&\\[u8\\]', 'Bytes'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address'),
       // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
