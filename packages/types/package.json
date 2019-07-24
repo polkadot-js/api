@@ -28,9 +28,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@polkadot/util": "^0.94.1",
-    "@polkadot/util-crypto": "^0.94.1",
-    "@types/memoizee": "^0.4.2",
-    "memoizee": "^0.4.14"
+    "@polkadot/util-crypto": "^0.94.1"
   },
   "devDependencies": {
     "@polkadot/keyring": "^0.94.1"

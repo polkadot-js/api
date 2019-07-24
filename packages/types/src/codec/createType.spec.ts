@@ -4,7 +4,9 @@
 
 import { Codec, Constructor } from '../types';
 
-import createType, { TypeDef, TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
+import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit } from './createType';
+import Text from '../primitive/Text';
+import { injectDefinitions } from '../srml';
 
 describe('typeSplit', (): void => {
   it('splits simple types into an array', (): void => {
@@ -207,6 +209,36 @@ describe('getTypeClass', (): void => {
     expect(
       (): Constructor<Codec> => getTypeClass('SomethingInvalid' as any)
     ).toThrow(/determine type/);
+  });
+});
+
+describe('createClass', (): void => {
+  beforeAll((): void => {
+    injectDefinitions();
+  });
+
+  it('should memoize from strings', (): void => {
+    const a = createClass('Gas');
+    const b = createClass('Gas');
+    expect(a).toBe(b);
+  });
+
+  it('should memoize from Text', (): void => {
+    const a = createClass(new Text('AuctionIndex'));
+    const b = createClass(new Text('AuctionIndex'));
+    expect(a).toBe(b);
+  });
+
+  it('should memoize from string/Text combo', (): void => {
+    const a = createClass(new Text('SetIndex'));
+    const b = createClass('SetIndex');
+    expect(a).toBe(b);
+  });
+
+  it('instanceof should work', (): void => {
+    const gas = createType('Gas', 1234);
+    const Gas = createClass('Gas');
+    expect(gas instanceof Gas).toBe(true);
   });
 });
 
