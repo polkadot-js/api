@@ -12,7 +12,7 @@ import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import storage from '@polkadot/api-metadata/storage/static';
 import { Codec } from '@polkadot/types/types';
-import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
+import rpcMetadataV7 from '@polkadot/types/Metadata/v7/static';
 import { Header, RuntimeVersion } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
@@ -55,7 +55,7 @@ export default class Mock implements ProviderInterface {
       );
     },
     system_chain: (): string => 'mockChain',
-    state_getMetadata: (): string => rpcMetadataV6,
+    state_getMetadata: (): string => rpcMetadataV7,
     system_name: (): string => 'mockClient',
     system_version: (): string => '9.8.7'
   };

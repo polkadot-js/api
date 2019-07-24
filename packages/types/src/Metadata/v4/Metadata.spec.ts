@@ -4,12 +4,12 @@
 
 import latestSubstrate from './latest.substrate.v4.json';
 import rpcData from './static';
-import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
+import { decodeLatestSubstrate, defaultValues, toV7 } from '../util/testUtil';
 
 describe('MetadataV4', (): void => {
   decodeLatestSubstrate(4, rpcData, latestSubstrate);
 
-  toV6(4, rpcData);
+  toV7(4, rpcData);
 
   defaultValues(rpcData);
 });

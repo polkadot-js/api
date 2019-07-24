@@ -14,7 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Constants {
-  return metadata.asV6.modules.reduce((result, moduleMetadata): Constants => {
+  return metadata.asV7.modules.reduce((result, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;
     }

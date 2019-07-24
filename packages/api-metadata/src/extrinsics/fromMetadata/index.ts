@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModuleMetadata } from '@polkadot/types/Metadata/v6/Metadata';
+import { ModuleMetadata } from '@polkadot/types/Metadata/v7/Metadata';
 import { Methods, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import Metadata from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
@@ -16,7 +16,7 @@ import createUnchecked from './createUnchecked';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
-  return metadata.asV6.modules
+  return metadata.asV7.modules
     .filter((modul): boolean => modul.calls.isSome)
     .reduce((result, modul: ModuleMetadata, sectionIndex): ModulesWithMethods => {
       const section = stringCamelCase(modul.name.toString());

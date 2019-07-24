@@ -13,7 +13,7 @@ import { flattenUniq, validateTypes } from '../util';
 import { FunctionMetadata } from './Calls';
 import { ModuleConstantMetadata } from './Constants';
 import { EventMetadata } from './Events';
-import { StorageEntryMetadata } from './Storage';
+import { StorageMetadata } from './Storage';
 
 /**
  * @name ModuleMetadata
@@ -24,8 +24,7 @@ export class ModuleMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      prefix: Text,
-      storage: Option.with(Vector.with(StorageEntryMetadata)),
+      storage: Option.with(StorageMetadata),
       calls: Option.with(Vector.with(FunctionMetadata)),
       events: Option.with(Vector.with(EventMetadata)),
       constants: Vector.with(ModuleConstantMetadata)
@@ -70,17 +69,17 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the associated module storage
    */
-  public get storage (): Option<Vector<StorageEntryMetadata>> {
-    return this.get('storage') as Option<Vector<StorageEntryMetadata>>;
+  public get storage (): Option<StorageMetadata> {
+    return this.get('storage') as Option<StorageMetadata>;
   }
 }
 
 /**
- * @name MetadataV6
+ * @name MetadataV7
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV6 extends Struct implements MetadataInterface<ModuleMetadata> {
+export default class MetadataV7 extends Struct implements MetadataInterface<ModuleMetadata> {
   public constructor (value?: any) {
     super({
       modules: Vector.with(ModuleMetadata)
@@ -126,7 +125,7 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     return this.modules.map((mod): string[][] =>
       mod.storage.isNone
         ? []
-        : mod.storage.unwrap().map((fn): string[] => {
+        : mod.storage.unwrap().items.map((fn): string[] => {
           if (fn.type.isMap) {
             return [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()];
           } else if (fn.type.isDoubleMap) {

@@ -34,7 +34,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV6 and MetadataV{version} should output the same
+ * Given a `version`, MetadataV7 and MetadataV{version} should output the same
  * unique types.
  */
 export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
@@ -64,7 +64,7 @@ export function defaultValues (rpcData: string): void {
     metadata.asV7.modules
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
-        mod.storage.unwrap().forEach(({ fallback, name, type }): void => {
+        mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.prefix}.${name}, type ${type}`, (): void => {
             expect(
               (): Codec => createType(type.toString(), fallback)

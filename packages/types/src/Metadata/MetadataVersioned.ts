@@ -21,7 +21,7 @@ import v2ToV3 from './v2/toV3';
 import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
-// import v6ToV7 from './v6/toV7';
+import v6ToV7 from './v6/toV7';
 
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
@@ -357,6 +357,6 @@ export default class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return this.asV6.getUniqTypes(throwError);
+    return this.asV7.getUniqTypes(throwError);
   }
 }
