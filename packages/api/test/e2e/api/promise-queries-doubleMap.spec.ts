@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Header, Option } from '@polkadot/types';
+import { encodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -18,12 +20,14 @@ describeE2E({
   ]
 })('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl): void => {
   let api: ApiPromise;
+  const keyring = testingPairs({ type: 'ed25519' });
 
   beforeEach(async (done): Promise<void> => {
     api = await ApiPromise.create(new WsProvider(wsUrl));
 
     done();
   });
+
   // TODO Update ['any', '0x1234'] to the key of a known event topic and update EXPECTED_VALUE to the expected value
   describe('with double map type', (): void => {
     const KEY1 = 'any';
@@ -88,6 +92,53 @@ describeE2E({
       const size = await api.query.system.eventTopics.size(KEY1, KEY2);
 
       expect(size.toNumber()).toEqual(0);
+    });
+  });
+
+  describe('session Keys', (): void => {
+    it('sets a session key, retrieves the value', async (done): Promise<void> => {
+      const ed25519 = encodeAddress(randomAsU8a());
+
+      async function queryKeys (): Promise<void> {
+        console.error('*** query.session.nextKeys');
+
+        const result = JSON.stringify(
+          await api.query.session.nextKeys(
+            api.consts.session.dedupKeyPrefix, keyring.bob.address
+          )
+        );
+
+        console.error(result, ed25519);
+
+        expect(result).toEqual(JSON.stringify({ ed25519 }));
+        done();
+      }
+
+      async function setKeys (): Promise<void> {
+        console.error('*** tx.session.setKeys');
+
+        await api.tx.session
+          .setKeys({ ed25519 }, new Uint8Array([]))
+          .signAndSend(keyring.eve, (result): void => {
+            if (result.isCompleted) {
+              queryKeys();
+            }
+          });
+      }
+
+      async function setBond (): Promise<void> {
+        console.error('*** tx.staking.bond');
+
+        await api.tx.staking
+          .bond(keyring.eve.address, 123456789012345, 'Stash')
+          .signAndSend(keyring.bob, (result): void => {
+            if (result.isCompleted) {
+              setKeys();
+            }
+          });
+      }
+
+      setBond();
     });
   });
 });
