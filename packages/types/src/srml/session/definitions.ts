@@ -9,6 +9,9 @@ export default {
     SessionKeys: {
       ed25519: 'SessionKey'
     },
-    Keys: 'SessionKeys'
+    Keys: 'SessionKeys',
+
+    // this needs to be moved to primitives (runtime, support)
+    KeyTypeId: 'u32'
   }
 };
