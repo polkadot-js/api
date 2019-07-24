@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SetIndex } from '@polkadot/types/srml/elections/types';
-
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Observable } from 'rxjs';
 import { AccountId, Vector } from '@polkadot/types';
+import { DerivedVoterPositions } from '../types';
+
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { drr } from '../util/drr';
-import { voterSets } from './voterSets';
+import { voterPositions } from './voterPositions';
 
 /**
  * @name voters
@@ -25,14 +25,24 @@ import { voterSets } from './voterSets';
  */
 export function voters (api: ApiInterfaceRx): () => Observable<Vector<AccountId>> {
   return (): Observable<Vector<AccountId>> =>
-    voterSets(api)().pipe(
+    voterPositions(api)().pipe(
       map(
-        (voterSets: Record<string, SetIndex>): Vector<AccountId> =>
+        (voterSets: DerivedVoterPositions): Vector<AccountId> =>
           new Vector(
             AccountId,
-            Object.keys(voterSets).map(
-              (address: string): AccountId => new AccountId(address)
-            )
+            Object.entries(voterSets)
+              .sort(
+                (a, b): number => {
+                  if (a[1].globalIndex.lt(b[1].globalIndex)) {
+                    return -1;
+                  }
+                  if (a[1].globalIndex.gt(b[1].globalIndex)) {
+                    return 1;
+                  }
+                  return 0;
+                }
+              )
+              .map(([accountId]): AccountId => new AccountId(accountId))
           )
       ),
       drr()

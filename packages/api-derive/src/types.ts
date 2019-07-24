@@ -85,3 +85,11 @@ export interface DerivedStaking {
 }
 
 export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];
+
+interface VoterPosition {
+  globalIndex: BN;
+  index: BN;
+  setIndex: SetIndex;
+}
+
+export type DerivedVoterPositions = Record<string, VoterPosition>;
