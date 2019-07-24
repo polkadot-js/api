@@ -65,7 +65,7 @@ export function defaultValues (rpcData: string): void {
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
-          it(`creates default types for ${mod.prefix}.${name}, type ${type}`, (): void => {
+          it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
               (): Codec => createType(type.toString(), fallback)
             ).not.toThrow();
