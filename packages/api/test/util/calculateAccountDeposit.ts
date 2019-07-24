@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import ApiPromise from '../../../src/promise';
 
-export default function (api: ApiPromise): number {
+export function calculateAccountDeposit (api: ApiPromise): number {
   const minimum = api.consts.balances && api.consts.balances.existentialDeposit ? api.consts.balances.existentialDeposit.toString() : 0;
 
   return (new BN(minimum).toNumber() < 100000000000000

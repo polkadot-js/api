@@ -9,8 +9,7 @@ import { EventRecord, ExtrinsicEra, Header, Index, SignedBlock } from '@polkadot
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import { Signer } from '../../../src/types';
-import describeE2E from '../../util/describeE2E';
-import SingleAccountSigner from '../../util/SingleAccountSigner';
+import { describeE2E, SingleAccountSigner } from '../../util';
 
 // log all events for the transfer, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>

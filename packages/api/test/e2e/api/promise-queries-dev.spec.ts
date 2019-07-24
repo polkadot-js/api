@@ -10,7 +10,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Header, Index, Option, U32 } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 const ZERO = new BN(0);
 

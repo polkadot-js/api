@@ -9,7 +9,7 @@ import { SignaturePayload } from '@polkadot/types';
 
 let id = 0;
 
-export default class SingleAccountSigner implements Signer {
+export class SingleAccountSigner implements Signer {
   private keyringPair: KeyringPair;
 
   private signDelay: number;

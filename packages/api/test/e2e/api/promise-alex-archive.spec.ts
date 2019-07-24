@@ -6,7 +6,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Extrinsic, SignedBlock } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   only: [] // To run these tests locally you need to run a Alexander full archive node locally

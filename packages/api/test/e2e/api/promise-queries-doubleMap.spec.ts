@@ -6,7 +6,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Header, Option } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 // The following tests only run on nodes that support doubleMapType introduced by metadata v5
 describeE2E({

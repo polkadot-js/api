@@ -9,8 +9,7 @@ import { EventRecord } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
-import calculateAccountDeposit from '../../util/calculateAccountDeposit';
+import { describeE2E, calculateAccountDeposit } from '../../util';
 
 // log all events for the transfers, calling done() when finalized
 const logEvents = (done: () => {}): (r: SubmittableResult) => void =>

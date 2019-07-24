@@ -3,15 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
-import { Balance, Header } from '@polkadot/types';
+import { Balance } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiRx from '../../../src/rx';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   except: [

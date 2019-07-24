@@ -11,7 +11,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive/type';
 import { DerivedBalances, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo, DerivedStaking } from '@polkadot/api-derive/types';
 
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 const ALICE_STASH = testingPairs().alice_stash.address;
 

@@ -6,7 +6,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { BlockNumber } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   only: [

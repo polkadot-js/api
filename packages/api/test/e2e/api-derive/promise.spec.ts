@@ -7,7 +7,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { HeaderExtended } from '@polkadot/api-derive/type';
 import { DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
 
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E()('Derive Promise e2e', (wsUrl): void => {
   let api: ApiPromise;

@@ -7,7 +7,7 @@ import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']

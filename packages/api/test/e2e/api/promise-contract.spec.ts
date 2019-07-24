@@ -12,7 +12,7 @@ import { Address, Hash } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts//flipper-pruned.wasm')).toString('hex');

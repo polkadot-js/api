@@ -10,7 +10,7 @@ import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { EventRecord, Hash, Header, Option, Vector, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E()('Promise e2e queries', (wsUrl): void => {
   let api: ApiPromise;
