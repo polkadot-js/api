@@ -1399,6 +1399,46 @@
                 " The queued keys for the next session. When the next session begins, these keys",
                 " will be used to determine the validator's session keys."
               ]
+            },
+            {
+              "name": "NextKeys",
+              "modifier": "Optional",
+              "type": {
+                "DoubleMapType": {
+                  "hasher": "Twox64Concat",
+                  "key1": "Bytes",
+                  "key2": "ValidatorId",
+                  "value": "Keys",
+                  "key2Hasher": "Blake2_256"
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The next session keys for a validator.",
+                "",
+                " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
+                " the trie. Having all data in the same branch should prevent slowing down other queries."
+              ]
+            },
+            {
+              "name": "KeyOwner",
+              "modifier": "Optional",
+              "type": {
+                "DoubleMapType": {
+                  "hasher": "Twox64Concat",
+                  "key1": "Bytes",
+                  "key2": "(KeyTypeId,Bytes)",
+                  "value": "ValidatorId",
+                  "key2Hasher": "Blake2_256"
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The owner of a key. The second key is the `KeyTypeId` + the encoded key.",
+                "",
+                " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
+                " the trie. Having all data in the same branch should prevent slowing down other queries."
+              ]
             }
           ],
           "calls": [
@@ -1440,7 +1480,17 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [
+            {
+              "name": "DEDUP_KEY_PREFIX",
+              "type": "Bytes",
+              "value": "0x343a73657373696f6e3a6b657973",
+              "documentation": [
+                " Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch",
+                " of the trie."
+              ]
+            }
+          ]
         },
         {
           "name": "democracy",
@@ -3089,6 +3139,22 @@
                 " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight",
                 " increment step `t`. 0 will result in no weight being added at all (normal",
                 " approval voting). A reasonable default value is 24."
+              ]
+            },
+            {
+              "name": "VOTER_SET_SIZE",
+              "type": "u32",
+              "value": "0x40000000",
+              "documentation": [
+                " The chunk size of the voter vector."
+              ]
+            },
+            {
+              "name": "APPROVAL_SET_SIZE",
+              "type": "u32",
+              "value": "0x08000000",
+              "documentation": [
+                " The chunk size of the approval vector."
               ]
             }
           ]
