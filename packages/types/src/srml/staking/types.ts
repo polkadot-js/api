@@ -6,6 +6,11 @@ import { AccountId, Balance, u32 } from '../../primitive';
 
 export interface EraIndex extends u32 {}
 
+export interface EraRewards extends Struct {
+  readonly total: u32;
+  readonly rewards: Vector<u32>;
+}
+
 export interface Exposure extends Struct {
   readonly total: Compact<Balance>;
   readonly own: Compact<Balance>;

@@ -4,6 +4,7 @@
 
 export default {
   types: {
+    KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]'
   }
 };
