@@ -58,6 +58,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
 
     if (meta.type.isDoubleMap) {
       assert(!isUndefined(arg) && !isNull(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
+
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
       const param1Encoded = u8aConcat(key, createType(type1, arg[0]).toU8a(true));

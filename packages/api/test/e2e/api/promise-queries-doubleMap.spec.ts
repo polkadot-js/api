@@ -95,7 +95,7 @@ describeE2E({
     });
   });
 
-  describe.only('session Keys', (): void => {
+  describe('session Keys', (): void => {
     it('sets a session key, retrieves the value', async (done): Promise<void> => {
       const RAND_SESSION = encodeAddress(randomAsU8a());
 
