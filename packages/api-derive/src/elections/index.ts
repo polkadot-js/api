@@ -6,4 +6,4 @@ export * from './approvalsOf';
 export * from './approvalsOfAt';
 export * from './info';
 export * from './voters';
-export * from './voterSets';
+export * from './voterPositions';

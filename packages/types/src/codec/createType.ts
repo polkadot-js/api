@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import memoizee from 'memoizee';
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
@@ -174,11 +175,22 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   return value;
 }
 
-export function createClass <T extends Codec = Codec> (type: Text | string): Constructor<T> {
+// Memoized helper of the `createClass` function below
+const memoizedCreateClass = memoizee(<T extends Codec = Codec>(type: Text | string): Constructor<T> => {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return getTypeClass<T>(
     getTypeDef(type)
   );
+}, {
+  length: 1,
+  // Normalize args so that different args that should be cached
+  // together are cached together.
+  // E.g.: `createClass('abc') === createClass(new Text('abc'));`
+  normalizer: JSON.stringify
+});
+
+export function createClass<T extends Codec = Codec> (type: Text | string): Constructor<T> {
+  return memoizedCreateClass(type);
 }
 
 // create an array of constructors from the input
@@ -192,7 +204,7 @@ export function getTypeClassMap (defs: TypeDef[]): { [index: string]: Constructo
 }
 
 // Returns the type Class for construction
-export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor<T>): Constructor<T> {
+export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor<T>): Constructor<T> {
   const Type = getRegistry().get<T>(value.type);
 
   if (Type) {
@@ -251,7 +263,7 @@ export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback
 
       return Linkage.withKey(
         getTypeClass<Codec>(value.sub as TypeDef)
-      )as unknown as Constructor<T>;
+      ) as unknown as Constructor<T>;
     case TypeDefInfo.DoubleMap:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
 
@@ -268,11 +280,11 @@ export function getTypeClass <T extends Codec = Codec> (value: TypeDef, Fallback
 }
 
 // alias for createClass
-export function ClassOf <T extends Codec = Codec> (name: string): Constructor<T> {
+export function ClassOf<T extends Codec = Codec> (name: string): Constructor<T> {
   return createClass<T>(name);
 }
 
-function initType <T extends Codec = Codec> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
+function initType<T extends Codec = Codec> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
   try {
     const created = new Type(value);
 
@@ -303,7 +315,7 @@ function initType <T extends Codec = Codec> (Type: Constructor<T>, value?: any, 
   }
 }
 
-export default function createType <T extends Codec = Codec> (type: Text | string, value?: any, isPedantic?: boolean): T {
+export default function createType<T extends Codec = Codec> (type: Text | string, value?: any, isPedantic?: boolean): T {
   // l.debug(() => ['createType', { type, value }]);
 
   try {

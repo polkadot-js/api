@@ -13,6 +13,8 @@ _The following sections contain the module constants, also known as parameter ty
 
 - **[imOnline](#imOnline)**
 
+- **[session](#session)**
+
 - **[staking](#staking)**
 
 - **[timestamp](#timestamp)**
@@ -121,6 +123,9 @@ ___
 
 ### elections
 
+▸ **aPPROVAL_SET_SIZE**: `u32`
+- **summary**:   The chunk size of the approval vector.
+
 ▸ **candidacyBond**: `BalanceOf`
 - **summary**:   How much should be locked up in order to submit one's candidacy. A reasonable  default value is 9.
 
@@ -136,6 +141,9 @@ ___
 ▸ **presentSlashPerVoter**: `BalanceOf`
 - **summary**:   The punishment, per voter, if you provide an invalid presentation. A  reasonable default value is 1.
 
+▸ **vOTER_SET_SIZE**: `u32`
+- **summary**:   The chunk size of the voter vector.
+
 ▸ **votingBond**: `BalanceOf`
 - **summary**:   How much should be locked up in order to be able to submit votes.
 
@@ -148,7 +156,7 @@ ___
 ___
 
 
-### finality_tracker
+### finalityTracker
 
 ▸ **reportLatency**: `BlockNumber`
 - **summary**:   The delay after which point things become suspicious. Default is 1000.
@@ -159,10 +167,18 @@ ___
 ___
 
 
-### im_online
+### imOnline
 
 ▸ **sessionsPerEra**: `SessionIndex`
 - **summary**:   Number of sessions per era.
+
+___
+
+
+### session
+
+▸ **dEDUP_KEY_PREFIX**: `Bytes`
+- **summary**:   Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch  of the trie.
 
 ___
 

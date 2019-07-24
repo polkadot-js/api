@@ -34,12 +34,13 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
         api.query.elections.candidates,
         api.query.elections.candidateCount,
         api.query.elections.desiredSeats,
+        api.query.elections.nextVoterSet,
         api.query.elections.termDuration,
         api.query.elections.voteCount,
         api.query.elections.voterCount
-      ]) as any as Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, BlockNumber, VoteIndex, SetIndex]>
+      ]) as any as Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, SetIndex, BlockNumber, VoteIndex, SetIndex]>
     ).pipe(
-      map(([members, candidates, candidateCount, desiredSeats, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
+      map(([members, candidates, candidateCount, desiredSeats, nextVoterSet, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
         members: members.reduce(
           (record: Record<string, BlockNumber>, [accountId, blockNumber]): Record<string, BlockNumber> => {
             record[accountId.toString()] = blockNumber;
@@ -50,6 +51,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
         candidates,
         candidateCount,
         desiredSeats,
+        nextVoterSet,
         termDuration,
         voteCount,
         voterCount
