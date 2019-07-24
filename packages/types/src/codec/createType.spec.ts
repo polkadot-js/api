@@ -4,9 +4,13 @@
 
 import { Codec, Constructor } from '../types';
 
-import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit } from './createType';
+import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
+import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import { injectDefinitions } from '../srml';
+
+// Some complex type to play with
+const complexType = '{"balance":"Balance","account_id":"AccountId","log":"(u64, u32)","fromSrml":"Gas"}';
 
 describe('typeSplit', (): void => {
   it('splits simple types into an array', (): void => {
@@ -212,9 +216,7 @@ describe('getTypeClass', (): void => {
   });
 });
 
-describe.only('createClass', (): void => {
-  const complexType = '{"balance":"Balance","account_id":"AccountId","log":"(u64, u32)","fromSrml":"Gas"}';
-
+describe('createClass', (): void => {
   beforeAll((): void => {
     injectDefinitions();
   });
@@ -238,18 +240,6 @@ describe.only('createClass', (): void => {
     const b = createClass(complexType);
 
     expect(a).toBe(b);
-  });
-
-  it('instanceof should work', (): void => {
-    const value = createType(complexType, {
-      balance: 123,
-      accountId: '',
-      log: [456, 789],
-      fromSrml: 0
-    });
-    const ComplexType = createClass(complexType);
-
-    expect(value instanceof ComplexType).toBe(true);
   });
 });
 
@@ -304,5 +294,30 @@ describe('createType', (): void => {
     expect(
       (): Codec => createType('Vec<(BlockNumber,EventIndex)>', base, true)
     ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
+  });
+
+  it('instanceof should work (primitive type)', (): void => {
+    const value = createType('Balance', 1234);
+
+    expect(value instanceof Balance).toBe(true);
+  });
+
+  it('instanceof should work (srml type)', (): void => {
+    const value = createType('Gas', 1234);
+    const Gas = ClassOf('Gas');
+
+    expect(value instanceof Gas).toBe(true);
+  });
+
+  it('instanceof should work (complex type)', (): void => {
+    const value = createType(complexType, {
+      balance: 123,
+      accountId: '',
+      log: [456, 789],
+      fromSrml: 0
+    });
+    const ComplexType = createClass(complexType);
+
+    expect(value instanceof ComplexType).toBe(true);
   });
 });
