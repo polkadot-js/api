@@ -103,10 +103,10 @@ describeE2E({
         console.error('*** query.session.nextKeys');
 
         const result = await api.query.session.nextKeys(
-          api.consts.session.dedupKeyPrefix, keyring.eve.address
+          api.consts.session.dedupKeyPrefix, keyring.bob.address
         );
 
-        console.error(result);
+        console.error(JSON.stringify(result), RAND_SESSION);
 
         expect(result.toString()).toEqual(RAND_SESSION);
         done();
@@ -128,7 +128,7 @@ describeE2E({
         console.error('*** tx.staking.bond');
 
         await api.tx.staking
-          .bond(keyring.eve.address, 123456, 'Stash')
+          .bond(keyring.eve.address, 123456789012345, 'Stash')
           .signAndSend(keyring.bob, (result): void => {
             if (result.isCompleted) {
               setKeys();
