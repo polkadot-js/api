@@ -212,33 +212,44 @@ describe('getTypeClass', (): void => {
   });
 });
 
-describe('createClass', (): void => {
+describe.only('createClass', (): void => {
+  const complexType = '{"balance":"Balance","account_id":"AccountId","log":"(u64, u32)","fromSrml":"Gas"}';
+
   beforeAll((): void => {
     injectDefinitions();
   });
 
   it('should memoize from strings', (): void => {
-    const a = createClass('Gas');
-    const b = createClass('Gas');
+    const a = createClass(complexType);
+    const b = createClass(complexType);
+
     expect(a).toBe(b);
   });
 
   it('should memoize from Text', (): void => {
-    const a = createClass(new Text('AuctionIndex'));
-    const b = createClass(new Text('AuctionIndex'));
+    const a = createClass(new Text(complexType));
+    const b = createClass(new Text(complexType));
+
     expect(a).toBe(b);
   });
 
   it('should memoize from string/Text combo', (): void => {
-    const a = createClass(new Text('SetIndex'));
-    const b = createClass('SetIndex');
+    const a = createClass(new Text(complexType));
+    const b = createClass(complexType);
+
     expect(a).toBe(b);
   });
 
   it('instanceof should work', (): void => {
-    const gas = createType('Gas', 1234);
-    const Gas = createClass('Gas');
-    expect(gas instanceof Gas).toBe(true);
+    const value = createType(complexType, {
+      balance: 123,
+      accountId: '',
+      log: [456, 789],
+      fromSrml: 0
+    });
+    const ComplexType = createClass(complexType);
+
+    expect(value instanceof ComplexType).toBe(true);
   });
 });
 
