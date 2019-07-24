@@ -1483,7 +1483,7 @@
           "constants": [
             {
               "name": "DEDUP_KEY_PREFIX",
-              "type": "Data",
+              "type": "Bytes",
               "value": "0x343a73657373696f6e3a6b657973",
               "documentation": [
                 " Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch",
