@@ -38,6 +38,7 @@ export interface DerivedElectionsInfo {
   candidates: AccountId[];
   candidateCount: BN;
   desiredSeats: BN;
+  nextVoterSet: SetIndex;
   termDuration: BlockNumber;
   voteCount: VoteIndex;
   voterCount: SetIndex;
@@ -85,3 +86,11 @@ export interface DerivedStaking {
 }
 
 export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];
+
+export interface VoterPosition {
+  globalIndex: BN;
+  index: BN;
+  setIndex: SetIndex;
+}
+
+export type DerivedVoterPositions = Record<string, VoterPosition>;
