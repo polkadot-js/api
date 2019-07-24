@@ -27,10 +27,10 @@ export function voters (api: ApiInterfaceRx): () => Observable<Vector<AccountId>
   return (): Observable<Vector<AccountId>> =>
     voterPositions(api)().pipe(
       map(
-        (voterSets: DerivedVoterPositions): Vector<AccountId> =>
+        (voterPositions: DerivedVoterPositions): Vector<AccountId> =>
           new Vector(
             AccountId,
-            Object.entries(voterSets)
+            Object.entries(voterPositions)
               .sort(
                 (a, b): number => {
                   if (a[1].globalIndex.lt(b[1].globalIndex)) {
