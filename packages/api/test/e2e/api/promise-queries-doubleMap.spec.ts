@@ -102,13 +102,15 @@ describeE2E({
       async function queryKeys (): Promise<void> {
         console.error('*** query.session.nextKeys');
 
-        const result = await api.query.session.nextKeys(
-          api.consts.session.dedupKeyPrefix, keyring.bob.address
+        const result = JSON.stringify(
+          await api.query.session.nextKeys(
+            api.consts.session.dedupKeyPrefix, keyring.bob.address
+          )
         );
 
-        console.error(JSON.stringify(result), RAND_SESSION);
+        console.error(result, RAND_SESSION);
 
-        expect(result.toString()).toEqual(RAND_SESSION);
+        expect(result).toEqual(JSON.stringify({ ed25519: RAND_SESSION }));
         done();
       }
 
