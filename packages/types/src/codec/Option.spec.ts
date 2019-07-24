@@ -35,17 +35,20 @@ describe('Option', (): void => {
     ).toEqual('hello');
   });
 
-  it('properly converts correctly toHex (Bytes)', (): void => {
+  it('converts correctly from hex with toHex (Bytes)', (): void => {
     // Option<Bytes> for a parachain head, however, this is effectively an
     // Option<Option<Bytes>> (hence the length, since it is from storage)
     const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
+
+    // whatc the hex prefix and length
     expect(
-      new Option(Bytes, HEX).toHex().substr(2)
-    ).toEqual(HEX.substr(6));
+      new Option(Bytes, HEX).toHex().substr(6)
+    ).toEqual(HEX.substr(2));
   });
 
-  it.only('properly converts correctly toHex (U64)', (): void => {
+  it('converts correctly from hex with toNumber (U64)', (): void => {
     const HEX = '0x12345678';
+
     expect(
       (new Option(U32, HEX).unwrap() as U32).toNumber()
     ).toEqual(0x12345678);
