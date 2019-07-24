@@ -92,7 +92,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<u8>`;
+    return `&[u8]`;
   }
 
   /**
