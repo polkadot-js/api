@@ -14,13 +14,14 @@ import { drr } from '../util/drr';
 
 /**
  * @name voterPositions
- * @returns An mapping of all current voter accounts to their voter set index.
+ * @returns An mapping of all current voter accounts to their voter set and global index.
  * @example
  * <BR>
  *
  * ```javascript
- * api.derive.elections.voterSets((voters) => {
- *   console.log(`ALICE is a voter in the voter set with index ${voters[ALICE].toString()}.`);
+ * api.derive.elections.voterPositions((voters) => {
+ *   const { index, setIndex, globalIndex } = voters[ALICE];
+ *   console.log(`ALICE is a voter at index ${index} in voter set ${setIndex}, with global index ${globalIndex}.`);
  * });
  * ```
  */
@@ -33,17 +34,17 @@ export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVo
       )),
       map((result: [BN, Vector<Option<AccountId>>[]]): DerivedVoterPositions => {
         const [setSize, voters] = result;
-        return voters.reduce((result: DerivedVoterPositions, vec, globalIndex): DerivedVoterPositions => {
-          vec.forEach((e): void => {
+        return voters.reduce((result: DerivedVoterPositions, vec, setIndex): DerivedVoterPositions => {
+          vec.forEach((e, index): void => {
             // re-create the index based on position 0 is [0][0] and likewise
             // 64 (0..63 in first) is [1][0] (the first index value in set 2)
             const accountId: AccountId | null = e.unwrapOr(null);
 
             if (accountId) {
               result[accountId.toString()] = {
-                index: new BN(globalIndex % setSize.toNumber()),
-                setIndex: createType<SetIndex>('SetIndex', globalIndex / setSize.toNumber()),
-                globalIndex: new BN(globalIndex)
+                globalIndex: new BN((setIndex * setSize.toNumber()) + index),
+                index: new BN(index),
+                setIndex: createType<SetIndex>('SetIndex', setIndex)
               };
             }
           });

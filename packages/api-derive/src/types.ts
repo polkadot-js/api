@@ -38,6 +38,7 @@ export interface DerivedElectionsInfo {
   candidates: AccountId[];
   candidateCount: BN;
   desiredSeats: BN;
+  nextVoterSet: SetIndex;
   termDuration: BlockNumber;
   voteCount: VoteIndex;
   voterCount: SetIndex;
