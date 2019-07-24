@@ -87,7 +87,7 @@ export interface DerivedStaking {
 
 export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];
 
-interface VoterPosition {
+export interface VoterPosition {
   globalIndex: BN;
   index: BN;
   setIndex: SetIndex;
