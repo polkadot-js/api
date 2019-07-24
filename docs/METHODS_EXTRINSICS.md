@@ -5,11 +5,9 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[balances](#balances)**
 
-- **[collective](#collective)**
-
-- **[collective](#collective)**
-
 - **[contracts](#contracts)**
+
+- **[council](#council)**
 
 - **[democracy](#democracy)**
 
@@ -28,6 +26,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 - **[sudo](#sudo)**
 
 - **[system](#system)**
+
+- **[technicalCommittee](#technicalCommittee)**
 
 - **[timestamp](#timestamp)**
 
@@ -56,40 +56,6 @@ ___
 ___
 
 
-### collective
-
-▸ **execute**(proposal: `Proposal`)
-- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
-
-▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
-- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
-
-▸ **setMembers**(new_members: `Vec<AccountId>`)
-- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
-
-▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
-- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
-
-___
-
-
-### collective
-
-▸ **execute**(proposal: `Proposal`)
-- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
-
-▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
-- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
-
-▸ **setMembers**(new_members: `Vec<AccountId>`)
-- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
-
-▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
-- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
-
-___
-
-
 ### contracts
 
 ▸ **call**(dest: `Address`, value: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
@@ -109,6 +75,23 @@ ___
 
 ▸ **updateSchedule**(schedule: `Schedule`)
 - **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
+
+___
+
+
+### council
+
+▸ **execute**(proposal: `Proposal`)
+- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
+
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
+- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
+
+▸ **setMembers**(new_members: `Vec<AccountId>`)
+- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
+
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
+- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
 
 ___
 
@@ -306,6 +289,23 @@ ___
 
 ▸ **setStorage**(items: `Vec<KeyValue>`)
 - **summary**:   Set some items of storage.
+
+___
+
+
+### technicalCommittee
+
+▸ **execute**(proposal: `Proposal`)
+- **summary**:   Dispatch a proposal from a member using the `Member` origin.   Origin must be a member of the collective.
+
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
+- **summary**:   # <weight>  - Bounded storage reads and writes.  - Argument `threshold` has bearing on weight.  # </weight>
+
+▸ **setMembers**(new_members: `Vec<AccountId>`)
+- **summary**:   Set the collective's membership manually to `new_members`. Be nice to the chain and  provide it pre-sorted.   Requires root origin.
+
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
+- **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
 
 ___
 

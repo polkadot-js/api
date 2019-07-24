@@ -7,11 +7,9 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[balances](#balances)**
 
-- **[collective](#collective)**
-
-- **[collective](#collective)**
-
 - **[contracts](#contracts)**
+
+- **[council](#council)**
 
 - **[democracy](#democracy)**
 
@@ -30,6 +28,8 @@ _The following sections contain Storage methods are part of the default Substrat
 - **[sudo](#sudo)**
 
 - **[system](#system)**
+
+- **[technicalCommittee](#technicalCommittee)**
 
 - **[timestamp](#timestamp)**
 
@@ -86,46 +86,6 @@ ___
 ___
 
 
-### collective
-
-▸ **members**(): `Vec<AccountId>`
-- **summary**:   The current members of the collective. This is stored sorted (just by value).
-
-▸ **proposalCount**(): `u32`
-- **summary**:   Proposals so far.
-
-▸ **proposalOf**(`Hash`): `Option<Proposal>`
-- **summary**:   Actual proposal for a given hash, if it's current.
-
-▸ **proposals**(): `Vec<Hash>`
-- **summary**:   The hashes of the active proposals.
-
-▸ **voting**(`Hash`): `Option<Votes>`
-- **summary**:   Votes on a given proposal, if it is ongoing.
-
-___
-
-
-### collective
-
-▸ **members**(): `Vec<AccountId>`
-- **summary**:   The current members of the collective. This is stored sorted (just by value).
-
-▸ **proposalCount**(): `u32`
-- **summary**:   Proposals so far.
-
-▸ **proposalOf**(`Hash`): `Option<Proposal>`
-- **summary**:   Actual proposal for a given hash, if it's current.
-
-▸ **proposals**(): `Vec<Hash>`
-- **summary**:   The hashes of the active proposals.
-
-▸ **voting**(`Hash`): `Option<Votes>`
-- **summary**:   Votes on a given proposal, if it is ongoing.
-
-___
-
-
 ### contracts
 
 ▸ **accountCounter**(): `u64`
@@ -148,6 +108,26 @@ ___
 
 ▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
+
+___
+
+
+### council
+
+▸ **members**(): `Vec<AccountId>`
+- **summary**:   The current members of the collective. This is stored sorted (just by value).
+
+▸ **proposalCount**(): `u32`
+- **summary**:   Proposals so far.
+
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
+- **summary**:   Actual proposal for a given hash, if it's current.
+
+▸ **proposals**(): `Vec<Hash>`
+- **summary**:   The hashes of the active proposals.
+
+▸ **voting**(`Hash`): `Option<Votes>`
+- **summary**:   Votes on a given proposal, if it is ongoing.
 
 ___
 
@@ -275,7 +255,7 @@ ___
 ___
 
 
-### im_online
+### imOnline
 
 ▸ **gossipAt**(): `BlockNumber`
 
@@ -445,6 +425,26 @@ ___
 
 ▸ **randomMaterial**(): `(i8,Vec<Hash>)`
 - **summary**:   Series of block headers from the last 81 blocks that acts as random seed material. This is arranged as a  ring buffer with the `i8` prefix being the index into the `Vec` of the oldest hash.
+
+___
+
+
+### technicalCommittee
+
+▸ **members**(): `Vec<AccountId>`
+- **summary**:   The current members of the collective. This is stored sorted (just by value).
+
+▸ **proposalCount**(): `u32`
+- **summary**:   Proposals so far.
+
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
+- **summary**:   Actual proposal for a given hash, if it's current.
+
+▸ **proposals**(): `Vec<Hash>`
+- **summary**:   The hashes of the active proposals.
+
+▸ **voting**(`Hash`): `Option<Votes>`
+- **summary**:   Votes on a given proposal, if it is ongoing.
 
 ___
 
