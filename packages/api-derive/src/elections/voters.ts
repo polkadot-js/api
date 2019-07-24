@@ -31,17 +31,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<Vector<AccountId>
           new Vector(
             AccountId,
             Object.entries(voterPositions)
-              .sort(
-                (a, b): number => {
-                  if (a[1].globalIndex.lt(b[1].globalIndex)) {
-                    return -1;
-                  }
-                  if (a[1].globalIndex.gt(b[1].globalIndex)) {
-                    return 1;
-                  }
-                  return 0;
-                }
-              )
+              .sort((a, b): 0 | 1 | -1 => a[1].globalIndex.cmp(b[1].globalIndex))
               .map(([accountId]): AccountId => new AccountId(accountId))
           )
       ),

@@ -42,7 +42,7 @@ export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVo
 
             if (accountId) {
               result[accountId.toString()] = {
-                globalIndex: new BN((setIndex * setSize.toNumber()) + index),
+                globalIndex: setSize.muln(setIndex).addn(index),
                 index: new BN(index),
                 setIndex: createType<SetIndex>('SetIndex', setIndex)
               };
