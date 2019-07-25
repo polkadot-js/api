@@ -4,7 +4,7 @@
 import { Struct } from '../../codec';
 import { Balance } from '../../primitive';
 import { BlockNumber, WithdrawReasons } from '../../type';
-import { LockIdentifier } from '../support/types';
+import { LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;

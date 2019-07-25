@@ -29,7 +29,6 @@ interface TypeImports {
 
 const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated via `yarn build:srmlTs`, do not edit\n\n';
 const FOOTER = '\n';
-const OUTPUT_FILE = 'types.ts';
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
@@ -58,6 +57,16 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, substra
   });
 }
 
+// helper to generate a `export interface<Name> extends <Base> {<Body>}
+function createInterface (name: string = '', base: string, body: string = ''): string {
+  return `export interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
+}
+
+// helper to generate a `readonly <Name>: <Type>;` getter
+function createGetter (name: string = '', type: string): string {
+  return `  readonly ${name}: ${type};\n`;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorUnhandled (def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
@@ -71,7 +80,7 @@ function tsCompact ({ name: compactName, sub }: TypeDef, imports: TypeImports): 
   switch (def.info) {
     case TypeDefInfo.Plain:
       setImports(imports, [def.type]);
-      return `export interface ${compactName} extends Compact<${def.type}> {}`;
+      return createInterface(compactName, `Compact<${def.type}>`);
 
     default:
       throw new Error(`Enum: ${compactName}: Unhandled type ${TypeDefInfo[def.info]}`);
@@ -85,18 +94,19 @@ function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const [enumType, asGetter] = type === 'Null'
       ? ['', '']
-      : [`(${type})`, `  readonly as${getter}: ${type};\n`];
+      : [`(${type})`, createGetter(`as${getter}`, type)];
+    const isGetter = createGetter(`is${getter}`, 'boolean');
 
     switch (info) {
       case TypeDefInfo.Plain:
-        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${getter}: boolean;\n${asGetter}`;
+        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n${isGetter}${asGetter}`;
 
       default:
         throw new Error(`Enum: ${enumName}: Unhandled type ${TypeDefInfo[info]}`);
     }
   });
 
-  return `export interface ${enumName} extends Enum {\n${keys.join('')}}`;
+  return createInterface(enumName, 'Enum', keys.join(''));
 }
 
 function tsOption ({ name: optionName, sub }: TypeDef, imports: TypeImports): string {
@@ -107,7 +117,7 @@ function tsOption ({ name: optionName, sub }: TypeDef, imports: TypeImports): st
   switch (def.info) {
     case TypeDefInfo.Plain:
       setImports(imports, [def.type]);
-      return `export interface ${optionName} extends Option<${def.type}> {}`;
+      return createInterface(optionName, `Option<${def.type}>`);
 
     default:
       throw new Error(`Enum: ${optionName}: Unhandled type ${TypeDefInfo[def.info]}`);
@@ -117,7 +127,7 @@ function tsOption ({ name: optionName, sub }: TypeDef, imports: TypeImports): st
 function tsPlain ({ name: plainName, type }: TypeDef, imports: TypeImports): string {
   setImports(imports, [type]);
 
-  return `export interface ${plainName} extends ${type} {}`;
+  return createInterface(plainName, type);
 }
 
 function _tsStructGetterType (structName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): [string, string] {
@@ -159,10 +169,10 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
 
     setImports(imports, ['Struct', embedType]);
 
-    return `  readonly ${typedef.name}: ${returnType};\n`;
+    return createGetter(typedef.name, returnType);
   });
 
-  return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
+  return createInterface(structName, 'Struct', keys.join(''));
 }
 
 function _tsTupleGetterType (tupleName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): string {
@@ -188,9 +198,10 @@ function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): stri
   const types = (sub as TypeDef[]).map((typedef): string =>
     _tsTupleGetterType(tupleName, typedef, imports)
   );
+  const exp = createInterface(tupleName, `Codec, _${tupleName}`);
 
   // TODO We need some way here of identifying the fields
-  return `type _${tupleName} = [${types.join(', ')}];\nexport interface ${tupleName} extends Codec, _${tupleName} {}`;
+  return `type _${tupleName} = [${types.join(', ')}];\n${exp}`;
 }
 
 function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
@@ -200,7 +211,7 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
 
   setImports(imports, ['Vector', type]);
 
-  return `export interface ${vectorName} extends Vector<${type}> {}`;
+  return createInterface(vectorName, `Vector<${type}>`);
 }
 
 // creates the import lines
@@ -271,7 +282,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     }))
   ]);
 
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/${OUTPUT_FILE}`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([srmlName, obj]): void => {
@@ -279,3 +290,7 @@ Object.entries(definitions).forEach(([srmlName, obj]): void => {
 
   generateTsDef(srmlName, obj);
 });
+
+console.log(`Writing srml/types.ts`);
+
+fs.writeFileSync(`packages/types/src/srml/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });

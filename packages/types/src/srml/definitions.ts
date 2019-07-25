@@ -9,10 +9,7 @@
 // first do the deprecated types, these should be self-standing
 export { default as deprecated } from './deprecated/definitions';
 
-// support before balances (this and runtime is probably good as first items anyway)
-export { default as support } from './support/definitions';
-
-// runtime before session
+// runtime before balances, session
 export { default as runtime } from './runtime/definitions';
 
 // consensus before grandpa, imOnline

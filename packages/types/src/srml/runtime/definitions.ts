@@ -5,6 +5,8 @@
 export default {
   types: {
     Justification: 'Bytes',
+    KeyTypeId: 'u32',
+    LockIdentifier: '[u8; 8]',
     SessionKeys: {
       ed25519: 'AccountId'
     },
