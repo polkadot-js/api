@@ -8,6 +8,7 @@ import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef
 import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import { injectDefinitions } from '../srml';
+import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
   it('splits simple types into an array', (): void => {
@@ -263,6 +264,12 @@ describe('createType', (): void => {
     expect(
       createType('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
     ).toEqual({ B: 0 });
+  });
+
+  it('allows creation of a Set', (): void => {
+    expect(
+      createType<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', 1 + 4 + 16 + 64).strings
+    ).toEqual(['A', 'C', 'E', 'H']);
   });
 
   it('allows creation of a [u8; 8]', (): void => {

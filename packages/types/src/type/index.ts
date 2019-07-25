@@ -9,4 +9,3 @@
  * @summary Type definitions that are used in the system
  */
 export { default as Vote } from './Vote';
-export { default as WithdrawReasons } from './WithdrawReasons';
