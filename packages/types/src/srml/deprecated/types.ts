@@ -1,41 +1,44 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { AccountId, Bytes, Null, i8, u32, u64 } from '../../primitive';
 import { Balance } from '../runtime/types';
 
+/** Struct */
 export interface AccountInfo extends Struct {
+  /** Bytes */
   readonly trieId: Bytes;
+  /** u64 */
   readonly currentMemStored: u64;
 }
 
-export interface Amount extends Balance {}
+/** Balance */
+export type Amount = Balance;
 
-export interface AssetOf extends u32 {}
+/** u32 */
+export type AssetOf = u32;
 
-export interface InherentOfflineReport extends Null {}
+/** Null */
+export type InherentOfflineReport = Null;
 
-export interface LockPeriods extends i8 {}
+/** i8 */
+export type LockPeriods = i8;
 
+/** Enum */
 export interface NewAccountOutcome extends Enum {
-  /**
-   * @description 0:: NoHint
-   */
+  /** 0:: NoHint */
   readonly isNoHint: boolean;
-  /**
-   * @description 1:: GoodHint
-   */
+  /** 1:: GoodHint */
   readonly isGoodHint: boolean;
-  /**
-   * @description 2:: BadHint
-   */
+  /** 2:: BadHint */
   readonly isBadHint: boolean;
 }
 
-export interface OpaqueKey extends Bytes {}
+/** Bytes */
+export type OpaqueKey = Bytes;
 
-export interface SessionKey extends AccountId {}
+/** AccountId */
+export type SessionKey = AccountId;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
@@ -53,7 +56,6 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Option<AccountInfo>': Option<AccountInfo>;
     'Vec<AccountInfo>': Vec<AccountInfo>;
     LockPeriods: LockPeriods;
-    'Compact<LockPeriods>': Compact<LockPeriods>;
     'Option<LockPeriods>': Option<LockPeriods>;
     'Vec<LockPeriods>': Vec<LockPeriods>;
     InherentOfflineReport: InherentOfflineReport;

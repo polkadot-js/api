@@ -5,11 +5,13 @@
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import block00300 from '../json/SignedBlock.003.00.json';
+import { injectDefinitions } from '../srml';
 import Method from './Method';
 import Block from './Block';
 
 describe('Block', (): void => {
   beforeEach((): void => {
+    injectDefinitions();
     Method.injectMethods(extrinsics);
   });
 

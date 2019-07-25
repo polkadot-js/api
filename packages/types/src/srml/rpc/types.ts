@@ -1,102 +1,122 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Block, Bytes, ConsensusEngineId, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
-import { BlockNumber, Hash, Justification, Signature } from '../runtime/types';
+import { Block, Bytes, ConsensusEngineId, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { BlockNumber, Hash, Justification, Signature, StorageData } from '../runtime/types';
 
-export interface ApiId extends Vec<u8> {}
+/** Vec<u8> */
+export type ApiId = Vec<u8>;
 
+/** Struct */
 export interface ChainProperties extends Struct {
+  /** u32 */
   readonly tokenDecimals: u32;
+  /** Text */
   readonly tokenSymbol: Text;
 }
 
-type _Consensus = [ConsensusEngineId, Bytes];
-export interface Consensus extends Codec, _Consensus {}
+/** [ConsensusEngineId, Bytes] & Codec */
+export type Consensus = [ConsensusEngineId, Bytes] & Codec;
 
+/** Enum */
 export interface ExtrinsicStatus extends Enum {
-  /**
-   * @description 0:: Future
-   */
+  /** 0:: Future */
   readonly isFuture: boolean;
-  /**
-   * @description 1:: Ready
-   */
+  /** 1:: Ready */
   readonly isReady: boolean;
-  /**
-   * @description 2:: Finalized(Hash)
-   */
+  /** 2:: Finalized(Hash) */
   readonly isFinalized: boolean;
+  /** Hash */
   readonly asFinalized: Hash;
-  /**
-   * @description 3:: Usurped(Hash)
-   */
+  /** 3:: Usurped(Hash) */
   readonly isUsurped: boolean;
+  /** Hash */
   readonly asUsurped: Hash;
-  /**
-   * @description 4:: Broadcast(Vec<Text>)
-   */
+  /** 4:: Broadcast(Vec<Text>) */
   readonly isBroadcast: boolean;
+  /** Vec<Text> */
   readonly asBroadcast: Vec<Text>;
-  /**
-   * @description 5:: Dropped
-   */
+  /** 5:: Dropped */
   readonly isDropped: boolean;
-  /**
-   * @description 6:: Invalid
-   */
+  /** 6:: Invalid */
   readonly isInvalid: boolean;
 }
 
+/** Struct */
 export interface Health extends Struct {
+  /** u64 */
   readonly peers: u64;
+  /** bool */
   readonly isSyncing: bool;
+  /** bool */
   readonly shouldHavePeers: bool;
 }
 
-type _KeyValueOption = [StorageKey, Option<StorageData>];
-export interface KeyValueOption extends Codec, _KeyValueOption {}
+/** [StorageKey, Option<StorageData>] & Codec */
+export type KeyValueOption = [StorageKey, Option<StorageData>] & Codec;
 
-export interface NetworkState extends Struct {}
-
-export interface PeerInfo extends Struct {
+/** Struct */
+export interface NetworkState extends Struct {
+  /** Text */
   readonly peerId: Text;
+}
+
+/** Struct */
+export interface PeerInfo extends Struct {
+  /** Text */
+  readonly peerId: Text;
+  /** Text */
   readonly roles: Text;
+  /** u32 */
   readonly protocolVersion: u32;
+  /** Hash */
   readonly bestHash: Hash;
+  /** BlockNumber */
   readonly bestNumber: BlockNumber;
 }
 
-type _PreRuntime = [ConsensusEngineId, Bytes];
-export interface PreRuntime extends Codec, _PreRuntime {}
+/** [ConsensusEngineId, Bytes] & Codec */
+export type PreRuntime = [ConsensusEngineId, Bytes] & Codec;
 
+/** Struct */
 export interface RuntimeVersion extends Struct {
+  /** Text */
   readonly specName: Text;
+  /** Text */
   readonly implName: Text;
+  /** u32 */
   readonly authoringVersion: u32;
+  /** u32 */
   readonly specVersion: u32;
+  /** u32 */
   readonly implVersion: u32;
+  /** Vec<RuntimeVersionApi> */
   readonly apis: Vec<RuntimeVersionApi>;
 }
 
-type _RuntimeVersionApi = [ApiId, u32];
-export interface RuntimeVersionApi extends Codec, _RuntimeVersionApi {}
+/** [ApiId, u32] & Codec */
+export type RuntimeVersionApi = [ApiId, u32] & Codec;
 
-type _Seal = [ConsensusEngineId, Bytes];
-export interface Seal extends Codec, _Seal {}
+/** [ConsensusEngineId, Bytes] & Codec */
+export type Seal = [ConsensusEngineId, Bytes] & Codec;
 
-type _SealV0 = [u64, Signature];
-export interface SealV0 extends Codec, _SealV0 {}
+/** [u64, Signature] & Codec */
+export type SealV0 = [u64, Signature] & Codec;
 
+/** Struct */
 export interface SignedBlock extends Struct {
+  /** Block */
   readonly block: Block;
+  /** Justification */
   readonly justification: Justification;
 }
 
+/** Struct */
 export interface StorageChangeSet extends Struct {
+  /** Hash */
   readonly block: Hash;
+  /** Vec<KeyValueOption> */
   readonly changes: Vec<KeyValueOption>;
 }
 

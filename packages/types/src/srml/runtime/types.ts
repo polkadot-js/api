@@ -1,48 +1,74 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
+import { Codec } from '../../types';
 import { Compact, Option, Struct, Vec } from '../../codec';
-import { AccountId, Bytes, Fixed64, H256, H512, Null, u128, u32, u64, u8 } from '../../primitive';
+import { AccountId, Bytes, Fixed64, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
-export interface AccountIdOf extends AccountId {}
+/** AccountId */
+export type AccountIdOf = AccountId;
 
-export interface Balance extends u128 {}
+/** u128 */
+export type Balance = u128;
 
-export interface BalanceOf extends Balance {}
+/** Balance */
+export type BalanceOf = Balance;
 
-export interface BlockNumber extends u64 {}
+/** u64 */
+export type BlockNumber = u64;
 
-export interface Ed25519Signature extends Signature {}
+/** Signature */
+export type Ed25519Signature = Signature;
 
-export interface Hash extends H256 {}
+/** H256 */
+export type Hash = H256;
 
-export interface Index extends u64 {}
+/** u64 */
+export type Index = u64;
 
-export interface Justification extends Bytes {}
+/** Bytes */
+export type Justification = Bytes;
 
-export interface KeyTypeId extends u32 {}
+/** u32 */
+export type KeyTypeId = u32;
 
-export interface LockIdentifier extends Vec<u8> {}
+/** [StorageKey, StorageData] & Codec */
+export type KeyValue = [StorageKey, StorageData] & Codec;
 
-export interface Perbill extends u32 {}
+/** Vec<u8> */
+export type LockIdentifier = Vec<u8>;
 
-export interface Permill extends u32 {}
+/** u32 */
+export type Perbill = u32;
 
-export interface Phantom extends Null {}
+/** u32 */
+export type Permill = u32;
 
+/** Null */
+export type Phantom = Null;
+
+/** Struct */
 export interface SessionKeys extends Struct {
+  /** AccountId */
   readonly ed25519: AccountId;
 }
 
-export interface Signature extends H512 {}
+/** H512 */
+export type Signature = H512;
 
-export interface Sr25519Signature extends Signature {}
+/** Signature */
+export type Sr25519Signature = Signature;
 
-export interface ValidatorId extends AccountId {}
+/** Bytes */
+export type StorageData = Bytes;
 
-export interface Weight extends u32 {}
+/** AccountId */
+export type ValidatorId = AccountId;
 
-export interface WeightMultiplier extends Fixed64 {}
+/** u32 */
+export type Weight = u32;
+
+/** Fixed64 */
+export type WeightMultiplier = Fixed64;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
@@ -100,6 +126,12 @@ declare module '@polkadot/types/interfaceRegistry' {
     Sr25519Signature: Sr25519Signature;
     'Option<Sr25519Signature>': Option<Sr25519Signature>;
     'Vec<Sr25519Signature>': Vec<Sr25519Signature>;
+    StorageData: StorageData;
+    'Option<StorageData>': Option<StorageData>;
+    'Vec<StorageData>': Vec<StorageData>;
+    KeyValue: KeyValue;
+    'Option<KeyValue>': Option<KeyValue>;
+    'Vec<KeyValue>': Vec<KeyValue>;
     ValidatorId: ValidatorId;
     'Option<ValidatorId>': Option<ValidatorId>;
     'Vec<ValidatorId>': Vec<ValidatorId>;
@@ -108,7 +140,6 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Option<Weight>': Option<Weight>;
     'Vec<Weight>': Vec<Weight>;
     WeightMultiplier: WeightMultiplier;
-    'Compact<WeightMultiplier>': Compact<WeightMultiplier>;
     'Option<WeightMultiplier>': Option<WeightMultiplier>;
     'Vec<WeightMultiplier>': Vec<WeightMultiplier>;
   }

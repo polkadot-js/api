@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
-import { StorageChangeSet } from '@polkadot/types/srml/types';
+import { StorageChangeSet, StorageData } from '@polkadot/types/srml/types';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 
@@ -12,7 +12,7 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { Option, StorageData, StorageKey, Vec, createClass, createType } from '@polkadot/types';
+import { ClassOf, Option, StorageKey, Vec, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -326,7 +326,7 @@ export default class Rpc implements RpcInterface {
     // when the value in the set is not available, or is null/empty.
     const [, value] = base.changes.find(([key, value]): boolean =>
       value.isSome && key.toHex() === hexKey
-    ) || [null, this._storageCache.get(hexKey) || new Option<StorageData>(StorageData, null)];
+    ) || [null, this._storageCache.get(hexKey) || new Option<StorageData>(ClassOf('StorageData'), null)];
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearning of it, so very long running processes (not just a couple of hours, longer)

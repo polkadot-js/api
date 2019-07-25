@@ -1,35 +1,37 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { u32 } from '../../primitive';
 import { Balance } from '../runtime/types';
 
-export interface ApprovalFlag extends u32 {}
+/** u32 */
+export type ApprovalFlag = u32;
 
-export interface SetIndex extends u32 {}
+/** u32 */
+export type SetIndex = u32;
 
-export interface VoteIndex extends u32 {}
+/** u32 */
+export type VoteIndex = u32;
 
+/** Struct */
 export interface VoterInfo extends Struct {
+  /** VoteIndex */
   readonly lastActive: VoteIndex;
+  /** VoteIndex */
   readonly lastWin: VoteIndex;
+  /** Balance */
   readonly pot: Balance;
+  /** Balance */
   readonly stake: Balance;
 }
 
+/** Enum */
 export interface VoteThreshold extends Enum {
-  /**
-   * @description 0:: Super majority approval
-   */
+  /** 0:: Super majority approval */
   readonly isSuperMajorityApproval: boolean;
-  /**
-   * @description 1:: Super majority rejection
-   */
+  /** 1:: Super majority rejection */
   readonly isSuperMajorityRejection: boolean;
-  /**
-   * @description 2:: Simple majority
-   */
+  /** 2:: Simple majority */
   readonly isSimpleMajority: boolean;
 }
 

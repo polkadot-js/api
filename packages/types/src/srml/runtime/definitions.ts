@@ -22,6 +22,8 @@ export default {
     Signature: 'H512',
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
+    StorageData: 'Bytes',
+    KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64'

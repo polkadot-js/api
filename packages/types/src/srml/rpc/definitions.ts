@@ -27,7 +27,9 @@ export default {
       shouldHavePeers: 'bool'
     },
     KeyValueOption: '(StorageKey, Option<StorageData>)',
-    NetworkState: {},
+    NetworkState: {
+      peerId: 'Text'
+    },
     PeerInfo: {
       peerId: 'Text',
       roles: 'Text',

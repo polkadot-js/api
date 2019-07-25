@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Option, Vec } from '../../codec';
 import { AccountId } from '../../primitive';
 
-export interface AuthorityId extends AccountId {}
+/** AccountId */
+export type AuthorityId = AccountId;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {

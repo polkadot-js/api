@@ -5,6 +5,24 @@
 export default {
   types: {
     DigestOf: 'Digest',
-    Key: 'Bytes'
+    EventId: '[u8; 2]',
+    EventIndex: 'u32',
+    Key: 'Bytes',
+    Phase: {
+      _enum: {
+        ApplyExtrinsic: 'u32',
+        Finalization: 'Null'
+      }
+    },
+    EventRecord0to76: {
+      phase: 'Phase',
+      event: 'Event'
+    },
+    // Fallback in injectDefinitions
+    EventRecord: {
+      phase: 'Phase',
+      event: 'Event',
+      topics: 'Vec<Hash>'
+    }
   }
 };

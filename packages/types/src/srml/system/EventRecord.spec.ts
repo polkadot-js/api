@@ -2,22 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType from '../codec/createType';
-import Vec from '../codec/Vec';
-import json1 from '../json/EventRecord.001.json';
-import json3 from '../json/EventRecord.003.json';
-import { injectDefinitions } from '../srml';
-import Metadata from '../Metadata';
-import metadataV0 from '../Metadata/v0/static';
-import metadata from '../Metadata/static';
-import Event from './Event';
-import EventRecord from './EventRecord';
+import { EventRecord } from './types';
+
+import createType from '../../codec/createType';
+import Vec from '../../codec/Vec';
+import json1 from '../../json/EventRecord.001.json';
+import json3 from '../../json/EventRecord.003.json';
+import { injectDefinitions } from '..';
+import Metadata from '../../Metadata';
+import metadataV0 from '../../Metadata/v0/static';
+import metadata from '../../Metadata/static';
+import Event from '../../primitive/Event';
 
 describe('EventRecord', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
-      injectDefinitions();
-
       Event.injectMetadata(
         new Metadata(metadataV0)
       );

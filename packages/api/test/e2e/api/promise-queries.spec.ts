@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, SessionIndex } from '@polkadot/types/srml/types';
+import { EventRecord, Hash, SessionIndex } from '@polkadot/types/srml/types';
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { EventRecord, Header, Option, Vec, createType } from '@polkadot/types';
+import { Header, Option, Vec, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';

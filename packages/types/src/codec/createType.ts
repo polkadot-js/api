@@ -8,7 +8,6 @@ import { assert } from '@polkadot/util';
 import { InterfaceRegistry } from '../interfaceRegistry';
 import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
-import StorageData from '../primitive/StorageData';
 import Text from '../primitive/Text';
 import Compact from './Compact';
 import Enum from './Enum';
@@ -339,7 +338,7 @@ function initType<T extends Codec = Codec, K extends Text | string = Text | stri
       assert(
         inHex === crHex || // check that the hex matches, if matching, all-ok
         (
-          (value instanceof StorageData) && // input is from storage
+          (value instanceof ClassOf('StorageData')) && // input is from storage
           (created instanceof Uint8Array) && // we are a variable-lneght structure
           (value.toU8a(true).toString() === created.toU8a().toString()) // strip the input length
         ),

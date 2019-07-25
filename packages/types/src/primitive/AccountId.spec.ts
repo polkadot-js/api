@@ -4,13 +4,18 @@
 
 import { setAddressPrefix } from '@polkadot/util-crypto';
 
+import createType from '../codec/createType';
 import U8a from '../codec/U8a';
 import Vec from '../codec/Vec';
 import jsonVec from '../json/AccountIdVec.001.json';
+import { injectDefinitions } from '../srml';
 import AccountId from './AccountId';
-import StorageData from './StorageData';
 
 describe('AccountId', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   describe('defaults', (): void => {
     const id = new AccountId();
 
@@ -85,7 +90,7 @@ describe('AccountId', (): void => {
     it('has the correct entries', (): void => {
       setAddressPrefix(68);
 
-      const data = new StorageData(jsonVec.params.result.changes[0][1]);
+      const data = createType('StorageData', jsonVec.params.result.changes[0][1]);
       const list = new Vec(AccountId, data).map((accountId): string => accountId.toString());
 
       expect(list).toEqual([

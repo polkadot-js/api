@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
@@ -6,175 +5,181 @@ import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { AccountId, Bytes, u32, u64 } from '../../primitive';
 import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime/types';
 
+/** Struct */
 export interface AttestedCandidate extends Struct {
+  /** CandidateReceipt */
   readonly candidate: CandidateReceipt;
+  /** Vec<ValidityVote> */
   readonly validityVotes: Vec<ValidityVote>;
 }
 
-export interface AuctionIndex extends u32 {}
+/** u32 */
+export type AuctionIndex = u32;
 
-type _BalanceUpload = [AccountId, u64];
-export interface BalanceUpload extends Codec, _BalanceUpload {}
+/** [AccountId, u64] & Codec */
+export type BalanceUpload = [AccountId, u64] & Codec;
 
+/** Enum */
 export interface Bidder extends Enum {
-  /**
-   * @description 0:: New(NewBidder)
-   */
+  /** 0:: New(NewBidder) */
   readonly isNew: boolean;
+  /** NewBidder */
   readonly asNew: NewBidder;
-  /**
-   * @description 1:: Existing(ParaId)
-   */
+  /** 1:: Existing(ParaId) */
   readonly isExisting: boolean;
+  /** ParaId */
   readonly asExisting: ParaId;
 }
 
+/** Struct */
 export interface CandidateReceipt extends Struct {
+  /** ParaId */
   readonly parachainIndex: ParaId;
+  /** AccountId */
   readonly collator: AccountId;
+  /** CollatorSignature */
   readonly signature: CollatorSignature;
+  /** HeadData */
   readonly headData: HeadData;
+  /** Vec<BalanceUpload> */
   readonly balanceUploads: Vec<BalanceUpload>;
+  /** Vec<EgressQueueRoot> */
   readonly egressQueueRoots: Vec<EgressQueueRoot>;
+  /** u64 */
   readonly fees: u64;
+  /** Hash */
   readonly blockDataHash: Hash;
 }
 
-export interface CollatorSignature extends Signature {}
+/** Signature */
+export type CollatorSignature = Signature;
 
-type _EgressQueueRoot = [ParaId, Hash];
-export interface EgressQueueRoot extends Codec, _EgressQueueRoot {}
+/** [ParaId, Hash] & Codec */
+export type EgressQueueRoot = [ParaId, Hash] & Codec;
 
-export interface HeadData extends Bytes {}
+/** Bytes */
+export type HeadData = Bytes;
 
+/** Enum */
 export interface IncomingParachain extends Enum {
-  /**
-   * @description 0:: Unset(NewBidder)
-   */
+  /** 0:: Unset(NewBidder) */
   readonly isUnset: boolean;
+  /** NewBidder */
   readonly asUnset: NewBidder;
-  /**
-   * @description 1:: Fixed(IncomingParachainFixed)
-   */
+  /** 1:: Fixed(IncomingParachainFixed) */
   readonly isFixed: boolean;
+  /** IncomingParachainFixed */
   readonly asFixed: IncomingParachainFixed;
-  /**
-   * @description 2:: Deploy(IncomingParachainDeploy)
-   */
+  /** 2:: Deploy(IncomingParachainDeploy) */
   readonly isDeploy: boolean;
+  /** IncomingParachainDeploy */
   readonly asDeploy: IncomingParachainDeploy;
 }
 
+/** Struct */
 export interface IncomingParachainDeploy extends Struct {
+  /** Bytes */
   readonly code: Bytes;
+  /** Bytes */
   readonly initialHeadData: Bytes;
 }
 
+/** Struct */
 export interface IncomingParachainFixed extends Struct {
+  /** Hash */
   readonly codeHash: Hash;
+  /** Bytes */
   readonly initialHeadData: Bytes;
 }
 
-export interface LeasePeriod extends BlockNumber {}
+/** BlockNumber */
+export type LeasePeriod = BlockNumber;
 
-export interface LeasePeriodOf extends LeasePeriod {}
+/** LeasePeriod */
+export type LeasePeriodOf = LeasePeriod;
 
+/** Struct */
 export interface NewBidder extends Struct {
+  /** AccountId */
   readonly who: AccountId;
+  /** SubId */
   readonly sub: SubId;
 }
 
+/** Enum */
 export interface ParachainDispatchOrigin extends Enum {
-  /**
-   * @description 0:: Signed
-   */
+  /** 0:: Signed */
   readonly isSigned: boolean;
-  /**
-   * @description 1:: Parachain
-   */
+  /** 1:: Parachain */
   readonly isParachain: boolean;
 }
 
-export interface ParaId extends u32 {}
+/** u32 */
+export type ParaId = u32;
 
-export interface ParaIdOf extends ParaId {}
+/** ParaId */
+export type ParaIdOf = ParaId;
 
+/** Enum */
 export interface SlotRange extends Enum {
-  /**
-   * @description 0:: ZeroZero
-   */
+  /** 0:: ZeroZero */
   readonly isZeroZero: boolean;
-  /**
-   * @description 1:: ZeroOne
-   */
+  /** 1:: ZeroOne */
   readonly isZeroOne: boolean;
-  /**
-   * @description 2:: ZeroTwo
-   */
+  /** 2:: ZeroTwo */
   readonly isZeroTwo: boolean;
-  /**
-   * @description 3:: ZeroThree
-   */
+  /** 3:: ZeroThree */
   readonly isZeroThree: boolean;
-  /**
-   * @description 4:: OneOne
-   */
+  /** 4:: OneOne */
   readonly isOneOne: boolean;
-  /**
-   * @description 5:: OneTwo
-   */
+  /** 5:: OneTwo */
   readonly isOneTwo: boolean;
-  /**
-   * @description 6:: OneThree
-   */
+  /** 6:: OneThree */
   readonly isOneThree: boolean;
-  /**
-   * @description 7:: TwoTwo
-   */
+  /** 7:: TwoTwo */
   readonly isTwoTwo: boolean;
-  /**
-   * @description 8:: TwoThree
-   */
+  /** 8:: TwoThree */
   readonly isTwoThree: boolean;
-  /**
-   * @description 9:: ThreeThree
-   */
+  /** 9:: ThreeThree */
   readonly isThreeThree: boolean;
 }
 
-export interface SubId extends u32 {}
+/** u32 */
+export type SubId = u32;
 
+/** Struct */
 export interface UpwardMessage extends Struct {
+  /** ParachainDispatchOrigin */
   readonly origin: ParachainDispatchOrigin;
+  /** Bytes */
   readonly data: Bytes;
 }
 
-export interface ValidatorIndex extends u32 {}
+/** u32 */
+export type ValidatorIndex = u32;
 
+/** Enum */
 export interface ValidityAttestation extends Enum {
-  /**
-   * @description 0:: None
-   */
+  /** 0:: None */
   readonly isNone: boolean;
-  /**
-   * @description 1:: Implicit(CollatorSignature)
-   */
+  /** 1:: Implicit(CollatorSignature) */
   readonly isImplicit: boolean;
+  /** CollatorSignature */
   readonly asImplicit: CollatorSignature;
-  /**
-   * @description 2:: Explicit(CollatorSignature)
-   */
+  /** 2:: Explicit(CollatorSignature) */
   readonly isExplicit: boolean;
+  /** CollatorSignature */
   readonly asExplicit: CollatorSignature;
 }
 
-type _ValidityVote = [ValidatorIndex, ValidityAttestation];
-export interface ValidityVote extends Codec, _ValidityVote {}
+/** [ValidatorIndex, ValidityAttestation] & Codec */
+export type ValidityVote = [ValidatorIndex, ValidityAttestation] & Codec;
 
-export interface WinningData extends Vec<WinningDataEntry> {}
+/** Vec<WinningDataEntry> */
+export type WinningData = Vec<WinningDataEntry>;
 
-type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
-export interface WinningDataEntry extends Codec, _WinningDataEntry {}
+/** [AccountId, ParaIdOf, BalanceOf] & Codec */
+export type WinningDataEntry = [AccountId, ParaIdOf, BalanceOf] & Codec;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {

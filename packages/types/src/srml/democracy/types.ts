@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
@@ -6,43 +5,40 @@ import { Method, u32 } from '../../primitive';
 import { BlockNumber } from '../runtime/types';
 import { VoteThreshold } from '../elections/types';
 
+/** Enum */
 export interface Conviction extends Enum {
-  /**
-   * @description 0:: None
-   */
+  /** 0:: None */
   readonly isNone: boolean;
-  /**
-   * @description 1:: Locked1x
-   */
+  /** 1:: Locked1x */
   readonly isLocked1X: boolean;
-  /**
-   * @description 2:: Locked2x
-   */
+  /** 2:: Locked2x */
   readonly isLocked2X: boolean;
-  /**
-   * @description 3:: Locked3x
-   */
+  /** 3:: Locked3x */
   readonly isLocked3X: boolean;
-  /**
-   * @description 4:: Locked4x
-   */
+  /** 4:: Locked4x */
   readonly isLocked4X: boolean;
-  /**
-   * @description 5:: Locked5x
-   */
+  /** 5:: Locked5x */
   readonly isLocked5X: boolean;
 }
 
-export interface PropIndex extends u32 {}
+/** u32 */
+export type PropIndex = u32;
 
-export interface Proposal extends Method {}
+/** Method */
+export type Proposal = Method;
 
-export interface ReferendumIndex extends u32 {}
+/** u32 */
+export type ReferendumIndex = u32;
 
+/** Struct */
 export interface ReferendumInfo extends Struct {
+  /** BlockNumber */
   readonly end: BlockNumber;
+  /** Proposal */
   readonly proposal: Proposal;
+  /** VoteThreshold */
   readonly threshold: VoteThreshold;
+  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 

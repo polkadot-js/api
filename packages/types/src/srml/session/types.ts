@@ -1,13 +1,14 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Option, Vec } from '../../codec';
 import { u32 } from '../../primitive';
 import { SessionKeys } from '../runtime/types';
 
-export interface Keys extends SessionKeys {}
+/** SessionKeys */
+export type Keys = SessionKeys;
 
-export interface SessionIndex extends u32 {}
+/** u32 */
+export type SessionIndex = u32;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
