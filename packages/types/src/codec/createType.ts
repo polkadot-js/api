@@ -114,11 +114,10 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
       name,
       type: 'Null'
     }))
-    : Object.entries(details).map(([name, type]): TypeDef => ({
-      info: TypeDefInfo.Plain,
-      name,
-      type: type || 'Null'
-    }));
+    : Object.entries(details).map(([name, type]): TypeDef =>
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getTypeDef(type || 'Null', name)
+    );
 
   return value;
 }

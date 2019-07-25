@@ -2,9 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '@polkadot/types/srml';
+
 import { storage } from './storage';
 
 describe('storage', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('should return well known keys', (): void => {
     expect(typeof storage.substrate).toBe('object');
 

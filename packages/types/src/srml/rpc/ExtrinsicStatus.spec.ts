@@ -5,8 +5,8 @@
 import { ExtrinsicStatus } from './types';
 
 import createType from '../../codec/createType';
+import rpc from '../../json/ExtrinsicStatus.001.json';
 import { injectDefinitions } from '..';
-import rpc from '../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
   let status: ExtrinsicStatus;

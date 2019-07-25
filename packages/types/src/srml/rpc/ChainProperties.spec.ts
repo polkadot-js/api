@@ -17,20 +17,12 @@ describe('ChainProperties', (): void => {
   });
 
   it('decodes from an actual object', (): void => {
-    expect(
-      [...createType('ChainProperties', {
-        decimals: 15,
-        tokenSymbol: 'BBQ'
-      }).entries()]
-    ).toEqual([['decimals', 15], ['tokenSymbol', 'BBQ']]);
-  });
+    const { tokenDecimals, tokenSymbol } = createType('ChainProperties', {
+      tokenDecimals: 15,
+      tokenSymbol: 'BBQ'
+    });
 
-  it('checks equality', (): void => {
-    expect(
-      createType('ChainProperties', {
-        decimals: 15,
-        tokenSymbol: 'BBQ'
-      }).eq([['tokenSymbol', 'BBQ'], ['decimals', 15]])
-    ).toBe(true);
+    expect(tokenDecimals.eq(15)).toBe(true);
+    expect(tokenSymbol.eq('BBQ')).toBe(true);
   });
 });

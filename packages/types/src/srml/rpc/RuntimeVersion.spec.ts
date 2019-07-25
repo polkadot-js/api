@@ -6,11 +6,13 @@ import { RuntimeVersion } from './types';
 
 import createType from '../../codec/createType';
 import rpc from '../../json/RuntimeVersion.002.json';
+import { injectDefinitions } from '..';
 
 describe('RuntimeVersion', (): void => {
   let version: RuntimeVersion;
 
   beforeEach((): void => {
+    injectDefinitions();
     version = createType('RuntimeVersion', rpc.result);
   });
 

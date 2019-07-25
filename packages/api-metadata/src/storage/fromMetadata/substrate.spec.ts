@@ -2,9 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '@polkadot/types/srml';
+
 import { authorityCount, authorityPrefix, changesTrieConfig, childStorageKeyPrefix, code, extrinsicIndex, heapPages } from './substrate';
 
 describe('substrate', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
   // have been removed in https://github.com/paritytech/substrate/pull/2802
   it('authorityCount should return the correct storage key', (): void => {

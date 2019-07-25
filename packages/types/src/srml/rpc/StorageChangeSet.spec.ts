@@ -4,7 +4,7 @@
 
 import { createType } from '@polkadot/types';
 
-import json from '../json/StorageChangeSet.001.json';
+import json from '../../json/StorageChangeSet.001.json';
 import { injectDefinitions } from '../';
 
 describe('StorageChangeSet', (): void => {
@@ -28,7 +28,7 @@ describe('StorageChangeSet', (): void => {
 
     it('wraps key/value', (): void => {
       expect(
-        set.changes[0][0].toString()
+        set.changes[0][1].toString()
       ).toEqual('0xcd');
     });
   });
