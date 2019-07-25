@@ -4,7 +4,7 @@
 
 import { assert, isU8a, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { Codec } from '../types';
+import { Codec, Constructor } from '../types';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number>;
@@ -20,9 +20,7 @@ export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
   public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
-    super(
-      CodecSet.decodeSet(setValues, value)
-    );
+    super(CodecSet.decodeSet(setValues, value));
 
     this._setValues = setValues;
   }
@@ -63,6 +61,14 @@ export default class CodecSet extends Set<string> implements Codec {
     return value.reduce((result, value): number => {
       return result | (setValues[value] || 0);
     }, 0);
+  }
+
+  public static with (values: SetValues): Constructor<CodecSet> {
+    return class extends CodecSet {
+      public constructor (value?: any) {
+        super(values, value);
+      }
+    };
   }
 
   /**

@@ -13,6 +13,7 @@ import Compact from './Compact';
 import Enum from './Enum';
 import Linkage from './Linkage';
 import Option from './Option';
+import CodecSet from './Set';
 import Struct from './Struct';
 import Tuple from './Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
@@ -28,6 +29,7 @@ export enum TypeDefInfo {
   Linkage,
   Option,
   Plain,
+  Set,
   Struct,
   Tuple,
   Vector,
@@ -43,6 +45,7 @@ export interface TypeDefExtVecFixed {
 
 export interface TypeDef {
   info: TypeDefInfo;
+  index?: number;
   ext?: TypeDefExtVecFixed; // add additional here as required
   name?: string;
   type: string;
@@ -97,6 +100,42 @@ export function typeSplit (type: string): string[] {
   return result;
 }
 
+// decode an enum of either of the following forms
+//  { _enum: ['A', 'B', 'C'] }
+//  { _enum: { A: AccountId, B: Balance, C: u32 } }
+function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>): TypeDef {
+  value.info = TypeDefInfo.Enum;
+
+  // not as pretty, but remain compatible with oo7 for both struct and Array types
+  value.sub = Array.isArray(details)
+    ? details.map((name): TypeDef => ({
+      info: TypeDefInfo.Plain,
+      name,
+      type: 'Null'
+    }))
+    : Object.entries(details).map(([name, type]): TypeDef => ({
+      info: TypeDefInfo.Plain,
+      name,
+      type: type || 'Null'
+    }));
+
+  return value;
+}
+
+// decode a set of the form
+//   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
+function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
+  value.info = TypeDefInfo.Set;
+  value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
+    index,
+    info: TypeDefInfo.Plain,
+    name,
+    type: name
+  }));
+
+  return value;
+}
+
 export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   const type = _type.toString().trim();
   const value: TypeDef = {
@@ -136,21 +175,9 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     const keys = Object.keys(parsed);
 
     if (keys.length === 1 && keys[0] === '_enum') {
-      const details = parsed[keys[0]];
-
-      // not as pretty, but remain compatible with oo7 for both struct and Array types
-      value.sub = Array.isArray(details)
-        ? details.map((name): TypeDef => ({
-          info: TypeDefInfo.Plain,
-          name,
-          type: 'Null'
-        }))
-        : Object.keys(details).map((name): TypeDef => ({
-          info: TypeDefInfo.Plain,
-          name,
-          type: details[name] || 'Null'
-        }));
-      value.info = TypeDefInfo.Enum;
+      _decodeEnum(value, parsed[keys[0]]);
+    } else if (keys.length === 1 && keys[0] === '_set') {
+      _decodeSet(value, parsed[keys[0]]);
     } else {
       value.info = TypeDefInfo.Struct;
       value.sub = keys.map((name): TypeDef => getTypeDef(parsed[name], name));
@@ -214,40 +241,50 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
   switch (value.info) {
     case TypeDefInfo.Compact:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
-
       return Compact.with(
         getTypeClass<UInt>(value.sub as TypeDef)
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Enum:
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
-
       return Enum.with(
         getTypeClassMap(value.sub as TypeDef[])
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Option:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
-
       return Option.with(
         getTypeClass(value.sub as TypeDef)
       ) as unknown as Constructor<T>;
+
+    case TypeDefInfo.Set:
+      assert(Array.isArray(value.sub), 'Expected nested info for Set');
+      return CodecSet.with(
+        (value.sub as TypeDef[]).reduce((result, { name, index }): Record<string, number> => {
+          result[name as string] = index as number;
+
+          return result;
+        }, {} as unknown as Record<string, number>)
+      ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Struct:
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
-
       return Struct.with(
         getTypeClassMap(value.sub as TypeDef[])
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Tuple:
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
-
       return Tuple.with(
         (value.sub as TypeDef[]).map((Type): Constructor<Codec> => getTypeClass(Type))
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Vector:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
-
       return Vector.with(
         getTypeClass<Codec>(value.sub as TypeDef)
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.VectorFixed:
       assert(value.ext, 'Expected length & type information for fixed vector');
 
@@ -258,16 +295,17 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
           ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
           : VectorFixed.with(createClass<Codec>(ext.type), ext.length)
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
-
       return Linkage.withKey(
         getTypeClass<Codec>(value.sub as TypeDef)
       ) as unknown as Constructor<T>;
+
     case TypeDefInfo.DoubleMap:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
-
       return getTypeClass(value.sub as TypeDef);
+
     case TypeDefInfo.Null:
       return Null as unknown as Constructor<T>;
   }
