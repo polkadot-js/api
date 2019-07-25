@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum } from '../../codec';
+import { Compact, Enum, Option, Vector } from '../../codec';
 import { AccountId, Balance, Bytes, Null, i8, u32 } from '../../primitive';
 
 export interface Amount extends Balance {}

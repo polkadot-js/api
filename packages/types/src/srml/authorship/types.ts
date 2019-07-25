@@ -2,7 +2,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Option } from '../../codec';
+import { Enum, Option, Vector } from '../../codec';
 import { AccountId, Hash } from '../../primitive';
 import { BlockNumber } from '../../type';
 

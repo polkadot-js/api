@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
+import { Compact, Option, Vector } from '../../codec';
 import { u64 } from '../../primitive';
 
 export interface BabeWeight extends u64 {}

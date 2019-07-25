@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Struct, Vector } from '../../codec';
+import { Compact, Option, Struct, Vector } from '../../codec';
 import { AccountId, Bytes, u32, u8 } from '../../primitive';
 
 export interface Justification extends Bytes {}

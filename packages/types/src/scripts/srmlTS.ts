@@ -238,17 +238,26 @@ function createImportCode (header: string, checks: { file: string; types: string
   }, header) + '\n';
 }
 
-function interfaceRegistry (types: Record<string, any>): string {
+function interfaceRegistry (types: Record<string, any>, imports: TypeImports): string {
   return `
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
 ${Object.keys(types)
-    .map((type): string => [
-      `${type}: ${type};`,
-      isCompactEncodable((primitiveClasses as any)[types[type]]) ? `'Compact<${type}>': Compact<${type}>;` : undefined,
-      `'Option<${type}>': Option<${type}>;`,
-      `'Vec<${type}>': Vector<${type}>;`].filter((x): boolean => !!x).map((line): string => `    ${line}`).join('\n')
+    .map((type): string => {
+      const isCompact = isCompactEncodable((primitiveClasses as any)[types[type]]);
+      setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
+
+      return [
+        `${type}: ${type};`,
+        isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+        `'Option<${type}>': Option<${type}>;`,
+        `'Vec<${type}>': Vector<${type}>;`
+      ]
+        .filter((x): boolean => !!x)
+        .map((line): string => `    ${line}`) // Add indentation
+        .join('\n');
+    }
     ).join('\n')}
   }
 }`;
@@ -288,6 +297,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
   });
 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes });
   const header = createImportCode(HEADER, [
     {
       file: '../types',
@@ -310,7 +320,6 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
       types: Object.keys(localTypes[moduleName])
     }))
   ]);
-  const interfaceReg = interfaceRegistry(types);
 
   fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
 }

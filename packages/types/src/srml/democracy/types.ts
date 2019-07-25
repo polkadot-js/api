@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum, Struct } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { Method, u32 } from '../../primitive';
 import { BlockNumber } from '../../type';
 import { VoteThreshold } from '../elections/types';

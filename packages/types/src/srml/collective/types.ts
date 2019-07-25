@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Struct, Vector } from '../../codec';
+import { Compact, Option, Struct, Vector } from '../../codec';
 import { AccountId, u32, u64 } from '../../primitive';
 
 export interface MemberCount extends u64 {}
