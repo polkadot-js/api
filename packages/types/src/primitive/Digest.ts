@@ -11,7 +11,7 @@ import { assert } from '@polkadot/util';
 import { ClassOf } from '../codec/createType';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
+import Vec from '../codec/Vec';
 import Bytes from './Bytes';
 
 /**
@@ -33,12 +33,12 @@ export class DigestItem extends Enum {
   }
 
   /**
-   * @description Returns the item as a [[Vector<AuthorityId>]]
+   * @description Returns the item as a [[Vec<AuthorityId>]]
    */
-  public get asAuthoritiesChange (): Vector<AuthorityId> {
+  public get asAuthoritiesChange (): Vec<AuthorityId> {
     assert(this.isAuthoritiesChange, `Cannot convert '${this.type}' via asAuthoritiesChange`);
 
-    return this.value as Vector<AuthorityId>;
+    return this.value as Vec<AuthorityId>;
   }
 
   /**
@@ -167,35 +167,28 @@ export class DigestItem extends Enum {
 export default class Digest extends Struct {
   public constructor (value: any) {
     super({
-      logs: Vector.with(DigestItem)
+      logs: Vec.with(DigestItem)
     }, value);
   }
 
   /**
    * @description The [[DigestItem]] logs
    */
-  public get logs (): Vector<DigestItem> {
-    return this.get('logs') as Vector<DigestItem>;
+  public get logs (): Vec<DigestItem> {
+    return this.get('logs') as Vec<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  public logsWith (...include: string[]): Vector<DigestItem> {
-    return this.logs.filter(({ type }): boolean => include.includes(type)) as Vector<DigestItem>;
+  public logsWith (...include: string[]): Vec<DigestItem> {
+    return this.logs.filter(({ type }): boolean => include.includes(type)) as Vec<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  public logsWithout (...exclude: string[]): Vector<DigestItem> {
-    return this.logs.filter(({ type }): boolean => !exclude.includes(type)) as Vector<DigestItem>;
+  public logsWithout (...exclude: string[]): Vec<DigestItem> {
+    return this.logs.filter(({ type }): boolean => !exclude.includes(type)) as Vec<DigestItem>;
   }
 }
-
-/**
- * @name DigestOf
- * @description
- * A [[Header]] Digest
- */
-export class DigestOf extends Digest {}

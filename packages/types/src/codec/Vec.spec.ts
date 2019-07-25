@@ -11,14 +11,14 @@ import AccountId from '../primitive/AccountId';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import createType from './createType';
-import Vector from './Vector';
+import Vec from './Vec';
 import Tuple from './Tuple';
 
-describe('Vector', (): void => {
-  let vector: Vector<Codec>;
+describe('Vec', (): void => {
+  let vector: Vec<Codec>;
 
   beforeEach((): void => {
-    vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
+    vector = new Vec(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
     Method.injectMethods(extrinsics);
   });
@@ -44,7 +44,7 @@ describe('Vector', (): void => {
 
   it('allows contruction via JSON', (): void => {
     expect(
-      new Vector(Text, ['6', '7']).toJSON()
+      new Vec(Text, ['6', '7']).toJSON()
     ).toEqual(['6', '7']);
   });
 
@@ -56,7 +56,7 @@ describe('Vector', (): void => {
     const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
       4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ]));
-    const first = (test as Vector<Codec>)[0] as Tuple;
+    const first = (test as Vec<Codec>)[0] as Tuple;
 
     expect((first[0] as PropIndex).toNumber()).toEqual(10);
     expect((first[1] as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
@@ -118,7 +118,7 @@ describe('Vector', (): void => {
   });
 
   describe('utils', (): void => {
-    const vec = new Vector(Text, ['123', '456']);
+    const vec = new Vec(Text, ['123', '456']);
 
     it('compares against codec types', (): void => {
       expect(vec.eq([new Text('123'), new Text('456')])).toBe(true);
@@ -130,7 +130,7 @@ describe('Vector', (): void => {
 
     it('finds the index of an value', (): void => {
       const myId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-      const vec = new Vector(AccountId, [
+      const vec = new Vec(AccountId, [
         '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
       ]);
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Option, Set, Struct, Vector } from '../../codec';
+import { Option, Set, Struct, Vec } from '../../codec';
 import { Balance, BlockNumber, LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
@@ -27,12 +27,12 @@ declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     VestingSchedule: VestingSchedule;
     'Option<VestingSchedule>': Option<VestingSchedule>;
-    'Vec<VestingSchedule>': Vector<VestingSchedule>;
+    'Vec<VestingSchedule>': Vec<VestingSchedule>;
     WithdrawReasons: WithdrawReasons;
     'Option<WithdrawReasons>': Option<WithdrawReasons>;
-    'Vec<WithdrawReasons>': Vector<WithdrawReasons>;
+    'Vec<WithdrawReasons>': Vec<WithdrawReasons>;
     BalanceLock: BalanceLock;
     'Option<BalanceLock>': Option<BalanceLock>;
-    'Vec<BalanceLock>': Vector<BalanceLock>;
+    'Vec<BalanceLock>': Vec<BalanceLock>;
   }
 }

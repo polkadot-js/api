@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Header, Option, U32, createType } from '@polkadot/types';
+import { Header, Option, u32, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -65,7 +65,7 @@ describeE2E({
 
   it('subscribes to queries (default)', (done): Promise<() => void> => {
     return (
-      api.query.staking.minimumValidatorCount((defaultCount: U32): void => {
+      api.query.staking.minimumValidatorCount((defaultCount: u32): void => {
         expect(defaultCount.toNumber()).toBe(1);
 
         done();

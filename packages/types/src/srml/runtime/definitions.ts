@@ -15,6 +15,7 @@ export default {
     Index: 'u64',
     Perbill: 'u32',
     Permill: 'u32',
+    Phantom: 'Null',
     SessionKeys: {
       ed25519: 'AccountId'
     },

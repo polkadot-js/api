@@ -7,7 +7,7 @@ import { Hash, SessionIndex } from '@polkadot/types/srml/types';
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { EventRecord, Header, Option, Vector, createType } from '@polkadot/types';
+import { EventRecord, Header, Option, Vec, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -80,7 +80,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
-    const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
+    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
 
     expect(events.length).not.toEqual(0);
 

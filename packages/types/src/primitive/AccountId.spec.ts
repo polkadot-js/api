@@ -5,7 +5,7 @@
 import { setAddressPrefix } from '@polkadot/util-crypto';
 
 import U8a from '../codec/U8a';
-import Vector from '../codec/Vector';
+import Vec from '../codec/Vec';
 import jsonVec from '../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
 import StorageData from './StorageData';
@@ -86,7 +86,7 @@ describe('AccountId', (): void => {
       setAddressPrefix(68);
 
       const data = new StorageData(jsonVec.params.result.changes[0][1]);
-      const list = new Vector(AccountId, data).map((accountId): string => accountId.toString());
+      const list = new Vec(AccountId, data).map((accountId): string => accountId.toString());
 
       expect(list).toEqual([
         '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTLup',

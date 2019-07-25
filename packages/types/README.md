@@ -23,8 +23,8 @@ These are the base types of the codec. They are typically not used directly, but
 | [[U8a]] |  A basic wrapper around Uint8Array. It will consume the full Uint8Array as passed to it |
 | [[U8aFixed]] | A U8a that manages a a sequence of bytes up to the specified bitLength |
 | [[UInt]] | A generic unsigned integer codec. It handles the encoding and decoding of Little Endian encoded numbers in Substrate |
-| [[Vector]] | This manages codec arrays. Internally it keeps track of the length (as decoded) |
-| [[VectorAny]] | This manages codec arrays, assuming that the inputs are already of type Codec |
+| [[Vec]] | This manages codec arrays. Internally it keeps track of the length (as decoded) |
+| [[VecAny]] | This manages codec arrays, assuming that the inputs are already of type Codec |
 
 
 ## Primitive types

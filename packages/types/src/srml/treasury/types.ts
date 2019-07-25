@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Option, Struct, Vector } from '../../codec';
+import { Option, Struct, Vec } from '../../codec';
 import { AccountId } from '../../primitive';
 import { Balance } from '../runtime/types';
 
@@ -16,6 +16,6 @@ declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     TreasuryProposal: TreasuryProposal;
     'Option<TreasuryProposal>': Option<TreasuryProposal>;
-    'Vec<TreasuryProposal>': Vector<TreasuryProposal>;
+    'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
   }
 }

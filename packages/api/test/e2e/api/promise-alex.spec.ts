@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { AccountId, ClassOf, EventRecord, Header, Option, Vector } from '@polkadot/types';
+import { AccountId, ClassOf, EventRecord, Header, Option, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -72,13 +72,13 @@ describeE2E({
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
-    const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
+    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
 
     expect(events.length).not.toEqual(0);
   });
 
   it('subscribes to events', (done): Promise<() => void> => {
-    return api.query.system.events((events: Vector<EventRecord>): void => {
+    return api.query.system.events((events: Vec<EventRecord>): void => {
       expect(events).not.toHaveLength(0);
       done();
     });

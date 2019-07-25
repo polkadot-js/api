@@ -1,27 +1,29 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
-import { AccountId, u32 } from '../../primitive';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { AccountId, Moment, u32 } from '../../primitive';
 import { Balance, BlockNumber } from '../runtime/types';
 
 export interface EraIndex extends u32 {}
 
 export interface EraRewards extends Struct {
   readonly total: u32;
-  readonly rewards: Vector<u32>;
+  readonly rewards: Vec<u32>;
 }
 
 export interface Exposure extends Struct {
   readonly total: Compact<Balance>;
   readonly own: Compact<Balance>;
-  readonly others: Vector<IndividualExposure>;
+  readonly others: Vec<IndividualExposure>;
 }
 
 export interface IndividualExposure extends Struct {
   readonly who: AccountId;
   readonly value: Compact<Balance>;
 }
+
+export interface MomentOf extends Moment {}
 
 export interface RewardDestination extends Enum {
   /**
@@ -42,7 +44,7 @@ export interface StakingLedger extends Struct {
   readonly stash: AccountId;
   readonly total: Compact<Balance>;
   readonly active: Compact<Balance>;
-  readonly unlocking: Vector<UnlockChunk>;
+  readonly unlocking: Vec<UnlockChunk>;
 }
 
 export interface UnlockChunk extends Struct {
@@ -60,27 +62,30 @@ declare module '@polkadot/types/interfaceRegistry' {
     EraIndex: EraIndex;
     'Compact<EraIndex>': Compact<EraIndex>;
     'Option<EraIndex>': Option<EraIndex>;
-    'Vec<EraIndex>': Vector<EraIndex>;
+    'Vec<EraIndex>': Vec<EraIndex>;
     EraRewards: EraRewards;
     'Option<EraRewards>': Option<EraRewards>;
-    'Vec<EraRewards>': Vector<EraRewards>;
+    'Vec<EraRewards>': Vec<EraRewards>;
     IndividualExposure: IndividualExposure;
     'Option<IndividualExposure>': Option<IndividualExposure>;
-    'Vec<IndividualExposure>': Vector<IndividualExposure>;
+    'Vec<IndividualExposure>': Vec<IndividualExposure>;
     Exposure: Exposure;
     'Option<Exposure>': Option<Exposure>;
-    'Vec<Exposure>': Vector<Exposure>;
+    'Vec<Exposure>': Vec<Exposure>;
+    MomentOf: MomentOf;
+    'Option<MomentOf>': Option<MomentOf>;
+    'Vec<MomentOf>': Vec<MomentOf>;
     RewardDestination: RewardDestination;
     'Option<RewardDestination>': Option<RewardDestination>;
-    'Vec<RewardDestination>': Vector<RewardDestination>;
+    'Vec<RewardDestination>': Vec<RewardDestination>;
     UnlockChunk: UnlockChunk;
     'Option<UnlockChunk>': Option<UnlockChunk>;
-    'Vec<UnlockChunk>': Vector<UnlockChunk>;
+    'Vec<UnlockChunk>': Vec<UnlockChunk>;
     StakingLedger: StakingLedger;
     'Option<StakingLedger>': Option<StakingLedger>;
-    'Vec<StakingLedger>': Vector<StakingLedger>;
+    'Vec<StakingLedger>': Vec<StakingLedger>;
     ValidatorPrefs: ValidatorPrefs;
     'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
-    'Vec<ValidatorPrefs>': Vector<ValidatorPrefs>;
+    'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
   }
 }

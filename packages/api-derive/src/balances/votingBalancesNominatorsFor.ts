@@ -5,7 +5,7 @@
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Vector } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Vec } from '@polkadot/types';
 
 import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';
@@ -17,7 +17,7 @@ export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: Acc
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]): Observable<AccountId[]> =>
         accountId
-          ? (api.query.staking.nominatorsFor<Vector<AccountId>>(accountId))
+          ? (api.query.staking.nominatorsFor<Vec<AccountId>>(accountId))
           : of([] as AccountId[])
       ),
       switchMap(votingBalances(api)),

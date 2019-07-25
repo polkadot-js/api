@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import createType from '../codec/createType';
-import Vector from '../codec/Vector';
+import Vec from '../codec/Vec';
 import json1 from '../json/EventRecord.001.json';
 import json3 from '../json/EventRecord.003.json';
 import { injectDefinitions } from '../srml';
@@ -24,7 +24,7 @@ describe('EventRecord', (): void => {
     });
 
     it('decodes correctly', (): void => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
+      const records: Vec<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
@@ -41,7 +41,7 @@ describe('EventRecord', (): void => {
     });
 
     it('decodes older eventrecord correctly', (): void => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
+      const records: Vec<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
@@ -49,7 +49,7 @@ describe('EventRecord', (): void => {
 
     it('decodes eventrecord with topics correctly', (): void => {
       const hex = json3.params.result.changes[0][1];
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', hex, true) as any;
+      const records: Vec<EventRecord> = createType('Vec<EventRecord>', hex, true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');

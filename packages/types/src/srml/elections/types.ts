@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { u32 } from '../../primitive';
 import { Balance } from '../runtime/types';
 
@@ -38,20 +38,20 @@ declare module '@polkadot/types/interfaceRegistry' {
     ApprovalFlag: ApprovalFlag;
     'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
     'Option<ApprovalFlag>': Option<ApprovalFlag>;
-    'Vec<ApprovalFlag>': Vector<ApprovalFlag>;
+    'Vec<ApprovalFlag>': Vec<ApprovalFlag>;
     SetIndex: SetIndex;
     'Compact<SetIndex>': Compact<SetIndex>;
     'Option<SetIndex>': Option<SetIndex>;
-    'Vec<SetIndex>': Vector<SetIndex>;
+    'Vec<SetIndex>': Vec<SetIndex>;
     VoteIndex: VoteIndex;
     'Compact<VoteIndex>': Compact<VoteIndex>;
     'Option<VoteIndex>': Option<VoteIndex>;
-    'Vec<VoteIndex>': Vector<VoteIndex>;
+    'Vec<VoteIndex>': Vec<VoteIndex>;
     VoterInfo: VoterInfo;
     'Option<VoterInfo>': Option<VoterInfo>;
-    'Vec<VoterInfo>': Vector<VoterInfo>;
+    'Vec<VoterInfo>': Vec<VoterInfo>;
     VoteThreshold: VoteThreshold;
     'Option<VoteThreshold>': Option<VoteThreshold>;
-    'Vec<VoteThreshold>': Vector<VoteThreshold>;
+    'Vec<VoteThreshold>': Vec<VoteThreshold>;
   }
 }

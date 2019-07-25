@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { Bool, Bytes, Null, u32, u64, u8 } from '../../primitive';
 import { Balance, BlockNumber, Hash } from '../runtime/types';
 
@@ -29,7 +29,7 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
-export interface ContractStorageKey extends Vector<u8> {}
+export interface ContractStorageKey extends Vec<u8> {}
 
 export interface Gas extends u64 {}
 
@@ -71,37 +71,37 @@ declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     CodeHash: CodeHash;
     'Option<CodeHash>': Option<CodeHash>;
-    'Vec<CodeHash>': Vector<CodeHash>;
+    'Vec<CodeHash>': Vec<CodeHash>;
     TrieId: TrieId;
     'Option<TrieId>': Option<TrieId>;
-    'Vec<TrieId>': Vector<TrieId>;
+    'Vec<TrieId>': Vec<TrieId>;
     AliveContractInfo: AliveContractInfo;
     'Option<AliveContractInfo>': Option<AliveContractInfo>;
-    'Vec<AliveContractInfo>': Vector<AliveContractInfo>;
+    'Vec<AliveContractInfo>': Vec<AliveContractInfo>;
     TombstoneContractInfo: TombstoneContractInfo;
     'Option<TombstoneContractInfo>': Option<TombstoneContractInfo>;
-    'Vec<TombstoneContractInfo>': Vector<TombstoneContractInfo>;
+    'Vec<TombstoneContractInfo>': Vec<TombstoneContractInfo>;
     ContractInfo: ContractInfo;
     'Option<ContractInfo>': Option<ContractInfo>;
-    'Vec<ContractInfo>': Vector<ContractInfo>;
+    'Vec<ContractInfo>': Vec<ContractInfo>;
     ContractStorageKey: ContractStorageKey;
     'Option<ContractStorageKey>': Option<ContractStorageKey>;
-    'Vec<ContractStorageKey>': Vector<ContractStorageKey>;
+    'Vec<ContractStorageKey>': Vec<ContractStorageKey>;
     Gas: Gas;
     'Compact<Gas>': Compact<Gas>;
     'Option<Gas>': Option<Gas>;
-    'Vec<Gas>': Vector<Gas>;
+    'Vec<Gas>': Vec<Gas>;
     PrefabWasmModuleReserved: PrefabWasmModuleReserved;
     'Option<PrefabWasmModuleReserved>': Option<PrefabWasmModuleReserved>;
-    'Vec<PrefabWasmModuleReserved>': Vector<PrefabWasmModuleReserved>;
+    'Vec<PrefabWasmModuleReserved>': Vec<PrefabWasmModuleReserved>;
     PrefabWasmModule: PrefabWasmModule;
     'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
-    'Vec<PrefabWasmModule>': Vector<PrefabWasmModule>;
+    'Vec<PrefabWasmModule>': Vec<PrefabWasmModule>;
     Schedule: Schedule;
     'Option<Schedule>': Option<Schedule>;
-    'Vec<Schedule>': Vector<Schedule>;
+    'Vec<Schedule>': Vec<Schedule>;
     SeedOf: SeedOf;
     'Option<SeedOf>': Option<SeedOf>;
-    'Vec<SeedOf>': Vector<SeedOf>;
+    'Vec<SeedOf>': Vec<SeedOf>;
   }
 }

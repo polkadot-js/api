@@ -2,13 +2,13 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { AccountId, Bytes, u32, u64 } from '../../primitive';
 import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime/types';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
-  readonly validityVotes: Vector<ValidityVote>;
+  readonly validityVotes: Vec<ValidityVote>;
 }
 
 export interface AuctionIndex extends u32 {}
@@ -34,8 +34,8 @@ export interface CandidateReceipt extends Struct {
   readonly collator: AccountId;
   readonly signature: CollatorSignature;
   readonly headData: HeadData;
-  readonly balanceUploads: Vector<BalanceUpload>;
-  readonly egressQueueRoots: Vector<EgressQueueRoot>;
+  readonly balanceUploads: Vec<BalanceUpload>;
+  readonly egressQueueRoots: Vec<EgressQueueRoot>;
   readonly fees: u64;
   readonly blockDataHash: Hash;
 }
@@ -171,7 +171,7 @@ export interface ValidityAttestation extends Enum {
 type _ValidityVote = [ValidatorIndex, ValidityAttestation];
 export interface ValidityVote extends Codec, _ValidityVote {}
 
-export interface WinningData extends Vector<WinningDataEntry> {}
+export interface WinningData extends Vec<WinningDataEntry> {}
 
 type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
 export interface WinningDataEntry extends Codec, _WinningDataEntry {}
@@ -181,81 +181,81 @@ declare module '@polkadot/types/interfaceRegistry' {
     AuctionIndex: AuctionIndex;
     'Compact<AuctionIndex>': Compact<AuctionIndex>;
     'Option<AuctionIndex>': Option<AuctionIndex>;
-    'Vec<AuctionIndex>': Vector<AuctionIndex>;
+    'Vec<AuctionIndex>': Vec<AuctionIndex>;
     CollatorSignature: CollatorSignature;
     'Option<CollatorSignature>': Option<CollatorSignature>;
-    'Vec<CollatorSignature>': Vector<CollatorSignature>;
+    'Vec<CollatorSignature>': Vec<CollatorSignature>;
     ValidityAttestation: ValidityAttestation;
     'Option<ValidityAttestation>': Option<ValidityAttestation>;
-    'Vec<ValidityAttestation>': Vector<ValidityAttestation>;
+    'Vec<ValidityAttestation>': Vec<ValidityAttestation>;
     ParaId: ParaId;
     'Compact<ParaId>': Compact<ParaId>;
     'Option<ParaId>': Option<ParaId>;
-    'Vec<ParaId>': Vector<ParaId>;
+    'Vec<ParaId>': Vec<ParaId>;
     ParaIdOf: ParaIdOf;
     'Option<ParaIdOf>': Option<ParaIdOf>;
-    'Vec<ParaIdOf>': Vector<ParaIdOf>;
+    'Vec<ParaIdOf>': Vec<ParaIdOf>;
     ValidatorIndex: ValidatorIndex;
     'Compact<ValidatorIndex>': Compact<ValidatorIndex>;
     'Option<ValidatorIndex>': Option<ValidatorIndex>;
-    'Vec<ValidatorIndex>': Vector<ValidatorIndex>;
+    'Vec<ValidatorIndex>': Vec<ValidatorIndex>;
     ValidityVote: ValidityVote;
     'Option<ValidityVote>': Option<ValidityVote>;
-    'Vec<ValidityVote>': Vector<ValidityVote>;
+    'Vec<ValidityVote>': Vec<ValidityVote>;
     BalanceUpload: BalanceUpload;
     'Option<BalanceUpload>': Option<BalanceUpload>;
-    'Vec<BalanceUpload>': Vector<BalanceUpload>;
+    'Vec<BalanceUpload>': Vec<BalanceUpload>;
     EgressQueueRoot: EgressQueueRoot;
     'Option<EgressQueueRoot>': Option<EgressQueueRoot>;
-    'Vec<EgressQueueRoot>': Vector<EgressQueueRoot>;
+    'Vec<EgressQueueRoot>': Vec<EgressQueueRoot>;
     HeadData: HeadData;
     'Option<HeadData>': Option<HeadData>;
-    'Vec<HeadData>': Vector<HeadData>;
+    'Vec<HeadData>': Vec<HeadData>;
     CandidateReceipt: CandidateReceipt;
     'Option<CandidateReceipt>': Option<CandidateReceipt>;
-    'Vec<CandidateReceipt>': Vector<CandidateReceipt>;
+    'Vec<CandidateReceipt>': Vec<CandidateReceipt>;
     AttestedCandidate: AttestedCandidate;
     'Option<AttestedCandidate>': Option<AttestedCandidate>;
-    'Vec<AttestedCandidate>': Vector<AttestedCandidate>;
+    'Vec<AttestedCandidate>': Vec<AttestedCandidate>;
     SubId: SubId;
     'Compact<SubId>': Compact<SubId>;
     'Option<SubId>': Option<SubId>;
-    'Vec<SubId>': Vector<SubId>;
+    'Vec<SubId>': Vec<SubId>;
     NewBidder: NewBidder;
     'Option<NewBidder>': Option<NewBidder>;
-    'Vec<NewBidder>': Vector<NewBidder>;
+    'Vec<NewBidder>': Vec<NewBidder>;
     Bidder: Bidder;
     'Option<Bidder>': Option<Bidder>;
-    'Vec<Bidder>': Vector<Bidder>;
+    'Vec<Bidder>': Vec<Bidder>;
     IncomingParachainDeploy: IncomingParachainDeploy;
     'Option<IncomingParachainDeploy>': Option<IncomingParachainDeploy>;
-    'Vec<IncomingParachainDeploy>': Vector<IncomingParachainDeploy>;
+    'Vec<IncomingParachainDeploy>': Vec<IncomingParachainDeploy>;
     IncomingParachainFixed: IncomingParachainFixed;
     'Option<IncomingParachainFixed>': Option<IncomingParachainFixed>;
-    'Vec<IncomingParachainFixed>': Vector<IncomingParachainFixed>;
+    'Vec<IncomingParachainFixed>': Vec<IncomingParachainFixed>;
     IncomingParachain: IncomingParachain;
     'Option<IncomingParachain>': Option<IncomingParachain>;
-    'Vec<IncomingParachain>': Vector<IncomingParachain>;
+    'Vec<IncomingParachain>': Vec<IncomingParachain>;
     LeasePeriod: LeasePeriod;
     'Option<LeasePeriod>': Option<LeasePeriod>;
-    'Vec<LeasePeriod>': Vector<LeasePeriod>;
+    'Vec<LeasePeriod>': Vec<LeasePeriod>;
     LeasePeriodOf: LeasePeriodOf;
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
-    'Vec<LeasePeriodOf>': Vector<LeasePeriodOf>;
+    'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     ParachainDispatchOrigin: ParachainDispatchOrigin;
     'Option<ParachainDispatchOrigin>': Option<ParachainDispatchOrigin>;
-    'Vec<ParachainDispatchOrigin>': Vector<ParachainDispatchOrigin>;
+    'Vec<ParachainDispatchOrigin>': Vec<ParachainDispatchOrigin>;
     SlotRange: SlotRange;
     'Option<SlotRange>': Option<SlotRange>;
-    'Vec<SlotRange>': Vector<SlotRange>;
+    'Vec<SlotRange>': Vec<SlotRange>;
     UpwardMessage: UpwardMessage;
     'Option<UpwardMessage>': Option<UpwardMessage>;
-    'Vec<UpwardMessage>': Vector<UpwardMessage>;
+    'Vec<UpwardMessage>': Vec<UpwardMessage>;
     WinningDataEntry: WinningDataEntry;
     'Option<WinningDataEntry>': Option<WinningDataEntry>;
-    'Vec<WinningDataEntry>': Vector<WinningDataEntry>;
+    'Vec<WinningDataEntry>': Vec<WinningDataEntry>;
     WinningData: WinningData;
     'Option<WinningData>': Option<WinningData>;
-    'Vec<WinningData>': Vector<WinningData>;
+    'Vec<WinningData>': Vec<WinningData>;
   }
 }

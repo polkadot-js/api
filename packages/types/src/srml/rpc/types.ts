@@ -2,11 +2,11 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Option, Struct, Vector } from '../../codec';
+import { Enum, Option, Struct, Vec } from '../../codec';
 import { Block, Bytes, ConsensusEngineId, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash, Justification, Signature } from '../runtime/types';
 
-export interface ApiId extends Vector<u8> {}
+export interface ApiId extends Vec<u8> {}
 
 export interface ChainProperties extends Struct {
   readonly tokenDecimals: u32;
@@ -78,7 +78,7 @@ export interface RuntimeVersion extends Struct {
   readonly authoringVersion: u32;
   readonly specVersion: u32;
   readonly implVersion: u32;
-  readonly apis: Vector<RuntimeVersionApi>;
+  readonly apis: Vec<RuntimeVersionApi>;
 }
 
 type _RuntimeVersionApi = [ApiId, u32];
@@ -97,55 +97,55 @@ export interface SignedBlock extends Struct {
 
 export interface StorageChangeSet extends Struct {
   readonly block: Hash;
-  readonly changes: Vector<KeyValueOption>;
+  readonly changes: Vec<KeyValueOption>;
 }
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     ApiId: ApiId;
     'Option<ApiId>': Option<ApiId>;
-    'Vec<ApiId>': Vector<ApiId>;
+    'Vec<ApiId>': Vec<ApiId>;
     ChainProperties: ChainProperties;
     'Option<ChainProperties>': Option<ChainProperties>;
-    'Vec<ChainProperties>': Vector<ChainProperties>;
+    'Vec<ChainProperties>': Vec<ChainProperties>;
     Consensus: Consensus;
     'Option<Consensus>': Option<Consensus>;
-    'Vec<Consensus>': Vector<Consensus>;
+    'Vec<Consensus>': Vec<Consensus>;
     ExtrinsicStatus: ExtrinsicStatus;
     'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
-    'Vec<ExtrinsicStatus>': Vector<ExtrinsicStatus>;
+    'Vec<ExtrinsicStatus>': Vec<ExtrinsicStatus>;
     Health: Health;
     'Option<Health>': Option<Health>;
-    'Vec<Health>': Vector<Health>;
+    'Vec<Health>': Vec<Health>;
     KeyValueOption: KeyValueOption;
     'Option<KeyValueOption>': Option<KeyValueOption>;
-    'Vec<KeyValueOption>': Vector<KeyValueOption>;
+    'Vec<KeyValueOption>': Vec<KeyValueOption>;
     NetworkState: NetworkState;
     'Option<NetworkState>': Option<NetworkState>;
-    'Vec<NetworkState>': Vector<NetworkState>;
+    'Vec<NetworkState>': Vec<NetworkState>;
     PeerInfo: PeerInfo;
     'Option<PeerInfo>': Option<PeerInfo>;
-    'Vec<PeerInfo>': Vector<PeerInfo>;
+    'Vec<PeerInfo>': Vec<PeerInfo>;
     PreRuntime: PreRuntime;
     'Option<PreRuntime>': Option<PreRuntime>;
-    'Vec<PreRuntime>': Vector<PreRuntime>;
+    'Vec<PreRuntime>': Vec<PreRuntime>;
     RuntimeVersionApi: RuntimeVersionApi;
     'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
-    'Vec<RuntimeVersionApi>': Vector<RuntimeVersionApi>;
+    'Vec<RuntimeVersionApi>': Vec<RuntimeVersionApi>;
     RuntimeVersion: RuntimeVersion;
     'Option<RuntimeVersion>': Option<RuntimeVersion>;
-    'Vec<RuntimeVersion>': Vector<RuntimeVersion>;
+    'Vec<RuntimeVersion>': Vec<RuntimeVersion>;
     SealV0: SealV0;
     'Option<SealV0>': Option<SealV0>;
-    'Vec<SealV0>': Vector<SealV0>;
+    'Vec<SealV0>': Vec<SealV0>;
     Seal: Seal;
     'Option<Seal>': Option<Seal>;
-    'Vec<Seal>': Vector<Seal>;
+    'Vec<Seal>': Vec<Seal>;
     SignedBlock: SignedBlock;
     'Option<SignedBlock>': Option<SignedBlock>;
-    'Vec<SignedBlock>': Vector<SignedBlock>;
+    'Vec<SignedBlock>': Vec<SignedBlock>;
     StorageChangeSet: StorageChangeSet;
     'Option<StorageChangeSet>': Option<StorageChangeSet>;
-    'Vec<StorageChangeSet>': Vector<StorageChangeSet>;
+    'Vec<StorageChangeSet>': Vec<StorageChangeSet>;
   }
 }

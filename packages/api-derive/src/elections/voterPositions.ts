@@ -4,7 +4,7 @@
 
 import { SetIndex } from '@polkadot/types/srml/elections/types';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Vector, Option, createType } from '@polkadot/types';
+import { AccountId, Vec, Option, createType } from '@polkadot/types';
 import { DerivedVoterPositions } from '../types';
 
 import BN from 'bn.js';
@@ -28,11 +28,11 @@ import { drr } from '../util/drr';
 export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> {
   return (): Observable<DerivedVoterPositions> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
-      switchMap((nextVoterSet: SetIndex): Observable<[BN, Vector<Option<AccountId>>[]]> => combineLatest(
+      switchMap((nextVoterSet: SetIndex): Observable<[BN, Vec<Option<AccountId>>[]]> => combineLatest(
         of(api.consts.elections.voterSetSize) as any as Observable<BN>,
-        api.query.elections.voters.multi([...Array(+nextVoterSet + 1).keys()].map((_, i): [number] => [i])) as any as Observable<Vector<Option<AccountId>>[]>
+        api.query.elections.voters.multi([...Array(+nextVoterSet + 1).keys()].map((_, i): [number] => [i])) as any as Observable<Vec<Option<AccountId>>[]>
       )),
-      map((result: [BN, Vector<Option<AccountId>>[]]): DerivedVoterPositions => {
+      map((result: [BN, Vec<Option<AccountId>>[]]): DerivedVoterPositions => {
         const [setSize, voters] = result;
         return voters.reduce((result: DerivedVoterPositions, vec, setIndex): DerivedVoterPositions => {
           vec.forEach((e, index): void => {

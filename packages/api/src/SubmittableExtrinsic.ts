@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Index } from '@polkadot/types/srml/types';
+import { ExtrinsicStatus, Hash, Index, SignedBlock } from '@polkadot/types/srml/types';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Header, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
+import { createType, AccountId, Address, EventRecord, getTypeRegistry, Header, Method, Vec, ExtrinsicEra } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
@@ -135,7 +135,7 @@ export default function createSubmittableExtrinsic<ApiType> (
 
     return combineLatest([
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
-      api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
+      api.query.system.events.at(blockHash) as Observable<Vec<EventRecord>>
     ]).pipe(
       map(([signedBlock, allEvents]): SubmittableResult => {
         const result = new SubmittableResult({

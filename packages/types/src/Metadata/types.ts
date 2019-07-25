@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Vector } from '../codec';
+import { Vec } from '../codec';
 import { Codec } from '../types';
 
 export interface MetadataInterface<Modules extends Codec> extends Codec {
-  modules: Vector<Modules>;
+  modules: Vec<Modules>;
   getUniqTypes (throwError: boolean): string[];
 }

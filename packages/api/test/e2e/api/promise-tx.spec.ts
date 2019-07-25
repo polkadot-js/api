@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Index } from '@polkadot/types/srml/types';
+import { Hash, Index, SignedBlock } from '@polkadot/types/srml/types';
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { u8aToHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { EventRecord, ExtrinsicEra, Header, SignedBlock } from '@polkadot/types';
+import { EventRecord, ExtrinsicEra, Header } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';

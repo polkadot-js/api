@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageChangeSet } from './types';
-
 import { createType } from '@polkadot/types';
 
 import json from '../json/StorageChangeSet.001.json';
@@ -30,7 +28,7 @@ describe('StorageChangeSet', (): void => {
 
     it('wraps key/value', (): void => {
       expect(
-        set.changes[0].value.toString()
+        set.changes[0][0].toString()
       ).toEqual('0xcd');
     });
   });

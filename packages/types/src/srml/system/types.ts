@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Option, Vector } from '../../codec';
+import { Option, Vec } from '../../codec';
 import { Bytes, Digest } from '../../primitive';
 
 export interface DigestOf extends Digest {}
@@ -12,9 +12,9 @@ declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     DigestOf: DigestOf;
     'Option<DigestOf>': Option<DigestOf>;
-    'Vec<DigestOf>': Vector<DigestOf>;
+    'Vec<DigestOf>': Vec<DigestOf>;
     Key: Key;
     'Option<Key>': Option<Key>;
-    'Vec<Key>': Vector<Key>;
+    'Vec<Key>': Vec<Key>;
   }
 }

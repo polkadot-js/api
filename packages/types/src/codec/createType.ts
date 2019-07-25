@@ -19,8 +19,8 @@ import Struct from './Struct';
 import Tuple from './Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
-import Vector from './Vector';
-import VectorFixed from './VectorFixed';
+import Vec from './Vec';
+import VecFixed from './VecFixed';
 import getRegistry from './typeRegistry';
 
 export enum TypeDefInfo {
@@ -33,8 +33,8 @@ export enum TypeDefInfo {
   Set,
   Struct,
   Tuple,
-  Vector,
-  VectorFixed,
+  Vec,
+  VecFixed,
   // anything not full supported (keep this as the last entry)
   Null
 }
@@ -169,7 +169,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     // as a first round, only u8 via u8aFixed, we can add more support
     assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-    value.info = TypeDefInfo.VectorFixed;
+    value.info = TypeDefInfo.VecFixed;
     value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
@@ -190,7 +190,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     value.info = TypeDefInfo.Option;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Vec<', '>')) {
-    value.info = TypeDefInfo.Vector;
+    value.info = TypeDefInfo.Vec;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Linkage<', '>')) {
     value.info = TypeDefInfo.Linkage;
@@ -284,13 +284,13 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
         (value.sub as TypeDef[]).map((Type): Constructor<Codec> => getTypeClass(Type))
       ) as unknown as Constructor<T>;
 
-    case TypeDefInfo.Vector:
-      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
-      return Vector.with(
+    case TypeDefInfo.Vec:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vec');
+      return Vec.with(
         getTypeClass<Codec>(value.sub as TypeDef)
       ) as unknown as Constructor<T>;
 
-    case TypeDefInfo.VectorFixed:
+    case TypeDefInfo.VecFixed:
       assert(value.ext, 'Expected length & type information for fixed vector');
 
       const ext = value.ext as TypeDefExtVecFixed;
@@ -298,7 +298,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
       return (
         ext.type === 'u8'
           ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
-          : VectorFixed.with(createClass<Codec>(ext.type), ext.length)
+          : VecFixed.with(createClass<Codec>(ext.type), ext.length)
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Linkage:

@@ -9,7 +9,7 @@ import U32 from '../primitive/U32';
 import { injectDefinitions } from '../srml';
 import { CodecTo } from '../types';
 import Struct from './Struct';
-import Vector from './Vector';
+import Vec from './Vec';
 
 describe('Struct', (): void => {
   beforeEach((): void => {
@@ -66,7 +66,7 @@ describe('Struct', (): void => {
 
   it('decodes a more complicated type', (): void => {
     const s = new Struct({
-      foo: Vector.with(Struct.with({
+      foo: Vec.with(Struct.with({
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
@@ -198,7 +198,7 @@ describe('Struct', (): void => {
         compactNumber: ClassOf('Compact<BlockNumber>'),
         optionNumber: ClassOf('Option<BlockNumber>'),
         counter: U32,
-        vector: Vector.with(AccountId)
+        vector: Vec.with(AccountId)
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',

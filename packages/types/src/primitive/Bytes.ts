@@ -13,7 +13,7 @@ import U8a from '../codec/U8a';
  * @description
  * A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
  * is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
- * as what is found in [[Text]] and [[Vector]])
+ * as what is found in [[Text]] and [[Vec]])
  */
 export default class Bytes extends U8a {
   public constructor (value?: AnyU8a) {

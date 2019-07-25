@@ -69,14 +69,3 @@ export default class Null implements Codec {
     return new Uint8Array();
   }
 }
-
-/**
- * @name Phantom
- * @description
- * Implements a type that does not contain anything (apart from `null`)
- */
-export class Phantom extends Null {
-  public toRawType (): string {
-    return 'Phantom';
-  }
-}

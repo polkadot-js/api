@@ -162,12 +162,12 @@ function _tsStructGetterType (structName: string | undefined, { info, sub, type 
     case TypeDefInfo.Plain:
       return [type, type];
 
-    case TypeDefInfo.Vector:
+    case TypeDefInfo.Vec:
       _type = (sub as TypeDef).type;
 
-      setImports(imports, ['Vector']);
+      setImports(imports, ['Vec']);
 
-      return [_type, `Vector<${_type}>`];
+      return [_type, `Vec<${_type}>`];
 
     default:
       throw new Error(`Struct: ${structName}: Unhandled type ${TypeDefInfo[info]}`);
@@ -225,14 +225,14 @@ function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): stri
   return `type _${tupleName} = [${types.join(', ')}];\n${exp}`;
 }
 
-function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
-  const type = info === TypeDefInfo.VectorFixed
+function tsVec ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
+  const type = info === TypeDefInfo.VecFixed
     ? (ext as TypeDefExtVecFixed).type
     : (sub as TypeDef).type;
 
-  setImports(imports, ['Vector', type]);
+  setImports(imports, ['Vec', type]);
 
-  return createInterface(vectorName, `Vector<${type}>`);
+  return createInterface(vectorName, `Vec<${type}>`);
 }
 
 // creates the import lines
@@ -250,13 +250,13 @@ function createImportCode (header: string, checks: { file: string; types: string
 function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
-  setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
+  setImports(imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
 
   return [
     `${type}: ${type};`,
     isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
     `'Option<${type}>': Option<${type}>;`,
-    `'Vec<${type}>': Vector<${type}>;`
+    `'Vec<${type}>': Vec<${type}>;`
   ]
     .filter((x): boolean => !!x)
     .map((line): string => `${' '.repeat(indent)}${line}`) // Add indentation
@@ -289,8 +289,8 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
-    [TypeDefInfo.Vector]: tsVector,
-    [TypeDefInfo.VectorFixed]: tsVector
+    [TypeDefInfo.Vec]: tsVec,
+    [TypeDefInfo.VecFixed]: tsVec
   };
 
   const codecTypes: TypeExist = {};

@@ -12,24 +12,24 @@ import AbstractArray from './AbstractArray';
 const MAX_LENGTH = 32768;
 
 /**
- * @name Vector
+ * @name Vec
  * @description
  * This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
  */
-export default class Vector<T extends Codec> extends AbstractArray<T> {
+export default class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[] = [] as any[]) {
+  public constructor (Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
-      ...Vector.decodeVector(Type, value)
+      ...Vec.decodeVec(Type, value)
     );
 
     this._Type = Type;
   }
 
-  public static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | any[]): T[] {
+  public static decodeVec<T extends Codec> (Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
       return value.map((entry, index): T => {
         try {
@@ -37,7 +37,7 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
             ? entry
             : new Type(entry);
         } catch (error) {
-          console.error(`Unable to decode Vector on index ${index}`, error.message);
+          console.error(`Unable to decode Vec on index ${index}`, error.message);
 
           throw error;
         }
@@ -47,19 +47,19 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     const u8a = u8aToU8a(value);
     const [offset, length] = Compact.decodeU8a(u8a);
 
-    assert(length.lten(MAX_LENGTH), `Vector length ${length.toString()} exceeds ${MAX_LENGTH}`);
+    assert(length.lten(MAX_LENGTH), `Vec length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
     return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
-  public static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
-    return class extends Vector<O> {
+  public static with<O extends Codec> (Type: Constructor<O>): Constructor<Vec<O>> {
+    return class extends Vec<O> {
       public constructor (value?: any[]) {
         super(Type, value);
       }
 
       public static Fallback = Type.Fallback
-        ? Vector.with(Type.Fallback)
+        ? Vec.with(Type.Fallback)
         : undefined;
     };
   }

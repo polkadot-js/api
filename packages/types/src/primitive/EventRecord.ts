@@ -9,7 +9,7 @@ import { assert } from '@polkadot/util';
 import createType, { ClassOf } from '../codec/createType';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
+import Vec from '../codec/Vec';
 import Event from './Event';
 import Null from './Null';
 import U32 from './U32';
@@ -107,7 +107,7 @@ export class EventRecord0to76 extends Struct {
   /**
    * @description The [[Hash]] topics for this event (empty, compat)
    */
-  public get topics (): Vector<Hash> {
+  public get topics (): Vec<Hash> {
     return createType('Vec<Hash>', []);
   }
 }
@@ -146,7 +146,7 @@ export default class EventRecord extends Struct {
   /**
    * @description The [[Hash]] topics for this event
    */
-  public get topics (): Vector<Hash> {
-    return this.get('topics') as Vector<Hash>;
+  public get topics (): Vec<Hash> {
+    return this.get('topics') as Vec<Hash>;
   }
 }

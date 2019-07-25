@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
@@ -39,30 +39,30 @@ export class FunctionMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      args: Vector.with(FunctionArgumentMetadata),
-      documentation: Vector.with(Text)
+      args: Vec.with(FunctionArgumentMetadata),
+      documentation: Vec.with(Text)
     }, value);
   }
 
   /**
    * @description The [[FunctionArgumentMetadata]] for arguments
    */
-  public get args (): Vector<FunctionArgumentMetadata> {
-    return this.get('args') as Vector<FunctionArgumentMetadata>;
+  public get args (): Vec<FunctionArgumentMetadata> {
+    return this.get('args') as Vec<FunctionArgumentMetadata>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  public get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  public get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 

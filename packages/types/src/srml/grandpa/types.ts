@@ -2,7 +2,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { u64 } from '../../primitive';
 import { BlockNumber } from '../runtime/types';
 import { AuthorityId } from '../consensus/types';
@@ -25,7 +25,7 @@ export interface PendingResume extends Struct {
 export interface StoredPendingChange extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
-  readonly nextAuthorities: Vector<NextAuthority>;
+  readonly nextAuthorities: Vec<NextAuthority>;
 }
 
 export interface StoredState extends Enum {
@@ -54,21 +54,21 @@ declare module '@polkadot/types/interfaceRegistry' {
     AuthorityWeight: AuthorityWeight;
     'Compact<AuthorityWeight>': Compact<AuthorityWeight>;
     'Option<AuthorityWeight>': Option<AuthorityWeight>;
-    'Vec<AuthorityWeight>': Vector<AuthorityWeight>;
+    'Vec<AuthorityWeight>': Vec<AuthorityWeight>;
     NextAuthority: NextAuthority;
     'Option<NextAuthority>': Option<NextAuthority>;
-    'Vec<NextAuthority>': Vector<NextAuthority>;
+    'Vec<NextAuthority>': Vec<NextAuthority>;
     PendingPause: PendingPause;
     'Option<PendingPause>': Option<PendingPause>;
-    'Vec<PendingPause>': Vector<PendingPause>;
+    'Vec<PendingPause>': Vec<PendingPause>;
     PendingResume: PendingResume;
     'Option<PendingResume>': Option<PendingResume>;
-    'Vec<PendingResume>': Vector<PendingResume>;
+    'Vec<PendingResume>': Vec<PendingResume>;
     StoredPendingChange: StoredPendingChange;
     'Option<StoredPendingChange>': Option<StoredPendingChange>;
-    'Vec<StoredPendingChange>': Vector<StoredPendingChange>;
+    'Vec<StoredPendingChange>': Vec<StoredPendingChange>;
     StoredState: StoredState;
     'Option<StoredState>': Option<StoredState>;
-    'Vec<StoredState>': Vector<StoredState>;
+    'Vec<StoredState>': Vec<StoredState>;
   }
 }

@@ -19,10 +19,10 @@ describe('RuntimeVersion', (): void => {
   });
 
   it('has the apis', (): void => {
-    const api = version.apis[0];
+    const [apiId, apiVersion] = version.apis[0];
 
-    expect(api.id.toHex()).toEqual('0xdf6acb689907609b');
-    expect(api.version.toNumber()).toEqual(2);
+    expect(apiId.toHex()).toEqual('0xdf6acb689907609b');
+    expect(apiVersion.toNumber()).toEqual(2);
   });
 
   it('has the correct implementation', (): void => {

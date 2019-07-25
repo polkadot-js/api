@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header, RuntimeVersion } from '@polkadot/types';
+import { RuntimeVersion } from '@polkadot/types/srml/types';
+
+import { ClassOf, Header } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '@polkadot/rpc-core';
@@ -33,7 +35,7 @@ describe.skip('e2e chain', (): void => {
     rpc.chain
       .getRuntimeVersion()
       .subscribe((version: RuntimeVersion): void => {
-        expect(version).toBeInstanceOf(RuntimeVersion);
+        expect(version).toBeInstanceOf(ClassOf('RuntimeVersion'));
         done();
       });
   });
