@@ -7,8 +7,10 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as codecClasses from '../codec';
+import { COMPACT_ENCODABLE } from '../codec/Compact';
 import * as primitiveClasses from '../primitive';
 import * as typeClasses from '../type';
+import { Constructor } from '../types';
 import * as definitions from '../srml/definitions';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
@@ -55,6 +57,17 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, substra
       }
     }
   });
+}
+
+// FIMXE This could go in util some day
+function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boolean {
+  // https://stackoverflow.com/questions/30993434/check-if-a-constructor-inherits-another-in-es6/30993664
+  // eslint-disable-next-line no-prototype-builtins
+  return Parent.isPrototypeOf(Child);
+}
+
+function isCompactEncodable (Child: Constructor<any>): boolean {
+  return isChildClass(COMPACT_ENCODABLE.UInt, Child) || isChildClass(COMPACT_ENCODABLE.Moment, Child);
 }
 
 // helper to generate a `export interface<Name> extends <Base> {<Body>}
@@ -230,7 +243,13 @@ function interfaceRegistry (types: Record<string, any>): string {
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
-${Object.keys(types).map((type): string => `    ${type}: ${type};`).join('\n')}
+${Object.keys(types)
+    .map((type): string => [
+      `${type}: ${type};`,
+      isCompactEncodable((primitiveClasses as any)[types[type]]) ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+      `'Option<${type}>': Option<${type}>;`,
+      `'Vec<${type}>': Vector<${type}>;`].filter((x): boolean => !!x).map((line): string => `    ${line}`).join('\n')
+    ).join('\n')}
   }
 }`;
 }

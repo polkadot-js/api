@@ -8,5 +8,7 @@ export interface AuthorityId extends AccountId {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     AuthorityId: AuthorityId;
+    'Option<AuthorityId>': Option<AuthorityId>;
+    'Vec<AuthorityId>': Vector<AuthorityId>;
   }
 }

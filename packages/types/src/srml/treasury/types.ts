@@ -14,5 +14,7 @@ export interface TreasuryProposal extends Struct {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     TreasuryProposal: TreasuryProposal;
+    'Option<TreasuryProposal>': Option<TreasuryProposal>;
+    'Vec<TreasuryProposal>': Vector<TreasuryProposal>;
   }
 }

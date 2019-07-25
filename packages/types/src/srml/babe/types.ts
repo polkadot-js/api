@@ -8,5 +8,8 @@ export interface BabeWeight extends u64 {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     BabeWeight: BabeWeight;
+    'Compact<BabeWeight>': Compact<BabeWeight>;
+    'Option<BabeWeight>': Option<BabeWeight>;
+    'Vec<BabeWeight>': Vector<BabeWeight>;
   }
 }

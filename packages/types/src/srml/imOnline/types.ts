@@ -26,8 +26,16 @@ export interface OpaquePeerId extends Bytes {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     OpaqueMultiaddr: OpaqueMultiaddr;
+    'Option<OpaqueMultiaddr>': Option<OpaqueMultiaddr>;
+    'Vec<OpaqueMultiaddr>': Vector<OpaqueMultiaddr>;
     OpaquePeerId: OpaquePeerId;
+    'Option<OpaquePeerId>': Option<OpaquePeerId>;
+    'Vec<OpaquePeerId>': Vector<OpaquePeerId>;
     OpaqueNetworkState: OpaqueNetworkState;
+    'Option<OpaqueNetworkState>': Option<OpaqueNetworkState>;
+    'Vec<OpaqueNetworkState>': Vector<OpaqueNetworkState>;
     Heartbeat: Heartbeat;
+    'Option<Heartbeat>': Option<Heartbeat>;
+    'Vec<Heartbeat>': Vector<Heartbeat>;
   }
 }

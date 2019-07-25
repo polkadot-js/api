@@ -49,9 +49,21 @@ export interface ReferendumInfo extends Struct {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     Conviction: Conviction;
+    'Option<Conviction>': Option<Conviction>;
+    'Vec<Conviction>': Vector<Conviction>;
     PropIndex: PropIndex;
+    'Compact<PropIndex>': Compact<PropIndex>;
+    'Option<PropIndex>': Option<PropIndex>;
+    'Vec<PropIndex>': Vector<PropIndex>;
     Proposal: Proposal;
+    'Option<Proposal>': Option<Proposal>;
+    'Vec<Proposal>': Vector<Proposal>;
     ReferendumIndex: ReferendumIndex;
+    'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
+    'Option<ReferendumIndex>': Option<ReferendumIndex>;
+    'Vec<ReferendumIndex>': Vector<ReferendumIndex>;
     ReferendumInfo: ReferendumInfo;
+    'Option<ReferendumInfo>': Option<ReferendumInfo>;
+    'Vec<ReferendumInfo>': Vector<ReferendumInfo>;
   }
 }

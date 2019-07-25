@@ -18,7 +18,15 @@ export interface Votes extends Struct {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     MemberCount: MemberCount;
+    'Compact<MemberCount>': Compact<MemberCount>;
+    'Option<MemberCount>': Option<MemberCount>;
+    'Vec<MemberCount>': Vector<MemberCount>;
     ProposalIndex: ProposalIndex;
+    'Compact<ProposalIndex>': Compact<ProposalIndex>;
+    'Option<ProposalIndex>': Option<ProposalIndex>;
+    'Vec<ProposalIndex>': Vector<ProposalIndex>;
     Votes: Votes;
+    'Option<Votes>': Option<Votes>;
+    'Vec<Votes>': Vector<Votes>;
   }
 }

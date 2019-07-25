@@ -19,9 +19,20 @@ export interface ValidatorId extends AccountId {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     Justification: Justification;
+    'Option<Justification>': Option<Justification>;
+    'Vec<Justification>': Vector<Justification>;
     KeyTypeId: KeyTypeId;
+    'Compact<KeyTypeId>': Compact<KeyTypeId>;
+    'Option<KeyTypeId>': Option<KeyTypeId>;
+    'Vec<KeyTypeId>': Vector<KeyTypeId>;
     LockIdentifier: LockIdentifier;
+    'Option<LockIdentifier>': Option<LockIdentifier>;
+    'Vec<LockIdentifier>': Vector<LockIdentifier>;
     SessionKeys: SessionKeys;
+    'Option<SessionKeys>': Option<SessionKeys>;
+    'Vec<SessionKeys>': Vector<SessionKeys>;
     ValidatorId: ValidatorId;
+    'Option<ValidatorId>': Option<ValidatorId>;
+    'Vec<ValidatorId>': Vector<ValidatorId>;
   }
 }

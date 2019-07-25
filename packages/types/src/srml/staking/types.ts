@@ -45,10 +45,23 @@ export interface ValidatorPrefs extends Struct {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     EraIndex: EraIndex;
+    'Compact<EraIndex>': Compact<EraIndex>;
+    'Option<EraIndex>': Option<EraIndex>;
+    'Vec<EraIndex>': Vector<EraIndex>;
     EraRewards: EraRewards;
+    'Option<EraRewards>': Option<EraRewards>;
+    'Vec<EraRewards>': Vector<EraRewards>;
     IndividualExposure: IndividualExposure;
+    'Option<IndividualExposure>': Option<IndividualExposure>;
+    'Vec<IndividualExposure>': Vector<IndividualExposure>;
     Exposure: Exposure;
+    'Option<Exposure>': Option<Exposure>;
+    'Vec<Exposure>': Vector<Exposure>;
     RewardDestination: RewardDestination;
+    'Option<RewardDestination>': Option<RewardDestination>;
+    'Vec<RewardDestination>': Vector<RewardDestination>;
     ValidatorPrefs: ValidatorPrefs;
+    'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
+    'Vec<ValidatorPrefs>': Vector<ValidatorPrefs>;
   }
 }

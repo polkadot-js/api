@@ -35,9 +35,22 @@ export interface VoteThreshold extends Enum {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     ApprovalFlag: ApprovalFlag;
+    'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
+    'Option<ApprovalFlag>': Option<ApprovalFlag>;
+    'Vec<ApprovalFlag>': Vector<ApprovalFlag>;
     SetIndex: SetIndex;
+    'Compact<SetIndex>': Compact<SetIndex>;
+    'Option<SetIndex>': Option<SetIndex>;
+    'Vec<SetIndex>': Vector<SetIndex>;
     VoteIndex: VoteIndex;
+    'Compact<VoteIndex>': Compact<VoteIndex>;
+    'Option<VoteIndex>': Option<VoteIndex>;
+    'Vec<VoteIndex>': Vector<VoteIndex>;
     VoterInfo: VoterInfo;
+    'Option<VoterInfo>': Option<VoterInfo>;
+    'Vec<VoterInfo>': Vector<VoterInfo>;
     VoteThreshold: VoteThreshold;
+    'Option<VoteThreshold>': Option<VoteThreshold>;
+    'Vec<VoteThreshold>': Vector<VoteThreshold>;
   }
 }

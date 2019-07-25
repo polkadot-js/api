@@ -70,15 +70,38 @@ export interface TrieId extends Bytes {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     CodeHash: CodeHash;
+    'Option<CodeHash>': Option<CodeHash>;
+    'Vec<CodeHash>': Vector<CodeHash>;
     TrieId: TrieId;
+    'Option<TrieId>': Option<TrieId>;
+    'Vec<TrieId>': Vector<TrieId>;
     AliveContractInfo: AliveContractInfo;
+    'Option<AliveContractInfo>': Option<AliveContractInfo>;
+    'Vec<AliveContractInfo>': Vector<AliveContractInfo>;
     TombstoneContractInfo: TombstoneContractInfo;
+    'Option<TombstoneContractInfo>': Option<TombstoneContractInfo>;
+    'Vec<TombstoneContractInfo>': Vector<TombstoneContractInfo>;
     ContractInfo: ContractInfo;
+    'Option<ContractInfo>': Option<ContractInfo>;
+    'Vec<ContractInfo>': Vector<ContractInfo>;
     ContractStorageKey: ContractStorageKey;
+    'Option<ContractStorageKey>': Option<ContractStorageKey>;
+    'Vec<ContractStorageKey>': Vector<ContractStorageKey>;
     Gas: Gas;
+    'Compact<Gas>': Compact<Gas>;
+    'Option<Gas>': Option<Gas>;
+    'Vec<Gas>': Vector<Gas>;
     PrefabWasmModuleReserved: PrefabWasmModuleReserved;
+    'Option<PrefabWasmModuleReserved>': Option<PrefabWasmModuleReserved>;
+    'Vec<PrefabWasmModuleReserved>': Vector<PrefabWasmModuleReserved>;
     PrefabWasmModule: PrefabWasmModule;
+    'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
+    'Vec<PrefabWasmModule>': Vector<PrefabWasmModule>;
     Schedule: Schedule;
+    'Option<Schedule>': Option<Schedule>;
+    'Vec<Schedule>': Vector<Schedule>;
     SeedOf: SeedOf;
+    'Option<SeedOf>': Option<SeedOf>;
+    'Vec<SeedOf>': Vector<SeedOf>;
   }
 }

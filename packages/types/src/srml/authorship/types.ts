@@ -27,7 +27,13 @@ export interface UncleEntryItem extends Enum {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     InclusionHeight: InclusionHeight;
+    'Option<InclusionHeight>': Option<InclusionHeight>;
+    'Vec<InclusionHeight>': Vector<InclusionHeight>;
     Uncle: Uncle;
+    'Option<Uncle>': Option<Uncle>;
+    'Vec<Uncle>': Vector<Uncle>;
     UncleEntryItem: UncleEntryItem;
+    'Option<UncleEntryItem>': Option<UncleEntryItem>;
+    'Vec<UncleEntryItem>': Vector<UncleEntryItem>;
   }
 }

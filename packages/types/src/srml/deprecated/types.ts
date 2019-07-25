@@ -34,11 +34,27 @@ export interface SessionKey extends AccountId {}
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     NewAccountOutcome: NewAccountOutcome;
+    'Option<NewAccountOutcome>': Option<NewAccountOutcome>;
+    'Vec<NewAccountOutcome>': Vector<NewAccountOutcome>;
     Amount: Amount;
+    'Compact<Amount>': Compact<Amount>;
+    'Option<Amount>': Option<Amount>;
+    'Vec<Amount>': Vector<Amount>;
     AssetOf: AssetOf;
+    'Compact<AssetOf>': Compact<AssetOf>;
+    'Option<AssetOf>': Option<AssetOf>;
+    'Vec<AssetOf>': Vector<AssetOf>;
     LockPeriods: LockPeriods;
+    'Option<LockPeriods>': Option<LockPeriods>;
+    'Vec<LockPeriods>': Vector<LockPeriods>;
     InherentOfflineReport: InherentOfflineReport;
+    'Option<InherentOfflineReport>': Option<InherentOfflineReport>;
+    'Vec<InherentOfflineReport>': Vector<InherentOfflineReport>;
     SessionKey: SessionKey;
+    'Option<SessionKey>': Option<SessionKey>;
+    'Vec<SessionKey>': Vector<SessionKey>;
     OpaqueKey: OpaqueKey;
+    'Option<OpaqueKey>': Option<OpaqueKey>;
+    'Vec<OpaqueKey>': Vector<OpaqueKey>;
   }
 }

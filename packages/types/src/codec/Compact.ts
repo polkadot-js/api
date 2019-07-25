@@ -12,6 +12,10 @@ import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 import UInt from './UInt';
 
+// List of codec types that are compact-encodable
+export const COMPACT_ENCODABLE = { UInt, Moment };
+export type CompactEncodable = UInt | Moment; // FIXME is there a way to do it not-manually?
+
 /**
  * @name Compact
  * @description
@@ -20,12 +24,12 @@ import UInt from './UInt';
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact<T extends UInt | Moment> extends Base<T> {
+export default class Compact<T extends CompactEncodable> extends Base<T> {
   public constructor (Type: Constructor<T>, value: Compact<T> | AnyNumber = 0) {
     super(Compact.decodeCompact<T>(Type, value));
   }
 
-  public static with<T extends UInt | Moment> (Type: Constructor<T>): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T>): Constructor<Compact<T>> {
     return class extends Compact<T> {
       public constructor (value?: any) {
         super(Type, value);
@@ -50,7 +54,7 @@ export default class Compact<T extends UInt | Moment> extends Base<T> {
     return value;
   }
 
-  public static decodeCompact<T extends UInt | Moment> (Type: Constructor<T>, value: Compact<T> | AnyNumber): Moment | UInt {
+  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): T {
     if (value instanceof Compact) {
       return new Type(value.raw);
     } else if (isString(value)) {

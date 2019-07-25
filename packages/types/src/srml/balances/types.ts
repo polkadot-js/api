@@ -21,6 +21,10 @@ export interface VestingSchedule extends Struct {
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     BalanceLock: BalanceLock;
+    'Option<BalanceLock>': Option<BalanceLock>;
+    'Vec<BalanceLock>': Vector<BalanceLock>;
     VestingSchedule: VestingSchedule;
+    'Option<VestingSchedule>': Option<VestingSchedule>;
+    'Vec<VestingSchedule>': Vector<VestingSchedule>;
   }
 }
