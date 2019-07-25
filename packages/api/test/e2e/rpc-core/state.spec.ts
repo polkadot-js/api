@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/srml/types';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -12,7 +14,7 @@ import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
+import { Balance, Bytes, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';

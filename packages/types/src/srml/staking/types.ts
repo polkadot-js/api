@@ -3,6 +3,7 @@
 
 import { Compact, Enum, Struct, Vector } from '../../codec';
 import { AccountId, Balance, u32 } from '../../primitive';
+import { BlockNumber } from '../runtime/types';
 
 export interface EraIndex extends u32 {}
 
@@ -35,6 +36,18 @@ export interface RewardDestination extends Enum {
    * @description 2:: Controller
    */
   readonly isController: boolean;
+}
+
+export interface StakingLedger extends Struct {
+  readonly stash: AccountId;
+  readonly total: Compact<Balance>;
+  readonly active: Compact<Balance>;
+  readonly unlocking: Vector<UnlockChunk>;
+}
+
+export interface UnlockChunk extends Struct {
+  readonly value: Compact<Balance>;
+  readonly era: Compact<BlockNumber>;
 }
 
 export interface ValidatorPrefs extends Struct {

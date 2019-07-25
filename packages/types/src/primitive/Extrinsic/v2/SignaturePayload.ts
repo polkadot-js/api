@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BalanceCompact, Hash, IndexCompact } from '../../../srml/runtime/types';
 import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
 
+import { ClassOf } from '../../../codec/createType';
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
-import BalanceCompact from '../../BalanceCompact';
-import Hash from '../../Hash';
-import NonceCompact from '../../../type/NonceCompact';
 import ExtrinsicEra from '../ExtrinsicEra';
-import { extraDefinition } from './ExtrinsicExtra';
 import { sign } from '../util';
 
 export interface SignaturePayloadValueV2 {
@@ -20,11 +18,6 @@ export interface SignaturePayloadValueV2 {
   nonce: AnyNumber;
   tip: AnyNumber;
 }
-
-const basePayload = {
-  ...extraDefinition,
-  blockHash: Hash
-};
 
 /**
  * @name SignaturePayloadV2
@@ -36,7 +29,10 @@ export default class SignaturePayloadV2 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | SignaturePayloadValueV2 | Uint8Array | string) {
     super({
       method: U8a,
-      ...basePayload
+      era: ExtrinsicEra,
+      nonce: ClassOf('IndexCompact'),
+      tip: ClassOf('BalanceCompact'),
+      blockHash: ClassOf('Hash')
     }, value);
   }
 
@@ -62,10 +58,10 @@ export default class SignaturePayloadV2 extends Struct {
   }
 
   /**
-   * @description The [[NonceCompact]]
+   * @description The [[IndexCompact]]
    */
-  public get nonce (): NonceCompact {
-    return this.get('nonce') as NonceCompact;
+  public get nonce (): IndexCompact {
+    return this.get('nonce') as IndexCompact;
   }
 
   /**

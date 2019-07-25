@@ -3,7 +3,7 @@
 
 import { Enum, Struct } from '../../codec';
 import { Method, u32 } from '../../primitive';
-import { BlockNumber } from '../../type';
+import { BlockNumber } from '../runtime/types';
 import { VoteThreshold } from '../elections/types';
 
 export interface Conviction extends Enum {

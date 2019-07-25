@@ -4,12 +4,26 @@
 
 export default {
   types: {
+    AccountIdOf: 'AccountId',
+    BalanceCompact: 'Compact<Balance>',
+    BalanceOf: 'Balance',
+    BlockNumber: 'u64',
+    Hash: 'H256',
     Justification: 'Bytes',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
+    Index: 'u64',
+    IndexCompact: 'Compact<u64>',
+    Perbill: 'u32',
+    Permill: 'u32',
     SessionKeys: {
       ed25519: 'AccountId'
     },
-    ValidatorId: 'AccountId'
+    Signature: 'H512',
+    Ed25519Signature: 'Signature',
+    Sr25519Signature: 'Signature',
+    ValidatorId: 'AccountId',
+    Weight: 'u32',
+    WeightMultiplier: 'Fixed64'
   }
 };

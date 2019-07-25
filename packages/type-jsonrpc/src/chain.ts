@@ -12,6 +12,7 @@ import createParam from './create/param';
 const getHeader: RpcMethodOpt = {
   description: 'Retrieves the header for a specific block',
   params: [
+    // @ts-ignore srml types
     createParam('hash', 'Hash', { isOptional: true })
   ],
   type: 'Header'
@@ -20,6 +21,7 @@ const getHeader: RpcMethodOpt = {
 const getBlock: RpcMethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
+    // @ts-ignore srml types
     createParam('hash', 'Hash', { isOptional: true })
   ],
   type: 'SignedBlock'
@@ -28,20 +30,24 @@ const getBlock: RpcMethodOpt = {
 const getBlockHash: RpcMethodOpt = {
   description: 'Get the block hash for a specific block',
   params: [
+    // @ts-ignore This whould be fixed if we can get types from srml strings
     createParam('blockNumber', 'BlockNumber', { isOptional: true })
   ],
+  // @ts-ignore srml types
   type: 'Hash'
 };
 
 const getFinalizedHead: RpcMethodOpt = {
   description: 'Get hash of the last finalized block in the canon chain',
   params: [],
+  // @ts-ignore srml types
   type: 'Hash'
 };
 
 const getRuntimeVersion: RpcMethodOpt = {
   description: 'Get the runtime version (alias of state_getRuntimeVersion)',
   params: [
+    // @ts-ignore srml types
     createParam('hash', 'Hash', { isOptional: true })
   ],
   type: 'RuntimeVersion'

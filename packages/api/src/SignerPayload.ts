@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber, Hash, IndexCompact } from '@polkadot/types/srml/types';
 import { SignerPayload as ISignerPayload } from './types';
 
-import { Address, Balance, BlockNumber, Compact, ExtrinsicEra, Hash, Nonce, Struct, U8, Method } from '@polkadot/types';
+import { Address, Balance, ClassOf, Compact, ExtrinsicEra, Struct, U8, Method } from '@polkadot/types';
 
 export interface SignerPayloadType {
   address: Address;
@@ -13,19 +14,19 @@ export interface SignerPayloadType {
   era: ExtrinsicEra;
   genesisHash: Hash;
   method: Method;
-  nonce: Compact<Nonce>;
+  nonce: IndexCompact;
   tip: Compact<Balance>;
   version: U8;
 }
 
 export default class SignerPayload extends Struct.with({
   address: Address,
-  blockHash: Hash,
-  blockNumber: BlockNumber,
+  blockHash: ClassOf('Hash'),
+  blockNumber: ClassOf('BlockNumber'),
   era: ExtrinsicEra,
-  genesisHash: Hash,
+  genesisHash: ClassOf('Hash'),
   method: Method,
-  nonce: Compact.with(Nonce),
+  nonce: ClassOf('IndexCompact'),
   tip: Compact.with(Balance),
   version: U8
 }) {

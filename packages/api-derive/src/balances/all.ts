@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BalanceLock, VestingSchedule } from '@polkadot/types/srml/balances/types';
+import { BlockNumber, Index } from '@polkadot/types/srml/runtime/types';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, BlockNumber, ClassOf, Index, Option, createType } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, ClassOf, Option, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';

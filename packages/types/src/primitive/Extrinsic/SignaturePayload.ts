@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BalanceCompact, Hash, IndexCompact } from '../../srml/runtime/types';
 import { IKeyringPair } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
+import createType from '../../codec/createType';
 import Base from '../../codec/Base';
 import U8a from '../../codec/U8a';
-import NonceCompact from '../../type/NonceCompact';
-import BalanceCompact from '../BalanceCompact';
-import Hash from '../Hash';
 import SignaturePayloadV1, { SignaturePayloadValueV1 } from './v1/SignaturePayload';
 import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePayload';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -67,9 +66,9 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
   }
 
   /**
-   * @description The [[NonceCompact]]
+   * @description The [[IndexCompact]]
    */
-  public get nonce (): NonceCompact {
+  public get nonce (): IndexCompact {
     return this.raw.nonce;
   }
 
@@ -77,7 +76,7 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
    * @description The [[BalanceCompact]]
    */
   public get tip (): BalanceCompact {
-    return (this.raw as SignaturePayloadV2).tip || new BalanceCompact(0);
+    return (this.raw as SignaturePayloadV2).tip || createType('BalanceCompact', 0);
   }
 
   /**

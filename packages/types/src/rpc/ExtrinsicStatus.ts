@@ -2,69 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '../srml/types';
+
 import { assert } from '@polkadot/util';
 
+import { ClassOf } from '../codec/createType';
 import Enum from '../codec/Enum';
 import Vector from '../codec/Vector';
-import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
-
-/**
- * @name Broadcast
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been boradcast to peers
- */
-export class Broadcast extends Vector.with(Text) {
-}
-
-/**
- * @name Dropped
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been dropped
- */
-export class Dropped extends Null {
-}
-
-/**
- * @name Finalized
- * @description
- * An [[ExtrinsicStatus] indicating that the [[Extrinsic]]] has been finalized and included
- */
-export class Finalized extends Hash {
-}
-
-/**
- * @name Future
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been added to the future queue
- */
-export class Future extends Null {
-}
-
-/**
- * @name Ready
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been added to the ready queue
- */
-export class Ready extends Null {
-}
-
-/**
- * @name Invalid
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] is invalid
- */
-export class Invalid extends Null {
-}
-
-/**
- * @name Usurped
- * @description
- * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been usurped
- */
-export class Usurped extends Hash {
-}
 
 /**
  * @name ExtrinsicStatus
@@ -74,77 +20,77 @@ export class Usurped extends Hash {
 export default class ExtrinsicStatus extends Enum {
   public constructor (value: any, index?: number) {
     super({
-      Future,
-      Ready,
-      Finalized,
-      Usurped,
-      Broadcast,
-      Dropped,
-      Invalid
+      Future: Null,
+      Ready: Null,
+      Finalized: ClassOf('Hash'),
+      Usurped: ClassOf('Hash'),
+      Broadcast: Vector.with(Text),
+      Dropped: Null,
+      Invalid: Null
     }, value, index);
   }
 
   /**
    * @description Returns the item as a [[Broadcast]]
    */
-  public get asBroadcast (): Broadcast {
+  public get asBroadcast (): Vector<Text> {
     assert(this.isBroadcast, `Cannot convert '${this.type}' via asBroadcast`);
 
-    return this.value as Broadcast;
+    return this.value as Vector<Text>;
   }
 
   /**
    * @description Returns the item as a [[Dropped]]
    */
-  public get asDropped (): Dropped {
+  public get asDropped (): Null {
     assert(this.isDropped, `Cannot convert '${this.type}' via asDropped`);
 
-    return this.value as Dropped;
+    return this.value as Null;
   }
 
   /**
    * @description Returns the item as a [[Finalized]]
    */
-  public get asFinalized (): Finalized {
+  public get asFinalized (): Hash {
     assert(this.isFinalized, `Cannot convert '${this.type}' via asFinalized`);
 
-    return this.value as Finalized;
+    return this.value as Hash;
   }
 
   /**
    * @description Returns the item as a [[Future]]
    */
-  public get asFuture (): Future {
+  public get asFuture (): Null {
     assert(this.isFuture, `Cannot convert '${this.type}' via asFuture`);
 
-    return this.value as Future;
+    return this.value as Null;
   }
 
   /**
    * @description Returns the item as a [[Invalid]]
    */
-  public get asInvalid (): Invalid {
+  public get asInvalid (): Null {
     assert(this.isInvalid, `Cannot convert '${this.type}' via asInvalid`);
 
-    return this.value as Invalid;
+    return this.value as Null;
   }
 
   /**
    * @description Returns the item as a [[Ready]]
    */
-  public get asReady (): Ready {
+  public get asReady (): Null {
     assert(this.isReady, `Cannot convert '${this.type}' via asReady`);
 
-    return this.value as Ready;
+    return this.value as Null;
   }
 
   /**
    * @description Returns the item as a [[Usurped]]
    */
-  public get asUsurped (): Usurped {
+  public get asUsurped (): Hash {
     assert(this.isUsurped, `Cannot convert '${this.type}' via asUsurped`);
 
-    return this.value as Usurped;
+    return this.value as Hash;
   }
 
   /**

@@ -23,7 +23,7 @@ export default class Unconstructable extends Null {
       public constructor () {
         super();
 
-        throw new Error(`Unabdle to construct ${JSON.stringify(typeDef)}`);
+        throw new Error(`Unable to construct ${JSON.stringify(typeDef)}`);
       }
     };
   }

@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Index } from '@polkadot/types/srml/types';
+
 import BN from 'bn.js';
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Balance, Header, Index, Option, U32 } from '@polkadot/types';
+import { Balance, Header, Option, U32 } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';

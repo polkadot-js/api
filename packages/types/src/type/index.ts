@@ -8,15 +8,5 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as BlockNumber } from './BlockNumber';
-export { default as Key } from './Key';
-export { default as KeyValue } from './KeyValue';
-// NOTE Nonce is renamed to Index
-export { default as Index, default as Nonce } from './Nonce';
-export { default as IndexCompact } from './NonceCompact';
-export { default as Permill } from './Permill';
-export { default as Perbill } from './Perbill';
-export { default as StakingLedger } from './StakingLedger';
-export { default as UnlockChunk } from './UnlockChunk';
 export { default as Vote } from './Vote';
 export { default as WithdrawReasons } from './WithdrawReasons';

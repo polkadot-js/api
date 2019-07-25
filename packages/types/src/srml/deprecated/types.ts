@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum } from '../../codec';
-import { AccountId, Balance, Bytes, Null, i8, u32 } from '../../primitive';
+import { Enum, Struct } from '../../codec';
+import { AccountId, Balance, Bytes, Null, i8, u32, u64 } from '../../primitive';
+
+export interface AccountInfo extends Struct {
+  readonly trieId: Bytes;
+  readonly currentMemStored: u64;
+}
 
 export interface Amount extends Balance {}
 

@@ -4,7 +4,7 @@
 
 import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { BlockNumber, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
+import { ClassOf, SignedBlock, StorageChangeSet } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 
@@ -28,8 +28,8 @@ describe.skip('e2e Alexander - Polkadot', (): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(BlockNumber),
-            expect.any(Index)
+            expect.any(ClassOf('BlockNumber')),
+            expect.any(ClassOf('Index'))
           ])
         );
 

@@ -3,8 +3,8 @@
 
 import { Codec } from '../../types';
 import { Enum, Option } from '../../codec';
-import { AccountId, Hash } from '../../primitive';
-import { BlockNumber } from '../../type';
+import { AccountId } from '../../primitive';
+import { BlockNumber, Hash } from '../runtime/types';
 
 export interface InclusionHeight extends BlockNumber {}
 

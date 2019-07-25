@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SetIndex, VoteIndex } from '@polkadot/types/srml/elections/types';
-import { Exposure, RewardDestination, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
+import { BlockNumber, Index } from '@polkadot/types/srml/types';
+import { Exposure, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Index, StakingLedger, Vote } from '@polkadot/types';
+import { AccountId, Balance, Vote } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;
