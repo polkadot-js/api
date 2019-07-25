@@ -55,6 +55,7 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeI
   });
 }
 
+// See if a class is child of another class
 // FIMXE This could go in util some day
 function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boolean {
   // https://stackoverflow.com/questions/30993434/check-if-a-constructor-inherits-another-in-es6/30993664
