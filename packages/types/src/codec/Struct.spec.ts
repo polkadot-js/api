@@ -193,7 +193,7 @@ describe('Struct', (): void => {
     expect(
       new Struct({
         accountId: AccountId,
-        balance: ClassOf('Balance'),
+        balanceCompact: ClassOf('Compact<Balance>'),
         blockNumber: ClassOf('BlockNumber'),
         compactNumber: ClassOf('Compact<BlockNumber>'),
         optionNumber: ClassOf('Option<BlockNumber>'),
@@ -202,7 +202,7 @@ describe('Struct', (): void => {
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'u128', // FIXME Should match 'Balance'
+      balanceCompact: 'Compact<Balance>', // Override in Uint
       blockNumber: 'u64',
       compactNumber: 'Compact<u64>',
       optionNumber: 'Option<u64>',
@@ -221,7 +221,7 @@ describe('Struct', (): void => {
       new Type().toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'u128' // FIXME Should match 'Balance'
+      balance: 'Balance' // Override in Uint
     }));
   });
 });
