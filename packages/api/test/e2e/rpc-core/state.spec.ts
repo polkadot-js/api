@@ -11,9 +11,9 @@ import storage from '@polkadot/api-metadata/storage/static';
 import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
+import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
-import Rpc from '@polkadot/rpc-core';
 
 import { describeE2E } from '../../util';
 import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';
@@ -39,7 +39,7 @@ describeE2E({
     rpc.state
       .getMetadata()
       .subscribe((meta: Metadata): void => {
-        console.error(JSON.stringify(meta.toJSON()));
+        // console.error(JSON.stringify(meta.toJSON()));
         done();
       });
   });
@@ -60,7 +60,7 @@ describeE2E({
           storage.substrate.code
         ])
         .subscribe((code: Bytes): void => {
-          console.error(code.toHex().substr(0, 256), '...');
+          // console.error(code.toHex().substr(0, 256), '...');
           done();
         });
     });
@@ -71,7 +71,7 @@ describeE2E({
           storage.balances.freeBalance, ALICE
         ])
         .subscribe((balance: Balance): void => {
-          console.error(balance);
+          // console.error(balance);
 
           expect(balance.isZero()).not.toEqual(true);
           done();
@@ -84,7 +84,7 @@ describeE2E({
           storage.timestamp.now
         ])
         .subscribe((moment: Moment): void => {
-          console.error(moment);
+          // console.error(moment);
 
           expect(moment.toNumber()).not.toEqual(0);
           done();
