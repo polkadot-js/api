@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Struct, Vector } from '../../codec';
+import { Compact, Enum, Set, Struct, Vector } from '../../codec';
 import { AccountId, Balance, u32 } from '../../primitive';
 
 export interface EraIndex extends u32 {}
@@ -40,4 +40,11 @@ export interface RewardDestination extends Enum {
 export interface ValidatorPrefs extends Struct {
   readonly unstakeThreshold: Compact<u32>;
   readonly validatorPayment: Compact<Balance>;
+}
+
+export interface WithdrawReasons extends Set {
+  readonly isTransactionPayment: boolean;
+  readonly isTransfer: boolean;
+  readonly isReserve: boolean;
+  readonly isFee: boolean;
 }

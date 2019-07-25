@@ -3,8 +3,9 @@
 
 import { Struct } from '../../codec';
 import { Balance } from '../../primitive';
-import { BlockNumber, WithdrawReasons } from '../../type';
+import { BlockNumber } from '../../type';
 import { LockIdentifier } from '../runtime/types';
+import { WithdrawReasons } from '../staking/types';
 
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;

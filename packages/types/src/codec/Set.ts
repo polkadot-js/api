@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isU8a, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
 
-import { Codec } from '../types';
+import { Codec, Constructor } from '../types';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number>;
@@ -20,9 +20,7 @@ export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
   public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
-    super(
-      CodecSet.decodeSet(setValues, value)
-    );
+    super(CodecSet.decodeSet(setValues, value));
 
     this._setValues = setValues;
   }
@@ -63,6 +61,27 @@ export default class CodecSet extends Set<string> implements Codec {
     return value.reduce((result, value): number => {
       return result | (setValues[value] || 0);
     }, 0);
+  }
+
+  public static with (values: SetValues): Constructor<CodecSet> {
+    return class extends CodecSet {
+      public constructor (value?: any) {
+        super(values, value);
+
+        Object.keys(values).forEach((_key): void => {
+          const name = stringUpperFirst(stringCamelCase(_key));
+          const iskey = `is${name}`;
+
+          // do not clobber existing properties on the object
+          if (isUndefined((this as any)[iskey])) {
+            Object.defineProperty(this, iskey, {
+              enumerable: true,
+              get: (): boolean => this.strings.includes(_key)
+            });
+          }
+        });
+      }
+    };
   }
 
   /**
