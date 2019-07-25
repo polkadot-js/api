@@ -7,7 +7,7 @@ import { hexToU8a } from '@polkadot/util';
 import rpcDataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcDataV5 from '@polkadot/types/Metadata/v5/static';
-import rpcDataV6 from '@polkadot/types/Metadata/static';
+import rpcDataV6 from '@polkadot/types/Metadata/v6/static';
 import rpcDataV7 from '@polkadot/types/Metadata/v7/static';
 
 import Metadata from '../Metadata';
