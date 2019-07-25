@@ -44,69 +44,69 @@ describeE2E({
     done();
   });
 
-  // it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
-  //   const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
-  //   const hex = api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .sign(keyring.bob_stash, { nonce })
-  //     .toHex();
+  it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const hex = api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .sign(keyring.bob_stash, { nonce })
+      .toHex();
 
-  //   return api.tx(hex).send(logEvents(done));
-  // });
+    return api.tx(hex).send(logEvents(done));
+  });
 
-  // it('invalid hex does throw a catchable exception', async (done): Promise<void> => {
-  //   const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
-  //   const hex = api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .sign(keyring.bob_stash, { nonce })
-  //     .toHex();
+  it('invalid hex does throw a catchable exception', async (done): Promise<void> => {
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const hex = api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .sign(keyring.bob_stash, { nonce })
+      .toHex();
 
-  //   // change to an invalid signature, 32 * 2 for hex
-  //   const sigIdx = hex.indexOf(u8aToHex(keyring.bob_stash.publicKey).substr(2)) + 64;
-  //   const mangled = hex.replace(
-  //     hex.substr(sigIdx, 32), // first 16 bytes of sig
-  //     hex.substr(2, 32) // replaced by first 16 bytes of tx
-  //   );
+    // change to an invalid signature, 32 * 2 for hex
+    const sigIdx = hex.indexOf(u8aToHex(keyring.bob_stash.publicKey).substr(2)) + 64;
+    const mangled = hex.replace(
+      hex.substr(sigIdx, 32), // first 16 bytes of sig
+      hex.substr(2, 32) // replaced by first 16 bytes of tx
+    );
 
-  //   try {
-  //     await api.tx(mangled).send(logEvents(done));
-  //   } catch (error) {
-  //     console.error(error);
-  //     done();
-  //   }
-  // });
+    try {
+      await api.tx(mangled).send(logEvents(done));
+    } catch (error) {
+      console.error(error);
+      done();
+    }
+  });
 
-  // it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
-  //   const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+  it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
 
-  //   return api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .sign(keyring.bob_stash, { nonce })
-  //     .send(logEvents(done));
-  // });
+    return api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .sign(keyring.bob_stash, { nonce })
+      .send(logEvents(done));
+  });
 
-  // it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
-  //   const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+  it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
 
-  //   return api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .sign(keyring.bob_stash, { nonce })
-  //     .send(logEvents(done));
-  // });
+    return api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .sign(keyring.bob_stash, { nonce })
+      .send(logEvents(done));
+  });
 
-  // it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
-  //   return api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .signAndSend(keyring.bob_stash, { era: 0 }, logEvents(done));
-  // });
+  it('makes a transfer (signAndSend, immortal)', async (done): Promise<() => void> => {
+    return api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.bob_stash, { era: 0 }, logEvents(done));
+  });
 
-  // it('makes a transfer (no callback)', async (): Promise<void> => {
-  //   const hash = await api.tx.balances
-  //     .transfer(keyring.eve.address, 12345)
-  //     .signAndSend(keyring.bob_stash);
+  it('makes a transfer (no callback)', async (): Promise<void> => {
+    const hash = await api.tx.balances
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.bob_stash);
 
-  //   expect(hash.toHex()).toHaveLength(66);
-  // });
+    expect(hash.toHex()).toHaveLength(66);
+  });
 
   it('makes a proposal', async (done): Promise<void> => {
     // don't wait for status, just get hash. Here we generate a large-ish payload

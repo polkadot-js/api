@@ -8,10 +8,12 @@ import { first, switchMap } from 'rxjs/operators';
 import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 import ApiRx from '../../../src/rx';
 import { SubmittableResult } from '../../../src';
-import { describeE2E } from '../../util';
+import randomAsHex262144 from '../../mock-data/randomAsHex';
+import { calculateAccountDeposit, describeE2E } from '../../util';
 
 describeE2E()('Rx e2e transactions', (wsUrl): void => {
   const keyring = testingPairs({ type: 'ed25519' });
@@ -24,13 +26,13 @@ describeE2E()('Rx e2e transactions', (wsUrl): void => {
   });
 
   it('makes a transfer', (done): void => {
-    (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
+    (api.query.system.accountNonce(keyring.bob_stash.address) as Observable<Index>)
       .pipe(
         first(),
         switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.balances
             .transfer(keyring.bob.address, 12345)
-            .sign(keyring.alice, { nonce })
+            .sign(keyring.bob_stash, { nonce })
             .send()
         )
       )
@@ -42,13 +44,18 @@ describeE2E()('Rx e2e transactions', (wsUrl): void => {
   });
 
   it('makes a proposal', (done): void => {
-    (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
+    const amount = calculateAccountDeposit(api);
+    (api.query.system.accountNonce(keyring.bob_stash.address) as Observable<Index>)
       .pipe(
         first(),
         switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.democracy
-            .propose(api.tx.system.setCode('0xdeadbeef'), 10000)
-            .sign(keyring.alice, { nonce })
+            .propose(
+              api.tx.system && api.tx.system.setCode
+                ? api.tx.system.setCode(randomAsHex262144) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+                : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
+              , amount)
+            .sign(keyring.bob_stash, { nonce })
             .send()
         )
       )
