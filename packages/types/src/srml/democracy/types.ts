@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum, Struct } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { Method, u32 } from '../../primitive';
 import { BlockNumber } from '../runtime/types';
 import { VoteThreshold } from '../elections/types';
@@ -44,4 +44,26 @@ export interface ReferendumInfo extends Struct {
   readonly proposal: Proposal;
   readonly threshold: VoteThreshold;
   readonly delay: BlockNumber;
+}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    Conviction: Conviction;
+    'Option<Conviction>': Option<Conviction>;
+    'Vec<Conviction>': Vector<Conviction>;
+    PropIndex: PropIndex;
+    'Compact<PropIndex>': Compact<PropIndex>;
+    'Option<PropIndex>': Option<PropIndex>;
+    'Vec<PropIndex>': Vector<PropIndex>;
+    Proposal: Proposal;
+    'Option<Proposal>': Option<Proposal>;
+    'Vec<Proposal>': Vector<Proposal>;
+    ReferendumIndex: ReferendumIndex;
+    'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
+    'Option<ReferendumIndex>': Option<ReferendumIndex>;
+    'Vec<ReferendumIndex>': Vector<ReferendumIndex>;
+    ReferendumInfo: ReferendumInfo;
+    'Option<ReferendumInfo>': Option<ReferendumInfo>;
+    'Vec<ReferendumInfo>': Vector<ReferendumInfo>;
+  }
 }

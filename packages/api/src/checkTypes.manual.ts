@@ -11,7 +11,7 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header } from '@polkadot/types';
+import { createType, Header } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
@@ -92,4 +92,11 @@ export default async function test (): Promise<void> {
 
       unsub2();
     });
+
+  // check correct types with `createType`
+  const balance = createType('Balance', 2);
+  const overridden = createType<Index>('Gas', 2);
+  const gas = createType('Gas', 2);
+  const vec = createType('Vec<u32>', 2);
+  console.log(balance, overridden, gas, vec);
 }

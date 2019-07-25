@@ -99,3 +99,53 @@ export interface StorageChangeSet extends Struct {
   readonly block: Hash;
   readonly changes: Vector<KeyValueOption>;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    ApiId: ApiId;
+    'Option<ApiId>': Option<ApiId>;
+    'Vec<ApiId>': Vector<ApiId>;
+    ChainProperties: ChainProperties;
+    'Option<ChainProperties>': Option<ChainProperties>;
+    'Vec<ChainProperties>': Vector<ChainProperties>;
+    Consensus: Consensus;
+    'Option<Consensus>': Option<Consensus>;
+    'Vec<Consensus>': Vector<Consensus>;
+    ExtrinsicStatus: ExtrinsicStatus;
+    'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
+    'Vec<ExtrinsicStatus>': Vector<ExtrinsicStatus>;
+    Health: Health;
+    'Option<Health>': Option<Health>;
+    'Vec<Health>': Vector<Health>;
+    KeyValueOption: KeyValueOption;
+    'Option<KeyValueOption>': Option<KeyValueOption>;
+    'Vec<KeyValueOption>': Vector<KeyValueOption>;
+    NetworkState: NetworkState;
+    'Option<NetworkState>': Option<NetworkState>;
+    'Vec<NetworkState>': Vector<NetworkState>;
+    PeerInfo: PeerInfo;
+    'Option<PeerInfo>': Option<PeerInfo>;
+    'Vec<PeerInfo>': Vector<PeerInfo>;
+    PreRuntime: PreRuntime;
+    'Option<PreRuntime>': Option<PreRuntime>;
+    'Vec<PreRuntime>': Vector<PreRuntime>;
+    RuntimeVersionApi: RuntimeVersionApi;
+    'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
+    'Vec<RuntimeVersionApi>': Vector<RuntimeVersionApi>;
+    RuntimeVersion: RuntimeVersion;
+    'Option<RuntimeVersion>': Option<RuntimeVersion>;
+    'Vec<RuntimeVersion>': Vector<RuntimeVersion>;
+    SealV0: SealV0;
+    'Option<SealV0>': Option<SealV0>;
+    'Vec<SealV0>': Vector<SealV0>;
+    Seal: Seal;
+    'Option<Seal>': Option<Seal>;
+    'Vec<Seal>': Vector<Seal>;
+    SignedBlock: SignedBlock;
+    'Option<SignedBlock>': Option<SignedBlock>;
+    'Vec<SignedBlock>': Vector<SignedBlock>;
+    StorageChangeSet: StorageChangeSet;
+    'Option<StorageChangeSet>': Option<StorageChangeSet>;
+    'Vec<StorageChangeSet>': Vector<StorageChangeSet>;
+  }
+}
