@@ -2,18 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ClassOf } from '../codec/createType';
 import AccountId from '../primitive/AccountId';
-import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import BlockNumber from '../type/BlockNumber';
+import { injectDefinitions } from '../srml';
 import { CodecTo } from '../types';
-import Compact from './Compact';
-import Option from './Option';
 import Struct from './Struct';
 import Vector from './Vector';
 
 describe('Struct', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any): void =>
       it(`can decode from ${type}`, (): void => {
@@ -182,7 +184,7 @@ describe('Struct', (): void => {
     // replicate https://github.com/polkadot-js/api/issues/640
     expect(
       new Struct({
-        blockNumber: Option.with(BlockNumber)
+        blockNumber: ClassOf('Option<BlockNumber>')
       }, { blockNumber: '0x1234567890abcdef' }).toString()
     ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
   });
@@ -191,16 +193,16 @@ describe('Struct', (): void => {
     expect(
       new Struct({
         accountId: AccountId,
-        balance: Balance,
-        blockNumber: BlockNumber,
-        compactNumber: Compact.with(BlockNumber),
-        optionNumber: Option.with(BlockNumber),
+        balanceCompact: ClassOf('Compact<Balance>'),
+        blockNumber: ClassOf('BlockNumber'),
+        compactNumber: ClassOf('Compact<BlockNumber>'),
+        optionNumber: ClassOf('Option<BlockNumber>'),
         counter: U32,
         vector: Vector.with(AccountId)
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'Balance',
+      balanceCompact: 'Compact<Balance>', // Override in Uint
       blockNumber: 'u64',
       compactNumber: 'Compact<u64>',
       optionNumber: 'Option<u64>',
@@ -212,14 +214,14 @@ describe('Struct', (): void => {
   it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
       accountId: AccountId,
-      balance: Balance
+      balance: ClassOf('Balance')
     });
 
     expect(
       new Type().toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'Balance'
+      balance: 'Balance' // Override in Uint
     }));
   });
 });

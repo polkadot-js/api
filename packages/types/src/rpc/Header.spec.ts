@@ -4,14 +4,19 @@
 
 import BN from 'bn.js';
 
-import Header from './Header';
+import { injectDefinitions } from '../srml';
 import json1 from '../json/Header.001.json';
 import json2 from '../json/Header.002.json';
 import json3 from '../json/Header.003.json';
 import block00300 from '../json/SignedBlock.003.00.json';
 import block00301 from '../json/SignedBlock.003.01.json';
+import Header from './Header';
 
 describe('Header', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('decodes an actual JSON response', (): void => {
     const header = new Header(json1.result);
 

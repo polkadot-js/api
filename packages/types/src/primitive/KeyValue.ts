@@ -6,8 +6,8 @@ import { AnyU8a } from '../types';
 
 import Option from '../codec/Option';
 import Tuple from '../codec/Tuple';
-import StorageData from '../primitive/StorageData';
-import StorageKey from '../primitive/StorageKey';
+import StorageData from './StorageData';
+import StorageKey from './StorageKey';
 
 type KeyValueValue = [AnyU8a, AnyU8a];
 

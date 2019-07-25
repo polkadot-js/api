@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Struct } from '../../codec';
-import { Balance } from '../../primitive';
-import { BlockNumber } from '../../type';
-import { LockIdentifier } from '../runtime/types';
-import { WithdrawReasons } from '../staking/types';
+import { Set, Struct } from '../../codec';
+import { Balance, BlockNumber, LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;
@@ -17,4 +14,11 @@ export interface BalanceLock extends Struct {
 export interface VestingSchedule extends Struct {
   readonly offset: Balance;
   readonly perBlock: Balance;
+}
+
+export interface WithdrawReasons extends Set {
+  readonly isTransactionPayment: boolean;
+  readonly isTransfer: boolean;
+  readonly isReserve: boolean;
+  readonly isFee: boolean;
 }

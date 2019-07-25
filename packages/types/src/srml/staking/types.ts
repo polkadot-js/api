@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Set, Struct, Vector } from '../../codec';
-import { AccountId, Balance, u32 } from '../../primitive';
+import { Compact, Enum, Struct, Vector } from '../../codec';
+import { AccountId, u32 } from '../../primitive';
+import { Balance, BlockNumber } from '../runtime/types';
 
 export interface EraIndex extends u32 {}
 
@@ -37,14 +38,19 @@ export interface RewardDestination extends Enum {
   readonly isController: boolean;
 }
 
+export interface StakingLedger extends Struct {
+  readonly stash: AccountId;
+  readonly total: Compact<Balance>;
+  readonly active: Compact<Balance>;
+  readonly unlocking: Vector<UnlockChunk>;
+}
+
+export interface UnlockChunk extends Struct {
+  readonly value: Compact<Balance>;
+  readonly era: Compact<BlockNumber>;
+}
+
 export interface ValidatorPrefs extends Struct {
   readonly unstakeThreshold: Compact<u32>;
   readonly validatorPayment: Compact<Balance>;
-}
-
-export interface WithdrawReasons extends Set {
-  readonly isTransactionPayment: boolean;
-  readonly isTransfer: boolean;
-  readonly isReserve: boolean;
-  readonly isFee: boolean;
 }

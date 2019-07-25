@@ -2,11 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '../srml';
 import rpc from '../json/ExtrinsicStatus.001.json';
 import ExtrinsicStatus from './ExtrinsicStatus';
 
 describe('ExtrinsicStatus', (): void => {
-  const status = new ExtrinsicStatus(rpc.params.result);
+  let status: ExtrinsicStatus;
+
+  beforeEach((): void => {
+    injectDefinitions();
+
+    status = new ExtrinsicStatus(rpc.params.result);
+  });
 
   it('has the correct type', (): void => {
     expect(

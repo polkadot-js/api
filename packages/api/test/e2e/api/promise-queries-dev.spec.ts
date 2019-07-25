@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Index } from '@polkadot/types/srml/types';
+
 import BN from 'bn.js';
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Balance, Header, Index, Option, U32 } from '@polkadot/types';
+import { Header, Option, U32, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -157,7 +159,7 @@ describeE2E({
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const key = api.query.balances.freeBalance.key(keyring.alice_stash.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
-      const balanceRPC = new Balance(balanceData.unwrapOr(undefined));
+      const balanceRPC = createType<Balance>('Balance', balanceData.unwrapOr(undefined));
 
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 

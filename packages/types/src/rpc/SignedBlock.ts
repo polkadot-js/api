@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Justification } from '../srml/runtime/types';
+import { Hash, Justification } from '../srml/runtime/types';
 import { AnyU8a } from '../types';
 
 import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
-import Hash from '../primitive/Hash';
 import Block, { BlockValue } from './Block';
 
 interface SignedBlockValue {
@@ -24,7 +23,7 @@ export default class SignedBlock extends Struct {
   public constructor (value?: SignedBlockValue | Uint8Array) {
     super({
       block: Block,
-      justification: ClassOf<Justification>('Justification')
+      justification: ClassOf('Justification')
     }, value);
   }
 

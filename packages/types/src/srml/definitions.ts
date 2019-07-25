@@ -6,10 +6,7 @@
 // layers can re-use types from higher layers as this is being injected. The
 // injection order is critical.
 
-// first do the deprecated types, these should be self-standing
-export { default as deprecated } from './deprecated/definitions';
-
-// runtime before balances, session
+// runtime before everything else, these are base definitions
 export { default as runtime } from './runtime/definitions';
 
 // consensus before grandpa, imOnline
@@ -31,7 +28,9 @@ export { default as balances } from './balances/definitions';
 export { default as collective } from './collective/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as democracy } from './democracy/definitions';
+export { default as deprecated } from './deprecated/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as staking } from './staking/definitions';
+export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';

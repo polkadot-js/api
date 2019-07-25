@@ -5,7 +5,6 @@
 import { Codec, Constructor } from '../types';
 
 import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
-import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import { injectDefinitions } from '../srml';
 import CodecSet from './Set';
@@ -308,7 +307,7 @@ describe('createType', (): void => {
     it('instanceof should work (primitive type)', (): void => {
       const value = createType('Balance', 1234);
 
-      expect(value instanceof Balance).toBe(true);
+      expect(value instanceof ClassOf('Balance')).toBe(true);
     });
 
     it('instanceof should work (srml type)', (): void => {

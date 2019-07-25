@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber, Hash } from '../srml/runtime/types';
+
+import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import Hash from '../primitive/Hash';
-import BlockNumber from '../type/BlockNumber';
 
 /**
  * @name PeerInfo
@@ -19,8 +20,8 @@ export default class PeerInfo extends Struct {
       peerId: Text,
       roles: Text,
       protocolVersion: U32,
-      bestHash: Hash,
-      bestNumber: BlockNumber
+      bestHash: ClassOf('Hash'),
+      bestNumber: ClassOf('BlockNumber')
     }, value);
   }
 

@@ -2,9 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '../../srml';
 import ExtrinsicEra from './ExtrinsicEra';
 
 describe('ExtrinsicEra', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('decodes an Extrinsic Era with immortal', (): void => {
     const extrinsicEra = new ExtrinsicEra(new Uint8Array([0]));
 

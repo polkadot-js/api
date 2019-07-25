@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/srml/types';
 import { DerivedSessionInfo } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { BlockNumber, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';

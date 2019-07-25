@@ -25,6 +25,16 @@ export default {
         'Controller'
       ]
     },
+    UnlockChunk: {
+      value: 'Compact<Balance>',
+      era: 'Compact<BlockNumber>'
+    },
+    StakingLedger: {
+      stash: 'AccountId',
+      total: 'Compact<Balance>',
+      active: 'Compact<Balance>',
+      unlocking: 'Vec<UnlockChunk>'
+    },
     ValidatorPrefs: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'

@@ -4,12 +4,14 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import { Index } from '@polkadot/types/srml/types';
+
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header, Nonce } from '@polkadot/types';
+import { Header } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
@@ -65,7 +67,7 @@ export default async function test (): Promise<void> {
   console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
 
   // passing options, but waiting for hash
-  const nonce = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+  const nonce = await api.query.system.accountNonce<Index>(keyring.alice.address);
 
   (await api.tx.balances
     .transfer(keyring.bob.address, 12345)
@@ -82,7 +84,7 @@ export default async function test (): Promise<void> {
     });
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce<Index>(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {

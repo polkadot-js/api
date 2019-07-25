@@ -17,11 +17,4 @@ export default class USize extends U32 {
 
     throw new Error('The `usize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.');
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    return 'usize';
-  }
 }

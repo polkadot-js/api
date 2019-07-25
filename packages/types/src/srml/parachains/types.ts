@@ -3,8 +3,8 @@
 
 import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
-import { AccountId, BalanceOf, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
-import { BlockNumber } from '../../type';
+import { AccountId, Bytes, u32, u64 } from '../../primitive';
+import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime/types';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { Hash } from '@polkadot/types/srml/types';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions,
@@ -22,7 +23,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, SignedBlock, Null, U64 } from '@polkadot/types';
+import { Event, getTypeRegistry, Metadata, Method, RuntimeVersion, SignedBlock, Null, U64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';

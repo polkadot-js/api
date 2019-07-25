@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Index } from './srml/runtime/types';
+
 import BN from 'bn.js';
 
+import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v6/Calls';
-import BalanceCompact from './primitive/BalanceCompact';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
-import NonceCompact from './type/NonceCompact';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -147,10 +148,10 @@ export interface IMethod extends Codec {
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
-  readonly nonce: NonceCompact;
+  readonly nonce: Compact<Index>;
   readonly signature: IHash;
   readonly signer: Address;
-  readonly tip: BalanceCompact;
+  readonly tip: Compact<Balance>;
 }
 
 export interface ExtrinsicPayloadValue {

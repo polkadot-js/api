@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/types';
-
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { AccountId, ClassOf, EventRecord, Header, Option, Vector } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -45,7 +44,7 @@ describeE2E({
     it('Gets the hash of the last finalized header', async (done): Promise<() => void> => {
       return (
         api.rpc.chain.getFinalizedHead((head): void => {
-          expect(head instanceof Hash).toBe(true);
+          expect(head instanceof ClassOf('Hash')).toBe(true);
           done();
         })
       );

@@ -3,7 +3,7 @@
 
 import { Struct, Vector } from '../../codec';
 import { Bytes } from '../../primitive';
-import { BlockNumber } from '../../type';
+import { BlockNumber } from '../runtime/types';
 import { AuthorityId } from '../consensus/types';
 import { SessionIndex } from '../session/types';
 

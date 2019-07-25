@@ -4,7 +4,7 @@
 import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { u64 } from '../../primitive';
-import { BlockNumber } from '../../type';
+import { BlockNumber } from '../runtime/types';
 import { AuthorityId } from '../consensus/types';
 
 export interface AuthorityWeight extends u64 {}

@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/srml/runtime/types';
 import { Keys } from '@polkadot/types/srml/session/types';
-import { Exposure, RewardDestination, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
+import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
@@ -11,7 +12,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AccountId, BlockNumber, Option, StakingLedger, Tuple, Vector, UnlockChunk } from '@polkadot/types';
+import { createType, AccountId, Option, Tuple, Vector } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -24,9 +25,9 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
     const key = era.toString();
 
     if (!map[key]) {
-      map[key] = value;
+      map[key] = value.unwrap();
     } else {
-      map[key] = map[key].add(value);
+      map[key] = map[key].add(value.unwrap());
     }
 
     return map;
@@ -46,7 +47,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // select the Unlockchunks that can't be redeemed yet.
   const unlockingChunks = stakingLedger.unlocking.filter((chunk): boolean =>
-    remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0)
+    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
   );
 
   if (!unlockingChunks.length) {
@@ -57,7 +58,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
     value,
-    remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+    remainingBlocks: remainingBlocks(createType<BlockNumber>('BlockNumber', eraString), eraLength, bestNumber)
   }));
 
   return results.length ? results : undefined;
@@ -69,10 +70,8 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }
 
   return stakingLedger.unlocking
-    .filter((chunk): boolean => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
-    .reduce((curr, prev): BN => {
-      return curr.add(prev.value);
-    }, new BN(0));
+    .filter((chunk): boolean => remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev): BN => curr.add(prev.value.unwrap()), new BN(0));
 }
 
 function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraIds: AccountId[], nextKeys: Option<AccountId> | Vector<Tuple>): { nextSessionId?: AccountId; sessionId?: AccountId } {

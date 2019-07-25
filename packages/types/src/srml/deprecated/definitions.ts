@@ -15,6 +15,11 @@ export default {
     AssetOf: 'u32',
 
     // Metadata v3
+    // :: contracts
+    AccountInfo: {
+      trieId: 'Bytes',
+      currentMemStored: 'u64'
+    },
     // :: democracy
     LockPeriods: 'i8',
 

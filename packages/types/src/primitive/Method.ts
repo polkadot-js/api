@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '../srml/runtime/types';
 import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
 
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { getTypeDef, getTypeClass } from '../codec/createType';
+import createType, { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
 import { FunctionMetadata as FunctionMetadataV7, FunctionArgumentMetadata } from '../Metadata/v7/Calls';
-import Hash from './Hash';
 
 interface DecodeMethodInput {
   args: any;
@@ -210,9 +210,7 @@ export default class Method extends Struct implements IMethod {
    * @description Convenience function, encodes the Method and returns the actual hash
    */
   public get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
