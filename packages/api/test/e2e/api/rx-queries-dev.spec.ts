@@ -16,7 +16,7 @@ describeE2E({
     'remote-polkadot-alexander',
     'remote-substrate-1.0'
   ]
-})('Rx e2e queries', (wsUrl): void => {
+})('Rx e2e queries', (wsUrl: string): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 

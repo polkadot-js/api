@@ -15,7 +15,7 @@ import { SubmittableResult } from '../../../src';
 import randomAsHex262144 from '../../mock-data/randomAsHex';
 import { calculateAccountDeposit, describeE2E } from '../../util';
 
-describeE2E()('Rx e2e transactions', (wsUrl): void => {
+describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 

@@ -20,7 +20,7 @@ describeE2E({
     'remote-polkadot-alexander',
     'remote-substrate-1.0'
   ]
-})('Promise e2e development queries', (wsUrl): void => {
+})('Promise e2e development queries', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

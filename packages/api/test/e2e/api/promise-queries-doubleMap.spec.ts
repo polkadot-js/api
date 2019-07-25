@@ -18,7 +18,7 @@ describeE2E({
     'docker-substrate-master',
     'docker-substrate-2.0'
   ]
-})('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl): void => {
+})('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl: string): void => {
   let api: ApiPromise;
   const keyring = testingPairs({ type: 'ed25519' });
 

@@ -17,7 +17,7 @@ import { describeE2E } from '../../util';
 import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts//flipper-pruned.wasm')).toString('hex');
 
-describeE2E()('Promise e2e contracts', (wsUrl): void => {
+describeE2E()('Promise e2e contracts', (wsUrl: string): void => {
   let address: Address;
   let codeHash: Hash;
   const keyring = testingPairs({ type: 'sr25519' });

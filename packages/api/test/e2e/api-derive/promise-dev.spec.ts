@@ -14,7 +14,7 @@ const ALICE_STASH = testingPairs().alice_stash.address;
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
-})('Derive Promise e2e development', (wsUrl): void => {
+})('Derive Promise e2e development', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

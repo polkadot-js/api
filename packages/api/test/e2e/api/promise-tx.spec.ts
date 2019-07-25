@@ -34,7 +34,7 @@ const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
-})('Promise e2e transactions', (wsUrl): void => {
+})('Promise e2e transactions', (wsUrl: string): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromise;
 

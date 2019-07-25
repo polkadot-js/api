@@ -10,7 +10,7 @@ import { describeE2E } from '../../util';
 
 describeE2E({
   only: [] // To run these tests locally you need to run a Alexander full archive node locally
-})('Promise e2e alex archive queries (local)', (wsUrl): void => {
+})('Promise e2e alex archive queries (local)', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

@@ -9,7 +9,7 @@ import { DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot
 
 import { describeE2E } from '../../util';
 
-describeE2E()('Derive Promise e2e', (wsUrl): void => {
+describeE2E()('Derive Promise e2e', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

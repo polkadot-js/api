@@ -32,7 +32,7 @@ const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0', 'docker-polkadot-master', 'docker-polkadot-alexander', 'docker-substrate-2.0', 'docker-substrate-1.0']
-})('Promise e2e transactions with specified eras', (wsUrl): void => {
+})('Promise e2e transactions with specified eras', (wsUrl: string): void => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromise;
 
