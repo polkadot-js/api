@@ -23,9 +23,9 @@ interface ExtrinsicV2Options {
 }
 
 /**
- * @name ExtrinsicV1
+ * @name ExtrinsicV2
  * @description
- * The first generation of compact extrinsics
+ * The second generation of compact extrinsics
  */
 export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
   public constructor (value?: Uint8Array | ExtrinsicValueV2 | Method, { isSigned }: ExtrinsicV2Options = {}) {
