@@ -231,34 +231,37 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
 function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
   return checks.reduce((result, { file, types }): string => {
     if (types.length) {
-      result += `import { ${types.sort().join(', ')} } from '../${file}';\n`;
+      result += `import { ${types.sort().join(', ')} } from '${file}';\n`;
     }
 
     return result;
   }, header) + '\n';
 }
 
+// From `T`, generate `Compact<T>, Option<T>, Vec<T>`
+function getDerivedTypes (type: string, mappedType: string, imports: TypeImports, indent: number = 2): string {
+  // mappedType represents the actual primitive type our type is mapped to
+  const isCompact = isCompactEncodable((primitiveClasses as any)[mappedType]);
+  setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
+
+  return [
+    `${type}: ${type};`,
+    isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+    `'Option<${type}>': Option<${type}>;`,
+    `'Vec<${type}>': Vector<${type}>;`
+  ]
+    .filter((x): boolean => !!x)
+    .map((line): string => `${' '.repeat(indent)}${line}`) // Add indentation
+    .join('\n');
+}
+
+// Do module augmentation on srml types to populate InterfaceRegistry
 function interfaceRegistry (types: Record<string, any>, imports: TypeImports): string {
   return `
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
-${Object.keys(types)
-    .map((type): string => {
-      const isCompact = isCompactEncodable((primitiveClasses as any)[types[type]]);
-      setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
-
-      return [
-        `${type}: ${type};`,
-        isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
-        `'Option<${type}>': Option<${type}>;`,
-        `'Vec<${type}>': Vector<${type}>;`
-      ]
-        .filter((x): boolean => !!x)
-        .map((line): string => `    ${line}`) // Add indentation
-        .join('\n');
-    }
-    ).join('\n')}
+${Object.keys(types).map((type): string => getDerivedTypes(type, types[type], imports, 4)).join('\n')}
   }
 }`;
 }
@@ -300,23 +303,23 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
   const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes });
   const header = createImportCode(HEADER, [
     {
-      file: '../types',
+      file: '../../types',
       types: codecTypes['Tuple'] ? ['Codec'] : []
     },
     {
-      file: '../codec',
+      file: '../../codec',
       types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
-      file: '../primitive',
+      file: '../../primitive',
       types: Object.keys(primitiveTypes)
     },
     {
-      file: '../type',
+      file: '../../type',
       types: Object.keys(substrateTypes)
     },
     ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `${moduleName}/types`,
+      file: `../${moduleName}/types`,
       types: Object.keys(localTypes[moduleName])
     }))
   ]);
@@ -333,3 +336,46 @@ Object.entries(definitions).forEach(([srmlName, obj]): void => {
 console.log(`Writing srml/types.ts`);
 
 fs.writeFileSync(`packages/types/src/srml/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+
+function generateInterfaceRegistry (): void {
+  const codecTypes: TypeExist = {};
+  const localTypes: LocalExist = {};
+  const ownTypes: string[] = [];
+  const primitiveTypes: TypeExist = {};
+  const substrateTypes: TypeExist = {};
+
+  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
+
+  const body = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
+    setImports(imports, [primitiveName]);
+
+    return [
+      accumulator,
+      getDerivedTypes(primitiveName, primitiveName, imports)
+    ].join('\n');
+  }, '');
+
+  const header = createImportCode(HEADER, [
+    {
+      file: './codec',
+      types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: './primitive',
+      types: Object.keys(primitiveTypes)
+    }
+  ]);
+
+  const interfaceStart = 'export interface InterfaceRegistry {';
+  const interfaceEnd = '\n}';
+
+  fs.writeFileSync(
+    `packages/types/src/interfaceRegistry.ts`,
+    header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
+    , { flag: 'w' }
+  );
+}
+
+console.log(`Writing interfaceRegistry.ts`);
+
+generateInterfaceRegistry();
