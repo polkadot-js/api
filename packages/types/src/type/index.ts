@@ -19,4 +19,3 @@ export { default as Perbill } from './Perbill';
 export { default as StakingLedger } from './StakingLedger';
 export { default as UnlockChunk } from './UnlockChunk';
 export { default as Vote } from './Vote';
-export { default as WithdrawReasons } from './WithdrawReasons';

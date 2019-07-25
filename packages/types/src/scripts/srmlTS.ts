@@ -163,6 +163,16 @@ function _tsStructGetterType (structName: string | undefined, { info, sub, type 
   }
 }
 
+function tsSet ({ name: setName, sub }: TypeDef, imports: TypeImports): string {
+  setImports(imports, ['Set']);
+
+  const types = (sub as TypeDef[]).map(({ name }): string =>
+    createGetter(`is${name}`, 'boolean')
+  );
+
+  return createInterface(setName, 'Set', types.join(''));
+}
+
 function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
   const keys = (sub as TypeDef[]).map((typedef): string => {
     const [embedType, returnType] = _tsStructGetterType(structName, typedef, imports);
@@ -237,6 +247,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     [TypeDefInfo.Null]: errorUnhandled,
     [TypeDefInfo.Option]: tsOption,
     [TypeDefInfo.Plain]: tsPlain,
+    [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
     [TypeDefInfo.Vector]: tsVector,
