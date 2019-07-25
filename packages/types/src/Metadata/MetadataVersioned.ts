@@ -14,12 +14,14 @@ import MetadataV3 from './v3';
 import MetadataV4 from './v4';
 import MetadataV5 from './v5';
 import MetadataV6 from './v6';
+import MetadataV7 from './v7';
 import v0ToV1 from './v0/toV1';
 import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
 import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
+import v6ToV7 from './v6/toV7';
 
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
@@ -30,7 +32,8 @@ class MetadataEnum extends Enum {
       MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV6
+      MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV7
     }, value);
   }
 
@@ -98,6 +101,15 @@ class MetadataEnum extends Enum {
   }
 
   /**
+   * @description Returns the wrapped values as a V7 object
+   */
+  public get asV7 (): MetadataV7 {
+    assert(this.isV7, `Cannot convert '${this.type}' via asV7`);
+
+    return this.value as MetadataV7;
+  }
+
+  /**
    * @description `true` if Deprecated
    */
   public get isDeprecated (): boolean {
@@ -154,6 +166,13 @@ class MetadataEnum extends Enum {
   }
 
   /**
+   * @description `true` if V7
+   */
+  public get isV7 (): boolean {
+    return this.type === 'MetadataV7';
+  }
+
+  /**
    * @description The version this metadata represents
    */
   public get version (): number {
@@ -178,6 +197,8 @@ export default class MetadataVersioned extends Struct {
   private _convertedV5?: MetadataV5;
 
   private _convertedV6?: MetadataV6;
+
+  private _convertedV7?: MetadataV7;
 
   public constructor (value?: any) {
     super({
@@ -318,7 +339,24 @@ export default class MetadataVersioned extends Struct {
     return this._convertedV6;
   }
 
+  /**
+   * @description Returns the wrapped values as a V7 object
+   */
+  public get asV7 (): MetadataV7 {
+    assert(this.metadata.version <= 7, `Cannot convert metadata from v${this.metadata.version} to v7`);
+
+    if (this.metadata.version === 7) {
+      return this.metadata.asV7;
+    }
+
+    if (isUndefined(this._convertedV7)) {
+      this._convertedV7 = v6ToV7(this.asV6);
+    }
+
+    return this._convertedV7;
+  }
+
   public getUniqTypes (throwError: boolean): string[] {
-    return this.asV6.getUniqTypes(throwError);
+    return this.asV7.getUniqTypes(throwError);
   }
 }

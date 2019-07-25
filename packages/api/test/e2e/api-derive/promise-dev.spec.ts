@@ -5,11 +5,8 @@
 import ApiPromise from '@polkadot/api/promise/Api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { RewardDestination } from '@polkadot/types';
-
 import { SubmittableResult } from '@polkadot/api';
-import { HeaderExtended } from '@polkadot/api-derive/type';
-import { DerivedBalances, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 
 import { describeE2E } from '../../util';
 
@@ -132,7 +129,7 @@ describeE2E({
 
         // start by setting the reqred to Staked, so we have a common starting point
         await api.tx.staking
-          .setPayee(new RewardDestination('Staked'))
+          .setPayee('Staked')
           .signAndSend(testingPairs().alice, ({ status }): void => {
             if (status.isFinalized) {
               console.error('setPayee(Staked) isFinalized');
@@ -155,7 +152,7 @@ describeE2E({
         // Wait a bit, and change reward destination
         setTimeout(async (): Promise<void> => {
           await api.tx.staking
-            .setPayee(new RewardDestination('Stash'))
+            .setPayee('Stash')
             .signAndSend(testingPairs().alice, ({ status }): void => {
               if (status.isFinalized) {
                 console.error('setPayee(Stash) isFinalized');

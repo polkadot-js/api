@@ -16,22 +16,24 @@ import { storage } from './storage';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Storage {
-  return metadata.asV6.modules.reduce((result, moduleMetadata): Storage => {
+  return metadata.asV7.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }
 
-    const { name, prefix } = moduleMetadata;
+    const { name } = moduleMetadata;
     const section = stringCamelCase(name.toString());
+    const unwrapped = moduleMetadata.storage.unwrap();
+    const prefix = unwrapped.prefix.toString();
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[section] = moduleMetadata.storage.unwrap().reduce((newModule, meta): ModuleStorage => {
+    result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 
       newModule[stringLowerFirst(method)] = createFunction({
         meta,
         method,
-        prefix: prefix.toString(),
+        prefix,
         section
       });
 

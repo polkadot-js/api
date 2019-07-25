@@ -5,13 +5,6 @@
 export default {
   types: {
     SessionIndex: 'u32',
-    SessionKey: 'AuthorityId',
-    SessionKeys: {
-      ed25519: 'SessionKey'
-    },
-    Keys: 'SessionKeys',
-
-    // this needs to be moved to primitives (runtime, support)
-    KeyTypeId: 'u32'
+    Keys: 'SessionKeys'
   }
 };

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Metadata } from '@polkadot/types';
+import { Hash } from '@polkadot/types';
 import Mock from '@polkadot/rpc-provider/mock/index';
 
-import { ApiPromise } from './..';
-import { ApiOptions } from './../types';
+import { ApiPromise } from '..';
+import { ApiOptions } from '../types';
 
-describe.skip('Metadata queries', (): void => {
+describe('Metadata queries', (): void => {
   let mock: Mock;
 
   beforeEach((): void => {
@@ -26,7 +26,7 @@ describe.skip('Metadata queries', (): void => {
     const api = await ApiPromise.create({ provider: mock, metadata } as unknown as ApiOptions);
 
     expect(api.genesisHash).toBeDefined();
-    expect(api.runtimeMetadata.toJSON()).toEqual(new Metadata(rpcData).toJSON());
+    expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
     expect(api.rpc).toBeDefined();
     expect(api.query).toBeDefined();

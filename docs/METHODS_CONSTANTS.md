@@ -156,7 +156,7 @@ ___
 ___
 
 
-### finality_tracker
+### finalityTracker
 
 ▸ **reportLatency**: `BlockNumber`
 - **summary**:   The delay after which point things become suspicious. Default is 1000.
@@ -167,7 +167,7 @@ ___
 ___
 
 
-### im_online
+### imOnline
 
 ▸ **sessionsPerEra**: `SessionIndex`
 - **summary**:   Number of sessions per era.

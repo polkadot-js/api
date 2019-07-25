@@ -4,7 +4,7 @@
 
 import { AnyJson, Codec, Constructor } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Null from '../primitive/Null';
 import Base from './Base';
@@ -132,8 +132,9 @@ export default class Enum extends Base<Codec> {
         super(Types, value, index);
 
         Object.keys(this._def).forEach((_key): void => {
-          const askey = `as${_key}`;
-          const iskey = `is${_key}`;
+          const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
+          const askey = `as${name}`;
+          const iskey = `is${name}`;
 
           // do not clobber existing properties on the object
           if (isUndefined((this as any)[iskey])) {
@@ -147,7 +148,7 @@ export default class Enum extends Base<Codec> {
             Object.defineProperty(this, askey, {
               enumerable: true,
               get: (): Codec => {
-                assert((this as any)[iskey], `Cannot convert ${this.type} via ${askey}`);
+                assert((this as any)[iskey], `Cannot convert '${this.type}' via ${askey}`);
 
                 return this.value;
               }

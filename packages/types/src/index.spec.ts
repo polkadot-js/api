@@ -6,11 +6,16 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { Codec, Constructor } from './types';
 import * as Classes from './index.types';
+import { injectDefinitions } from './srml';
 
 const Types = Classes as Record<string, Constructor>;
 const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
 describe('types', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   describe('default creation', (): void => {
     Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name}`, (): void => {

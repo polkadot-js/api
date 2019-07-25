@@ -61,6 +61,8 @@ export interface Schedule extends Struct {
   readonly maxSubjectLen: u32;
 }
 
+export interface SeedOf extends Hash {}
+
 export interface TombstoneContractInfo extends Hash {}
 
 export interface TrieId extends Bytes {}

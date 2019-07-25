@@ -6,9 +6,11 @@ import { AnyU8a } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import { ClassOf } from '../codec/createType';
+import Extrinsic from '../primitive/Extrinsic/Extrinsic';
 import Struct from '../codec/Struct';
+import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
-import Extrinsics from '../type/Extrinsics';
 import Header, { HeaderValue } from './Header';
 
 export interface BlockValue {
@@ -25,7 +27,7 @@ export default class Block extends Struct {
   public constructor (value?: BlockValue | Uint8Array) {
     super({
       header: Header,
-      extrinsics: Extrinsics
+      extrinsics: ClassOf<Vector<Extrinsic>>('Vec<Extrinsic>')
     }, value);
   }
 
@@ -39,10 +41,10 @@ export default class Block extends Struct {
   }
 
   /**
-   * @description The [[Extrinsics]] contained in the block
+   * @description The [[Extrinsic]] contained in the block
    */
-  public get extrinsics (): Extrinsics {
-    return this.get('extrinsics') as Extrinsics;
+  public get extrinsics (): Vector<Extrinsic> {
+    return this.get('extrinsics') as Vector<Extrinsic>;
   }
 
   /**

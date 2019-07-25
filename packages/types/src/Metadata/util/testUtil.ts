@@ -34,19 +34,19 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV6 and MetadataV{version} should output the same
+ * Given a `version`, MetadataV7 and MetadataV{version} should output the same
  * unique types.
  */
-export function toV6<Modules extends Codec> (version: number, rpcData: string): void {
-  it('converts to V6', (): void => {
+export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
+  it('converts to V7', (): void => {
     injectDefinitions();
 
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV6 = new Metadata(rpcData).asV6;
+    const metadataV7 = new Metadata(rpcData).asV7;
 
     expect(
       (metadata as unknown as MetadataInterface<Modules>).getUniqTypes(true)
-    ).toEqual(metadataV6.getUniqTypes(true));
+    ).toEqual(metadataV7.getUniqTypes(true));
   });
 }
 
@@ -61,11 +61,11 @@ export function defaultValues (rpcData: string): void {
 
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV6.modules
+    metadata.asV7.modules
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
-        mod.storage.unwrap().forEach(({ fallback, name, type }): void => {
-          it(`creates default types for ${mod.prefix}.${name}, type ${type}`, (): void => {
+        mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
+          it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
               (): Codec => createType(type.toString(), fallback)
             ).not.toThrow();

@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SetIndex } from '@polkadot/types/srml/elections/types';
+import { ApprovalFlag, SetIndex } from '@polkadot/types/srml/elections/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
-import { AccountId, Vector, ApprovalFlag } from '@polkadot/types';
+import { AccountId, Vector } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
 import { drr } from '../util/drr';

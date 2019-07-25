@@ -11,7 +11,7 @@ import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Metadata from '../Metadata';
-import { EventMetadata as EventMetadataV6 } from '../Metadata/v6/Events';
+import { EventMetadata as EventMetadataV7 } from '../Metadata/v7/Events';
 import Null from './Null';
 import U32 from './U32';
 import Unconstructable from './Unconstructable';
@@ -32,7 +32,7 @@ export class EventIndex extends U32 {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadataV6;
+  private _meta: EventMetadataV7;
 
   private _method: string;
 
@@ -40,7 +40,7 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV6, section: string, method: string) {
+  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV7, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -52,7 +52,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  public get meta (): EventMetadataV6 {
+  public get meta (): EventMetadataV7 {
     return this._meta;
   }
 
@@ -132,7 +132,7 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   public static injectMetadata (metadata: Metadata): void {
-    metadata.asV6.modules
+    metadata.asV7.modules
       .filter((section): boolean => section.events.isSome)
       .forEach((section, sectionIndex): void => {
         const sectionName = stringCamelCase(section.name.toString());
@@ -169,7 +169,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  public get meta (): EventMetadataV6 {
+  public get meta (): EventMetadataV7 {
     return this.data.meta;
   }
 

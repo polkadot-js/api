@@ -4,6 +4,21 @@
 
 export default {
   types: {
-    SetIndex: 'u32'
+    ApprovalFlag: 'u32',
+    SetIndex: 'u32',
+    VoteIndex: 'u32',
+    VoterInfo: {
+      lastActive: 'VoteIndex',
+      lastWin: 'VoteIndex',
+      pot: 'Balance',
+      stake: 'Balance'
+    },
+    VoteThreshold: {
+      _enum: [
+        'Super majority approval',
+        'Super majority rejection',
+        'Simple majority'
+      ]
+    }
   }
 };

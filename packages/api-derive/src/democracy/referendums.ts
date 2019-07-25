@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ReferendumIndex } from '@polkadot/types/srml/democracy/types';
+
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, ReferendumIndex } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';

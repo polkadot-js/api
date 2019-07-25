@@ -5,7 +5,7 @@
 export default {
   types: {
     AuthorityWeight: 'u64',
-    NextAuthority: '(SessionKey, u64)',
+    NextAuthority: '(AuthorityId, u64)',
     PendingPause: {
       /// Block at which the intention to pause was scheduled.
       scheduledAt: 'BlockNumber',
