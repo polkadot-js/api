@@ -95,7 +95,7 @@ export default async function test (): Promise<void> {
 
   // check correct types with `createType`
   const balance = createType('Balance', 2);
-  const overridden = createType<Nonce>('Gas', 2);
+  const overridden = createType<Index>('Gas', 2);
   const gas = createType('Gas', 2);
   const vec = createType('Vec<u32>', 2);
   console.log(balance, overridden, gas, vec);
