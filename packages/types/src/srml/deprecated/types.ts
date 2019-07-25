@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum, Struct } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { AccountId, Bytes, Null, i8, u32, u64 } from '../../primitive';
 import { Balance } from '../runtime/types';
 
@@ -36,3 +36,34 @@ export interface NewAccountOutcome extends Enum {
 export interface OpaqueKey extends Bytes {}
 
 export interface SessionKey extends AccountId {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    NewAccountOutcome: NewAccountOutcome;
+    'Option<NewAccountOutcome>': Option<NewAccountOutcome>;
+    'Vec<NewAccountOutcome>': Vector<NewAccountOutcome>;
+    Amount: Amount;
+    'Option<Amount>': Option<Amount>;
+    'Vec<Amount>': Vector<Amount>;
+    AssetOf: AssetOf;
+    'Compact<AssetOf>': Compact<AssetOf>;
+    'Option<AssetOf>': Option<AssetOf>;
+    'Vec<AssetOf>': Vector<AssetOf>;
+    AccountInfo: AccountInfo;
+    'Option<AccountInfo>': Option<AccountInfo>;
+    'Vec<AccountInfo>': Vector<AccountInfo>;
+    LockPeriods: LockPeriods;
+    'Compact<LockPeriods>': Compact<LockPeriods>;
+    'Option<LockPeriods>': Option<LockPeriods>;
+    'Vec<LockPeriods>': Vector<LockPeriods>;
+    InherentOfflineReport: InherentOfflineReport;
+    'Option<InherentOfflineReport>': Option<InherentOfflineReport>;
+    'Vec<InherentOfflineReport>': Vector<InherentOfflineReport>;
+    SessionKey: SessionKey;
+    'Option<SessionKey>': Option<SessionKey>;
+    'Vec<SessionKey>': Vector<SessionKey>;
+    OpaqueKey: OpaqueKey;
+    'Option<OpaqueKey>': Option<OpaqueKey>;
+    'Vec<OpaqueKey>': Vector<OpaqueKey>;
+  }
+}

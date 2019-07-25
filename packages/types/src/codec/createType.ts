@@ -5,6 +5,7 @@
 import memoizee from 'memoizee';
 import { assert } from '@polkadot/util';
 
+import { InterfaceRegistry } from '../interfaceRegistry';
 import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
 import StorageData from '../primitive/StorageData';
@@ -203,9 +204,11 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 }
 
 // Memoized helper of the `createClass` function below
-const memoizedCreateClass = memoizee(<T extends Codec = Codec>(type: Text | string): Constructor<T> => {
+const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends Text | string = Text | string>(
+  type: K
+): Constructor<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T> => {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<T>(
+  return getTypeClass<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T>(
     getTypeDef(type)
   );
 }, {
@@ -216,7 +219,9 @@ const memoizedCreateClass = memoizee(<T extends Codec = Codec>(type: Text | stri
   normalizer: JSON.stringify
 });
 
-export function createClass<T extends Codec = Codec> (type: Text | string): Constructor<T> {
+export function createClass<T extends Codec = Codec, K extends Text | string = Text | string> (
+  type: K
+): Constructor<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T> {
   return memoizedCreateClass(type);
 }
 
@@ -318,11 +323,11 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
 }
 
 // alias for createClass
-export function ClassOf<T extends Codec = Codec> (name: string): Constructor<T> {
+export function ClassOf<T extends Codec = Codec, K extends Text | string = Text | string> (name: string): Constructor<T> {
   return createClass<T>(name);
 }
 
-function initType<T extends Codec = Codec> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
+function initType<T extends Codec = Codec, K extends Text | string = Text | string> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
   try {
     const created = new Type(value);
 
@@ -353,11 +358,13 @@ function initType<T extends Codec = Codec> (Type: Constructor<T>, value?: any, i
   }
 }
 
-export default function createType<T extends Codec = Codec> (type: Text | string, value?: any, isPedantic?: boolean): T {
-  // l.debug(() => ['createType', { type, value }]);
-
+export default function createType<T extends Codec = Codec, K extends Text | string = Text | string> (
+  type: K,
+  value?: any,
+  isPedantic?: boolean
+): K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T {
   try {
-    return initType(createClass<T>(type), value, isPedantic);
+    return initType(createClass<T, K>(type), value, isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }

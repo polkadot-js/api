@@ -2,7 +2,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { u64 } from '../../primitive';
 import { BlockNumber } from '../runtime/types';
 import { AuthorityId } from '../consensus/types';
@@ -47,4 +47,28 @@ export interface StoredState extends Enum {
    */
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
+}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    AuthorityWeight: AuthorityWeight;
+    'Compact<AuthorityWeight>': Compact<AuthorityWeight>;
+    'Option<AuthorityWeight>': Option<AuthorityWeight>;
+    'Vec<AuthorityWeight>': Vector<AuthorityWeight>;
+    NextAuthority: NextAuthority;
+    'Option<NextAuthority>': Option<NextAuthority>;
+    'Vec<NextAuthority>': Vector<NextAuthority>;
+    PendingPause: PendingPause;
+    'Option<PendingPause>': Option<PendingPause>;
+    'Vec<PendingPause>': Vector<PendingPause>;
+    PendingResume: PendingResume;
+    'Option<PendingResume>': Option<PendingResume>;
+    'Vec<PendingResume>': Vector<PendingResume>;
+    StoredPendingChange: StoredPendingChange;
+    'Option<StoredPendingChange>': Option<StoredPendingChange>;
+    'Vec<StoredPendingChange>': Vector<StoredPendingChange>;
+    StoredState: StoredState;
+    'Option<StoredState>': Option<StoredState>;
+    'Vec<StoredState>': Vector<StoredState>;
+  }
 }

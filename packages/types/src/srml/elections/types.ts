@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Enum, Struct } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { u32 } from '../../primitive';
 import { Balance } from '../runtime/types';
 
@@ -31,4 +31,27 @@ export interface VoteThreshold extends Enum {
    * @description 2:: Simple majority
    */
   readonly isSimpleMajority: boolean;
+}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    ApprovalFlag: ApprovalFlag;
+    'Compact<ApprovalFlag>': Compact<ApprovalFlag>;
+    'Option<ApprovalFlag>': Option<ApprovalFlag>;
+    'Vec<ApprovalFlag>': Vector<ApprovalFlag>;
+    SetIndex: SetIndex;
+    'Compact<SetIndex>': Compact<SetIndex>;
+    'Option<SetIndex>': Option<SetIndex>;
+    'Vec<SetIndex>': Vector<SetIndex>;
+    VoteIndex: VoteIndex;
+    'Compact<VoteIndex>': Compact<VoteIndex>;
+    'Option<VoteIndex>': Option<VoteIndex>;
+    'Vec<VoteIndex>': Vector<VoteIndex>;
+    VoterInfo: VoterInfo;
+    'Option<VoterInfo>': Option<VoterInfo>;
+    'Vec<VoterInfo>': Vector<VoterInfo>;
+    VoteThreshold: VoteThreshold;
+    'Option<VoteThreshold>': Option<VoteThreshold>;
+    'Vec<VoteThreshold>': Vector<VoteThreshold>;
+  }
 }

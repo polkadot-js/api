@@ -7,8 +7,10 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as codecClasses from '../codec';
+import { COMPACT_ENCODABLE } from '../codec/Compact';
 import * as primitiveClasses from '../primitive';
 import * as definitions from '../srml/definitions';
+import { Constructor } from '../types';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
@@ -51,6 +53,19 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeI
       }
     }
   });
+}
+
+// See if a class is child of another class
+// FIMXE This could go in util some day
+function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boolean {
+  // https://stackoverflow.com/questions/30993434/check-if-a-constructor-inherits-another-in-es6/30993664
+  // eslint-disable-next-line no-prototype-builtins
+  return Parent.isPrototypeOf(Child);
+}
+
+function isCompactEncodable (Child: Constructor<any>): boolean {
+  // @ts-ignore AbstractInt is abstract, we shouldn't isChildClass it here, but it works
+  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean => isChildClass(CompactEncodable, Child));
 }
 
 // helper to generate a `export interface<Name> extends <Base> {<Body>}
@@ -221,14 +236,42 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
 }
 
 // creates the import lines
-function createImportCode (header: string, checks: { file: string; types: string[]}[]): string {
+function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
   return checks.reduce((result, { file, types }): string => {
     if (types.length) {
-      result += `import { ${types.sort().join(', ')} } from '../${file}';\n`;
+      result += `import { ${types.sort().join(', ')} } from '${file}';\n`;
     }
 
     return result;
   }, header) + '\n';
+}
+
+// From `T`, generate `Compact<T>, Option<T>, Vec<T>`
+function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
+  // `primitiveName` represents the actual primitive type our type is mapped to
+  const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
+  setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
+
+  return [
+    `${type}: ${type};`,
+    isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+    `'Option<${type}>': Option<${type}>;`,
+    `'Vec<${type}>': Vector<${type}>;`
+  ]
+    .filter((x): boolean => !!x)
+    .map((line): string => `${' '.repeat(indent)}${line}`) // Add indentation
+    .join('\n');
+}
+
+// Do module augmentation on srml types to populate InterfaceRegistry
+function interfaceRegistry (types: Record<string, any>, imports: TypeImports): string {
+  return `
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+${Object.keys(types).map((type): string => getDerivedTypes(type, types[type], imports, 4)).join('\n')}
+  }
+}`;
 }
 
 function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
@@ -265,26 +308,27 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
   });
 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes });
   const header = createImportCode(HEADER, [
     {
-      file: '../types',
+      file: '../../types',
       types: codecTypes['Tuple'] ? ['Codec'] : []
     },
     {
-      file: '../codec',
+      file: '../../codec',
       types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
-      file: '../primitive',
+      file: '../../primitive',
       types: Object.keys(primitiveTypes)
     },
     ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `${moduleName}/types`,
+      file: `../${moduleName}/types`,
       types: Object.keys(localTypes[moduleName])
     }))
   ]);
 
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([srmlName, obj]): void => {
@@ -296,3 +340,46 @@ Object.entries(definitions).forEach(([srmlName, obj]): void => {
 console.log(`Writing srml/types.ts`);
 
 fs.writeFileSync(`packages/types/src/srml/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+
+function generateInterfaceRegistry (): void {
+  const codecTypes: TypeExist = {};
+  const localTypes: LocalExist = {};
+  const ownTypes: string[] = [];
+  const primitiveTypes: TypeExist = {};
+  const substrateTypes: TypeExist = {};
+
+  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
+
+  const body = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
+    setImports(imports, [primitiveName]);
+
+    return [
+      accumulator,
+      getDerivedTypes(primitiveName, primitiveName, imports)
+    ].join('\n');
+  }, '');
+
+  const header = createImportCode(HEADER, [
+    {
+      file: './codec',
+      types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: './primitive',
+      types: Object.keys(primitiveTypes)
+    }
+  ]);
+
+  const interfaceStart = 'export interface InterfaceRegistry {';
+  const interfaceEnd = '\n}';
+
+  fs.writeFileSync(
+    `packages/types/src/interfaceRegistry.ts`,
+    header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
+    , { flag: 'w' }
+  );
+}
+
+console.log(`Writing interfaceRegistry.ts`);
+
+generateInterfaceRegistry();
