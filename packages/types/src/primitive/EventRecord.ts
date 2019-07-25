@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '../srml/runtime/types';
+
 import { assert } from '@polkadot/util';
 
+import createType, { ClassOf } from '../codec/createType';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Hash from './Hash';
 import Event from './Event';
 import Null from './Null';
 import U32 from './U32';
@@ -106,7 +108,7 @@ export class EventRecord0to76 extends Struct {
    * @description The [[Hash]] topics for this event (empty, compat)
    */
   public get topics (): Vector<Hash> {
-    return new (Vector.with(Hash))();
+    return createType('Vec<Hash>', []);
   }
 }
 
@@ -121,7 +123,7 @@ export default class EventRecord extends Struct {
     super({
       phase: Phase,
       event: Event,
-      topics: Vector.with(Hash)
+      topics: ClassOf('Vec<Hash>')
     }, value);
   }
 

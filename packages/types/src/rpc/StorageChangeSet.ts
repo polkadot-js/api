@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '../srml/runtime/types';
 import { AnyU8a } from '../types';
 
+import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Hash from '../primitive/Hash';
-import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
+import { KeyValueOption, KeyValueOptionValue } from '../primitive/KeyValue';
 
 interface StorageChangeSetValue {
   block?: AnyU8a;
@@ -24,7 +25,7 @@ interface StorageChangeSetValue {
 export default class StorageChangeSet extends Struct {
   public constructor (value?: StorageChangeSetValue | Uint8Array) {
     super({
-      block: Hash,
+      block: ClassOf('Hash'),
       changes: Vector.with(KeyValueOption)
     }, value);
   }

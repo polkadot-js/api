@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { injectDefinitions } from '@polkadot/types/srml';
 import { Extrinsic } from '@polkadot/types';
 
 import extrinsics from './static';
@@ -10,6 +11,10 @@ import extrinsics from './static';
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('extrinsics', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
       new Extrinsic(

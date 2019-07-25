@@ -9,9 +9,8 @@ import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/c
 import * as codecClasses from '../codec';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
 import * as primitiveClasses from '../primitive';
-import * as typeClasses from '../type';
-import { Constructor } from '../types';
 import * as definitions from '../srml/definitions';
+import { Constructor } from '../types';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
@@ -26,7 +25,6 @@ interface TypeImports {
   localTypes: LocalExist;
   ownTypes: string[];
   primitiveTypes: TypeExist;
-  substrateTypes: TypeExist;
 }
 
 const HEADER = '/* eslint-disable @typescript-eslint/no-empty-interface */\n// Auto-generated via `yarn build:srmlTs`, do not edit\n\n';
@@ -34,7 +32,7 @@ const FOOTER = '\n';
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
-function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes }: TypeImports, types: string[]): void {
+function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeImports, types: string[]): void {
   types.forEach((type): void => {
     if (ownTypes.includes(type)) {
       // do nothing
@@ -42,8 +40,6 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, substra
       codecTypes[type] = true;
     } else if ((primitiveClasses as any)[type]) {
       primitiveTypes[type] = true;
-    } else if ((typeClasses as any)[type]) {
-      substrateTypes[type] = true;
     } else {
       // find this module inside the exports from the rest
       const [moduleName] = Object.entries(definitions).find(([, { types }]): boolean =>
@@ -176,6 +172,16 @@ function _tsStructGetterType (structName: string | undefined, { info, sub, type 
   }
 }
 
+function tsSet ({ name: setName, sub }: TypeDef, imports: TypeImports): string {
+  setImports(imports, ['Set']);
+
+  const types = (sub as TypeDef[]).map(({ name }): string =>
+    createGetter(`is${name}`, 'boolean')
+  );
+
+  return createInterface(setName, 'Set', types.join(''));
+}
+
 function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
   const keys = (sub as TypeDef[]).map((typedef): string => {
     const [embedType, returnType] = _tsStructGetterType(structName, typedef, imports);
@@ -278,6 +284,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     [TypeDefInfo.Null]: errorUnhandled,
     [TypeDefInfo.Option]: tsOption,
     [TypeDefInfo.Plain]: tsPlain,
+    [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
     [TypeDefInfo.Vector]: tsVector,
@@ -292,15 +299,14 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
   }, {});
   const ownTypes = Object.keys(types);
   const primitiveTypes: TypeExist = {};
-  const substrateTypes: TypeExist = {};
   const interfaces = Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
-    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes })];
+    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes })];
   });
 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
-  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes });
+  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes });
   const header = createImportCode(HEADER, [
     {
       file: '../../types',
@@ -313,10 +319,6 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     {
       file: '../../primitive',
       types: Object.keys(primitiveTypes)
-    },
-    {
-      file: '../../type',
-      types: Object.keys(substrateTypes)
     },
     ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `../${moduleName}/types`,

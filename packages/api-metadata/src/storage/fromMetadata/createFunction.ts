@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
+
+import BN from 'bn.js';
 import { createType, Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
 import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -20,6 +23,8 @@ export interface CreateItemFn {
   prefix: string;
   section: string;
 }
+
+type CreateArgType = boolean | string | number | null | BN | Uint8Array | Codec;
 
 /**
  * From the schema of a function in the module's storage, generate the function
@@ -51,19 +56,22 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   }
 
   // Can only have zero or one argument:
-  // - storage.balances.freeBalance(address)
-  // - storage.timestamp.blockPeriod()
-  const _storageFn = (arg?: any): Uint8Array => {
+  //   - storage.balances.freeBalance(address)
+  //   - storage.timestamp.blockPeriod()
+  // For doublemap queries the params is passed in as an tuple, [key1, key2]
+  const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array => {
     let key = rawKey;
 
     if (meta.type.isDoubleMap) {
-      assert(!isUndefined(arg) && !isNull(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
+      assert(Array.isArray(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
 
+      // we have checked that it is an array in the assert, so all ok
+      const [key1, key2] = arg as [CreateArgType, CreateArgType];
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
-      const param1Encoded = u8aConcat(key, createType(type1, arg[0]).toU8a(true));
+      const param1Encoded = u8aConcat(key, createType(type1, key1).toU8a(true));
       const param1Hashed = hasher(param1Encoded);
-      const param2Hashed = key2Hasher(createType(type2, arg[1]).toU8a(true));
+      const param2Hashed = key2Hasher(createType(type2, key2).toU8a(true));
 
       return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
     }
@@ -116,7 +124,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
 
     // adjust the fallback value - the metadata only specifies the value
     // part, add a Linkage<Type> to the fallback aswell. The additional
-    // bytes here is a represnettaion of teh Options for next/prev
+    // bytes here are a representation of the Options for next/prev
     meta.set('fallback', new Bytes(meta.fallback.toHex().concat('0000')));
   }
 

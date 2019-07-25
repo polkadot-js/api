@@ -4,15 +4,23 @@
 
 export default {
   types: {
+    VestingSchedule: {
+      offset: 'Balance',
+      perBlock: 'Balance'
+    },
+    WithdrawReasons: {
+      _set: {
+        TransactionPayment: 0b00000001,
+        Transfer: 0b00000010,
+        Reserve: 0b00000100,
+        Fee: 0b00001000
+      }
+    },
     BalanceLock: {
       id: 'LockIdentifier',
       amount: 'Balance',
       until: 'BlockNumber',
       reasons: 'WithdrawReasons'
-    },
-    VestingSchedule: {
-      offset: 'Balance',
-      perBlock: 'Balance'
     }
   }
 };

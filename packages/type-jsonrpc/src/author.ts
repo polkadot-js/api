@@ -20,6 +20,7 @@ const submitExtrinsic: RpcMethodOpt = {
   params: [
     createParam('extrinsic', 'Extrinsic')
   ],
+  // @ts-ignore srml types
   type: 'Hash'
 };
 

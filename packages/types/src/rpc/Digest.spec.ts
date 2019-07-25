@@ -2,11 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '../srml';
 import json3 from '../json/Header.003.json';
 import block1 from '../json/SignedBlock.003.00.json';
 import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
 
 describe('Digest', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('decodes logs with consensus', (): void => {
     const digest = new Digest(json3.result.digest);
 

@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Index, Signature } from '../../../srml/runtime/types';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
+import createType, { ClassOf } from '../../../codec/createType';
+import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
-import BalanceCompact from '../../BalanceCompact';
 import Method from '../../Method';
-import Signature from '../../Signature';
 import ExtrinsicEra from '../ExtrinsicEra';
-import NonceCompact from '../../../type/NonceCompact';
 import SignaturePayload from './SignaturePayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
@@ -28,7 +28,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureV2Options = {}) {
     super({
       signer: Address,
-      signature: Signature,
+      signature: ClassOf('Signature'),
       extra: ExtrinsicExtra
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
@@ -67,9 +67,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[NonceCompact]] for the signature
+   * @description The [[Index]] for the signature
    */
-  public get nonce (): NonceCompact {
+  public get nonce (): Compact<Index> {
     return this.extra.nonce;
   }
 
@@ -90,7 +90,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): BalanceCompact {
+  public get tip (): Compact<Balance> {
     return this.extra.tip;
   }
 
@@ -111,7 +111,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
       new Address(signer),
-      new Signature(signature),
+      createType('Signature', signature),
       new SignaturePayload(payload)
     );
   }
@@ -128,7 +128,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
       nonce,
       tip: tip || 0
     });
-    const signature = new Signature(payload.sign(account));
+    const signature = createType<Signature>('Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

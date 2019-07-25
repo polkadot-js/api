@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/srml/types';
+
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
+import { AccountId, AccountIndex, ClassOf } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -121,7 +123,7 @@ describe.skip('Api-RX derive e2e', (): void => {
         api.derive.balances.all(ID).subscribe((balances: DerivedBalances): void => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
-            accountNonce: expect.any(Index),
+            accountNonce: expect.any(ClassOf('Index')),
             availableBalance: expect.any(BN),
             freeBalance: expect.any(BN),
             lockedBalance: expect.any(BN),
@@ -154,7 +156,7 @@ describe.skip('Api-RX derive e2e', (): void => {
     describe('bestNumber', (): void => {
       it('Get the latest block number', async (done): Promise<void> => {
         api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof BlockNumber).toBe(true);
+          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -164,7 +166,7 @@ describe.skip('Api-RX derive e2e', (): void => {
     describe('bestNumberFinalized', (): void => {
       it('Get the latest finalised block number', async (done): Promise<void> => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof BlockNumber).toBe(true);
+          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -174,7 +176,7 @@ describe.skip('Api-RX derive e2e', (): void => {
     describe('bestNumberLag', (): void => {
       it('lag between finalised head and best head', async (done): Promise<void> => {
         api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber): void => {
-          expect(numberLag instanceof BlockNumber).toBe(true);
+          expect(numberLag instanceof ClassOf('BlockNumber')).toBe(true);
           expect(numberLag.gten(0)).toBe(true);
           done();
         });

@@ -8,7 +8,7 @@ import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/uti
 
 import createType from '../codec/createType';
 import U8a from '../codec/U8a';
-import Bool from '../primitive/Bool';
+import Bool from './Bool';
 
 /**
  * @name Vote

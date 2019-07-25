@@ -2,9 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '../../../srml';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 describe('ExtrinsicSignatureV2', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('encodes to a sane Uint8Array', (): void => {
     const u8a = new Uint8Array([
       // signer as an AccountIndex

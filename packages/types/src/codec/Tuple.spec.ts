@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal } from '../srml/democracy/types';
 import { VoteThreshold } from '../srml/elections/types';
+import { BlockNumber } from '../srml/runtime/types';
 import { CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
@@ -13,7 +13,6 @@ import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import { injectDefinitions } from '../srml';
-import BlockNumber from '../type/BlockNumber';
 import Tuple from './Tuple';
 
 describe('Tuple', (): void => {
@@ -60,7 +59,7 @@ describe('Tuple', (): void => {
     Method.injectMethods(extrinsics);
 
     const test = new (Tuple.with([
-      BlockNumber, ClassOf<Proposal>('Proposal'), ClassOf<VoteThreshold>('VoteThreshold')
+      ClassOf('BlockNumber'), ClassOf('Proposal'), ClassOf('VoteThreshold')
     ]
     ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
@@ -75,7 +74,8 @@ describe('Tuple', (): void => {
 
   it('exposes the Types (object creation)', (): void => {
     const test = new Tuple({
-      BlockNumber, VoteThreshold: ClassOf<VoteThreshold>('VoteThreshold')
+      BlockNumber: ClassOf('BlockNumber'),
+      VoteThreshold: ClassOf('VoteThreshold')
     }, []);
 
     expect(test.Types).toEqual(['BlockNumber', 'VoteThreshold']);
@@ -102,13 +102,13 @@ describe('Tuple', (): void => {
   describe('toRawType', (): void => {
     it('generates sane value with array types', (): void => {
       expect(
-        new Tuple([U32, BlockNumber]).toRawType()
+        new Tuple([U32, ClassOf('BlockNumber')]).toRawType()
       ).toEqual('(u32,u64)');
     });
 
     it('generates sane value with object types', (): void => {
       expect(
-        new Tuple({ number: U32, blockNumber: BlockNumber }).toRawType()
+        new Tuple({ number: U32, blockNumber: ClassOf('BlockNumber') }).toRawType()
       ).toEqual('(u32,u64)');
     });
   });

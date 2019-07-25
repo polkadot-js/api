@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber, Hash } from '../srml/runtime/types';
 import { AnyNumber, AnyU8a } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import createType, { ClassOf } from '../codec/createType';
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import Hash from '../primitive/Hash';
-import BlockNumber from '../type/BlockNumber';
 import Digest, { DigestItem } from './Digest';
 
 export interface HeaderValue {
@@ -28,10 +28,10 @@ export interface HeaderValue {
 export default class Header extends Struct {
   public constructor (value?: HeaderValue | Uint8Array | null) {
     super({
-      parentHash: Hash,
-      number: Compact.with(BlockNumber),
-      stateRoot: Hash,
-      extrinsicsRoot: Hash,
+      parentHash: ClassOf('Hash'),
+      number: ClassOf('Compact<BlockNumber>'),
+      stateRoot: ClassOf('Hash'),
+      extrinsicsRoot: ClassOf('Hash'),
       digest: Digest
     }, value || {});
   }
@@ -61,9 +61,7 @@ export default class Header extends Struct {
    * @description Convenience method, encodes the header and calculates the [[Hash]]
    */
   public get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

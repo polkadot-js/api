@@ -6,8 +6,13 @@ import Enum from './Enum';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import { injectDefinitions } from '../srml';
 
 describe('Enum', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   describe('typed enum (previously EnumType)', (): void => {
     it('provides a clean toString() (value)', (): void => {
       expect(

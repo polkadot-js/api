@@ -1,38 +1,43 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Option, Struct, Vector } from '../../codec';
-import { AccountId, Bytes, u32, u8 } from '../../primitive';
+import { Struct, Vector } from '../../codec';
+import { AccountId, Bytes, Fixed64, H256, H512, u128, u32, u64, u8 } from '../../primitive';
 
-export interface Justification extends Bytes {}
+export interface AccountIdOf extends AccountId { }
 
-export interface KeyTypeId extends u32 {}
+export interface Balance extends u128 { }
 
-export interface LockIdentifier extends Vector<u8> {}
+export interface BalanceOf extends Balance { }
+
+export interface BlockNumber extends u64 { }
+
+export interface Ed25519Signature extends Signature { }
+
+export interface Hash extends H256 { }
+
+export interface Index extends u64 { }
+
+export interface Justification extends Bytes { }
+
+export interface KeyTypeId extends u32 { }
+
+export interface LockIdentifier extends Vector<u8> { }
+
+export interface Perbill extends u32 { }
+
+export interface Permill extends u32 { }
 
 export interface SessionKeys extends Struct {
   readonly ed25519: AccountId;
 }
 
-export interface ValidatorId extends AccountId {}
+export interface Signature extends H512 { }
 
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    Justification: Justification;
-    'Option<Justification>': Option<Justification>;
-    'Vec<Justification>': Vector<Justification>;
-    KeyTypeId: KeyTypeId;
-    'Compact<KeyTypeId>': Compact<KeyTypeId>;
-    'Option<KeyTypeId>': Option<KeyTypeId>;
-    'Vec<KeyTypeId>': Vector<KeyTypeId>;
-    LockIdentifier: LockIdentifier;
-    'Option<LockIdentifier>': Option<LockIdentifier>;
-    'Vec<LockIdentifier>': Vector<LockIdentifier>;
-    SessionKeys: SessionKeys;
-    'Option<SessionKeys>': Option<SessionKeys>;
-    'Vec<SessionKeys>': Vector<SessionKeys>;
-    ValidatorId: ValidatorId;
-    'Option<ValidatorId>': Option<ValidatorId>;
-    'Vec<ValidatorId>': Vector<ValidatorId>;
-  }
-}
+export interface Sr25519Signature extends Signature { }
+
+export interface ValidatorId extends AccountId { }
+
+export interface Weight extends u32 { }
+
+export interface WeightMultiplier extends Fixed64 { }

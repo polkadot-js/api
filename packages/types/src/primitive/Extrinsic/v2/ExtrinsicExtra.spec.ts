@@ -2,9 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { injectDefinitions } from '../../../srml';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
 describe('ExtrinsicExtraV2', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('encodes to a sane Uint8Array (default construction)', (): void => {
     expect(
       new ExtrinsicExtra().toU8a()

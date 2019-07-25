@@ -5,9 +5,9 @@
 import { Codec, Constructor } from '../types';
 
 import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
-import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import { injectDefinitions } from '../srml';
+import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
   it('splits simple types into an array', (): void => {
@@ -265,6 +265,12 @@ describe('createType', (): void => {
     ).toEqual({ B: 0 });
   });
 
+  it('allows creation of a Set', (): void => {
+    expect(
+      createType<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', 1 + 4 + 16 + 64).strings
+    ).toEqual(['A', 'C', 'E', 'H']);
+  });
+
   it('allows creation of a [u8; 8]', (): void => {
     expect(
       createType('[u8; 8]', [0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]).toHex()
@@ -301,7 +307,7 @@ describe('createType', (): void => {
     it('instanceof should work (primitive type)', (): void => {
       const value = createType('Balance', 1234);
 
-      expect(value instanceof Balance).toBe(true);
+      expect(value instanceof ClassOf('Balance')).toBe(true);
     });
 
     it('instanceof should work (srml type)', (): void => {

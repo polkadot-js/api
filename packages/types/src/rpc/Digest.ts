@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash, Signature } from '../srml/runtime/types';
+
 import BN from 'bn.js';
 import { assert, bnToBn } from '@polkadot/util';
 
@@ -10,13 +12,12 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
-import Hash from '../primitive/Hash';
-import Signature from '../primitive/Signature';
 import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
 
 // Should import AuthorityId (however, move these to generated types)
 import AuthorityId from '../primitive/AccountId';
+import { ClassOf } from '../codec';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'
@@ -30,14 +31,6 @@ export { CID_AURA, CID_BABE, CID_GRPA };
  * Log for Authories changed
  */
 export class AuthoritiesChange extends Vector.with(AuthorityId) {
-}
-
-/**
- * @name ChangesTrieRoot
- * @description
- * Log for changes to the Trie root
- */
-export class ChangesTrieRoot extends Hash {
 }
 
 /**
@@ -145,7 +138,7 @@ export class SealV0 extends Tuple {
   public constructor (value: any) {
     super({
       U64,
-      Signature
+      Signature: ClassOf<Signature>('Signature')
     }, value);
   }
 
@@ -181,7 +174,7 @@ export class Seal extends Tuple {
    * @description The wrapped [[Bytes]]
    */
   public get data (): Bytes {
-    return this[1] as Signature;
+    return this[1] as Bytes;
   }
 
   /**
@@ -235,20 +228,6 @@ export class PreRuntime extends Tuple {
   }
 }
 
-// Note the ordering, it aligns with numbers to the Rust implementation
-// (current and previous versions are included hjere, e.g. SealV0)
-const DigestItemEnumMap = {
-  Other, // 0
-  AuthoritiesChange, // 1
-  ChangesTrieRoot, // 2
-  SealV0, // 3
-  Consensus, // 4
-  Seal, // 5
-  PreRuntime // 6
-};
-
-type DigestItemTypes = keyof typeof DigestItemEnumMap;
-
 /**
  * @name DigestItem
  * @description
@@ -256,7 +235,15 @@ type DigestItemTypes = keyof typeof DigestItemEnumMap;
  */
 export class DigestItem extends Enum {
   public constructor (value: any) {
-    super(DigestItemEnumMap, value);
+    super({
+      Other, // 0
+      AuthoritiesChange, // 1
+      ChangesTrieRoot: ClassOf<Hash>('Hash'), // 2
+      SealV0, // 3
+      Consensus, // 4
+      Seal, // 5
+      PreRuntime // 6
+    }, value);
   }
 
   /**
@@ -271,10 +258,10 @@ export class DigestItem extends Enum {
   /**
    * @description Returns the item as a [[ChangesTrieRoot]]
    */
-  public get asChangesTrieRoot (): ChangesTrieRoot {
+  public get asChangesTrieRoot (): Hash {
     assert(this.isChangesTrieRoot, `Cannot convert '${this.type}' via asChangesTrieRoot`);
 
-    return this.value as ChangesTrieRoot;
+    return this.value as Hash;
   }
 
   /**
@@ -379,10 +366,10 @@ export class DigestItem extends Enum {
   }
 
   /**
-   * @description Returns the type of engine, we just override here to get the typings correct
+   * @description Returns the type of engine
    */
-  public get type (): DigestItemTypes {
-    return super.type as DigestItemTypes;
+  public get type (): string {
+    return super.type;
   }
 }
 
@@ -408,14 +395,14 @@ export default class Digest extends Struct {
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  public logsWith (...include: DigestItemTypes[]): Vector<DigestItem> {
+  public logsWith (...include: string[]): Vector<DigestItem> {
     return this.logs.filter(({ type }): boolean => include.includes(type)) as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  public logsWithout (...exclude: DigestItemTypes[]): Vector<DigestItem> {
+  public logsWithout (...exclude: string[]): Vector<DigestItem> {
     return this.logs.filter(({ type }): boolean => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }

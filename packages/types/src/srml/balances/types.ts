@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Option, Struct, Vector } from '../../codec';
-import { Balance } from '../../primitive';
-import { BlockNumber, WithdrawReasons } from '../../type';
-import { LockIdentifier } from '../runtime/types';
+import { Set, Struct } from '../../codec';
+import { Balance, BlockNumber, LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;
@@ -18,6 +16,7 @@ export interface VestingSchedule extends Struct {
   readonly perBlock: Balance;
 }
 
+<<<<<<< HEAD
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     BalanceLock: BalanceLock;
@@ -27,4 +26,11 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Option<VestingSchedule>': Option<VestingSchedule>;
     'Vec<VestingSchedule>': Vector<VestingSchedule>;
   }
+=======
+export interface WithdrawReasons extends Set {
+  readonly isTransactionPayment: boolean;
+  readonly isTransfer: boolean;
+  readonly isReserve: boolean;
+  readonly isFee: boolean;
+>>>>>>> master
 }
