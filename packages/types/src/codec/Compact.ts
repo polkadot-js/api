@@ -8,13 +8,12 @@ import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import Moment from '../primitive/Moment';
 import { AnyNumber, Constructor } from '../types';
-import { UIntBitLength } from './AbstractInt';
+import AbstractInt, { UIntBitLength } from './AbstractInt';
 import Base from './Base';
-import UInt from './UInt';
 
 // List of codec types that are compact-encodable
-export const COMPACT_ENCODABLE = { UInt, Moment };
-export type CompactEncodable = UInt | Moment; // FIXME is there a way to do it not-manually?
+export const COMPACT_ENCODABLE = [AbstractInt, Moment];
+export type CompactEncodable = AbstractInt | Moment; // FIXME is there a way to do it not-manually from the array?
 
 /**
  * @name Compact
@@ -54,7 +53,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> {
     return value;
   }
 
-  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): T {
+  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(value.raw);
     } else if (isString(value)) {
