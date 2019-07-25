@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import ApiPromise from '../../../src/promise';
+import { ApiPromise, ApiRx } from '../../src';
 
-export function calculateAccountDeposit (api: ApiPromise): number {
+export function calculateAccountDeposit (api: ApiPromise | ApiRx): number {
   const minimum = api.consts.balances && api.consts.balances.existentialDeposit ? api.consts.balances.existentialDeposit.toString() : 0;
 
   return (new BN(minimum).toNumber() < 100000000000000

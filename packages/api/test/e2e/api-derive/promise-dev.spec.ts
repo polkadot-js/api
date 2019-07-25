@@ -13,7 +13,10 @@ import { describeE2E } from '../../util';
 const ALICE_STASH = testingPairs().alice_stash.address;
 
 describeE2E({
-  except: ['remote-polkadot-alexander', 'remote-substrate-1.0']
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
 })('Derive Promise e2e development', (wsUrl: string): void => {
   let api: ApiPromise;
 

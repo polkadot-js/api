@@ -2,19 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Balance, Header } from '@polkadot/types';
-import testingPairs from '@polkadot/keyring/testingPairs';
+import { Header } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiRx from '../../../src/rx';
 import { describeE2E } from '../../util';
 
 describeE2E()('Rx e2e queries', (wsUrl: string): void => {
-  const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {

@@ -13,20 +13,26 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
-
 import Rpc from '@polkadot/rpc-core';
+
+import { describeE2E } from '../../util';
 import flipperAbi from '../../../../api-contract/test/contracts/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
-describe.skip('e2e state', (): void => {
+describeE2E({
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
+})('RPC-core e2e state', (wsUrl: string): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider(wsUrl));
   });
 
   it('getMetadata(): retrieves the wasm metadata', (done): void => {
@@ -94,7 +100,7 @@ describe.skip('e2e state', (): void => {
     beforeAll(async (done): Promise<Hash> => {
       const code: string = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
       const abi = new Abi(flipperAbi);
-      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
+      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider(wsUrl));
       const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
 
       const putCode = apiPromise.tx.contract

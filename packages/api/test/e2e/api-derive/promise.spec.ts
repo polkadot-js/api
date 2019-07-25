@@ -56,7 +56,6 @@ describeE2E()('Derive Promise e2e', (wsUrl: string): void => {
     });
   });
 
-
   it('retrieves all session info', (done): Promise<() => void> => {
     let count = 0;
 
