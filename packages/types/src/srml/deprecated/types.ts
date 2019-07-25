@@ -30,3 +30,15 @@ export interface NewAccountOutcome extends Enum {
 export interface OpaqueKey extends Bytes {}
 
 export interface SessionKey extends AccountId {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    NewAccountOutcome: NewAccountOutcome;
+    Amount: Amount;
+    AssetOf: AssetOf;
+    LockPeriods: LockPeriods;
+    InherentOfflineReport: InherentOfflineReport;
+    SessionKey: SessionKey;
+    OpaqueKey: OpaqueKey;
+  }
+}

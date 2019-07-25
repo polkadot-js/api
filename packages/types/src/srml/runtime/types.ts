@@ -15,3 +15,13 @@ export interface SessionKeys extends Struct {
 }
 
 export interface ValidatorId extends AccountId {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    Justification: Justification;
+    KeyTypeId: KeyTypeId;
+    LockIdentifier: LockIdentifier;
+    SessionKeys: SessionKeys;
+    ValidatorId: ValidatorId;
+  }
+}

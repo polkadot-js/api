@@ -17,3 +17,10 @@ export interface VestingSchedule extends Struct {
   readonly offset: Balance;
   readonly perBlock: Balance;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    BalanceLock: BalanceLock;
+    VestingSchedule: VestingSchedule;
+  }
+}

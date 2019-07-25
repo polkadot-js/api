@@ -48,3 +48,14 @@ export interface StoredState extends Enum {
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    AuthorityWeight: AuthorityWeight;
+    NextAuthority: NextAuthority;
+    PendingPause: PendingPause;
+    PendingResume: PendingResume;
+    StoredPendingChange: StoredPendingChange;
+    StoredState: StoredState;
+  }
+}

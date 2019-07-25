@@ -10,3 +10,9 @@ export interface TreasuryProposal extends Struct {
   readonly beneficiary: AccountId;
   readonly bond: Balance;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    TreasuryProposal: TreasuryProposal;
+  }
+}

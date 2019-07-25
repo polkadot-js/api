@@ -215,7 +215,7 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeI
 }
 
 // creates the import lines
-function createImportCode (header: string, checks: { file: string; types: string[]}[]): string {
+function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
   return checks.reduce((result, { file, types }): string => {
     if (types.length) {
       result += `import { ${types.sort().join(', ')} } from '../${file}';\n`;
@@ -223,6 +223,16 @@ function createImportCode (header: string, checks: { file: string; types: string
 
     return result;
   }, header) + '\n';
+}
+
+function interfaceRegistry (types: Record<string, any>): string {
+  return `
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+${Object.keys(types).map((type): string => `    ${type}: ${type};`).join('\n')}
+  }
+}`;
 }
 
 function generateTsDef (srmlName: string, { types }: { types: Record<string, any> }): void {
@@ -281,8 +291,9 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
       types: Object.keys(localTypes[moduleName])
     }))
   ]);
+  const interfaceReg = interfaceRegistry(types);
 
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([srmlName, obj]): void => {

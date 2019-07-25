@@ -22,3 +22,12 @@ export interface OpaqueNetworkState extends Struct {
 }
 
 export interface OpaquePeerId extends Bytes {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    OpaqueMultiaddr: OpaqueMultiaddr;
+    OpaquePeerId: OpaquePeerId;
+    OpaqueNetworkState: OpaqueNetworkState;
+    Heartbeat: Heartbeat;
+  }
+}

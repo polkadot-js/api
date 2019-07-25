@@ -14,3 +14,11 @@ export interface Votes extends Struct {
   readonly ayes: Vector<AccountId>;
   readonly nays: Vector<AccountId>;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    MemberCount: MemberCount;
+    ProposalIndex: ProposalIndex;
+    Votes: Votes;
+  }
+}

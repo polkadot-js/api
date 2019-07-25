@@ -4,3 +4,9 @@
 import { AccountId } from '../../primitive';
 
 export interface AuthorityId extends AccountId {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    AuthorityId: AuthorityId;
+  }
+}

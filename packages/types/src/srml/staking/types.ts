@@ -41,3 +41,14 @@ export interface ValidatorPrefs extends Struct {
   readonly unstakeThreshold: Compact<u32>;
   readonly validatorPayment: Compact<Balance>;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    EraIndex: EraIndex;
+    EraRewards: EraRewards;
+    IndividualExposure: IndividualExposure;
+    Exposure: Exposure;
+    RewardDestination: RewardDestination;
+    ValidatorPrefs: ValidatorPrefs;
+  }
+}

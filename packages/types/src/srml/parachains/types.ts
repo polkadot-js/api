@@ -175,3 +175,33 @@ export interface WinningData extends Vector<WinningDataEntry> {}
 
 type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
 export interface WinningDataEntry extends Codec, _WinningDataEntry {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    AuctionIndex: AuctionIndex;
+    CollatorSignature: CollatorSignature;
+    ValidityAttestation: ValidityAttestation;
+    ParaId: ParaId;
+    ParaIdOf: ParaIdOf;
+    ValidatorIndex: ValidatorIndex;
+    ValidityVote: ValidityVote;
+    BalanceUpload: BalanceUpload;
+    EgressQueueRoot: EgressQueueRoot;
+    HeadData: HeadData;
+    CandidateReceipt: CandidateReceipt;
+    AttestedCandidate: AttestedCandidate;
+    SubId: SubId;
+    NewBidder: NewBidder;
+    Bidder: Bidder;
+    IncomingParachainDeploy: IncomingParachainDeploy;
+    IncomingParachainFixed: IncomingParachainFixed;
+    IncomingParachain: IncomingParachain;
+    LeasePeriod: LeasePeriod;
+    LeasePeriodOf: LeasePeriodOf;
+    ParachainDispatchOrigin: ParachainDispatchOrigin;
+    SlotRange: SlotRange;
+    UpwardMessage: UpwardMessage;
+    WinningDataEntry: WinningDataEntry;
+    WinningData: WinningData;
+  }
+}

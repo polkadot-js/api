@@ -31,3 +31,13 @@ export interface VoteThreshold extends Enum {
    */
   readonly isSimpleMajority: boolean;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    ApprovalFlag: ApprovalFlag;
+    SetIndex: SetIndex;
+    VoteIndex: VoteIndex;
+    VoterInfo: VoterInfo;
+    VoteThreshold: VoteThreshold;
+  }
+}

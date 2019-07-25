@@ -66,3 +66,19 @@ export interface SeedOf extends Hash {}
 export interface TombstoneContractInfo extends Hash {}
 
 export interface TrieId extends Bytes {}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    CodeHash: CodeHash;
+    TrieId: TrieId;
+    AliveContractInfo: AliveContractInfo;
+    TombstoneContractInfo: TombstoneContractInfo;
+    ContractInfo: ContractInfo;
+    ContractStorageKey: ContractStorageKey;
+    Gas: Gas;
+    PrefabWasmModuleReserved: PrefabWasmModuleReserved;
+    PrefabWasmModule: PrefabWasmModule;
+    Schedule: Schedule;
+    SeedOf: SeedOf;
+  }
+}

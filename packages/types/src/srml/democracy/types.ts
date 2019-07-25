@@ -45,3 +45,13 @@ export interface ReferendumInfo extends Struct {
   readonly threshold: VoteThreshold;
   readonly delay: BlockNumber;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    Conviction: Conviction;
+    PropIndex: PropIndex;
+    Proposal: Proposal;
+    ReferendumIndex: ReferendumIndex;
+    ReferendumInfo: ReferendumInfo;
+  }
+}

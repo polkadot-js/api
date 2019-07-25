@@ -23,3 +23,11 @@ export interface UncleEntryItem extends Enum {
   readonly isUncle: boolean;
   readonly asUncle: Uncle;
 }
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    InclusionHeight: InclusionHeight;
+    Uncle: Uncle;
+    UncleEntryItem: UncleEntryItem;
+  }
+}
