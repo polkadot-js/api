@@ -6,7 +6,6 @@ export default {
   types: {
     AuctionIndex: 'u32',
     CollatorSignature: 'Signature',
-    AvailabilityVote: '(SessionKey, CollatorSignature)',
     ValidityAttestation: {
       _enum: {
         // This Null is not in the original, however indexes start at 1, so add a
@@ -18,7 +17,8 @@ export default {
     },
     ParaId: 'u32',
     ParaIdOf: 'ParaId',
-    ValidityVote: '(AccountId, ValidityAttestation)',
+    ValidatorIndex: 'u32',
+    ValidityVote: '(ValidatorIndex, ValidityAttestation)',
     BalanceUpload: '(AccountId, u64)',
     EgressQueueRoot: '(ParaId, Hash)',
     HeadData: 'Bytes',
@@ -34,8 +34,7 @@ export default {
     },
     AttestedCandidate: {
       candidate: 'CandidateReceipt',
-      validityVotes: 'Vec<ValidityVote>',
-      availabilityVotes: 'Vec<AvailabilityVote>'
+      validityVotes: 'Vec<ValidityVote>'
     },
     SubId: 'u32',
     NewBidder: {

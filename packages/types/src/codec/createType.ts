@@ -276,7 +276,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
     return Fallback;
   }
 
-  throw new Error(`Unable to determine type from '${value.type}'`);
+  throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
 // alias for createClass

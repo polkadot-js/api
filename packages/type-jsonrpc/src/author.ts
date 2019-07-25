@@ -10,7 +10,8 @@ import createParam from './create/param';
 const pendingExtrinsics: RpcMethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
-  type: 'PendingExtrinsics'
+  // @ts-ignore Yeap, the Vec here is fine
+  type: 'Vec<Extrinsic>'
 };
 
 const submitExtrinsic: RpcMethodOpt = {

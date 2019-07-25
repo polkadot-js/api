@@ -2,11 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Bool from '../primitive/Bool';
-import Conviction from './Conviction';
+import { injectDefinitions } from '../srml';
 import Vote from './Vote';
 
 describe('Vote', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('constructs via boolean true', (): void => {
     expect(new Vote(true).toU8a()).toEqual(new Uint8Array([128]));
     expect(new Vote(true).isAye).toBe(true);
@@ -21,12 +24,12 @@ describe('Vote', (): void => {
 
   it('has isYay for positive', (): void => {
     // eslint-disable-next-line no-new-wrappers
-    expect(new Vote(new Bool(true)).isAye).toBe(true);
+    expect(new Vote(true).isAye).toBe(true);
   });
 
   it('has isNay for negative', (): void => {
     // eslint-disable-next-line no-new-wrappers
-    expect(new Vote(new Bool(false)).isNay).toBe(true);
+    expect(new Vote(false).isNay).toBe(true);
   });
 
   it('is Aye for negative numbers', (): void => {
@@ -41,7 +44,7 @@ describe('Vote', (): void => {
     expect(
       new Vote({
         aye: true,
-        conviction: new Conviction('Locked1x')
+        conviction: 'Locked1x'
       }).toU8a()
     ).toEqual(new Uint8Array([0b10000001]));
   });
@@ -49,8 +52,8 @@ describe('Vote', (): void => {
   it('constructs with V2 Vote aye is false, conviction is None', (): void => {
     expect(
       new Vote({
-        aye: new Bool(false),
-        conviction: new Conviction('None')
+        aye: false,
+        conviction: 'None'
       }).toU8a()
     ).toEqual(new Uint8Array([0b00000000]));
   });
@@ -58,8 +61,8 @@ describe('Vote', (): void => {
   it('constructs with Vote aye is true, conviction is Locked4x', (): void => {
     expect(
       new Vote({
-        aye: new Bool(true),
-        conviction: new Conviction('Locked4x')
+        aye: true,
+        conviction: 'Locked4x'
       }).toU8a()
     ).toEqual(new Uint8Array([0b10000100]));
   });
@@ -67,8 +70,8 @@ describe('Vote', (): void => {
   it('Conviction getter works', (): void => {
     expect(
       new Vote({
-        aye: new Bool(true),
-        conviction: new Conviction('Locked2x')
+        aye: true,
+        conviction: 'Locked2x'
       }).conviction.toString()
     ).toEqual('Locked2x');
   });
@@ -93,8 +96,8 @@ describe('Vote', (): void => {
   it('isAye getter works', (): void => {
     expect(
       new Vote({
-        aye: new Bool(true),
-        conviction: new Conviction('None')
+        aye: true,
+        conviction: 'None'
       }).isAye)
       .toEqual(true);
   });
@@ -102,8 +105,8 @@ describe('Vote', (): void => {
   it('isNay getter works', (): void => {
     expect(
       new Vote({
-        aye: new Bool(true),
-        conviction: new Conviction('None')
+        aye: true,
+        conviction: 'None'
       }).isNay)
       .toEqual(false);
   });

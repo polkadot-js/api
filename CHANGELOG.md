@@ -1,15 +1,20 @@
 # 0.82.0-beta.x
 
-- **Breaking change** The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
-- **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
-- **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`.
-- **Breaking Change** StorageFunction has been renamed to StorageEntry.
-- **Breaking Change** `@polkadot/extrinsics` and `@polkadot/storage` have been moved to `@polkadot/api-metadata` and are now accessible as `@polkadot/api-metadata/extrinsics` and `@polkadot/api-metadata/storage`, respectively.
-- **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
-- Support latest substrate 2.x v6 metadata with module constants using `api.consts`.
-- Support V2 Extrinsics in addition to V1
-- Addition of `api.derive.elections`
-- `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
+- Support for substrate 2.x (master) has been extended,
+  - Additional types have been addedd for the modules
+  - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
+  - Addition of `api.derive.elections`
+- Support latest substrate 2.x v6 & v7 metadata with module constants using `api.consts`.
+  - The api now uses the module name for the storage methods, aligning module names for consistency with transactions. The methods of the grandpa module moved from `api.query.grandpaFinality` to `api.query.grandpa`.
+  - Internally the `@polkadot/extrinsics` and `@polkadot/storage` have been moved to `@polkadot/api-metadata` and are now accessible as `@polkadot/api-metadata/extrinsics` and `@polkadot/api-metadata/storage`, respectively.
+- Support V2 Extrinsics in addition to V1, v2 includes an optional `tip`
+  - An additon to this support, the `Signer` interface has deprecated the `sign` method and replaced it with `signPayload`. Support for the former will be removed in subsequent versions.
+- Types have been extended an has been moved to definitions instead of classes for a large number of these type -
+  - **Breaking Change** For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods, construction should not be neededd, the raw value can be passed.
+  - **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
+  - **Breaking Change** For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkaot/types`, not just the definitions are available via `import { SetIndex } from '@polkadot/srml/types`
+  - The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
+  - `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
 
 # 0.81.1
 

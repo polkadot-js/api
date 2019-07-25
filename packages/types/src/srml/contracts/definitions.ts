@@ -47,6 +47,7 @@ export default {
       maxMemoryPages: 'u32',
       enablePrintln: 'Bool',
       maxSubjectLen: 'u32'
-    }
+    },
+    SeedOf: 'Hash'
   }
 };

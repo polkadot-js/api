@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApprovalFlag } from '@polkadot/types/srml/elections/types';
+
 import BN from 'bn.js';
-import { Vector, ApprovalFlag } from '@polkadot/types';
+import { Vector } from '@polkadot/types';
 
 export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
@@ -12,6 +14,8 @@ export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
       bools.push(!flag.toBn().uand((new BN(1)).shln(bit)).isZero());
     }
   }
+
   const lastApproval: number = bools.lastIndexOf(true);
+
   return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
 }

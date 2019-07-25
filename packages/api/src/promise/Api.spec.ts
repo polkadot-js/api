@@ -5,8 +5,8 @@
 import { Hash } from '@polkadot/types';
 import Mock from '@polkadot/rpc-provider/mock/index';
 
-import { ApiPromise } from './..';
-import { ApiOptions } from './../types';
+import { ApiPromise } from '..';
+import { ApiOptions } from '../types';
 
 describe('Metadata queries', (): void => {
   let mock: Mock;

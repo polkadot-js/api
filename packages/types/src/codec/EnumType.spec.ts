@@ -68,7 +68,7 @@ describe('Enum', (): void => {
 
       expect(test.isSecond).toEqual(true);
       expect(test.asSecond.toNumber()).toEqual(42);
-      expect((): never => test.asThird).toThrow(/Cannot convert Second via asThird/);
+      expect((): never => test.asThird).toThrow(/Cannot convert 'Second' via asThird/);
     });
 
     it('stringifies with custom types', (): void => {

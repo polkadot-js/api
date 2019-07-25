@@ -5,11 +5,11 @@ import { Codec } from '../../types';
 import { Enum, Struct, Vector } from '../../codec';
 import { u64 } from '../../primitive';
 import { BlockNumber } from '../../type';
-import { SessionKey } from '../session/types';
+import { AuthorityId } from '../consensus/types';
 
 export interface AuthorityWeight extends u64 {}
 
-type _NextAuthority = [SessionKey, u64];
+type _NextAuthority = [AuthorityId, u64];
 export interface NextAuthority extends Codec, _NextAuthority {}
 
 export interface PendingPause extends Struct {

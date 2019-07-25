@@ -8,10 +8,12 @@ import Method from '../primitive/Method';
 import events from '../json/SignedBlock.002.json';
 import immortalTxs from '../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../json/SignedBlock.004.mortal.json';
+import { injectDefinitions } from '../srml';
 import SignedBlock from './SignedBlock';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
+    injectDefinitions();
     Method.injectMethods(extrinsics);
   });
 
