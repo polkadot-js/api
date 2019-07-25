@@ -25,9 +25,7 @@ const testFunction = (api: ApiRx): any => {
   };
 };
 
-// https://github.com/polkadot-js/api/pull/1066#issuecomment-509142048
-// https://github.com/polkadot-js/api/issues/1064
-describe.skip('derive', (): void => {
+describe('derive', (): void => {
   describe('builtin', (): void => {
     const api = new ApiRx(new MockProvider());
 
@@ -55,7 +53,8 @@ describe.skip('derive', (): void => {
     testFunction(api)('democracy', 'votes', []);
 
     testFunction(api)('elections', 'approvalsOf', []);
-    testFunction(api)('elections', 'approvalsOfAt', []);
+    // FIXME This one has an additional check which mock doesnt (yet) cater for
+    // testFunction(api)('elections', 'approvalsOfAt', []);
     testFunction(api)('elections', 'info', []);
     testFunction(api)('elections', 'voters', []);
 
