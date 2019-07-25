@@ -246,9 +246,9 @@ function createImportCode (header: string, checks: { file: string; types: string
 }
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-function getDerivedTypes (type: string, mappedType: string, imports: TypeImports, indent: number = 2): string {
-  // mappedType represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as any)[mappedType]);
+function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
+  // `primitiveName` represents the actual primitive type our type is mapped to
+  const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
   setImports(imports, ['Option', 'Vector', isCompact ? 'Compact' : '']);
 
   return [
