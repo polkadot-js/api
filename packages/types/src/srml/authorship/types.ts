@@ -2,14 +2,14 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Option } from '../../codec';
+import { Enum, Option, Vector } from '../../codec';
 import { AccountId } from '../../primitive';
 import { BlockNumber, Hash } from '../runtime/types';
 
-export interface InclusionHeight extends BlockNumber { }
+export interface InclusionHeight extends BlockNumber {}
 
 type _Uncle = [Hash, Option<AccountId>];
-export interface Uncle extends Codec, _Uncle { }
+export interface Uncle extends Codec, _Uncle {}
 
 export interface UncleEntryItem extends Enum {
   /**

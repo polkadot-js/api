@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { AccountId, u32 } from '../../primitive';
 import { Balance, BlockNumber } from '../runtime/types';
 
-export interface EraIndex extends u32 { }
+export interface EraIndex extends u32 {}
 
 export interface EraRewards extends Struct {
   readonly total: u32;
@@ -73,6 +73,12 @@ declare module '@polkadot/types/interfaceRegistry' {
     RewardDestination: RewardDestination;
     'Option<RewardDestination>': Option<RewardDestination>;
     'Vec<RewardDestination>': Vector<RewardDestination>;
+    UnlockChunk: UnlockChunk;
+    'Option<UnlockChunk>': Option<UnlockChunk>;
+    'Vec<UnlockChunk>': Vector<UnlockChunk>;
+    StakingLedger: StakingLedger;
+    'Option<StakingLedger>': Option<StakingLedger>;
+    'Vec<StakingLedger>': Vector<StakingLedger>;
     ValidatorPrefs: ValidatorPrefs;
     'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
     'Vec<ValidatorPrefs>': Vector<ValidatorPrefs>;

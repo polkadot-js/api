@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Set, Struct } from '../../codec';
+import { Option, Set, Struct, Vector } from '../../codec';
 import { Balance, BlockNumber, LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
@@ -16,21 +16,23 @@ export interface VestingSchedule extends Struct {
   readonly perBlock: Balance;
 }
 
-<<<<<<< HEAD
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    BalanceLock: BalanceLock;
-    'Option<BalanceLock>': Option<BalanceLock>;
-    'Vec<BalanceLock>': Vector<BalanceLock>;
-    VestingSchedule: VestingSchedule;
-    'Option<VestingSchedule>': Option<VestingSchedule>;
-    'Vec<VestingSchedule>': Vector<VestingSchedule>;
-  }
-=======
 export interface WithdrawReasons extends Set {
   readonly isTransactionPayment: boolean;
   readonly isTransfer: boolean;
   readonly isReserve: boolean;
   readonly isFee: boolean;
->>>>>>> master
+}
+
+declare module '@polkadot/types/interfaceRegistry' {
+  export interface InterfaceRegistry {
+    VestingSchedule: VestingSchedule;
+    'Option<VestingSchedule>': Option<VestingSchedule>;
+    'Vec<VestingSchedule>': Vector<VestingSchedule>;
+    WithdrawReasons: WithdrawReasons;
+    'Option<WithdrawReasons>': Option<WithdrawReasons>;
+    'Vec<WithdrawReasons>': Vector<WithdrawReasons>;
+    BalanceLock: BalanceLock;
+    'Option<BalanceLock>': Option<BalanceLock>;
+    'Vec<BalanceLock>': Vector<BalanceLock>;
+  }
 }

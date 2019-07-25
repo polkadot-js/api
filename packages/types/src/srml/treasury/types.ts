@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Struct } from '../../codec';
+import { Option, Struct, Vector } from '../../codec';
 import { AccountId } from '../../primitive';
 import { Balance } from '../runtime/types';
 

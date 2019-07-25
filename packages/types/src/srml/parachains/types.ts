@@ -2,7 +2,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vector } from '../../codec';
 import { AccountId, Bytes, u32, u64 } from '../../primitive';
 import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime/types';
 
@@ -11,10 +11,10 @@ export interface AttestedCandidate extends Struct {
   readonly validityVotes: Vector<ValidityVote>;
 }
 
-export interface AuctionIndex extends u32 { }
+export interface AuctionIndex extends u32 {}
 
 type _BalanceUpload = [AccountId, u64];
-export interface BalanceUpload extends Codec, _BalanceUpload { }
+export interface BalanceUpload extends Codec, _BalanceUpload {}
 
 export interface Bidder extends Enum {
   /**
@@ -40,12 +40,12 @@ export interface CandidateReceipt extends Struct {
   readonly blockDataHash: Hash;
 }
 
-export interface CollatorSignature extends Signature { }
+export interface CollatorSignature extends Signature {}
 
 type _EgressQueueRoot = [ParaId, Hash];
-export interface EgressQueueRoot extends Codec, _EgressQueueRoot { }
+export interface EgressQueueRoot extends Codec, _EgressQueueRoot {}
 
-export interface HeadData extends Bytes { }
+export interface HeadData extends Bytes {}
 
 export interface IncomingParachain extends Enum {
   /**
@@ -75,9 +75,9 @@ export interface IncomingParachainFixed extends Struct {
   readonly initialHeadData: Bytes;
 }
 
-export interface LeasePeriod extends BlockNumber { }
+export interface LeasePeriod extends BlockNumber {}
 
-export interface LeasePeriodOf extends LeasePeriod { }
+export interface LeasePeriodOf extends LeasePeriod {}
 
 export interface NewBidder extends Struct {
   readonly who: AccountId;
@@ -95,9 +95,9 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isParachain: boolean;
 }
 
-export interface ParaId extends u32 { }
+export interface ParaId extends u32 {}
 
-export interface ParaIdOf extends ParaId { }
+export interface ParaIdOf extends ParaId {}
 
 export interface SlotRange extends Enum {
   /**
@@ -142,14 +142,14 @@ export interface SlotRange extends Enum {
   readonly isThreeThree: boolean;
 }
 
-export interface SubId extends u32 { }
+export interface SubId extends u32 {}
 
 export interface UpwardMessage extends Struct {
   readonly origin: ParachainDispatchOrigin;
   readonly data: Bytes;
 }
 
-export interface ValidatorIndex extends u32 { }
+export interface ValidatorIndex extends u32 {}
 
 export interface ValidityAttestation extends Enum {
   /**
@@ -169,12 +169,12 @@ export interface ValidityAttestation extends Enum {
 }
 
 type _ValidityVote = [ValidatorIndex, ValidityAttestation];
-export interface ValidityVote extends Codec, _ValidityVote { }
+export interface ValidityVote extends Codec, _ValidityVote {}
 
-export interface WinningData extends Vector<WinningDataEntry> { }
+export interface WinningData extends Vector<WinningDataEntry> {}
 
 type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
-export interface WinningDataEntry extends Codec, _WinningDataEntry { }
+export interface WinningDataEntry extends Codec, _WinningDataEntry {}
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
