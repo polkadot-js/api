@@ -63,7 +63,7 @@ function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boole
 }
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
-  return isChildClass(COMPACT_ENCODABLE.UInt, Child) || isChildClass(COMPACT_ENCODABLE.Moment, Child);
+  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean => isChildClass(CompactEncodable, Child));
 }
 
 // helper to generate a `export interface<Name> extends <Base> {<Body>}
