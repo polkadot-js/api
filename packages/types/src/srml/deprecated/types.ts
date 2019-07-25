@@ -53,6 +53,7 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Option<AccountInfo>': Option<AccountInfo>;
     'Vec<AccountInfo>': Vector<AccountInfo>;
     LockPeriods: LockPeriods;
+    'Compact<LockPeriods>': Compact<LockPeriods>;
     'Option<LockPeriods>': Option<LockPeriods>;
     'Vec<LockPeriods>': Vector<LockPeriods>;
     InherentOfflineReport: InherentOfflineReport;

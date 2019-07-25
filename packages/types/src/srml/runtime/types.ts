@@ -103,6 +103,7 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Option<Weight>': Option<Weight>;
     'Vec<Weight>': Vector<Weight>;
     WeightMultiplier: WeightMultiplier;
+    'Compact<WeightMultiplier>': Compact<WeightMultiplier>;
     'Option<WeightMultiplier>': Option<WeightMultiplier>;
     'Vec<WeightMultiplier>': Vector<WeightMultiplier>;
   }

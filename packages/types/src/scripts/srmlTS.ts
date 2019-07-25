@@ -64,6 +64,7 @@ function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boole
 }
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
+  // @ts-ignore AbstractInt is abstract, we shouldn't isChildClass it here, but it works
   return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean => isChildClass(CompactEncodable, Child));
 }
 
