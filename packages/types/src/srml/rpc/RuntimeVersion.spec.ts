@@ -2,11 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import rpc from '../json/RuntimeVersion.002.json';
-import RuntimeVersion from './RuntimeVersion';
+import { RuntimeVersion } from './types';
+
+import createType from '../../codec/createType';
+import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {
-  const version = new RuntimeVersion(rpc.result);
+  let version: RuntimeVersion;
+
+  beforeEach((): void => {
+    version = createType('RuntimeVersion', rpc.result);
+  });
 
   it('has the correct authoring', (): void => {
     expect(version.authoringVersion.toNumber()).toEqual(10);

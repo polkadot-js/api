@@ -18,3 +18,4 @@ export * from './parachains/types';
 export * from './staking/types';
 export * from './system/types';
 export * from './treasury/types';
+export * from './rpc/types';

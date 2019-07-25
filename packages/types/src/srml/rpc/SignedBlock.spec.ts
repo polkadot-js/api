@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignedBlock } from './types';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import Method from '../primitive/Method';
+import createType from '../../codec/createType';
+import Method from '../../primitive/Method';
 import events from '../json/SignedBlock.002.json';
 import immortalTxs from '../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../json/SignedBlock.004.mortal.json';
-import { injectDefinitions } from '../srml';
-import SignedBlock from './SignedBlock';
+import { injectDefinitions } from '..';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
@@ -18,7 +20,7 @@ describe('SignedBlock', (): void => {
   });
 
   it('decodes a full block', (): void => {
-    const s = new SignedBlock(events.result);
+    const s = createType('SignedBlock', events.result);
 
     expect(
       s.block.header.stateRoot.toString()
@@ -38,7 +40,7 @@ describe('SignedBlock', (): void => {
 
   describe('extrinsics', (): void => {
     it('can decode immortals', (): void => {
-      const s = new SignedBlock(immortalTxs.result);
+      const s = createType('SignedBlock', immortalTxs.result);
       const immortalTx = s.block.extrinsics[2];
 
       expect(immortalTx.method.methodName).toEqual('transfer');
@@ -46,7 +48,7 @@ describe('SignedBlock', (): void => {
     });
 
     it('can decode mortals', (): void => {
-      const s = new SignedBlock(mortalTxs.result);
+      const s = createType('SignedBlock', mortalTxs.result);
       const mortalTx = s.block.extrinsics[2];
 
       expect(mortalTx.method.methodName).toEqual('transfer');

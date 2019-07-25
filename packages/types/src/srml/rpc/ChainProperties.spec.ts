@@ -2,18 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ChainProperties from './ChainProperties';
+import { ChainProperties } from './types';
+
+import createType from '../../codec/createType';
+import { injectDefinitions } from '..';
 
 describe('ChainProperties', (): void => {
+  beforeEach((): void => {
+    injectDefinitions();
+  });
+
   it('decodes from a null value', (): void => {
     expect(
-      [...new ChainProperties(null).entries()]
+      [...createType('ChainProperties', null).entries()]
     ).toEqual([]);
   });
 
   it('decodes from an actual object', (): void => {
     expect(
-      [...new ChainProperties({
+      [...createType('ChainProperties', {
         decimals: 15,
         tokenSymbol: 'BBQ'
       }).entries()]
@@ -22,7 +29,7 @@ describe('ChainProperties', (): void => {
 
   it('checks equality', (): void => {
     expect(
-      new ChainProperties({
+      createType('ChainProperties', {
         decimals: 15,
         tokenSymbol: 'BBQ'
       }).eq([['tokenSymbol', 'BBQ'], ['decimals', 15]])

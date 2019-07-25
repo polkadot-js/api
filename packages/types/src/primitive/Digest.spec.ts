@@ -5,7 +5,8 @@
 import { injectDefinitions } from '../srml';
 import json3 from '../json/Header.003.json';
 import block1 from '../json/SignedBlock.003.00.json';
-import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
+import ConsensusEngineId, { CID_AURA, CID_BABE, CID_GRPA } from './ConsensusEngineId';
+import Digest from './Digest';
 
 describe('Digest', (): void => {
   beforeEach((): void => {

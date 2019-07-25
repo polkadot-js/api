@@ -4,6 +4,7 @@
 
 export default {
   types: {
+    DigestOf: 'Digest',
     Key: 'Bytes'
   }
 };

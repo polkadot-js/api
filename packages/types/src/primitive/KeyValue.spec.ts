@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import KeyValue, { KeyValueOption } from './KeyValue';
+import KeyValue from './KeyValue';
 
 describe('KeyValue', (): void => {
   it('decodes KeyValue from u8a', (): void => {
@@ -36,16 +36,5 @@ describe('KeyValue', (): void => {
 
     expect(kv.key.toHex()).toEqual('0x11223344');
     expect(kv.value.toHex()).toEqual('0x998877665544332211');
-  });
-});
-
-describe('KeyValueOption', (): void => {
-  it('exposes the properties for key/value', (): void => {
-    const kv = new KeyValueOption([
-      '0x11223344'
-    ]);
-
-    expect(kv.key.toHex()).toEqual('0x11223344');
-    expect(kv.value.isNone).toEqual(true);
   });
 });

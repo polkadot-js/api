@@ -4,7 +4,6 @@
 
 import { AnyU8a } from '../types';
 
-import Option from '../codec/Option';
 import Tuple from '../codec/Tuple';
 import StorageData from './StorageData';
 import StorageKey from './StorageKey';
@@ -39,37 +38,5 @@ export default class KeyValue extends Tuple {
    */
   public get value (): StorageData {
     return this[1] as StorageData;
-  }
-}
-
-export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
-
-/**
- * @name KeyValueOption
- * @description
- * A key/value change. This is similar to the [[KeyValue]] structure,
- * however in this case the value could be optional. Here it extends
- * from a [[Tuple]], indicating the use inside areas such as [[StorageChangeSet]]
- */
-export class KeyValueOption extends Tuple {
-  public constructor (value?: KeyValueOptionValue | Uint8Array) {
-    super({
-      StorageKey,
-      'Option<StorageData>': Option.with(StorageData)
-    }, value);
-  }
-
-  /**
-   * @description The [[StorageKey]]
-   */
-  public get key (): StorageKey {
-    return this[0] as StorageKey;
-  }
-
-  /**
-   * @description The [[Option]] [[StorageData]]
-   */
-  public get value (): Option<StorageData> {
-    return this[1] as Option<StorageData>;
   }
 }
