@@ -11,4 +11,3 @@
 export { default as Metadata } from './Metadata';
 export * from './primitive';
 export * from './rpc';
-export * from './type';
