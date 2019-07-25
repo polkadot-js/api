@@ -4,7 +4,6 @@
 
 import { ClassOf } from '../codec/createType';
 import AccountId from '../primitive/AccountId';
-import Balance from '../primitive/Balance';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import { injectDefinitions } from '../srml';
@@ -194,7 +193,7 @@ describe('Struct', (): void => {
     expect(
       new Struct({
         accountId: AccountId,
-        balance: Balance,
+        balance: ClassOf('Balance'),
         blockNumber: ClassOf('BlockNumber'),
         compactNumber: ClassOf('Compact<BlockNumber>'),
         optionNumber: ClassOf('Option<BlockNumber>'),
@@ -203,7 +202,7 @@ describe('Struct', (): void => {
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'Balance',
+      balance: 'u128', // FIXME Should match 'Balance'
       blockNumber: 'u64',
       compactNumber: 'Compact<u64>',
       optionNumber: 'Option<u64>',
@@ -215,14 +214,14 @@ describe('Struct', (): void => {
   it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
       accountId: AccountId,
-      balance: Balance
+      balance: ClassOf('Balance')
     });
 
     expect(
       new Type().toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
-      balance: 'Balance'
+      balance: 'u128' // FIXME Should match 'Balance'
     }));
   });
 });

@@ -2,7 +2,8 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Enum, Struct } from '../../codec';
-import { Balance, u32 } from '../../primitive';
+import { u32 } from '../../primitive';
+import { Balance } from '../runtime/types';
 
 export interface ApprovalFlag extends u32 {}
 

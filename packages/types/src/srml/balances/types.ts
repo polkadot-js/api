@@ -2,8 +2,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Set, Struct } from '../../codec';
-import { Balance } from '../../primitive';
-import { BlockNumber, LockIdentifier } from '../runtime/types';
+import { Balance, BlockNumber, LockIdentifier } from '../runtime/types';
 
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;

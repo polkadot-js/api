@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '../srml/runtime/types';
+import { Balance, BlockNumber } from '../srml/runtime/types';
 
 import BN from 'bn.js';
 
-import { ClassOf } from '../codec/createType';
-import Balance from '../primitive/Balance';
+import createType, { ClassOf } from '../codec/createType';
 import Moment from '../primitive/Moment';
 import U32 from '../primitive/U32';
 import { injectDefinitions } from '../srml';
@@ -70,7 +69,7 @@ describe('Compact', (): void => {
 
     it('encondes a large balance', (): void => {
       expect(
-        Compact.encodeU8a(new Balance('0x5af3107a4000'))
+        Compact.encodeU8a(createType<Balance>('Balance', '0x5af3107a4000'))
       ).toEqual(
         new Uint8Array([
           3 + ((6 - 4) << 2),

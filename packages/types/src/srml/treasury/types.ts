@@ -2,7 +2,8 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Struct } from '../../codec';
-import { AccountId, Balance } from '../../primitive';
+import { AccountId } from '../../primitive';
+import { Balance } from '../runtime/types';
 
 export interface TreasuryProposal extends Struct {
   readonly proposer: AccountId;

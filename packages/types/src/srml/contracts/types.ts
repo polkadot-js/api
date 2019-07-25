@@ -2,8 +2,8 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vector } from '../../codec';
-import { Balance, Bool, Bytes, Null, u32, u64, u8 } from '../../primitive';
-import { BlockNumber, Hash } from '../runtime/types';
+import { Bool, Bytes, Null, u32, u64, u8 } from '../../primitive';
+import { Balance, BlockNumber, Hash } from '../runtime/types';
 
 export interface AliveContractInfo extends Struct {
   readonly trieId: TrieId;

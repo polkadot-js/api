@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceCompact, IndexCompact, Signature } from '../../../srml/runtime/types';
+import { Balance, Index, Signature } from '../../../srml/runtime/types';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
+import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
 import Method from '../../Method';
@@ -66,9 +67,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[IndexCompact]] for the signature
+   * @description The [[Index]] for the signature
    */
-  public get nonce (): IndexCompact {
+  public get nonce (): Compact<Index> {
     return this.extra.nonce;
   }
 
@@ -89,7 +90,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): BalanceCompact {
+  public get tip (): Compact<Balance> {
     return this.extra.tip;
   }
 

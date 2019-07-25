@@ -5,7 +5,7 @@
 export default {
   types: {
     AccountIdOf: 'AccountId',
-    BalanceCompact: 'Compact<Balance>',
+    Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
     Hash: 'H256',
@@ -13,7 +13,6 @@ export default {
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
     Index: 'u64',
-    IndexCompact: 'Compact<u64>',
     Perbill: 'u32',
     Permill: 'u32',
     SessionKeys: {

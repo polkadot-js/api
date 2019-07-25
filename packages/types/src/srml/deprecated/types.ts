@@ -2,7 +2,8 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Enum, Struct } from '../../codec';
-import { AccountId, Balance, Bytes, Null, i8, u32, u64 } from '../../primitive';
+import { AccountId, Bytes, Null, i8, u32, u64 } from '../../primitive';
+import { Balance } from '../runtime/types';
 
 export interface AccountInfo extends Struct {
   readonly trieId: Bytes;

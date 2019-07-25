@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceCompact, Hash, IndexCompact } from '../../srml/runtime/types';
+import { Balance, Hash, Index } from '../../srml/runtime/types';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -183,7 +183,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description The nonce for this extrinsic
    */
-  public get nonce (): IndexCompact {
+  public get nonce (): Compact<Index> {
     return this.raw.signature.nonce;
   }
 
@@ -204,7 +204,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description Forwards compat
    */
-  public get tip (): BalanceCompact {
+  public get tip (): Compact<Balance> {
     return this.raw.signature.tip;
   }
 

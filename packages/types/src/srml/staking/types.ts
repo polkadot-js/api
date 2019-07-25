@@ -2,8 +2,8 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Struct, Vector } from '../../codec';
-import { AccountId, Balance, u32 } from '../../primitive';
-import { BlockNumber } from '../runtime/types';
+import { AccountId, u32 } from '../../primitive';
+import { Balance, BlockNumber } from '../runtime/types';
 
 export interface EraIndex extends u32 {}
 

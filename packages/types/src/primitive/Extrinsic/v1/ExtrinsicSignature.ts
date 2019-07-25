@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceCompact, IndexCompact, Signature } from '../../../srml/runtime/types';
+import { Balance, Index, Signature } from '../../../srml/runtime/types';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
+import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
 import Method from '../../Method';
@@ -32,7 +33,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     super({
       signer: Address,
       signature: ClassOf('Signature'),
-      nonce: ClassOf('IndexCompact'),
+      nonce: ClassOf('Compact<Index>'),
       era: ExtrinsicEra
     }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value, isSigned));
   }
@@ -64,10 +65,10 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The [[IndexCompact]] for the signature
+   * @description The [[Index]] for the signature
    */
-  public get nonce (): IndexCompact {
-    return this.get('nonce') as IndexCompact;
+  public get nonce (): Compact<Index> {
+    return this.get('nonce') as Compact<Index>;
   }
 
   /**
@@ -87,8 +88,8 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Forwards compat
    */
-  public get tip (): BalanceCompact {
-    return createType('BalanceCompact', 0);
+  public get tip (): Compact<Balance> {
+    return createType('Compact<Balance>', 0);
   }
 
   private injectSignature (signer: Address, signature: Signature, { era, nonce }: SignaturePayload): IExtrinsicSignature {

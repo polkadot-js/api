@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, IndexCompact } from '../../../srml/runtime/types';
+import { Hash, Index } from '../../../srml/runtime/types';
 import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
+import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
 import ExtrinsicEra from '../ExtrinsicEra';
@@ -32,7 +33,7 @@ export interface SignaturePayloadValueV1 {
 export default class SignaturePayloadV1 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | SignaturePayloadValueV1 | Uint8Array | string) {
     super({
-      nonce: ClassOf('IndexCompact'),
+      nonce: ClassOf('Compact<Index>'),
       method: U8a,
       era: ExtrinsicEra,
       blockHash: ClassOf('Hash')
@@ -61,10 +62,10 @@ export default class SignaturePayloadV1 extends Struct {
   }
 
   /**
-   * @description The [[IndexCompact]]
+   * @description The [[Index]]
    */
-  public get nonce (): IndexCompact {
-    return this.get('nonce') as IndexCompact;
+  public get nonce (): Compact<Index> {
+    return this.get('nonce') as Compact<Index>;
   }
 
   /**

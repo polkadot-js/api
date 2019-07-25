@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BalanceLock, VestingSchedule } from '@polkadot/types/srml/balances/types';
-import { BlockNumber, Index } from '@polkadot/types/srml/runtime/types';
+import { Balance, BlockNumber, Index } from '@polkadot/types/srml/runtime/types';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, ClassOf, Option, createType } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, ClassOf, Option, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -20,7 +20,7 @@ import { drr } from '../util/drr';
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
 const EMPTY_ACCOUNT = new AccountId();
-const ZERO = new Balance(0);
+const ZERO = createType<Balance>('Balance', 0);
 
 function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf<VestingSchedule>('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {
   let lockedBalance = ZERO;

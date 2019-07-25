@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceCompact, IndexCompact } from '../../../srml/runtime/types';
+import { Balance, Index } from '../../../srml/runtime/types';
 import { AnyNumber } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
+import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Address';
 import ExtrinsicEra from '../ExtrinsicEra';
@@ -25,8 +26,8 @@ export default class ExtrinsicExtraV2 extends Struct {
   public constructor (value?: ExtrinsicExtraValueV2 | Uint8Array) {
     super({
       era: ExtrinsicEra,
-      nonce: ClassOf('IndexCompact'),
-      tip: ClassOf('BalanceCompact')
+      nonce: ClassOf('Compact<Index>'),
+      tip: ClassOf('Compact<Balance>')
     }, value);
   }
 
@@ -38,10 +39,10 @@ export default class ExtrinsicExtraV2 extends Struct {
   }
 
   /**
-   * @description The [[IndexCompact]] for the signature
+   * @description The [[Index]] for the signature
    */
-  public get nonce (): IndexCompact {
-    return this.get('nonce') as IndexCompact;
+  public get nonce (): Compact<Index> {
+    return this.get('nonce') as Compact<Index>;
   }
 
   /**
@@ -52,9 +53,9 @@ export default class ExtrinsicExtraV2 extends Struct {
   }
 
   /**
-   * @description The [[BalanceCompact]] tip
+   * @description The [[Balance]] tip
    */
-  public get tip (): BalanceCompact {
-    return this.get('tip') as BalanceCompact;
+  public get tip (): Compact<Balance> {
+    return this.get('tip') as Compact<Balance>;
   }
 }
