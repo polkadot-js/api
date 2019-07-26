@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, Index, SignedBlock } from '@polkadot/types/srml/types';
+import { EventRecord, Hash, Index, SignedBlock } from '@polkadot/types/interfaces';
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';

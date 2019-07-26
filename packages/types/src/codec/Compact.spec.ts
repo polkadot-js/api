@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import { Balance, BlockNumber } from '../srml/runtime/types';
+import { Balance, BlockNumber } from '../interfaces/runtime';
 
 import BN from 'bn.js';
 

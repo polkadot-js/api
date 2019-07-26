@@ -4,8 +4,8 @@
 
 import '../injector';
 
-import { VoteThreshold } from '../srml/elections/types';
-import { BlockNumber } from '../srml/runtime/types';
+import { VoteThreshold } from '../interfaces/elections';
+import { BlockNumber } from '../interfaces/runtime';
 import { CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';

@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceLock, VestingSchedule } from '@polkadot/types/srml/balances/types';
-import { Balance, BlockNumber, Index } from '@polkadot/types/srml/runtime/types';
+import { BalanceLock, VestingSchedule } from '@polkadot/types/interfaces/balances';
+import { Balance, BlockNumber, Index } from '@polkadot/types/interfaces/runtime';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';

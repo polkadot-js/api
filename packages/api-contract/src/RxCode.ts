@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { Hash } from '@polkadot/types/srml/types';
+import { Hash } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
 import { ContractABI } from './types';
 
