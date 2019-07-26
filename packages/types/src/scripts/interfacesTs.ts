@@ -267,17 +267,6 @@ function getDerivedTypes (type: string, primitiveName: string, imports: TypeImpo
     .join('\n');
 }
 
-// Do module augmentation on srml types to populate InterfaceRegistry
-function interfaceRegistry (types: Record<string, any>, imports: TypeImports): string {
-  return `
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-${Object.keys(types).map((type): string => getDerivedTypes(type, types[type], imports, 4)).join('\n')}
-  }
-}`;
-}
-
 function generateTsDef (defName: string, { types }: { types: Record<string, any> }): void {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
@@ -312,7 +301,6 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   });
 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
-  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes });
   const header = createImportCode(HEADER, [
     {
       file: '../../types',
@@ -332,7 +320,7 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
     }))
   ]);
 
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
 }
 

@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Option, Struct, Vec } from '../../codec';
+import { Struct } from '../../codec';
 import { AccountId } from '../../primitive';
 import { Balance } from '../runtime';
 
@@ -14,12 +14,4 @@ export interface TreasuryProposal extends Struct {
   readonly beneficiary: AccountId;
   /** Balance */
   readonly bond: Balance;
-}
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    TreasuryProposal: TreasuryProposal;
-    'Option<TreasuryProposal>': Option<TreasuryProposal>;
-    'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
-  }
 }

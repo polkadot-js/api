@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { Enum, Struct, Vec } from '../../codec';
 import { Bytes, Digest, Event, u32, u8 } from '../../primitive';
 import { Hash } from '../runtime';
 
@@ -42,31 +42,4 @@ export interface Phase extends Enum {
   readonly asApplyExtrinsic: u32;
   /** 1:: Finalization */
   readonly isFinalization: boolean;
-}
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    DigestOf: DigestOf;
-    'Option<DigestOf>': Option<DigestOf>;
-    'Vec<DigestOf>': Vec<DigestOf>;
-    EventId: EventId;
-    'Option<EventId>': Option<EventId>;
-    'Vec<EventId>': Vec<EventId>;
-    EventIndex: EventIndex;
-    'Compact<EventIndex>': Compact<EventIndex>;
-    'Option<EventIndex>': Option<EventIndex>;
-    'Vec<EventIndex>': Vec<EventIndex>;
-    Key: Key;
-    'Option<Key>': Option<Key>;
-    'Vec<Key>': Vec<Key>;
-    Phase: Phase;
-    'Option<Phase>': Option<Phase>;
-    'Vec<Phase>': Vec<Phase>;
-    EventRecord0to76: EventRecord0to76;
-    'Option<EventRecord0to76>': Option<EventRecord0to76>;
-    'Vec<EventRecord0to76>': Vec<EventRecord0to76>;
-    EventRecord: EventRecord;
-    'Option<EventRecord>': Option<EventRecord>;
-    'Vec<EventRecord>': Vec<EventRecord>;
-  }
 }

@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { Compact, Enum, Struct, Vec } from '../../codec';
 import { AccountId, Moment, u32 } from '../../primitive';
 import { Balance, BlockNumber } from '../runtime';
 
@@ -72,37 +72,4 @@ export interface ValidatorPrefs extends Struct {
   readonly unstakeThreshold: Compact<u32>;
   /** Compact<Balance> */
   readonly validatorPayment: Compact<Balance>;
-}
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    EraIndex: EraIndex;
-    'Compact<EraIndex>': Compact<EraIndex>;
-    'Option<EraIndex>': Option<EraIndex>;
-    'Vec<EraIndex>': Vec<EraIndex>;
-    EraRewards: EraRewards;
-    'Option<EraRewards>': Option<EraRewards>;
-    'Vec<EraRewards>': Vec<EraRewards>;
-    IndividualExposure: IndividualExposure;
-    'Option<IndividualExposure>': Option<IndividualExposure>;
-    'Vec<IndividualExposure>': Vec<IndividualExposure>;
-    Exposure: Exposure;
-    'Option<Exposure>': Option<Exposure>;
-    'Vec<Exposure>': Vec<Exposure>;
-    MomentOf: MomentOf;
-    'Option<MomentOf>': Option<MomentOf>;
-    'Vec<MomentOf>': Vec<MomentOf>;
-    RewardDestination: RewardDestination;
-    'Option<RewardDestination>': Option<RewardDestination>;
-    'Vec<RewardDestination>': Vec<RewardDestination>;
-    UnlockChunk: UnlockChunk;
-    'Option<UnlockChunk>': Option<UnlockChunk>;
-    'Vec<UnlockChunk>': Vec<UnlockChunk>;
-    StakingLedger: StakingLedger;
-    'Option<StakingLedger>': Option<StakingLedger>;
-    'Vec<StakingLedger>': Vec<StakingLedger>;
-    ValidatorPrefs: ValidatorPrefs;
-    'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
-    'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
-  }
 }
