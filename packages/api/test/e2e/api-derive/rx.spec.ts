@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/srml/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { AccountId, AccountIndex, ClassOf } from '@polkadot/types';
+import { createType, ClassOf } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -74,7 +74,7 @@ describe.skip('Api-RX derive e2e', (): void => {
         api.derive.accounts.indexToId(IX).subscribe((accountId): void => {
           // The first emitted value for accountId is undefined when passing the IX
           if (accountId) {
-            expect(accountId instanceof AccountId).toBe(true);
+            expect(accountId instanceof ClassOf('AccountId')).toBe(true);
             expect(accountId.toString()).toEqual(ID);
           } else {
             expect(accountId).toEqual(undefined);
@@ -90,7 +90,7 @@ describe.skip('Api-RX derive e2e', (): void => {
         api.derive.accounts.idToIndex(ID).subscribe((accountIndex): void => {
           // The first emitted value for AccountIndex is undefined when passing the ID
           if (accountIndex) {
-            expect(accountIndex instanceof AccountIndex).toBe(true);
+            expect(accountIndex instanceof ClassOf('AccountIndex')).toBe(true);
             expect(accountIndex.toString()).toEqual(IX);
           } else {
             expect(accountIndex).toEqual(undefined);
@@ -107,7 +107,7 @@ describe.skip('Api-RX derive e2e', (): void => {
           // A local dev chain should have the AccountIndex of Alice
           expect(accountIndexes).toHaveProperty(
             ID,
-            new AccountIndex(IX)
+            createType('AccountIndex', IX)
           );
           done();
         });
@@ -122,7 +122,7 @@ describe.skip('Api-RX derive e2e', (): void => {
       it('It returns an object with all relevant balance information of an account', async (done): Promise<void> => {
         api.derive.balances.all(ID).subscribe((balances: DerivedBalances): void => {
           expect(balances).toEqual(expect.objectContaining({
-            accountId: expect.any(AccountId),
+            accountId: expect.any(ClassOf('AccountId')),
             accountNonce: expect.any(ClassOf('Index')),
             availableBalance: expect.any(BN),
             freeBalance: expect.any(BN),

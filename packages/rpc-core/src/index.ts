@@ -4,6 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
+import { StorageChangeSet, StorageData } from '@polkadot/types/interfaces';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 
@@ -11,7 +12,8 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
+import { ClassOf, Option, StorageKey, Vec, createClass } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -244,7 +246,7 @@ export default class Rpc implements RpcInterface {
       length: false,
       // Normalize args so that different args that should be cached
       // together are cached together.
-      // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
+      // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       normalizer: JSON.stringify
     });
 
@@ -260,12 +262,12 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createType(method.params[index].type, input)
+      createTypeUnsafe(method.params[index].type, input)
     );
   }
 
   private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
-    const base = createType(method.type as string, result);
+    const base = createTypeUnsafe(method.type as string, result);
 
     if (method.type === 'StorageData') {
       const key = params[0] as StorageKey;
@@ -277,13 +279,13 @@ export default class Rpc implements RpcInterface {
 
         throw error;
       }
-    } else if (method.type === 'StorageChangeSet') {
+    } else if ((method.type as string) === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
+      return (params[0] as Vec<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
         try {
           results.push(this.formatStorageSet(key, base as StorageChangeSet));
         } catch (error) {
@@ -308,11 +310,11 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull ? null : createType(type, base, true)
+        isNull ? null : createTypeUnsafe(type, base, true)
       );
     }
 
-    return createType(type, isNull ? meta.fallback : base, true);
+    return createTypeUnsafe(type, isNull ? meta.fallback : base, true);
   }
 
   private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec {
@@ -323,9 +325,9 @@ export default class Rpc implements RpcInterface {
 
     // see if we have a result value for this specific key, fallback to the cache value
     // when the value in the set is not available, or is null/empty.
-    const { value } = base.changes.find(({ key, value }): boolean =>
+    const [, value] = base.changes.find(([key, value]): boolean =>
       value.isSome && key.toHex() === hexKey
-    ) || { value: this._storageCache.get(hexKey) || new Option<StorageData>(StorageData, null) };
+    ) || [null, this._storageCache.get(hexKey) || new Option<StorageData>(ClassOf('StorageData'), null)];
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearning of it, so very long running processes (not just a couple of hours, longer)
@@ -335,10 +337,10 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        value.isNone ? null : createType(type, value.unwrap(), true)
+        value.isNone ? null : createTypeUnsafe(type, value.unwrap(), true)
       );
     }
 
-    return createType(type, value.unwrapOr(meta.fallback), true);
+    return createTypeUnsafe(type, value.unwrapOr(meta.fallback), true);
   }
 }

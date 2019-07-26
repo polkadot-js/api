@@ -2,20 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import './injector';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { Codec, Constructor } from './types';
 import * as Classes from './index.types';
-import { injectDefinitions } from './srml';
 
 const Types = Classes as Record<string, Constructor>;
-const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
+const UNCONSTRUCTABLE = ['genericorigin', 'usize'];
 
 describe('types', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   describe('default creation', (): void => {
     Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name}`, (): void => {
@@ -32,7 +29,7 @@ describe('types', (): void => {
   });
 
   describe('default creation (empty bytes)', (): void => {
-    (Types.Method as any).injectMethods(extrinsics);
+    (Types.GenericMethod as any).injectMethods(extrinsics);
 
     Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name} (from empty bytes)`, (): void => {

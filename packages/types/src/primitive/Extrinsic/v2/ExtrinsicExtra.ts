@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index } from '../../../srml/runtime/types';
+import { Balance, Index } from '../../../interfaces/runtime';
 import { AnyNumber } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Address from '../../Address';
+import Address from '../../Generic/Address';
 import ExtrinsicEra from '../ExtrinsicEra';
 
 interface ExtrinsicExtraValueV2 {

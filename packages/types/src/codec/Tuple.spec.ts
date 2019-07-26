@@ -2,24 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoteThreshold } from '../srml/elections/types';
-import { BlockNumber } from '../srml/runtime/types';
+import '../injector';
+
+import { VoteThreshold } from '../interfaces/elections';
+import { BlockNumber } from '../interfaces/runtime';
 import { CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { ClassOf } from '../codec/createType';
-import Method from '../primitive/Method';
+import Method from '../primitive/Generic/Method';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { injectDefinitions } from '../srml';
 import Tuple from './Tuple';
 
 describe('Tuple', (): void => {
   let tuple: Tuple;
 
   beforeEach((): void => {
-    injectDefinitions();
     tuple = new Tuple(
       [Text, U32],
       ['bazzing', 69]

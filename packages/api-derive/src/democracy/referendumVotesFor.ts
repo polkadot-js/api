@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/srml/types';
+import { AccountId, Vote } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Vector, Vote, createType } from '@polkadot/types';
+import { Vec, createType } from '@polkadot/types';
 
 import { DerivedBalances, DerivedReferendumVote } from '../types';
 import { drr } from '../util/drr';
@@ -17,8 +17,8 @@ import { votingBalances } from '../balances/votingBalances';
 
 export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | number) => Observable<DerivedReferendumVote[]> {
   return (referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
-    (api.query.democracy.votersFor<Vector<AccountId>>(referendumId)).pipe(
-      switchMap((votersFor): Observable<[Vector<AccountId>, Vote[], DerivedBalances[]]> =>
+    (api.query.democracy.votersFor<Vec<AccountId>>(referendumId)).pipe(
+      switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
           votes(api)(referendumId as BN, votersFor),
@@ -28,8 +28,8 @@ export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | nu
       map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
           accountId,
-          balance: balances[index].votingBalance || createType<Balance>('Balance', 0),
-          vote: votes[index] || new Vote(0)
+          balance: balances[index].votingBalance || createType('Balance'),
+          vote: votes[index] || createType('Vote')
         } as unknown as DerivedReferendumVote))
       ),
       drr()

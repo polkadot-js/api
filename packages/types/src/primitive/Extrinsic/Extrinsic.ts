@@ -2,18 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Hash, Index } from '../../srml/runtime/types';
+import { Balance, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from '../../codec/createType';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v7/Calls';
-import Address from '../Address';
-import Method from '../Method';
+import Address from '../Generic/Address';
+import Method from '../Generic/Method';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -136,13 +134,6 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description Convernience function, encodes the extrinsic and returns the actual hash
-   */
-  public get hash (): Hash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

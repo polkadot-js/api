@@ -7,8 +7,8 @@ import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions }
 import { isU8a } from '@polkadot/util';
 
 import Struct from '../../../codec/Struct';
-import Method from '../../Method';
-import Address from '../../Address';
+import Method from '../../Generic/Method';
+import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 const TRANSACTION_VERSION = 2;

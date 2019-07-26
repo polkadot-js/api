@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { AnyU8a, Codec, IHash } from '../types';
 
-import { AnyU8a, Codec } from '../types';
+import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 /**
  * @name U8a
@@ -38,6 +39,13 @@ export default class U8a extends Uint8Array implements Codec {
   }
 
   /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
+  }
+
+  /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
   public get isEmpty (): boolean {
@@ -50,6 +58,13 @@ export default class U8a extends Uint8Array implements Codec {
   public get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
+  }
+
+  /**
+   * @description Returns the number of bits in the value
+   */
+  public bitLength (): number {
+    return this.length * 8;
   }
 
   /**

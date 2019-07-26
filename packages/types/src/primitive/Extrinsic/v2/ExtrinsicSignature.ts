@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index, Signature } from '../../../srml/runtime/types';
+import { Balance, Index, Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Address from '../../Address';
-import Method from '../../Method';
+import Address from '../../Generic/Address';
+import Method from '../../Generic/Method';
 import ExtrinsicEra from '../ExtrinsicEra';
-import SignaturePayload from './SignaturePayload';
+import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
@@ -94,7 +94,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.extra.tip;
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: SignaturePayload): IExtrinsicSignature {
+  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
     this.extra.set('era', era);
     this.extra.set('nonce', nonce);
     this.extra.set('tip', tip);
@@ -110,9 +110,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      new Address(signer),
+      createType('Address', signer),
       createType('Signature', signature),
-      new SignaturePayload(payload)
+      new ExtrinsicPayload(payload)
     );
   }
 
@@ -120,15 +120,15 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description Generate a payload and pplies the signature from a keypair
    */
   public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = new Address(account.publicKey);
-    const payload = new SignaturePayload({
+    const signer = createType('Address', account.publicKey);
+    const payload = new ExtrinsicPayload({
       blockHash,
       era: era || IMMORTAL_ERA,
       method: method.toU8a(),
       nonce,
       tip: tip || 0
     });
-    const signature = createType<Signature>('Signature', payload.sign(account));
+    const signature = createType('Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

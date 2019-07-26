@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, EventRecord, Header } from '@polkadot/types/interfaces';
+
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { AccountId, ClassOf, EventRecord, Header, Option, Vector } from '@polkadot/types';
+import { ClassOf, Option, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -53,7 +55,7 @@ describeE2E({
     it('Subscribes to the best finalized header on ALEX', async (done): Promise<() => void> => {
       return (
         api.rpc.chain.subscribeFinalizedHeads((head): void => {
-          expect(head instanceof Header).toBe(true);
+          expect(head instanceof ClassOf('Header')).toBe(true);
           done();
         })
       );
@@ -72,13 +74,13 @@ describeE2E({
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader() as Header;
-    const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
+    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
 
     expect(events.length).not.toEqual(0);
   });
 
   it('subscribes to events', (done): Promise<() => void> => {
-    return api.query.system.events((events: Vector<EventRecord>): void => {
+    return api.query.system.events((events: Vec<EventRecord>): void => {
       expect(events).not.toHaveLength(0);
       done();
     });

@@ -2,20 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import { ClassOf } from '../codec/createType';
-import AccountId from '../primitive/AccountId';
+import AccountId from '../primitive/Generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { injectDefinitions } from '../srml';
 import { CodecTo } from '../types';
 import Struct from './Struct';
-import Vector from './Vector';
+import Vec from './Vec';
 
 describe('Struct', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any): void =>
       it(`can decode from ${type}`, (): void => {
@@ -66,7 +63,7 @@ describe('Struct', (): void => {
 
   it('decodes a more complicated type', (): void => {
     const s = new Struct({
-      foo: Vector.with(Struct.with({
+      foo: Vec.with(Struct.with({
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
@@ -198,7 +195,7 @@ describe('Struct', (): void => {
         compactNumber: ClassOf('Compact<BlockNumber>'),
         optionNumber: ClassOf('Option<BlockNumber>'),
         counter: U32,
-        vector: Vector.with(AccountId)
+        vector: Vec.with(AccountId)
       }).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',

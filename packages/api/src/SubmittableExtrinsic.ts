@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Index } from '@polkadot/types/srml/types';
+import { AccountId, Address, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index, Method, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Header, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
+import { createType, ClassOf, Vec } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
@@ -24,7 +24,7 @@ export interface ISubmittableResult {
   readonly isError: boolean;
   readonly isFinalized: boolean;
 
-  findRecord (section: string, method: string): EventRecord | undefined;
+  findRecord(section: string, method: string): EventRecord | undefined;
 }
 
 export type SumbitableResultResult<ApiType> =
@@ -93,17 +93,17 @@ export class SubmittableResult implements ISubmittableResult {
 }
 
 export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
-  send (): SumbitableResultResult<ApiType>;
+  send(): SumbitableResultResult<ApiType>;
 
-  send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  send(statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
+  sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -113,7 +113,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
-  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic, { version: api.extrinsicType }) as SubmittableExtrinsic<ApiType>;
+  const _extrinsic = new (ClassOf('Extrinsic'))(extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | ISubmittableResult): void {
@@ -135,7 +135,7 @@ export default function createSubmittableExtrinsic<ApiType> (
 
     return combineLatest([
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
-      api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
+      api.query.system.events.at(blockHash) as Observable<Vec<EventRecord>>
     ]).pipe(
       map(([signedBlock, allEvents]): SubmittableResult => {
         const result = new SubmittableResult({
@@ -194,12 +194,10 @@ export default function createSubmittableExtrinsic<ApiType> (
       return expandOptions(options, { nonce });
     }
 
-    const { blockNumber, hash } = header;
-
     return expandOptions(options, {
-      blockHash: hash,
-      era: new ExtrinsicEra({
-        current: blockNumber,
+      blockHash: header.hash,
+      era: createType('ExtrinsicEra', {
+        current: header.number,
         period: options.era || DEFAULT_MORTAL_LENGTH
       }),
       nonce
@@ -251,7 +249,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                 // if we have a nonce already, don't retrieve the latest, use what is there
                 isUndefined(options.nonce)
                   ? api.query.system.accountNonce<Index>(address)
-                  : of(createType<Index>('Index', options.nonce)),
+                  : of(createType('Index', options.nonce)),
                 // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
                 (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
@@ -274,7 +272,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                       ...eraOptions,
                       address,
                       method: _extrinsic.method,
-                      blockNumber: header ? header.blockNumber : 0,
+                      blockNumber: header ? header.number : 0,
                       genesisHash: api.genesisHash,
                       version: api.extrinsicType
                     });
@@ -290,7 +288,7 @@ export default function createSubmittableExtrinsic<ApiType> (
 
                     updateId = await api.signer.sign(_extrinsic, address, {
                       ...eraOptions,
-                      blockNumber: header ? header.blockNumber : new BN(0),
+                      blockNumber: header ? header.number.toBn() : new BN(0),
                       genesisHash: api.genesisHash
                     });
                   } else {

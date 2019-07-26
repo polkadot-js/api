@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApprovalFlag, SetIndex } from '@polkadot/types/srml/elections/types';
+import { AccountId, ApprovalFlag, SetIndex } from '@polkadot/types/interfaces';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
-import { AccountId, Vector } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 import { map } from 'rxjs/operators';
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
 import { drr } from '../util/drr';
@@ -25,9 +25,9 @@ import { drr } from '../util/drr';
  */
 export function approvalsOfAt (api: ApiInterfaceRx): (who: AccountId, at: SetIndex) => Observable<boolean[]> {
   return (who: AccountId, at: SetIndex): Observable<boolean[]> =>
-    (api.query.elections.approvalsOf<Vector<ApprovalFlag>>([who.toString(), at]))
+    (api.query.elections.approvalsOf<Vec<ApprovalFlag>>([who.toString(), at]))
       .pipe(
-        map((flags: Vector<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
+        map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
         drr()
       );
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/srml/types';
+import { Address, Hash } from '@polkadot/types/interfaces';
 
 import fs from 'fs';
 import path from 'path';
@@ -10,7 +10,6 @@ import path from 'path';
 import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Address } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';

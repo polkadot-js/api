@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/srml/democracy/types';
+import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
 
 import BN from 'bn.js';
 import { ClassOf, createType } from '@polkadot/types';
@@ -13,7 +13,7 @@ import { AnyJsonObject } from '@polkadot/types/types';
  * @description
  * A [[ReferendumInfo]] with an additional `index` field
  */
-export default class ReferendumInfoExtended extends ClassOf<ReferendumInfo>('ReferendumInfo') {
+export default class ReferendumInfoExtended extends ClassOf('ReferendumInfo') {
   private _index: ReferendumIndex;
 
   public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
@@ -21,7 +21,7 @@ export default class ReferendumInfoExtended extends ClassOf<ReferendumInfo>('Ref
 
     this._index = value instanceof ReferendumInfoExtended
       ? value.index
-      : createType<ReferendumIndex>('ReferendumIndex', index);
+      : createType('ReferendumIndex', index);
   }
 
   /**

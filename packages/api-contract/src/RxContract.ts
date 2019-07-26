@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIFn, InterfaceContract, InterfaceContractCalls } from './types';
+import { AccountId, Address } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
+import { ContractABI, ContractABIFn, InterfaceContract, InterfaceContractCalls } from './types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { ApiRx } from '@polkadot/api';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { AccountId, Address } from '@polkadot/types';
-
+import { createType } from '@polkadot/types';
 import Abi from './Abi';
 import RxBase from './RxBase';
 
@@ -31,7 +31,7 @@ export default class RxContract extends RxBase implements InterfaceContract {
   public constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
     super(api, abi);
 
-    this.address = new Address(address);
+    this.address = createType('Address', address);
 
     Object.entries(abi.messages).forEach(([name]): void => {
       this.calls[name] = (fn: ContractABIFn): CallResult =>

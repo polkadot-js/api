@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import fs from 'fs';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
-import Method from '../primitive/Method';
+import Method from '../primitive/Generic/Method';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
 import MetadataV7, { ModuleMetadataV7 } from '../Metadata/v7';

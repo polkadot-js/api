@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index } from './srml/runtime/types';
+import { Balance, Index } from './interfaces/runtime';
 
 import BN from 'bn.js';
 
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
-import { FunctionMetadata } from './Metadata/v6/Calls';
-import Method from './primitive/Method';
-import Address from './primitive/Address';
+import { FunctionMetadata } from './Metadata/v7/Calls';
+import Method from './primitive/Generic/Method';
+import Address from './primitive/Generic/Address';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -58,6 +58,11 @@ export interface Codec {
   encodedLength: number;
 
   /**
+   * @description Returns a hash of the value
+   */
+  hash: IHash;
+
+  /**
    * @description Checks if the value is an empty value
    */
   isEmpty: boolean;
@@ -94,10 +99,13 @@ export interface Codec {
   toU8a (isBare?: boolean): Uint8Array;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
+export interface IHash extends U8a { }
+
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
-  Fallback?: Constructor<T>;
+  Fallback?: Constructor<Codec>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(...value: any[]): T;
@@ -130,9 +138,6 @@ export interface SignatureOptions {
 }
 
 export type ArgsDef = Record<string, Constructor>;
-
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IHash extends U8a { }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
@@ -185,7 +190,6 @@ export interface IExtrinsicImpl extends Codec {
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
-  readonly hash: IHash;
   readonly length: number;
   readonly method: Method;
   readonly type: number;

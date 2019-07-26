@@ -4,7 +4,7 @@
 
 import { Constants, ConstantCodec, ModuleConstants } from '../types';
 
-import { createType } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import Metadata from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ export default function fromMetadata (metadata: Metadata): Constants {
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, meta): ModuleConstants => {
-      const codec = createType(meta.type, meta.value);
+      const codec = createTypeUnsafe(meta.type.toString(), meta.value);
 
       // This is not a perfect idea, however as it stands with number-only constants on the metadata
       // does not have any effect. However, this could become problematic in cases where items are

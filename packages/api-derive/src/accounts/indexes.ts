@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
-import { AccountId, AccountIndex } from '@polkadot/types';
+import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
+import { createType } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -47,7 +49,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
               // 64 (0..63 in first) is [1][0] (the first index value in set 2)
               const index = (outerIndex * enumsetSize) + innerIndex;
 
-              result[accountId.toString()] = new AccountIndex(index);
+              result[accountId.toString()] = createType('AccountIndex', index);
             });
 
             return result;

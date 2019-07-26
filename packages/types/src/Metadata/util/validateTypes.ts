@@ -19,10 +19,10 @@ export default function validateTypes (types: string[], throwError: boolean): vo
 
         case TypeDefInfo.Compact:
         case TypeDefInfo.Option:
-        case TypeDefInfo.Vector:
+        case TypeDefInfo.Vec:
           return extractTypes([(decoded.sub as TypeDef).type]);
 
-        case TypeDefInfo.VectorFixed:
+        case TypeDefInfo.VecFixed:
           return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
         case TypeDefInfo.Tuple:
