@@ -11,7 +11,7 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { createType } from '@polkadot/types';
+import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
 
 import { SubmittableResult } from './';
 
@@ -95,8 +95,11 @@ export default async function test (): Promise<void> {
 
   // check correct types with `createType`
   const balance = createType('Balance', 2);
-  const overridden = createType<Index>('Gas', 2);
   const gas = createType('Gas', 2);
-  const vec = createType('Vec<u32>', 2);
-  console.log(balance, overridden, gas, vec);
+  const compact = createType('Compact<u32>', 2);
+  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
+
+  const gasUnsafe = createTypeUnsafe('Gas', 2);
+  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', 2);
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }

@@ -119,7 +119,7 @@ export default class Event extends Struct {
         section.events.unwrap().forEach((meta, methodIndex): void => {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg));
+          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
           const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef, Unconstructable.with(typeDef)));
 
           EventTypes[eventIndex.toString()] = class extends EventData {

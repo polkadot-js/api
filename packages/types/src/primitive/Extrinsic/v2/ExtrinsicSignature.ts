@@ -128,7 +128,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
       nonce,
       tip: tip || 0
     });
-    const signature = createType<Signature>('Signature', payload.sign(account));
+    const signature = createType('Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

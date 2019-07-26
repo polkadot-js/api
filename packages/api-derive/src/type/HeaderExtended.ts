@@ -13,7 +13,7 @@ import { AccountId, u64, ClassOf } from '@polkadot/types';
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends ClassOf<Header>('Header') {
+export default class HeaderExtended extends ClassOf('Header') {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {

@@ -16,7 +16,6 @@ export { default as Address } from './Address';
 export { default as Event } from './Event';
 export { default as Bool, default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
-export { default as ConsensusEngineId } from './Generic/ConsensusEngineId';
 export { default as Data } from './Data';
 export * from './Extrinsic';
 export * from './Generic';

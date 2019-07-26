@@ -12,7 +12,8 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { ClassOf, Option, StorageKey, Vec, createClass, createType } from '@polkadot/types';
+import { ClassOf, Option, StorageKey, Vec, createClass } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -261,12 +262,12 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createType(method.params[index].type, input)
+      createTypeUnsafe(method.params[index].type, input)
     );
   }
 
   private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
-    const base = createType(method.type as string, result);
+    const base = createTypeUnsafe(method.type as string, result);
 
     if (method.type === 'StorageData') {
       const key = params[0] as StorageKey;
@@ -309,11 +310,11 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull ? null : createType(type, base, true)
+        isNull ? null : createTypeUnsafe(type, base, true)
       );
     }
 
-    return createType(type, isNull ? meta.fallback : base, true);
+    return createTypeUnsafe(type, isNull ? meta.fallback : base, true);
   }
 
   private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec {
@@ -336,10 +337,10 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        value.isNone ? null : createType(type, value.unwrap(), true)
+        value.isNone ? null : createTypeUnsafe(type, value.unwrap(), true)
       );
     }
 
-    return createType(type, value.unwrapOr(meta.fallback), true);
+    return createTypeUnsafe(type, value.unwrapOr(meta.fallback), true);
   }
 }

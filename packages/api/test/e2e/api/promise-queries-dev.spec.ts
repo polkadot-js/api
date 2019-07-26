@@ -159,7 +159,7 @@ describeE2E({
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const key = api.query.balances.freeBalance.key(keyring.alice_stash.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
-      const balanceRPC = createType<Balance>('Balance', balanceData.unwrapOr(undefined));
+      const balanceRPC = createType('Balance', balanceData.unwrapOr(undefined));
 
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 
