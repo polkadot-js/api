@@ -12,9 +12,9 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 - Support V2 Extrinsics in addition to V1, v2 includes an optional `tip`
   - An additon to this support, the `Signer` interface has deprecated the `sign` method and replaced it with `signPayload`. Support for the former will be removed in subsequent versions.
 - Types have been extended an has been moved to definitions instead of classes for a large number of these type -
-  - **Breaking Change** For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods, construction should not be neededd, the raw value can be passed.
+  - **Breaking Change** For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods/queries, construction should not be needed, the raw value can be passed.
   - **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
-  - **Breaking Change** For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkaot/types`, not just the definitions are available via `import { SetIndex } from '@polkadot/srml/types`
+  - **Breaking Change** For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkadot/types`, not just the definitions are available via `import { SetIndex } from '@polkadot/types/interfaces`
   - The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
   - `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
 
