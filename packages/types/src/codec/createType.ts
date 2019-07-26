@@ -22,7 +22,7 @@ import VecFixed from './VecFixed';
 import getRegistry from './typeRegistry';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
-type FallbackT<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
+type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
 
 export enum TypeDefInfo {
   Compact,
@@ -206,23 +206,23 @@ export function getTypeDef (_type: string, name?: string): TypeDef {
 // Memoized helper of the `createClass` function below
 const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends string = string>(
   type: K
-): Constructor<FallbackT<T, K>> => {
+): Constructor<FromReg<T, K>> => {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FallbackT<T, K>>(
+  return getTypeClass<FromReg<T, K>>(
     getTypeDef(type)
   );
 }, { length: 1 });
 
 export function createClass<T extends Codec = Codec, K extends string = string> (
   type: K
-): Constructor<FallbackT<T, K>> {
+): Constructor<FromReg<T, K>> {
   return memoizedCreateClass(type);
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if not parseable, will yield a
 // runtime error.
-export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (name: K): Constructor<FallbackT<T, K>> {
+export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (name: K): Constructor<FromReg<T, K>> {
   return createClass<T, K>(name);
 }
 
@@ -328,7 +328,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
   throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
-function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
+function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, value?: any, isPedantic?: boolean): FromReg<T, K> {
   try {
     const created = new Type(value);
 
@@ -352,7 +352,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
     return created;
   } catch (error) {
     if (Type.Fallback) {
-      return initType(Type.Fallback, value, isPedantic);
+      return initType(Type.Fallback as Constructor<FromReg<T, K>>, value, isPedantic);
     }
 
     throw error;
@@ -366,7 +366,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
   type: K,
   value?: any,
   isPedantic?: boolean
-): FallbackT<T, K> {
+): FromReg<T, K> {
   try {
     return initType(createClass<T, K>(type), value, isPedantic);
   } catch (error) {
