@@ -2,17 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import Enum from './Enum';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { injectDefinitions } from '../srml';
 
 describe('Enum', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   describe('typed enum (previously EnumType)', (): void => {
     it('provides a clean toString() (value)', (): void => {
       expect(

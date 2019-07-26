@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { injectDefinitions } from '../srml';
+import '../injector';
+
 import Option from './Option';
 import Bytes from '../primitive/Bytes';
 import U32 from '../primitive/U32';
@@ -24,10 +25,6 @@ const testEncode = (to: string, expected: any): void =>
   });
 
 describe('Option', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   it('converts undefined/null to empty', (): void => {
     expect(new Option(Text, undefined).isNone).toBe(true);
     expect(new Option(Text, null).isNone).toBe(true);

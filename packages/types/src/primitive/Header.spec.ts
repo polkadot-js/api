@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import BN from 'bn.js';
 
-import { injectDefinitions } from '../srml';
 import json1 from '../json/Header.001.json';
 import json2 from '../json/Header.002.json';
 import json3 from '../json/Header.003.json';
@@ -13,10 +14,6 @@ import block00301 from '../json/SignedBlock.003.01.json';
 import Header from './Header';
 
 describe('Header', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   it('decodes an actual JSON response', (): void => {
     const header = new Header(json1.result);
 

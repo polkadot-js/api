@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../../injector';
+
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import { injectDefinitions } from '@polkadot/types/srml';
 
 import createType from '../../codec/createType';
 import Metadata from '../Metadata';
@@ -21,8 +22,6 @@ export function decodeLatestSubstrate<Modules extends Codec> (
   latestSubstrate: object
 ): void {
   it('decodes latest substrate properly', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData);
 
     console.error(JSON.stringify(metadata.toJSON()));
@@ -39,8 +38,6 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  */
 export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
   it('converts to V7', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV7 = new Metadata(rpcData).asV7;
 
@@ -55,8 +52,6 @@ export function toV7<Modules extends Codec> (version: number, rpcData: string): 
  */
 export function defaultValues (rpcData: string): void {
   describe('storage with default values', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData);
 
     Method.injectMethods(extrinsicsFromMeta(metadata));

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import { Balance, BlockNumber } from '../srml/runtime/types';
 
 import BN from 'bn.js';
@@ -9,15 +11,10 @@ import BN from 'bn.js';
 import createType, { ClassOf } from '../codec/createType';
 import Moment from '../primitive/Moment';
 import U32 from '../primitive/U32';
-import { injectDefinitions } from '../srml';
 import Compact from './Compact';
 import UInt from './UInt';
 
 describe('Compact', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   describe('encodeU8a', (): void => {
     it('encodes short u8', (): void => {
       expect(
