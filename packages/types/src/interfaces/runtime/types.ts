@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Option, Struct, Vec } from '../../codec';
-import { AccountId, Bytes, Fixed64, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { AccountId, Bytes, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** AccountId */
 export type AccountIdOf = AccountId;
@@ -13,14 +13,43 @@ export type Balance = u128;
 /** Balance */
 export type BalanceOf = Balance;
 
+/** GenericBlock */
+export type Block = GenericBlock;
+
 /** u64 */
 export type BlockNumber = u64;
+
+/** [ConsensusEngineId, Bytes] & Codec */
+export type Consensus = [ConsensusEngineId, Bytes] & Codec;
+
+/** GenericConsensusEngineId */
+export type ConsensusEngineId = GenericConsensusEngineId;
+
+/** GenericDigest */
+export type Digest = GenericDigest;
+
+/** GenericDigestItem */
+export type DigestItem = GenericDigestItem;
 
 /** Signature */
 export type Ed25519Signature = Signature;
 
 /** H256 */
 export type Hash = H256;
+
+/** Struct */
+export interface Header extends Struct {
+  /** Hash */
+  readonly parentHash: Hash;
+  /** Compact<BlockNumber> */
+  readonly number: Compact<BlockNumber>;
+  /** Hash */
+  readonly stateRoot: Hash;
+  /** Hash */
+  readonly extrinsicsRoot: Hash;
+  /** Digest */
+  readonly digest: Digest;
+}
 
 /** u64 */
 export type Index = u64;
@@ -46,6 +75,15 @@ export type Permill = u32;
 /** Null */
 export type Phantom = Null;
 
+/** [ConsensusEngineId, Bytes] & Codec */
+export type PreRuntime = [ConsensusEngineId, Bytes] & Codec;
+
+/** [ConsensusEngineId, Bytes] & Codec */
+export type Seal = [ConsensusEngineId, Bytes] & Codec;
+
+/** [u64, Signature] & Codec */
+export type SealV0 = [u64, Signature] & Codec;
+
 /** Struct */
 export interface SessionKeys extends Struct {
   /** AccountId */
@@ -54,6 +92,14 @@ export interface SessionKeys extends Struct {
 
 /** H512 */
 export type Signature = H512;
+
+/** Struct */
+export interface SignedBlock extends Struct {
+  /** Block */
+  readonly block: Block;
+  /** Justification */
+  readonly justification: Justification;
+}
 
 /** Signature */
 export type Sr25519Signature = Signature;
@@ -86,12 +132,43 @@ declare module '@polkadot/types/interfaceRegistry' {
     'Compact<BlockNumber>': Compact<BlockNumber>;
     'Option<BlockNumber>': Option<BlockNumber>;
     'Vec<BlockNumber>': Vec<BlockNumber>;
+    ConsensusEngineId: ConsensusEngineId;
+    'Compact<ConsensusEngineId>': Compact<ConsensusEngineId>;
+    'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
+    'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
+    PreRuntime: PreRuntime;
+    'Option<PreRuntime>': Option<PreRuntime>;
+    'Vec<PreRuntime>': Vec<PreRuntime>;
+    SealV0: SealV0;
+    'Option<SealV0>': Option<SealV0>;
+    'Vec<SealV0>': Vec<SealV0>;
+    Seal: Seal;
+    'Option<Seal>': Option<Seal>;
+    'Vec<Seal>': Vec<Seal>;
+    Consensus: Consensus;
+    'Option<Consensus>': Option<Consensus>;
+    'Vec<Consensus>': Vec<Consensus>;
+    DigestItem: DigestItem;
+    'Option<DigestItem>': Option<DigestItem>;
+    'Vec<DigestItem>': Vec<DigestItem>;
+    Digest: Digest;
+    'Option<Digest>': Option<Digest>;
+    'Vec<Digest>': Vec<Digest>;
     Hash: Hash;
     'Option<Hash>': Option<Hash>;
     'Vec<Hash>': Vec<Hash>;
+    Header: Header;
+    'Option<Header>': Option<Header>;
+    'Vec<Header>': Vec<Header>;
     Justification: Justification;
     'Option<Justification>': Option<Justification>;
     'Vec<Justification>': Vec<Justification>;
+    Block: Block;
+    'Option<Block>': Option<Block>;
+    'Vec<Block>': Vec<Block>;
+    SignedBlock: SignedBlock;
+    'Option<SignedBlock>': Option<SignedBlock>;
+    'Vec<SignedBlock>': Vec<SignedBlock>;
     KeyTypeId: KeyTypeId;
     'Compact<KeyTypeId>': Compact<KeyTypeId>;
     'Option<KeyTypeId>': Option<KeyTypeId>;

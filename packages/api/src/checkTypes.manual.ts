@@ -37,11 +37,11 @@ export default async function test (): Promise<void> {
   });
 
   await api.rpc.chain.subscribeNewHead<Header>((header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {

@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
+import '../../injector';
 
 import BN from 'bn.js';
 
-import json1 from '../json/Header.001.json';
-import json2 from '../json/Header.002.json';
-import json3 from '../json/Header.003.json';
-import block00300 from '../json/SignedBlock.003.00.json';
-import block00301 from '../json/SignedBlock.003.01.json';
-import Header from './Header';
+import createType from '../../codec/createType';
+import json1 from '../../json/Header.001.json';
+import json2 from '../../json/Header.002.json';
+import json3 from '../../json/Header.003.json';
+import block00300 from '../../json/SignedBlock.003.00.json';
+import block00301 from '../../json/SignedBlock.003.01.json';
 
 describe('Header', (): void => {
   it('decodes an actual JSON response', (): void => {
-    const header = new Header(json1.result);
+    const header = createType('Header', json1.result);
 
     expect(
-      header.blockNumber.toNumber()
+      header.number.toNumber()
     ).toEqual(0);
     expect(
       header.extrinsicsRoot.toString()
@@ -35,7 +35,7 @@ describe('Header', (): void => {
   });
 
   it('parses old-style JSON headers (deprecated)', (): void => {
-    const header = new Header(json2.result);
+    const header = createType('Header', json2.result);
 
     expect(
       header.digest.logs
@@ -43,18 +43,18 @@ describe('Header', (): void => {
   });
 
   it('creates a valid hash (incl. digest & compact)', (): void => {
-    const header = new Header(json3.result);
+    const header = createType('Header', json3.result);
 
     expect(
       header.hash.toHex()
     ).toEqual('0x464692ad0e225a74274a7ef411e045f1fc7c2639b5f780c7c18f91f4100f5e54');
     expect(
-      header.blockNumber.eq(new BN(1650758))
+      header.number.eq(new BN(1650758))
     ).toBe(true);
   });
 
   it('calculates correct hash, matching with parentHash', (): void => {
-    const blockHash = new Header(block00300.result.block.header).hash.toHex();
+    const blockHash = createType('Header', block00300.result.block.header).hash.toHex();
 
     expect(blockHash).toEqual(block00301.result.block.header.parentHash);
   });

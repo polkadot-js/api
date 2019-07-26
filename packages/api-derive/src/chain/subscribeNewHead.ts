@@ -31,7 +31,7 @@ export function subscribeNewHead (api: ApiInterfaceRx): () => Observable<HeaderE
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
-        filter((header: Header): boolean => !!header && !!header.blockNumber),
+        filter((header: Header): boolean => !!header && !!header.number),
         switchMap((header: Header): Observable<HeaderAndValidators> =>
           (combineLatest([
             of(header),

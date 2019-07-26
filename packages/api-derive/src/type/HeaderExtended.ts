@@ -4,15 +4,16 @@
 
 import { Header } from '@polkadot/types/interfaces';
 
-import { AccountId, GenericHeader, u64 } from '@polkadot/types';
 import { AnyJsonObject } from '@polkadot/types/types';
+
+import { AccountId, u64, ClassOf } from '@polkadot/types';
 
 /**
  * @name HeaderExtended
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends GenericHeader {
+export default class HeaderExtended extends ClassOf<Header>('Header') {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {

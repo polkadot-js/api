@@ -5,15 +5,10 @@
 export default {
   types: {
     ApiId: '[u8; 8]',
-    Block: 'GenericBlock',
     ChainProperties: {
       tokenDecimals: 'u32',
       tokenSymbol: 'Text'
     },
-    ConsensusEngineId: 'GenericConsensusEngineId',
-    Consensus: '(ConsensusEngineId, Bytes)',
-    DigestItem: 'GenericDigestItem',
-    Digest: 'GenericDigest',
     ExtrinsicStatus: {
       _enum: {
         Future: 'Null',
@@ -25,7 +20,6 @@ export default {
         Invalid: 'Null'
       }
     },
-    Header: 'GenericHeader',
     Health: {
       peers: 'u64',
       isSyncing: 'bool',
@@ -42,7 +36,6 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
-    PreRuntime: '(ConsensusEngineId, Bytes)',
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',
@@ -51,12 +44,6 @@ export default {
       specVersion: 'u32',
       implVersion: 'u32',
       apis: 'Vec<RuntimeVersionApi>'
-    },
-    SealV0: '(u64, Signature)',
-    Seal: '(ConsensusEngineId, Bytes)',
-    SignedBlock: {
-      block: 'Block',
-      justification: 'Justification'
     },
     StorageChangeSet: {
       block: 'Hash',

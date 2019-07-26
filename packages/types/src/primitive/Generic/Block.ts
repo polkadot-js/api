@@ -2,10 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '../../interfaces/runtime';
-import { Header } from '../../interfaces/rpc';
-import { AnyU8a } from '../../types';
-import { HeaderValue } from './Header';
+import { Digest, DigestItem, Hash, Header } from '../../interfaces/runtime';
+import { AnyNumber, AnyU8a } from '../../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -13,6 +11,14 @@ import createType, { ClassOf } from '../../codec/createType';
 import Extrinsic from '../Extrinsic/Extrinsic';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+
+export interface HeaderValue {
+  digest?: Digest | { logs: DigestItem[] };
+  extrinsicsRoot?: AnyU8a;
+  number?: AnyNumber;
+  parentHash?: AnyU8a;
+  stateRoot?: AnyU8a;
+}
 
 export interface BlockValue {
   extrinsics?: AnyU8a[];

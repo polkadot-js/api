@@ -114,7 +114,7 @@ export default abstract class ApiBase<ApiType> {
    * const api = new Api().isReady();
    *
    * api.rpc.subscribeNewHead((header) => {
-   *   console.log(`new block #${header.blockNumber.toNumber()}`);
+   *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```
    */

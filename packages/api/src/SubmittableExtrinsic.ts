@@ -194,12 +194,10 @@ export default function createSubmittableExtrinsic<ApiType> (
       return expandOptions(options, { nonce });
     }
 
-    const { blockNumber, hash } = header;
-
     return expandOptions(options, {
-      blockHash: hash,
+      blockHash: header.hash,
       era: new ExtrinsicEra({
-        current: blockNumber,
+        current: header.number,
         period: options.era || DEFAULT_MORTAL_LENGTH
       }),
       nonce
@@ -274,7 +272,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                       ...eraOptions,
                       address,
                       method: _extrinsic.method,
-                      blockNumber: header ? header.blockNumber : 0,
+                      blockNumber: header ? header.number : 0,
                       genesisHash: api.genesisHash,
                       version: api.extrinsicType
                     });
@@ -290,7 +288,7 @@ export default function createSubmittableExtrinsic<ApiType> (
 
                     updateId = await api.signer.sign(_extrinsic, address, {
                       ...eraOptions,
-                      blockNumber: header ? header.blockNumber : new BN(0),
+                      blockNumber: header ? header.number.toBn() : new BN(0),
                       genesisHash: api.genesisHash
                     });
                   } else {

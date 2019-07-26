@@ -2,8 +2,7 @@
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, Event, u32, u8 } from '../../primitive';
-import { Hash } from '../runtime';
-import { Digest } from '../rpc';
+import { Digest, Hash } from '../runtime';
 
 /** Digest */
 export type DigestOf = Digest;

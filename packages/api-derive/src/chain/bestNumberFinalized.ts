@@ -27,8 +27,8 @@ export function bestNumberFinalized (api: ApiInterfaceRx): () => Observable<Bloc
   return (): Observable<BlockNumber> =>
     (api.rpc.chain.subscribeFinalizedHeads() as Observable<Header>)
       .pipe(
-        filter((header: Header): boolean => !!header && !!header.blockNumber),
-        map(({ blockNumber }: Header): BlockNumber => blockNumber),
+        filter((header: Header): boolean => !!header && !!header.number),
+        map((header: Header): BlockNumber => header.number.unwrap()),
         drr()
       );
 }

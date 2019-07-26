@@ -157,12 +157,12 @@ export default class Mock implements ProviderInterface {
       }
 
       // create a new header (next block)
-      newHead = this.makeBlockHeader(newHead.blockNumber.toBn());
+      newHead = this.makeBlockHeader(newHead.number.toBn());
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.blockNumber.muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.blockNumber.addn(index));
+        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
+        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block

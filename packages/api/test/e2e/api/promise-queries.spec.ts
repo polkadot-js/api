@@ -34,7 +34,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to rpc', (done): Promise<() => void> => {
     return (
       api.rpc.chain.subscribeNewHead((header: Header): void => {
-        expect(header.number.isZero()).toBe(false);
+        expect(header.number.isEmpty).toBe(false);
 
         done();
       })
@@ -44,7 +44,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to finalized', (done): Promise<() => void> => {
     return (
       api.rpc.chain.subscribeFinalizedHeads((header: Header): void => {
-        expect(header.number.isZero()).toBe(false);
+        expect(header.number.isEmpty).toBe(false);
 
         done();
       })
@@ -54,7 +54,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to derive', (done): Promise<() => void> => {
     return (
       api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-        expect(header.number.isZero()).toBe(false);
+        expect(header.number.isEmpty).toBe(false);
 
         done();
       })
