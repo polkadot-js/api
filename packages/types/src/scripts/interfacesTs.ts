@@ -363,7 +363,7 @@ function generateInterfaceRegistry (): void {
 
     return [
       accumulator,
-      ...Object.keys(types).map((type): string => getDerivedTypes(type, type, imports, 2))
+      ...Object.keys(types).map((type): string => getDerivedTypes(type, (types as any)[type], imports, 2))
     ].join('\n');
   }, '');
 
