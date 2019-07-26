@@ -1,12 +1,15 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Option, Struct, Vec } from '../../codec';
-import { Block, Bytes, ConsensusEngineId, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { Bytes, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericHeader, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash, Justification, Signature, StorageData } from '../runtime/types';
 
 /** Vec<u8> */
 export type ApiId = Vec<u8>;
+
+/** GenericBlock */
+export type Block = GenericBlock;
 
 /** Struct */
 export interface ChainProperties extends Struct {
@@ -18,6 +21,15 @@ export interface ChainProperties extends Struct {
 
 /** [ConsensusEngineId, Bytes] & Codec */
 export type Consensus = [ConsensusEngineId, Bytes] & Codec;
+
+/** GenericConsensusEngineId */
+export type ConsensusEngineId = GenericConsensusEngineId;
+
+/** GenericDigest */
+export type Digest = GenericDigest;
+
+/** GenericDigestItem */
+export type DigestItem = GenericDigestItem;
 
 /** Enum */
 export interface ExtrinsicStatus extends Enum {
@@ -42,6 +54,9 @@ export interface ExtrinsicStatus extends Enum {
   /** 6:: Invalid */
   readonly isInvalid: boolean;
 }
+
+/** GenericHeader */
+export type Header = GenericHeader;
 
 /** Struct */
 export interface Health extends Struct {
@@ -125,15 +140,31 @@ declare module '@polkadot/types/interfaceRegistry' {
     ApiId: ApiId;
     'Option<ApiId>': Option<ApiId>;
     'Vec<ApiId>': Vec<ApiId>;
+    Block: Block;
+    'Option<Block>': Option<Block>;
+    'Vec<Block>': Vec<Block>;
     ChainProperties: ChainProperties;
     'Option<ChainProperties>': Option<ChainProperties>;
     'Vec<ChainProperties>': Vec<ChainProperties>;
+    ConsensusEngineId: ConsensusEngineId;
+    'Compact<ConsensusEngineId>': Compact<ConsensusEngineId>;
+    'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
+    'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
     Consensus: Consensus;
     'Option<Consensus>': Option<Consensus>;
     'Vec<Consensus>': Vec<Consensus>;
+    DigestItem: DigestItem;
+    'Option<DigestItem>': Option<DigestItem>;
+    'Vec<DigestItem>': Vec<DigestItem>;
+    Digest: Digest;
+    'Option<Digest>': Option<Digest>;
+    'Vec<Digest>': Vec<Digest>;
     ExtrinsicStatus: ExtrinsicStatus;
     'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
     'Vec<ExtrinsicStatus>': Vec<ExtrinsicStatus>;
+    Header: Header;
+    'Option<Header>': Option<Header>;
+    'Vec<Header>': Vec<Header>;
     Health: Health;
     'Option<Health>': Option<Health>;
     'Vec<Health>': Vec<Health>;

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { AccountId, AccountIndex, Address, Block, Bool, Bytes, ConsensusEngineId, Data, Digest, DigestItem, Event, Extrinsic, ExtrinsicEra, Fixed64, H160, H256, H512, Header, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { AccountId, AccountIndex, Address, Bool, Bytes, ConsensusEngineId, Data, Event, Extrinsic, ExtrinsicEra, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericHeader, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
 
 export interface InterfaceRegistry {
   AccountId: AccountId;
@@ -17,9 +17,6 @@ export interface InterfaceRegistry {
   Event: Event;
   'Option<Event>': Option<Event>;
   'Vec<Event>': Vec<Event>;
-  Block: Block;
-  'Option<Block>': Option<Block>;
-  'Vec<Block>': Vec<Block>;
   Bool: Bool;
   'Option<Bool>': Option<Bool>;
   'Vec<Bool>': Vec<Bool>;
@@ -36,12 +33,6 @@ export interface InterfaceRegistry {
   Data: Data;
   'Option<Data>': Option<Data>;
   'Vec<Data>': Vec<Data>;
-  Digest: Digest;
-  'Option<Digest>': Option<Digest>;
-  'Vec<Digest>': Vec<Digest>;
-  DigestItem: DigestItem;
-  'Option<DigestItem>': Option<DigestItem>;
-  'Vec<DigestItem>': Vec<DigestItem>;
   H160: H160;
   'Option<H160>': Option<H160>;
   'Vec<H160>': Vec<H160>;
@@ -51,9 +42,6 @@ export interface InterfaceRegistry {
   H512: H512;
   'Option<H512>': Option<H512>;
   'Vec<H512>': Vec<H512>;
-  Header: Header;
-  'Option<Header>': Option<Header>;
-  'Vec<Header>': Vec<Header>;
   i8: i8;
   'Option<i8>': Option<i8>;
   'Vec<i8>': Vec<i8>;
@@ -187,4 +175,20 @@ export interface InterfaceRegistry {
   SignaturePayload: SignaturePayload;
   'Option<SignaturePayload>': Option<SignaturePayload>;
   'Vec<SignaturePayload>': Vec<SignaturePayload>;
+  GenericBlock: GenericBlock;
+  'Option<GenericBlock>': Option<GenericBlock>;
+  'Vec<GenericBlock>': Vec<GenericBlock>;
+  GenericConsensusEngineId: GenericConsensusEngineId;
+  'Compact<GenericConsensusEngineId>': Compact<GenericConsensusEngineId>;
+  'Option<GenericConsensusEngineId>': Option<GenericConsensusEngineId>;
+  'Vec<GenericConsensusEngineId>': Vec<GenericConsensusEngineId>;
+  GenericDigest: GenericDigest;
+  'Option<GenericDigest>': Option<GenericDigest>;
+  'Vec<GenericDigest>': Vec<GenericDigest>;
+  GenericDigestItem: GenericDigestItem;
+  'Option<GenericDigestItem>': Option<GenericDigestItem>;
+  'Vec<GenericDigestItem>': Vec<GenericDigestItem>;
+  GenericHeader: GenericHeader;
+  'Option<GenericHeader>': Option<GenericHeader>;
+  'Vec<GenericHeader>': Vec<GenericHeader>;
 }

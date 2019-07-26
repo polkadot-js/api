@@ -1,8 +1,9 @@
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, Digest, Event, u32, u8 } from '../../primitive';
+import { Bytes, Event, u32, u8 } from '../../primitive';
 import { Hash } from '../runtime/types';
+import { Digest } from '../rpc/types';
 
 /** Digest */
 export type DigestOf = Digest;

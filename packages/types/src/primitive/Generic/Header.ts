@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, Hash } from '../srml/runtime/types';
-import { AnyNumber, AnyU8a } from '../types';
+import { BlockNumber, Hash } from '../../srml/runtime/types';
+import { Digest, DigestItem } from '../../srml/rpc/types';
+import { AnyNumber, AnyU8a } from '../../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType, { ClassOf } from '../codec/createType';
-import Compact from '../codec/Compact';
-import Struct from '../codec/Struct';
-import Digest, { DigestItem } from './Digest';
+import createType, { ClassOf } from '../../codec/createType';
+import Compact from '../../codec/Compact';
+import Struct from '../../codec/Struct';
 
 export interface HeaderValue {
   digest?: Digest | { logs: DigestItem[] };

@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '../srml/runtime/types';
-import { AnyU8a } from '../types';
+import { Hash } from '../../srml/runtime/types';
+import { Header } from '../../srml/rpc/types';
+import { AnyU8a } from '../../types';
+import { HeaderValue } from './Header';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType, { ClassOf } from '../codec/createType';
-import Extrinsic from './Extrinsic/Extrinsic';
-import Struct from '../codec/Struct';
-import Vec from '../codec/Vec';
-import Header, { HeaderValue } from './Header';
+import createType, { ClassOf } from '../../codec/createType';
+import Extrinsic from '../Extrinsic/Extrinsic';
+import Struct from '../../codec/Struct';
+import Vec from '../../codec/Vec';
 
 export interface BlockValue {
   extrinsics?: AnyU8a[];
@@ -26,7 +27,7 @@ export interface BlockValue {
 export default class Block extends Struct {
   public constructor (value?: BlockValue | Uint8Array) {
     super({
-      header: Header,
+      header: ClassOf('Header'),
       extrinsics: ClassOf('Vec<Extrinsic>')
     }, value);
   }
