@@ -4,8 +4,6 @@
 
 import '../../injector';
 
-import { KeyValue } from './types';
-
 import createType from '../../codec/createType';
 
 describe('KeyValue', (): void => {
