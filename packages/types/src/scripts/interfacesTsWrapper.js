@@ -7,4 +7,4 @@ require('@babel/register')({
   extensions: ['.js', '.ts']
 });
 
-require('./srmlTS.ts');
+require('./interfacesTs.ts');

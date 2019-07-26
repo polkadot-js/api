@@ -8,8 +8,8 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as codecClasses from '../codec';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
+import * as definitions from '../interfaces/definitions';
 import * as primitiveClasses from '../primitive';
-import * as definitions from '../srml/definitions';
 import { Constructor } from '../types';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
@@ -27,7 +27,7 @@ interface TypeImports {
   primitiveTypes: TypeExist;
 }
 
-const HEADER = '// Auto-generated via `yarn build:srmlTs`, do not edit\n\n';
+const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n\n';
 const FOOTER = '\n';
 
 // Maps the types as found to the source location. This is used to generate the
@@ -332,7 +332,7 @@ function generateTsDef (srmlName: string, { types }: { types: Record<string, any
     }))
   ]);
 
-  fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/${srmlName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
 }
 
 Object.entries(definitions).forEach(([srmlName, obj]): void => {
@@ -343,7 +343,7 @@ Object.entries(definitions).forEach(([srmlName, obj]): void => {
 
 console.log(`Writing srml/types.ts`);
 
-fs.writeFileSync(`packages/types/src/srml/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
 
 function generateInterfaceRegistry (): void {
   const codecTypes: TypeExist = {};
