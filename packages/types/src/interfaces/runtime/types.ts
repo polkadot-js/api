@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMethod, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -87,8 +87,14 @@ export type KeyValue = [StorageKey, StorageData] & Codec;
 /** Vec<u8> */
 export type LockIdentifier = Vec<u8>;
 
+/** GenericMethod */
+export type Method = GenericMethod;
+
 /** GenericMortalEra */
 export type MortalEra = GenericMortalEra;
+
+/** GenericOrigin */
+export type Origin = GenericOrigin;
 
 /** u32 */
 export type Perbill = u32;

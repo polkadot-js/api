@@ -8,7 +8,7 @@ import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 
 import { createTypeUnsafe } from '../../codec/createType';
 import Metadata from '../Metadata';
-import Method from '../../primitive/Method';
+import Method from '../../primitive/Generic/Method';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
 

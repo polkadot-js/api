@@ -6,7 +6,7 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { hexToU8a } from '@polkadot/util';
 
-import Method from '../Method';
+import Method from '../Generic/Method';
 import Extrinsic from './Extrinsic';
 
 describe('Extrinsic', (): void => {

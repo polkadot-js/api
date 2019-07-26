@@ -58,6 +58,8 @@ export default {
     WeightMultiplier: 'Fixed64',
 
     // extrinsics
+    Method: 'GenericMethod',
+    Origin: 'GenericOrigin',
     ImmortalEra: 'GenericImmortalEra',
     MortalEra: 'GenericMortalEra',
     ExtrinsicEra: 'GenericExtrinsicEra',

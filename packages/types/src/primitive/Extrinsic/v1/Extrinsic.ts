@@ -7,7 +7,7 @@ import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions }
 import { isU8a } from '@polkadot/util';
 
 import Struct from '../../../codec/Struct';
-import Method from '../../Method';
+import Method from '../../Generic/Method';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 

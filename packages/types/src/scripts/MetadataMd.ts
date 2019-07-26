@@ -8,7 +8,7 @@ import fs from 'fs';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
-import Method from '../primitive/Method';
+import Method from '../primitive/Generic/Method';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
 import MetadataV7, { ModuleMetadataV7 } from '../Metadata/v7';

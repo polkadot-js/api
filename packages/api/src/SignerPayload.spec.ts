@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-import { createType, ClassOf, Method } from '@polkadot/types';
+import { createType, ClassOf, GenericMethod } from '@polkadot/types';
 
 import SignerPayload from './SignerPayload';
 
@@ -21,7 +21,7 @@ describe('SignerPayload', (): void => {
   };
 
   beforeEach((): void => {
-    Method.injectMethods(extrinsics);
+    GenericMethod.injectMethods(extrinsics);
   });
 
   it('creates a valid JSON output', (): void => {

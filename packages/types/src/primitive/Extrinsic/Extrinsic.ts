@@ -11,7 +11,7 @@ import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v7/Calls';
 import Address from '../Generic/Address';
-import Method from '../Method';
+import Method from '../Generic/Method';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';

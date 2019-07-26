@@ -10,7 +10,7 @@ import { Codec, Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as Record<string, Constructor>;
-const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
+const UNCONSTRUCTABLE = ['genericorigin', 'usize'];
 
 describe('types', (): void => {
   describe('default creation', (): void => {
@@ -29,7 +29,7 @@ describe('types', (): void => {
   });
 
   describe('default creation (empty bytes)', (): void => {
-    (Types.Method as any).injectMethods(extrinsics);
+    (Types.GenericMethod as any).injectMethods(extrinsics);
 
     Object.keys(Types).forEach((name): void => {
       it(`creates an empty ${name} (from empty bytes)`, (): void => {

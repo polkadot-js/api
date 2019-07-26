@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Enum, Struct } from '../../codec';
-import { Method, u32 } from '../../primitive';
-import { BlockNumber } from '../runtime';
+import { u32 } from '../../primitive';
+import { BlockNumber, Method } from '../runtime';
 import { VoteThreshold } from '../elections';
 
 /** Enum */

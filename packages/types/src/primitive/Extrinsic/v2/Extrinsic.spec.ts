@@ -5,7 +5,7 @@
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Method from '../../Method';
+import Method from '../../Generic/Method';
 import Extrinsic from './Extrinsic';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);

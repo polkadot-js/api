@@ -9,7 +9,7 @@ import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Generic/Address';
-import Method from '../../Method';
+import Method from '../../Generic/Method';
 import ExtrinsicEra from '../ExtrinsicEra';
 import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
