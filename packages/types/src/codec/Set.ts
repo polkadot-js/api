@@ -2,9 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
+import { Codec, Constructor, IHash } from '../types';
 
-import { Codec, Constructor } from '../types';
+import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import createType from './createType';
+
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number>;
@@ -89,6 +93,13 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   public get encodedLength (): number {
     return 1;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

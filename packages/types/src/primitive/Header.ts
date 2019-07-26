@@ -5,9 +5,7 @@
 import { BlockNumber, Hash } from '../srml/runtime/types';
 import { AnyNumber, AnyU8a } from '../types';
 
-import { blake2AsU8a } from '@polkadot/util-crypto';
-
-import createType, { ClassOf } from '../codec/createType';
+import { ClassOf } from '../codec/createType';
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import Digest, { DigestItem } from './Digest';
@@ -55,13 +53,6 @@ export default class Header extends Struct {
    */
   public get extrinsicsRoot (): Hash {
     return this.get('extrinsicsRoot') as Hash;
-  }
-
-  /**
-   * @description Convenience method, encodes the header and calculates the [[Hash]]
-   */
-  public get hash (): Hash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

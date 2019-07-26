@@ -55,17 +55,9 @@ export default class U8aFixed extends U8a {
   }
 
   /**
-   * @description Returns the number of bits in the value
-   */
-  public bitLength (): number {
-    return this.length * 8;
-  }
-
-  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    // FIEXME We don't cater for this in createType
     return `[u8;${this.length}]`;
   }
 }
