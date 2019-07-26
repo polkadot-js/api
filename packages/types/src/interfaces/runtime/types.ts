@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -43,6 +43,15 @@ export type DigestItem = GenericDigestItem;
 /** Signature */
 export type Ed25519Signature = Signature;
 
+/** GenericExtrinsic */
+export type Extrinsic = GenericExtrinsic;
+
+/** GenericExtrinsicEra */
+export type ExtrinsicEra = GenericExtrinsicEra;
+
+/** GenericExtrinsicPayload */
+export type ExtrinsicPayload = GenericExtrinsicPayload;
+
 /** H256 */
 export type Hash = H256;
 
@@ -60,6 +69,9 @@ export interface Header extends Struct {
   readonly digest: Digest;
 }
 
+/** GenericImmortalEra */
+export type ImmortalEra = GenericImmortalEra;
+
 /** u64 */
 export type Index = u64;
 
@@ -74,6 +86,9 @@ export type KeyValue = [StorageKey, StorageData] & Codec;
 
 /** Vec<u8> */
 export type LockIdentifier = Vec<u8>;
+
+/** GenericMortalEra */
+export type MortalEra = GenericMortalEra;
 
 /** u32 */
 export type Perbill = u32;

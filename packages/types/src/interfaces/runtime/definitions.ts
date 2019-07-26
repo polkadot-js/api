@@ -55,6 +55,13 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',
     Weight: 'u32',
-    WeightMultiplier: 'Fixed64'
+    WeightMultiplier: 'Fixed64',
+
+    // extrinsics
+    ImmortalEra: 'GenericImmortalEra',
+    MortalEra: 'GenericMortalEra',
+    ExtrinsicEra: 'GenericExtrinsicEra',
+    ExtrinsicPayload: 'GenericExtrinsicPayload',
+    Extrinsic: 'GenericExtrinsic'
   }
 };

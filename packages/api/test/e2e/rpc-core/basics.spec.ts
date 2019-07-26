@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties } from '@polkadot/types/interfaces';
+import { ChainProperties, Extrinsic } from '@polkadot/types/interfaces';
 
-import { ClassOf, Extrinsic, Vec } from '@polkadot/types';
+import { ClassOf, Vec } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '@polkadot/rpc-core';

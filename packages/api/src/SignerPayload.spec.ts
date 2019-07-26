@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-import { Method, ExtrinsicEra, SignaturePayload } from '@polkadot/types';
+import { createType, ClassOf, Method } from '@polkadot/types';
 
 import SignerPayload from './SignerPayload';
 
@@ -30,9 +30,9 @@ describe('SignerPayload', (): void => {
         address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
         blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
         blockNumber: '0x231d30',
-        era: new ExtrinsicEra({ current: 2301232, period: 200 }),
+        era: createType('ExtrinsicEra', { current: 2301232, period: 200 }),
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-        method: new Method('0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
+        method: createType('Method', '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
         nonce: 0x1234,
         tip: 0x5678,
         version: 2
@@ -64,9 +64,9 @@ describe('SignerPayload', (): void => {
     ).toEqual(TEST);
   });
 
-  it('can be used as a feed to SignaturePayload', (): void => {
+  it('can be used as a feed to ExtrinsicPayload', (): void => {
     const signer = new SignerPayload(TEST).toPayload();
-    const payload = new SignaturePayload(signer, { version: signer.version });
+    const payload = new (ClassOf('ExtrinsicPayload'))(signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
     expect(payload.method.toHex()).toEqual(TEST.method);

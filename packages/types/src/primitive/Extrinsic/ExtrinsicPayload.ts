@@ -11,36 +11,36 @@ import createType from '../../codec/createType';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
-import SignaturePayloadV1, { SignaturePayloadValueV1 } from './v1/SignaturePayload';
-import SignaturePayloadV2, { SignaturePayloadValueV2 } from './v2/SignaturePayload';
+import ExtrinsicPayloadV1, { ExtrinsicPayloadValueV1 } from './v1/ExtrinsicPayload';
+import ExtrinsicPayloadV2, { ExtrinsicPayloadValueV2 } from './v2/ExtrinsicPayload';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
-interface SignaturePayloadOptions {
+interface ExtrinsicPayloadOptions {
   version?: number;
 }
 
 /**
- * @name SignaturePayload
+ * @name ExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class SignaturePayload extends Base<SignaturePayloadV1 | SignaturePayloadV2> {
-  public constructor (value: SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, { version }: SignaturePayloadOptions = {}) {
+export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2> {
+  public constructor (value: Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
-      SignaturePayload.decodeSignaturePayload(value, version)
+      ExtrinsicPayload.decodeExtrinsicPayload(value, version)
     );
   }
 
-  public static decodeSignaturePayload (value: SignaturePayload | SignaturePayloadValueV1 | SignaturePayloadValueV2 | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): SignaturePayloadV1 | SignaturePayloadV2 {
-    if (value instanceof SignaturePayload) {
+  public static decodeExtrinsicPayload (value: ExtrinsicPayload | Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 {
+    if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
 
     switch (version) {
-      case 1: return new SignaturePayloadV1(value as Uint8Array);
-      case 2: return new SignaturePayloadV2(value as Uint8Array);
+      case 1: return new ExtrinsicPayloadV1(value as Uint8Array);
+      case 2: return new ExtrinsicPayloadV2(value as Uint8Array);
       default: throw new Error(`Unsupported extrinsic version ${version}`);
     }
   }
@@ -77,7 +77,7 @@ export default class SignaturePayload extends Base<SignaturePayloadV1 | Signatur
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    return (this.raw as SignaturePayloadV2).tip || createType('Compact<Balance>', 0);
+    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>', 0);
   }
 
   /**
