@@ -48,7 +48,27 @@ The impact of this will be noticable, if you have been importing the old-style t
 
 ### Type definitions
 
-One of the major painpoints in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: definiting types via a JSON format or extending your own classes and injecting these. For the latter category, there are some impacts in the way you define these -
+One of the major painpoints in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: definiting types via a JSON format or extending your own classes in TypeScript (or JS) and injecting these. For the latter category, there are some impacts in the way you define these -
 
+The previous `Vector` type has been renamed to `Vec` - this aligns with what Substrate defines and allows less context-switching between types. (It also means that `createType('Vec<u32>')` would yield a type of `Vec<u32>`). Since it is a SCALE codec type, the import for this is still via `@polkadot/types` directly, the move in the previous point has not affected this class, neither for other base types such as `Enum` or `Struct`.
+
+Along with the type creation defined above, the definition of any structures using the Substrate specific types, should be clarified. Since the base modules  types are now not available in classes, however it is needed for definitions, the following approach is encouraged -
+
+```js
+// import the ClassOf, it works the same as `createType` (slong with type inferring)
+// and acts as a replacement for the direct import and use of specific classes
+import { ClassOf, Struct } from '@polkadot/types';
+
+export class MyStruct extends Struct {
+  constructor (value?: any) {
+    super({
+      balance: ClassOf('Compact<Balance>'),
+      values: ClassOf('Vec<AccountId>')
+    }, value);
+  }
+}
+```
+
+Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type defintions are not needed, this functionality will be useful to allos TS devs to auto-generate type definitions based on what the node defines.)
 
 ### Signing transactions (Signer interface)
