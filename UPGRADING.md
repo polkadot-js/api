@@ -2,9 +2,11 @@
 
 This is a upgrade guide for users of the API. It does not attempt to detail each version (the [CHANGELOG](CHANGELOG.md) has all the changes between versions), but rather it tries to explain the rationale behind major breaking changes and how users of the API should handle this.
 
-## From 0.81.1 (and older)
+While we try to keep the user-facing interfaces as stable as possible, sometime you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains first.
 
-The 0.99.9-beta.x release caters for the [Kusama network](https://kusama.network/) and pulls in all the changes to support [Substrate 2.x](https://github.com/paritytech/substrate), all while maintaining backwards compatibility to allow operation on networks such as [Polkadot's Alexander](https://polkadot.network/).
+## 0.99.9-beta.9 (and newer), from 0.81.1 (and older)
+
+The 0.99.9-beta.9 release caters for the [Kusama network](https://kusama.network/) and pulls in all the changes to support [Substrate 2.x](https://github.com/paritytech/substrate), all while maintaining backwards compatibility to allow operation on networks such as [Polkadot's Alexander](https://polkadot.network/).
 
 To support the network and the new transaction formats, a number of changes were made to how extrinsics are handled and signed. In addition, as support for ongoing work where type definitions are to be supplied by the actual node metadata, the foundation has been laid in the SCALE encoding and representation of that encoding.
 
@@ -15,6 +17,13 @@ The first thing to be aware of is breakages when connecting to any new network, 
 There will no doubt be breakages in using calls to now non-existent endpoints (as populated by the metadata), if you are upgrading your nodes to Substrate 2.x. Substrate 2.x has had a number of internal changes, where new modules and features are introduced (such as `babe` and `technicalCommittee`), some modules have been renamed (such as `contract` -> `contracts`) and modules such as `session` has been reworked to a large degree.
 
 To cater for both 1.x and 2.x support, the [@polkadot/api-derive](packages/api-derive) endpoints, do feature detection for the node type and should continue working as-is. Additionally a number of new derives have been added, specifically around elections.
+
+### Type renames
+
+To better align with the actual types from the metadata, and avoid (too much) context switching, some types from the `@polkadot/types` hasve been renamed. These include -
+
+- `Vector` -> `Vec`
+- `U{8|16|32|64|128|256}` have been removed, only the lowercase version of these remain, i.e. `u32`.
 
 ### Type usage
 
@@ -41,6 +50,28 @@ const value = createType('Balance', 12345);
 ```
 
 The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`, and if a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/interfaces`.
+
+As a TypeScript user, there are more options available for the type casting, using interfaces.
+
+```js
+// import our TypeScript interfaces we wish to use
+import { Balance, Hash } from '@polkadot/types/interfaces';
+
+// import the primitives we wish to use
+import { createType, Compact, Vec } from '@polkadot/types';
+
+// define an interface we want to use inside our code
+interface MyProps {
+  balance: Compact<Balance>;
+  changes: Vec<Hash>;
+}
+
+// assign something to this structure
+const props = {
+  balance: createType('Compact<Balance>', 12345),
+  changes: createType('Vec<Hash>', []) // empty for now
+};
+```
 
 ### Type definitions
 
@@ -82,4 +113,6 @@ Internally the [@polkadot/types](packages/types) package now only defines classe
 
 ### Signing transactions (Signer interface)
 
-... WIP
+For users of the API signer interfaces (such as extensions and mobile signers), the interfaces has undergone some changes to cater for the extrinsic v2 format as defined by Substrate. If you are only supporting current chains (e.g. Alexander), no changes are required, however the old `sign` interface does not support chains such as Kusama, so all users are encouraged to upgrade to the new `signPayload` interface.
+
+This has already been implemented in both the [polkadot-js extension](https://github.com/polkadot-js/extension/blob/5f22f67d558655c605eb6f6beecef6826ed6c159/packages/extension/src/page/Signer.ts#L16v) as well as the [simple singkle signer](https://github.com/polkadot-js/api/blob/d56905d1b566be6f17eb570ac01448378fc91b67/packages/api/test/util/SingleAccountSigner.ts#L37).
