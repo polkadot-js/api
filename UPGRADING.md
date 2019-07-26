@@ -30,9 +30,9 @@ Internally the API will take the input and convert the value into a `Balance`, s
 First the rationale behind this - in all cases Substrate is very flexible, so while Polkadot (and the Substrate base), define `type Balance = u128`, this can be different between chains. (This also applies to the majority of built-in supported types). As such, type construction should be done via the actual registered types.
 
 ```js
-// for TS users, most of the types are now imported via `@polkadot/types/srml/types
+// for TS users, most of the types are now imported via `@polkadot/types/interfaces
 // for JS users this import here is not needed (also not for TS when using type interring)
-import { Balance } from '@polkadot/types/srml/types`;
+import { Balance } from '@polkadot/types/interfaces`;
 
 // this is applicable everywhere, import the type creator, using the rgeistry
 import { createType } from '@polkadot/types';
@@ -44,7 +44,7 @@ const value: Balance = createType('Balance', 12345);
 ...
 ```
 
-The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`, and if a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/srml/types`.
+The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`, and if a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/interfaces`.
 
 ### Type definitions
 
@@ -85,3 +85,5 @@ export class MyStruct extends Struct {
 Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type defintions are not needed, this functionality will be useful to allos TS devs to auto-generate type definitions based on what the node defines.)
 
 ### Signing transactions (Signer interface)
+
+... WIP
