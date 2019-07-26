@@ -4,7 +4,7 @@
 
 import '@polkadot/types/injector';
 
-import { Balance } from '@polkadot/types/srml/types';
+import { Balance } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
 import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';

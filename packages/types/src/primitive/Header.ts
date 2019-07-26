@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, Hash } from '../srml/runtime/types';
+import { BlockNumber, Hash } from '../interfaces/runtime';
 import { AnyNumber, AnyU8a } from '../types';
 
 import { ClassOf } from '../codec/createType';

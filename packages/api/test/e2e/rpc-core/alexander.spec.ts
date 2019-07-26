@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, StorageChangeSet } from '@polkadot/types/srml/types';
+import { SignedBlock, StorageChangeSet } from '@polkadot/types/interfaces';
 
 import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
