@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AuthorityId } from '../interfaces/consensus';
-import { Hash } from '../interfaces/runtime';
-import { Consensus, PreRuntime, Seal, SealV0 } from '../interfaces/rpc';
+import { AuthorityId } from '../../interfaces/consensus';
+import { Consensus, Hash, PreRuntime, Seal, SealV0 } from '../../interfaces/runtime';
 
 import { assert } from '@polkadot/util';
 
-import { ClassOf } from '../codec/createType';
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Vec from '../codec/Vec';
-import Bytes from './Bytes';
+import { ClassOf } from '../../codec/createType';
+import Enum from '../../codec/Enum';
+import Struct from '../../codec/Struct';
+import Vec from '../../codec/Vec';
+import Bytes from '../Bytes';
 
 /**
  * @name DigestItem

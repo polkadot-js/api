@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, Digest, Event, u32, u8 } from '../../primitive';
-import { Hash } from '../runtime';
+import { Bytes, Event, u32, u8 } from '../../primitive';
+import { Digest, Hash } from '../runtime';
 
 /** Digest */
 export type DigestOf = Digest;

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { u8aToHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { ExtrinsicEra, Header } from '@polkadot/types';
+import { ExtrinsicEra } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
@@ -161,7 +161,7 @@ describeE2E({
 
     it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
-      const currentHeight = signedBlock.block.header.number.subn(1);
+      const currentHeight = signedBlock.block.header.number.toBn().subn(1);
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
@@ -181,7 +181,7 @@ describeE2E({
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
-        if (header.blockNumber.toNumber() === eraDeath - 1) {
+        if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
@@ -209,7 +209,7 @@ describeE2E({
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
-        if (header.blockNumber.toNumber() === eraDeath - 1) {
+        if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);
           } catch (error) {

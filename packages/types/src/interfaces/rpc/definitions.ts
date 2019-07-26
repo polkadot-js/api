@@ -9,7 +9,6 @@ export default {
       tokenDecimals: 'u32',
       tokenSymbol: 'Text'
     },
-    Consensus: '(ConsensusEngineId, Bytes)',
     ExtrinsicStatus: {
       _enum: {
         Future: 'Null',
@@ -37,7 +36,6 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
-    PreRuntime: '(ConsensusEngineId, Bytes)',
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',
@@ -46,12 +44,6 @@ export default {
       specVersion: 'u32',
       implVersion: 'u32',
       apis: 'Vec<RuntimeVersionApi>'
-    },
-    SealV0: '(u64, Signature)',
-    Seal: '(ConsensusEngineId, Bytes)',
-    SignedBlock: {
-      block: 'Block',
-      justification: 'Justification'
     },
     StorageChangeSet: {
       block: 'Hash',

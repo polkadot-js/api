@@ -4,15 +4,14 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { Index } from '@polkadot/types/interfaces';
+import { Header, Index } from '@polkadot/types/interfaces';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { createType, Header } from '@polkadot/types';
-import { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
 
 import { SubmittableResult } from './';
 
@@ -38,11 +37,11 @@ export default async function test (): Promise<void> {
   });
 
   await api.rpc.chain.subscribeNewHead<Header>((header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {

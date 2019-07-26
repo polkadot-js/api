@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Header } from '@polkadot/types/interfaces';
+
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Header } from '@polkadot/types';
+import { AccountId } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
@@ -29,7 +31,7 @@ export function subscribeNewHead (api: ApiInterfaceRx): () => Observable<HeaderE
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
-        filter((header: Header): boolean => !!header && !!header.blockNumber),
+        filter((header: Header): boolean => !!header && !!header.number),
         switchMap((header: Header): Observable<HeaderAndValidators> =>
           (combineLatest([
             of(header),

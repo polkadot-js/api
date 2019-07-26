@@ -8,8 +8,37 @@ export default {
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
+
+    // block
+    // :: signature
+    Signature: 'H512',
+    Ed25519Signature: 'Signature',
+    Sr25519Signature: 'Signature',
+    // :: digest
+    ConsensusEngineId: 'GenericConsensusEngineId',
+    PreRuntime: '(ConsensusEngineId, Bytes)',
+    SealV0: '(u64, Signature)',
+    Seal: '(ConsensusEngineId, Bytes)',
+    Consensus: '(ConsensusEngineId, Bytes)',
+    DigestItem: 'GenericDigestItem',
+    Digest: 'GenericDigest',
     Hash: 'H256',
+    // :: parts
+    Header: {
+      parentHash: 'Hash',
+      number: 'Compact<BlockNumber>',
+      stateRoot: 'Hash',
+      extrinsicsRoot: 'Hash',
+      digest: 'Digest'
+    },
     Justification: 'Bytes',
+    // :: definitions
+    Block: 'GenericBlock',
+    SignedBlock: {
+      block: 'Block',
+      justification: 'Justification'
+    },
+
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
     Index: 'u64',
@@ -19,9 +48,6 @@ export default {
     SessionKeys: {
       ed25519: 'AccountId'
     },
-    Signature: 'H512',
-    Ed25519Signature: 'Signature',
-    Sr25519Signature: 'Signature',
     StorageData: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',

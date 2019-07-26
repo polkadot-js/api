@@ -5,9 +5,9 @@
 import BN from 'bn.js';
 import { assert, bnToBn } from '@polkadot/util';
 
-import Bytes from './Bytes';
-import U32 from './U32';
-import U64 from './U64';
+import Bytes from '../Bytes';
+import U32 from '../U32';
+import U64 from '../U64';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'

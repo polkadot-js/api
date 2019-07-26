@@ -2,8 +2,8 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Block, Bytes, ConsensusEngineId, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
-import { BlockNumber, Hash, Justification, Signature, StorageData } from '../runtime';
+import { StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { BlockNumber, Hash, StorageData } from '../runtime';
 
 /** Vec<u8> */
 export type ApiId = Vec<u8>;
@@ -15,9 +15,6 @@ export interface ChainProperties extends Struct {
   /** Text */
   readonly tokenSymbol: Text;
 }
-
-/** [ConsensusEngineId, Bytes] & Codec */
-export type Consensus = [ConsensusEngineId, Bytes] & Codec;
 
 /** Enum */
 export interface ExtrinsicStatus extends Enum {
@@ -76,9 +73,6 @@ export interface PeerInfo extends Struct {
   readonly bestNumber: BlockNumber;
 }
 
-/** [ConsensusEngineId, Bytes] & Codec */
-export type PreRuntime = [ConsensusEngineId, Bytes] & Codec;
-
 /** Struct */
 export interface RuntimeVersion extends Struct {
   /** Text */
@@ -97,20 +91,6 @@ export interface RuntimeVersion extends Struct {
 
 /** [ApiId, u32] & Codec */
 export type RuntimeVersionApi = [ApiId, u32] & Codec;
-
-/** [ConsensusEngineId, Bytes] & Codec */
-export type Seal = [ConsensusEngineId, Bytes] & Codec;
-
-/** [u64, Signature] & Codec */
-export type SealV0 = [u64, Signature] & Codec;
-
-/** Struct */
-export interface SignedBlock extends Struct {
-  /** Block */
-  readonly block: Block;
-  /** Justification */
-  readonly justification: Justification;
-}
 
 /** Struct */
 export interface StorageChangeSet extends Struct {

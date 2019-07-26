@@ -2,15 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Header, u64 } from '@polkadot/types';
+import { Header } from '@polkadot/types/interfaces';
+
 import { AnyJsonObject } from '@polkadot/types/types';
+
+import { AccountId, u64, ClassOf } from '@polkadot/types';
 
 /**
  * @name HeaderExtended
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends Header {
+export default class HeaderExtended extends ClassOf('Header') {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
