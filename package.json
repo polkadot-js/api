@@ -14,8 +14,8 @@
   "scripts": {
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
+    "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
-    "build:srmlTs": "node packages/types/src/scripts/srmlTSWrapper.js",
     "check": "yarn lint",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",

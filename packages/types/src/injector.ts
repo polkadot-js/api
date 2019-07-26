@@ -4,7 +4,7 @@
 
 import { ClassOf } from './codec/createType';
 import getTypeRegistry from './codec/typeRegistry';
-import * as srmlTypes from './srml/definitions';
+import * as definitions from './interfaces/definitions';
 
 /**
  * @description A utility method that injects all the srml definitions into the type registry
@@ -12,7 +12,7 @@ import * as srmlTypes from './srml/definitions';
 export function injectDefinitions (): void {
   const registry = getTypeRegistry();
 
-  Object.values(srmlTypes).forEach(({ types }): void =>
+  Object.values(definitions).forEach(({ types }): void =>
     registry.register(types)
   );
 

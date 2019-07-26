@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
-import { StorageChangeSet, StorageData } from '@polkadot/types/srml/types';
+import { StorageChangeSet, StorageData } from '@polkadot/types/interfaces';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 

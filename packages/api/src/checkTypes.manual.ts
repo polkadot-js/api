@@ -4,7 +4,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { Index } from '@polkadot/types/srml/types';
+import { Index } from '@polkadot/types/interfaces';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';

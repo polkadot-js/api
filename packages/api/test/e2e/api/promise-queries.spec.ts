@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, SessionIndex } from '@polkadot/types/srml/types';
+import { EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
