@@ -157,7 +157,7 @@ export default class Method extends Struct implements IMethod {
   private static getArgsDef (meta: FunctionMetadataV7): ArgsDef {
     return Method.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
       const Type = getTypeClass(
-        getTypeDef(type)
+        getTypeDef(type.toString())
       );
       result[name.toString()] = Type;
 

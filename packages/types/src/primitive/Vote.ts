@@ -32,7 +32,7 @@ export default class Vote extends U8a {
     const conviction = decoded[0] & 0b01111111;
 
     this._aye = new Bool(msb);
-    this._conviction = createType<Conviction>('Conviction', conviction);
+    this._conviction = createType('Conviction', conviction);
   }
 
   private static decodeVote (value?: any): Uint8Array {
@@ -48,7 +48,7 @@ export default class Vote extends U8a {
         : new Uint8Array([0b0]);
     } else if (isObject(value) && !isUndefined(value.aye) && !isUndefined(value.conviction)) {
       const aye = new Bool(value.aye);
-      const convictionIndex = createType<Conviction>('Conviction', value.conviction).index;
+      const convictionIndex = createType('Conviction', value.conviction).index;
 
       const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 

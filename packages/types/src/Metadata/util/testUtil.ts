@@ -6,7 +6,7 @@ import '../../injector';
 
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 
-import createType from '../../codec/createType';
+import { createTypeUnsafe } from '../../codec/createType';
 import Metadata from '../Metadata';
 import Method from '../../primitive/Method';
 import { MetadataInterface } from '../types';
@@ -62,7 +62,7 @@ export function defaultValues (rpcData: string): void {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
-              (): Codec => createType(type.toString(), fallback)
+              (): Codec => createTypeUnsafe(type.toString(), fallback)
             ).not.toThrow();
           });
         });

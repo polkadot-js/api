@@ -58,7 +58,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
     value,
-    remainingBlocks: remainingBlocks(createType<BlockNumber>('BlockNumber', eraString), eraLength, bestNumber)
+    remainingBlocks: remainingBlocks(createType('BlockNumber', eraString), eraLength, bestNumber)
   }));
 
   return results.length ? results : undefined;

@@ -5,7 +5,8 @@
 import { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { createType, Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
+import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
@@ -69,9 +70,9 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       const [key1, key2] = arg as [CreateArgType, CreateArgType];
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
-      const param1Encoded = u8aConcat(key, createType(type1, key1).toU8a(true));
+      const param1Encoded = u8aConcat(key, createTypeUnsafe(type1, key1).toU8a(true));
       const param1Hashed = hasher(param1Encoded);
-      const param2Hashed = key2Hasher(createType(type2, key2).toU8a(true));
+      const param2Hashed = key2Hasher(createTypeUnsafe(type2, key2).toU8a(true));
 
       return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
     }
@@ -80,7 +81,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-      const param = createType(type, arg).toU8a();
+      const param = createTypeUnsafe(type, arg).toU8a();
 
       key = u8aConcat(key, param);
     }
@@ -111,7 +112,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
       type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
-      fallback: new Bytes(createType(meta.type.asMap.key).toHex()),
+      fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
       documentation: meta.documentation
     });
 

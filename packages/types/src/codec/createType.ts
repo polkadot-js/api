@@ -8,7 +8,6 @@ import { assert } from '@polkadot/util';
 import { InterfaceRegistry } from '../interfaceRegistry';
 import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
-import Text from '../primitive/Text';
 import Compact from './Compact';
 import Enum from './Enum';
 import Linkage from './Linkage';
@@ -21,6 +20,9 @@ import UInt from './UInt';
 import Vec from './Vec';
 import VecFixed from './VecFixed';
 import getRegistry from './typeRegistry';
+
+// Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
+type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
 
 export enum TypeDefInfo {
   Compact,
@@ -135,7 +137,7 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
   return value;
 }
 
-export function getTypeDef (_type: Text | string, name?: string): TypeDef {
+export function getTypeDef (_type: string, name?: string): TypeDef {
   const type = _type.toString().trim();
   const value: TypeDef = {
     info: TypeDefInfo.Plain,
@@ -202,25 +204,31 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 }
 
 // Memoized helper of the `createClass` function below
-const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends Text | string = Text | string>(
+const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends string = string>(
   type: K
-): Constructor<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T> => {
+): Constructor<FromReg<T, K>> => {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T>(
+  return getTypeClass<FromReg<T, K>>(
     getTypeDef(type)
   );
-}, {
-  length: 1,
-  // Normalize args so that different args that should be cached
-  // together are cached together.
-  // E.g.: `createClass('abc') === createClass(new Text('abc'));`
-  normalizer: JSON.stringify
-});
+}, { length: 1 });
 
-export function createClass<T extends Codec = Codec, K extends Text | string = Text | string> (
+export function createClass<T extends Codec = Codec, K extends string = string> (
   type: K
-): Constructor<K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T> {
+): Constructor<FromReg<T, K>> {
   return memoizedCreateClass(type);
+}
+
+// An unsafe version of the `createType` below. It's unsafe because the `type`
+// argument here can be any string, which, if not parseable, will yield a
+// runtime error.
+export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (name: K): Constructor<FromReg<T, K>> {
+  return createClass<T, K>(name);
+}
+
+// alias for createClass
+export function ClassOf<K extends keyof InterfaceRegistry> (name: K): Constructor<InterfaceRegistry[K]> {
+  return ClassOfUnsafe<Codec, K>(name) as Constructor<InterfaceRegistry[K]>;
 }
 
 // create an array of constructors from the input
@@ -320,12 +328,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
   throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
-// alias for createClass
-export function ClassOf<T extends Codec = Codec, K extends Text | string = Text | string> (name: string): Constructor<T> {
-  return createClass<T>(name);
-}
-
-function initType<T extends Codec = Codec, K extends Text | string = Text | string> (Type: Constructor<T>, value?: any, isPedantic?: boolean): T {
+function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, value?: any, isPedantic?: boolean): FromReg<T, K> {
   try {
     const created = new Type(value);
 
@@ -349,21 +352,41 @@ function initType<T extends Codec = Codec, K extends Text | string = Text | stri
     return created;
   } catch (error) {
     if (Type.Fallback) {
-      return initType(Type.Fallback, value, isPedantic);
+      return initType(Type.Fallback as Constructor<FromReg<T, K>>, value, isPedantic);
     }
 
     throw error;
   }
 }
 
-export default function createType<T extends Codec = Codec, K extends Text | string = Text | string> (
+// An unsafe version of the `createType` below. It's unsafe because the `type`
+// argument here can be any string, which, if not parseable, will yield a
+// runtime error.
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (
   type: K,
   value?: any,
   isPedantic?: boolean
-): K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T {
+): FromReg<T, K> {
   try {
     return initType(createClass<T, K>(type), value, isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }
+}
+
+/**
+ * Create an instance of a `type` with a given `value`.
+ * @param type - A recognizable string representing the type to create an
+ * instance from
+ * @param value - The value to instantiate the type with
+ * @param isPedantic - Double-check that the input's encoding matches the
+ * output's one. Slower, but ensures that we have a 100% grasp on the actual
+ * provided value
+ */
+export default function createType<K extends keyof InterfaceRegistry> (
+  type: K,
+  value?: any,
+  isPedantic?: boolean
+): InterfaceRegistry[K] {
+  return createTypeUnsafe<Codec, K>(type, value, isPedantic) as InterfaceRegistry[K];
 }
