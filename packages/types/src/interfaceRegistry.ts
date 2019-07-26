@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { AccountId, AccountIndex, Address, Bool, Bytes, Data, Event, Extrinsic, ExtrinsicEra, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { AccountId, AccountIndex, Address, Bool, Bytes, Data, Event, Extrinsic, ExtrinsicEra, Fixed64, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
 import { AccountIdOf, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';

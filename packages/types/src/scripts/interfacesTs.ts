@@ -374,7 +374,9 @@ function generateInterfaceRegistry (): void {
     },
     {
       file: './primitive',
-      types: Object.keys(primitiveTypes)
+      types: Object.keys(primitiveTypes).filter((name): boolean =>
+        !!name.indexOf('Generic') && !!name.indexOf('Metadata')
+      )
     },
     ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `./interfaces/${moduleName}`,
