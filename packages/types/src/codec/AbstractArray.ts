@@ -2,10 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyJson, AnyJsonArray, Codec, IHash } from '../types';
+
 import { u8aConcat, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
-import { AnyJson, AnyJsonArray, Codec } from '../types';
+import U8a from './U8a';
 import { compareArray } from './utils';
 
 /**
@@ -17,19 +20,26 @@ import { compareArray } from './utils';
  */
 export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
   /**
-   * @description Checks if the value is an empty value
-   */
-  public get isEmpty (): boolean {
-    return this.length === 0;
-  }
-
-  /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
     return this.reduce((total, raw): number => {
       return total + raw.encodedLength;
     }, Compact.encodeU8a(this.length).length);
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
+  }
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  public get isEmpty (): boolean {
+    return this.length === 0;
   }
 
   /**

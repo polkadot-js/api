@@ -58,6 +58,11 @@ export interface Codec {
   encodedLength: number;
 
   /**
+   * @description Returns a hash of the value
+   */
+  hash: IHash;
+
+  /**
    * @description Checks if the value is an empty value
    */
   isEmpty: boolean;
@@ -93,6 +98,9 @@ export interface Codec {
    */
   toU8a (isBare?: boolean): Uint8Array;
 }
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
+export interface IHash extends U8a { }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
@@ -130,9 +138,6 @@ export interface SignatureOptions {
 }
 
 export type ArgsDef = Record<string, Constructor>;
-
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IHash extends U8a { }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
@@ -185,7 +190,6 @@ export interface IExtrinsicImpl extends Codec {
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
-  readonly hash: IHash;
   readonly length: number;
   readonly method: Method;
   readonly type: number;

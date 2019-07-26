@@ -2,7 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec } from '../types';
+import { AnyJson, Codec, IHash } from '../types';
+
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import U8a from './U8a';
 
 /**
  * @name Base
@@ -20,6 +24,13 @@ export default abstract class Base<T extends Codec> implements Codec {
    */
   public get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
