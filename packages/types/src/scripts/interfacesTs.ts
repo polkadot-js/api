@@ -348,14 +348,19 @@ function generateInterfaceRegistry (): void {
 
   const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
 
-  const primitives = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
-    setImports(imports, [primitiveName]);
+  const primitives = Object
+    .keys(primitiveClasses)
+    .filter((name): boolean =>
+      !!name.indexOf('Generic') && !!name.indexOf('Metadata')
+    )
+    .reduce((accumulator, primitiveName): string => {
+      setImports(imports, [primitiveName]);
 
-    return [
-      accumulator,
-      getDerivedTypes(primitiveName, primitiveName, imports)
-    ].join('\n');
-  }, '');
+      return [
+        accumulator,
+        getDerivedTypes(primitiveName, primitiveName, imports)
+      ].join('\n');
+    }, '');
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
