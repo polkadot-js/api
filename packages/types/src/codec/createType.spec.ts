@@ -86,7 +86,7 @@ describe('getTypeValue', (): void => {
           }
         },
         {
-          info: TypeDefInfo.Vector,
+          info: TypeDefInfo.Vec,
           type: 'Vec<u64>',
           sub: {
             info: TypeDefInfo.Plain,
@@ -118,7 +118,7 @@ describe('getTypeValue', (): void => {
               type: 'Text'
             },
             {
-              info: TypeDefInfo.Vector,
+              info: TypeDefInfo.Vec,
               type: 'Vec<(Bool, u128)>',
               sub: {
                 info: TypeDefInfo.Tuple,
@@ -145,7 +145,7 @@ describe('getTypeValue', (): void => {
     expect(
       getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
     ).toEqual({
-      info: TypeDefInfo.Vector,
+      info: TypeDefInfo.Vec,
       type: 'Vec<(PropIndex, Proposal, AccountId)>',
       sub: {
         info: TypeDefInfo.Tuple,

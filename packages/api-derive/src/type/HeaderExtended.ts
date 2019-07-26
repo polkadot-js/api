@@ -25,27 +25,27 @@ export default class HeaderExtended extends Header {
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
-      const preRuntime = pitem.asPreRuntime;
+      const [engine, data] = pitem.asPreRuntime;
 
-      if (preRuntime.engine.isAura) {
-        slot = preRuntime.slot;
+      if (engine.isAura) {
+        slot = engine.extractSlot(data);
       }
     } else {
       const [citem] = header.digest.logsWith('Consensus');
 
       // extract author from the consensus (substrate 1.0, digest)
       if (citem) {
-        const consensus = citem.asConsensus;
+        const [engine, data] = citem.asConsensus;
 
-        if (consensus.engine.isAura) {
-          slot = consensus.slot;
+        if (engine.isAura) {
+          slot = engine.extractSlot(data);
         }
       } else {
         const [sitem] = header.digest.logsWith('SealV0');
 
         // extract author from the seal (pre substrate 1.0, backwards compat)
         if (sitem) {
-          slot = sitem.asSealV0.slot;
+          slot = sitem.asSealV0[0];
         }
       }
     }

@@ -7,26 +7,26 @@ import { Codec, Constructor } from '../types';
 import { assert, isU8a, u8aConcat, compactToU8a } from '@polkadot/util';
 
 import AbstractArray from './AbstractArray';
-import Vector from './Vector';
+import Vec from './Vec';
 
 /**
- * @name VectorFixed
+ * @name VecFixed
  * @description
  * This manages codec arrays of a fixed length
  */
-export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
+export default class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T>, length: number, value: VectorFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  public constructor (Type: Constructor<T>, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     super(
-      ...VectorFixed.decodeVectorFixed(Type, length, value)
+      ...VecFixed.decodeVecFixed(Type, length, value)
     );
 
     this._Type = Type;
   }
 
-  public static decodeVectorFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VectorFixed<any> | Uint8Array | string | any[]): T[] {
-    const values = Vector.decodeVector(
+  public static decodeVecFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
+    const values = Vec.decodeVec(
       Type,
       isU8a(value)
         ? u8aConcat(compactToU8a(allocLength), value)
@@ -42,14 +42,14 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
     return values;
   }
 
-  public static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VectorFixed<O>> {
-    return class extends VectorFixed<O> {
+  public static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VecFixed<O>> {
+    return class extends VecFixed<O> {
       public constructor (value?: any[]) {
         super(Type, length, value);
       }
 
       public static Fallback = Type.Fallback
-        ? VectorFixed.with(Type.Fallback, length)
+        ? VecFixed.with(Type.Fallback, length)
         : undefined;
     };
   }

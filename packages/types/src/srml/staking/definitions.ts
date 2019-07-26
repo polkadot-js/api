@@ -18,6 +18,7 @@ export default {
       own: 'Compact<Balance>',
       others: 'Vec<IndividualExposure>'
     },
+    MomentOf: 'Moment',
     RewardDestination: {
       _enum: [
         'Staked',

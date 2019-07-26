@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ClassOf } from '../codec/createType';
 import getTypeRegistry from '../codec/typeRegistry';
 import * as srmlTypes from './definitions';
 
@@ -14,4 +15,7 @@ export function injectDefinitions (): void {
   Object.values(srmlTypes).forEach(({ types }): void =>
     registry.register(types)
   );
+
+  // Here we setup the fallbacks
+  ClassOf('EventRecord').Fallback = ClassOf('EventRecord0to76');
 }

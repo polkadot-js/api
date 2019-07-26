@@ -4,7 +4,7 @@
 
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
@@ -12,38 +12,38 @@ export class EventMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      args: Vector.with(Type),
-      documentation: Vector.with(Text)
+      args: Vec.with(Type),
+      documentation: Vec.with(Text)
     }, value);
   }
 
   /**
    * @description The arguments of [[Type]]
    */
-  public get args (): Vector<Type> {
-    return this.get('args') as Vector<Type>;
+  public get args (): Vec<Type> {
+    return this.get('args') as Vec<Type>;
   }
 
   /**
    * @description The arguments of [[Type]]
    * @deprecated Use `.args` instead
    */
-  public get arguments (): Vector<Type> {
+  public get arguments (): Vec<Type> {
     return this.args;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  public get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  public get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 
@@ -59,15 +59,15 @@ export class OuterEventEventMetadata extends Tuple {
   public constructor (value?: any) {
     super({
       Text,
-      'Vec<EventMetadata>': Vector.with(EventMetadata)
+      'Vec<EventMetadata>': Vec.with(EventMetadata)
     }, value);
   }
 
   /**
    * @description The [[EventMetadata]]
    */
-  public get events (): Vector<EventMetadata> {
-    return this[1] as Vector<EventMetadata>;
+  public get events (): Vec<EventMetadata> {
+    return this[1] as Vec<EventMetadata>;
   }
 
   /**
@@ -82,15 +82,15 @@ export class OuterEventMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      events: Vector.with(OuterEventEventMetadata)
+      events: Vec.with(OuterEventEventMetadata)
     }, value);
   }
 
   /**
    * @description The [[OuterEventEventMetadata]]
    */
-  public get events (): Vector<OuterEventEventMetadata> {
-    return this.get('events') as Vector<OuterEventEventMetadata>;
+  public get events (): Vec<OuterEventEventMetadata> {
+    return this.get('events') as Vec<OuterEventEventMetadata>;
   }
 
   /**

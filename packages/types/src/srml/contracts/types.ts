@@ -1,107 +1,141 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { Bool, Bytes, Null, u32, u64, u8 } from '../../primitive';
 import { Balance, BlockNumber, Hash } from '../runtime/types';
 
+/** Struct */
 export interface AliveContractInfo extends Struct {
+  /** TrieId */
   readonly trieId: TrieId;
+  /** u32 */
   readonly storageSize: u32;
+  /** CodeHash */
   readonly codeHash: CodeHash;
+  /** Balance */
   readonly rentAllowance: Balance;
+  /** BlockNumber */
   readonly deductBlock: BlockNumber;
+  /** Option<BlockNumber> */
   readonly lastWrite: Option<BlockNumber>;
 }
 
-export interface CodeHash extends Hash {}
+/** Hash */
+export type CodeHash = Hash;
 
+/** Enum */
 export interface ContractInfo extends Enum {
-  /**
-   * @description 0:: Alive(AliveContractInfo)
-   */
+  /** 0:: Alive(AliveContractInfo) */
   readonly isAlive: boolean;
+  /** AliveContractInfo */
   readonly asAlive: AliveContractInfo;
-  /**
-   * @description 1:: Tombstone(TombstoneContractInfo)
-   */
+  /** 1:: Tombstone(TombstoneContractInfo) */
   readonly isTombstone: boolean;
+  /** TombstoneContractInfo */
   readonly asTombstone: TombstoneContractInfo;
 }
 
-export interface ContractStorageKey extends Vector<u8> {}
+/** Vec<u8> */
+export type ContractStorageKey = Vec<u8>;
 
-export interface Gas extends u64 {}
+/** u64 */
+export type Gas = u64;
 
+/** Struct */
 export interface PrefabWasmModule extends Struct {
+  /** Compact<u32> */
   readonly scheduleVersion: Compact<u32>;
+  /** Compact<u32> */
   readonly initial: Compact<u32>;
+  /** Compact<u32> */
   readonly maximum: Compact<u32>;
+  /** PrefabWasmModuleReserved */
   readonly _reserved: PrefabWasmModuleReserved;
+  /** Bytes */
   readonly code: Bytes;
 }
 
-export interface PrefabWasmModuleReserved extends Option<Null> {}
+/** Option<Null> */
+export type PrefabWasmModuleReserved = Option<Null>;
 
+/** Struct */
 export interface Schedule extends Struct {
+  /** u32 */
   readonly version: u32;
+  /** Gas */
   readonly putCodePerByteCost: Gas;
+  /** Gas */
   readonly growMemCost: Gas;
+  /** Gas */
   readonly regularOpCost: Gas;
+  /** Gas */
   readonly returnDataPerByteCost: Gas;
+  /** Gas */
   readonly eventDataPerByteCost: Gas;
+  /** Gas */
   readonly eventPerTopicCost: Gas;
+  /** Gas */
   readonly eventBaseCost: Gas;
+  /** Gas */
   readonly sandboxDataReadCost: Gas;
+  /** Gas */
   readonly sandboxDataWriteCost: Gas;
+  /** u32 */
   readonly maxEventTopics: u32;
+  /** u32 */
   readonly maxStackHeight: u32;
+  /** u32 */
   readonly maxMemoryPages: u32;
+  /** Bool */
   readonly enablePrintln: Bool;
+  /** u32 */
   readonly maxSubjectLen: u32;
 }
 
-export interface SeedOf extends Hash {}
+/** Hash */
+export type SeedOf = Hash;
 
-export interface TombstoneContractInfo extends Hash {}
+/** Hash */
+export type TombstoneContractInfo = Hash;
 
-export interface TrieId extends Bytes {}
+/** Bytes */
+export type TrieId = Bytes;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     CodeHash: CodeHash;
     'Option<CodeHash>': Option<CodeHash>;
-    'Vec<CodeHash>': Vector<CodeHash>;
+    'Vec<CodeHash>': Vec<CodeHash>;
     TrieId: TrieId;
     'Option<TrieId>': Option<TrieId>;
-    'Vec<TrieId>': Vector<TrieId>;
+    'Vec<TrieId>': Vec<TrieId>;
     AliveContractInfo: AliveContractInfo;
     'Option<AliveContractInfo>': Option<AliveContractInfo>;
-    'Vec<AliveContractInfo>': Vector<AliveContractInfo>;
+    'Vec<AliveContractInfo>': Vec<AliveContractInfo>;
     TombstoneContractInfo: TombstoneContractInfo;
     'Option<TombstoneContractInfo>': Option<TombstoneContractInfo>;
-    'Vec<TombstoneContractInfo>': Vector<TombstoneContractInfo>;
+    'Vec<TombstoneContractInfo>': Vec<TombstoneContractInfo>;
     ContractInfo: ContractInfo;
     'Option<ContractInfo>': Option<ContractInfo>;
-    'Vec<ContractInfo>': Vector<ContractInfo>;
+    'Vec<ContractInfo>': Vec<ContractInfo>;
     ContractStorageKey: ContractStorageKey;
     'Option<ContractStorageKey>': Option<ContractStorageKey>;
-    'Vec<ContractStorageKey>': Vector<ContractStorageKey>;
+    'Vec<ContractStorageKey>': Vec<ContractStorageKey>;
     Gas: Gas;
     'Compact<Gas>': Compact<Gas>;
     'Option<Gas>': Option<Gas>;
-    'Vec<Gas>': Vector<Gas>;
+    'Vec<Gas>': Vec<Gas>;
     PrefabWasmModuleReserved: PrefabWasmModuleReserved;
     'Option<PrefabWasmModuleReserved>': Option<PrefabWasmModuleReserved>;
-    'Vec<PrefabWasmModuleReserved>': Vector<PrefabWasmModuleReserved>;
+    'Vec<PrefabWasmModuleReserved>': Vec<PrefabWasmModuleReserved>;
     PrefabWasmModule: PrefabWasmModule;
     'Option<PrefabWasmModule>': Option<PrefabWasmModule>;
-    'Vec<PrefabWasmModule>': Vector<PrefabWasmModule>;
+    'Vec<PrefabWasmModule>': Vec<PrefabWasmModule>;
     Schedule: Schedule;
     'Option<Schedule>': Option<Schedule>;
-    'Vec<Schedule>': Vector<Schedule>;
+    'Vec<Schedule>': Vec<Schedule>;
     SeedOf: SeedOf;
     'Option<SeedOf>': Option<SeedOf>;
-    'Vec<SeedOf>': Vector<SeedOf>;
+    'Vec<SeedOf>': Vec<SeedOf>;
   }
 }

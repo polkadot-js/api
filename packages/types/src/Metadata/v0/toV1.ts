@@ -5,7 +5,7 @@
 
 import { stringUpperFirst } from '@polkadot/util';
 
-import { Option, Vector } from '../../codec';
+import { Option, Vec } from '../../codec';
 import MetadataV0 from './Metadata';
 import { RuntimeModuleMetadata } from './Modules';
 import { Text } from '../../primitive';
@@ -16,23 +16,23 @@ import { StorageFunctionMetadata } from '../v1/Storage';
 
 function toV1Calls (modul: RuntimeModuleMetadata): Option<FunctionMetadata> {
   return modul.module.call.functions.length === 0
-    ? new Option(Vector.with(FunctionMetadata))
-    : new Option(Vector.with(FunctionMetadata), modul.module.call.functions);
+    ? new Option(Vec.with(FunctionMetadata))
+    : new Option(Vec.with(FunctionMetadata), modul.module.call.functions);
 }
 
 function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadata> {
   const events = metadataV0.events.find((event): boolean => event.name.eq(prefix));
 
   return events
-    ? new Option(Vector.with(EventMetadata), events.events)
-    : new Option(Vector.with(EventMetadata));
+    ? new Option(Vec.with(EventMetadata), events.events)
+    : new Option(Vec.with(EventMetadata));
 }
 
 function toV1Storage (modul: RuntimeModuleMetadata): Option<StorageFunctionMetadata> {
   return modul.storage.isNone
-    ? new Option(Vector.with(StorageFunctionMetadata))
+    ? new Option(Vec.with(StorageFunctionMetadata))
     : new Option(
-      Vector.with(StorageFunctionMetadata),
+      Vec.with(StorageFunctionMetadata),
       modul.storage.unwrap().functions
     );
 }

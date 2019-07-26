@@ -8,7 +8,7 @@ import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import { flattenUniq, validateTypes } from '../util';
 import { OuterDispatchMetadata, OuterDispatchCall } from './Calls';
 import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
@@ -25,7 +25,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   public constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: Vector.with(RuntimeModuleMetadata),
+      modules: Vec.with(RuntimeModuleMetadata),
       outerDispatch: OuterDispatchMetadata
     }, MetadataV0.decodeMetadata(value));
   }
@@ -55,22 +55,22 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[OuterDispatchCall]]
    */
-  public get calls (): Vector<OuterDispatchCall> {
+  public get calls (): Vec<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
 
   /**
    * @description Wrapped [[OuterEventEventMetadata]]
    */
-  public get events (): Vector<OuterEventEventMetadata> {
+  public get events (): Vec<OuterEventEventMetadata> {
     return (this.get('outerEvent') as OuterEventMetadata).events;
   }
 
   /**
    * @description Wrapped [[RuntimeModuleMetadata]]
    */
-  public get modules (): Vector<RuntimeModuleMetadata> {
-    return this.get('modules') as Vector<RuntimeModuleMetadata>;
+  public get modules (): Vec<RuntimeModuleMetadata> {
+    return this.get('modules') as Vec<RuntimeModuleMetadata>;
   }
 
   private get argNames (): string[][][] {

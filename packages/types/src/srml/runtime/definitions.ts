@@ -15,12 +15,15 @@ export default {
     Index: 'u64',
     Perbill: 'u32',
     Permill: 'u32',
+    Phantom: 'Null',
     SessionKeys: {
       ed25519: 'AccountId'
     },
     Signature: 'H512',
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
+    StorageData: 'Bytes',
+    KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64'

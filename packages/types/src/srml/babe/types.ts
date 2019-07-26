@@ -1,16 +1,16 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
-import { Compact, Option, Vector } from '../../codec';
+import { Compact, Option, Vec } from '../../codec';
 import { u64 } from '../../primitive';
 
-export interface BabeWeight extends u64 {}
+/** u64 */
+export type BabeWeight = u64;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     BabeWeight: BabeWeight;
     'Compact<BabeWeight>': Compact<BabeWeight>;
     'Option<BabeWeight>': Option<BabeWeight>;
-    'Vec<BabeWeight>': Vector<BabeWeight>;
+    'Vec<BabeWeight>': Vec<BabeWeight>;
   }
 }

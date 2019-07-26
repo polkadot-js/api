@@ -34,3 +34,6 @@ export { default as parachains } from './parachains/definitions';
 export { default as staking } from './staking/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
+
+// pull in rpc last, assuming that is uses info from above
+export { default as rpc } from './rpc/definitions';

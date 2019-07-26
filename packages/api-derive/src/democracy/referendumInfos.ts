@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, Vector } from '@polkadot/types';
+import { Option, Vec } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
@@ -19,7 +19,7 @@ export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) =
     return (
       !ids || !ids.length
         ? of([] as Option<ReferendumInfo>[])
-        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vector<Option<ReferendumInfo>>>
+        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vec<Option<ReferendumInfo>>>
     ).pipe(
       map((infos): Option<ReferendumInfoExtended>[] =>
         ids.map((id, index): Option<ReferendumInfoExtended> =>

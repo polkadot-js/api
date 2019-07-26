@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignedBlock, StorageChangeSet } from '@polkadot/types/srml/types';
+
 import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ClassOf, SignedBlock, StorageChangeSet } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 
@@ -42,7 +44,7 @@ describe.skip('e2e Alexander - Polkadot', (): void => {
       .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
       .subscribe((block: SignedBlock): void => {
         expect(block).toBeDefined();
-        expect(block).toBeInstanceOf(SignedBlock);
+        expect(block).toBeInstanceOf(ClassOf('SignedBlock'));
         done();
       });
   });
@@ -52,7 +54,7 @@ describe.skip('e2e Alexander - Polkadot', (): void => {
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
       .subscribe((block: SignedBlock): void => {
         expect(block).toBeDefined();
-        expect(block).toBeInstanceOf(SignedBlock);
+        expect(block).toBeInstanceOf(ClassOf('SignedBlock'));
         done();
       });
   });

@@ -3,114 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '../srml/runtime/types';
+import { Phase } from '../srml/system/types';
 
-import { assert } from '@polkadot/util';
-
-import createType, { ClassOf } from '../codec/createType';
-import Enum from '../codec/Enum';
+import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
+import Vec from '../codec/Vec';
 import Event from './Event';
-import Null from './Null';
-import U32 from './U32';
-
-/**
- * @name ApplyExtrinsic
- * @description
- * The [[Phase]] where the extrinsic is applied
- */
-export class ApplyExtrinsic extends U32 {
-}
-
-/**
- * @name Finalization
- * @description
- * The [[Phase]] where the extrinsic is being Finalized
- */
-export class Finalization extends Null {
-}
-
-/**
- * @name Phase
- * @description
- * An [[Enum]] that indicates the specific phase where the [[EventRecord]] was generated
- */
-export class Phase extends Enum {
-  public constructor (value: any, index?: number) {
-    super({
-      ApplyExtrinsic,
-      Finalization
-    }, value, index);
-  }
-
-  /**
-   * @description Returns the item as a [[ApplyExtrinsic]]
-   */
-  public get asApplyExtrinsic (): ApplyExtrinsic {
-    assert(this.isApplyExtrinsic, `Cannot convert '${this.type}' via asApplyExtrinsic`);
-
-    return this.value as ApplyExtrinsic;
-  }
-
-  /**
-   * @description Returns the item as a [[Finalization]]
-   */
-  public get asFinalization (): Finalization {
-    assert(this.isFinalization, `Cannot convert '${this.type}' via asFinalization`);
-
-    return this.value as Finalization;
-  }
-
-  /**
-   * @description true when this is a ApplyExtrinsic
-   */
-  public get isApplyExtrinsic (): boolean {
-    return this.type === 'ApplyExtrinsic';
-  }
-
-  /**
-   * @description true when this is a ApplyExtrinsic
-   */
-  public get isFinalization (): boolean {
-    return this.type === 'Finalization';
-  }
-}
-
-/**
- * @name EventRecord_0_76
- * @description
- * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
- * application.
- */
-export class EventRecord0to76 extends Struct {
-  public constructor (value: any) {
-    super({
-      phase: Phase,
-      event: Event
-    }, value);
-  }
-
-  /**
-   * @description The [[Event]] this record refers to
-   */
-  public get event (): Event {
-    return this.get('event') as Event;
-  }
-
-  /**
-   * @description The [[Phase]] where the event was generated
-   */
-  public get phase (): Phase {
-    return this.get('phase') as Phase;
-  }
-
-  /**
-   * @description The [[Hash]] topics for this event (empty, compat)
-   */
-  public get topics (): Vector<Hash> {
-    return createType('Vec<Hash>', []);
-  }
-}
 
 /**
  * @name EventRecord
@@ -121,13 +19,14 @@ export class EventRecord0to76 extends Struct {
 export default class EventRecord extends Struct {
   public constructor (value: any) {
     super({
-      phase: Phase,
+      phase: ClassOf('Phase'),
       event: Event,
       topics: ClassOf('Vec<Hash>')
     }, value);
   }
 
-  public static Fallback = EventRecord0to76;
+  // TODO We want these injected by createType
+  public static Fallback = ClassOf('EventRecord0to76');
 
   /**
    * @description The [[Event]] this record refers to
@@ -146,7 +45,7 @@ export default class EventRecord extends Struct {
   /**
    * @description The [[Hash]] topics for this event
    */
-  public get topics (): Vector<Hash> {
-    return this.get('topics') as Vector<Hash>;
+  public get topics (): Vec<Hash> {
+    return this.get('topics') as Vec<Hash>;
   }
 }

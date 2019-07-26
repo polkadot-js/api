@@ -1,51 +1,56 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { u64 } from '../../primitive';
 import { BlockNumber } from '../runtime/types';
 import { AuthorityId } from '../consensus/types';
 
-export interface AuthorityWeight extends u64 {}
+/** u64 */
+export type AuthorityWeight = u64;
 
-type _NextAuthority = [AuthorityId, u64];
-export interface NextAuthority extends Codec, _NextAuthority {}
+/** [AuthorityId, u64] & Codec */
+export type NextAuthority = [AuthorityId, u64] & Codec;
 
+/** Struct */
 export interface PendingPause extends Struct {
+  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
+  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
+/** Struct */
 export interface PendingResume extends Struct {
+  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
+  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
+/** Struct */
 export interface StoredPendingChange extends Struct {
+  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
+  /** BlockNumber */
   readonly delay: BlockNumber;
-  readonly nextAuthorities: Vector<NextAuthority>;
+  /** Vec<NextAuthority> */
+  readonly nextAuthorities: Vec<NextAuthority>;
 }
 
+/** Enum */
 export interface StoredState extends Enum {
-  /**
-   * @description 0:: Live
-   */
+  /** 0:: Live */
   readonly isLive: boolean;
-  /**
-   * @description 1:: PendingPause(PendingPause)
-   */
+  /** 1:: PendingPause(PendingPause) */
   readonly isPendingPause: boolean;
+  /** PendingPause */
   readonly asPendingPause: PendingPause;
-  /**
-   * @description 2:: Paused
-   */
+  /** 2:: Paused */
   readonly isPaused: boolean;
-  /**
-   * @description 3:: PendingResume(PendingResume)
-   */
+  /** 3:: PendingResume(PendingResume) */
   readonly isPendingResume: boolean;
+  /** PendingResume */
   readonly asPendingResume: PendingResume;
 }
 
@@ -54,21 +59,21 @@ declare module '@polkadot/types/interfaceRegistry' {
     AuthorityWeight: AuthorityWeight;
     'Compact<AuthorityWeight>': Compact<AuthorityWeight>;
     'Option<AuthorityWeight>': Option<AuthorityWeight>;
-    'Vec<AuthorityWeight>': Vector<AuthorityWeight>;
+    'Vec<AuthorityWeight>': Vec<AuthorityWeight>;
     NextAuthority: NextAuthority;
     'Option<NextAuthority>': Option<NextAuthority>;
-    'Vec<NextAuthority>': Vector<NextAuthority>;
+    'Vec<NextAuthority>': Vec<NextAuthority>;
     PendingPause: PendingPause;
     'Option<PendingPause>': Option<PendingPause>;
-    'Vec<PendingPause>': Vector<PendingPause>;
+    'Vec<PendingPause>': Vec<PendingPause>;
     PendingResume: PendingResume;
     'Option<PendingResume>': Option<PendingResume>;
-    'Vec<PendingResume>': Vector<PendingResume>;
+    'Vec<PendingResume>': Vec<PendingResume>;
     StoredPendingChange: StoredPendingChange;
     'Option<StoredPendingChange>': Option<StoredPendingChange>;
-    'Vec<StoredPendingChange>': Vector<StoredPendingChange>;
+    'Vec<StoredPendingChange>': Vec<StoredPendingChange>;
     StoredState: StoredState;
     'Option<StoredState>': Option<StoredState>;
-    'Vec<StoredState>': Vector<StoredState>;
+    'Vec<StoredState>': Vec<StoredState>;
   }
 }

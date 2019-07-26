@@ -2,18 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, Constructor } from '../types';
+
 import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import Moment from '../primitive/Moment';
-import { AnyNumber, Constructor } from '../types';
-import AbstractInt, { UIntBitLength } from './AbstractInt';
+import { UIntBitLength } from './AbstractInt';
+import UInt from './UInt';
 import Base from './Base';
 
 // List of codec types that are compact-encodable
-export const COMPACT_ENCODABLE = [AbstractInt, Moment];
-export type CompactEncodable = AbstractInt | Moment; // FIXME is there a way to do it not-manually from the array?
+export const COMPACT_ENCODABLE = [UInt, Moment];
+export type CompactEncodable = UInt | Moment; // FIXME is there a way to do it not-manually from the array?
 
 /**
  * @name Compact

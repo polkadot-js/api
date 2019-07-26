@@ -104,7 +104,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
       );
   }
 
-  // Below are methods that we override. When we do a `new Vector(...).map()`,
+  // Below are methods that we override. When we do a `new Vec(...).map()`,
   // we want it to return an Array. We only override the methods that return a
   // new instance.
 

@@ -4,6 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
+import { StorageChangeSet, StorageData } from '@polkadot/types/srml/types';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
 
@@ -11,7 +12,7 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
+import { ClassOf, Option, StorageKey, Vec, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -277,13 +278,13 @@ export default class Rpc implements RpcInterface {
 
         throw error;
       }
-    } else if (method.type === 'StorageChangeSet') {
+    } else if ((method.type as string) === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
+      return (params[0] as Vec<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
         try {
           results.push(this.formatStorageSet(key, base as StorageChangeSet));
         } catch (error) {
@@ -323,9 +324,9 @@ export default class Rpc implements RpcInterface {
 
     // see if we have a result value for this specific key, fallback to the cache value
     // when the value in the set is not available, or is null/empty.
-    const { value } = base.changes.find(({ key, value }): boolean =>
+    const [, value] = base.changes.find(([key, value]): boolean =>
       value.isSome && key.toHex() === hexKey
-    ) || { value: this._storageCache.get(hexKey) || new Option<StorageData>(StorageData, null) };
+    ) || [null, this._storageCache.get(hexKey) || new Option<StorageData>(ClassOf('StorageData'), null)];
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearning of it, so very long running processes (not just a couple of hours, longer)

@@ -6,7 +6,7 @@ import { ApprovalFlag, SetIndex } from '@polkadot/types/srml/elections/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
-import { AccountId, Vector } from '@polkadot/types';
+import { AccountId, Vec } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
 import { drr } from '../util/drr';
@@ -27,11 +27,11 @@ export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observabl
   return (who: AccountId): Observable<boolean[][]> =>
     (api.query.elections.nextVoterSet<SetIndex>())
       .pipe(
-        switchMap((nextVoterSet: SetIndex): Observable<Vector<ApprovalFlag>[]> =>
-          api.query.elections.approvalsOf.multi([...Array(nextVoterSet.toNumber() + 1).keys()].map((i): [string, number] => [who.toString(), i])) as any as Observable<Vector<ApprovalFlag>[]>
+        switchMap((nextVoterSet: SetIndex): Observable<Vec<ApprovalFlag>[]> =>
+          api.query.elections.approvalsOf.multi([...Array(nextVoterSet.toNumber() + 1).keys()].map((i): [string, number] => [who.toString(), i])) as any as Observable<Vec<ApprovalFlag>[]>
         ),
-        map((votes: Vector<ApprovalFlag>[]): boolean[][] =>
-          votes.map((flags: Vector<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags))
+        map((votes: Vec<ApprovalFlag>[]): boolean[][] =>
+          votes.map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags))
         ),
         drr()
       );

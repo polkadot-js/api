@@ -6,7 +6,7 @@ import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 
 export class ModuleConstantMetadata extends Struct {
   public constructor (value?: any) {
@@ -14,7 +14,7 @@ export class ModuleConstantMetadata extends Struct {
       name: Text,
       type: Type,
       value: Bytes,
-      documentation: Vector.with(Text)
+      documentation: Vec.with(Text)
     }, value);
   }
 
@@ -42,7 +42,7 @@ export class ModuleConstantMetadata extends Struct {
   /**
    * @description The documentation
    */
-  public get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 }

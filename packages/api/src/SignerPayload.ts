@@ -5,7 +5,7 @@
 import { Balance, BlockNumber, Hash, Index } from '@polkadot/types/srml/types';
 import { SignerPayload as ISignerPayload } from './types';
 
-import { Address, ClassOf, Compact, ExtrinsicEra, Struct, U8, Method } from '@polkadot/types';
+import { Address, ClassOf, Compact, ExtrinsicEra, Struct, u8, Method } from '@polkadot/types';
 
 export interface SignerPayloadType {
   address: Address;
@@ -16,7 +16,7 @@ export interface SignerPayloadType {
   method: Method;
   nonce: Compact<Index>;
   tip: Compact<Balance>;
-  version: U8;
+  version: u8;
 }
 
 export default class SignerPayload extends Struct.with({
@@ -28,7 +28,7 @@ export default class SignerPayload extends Struct.with({
   method: Method,
   nonce: ClassOf('Compact<Index>'),
   tip: ClassOf('Compact<Balance>'),
-  version: U8
+  version: u8
 }) {
   /**
    * @description Returns this as a SignerPayloadType. This works since the Struct.with injects all the getters automatically (just ensure the 2 definitiona are matching)

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 export * from './runtime/types';
@@ -18,3 +17,4 @@ export * from './parachains/types';
 export * from './staking/types';
 export * from './system/types';
 export * from './treasury/types';
+export * from './rpc/types';

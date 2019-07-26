@@ -2,29 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventId } from '../srml/system/types';
 import { Constructor, Codec } from '../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import { ClassOf, TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
-import U8aFixed from '../codec/U8aFixed';
-import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Metadata from '../Metadata';
 import { EventMetadata as EventMetadataV7 } from '../Metadata/v7/Events';
 import Null from './Null';
-import U32 from './U32';
 import Unconstructable from './Unconstructable';
 
 const EventTypes: Record<string, Constructor<EventData>> = {};
-
-/**
- * @name EventIndex
- * @description
- * The Substrate EventIndex representation as a [[U32]].
- */
-export class EventIndex extends U32 {
-}
 
 /**
  * @name EventData
@@ -79,18 +70,6 @@ export class EventData extends Tuple {
 }
 
 /**
- * @name EventId
- * @description
- * This follows the same approach as in [[Method]], we have the `[sectionIndex, methodIndex]` pairing
- * that indicates the actual event fired
- */
-export class EventId extends U8aFixed {
-  public constructor (value?: any) {
-    super(value, 16);
-  }
-}
-
-/**
  * @name Event
  * @description
  * A representation of a system event. These are generated via the [[Metadata]] interfaces and
@@ -103,7 +82,7 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
-      index: EventId,
+      index: ClassOf('EventId'),
       data: DataType
     }, value);
   }

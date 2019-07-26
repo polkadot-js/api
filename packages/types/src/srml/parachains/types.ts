@@ -1,261 +1,266 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Auto-generated via `yarn build:srmlTs`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct, Vector } from '../../codec';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
 import { AccountId, Bytes, u32, u64 } from '../../primitive';
 import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime/types';
 
+/** Struct */
 export interface AttestedCandidate extends Struct {
+  /** CandidateReceipt */
   readonly candidate: CandidateReceipt;
-  readonly validityVotes: Vector<ValidityVote>;
+  /** Vec<ValidityVote> */
+  readonly validityVotes: Vec<ValidityVote>;
 }
 
-export interface AuctionIndex extends u32 {}
+/** u32 */
+export type AuctionIndex = u32;
 
-type _BalanceUpload = [AccountId, u64];
-export interface BalanceUpload extends Codec, _BalanceUpload {}
+/** [AccountId, u64] & Codec */
+export type BalanceUpload = [AccountId, u64] & Codec;
 
+/** Enum */
 export interface Bidder extends Enum {
-  /**
-   * @description 0:: New(NewBidder)
-   */
+  /** 0:: New(NewBidder) */
   readonly isNew: boolean;
+  /** NewBidder */
   readonly asNew: NewBidder;
-  /**
-   * @description 1:: Existing(ParaId)
-   */
+  /** 1:: Existing(ParaId) */
   readonly isExisting: boolean;
+  /** ParaId */
   readonly asExisting: ParaId;
 }
 
+/** Struct */
 export interface CandidateReceipt extends Struct {
+  /** ParaId */
   readonly parachainIndex: ParaId;
+  /** AccountId */
   readonly collator: AccountId;
+  /** CollatorSignature */
   readonly signature: CollatorSignature;
+  /** HeadData */
   readonly headData: HeadData;
-  readonly balanceUploads: Vector<BalanceUpload>;
-  readonly egressQueueRoots: Vector<EgressQueueRoot>;
+  /** Vec<BalanceUpload> */
+  readonly balanceUploads: Vec<BalanceUpload>;
+  /** Vec<EgressQueueRoot> */
+  readonly egressQueueRoots: Vec<EgressQueueRoot>;
+  /** u64 */
   readonly fees: u64;
+  /** Hash */
   readonly blockDataHash: Hash;
 }
 
-export interface CollatorSignature extends Signature {}
+/** Signature */
+export type CollatorSignature = Signature;
 
-type _EgressQueueRoot = [ParaId, Hash];
-export interface EgressQueueRoot extends Codec, _EgressQueueRoot {}
+/** [ParaId, Hash] & Codec */
+export type EgressQueueRoot = [ParaId, Hash] & Codec;
 
-export interface HeadData extends Bytes {}
+/** Bytes */
+export type HeadData = Bytes;
 
+/** Enum */
 export interface IncomingParachain extends Enum {
-  /**
-   * @description 0:: Unset(NewBidder)
-   */
+  /** 0:: Unset(NewBidder) */
   readonly isUnset: boolean;
+  /** NewBidder */
   readonly asUnset: NewBidder;
-  /**
-   * @description 1:: Fixed(IncomingParachainFixed)
-   */
+  /** 1:: Fixed(IncomingParachainFixed) */
   readonly isFixed: boolean;
+  /** IncomingParachainFixed */
   readonly asFixed: IncomingParachainFixed;
-  /**
-   * @description 2:: Deploy(IncomingParachainDeploy)
-   */
+  /** 2:: Deploy(IncomingParachainDeploy) */
   readonly isDeploy: boolean;
+  /** IncomingParachainDeploy */
   readonly asDeploy: IncomingParachainDeploy;
 }
 
+/** Struct */
 export interface IncomingParachainDeploy extends Struct {
+  /** Bytes */
   readonly code: Bytes;
+  /** Bytes */
   readonly initialHeadData: Bytes;
 }
 
+/** Struct */
 export interface IncomingParachainFixed extends Struct {
+  /** Hash */
   readonly codeHash: Hash;
+  /** Bytes */
   readonly initialHeadData: Bytes;
 }
 
-export interface LeasePeriod extends BlockNumber {}
+/** BlockNumber */
+export type LeasePeriod = BlockNumber;
 
-export interface LeasePeriodOf extends LeasePeriod {}
+/** LeasePeriod */
+export type LeasePeriodOf = LeasePeriod;
 
+/** Struct */
 export interface NewBidder extends Struct {
+  /** AccountId */
   readonly who: AccountId;
+  /** SubId */
   readonly sub: SubId;
 }
 
+/** Enum */
 export interface ParachainDispatchOrigin extends Enum {
-  /**
-   * @description 0:: Signed
-   */
+  /** 0:: Signed */
   readonly isSigned: boolean;
-  /**
-   * @description 1:: Parachain
-   */
+  /** 1:: Parachain */
   readonly isParachain: boolean;
 }
 
-export interface ParaId extends u32 {}
+/** u32 */
+export type ParaId = u32;
 
-export interface ParaIdOf extends ParaId {}
+/** ParaId */
+export type ParaIdOf = ParaId;
 
+/** Enum */
 export interface SlotRange extends Enum {
-  /**
-   * @description 0:: ZeroZero
-   */
+  /** 0:: ZeroZero */
   readonly isZeroZero: boolean;
-  /**
-   * @description 1:: ZeroOne
-   */
+  /** 1:: ZeroOne */
   readonly isZeroOne: boolean;
-  /**
-   * @description 2:: ZeroTwo
-   */
+  /** 2:: ZeroTwo */
   readonly isZeroTwo: boolean;
-  /**
-   * @description 3:: ZeroThree
-   */
+  /** 3:: ZeroThree */
   readonly isZeroThree: boolean;
-  /**
-   * @description 4:: OneOne
-   */
+  /** 4:: OneOne */
   readonly isOneOne: boolean;
-  /**
-   * @description 5:: OneTwo
-   */
+  /** 5:: OneTwo */
   readonly isOneTwo: boolean;
-  /**
-   * @description 6:: OneThree
-   */
+  /** 6:: OneThree */
   readonly isOneThree: boolean;
-  /**
-   * @description 7:: TwoTwo
-   */
+  /** 7:: TwoTwo */
   readonly isTwoTwo: boolean;
-  /**
-   * @description 8:: TwoThree
-   */
+  /** 8:: TwoThree */
   readonly isTwoThree: boolean;
-  /**
-   * @description 9:: ThreeThree
-   */
+  /** 9:: ThreeThree */
   readonly isThreeThree: boolean;
 }
 
-export interface SubId extends u32 {}
+/** u32 */
+export type SubId = u32;
 
+/** Struct */
 export interface UpwardMessage extends Struct {
+  /** ParachainDispatchOrigin */
   readonly origin: ParachainDispatchOrigin;
+  /** Bytes */
   readonly data: Bytes;
 }
 
-export interface ValidatorIndex extends u32 {}
+/** u32 */
+export type ValidatorIndex = u32;
 
+/** Enum */
 export interface ValidityAttestation extends Enum {
-  /**
-   * @description 0:: None
-   */
+  /** 0:: None */
   readonly isNone: boolean;
-  /**
-   * @description 1:: Implicit(CollatorSignature)
-   */
+  /** 1:: Implicit(CollatorSignature) */
   readonly isImplicit: boolean;
+  /** CollatorSignature */
   readonly asImplicit: CollatorSignature;
-  /**
-   * @description 2:: Explicit(CollatorSignature)
-   */
+  /** 2:: Explicit(CollatorSignature) */
   readonly isExplicit: boolean;
+  /** CollatorSignature */
   readonly asExplicit: CollatorSignature;
 }
 
-type _ValidityVote = [ValidatorIndex, ValidityAttestation];
-export interface ValidityVote extends Codec, _ValidityVote {}
+/** [ValidatorIndex, ValidityAttestation] & Codec */
+export type ValidityVote = [ValidatorIndex, ValidityAttestation] & Codec;
 
-export interface WinningData extends Vector<WinningDataEntry> {}
+/** Vec<WinningDataEntry> */
+export type WinningData = Vec<WinningDataEntry>;
 
-type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
-export interface WinningDataEntry extends Codec, _WinningDataEntry {}
+/** [AccountId, ParaIdOf, BalanceOf] & Codec */
+export type WinningDataEntry = [AccountId, ParaIdOf, BalanceOf] & Codec;
 
 declare module '@polkadot/types/interfaceRegistry' {
   export interface InterfaceRegistry {
     AuctionIndex: AuctionIndex;
     'Compact<AuctionIndex>': Compact<AuctionIndex>;
     'Option<AuctionIndex>': Option<AuctionIndex>;
-    'Vec<AuctionIndex>': Vector<AuctionIndex>;
+    'Vec<AuctionIndex>': Vec<AuctionIndex>;
     CollatorSignature: CollatorSignature;
     'Option<CollatorSignature>': Option<CollatorSignature>;
-    'Vec<CollatorSignature>': Vector<CollatorSignature>;
+    'Vec<CollatorSignature>': Vec<CollatorSignature>;
     ValidityAttestation: ValidityAttestation;
     'Option<ValidityAttestation>': Option<ValidityAttestation>;
-    'Vec<ValidityAttestation>': Vector<ValidityAttestation>;
+    'Vec<ValidityAttestation>': Vec<ValidityAttestation>;
     ParaId: ParaId;
     'Compact<ParaId>': Compact<ParaId>;
     'Option<ParaId>': Option<ParaId>;
-    'Vec<ParaId>': Vector<ParaId>;
+    'Vec<ParaId>': Vec<ParaId>;
     ParaIdOf: ParaIdOf;
     'Option<ParaIdOf>': Option<ParaIdOf>;
-    'Vec<ParaIdOf>': Vector<ParaIdOf>;
+    'Vec<ParaIdOf>': Vec<ParaIdOf>;
     ValidatorIndex: ValidatorIndex;
     'Compact<ValidatorIndex>': Compact<ValidatorIndex>;
     'Option<ValidatorIndex>': Option<ValidatorIndex>;
-    'Vec<ValidatorIndex>': Vector<ValidatorIndex>;
+    'Vec<ValidatorIndex>': Vec<ValidatorIndex>;
     ValidityVote: ValidityVote;
     'Option<ValidityVote>': Option<ValidityVote>;
-    'Vec<ValidityVote>': Vector<ValidityVote>;
+    'Vec<ValidityVote>': Vec<ValidityVote>;
     BalanceUpload: BalanceUpload;
     'Option<BalanceUpload>': Option<BalanceUpload>;
-    'Vec<BalanceUpload>': Vector<BalanceUpload>;
+    'Vec<BalanceUpload>': Vec<BalanceUpload>;
     EgressQueueRoot: EgressQueueRoot;
     'Option<EgressQueueRoot>': Option<EgressQueueRoot>;
-    'Vec<EgressQueueRoot>': Vector<EgressQueueRoot>;
+    'Vec<EgressQueueRoot>': Vec<EgressQueueRoot>;
     HeadData: HeadData;
     'Option<HeadData>': Option<HeadData>;
-    'Vec<HeadData>': Vector<HeadData>;
+    'Vec<HeadData>': Vec<HeadData>;
     CandidateReceipt: CandidateReceipt;
     'Option<CandidateReceipt>': Option<CandidateReceipt>;
-    'Vec<CandidateReceipt>': Vector<CandidateReceipt>;
+    'Vec<CandidateReceipt>': Vec<CandidateReceipt>;
     AttestedCandidate: AttestedCandidate;
     'Option<AttestedCandidate>': Option<AttestedCandidate>;
-    'Vec<AttestedCandidate>': Vector<AttestedCandidate>;
+    'Vec<AttestedCandidate>': Vec<AttestedCandidate>;
     SubId: SubId;
     'Compact<SubId>': Compact<SubId>;
     'Option<SubId>': Option<SubId>;
-    'Vec<SubId>': Vector<SubId>;
+    'Vec<SubId>': Vec<SubId>;
     NewBidder: NewBidder;
     'Option<NewBidder>': Option<NewBidder>;
-    'Vec<NewBidder>': Vector<NewBidder>;
+    'Vec<NewBidder>': Vec<NewBidder>;
     Bidder: Bidder;
     'Option<Bidder>': Option<Bidder>;
-    'Vec<Bidder>': Vector<Bidder>;
+    'Vec<Bidder>': Vec<Bidder>;
     IncomingParachainDeploy: IncomingParachainDeploy;
     'Option<IncomingParachainDeploy>': Option<IncomingParachainDeploy>;
-    'Vec<IncomingParachainDeploy>': Vector<IncomingParachainDeploy>;
+    'Vec<IncomingParachainDeploy>': Vec<IncomingParachainDeploy>;
     IncomingParachainFixed: IncomingParachainFixed;
     'Option<IncomingParachainFixed>': Option<IncomingParachainFixed>;
-    'Vec<IncomingParachainFixed>': Vector<IncomingParachainFixed>;
+    'Vec<IncomingParachainFixed>': Vec<IncomingParachainFixed>;
     IncomingParachain: IncomingParachain;
     'Option<IncomingParachain>': Option<IncomingParachain>;
-    'Vec<IncomingParachain>': Vector<IncomingParachain>;
+    'Vec<IncomingParachain>': Vec<IncomingParachain>;
     LeasePeriod: LeasePeriod;
     'Option<LeasePeriod>': Option<LeasePeriod>;
-    'Vec<LeasePeriod>': Vector<LeasePeriod>;
+    'Vec<LeasePeriod>': Vec<LeasePeriod>;
     LeasePeriodOf: LeasePeriodOf;
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
-    'Vec<LeasePeriodOf>': Vector<LeasePeriodOf>;
+    'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     ParachainDispatchOrigin: ParachainDispatchOrigin;
     'Option<ParachainDispatchOrigin>': Option<ParachainDispatchOrigin>;
-    'Vec<ParachainDispatchOrigin>': Vector<ParachainDispatchOrigin>;
+    'Vec<ParachainDispatchOrigin>': Vec<ParachainDispatchOrigin>;
     SlotRange: SlotRange;
     'Option<SlotRange>': Option<SlotRange>;
-    'Vec<SlotRange>': Vector<SlotRange>;
+    'Vec<SlotRange>': Vec<SlotRange>;
     UpwardMessage: UpwardMessage;
     'Option<UpwardMessage>': Option<UpwardMessage>;
-    'Vec<UpwardMessage>': Vector<UpwardMessage>;
+    'Vec<UpwardMessage>': Vec<UpwardMessage>;
     WinningDataEntry: WinningDataEntry;
     'Option<WinningDataEntry>': Option<WinningDataEntry>;
-    'Vec<WinningDataEntry>': Vector<WinningDataEntry>;
+    'Vec<WinningDataEntry>': Vec<WinningDataEntry>;
     WinningData: WinningData;
     'Option<WinningData>': Option<WinningData>;
-    'Vec<WinningData>': Vector<WinningData>;
+    'Vec<WinningData>': Vec<WinningData>;
   }
 }

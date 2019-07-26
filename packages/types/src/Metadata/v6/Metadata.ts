@@ -6,7 +6,7 @@ import { MetadataInterface } from '../types';
 
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import { flattenUniq, validateTypes } from '../util';
 
@@ -25,32 +25,32 @@ export class ModuleMetadata extends Struct {
     super({
       name: Text,
       prefix: Text,
-      storage: Option.with(Vector.with(StorageEntryMetadata)),
-      calls: Option.with(Vector.with(FunctionMetadata)),
-      events: Option.with(Vector.with(EventMetadata)),
-      constants: Vector.with(ModuleConstantMetadata)
+      storage: Option.with(Vec.with(StorageEntryMetadata)),
+      calls: Option.with(Vec.with(FunctionMetadata)),
+      events: Option.with(Vec.with(EventMetadata)),
+      constants: Vec.with(ModuleConstantMetadata)
     }, value);
   }
 
   /**
    * @description the module calls
    */
-  public get calls (): Option<Vector<FunctionMetadata>> {
-    return this.get('calls') as Option<Vector<FunctionMetadata>>;
+  public get calls (): Option<Vec<FunctionMetadata>> {
+    return this.get('calls') as Option<Vec<FunctionMetadata>>;
   }
 
   /**
    * @description the module constants
    */
-  public get constants (): Vector<ModuleConstantMetadata> {
-    return this.get('constants') as Vector<ModuleConstantMetadata>;
+  public get constants (): Vec<ModuleConstantMetadata> {
+    return this.get('constants') as Vec<ModuleConstantMetadata>;
   }
 
   /**
    * @description the module events
    */
-  public get events (): Option<Vector<EventMetadata>> {
-    return this.get('events') as Option<Vector<EventMetadata>>;
+  public get events (): Option<Vec<EventMetadata>> {
+    return this.get('events') as Option<Vec<EventMetadata>>;
   }
 
   /**
@@ -70,8 +70,8 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the associated module storage
    */
-  public get storage (): Option<Vector<StorageEntryMetadata>> {
-    return this.get('storage') as Option<Vector<StorageEntryMetadata>>;
+  public get storage (): Option<Vec<StorageEntryMetadata>> {
+    return this.get('storage') as Option<Vec<StorageEntryMetadata>>;
   }
 }
 
@@ -83,15 +83,15 @@ export class ModuleMetadata extends Struct {
 export default class MetadataV6 extends Struct implements MetadataInterface<ModuleMetadata> {
   public constructor (value?: any) {
     super({
-      modules: Vector.with(ModuleMetadata)
+      modules: Vec.with(ModuleMetadata)
     }, value);
   }
 
   /**
    * @description The associated modules for this structure
    */
-  public get modules (): Vector<ModuleMetadata> {
-    return this.get('modules') as Vector<ModuleMetadata>;
+  public get modules (): Vec<ModuleMetadata> {
+    return this.get('modules') as Vec<ModuleMetadata>;
   }
 
   private get callNames (): string[][][] {

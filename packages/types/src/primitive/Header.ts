@@ -32,7 +32,7 @@ export default class Header extends Struct {
       number: ClassOf('Compact<BlockNumber>'),
       stateRoot: ClassOf('Hash'),
       extrinsicsRoot: ClassOf('Hash'),
-      digest: Digest
+      digest: ClassOf('Digest')
     }, value || {});
   }
 

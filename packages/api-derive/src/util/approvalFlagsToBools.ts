@@ -4,9 +4,9 @@
 
 import { ApprovalFlag } from '@polkadot/types/srml/elections/types';
 
-import { Vector } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
-export function approvalFlagsToBools (flags: Vector<ApprovalFlag>): boolean[] {
+export function approvalFlagsToBools (flags: Vec<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
 
   flags.forEach((flag: ApprovalFlag): void => {
