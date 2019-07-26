@@ -8,7 +8,7 @@ import BN from 'bn.js';
 
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
-import { FunctionMetadata } from './Metadata/v6/Calls';
+import { FunctionMetadata } from './Metadata/v7/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
 
