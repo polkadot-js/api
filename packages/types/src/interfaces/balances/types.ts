@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Option, Set, Struct, Vec } from '../../codec';
+import { Set, Struct } from '../../codec';
 import { Balance, BlockNumber, LockIdentifier } from '../runtime';
 
 /** Struct */
@@ -33,18 +33,4 @@ export interface WithdrawReasons extends Set {
   readonly isReserve: boolean;
   /** boolean */
   readonly isFee: boolean;
-}
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    VestingSchedule: VestingSchedule;
-    'Option<VestingSchedule>': Option<VestingSchedule>;
-    'Vec<VestingSchedule>': Vec<VestingSchedule>;
-    WithdrawReasons: WithdrawReasons;
-    'Option<WithdrawReasons>': Option<WithdrawReasons>;
-    'Vec<WithdrawReasons>': Vec<WithdrawReasons>;
-    BalanceLock: BalanceLock;
-    'Option<BalanceLock>': Option<BalanceLock>;
-    'Vec<BalanceLock>': Vec<BalanceLock>;
-  }
 }

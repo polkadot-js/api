@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Option, Struct, Vec } from '../../codec';
+import { Struct, Vec } from '../../codec';
 import { Bytes } from '../../primitive';
 import { BlockNumber } from '../runtime';
 import { AuthorityId } from '../consensus';
@@ -31,20 +31,3 @@ export interface OpaqueNetworkState extends Struct {
 
 /** Bytes */
 export type OpaquePeerId = Bytes;
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    OpaqueMultiaddr: OpaqueMultiaddr;
-    'Option<OpaqueMultiaddr>': Option<OpaqueMultiaddr>;
-    'Vec<OpaqueMultiaddr>': Vec<OpaqueMultiaddr>;
-    OpaquePeerId: OpaquePeerId;
-    'Option<OpaquePeerId>': Option<OpaquePeerId>;
-    'Vec<OpaquePeerId>': Vec<OpaquePeerId>;
-    OpaqueNetworkState: OpaqueNetworkState;
-    'Option<OpaqueNetworkState>': Option<OpaqueNetworkState>;
-    'Vec<OpaqueNetworkState>': Vec<OpaqueNetworkState>;
-    Heartbeat: Heartbeat;
-    'Option<Heartbeat>': Option<Heartbeat>;
-    'Vec<Heartbeat>': Vec<Heartbeat>;
-  }
-}
