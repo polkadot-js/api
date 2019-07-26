@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { AccountId, AccountIndex, Address, Bool, Bytes, Data, Extrinsic, ExtrinsicEra, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericEvent, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountIdOf, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { Bytes, Data, Extrinsic, ExtrinsicEra, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericEvent, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { AccountId, AccountIdOf, AccountIndex, Address, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
@@ -22,19 +22,6 @@ import { TreasuryProposal } from './interfaces/treasury';
 import { ApiId, ChainProperties, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
-  AccountId: AccountId;
-  'Option<AccountId>': Option<AccountId>;
-  'Vec<AccountId>': Vec<AccountId>;
-  AccountIndex: AccountIndex;
-  'Compact<AccountIndex>': Compact<AccountIndex>;
-  'Option<AccountIndex>': Option<AccountIndex>;
-  'Vec<AccountIndex>': Vec<AccountIndex>;
-  Address: Address;
-  'Option<Address>': Option<Address>;
-  'Vec<Address>': Vec<Address>;
-  Bool: Bool;
-  'Option<Bool>': Option<Bool>;
-  'Vec<Bool>': Vec<Bool>;
   bool: bool;
   'Option<bool>': Option<bool>;
   'Vec<bool>': Vec<bool>;
@@ -186,6 +173,16 @@ export interface InterfaceRegistry {
   SignaturePayload: SignaturePayload;
   'Option<SignaturePayload>': Option<SignaturePayload>;
   'Vec<SignaturePayload>': Vec<SignaturePayload>;
+  GenericAccountId: GenericAccountId;
+  'Option<GenericAccountId>': Option<GenericAccountId>;
+  'Vec<GenericAccountId>': Vec<GenericAccountId>;
+  GenericAccountIndex: GenericAccountIndex;
+  'Compact<GenericAccountIndex>': Compact<GenericAccountIndex>;
+  'Option<GenericAccountIndex>': Option<GenericAccountIndex>;
+  'Vec<GenericAccountIndex>': Vec<GenericAccountIndex>;
+  GenericAddress: GenericAddress;
+  'Option<GenericAddress>': Option<GenericAddress>;
+  'Vec<GenericAddress>': Vec<GenericAddress>;
   GenericBlock: GenericBlock;
   'Option<GenericBlock>': Option<GenericBlock>;
   'Vec<GenericBlock>': Vec<GenericBlock>;
@@ -202,9 +199,19 @@ export interface InterfaceRegistry {
   GenericDigestItem: GenericDigestItem;
   'Option<GenericDigestItem>': Option<GenericDigestItem>;
   'Vec<GenericDigestItem>': Vec<GenericDigestItem>;
+  AccountId: AccountId;
+  'Option<AccountId>': Option<AccountId>;
+  'Vec<AccountId>': Vec<AccountId>;
   AccountIdOf: AccountIdOf;
   'Option<AccountIdOf>': Option<AccountIdOf>;
   'Vec<AccountIdOf>': Vec<AccountIdOf>;
+  AccountIndex: AccountIndex;
+  'Compact<AccountIndex>': Compact<AccountIndex>;
+  'Option<AccountIndex>': Option<AccountIndex>;
+  'Vec<AccountIndex>': Vec<AccountIndex>;
+  Address: Address;
+  'Option<Address>': Option<Address>;
+  'Vec<Address>': Vec<Address>;
   Balance: Balance;
   'Compact<Balance>': Compact<Balance>;
   'Option<Balance>': Option<Balance>;

@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Enum, Struct, Vec } from '../../codec';
-import { AccountId, Moment, u32 } from '../../primitive';
-import { Balance, BlockNumber } from '../runtime';
+import { Moment, u32 } from '../../primitive';
+import { AccountId, Balance, BlockNumber } from '../runtime';
 
 /** u32 */
 export type EraIndex = u32;

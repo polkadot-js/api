@@ -10,7 +10,7 @@ import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/u
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v7/Calls';
-import Address from '../Address';
+import Address from '../Generic/Address';
 import Method from '../Method';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';

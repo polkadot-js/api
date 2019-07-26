@@ -4,7 +4,10 @@
 
 export default {
   types: {
+    AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
+    AccountIndex: 'GenericAccountIndex',
+    Address: 'GenericAddress',
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
