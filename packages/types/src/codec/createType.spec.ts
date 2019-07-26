@@ -7,7 +7,6 @@ import '../injector';
 import { Codec, Constructor } from '../types';
 
 import createType, { TypeDef, TypeDefInfo, createClass, createTypeUnsafe, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
-import Text from '../primitive/Text';
 import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
@@ -218,20 +217,6 @@ describe('createClass', (): void => {
   it('should memoize from strings', (): void => {
     const a = createClass('BabeWeight');
     const b = createClass('BabeWeight');
-
-    expect(a).toBe(b);
-  });
-
-  it('should memoize from Text', (): void => {
-    const a = createClass(new Text('TrieId'));
-    const b = createClass(new Text('TrieId'));
-
-    expect(a).toBe(b);
-  });
-
-  it('should memoize from string/Text combo', (): void => {
-    const a = createClass(new Text('AuthorityWeight'));
-    const b = createClass('AuthorityWeight');
 
     expect(a).toBe(b);
   });

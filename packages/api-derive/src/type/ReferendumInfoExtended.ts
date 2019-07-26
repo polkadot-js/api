@@ -13,7 +13,7 @@ import { AnyJsonObject } from '@polkadot/types/types';
  * @description
  * A [[ReferendumInfo]] with an additional `index` field
  */
-export default class ReferendumInfoExtended extends ClassOf<ReferendumInfo>('ReferendumInfo') {
+export default class ReferendumInfoExtended extends ClassOf('ReferendumInfo') {
   private _index: ReferendumIndex;
 
   public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
