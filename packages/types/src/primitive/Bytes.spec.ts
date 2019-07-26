@@ -2,15 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import createType from '../codec/createType';
-import { injectDefinitions } from '../srml';
 import Bytes from './Bytes';
 
 describe('Bytes', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   const CODE = new Uint8Array([0x14, 0x3a, 0x63, 0x6f, 0x64, 0x65]);
 
   describe('construction', (): void => {

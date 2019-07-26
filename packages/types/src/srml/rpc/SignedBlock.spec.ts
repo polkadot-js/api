@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../../injector';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import createType from '../../codec/createType';
@@ -9,11 +11,9 @@ import Method from '../../primitive/Method';
 import events from '../../json/SignedBlock.002.json';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
-import { injectDefinitions } from '..';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
-    injectDefinitions();
     Method.injectMethods(extrinsics);
   });
 

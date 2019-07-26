@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import { Codec, Constructor } from '../types';
 
 import createType, { TypeDef, TypeDefInfo, createClass, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
 import Text from '../primitive/Text';
-import { injectDefinitions } from '../srml';
 import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
@@ -214,10 +215,6 @@ describe('getTypeClass', (): void => {
 });
 
 describe('createClass', (): void => {
-  beforeAll((): void => {
-    injectDefinitions();
-  });
-
   it('should memoize from strings', (): void => {
     const a = createClass('BabeWeight');
     const b = createClass('BabeWeight');
@@ -300,10 +297,6 @@ describe('createType', (): void => {
   });
 
   describe('instanceof', (): void => {
-    beforeAll((): void => {
-      injectDefinitions();
-    });
-
     it('instanceof should work (primitive type)', (): void => {
       const value = createType('Balance', 1234);
 

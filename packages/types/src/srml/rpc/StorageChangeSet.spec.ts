@@ -2,16 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../../injector';
+
 import { createType } from '@polkadot/types';
 
 import json from '../../json/StorageChangeSet.001.json';
-import { injectDefinitions } from '../';
 
 describe('StorageChangeSet', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   describe('construction', (): void => {
     const set = createType('StorageChangeSet', {
       block: '0x1234',
