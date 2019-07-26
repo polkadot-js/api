@@ -356,6 +356,9 @@ function initType<T extends Codec = Codec, K extends Text | string = Text | stri
   }
 }
 
+// An unsafe version of the `createType` below. It's unsafe because the `type`
+// argument here can be any string, which, if not parseable, will yield a
+// runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends Text | string = Text | string> (
   type: K,
   value?: any,
@@ -368,6 +371,15 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends Text | strin
   }
 }
 
+/**
+ * Create an instance of a `type` with a given `value`.
+ * @param type - A recognizable string representing the type to create an
+ * instance from
+ * @param value - The value to instantiate the type with
+ * @param isPedantic - Double-check that the input's encoding matches the
+ * output's one. Slower, but ensures that we have a 100% grasp on the actual
+ * provided value
+ */
 export default function createType<K extends keyof InterfaceRegistry> (
   type: K,
   value?: any,
