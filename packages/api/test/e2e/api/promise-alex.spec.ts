@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord } from '@polkadot/types/interfaces';
+import { EventRecord, Header } from '@polkadot/types/interfaces';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { AccountId, ClassOf, Header, Option, Vec } from '@polkadot/types';
+import { AccountId, ClassOf, Option, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -55,7 +55,7 @@ describeE2E({
     it('Subscribes to the best finalized header on ALEX', async (done): Promise<() => void> => {
       return (
         api.rpc.chain.subscribeFinalizedHeads((head): void => {
-          expect(head instanceof Header).toBe(true);
+          expect(head instanceof ClassOf('Header')).toBe(true);
           done();
         })
       );

@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Header } from '@polkadot/types/interfaces';
+
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Header, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { encodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
 import ApiPromise from '../../../src/promise';

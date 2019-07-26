@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Codec } from '../../types';
-import { Enum, Option, Struct, Vec } from '../../codec';
-import { Block, Bytes, ConsensusEngineId, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { Bytes, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericHeader, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash, Justification, Signature, StorageData } from '../runtime';
 
 /** Vec<u8> */

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { EventRecord, Hash, Header, SessionIndex } from '@polkadot/types/interfaces';
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Header, Option, Vec, createType } from '@polkadot/types';
+import { Option, Vec, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';
@@ -34,7 +34,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to rpc', (done): Promise<() => void> => {
     return (
       api.rpc.chain.subscribeNewHead((header: Header): void => {
-        expect(header.blockNumber.isZero()).toBe(false);
+        expect(header.number.isZero()).toBe(false);
 
         done();
       })
@@ -44,7 +44,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to finalized', (done): Promise<() => void> => {
     return (
       api.rpc.chain.subscribeFinalizedHeads((header: Header): void => {
-        expect(header.blockNumber.isZero()).toBe(false);
+        expect(header.number.isZero()).toBe(false);
 
         done();
       })
@@ -54,7 +54,7 @@ describeE2E()('Promise e2e queries', (wsUrl): void => {
   it('subscribes to derive', (done): Promise<() => void> => {
     return (
       api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-        expect(header.blockNumber.isZero()).toBe(false);
+        expect(header.number.isZero()).toBe(false);
 
         done();
       })

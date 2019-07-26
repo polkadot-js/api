@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Header, u64 } from '@polkadot/types';
+import { Header } from '@polkadot/types/interfaces';
+
+import { AccountId, GenericHeader, u64 } from '@polkadot/types';
 import { AnyJsonObject } from '@polkadot/types/types';
 
 /**
@@ -10,7 +12,7 @@ import { AnyJsonObject } from '@polkadot/types/types';
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends Header {
+export default class HeaderExtended extends GenericHeader {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {

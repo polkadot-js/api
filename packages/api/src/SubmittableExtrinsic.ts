@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicStatus, EventRecord, Hash, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { ExtrinsicStatus, EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, AccountId, Address, getTypeRegistry, Header, Method, Vec, ExtrinsicEra } from '@polkadot/types';
+import { createType, AccountId, Address, getTypeRegistry, Method, Vec, ExtrinsicEra } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
