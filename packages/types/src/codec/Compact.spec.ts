@@ -4,8 +4,6 @@
 
 import '../injector';
 
-import { BlockNumber } from '../interfaces/runtime';
-
 import BN from 'bn.js';
 
 import createType, { ClassOf } from '../codec/createType';

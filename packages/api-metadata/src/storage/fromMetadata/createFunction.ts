@@ -112,7 +112,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
       type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
-      fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key).toHex()),
+      fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
       documentation: meta.documentation
     });
 
