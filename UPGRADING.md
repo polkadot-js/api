@@ -52,7 +52,20 @@ One of the major painpoints in working with a custom Substrate node is the defin
 
 The previous `Vector` type has been renamed to `Vec` - this aligns with what Substrate defines and allows less context-switching between types. (It also means that `createType('Vec<u32>')` would yield a type of `Vec<u32>`). Since it is a SCALE codec type, the import for this is still via `@polkadot/types` directly, the move in the previous point has not affected this class, neither for other base types such as `Enum` or `Struct`.
 
-Along with the type creation defined above, the definition of any structures using the Substrate specific types, should be clarified. Since the base modules  types are now not available in classes, however it is needed for definitions, the following approach is encouraged -
+Along with the type creation defined above, the definition of any structures using the Substrate specific types, should be clarified. Since the base modules types are now not available in classes, however it is needed for definitions, adjustments to the definitioons are required.
+
+If using JSON definitions, nothing changes, your types are still defined as -
+
+```json
+{
+  "MyStruct": {
+    "balance": "Compact<Balance>",
+    "values": "Vec<AccountId>"
+  }
+}
+```
+
+If using JavaScript or TypeScript definitions, the following approach is encouraged -
 
 ```js
 // import the ClassOf, it works the same as `createType` (slong with type inferring)
