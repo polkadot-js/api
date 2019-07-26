@@ -8,7 +8,7 @@ import { isU8a } from '@polkadot/util';
 
 import Struct from '../../../codec/Struct';
 import Method from '../../Method';
-import Address from '../../Address';
+import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 export interface ExtrinsicValueV1 {

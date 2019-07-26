@@ -10,11 +10,7 @@
  */
 // NOTE We are exporting Bool as bool to match with Rust (however also using Bool internally),
 // so with the renamed versions, epose both cases, allowing createType to work
-export { default as AccountId } from './AccountId';
-export { default as AccountIndex } from './AccountIndex';
-export { default as Address } from './Address';
-export { default as Event } from './Event';
-export { default as Bool, default as bool } from './Bool';
+export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
 export * from './Extrinsic';
@@ -44,4 +40,3 @@ export { default as u64, default as U64 } from './U64';
 export { default as u128, default as U128 } from './U128';
 export { default as u256, default as U256 } from './U256';
 export { default as usize } from './USize';
-export { default as Vote } from './Vote';

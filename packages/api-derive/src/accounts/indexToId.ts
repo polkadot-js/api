@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
-import { AccountId, AccountIndex, Vec } from '@polkadot/types';
+import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
+import { createType, ClassOf, Vec } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -26,9 +28,9 @@ import { drr } from '../util/drr';
 export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
   return (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
     const querySection = api.query.indices || api.query.balances;
-    const accountIndex = _accountIndex instanceof AccountIndex
+    const accountIndex = _accountIndex instanceof ClassOf('AccountIndex')
       ? _accountIndex
-      : new AccountIndex(_accountIndex);
+      : createType('AccountIndex', _accountIndex);
 
     return (querySection.enumSet<Vec<AccountId>>(accountIndex.div(ENUMSET_SIZE)))
       .pipe(

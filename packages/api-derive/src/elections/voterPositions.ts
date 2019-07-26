@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SetIndex } from '@polkadot/types/interfaces/elections';
+import { AccountId, SetIndex } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Vec, Option, createType } from '@polkadot/types';
+import { Vec, Option, createType } from '@polkadot/types';
 import { DerivedVoterPositions } from '../types';
 
 import BN from 'bn.js';

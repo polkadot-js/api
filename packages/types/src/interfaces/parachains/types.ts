@@ -2,8 +2,8 @@
 
 import { Codec } from '../../types';
 import { Enum, Struct, Vec } from '../../codec';
-import { AccountId, Bytes, u32, u64 } from '../../primitive';
-import { BalanceOf, BlockNumber, Hash, Signature } from '../runtime';
+import { Bytes, u32, u64 } from '../../primitive';
+import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '../runtime';
 
 /** Struct */
 export interface AttestedCandidate extends Struct {

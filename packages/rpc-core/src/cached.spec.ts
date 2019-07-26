@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { AccountId } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import Rpc from '.';
 
@@ -32,7 +32,7 @@ describe('Cached Observables', (): void => {
 
   it('creates a single observable (multiple calls, different arguments that should be cached together)', (): void => {
     const observable1 = rpc.chain.subscribeNewHead(keyring.alice.address);
-    const observable2 = rpc.chain.subscribeNewHead(new AccountId(keyring.alice.address));
+    const observable2 = rpc.chain.subscribeNewHead(createType('AccountId', keyring.alice.address));
 
     expect(observable2).toBe(observable1);
   });

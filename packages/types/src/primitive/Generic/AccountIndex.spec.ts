@@ -2,40 +2,44 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../../injector';
+
 import BN from 'bn.js';
+
+import createType from '../../codec/createType';
 import AccountIndex from './AccountIndex';
 
 describe('AccountIndex', (): void => {
   it('creates a BN representation', (): void => {
     expect(
-      new AccountIndex(new Uint8Array([17, 18, 19, 20])).toNumber()
+      createType('AccountIndex', new Uint8Array([17, 18, 19, 20])).toNumber()
     ).toEqual(336794129);
   });
 
   it('creates a BN representation (from ss-58)', (): void => {
     expect(
-      new AccountIndex('Mwz15xP2').toNumber()
+      createType('AccountIndex', 'Mwz15xP2').toNumber()
     ).toEqual(336794129);
   });
 
   it('constructs 2-byte from number', (): void => {
     expect(
-      new AccountIndex(256 * 1).toString()
+      createType('AccountIndex', 256 * 1).toString()
     ).toEqual('25GUyv');
   });
 
   it('constructs from number', (): void => {
     expect(
-      new AccountIndex(new BN(336794129)).toString()
+      createType('AccountIndex', new BN(336794129)).toString()
     ).toEqual('Mwz15xP2');
   });
 
   it('compares ss-58 values', (): void => {
-    expect(new AccountIndex(256 * 1).eq('25GUyv')).toBe(true);
+    expect(createType('AccountIndex', 256 * 1).eq('25GUyv')).toBe(true);
   });
 
   it('compares numbers', (): void => {
-    expect(new AccountIndex('2jpAFn').eq(256 * 1)).toBe(true);
+    expect(createType('AccountIndex', '2jpAFn').eq(256 * 1)).toBe(true);
   });
 
   describe('calcLength', (): void => {

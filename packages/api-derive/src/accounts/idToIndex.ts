@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex } from '@polkadot/types';
 
 import { indexes, AccountIndexes } from './indexes';
 import { drr } from '../util/drr';

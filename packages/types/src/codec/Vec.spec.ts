@@ -7,7 +7,7 @@ import { Codec, CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import AccountId from '../primitive/AccountId';
+import AccountId from '../primitive/Generic/AccountId';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import { createTypeUnsafe } from './createType';

@@ -23,7 +23,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Metadata, Method, Null, u64 } from '@polkadot/types';
+import { getTypeRegistry, GenericEvent, Metadata, Method, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
@@ -533,7 +533,7 @@ export default abstract class ApiBase<ApiType> {
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata);
+      GenericEvent.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
 
       // detect the extrinsic version in-use based on the last block

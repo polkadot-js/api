@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceLock, VestingSchedule } from '@polkadot/types/interfaces/balances';
-import { Balance, BlockNumber, Index } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, VestingSchedule } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, ClassOf, Option, createType } from '@polkadot/types';
+import { ClassOf, Option, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -19,7 +18,7 @@ import { drr } from '../util/drr';
 
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
-const EMPTY_ACCOUNT = new AccountId();
+const EMPTY_ACCOUNT = createType('AccountId');
 const ZERO = createType('Balance', 0);
 
 function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {
