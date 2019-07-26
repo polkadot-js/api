@@ -7,8 +7,7 @@ import { Codec, Constructor, IHash } from '../types';
 import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from './createType';
-
+import U8a from './U8a';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number>;
@@ -99,7 +98,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

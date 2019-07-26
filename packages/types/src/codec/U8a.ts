@@ -7,8 +7,6 @@ import { AnyU8a, Codec, IHash } from '../types';
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from './createType';
-
 /**
  * @name U8a
  * @description
@@ -44,7 +42,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

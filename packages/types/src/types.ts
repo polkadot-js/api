@@ -7,6 +7,7 @@ import { Balance, Index } from './srml/runtime/types';
 import BN from 'bn.js';
 
 import Compact from './codec/Compact';
+import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v7/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
@@ -99,7 +100,7 @@ export interface Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IHash extends Uint8Array, Codec { }
+export interface IHash extends U8a { }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 

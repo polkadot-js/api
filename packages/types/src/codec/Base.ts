@@ -6,7 +6,7 @@ import { AnyJson, Codec, IHash } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from './createType';
+import U8a from './U8a';
 
 /**
  * @name Base
@@ -30,7 +30,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

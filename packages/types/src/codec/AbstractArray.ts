@@ -7,8 +7,8 @@ import { AnyJson, AnyJsonArray, Codec, IHash } from '../types';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from './createType';
 import Compact from './Compact';
+import U8a from './U8a';
 import { compareArray } from './utils';
 
 /**
@@ -32,7 +32,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
