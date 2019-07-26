@@ -30,15 +30,11 @@ Internally the API will take the input and convert the value into a `Balance`, s
 First the rationale behind this - in all cases Substrate is very flexible, so while Polkadot (and the Substrate base), define `type Balance = u128`, this can be different between chains. (This also applies to the majority of built-in supported types). As such, type construction should be done via the actual registered types.
 
 ```js
-// for TS users, most of the types are now imported via `@polkadot/types/interfaces
-// for JS users this import here is not needed (also not for TS when using type interring)
-import { Balance } from '@polkadot/types/interfaces`;
-
-// this is applicable everywhere, import the type creator, using the rgeistry
+// this is applicable everywhere, import the type creator, using the registry
 import { createType } from '@polkadot/types';
 
-// construct the Balance (TS users be aware that type inferring here does work)
-const value: Balance = createType('Balance', 12345);
+// construct the Balance, of type Balance (type is inferred with TS)
+const value = createType('Balance', 12345);
 
 // use it here as you normally would
 ...
@@ -68,7 +64,7 @@ If using JSON definitions, nothing changes, your types are still defined as -
 If using JavaScript or TypeScript definitions, the following approach is encouraged -
 
 ```js
-// import the ClassOf, it works the same as `createType` (slong with type inferring)
+// import the ClassOf, it works the same as `createType` (along with type detection)
 // and acts as a replacement for the direct import and use of specific classes
 import { ClassOf, Struct } from '@polkadot/types';
 
