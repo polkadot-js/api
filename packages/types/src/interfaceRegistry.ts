@@ -99,6 +99,7 @@ export interface InterfaceRegistry {
   'Option<Method>': Option<Method>;
   'Vec<Method>': Vec<Method>;
   Moment: Moment;
+  'Compact<Moment>': Compact<Moment>;
   'Option<Moment>': Option<Moment>;
   'Vec<Moment>': Vec<Moment>;
   Null: Null;
@@ -564,6 +565,7 @@ export interface InterfaceRegistry {
   'Option<Exposure>': Option<Exposure>;
   'Vec<Exposure>': Vec<Exposure>;
   MomentOf: MomentOf;
+  'Compact<MomentOf>': Compact<MomentOf>;
   'Option<MomentOf>': Option<MomentOf>;
   'Vec<MomentOf>': Vec<MomentOf>;
   RewardDestination: RewardDestination;

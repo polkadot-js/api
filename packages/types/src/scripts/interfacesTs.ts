@@ -60,7 +60,7 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeI
 function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boolean {
   // https://stackoverflow.com/questions/30993434/check-if-a-constructor-inherits-another-in-es6/30993664
   // eslint-disable-next-line no-prototype-builtins
-  return Parent.isPrototypeOf(Child);
+  return Parent === Child || Parent.isPrototypeOf(Child);
 }
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
