@@ -10,10 +10,10 @@ import createType from '../../codec/createType';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
+import Event from '../../primitive/Event';
 import Metadata from '../../Metadata';
 import metadataV0 from '../../Metadata/v0/static';
 import metadata from '../../Metadata/static';
-import Event from '../../primitive/Event';
 
 describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
