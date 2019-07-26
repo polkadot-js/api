@@ -337,19 +337,33 @@ fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export
 
 function generateInterfaceRegistry (): void {
   const codecTypes: TypeExist = {};
-  const localTypes: LocalExist = {};
+  const localTypes: LocalExist = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
+    localTypes[moduleName] = {};
+
+    return localTypes;
+  }, {});
   const ownTypes: string[] = [];
   const primitiveTypes: TypeExist = {};
   const substrateTypes: TypeExist = {};
 
   const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
 
-  const body = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
+  const primitives = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
     setImports(imports, [primitiveName]);
 
     return [
       accumulator,
       getDerivedTypes(primitiveName, primitiveName, imports)
+    ].join('\n');
+  }, '');
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
+    setImports(imports, Object.keys(types));
+
+    return [
+      accumulator,
+      ...Object.keys(types).map((type): string => getDerivedTypes(type, type, imports, 2))
     ].join('\n');
   }, '');
 
@@ -361,7 +375,11 @@ function generateInterfaceRegistry (): void {
     {
       file: './primitive',
       types: Object.keys(primitiveTypes)
-    }
+    },
+    ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
+      file: `./interfaces/${moduleName}`,
+      types: Object.keys(localTypes[moduleName])
+    }))
   ]);
 
   const interfaceStart = 'export interface InterfaceRegistry {';
@@ -369,7 +387,7 @@ function generateInterfaceRegistry (): void {
 
   fs.writeFileSync(
     `packages/types/src/interfaceRegistry.ts`,
-    header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
+    header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
 }
