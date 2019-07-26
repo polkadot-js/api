@@ -24,7 +24,7 @@ export interface ISubmittableResult {
   readonly isError: boolean;
   readonly isFinalized: boolean;
 
-  findRecord (section: string, method: string): EventRecord | undefined;
+  findRecord(section: string, method: string): EventRecord | undefined;
 }
 
 export type SumbitableResultResult<ApiType> =
@@ -93,17 +93,17 @@ export class SubmittableResult implements ISubmittableResult {
 }
 
 export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
-  send (): SumbitableResultResult<ApiType>;
+  send(): SumbitableResultResult<ApiType>;
 
-  send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  send(statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
+  sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -251,7 +251,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                 // if we have a nonce already, don't retrieve the latest, use what is there
                 isUndefined(options.nonce)
                   ? api.query.system.accountNonce<Index>(address)
-                  : of(createType<Index>('Index', options.nonce)),
+                  : of(createType('Index', options.nonce)),
                 // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
                 (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))

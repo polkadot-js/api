@@ -123,7 +123,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
       era: era || IMMORTAL_ERA,
       blockHash
     });
-    const signature = createType<Signature>('Signature', payload.sign(account));
+    const signature = createType('Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

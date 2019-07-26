@@ -34,7 +34,7 @@ describe('KeyValue', (): void => {
   });
 
   it('exposes the properties for key/value', (): void => {
-    const [key, value] = createType<KeyValue>('KeyValue', ['0x11223344', '0x998877665544332211']);
+    const [key, value] = createType('KeyValue', ['0x11223344', '0x998877665544332211']);
 
     expect(key.toHex()).toEqual('0x11223344');
     expect(value.toHex()).toEqual('0x998877665544332211');

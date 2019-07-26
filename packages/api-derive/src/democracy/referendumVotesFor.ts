@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -28,7 +26,7 @@ export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | nu
       map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
           accountId,
-          balance: balances[index].votingBalance || createType<Balance>('Balance', 0),
+          balance: balances[index].votingBalance || createType('Balance', 0),
           vote: votes[index] || new Vote(0)
         } as unknown as DerivedReferendumVote))
       ),

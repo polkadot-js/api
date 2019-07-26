@@ -21,7 +21,7 @@ export default class ReferendumInfoExtended extends ClassOf<ReferendumInfo>('Ref
 
     this._index = value instanceof ReferendumInfoExtended
       ? value.index
-      : createType<ReferendumIndex>('ReferendumIndex', index);
+      : createType('ReferendumIndex', index);
   }
 
   /**
