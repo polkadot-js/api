@@ -10,7 +10,7 @@ import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v7/Calls';
 import Method from './primitive/Method';
-import Address from './primitive/Address';
+import Address from './primitive/Generic/Address';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {

@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, BlockNumber, Hash, Index } from '@polkadot/types/interfaces';
+import { Address, Balance, BlockNumber, Hash, Index } from '@polkadot/types/interfaces';
 import { SignerPayload as ISignerPayload } from './types';
 
-import { Address, ClassOf, Compact, ExtrinsicEra, Struct, u8, Method } from '@polkadot/types';
+import { ClassOf, Compact, ExtrinsicEra, Struct, u8, Method } from '@polkadot/types';
 
 export interface SignerPayloadType {
   address: Address;
@@ -20,7 +20,7 @@ export interface SignerPayloadType {
 }
 
 export default class SignerPayload extends Struct.with({
-  address: Address,
+  address: ClassOf('Address'),
   blockHash: ClassOf('Hash'),
   blockNumber: ClassOf('BlockNumber'),
   era: ExtrinsicEra,

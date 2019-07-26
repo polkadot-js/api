@@ -8,7 +8,7 @@ import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOpti
 import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Address from '../../Address';
+import Address from '../../Generic/Address';
 import Method from '../../Method';
 import ExtrinsicEra from '../ExtrinsicEra';
 import SignaturePayload from './SignaturePayload';
@@ -110,7 +110,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      new Address(signer),
+      createType('Address', signer),
       createType('Signature', signature),
       new SignaturePayload(payload)
     );
@@ -120,7 +120,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description Generate a payload and pplies the signature from a keypair
    */
   public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = new Address(account.publicKey);
+    const signer = createType('Address', account.publicKey);
     const payload = new SignaturePayload({
       blockHash,
       era: era || IMMORTAL_ERA,

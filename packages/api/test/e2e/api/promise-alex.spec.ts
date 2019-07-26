@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Header } from '@polkadot/types/interfaces';
+import { AccountId, EventRecord, Header } from '@polkadot/types/interfaces';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { AccountId, ClassOf, Option, Vec } from '@polkadot/types';
+import { ClassOf, Option, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import describeE2E from '../../util/describeE2E';

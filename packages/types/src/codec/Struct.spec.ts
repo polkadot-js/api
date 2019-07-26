@@ -5,7 +5,7 @@
 import '../injector';
 
 import { ClassOf } from '../codec/createType';
-import AccountId from '../primitive/AccountId';
+import AccountId from '../primitive/Generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import { CodecTo } from '../types';

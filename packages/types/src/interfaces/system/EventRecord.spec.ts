@@ -10,7 +10,7 @@ import createType from '../../codec/createType';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
-import Event from '../../primitive/Event';
+import GenericEvent from '../../primitive/Generic/Event';
 import Metadata from '../../Metadata';
 import metadataV0 from '../../Metadata/v0/static';
 import metadata from '../../Metadata/static';
@@ -18,7 +18,7 @@ import metadata from '../../Metadata/static';
 describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
-      Event.injectMetadata(
+      GenericEvent.injectMetadata(
         new Metadata(metadataV0)
       );
     });
@@ -33,7 +33,7 @@ describe('EventRecord', (): void => {
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
-      Event.injectMetadata(
+      GenericEvent.injectMetadata(
         new Metadata(metadata)
       );
     });

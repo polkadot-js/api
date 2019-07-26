@@ -45,7 +45,7 @@ export default {
       maxEventTopics: 'u32',
       maxStackHeight: 'u32',
       maxMemoryPages: 'u32',
-      enablePrintln: 'Bool',
+      enablePrintln: 'bool',
       maxSubjectLen: 'u32'
     },
     SeedOf: 'Hash'

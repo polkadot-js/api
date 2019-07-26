@@ -2,8 +2,7 @@
 
 import { Codec } from '../../types';
 import { Enum, Option } from '../../codec';
-import { AccountId } from '../../primitive';
-import { BlockNumber, Hash } from '../runtime';
+import { AccountId, BlockNumber, Hash } from '../runtime';
 
 /** BlockNumber */
 export type InclusionHeight = BlockNumber;

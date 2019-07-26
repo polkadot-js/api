@@ -14,6 +14,7 @@ export default {
         Finalization: 'Null'
       }
     },
+    Event: 'GenericEvent',
     EventRecord0to76: {
       phase: 'Phase',
       event: 'Event'

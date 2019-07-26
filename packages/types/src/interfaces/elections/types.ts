@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Enum, Struct } from '../../codec';
-import { u32 } from '../../primitive';
+import { GenericVote, u32 } from '../../primitive';
 import { Balance } from '../runtime';
 
 /** u32 */
@@ -9,6 +9,9 @@ export type ApprovalFlag = u32;
 
 /** u32 */
 export type SetIndex = u32;
+
+/** GenericVote */
+export type Vote = GenericVote;
 
 /** u32 */
 export type VoteIndex = u32;

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Conviction } from '../interfaces/democracy';
+import { Conviction } from '../../interfaces/democracy';
 
 import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
 
-import createType from '../codec/createType';
-import U8a from '../codec/U8a';
-import Bool from './Bool';
+import createType from '../../codec/createType';
+import U8a from '../../codec/U8a';
+import Bool from '../Bool';
 
 /**
  * @name Vote
@@ -36,7 +36,9 @@ export default class Vote extends U8a {
   }
 
   private static decodeVote (value?: any): Uint8Array {
-    if (isBoolean(value)) {
+    if (isUndefined(value)) {
+      return new Uint8Array([0]);
+    } else if (isBoolean(value)) {
       return value
         ? new Uint8Array([0b10000000])
         : new Uint8Array([0b0]);
@@ -53,8 +55,10 @@ export default class Vote extends U8a {
       const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 
       return new Uint8Array([result]);
-    } else if (isU8a(value) && value.length > 0) {
-      return value;
+    } else if (isU8a(value)) {
+      return value.length
+        ? value
+        : new Uint8Array([0]);
     }
 
     throw new Error(`Unable to convert input ${value} to Vote`);

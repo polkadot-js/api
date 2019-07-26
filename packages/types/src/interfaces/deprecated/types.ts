@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Enum, Struct } from '../../codec';
-import { AccountId, Bytes, Null, i8, u32, u64 } from '../../primitive';
-import { Balance } from '../runtime';
+import { Bytes, Null, i8, u32, u64 } from '../../primitive';
+import { AccountId, Balance } from '../runtime';
 
 /** Struct */
 export interface AccountInfo extends Struct {

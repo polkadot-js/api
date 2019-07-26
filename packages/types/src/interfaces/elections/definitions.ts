@@ -6,6 +6,7 @@ export default {
   types: {
     ApprovalFlag: 'u32',
     SetIndex: 'u32',
+    Vote: 'GenericVote',
     VoteIndex: 'u32',
     VoterInfo: {
       lastActive: 'VoteIndex',

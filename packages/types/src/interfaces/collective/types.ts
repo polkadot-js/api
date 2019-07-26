@@ -1,7 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Struct, Vec } from '../../codec';
-import { AccountId, u32, u64 } from '../../primitive';
+import { u32, u64 } from '../../primitive';
+import { AccountId } from '../runtime';
 
 /** u64 */
 export type MemberCount = u64;

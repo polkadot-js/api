@@ -1,8 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Struct } from '../../codec';
-import { AccountId } from '../../primitive';
-import { Balance } from '../runtime';
+import { AccountId, Balance } from '../runtime';
 
 /** Struct */
 export interface TreasuryProposal extends Struct {

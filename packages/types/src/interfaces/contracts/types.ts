@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Enum, Option, Struct, Vec } from '../../codec';
-import { Bool, Bytes, Null, u32, u64, u8 } from '../../primitive';
+import { Bytes, Null, bool, u32, u64, u8 } from '../../primitive';
 import { Balance, BlockNumber, Hash } from '../runtime';
 
 /** Struct */
@@ -86,8 +86,8 @@ export interface Schedule extends Struct {
   readonly maxStackHeight: u32;
   /** u32 */
   readonly maxMemoryPages: u32;
-  /** Bool */
-  readonly enablePrintln: Bool;
+  /** bool */
+  readonly enablePrintln: bool;
   /** u32 */
   readonly maxSubjectLen: u32;
 }
