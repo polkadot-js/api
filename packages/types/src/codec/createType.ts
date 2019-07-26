@@ -356,7 +356,7 @@ function initType<T extends Codec = Codec, K extends Text | string = Text | stri
   }
 }
 
-export default function createType<T extends Codec = Codec, K extends Text | string = Text | string> (
+export function createTypeUnsafe<T extends Codec = Codec, K extends Text | string = Text | string> (
   type: K,
   value?: any,
   isPedantic?: boolean
@@ -366,4 +366,12 @@ export default function createType<T extends Codec = Codec, K extends Text | str
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }
+}
+
+export default function createType<K extends keyof InterfaceRegistry> (
+  type: K,
+  value?: any,
+  isPedantic?: boolean
+): InterfaceRegistry[K] {
+  return createTypeUnsafe<Codec, K>(type, value, isPedantic) as InterfaceRegistry[K];
 }
