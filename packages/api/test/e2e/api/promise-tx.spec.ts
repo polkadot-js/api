@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '@polkadot/types/injector';
+
 import { EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { createType } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { ExtrinsicEra } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
@@ -150,7 +152,7 @@ describeE2E({
     it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
-      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await ex.signAndSend(keyring.charlie, {
@@ -162,7 +164,7 @@ describeE2E({
     it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number.toBn().subn(1);
-      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await ex.signAndSend(keyring.charlie, {
@@ -175,7 +177,7 @@ describeE2E({
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
-      const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
+      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
@@ -203,7 +205,7 @@ describeE2E({
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
-      const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
+      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);

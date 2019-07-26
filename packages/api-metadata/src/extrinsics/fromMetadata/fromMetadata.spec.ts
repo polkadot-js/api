@@ -4,7 +4,7 @@
 
 import '@polkadot/types/injector';
 
-import { Extrinsic, Metadata } from '@polkadot/types';
+import { createType, Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v7/static';
 
 import fromMetadata from '.';
@@ -24,7 +24,7 @@ describe('fromMetadata', (): void => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a()
+      createType('Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

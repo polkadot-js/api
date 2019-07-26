@@ -11,7 +11,7 @@ import { CodecTo } from '../types';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { ClassOf } from '../codec/createType';
-import Method from '../primitive/Method';
+import Method from '../primitive/Generic/Method';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import Tuple from './Tuple';

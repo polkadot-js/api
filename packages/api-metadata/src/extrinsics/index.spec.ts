@@ -5,7 +5,7 @@
 import '@polkadot/types/injector';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { Extrinsic } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import extrinsics from './static';
 
@@ -14,7 +14,7 @@ const keyring = testingPairs({ type: 'ed25519' }, false);
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
-      new Extrinsic(
+      createType('Extrinsic',
         extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',

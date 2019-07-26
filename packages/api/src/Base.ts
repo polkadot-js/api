@@ -23,10 +23,10 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { getTypeRegistry, GenericEvent, Metadata, Method, Null, u64 } from '@polkadot/types';
+import { getTypeRegistry, GenericEvent, GenericMethod, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
+import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Generic/Method';
 import * as interfacesTypes from '@polkadot/types/interfaces/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
@@ -534,7 +534,7 @@ export default abstract class ApiBase<ApiType> {
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
       GenericEvent.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
+      GenericMethod.injectMethods(extrinsics);
 
       // detect the extrinsic version in-use based on the last block
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();

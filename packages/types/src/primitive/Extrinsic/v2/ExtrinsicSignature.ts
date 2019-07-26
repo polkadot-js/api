@@ -9,9 +9,9 @@ import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Generic/Address';
-import Method from '../../Method';
+import Method from '../../Generic/Method';
 import ExtrinsicEra from '../ExtrinsicEra';
-import SignaturePayload from './SignaturePayload';
+import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
@@ -94,7 +94,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.extra.tip;
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: SignaturePayload): IExtrinsicSignature {
+  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
     this.extra.set('era', era);
     this.extra.set('nonce', nonce);
     this.extra.set('tip', tip);
@@ -112,7 +112,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.injectSignature(
       createType('Address', signer),
       createType('Signature', signature),
-      new SignaturePayload(payload)
+      new ExtrinsicPayload(payload)
     );
   }
 
@@ -121,7 +121,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
-    const payload = new SignaturePayload({
+    const payload = new ExtrinsicPayload({
       blockHash,
       era: era || IMMORTAL_ERA,
       method: method.toU8a(),
