@@ -1,5 +1,7 @@
 # 0.82.0-beta.x
 
+If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
+
 - Support for substrate 2.x (master) has been extended,
   - Additional types have been addedd for the modules
   - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
