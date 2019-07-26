@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Vote } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec, Vote } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 

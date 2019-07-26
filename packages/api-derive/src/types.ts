@@ -2,12 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SetIndex, VoteIndex } from '@polkadot/types/interfaces/elections';
-import { AccountId, Balance, BlockNumber, Index } from '@polkadot/types/interfaces/runtime';
-import { Exposure, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { Vote } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;

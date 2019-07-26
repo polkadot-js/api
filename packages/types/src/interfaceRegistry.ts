@@ -1,12 +1,12 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { Bytes, Data, Extrinsic, ExtrinsicEra, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericEvent, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { Bytes, Data, Extrinsic, ExtrinsicEra, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericEvent, GenericVote, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
-import { ApprovalFlag, SetIndex, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
+import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { BabeWeight } from './interfaces/babe';
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
@@ -155,9 +155,6 @@ export interface InterfaceRegistry {
   'Compact<usize>': Compact<usize>;
   'Option<usize>': Option<usize>;
   'Vec<usize>': Vec<usize>;
-  Vote: Vote;
-  'Option<Vote>': Option<Vote>;
-  'Vec<Vote>': Vec<Vote>;
   Extrinsic: Extrinsic;
   'Option<Extrinsic>': Option<Extrinsic>;
   'Vec<Extrinsic>': Vec<Extrinsic>;
@@ -199,6 +196,9 @@ export interface InterfaceRegistry {
   GenericDigestItem: GenericDigestItem;
   'Option<GenericDigestItem>': Option<GenericDigestItem>;
   'Vec<GenericDigestItem>': Vec<GenericDigestItem>;
+  GenericVote: GenericVote;
+  'Option<GenericVote>': Option<GenericVote>;
+  'Vec<GenericVote>': Vec<GenericVote>;
   AccountId: AccountId;
   'Option<AccountId>': Option<AccountId>;
   'Vec<AccountId>': Vec<AccountId>;
@@ -347,6 +347,9 @@ export interface InterfaceRegistry {
   'Compact<SetIndex>': Compact<SetIndex>;
   'Option<SetIndex>': Option<SetIndex>;
   'Vec<SetIndex>': Vec<SetIndex>;
+  Vote: Vote;
+  'Option<Vote>': Option<Vote>;
+  'Vec<Vote>': Vec<Vote>;
   VoteIndex: VoteIndex;
   'Compact<VoteIndex>': Compact<VoteIndex>;
   'Option<VoteIndex>': Option<VoteIndex>;

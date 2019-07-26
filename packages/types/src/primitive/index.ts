@@ -40,4 +40,3 @@ export { default as u64, default as U64 } from './U64';
 export { default as u128, default as U128 } from './U128';
 export { default as u256, default as U256 } from './U256';
 export { default as usize } from './USize';
-export { default as Vote } from './Vote';
