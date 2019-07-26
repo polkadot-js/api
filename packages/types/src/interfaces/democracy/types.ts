@@ -1,6 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Compact, Enum, Option, Struct, Vec } from '../../codec';
+import { Enum, Struct } from '../../codec';
 import { Method, u32 } from '../../primitive';
 import { BlockNumber } from '../runtime';
 import { VoteThreshold } from '../elections';
@@ -40,26 +40,4 @@ export interface ReferendumInfo extends Struct {
   readonly threshold: VoteThreshold;
   /** BlockNumber */
   readonly delay: BlockNumber;
-}
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    Conviction: Conviction;
-    'Option<Conviction>': Option<Conviction>;
-    'Vec<Conviction>': Vec<Conviction>;
-    PropIndex: PropIndex;
-    'Compact<PropIndex>': Compact<PropIndex>;
-    'Option<PropIndex>': Option<PropIndex>;
-    'Vec<PropIndex>': Vec<PropIndex>;
-    Proposal: Proposal;
-    'Option<Proposal>': Option<Proposal>;
-    'Vec<Proposal>': Vec<Proposal>;
-    ReferendumIndex: ReferendumIndex;
-    'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
-    'Option<ReferendumIndex>': Option<ReferendumIndex>;
-    'Vec<ReferendumIndex>': Vec<ReferendumIndex>;
-    ReferendumInfo: ReferendumInfo;
-    'Option<ReferendumInfo>': Option<ReferendumInfo>;
-    'Vec<ReferendumInfo>': Vec<ReferendumInfo>;
-  }
 }

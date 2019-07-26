@@ -99,38 +99,3 @@ export interface StorageChangeSet extends Struct {
   /** Vec<KeyValueOption> */
   readonly changes: Vec<KeyValueOption>;
 }
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    ApiId: ApiId;
-    'Option<ApiId>': Option<ApiId>;
-    'Vec<ApiId>': Vec<ApiId>;
-    ChainProperties: ChainProperties;
-    'Option<ChainProperties>': Option<ChainProperties>;
-    'Vec<ChainProperties>': Vec<ChainProperties>;
-    ExtrinsicStatus: ExtrinsicStatus;
-    'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
-    'Vec<ExtrinsicStatus>': Vec<ExtrinsicStatus>;
-    Health: Health;
-    'Option<Health>': Option<Health>;
-    'Vec<Health>': Vec<Health>;
-    KeyValueOption: KeyValueOption;
-    'Option<KeyValueOption>': Option<KeyValueOption>;
-    'Vec<KeyValueOption>': Vec<KeyValueOption>;
-    NetworkState: NetworkState;
-    'Option<NetworkState>': Option<NetworkState>;
-    'Vec<NetworkState>': Vec<NetworkState>;
-    PeerInfo: PeerInfo;
-    'Option<PeerInfo>': Option<PeerInfo>;
-    'Vec<PeerInfo>': Vec<PeerInfo>;
-    RuntimeVersionApi: RuntimeVersionApi;
-    'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
-    'Vec<RuntimeVersionApi>': Vec<RuntimeVersionApi>;
-    RuntimeVersion: RuntimeVersion;
-    'Option<RuntimeVersion>': Option<RuntimeVersion>;
-    'Vec<RuntimeVersion>': Vec<RuntimeVersion>;
-    StorageChangeSet: StorageChangeSet;
-    'Option<StorageChangeSet>': Option<StorageChangeSet>;
-    'Vec<StorageChangeSet>': Vec<StorageChangeSet>;
-  }
-}

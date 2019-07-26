@@ -267,17 +267,6 @@ function getDerivedTypes (type: string, primitiveName: string, imports: TypeImpo
     .join('\n');
 }
 
-// Do module augmentation on srml types to populate InterfaceRegistry
-function interfaceRegistry (types: Record<string, any>, imports: TypeImports): string {
-  return `
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-${Object.keys(types).map((type): string => getDerivedTypes(type, types[type], imports, 4)).join('\n')}
-  }
-}`;
-}
-
 function generateTsDef (defName: string, { types }: { types: Record<string, any> }): void {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
@@ -312,7 +301,6 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   });
 
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
-  const interfaceReg = interfaceRegistry(types, { codecTypes, localTypes, ownTypes, primitiveTypes });
   const header = createImportCode(HEADER, [
     {
       file: '../../types',
@@ -332,7 +320,7 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
     }))
   ]);
 
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(interfaceReg).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
 }
 
@@ -349,19 +337,33 @@ fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export
 
 function generateInterfaceRegistry (): void {
   const codecTypes: TypeExist = {};
-  const localTypes: LocalExist = {};
+  const localTypes: LocalExist = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
+    localTypes[moduleName] = {};
+
+    return localTypes;
+  }, {});
   const ownTypes: string[] = [];
   const primitiveTypes: TypeExist = {};
   const substrateTypes: TypeExist = {};
 
   const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
 
-  const body = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
+  const primitives = Object.keys(primitiveClasses).reduce((accumulator, primitiveName): string => {
     setImports(imports, [primitiveName]);
 
     return [
       accumulator,
       getDerivedTypes(primitiveName, primitiveName, imports)
+    ].join('\n');
+  }, '');
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
+    setImports(imports, Object.keys(types));
+
+    return [
+      accumulator,
+      ...Object.keys(types).map((type): string => getDerivedTypes(type, (types as any)[type], imports, 2))
     ].join('\n');
   }, '');
 
@@ -373,7 +375,11 @@ function generateInterfaceRegistry (): void {
     {
       file: './primitive',
       types: Object.keys(primitiveTypes)
-    }
+    },
+    ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
+      file: `./interfaces/${moduleName}`,
+      types: Object.keys(localTypes[moduleName])
+    }))
   ]);
 
   const interfaceStart = 'export interface InterfaceRegistry {';
@@ -381,7 +387,7 @@ function generateInterfaceRegistry (): void {
 
   fs.writeFileSync(
     `packages/types/src/interfaceRegistry.ts`,
-    header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
+    header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
 }

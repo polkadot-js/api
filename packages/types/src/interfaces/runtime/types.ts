@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Option, Struct, Vec } from '../../codec';
+import { Compact, Struct, Vec } from '../../codec';
 import { AccountId, Bytes, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** AccountId */
@@ -115,109 +115,3 @@ export type Weight = u32;
 
 /** Fixed64 */
 export type WeightMultiplier = Fixed64;
-
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
-    AccountIdOf: AccountIdOf;
-    'Option<AccountIdOf>': Option<AccountIdOf>;
-    'Vec<AccountIdOf>': Vec<AccountIdOf>;
-    Balance: Balance;
-    'Compact<Balance>': Compact<Balance>;
-    'Option<Balance>': Option<Balance>;
-    'Vec<Balance>': Vec<Balance>;
-    BalanceOf: BalanceOf;
-    'Option<BalanceOf>': Option<BalanceOf>;
-    'Vec<BalanceOf>': Vec<BalanceOf>;
-    BlockNumber: BlockNumber;
-    'Compact<BlockNumber>': Compact<BlockNumber>;
-    'Option<BlockNumber>': Option<BlockNumber>;
-    'Vec<BlockNumber>': Vec<BlockNumber>;
-    ConsensusEngineId: ConsensusEngineId;
-    'Compact<ConsensusEngineId>': Compact<ConsensusEngineId>;
-    'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
-    'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
-    PreRuntime: PreRuntime;
-    'Option<PreRuntime>': Option<PreRuntime>;
-    'Vec<PreRuntime>': Vec<PreRuntime>;
-    SealV0: SealV0;
-    'Option<SealV0>': Option<SealV0>;
-    'Vec<SealV0>': Vec<SealV0>;
-    Seal: Seal;
-    'Option<Seal>': Option<Seal>;
-    'Vec<Seal>': Vec<Seal>;
-    Consensus: Consensus;
-    'Option<Consensus>': Option<Consensus>;
-    'Vec<Consensus>': Vec<Consensus>;
-    DigestItem: DigestItem;
-    'Option<DigestItem>': Option<DigestItem>;
-    'Vec<DigestItem>': Vec<DigestItem>;
-    Digest: Digest;
-    'Option<Digest>': Option<Digest>;
-    'Vec<Digest>': Vec<Digest>;
-    Hash: Hash;
-    'Option<Hash>': Option<Hash>;
-    'Vec<Hash>': Vec<Hash>;
-    Header: Header;
-    'Option<Header>': Option<Header>;
-    'Vec<Header>': Vec<Header>;
-    Justification: Justification;
-    'Option<Justification>': Option<Justification>;
-    'Vec<Justification>': Vec<Justification>;
-    Block: Block;
-    'Option<Block>': Option<Block>;
-    'Vec<Block>': Vec<Block>;
-    SignedBlock: SignedBlock;
-    'Option<SignedBlock>': Option<SignedBlock>;
-    'Vec<SignedBlock>': Vec<SignedBlock>;
-    KeyTypeId: KeyTypeId;
-    'Compact<KeyTypeId>': Compact<KeyTypeId>;
-    'Option<KeyTypeId>': Option<KeyTypeId>;
-    'Vec<KeyTypeId>': Vec<KeyTypeId>;
-    LockIdentifier: LockIdentifier;
-    'Option<LockIdentifier>': Option<LockIdentifier>;
-    'Vec<LockIdentifier>': Vec<LockIdentifier>;
-    Index: Index;
-    'Compact<Index>': Compact<Index>;
-    'Option<Index>': Option<Index>;
-    'Vec<Index>': Vec<Index>;
-    Perbill: Perbill;
-    'Compact<Perbill>': Compact<Perbill>;
-    'Option<Perbill>': Option<Perbill>;
-    'Vec<Perbill>': Vec<Perbill>;
-    Permill: Permill;
-    'Compact<Permill>': Compact<Permill>;
-    'Option<Permill>': Option<Permill>;
-    'Vec<Permill>': Vec<Permill>;
-    Phantom: Phantom;
-    'Option<Phantom>': Option<Phantom>;
-    'Vec<Phantom>': Vec<Phantom>;
-    SessionKeys: SessionKeys;
-    'Option<SessionKeys>': Option<SessionKeys>;
-    'Vec<SessionKeys>': Vec<SessionKeys>;
-    Signature: Signature;
-    'Option<Signature>': Option<Signature>;
-    'Vec<Signature>': Vec<Signature>;
-    Ed25519Signature: Ed25519Signature;
-    'Option<Ed25519Signature>': Option<Ed25519Signature>;
-    'Vec<Ed25519Signature>': Vec<Ed25519Signature>;
-    Sr25519Signature: Sr25519Signature;
-    'Option<Sr25519Signature>': Option<Sr25519Signature>;
-    'Vec<Sr25519Signature>': Vec<Sr25519Signature>;
-    StorageData: StorageData;
-    'Option<StorageData>': Option<StorageData>;
-    'Vec<StorageData>': Vec<StorageData>;
-    KeyValue: KeyValue;
-    'Option<KeyValue>': Option<KeyValue>;
-    'Vec<KeyValue>': Vec<KeyValue>;
-    ValidatorId: ValidatorId;
-    'Option<ValidatorId>': Option<ValidatorId>;
-    'Vec<ValidatorId>': Vec<ValidatorId>;
-    Weight: Weight;
-    'Compact<Weight>': Compact<Weight>;
-    'Option<Weight>': Option<Weight>;
-    'Vec<Weight>': Vec<Weight>;
-    WeightMultiplier: WeightMultiplier;
-    'Option<WeightMultiplier>': Option<WeightMultiplier>;
-    'Vec<WeightMultiplier>': Vec<WeightMultiplier>;
-  }
-}
