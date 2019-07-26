@@ -246,7 +246,7 @@ export default class Rpc implements RpcInterface {
       length: false,
       // Normalize args so that different args that should be cached
       // together are cached together.
-      // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
+      // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
       normalizer: JSON.stringify
     });
 

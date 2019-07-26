@@ -5,7 +5,7 @@
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { createType, AccountId, AccountIndex, Address } from '@polkadot/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
@@ -37,7 +37,7 @@ export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId
         : decodeAddress((address || '').toString());
 
       if (decoded.length === 32) {
-        const accountId = new AccountId(decoded);
+        const accountId = createType('AccountId', decoded);
 
         return idToIndex(api)(accountId).pipe(
           startWith(undefined),
@@ -46,7 +46,7 @@ export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId
         );
       }
 
-      const accountIndex = new AccountIndex(decoded);
+      const accountIndex = createType('AccountIndex', decoded);
 
       return indexToId(api)(accountIndex).pipe(
         startWith(undefined),

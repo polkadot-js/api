@@ -4,4 +4,5 @@
 
 export { default as GenericBlock } from './Block';
 export { default as GenericConsensusEngineId } from './ConsensusEngineId';
+export { default as GenericEvent } from './Event';
 export { default as GenericDigest, DigestItem as GenericDigestItem } from './Digest';

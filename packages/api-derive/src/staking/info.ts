@@ -199,7 +199,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
  */
 export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
-    const accountId = new AccountId(_accountId);
+    const accountId = createType('AccountId', _accountId);
 
     return (
       api.queryMulti([

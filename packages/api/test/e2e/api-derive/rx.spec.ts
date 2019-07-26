@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { AccountId, AccountIndex, ClassOf } from '@polkadot/types';
+import { createType, AccountId, AccountIndex, ClassOf } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -107,7 +107,7 @@ describe.skip('Api-RX derive e2e', (): void => {
           // A local dev chain should have the AccountIndex of Alice
           expect(accountIndexes).toHaveProperty(
             ID,
-            new AccountIndex(IX)
+            createType('AccountIndex', IX)
           );
           done();
         });

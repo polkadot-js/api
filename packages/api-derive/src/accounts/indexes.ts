@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
-import { AccountId, AccountIndex } from '@polkadot/types';
+import { createType, AccountId, AccountIndex } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -47,7 +47,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
               // 64 (0..63 in first) is [1][0] (the first index value in set 2)
               const index = (outerIndex * enumsetSize) + innerIndex;
 
-              result[accountId.toString()] = new AccountIndex(index);
+              result[accountId.toString()] = createType('AccountIndex', index);
             });
 
             return result;

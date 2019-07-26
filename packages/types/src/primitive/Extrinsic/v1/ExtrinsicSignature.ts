@@ -106,7 +106,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      new Address(signer),
+      createType('Address', signer),
       createType('Signature', signature),
       new SignaturePayload(payload)
     );
@@ -116,7 +116,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
    * @description Generate a payload and pplies the signature from a keypair
    */
   public sign (method: Method, account: IKeyringPair, { blockHash, era, nonce }: SignatureOptions): IExtrinsicSignature {
-    const signer = new Address(account.publicKey);
+    const signer = createType('Address', account.publicKey);
     const payload = new SignaturePayload({
       nonce,
       method: method.toU8a(),

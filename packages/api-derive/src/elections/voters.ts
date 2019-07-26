@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Vec } from '@polkadot/types';
 import { DerivedVoterPositions } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { createType, AccountId, Vec } from '@polkadot/types';
+
 import { drr } from '../util/drr';
 import { voterPositions } from './voterPositions';
 
@@ -32,7 +33,7 @@ export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
             AccountId,
             Object.entries(voterPositions)
               .sort((a, b): 0 | 1 | -1 => a[1].globalIndex.cmp(b[1].globalIndex))
-              .map(([accountId]): AccountId => new AccountId(accountId))
+              .map(([accountId]): AccountId => createType('AccountId', accountId))
           )
       ),
       drr()

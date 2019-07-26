@@ -19,7 +19,7 @@ import { drr } from '../util/drr';
 
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
-const EMPTY_ACCOUNT = new AccountId();
+const EMPTY_ACCOUNT = createType('AccountId');
 const ZERO = createType('Balance', 0);
 
 function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {

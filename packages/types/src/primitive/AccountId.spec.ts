@@ -8,13 +8,12 @@ import { setAddressPrefix } from '@polkadot/util-crypto';
 
 import createType from '../codec/createType';
 import U8a from '../codec/U8a';
-import Vec from '../codec/Vec';
 import jsonVec from '../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
 
 describe('AccountId', (): void => {
   describe('defaults', (): void => {
-    const id = new AccountId();
+    const id = createType('AccountId');
 
     it('has a 32-byte length', (): void => {
       expect(id).toHaveLength(32);
@@ -32,13 +31,13 @@ describe('AccountId', (): void => {
   describe('decoding', (): void => {
     const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const a = new AccountId(input);
+        const a = createType('AccountId', input);
         expect(a.toString()).toBe(expected);
       });
 
     testDecode(
       'AccountId',
-      new AccountId('0x0102030405060708010203040506070801020304050607080102030405060708'),
+      createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode('hex', '0x0102030405060708010203040506070801020304050607080102030405060708', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
@@ -64,7 +63,7 @@ describe('AccountId', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input: string = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'): void =>
       it(`can encode ${to}`, (): void => {
-        const a = new AccountId(input);
+        const a = createType('AccountId', input);
 
         expect(a[to]()).toEqual(expected);
       });
@@ -79,7 +78,7 @@ describe('AccountId', (): void => {
     ]));
 
     it('decodes to a non-empty value', (): void => {
-      expect(new AccountId('7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
+      expect(createType('AccountId', '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
     });
   });
 
@@ -88,7 +87,7 @@ describe('AccountId', (): void => {
       setAddressPrefix(68);
 
       const data = createType('StorageData', jsonVec.params.result.changes[0][1]);
-      const list = new Vec(AccountId, data).map((accountId): string => accountId.toString());
+      const list = createType('Vec<AccountId>', data).map((accountId): string => accountId.toString());
 
       expect(list).toEqual([
         '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTLup',

@@ -6,6 +6,7 @@ import BN from 'bn.js';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import createType from '../codec/createType';
 import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -33,7 +34,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (isBn(value) || isNumber(value)) {
-      return new AccountIndex(value);
+      return createType('AccountIndex', value);
     } else if (value instanceof Address) {
       return value.raw;
     } else if (Array.isArray(value)) {
@@ -42,14 +43,14 @@ export default class Address extends Base<AccountId | AccountIndex> {
       // This allows us to instantiate an address with a raw publicKey. Do this first before
       // we checking the first byte, otherwise we may split an already-existent valid address
       if (value.length === 32) {
-        return new AccountId(value);
+        return createType('AccountId', value);
       } else if (value[0] === 0xff) {
-        return new AccountId(value.subarray(1));
+        return createType('AccountId', value.subarray(1));
       }
 
       const [offset, length] = AccountIndex.readLength(value);
 
-      return new AccountIndex(u8aToBn(value.subarray(offset, offset + length), true));
+      return createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
     } else if (isHex(value)) {
       return Address.decodeAddress(hexToU8a(value));
     }
@@ -57,8 +58,8 @@ export default class Address extends Base<AccountId | AccountIndex> {
     const decoded = decodeAddress(value);
 
     return decoded.length === 32
-      ? new AccountId(decoded)
-      : new AccountIndex(u8aToBn(decoded, true));
+      ? createType('AccountId', decoded)
+      : createType('AccountIndex', u8aToBn(decoded, true));
   }
 
   /**

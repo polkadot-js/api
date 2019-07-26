@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { AccountId, AccountIndex, Address, Bool, Bytes, Data, Event, Extrinsic, ExtrinsicEra, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { AccountId, AccountIndex, Address, Bool, Bytes, Data, Extrinsic, ExtrinsicEra, Fixed64, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericEvent, H160, H256, H512, I128, I16, I256, I32, I64, I8, ImmortalEra, Method, Moment, MortalEra, Null, Origin, SignaturePayload, StorageHasher, StorageKey, Text, Type, U128, U16, U256, U32, U64, U8, Vote, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
 import { AccountIdOf, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Hash, Header, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';
@@ -17,7 +17,7 @@ import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAc
 import { Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
 import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
-import { DigestOf, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
+import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
 import { ApiId, ChainProperties, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
@@ -32,9 +32,6 @@ export interface InterfaceRegistry {
   Address: Address;
   'Option<Address>': Option<Address>;
   'Vec<Address>': Vec<Address>;
-  Event: Event;
-  'Option<Event>': Option<Event>;
-  'Vec<Event>': Vec<Event>;
   Bool: Bool;
   'Option<Bool>': Option<Bool>;
   'Vec<Bool>': Vec<Bool>;
@@ -196,6 +193,9 @@ export interface InterfaceRegistry {
   'Compact<GenericConsensusEngineId>': Compact<GenericConsensusEngineId>;
   'Option<GenericConsensusEngineId>': Option<GenericConsensusEngineId>;
   'Vec<GenericConsensusEngineId>': Vec<GenericConsensusEngineId>;
+  GenericEvent: GenericEvent;
+  'Option<GenericEvent>': Option<GenericEvent>;
+  'Vec<GenericEvent>': Vec<GenericEvent>;
   GenericDigest: GenericDigest;
   'Option<GenericDigest>': Option<GenericDigest>;
   'Vec<GenericDigest>': Vec<GenericDigest>;
@@ -594,6 +594,9 @@ export interface InterfaceRegistry {
   Phase: Phase;
   'Option<Phase>': Option<Phase>;
   'Vec<Phase>': Vec<Phase>;
+  Event: Event;
+  'Option<Event>': Option<Event>;
+  'Vec<Event>': Vec<Event>;
   EventRecord0to76: EventRecord0to76;
   'Option<EventRecord0to76>': Option<EventRecord0to76>;
   'Vec<EventRecord0to76>': Vec<EventRecord0to76>;
