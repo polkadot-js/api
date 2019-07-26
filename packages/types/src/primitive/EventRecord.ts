@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '../srml/runtime/types';
-import { Phase } from '../srml/system/types';
+import { Hash } from '../interfaces/runtime';
+import { Phase } from '../interfaces/system';
 
 import { ClassOf } from '../codec/createType';
 import Struct from '../codec/Struct';

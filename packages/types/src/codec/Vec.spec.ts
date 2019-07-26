@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal, PropIndex } from '../srml/democracy/types';
+import { Proposal, PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';

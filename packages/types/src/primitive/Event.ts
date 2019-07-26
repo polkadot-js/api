@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventId } from '../srml/system/types';
+import { EventId } from '../interfaces/system';
 import { Constructor, Codec } from '../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';

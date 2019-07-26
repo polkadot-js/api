@@ -2,14 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { injectDefinitions } from '../srml';
+import '../injector';
+
 import Vote from './Vote';
 
 describe('Vote', (): void => {
-  beforeEach((): void => {
-    injectDefinitions();
-  });
-
   it('constructs via boolean true', (): void => {
     expect(new Vote(true).toU8a()).toEqual(new Uint8Array([128]));
     expect(new Vote(true).isAye).toBe(true);
