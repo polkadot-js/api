@@ -321,8 +321,11 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
         inHex === crHex || // check that the hex matches, if matching, all-ok
         (
           (value instanceof ClassOf('StorageData')) && // input is from storage
-          (created instanceof Uint8Array) && // we are a variable-lneght structure
-          (value.toU8a(true).toString() === created.toU8a().toString()) // strip the input length
+          (created instanceof Uint8Array) // we are a variable-length structure
+            // strip the input length
+            ? (value.toU8a(true).toString() === created.toU8a().toString())
+            // compare raw
+            : (value.toU8a(true).toString() === created.toU8a(true).toString()) // check raw
         ),
         `Input doesn't match output, received ${inHex}, created ${crHex}`
       );

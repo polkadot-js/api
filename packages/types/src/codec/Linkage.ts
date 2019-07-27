@@ -7,6 +7,8 @@ import { Constructor, Codec } from '../types';
 
 type TypeWithValues = [Constructor, any[]];
 
+const EMPTY = new Uint8Array();
+
 export default class Linkage<T extends Codec> extends Struct {
   public constructor (Type: Constructor, value?: any) {
     super({
@@ -29,6 +31,15 @@ export default class Linkage<T extends Codec> extends Struct {
 
   public get next (): Option<T> {
     return this.get('next') as Option<T>;
+  }
+
+  /**
+   * @description Custom toU8a which with bare mode does not return the linkage if empty
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    return isBare && this.isEmpty
+      ? EMPTY
+      : super.toU8a();
   }
 }
 

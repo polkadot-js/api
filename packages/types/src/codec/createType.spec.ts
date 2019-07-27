@@ -273,22 +273,6 @@ describe('createType', (): void => {
     ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
   });
 
-  it('throw error when create base is a StorageData with null value and isPedantic is true', (): void => {
-    const base = createType('StorageData', null);
-
-    expect(
-      (): Codec => createTypeUnsafe('DoubleMap<Vec<(BlockNumber,EventIndex)>>', [base], true)
-    ).toThrow(/ Input doesn't match output, received 0x, created 0x00/);
-  });
-
-  it('throw error when create base is a StorageData with null value and isPedantic is true', (): void => {
-    const base = createType('StorageData', null);
-
-    expect(
-      (): Codec => createTypeUnsafe('Vec<(BlockNumber,EventIndex)>', [base], true)
-    ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
-  });
-
   describe('instanceof', (): void => {
     it('instanceof should work (primitive type)', (): void => {
       const value = createType('Balance', 1234);
