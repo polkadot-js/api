@@ -115,8 +115,6 @@ export interface Constructor<T = Codec> {
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
-export type TypeDef = Record<string, Codec>;
-
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string> } | { _set: Record<string, number> }>;
 
 export interface RuntimeVersionInterface {
