@@ -103,12 +103,12 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   storageFn.toJSON = (): any => meta.toJSON();
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
-    const keyHash = new U8a(hasher(`head of ${stringKey}`));
-    const keyFn: any = (): U8a => keyHash;
+    const headHash = new U8a(hasher(`head of ${stringKey}`));
+    const headFn: any = (): U8a => headHash;
 
-    // metadata with a flabbcak value using the type of the key, the normal
+    // metadata with a fallback value using the type of the key, the normal
     // meta fallback only applies to actual entry values, create one for head
-    keyFn.meta = new StorageEntryMetadata({
+    headFn.meta = new StorageEntryMetadata({
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
       type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
@@ -116,17 +116,12 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       documentation: meta.documentation
     });
 
-    // here we pass the section/methos through as well - these are not on
+    // here we pass the section/method through as well - these are not on
     // the function itself, so specify these explicitly to the constructor
-    storageFn.headKey = new StorageKey(keyFn, {
+    storageFn.headKey = new StorageKey(headFn, {
       method: storageFn.method,
       section: `head of ${storageFn.section}`
     });
-
-    // adjust the fallback value - the metadata only specifies the value
-    // part, add a Linkage<Type> to the fallback aswell. The additional
-    // bytes here are a representation of the Options for next/prev
-    meta.set('fallback', new Bytes(meta.fallback.toHex().concat('0000')));
   }
 
   return storageFn;

@@ -653,9 +653,7 @@ export default abstract class ApiBase<ApiType> {
             .pipe(
               // state_storage returns an array of values, since we have just subscribed to
               // a single entry, we pull that from the array and return it as-is
-              map((result: Codec[]): Codec =>
-                result[0]
-              )
+              map(([data]): Codec => data)
             );
         }, {
           methodName: creator.method
@@ -707,7 +705,7 @@ export default abstract class ApiBase<ApiType> {
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (method: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -716,7 +714,7 @@ export default abstract class ApiBase<ApiType> {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
-      return this._rpcCore.state.subscribeStorage([[method, key]])
+      return this._rpcCore.state.subscribeStorage([[creator, key]])
         .pipe(
           switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
             const linkage = data[1];
@@ -777,16 +775,22 @@ export default abstract class ApiBase<ApiType> {
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
     return decorateMethod(
-      (): Observable<LinkageResult> =>
-        this._rpcCore.state
-          .subscribeStorage([method.headKey])
-          .pipe(
-            switchMap(([key]: Codec[]): Observable<LinkageResult> => {
-              head = key;
+      (...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
+        args.length
+          ? this._rpcCore.state
+            .subscribeStorage([[creator, ...args]])
+            .pipe(
+              map(([data]): [Codec, Linkage<Codec>] => data)
+            )
+          : this._rpcCore.state
+            .subscribeStorage([creator.headKey])
+            .pipe(
+              switchMap(([key]): Observable<LinkageResult> => {
+                head = key;
 
-              return getNext(key);
-            })
-          )
+                return getNext(key);
+              })
+            )
     );
   }
 
