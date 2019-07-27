@@ -328,9 +328,10 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
   throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
-function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, value?: any, isPedantic?: boolean): FromReg<T, K> {
+function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
-    const created = new Type(value);
+    const created = new Type(...params);
+    const [value] = params;
 
     // in pedantic mode, actually check that the encoding matches that supplied - this
     // is much slower, but ensures that we have a 100% grasp on the actual provided value
@@ -352,7 +353,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
     return created;
   } catch (error) {
     if (Type.Fallback) {
-      return initType(Type.Fallback as Constructor<FromReg<T, K>>, value, isPedantic);
+      return initType(Type.Fallback as Constructor<FromReg<T, K>>, params, isPedantic);
     }
 
     throw error;
@@ -364,11 +365,11 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 // runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (
   type: K,
-  value?: any,
+  params: any[] = [],
   isPedantic?: boolean
 ): FromReg<T, K> {
   try {
-    return initType(createClass<T, K>(type), value, isPedantic);
+    return initType(createClass<T, K>(type), params, isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }
@@ -385,8 +386,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  */
 export default function createType<K extends keyof InterfaceRegistry> (
   type: K,
-  value?: any,
-  isPedantic?: boolean
+  ...params: any[]
 ): InterfaceRegistry[K] {
-  return createTypeUnsafe<Codec, K>(type, value, isPedantic) as InterfaceRegistry[K];
+  return createTypeUnsafe<Codec, K>(type, params) as InterfaceRegistry[K];
 }

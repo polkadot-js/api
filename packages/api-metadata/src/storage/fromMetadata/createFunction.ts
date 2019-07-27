@@ -70,9 +70,9 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       const [key1, key2] = arg as [CreateArgType, CreateArgType];
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
-      const param1Encoded = u8aConcat(key, createTypeUnsafe(type1, key1).toU8a(true));
+      const param1Encoded = u8aConcat(key, createTypeUnsafe(type1, [key1]).toU8a(true));
       const param1Hashed = hasher(param1Encoded);
-      const param2Hashed = key2Hasher(createTypeUnsafe(type2, key2).toU8a(true));
+      const param2Hashed = key2Hasher(createTypeUnsafe(type2, [key2]).toU8a(true));
 
       return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
     }
@@ -81,7 +81,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-      const param = createTypeUnsafe(type, arg).toU8a();
+      const param = createTypeUnsafe(type, [arg]).toU8a();
 
       key = u8aConcat(key, param);
     }

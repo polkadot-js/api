@@ -225,10 +225,10 @@ describe('createClass', (): void => {
 describe('createType', (): void => {
   it('allows creation of a Struct', (): void => {
     expect(
-      createTypeUnsafe('{"balance":"Balance","index":"u32"}', {
+      createTypeUnsafe('{"balance":"Balance","index":"u32"}', [{
         balance: 1234,
         index: '0x10'
-      }).toJSON()
+      }]).toJSON()
     ).toEqual({
       balance: 1234,
       index: 16
@@ -237,31 +237,31 @@ describe('createType', (): void => {
 
   it('allows creation of a Enum (simple)', (): void => {
     expect(
-      createTypeUnsafe('{"_enum": ["A", "B", "C"]}', 1).toJSON()
+      createTypeUnsafe('{"_enum": ["A", "B", "C"]}', [1]).toJSON()
     ).toEqual({ B: null });
   });
 
   it('allows creation of a Enum (parametrised)', (): void => {
     expect(
-      createTypeUnsafe('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
+      createTypeUnsafe('{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
     ).toEqual({ B: 0 });
   });
 
   it('allows creation of a Set', (): void => {
     expect(
-      createTypeUnsafe<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', 1 + 4 + 16 + 64).strings
+      createTypeUnsafe<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
     ).toEqual(['A', 'C', 'E', 'H']);
   });
 
   it('allows creation of a [u8; 8]', (): void => {
     expect(
-      createTypeUnsafe('[u8; 8]', [0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]).toHex()
+      createTypeUnsafe('[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()
     ).toEqual('0x1200230045006700');
   });
 
   it('allows creation of a [u16; 4]', (): void => {
     expect(
-      createTypeUnsafe('[u16; 4]', [0x1200, 0x2300, 0x4500, 0x6700]).toU8a()
+      createTypeUnsafe('[u16; 4]', [[0x1200, 0x2300, 0x4500, 0x6700]]).toU8a()
     ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
   });
 
@@ -269,7 +269,7 @@ describe('createType', (): void => {
     const base = createType('StorageData', null);
 
     expect(
-      (): Codec => createTypeUnsafe('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
+      (): Codec => createTypeUnsafe('DoubleMap<Vec<(BlockNumber,EventIndex)>>', [base], true)
     ).toThrow(/ Input doesn't match output, received 0x, created 0x00/);
   });
 
@@ -277,7 +277,7 @@ describe('createType', (): void => {
     const base = createType('StorageData', null);
 
     expect(
-      (): Codec => createTypeUnsafe('Vec<(BlockNumber,EventIndex)>', base, true)
+      (): Codec => createTypeUnsafe('Vec<(BlockNumber,EventIndex)>', [base], true)
     ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
   });
 
@@ -298,12 +298,12 @@ describe('createType', (): void => {
     it('instanceof should work (complex type)', (): void => {
       const complexType = '{"balance":"Balance","account_id":"AccountId","log":"(u64, u32)","fromSrml":"Gas"}';
 
-      const value = createTypeUnsafe(complexType, {
+      const value = createTypeUnsafe(complexType, [{
         balance: 123,
         accountId: '',
         log: [456, 789],
         fromSrml: 0
-      });
+      }]);
       const ComplexType = createClass(complexType);
 
       expect(value instanceof ComplexType).toBe(true);

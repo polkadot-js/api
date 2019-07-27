@@ -6,7 +6,7 @@ import { Method } from '@polkadot/types/interfaces';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
 import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
-import { ClassOf } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
@@ -33,7 +33,7 @@ export default function createDescriptor (
       `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
     );
 
-    return new (ClassOf('Method'))({
+    return createType('Method', {
       args,
       callIndex
     }, callMetadata);
