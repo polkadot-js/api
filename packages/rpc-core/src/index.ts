@@ -198,12 +198,9 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          // FIXME This is a work-around, provider.subscribe _should_ always return,
-          // however in some cases `this.provider.subscribe.catch` yields ".catch of
-          // undefined", so here we flatten via Promise.reolve (which doe sfollow)
-          subscriptionPromise = Promise.resolve(
-            this.provider.subscribe(subType, subName, paramsJson, update)
-          ).catch(errorHandler);
+          subscriptionPromise = this.provider
+            .subscribe(subType, subName, paramsJson, update)
+            .catch(errorHandler);
         } catch (error) {
           errorHandler(error);
         }
