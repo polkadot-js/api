@@ -11,12 +11,37 @@ export default {
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
+    Hash: 'H256',
+    Index: 'u64',
+    KeyTypeId: 'u32',
+    LockIdentifier: '[u8; 8]',
+    Moment: 'u64',
+    Perbill: 'u32',
+    Permill: 'u32',
+    Phantom: 'Null',
+    ValidatorId: 'AccountId',
+    Weight: 'u32',
+    WeightMultiplier: 'Fixed64',
 
-    // block
-    // :: signature
+    // storage helpers
+    StorageData: 'Bytes',
+    KeyValue: '(StorageKey, StorageData)',
+
+    // signatures (used in block & extrinsics)
     Signature: 'H512',
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
+
+    // extrinsic definition
+    Method: 'GenericMethod',
+    Origin: 'GenericOrigin',
+    ImmortalEra: 'GenericImmortalEra',
+    MortalEra: 'GenericMortalEra',
+    ExtrinsicEra: 'GenericExtrinsicEra',
+    ExtrinsicPayload: 'GenericExtrinsicPayload',
+    Extrinsic: 'GenericExtrinsic',
+
+    // block definition
     // :: digest
     ConsensusEngineId: 'GenericConsensusEngineId',
     PreRuntime: '(ConsensusEngineId, Bytes)',
@@ -25,7 +50,6 @@ export default {
     Consensus: '(ConsensusEngineId, Bytes)',
     DigestItem: 'GenericDigestItem',
     Digest: 'GenericDigest',
-    Hash: 'H256',
     // :: parts
     Header: {
       parentHash: 'Hash',
@@ -40,27 +64,6 @@ export default {
     SignedBlock: {
       block: 'Block',
       justification: 'Justification'
-    },
-
-    KeyTypeId: 'u32',
-    LockIdentifier: '[u8; 8]',
-    Index: 'u64',
-    Perbill: 'u32',
-    Permill: 'u32',
-    Phantom: 'Null',
-    StorageData: 'Bytes',
-    KeyValue: '(StorageKey, StorageData)',
-    ValidatorId: 'AccountId',
-    Weight: 'u32',
-    WeightMultiplier: 'Fixed64',
-
-    // extrinsics
-    Method: 'GenericMethod',
-    Origin: 'GenericOrigin',
-    ImmortalEra: 'GenericImmortalEra',
-    MortalEra: 'GenericMortalEra',
-    ExtrinsicEra: 'GenericExtrinsicEra',
-    ExtrinsicPayload: 'GenericExtrinsicPayload',
-    Extrinsic: 'GenericExtrinsic'
+    }
   }
 };

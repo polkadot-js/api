@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/types';
+
 import fs from 'fs';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
+import { getTypeDef } from '../codec/createType';
 import * as codecClasses from '../codec';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
 import * as primitiveClasses from '../primitive';

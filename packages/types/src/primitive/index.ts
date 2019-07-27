@@ -25,7 +25,6 @@ export { default as i64 } from './I64';
 export { default as Fixed64 } from './I64Fixed';
 export { default as i128 } from './I128';
 export { default as i256 } from './I256';
-export { default as Moment } from './Moment';
 export { default as Null } from './Null';
 export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';

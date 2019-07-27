@@ -9,19 +9,20 @@
 
 // These are the base codec types, generally used for construction
 export { default as Compact } from './Compact';
+// export { default as Date } from './Date';
 export { default as Enum } from './Enum';
 export { default as EnumType } from './EnumType';
 export { default as Option } from './Option';
 export { default as Set } from './Set';
 export { default as Struct } from './Struct';
-export { default as StructAny } from './StructAny';
+// export { default as StructAny } from './StructAny';
 export { default as Tuple } from './Tuple';
-export { default as Vec, default as Vector } from './Vec';
+export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases
 export { default as U8a } from './U8a';
 export { default as UInt } from './UInt';
 
 // Type management helper functions
-export { default as createType, createClass, getTypeClass, getTypeDef, ClassOf, TypeDef, TypeDefInfo } from './createType';
+export { default as createType, createClass, getTypeClass, getTypeDef, ClassOf } from './createType';
 export { default as getTypeRegistry } from './typeRegistry';
