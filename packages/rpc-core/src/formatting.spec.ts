@@ -42,7 +42,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
               : null
           )
         ),
-        subscribe: jest.fn((type, method, params, cb): void => {
+        subscribe: jest.fn((type, method, params, cb): Promise<void> => {
           if (params[0][0] === CONTRACT_KEY) {
             // this emulates https://github.com/polkadot-js/api/issues/1051
             cb(null, {
@@ -69,6 +69,8 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
               ]
             });
           }
+
+          return Promise.resolve();
         })
       };
 
