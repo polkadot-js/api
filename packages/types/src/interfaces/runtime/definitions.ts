@@ -11,8 +11,29 @@ export default {
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
+    Index: 'u64',
+    KeyTypeId: 'u32',
+    LockIdentifier: '[u8; 8]',
+    Moment: 'u64',
+    Perbill: 'u32',
+    Permill: 'u32',
+    Phantom: 'Null',
+    StorageData: 'Bytes',
+    KeyValue: '(StorageKey, StorageData)',
+    ValidatorId: 'AccountId',
+    Weight: 'u32',
+    WeightMultiplier: 'Fixed64',
 
-    // block
+    // extrinsic definition
+    Method: 'GenericMethod',
+    Origin: 'GenericOrigin',
+    ImmortalEra: 'GenericImmortalEra',
+    MortalEra: 'GenericMortalEra',
+    ExtrinsicEra: 'GenericExtrinsicEra',
+    ExtrinsicPayload: 'GenericExtrinsicPayload',
+    Extrinsic: 'GenericExtrinsic',
+
+    // block definition
     // :: signature
     Signature: 'H512',
     Ed25519Signature: 'Signature',
@@ -40,27 +61,6 @@ export default {
     SignedBlock: {
       block: 'Block',
       justification: 'Justification'
-    },
-
-    KeyTypeId: 'u32',
-    LockIdentifier: '[u8; 8]',
-    Index: 'u64',
-    Perbill: 'u32',
-    Permill: 'u32',
-    Phantom: 'Null',
-    StorageData: 'Bytes',
-    KeyValue: '(StorageKey, StorageData)',
-    ValidatorId: 'AccountId',
-    Weight: 'u32',
-    WeightMultiplier: 'Fixed64',
-
-    // extrinsics
-    Method: 'GenericMethod',
-    Origin: 'GenericOrigin',
-    ImmortalEra: 'GenericImmortalEra',
-    MortalEra: 'GenericMortalEra',
-    ExtrinsicEra: 'GenericExtrinsicEra',
-    ExtrinsicPayload: 'GenericExtrinsicPayload',
-    Extrinsic: 'GenericExtrinsic'
+    }
   }
 };

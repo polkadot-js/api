@@ -90,6 +90,9 @@ export type LockIdentifier = Vec<u8>;
 /** GenericMethod */
 export type Method = GenericMethod;
 
+/** u64 */
+export type Moment = u64;
+
 /** GenericMortalEra */
 export type MortalEra = GenericMortalEra;
 
