@@ -128,6 +128,9 @@ export interface InterfaceRegistry {
   'Compact<BlockNumber>': Compact<BlockNumber>;
   'Option<BlockNumber>': Option<BlockNumber>;
   'Vec<BlockNumber>': Vec<BlockNumber>;
+  Hash: Hash;
+  'Option<Hash>': Option<Hash>;
+  'Vec<Hash>': Vec<Hash>;
   Index: Index;
   'Compact<Index>': Compact<Index>;
   'Option<Index>': Option<Index>;
@@ -154,12 +157,6 @@ export interface InterfaceRegistry {
   Phantom: Phantom;
   'Option<Phantom>': Option<Phantom>;
   'Vec<Phantom>': Vec<Phantom>;
-  StorageData: StorageData;
-  'Option<StorageData>': Option<StorageData>;
-  'Vec<StorageData>': Vec<StorageData>;
-  KeyValue: KeyValue;
-  'Option<KeyValue>': Option<KeyValue>;
-  'Vec<KeyValue>': Vec<KeyValue>;
   ValidatorId: ValidatorId;
   'Option<ValidatorId>': Option<ValidatorId>;
   'Vec<ValidatorId>': Vec<ValidatorId>;
@@ -170,6 +167,12 @@ export interface InterfaceRegistry {
   WeightMultiplier: WeightMultiplier;
   'Option<WeightMultiplier>': Option<WeightMultiplier>;
   'Vec<WeightMultiplier>': Vec<WeightMultiplier>;
+  StorageData: StorageData;
+  'Option<StorageData>': Option<StorageData>;
+  'Vec<StorageData>': Vec<StorageData>;
+  KeyValue: KeyValue;
+  'Option<KeyValue>': Option<KeyValue>;
+  'Vec<KeyValue>': Vec<KeyValue>;
   Signature: Signature;
   'Option<Signature>': Option<Signature>;
   'Vec<Signature>': Vec<Signature>;
@@ -222,9 +225,6 @@ export interface InterfaceRegistry {
   Digest: Digest;
   'Option<Digest>': Option<Digest>;
   'Vec<Digest>': Vec<Digest>;
-  Hash: Hash;
-  'Option<Hash>': Option<Hash>;
-  'Vec<Hash>': Vec<Hash>;
   Header: Header;
   'Option<Header>': Option<Header>;
   'Vec<Header>': Vec<Header>;

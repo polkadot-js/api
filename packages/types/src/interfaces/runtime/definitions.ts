@@ -11,6 +11,7 @@ export default {
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
+    Hash: 'H256',
     Index: 'u64',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
@@ -18,11 +19,13 @@ export default {
     Perbill: 'u32',
     Permill: 'u32',
     Phantom: 'Null',
-    StorageData: 'Bytes',
-    KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',
+
+    // storage helpers
+    StorageData: 'Bytes',
+    KeyValue: '(StorageKey, StorageData)',
 
     // signatures (used in block & extrinsics)
     Signature: 'H512',
@@ -47,7 +50,6 @@ export default {
     Consensus: '(ConsensusEngineId, Bytes)',
     DigestItem: 'GenericDigestItem',
     Digest: 'GenericDigest',
-    Hash: 'H256',
     // :: parts
     Header: {
       parentHash: 'Hash',
