@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index, Signature } from '../../../interfaces/runtime';
+import { Address, Balance, Index, Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Address from '../../Generic/Address';
 import Method from '../../Generic/Method';
 import ExtrinsicEra from '../ExtrinsicEra';
 import ExtrinsicPayload from './ExtrinsicPayload';
@@ -27,7 +26,7 @@ interface ExtrinsicSignatureV2Options {
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
   public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureV2Options = {}) {
     super({
-      signer: Address,
+      signer: ClassOf('Address'),
       signature: ClassOf('Signature'),
       extra: ExtrinsicExtra
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
@@ -43,6 +42,15 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return isSigned
       ? value
       : EMPTY_U8A;
+  }
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get encodedLength (): number {
+    return this.isSigned
+      ? super.encodedLength
+      : 0;
   }
 
   /**
@@ -140,6 +148,6 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   public toU8a (isBare?: boolean): Uint8Array {
     return this.isSigned
       ? super.toU8a(isBare)
-      : new Uint8Array();
+      : EMPTY_U8A;
   }
 }
