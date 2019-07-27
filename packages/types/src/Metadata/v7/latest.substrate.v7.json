@@ -212,6 +212,13 @@
           },
           "calls": [
             {
+              "name": "fill_block",
+              "args": [],
+              "documentation": [
+                " A big dispatch that will disallow any other transaction to be included."
+              ]
+            },
+            {
               "name": "remark",
               "args": [
                 {
@@ -445,7 +452,7 @@
             {
               "name": "MinimumPeriod",
               "type": "Moment",
-              "value": "0x0300000000000000",
+              "value": "0x3903000000000000",
               "documentation": [
                 " The minimum period between blocks. Beware that this is different to the *expected* period",
                 " that the block production apparatus provides. Your chosen consensus system will generally",
@@ -1006,6 +1013,17 @@
                 "fallback": "0x0000000000000000",
                 "documentation": [
                   " The start of the current era."
+                ]
+              },
+              {
+                "name": "CurrentEraStartSessionIndex",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "SessionIndex"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The session index at which the current era started."
                 ]
               },
               {

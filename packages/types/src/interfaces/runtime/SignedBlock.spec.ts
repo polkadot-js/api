@@ -11,6 +11,7 @@ import Method from '../../primitive/Generic/Method';
 import events from '../../json/SignedBlock.002.json';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
+import knownMehods from '../../json/SignedBlock.005.json';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
@@ -36,7 +37,18 @@ describe('SignedBlock', (): void => {
     ]);
   });
 
-  describe('extrinsics', (): void => {
+  // Test to replicate https://github.com/polkadot-js/api/issues/1212
+  it('decodes to known extrinsics', (): void => {
+    const s = createType('SignedBlock', knownMehods.result);
+    const indexes = s.block.extrinsics.map(({ method: { callIndex } }): Uint8Array => callIndex);
+
+    expect(indexes).toEqual([
+      new Uint8Array([0x02, 0x00]),
+      new Uint8Array([0x0c, 0x00])
+    ]);
+  });
+
+  describe('eras', (): void => {
     it('can decode immortals', (): void => {
       const s = createType('SignedBlock', immortalTxs.result);
       const immortalTx = s.block.extrinsics[2];
