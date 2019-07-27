@@ -2,7 +2,7 @@
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Moment, Null, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Method, MortalEra, Origin, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, SessionKeys, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, Balance, BalanceOf, Block, BlockNumber, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Method, MortalEra, Origin, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
@@ -200,9 +200,6 @@ export interface InterfaceRegistry {
   Phantom: Phantom;
   'Option<Phantom>': Option<Phantom>;
   'Vec<Phantom>': Vec<Phantom>;
-  SessionKeys: SessionKeys;
-  'Option<SessionKeys>': Option<SessionKeys>;
-  'Vec<SessionKeys>': Vec<SessionKeys>;
   StorageData: StorageData;
   'Option<StorageData>': Option<StorageData>;
   'Vec<StorageData>': Vec<StorageData>;

@@ -48,9 +48,6 @@ export default {
     Perbill: 'u32',
     Permill: 'u32',
     Phantom: 'Null',
-    SessionKeys: {
-      ed25519: 'AccountId'
-    },
     StorageData: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
     ValidatorId: 'AccountId',
