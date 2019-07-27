@@ -99,7 +99,8 @@ export default async function test (): Promise<void> {
   const compact = createType('Compact<u32>', 2);
   // const random = createType('RandomType', 2); // This one should deliberately show a TS error
 
-  const gasUnsafe = createTypeUnsafe('Gas', 2);
-  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', 2);
+  const gasUnsafe = createTypeUnsafe('Gas', [2]);
+  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
+
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }

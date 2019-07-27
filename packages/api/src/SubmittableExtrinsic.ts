@@ -9,7 +9,7 @@ import { ApiInterfaceRx, ApiTypes } from './types';
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, ClassOf, Vec } from '@polkadot/types';
+import { createType, Vec } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
@@ -113,7 +113,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
-  const _extrinsic = new (ClassOf('Extrinsic'))(extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;
+  const _extrinsic = createType('Extrinsic', extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | ISubmittableResult): void {

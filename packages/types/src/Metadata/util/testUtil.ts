@@ -62,7 +62,7 @@ export function defaultValues (rpcData: string): void {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
-              (): Codec => createTypeUnsafe(type.toString(), fallback)
+              (): Codec => createTypeUnsafe(type.toString(), [fallback])
             ).not.toThrow();
           });
         });
