@@ -24,6 +24,11 @@ export default {
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',
 
+    // signatures (used in block & extrinsics)
+    Signature: 'H512',
+    Ed25519Signature: 'Signature',
+    Sr25519Signature: 'Signature',
+
     // extrinsic definition
     Method: 'GenericMethod',
     Origin: 'GenericOrigin',
@@ -34,10 +39,6 @@ export default {
     Extrinsic: 'GenericExtrinsic',
 
     // block definition
-    // :: signature
-    Signature: 'H512',
-    Ed25519Signature: 'Signature',
-    Sr25519Signature: 'Signature',
     // :: digest
     ConsensusEngineId: 'GenericConsensusEngineId',
     PreRuntime: '(ConsensusEngineId, Bytes)',
