@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-import { createType, ClassOf, GenericMethod } from '@polkadot/types';
+import { createType, GenericMethod } from '@polkadot/types';
 
 import SignerPayload from './SignerPayload';
 
@@ -66,7 +66,7 @@ describe('SignerPayload', (): void => {
 
   it('can be used as a feed to ExtrinsicPayload', (): void => {
     const signer = new SignerPayload(TEST).toPayload();
-    const payload = new (ClassOf('ExtrinsicPayload'))(signer, { version: signer.version });
+    const payload = createType('ExtrinsicPayload', signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
     expect(payload.method.toHex()).toEqual(TEST.method);
