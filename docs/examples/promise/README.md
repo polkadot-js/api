@@ -18,9 +18,7 @@ From each folder, run `yarn` to install the required dependencies and then run `
 
 Some of the examples use the following accounts:
 
-- Alice: `5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ`
-- Bob: `5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE`
+- Alice: `5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY`
+- Bob: `5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty`
 
-Those accounts are easy to add if you don't have/see them. The seed of Alice's account is `Alice␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣` and the seed of Bob is... well you guess...
-
-NOTE: Note the spaces padding Alice's key up to 32 chars.
+Those accounts are easy to add if you don't have/see them. The seed of Alice's account is `//Alice` (via `keyring.addUri(...)`, dev seed implied) and the seed of Bob is... well you guess...
