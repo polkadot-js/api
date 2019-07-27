@@ -5,8 +5,9 @@
 import '../injector';
 
 import { Codec, Constructor } from '../types';
+import { TypeDef, TypeDefInfo } from './types';
 
-import createType, { TypeDef, TypeDefInfo, createClass, createTypeUnsafe, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
+import createType, { createClass, createTypeUnsafe, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
 import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
@@ -217,6 +218,13 @@ describe('createClass', (): void => {
   it('should memoize from strings', (): void => {
     const a = createClass('BabeWeight');
     const b = createClass('BabeWeight');
+
+    expect(a).toBe(b);
+  });
+
+  it('should return equivalents for Bytes & Vec<u8>', (): void => {
+    const a = createClass('Vec<u8>');
+    const b = createClass('Bytes');
 
     expect(a).toBe(b);
   });
