@@ -7,7 +7,7 @@ import '../injector';
 import BN from 'bn.js';
 
 import createType, { ClassOf } from '../codec/createType';
-import Moment from '../primitive/Moment';
+import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';
 import UInt from './UInt';

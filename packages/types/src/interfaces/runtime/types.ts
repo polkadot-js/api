@@ -90,6 +90,9 @@ export type LockIdentifier = Vec<u8>;
 /** GenericMethod */
 export type Method = GenericMethod;
 
+/** u64 */
+export type Moment = u64;
+
 /** GenericMortalEra */
 export type MortalEra = GenericMortalEra;
 
@@ -113,12 +116,6 @@ export type Seal = [ConsensusEngineId, Bytes] & Codec;
 
 /** [u64, Signature] & Codec */
 export type SealV0 = [u64, Signature] & Codec;
-
-/** Struct */
-export interface SessionKeys extends Struct {
-  /** AccountId */
-  readonly ed25519: AccountId;
-}
 
 /** H512 */
 export type Signature = H512;

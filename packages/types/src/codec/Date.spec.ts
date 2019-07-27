@@ -5,18 +5,18 @@
 import BN from 'bn.js';
 
 import { CodecTo } from '../types';
-import Moment from './Moment';
-import U64 from './U64';
+import CodecDate from './Date';
+import U64 from '../primitive/U64';
 
-describe('Moment', (): void => {
+describe('Date', (): void => {
   describe('decode', (): void => {
-    const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false): void =>
+    const testDecode = (type: string, input: Date | CodecDate | U64 | number, expected: string | number, toJSON: boolean = false): void =>
       it(`can decode from ${type}`, (): void => {
-        expect(new Moment(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
+        expect(new CodecDate(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });
 
     testDecode('Date', new Date(1537968546280), '2018-09-26T13:29:06.280Z');
-    testDecode('Moment', new Moment(1234), 1234, true);
+    testDecode('CodecDate', new CodecDate(1234), 1234, true);
     testDecode('number', 1234, 1234, true);
     testDecode('U64', new U64(69), 69, true);
   });
@@ -24,7 +24,7 @@ describe('Moment', (): void => {
   describe('encode', (): void => {
     const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
-        expect(new Moment(421)[to]()).toEqual(expected);
+        expect(new CodecDate(421)[to]()).toEqual(expected);
       });
 
     testEncode('toBn', new BN(421));
@@ -36,7 +36,7 @@ describe('Moment', (): void => {
 
     it(`can encode toString`, (): void => {
       expect(
-        new Moment(421)
+        new CodecDate(421)
           .toString()
           .startsWith('Thu Jan 01 1970') // The time depends on the timezone this test is run in
       ).toBe(true);
@@ -44,24 +44,24 @@ describe('Moment', (): void => {
 
     it('encodes default BE hex', (): void => {
       expect(
-        new Moment(3).toHex()
+        new CodecDate(3).toHex()
       ).toEqual('0x0000000000000003');
     });
 
     it('encodes options LE hex', (): void => {
       expect(
-        new Moment(3).toHex(true)
+        new CodecDate(3).toHex(true)
       ).toEqual('0x0300000000000000');
     });
   });
 
   describe('utils', (): void => {
     it('compares values', (): void => {
-      expect(new Moment(123).eq(123)).toBe(true);
+      expect(new CodecDate(123).eq(123)).toBe(true);
     });
 
     it('compares values (non-match)', (): void => {
-      expect(new Moment(123).eq(456)).toBe(false);
+      expect(new CodecDate(123).eq(456)).toBe(false);
     });
   });
 });

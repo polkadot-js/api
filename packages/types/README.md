@@ -105,7 +105,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
 | [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
 | [[Key]] | The Substrate Key representation as a [[Bytes]] (`vec<u8>`) |
-| [[Keys]] | The session keys |
+| [[Keys]] | The session keys for both Grandpa (ed25519) and Babe (sr25519) |
 | [[KeyValue]] |  KeyValue structure. Since most of the keys and resultant values in Subtrate are hashed and/or encoded, keys and values are reprsented as [[Bytes]] |
 | [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
 | [[LockIdentifier]] | The Substrate LockIdentifier for staking |
@@ -132,7 +132,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[SeedOf]] | The Substrate SeedOf representation as a [[Hash]] |
 | [[SessionIndex]] | Simple index type with which we can count sessions as [[U32]] |
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
-| [[SessionKeys]] | Wrapper for the session and authority ids |
 | [[SetIndex]] | Set index, implemented as a [[U32]] |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |

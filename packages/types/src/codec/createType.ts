@@ -2,11 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from './types';
+
 import memoizee from 'memoizee';
 import { assert } from '@polkadot/util';
 
 import { InterfaceRegistry } from '../interfaceRegistry';
 import { Codec, Constructor } from '../types';
+import Bytes from '../primitive/Bytes';
 import Null from '../primitive/Null';
 import Compact from './Compact';
 import Enum from './Enum';
@@ -23,36 +26,6 @@ import getRegistry from './typeRegistry';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
 type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
-
-export enum TypeDefInfo {
-  Compact,
-  DoubleMap,
-  Enum,
-  Linkage,
-  Option,
-  Plain,
-  Set,
-  Struct,
-  Tuple,
-  Vec,
-  VecFixed,
-  // anything not full supported (keep this as the last entry)
-  Null
-}
-
-export interface TypeDefExtVecFixed {
-  length: number;
-  type: string;
-}
-
-export interface TypeDef {
-  info: TypeDefInfo;
-  index?: number;
-  ext?: TypeDefExtVecFixed; // add additional here as required
-  name?: string;
-  type: string;
-  sub?: TypeDef | TypeDef[];
-}
 
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): string[] {
@@ -292,8 +265,13 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
 
     case TypeDefInfo.Vec:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vec');
-      return Vec.with(
-        getTypeClass<Codec>(value.sub as TypeDef)
+
+      const vsub = value.sub as TypeDef;
+
+      return (
+        vsub.type === 'u8'
+          ? Bytes
+          : Vec.with(getTypeClass<Codec>(vsub))
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.VecFixed:

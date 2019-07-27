@@ -5,6 +5,10 @@
 export default {
   types: {
     SessionIndex: 'u32',
-    Keys: 'SessionKeys'
+    // node/runtime/src/lib.rs, impl_opaque_keys
+    Keys: {
+      ed25519: 'AccountId', // Grandpa, aka GrandpaId
+      sr25519: 'AccountId' // Babe, aka BabeId
+    }
   }
 };

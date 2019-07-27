@@ -8,13 +8,13 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from '../codec/createType';
-import { UIntBitLength } from '../codec/AbstractInt';
+import createType from './createType';
+import { UIntBitLength } from './AbstractInt';
 
 const BITLENGTH: UIntBitLength = 64;
 
 /**
- * @name Moment
+ * @name Date
  * @description
  * A wrapper around seconds/timestamps. Internally the representation only has
  * second precicion (aligning with Rust), so any numbers passed an/out are always
@@ -23,18 +23,18 @@ const BITLENGTH: UIntBitLength = 64;
  * and has all the methods available that are applicable to any `Date`
  * @noInheritDoc
  */
-export default class Moment extends Date implements Codec {
+export default class CodecDate extends Date implements Codec {
   protected raw: Date; // FIXME Remove this once we convert all types out of Base
 
-  public constructor (value: Moment | Date | AnyNumber = 0) {
+  public constructor (value: CodecDate | Date | AnyNumber = 0) {
     super(
-      Moment.decodeMoment(value)
+      CodecDate.decodeDate(value)
     );
 
     this.raw = this;
   }
 
-  public static decodeMoment (value: Moment | Date | AnyNumber): Date {
+  public static decodeDate (value: CodecDate | Date | AnyNumber): Date {
     if (value instanceof Date) {
       return value;
     } else if (isU8a(value)) {
@@ -73,7 +73,7 @@ export default class Moment extends Date implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
-    return Moment.decodeMoment(other).getTime() === this.getTime();
+    return CodecDate.decodeDate(other).getTime() === this.getTime();
   }
 
   /**
