@@ -2,19 +2,19 @@
 
 This is a upgrade guide for users of the API. It does not attempt to detail each version (the [CHANGELOG](CHANGELOG.md) has all the changes between versions), but rather it tries to explain the rationale behind major breaking changes and how users of the API should handle this.
 
-While we try to keep the user-facing interfaces as stable as possible, sometime you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains first.
+While we try to keep the user-facing interfaces as stable as possible, sometimes you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains introduced first.
 
 ## 0.90.0-beta.0 (and newer), from 0.81.1 (and older)
 
 The 0.90.0-beta.0 release caters for the [Kusama network](https://kusama.network/) and pulls in all the changes to support [Substrate 2.x](https://github.com/paritytech/substrate), all while maintaining backwards compatibility to allow operation on networks such as [Polkadot's Alexander](https://polkadot.network/).
 
-To support the network and the new transaction formats, a number of changes were made to how extrinsics are handled and signed. In addition, as support for ongoing work where type definitions are to be supplied by the actual node metadata, the foundation has been laid in the SCALE encoding and representation of that encoding.
+To support the network and the new transaction formats, a number of changes were made to how extrinsics are handled and signed. In addition, as support for ongoing work where type definitions are to be supplied by the actual node metadata, the foundation has been laid to move to type definitions as opposed to classes for runtime types.
 
 ### Modules
 
 The first thing to be aware of is breakages when connecting to any new network, here older networks such as Alex are unaffected - the node metadata defines exactly what is available to the chain, so endpoints that worked yesterday still works today.
 
-There will no doubt be breakages in using calls to now non-existent endpoints (as populated by the metadata), if you are upgrading your nodes to Substrate 2.x. Substrate 2.x has had a number of internal changes, where new modules and features are introduced (such as `babe` and `technicalCommittee`), some modules have been renamed (such as `contract` -> `contracts`) and modules such as `session` has been reworked to a large degree.
+There will no doubt be breakages in using calls to now non-existent endpoints (as populated by the metadata) if you are upgrading your nodes to Substrate 2.x. Substrate 2.x has had a number of internal changes, where new modules and features are introduced (such as `babe` and `technicalCommittee`), some modules have been renamed (such as `contract` -> `contracts`) and modules such as `session` has been reworked to a large degree.
 
 To cater for both 1.x and 2.x support, the [@polkadot/api-derive](packages/api-derive) endpoints, do feature detection for the node type and should continue working as-is. Additionally a number of new derives have been added, specifically around elections.
 
@@ -27,14 +27,14 @@ To better align with the actual types from the metadata, and avoid (too much) co
 
 ### Type usage
 
-The [@polkadot/api][packages/api] has always handled the conversion of types for parameters when making calls or queries. For example, when making a transfer to `BOB` (address), any of the following is accepted -
+The [@polkadot/api][packages/api] has always handled the conversion of types for parameters when making calls or queries. For example, when making a transfer to `BOB` (address), any of the following is valid -
 
 - `api.tx.balances.transfer(BOB, 12345)` - value specied as a number
 - `api.tx.balances.transfer(BOB, '12345')` - value specied as a string
 - `api.tx.balances.transfer(BOB, '0x3039')` - value specied as a hex
 - `api.tx.balances.transfer(BOB, new BN(12345))` - value specied as a [BN](https://github.com/indutny/bn.js/)
 
-Internally the API will take the input and convert the value into a `Balance`, serialize it using the SCALE codec and transfer it to the node. In some cases users would construct the `Balance` type manually, by importing the class and calling `new` on it. This last approach has now been removed, and  where classes are still available (limited reach), discouraged.
+Internally the API will take the input and convert the value into a `Balance`, serialize it using the SCALE codec and transfer it to the node. In some cases users would construct the `Balance` type manually, by importing the class and calling `new` on it. This last approach has now been removed, and where classes are still available (limited reach), discouraged.
 
 First the rationale behind this - in all cases Substrate is very flexible, so while Polkadot (and the Substrate base), define `type Balance = u128`, this can be different between chains. (This also applies to the majority of built-in supported types). As such, type construction should be done via the actual registered types.
 
@@ -42,28 +42,29 @@ First the rationale behind this - in all cases Substrate is very flexible, so wh
 // this is applicable everywhere, import the type creator, using the registry
 import { createType } from '@polkadot/types';
 
-// construct the Balance, of type Balance (type is inferred with TS)
+// construct the Balance, of type Balance (type is inferred and available with TS)
 const value = createType('Balance', 12345);
 
-// use it here as you normally would
+// use value here as you normally would
 ...
 ```
 
-The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`, and if a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/interfaces`.
+The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`.
 
-As a TypeScript user, there are more options available for the type casting, using interfaces.
+If a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/interfaces`. To do type casting, using interfaces -
 
 ```js
-// import our TypeScript interfaces we wish to use
+// import the TypeScript runtime interfaces we wish to use
 import { Balance, Hash } from '@polkadot/types/interfaces';
 
 // import the primitives we wish to use
-import { createType, Compact, Vec } from '@polkadot/types';
+import { createType, Compact, Vec, u32 } from '@polkadot/types';
 
 // define an interface we want to use inside our code
 interface MyProps {
   balance: Compact<Balance>;
   changes: Vec<Hash>;
+  counter?: u32;
 }
 
 // assign something to this structure
@@ -75,11 +76,7 @@ const props = {
 
 ### Type definitions
 
-One of the major painpoints in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: definiting types via a JSON format or extending your own classes in TypeScript (or JS) and injecting these. For the latter category, there are some impacts in the way you define these -
-
-The previous `Vector` type has been renamed to `Vec` - this aligns with what Substrate defines and allows less context-switching between types. (It also means that `createType('Vec<u32>')` would yield a type of `Vec<u32>`). Since it is a SCALE codec type, the import for this is still via `@polkadot/types` directly, the move in the previous point has not affected this class, neither for other base types such as `Enum` or `Struct`.
-
-Along with the type creation defined above, the definition of any structures using the Substrate specific types, should be clarified. Since the base modules types are now not available in classes, however it is needed for definitions, adjustments to the definitioons are required.
+One of the major painpoints in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: definiting types via a JSON format or extending your own classes in TypeScript (or JS) and injecting these. For the latter category, there are some impacts in the way you define these.
 
 If using JSON definitions, nothing changes, your types are still defined as -
 
@@ -87,23 +84,25 @@ If using JSON definitions, nothing changes, your types are still defined as -
 {
   "MyStruct": {
     "balance": "Compact<Balance>",
-    "values": "Vec<AccountId>"
+    "values": "Vec<AccountId>",
+    "counter": "u32"
   }
 }
 ```
 
-If using JavaScript or TypeScript definitions, the following approach is encouraged -
+For he definition of any structures using the Substrate specific types as classes, some adjustments are needed. Since the base modules types are now not available in classes, however it is needed for definitions, the following approach is encouraged -
 
 ```js
 // import the ClassOf, it works the same as `createType` (along with type detection)
 // and acts as a replacement for the direct import and use of specific classes
-import { ClassOf, Struct } from '@polkadot/types';
+import { ClassOf, Struct, u32 } from '@polkadot/types';
 
 export class MyStruct extends Struct {
   constructor (value?: any) {
     super({
       balance: ClassOf('Compact<Balance>'),
-      values: ClassOf('Vec<AccountId>')
+      values: ClassOf('Vec<AccountId>'),
+      counter: u32
     }, value);
   }
 }
