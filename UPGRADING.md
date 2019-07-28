@@ -4,9 +4,9 @@ This is a upgrade guide for users of the API. It does not attempt to detail each
 
 While we try to keep the user-facing interfaces as stable as possible, sometime you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains first.
 
-## 0.99.9-beta.9 (and newer), from 0.81.1 (and older)
+## 0.90.0-beta.0 (and newer), from 0.81.1 (and older)
 
-The 0.99.9-beta.9 release caters for the [Kusama network](https://kusama.network/) and pulls in all the changes to support [Substrate 2.x](https://github.com/paritytech/substrate), all while maintaining backwards compatibility to allow operation on networks such as [Polkadot's Alexander](https://polkadot.network/).
+The 0.90.0-beta.0 release caters for the [Kusama network](https://kusama.network/) and pulls in all the changes to support [Substrate 2.x](https://github.com/paritytech/substrate), all while maintaining backwards compatibility to allow operation on networks such as [Polkadot's Alexander](https://polkadot.network/).
 
 To support the network and the new transaction formats, a number of changes were made to how extrinsics are handled and signed. In addition, as support for ongoing work where type definitions are to be supplied by the actual node metadata, the foundation has been laid in the SCALE encoding and representation of that encoding.
 
