@@ -115,8 +115,12 @@ export default class Option<T extends Codec> extends Base<T> {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
-    return `Option<${new this._Type().toRawType()}>`;
+  public toRawType (isBare?: boolean): string {
+    const wrapped = new this._Type().toRawType();
+
+    return isBare
+      ? wrapped
+      : `Option<${wrapped}>`;
   }
 
   /**

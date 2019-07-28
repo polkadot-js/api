@@ -313,22 +313,19 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 
     // in pedantic mode, actually check that the encoding matches that supplied - this
     // is much slower, but ensures that we have a 100% grasp on the actual provided value
-    if (isPedantic && value && value.toHex && value.toU8a) {
+    if (isPedantic && value && value.toHex && value.toU8a && !value.isEmpty) {
       const inHex = value.toHex(true);
       const crHex = created.toHex(true);
-
-      assert(
-        inHex === crHex || // check that the hex matches, if matching, all-ok
-        (
-          (value instanceof ClassOf('StorageData')) && // input is from storage
-          (created instanceof Uint8Array) // we are a variable-length structure
-            // strip the input length
-            ? (value.toU8a(true).toString() === created.toU8a().toString())
-            // compare raw
-            : (value.toU8a(true).toString() === created.toU8a(true).toString()) // check raw
-        ),
-        `Input doesn't match output, received ${inHex}, created ${crHex}`
+      const hasMatch = inHex === crHex || (
+        (value instanceof ClassOf('StorageData')) && // input is from storage
+        (created instanceof Uint8Array) // we are a variable-length structure
+          // strip the input length
+          ? (value.toU8a(true).toString() === created.toU8a().toString())
+          // compare raw
+          : (value.toU8a(true).toString() === created.toU8a(true).toString())
       );
+
+      assert(hasMatch, `Input doesn't match output, received ${inHex}, created ${crHex}`);
     }
 
     return created;

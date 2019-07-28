@@ -34,6 +34,13 @@ export default class Linkage<T extends Codec> extends Struct {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public toRawType (): string {
+    return `Linkage<${this.next.toRawType(true)}>`;
+  }
+
+  /**
    * @description Custom toU8a which with bare mode does not return the linkage if empty
    */
   public toU8a (isBare?: boolean): Uint8Array {
