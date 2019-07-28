@@ -306,26 +306,33 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
   throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
+// Initializes a type with a value. This also checks for fallbacks and in the cases
+// where isPedantic is specified (storage decoding), also check the format/structure
 function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
     const created = new Type(...params);
     const [value] = params;
 
-    // in pedantic mode, actually check that the encoding matches that supplied - this
-    // is much slower, but ensures that we have a 100% grasp on the actual provided value
-    if (isPedantic && value && value.toHex && value.toU8a && !value.isEmpty) {
+    // With isPedantic, actually check that the encoding matches that supplied. This
+    // is much slower, but verifies that we have the correct types defined
+    if (isPedantic && value && value.toU8a && !value.isEmpty) {
       const inHex = value.toHex(true);
       const crHex = created.toHex(true);
       const hasMatch = inHex === crHex || (
-        (value instanceof ClassOf('StorageData')) && // input is from storage
-        (created instanceof Uint8Array) // we are a variable-length structure
+        created instanceof Uint8Array
           // strip the input length
           ? (value.toU8a(true).toString() === created.toU8a().toString())
-          // compare raw
+          // compare raw. without additions
           : (value.toU8a(true).toString() === created.toU8a(true).toString())
       );
 
-      assert(hasMatch, `Input doesn't match output, received ${inHex}, created ${crHex}`);
+      if (!hasMatch) {
+        if (Type.Fallback) {
+          return initType(Type.Fallback as Constructor<FromReg<T, K>>, params, isPedantic);
+        }
+
+        console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
+      }
     }
 
     return created;
