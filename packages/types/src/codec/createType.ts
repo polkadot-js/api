@@ -314,7 +314,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 
   // With isPedantic, actually check that the encoding matches that supplied. This
   // is much slower, but verifies that we have the correct types defined
-  if (isPedantic && value && value.toHex && value.toU8a && !value.isEmpty) {
+  if (isPedantic && value && value.toU8a && !value.isEmpty) {
     const inHex = value.toHex(true);
     const crHex = created.toHex(true);
     const hasMatch = inHex === crHex || (
