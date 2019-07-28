@@ -322,12 +322,10 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
           // strip the input length
           ? (value.toU8a(true).toString() === created.toU8a().toString())
           // compare raw
-          : (value.toU8a(true).toString() === created.toU8a(true).toString()) // check raw
+          : (value.toU8a(true).toString() === created.toU8a(true).toString())
       );
 
-      if (!hasMatch) {
-        console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
-      }
+      assert(hasMatch, `Input doesn't match output, received ${inHex}, created ${crHex}`);
     }
 
     return created;
