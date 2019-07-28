@@ -307,7 +307,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
 }
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
-// where isPedantic is specifioed (storage decoding), also check the format/structure
+// where isPedantic is specified (storage decoding), also check the format/structure
 function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   const created = new Type(...params);
   const [value] = params;
