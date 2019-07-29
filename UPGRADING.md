@@ -90,7 +90,7 @@ If using JSON definitions, nothing changes, your types are still defined as -
 }
 ```
 
-For he definition of any structures using the Substrate specific types as classes, some adjustments are needed. Since the base modules types are now not available in classes, however it is needed for definitions, the following approach is encouraged -
+For the definition of any structures using the Substrate specific types as classes, some adjustments are needed. Since the base modules types are now not available in classes, however it is needed for definitions, the following approach is encouraged -
 
 ```js
 // import the ClassOf, it works the same as `createType` (along with type detection)
