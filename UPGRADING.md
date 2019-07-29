@@ -108,7 +108,7 @@ export class MyStruct extends Struct {
 }
 ```
 
-Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type defintions are not needed, this functionality will be useful to allos TS devs to auto-generate type definitions based on what the node defines.)
+Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type definitions are not needed, this functionality will be useful to allow TS devs to auto-generate type definitions based on what the node defines.)
 
 ### Signing transactions (Signer interface)
 
