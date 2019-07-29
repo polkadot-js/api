@@ -1,6 +1,6 @@
 # Upgrade guide
 
-This is a upgrade guide for users of the API. It does not attempt to detail each version (the [CHANGELOG](CHANGELOG.md) has all the changes between versions), but rather it tries to explain the rationale behind major breaking changes and how users of the API should handle this.
+This is an upgrade guide for users of the API. It does not attempt to detail each version (the [CHANGELOG](CHANGELOG.md) has all the changes between versions), but rather it tries to explain the rationale behind major breaking changes and how users of the API should handle this.
 
 While we try to keep the user-facing interfaces as stable as possible, sometimes you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains introduced first.
 
