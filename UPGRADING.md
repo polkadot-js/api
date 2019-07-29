@@ -76,7 +76,7 @@ const props = {
 
 ### Type definitions
 
-One of the major painpoints in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: definiting types via a JSON format or extending your own classes in TypeScript (or JS) and injecting these. For the latter category, there are some impacts in the way you define these.
+One of the major pain points in working with a custom Substrate node is the definition of types to cater for chains. There are 2 approaches: defining types via a JSON format or extending your own classes in TypeScript (or JS) and injecting these. For the latter category, there are some impacts in the way you define these.
 
 If using JSON definitions, nothing changes, your types are still defined as -
 
