@@ -54,12 +54,12 @@ const networkState: RpcMethodOpt = {
 const section = 'system';
 
 /**
- * @summary Methods to retrieve system info.
+ * @summary Calls to retrieve system info.
  */
 export default {
   isDeprecated: false,
   isHidden: false,
-  description: 'Methods to retrieve system info',
+  description: 'Calls to retrieve system info',
   section,
   methods: {
     chain: createMethod(section, 'chain', chain),

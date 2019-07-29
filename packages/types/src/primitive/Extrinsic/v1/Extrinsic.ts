@@ -7,12 +7,12 @@ import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions }
 import { isU8a } from '@polkadot/util';
 
 import Struct from '../../../codec/Struct';
-import Method from '../../Generic/Method';
+import Call from '../../Generic/Call';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 export interface ExtrinsicValueV1 {
-  method?: Method;
+  method?: Call;
   signature?: ExtrinsicSignature;
 }
 
@@ -31,7 +31,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicV1Options = {}) {
     super({
       signature: ExtrinsicSignature,
-      method: Method
+      method: Call
     }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
   }
 
@@ -43,7 +43,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, { isSigned });
-      const method = new Method(value.subarray(signature.encodedLength));
+      const method = new Call(value.subarray(signature.encodedLength));
 
       return {
         method,
@@ -62,10 +62,10 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description The [[Method]] this extrinsic wraps
+   * @description The [[Call]] this extrinsic wraps
    */
-  public get method (): Method {
-    return this.get('method') as Method;
+  public get method (): Call {
+    return this.get('method') as Call;
   }
 
   /**
