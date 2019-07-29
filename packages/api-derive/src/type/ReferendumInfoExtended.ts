@@ -3,17 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { ClassOf, createType } from '@polkadot/types';
-import { AnyJsonObject } from '@polkadot/types/types';
+
+// This is a bit hacky, but is exactly what it resolves to when compiled -
+// and as a bonus is gets the typing right
+const _ReferendumInfo: Constructor<ReferendumInfo> = ClassOf('ReferendumInfo');
 
 /**
  * @name ReferendumInfoExtended
  * @description
  * A [[ReferendumInfo]] with an additional `index` field
  */
-export default class ReferendumInfoExtended extends ClassOf('ReferendumInfo') {
+export default class ReferendumInfoExtended extends _ReferendumInfo {
   private _index: ReferendumIndex;
 
   public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {

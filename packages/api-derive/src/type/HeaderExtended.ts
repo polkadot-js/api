@@ -3,17 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header } from '@polkadot/types/interfaces';
-
-import { AnyJsonObject } from '@polkadot/types/types';
+import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 
 import { u64, ClassOf } from '@polkadot/types';
+
+// This is a bit hacky, but is exactly what it resolves to when compiled -
+// and as a bonus is gets the typing right
+const _Header: Constructor<Header> = ClassOf('Header');
 
 /**
  * @name HeaderExtended
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends ClassOf('Header') {
+export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
