@@ -16,7 +16,7 @@ The first thing to be aware of is breakages when connecting to any new network, 
 
 There will no doubt be breakages in using calls to now non-existent endpoints (as populated by the metadata) if you are upgrading your nodes to Substrate 2.x. Substrate 2.x has had a number of internal changes, where new modules and features are introduced (such as `babe` and `technicalCommittee`), some modules have been renamed (such as `contract` -> `contracts`) and modules such as `session` has been reworked to a large degree.
 
-To cater for both 1.x and 2.x support, the [@polkadot/api-derive](packages/api-derive) endpoints, do feature detection for the node type and should continue working as-is. Additionally a number of new derives have been added, specifically around elections.
+To cater for both 1.x and 2.x support, the [@polkadot/api-derive](packages/api-derive) endpoints, do feature detection for the node type and should continue working as-is. Additionally, a number of new derives have been added, specifically around elections.
 
 ### Type renames
 
