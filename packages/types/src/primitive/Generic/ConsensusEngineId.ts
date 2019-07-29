@@ -64,6 +64,7 @@ export default class ConsensusEngineId extends U32 {
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     if (this.isAura) {
+      // TODO We really want proper decoding of the digest as below (i.e. via type)
       return sessionValidators[
         new U64(bytes.toU8a(true).subarray(0, 8)).modn(sessionValidators.length)
       ];
@@ -73,7 +74,7 @@ export default class ConsensusEngineId extends U32 {
       ];
     }
 
-    throw new Error('Invalid engine for extractSlot conversion');
+    throw new Error('Invalid engine for extractAuthor conversion');
   }
 
   /**
