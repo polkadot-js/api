@@ -6,7 +6,6 @@ import '../../injector';
 
 import json3 from '../../json/Header.003.json';
 import block1 from '../../json/SignedBlock.003.00.json';
-import ConsensusEngineId, { CID_AURA, CID_BABE, CID_GRPA } from './ConsensusEngineId';
 import Digest from './Digest';
 
 describe('Digest', (): void => {
@@ -36,16 +35,5 @@ describe('Digest', (): void => {
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('Seal');
-  });
-
-  describe('ConsensusId', (): void => {
-    it('creates a valid id for aura', (): void => {
-      expect(ConsensusEngineId.stringToId('FRNK')).toEqual(CID_GRPA);
-      expect(ConsensusEngineId.stringToId('aura')).toEqual(CID_AURA);
-    });
-
-    it('reverses an id to string for babe', (): void => {
-      expect(ConsensusEngineId.idToString(CID_BABE)).toEqual('babe');
-    });
   });
 });

@@ -4,6 +4,13 @@
 
 export default {
   types: {
-    BabeWeight: 'u64'
+    BabeWeight: 'u64',
+    SlotNumber: 'u64',
+    RawBabePreDigest: {
+      slotNumber: 'SlotNumber',
+      authorityIndex: 'u64', // AuthorityIndex (also in aura, same size)
+      vrfOutput: 'H256', // should be '[u8; 32]' (generator support lacking here)
+      vrfProof: 'H256' // should be '[u8; 32]'
+    }
   }
 };

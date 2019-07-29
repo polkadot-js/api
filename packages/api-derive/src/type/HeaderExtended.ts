@@ -5,7 +5,7 @@
 import { AccountId, Header } from '@polkadot/types/interfaces';
 import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 
-import { u64, ClassOf } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types';
 
 // This is a bit hacky, but is exactly what it resolves to when compiled -
 // and as a bonus is gets the typing right
@@ -26,15 +26,14 @@ export default class HeaderExtended extends _Header {
       return;
     }
 
-    let slot: u64 | undefined;
     const [pitem] = header.digest.logsWith('PreRuntime');
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isAura) {
-        slot = engine.extractSlot(data);
+      if (engine.isBabe || engine.isAura) {
+        this._author = engine.extractAuthor(data, sessionValidators);
       }
     } else {
       const [citem] = header.digest.logsWith('Consensus');
@@ -44,21 +43,18 @@ export default class HeaderExtended extends _Header {
         const [engine, data] = citem.asConsensus;
 
         if (engine.isAura) {
-          slot = engine.extractSlot(data);
+          this._author = engine.extractAuthor(data, sessionValidators);
         }
       } else {
         const [sitem] = header.digest.logsWith('SealV0');
 
         // extract author from the seal (pre substrate 1.0, backwards compat)
         if (sitem) {
-          slot = sitem.asSealV0[0];
+          this._author = sessionValidators[
+            sitem.asSealV0[0].modn(sessionValidators.length)
+          ];
         }
       }
-    }
-
-    // found a slot? Great, extract the validator
-    if (slot) {
-      this._author = sessionValidators[slot.modn(sessionValidators.length)];
     }
   }
 

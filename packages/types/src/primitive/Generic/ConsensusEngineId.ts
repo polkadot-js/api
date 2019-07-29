@@ -2,15 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { assert, bnToBn } from '@polkadot/util';
+import { AccountId } from '../../interfaces/runtime';
 
+import BN from 'bn.js';
+import { bnToBn } from '@polkadot/util';
+
+import createType from '../../codec/createType';
 import Bytes from '../Bytes';
 import U32 from '../U32';
 import U64 from '../U64';
 
 const CID_AURA = 0x61727561; // 'aura'
-const CID_BABE = 0x65626162; // 'babe'
+const CID_BABE = 0x45424142; // 'BABE'
 const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
 
 export { CID_AURA, CID_BABE, CID_GRPA };
@@ -57,15 +60,21 @@ export default class ConsensusEngineId extends U32 {
   }
 
   /**
-   * @description From the input bytes, decode into an aura-tuple
+   * @description From the input bytes, decode into an author
    */
-  public extractSlot (bytes: Bytes): U64 {
-    assert(this.isAura, 'Invalid engine for asAura conversion');
+  public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    if (this.isAura) {
+      // TODO We really want proper decoding of the digest as below (i.e. via type)
+      return sessionValidators[
+        new U64(bytes.toU8a(true).subarray(0, 8)).modn(sessionValidators.length)
+      ];
+    } else if (this.isBabe) {
+      return sessionValidators[
+        createType('RawBabePreDigest', bytes.toU8a(true)).authorityIndex.toNumber()
+      ];
+    }
 
-    return new U64(
-      // no compact prefix, only use the correct number of supplied bytes
-      bytes.toU8a(true).subarray(0, 8)
-    );
+    throw new Error('Invalid engine for extractAuthor conversion');
   }
 
   /**
