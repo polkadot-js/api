@@ -49,7 +49,7 @@ const value = createType('Balance', 12345);
 ...
 ```
 
-The impact of this will be noticable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`.
+The impact of this will be noticeable, if you have been importing the old-style type classes from `@polkadot/types`, those imports are not available anymore. For creation, just pass everything through the `createType`.
 
 If a TypeScript user, you can find the updated type (it is a type definition only, not a class), under `@polkadot/types/interfaces`. To do type casting, using interfaces -
 
