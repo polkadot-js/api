@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types/interfaces';
-
+import { Balance, Hash, Moment, StorageData } from '@polkadot/types/interfaces';
+import { Bytes, Metadata, StorageKey } from '@polkadot/types';
 import fs from 'fs';
 import path from 'path';
 

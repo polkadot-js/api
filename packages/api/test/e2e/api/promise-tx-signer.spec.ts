@@ -4,10 +4,11 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, Signer } from '@polkadot/types/interfaces';
+import { EventRecord } from '@polkadot/types/interfaces';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
+import { Signer } from '../../../src/types';
 import { describeE2E, SingleAccountSigner } from '../../util';
 
 // log all events for the transfer, calling done() when finalized

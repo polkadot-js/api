@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { Index, StorageChangeSet } from '@polkadot/types/interfaces';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/api-metadata/storage/static';
 import Rpc from '@polkadot/rpc-core';
+import { StorageChangeSet } from '@polkadot/types/interfaces';
+import { ClassOf } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
 
@@ -34,8 +35,8 @@ describeE2E({
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(Index),
-            expect.any(Index)
+            expect.any(ClassOf('Index')),
+            expect.any(ClassOf('Index'))
           ])
         );
 

@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, ExtrinsicEra, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { EventRecord, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
 import { createType } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
@@ -52,7 +52,7 @@ describeE2E({
     it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
-      const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await ex.signAndSend(keyring.charlie, {
@@ -63,7 +63,7 @@ describeE2E({
 
     it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
-      const currentHeight = signedBlock.block.header.number.subn(1);
+      const currentHeight = signedBlock.block.header.number.toBn().subn(1);
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
@@ -83,7 +83,7 @@ describeE2E({
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
-        if (header.blockNumber.toNumber() === eraDeath - 1) {
+        if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
@@ -112,7 +112,7 @@ describeE2E({
       const ex = api.tx.balances.transfer(keyring.eve.address, 12121);
 
       await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
-        if (header.blockNumber.toNumber() === eraDeath - 1) {
+        if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);
           } catch (error) {
