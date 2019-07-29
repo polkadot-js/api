@@ -24,7 +24,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
   - **Breaking Change** Vote interface extends U8a instead of i8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
 
 - Support V2 Extrinsics in addition to V1, v2 includes an optional `tip`
-  - An additon to this support, the `Signer` interface has deprecated the `sign` method and replaced it with `signPayload`
+  - In addition to this support, the `Signer` interface has deprecated the `sign` method and replaced it with `signPayload`
   - Support for the `sign` interfaces (API detection and calling when `signPayload` is not available) will be removed in subsequent versions.
 
 - The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
