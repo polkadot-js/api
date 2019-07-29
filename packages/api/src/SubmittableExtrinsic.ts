@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index, Method, SignedBlock } from '@polkadot/types/interfaces';
+import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
@@ -110,7 +110,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
   api: ApiInterfaceRx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
-  extrinsic: Method | Uint8Array | string,
+  extrinsic: Call | Uint8Array | string,
   trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
   const _extrinsic = createType('Extrinsic', extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;

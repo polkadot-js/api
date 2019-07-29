@@ -9,10 +9,23 @@ import BN from 'bn.js';
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v7/Calls';
-import Method from './primitive/Generic/Method';
+import Call from './primitive/Generic/Call';
 import Address from './primitive/Generic/Address';
 
 export * from './codec/types';
+
+export interface CallFunction {
+  (...args: any[]): Call;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export type Calls = Record<string, CallFunction>;
+
+export type ModulesWithCalls = Record<string, Calls>;
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
@@ -169,7 +182,7 @@ export interface ExtrinsicPayloadValue {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
-  sign (method: Method, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+  sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -180,7 +193,7 @@ export interface IExtrinsicEra extends Codec {
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsicImpl extends Codec {
-  readonly method: Method;
+  readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
 
@@ -191,7 +204,7 @@ export interface IExtrinsicImpl extends Codec {
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
   readonly length: number;
-  readonly method: Method;
+  readonly method: Call;
   readonly type: number;
   readonly version: number;
 

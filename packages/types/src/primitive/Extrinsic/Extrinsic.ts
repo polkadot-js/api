@@ -11,7 +11,7 @@ import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { FunctionMetadata } from '../../Metadata/v7/Calls';
 import Address from '../Generic/Address';
-import Method from '../Generic/Method';
+import Call from '../Generic/Call';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -36,7 +36,7 @@ interface ExtrinsicOptions {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, { version }: ExtrinsicOptions = {}) {
+  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: ExtrinsicOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, version));
   }
 
@@ -55,7 +55,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -83,7 +83,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
       assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
-    } else if (value instanceof Method) {
+    } else if (value instanceof Call) {
       return Extrinsic.newFromValue({ method: value }, version);
     }
 
@@ -95,28 +95,28 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
+   * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
   public get args (): Codec[] {
     return this.method.args;
   }
 
   /**
-   * @description Thge argument defintions, compatible with [[Method]]
+   * @description Thge argument defintions, compatible with [[Call]]
    */
   public get argsDef (): ArgsDef {
     return this.method.argsDef;
   }
 
   /**
-   * @description The actual `[sectionIndex, methodIndex]` as used in the Method
+   * @description The actual `[sectionIndex, methodIndex]` as used in the Call
    */
   public get callIndex (): Uint8Array {
     return this.method.callIndex;
   }
 
   /**
-   * @description The actual data for the Method
+   * @description The actual data for the Call
    */
   public get data (): Uint8Array {
     return this.method.data;
@@ -137,7 +137,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description `true` is method has `Origin` argument (compatibility with [[Method]])
+   * @description `true` is method has `Origin` argument (compatibility with [Call])
    */
   public get hasOrigin (): boolean {
     return this.method.hasOrigin;
@@ -165,9 +165,9 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description The [[Method]] this extrinsic wraps
+   * @description The [[Call]] this extrinsic wraps
    */
-  public get method (): Method {
+  public get method (): Call {
     return this.raw.method;
   }
 

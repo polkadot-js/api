@@ -21,7 +21,7 @@ export default {
       ]
     },
     PropIndex: 'u32',
-    Proposal: 'Method',
+    Proposal: 'Call',
     ReferendumIndex: 'u32',
     ReferendumInfo: {
       end: 'BlockNumber',

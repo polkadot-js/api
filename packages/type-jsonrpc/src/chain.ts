@@ -89,7 +89,7 @@ const subscribeRuntimeVersion: RpcMethodOpt = {
 const section = 'chain';
 
 /**
- * @summary Methods to retrieve chain data.
+ * @summary Calls to retrieve chain data.
  */
 export default {
   isDeprecated: false,

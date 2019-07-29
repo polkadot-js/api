@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, BlockNumber, ExtrinsicEra, Hash, Index, Method } from '@polkadot/types/interfaces';
+import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index } from '@polkadot/types/interfaces';
 import { SignerPayload as ISignerPayload } from './types';
 
 import { ClassOf, Compact, Struct, u8 } from '@polkadot/types';
@@ -13,7 +13,7 @@ export interface SignerPayloadType {
   blockNumber: BlockNumber;
   era: ExtrinsicEra;
   genesisHash: Hash;
-  method: Method;
+  method: Call;
   nonce: Compact<Index>;
   tip: Compact<Balance>;
   version: u8;
@@ -25,7 +25,7 @@ export default class SignerPayload extends Struct.with({
   blockNumber: ClassOf('BlockNumber'),
   era: ClassOf('ExtrinsicEra'),
   genesisHash: ClassOf('Hash'),
-  method: ClassOf('Method'),
+  method: ClassOf('Call'),
   nonce: ClassOf('Compact<Index>'),
   tip: ClassOf('Compact<Balance>'),
   version: u8

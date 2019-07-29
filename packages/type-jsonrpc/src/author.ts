@@ -41,7 +41,7 @@ const submitAndWatchExtrinsic: RpcMethodOpt = {
 const section = 'author';
 
 /**
- * @summary Methods to work with authors & contributors.
+ * @summary Calls to work with authors & contributors.
  */
 export default {
   isDeprecated: false,

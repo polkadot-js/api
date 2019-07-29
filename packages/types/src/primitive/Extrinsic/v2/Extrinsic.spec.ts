@@ -5,14 +5,14 @@
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Method from '../../Generic/Method';
+import Call from '../../Generic/Call';
 import Extrinsic from './Extrinsic';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('ExtrinsicV2', (): void => {
   beforeEach((): void => {
-    Method.injectMethods(extrinsics);
+    Call.injectMethods(extrinsics);
   });
 
   it('constructs a sane Uint8Array (default)', (): void => {

@@ -8,7 +8,7 @@ import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 
 import { createTypeUnsafe } from '../../codec/createType';
 import Metadata from '../Metadata';
-import Method from '../../primitive/Generic/Method';
+import Call from '../../primitive/Generic/Call';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
 
@@ -54,7 +54,7 @@ export function defaultValues (rpcData: string): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(rpcData);
 
-    Method.injectMethods(extrinsicsFromMeta(metadata));
+    Call.injectMethods(extrinsicsFromMeta(metadata));
 
     metadata.asV7.modules
       .filter(({ storage }): boolean => storage.isSome)

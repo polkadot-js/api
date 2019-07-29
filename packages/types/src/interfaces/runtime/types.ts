@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMethod, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -27,6 +27,9 @@ export type Block = GenericBlock;
 
 /** u64 */
 export type BlockNumber = u64;
+
+/** GenericCall */
+export type Call = GenericCall;
 
 /** [ConsensusEngineId, Bytes] & Codec */
 export type Consensus = [ConsensusEngineId, Bytes] & Codec;
@@ -86,9 +89,6 @@ export type KeyValue = [StorageKey, StorageData] & Codec;
 
 /** Vec<u8> */
 export type LockIdentifier = Vec<u8>;
-
-/** GenericMethod */
-export type Method = GenericMethod;
 
 /** u64 */
 export type Moment = u64;
