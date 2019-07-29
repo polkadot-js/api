@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { assert, bnToBn } from '@polkadot/util';
+import { AccountId } from '../../interfaces/runtime';
 
+import BN from 'bn.js';
+import { bnToBn } from '@polkadot/util';
+
+import createType from '../../codec/createType';
 import Bytes from '../Bytes';
 import U32 from '../U32';
 import U64 from '../U64';
@@ -57,15 +60,20 @@ export default class ConsensusEngineId extends U32 {
   }
 
   /**
-   * @description From the input bytes, decode into an aura-tuple
+   * @description From the input bytes, decode into an author
    */
-  public extractSlot (bytes: Bytes): U64 {
-    assert(this.isAura, 'Invalid engine for asAura conversion');
+  public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    if (this.isAura) {
+      return sessionValidators[
+        new U64(bytes.toU8a(true).subarray(0, 8)).modn(sessionValidators.length)
+      ];
+    } else if (this.isBabe) {
+      return sessionValidators[
+        createType('RawBabePreDigest', bytes.toU8a(true)).authorityIndex.toNumber()
+      ];
+    }
 
-    return new U64(
-      // no compact prefix, only use the correct number of supplied bytes
-      bytes.toU8a(true).subarray(0, 8)
-    );
+    throw new Error('Invalid engine for extractSlot conversion');
   }
 
   /**
