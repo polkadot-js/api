@@ -112,6 +112,6 @@ Internally the [@polkadot/types](packages/types) package now only defines classe
 
 ### Signing transactions (Signer interface)
 
-For users of the API signer interfaces (such as extensions and mobile signers), the interfaces has undergone some changes to cater for the extrinsic v2 format as defined by Substrate. If you are only supporting current chains (e.g. Alexander), no changes are required, however the old `sign` interface does not support chains such as Kusama, so all users are encouraged to upgrade to the new `signPayload` interface.
+For users of the API signer interfaces (such as extensions and mobile signers), the interfaces have undergone some changes to cater for the extrinsic v2 format as defined by Substrate. If you are only supporting current chains (e.g. Alexander), no changes are required, however the old `sign` interface does not support chains such as Kusama, so all users are encouraged to upgrade to the new `signPayload` interface.
 
 This has already been implemented in both the [polkadot-js extension](https://github.com/polkadot-js/extension/blob/5f22f67d558655c605eb6f6beecef6826ed6c159/packages/extension/src/page/Signer.ts#L16v) as well as the [simple single signer](https://github.com/polkadot-js/api/blob/d56905d1b566be6f17eb570ac01448378fc91b67/packages/api/test/util/SingleAccountSigner.ts#L37).
