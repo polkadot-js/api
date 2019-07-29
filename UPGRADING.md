@@ -27,7 +27,7 @@ To better align with the actual types from the metadata, and avoid (too much) co
 
 ### Type usage
 
-The [@polkadot/api][packages/api] has always handled the conversion of types for parameters when making calls or queries. For example, when making a transfer to `BOB` (address), any of the following is valid -
+The [@polkadot/api](packages/api) has always handled the conversion of types for parameters when making calls or queries. For example, when making a transfer to `BOB` (address), any of the following is valid -
 
 - `api.tx.balances.transfer(BOB, 12345)` - value specied as a number
 - `api.tx.balances.transfer(BOB, '12345')` - value specied as a string
