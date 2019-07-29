@@ -338,6 +338,9 @@ ___
 ▸ **currentEraStart**(): `MomentOf`
 - **summary**:   The start of the current era.
 
+▸ **currentEraStartSessionIndex**(): `SessionIndex`
+- **summary**:   The session index at which the current era started.
+
 ▸ **forceNewEra**(): `bool`
 - **summary**:   True if the next session change will be a new era regardless of index.
 

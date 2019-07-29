@@ -275,6 +275,9 @@ ___
 
 ### system
 
+▸ **fillBlock**()
+- **summary**:   A big dispatch that will disallow any other transaction to be included.
+
 ▸ **killStorage**(keys: `Vec<Key>`)
 - **summary**:   Kill some items from storage.
 
