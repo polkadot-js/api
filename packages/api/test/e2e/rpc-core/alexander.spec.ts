@@ -13,13 +13,13 @@ const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
 describeE2E({
   only: [
-    'remote-polkadot-alexander'
+    'remote-polkadot-alexander',
+    'docker-polkadot-alexander'
   ]
 })('e2e Alexander - Polkadot', (wsUrl: string): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
-    jest.setTimeout(30000);
     rpc = new Rpc(new WsProvider(wsUrl));
   });
 
@@ -33,7 +33,7 @@ describeE2E({
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(BlockNumber),
+            expect.any(Index),
             expect.any(Index)
           ])
         );
