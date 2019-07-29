@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApprovalFlag } from '@polkadot/types/srml/elections/types';
+import { ApprovalFlag } from '@polkadot/types/interfaces/elections';
 
 import BN from 'bn.js';
-import { Vector } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
-export function approvalFlagToBool (flags: Vector<ApprovalFlag>): boolean[] {
+export function approvalFlagToBool (flags: Vec<ApprovalFlag>): boolean[] {
   const bools: boolean[] = [];
   for (const flag of flags) {
     for (const bit of [...Array(flag.bitLength())].map((_, i): number => i)) {

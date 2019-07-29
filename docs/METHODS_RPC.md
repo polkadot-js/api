@@ -17,7 +17,7 @@ ___
 
 _Authoring of network items_
 
-▸ **pendingExtrinsics**(): `PendingExtrinsics`
+▸ **pendingExtrinsics**(): `Vec<Extrinsic>`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
 ▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`): `ExtrinsicStatus`
@@ -108,7 +108,7 @@ ___
 
 ### system
 
-_Methods to retrieve system info_
+_Calls to retrieve system info_
 
 ▸ **chain**(): `Text`
 - **summary**: Retrieves the chain

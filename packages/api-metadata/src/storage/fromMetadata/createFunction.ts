@@ -2,7 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
+import { Codec } from '@polkadot/types/types';
+
+import BN from 'bn.js';
+import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
@@ -20,6 +24,8 @@ export interface CreateItemFn {
   prefix: string;
   section: string;
 }
+
+type CreateArgType = boolean | string | number | null | BN | Uint8Array | Codec;
 
 /**
  * From the schema of a function in the module's storage, generate the function
@@ -51,19 +57,22 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   }
 
   // Can only have zero or one argument:
-  // - storage.balances.freeBalance(address)
-  // - storage.timestamp.blockPeriod()
-  const _storageFn = (arg?: any): Uint8Array => {
+  //   - storage.balances.freeBalance(address)
+  //   - storage.timestamp.blockPeriod()
+  // For doublemap queries the params is passed in as an tuple, [key1, key2]
+  const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array => {
     let key = rawKey;
 
     if (meta.type.isDoubleMap) {
-      assert(!isUndefined(arg) && !isNull(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
+      assert(Array.isArray(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
 
+      // we have checked that it is an array in the assert, so all ok
+      const [key1, key2] = arg as [CreateArgType, CreateArgType];
       const type1 = meta.type.asDoubleMap.key1.toString();
       const type2 = meta.type.asDoubleMap.key2.toString();
-      const param1Encoded = u8aConcat(key, createType(type1, arg[0]).toU8a(true));
+      const param1Encoded = u8aConcat(key, createTypeUnsafe(type1, [key1]).toU8a(true));
       const param1Hashed = hasher(param1Encoded);
-      const param2Hashed = key2Hasher(createType(type2, arg[1]).toU8a(true));
+      const param2Hashed = key2Hasher(createTypeUnsafe(type2, [key2]).toU8a(true));
 
       return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
     }
@@ -72,7 +81,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-      const param = createType(type, arg).toU8a();
+      const param = createTypeUnsafe(type, [arg]).toU8a();
 
       key = u8aConcat(key, param);
     }
@@ -94,30 +103,25 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   storageFn.toJSON = (): any => meta.toJSON();
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
-    const keyHash = new U8a(hasher(`head of ${stringKey}`));
-    const keyFn: any = (): U8a => keyHash;
+    const headHash = new U8a(hasher(`head of ${stringKey}`));
+    const headFn: any = (): U8a => headHash;
 
-    // metadata with a flabbcak value using the type of the key, the normal
+    // metadata with a fallback value using the type of the key, the normal
     // meta fallback only applies to actual entry values, create one for head
-    keyFn.meta = new StorageEntryMetadata({
+    headFn.meta = new StorageEntryMetadata({
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
       type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
-      fallback: new Bytes(createType(meta.type.asMap.key).toHex()),
+      fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
       documentation: meta.documentation
     });
 
-    // here we pass the section/methos through as well - these are not on
+    // here we pass the section/method through as well - these are not on
     // the function itself, so specify these explicitly to the constructor
-    storageFn.headKey = new StorageKey(keyFn, {
+    storageFn.headKey = new StorageKey(headFn, {
       method: storageFn.method,
       section: `head of ${storageFn.section}`
     });
-
-    // adjust the fallback value - the metadata only specifies the value
-    // part, add a Linkage<Type> to the fallback aswell. The additional
-    // bytes here is a represnettaion of teh Options for next/prev
-    meta.set('fallback', new Bytes(meta.fallback.toHex().concat('0000')));
   }
 
   return storageFn;

@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import fs from 'fs';
 import path from 'path';
-
 import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Address, Hash, RuntimeVersion } from '@polkadot/types';
+
 import { KeyringPair } from '@polkadot/keyring/types';
+import { Address, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 
 import { ApiPromise, SubmittableResult } from '../../../src';
 import { describeE2E } from '../../util';

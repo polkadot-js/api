@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
+import { Address } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
-import { Address } from '@polkadot/types';
 
 export type ApiObject<ApiType> = ApiType extends 'rxjs'
   ? ApiRx

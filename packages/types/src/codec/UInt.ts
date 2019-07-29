@@ -6,6 +6,7 @@ import { AnyNumber } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
+import { ClassOf } from './createType';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -46,7 +47,12 @@ export default class UInt extends AbstractInt {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `u${this._bitLength}`;
+    // NOTE In the case of balances, which have a special meaning on the UI
+    // and can be interpreted differently, return a specifc value for it so
+    // underlying it always matches (no matter which length it actually is)
+    return this instanceof ClassOf('Balance')
+      ? 'Balance'
+      : `u${this._bitLength}`;
   }
 
   /**

@@ -4,11 +4,11 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord } from '@polkadot/types';
+import { EventRecord, Signer } from '@polkadot/types/interfaces';
+import { createType } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
-import { Signer } from '../../../src/types';
 import { describeE2E, SingleAccountSigner } from '../../util';
 
 // log all events for the transfer, calling done() when finalized
@@ -90,7 +90,8 @@ describeE2E({
       await expect(api.tx.balances
         .transfer(keyring.eve.address, 12345)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ })).rejects.toThrow('no signer exists');
+        .signAndSend(keyring.alice.address, (cb: any): void => { /* do nothing */ }))
+        .rejects.toThrow('no signer exists');
     });
   });
 });

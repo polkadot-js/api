@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BalanceLock, VestingSchedule } from '@polkadot/types/srml/balances/types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, VestingSchedule } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, BlockNumber, ClassOf, Index, Option, createType } from '@polkadot/types';
+import { ClassOf, Option, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -18,10 +18,10 @@ import { drr } from '../util/drr';
 
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
-const EMPTY_ACCOUNT = new AccountId();
-const ZERO = new Balance(0);
+const EMPTY_ACCOUNT = createType('AccountId');
+const ZERO = createType('Balance', 0);
 
-function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf<VestingSchedule>('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {
+function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {
   let lockedBalance = ZERO;
 
   if (Array.isArray(locks)) {
@@ -34,7 +34,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
-  const { offset, perBlock } = vesting.unwrapOr(createType<VestingSchedule>('VestingSchedule'));
+  const { offset, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
   const vestedNow: BN = perBlock.mul(bestNumber);
   const vestedBalance: BN = vestedNow.gt(offset)
     ? freeBalance

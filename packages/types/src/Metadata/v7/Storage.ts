@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 
 import { DoubleMapType, MapType, PlainType, StorageEntryMetadata, StorageEntryMetadataValue, StorageEntryModifier, StorageEntryType } from '../v6/Storage';
@@ -24,15 +24,15 @@ export class StorageMetadata extends Struct {
     super({
       prefix: Text,
       // NOTE renamed to items from entries (since Struct already has entries from Map)
-      items: Vector.with(StorageEntryMetadata)
+      items: Vec.with(StorageEntryMetadata)
     }, value);
   }
 
   /**
    * @description the storage entries
    */
-  public get items (): Vector<StorageEntryMetadata> {
-    return this.get('items') as Vector<StorageEntryMetadata>;
+  public get items (): Vec<StorageEntryMetadata> {
+    return this.get('items') as Vec<StorageEntryMetadata>;
   }
 
   /**

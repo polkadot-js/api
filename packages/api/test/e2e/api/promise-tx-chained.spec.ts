@@ -5,7 +5,7 @@
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord } from '@polkadot/types';
+import { EventRecord } from '@polkadot/types/interfaces';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';

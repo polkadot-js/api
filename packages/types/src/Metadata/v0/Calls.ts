@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import U16 from '../../primitive/U16';
 
@@ -42,15 +42,15 @@ export class OuterDispatchMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      calls: Vector.with(OuterDispatchCall)
+      calls: Vec.with(OuterDispatchCall)
     }, value);
   }
 
   /**
    * @description The [[OuterDispathCall]] wrapped
    */
-  public get calls (): Vector<OuterDispatchCall> {
-    return this.get('calls') as Vector<OuterDispatchCall>;
+  public get calls (): Vec<OuterDispatchCall> {
+    return this.get('calls') as Vec<OuterDispatchCall>;
   }
 
   /**

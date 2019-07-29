@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types';
 import Mock from '@polkadot/rpc-provider/mock/index';
+import { createType } from '@polkadot/types';
 
 import { ApiPromise } from '..';
 import { ApiOptions } from '../types';
@@ -18,7 +18,7 @@ describe('Metadata queries', (): void => {
 
   it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
     const rpcData = await mock.send('state_getMetadata', []);
-    const genesisHash = new Hash(await mock.send('chain_getBlockHash', [])).toHex();
+    const genesisHash = createType('Hash', await mock.send('chain_getBlockHash', [])).toHex();
     const specVersion = 0;
     const metadata: any = {};
     const key = `${genesisHash}-${specVersion}`;

@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
+import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpcSection,
@@ -22,13 +23,12 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, SignedBlock, Null, U64 } from '@polkadot/types';
+import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
-import * as srmlTypes from '@polkadot/types/srml/definitions';
+import * as interfacesTypes from '@polkadot/types/interfaces/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
@@ -113,7 +113,7 @@ export default abstract class ApiBase<ApiType> {
    * const api = new Api().isReady();
    *
    * api.rpc.subscribeNewHead((header) => {
-   *   console.log(`new block #${header.blockNumber.toNumber()}`);
+   *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```
    */
@@ -142,7 +142,7 @@ export default abstract class ApiBase<ApiType> {
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
       // first register the definitions we have, i.e. those where there are no type classes
-      Object.values(srmlTypes).forEach(({ types }): void =>
+      Object.values(interfacesTypes).forEach(({ types }): void =>
         this.registerTypes(types)
       );
 
@@ -206,6 +206,13 @@ export default abstract class ApiBase<ApiType> {
    */
   public get type (): ApiTypes {
     return this._type;
+  }
+
+  /**
+   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return GenericCall.findFunction(u8aToU8a(callIndex));
   }
 
   /**
@@ -532,8 +539,8 @@ export default abstract class ApiBase<ApiType> {
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
+      GenericEvent.injectMetadata(this.runtimeMetadata);
+      GenericCall.injectMethods(extrinsics);
 
       // detect the extrinsic version in-use based on the last block
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
@@ -599,7 +606,7 @@ export default abstract class ApiBase<ApiType> {
       });
   }
 
-  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
@@ -616,7 +623,7 @@ export default abstract class ApiBase<ApiType> {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
         createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
@@ -652,9 +659,7 @@ export default abstract class ApiBase<ApiType> {
             .pipe(
               // state_storage returns an array of values, since we have just subscribed to
               // a single entry, we pull that from the array and return it as-is
-              map((result: Codec[]): Codec =>
-                result[0]
-              )
+              map(([data]): Codec => data)
             );
         }, {
           methodName: creator.method
@@ -696,7 +701,7 @@ export default abstract class ApiBase<ApiType> {
     );
 
     decorated.size = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg): Observable<U64> =>
+      (arg1?: CodecArg, arg2?: CodecArg): Observable<u64> =>
         this._rpcCore.state.getStorageSize(
           creator.meta.type.isDoubleMap
             ? [creator, [arg1, arg2]]
@@ -706,7 +711,7 @@ export default abstract class ApiBase<ApiType> {
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (method: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -715,7 +720,7 @@ export default abstract class ApiBase<ApiType> {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
-      return this._rpcCore.state.subscribeStorage([[method, key]])
+      return this._rpcCore.state.subscribeStorage([[creator, key]])
         .pipe(
           switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
             const linkage = data[1];
@@ -776,16 +781,22 @@ export default abstract class ApiBase<ApiType> {
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
     return decorateMethod(
-      (): Observable<LinkageResult> =>
-        this._rpcCore.state
-          .subscribeStorage([method.headKey])
-          .pipe(
-            switchMap(([key]: Codec[]): Observable<LinkageResult> => {
-              head = key;
+      (...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
+        args.length
+          ? this._rpcCore.state
+            .subscribeStorage([[creator, ...args]])
+            .pipe(
+              map(([data]): [Codec, Linkage<Codec>] => data)
+            )
+          : this._rpcCore.state
+            .subscribeStorage([creator.headKey])
+            .pipe(
+              switchMap(([key]): Observable<LinkageResult> => {
+                head = key;
 
-              return getNext(key);
-            })
-          )
+                return getNext(key);
+              })
+            )
     );
   }
 

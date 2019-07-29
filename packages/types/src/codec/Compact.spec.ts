@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import BN from 'bn.js';
 
-import Balance from '../primitive/Balance';
-import Moment from '../primitive/Moment';
+import createType, { ClassOf } from '../codec/createType';
+import Moment from './Date';
 import U32 from '../primitive/U32';
-import BlockNumber from '../type/BlockNumber';
 import Compact from './Compact';
 import UInt from './UInt';
 
@@ -63,7 +64,7 @@ describe('Compact', (): void => {
 
     it('encondes a large balance', (): void => {
       expect(
-        Compact.encodeU8a(new Balance('0x5af3107a4000'))
+        Compact.encodeU8a(createType('Balance', '0x5af3107a4000'))
       ).toEqual(
         new Uint8Array([
           3 + ((6 - 4) << 2),
@@ -108,13 +109,13 @@ describe('Compact', (): void => {
   describe('constructor', (): void => {
     it('has the correct bitLength for constructor values (BlockNumber)', (): void => {
       expect(
-        new Compact(BlockNumber, 0xfffffff9).bitLength()
+        new Compact(ClassOf('BlockNumber'), 0xfffffff9).bitLength()
       ).toEqual(64);
     });
 
     it('has the correct encodedLength for constructor values (BlockNumber)', (): void => {
       expect(
-        new Compact(BlockNumber, 0xfffffff9).encodedLength
+        new Compact(ClassOf('BlockNumber'), 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 

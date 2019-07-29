@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../types';
+import { Codec, IHash } from '../types';
+
 import { isNull } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import createType from '../codec/createType';
 
 /**
  * @name Null
@@ -16,6 +20,13 @@ export default class Null implements Codec {
    */
   public get encodedLength (): number {
     return 0;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -67,16 +78,5 @@ export default class Null implements Codec {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array();
-  }
-}
-
-/**
- * @name Phantom
- * @description
- * Implements a type that does not contain anything (apart from `null`)
- */
-export class Phantom extends Null {
-  public toRawType (): string {
-    return 'Phantom';
   }
 }

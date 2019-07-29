@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isU8a, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
+import { Codec, Constructor, IHash } from '../types';
 
-import { Codec } from '../types';
+import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import U8a from './U8a';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number>;
@@ -20,9 +23,7 @@ export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
   public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
-    super(
-      CodecSet.decodeSet(setValues, value)
-    );
+    super(CodecSet.decodeSet(setValues, value));
 
     this._setValues = setValues;
   }
@@ -65,11 +66,39 @@ export default class CodecSet extends Set<string> implements Codec {
     }, 0);
   }
 
+  public static with (values: SetValues): Constructor<CodecSet> {
+    return class extends CodecSet {
+      public constructor (value?: any) {
+        super(values, value);
+
+        Object.keys(values).forEach((_key): void => {
+          const name = stringUpperFirst(stringCamelCase(_key));
+          const iskey = `is${name}`;
+
+          // do not clobber existing properties on the object
+          if (isUndefined((this as any)[iskey])) {
+            Object.defineProperty(this, iskey, {
+              enumerable: true,
+              get: (): boolean => this.strings.includes(_key)
+            });
+          }
+        });
+      }
+    };
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
     return 1;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

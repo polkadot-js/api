@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option, Vector } from '../../codec';
+import { Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
@@ -57,7 +57,7 @@ export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
         prefix: modul.prefix,
         storage: modul.storage.isSome
           ? new Option(
-            Vector.with(StorageFunctionMetadata),
+            Vec.with(StorageFunctionMetadata),
             modul.storage.unwrap().map(toV4StorageFunction)
           )
           : undefined,

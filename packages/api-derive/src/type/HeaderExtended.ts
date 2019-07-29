@@ -2,15 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Header, u64 } from '@polkadot/types';
-import { AnyJsonObject } from '@polkadot/types/types';
+import { AccountId, Header } from '@polkadot/types/interfaces';
+import { AnyJsonObject, Constructor } from '@polkadot/types/types';
+
+import { u64, ClassOf } from '@polkadot/types';
+
+// This is a bit hacky, but is exactly what it resolves to when compiled -
+// and as a bonus is gets the typing right
+const _Header: Constructor<Header> = ClassOf('Header');
 
 /**
  * @name HeaderExtended
  * @description
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
-export default class HeaderExtended extends Header {
+export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
   public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
@@ -25,27 +31,27 @@ export default class HeaderExtended extends Header {
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
-      const preRuntime = pitem.asPreRuntime;
+      const [engine, data] = pitem.asPreRuntime;
 
-      if (preRuntime.engine.isAura) {
-        slot = preRuntime.slot;
+      if (engine.isAura) {
+        slot = engine.extractSlot(data);
       }
     } else {
       const [citem] = header.digest.logsWith('Consensus');
 
       // extract author from the consensus (substrate 1.0, digest)
       if (citem) {
-        const consensus = citem.asConsensus;
+        const [engine, data] = citem.asConsensus;
 
-        if (consensus.engine.isAura) {
-          slot = consensus.slot;
+        if (engine.isAura) {
+          slot = engine.extractSlot(data);
         }
       } else {
         const [sitem] = header.digest.logsWith('SealV0');
 
         // extract author from the seal (pre substrate 1.0, backwards compat)
         if (sitem) {
-          slot = sitem.asSealV0.slot;
+          slot = sitem.asSealV0[0];
         }
       }
     }

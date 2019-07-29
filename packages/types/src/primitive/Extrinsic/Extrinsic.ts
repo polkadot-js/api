@@ -2,19 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import { FunctionMetadata } from '../../Metadata/v6/Calls';
-import NonceCompact from '../../type/NonceCompact';
-import Address from '../Address';
-import BalanceCompact from '../BalanceCompact';
-import Method from '../Method';
-import Hash from '../Hash';
+import { FunctionMetadata } from '../../Metadata/v7/Calls';
+import Address from '../Generic/Address';
+import Call from '../Generic/Call';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
@@ -39,7 +36,7 @@ interface ExtrinsicOptions {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, { version }: ExtrinsicOptions = {}) {
+  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: ExtrinsicOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, version));
   }
 
@@ -58,7 +55,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Method | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -86,7 +83,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
       assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
-    } else if (value instanceof Method) {
+    } else if (value instanceof Call) {
       return Extrinsic.newFromValue({ method: value }, version);
     }
 
@@ -98,28 +95,28 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
+   * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
   public get args (): Codec[] {
     return this.method.args;
   }
 
   /**
-   * @description Thge argument defintions, compatible with [[Method]]
+   * @description Thge argument defintions, compatible with [[Call]]
    */
   public get argsDef (): ArgsDef {
     return this.method.argsDef;
   }
 
   /**
-   * @description The actual `[sectionIndex, methodIndex]` as used in the Method
+   * @description The actual `[sectionIndex, methodIndex]` as used in the Call
    */
   public get callIndex (): Uint8Array {
     return this.method.callIndex;
   }
 
   /**
-   * @description The actual data for the Method
+   * @description The actual data for the Call
    */
   public get data (): Uint8Array {
     return this.method.data;
@@ -140,16 +137,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description Convernience function, encodes the extrinsic and returns the actual hash
-   */
-  public get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
-  }
-
-  /**
-   * @description `true` is method has `Origin` argument (compatibility with [[Method]])
+   * @description `true` is method has `Origin` argument (compatibility with [Call])
    */
   public get hasOrigin (): boolean {
     return this.method.hasOrigin;
@@ -177,16 +165,16 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   }
 
   /**
-   * @description The [[Method]] this extrinsic wraps
+   * @description The [[Call]] this extrinsic wraps
    */
-  public get method (): Method {
+  public get method (): Call {
     return this.raw.method;
   }
 
   /**
    * @description The nonce for this extrinsic
    */
-  public get nonce (): NonceCompact {
+  public get nonce (): Compact<Index> {
     return this.raw.signature.nonce;
   }
 
@@ -207,7 +195,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
   /**
    * @description Forwards compat
    */
-  public get tip (): BalanceCompact {
+  public get tip (): Compact<Balance> {
     return this.raw.signature.tip;
   }
 

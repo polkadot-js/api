@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/interfaces';
+
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from './bestNumber';
@@ -31,7 +33,7 @@ export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumbe
       bestNumberFinalized(api)()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
-        new BlockNumber(bestNumber.sub(bestNumberFinalized))
+        createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
       ),
       drr()
     );

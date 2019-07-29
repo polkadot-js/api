@@ -8,7 +8,7 @@ import { assert } from '@polkadot/util';
 
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
@@ -146,7 +146,7 @@ export interface StorageFunctionMetadataValue {
   modifier: StorageFunctionModifier | AnyNumber;
   type: StorageFunctionType;
   fallback: Bytes;
-  documentation: Vector<Text> | string[];
+  documentation: Vec<Text> | string[];
 }
 
 /**
@@ -161,7 +161,7 @@ export class StorageFunctionMetadata extends Struct {
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
       fallback: Bytes,
-      documentation: Vector.with(Text)
+      documentation: Vec.with(Text)
     }, value);
   }
 
@@ -176,15 +176,15 @@ export class StorageFunctionMetadata extends Struct {
   /**
    * @description The [[Text]] documentation
    */
-  public get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  public get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 

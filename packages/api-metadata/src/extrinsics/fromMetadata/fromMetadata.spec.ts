@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic, Metadata } from '@polkadot/types';
-import { injectDefinitions } from '@polkadot/types/srml';
+import '@polkadot/types/injector';
+
+import { createType, Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v7/static';
 
 import fromMetadata from '.';
-
-injectDefinitions();
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json);
@@ -25,7 +24,7 @@ describe('fromMetadata', (): void => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a()
+      createType('Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

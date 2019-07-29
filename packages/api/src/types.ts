@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
-import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
-import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
@@ -105,7 +106,7 @@ export interface StorageEntryObservable {
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
   multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<u64>;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -127,7 +128,7 @@ export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
   multi: StorageEntryPromiseMulti;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<u64>;
 }
 
 export type QueryableStorageEntry<ApiType> =
@@ -162,7 +163,7 @@ export interface QueryableStorage<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
 }
 
-export interface SubmittableExtrinsicFunction<ApiType> extends MethodFunction {
+export interface SubmittableExtrinsicFunction<ApiType> extends CallFunction {
   (...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 

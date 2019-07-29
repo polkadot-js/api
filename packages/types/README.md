@@ -23,8 +23,8 @@ These are the base types of the codec. They are typically not used directly, but
 | [[U8a]] |  A basic wrapper around Uint8Array. It will consume the full Uint8Array as passed to it |
 | [[U8aFixed]] | A U8a that manages a a sequence of bytes up to the specified bitLength |
 | [[UInt]] | A generic unsigned integer codec. It handles the encoding and decoding of Little Endian encoded numbers in Substrate |
-| [[Vector]] | This manages codec arrays. Internally it keeps track of the length (as decoded) |
-| [[VectorAny]] | This manages codec arrays, assuming that the inputs are already of type Codec |
+| [[Vec]] | This manages codec arrays. Internally it keeps track of the length (as decoded) |
+| [[VecAny]] | This manages codec arrays, assuming that the inputs are already of type Codec |
 
 
 ## Primitive types
@@ -39,6 +39,7 @@ These primitive types are available:
 | [[Address]] | A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix |
 | [[Bool]] | Representation for a boolean value in the system |
 | [[Bytes]] | A Bytes wrapper for `Vec<u8>` |
+| [[Call]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
 | [[Data]] | A raw data structure. It is an encoding of a U8a without any length encoding |
 | [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
 | [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
@@ -55,12 +56,11 @@ These primitive types are available:
 | [[I64]] | A 64-bit signed integer |
 | [[I128]] | A 128-bit signed integer |
 | [[I256]] | A 256-bit signed integer |
-| [[Method]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
 | [[Moment]] | A wrapper around seconds/timestamps. Internally the representation only has second precicion (aligning with Rust) |
 | [[Null]] | Implements a type that does not contain anything (apart from `null`) |
 | [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
 | [[Signature]] | The default signature that is used accross the system |
-| [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
+| [[ExtrinsicPayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
 | [[StorageData]] | Data retrieved via Storage queries and data for key-value pairs |
 | [[StorageKey]] |  A representation of a storage key (typically hashed) in the system |
 | [[Text]] | This is a string wrapper, along with the length. |
@@ -105,7 +105,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
 | [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
 | [[Key]] | The Substrate Key representation as a [[Bytes]] (`vec<u8>`) |
-| [[Keys]] | The session keys |
+| [[Keys]] | The session keys for both Grandpa (ed25519) and Babe (sr25519) |
 | [[KeyValue]] |  KeyValue structure. Since most of the keys and resultant values in Subtrate are hashed and/or encoded, keys and values are reprsented as [[Bytes]] |
 | [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
 | [[LockIdentifier]] | The Substrate LockIdentifier for staking |
@@ -122,7 +122,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Permill]] | Parts per million (See also [[Perbill]]) |
 | [[PrefabWasmModule]] | Struct to encode the vesting schedule of an individual account |
 | [[PropIndex]] | An increasing number that represents a specific council proposal index in the system |
-| [[Proposal]] | A proposal in the system. It just extends [[Method]] (Proposal = Call in Rust) |
+| [[Proposal]] | A proposal in the system. It just extends [[Call]] (Proposal = Call in Rust) |
 | [[ProposalIndex]] | An increasing number that represents a specific council proposal index in the system |
 | [[ReferendumIndex]] | An increasing number that represents a specific referendum in the system |
 | [[ReferendumInfo]] | Info regarding an ongoing referendum |
@@ -132,7 +132,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[SeedOf]] | The Substrate SeedOf representation as a [[Hash]] |
 | [[SessionIndex]] | Simple index type with which we can count sessions as [[U32]] |
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
-| [[SessionKeys]] | Wrapper for the session and authority ids |
 | [[SetIndex]] | Set index, implemented as a [[U32]] |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |

@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';

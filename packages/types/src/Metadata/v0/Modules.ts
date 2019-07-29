@@ -4,7 +4,7 @@
 
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
@@ -39,38 +39,38 @@ export class FunctionMetadata extends Struct {
     super({
       id: U16,
       name: Text,
-      args: Vector.with(FunctionArgumentMetadata),
-      documentation: Vector.with(Text)
+      args: Vec.with(FunctionArgumentMetadata),
+      documentation: Vec.with(Text)
     }, value);
   }
 
   /**
    * @description The arguments of [[Type]]
    */
-  public get args (): Vector<FunctionArgumentMetadata> {
-    return this.get('args') as Vector<FunctionArgumentMetadata>;
+  public get args (): Vec<FunctionArgumentMetadata> {
+    return this.get('args') as Vec<FunctionArgumentMetadata>;
   }
 
   /**
    * @description The [[FunctionArgumentMetadata]] for arguments
    * @deprecated Use `.args` instead
    */
-  public get arguments (): Vector<FunctionArgumentMetadata> {
-    return this.get('arguments') as Vector<FunctionArgumentMetadata>;
+  public get arguments (): Vec<FunctionArgumentMetadata> {
+    return this.get('arguments') as Vec<FunctionArgumentMetadata>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  public get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  public get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 
@@ -93,15 +93,15 @@ export class CallMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      functions: Vector.with(FunctionMetadata)
+      functions: Vec.with(FunctionMetadata)
     }, value);
   }
 
   /**
    * @description The functions available as [[FunctionMetadata]]
    */
-  public get functions (): Vector<FunctionMetadata> {
-    return this.get('functions') as Vector<FunctionMetadata>;
+  public get functions (): Vec<FunctionMetadata> {
+    return this.get('functions') as Vec<FunctionMetadata>;
   }
 
   /**

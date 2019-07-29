@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Keys } from '@polkadot/types/srml/session/types';
-import { Exposure, RewardDestination, ValidatorPrefs } from '@polkadot/types/srml/staking/types';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { Keys } from '@polkadot/types/interfaces/session';
+import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
@@ -11,7 +12,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AccountId, BlockNumber, Option, StakingLedger, Tuple, Vector, UnlockChunk } from '@polkadot/types';
+import { createType, Option, Tuple, Vec } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -24,9 +25,9 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
     const key = era.toString();
 
     if (!map[key]) {
-      map[key] = value;
+      map[key] = value.unwrap();
     } else {
-      map[key] = map[key].add(value);
+      map[key] = map[key].add(value.unwrap());
     }
 
     return map;
@@ -46,7 +47,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // select the Unlockchunks that can't be redeemed yet.
   const unlockingChunks = stakingLedger.unlocking.filter((chunk): boolean =>
-    remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0)
+    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
   );
 
   if (!unlockingChunks.length) {
@@ -57,7 +58,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
     value,
-    remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+    remainingBlocks: remainingBlocks(createType('BlockNumber', eraString), eraLength, bestNumber)
   }));
 
   return results.length ? results : undefined;
@@ -69,13 +70,11 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }
 
   return stakingLedger.unlocking
-    .filter((chunk): boolean => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
-    .reduce((curr, prev): BN => {
-      return curr.add(prev.value);
-    }, new BN(0));
+    .filter((chunk): boolean => remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev): BN => curr.add(prev.value.unwrap()), new BN(0));
 }
 
-function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraIds: AccountId[], nextKeys: Option<AccountId> | Vector<Tuple>): { nextSessionId?: AccountId; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraIds: AccountId[], nextKeys: Option<AccountId> | Vec<Tuple>): { nextSessionId?: AccountId; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(nextKeys)) {
     const validatorIdx = validatorIds.indexOf(stashId);
@@ -112,7 +111,7 @@ function withStashController (api: ApiInterfaceRx, accountId: AccountId, control
       // FIXME while we have 2.x and 1.x support, don't add this to .multi -
       // should be added when only 2.x
       api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vector<AccountId>>()
+        ? api.query.aura.authorities<Vec<AccountId>>()
         : of([] as AccountId[]),
       api.queryMulti([
         api.query.session.queuedKeys
@@ -125,7 +124,7 @@ function withStashController (api: ApiInterfaceRx, accountId: AccountId, control
         [api.query.staking.stakers, stashId],
         [api.query.staking.validators, stashId]
       ])
-    ]) as Observable<[BN, BlockNumber, AccountId[], [Option<AccountId> | Vector<Tuple>, AccountId[], Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    ]) as Observable<[BN, BlockNumber, AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
     map(([eraLength, bestNumber, auraIds, [nextKeys, validatorIds, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
@@ -160,7 +159,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
       // FIXME while we have 2.x and 1.x support, don't add this to .multi -
       // should be added when only 2.x
       api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vector<AccountId>>()
+        ? api.query.aura.authorities<Vec<AccountId>>()
         : of([] as AccountId[]),
       api.queryMulti([
         api.query.session.queuedKeys
@@ -172,7 +171,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
         [api.query.staking.stakers, stashId],
         [api.query.staking.validators, stashId]
       ])
-    ]) as Observable<[AccountId[], [Option<AccountId> | Vector<Tuple>, AccountId[], [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    ]) as Observable<[AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
     map(([auraIds, [nextKeys, validatorIds, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const { nextSessionId, sessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
@@ -200,7 +199,7 @@ function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakin
  */
 export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
-    const accountId = new AccountId(_accountId);
+    const accountId = createType('AccountId', _accountId);
 
     return (
       api.queryMulti([

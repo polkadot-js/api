@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Extrinsic, SignedBlock } from '@polkadot/types/interfaces';
+
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Extrinsic, SignedBlock } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';

@@ -3,6 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Header } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
@@ -11,10 +13,9 @@ import EventEmitter from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import storage from '@polkadot/api-metadata/storage/static';
-import { Codec } from '@polkadot/types/types';
 import rpcMetadata from '@polkadot/types/Metadata/static';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { Header, RuntimeVersion, SignedBlock } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
@@ -48,10 +49,10 @@ export default class Mock implements ProviderInterface {
 
   private requests: Record<string, (...params: any[]) => string> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlock: (hash: string): any => new SignedBlock(rpcSignedBlock.result).toJSON(),
+    chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    chain_getRuntimeVersion: (): string => new RuntimeVersion().toHex(),
+    chain_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]
@@ -156,12 +157,12 @@ export default class Mock implements ProviderInterface {
       }
 
       // create a new header (next block)
-      newHead = this.makeBlockHeader(newHead.blockNumber.toBn());
+      newHead = this.makeBlockHeader(newHead.number.toBn());
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.blockNumber.muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.blockNumber.addn(index));
+        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
+        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
@@ -182,7 +183,7 @@ export default class Mock implements ProviderInterface {
   private makeBlockHeader (prevNumber: BN): Header {
     const blockNumber = prevNumber.addn(1);
 
-    return new Header({
+    return createType('Header', {
       digest: {
         logs: []
       },

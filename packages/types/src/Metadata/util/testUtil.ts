@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import { injectDefinitions } from '@polkadot/types/srml';
+import '../../injector';
 
-import createType from '../../codec/createType';
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
+
+import { createTypeUnsafe } from '../../codec/createType';
 import Metadata from '../Metadata';
-import Method from '../../primitive/Method';
+import Call from '../../primitive/Generic/Call';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
 
@@ -21,8 +22,6 @@ export function decodeLatestSubstrate<Modules extends Codec> (
   latestSubstrate: object
 ): void {
   it('decodes latest substrate properly', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData);
 
     console.error(JSON.stringify(metadata.toJSON()));
@@ -39,8 +38,6 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  */
 export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
   it('converts to V7', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV7 = new Metadata(rpcData).asV7;
 
@@ -55,11 +52,9 @@ export function toV7<Modules extends Codec> (version: number, rpcData: string): 
  */
 export function defaultValues (rpcData: string): void {
   describe('storage with default values', (): void => {
-    injectDefinitions();
-
     const metadata = new Metadata(rpcData);
 
-    Method.injectMethods(extrinsicsFromMeta(metadata));
+    Call.injectMethods(extrinsicsFromMeta(metadata));
 
     metadata.asV7.modules
       .filter(({ storage }): boolean => storage.isSome)
@@ -67,7 +62,7 @@ export function defaultValues (rpcData: string): void {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
-              (): Codec => createType(type.toString(), fallback)
+              (): Codec => createTypeUnsafe(type.toString(), [fallback])
             ).not.toThrow();
           });
         });

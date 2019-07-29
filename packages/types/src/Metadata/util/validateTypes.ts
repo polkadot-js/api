@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
+
 import { isUndefined } from '@polkadot/util';
 
-import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/createType';
+import { getTypeDef } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
@@ -19,10 +21,10 @@ export default function validateTypes (types: string[], throwError: boolean): vo
 
         case TypeDefInfo.Compact:
         case TypeDefInfo.Option:
-        case TypeDefInfo.Vector:
+        case TypeDefInfo.Vec:
           return extractTypes([(decoded.sub as TypeDef).type]);
 
-        case TypeDefInfo.VectorFixed:
+        case TypeDefInfo.VecFixed:
           return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
         case TypeDefInfo.Tuple:

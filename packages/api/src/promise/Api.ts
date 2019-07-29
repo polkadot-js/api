@@ -40,7 +40,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  *
  * // make a subscription to the network head
  * api.rpc.chain.subscribeNewHead((header) => {
- *   console.log(`Chain is at #${header.blockNumber}`);
+ *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
  * <BR>
@@ -138,7 +138,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    *
    * new Api().isReady.then((api) => {
    *   api.rpc.subscribeNewHead((header) => {
-   *     console.log(`new block #${header.blockNumber.toNumber()}`);
+   *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * });
    * ```

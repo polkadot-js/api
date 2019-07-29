@@ -7,14 +7,14 @@ import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions }
 import { isU8a } from '@polkadot/util';
 
 import Struct from '../../../codec/Struct';
-import Method from '../../Method';
-import Address from '../../Address';
+import Call from '../../Generic/Call';
+import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 const TRANSACTION_VERSION = 2;
 
 export interface ExtrinsicValueV2 {
-  method?: Method;
+  method?: Call;
   signature?: ExtrinsicSignature;
 }
 
@@ -23,29 +23,29 @@ interface ExtrinsicV2Options {
 }
 
 /**
- * @name ExtrinsicV1
+ * @name ExtrinsicV2
  * @description
- * The first generation of compact extrinsics
+ * The second generation of compact extrinsics
  */
 export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV2 | Method, { isSigned }: ExtrinsicV2Options = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV2 | Call, { isSigned }: ExtrinsicV2Options = {}) {
     super({
       signature: ExtrinsicSignature,
-      method: Method
+      method: Call
     }, ExtrinsicV2.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Method | Uint8Array | ExtrinsicValueV2, isSigned: boolean = false): ExtrinsicValueV2 {
+  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV2, isSigned: boolean = false): ExtrinsicValueV2 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV2) {
       return value;
-    } else if (value instanceof Method) {
+    } else if (value instanceof Call) {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, { isSigned });
-      const method = new Method(value.subarray(signature.encodedLength));
+      const method = new Call(value.subarray(signature.encodedLength));
 
       return {
         method,
@@ -64,10 +64,10 @@ export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description The [[Method]] this extrinsic wraps
+   * @description The [[Call]] this extrinsic wraps
    */
-  public get method (): Method {
-    return this.get('method') as Method;
+  public get method (): Call {
+    return this.get('method') as Call;
   }
 
   /**

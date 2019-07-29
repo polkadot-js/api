@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { Balance } from '@polkadot/types';
+import { Balance } from '@polkadot/types/interfaces';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 

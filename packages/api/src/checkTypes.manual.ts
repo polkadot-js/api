@@ -4,12 +4,14 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import { Header, Index } from '@polkadot/types/interfaces';
+
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header, Nonce } from '@polkadot/types';
+import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
 
 import { SubmittableResult } from './';
 
@@ -35,11 +37,11 @@ export default async function test (): Promise<void> {
   });
 
   await api.rpc.chain.subscribeNewHead<Header>((header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
-    console.log('current blockNumber:', header.blockNumber);
+    console.log('current blockNumber:', header.number);
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
@@ -58,14 +60,14 @@ export default async function test (): Promise<void> {
 
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
-  console.log('transfer as Method', transfer as IMethod);
+  console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
 
   // simple "return the hash" variant
   console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
 
   // passing options, but waiting for hash
-  const nonce = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+  const nonce = await api.query.system.accountNonce<Index>(keyring.alice.address);
 
   (await api.tx.balances
     .transfer(keyring.bob.address, 12345)
@@ -82,7 +84,7 @@ export default async function test (): Promise<void> {
     });
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce<Index>(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
@@ -90,4 +92,15 @@ export default async function test (): Promise<void> {
 
       unsub2();
     });
+
+  // check correct types with `createType`
+  const balance = createType('Balance', 2);
+  const gas = createType('Gas', 2);
+  const compact = createType('Compact<u32>', 2);
+  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
+
+  const gasUnsafe = createTypeUnsafe('Gas', [2]);
+  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
+
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }

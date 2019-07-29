@@ -2,15 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, Constructor } from '../types';
+
 import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
-import Moment from '../primitive/Moment';
-import { AnyNumber, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
-import Base from './Base';
+import CodecDate from './Date';
 import UInt from './UInt';
+import Base from './Base';
+
+// List of codec types that are compact-encodable
+export const COMPACT_ENCODABLE = [UInt, CodecDate];
+export type CompactEncodable = UInt | CodecDate; // FIXME is there a way to do it not-manually from the array?
 
 /**
  * @name Compact
@@ -20,12 +25,12 @@ import UInt from './UInt';
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact<T extends UInt | Moment> extends Base<T> {
+export default class Compact<T extends CompactEncodable> extends Base<T> {
   public constructor (Type: Constructor<T>, value: Compact<T> | AnyNumber = 0) {
     super(Compact.decodeCompact<T>(Type, value));
   }
 
-  public static with<T extends UInt | Moment> (Type: Constructor<T>): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T>): Constructor<Compact<T>> {
     return class extends Compact<T> {
       public constructor (value?: any) {
         super(Type, value);
@@ -50,7 +55,7 @@ export default class Compact<T extends UInt | Moment> extends Base<T> {
     return value;
   }
 
-  public static decodeCompact<T extends UInt | Moment> (Type: Constructor<T>, value: Compact<T> | AnyNumber): Moment | UInt {
+  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(value.raw);
     } else if (isString(value)) {

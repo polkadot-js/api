@@ -6,7 +6,9 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { u8aToHex } from '@polkadot/util';
-import { EventRecord, Index } from '@polkadot/types';
+import { EventRecord, Index } from '@polkadot/types/interfaces';
+import { createType } from '@polkadot/types';
+import '@polkadot/types/injector';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
