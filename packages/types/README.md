@@ -39,6 +39,7 @@ These primitive types are available:
 | [[Address]] | A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix |
 | [[Bool]] | Representation for a boolean value in the system |
 | [[Bytes]] | A Bytes wrapper for `Vec<u8>` |
+| [[Call]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
 | [[Data]] | A raw data structure. It is an encoding of a U8a without any length encoding |
 | [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
 | [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
@@ -55,7 +56,6 @@ These primitive types are available:
 | [[I64]] | A 64-bit signed integer |
 | [[I128]] | A 128-bit signed integer |
 | [[I256]] | A 256-bit signed integer |
-| [[Method]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
 | [[Moment]] | A wrapper around seconds/timestamps. Internally the representation only has second precicion (aligning with Rust) |
 | [[Null]] | Implements a type that does not contain anything (apart from `null`) |
 | [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
@@ -122,7 +122,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Permill]] | Parts per million (See also [[Perbill]]) |
 | [[PrefabWasmModule]] | Struct to encode the vesting schedule of an individual account |
 | [[PropIndex]] | An increasing number that represents a specific council proposal index in the system |
-| [[Proposal]] | A proposal in the system. It just extends [[Method]] (Proposal = Call in Rust) |
+| [[Proposal]] | A proposal in the system. It just extends [[Call]] (Proposal = Call in Rust) |
 | [[ProposalIndex]] | An increasing number that represents a specific council proposal index in the system |
 | [[ReferendumIndex]] | An increasing number that represents a specific referendum in the system |
 | [[ReferendumInfo]] | Info regarding an ongoing referendum |

@@ -7,7 +7,7 @@ import '../../injector';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import createType from '../../codec/createType';
-import Method from '../../primitive/Generic/Method';
+import Call from '../../primitive/Generic/Call';
 import events from '../../json/SignedBlock.002.json';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
@@ -15,7 +15,7 @@ import knownMehods from '../../json/SignedBlock.005.json';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
-    Method.injectMethods(extrinsics);
+    Call.injectMethods(extrinsics);
   });
 
   it('decodes a full block', (): void => {

@@ -60,7 +60,7 @@ export default async function test (): Promise<void> {
 
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
-  console.log('transfer as Method', transfer as IMethod);
+  console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
 
   // simple "return the hash" variant

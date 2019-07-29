@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Method } from '@polkadot/types/interfaces';
+import { Call } from '@polkadot/types/interfaces';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
-import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
+import { MethodFunction } from '@polkadot/types/primitive/Generic/Call';
 import { createType } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';
 
@@ -27,13 +27,13 @@ export default function createDescriptor (
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name.toString());
-  const extrinsicFn = (...args: any[]): Method => {
+  const extrinsicFn = (...args: any[]): Call => {
     assert(
       expectedArgs.length.valueOf() === args.length,
       `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
     );
 
-    return createType('Method', {
+    return createType('Call', {
       args,
       callIndex
     }, callMetadata);

@@ -8,7 +8,7 @@ import fs from 'fs';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
-import Method from '../primitive/Generic/Method';
+import Call from '../primitive/Generic/Call';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
 import MetadataV7, { ModuleMetadataV7 } from '../Metadata/v7';
@@ -150,7 +150,7 @@ function addExtrinsics (metadata: MetadataV7): string {
 
     return orderedMethods.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
-      const args = Method.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+      const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
       const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;

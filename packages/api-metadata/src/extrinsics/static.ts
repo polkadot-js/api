@@ -4,7 +4,7 @@
 
 import { Metadata } from '@polkadot/types';
 import metadataRpc from '@polkadot/types/Metadata/static';
-import { ModulesWithMethods } from '@polkadot/types/primitive/Generic/Method';
+import { ModulesWithMethods } from '@polkadot/types/primitive/Generic/Call';
 
 import fromMetadata from './fromMetadata';
 

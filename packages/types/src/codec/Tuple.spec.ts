@@ -11,7 +11,7 @@ import { CodecTo } from '../types';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import { ClassOf } from '../codec/createType';
-import Method from '../primitive/Generic/Method';
+import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import Tuple from './Tuple';
@@ -56,7 +56,7 @@ describe('Tuple', (): void => {
   });
 
   it.skip('creates properly via actual hex string', (): void => {
-    Method.injectMethods(extrinsics);
+    Call.injectMethods(extrinsics);
 
     const test = new (Tuple.with([
       ClassOf('BlockNumber'), ClassOf('Proposal'), ClassOf('VoteThreshold')
@@ -64,7 +64,7 @@ describe('Tuple', (): void => {
     ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
     expect((test[0] as BlockNumber).toNumber()).toEqual(6498);
-    expect((test[1] as Method).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect((test[1] as Call).callIndex).toEqual(new Uint8Array([0, 3]));
     expect((test[2] as VoteThreshold).toNumber()).toEqual(1);
   });
 

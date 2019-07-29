@@ -33,7 +33,7 @@ export default {
     Sr25519Signature: 'Signature',
 
     // extrinsic definition
-    Method: 'GenericMethod',
+    Call: 'GenericCall',
     Origin: 'GenericOrigin',
     ImmortalEra: 'GenericImmortalEra',
     MortalEra: 'GenericMortalEra',

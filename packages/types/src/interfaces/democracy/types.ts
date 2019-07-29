@@ -2,7 +2,7 @@
 
 import { Enum, Struct } from '../../codec';
 import { u32 } from '../../primitive';
-import { BlockNumber, Method } from '../runtime';
+import { BlockNumber, Call } from '../runtime';
 import { VoteThreshold } from '../elections';
 
 /** Enum */
@@ -24,8 +24,8 @@ export interface Conviction extends Enum {
 /** u32 */
 export type PropIndex = u32;
 
-/** Method */
-export type Proposal = Method;
+/** Call */
+export type Proposal = Call;
 
 /** u32 */
 export type ReferendumIndex = u32;

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-import { createType, GenericMethod } from '@polkadot/types';
+import { createType, GenericCall } from '@polkadot/types';
 
 import SignerPayload from './SignerPayload';
 
@@ -21,7 +21,7 @@ describe('SignerPayload', (): void => {
   };
 
   beforeEach((): void => {
-    GenericMethod.injectMethods(extrinsics);
+    GenericCall.injectMethods(extrinsics);
   });
 
   it('creates a valid JSON output', (): void => {
@@ -32,7 +32,7 @@ describe('SignerPayload', (): void => {
         blockNumber: '0x231d30',
         era: createType('ExtrinsicEra', { current: 2301232, period: 200 }),
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-        method: createType('Method', '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
+        method: createType('Call', '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
         nonce: 0x1234,
         tip: 0x5678,
         version: 2

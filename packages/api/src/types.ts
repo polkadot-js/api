@@ -11,7 +11,7 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { u64 } from '@polkadot/types';
-import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
+import { MethodFunction } from '@polkadot/types/primitive/Generic/Call';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
