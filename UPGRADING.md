@@ -20,7 +20,7 @@ To cater for both 1.x and 2.x support, the [@polkadot/api-derive](packages/api-d
 
 ### Type renames
 
-To better align with the actual types from the metadata, and avoid (too much) context switching, some types from the `@polkadot/types` hasve been renamed. These include -
+To better align with the actual types from the metadata, and avoid (too much) context switching, some types from the `@polkadot/types` have been renamed. These include -
 
 - `Vector` -> `Vec`
 - `U{8|16|32|64|128|256}` have been removed, only the lowercase version of these remain, i.e. `u32`.
