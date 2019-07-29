@@ -3,7 +3,7 @@
 If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
 
 - Support substrate v7 metadata
-- Runtime types have been extended and has been moved to definitions instead of classes
+- Runtime types have been extended and moved to definitions instead of classes
   - **Breaking Change** Primitive types for `i*` and `u*` (e.g. `u32`) are now only available in their lowercase versions. Additionally `Vector` is now only available as `Vec`, once again aligning with Rust.
   - **Breaking Change** `Moment` now implements as `u64` as per the Substrate codebase. (It it up to the user to interpret, for substrate 2.x it is not mili-second resolution)
   - **Breaking Change** For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods/queries, construction should not be needed, the raw value can be passed.
