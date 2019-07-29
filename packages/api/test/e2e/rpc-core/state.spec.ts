@@ -40,7 +40,7 @@ describeE2E({
     rpc.state
       .getMetadata()
       .subscribe((meta: Metadata): void => {
-        // console.error(JSON.stringify(meta.toJSON()));
+        console.error(JSON.stringify(meta.toJSON()));
         done();
       });
   });
@@ -61,7 +61,7 @@ describeE2E({
           storage.substrate.code
         ])
         .subscribe((code: Bytes): void => {
-          // console.error(code.toHex().substr(0, 256), '...');
+          console.error(code.toHex().substr(0, 256), '...');
           done();
         });
     });
@@ -72,7 +72,7 @@ describeE2E({
           storage.balances.freeBalance, ALICE
         ])
         .subscribe((balance: Balance): void => {
-          // console.error(balance);
+          // console.log(balance);
 
           expect(balance.isZero()).not.toEqual(true);
           done();
