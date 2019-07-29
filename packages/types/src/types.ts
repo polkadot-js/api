@@ -14,6 +14,19 @@ import Address from './primitive/Generic/Address';
 
 export * from './codec/types';
 
+export interface CallFunction {
+  (...args: any[]): Call;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export type Calls = Record<string, CallFunction>;
+
+export type ModulesWithCalls = Record<string, Calls>;
+
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IKeyringPair {
   address: string;

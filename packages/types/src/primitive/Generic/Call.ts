@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, ArgsDef, Codec, IMethod } from '../../types';
+import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
 
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
@@ -21,29 +21,12 @@ interface DecodedMethod extends DecodeMethodInput {
   meta: FunctionMetadataV7;
 }
 
-export interface MethodFunction {
-  (...args: any[]): Call;
-  callIndex: Uint8Array;
-  meta: FunctionMetadataV7;
-  method: string;
-  section: string;
-  toJSON: () => any;
-}
-
-export interface Methods {
-  [key: string]: MethodFunction;
-}
-
-export interface ModulesWithMethods {
-  [key: string]: Methods; // Will hold modules returned by state_getMetadata
-}
-
-const FN_UNKNOWN: Partial<MethodFunction> = {
+const FN_UNKNOWN: Partial<CallFunction> = {
   method: 'unknown',
   section: 'unknown'
 };
 
-const injected: Record<string, MethodFunction> = {};
+const injected: Record<string, CallFunction> = {};
 
 /**
  * @name CallIndex
@@ -142,7 +125,7 @@ export default class Call extends Struct implements IMethod {
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
-  public static findFunction (callIndex: Uint8Array): MethodFunction {
+  public static findFunction (callIndex: Uint8Array): CallFunction {
     assert(Object.keys(injected).length > 0, 'Calling Call.findFunction before extrinsics have been injected.');
 
     return injected[callIndex.toString()] || FN_UNKNOWN;
@@ -167,7 +150,7 @@ export default class Call extends Struct implements IMethod {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system extrinsics to be used in lookups
-  public static injectMethods (moduleMethods: ModulesWithMethods): void {
+  public static injectMethods (moduleMethods: ModulesWithCalls): void {
     Object.values(moduleMethods).forEach((methods): void =>
       Object.values(methods).forEach((method): void => {
         injected[method.callIndex.toString()] = method;

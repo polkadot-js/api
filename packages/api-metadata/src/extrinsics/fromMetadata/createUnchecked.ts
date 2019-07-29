@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
+import { CallFunction } from '@polkadot/types/types';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
-import { MethodFunction } from '@polkadot/types/primitive/Generic/Call';
 import { createType } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
- * that will return the an [[MethodFunction]].
+ * that will return the an [[CallFunction]].
  *
  * @param section - Name of the module section.
  * @param sectionIndex - Index of the module section in the modules array.
@@ -23,7 +23,7 @@ export default function createDescriptor (
   sectionIndex: number,
   methodIndex: number,
   callMetadata: FunctionMetadata
-): MethodFunction {
+): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name.toString());
@@ -46,5 +46,5 @@ export default function createDescriptor (
   extrinsicFn.toJSON = (): any =>
     callMetadata.toJSON();
 
-  return extrinsicFn as MethodFunction;
+  return extrinsicFn as CallFunction;
 }

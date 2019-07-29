@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -11,7 +11,6 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { u64 } from '@polkadot/types';
-import { MethodFunction } from '@polkadot/types/primitive/Generic/Call';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
@@ -164,7 +163,7 @@ export interface QueryableStorage<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
 }
 
-export interface SubmittableExtrinsicFunction<ApiType> extends MethodFunction {
+export interface SubmittableExtrinsicFunction<ApiType> extends CallFunction {
   (...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 

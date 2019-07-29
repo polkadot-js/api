@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ModulesWithCalls } from '@polkadot/types/types';
+
 import { Metadata } from '@polkadot/types';
 import metadataRpc from '@polkadot/types/Metadata/static';
-import { ModulesWithMethods } from '@polkadot/types/primitive/Generic/Call';
 
 import fromMetadata from './fromMetadata';
 
-const staticMetadata: ModulesWithMethods = fromMetadata(
+const staticMetadata: ModulesWithCalls = fromMetadata(
   new Metadata(metadataRpc)
 );
 export default staticMetadata;

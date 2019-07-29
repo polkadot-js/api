@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
-import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpcSection,
@@ -23,13 +23,12 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { getTypeRegistry, GenericEvent, GenericCall, Metadata, Null, u64 } from '@polkadot/types';
+import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Generic/Call';
 import * as interfacesTypes from '@polkadot/types/interfaces/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
@@ -207,6 +206,13 @@ export default abstract class ApiBase<ApiType> {
    */
   public get type (): ApiTypes {
     return this._type;
+  }
+
+  /**
+   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return GenericCall.findFunction(u8aToU8a(callIndex));
   }
 
   /**
@@ -600,7 +606,7 @@ export default abstract class ApiBase<ApiType> {
       });
   }
 
-  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
@@ -617,7 +623,7 @@ export default abstract class ApiBase<ApiType> {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
         createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
