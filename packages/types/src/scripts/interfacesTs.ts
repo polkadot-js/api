@@ -81,7 +81,8 @@ function exportType (name: string = '', base: string): string {
 }
 
 // helper to generate a `readonly <Name>: <Type>;` getter
-function createGetter (name: string = '', type: string, doc?: string): string {
+function createGetter (name: string = '', type: string, imports: TypeImports, doc?: string): string {
+  setImports(imports, [type]);
   return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
 }
 
@@ -112,8 +113,8 @@ function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
     const [enumType, asGetter] = type === 'Null'
       ? ['', '']
-      : [`(${type})`, createGetter(`as${getter}`, type)];
-    const isGetter = createGetter(`is${getter}`, 'boolean', `${index}:: ${name}${enumType}`);
+      : [`(${type})`, createGetter(`as${getter}`, type, imports)];
+    const isGetter = createGetter(`is${getter}`, 'boolean', imports, `${index}:: ${name}${enumType}`);
 
     switch (info) {
       case TypeDefInfo.Plain:
@@ -186,7 +187,7 @@ function tsSet ({ name: setName, sub }: TypeDef, imports: TypeImports): string {
   setImports(imports, ['Set']);
 
   const types = (sub as TypeDef[]).map(({ name }): string =>
-    createGetter(`is${name}`, 'boolean')
+    createGetter(`is${name}`, 'boolean', imports)
   );
 
   return exportInterface(setName, 'Set', types.join(''));
@@ -198,7 +199,7 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
 
     setImports(imports, ['Struct', embedType]);
 
-    return createGetter(typedef.name, returnType);
+    return createGetter(typedef.name, returnType, imports);
   });
 
   return exportInterface(structName, 'Struct', keys.join(''));

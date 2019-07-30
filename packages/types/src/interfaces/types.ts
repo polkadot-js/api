@@ -12,6 +12,7 @@ export * from './collective/types';
 export * from './contracts/types';
 export * from './democracy/types';
 export * from './deprecated/types';
+export * from './genericAsset/types';
 export * from './imOnline/types';
 export * from './parachains/types';
 export * from './staking/types';

@@ -8,6 +8,7 @@ export default {
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
     Address: 'GenericAddress',
+    AssetId: 'u32',
     Balance: 'u128',
     BalanceOf: 'Balance',
     BlockNumber: 'u64',
