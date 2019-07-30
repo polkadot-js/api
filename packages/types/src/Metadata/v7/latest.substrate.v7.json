@@ -394,7 +394,29 @@
           },
           "calls": [],
           "events": null,
-          "constants": []
+          "constants": [
+            {
+              "name": "EpochDuration",
+              "type": "u64",
+              "value": "0x6b01000000000000",
+              "documentation": [
+                " The number of **slots** that an epoch takes. We couple sessions to",
+                " epochs, i.e. we start a new session once the new epoch begins."
+              ]
+            },
+            {
+              "name": "ExpectedBlockTime",
+              "type": "Moment",
+              "value": "0x7017000000000000",
+              "documentation": [
+                " The expected average block time at which BABE should be creating",
+                " blocks. Since BABE is probabilistic it is not trivial to figure out",
+                " what the expected average block time should be based on the slot",
+                " duration and the security parameter `c` (where `1 - c` represents",
+                " the probability of a slot being empty)."
+              ]
+            }
+          ]
         },
         {
           "name": "Timestamp",

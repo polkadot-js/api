@@ -12,7 +12,7 @@ async function main () {
         api.rpc.chain.subscribeNewHead()
       ))
     .subscribe((header) => {
-      console.log(`Chain is at block: #${header.blockNumber}`);
+      console.log(`Chain is at block: #${header.number}`);
     });
 
   // In this example we're calling the Overvables unsubscribe() //
