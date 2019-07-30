@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber, EraIndex, SessionIndex } from '@polkadot/types/interfaces';
 import { DerivedSessionInfo } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option } from '@polkadot/types';
+import { Option, u64 } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
-type Result0to94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
-type Result = [BN, [BN, BN]];
+type Result0to94 = [BlockNumber, [SessionIndex, Option<BlockNumber>, BN, BN, SessionIndex]];
+type Result = [[u64, SessionIndex], [u64, u64, u64, SessionIndex, EraIndex]];
 
 const ZERO = new BN(0);
 
@@ -41,6 +41,7 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
     currentIndex,
     eraLength,
     eraProgress,
+    isEpoch: false,
     lastEraLengthChange,
     lastLengthChange,
     sessionLength,
@@ -49,19 +50,24 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
   } as unknown as DerivedSessionInfo;
 }
 
-function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): DerivedSessionInfo {
-  const eraProgress = (currentIndex).mod(sessionsPerEra);
+function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
+  const sessionProgress = currentSlot.sub(epochStartSlot);
+  const eraLength = sessionsPerEra.mul(epochDuration);
+  const eraProgress = epochIndex.mod(sessionsPerEra).mul(epochDuration).add(sessionProgress);
 
+  // FIXME This alwasy assumes Babe, as per the substrate defaults - at least for
+  // aura the `isEpoch` should be false
   return {
     currentEra,
     currentIndex,
-    eraLength: ZERO,
+    eraLength,
     eraProgress,
+    isEpoch: true,
     lastEraLengthChange: ZERO,
-    lastLengthChange: ZERO,
-    sessionLength: ZERO,
+    lastLengthChange: epochStartSlot,
+    sessionLength: epochDuration,
     sessionsPerEra,
-    sessionProgress: ZERO
+    sessionProgress: sessionProgress
   } as unknown as DerivedSessionInfo;
 }
 
@@ -94,8 +100,14 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
           // sessionsPerEra:
           // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
           // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
-          of(api.consts.staking.sessionsPerEra),
+          of([
+            api.consts.babe.epochDuration,
+            api.consts.staking.sessionsPerEra
+          ]),
           api.queryMulti([
+            api.query.babe.currentSlot,
+            api.query.babe.epochIndex,
+            api.query.babe.epochStartSlot,
             api.query.session.currentIndex,
             api.query.staking.currentEra
           ])
