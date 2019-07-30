@@ -4,5 +4,5 @@ exclude_patterns:
 - "**/*.test.js"
 - "**/*.test.ts"
 - "docs/**/*.js"
+- "packages/types/src/interfaces/"
 - "packages/types/src/scripts/"
-- "packages/types/src/srml/"
