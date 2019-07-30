@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { Bytes, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash, StorageData } from '../runtime';
 
 /** Vec<u8> */
@@ -14,6 +14,18 @@ export interface ChainProperties extends Struct {
   readonly tokenDecimals: u32;
   /** Text */
   readonly tokenSymbol: Text;
+}
+
+/** Enum */
+export interface ExtrinsicOrHash extends Enum {
+  /** 0:: Hash(Hash) */
+  readonly isHash: boolean;
+  /** Hash */
+  readonly asHash: Hash;
+  /** 1:: Extrinsic(Bytes) */
+  readonly isExtrinsic: boolean;
+  /** Bytes */
+  readonly asExtrinsic: Bytes;
 }
 
 /** Enum */

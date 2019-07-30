@@ -20,7 +20,7 @@ import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceip
 import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
-import { ApiId, ChainProperties, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
+import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
   bool: bool;
@@ -576,6 +576,9 @@ export interface InterfaceRegistry {
   ChainProperties: ChainProperties;
   'Option<ChainProperties>': Option<ChainProperties>;
   'Vec<ChainProperties>': Vec<ChainProperties>;
+  ExtrinsicOrHash: ExtrinsicOrHash;
+  'Option<ExtrinsicOrHash>': Option<ExtrinsicOrHash>;
+  'Vec<ExtrinsicOrHash>': Vec<ExtrinsicOrHash>;
   ExtrinsicStatus: ExtrinsicStatus;
   'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
   'Vec<ExtrinsicStatus>': Vec<ExtrinsicStatus>;
