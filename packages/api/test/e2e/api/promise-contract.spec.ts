@@ -46,7 +46,7 @@ describeE2E({
   });
 
   describe('incrementer', (): void => {
-    const MAX_GAS = 500000;
+    const MAX_GAS = 50000;
     let abi: Abi;
 
     beforeEach((): void => {
