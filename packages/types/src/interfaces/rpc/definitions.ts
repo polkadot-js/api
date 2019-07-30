@@ -9,6 +9,12 @@ export default {
       tokenDecimals: 'u32',
       tokenSymbol: 'Text'
     },
+    ExtrinsicOrHash: {
+      _enum: {
+        Hash: 'Hash',
+        Extrinsic: 'Bytes'
+      }
+    },
     ExtrinsicStatus: {
       _enum: {
         Future: 'Null',

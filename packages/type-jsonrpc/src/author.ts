@@ -7,10 +7,17 @@ import { RpcMethodOpt } from './types';
 import createMethod from './create/method';
 import createParam from './create/param';
 
+const removeExtrinsic: RpcMethodOpt = {
+  description: 'Remove given extrinsic from the pool and temporarily ban it to prevent reimporting',
+  params: [
+    createParam('bytesOrHash', 'Vec<ExtrinsicOrHash>')
+  ],
+  type: 'Vec<Hash>'
+};
+
 const pendingExtrinsics: RpcMethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
-  // @ts-ignore Yeap, the Vec here is fine
   type: 'Vec<Extrinsic>'
 };
 
@@ -20,12 +27,11 @@ const submitExtrinsic: RpcMethodOpt = {
   params: [
     createParam('extrinsic', 'Extrinsic')
   ],
-  // @ts-ignore srml types
   type: 'Hash'
 };
 
 const submitAndWatchExtrinsic: RpcMethodOpt = {
-  description: 'Subscribe and watch an extrinsic until unsubscribed',
+  description: 'Submit and subscribe to watch an extrinsic until unsubscribed',
   isSigned: true,
   params: [
     createParam('extrinsic', 'Extrinsic')
@@ -49,6 +55,7 @@ export default {
   description: 'Authoring of network items',
   section,
   methods: {
+    removeExtrinsic: createMethod(section, 'removeExtrinsic', removeExtrinsic),
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
     submitAndWatchExtrinsic: createMethod(section, 'submitAndWatchExtrinsic', submitAndWatchExtrinsic)
