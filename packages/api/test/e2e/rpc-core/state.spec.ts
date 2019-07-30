@@ -83,5 +83,25 @@ describeE2E({
           done();
         });
     });
+
+    it('accepts StorageKey as input type', async (done): Promise<void> => {
+      // get storage keys for ':code' storage
+      const keys = await rpc.state.getKeys('0x3a636f6465').toPromise();
+      const key = keys[0];
+      const storageHash = await rpc.state.getStorageHash(key, '0x').toPromise();
+
+      expect(storageHash).toBeDefined();
+      done();
+    });
+
+    it('accepts a hex value as input type', async (done): Promise<void> => {
+      // get storage keys for ':code' storage
+      const keys = await rpc.state.getKeys('0x3a636f6465').toPromise();
+      const key = keys[0].toHex();
+      const storageHash = await rpc.state.getStorageHash(key, '0x').toPromise();
+
+      expect(storageHash).toBeDefined();
+      done();
+    });
   });
 });
