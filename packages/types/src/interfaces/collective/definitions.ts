@@ -4,7 +4,7 @@
 
 export default {
   types: {
-    MemberCount: 'u64',
+    MemberCount: 'u32',
     ProposalIndex: 'u32',
     Votes: {
       index: 'ProposalIndex',
