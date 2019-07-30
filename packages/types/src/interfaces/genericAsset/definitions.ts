@@ -24,6 +24,6 @@ export default {
     AssetOptions: {
       initalIssuance: 'Balance',
       permissions: 'PermissionLatest'
-    },
+    }
   }
 };

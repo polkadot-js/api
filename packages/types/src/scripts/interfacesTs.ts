@@ -81,7 +81,7 @@ function exportType (name: string = '', base: string): string {
 }
 
 // helper to generate a `readonly <Name>: <Type>;` getter
-function createGetter(name: string = '', type: string, imports: TypeImports, doc?: string): string {
+function createGetter (name: string = '', type: string, imports: TypeImports, doc?: string): string {
   setImports(imports, [type]);
   return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
 }
