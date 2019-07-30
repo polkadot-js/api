@@ -136,7 +136,7 @@ ___
 
 ### elections
 
-▸ **aPPROVAL_SET_SIZE**: `u32`
+▸ **approvalSetSize**: `u32`
 - **summary**:   The chunk size of the approval vector.
 
 ▸ **candidacyBond**: `BalanceOf`
@@ -154,7 +154,7 @@ ___
 ▸ **presentSlashPerVoter**: `BalanceOf`
 - **summary**:   The punishment, per voter, if you provide an invalid presentation. A  reasonable default value is 1.
 
-▸ **vOTER_SET_SIZE**: `u32`
+▸ **voterSetSize**: `u32`
 - **summary**:   The chunk size of the voter vector.
 
 ▸ **votingBond**: `BalanceOf`
@@ -190,7 +190,7 @@ ___
 
 ### session
 
-▸ **dEDUP_KEY_PREFIX**: `Bytes`
+▸ **dedupKeyPrefix**: `Bytes`
 - **summary**:   Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch  of the trie.
 
 ___
