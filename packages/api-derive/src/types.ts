@@ -62,6 +62,7 @@ export interface DerivedSessionInfo {
   currentIndex: BN;
   eraLength: BN;
   eraProgress: BN;
+  isEpoch: boolean;
   lastEraLengthChange: BN;
   lastLengthChange: BN;
   sessionLength: BN;
