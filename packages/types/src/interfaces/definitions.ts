@@ -29,6 +29,7 @@ export { default as collective } from './collective/definitions';
 export { default as contracts } from './contracts/definitions';
 export { default as democracy } from './democracy/definitions';
 export { default as deprecated } from './deprecated/definitions';
+export { default as genericAsset } from './genericAsset/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as parachains } from './parachains/definitions';
 export { default as staking } from './staking/definitions';

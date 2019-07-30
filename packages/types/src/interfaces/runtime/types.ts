@@ -16,6 +16,9 @@ export type AccountIndex = GenericAccountIndex;
 /** GenericAddress */
 export type Address = GenericAddress;
 
+/** u32 */
+export type AssetId = u32;
+
 /** u128 */
 export type Balance = u128;
 
