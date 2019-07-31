@@ -15,8 +15,10 @@ describe('replay', (): void => {
   });
 
   it('subscribes via the rpc section', (done): void => {
+    // @ts-ignore
     rpc.chain.getBlockHash = jest.fn((): Observable<number> => of(1));
 
+    // @ts-ignore
     rpc.chain.getBlockHash(123, false).subscribe((): void => {
       expect(
         rpc.chain.getBlockHash

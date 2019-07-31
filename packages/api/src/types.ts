@@ -59,10 +59,10 @@ export interface DecorateMethodOptions {
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
 
 export interface PromiseResult<F extends AnyFunction> {
-  <T>(...args: Parameters<F>): Promise<T>;
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
-  <T>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
+  <T>(...args: Parameters<F>): Promise<T>;
+  <T>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
 }
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff

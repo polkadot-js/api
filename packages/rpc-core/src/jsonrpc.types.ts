@@ -33,11 +33,11 @@ export interface RpcInterface {
     getKeys(prefix: any, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
     getMetadata(block?: Hash | Uint8Array | string): Observable<Metadata>;
     getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
-    getStorage<T = Codec>(key: any[], block?: Hash | Uint8Array | string): Observable<T>;
+    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;
     getStorageHash(key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
     getStorageSize(key: any, block?: Hash | Uint8Array | string): Observable<u64>;
     queryStorage(keys: (any)[], startBlock: Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
-    subscribeStorage<T>(keys: any[]): Observable<T>;
+    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;
   };
   system: {
     chain(): Observable<Text>;

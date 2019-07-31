@@ -79,7 +79,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
 
     it('encodes key (with params), decoding response', (done): void => {
       api.state
-        .getStorage([storage.balances.freeBalance, ADDR_ONE])
+        .getStorage<Balance>([storage.balances.freeBalance, ADDR_ONE])
         .subscribe((value): void => {
           expect(
             provider.send
@@ -102,12 +102,12 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
     });
 
     it('encodes multiple keys, decoding multiple results', (done): void => {
-      api.state.subscribeStorage(
+      api.state.subscribeStorage<[Balance, Balance]>(
         [
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
         ]
-      ).subscribe((value: Balance[]): void => {
+      ).subscribe((value): void => {
         // console.error(value);
 
         expect(
@@ -173,7 +173,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
 
       api.state
         .subscribeStorage([[storage.staking.validators, '0x00']])
-        .subscribe((value: Codec): void => {
+        .subscribe(([value]: Codec[]): void => {
           expect(value).toBeDefined();
           // console.error('linked falklback', value);
 

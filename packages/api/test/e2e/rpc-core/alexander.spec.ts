@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, StorageChangeSet } from '@polkadot/types/interfaces';
+import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
 import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -22,11 +22,11 @@ describe.skip('e2e Alexander - Polkadot', (): void => {
 
   it('subscribes to storage', (done): void => {
     rpc.state
-      .subscribeStorage([
-        [storage.system.accountNonce, randomAccount],
-        [storage.session.currentIndex]
-      ])
-      .subscribe((data: StorageChangeSet): void => {
+      .subscribeStorage<[BlockNumber, Index]>([
+      [storage.system.accountNonce, randomAccount],
+      [storage.session.currentIndex]
+    ])
+      .subscribe((data): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([

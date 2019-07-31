@@ -17,8 +17,8 @@ describe('Cached Observables', (): void => {
   });
 
   it('creates a single observable for subscriptions (multiple calls)', (): void => {
-    const observable1 = rpc.chain.subscribeNewHead(123);
-    const observable2 = rpc.chain.subscribeNewHead(123);
+    const observable1 = rpc.state.subscribeStorage([123]);
+    const observable2 = rpc.state.subscribeStorage([123]);
 
     expect(observable2).toBe(observable1);
   });
@@ -31,15 +31,15 @@ describe('Cached Observables', (): void => {
   });
 
   it('creates a single observable (multiple calls, different arguments that should be cached together)', (): void => {
-    const observable1 = rpc.chain.subscribeNewHead(keyring.alice.address);
-    const observable2 = rpc.chain.subscribeNewHead(createType('AccountId', keyring.alice.address));
+    const observable1 = rpc.state.subscribeStorage([keyring.alice.address]);
+    const observable2 = rpc.state.subscribeStorage([createType('AccountId', keyring.alice.address)]);
 
     expect(observable2).toBe(observable1);
   });
 
   it('creates multiple observables for different values', (): void => {
-    const observable1 = rpc.chain.subscribeNewHead(123);
-    const observable2 = rpc.chain.subscribeNewHead(456);
+    const observable1 = rpc.chain.getBlockHash(123);
+    const observable2 = rpc.chain.getBlockHash(456);
 
     expect(observable2).not.toBe(observable1);
   });
@@ -63,15 +63,16 @@ describe('Cached Observables', (): void => {
   });
 
   it('creates different observables for different methods but same arguments', (): void => {
-    const observable1 = rpc.chain.subscribeNewHead(123);
-    const observable2 = rpc.state.subscribeStorage(123);
+    // @ts-ignore
+    const observable1 = rpc.chain.subscribeNewHead([123]);
+    const observable2 = rpc.state.subscribeStorage([123]);
 
     expect(observable2).not.toBe(observable1);
   });
 
   it('creates multiple observables for one-shots', (): void => {
-    const observable1 = rpc.system.chain(123);
-    const observable2 = rpc.system.chain(123);
+    const observable1 = rpc.chain.getBlockHash(123);
+    const observable2 = rpc.chain.getBlockHash(123);
 
     expect(observable2).not.toBe(observable1);
   });

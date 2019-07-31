@@ -460,10 +460,10 @@ function generateRpcTypes (): void {
       // FIXME
       // These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
-        return `    getStorage<T = Codec>(key: any[], block?: Hash | Uint8Array | string): Observable<T>;`;
+        return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
       }
       if (method.method === 'subscribeStorage') {
-        return `    subscribeStorage<T>(keys: any[]): Observable<T>;`;
+        return `    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;`;
       }
 
       const args = method.params.map((param): string => {

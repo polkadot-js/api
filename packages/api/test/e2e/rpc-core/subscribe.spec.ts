@@ -21,8 +21,8 @@ describe.skip('e2e subscriptions', (): void => {
     let count = 0;
 
     rpc.state
-      .subscribeStorage([[storage.timestamp.now]])
-      .subscribe((data: StorageChangeSet): void => {
+      .subscribeStorage<StorageChangeSet>([[storage.timestamp.now]])
+      .subscribe((data): void => {
         expect(data).toBeDefined();
 
         if (++count === 3) {

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Moment, StorageData } from '@polkadot/types/interfaces';
+import { u64 } from '@polkadot/types/primitive';
 
 import fs from 'fs';
 import path from 'path';
@@ -52,9 +53,9 @@ describe.skip('e2e state', (): void => {
   describe('test-suite getStorage()', (): void => {
     it('retrieves code', (done): void => {
       rpc.state
-        .getStorage([
-          storage.substrate.code
-        ])
+        .getStorage<Bytes>([
+        storage.substrate.code
+      ])
         .subscribe((code: Bytes): void => {
           console.error(code.toHex().substr(0, 256), '...');
           done();
@@ -63,9 +64,9 @@ describe.skip('e2e state', (): void => {
 
     it('retrieves balances', (done): void => {
       rpc.state
-        .getStorage([
-          storage.balances.freeBalance, ALICE
-        ])
+        .getStorage<Balance>([
+        storage.balances.freeBalance, ALICE
+      ])
         .subscribe((balance: Balance): void => {
           console.error(balance);
 
@@ -76,9 +77,9 @@ describe.skip('e2e state', (): void => {
 
     it('retrieves timestamp', (done): void => {
       rpc.state
-        .getStorage([
-          storage.timestamp.now
-        ])
+        .getStorage<Moment>([
+        storage.timestamp.now
+      ])
         .subscribe((moment: Moment): void => {
           console.error(moment);
 
@@ -162,7 +163,7 @@ describe.skip('e2e state', (): void => {
 
       rpc.state
         .getChildStorageSize(storageKeys[0], childStorageKeys[0])
-        .subscribe((storage: StorageData): void => {
+        .subscribe((storage: u64): void => {
           expect(storage.toString()).toBe('1');
           done();
         });

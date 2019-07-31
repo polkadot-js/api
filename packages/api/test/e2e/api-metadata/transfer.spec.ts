@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcInterface } from '@polkadot/rpc-core/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -15,7 +14,7 @@ const keyring = testingPairs({ type: 'ed25519' });
 // @TODO 1: All three tests below are broken, fix or find better way to test transfers.
 // @TODO 2: Move tests out of ./type-metadata to ./api folder
 describe.skip('e2e transfer', (): void => {
-  let api: RpcInterface;
+  let api: any;
 
   beforeAll((): void => {
     api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
@@ -35,6 +34,7 @@ describe.skip('e2e transfer', (): void => {
   it('makes a transfer for a transaction', (done): void => {
     api.chain
       .getBlockHash(0)
+      // @ts-ignore This file will be removed in #1167 (prepare for merge conflits)
       .subscribe((genesisHash): void => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
@@ -46,6 +46,7 @@ describe.skip('e2e transfer', (): void => {
   it('makes a transfer via watch', (done): void => {
     api.chain
       .getBlockHash(0)
+      // @ts-ignore This file will be removed in #1167 (prepare for merge conflits)
       .subscribe((genesisHash): void => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
