@@ -5,10 +5,10 @@
 import { getTypeDef, getTypeClass } from '../../codec/createType';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
+import Metadata from '../../Metadata';
 import { FunctionMetadata as FunctionMetadataV7, FunctionArgumentMetadata } from '../../Metadata/v7/Calls';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
 import extrinsicsFromMetadata from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import Metadata from '@polkadot/types/Metadata';
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 interface ConstructorOptions {

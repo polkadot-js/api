@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Metadata from '../../Metadata';
-import latestSubstrate from '../Metadata/v6/latest.substrate.v6.json';
+import latestSubstrate from '../../Metadata/v7/latest.substrate.v7.json';
 import Event from './Event';
 
 describe('Event', (): void => {

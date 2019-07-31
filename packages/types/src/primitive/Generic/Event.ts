@@ -121,7 +121,7 @@ export default class Event extends Struct {
   private static getDataType (soughtEventIndex: Uint8Array, metadata: Metadata): Constructor<EventData> | undefined {
     const methods = ([] as Method[])
       .concat(
-        ...metadata.asV6.modules
+        ...metadata.asV7.modules
           .filter((section): boolean => section.events.isSome)
           .map((section, sectionIndex): Method[] =>
             section.events.unwrap().map((meta, methodIndex): Method => ({

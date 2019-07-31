@@ -10,7 +10,7 @@ import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
-import Metadata from '@polkadot/types/Metadata';
+import Metadata from '../../../Metadata';
 
 export interface ExtrinsicValueV1 {
   method?: Call;

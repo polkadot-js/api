@@ -7,7 +7,7 @@ import { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec/createType';
-import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
+import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 

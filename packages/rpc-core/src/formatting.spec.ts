@@ -13,8 +13,8 @@ import Metadata from '@polkadot/types/Metadata';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
-import rpcMetadataV6 from '@polkadot/types/Metadata/static';
-import rpcMetadataV7 from '@polkadot/types/Metadata/v7/static';
+import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
+import rpcMetadataV7 from '@polkadot/types/Metadata/static';
 
 import Api from '.';
 

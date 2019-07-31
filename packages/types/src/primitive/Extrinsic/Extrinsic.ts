@@ -9,6 +9,7 @@ import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/u
 
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
+import Metadata from '../../Metadata';
 import { FunctionMetadata } from '../../Metadata/v7/Calls';
 import Address from '../Generic/Address';
 import Call from '../Generic/Call';
@@ -16,7 +17,6 @@ import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
-import Metadata from '@polkadot/types/Metadata';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
