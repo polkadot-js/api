@@ -320,11 +320,21 @@ export default class Rpc implements RpcInterface {
     const hexKey = key.toHex();
     const meta = key.meta || EMPTY_META;
 
+    // if we don't find the value, this is out fallback
+    //   - in the case of an array of values, fill the hole from the cache
+    //   - if a single result value, don't fill - it is not an update hole
+    //   - fallback to an empty option in all cases
+    const emptyVal = (
+      base.changes.length === 1
+        ? null
+        : this._storageCache.get(hexKey)
+    ) || new Option<StorageData>(ClassOf('StorageData'), null);
+
     // see if we have a result value for this specific key, fallback to the cache value
     // when the value in the set is not available, or is null/empty.
     const [, value] = base.changes.find(([key, value]): boolean =>
       value.isSome && key.toHex() === hexKey
-    ) || [null, this._storageCache.get(hexKey) || new Option<StorageData>(ClassOf('StorageData'), null)];
+    ) || [null, emptyVal];
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearning of it, so very long running processes (not just a couple of hours, longer)
