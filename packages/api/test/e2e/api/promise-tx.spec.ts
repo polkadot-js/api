@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '@polkadot/types/injector';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { u8aToHex } from '@polkadot/util';
 import { EventRecord, Index } from '@polkadot/types/interfaces';
-import '@polkadot/types/injector';
 
 import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
-import randomAsHex262144 from '../../mock-data/randomAsHex';
+import randomAsHex2097152 from '../../mock-data/randomAsHex_2097152';
 import { calculateAccountDeposit, describeE2E } from '../../util';
 
 // log all events for the transfers, calling done() when finalized
@@ -113,12 +113,10 @@ describeE2E({
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
     const amount = calculateAccountDeposit(api);
-    console.log(amount);
-
     await api.tx.democracy
       .propose(
         api.tx.system && api.tx.system.setCode
-          ? api.tx.system.setCode(randomAsHex262144) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+          ? api.tx.system.setCode(randomAsHex2097152) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
           : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
         , amount)
       .signAndSend(keyring.bob_stash, logEvents(done));

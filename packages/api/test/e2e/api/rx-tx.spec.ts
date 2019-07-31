@@ -13,7 +13,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 
 import ApiRx from '../../../src/rx';
 import { SubmittableResult } from '../../../src';
-import randomAsHex262144 from '../../mock-data/randomAsHex';
+import randomAsHex2097152 from '../../mock-data/randomAsHex_2097152';
 import { calculateAccountDeposit, describeE2E } from '../../util';
 
 describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
@@ -53,7 +53,7 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
           api.tx.democracy
             .propose(
               api.tx.system && api.tx.system.setCode
-                ? api.tx.system.setCode(randomAsHex262144) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+                ? api.tx.system.setCode(randomAsHex2097152) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
                 : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
               , amount)
             .sign(keyring.bob_stash, { nonce })
