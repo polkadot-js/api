@@ -2,8 +2,8 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
-import { BlockNumber, Hash, StorageData } from '../runtime';
+import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { BlockNumber, Hash } from '../runtime';
 
 /** Vec<u8> */
 export type ApiId = Vec<u8>;
