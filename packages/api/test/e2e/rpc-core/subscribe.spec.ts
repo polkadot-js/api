@@ -6,7 +6,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/api-metadata/storage/static';
 import Rpc from '@polkadot/rpc-core';
-import { StorageChangeSet } from '@polkadot/types/interfaces';
+import { Index, Moment, SessionIndex } from '@polkadot/types/interfaces';
 import { ClassOf } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
@@ -27,11 +27,11 @@ describeE2E({
 
   it('subscribes to storage', (done): void => {
     rpc.state
-      .subscribeStorage([
-        [storage.system.accountNonce, keyring.eve.address],
-        [storage.session.currentIndex]
-      ])
-      .subscribe((data: StorageChangeSet): void => {
+      .subscribeStorage<[Index, SessionIndex]>([
+      [storage.system.accountNonce, keyring.eve.address],
+      [storage.session.currentIndex]
+    ])
+      .subscribe((data): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
@@ -48,7 +48,7 @@ describeE2E({
     let count = 0;
 
     rpc.state
-      .subscribeStorage<StorageChangeSet>([[storage.timestamp.now]])
+      .subscribeStorage<Moment>([[storage.timestamp.now]])
       .subscribe((data): void => {
         expect(data).toBeDefined();
 

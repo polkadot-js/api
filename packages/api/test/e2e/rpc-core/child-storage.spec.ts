@@ -139,7 +139,7 @@ describeE2E({
 
       rpc.state
         .getChildStorageSize(storageKeys[0], childStorageKeys[0])
-        .subscribe((storage: StorageData): void => {
+        .subscribe((storage): void => {
           expect(storage.toString()).toBe('4');
           done();
         });
