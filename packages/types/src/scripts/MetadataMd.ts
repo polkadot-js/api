@@ -179,16 +179,24 @@ function addStorage (metadata: MetadataV7): string {
     const orderedMethods = moduleMetadata.storage.unwrap().items.sort(sortByName);
 
     return orderedMethods.reduce((md, func): string => {
-      const methodName = stringLowerFirst(func.name.toString());
-      const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
+      const arg =
+        func.type.isMap
+          ? ('`' + func.type.asMap.key.toString() + '`')
+          : func.type.isDoubleMap
+            ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
+            : '';
       const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
-      const type = func.modifier.isOptional
-        ? `Option<${func.type}>`
-        : func.type;
-      const renderSignature = `${md}\n▸ **${methodName}**(${arg}): ` + '`' + type + '`';
-      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      let result = (
+        func.type.isDoubleMap
+          ? func.type.asDoubleMap.value
+          : func.type
+      ).toString();
 
-      return renderSignature + renderSummary;
+      if (func.modifier.isOptional) {
+        result = `Option<${result}>`;
+      }
+
+      return `${md}\n▸ **${stringLowerFirst(func.name.toString())}**(${arg}): ` + '`' + result + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
