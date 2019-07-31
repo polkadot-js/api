@@ -276,7 +276,7 @@ ___
 
 ▸ **lastNewEraStart**(): `Option<SessionIndex>`
 
-▸ **receivedHeartbeats**(): `DoubleMap<Bytes>`
+▸ **receivedHeartbeats**(`SessionIndex, AuthorityId`): `Bytes`
 
 ___
 
@@ -300,10 +300,10 @@ ___
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
-▸ **keyOwner**(): `Option<DoubleMap<ValidatorId>>`
+▸ **keyOwner**(`Bytes, (KeyTypeId,Bytes)`): `Option<ValidatorId>`
 - **summary**:   The owner of a key. The second key is the `KeyTypeId` + the encoded key.   The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of  the trie. Having all data in the same branch should prevent slowing down other queries.
 
-▸ **nextKeys**(): `Option<DoubleMap<Keys>>`
+▸ **nextKeys**(`Bytes, ValidatorId`): `Option<Keys>`
 - **summary**:   The next session keys for a validator.   The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of  the trie. Having all data in the same branch should prevent slowing down other queries.
 
 ▸ **queuedChanged**(): `bool`
@@ -417,7 +417,7 @@ ___
 ▸ **events**(): `Vec<EventRecord>`
 - **summary**:   Events deposited for the current block.
 
-▸ **eventTopics**(): `DoubleMap<Vec<(BlockNumber,EventIndex)>>`
+▸ **eventTopics**(`Null, Hash`): `Vec<(BlockNumber,EventIndex)>`
 - **summary**:   Mapping between a topic (represented by T::Hash) and a vector of indexes  of events in the `<Events<T>>` list.   The first key serves no purpose. This field is declared as double_map just  for convenience of using `remove_prefix`.   All topic vectors have deterministic storage locations depending on the topic. This  allows light-clients to leverage the changes trie storage tracking mechanism and  in case of changes fetch the list of events of interest.   The value has the type `(T::BlockNumber, EventIndex)` because if we used only just  the `EventIndex` then in case if the topic has the same contents on the next block  no notification will be triggered thus the event might be lost.
 
 ▸ **extrinsicCount**(): `Option<u32>`

@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { StorageChangeSet, StorageData } from '@polkadot/types/interfaces';
+import { StorageChangeSet } from '@polkadot/types/interfaces';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface } from './jsonrpc.types';
 import { RpcInterfaceMethod } from './types';
@@ -13,7 +13,7 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { ClassOf, Option, StorageKey, Vec, createClass } from '@polkadot/types';
+import { ClassOf, Option, StorageData, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec/createType';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
