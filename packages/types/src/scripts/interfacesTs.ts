@@ -8,10 +8,13 @@ import fs from 'fs';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
-import { getTypeDef } from '../codec/createType';
+import { ClassOfUnsafe, getTypeDef } from '../codec/createType';
 import * as codecClasses from '../codec';
+import AbstractInt from '../codec/AbstractInt';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
+import Vec from '../codec/Vec';
 import * as primitiveClasses from '../primitive';
+import Bytes from '../primitive/Bytes';
 import * as definitions from '../interfaces/definitions';
 import { Constructor } from '../types';
 
@@ -281,7 +284,6 @@ interface Imports {
 
 // Create an Imports object, prefilled with types (if necessary)
 function createImports ({ types }: { types: Record<string, any> } = { types: {} }): Imports {
-  console.log(types);
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)
@@ -414,15 +416,40 @@ console.log(`Writing interfaceRegistry.ts`);
 
 generateInterfaceRegistry();
 
+// Make types a little bit more flexible
+// - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
+// etc
+function getSimilarTypes (type: string): string[] {
+  const possibleTypes = [type];
+
+  if (isChildClass(Vec, ClassOfUnsafe(type))) {
+    return [`(${getSimilarTypes(((getTypeDef(type).sub) as TypeDef).type).join(' | ')})[]`];
+  }
+
+  // @ts-ignore Cannot get isChildClass of abstract class, but it works
+  if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
+    possibleTypes.push('Uint8Array', 'number', 'string');
+  } else if (isChildClass(Bytes, ClassOfUnsafe(type))) {
+    possibleTypes.push('Hash', 'Uint8Array', 'string');
+  } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
+    possibleTypes.push('Uint8Array', 'string');
+  } else if (isChildClass(String, ClassOfUnsafe(type))) {
+    possibleTypes.push('string');
+  }
+
+  return possibleTypes;
+}
+
 // Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
 function generateRpcTypes (): void {
+  // Inject all types so that types-jsonrpc can use them
+  require('../injector');
+
   // Get all imported types by types-jsonrpc
   const allImportedTypes = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
-    console.log(
-      Object.values(interfaces[section].methods).map((method): string[] => [...method.params.map(({ type }): string => type), method.type])
-    );
     return allSections.concat(
-      ...Object.values(interfaces[section].methods).map((method): string[] => [...method.params.map(({ type }): string => type), method.type])
+      ...Object.values(interfaces[section].methods).map((method): string[] =>
+        [...method.params.map(({ type }): string => type), method.type])
     );
   }, []);
 
@@ -430,9 +457,14 @@ function generateRpcTypes (): void {
 
   const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.values(interfaces[section].methods).map((method): string => {
-      const args = method.params.map((param): string => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`);
+      const args = method.params.map((param): string => {
+        const similarTypes = getSimilarTypes(param.type);
+        setImports(imports, similarTypes);
 
-      return `    ${method.method}(${args.join(', ')}): ${method.type};`;
+        return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
+      });
+
+      return `    ${method.method}(${args.join(', ')}): Observable<${method.type}>;`;
     });
 
     return allSections.concat(
@@ -445,6 +477,10 @@ function generateRpcTypes (): void {
   }, []).join('\n');
 
   const header = createImportCode(HEADER, [
+    {
+      file: 'rxjs',
+      types: ['Observable']
+    },
     {
       file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
