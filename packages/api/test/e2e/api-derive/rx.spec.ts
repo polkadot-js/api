@@ -12,13 +12,18 @@ import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees
 import { createType, ClassOf } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-const WS = 'ws://127.0.0.1:9944/';
+import { describeE2E } from '../../util';
 
 // Dev account Alice
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('Api-RX derive e2e', (): void => {
+describeE2E({
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
+})('Api-RX derive e2e', (wsUrl: string): void => {
   let api: ApiRx;
 
   beforeAll((): void => {
@@ -26,7 +31,7 @@ describe.skip('Api-RX derive e2e', (): void => {
   });
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiRx.create(new WsProvider(WS)).toPromise();
+    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
 
     done();
   });
@@ -184,7 +189,7 @@ describe.skip('Api-RX derive e2e', (): void => {
     });
 
     // FIXME https://github.com/polkadot-js/api/issues/868
-    describe.skip('getHeader', (): void => {
+    describe('getHeader', (): void => {
       it('gets a specific block header and extended with it`s author', async (done): Promise<void> => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined): void => {
           // WIP

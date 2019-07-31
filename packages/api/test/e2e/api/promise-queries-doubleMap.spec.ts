@@ -10,7 +10,7 @@ import { Option } from '@polkadot/types';
 import { encodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 // The following tests only run on nodes that support doubleMapType introduced by metadata v5
 describeE2E({
@@ -20,7 +20,7 @@ describeE2E({
     'docker-substrate-master',
     'docker-substrate-2.0'
   ]
-})('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl): void => {
+})('Promise e2e doubleMap queries (since Metadata v5)', (wsUrl: string): void => {
   let api: ApiPromise;
   const keyring = testingPairs({ type: 'ed25519' });
 
