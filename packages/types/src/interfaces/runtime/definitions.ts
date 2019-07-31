@@ -25,7 +25,6 @@ export default {
     WeightMultiplier: 'Fixed64',
 
     // storage helpers
-    StorageData: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
 
     // signatures (used in block & extrinsics)

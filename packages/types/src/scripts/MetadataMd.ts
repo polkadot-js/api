@@ -87,7 +87,7 @@ function addConstants (metadata: MetadataV7): string {
     const orderedConstants = moduleMetadata.constants.sort(sortByName);
 
     return orderedConstants.reduce((md, func): string => {
-      const methodName = stringLowerFirst(func.name.toString());
+      const methodName = stringCamelCase(func.name.toString());
       const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
       const type = func.type;
       const renderSignature = `${md}\n▸ **${methodName}**: ` + '`' + type + '`';

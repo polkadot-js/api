@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Compact, Option, Vec } from './codec';
-import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, StorageData, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
 import { Keys, SessionIndex } from './interfaces/session';
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
@@ -20,7 +20,7 @@ import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceip
 import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
-import { ApiId, ChainProperties, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
+import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
   bool: bool;
@@ -65,6 +65,9 @@ export interface InterfaceRegistry {
   Null: Null;
   'Option<Null>': Option<Null>;
   'Vec<Null>': Vec<Null>;
+  StorageData: StorageData;
+  'Option<StorageData>': Option<StorageData>;
+  'Vec<StorageData>': Vec<StorageData>;
   StorageHasher: StorageHasher;
   'Option<StorageHasher>': Option<StorageHasher>;
   'Vec<StorageHasher>': Vec<StorageHasher>;
@@ -172,9 +175,6 @@ export interface InterfaceRegistry {
   WeightMultiplier: WeightMultiplier;
   'Option<WeightMultiplier>': Option<WeightMultiplier>;
   'Vec<WeightMultiplier>': Vec<WeightMultiplier>;
-  StorageData: StorageData;
-  'Option<StorageData>': Option<StorageData>;
-  'Vec<StorageData>': Vec<StorageData>;
   KeyValue: KeyValue;
   'Option<KeyValue>': Option<KeyValue>;
   'Vec<KeyValue>': Vec<KeyValue>;
@@ -576,6 +576,9 @@ export interface InterfaceRegistry {
   ChainProperties: ChainProperties;
   'Option<ChainProperties>': Option<ChainProperties>;
   'Vec<ChainProperties>': Vec<ChainProperties>;
+  ExtrinsicOrHash: ExtrinsicOrHash;
+  'Option<ExtrinsicOrHash>': Option<ExtrinsicOrHash>;
+  'Vec<ExtrinsicOrHash>': Vec<ExtrinsicOrHash>;
   ExtrinsicStatus: ExtrinsicStatus;
   'Option<ExtrinsicStatus>': Option<ExtrinsicStatus>;
   'Vec<ExtrinsicStatus>': Vec<ExtrinsicStatus>;

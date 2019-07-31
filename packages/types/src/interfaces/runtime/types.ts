@@ -2,7 +2,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64, u8 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -133,9 +133,6 @@ export interface SignedBlock extends Struct {
 
 /** Signature */
 export type Sr25519Signature = Signature;
-
-/** Bytes */
-export type StorageData = Bytes;
 
 /** AccountId */
 export type ValidatorId = AccountId;

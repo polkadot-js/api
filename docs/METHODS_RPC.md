@@ -20,8 +20,11 @@ _Authoring of network items_
 ▸ **pendingExtrinsics**(): `Vec<Extrinsic>`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
+▸ **removeExtrinsic**(bytesOrHash: `Vec<ExtrinsicOrHash>`): `Vec<Hash>`
+- **summary**: Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
+
 ▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`): `ExtrinsicStatus`
-- **summary**: Subscribe and watch an extrinsic until unsubscribed
+- **summary**: Submit and subscribe to watch an extrinsic until unsubscribed
 
 ▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
 - **summary**: Submit a fully formatted extrinsic for block inclusion
