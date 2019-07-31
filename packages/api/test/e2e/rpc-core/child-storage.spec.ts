@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import fs from 'fs';
 import path from 'path';
-import { Address, Hash } from '@polkadot/types/interfaces';
+import { Hash } from '@polkadot/types/interfaces';
 import { H256, StorageData, StorageKey } from '@polkadot/types';
 
 import { ApiPromise, SubmittableResult } from '@polkadot/api';
@@ -40,12 +40,11 @@ describeE2E({
   const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
   const randomStart = Math.floor(Date.now() / 1000);
   let abi: Abi;
-  let address: Address;
   let api: ApiPromise;
   let codeHash: Hash;
   let rpc: Rpc;
 
-  beforeAll(async (done): void => {
+  beforeAll(async (done): Promise<() => void> => {
     abi = new Abi(incrementerAbi);
     api = await ApiPromise.create(new WsProvider(wsUrl));
     return (
@@ -63,7 +62,7 @@ describeE2E({
     );
   });
 
-  beforeEach(async (done): void => {
+  beforeEach(async (done): Promise<void> => {
     rpc = new Rpc(new WsProvider(wsUrl));
     done();
   });
@@ -72,8 +71,7 @@ describeE2E({
   // add a Smart Contract that is using `child_storage` before being able to test it.
   // @TODO Add tests for Polkadot once child storage is being used there.
   describe('e2e state child methods', (): void => {
-
-    beforeAll(async (done): void => {
+    beforeAll(async (done): Promise<() => void> => {
       abi = new Abi(incrementerAbi);
       api = await ApiPromise.create(new WsProvider(wsUrl));
       // An instance of a contract can only be deployed once by one specific account.
@@ -90,7 +88,6 @@ describeE2E({
             if (result.status.isFinalized) {
               const record = result.findRecord('contracts', 'Instantiated');
               if (record) {
-                address = record.event.data[1] as Address;
                 done();
               }
             }

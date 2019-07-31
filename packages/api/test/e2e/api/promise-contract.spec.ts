@@ -8,7 +8,7 @@ import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-import { Address, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Address, Hash } from '@polkadot/types/interfaces';
 
 import { ApiPromise, SubmittableResult } from '../../../src';
 import { describeE2E } from '../../util';
