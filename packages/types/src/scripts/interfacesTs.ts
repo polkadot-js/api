@@ -14,7 +14,6 @@ import AbstractInt from '../codec/AbstractInt';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
 import Vec from '../codec/Vec';
 import * as primitiveClasses from '../primitive';
-import Bytes from '../primitive/Bytes';
 import * as definitions from '../interfaces/definitions';
 import { Constructor } from '../types';
 
