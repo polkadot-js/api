@@ -1,10 +1,8 @@
-A breaking change was introduced by substrate runtime spec version 97. https://github.com/paritytech/substrate/pull/2911/files
+A breaking change was introduced by substrate runtime spec_version 97. https://github.com/paritytech/substrate/pull/2911/files
 
 The change had to be implemented in ink! which changed the structure of the Wasm files.
-That's why we need two different versions of the generated contract files.
 
-Contract files before the breaking change can be found in the folder `contracts_0_96`
-Contract files compiled with an ink! version after the  breaking change are located here: `contracts_97`
+The Polkadot JS API is only supporting srml-contract and INK! versions after than spec_version 97.
 
 **Compatibility**
 If the substrate version is older than this https://github.com/paritytech/substrate/pull/2911 it will only work

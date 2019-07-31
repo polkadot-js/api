@@ -22,8 +22,8 @@ import { describeE2E } from '../../util';
 // A breaking change was introduced by substrate runtime spec version 97. https://github.com/paritytech/substrate/pull/2911/files
 // The change had to be implemented in ink! which changed the structure of the Wasm files.
 // The Polkadot JS API is only supporting INK! versions that are working with substrate greater or equal to spec_version 97.
-import incrementerAbi from '../../../../api-contract/test/contracts_97_/Incrementer.json';
-const incrementerCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts_97_/incrementer-pruned.wasm')).toString('hex');
+import incrementerAbi from '../../../../api-contract/test/contracts/Incrementer.json';
+const incrementerCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts/incrementer-pruned.wasm')).toString('hex');
 
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 

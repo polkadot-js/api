@@ -16,10 +16,10 @@ import { describeE2E } from '../../util';
 // Backwards compatibility:
 // A breaking change was introduced by substrate runtime spec version 97. https://github.com/paritytech/substrate/pull/2911/files
 // The change had to be implemented in ink! which changed the structure of the Wasm files.
-// The Polkadot JS API is only supporting substrate version greater or equal to spec_version 97.
+// The Polkadot JS API is only supporting srml-contracts module of substrate version greater or equal spec_version 97.
 
-import incrementerAbi from '../../../../api-contract/test/contracts_97_/Incrementer.json'; // eslint-disable-line
-const incrementerCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts_97_/incrementer-pruned.wasm')).toString('hex'); // eslint-disable-line
+import incrementerAbi from '../../../../api-contract/test/contracts/Incrementer.json'; // eslint-disable-line
+const incrementerCode = fs.readFileSync(path.join(__dirname, '../../../../api-contract/test/contracts/incrementer-pruned.wasm')).toString('hex'); // eslint-disable-line
 
 describeE2E({
   except: [
