@@ -126,6 +126,8 @@ export default class Rpc implements RpcInterface {
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
         // every method inside this class to take:
         // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
+        // Not doing so, because it makes this class a little bit less readable,
+        // and leaving it as-is doesn't harm much
         (exposed as any)[methodName] = def.isSubscription
           ? this.createMethodSubscribe(def)
           : this.createMethodSend(def);

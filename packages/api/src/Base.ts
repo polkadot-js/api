@@ -657,9 +657,9 @@ export default abstract class ApiBase<ApiType> {
           return this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
             .subscribeStorage<[Codec]>([
-              creator.meta.type.isDoubleMap
-                ? [creator, args]
-                : [creator, ...args]
+            creator.meta.type.isDoubleMap
+              ? [creator, args]
+              : [creator, ...args]
           ])
             .pipe(
               // state_storage returns an array of values, since we have just subscribed to
