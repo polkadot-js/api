@@ -2,8 +2,8 @@
 
 import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types/codec';
-import { Bytes, Metadata, StorageKey, Text, u64 } from '@polkadot/types';
-import { BlockNumber, Extrinsic, Hash, Header, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import { Bytes, Metadata, StorageData, StorageKey, Text, u64 } from '@polkadot/types';
+import { BlockNumber, Extrinsic, Hash, Header, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 import { Codec, IExtrinsic } from '@polkadot/types/types';
 

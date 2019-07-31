@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Moment } from '@polkadot/types/interfaces';
+import { u64 } from '@polkadot/types/primitive';
 
 import fs from 'fs';
 import path from 'path';
