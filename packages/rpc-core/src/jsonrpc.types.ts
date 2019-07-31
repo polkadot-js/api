@@ -25,7 +25,7 @@ export interface RpcInterface {
     subscribeNewHead(): Observable<Header>;
   };
   state: {
-    call(method: Text | string, data: Bytes | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;
+    call(method: Text | string, data: Bytes | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;
     getChildKeys(childStorageKey: any, prefix: any, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
     getChildStorage(childStorageKey: any, key: any, block?: Hash | Uint8Array | string): Observable<StorageData>;
     getChildStorageHash(childStorageKey: any, key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
