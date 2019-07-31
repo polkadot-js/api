@@ -62,7 +62,7 @@ services:
       - "--ws-external"
       - "--rpc-external"
   
-  pokadot-master:
+  polkadot-master:
     image: parity/polkadot:latest
     ports:
       - "9948:9944"
@@ -74,7 +74,7 @@ services:
       - "--ws-external"
       - "--rpc-external"
 
-  pokadot-alexander:
+  polkadot-alexander:
       image: parity/polkadot:v0.4.4
       ports:
         - "9949:9944"

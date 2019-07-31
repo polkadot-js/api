@@ -10,14 +10,20 @@ import { ClassOf } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 
+import { describeE2E } from '../../util';
+
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
-describe.skip('e2e Alexander - Polkadot', (): void => {
+describeE2E({
+  only: [
+    'remote-polkadot-alexander',
+    'docker-polkadot-alexander'
+  ]
+})('e2e Alexander - Polkadot', (wsUrl: string): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
-    jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
+    rpc = new Rpc(new WsProvider(wsUrl));
   });
 
   it('subscribes to storage', (done): void => {
@@ -30,7 +36,7 @@ describe.skip('e2e Alexander - Polkadot', (): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(ClassOf('BlockNumber')),
+            expect.any(ClassOf('Index')),
             expect.any(ClassOf('Index'))
           ])
         );

@@ -8,11 +8,11 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf, Option, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']
-})('Promise e2e alex queries', (wsUrl): void => {
+})('Promise e2e alex queries', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

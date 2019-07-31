@@ -10,9 +10,9 @@ import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { Option, Vec, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
-describeE2E()('Promise e2e queries', (wsUrl): void => {
+describeE2E()('Promise e2e queries', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

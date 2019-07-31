@@ -6,7 +6,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
 describeE2E({
   only: [
@@ -15,7 +15,7 @@ describeE2E({
     'docker-substrate-master',
     'docker-substrate-2.0'
   ]
-})('Promise e2e consts', (wsUrl): void => {
+})('Promise e2e consts', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {

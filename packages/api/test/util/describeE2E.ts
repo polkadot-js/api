@@ -46,7 +46,7 @@ function getWsEndpoints (options?: Options): WsName[] {
   return filterProcessEnv(wsEndpoints);
 }
 
-export default function describeE2E (options?: Options): (message: string, inner: (wsUrl: string) => void) => void {
+export function describeE2E (options?: Options): (message: string, inner: (wsUrl: string) => void) => void {
   return function (message: string, inner: (wsUrl: string) => void): void {
     const wsEndpoints = getWsEndpoints(options);
     if (!wsEndpoints.length) {
