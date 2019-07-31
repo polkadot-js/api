@@ -432,8 +432,6 @@ function getSimilarTypes (type: string): string[] {
   // @ts-ignore Cannot get isChildClass of abstract class, but it works
   if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'number', 'string');
-  } else if (isChildClass(Bytes, ClassOfUnsafe(type))) {
-    possibleTypes.push('Hash', 'Uint8Array', 'string');
   } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'string');
   } else if (isChildClass(String, ClassOfUnsafe(type))) {
