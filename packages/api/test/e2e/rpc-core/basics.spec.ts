@@ -37,7 +37,6 @@ describeE2E({
       .properties()
       .subscribe((properties: ChainProperties): void => {
         expect(properties).toBeInstanceOf(ClassOf('ChainProperties'));
-        console.log('properties', properties);
         done();
       });
   });

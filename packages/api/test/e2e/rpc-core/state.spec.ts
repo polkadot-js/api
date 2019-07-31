@@ -11,9 +11,8 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 
 import { describeE2E } from '../../util';
 
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const BOB_STASH = '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc';
 const CODE = '0x3a636f6465'; // :code
-const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
 describeE2E({
   except: [
@@ -32,7 +31,8 @@ describeE2E({
     rpc.state
       .getMetadata()
       .subscribe((meta: Metadata): void => {
-        console.error(JSON.stringify(meta.toJSON()));
+        expect(meta).toBeDefined();
+        expect(meta).toBeInstanceOf(Metadata);
         done();
       });
   });
@@ -53,7 +53,8 @@ describeE2E({
           storage.substrate.code
         ])
         .subscribe((code: Bytes): void => {
-          console.error(code.toHex().substr(0, 256), '...');
+          expect(code).toBeDefined();
+          expect(code).toBeInstanceOf(Bytes);
           done();
         });
     });
@@ -61,11 +62,9 @@ describeE2E({
     it('retrieves balances', (done): void => {
       rpc.state
         .getStorage([
-          storage.balances.freeBalance, ALICE
+          storage.balances.freeBalance, BOB_STASH
         ])
         .subscribe((balance: Balance): void => {
-          // console.log(balance);
-
           expect(balance.isZero()).not.toEqual(true);
           done();
         });
@@ -77,8 +76,6 @@ describeE2E({
           storage.timestamp.now
         ])
         .subscribe((moment: Moment): void => {
-          // console.error(moment);
-
           expect(moment.toNumber()).not.toEqual(0);
           done();
         });
