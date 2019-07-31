@@ -18,7 +18,7 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 export default class Type extends Text {
   private _originalLength: number;
 
-  constructor (value: Text | Uint8Array | string = '') {
+  public constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value);
 
@@ -34,7 +34,7 @@ export default class Type extends Text {
   }
 
   private static decodeType (value: string): string {
-    const mappings: Array<Mapper> = [
+    const mappings: Mapper[] = [
       // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
       Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
       // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
@@ -52,26 +52,30 @@ export default class Type extends Text {
       // alias String -> Text (compat with jsonrpc methods)
       Type._alias('String', 'Text'),
       // alias () -> Null
-      Type._alias('\\\(\\\)', 'Null'),
-      // alias Vec<u8> -> Bytes
-      Type._alias('Compact<Index>', 'IndexCompact'),
+      Type._alias('\\(\\)', 'Null'),
       // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
+      // alias &[u8] -> Bytes
+      Type._alias('&\\[u8\\]', 'Bytes'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address'),
       // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
       Type._alias('Lookup::Source', 'Address'),
       // alias Lookup::Target to AccountId (always the case)
       Type._alias('Lookup::Target', 'AccountId'),
-      // alias for grandpa, as used in polkador
+      // alias for grandpa, as used in polkadot
       Type._alias('grandpa::AuthorityId', 'AuthorityId'),
+      // specific for SessionIndex (cvould make this session::, but be conservative)
+      Type._alias('session::SessionIndex', 'SessionIndex'),
       // HACK duplication between contracts & primitives, however contracts prefixed with exec
       Type._alias('exec::StorageKey', 'ContractStorageKey'),
       // flattens tuples with one value, `(AccountId)` -> `AccountId`
-      Type._flattenSingleTuple()
+      Type._flattenSingleTuple(),
+      // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
+      Type._removeColonPrefix()
     ];
 
-    return mappings.reduce((result, fn) => {
+    return mappings.reduce((result, fn): string => {
       return fn(result);
     }, value).trim();
   }
@@ -79,7 +83,7 @@ export default class Type extends Text {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
     // only the decoding leg, allowing the decoders to work with original pointers
@@ -90,7 +94,8 @@ export default class Type extends Text {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     // Note Since we are mangling what we get in beyond recognition, we really should
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
     // helper, so treat it as such.
@@ -148,12 +153,18 @@ export default class Type extends Text {
     };
   }
 
+  private static _removeColonPrefix (): Mapper {
+    return (value: string): string => {
+      return value.replace(/^::/, '');
+    };
+  }
+
   private static _removeGenerics (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value[index] === '<') {
           // check against the allowed wrappers, be it Vec<..>, Option<...> ...
-          const box = ALLOWED_BOXES.find((box) => {
+          const box = ALLOWED_BOXES.find((box): boolean => {
             const start = index - box.length;
 
             return start >= 0 && value.substr(start, box.length) === box;
@@ -241,7 +252,7 @@ export default class Type extends Text {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Type';
   }
 }

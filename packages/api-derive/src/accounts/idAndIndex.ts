@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-
+import { createType } from '@polkadot/types';
 import { idToIndex } from './idToIndex';
 import { indexToId } from './indexToId';
 import { drr } from '../util/drr';
@@ -28,7 +29,7 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
  * });
  * ```
  */
-export function idAndIndex (api: ApiInterface$Rx) {
+export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
   return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
@@ -37,20 +38,20 @@ export function idAndIndex (api: ApiInterface$Rx) {
         : decodeAddress((address || '').toString());
 
       if (decoded.length === 32) {
-        const accountId = new AccountId(decoded);
+        const accountId = createType('AccountId', decoded);
 
         return idToIndex(api)(accountId).pipe(
           startWith(undefined),
-          map((accountIndex) => [accountId, accountIndex] as AccountIdAndIndex),
+          map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
           drr()
         );
       }
 
-      const accountIndex = new AccountIndex(decoded);
+      const accountIndex = createType('AccountIndex', decoded);
 
       return indexToId(api)(accountIndex).pipe(
         startWith(undefined),
-        map((accountId) => [accountId, accountIndex] as AccountIdAndIndex),
+        map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
         drr()
       );
     } catch (error) {

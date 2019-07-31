@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
 export class FunctionArgumentMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
       type: Type
@@ -18,14 +18,14 @@ export class FunctionArgumentMetadata extends Struct {
   /**
    * @description The argument name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description The [[Type]]
    */
-  get type (): Type {
+  public get type (): Type {
     return this.get('type') as Type;
   }
 }
@@ -36,40 +36,40 @@ export class FunctionArgumentMetadata extends Struct {
  * The definition of a call
  */
 export class FunctionMetadata extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       name: Text,
-      args: Vector.with(FunctionArgumentMetadata),
-      documentation: Vector.with(Text)
+      args: Vec.with(FunctionArgumentMetadata),
+      documentation: Vec.with(Text)
     }, value);
   }
 
   /**
    * @description The [[FunctionArgumentMetadata]] for arguments
    */
-  get args (): Vector<FunctionArgumentMetadata> {
-    return this.get('args') as Vector<FunctionArgumentMetadata>;
+  public get args (): Vec<FunctionArgumentMetadata> {
+    return this.get('args') as Vec<FunctionArgumentMetadata>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 
   /**
    * @description The call name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 }

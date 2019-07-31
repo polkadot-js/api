@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API, Keyring and some utility functions
 const { ApiRx } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
@@ -17,7 +18,7 @@ async function main () {
   //  Create a extrinsic, transferring 12345 units to Bob.
   api.tx.balances
     // create transfer
-    .transfer(BOB, randomAmount)
+    .transfer(BOB, 12345)
     // Sign and send the transcation
     .signAndSend(alice)
     // Subscribe to the status updates of the transfer
@@ -30,4 +31,4 @@ async function main () {
     });
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error).finally(() => process.exit());

@@ -2,15 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethodOpt, RpcSection } from './types';
+import { RpcMethodOpt } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
 
+const removeExtrinsic: RpcMethodOpt = {
+  description: 'Remove given extrinsic from the pool and temporarily ban it to prevent reimporting',
+  params: [
+    createParam('bytesOrHash', 'Vec<ExtrinsicOrHash>')
+  ],
+  type: 'Vec<Hash>'
+};
+
 const pendingExtrinsics: RpcMethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
-  type: 'PendingExtrinsics'
+  type: 'Vec<Extrinsic>'
 };
 
 const submitExtrinsic: RpcMethodOpt = {
@@ -23,7 +31,7 @@ const submitExtrinsic: RpcMethodOpt = {
 };
 
 const submitAndWatchExtrinsic: RpcMethodOpt = {
-  description: 'Subscribe and watch an extrinsic until unsubscribed',
+  description: 'Submit and subscribe to watch an extrinsic until unsubscribed',
   isSigned: true,
   params: [
     createParam('extrinsic', 'Extrinsic')
@@ -39,7 +47,7 @@ const submitAndWatchExtrinsic: RpcMethodOpt = {
 const section = 'author';
 
 /**
- * @summary Methods to work with authors & contributors.
+ * @summary Calls to work with authors & contributors.
  */
 export default {
   isDeprecated: false,
@@ -47,8 +55,9 @@ export default {
   description: 'Authoring of network items',
   section,
   methods: {
+    removeExtrinsic: createMethod(section, 'removeExtrinsic', removeExtrinsic),
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
     submitAndWatchExtrinsic: createMethod(section, 'submitAndWatchExtrinsic', submitAndWatchExtrinsic)
   }
-} as RpcSection;
+};

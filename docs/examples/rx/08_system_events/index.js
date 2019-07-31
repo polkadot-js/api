@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API and selected RxJs operators
 const { switchMap } = require('rxjs/operators');
 const { ApiRx } = require('@polkadot/api');
@@ -9,8 +10,9 @@ async function main () {
       switchMap((api) =>
         // subscribe to system events via storage
         api.query.system.events()
-      ))
-      // Then we're subscribing to the emitted results
+      )
+    )
+    // Then we're subscribing to the emitted results
     .subscribe((events) => {
       console.log(`\nReceived ${events.length} events:`);
       // loop through the Vec<EventRecord>
@@ -29,7 +31,7 @@ async function main () {
         });
       });
     });
-};
+}
 
 main().catch((error) => {
   console.error(error);

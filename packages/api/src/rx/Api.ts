@@ -37,7 +37,7 @@ import ApiBase from '../Base';
  *
  * // make a call to retrieve the current network head
  * api.rpc.chain.subscribeNewHead().subscribe((header) => {
- *   console.log(`Chain is at #${header.blockNumber}`);
+ *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
  * <BR>
@@ -131,11 +131,11 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *       api.rpc.chain.subscribeNewHead()
    *   ))
    *   .subscribe((header) => {
-   *     console.log(`new block #${header.blockNumber.toNumber()}`);
+   *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * ```
    */
-  static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
+  public static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
@@ -157,41 +157,41 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *       api.rpc.chain.subscribeNewHead()
    *   ))
    *   .subscribe((header) => {
-   *     console.log(`new block #${header.blockNumber.toNumber()}`);
+   *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * ```
    */
-  constructor (provider?: ApiOptions | ProviderInterface) {
+  public constructor (provider?: ApiOptions | ProviderInterface) {
     super(provider, 'rxjs');
 
     this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better
-      new Promise((resolveReady) =>
-        super.on('ready', () =>
-          resolveReady(this)
-        )
-      )
+      new Promise((resolve): void => {
+        super.on('ready', (): void => {
+          resolve(this);
+        });
+      })
     ) as Observable<ApiRx>;
   }
 
   /**
    * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
    */
-  get isConnected (): Observable<boolean> {
+  public get isConnected (): Observable<boolean> {
     return this._isConnected;
   }
 
   /**
    * @description Observable that returns the first time we are connected and loaded
    */
-  get isReady (): Observable<ApiRx> {
+  public get isReady (): Observable<ApiRx> {
     return this._isReadyRx;
   }
 
   /**
    * @description Returns a clone of this ApiRx instance (new underlying provider connection)
    */
-  clone (): ApiRx {
+  public clone (): ApiRx {
     return new ApiRx({
       ...this._options,
       source: this

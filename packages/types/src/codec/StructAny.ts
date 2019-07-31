@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, Codec } from '../types';
+import { AnyJsonObject, Codec, IHash } from '../types';
 
 import { isUndefined } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import U8a from './U8a';
 
 import { compareMap } from './utils';
 
@@ -17,13 +20,13 @@ import { compareMap } from './utils';
  * @noInheritDoc
  */
 export default class StructAny extends Map<string, any> implements Codec {
-  constructor (value?: { [index: string]: any } | null) {
+  public constructor (value?: { [index: string]: any } | null) {
     const decoded = StructAny.decodeJson(value);
 
     super(decoded);
 
     // like we are doing with structs, add the keys as getters
-    decoded.forEach(([key]) => {
+    decoded.forEach(([key]): void => {
       // do not clobber existing properties on the object
       if (!isUndefined((this as any)[key])) {
         return;
@@ -31,48 +34,55 @@ export default class StructAny extends Map<string, any> implements Codec {
 
       Object.defineProperty(this, key, {
         enumerable: true,
-        get: () => this.get(key)
+        get: (): Codec | undefined => this.get(key)
       });
     });
   }
 
-  private static decodeJson (value?: { [index: string]: any } | null): Array<[string, any]> {
+  private static decodeJson (value?: { [index: string]: any } | null): [string, any][] {
     return Object.entries(value || {});
   }
 
   /**
    * @description Always 0, never encodes as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 0;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return new U8a(blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return [...this.keys()].length === 0;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return compareMap(this, other);
   }
 
   /**
    * @description Unimplemented, will throw
    */
-  toHex (): string {
+  public toHex (): string {
     throw new Error('Unimplemented');
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJsonObject {
-    return [...this.entries()].reduce((json, [key, value]) => {
+  public toJSON (): AnyJsonObject {
+    return [...this.entries()].reduce((json, [key, value]): AnyJsonObject => {
       json[key] = value;
 
       return json;
@@ -82,21 +92,22 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Json';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString () {
+  public toString (): string {
     return JSON.stringify(this.toJSON());
   }
 
   /**
    * @description Unimplemented, will throw
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     throw new Error('Unimplemented');
   }
 }

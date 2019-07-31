@@ -7,23 +7,29 @@ import { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback = Callback<Array<any>>;
-export type CombinatorFunction = {
-  (cb: Callback<any>): UnsubscribePromise
-};
+export type CombinatorCallback = Callback<any[]>;
+export interface CombinatorFunction {
+  (cb: Callback<any>): UnsubscribePromise;
+}
 
 export default class Combinator {
   protected _allHasFired: boolean = false;
-  protected _callback: CombinatorCallback;
-  protected _fired: Array<boolean> = [];
-  protected _fns: Array<CombinatorFunction> = [];
-  protected _isActive: boolean = true;
-  protected _results: Array<any> = [];
-  protected _subscriptions: Array<UnsubscribePromise> = [];
 
-  constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
+  protected _callback: CombinatorCallback;
+
+  protected _fired: boolean[] = [];
+
+  protected _fns: CombinatorFunction[] = [];
+
+  protected _isActive: boolean = true;
+
+  protected _results: any[] = [];
+
+  protected _subscriptions: UnsubscribePromise[] = [];
+
+  public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
-    this._subscriptions = fns.map(async (input, index) => {
+    this._subscriptions = fns.map(async (input, index): UnsubscribePromise => {
       const [fn, ...args] = Array.isArray(input)
         ? input
         : [input];
@@ -38,13 +44,13 @@ export default class Combinator {
 
   protected allHasFired (): boolean {
     if (!this._allHasFired) {
-      this._allHasFired = this._fired.filter((hasFired) => !hasFired).length === 0;
+      this._allHasFired = this._fired.filter((hasFired): boolean => !hasFired).length === 0;
     }
 
     return this._allHasFired;
   }
 
-  protected createCallback (index: number) {
+  protected createCallback (index: number): (value: any) => void {
     return (value: any): void => {
       this._fired[index] = true;
       this._results[index] = value;
@@ -65,14 +71,14 @@ export default class Combinator {
     }
   }
 
-  unsubscribe (): void {
+  public unsubscribe (): void {
     if (!this._isActive) {
       return;
     }
 
     this._isActive = false;
 
-    this._subscriptions.forEach(async (subscription) => {
+    this._subscriptions.forEach(async (subscription): Promise<void> => {
       try {
         const unsubscribe = await subscription;
 

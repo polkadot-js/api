@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../types';
+import { Codec, IHash } from '../types';
+
 import { isNull } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import createType from '../codec/createType';
 
 /**
  * @name Null
@@ -14,49 +18,56 @@ export default class Null implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return 0;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return true;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return other instanceof Null || isNull(other);
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     return '0x';
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): null {
+  public toJSON (): null {
     return null;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Null';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     return '';
   }
 
@@ -64,7 +75,8 @@ export default class Null implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array();
   }
 }

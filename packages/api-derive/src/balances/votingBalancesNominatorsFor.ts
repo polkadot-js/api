@@ -2,23 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Vector } from '@polkadot/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
+import { Vec } from '@polkadot/types';
 
 import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
-export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
-  return (address: AccountId | AccountIndex | Address | string): Observable<Array<DerivedBalances>> => {
+export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
+  return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> => {
     return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]) =>
+      switchMap(([accountId]): Observable<AccountId[]> =>
         accountId
-          ? (api.query.staking.nominatorsFor<Vector<AccountId>>(accountId))
-          : of([] as Array<AccountId>)
+          ? (api.query.staking.nominatorsFor<Vec<AccountId>>(accountId))
+          : of([] as AccountId[])
       ),
       switchMap(votingBalances(api)),
       drr()

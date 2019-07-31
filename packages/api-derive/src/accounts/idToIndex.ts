@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex } from '@polkadot/types';
+import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { indexes, AccountIndexes } from './indexes';
 import { drr } from '../util/drr';
@@ -24,12 +25,14 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-export function idToIndex (api: ApiInterface$Rx) {
+export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexes(api)()
       .pipe(
         startWith({}),
-        map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()]),
+        map((indexes: AccountIndexes): AccountIndex | undefined =>
+          (indexes || {})[accountId.toString()]
+        ),
         drr()
       );
 }

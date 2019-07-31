@@ -4,17 +4,21 @@
 
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
-import { Constructor, RegistryTypes } from '../types';
+import { Codec, Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
 
 export class TypeRegistry {
-  static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
+  public static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
   private _registry: Map<string, Constructor> = new Map();
 
-  register (type: Constructor | RegistryTypes): void;
-  register (name: string, type: Constructor): void;
-  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
+  public register (type: Constructor | RegistryTypes): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (name: string, type: Constructor): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
     if (isString(arg1)) {
       const name = arg1;
       const type = arg2!;
@@ -30,8 +34,8 @@ export class TypeRegistry {
     }
   }
 
-  private registerObject (obj: RegistryTypes, overwrite: boolean = true) {
-    Object.entries(obj).forEach(([name, type]) => {
+  private registerObject (obj: RegistryTypes, overwrite: boolean = true): void {
+    Object.entries(obj).forEach(([name, type]): void => {
       if (overwrite || !this.get(name)) {
         if (isString(type)) {
           this._registry.set(name, createClass(type));
@@ -45,12 +49,13 @@ export class TypeRegistry {
     });
   }
 
-  get (name: string): Constructor | undefined {
-    return this._registry.get(name);
+  public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
+    return this._registry.get(name) as unknown as Constructor<T>;
   }
 
-  getOrThrow (name: string, msg?: string): Constructor {
-    const type = this.get(name);
+  public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
+    const type = this.get<T>(name);
+
     if (isUndefined(type)) {
       throw new Error(msg || `type ${name} not found`);
     }
@@ -61,8 +66,9 @@ export class TypeRegistry {
 
 let defaultRegistry: TypeRegistry;
 
-export default function getDefaultRegistry () {
+export default function getDefaultRegistry (): TypeRegistry {
   if (!defaultRegistry) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const defaultTypes = require('../index.types');
 
     defaultRegistry = new TypeRegistry();

@@ -4,6 +4,10 @@
 
 import Bytes from './Bytes';
 
+// NOTE Seperate class so StorageData !== Bytes, but rather an extension of it.
+// Alternatively the construction check in Bytes will yield false positives for
+// eg. StorageKey (which extends Bytes)
+
 /**
  * @name StorageData
  * @description

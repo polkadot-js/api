@@ -6,6 +6,7 @@ import { AnyNumber } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
+import { ClassOf } from './createType';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -19,7 +20,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class UInt extends AbstractInt {
-  constructor (
+  public constructor (
     value: AnyNumber = 0,
     bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = false) {
     super(
@@ -33,7 +34,7 @@ export default class UInt extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (isLe: boolean = false): string {
+  public toHex (isLe: boolean = false): string {
     // For display/JSON, this is BE, for compare, use isLe
     return bnToHex(this, {
       bitLength: this._bitLength,
@@ -45,15 +46,21 @@ export default class UInt extends AbstractInt {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
-    return `u${this._bitLength}`;
+  public toRawType (): string {
+    // NOTE In the case of balances, which have a special meaning on the UI
+    // and can be interpreted differently, return a specifc value for it so
+    // underlying it always matches (no matter which length it actually is)
+    return this instanceof ClassOf('Balance')
+      ? 'Balance'
+      : `u${this._bitLength}`;
   }
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this, {
       bitLength: this._bitLength,
       isLe: true,

@@ -6,49 +6,49 @@ import { TypeRegistry } from './typeRegistry';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 
-describe('TypeRegistry', () => {
+describe('TypeRegistry', (): void => {
   let registry: TypeRegistry;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     registry = new TypeRegistry();
   });
 
-  it('handles non exist type', () => {
+  it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
   });
 
-  it('can register single type', () => {
+  it('can register single type', (): void => {
     registry.register(Text);
     expect(registry.get('Text')).toBe(Text);
   });
 
-  it('can register type with a different name', () => {
+  it('can register type with a different name', (): void => {
     registry.register('TextRenamed', Text);
     expect(registry.get('TextRenamed')).toBe(Text);
   });
 
-  describe('object registration', () => {
-    it('can register multiple types', () => {
+  describe('object registration', (): void => {
+    it('can register multiple types', (): void => {
       registry.register({
         Text,
-        'U32Renamed': U32
+        U32Renamed: U32
       });
       expect(registry.get('Text')).toBe(Text);
       expect(registry.get('U32Renamed')).toBe(U32);
     });
 
-    it('can create types from string', () => {
+    it('can create types from string', (): void => {
       registry.register({
-        'U32Renamed': 'u32'
+        U32Renamed: 'u32'
       });
       expect(registry.get('U32Renamed')).toBe(U32);
     });
 
-    it('can create structs via definition', () => {
+    it('can create structs via definition', (): void => {
       registry.register({
-        'SomeStruct': {
-          'foo': 'u32',
-          'bar': 'Text'
+        SomeStruct: {
+          foo: 'u32',
+          bar: 'Text'
         }
       });
 

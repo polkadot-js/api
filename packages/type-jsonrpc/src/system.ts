@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethodOpt, RpcSection } from './types';
+import { RpcMethodOpt } from './types';
 
 import createMethod from './create/method';
 
@@ -54,12 +54,12 @@ const networkState: RpcMethodOpt = {
 const section = 'system';
 
 /**
- * @summary Methods to retrieve system info.
+ * @summary Calls to retrieve system info.
  */
 export default {
   isDeprecated: false,
   isHidden: false,
-  description: 'Methods to retrieve system info',
+  description: 'Calls to retrieve system info',
   section,
   methods: {
     chain: createMethod(section, 'chain', chain),
@@ -70,4 +70,4 @@ export default {
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)
   }
-} as RpcSection;
+};

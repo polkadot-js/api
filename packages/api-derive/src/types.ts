@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
-import { AccountId, Balance, Exposure, Index, RewardDestination, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;
@@ -16,9 +17,7 @@ export interface DerivedBalances {
   vestedBalance: BN;
 }
 
-export type DerivedBalancesMap = {
-  [index: string]: DerivedBalances
-};
+export type DerivedBalancesMap = Record<string, DerivedBalances>;
 
 export interface DerivedContractFees {
   callBaseFee: BN;
@@ -27,10 +26,21 @@ export interface DerivedContractFees {
   creationFee: BN;
   rentByteFee: BN;
   rentDepositOffset: BN;
+  tombstoneDeposit: BN;
   transactionBaseFee: BN;
   transactionByteFee: BN;
   transferFee: BN;
-  tombstoneDeposit: BN;
+}
+
+export interface DerivedElectionsInfo {
+  members: Record<string, BlockNumber>;
+  candidates: AccountId[];
+  candidateCount: BN;
+  desiredSeats: BN;
+  nextVoterSet: SetIndex;
+  termDuration: BlockNumber;
+  voteCount: VoteIndex;
+  voterCount: SetIndex;
 }
 
 export interface DerivedFees {
@@ -52,6 +62,7 @@ export interface DerivedSessionInfo {
   currentIndex: BN;
   eraLength: BN;
   eraProgress: BN;
+  isEpoch: boolean;
   lastEraLengthChange: BN;
   lastLengthChange: BN;
   sessionLength: BN;
@@ -63,9 +74,10 @@ export interface DerivedStaking {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;
-  nominators?: Array<AccountId>;
+  nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
+  sessionId?: AccountId;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
@@ -73,4 +85,12 @@ export interface DerivedStaking {
   validatorPrefs?: ValidatorPrefs;
 }
 
-export type DerivedUnlocking = Array<{remainingBlocks: BN, value: BN}>;
+export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];
+
+export interface VoterPosition {
+  globalIndex: BN;
+  index: BN;
+  setIndex: SetIndex;
+}
+
+export type DerivedVoterPositions = Record<string, VoterPosition>;

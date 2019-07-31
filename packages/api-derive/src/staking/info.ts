@@ -2,13 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterface$Rx } from '@polkadot/api/types';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { Keys } from '@polkadot/types/interfaces/session';
+import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, SessionKey, SessionKeys, StakingLedger, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
+import { createType, Option, Tuple, Vec } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -16,13 +20,35 @@ import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { drr } from '../util/drr';
 
+function groupByEra (list: UnlockChunk[]): Record<string, BN> {
+  return list.reduce((map, { era, value }): Record<string, BN> => {
+    const key = era.toString();
+
+    if (!map[key]) {
+      map[key] = value.unwrap();
+    } else {
+      map[key] = map[key].add(value.unwrap());
+    }
+
+    return map;
+  }, {} as unknown as Record<string, BN>);
+}
+
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
+  const remaining = eraLength.mul(era).sub(bestNumber);
+
+  return remaining.lten(0) ? new BN(0) : remaining;
+}
+
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
   // select the Unlockchunks that can't be redeemed yet.
-  const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
+  const unlockingChunks = stakingLedger.unlocking.filter((chunk): boolean =>
+    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
+  );
 
   if (!unlockingChunks.length) {
     return undefined;
@@ -30,117 +56,140 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // group the Unlockchunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
-  const results = Object.entries(groupedResult).map(([eraString, value]) => ({
+  const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
     value,
-    remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+    remainingBlocks: remainingBlocks(createType('BlockNumber', eraString), eraLength, bestNumber)
   }));
 
   return results.length ? results : undefined;
 }
 
-function groupByEra (list: UnlockChunk[]) {
-  return list.reduce((map, { era, value }) => {
-    const key = era.toString();
-
-    if (!map[key]) {
-      map[key] = value;
-    } else {
-      map[key] = map[key].add(value);
-    }
-
-    return map;
-  }, {} as { [index: string]: BN });
-}
-
-function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): BN {
   if (isUndefined(stakingLedger)) {
     return new BN(0);
   }
 
   return stakingLedger.unlocking
-    .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
-    .reduce((curr, prev) => {
-      return curr.add(prev.value);
-    }, new BN(0));
+    .filter((chunk): boolean => remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev): BN => curr.add(prev.value.unwrap()), new BN(0));
 }
 
-function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
-  const remaining = eraLength.mul(era).sub(bestNumber);
+function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraIds: AccountId[], nextKeys: Option<AccountId> | Vec<Tuple>): { nextSessionId?: AccountId; sessionId?: AccountId } {
+  // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
+  if (Array.isArray(nextKeys)) {
+    const validatorIdx = validatorIds.indexOf(stashId);
+    const sessionId = auraIds[validatorIdx];
+    const keys = nextKeys.find(([currentId]): boolean => currentId.eq(stashId)) as [AccountId, Keys] | undefined;
+    const nextSessionId = keys
+      ? keys[1].ed25519
+      : sessionId;
 
-  return remaining.lten(0) ? new BN(0) : remaining;
-}
+    return {
+      nextSessionId,
+      sessionId
+    };
+  }
 
-function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | undefined {
-  const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor.unwrapOr(null);
-
-  // For substrate 2.x, nextKeyFor is SessionKeys/Keys, for 1.x it is SessionKey
-  return nextKeyFor
-    ? (nextKeyFor as SessionKeys).auraKey || nextKeyFor
+  // substrate 1.x
+  const nextSessionId = nextKeys.isSome
+    ? nextKeys.unwrap()
     : undefined;
+
+  return {
+    nextSessionId,
+    sessionId: nextSessionId
+  };
 }
 
-function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function withStashController (api: ApiInterfaceRx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
-  combineLatest([
-    eraLength(api)(),
-    bestNumber(api)(),
-    api.queryMulti([
-      [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.ledger, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ])
-  ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    combineLatest([
+      eraLength(api)(),
+      bestNumber(api)(),
+      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
+      // should be added when only 2.x
+      api.query.aura && api.query.aura.authorities
+        ? api.query.aura.authorities<Vec<AccountId>>()
+        : of([] as AccountId[]),
+      api.queryMulti([
+        api.query.session.queuedKeys
+          ? [api.query.session.queuedKeys]
+          : [api.query.session.nextKeyFor, controllerId],
+        api.query.session.validators,
+        [api.query.staking.ledger, controllerId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId]
+      ])
+    ]) as Observable<[BN, BlockNumber, AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
+    map(([eraLength, bestNumber, auraIds, [nextKeys, validatorIds, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
-
-      return {
+      const { sessionId, nextSessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
+      const result: DerivedStaking = {
         accountId,
         controllerId,
-        nextSessionId: nextSessionId(nextKeyFor),
+        nextSessionId,
         nominators,
         redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         rewardDestination,
+        sessionId,
         stakers,
         stakingLedger,
         stashId,
         unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs
-      } as DerivedStaking;
+      };
+
+      return result;
     }),
     drr()
   );
 }
 
-function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
+function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
 
   return (
-    api.queryMulti([
-      [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ]) as any as Observable<[Option<Keys | SessionKey>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]>
+    combineLatest([
+      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
+      // should be added when only 2.x
+      api.query.aura && api.query.aura.authorities
+        ? api.query.aura.authorities<Vec<AccountId>>()
+        : of([] as AccountId[]),
+      api.queryMulti([
+        api.query.session.queuedKeys
+          ? [api.query.session.queuedKeys]
+          : [api.query.session.nextKeyFor, controllerId],
+        api.query.session.validators,
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId]
+      ])
+    ]) as Observable<[AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
-      accountId,
-      controllerId,
-      nextSessionId: nextSessionId(nextKeyFor),
-      nominators,
-      rewardDestination,
-      stakers,
-      stakingLedger,
-      stashId,
-      validatorPrefs
-    } as DerivedStaking)),
+    map(([auraIds, [nextKeys, validatorIds, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+      const { nextSessionId, sessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
+      const result: DerivedStaking = {
+        accountId,
+        controllerId,
+        nextSessionId,
+        nominators,
+        rewardDestination,
+        sessionId,
+        stakers,
+        stakingLedger,
+        stashId,
+        validatorPrefs
+      };
+
+      return result;
+    }),
     drr()
   );
 }
@@ -148,26 +197,24 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 /**
  * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
-export function info (api: ApiInterface$Rx) {
+export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
-    const accountId = new AccountId(_accountId);
+    const accountId = createType('AccountId', _accountId);
 
     return (
       api.queryMulti([
         [api.query.staking.bonded, accountId], // try to map to controller
         [api.query.staking.ledger, accountId] // try to map to stash
-      ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>]>
+      ]) as Observable<[Option<AccountId>, Option<StakingLedger>]>
     ).pipe(
-      switchMap(([controllerId, stakingLedger]) =>
+      switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
         controllerId.isSome
           // we have a controller, so input was a stash, great
           ? withStashController(api, accountId, controllerId.unwrap())
-          : (
-            stakingLedger.isSome
-              ? withControllerLedger(api, accountId, stakingLedger.unwrap())
-              // dangit, this is something else, ok, we are done
-              : of({ accountId } as DerivedStaking)
-          )
+          : stakingLedger.isSome
+            ? withControllerLedger(api, accountId, stakingLedger.unwrap())
+            // dangit, this is something else, ok, we are done
+            : of({ accountId })
       ),
       drr()
     );

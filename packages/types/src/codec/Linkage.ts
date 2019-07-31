@@ -2,41 +2,59 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Struct, Option, Tuple, Vector } from '.';
+import { Struct, Option, Tuple, Vec } from '.';
 import { Constructor, Codec } from '../types';
 
-type TypeWithValues = [Constructor, Array<any>];
+type TypeWithValues = [Constructor, any[]];
+
+const EMPTY = new Uint8Array();
 
 export default class Linkage<T extends Codec> extends Struct {
-  constructor (Type: Constructor, value?: any) {
+  public constructor (Type: Constructor, value?: any) {
     super({
       previous: Option.with(Type),
       next: Option.with(Type)
     }, value);
   }
 
-  static withKey<O extends Codec> (Type: Constructor): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: Constructor): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
-      constructor (value?: any) {
+      public constructor (value?: any) {
         super(Type, value);
       }
     };
   }
 
-  get previous (): Option<T> {
+  public get previous (): Option<T> {
     return this.get('previous') as Option<T>;
   }
 
-  get next (): Option<T> {
+  public get next (): Option<T> {
     return this.get('next') as Option<T>;
+  }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public toRawType (): string {
+    return `Linkage<${this.next.toRawType(true)}>`;
+  }
+
+  /**
+   * @description Custom toU8a which with bare mode does not return the linkage if empty
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    return isBare && this.isEmpty
+      ? EMPTY
+      : super.toU8a();
   }
 }
 
 export class LinkageResult extends Tuple {
-  constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+  public constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
     super({
-      Keys: Vector.with(TypeKey),
-      Values: Vector.with(TypeValue)
+      Keys: Vec.with(TypeKey),
+      Values: Vec.with(TypeValue)
     }, [keys, values]);
   }
 }

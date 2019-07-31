@@ -2,44 +2,64 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/extrinsics/static';
+import './injector';
 
-import { Constructor } from './types';
-import * as Classes from './index.types';
+import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-const Types = Classes as { [index: string]: Constructor };
-const UNCONSTRUCTABLE = ['origin', 'usize'];
+import { createTypeUnsafe } from './codec/createType';
+import GenericCall from './primitive/Generic/Call';
+import { Codec } from './types';
+import * as exported from './index.types';
+import * as definitions from './interfaces/definitions';
 
-describe('types', () => {
-  describe('default creation', () => {
-    Object.keys(Types).forEach((name) => {
-      it(`creates an empty ${name}`, () => {
-        const constructFn = () =>
-          new Types[name]();
+// NOTE This is not a shortcut to implementing types incorrectly. This is here
+// specifically for the types that _should_ throw in the constrtuctor, i.e
+// `usize` is not allowed (runtime incompat) and `origin` is not passed through
+// to any calls. All other types _must_ pass and allow for empty defaults
+const UNCONSTRUCTABLE = ['genericorigin', 'origin', 'usize'];
 
-        if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
-          expect(constructFn).toThrow();
-        } else {
-          expect(constructFn).not.toThrow();
-        }
+function testTypes (type: string, typeNames: string[]): void {
+  describe(type, (): void => {
+    describe(`${type}:: default creation`, (): void => {
+      typeNames.forEach((name): void => {
+        it(`creates an empty ${name}`, (): void => {
+          const constructFn = (): Codec =>
+            createTypeUnsafe(name);
+
+          if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
+            expect(constructFn).toThrow();
+          } else {
+            expect(constructFn).not.toThrow();
+          }
+        });
+      });
+    });
+
+    describe(`${type}:: default creation (empty bytes)`, (): void => {
+      GenericCall.injectMethods(extrinsics);
+
+      typeNames.forEach((name): void => {
+        it(`creates an empty ${name} (from empty bytes)`, (): void => {
+          const constructFn = (): Codec =>
+            createTypeUnsafe(name, [createTypeUnsafe('Bytes')]);
+
+          if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
+            expect(constructFn).toThrow();
+          } else {
+            expect(constructFn).not.toThrow();
+          }
+        });
       });
     });
   });
+}
 
-  describe('default creation (empty bytes)', () => {
-    (Types.Method as any).injectMethods(extrinsics);
+describe('type creation', (): void => {
+  testTypes('exported', Object.keys(exported));
 
-    Object.keys(Types).forEach((name) => {
-      it(`creates an empty ${name} (from empty bytes)`, () => {
-        const constructFn = () =>
-          new Types[name](new Types.Bytes());
-
-        if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
-          expect(constructFn).toThrow();
-        } else {
-          expect(constructFn).not.toThrow();
-        }
-      });
-    });
-  });
+  Object
+    .entries(definitions)
+    .forEach(([name, { types }]): void =>
+      testTypes(`${name} (injected)`, Object.keys(types))
+    );
 });

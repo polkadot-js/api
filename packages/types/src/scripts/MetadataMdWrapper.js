@@ -8,8 +8,7 @@ require('@babel/register')({
   plugins: [
     ['module-resolver', {
       alias: {
-        '^@polkadot/types(.*)': './packages/types/src\\2',
-        '^@polkadot/extrinsics(.*)': './packages/type-extrinsics/src\\2',
+        '^@polkadot/types(.*)': './packages/types/src\\2'
       }
     }]
   ]

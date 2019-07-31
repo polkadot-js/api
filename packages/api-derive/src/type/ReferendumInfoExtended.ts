@@ -2,37 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { AnyJsonObject, Constructor } from '@polkadot/types/types';
+
 import BN from 'bn.js';
-import { ReferendumInfo, ReferendumIndex } from '@polkadot/types';
-import { AnyJsonObject } from '@polkadot/types/types';
+import { ClassOf, createType } from '@polkadot/types';
+
+// This is a bit hacky, but is exactly what it resolves to when compiled -
+// and as a bonus is gets the typing right
+const _ReferendumInfo: Constructor<ReferendumInfo> = ClassOf('ReferendumInfo');
 
 /**
  * @name ReferendumInfoExtended
  * @description
  * A [[ReferendumInfo]] with an additional `index` field
  */
-export default class ReferendumInfoExtended extends ReferendumInfo {
+export default class ReferendumInfoExtended extends _ReferendumInfo {
   private _index: ReferendumIndex;
 
-  constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
+  public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
     super(value);
 
     this._index = value instanceof ReferendumInfoExtended
       ? value.index
-      : new ReferendumIndex(index);
+      : createType('ReferendumIndex', index);
   }
 
   /**
    * @description Convenience getter, returns the referendumIndex
    */
-  get index (): ReferendumIndex {
+  public get index (): ReferendumIndex {
     return this._index;
   }
 
   /**
    * @description Creates the JSON representation
    */
-  toJSON (): AnyJsonObject {
+  public toJSON (): AnyJsonObject {
     return {
       ...super.toJSON() as AnyJsonObject,
       index: this.index.toJSON()

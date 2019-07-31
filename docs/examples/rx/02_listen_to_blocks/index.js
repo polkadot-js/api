@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiRx } = require('@polkadot/api');
 const { switchMap } = require('rxjs/operators');
@@ -12,7 +13,7 @@ async function main () {
         api.rpc.chain.subscribeNewHead()
       ))
     .subscribe((header) => {
-      console.log(`Chain is at block: #${header.blockNumber}`);
+      console.log(`Chain is at block: #${header.number}`);
     });
 }
 

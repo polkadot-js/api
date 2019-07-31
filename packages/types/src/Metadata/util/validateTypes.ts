@@ -2,15 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
+
 import { isUndefined } from '@polkadot/util';
 
-import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
+import { getTypeDef } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
-export default function validateTypes (types: Array<string>, throwError: boolean): void {
-  const extractTypes = (types: Array<string>): Array<any> => {
-    return types.map((type) => {
+export default function validateTypes (types: string[], throwError: boolean): void {
+  const extractTypes = (types: string[]): any[] => {
+    return types.map((type): any => {
       const decoded = getTypeDef(type);
 
       switch (decoded.info) {
@@ -19,22 +21,25 @@ export default function validateTypes (types: Array<string>, throwError: boolean
 
         case TypeDefInfo.Compact:
         case TypeDefInfo.Option:
-        case TypeDefInfo.Vector:
+        case TypeDefInfo.Vec:
           return extractTypes([(decoded.sub as TypeDef).type]);
+
+        case TypeDefInfo.VecFixed:
+          return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
         case TypeDefInfo.Tuple:
           return extractTypes(
-            (decoded.sub as Array<TypeDef>).map((sub) => sub.type)
+            (decoded.sub as TypeDef[]).map((sub): string => sub.type)
           );
 
         default:
-          throw new Error('Unreachable');
+          throw new Error(`Uhandled: Unnable to create and validate type from ${type}`);
       }
     });
   };
 
   const typeRegistry = getTypeRegistry();
-  const missing = flattenUniq(extractTypes(types)).filter((type) =>
+  const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     isUndefined(typeRegistry.get(type))
   );
 

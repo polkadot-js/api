@@ -9,7 +9,7 @@ import { isFunction, isObject, isUndefined } from '@polkadot/util';
 export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
     return (a.size === b.length) && isUndefined(
-      b.find((entry) => {
+      b.find((entry): boolean => {
         if (!Array.isArray(entry) || entry.length !== 2) {
           return true;
         }

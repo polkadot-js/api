@@ -2,21 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Index } from './interfaces/runtime';
+
 import BN from 'bn.js';
 
+import Compact from './codec/Compact';
 import U8a from './codec/U8a';
-import { FunctionMetadata } from './Metadata/v6/Calls';
-import Method from './primitive/Method';
-import Address from './primitive/Address';
+import { FunctionMetadata } from './Metadata/v7/Calls';
+import Call from './primitive/Generic/Call';
+import Address from './primitive/Generic/Address';
 
-export type IKeyringPair = {
-  address: string,
-  publicKey: Uint8Array,
+export * from './codec/types';
+
+export interface CallFunction {
+  (...args: any[]): Call;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export type Calls = Record<string, CallFunction>;
+
+export type ModulesWithCalls = Record<string, Calls>;
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IKeyringPair {
+  address: string;
+  publicKey: Uint8Array;
   sign: (data: Uint8Array) => Uint8Array;
-};
+}
 
-interface CodecArgArray extends Array<CodecArg> { }
-export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface CodecArgArray extends Array<CodecArg> {}
+export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type Callback<T> = (result: T) => void | Promise<void>;
 
@@ -24,16 +44,19 @@ interface CodecArgObject {
   [index: string]: CodecArg;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any[]) => any;
 
 export type AnyNumber = BN | Uint8Array | number | string;
 
-export type AnyString = string | String;
+export type AnyString = string | string;
 
-export type AnyU8a = Uint8Array | Array<number> | string;
+export type AnyU8a = Uint8Array | number[] | string;
 
-export type AnyJsonObject = { [key: string]: AnyJson };
-export interface AnyJsonArray extends Array<AnyJson> { }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnyJsonObject extends Record<string, AnyJson> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnyJsonArray extends Array<AnyJson> {}
 export type AnyJson = string | number | boolean | null | undefined | AnyJsonObject | AnyJsonArray;
 
 /**
@@ -48,6 +71,11 @@ export interface Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   encodedLength: number;
+
+  /**
+   * @description Returns a hash of the value
+   */
+  hash: IHash;
 
   /**
    * @description Checks if the value is an empty value
@@ -86,68 +114,100 @@ export interface Codec {
   toU8a (isBare?: boolean): Uint8Array;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
+export interface IHash extends U8a { }
+
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
-  Fallback?: Constructor<T>;
+  Fallback?: Constructor<Codec>;
 
-  new(...value: Array<any>): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new(...value: any[]): T;
 }
 
-export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
+export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
-export type TypeDef = { [index: string]: Codec };
-
-export type RegistryTypes = {
-  [name: string]: Constructor | string | { [name: string]: string }
-};
+export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string> } | { _set: Record<string, number> }>;
 
 export interface RuntimeVersionInterface {
-  readonly apis: Array<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly apis: any[];
   readonly authoringVersion: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   readonly implName: String;
   readonly implVersion: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   readonly specName: String;
   readonly specVersion: BN;
 }
 
-export type SignatureOptions = {
-  blockHash: AnyU8a,
-  era?: Uint8Array,
-  nonce: AnyNumber,
-  version?: RuntimeVersionInterface
-};
-
-export interface ArgsDef {
-  [index: string]: Constructor;
+export interface SignatureOptions {
+  blockHash: AnyU8a;
+  era?: IExtrinsicEra;
+  nonce: AnyNumber;
+  tip?: AnyNumber;
+  version?: RuntimeVersionInterface;
 }
 
-export interface IHash extends U8a { }
+export type ArgsDef = Record<string, Constructor>;
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
-  readonly args: Array<Codec>;
+  readonly args: Codec[];
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
+  readonly hash: IHash;
   readonly hasOrigin: boolean;
   readonly meta: FunctionMetadata;
 }
 
-export interface IExtrinsicSignature extends Codec {
+interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
-  era: IExtrinsicEra;
+  readonly era: IExtrinsicEra;
+  readonly nonce: Compact<Index>;
+  readonly signature: IHash;
+  readonly signer: Address;
+  readonly tip: Compact<Balance>;
 }
 
-export interface IExtrinsicEra {
+export interface ExtrinsicPayloadValue {
+  era: IExtrinsicEra | AnyU8a;
+  method: AnyU8a;
+  nonce: AnyNumber;
+  tip: AnyNumber;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsicEra extends Codec {
   asImmortalEra: Codec;
   asMortalEra: Codec;
 }
 
-export interface IExtrinsic extends IMethod {
-  hash: IHash;
-  isSigned: boolean;
-  method: Method;
-  signature: IExtrinsicSignature;
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsicImpl extends Codec {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
+  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+  readonly length: number;
+  readonly method: Call;
+  readonly type: number;
+  readonly version: number;
+
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
   sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

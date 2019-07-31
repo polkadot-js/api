@@ -4,24 +4,24 @@
 
 import WsProvider from './';
 
-describe('onMessageSubscribe', () => {
+describe('onMessageSubscribe', (): void => {
   let provider: WsProvider;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     provider = new WsProvider('ws://127.0.0.1:1234', false);
   });
 
-  it('calls the subscriber with data', (done) => {
+  it('calls the subscriber with data', (done): void => {
     // We need to access the private WsProvider property 'handlers' here which otherwise triggers a tslint error..
     // @ts-ignore
     provider.handlers[11] = {
-      callback: (_: any, id: number) => {
+      callback: (_: any, id: number): void => {
         expect(typeof id).toBe('number');
       },
       method: 'test',
       params: [],
       subscription: {
-        callback: (_: any, result: any) => {
+        callback: (_: any, result: any): void => {
           expect(result).toEqual('test');
           done();
         },
@@ -36,17 +36,17 @@ describe('onMessageSubscribe', () => {
     provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' }));
   });
 
-  it('calls the subscriber with error', (done) => {
+  it('calls the subscriber with error', (done): void => {
     // We need to access the private WsProvider property 'handlers' here which otherwise trigger a tslint error..
     // @ts-ignore
     provider.handlers[11] = {
-      callback: (_: any, id: number) => {
+      callback: (_: any, id: number): void => {
         expect(typeof id).toBe('number');
       },
       method: 'test',
       params: [],
       subscription: {
-        callback: (error: any) => {
+        callback: (error: any): void => {
           expect(error.message).toMatch(/test/);
           done();
         },

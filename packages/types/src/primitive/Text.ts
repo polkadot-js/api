@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { AnyU8a, Codec, IHash } from '../types';
 
-import { AnyU8a, Codec } from '../types';
+import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
+import createType from '../codec/createType';
 import Compact from '../codec/Compact';
 
 /**
@@ -18,7 +21,7 @@ import Compact from '../codec/Compact';
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
-  constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
+  public constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(
       Text.decodeText(value)
     );
@@ -46,21 +49,28 @@ export default class Text extends String implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  get encodedLength (): number {
+  public get encodedLength (): number {
     return this.toU8a().length;
+  }
+
+  /**
+   * @description returns a hash of the contents
+   */
+  public get hash (): IHash {
+    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  get isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.length === 0;
   }
 
   /**
    * @description The length of the value
    */
-  get length (): number {
+  public get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
   }
@@ -68,7 +78,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  eq (other?: any): boolean {
+  public eq (other?: any): boolean {
     return isString(other)
       ? this.toString() === other.toString()
       : false;
@@ -77,7 +87,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  public toHex (): string {
     // like  with Vec<u8>, when we are encoding to hex, we don't actually add
     // the length prefix (it is already implied by the actual string length)
     return u8aToHex(this.toU8a(true));
@@ -86,21 +96,21 @@ export default class Text extends String implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): string {
+  public toJSON (): string {
     return this.toString();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toRawType (): string {
+  public toRawType (): string {
     return 'Text';
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
   }
@@ -109,7 +119,7 @@ export default class Text extends String implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: boolean): Uint8Array {
     const encoded = stringToU8a(this.toString());
 
     return isBare

@@ -8,7 +8,7 @@ import { assert } from '@polkadot/util';
 
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
+import Vec from '../../codec/Vec';
 import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
@@ -22,7 +22,7 @@ export {
 };
 
 export class MapType extends Struct {
-  constructor (value?: any) {
+  public constructor (value?: any) {
     super({
       key: Type,
       value: Type,
@@ -33,27 +33,27 @@ export class MapType extends Struct {
   /**
    * @description The mapped key as [[Type]]
    */
-  get key (): Type {
+  public get key (): Type {
     return this.get('key') as Type;
   }
 
   /**
    * @description The mapped value as [[Type]]
    */
-  get value (): Type {
+  public get value (): Type {
     return this.get('value') as Type;
   }
 
   /**
    * @description Is this an enumerable linked map
    */
-  get isLinked (): boolean {
+  public get isLinked (): boolean {
     return (this.get('isLinked') as Bool).valueOf();
   }
 }
 
 export class StorageFunctionType extends Enum {
-  constructor (value?: any, index?: number) {
+  public constructor (value?: any, index?: number) {
     super({
       PlainType,
       MapType
@@ -63,7 +63,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  get asMap (): MapType {
+  public get asMap (): MapType {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
     return this.value as MapType;
@@ -72,7 +72,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  get asType (): PlainType {
+  public get asType (): PlainType {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
     return this.value as PlainType;
@@ -81,21 +81,21 @@ export class StorageFunctionType extends Enum {
   /**
    * @description `true` if the storage entry is a map
    */
-  get isMap (): boolean {
+  public get isMap (): boolean {
     return this.toNumber() === 1;
   }
 
   /**
    * @description `true` if the storage entry is a plain type
    */
-  get isPlainType (): boolean {
+  public get isPlainType (): boolean {
     return this.toNumber() === 0;
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  toString (): string {
+  public toString (): string {
     if (this.isMap) {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
@@ -108,13 +108,13 @@ export class StorageFunctionType extends Enum {
   }
 }
 
-export type StorageFunctionMetadataValue = {
-  name: string | Text,
-  modifier: StorageFunctionModifier | AnyNumber,
-  type: StorageFunctionType,
-  fallback: Bytes,
-  documentation: Vector<Text> | Array<string>
-};
+export interface StorageFunctionMetadataValue {
+  name: string | Text;
+  modifier: StorageFunctionModifier | AnyNumber;
+  type: StorageFunctionType;
+  fallback: Bytes;
+  documentation: Vec<Text> | string[];
+}
 
 /**
  * @name ModuleMetadata
@@ -122,13 +122,13 @@ export type StorageFunctionMetadataValue = {
  * The definition of a storage function
  */
 export class StorageFunctionMetadata extends Struct {
-  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
+  public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
       fallback: Bytes,
-      documentation: Vector.with(Text)
+      documentation: Vec.with(Text)
     }, value);
   }
 
@@ -136,50 +136,50 @@ export class StorageFunctionMetadata extends Struct {
    * @description The default value of the storage function
    * @deprecated Use `.fallback` instead.
    */
-  get default (): Bytes {
+  public get default (): Bytes {
     return this.fallback;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  public get documentation (): Vec<Text> {
+    return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Text]] documentation
    * @deprecated Use `.documentation` instead.
    */
-  get docs (): Vector<Text> {
+  public get docs (): Vec<Text> {
     return this.documentation;
   }
 
   /**
    * @description The [[Bytes]] fallback default
    */
-  get fallback (): Bytes {
+  public get fallback (): Bytes {
     return this.get('fallback') as Bytes;
   }
 
   /**
    * @description The [[MetadataArgument]] for arguments
    */
-  get modifier (): StorageFunctionModifier {
+  public get modifier (): StorageFunctionModifier {
     return this.get('modifier') as StorageFunctionModifier;
   }
 
   /**
    * @description The call name
    */
-  get name (): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description The [[StorageFunctionType]]
    */
-  get type (): StorageFunctionType {
+  public get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;
   }
 }

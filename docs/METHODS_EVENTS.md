@@ -7,11 +7,13 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[council](#council)**
 
-- **[councilMotions](#councilMotions)**
-
 - **[democracy](#democracy)**
 
+- **[elections](#elections)**
+
 - **[grandpa](#grandpa)**
+
+- **[imOnline](#imOnline)**
 
 - **[indices](#indices)**
 
@@ -22,6 +24,8 @@ Events are emitted for certain operations on the runtime. The following sections
 - **[sudo](#sudo)**
 
 - **[system](#system)**
+
+- **[technicalCommittee](#technicalCommittee)**
 
 - **[treasury](#treasury)**
 
@@ -68,23 +72,6 @@ ___
 
 ### council
 
-▸ **BadReaperSlashed**(`AccountId`)
-- **summary**:   slashed reaper
-
-▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
-- **summary**:   A tally (for approval votes of council seat(s)) has ended (with one or more new members).
-
-▸ **TallyStarted**(`u32`)
-- **summary**:   A tally (for approval votes of council seat(s)) has started.
-
-▸ **VoterReaped**(`AccountId`, `AccountId`)
-- **summary**:   reaped voter, reaper
-
-___
-
-
-### councilMotions
-
 ▸ **Approved**(`Hash`)
 - **summary**:   A motion was approved by the required threshold.
 
@@ -95,7 +82,7 @@ ___
 - **summary**:   A motion was executed; `bool` is true if returned without error.
 
 ▸ **MemberExecuted**(`Hash`, `bool`)
-- **summary**:   A single councillor did some action; `bool` is true if returned without error.
+- **summary**:   A single member did some action; `bool` is true if returned without error.
 
 ▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
 - **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
@@ -133,10 +120,41 @@ ___
 ___
 
 
+### elections
+
+▸ **BadReaperSlashed**(`AccountId`)
+- **summary**:   slashed reaper
+
+▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
+- **summary**:   A tally (for approval votes of seat(s)) has ended (with one or more new members).
+
+▸ **TallyStarted**(`u32`)
+- **summary**:   A tally (for approval votes of seat(s)) has started.
+
+▸ **VoterReaped**(`AccountId`, `AccountId`)
+- **summary**:   reaped voter, reaper
+
+___
+
+
 ### grandpa
 
 ▸ **NewAuthorities**(`Vec<(AuthorityId,u64)>`)
 - **summary**:   New authority set has been applied.
+
+▸ **Paused**()
+- **summary**:   Current authority set has been paused.
+
+▸ **Resumed**()
+- **summary**:   Current authority set has been resumed.
+
+___
+
+
+### imOnline
+
+▸ **HeartbeatReceived**(`BlockNumber`, `AuthorityId`)
+- **summary**:   A new heartbeat was received at this `BlockNumber` from `AuthorityId`
 
 ___
 
@@ -189,6 +207,29 @@ ___
 
 ▸ **ExtrinsicSuccess**()
 - **summary**:   An extrinsic completed successfully.
+
+___
+
+
+### technicalCommittee
+
+▸ **Approved**(`Hash`)
+- **summary**:   A motion was approved by the required threshold.
+
+▸ **Disapproved**(`Hash`)
+- **summary**:   A motion was not approved by the required threshold.
+
+▸ **Executed**(`Hash`, `bool`)
+- **summary**:   A motion was executed; `bool` is true if returned without error.
+
+▸ **MemberExecuted**(`Hash`, `bool`)
+- **summary**:   A single member did some action; `bool` is true if returned without error.
+
+▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
+
+▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
 
 ___
 

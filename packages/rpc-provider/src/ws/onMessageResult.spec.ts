@@ -4,18 +4,18 @@
 
 import WsProvider from './';
 
-describe('WsProvider', () => {
+describe('WsProvider', (): void => {
   let provider: WsProvider;
 
-  beforeEach(() => {
+  beforeEach((): void => {
     provider = new WsProvider('ws://127.0.0.1:1234', false);
   });
 
-  it('calls the handler when found', (done) => {
+  it('calls the handler when found', (done): void => {
     // We need to access the private WsProvider property 'handlers' here which otherwise trigger a tslint error..
     // @ts-ignore
     provider.handlers[5] = {
-      callback: (_: any, result: any) => {
+      callback: (_: any, result: any): void => {
         expect(result).toEqual('test');
         done();
       },
@@ -25,6 +25,8 @@ describe('WsProvider', () => {
 
     // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
     // @ts-ignore
-    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":5,"result":"test"}' }));
+    provider.onSocketMessage(
+      new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":5,"result":"test"}' })
+    );
   });
 });
