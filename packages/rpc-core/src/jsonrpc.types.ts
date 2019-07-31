@@ -2,9 +2,10 @@
 
 import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types/codec';
-import { Bytes, StorageKey, Text, u64 } from '@polkadot/types/primitive';
+import { Bytes, Metadata, StorageKey, Text, u64 } from '@polkadot/types';
 import { BlockNumber, Extrinsic, Hash, Header, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { Codec } from '@polkadot/types/types';
 
 export interface RpcInterface {
   author: {
@@ -25,18 +26,18 @@ export interface RpcInterface {
   };
   state: {
     call(method: Text | string, data: Bytes | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;
-    getChildKeys(childStorageKey: StorageKey | Hash | Uint8Array | string, prefix: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
-    getChildStorage(childStorageKey: StorageKey | Hash | Uint8Array | string, key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<StorageData>;
-    getChildStorageHash(childStorageKey: StorageKey | Hash | Uint8Array | string, key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Hash>;
-    getChildStorageSize(childStorageKey: StorageKey | Hash | Uint8Array | string, key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<u64>;
-    getKeys(prefix: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
+    getChildKeys(childStorageKey: any, prefix: any, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
+    getChildStorage(childStorageKey: any, key: any, block?: Hash | Uint8Array | string): Observable<StorageData>;
+    getChildStorageHash(childStorageKey: any, key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
+    getChildStorageSize(childStorageKey: any, key: any, block?: Hash | Uint8Array | string): Observable<u64>;
+    getKeys(prefix: any, block?: Hash | Uint8Array | string): Observable<Vec<StorageKey>>;
     getMetadata(block?: Hash | Uint8Array | string): Observable<Metadata>;
     getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
-    getStorage(key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<StorageData>;
-    getStorageHash(key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Hash>;
-    getStorageSize(key: StorageKey | Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<u64>;
-    queryStorage(keys: (StorageKey | Hash | Uint8Array | string)[], startBlock: Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
-    subscribeStorage(keys: (StorageKey | Hash | Uint8Array | string)[]): Observable<StorageChangeSet>;
+    getStorage<T = Codec>(key: any[], block?: Hash | Uint8Array | string): Observable<T>;
+    getStorageHash(key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
+    getStorageSize(key: any, block?: Hash | Uint8Array | string): Observable<u64>;
+    queryStorage(keys: (any)[], startBlock: Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
+    subscribeStorage<T>(keys: any[]): Observable<T>;
   };
   system: {
     chain(): Observable<Text>;

@@ -44,7 +44,7 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeI
       // do nothing
     } else if ((codecClasses as any)[type]) {
       codecTypes[type] = true;
-    } else if ((primitiveClasses as any)[type]) {
+    } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
     } else {
       // find this module inside the exports from the rest
@@ -274,11 +274,8 @@ function getDerivedTypes (type: string, primitiveName: string, imports: TypeImpo
     .join('\n');
 }
 
-interface Imports {
-  codecTypes: Record<string, boolean>;
-  localTypes: Record<string, Record<string, boolean>>;
-  ownTypes: string[];
-  primitiveTypes: Record<string, boolean>;
+interface Imports extends TypeImports {
+
   interfaces: [string, string][];
 }
 
@@ -426,6 +423,12 @@ function getSimilarTypes (type: string): string[] {
     return [`(${getSimilarTypes(((getTypeDef(type).sub) as TypeDef).type).join(' | ')})[]`];
   }
 
+  // FIXME This is a hack, it's hard to correctly type StorageKeys in the
+  // current state
+  if (type === 'StorageKey') {
+    return ['any'];
+  }
+
   // @ts-ignore Cannot get isChildClass of abstract class, but it works
   if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'number', 'string');
@@ -457,6 +460,15 @@ function generateRpcTypes (): void {
 
   const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.values(interfaces[section].methods).map((method): string => {
+      // FIXME
+      // These 2 are too hard to type, I give up
+      if (method.method === 'getStorage') {
+        return `    getStorage<T = Codec>(key: any[], block?: Hash | Uint8Array | string): Observable<T>;`;
+      }
+      if (method.method === 'subscribeStorage') {
+        return `    subscribeStorage<T>(keys: any[]): Observable<T>;`;
+      }
+
       const args = method.params.map((param): string => {
         const similarTypes = getSimilarTypes(param.type);
         setImports(imports, similarTypes);
@@ -486,13 +498,18 @@ function generateRpcTypes (): void {
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
-      file: '@polkadot/types/primitive',
+      file: '@polkadot/types',
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `@polkadot/types/interfaces/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
-    }))
+    })),
+    {
+      // Needed because we manually type getStorage and subscribeStorage above, see FIXME
+      file: '@polkadot/types/types',
+      types: ['Codec']
+    }
   ]);
   const interfaceStart = 'export interface RpcInterface {\n';
   const interfaceEnd = '\n}';

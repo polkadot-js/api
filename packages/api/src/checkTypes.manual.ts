@@ -4,7 +4,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { Header, Index } from '@polkadot/types/interfaces';
+import { Balance, Header, Index } from '@polkadot/types/interfaces';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -35,17 +35,16 @@ export default async function test (): Promise<void> {
   await api.query.staking.intentions((intentions): void => {
     console.log('intentions:', intentions);
   });
-
-  await api.rpc.chain.subscribeNewHead<Header>((header): void => {
-    console.log('current blockNumber:', header.number);
-  });
-
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
     console.log('current blockNumber:', header.number);
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
     console.log('current author:', header.author);
+  });
+
+  await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
+    console.log('current balance:', balance.toString());
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
