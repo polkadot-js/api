@@ -193,7 +193,7 @@ function addStorage (metadata: MetadataV7): string {
       ).toString();
 
       if (func.modifier.isOptional) {
-        result = `Option<${result}>`
+        result = `Option<${result}>`;
       }
 
       return `${md}\n▸ **${stringLowerFirst(func.name.toString())}**(${arg}): ` + '`' + result + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
