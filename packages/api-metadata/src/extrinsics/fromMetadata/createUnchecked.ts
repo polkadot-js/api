@@ -6,7 +6,7 @@ import { Call } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
-import { createType } from '@polkadot/types';
+import { createType, Metadata } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
@@ -22,7 +22,8 @@ export default function createDescriptor (
   section: string,
   sectionIndex: number,
   methodIndex: number,
-  callMetadata: FunctionMetadata
+  callMetadata: FunctionMetadata,
+  runtimeMetadata: Metadata
 ): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
@@ -36,7 +37,7 @@ export default function createDescriptor (
     return createType('Call', {
       args,
       callIndex
-    }, callMetadata);
+    }, { meta: runtimeMetadata });
   };
 
   extrinsicFn.callIndex = callIndex;

@@ -16,10 +16,12 @@ import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
+import Metadata from '@polkadot/types/Metadata';
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
 interface ExtrinsicOptions {
+  meta?: Metadata;
   version?: number;
 }
 
@@ -36,26 +38,27 @@ interface ExtrinsicOptions {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: ExtrinsicOptions = {}) {
-    super(Extrinsic.decodeExtrinsic(value, version));
+  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, options: ExtrinsicOptions = {}) {
+    super(Extrinsic.decodeExtrinsic(value, options));
   }
 
-  private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 {
+  private static newFromValue (value: any, options: { meta?: Metadata; version: number }): ExtrinsicV1 | ExtrinsicV2 {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
 
-    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = version & UNMASK_VERSION;
+    const isSigned = (options.version & BIT_SIGNED) === BIT_SIGNED;
+    const type = options.version & UNMASK_VERSION;
 
     switch (type) {
-      case 1: return new ExtrinsicV1(value, { isSigned });
-      case 2: return new ExtrinsicV2(value, { isSigned });
+      case 1: return new ExtrinsicV1(value, { isSigned, meta: options.meta });
+      case 2: return new ExtrinsicV2(value, { isSigned, meta: options.meta });
       default: throw new Error(`Unsupported extrinsic version ${type}`);
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, options: ExtrinsicOptions = {}): ExtrinsicV1 | ExtrinsicV2 {
+    const version: number = options.version || DEFAULT_VERSION;
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -70,11 +73,11 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
         withPrefix
           ? u8a
           : Compact.addLengthPrefix(u8a),
-        version
+        options
       );
     } else if (isU8a(value)) {
       if (!value.length) {
-        return Extrinsic.newFromValue(new Uint8Array(), version);
+        return Extrinsic.newFromValue(new Uint8Array(), { version, meta: options.meta });
       }
 
       const [offset, length] = Compact.decodeU8a(value);
@@ -84,14 +87,14 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
     } else if (value instanceof Call) {
-      return Extrinsic.newFromValue({ method: value }, version);
+      return Extrinsic.newFromValue({ method: value }, { version, meta: options.meta });
     }
 
-    return Extrinsic.newFromValue(value, version);
+    return Extrinsic.newFromValue(value, { version, meta: options.meta });
   }
 
   private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {
-    return Extrinsic.newFromValue(value.subarray(1), value[0]);
+    return Extrinsic.newFromValue(value.subarray(1), { version: value[0] });
   }
 
   /**

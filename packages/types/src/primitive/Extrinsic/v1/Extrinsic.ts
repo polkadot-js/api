@@ -10,6 +10,7 @@ import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
+import Metadata from '@polkadot/types/Metadata';
 
 export interface ExtrinsicValueV1 {
   method?: Call;
@@ -18,6 +19,7 @@ export interface ExtrinsicValueV1 {
 
 interface ExtrinsicV1Options {
   isSigned?: boolean;
+  meta?: Metadata;
 }
 
 const TRANSACTION_VERSION = 1;
@@ -28,14 +30,15 @@ const TRANSACTION_VERSION = 1;
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicV1Options = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicV1Options = {}) {
     super({
       signature: ExtrinsicSignature,
       method: Call
-    }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
+    }, ExtrinsicV1.decodeExtrinsic(value, options));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned: boolean = false): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicV1Options = {}): ExtrinsicValueV1 {
+    const isSigned = !!options.isSigned;
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV1) {
@@ -43,7 +46,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, { isSigned });
-      const method = new Call(value.subarray(signature.encodedLength));
+      const method = new Call(value.subarray(signature.encodedLength), { meta: options.meta });
 
       return {
         method,

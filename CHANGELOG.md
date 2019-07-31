@@ -4,6 +4,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 
 - Support substrate v7 metadata
 - The `Method.findFunction(callIndex)` (allowing decoding of raw data), is now available on `api.findCall(callIndex)`. To keep backwards compatibility, it is still available on `GenericCall.findMethod` but the `api.findCall` is recommended and suggested.
+- **Breaking change** `GenericCall.injectMethods` and `Event.injectMethods` are going to be removed. It is recommended to pass the runtime metadata to the constructor instead. The second argument to `GenericCall` is now an object containing the runtime metadata. Before: `new GenericCall(value, functionMetada)`. Now: `new GenericCall(value, { meta: runtimeMetada })`. `Extrinsic.newFromValue` signature has changed; before: `Extrinsic.newFromValue(value, version)`, now: `Extrinsic.newFromValue(value, {version, meta?})`.
 - Runtime types have been extended and moved to definitions instead of classes
   - **Breaking Change** Primitive types for `i*` and `u*` (e.g. `u32`) are now only available in their lowercase versions. Additionally `Vector` is now only available as `Vec`, and `Method` has been renamed to `Call`, in both cases aligning with Rust.
   - **Breaking Change** `Moment` now implements as `u64` as per the Substrate codebase. (It it up to the user to interpret, for substrate 2.x it is not mili-second resolution)

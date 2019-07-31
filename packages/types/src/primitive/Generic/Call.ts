@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
-
-import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
-
 import { getTypeDef, getTypeClass } from '../../codec/createType';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
 import { FunctionMetadata as FunctionMetadataV7, FunctionArgumentMetadata } from '../../Metadata/v7/Calls';
+import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
+import extrinsicsFromMetadata from '@polkadot/api-metadata/extrinsics/fromMetadata';
+import Metadata from '@polkadot/types/Metadata';
+import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+
+interface ConstructorOptions {
+  meta?: Metadata;
+}
 
 interface DecodeMethodInput {
   args: any;
@@ -19,6 +23,8 @@ interface DecodeMethodInput {
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadataV7;
+  method: string;
+  section: string;
 }
 
 const FN_UNKNOWN: Partial<CallFunction> = {
@@ -48,8 +54,19 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataV7;
 
-  public constructor (value: any, meta?: FunctionMetadataV7) {
-    const decoded = Call.decodeCall(value, meta);
+  protected _method: string;
+
+  protected _section: string;
+
+  /**
+  * Method constructor
+  *
+  * @param value
+  * @param meta - Metadata to use, so that the `injectMethods` lookup is not
+  * necessary. This argument will soon be required so as to get rid of globals.
+  */
+  public constructor (value: any, options: ConstructorOptions = {}) {
+    const decoded = Call.decodeCall(value, options);
 
     super({
       callIndex: CallIndex,
@@ -57,6 +74,8 @@ export default class Call extends Struct implements IMethod {
     }, decoded);
 
     this._meta = decoded.meta;
+    this._method = decoded.method;
+    this._section = decoded.section;
   }
 
   /**
@@ -69,22 +88,40 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV7): DecodedMethod {
+  private static decodeCall (value: Call | DecodedMethod | Uint8Array | string = new Uint8Array(), options: ConstructorOptions = {}): DecodedMethod {
+    const _meta = options.meta;
+
+    const unwrapMeta = (callIndex: Uint8Array, meta?: Metadata): {
+      meta: FunctionMetadataV7;
+      method: string;
+      section: string;
+    } => {
+      const methodFunction = (meta && Call.findByCallIndex(callIndex, meta)) || // meta is the runtime metadata
+        Call.findFunction(callIndex); // Global lookup
+
+      return { meta: methodFunction.meta, method: methodFunction.method, section: methodFunction.section };
+    };
     if (isHex(value)) {
-      return Call.decodeCall(hexToU8a(value), _meta);
+      return Call.decodeCall(hexToU8a(value), { meta: _meta });
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
 
       // Find metadata with callIndex
-      const meta = _meta || Call.findFunction(callIndex).meta;
+      const { meta, method, section } = unwrapMeta(callIndex, _meta);
 
       return {
         args: value.subarray(2),
         argsDef: Call.getArgsDef(meta),
         callIndex,
-        meta
+        meta,
+        method,
+        section
       };
+    } else if (value instanceof Call) {
+      const { args, argsDef, callIndex, meta, methodName: method, sectionName: section } = value;
+
+      return { args, argsDef, callIndex, meta, method, section };
     } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
       const { args, callIndex } = value;
@@ -94,14 +131,16 @@ export default class Call extends Struct implements IMethod {
         ? callIndex.toU8a()
         : callIndex;
 
-      // Find metadata with callIndex
-      const meta = _meta || Call.findFunction(lookupIndex).meta;
+      // Find metadata with lookupIndex
+      const { meta, method, section } = unwrapMeta(lookupIndex, _meta);
 
       return {
         args,
         argsDef: Call.getArgsDef(meta),
+        callIndex,
         meta,
-        callIndex
+        method,
+        section
       };
     }
 
@@ -125,10 +164,30 @@ export default class Call extends Struct implements IMethod {
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
+  //
+  // @deprecated This method does a lookup in the methods' metadata stored
+  // globally with injectMethods. Pass the runtime metadata to the Call
+  // constructor instead.
   public static findFunction (callIndex: Uint8Array): CallFunction {
     assert(Object.keys(injected).length > 0, 'Calling Call.findFunction before extrinsics have been injected.');
 
     return injected[callIndex.toString()] || FN_UNKNOWN;
+  }
+
+  /**
+ * Retrieves a function from the runtime metadata
+ * @param callIndex Call index of the function, e.g. new Uint8Array([3, 0])
+ * @param metadata Runtime metadata, e.g. api.runtimeMetadata
+ */
+  private static findByCallIndex (callIndex: Uint8Array, metadata: Metadata): CallFunction | undefined {
+    const moduleMethods = extrinsicsFromMetadata(metadata);
+
+    const methods: CallFunction[] = ([] as CallFunction[]).concat(
+      ...Object.values(moduleMethods).map((methods): CallFunction[] => Object.values(methods))
+    );
+
+    return methods.find((method: CallFunction): boolean =>
+      method.callIndex.toString() === callIndex.toString());
   }
 
   /**
@@ -148,8 +207,13 @@ export default class Call extends Struct implements IMethod {
     }, {} as unknown as ArgsDef);
   }
 
-  // This is called/injected by the API on init, allowing a snapshot of
-  // the available system extrinsics to be used in lookups
+  /**
+   * This is called/injected by the API on init, allowing a snapshot of
+   * the available system extrinsics to be used in lookups
+   *
+   * deprecated: Instead of injecting the methods' metadata globally, call the
+   * Method constructor with the function or runtime metadata.
+   */
   public static injectMethods (moduleMethods: ModulesWithCalls): void {
     Object.values(moduleMethods).forEach((methods): void =>
       Object.values(methods).forEach((method): void => {
@@ -167,7 +231,7 @@ export default class Call extends Struct implements IMethod {
   }
 
   /**
-   * @description Thge argument defintions
+   * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
     return Call.getArgsDef(this.meta);
@@ -207,14 +271,14 @@ export default class Call extends Struct implements IMethod {
    * @description Returns the name of the method
    */
   public get methodName (): string {
-    return Call.findFunction(this.callIndex).method;
+    return this._method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get sectionName (): string {
-    return Call.findFunction(this.callIndex).section;
+    return this._section;
   }
 
   /**
