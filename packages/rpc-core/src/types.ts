@@ -7,12 +7,3 @@ import { Observable } from 'rxjs';
 export interface RpcInterfaceMethod {
   (...params: any[]): Observable<any>;
 }
-
-export type RpcInterfaceSection = Record<string, RpcInterfaceMethod>;
-
-export interface RpcInterface {
-  readonly author: RpcInterfaceSection;
-  readonly chain: RpcInterfaceSection;
-  readonly state: RpcInterfaceSection;
-  readonly system: RpcInterfaceSection;
-}

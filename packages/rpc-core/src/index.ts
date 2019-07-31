@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { StorageChangeSet, StorageData } from '@polkadot/types/interfaces';
 import { AnyJson, Codec } from '@polkadot/types/types';
-import { RpcInterface, RpcInterfaceMethod, RpcInterfaceSection } from './types';
+import { RpcInterface } from './jsonrpc.types';
+import { RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
@@ -55,13 +56,13 @@ export default class Rpc implements RpcInterface {
 
   public readonly provider: ProviderInterface;
 
-  public readonly author: RpcInterfaceSection;
+  public readonly author: RpcInterface['author'];
 
-  public readonly chain: RpcInterfaceSection;
+  public readonly chain: RpcInterface['chain'];
 
-  public readonly state: RpcInterfaceSection;
+  public readonly state: RpcInterface['state'];
 
-  public readonly system: RpcInterfaceSection;
+  public readonly system: RpcInterface['system'];
 
   /**
    * @constructor
@@ -73,10 +74,10 @@ export default class Rpc implements RpcInterface {
 
     this.provider = provider;
 
-    this.author = this.createInterface(interfaces.author);
-    this.chain = this.createInterface(interfaces.chain);
-    this.state = this.createInterface(interfaces.state);
-    this.system = this.createInterface(interfaces.system);
+    this.author = this.createInterface('author');
+    this.chain = this.createInterface('chain');
+    this.state = this.createInterface('state');
+    this.system = this.createInterface('system');
   }
 
   /**
@@ -113,18 +114,24 @@ export default class Rpc implements RpcInterface {
     return `${Rpc.signature(method)}:: ${error.message}`;
   }
 
-  private createInterface ({ methods }: RpcSection): RpcInterfaceSection {
+  private createInterface<Section extends keyof RpcInterface> (section: Section): RpcInterface[Section] {
+    const { methods } = interfaces[section];
+
     return Object
       .keys(methods)
-      .reduce((exposed, methodName): RpcInterfaceSection => {
+      .reduce((exposed, methodName): RpcInterface[Section] => {
         const def = methods[methodName];
 
-        exposed[methodName] = def.isSubscription
+        // FIXME Remove any here
+        // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
+        // every method inside this class to take:
+        // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
+        (exposed as any)[methodName] = def.isSubscription
           ? this.createMethodSubscribe(def)
           : this.createMethodSend(def);
 
         return exposed;
-      }, {} as unknown as RpcInterfaceSection);
+      }, {} as unknown as RpcInterface[Section]);
   }
 
   private createMethodSend (method: RpcMethod): RpcInterfaceMethod {
