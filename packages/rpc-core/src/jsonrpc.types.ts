@@ -5,14 +5,14 @@ import { Vec } from '@polkadot/types/codec';
 import { Bytes, Metadata, StorageKey, Text, u64 } from '@polkadot/types';
 import { BlockNumber, Extrinsic, Hash, Header, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
-import { Codec } from '@polkadot/types/types';
+import { Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
   author: {
     removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
-    submitExtrinsic(extrinsic: Extrinsic): Observable<Hash>;
-    submitAndWatchExtrinsic(extrinsic: Extrinsic): Observable<ExtrinsicStatus>;
+    submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
+    submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;
   };
   chain: {
     getBlock(hash?: Hash | Uint8Array | string): Observable<SignedBlock>;

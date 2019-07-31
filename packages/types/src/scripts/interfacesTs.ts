@@ -26,10 +26,11 @@ type TypeExist = Record<string, boolean>;
 type LocalExist = Record<string, TypeExist>;
 
 interface TypeImports {
-  codecTypes: TypeExist;
+  codecTypes: TypeExist; // `import {} from '@polkadot/types/codec`
   localTypes: LocalExist;
   ownTypes: string[];
-  primitiveTypes: TypeExist;
+  primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
+  typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
 }
 
 const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n\n';
@@ -37,10 +38,12 @@ const FOOTER = '\n';
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
-function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeImports, types: string[]): void {
+function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes }: TypeImports, types: string[]): void {
   types.forEach((type): void => {
     if (ownTypes.includes(type)) {
       // do nothing
+    } else if (['Codec', 'IExtrinsic'].includes(type)) {
+      typesTypes[type] = true;
     } else if ((codecClasses as any)[type]) {
       codecTypes[type] = true;
     } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
@@ -306,13 +309,14 @@ function createImports ({ types }: { types: Record<string, any> } = { types: {} 
   }, {});
   const ownTypes = Object.keys(types);
   const primitiveTypes: TypeExist = {};
+  const typesTypes: TypeExist = {};
   const interfaces = Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
-    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes })];
+    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes })];
   });
 
-  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, interfaces };
+  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes, interfaces };
 
   return imports;
 }
@@ -415,11 +419,16 @@ generateInterfaceRegistry();
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
 // etc
-function getSimilarTypes (type: string): string[] {
+function getSimilarTypes (imports: Imports, type: string): string[] {
   const possibleTypes = [type];
 
+  if (type === 'Extrinsic') {
+    setImports(imports, ['IExtrinsic']);
+    return ['IExtrinsic'];
+  }
+
   if (isChildClass(Vec, ClassOfUnsafe(type))) {
-    return [`(${getSimilarTypes(((getTypeDef(type).sub) as TypeDef).type).join(' | ')})[]`];
+    return [`(${getSimilarTypes(imports, ((getTypeDef(type).sub) as TypeDef).type).join(' | ')})[]`];
   }
 
   // FIXME This is a hack, it's hard to correctly type StorageKeys in the
@@ -458,8 +467,9 @@ function generateRpcTypes (): void {
   const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.values(interfaces[section].methods).map((method): string => {
       // FIXME
-      // These 2 are too hard to type, I give up
+      // These 3 are too hard to type, I give up
       if (method.method === 'getStorage') {
+        setImports(imports, ['Codec']);
         return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
       }
       if (method.method === 'subscribeStorage') {
@@ -467,7 +477,7 @@ function generateRpcTypes (): void {
       }
 
       const args = method.params.map((param): string => {
-        const similarTypes = getSimilarTypes(param.type);
+        const similarTypes = getSimilarTypes(imports, param.type);
         setImports(imports, similarTypes);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
@@ -503,9 +513,8 @@ function generateRpcTypes (): void {
       types: Object.keys(imports.localTypes[moduleName])
     })),
     {
-      // Needed because we manually type getStorage and subscribeStorage above, see FIXME
       file: '@polkadot/types/types',
-      types: ['Codec']
+      types: Object.keys(imports.typesTypes)
     }
   ]);
   const interfaceStart = 'export interface RpcInterface {\n';
