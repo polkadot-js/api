@@ -144,6 +144,7 @@ export interface RuntimeVersionInterface {
 
 export interface SignatureOptions {
   blockHash: AnyU8a;
+  genesisHash: AnyU8a;
   era?: IExtrinsicEra;
   nonce: AnyNumber;
   tip?: AnyNumber;

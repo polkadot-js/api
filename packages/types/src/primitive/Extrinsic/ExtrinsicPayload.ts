@@ -13,6 +13,7 @@ import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
 import ExtrinsicPayloadV1, { ExtrinsicPayloadValueV1 } from './v1/ExtrinsicPayload';
 import ExtrinsicPayloadV2, { ExtrinsicPayloadValueV2 } from './v2/ExtrinsicPayload';
+import ExtrinsicPayloadV3, { ExtrinsicPayloadValueV3 } from './v3/ExtrinsicPayload';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
@@ -20,20 +21,22 @@ interface ExtrinsicPayloadOptions {
   version?: number;
 }
 
+type ExtrinsicPayloadValue = Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Partial<ExtrinsicPayloadValueV3>;
+
 /**
  * @name ExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2> {
-  public constructor (value: Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3> {
+  public constructor (value: ExtrinsicPayloadValue | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
       ExtrinsicPayload.decodeExtrinsicPayload(value, version)
     );
   }
 
-  public static decodeExtrinsicPayload (value: ExtrinsicPayload | Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 {
+  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
@@ -41,6 +44,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
     switch (version) {
       case 1: return new ExtrinsicPayloadV1(value as Uint8Array);
       case 2: return new ExtrinsicPayloadV2(value as Uint8Array);
+      case 3: return new ExtrinsicPayloadV3(value as Uint8Array);
       default: throw new Error(`Unsupported extrinsic version ${version}`);
     }
   }
@@ -77,7 +81,8 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>', 0);
+    // NOTE both v2 & v3 have the tip
+    return (this.raw as ExtrinsicPayloadV3).tip || createType('Compact<Balance>', 0);
   }
 
   /**
