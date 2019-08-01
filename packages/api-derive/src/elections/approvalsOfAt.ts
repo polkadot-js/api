@@ -8,7 +8,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types';
 import { map } from 'rxjs/operators';
-import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
+import { approvalFlagToBool } from '../util/approvalFlagToBool';
 import { drr } from '../util/drr';
 
 /**
@@ -27,7 +27,7 @@ export function approvalsOfAt (api: ApiInterfaceRx): (who: AccountId, at: SetInd
   return (who: AccountId, at: SetIndex): Observable<boolean[]> =>
     (api.query.elections.approvalsOf<Vec<ApprovalFlag>>([who.toString(), at]))
       .pipe(
-        map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
+        map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagToBool(flags)),
         drr()
       );
 }
