@@ -3,16 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/types';
+import { Constructor } from '../types';
 
 import fs from 'fs';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef } from '../codec/createType';
+import interfaces from '../../../type-jsonrpc/src';
+import { ClassOfUnsafe, getTypeDef } from '../codec/createType';
 import * as codecClasses from '../codec';
+import AbstractInt from '../codec/AbstractInt';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
-import * as primitiveClasses from '../primitive';
+import Vec from '../codec/Vec';
 import * as definitions from '../interfaces/definitions';
-import { Constructor } from '../types';
+import * as primitiveClasses from '../primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
@@ -23,10 +26,11 @@ type TypeExist = Record<string, boolean>;
 type LocalExist = Record<string, TypeExist>;
 
 interface TypeImports {
-  codecTypes: TypeExist;
+  codecTypes: TypeExist; // `import {} from '@polkadot/types/codec`
   localTypes: LocalExist;
   ownTypes: string[];
-  primitiveTypes: TypeExist;
+  primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
+  typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
 }
 
 const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n\n';
@@ -34,13 +38,15 @@ const FOOTER = '\n';
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
-function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes }: TypeImports, types: string[]): void {
+function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes }: TypeImports, types: string[]): void {
   types.forEach((type): void => {
     if (ownTypes.includes(type)) {
       // do nothing
+    } else if (['Codec', 'IExtrinsic'].includes(type)) {
+      typesTypes[type] = true;
     } else if ((codecClasses as any)[type]) {
       codecTypes[type] = true;
-    } else if ((primitiveClasses as any)[type]) {
+    } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
     } else {
       // find this module inside the exports from the rest
@@ -67,7 +73,9 @@ function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boole
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
   // @ts-ignore AbstractInt is abstract, we shouldn't isChildClass it here, but it works
-  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean => isChildClass(CompactEncodable, Child));
+  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean =>
+    isChildClass(CompactEncodable, Child)
+  );
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
@@ -257,11 +265,14 @@ function createImportCode (header: string, checks: { file: string; types: string
 function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
+
   setImports(imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
 
   return [
     `${type}: ${type};`,
-    isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+    isCompact
+      ? `'Compact<${type}>': Compact<${type}>;`
+      : undefined,
     `'Option<${type}>': Option<${type}>;`,
     `'Vec<${type}>': Vec<${type}>;`
   ]
@@ -270,7 +281,13 @@ function getDerivedTypes (type: string, primitiveName: string, imports: TypeImpo
     .join('\n');
 }
 
-function generateTsDef (defName: string, { types }: { types: Record<string, any> }): void {
+interface Imports extends TypeImports {
+
+  interfaces: [string, string][];
+}
+
+// Create an Imports object, prefilled with types (if necessary)
+function createImports ({ types }: { types: Record<string, any> } = { types: {} }): Imports {
   // handlers are defined externally to use - this means that when we do a
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)
@@ -297,29 +314,38 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   }, {});
   const ownTypes = Object.keys(types);
   const primitiveTypes: TypeExist = {};
+  const typesTypes: TypeExist = {};
   const interfaces = Object.entries(types).map(([name, type]): [string, string] => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
-    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes })];
+    return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes })];
   });
 
-  const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
+  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes, interfaces };
+
+  return imports;
+}
+
+function generateTsDef (defName: string, { types }: { types: Record<string, any> }): void {
+  const imports = createImports({ types });
+
+  const sortedDefs = imports.interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
   const header = createImportCode(HEADER, [
     {
       file: '../../types',
-      types: codecTypes['Tuple'] ? ['Codec'] : []
+      types: imports.codecTypes['Tuple'] ? ['Codec'] : []
     },
     {
       file: '../../codec',
-      types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
+      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
       file: '../../primitive',
-      types: Object.keys(primitiveTypes)
+      types: Object.keys(imports.primitiveTypes)
     },
-    ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
+    ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `../${moduleName}`,
-      types: Object.keys(localTypes[moduleName])
+      types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);
 
@@ -338,18 +364,9 @@ console.log(`Writing interfaces/types.ts`);
 fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
 fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
 
+// Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
 function generateInterfaceRegistry (): void {
-  const codecTypes: TypeExist = {};
-  const localTypes: LocalExist = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
-    localTypes[moduleName] = {};
-
-    return localTypes;
-  }, {});
-  const ownTypes: string[] = [];
-  const primitiveTypes: TypeExist = {};
-  const substrateTypes: TypeExist = {};
-
-  const imports = { codecTypes, localTypes, ownTypes, primitiveTypes, substrateTypes };
+  const imports = createImports();
 
   const primitives = Object
     .keys(primitiveClasses)
@@ -371,22 +388,24 @@ function generateInterfaceRegistry (): void {
 
     return [
       accumulator,
-      ...Object.keys(types).map((type): string => getDerivedTypes(type, (types as any)[type], imports, 2))
+      ...Object.keys(types).map((type): string =>
+        getDerivedTypes(type, (types as any)[type], imports, 2)
+      )
     ].join('\n');
   }, '');
 
   const header = createImportCode(HEADER, [
     {
       file: './codec',
-      types: Object.keys(codecTypes).filter((name): boolean => name !== 'Tuple')
+      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
       file: './primitive',
-      types: Object.keys(primitiveTypes)
+      types: Object.keys(imports.primitiveTypes)
     },
-    ...Object.keys(localTypes).map((moduleName): { file: string; types: string[] } => ({
+    ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `./interfaces/${moduleName}`,
-      types: Object.keys(localTypes[moduleName])
+      types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);
 
@@ -403,3 +422,116 @@ function generateInterfaceRegistry (): void {
 console.log(`Writing interfaceRegistry.ts`);
 
 generateInterfaceRegistry();
+
+// Make types a little bit more flexible
+// - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
+// etc
+function getSimilarTypes (imports: Imports, type: string): string[] {
+  const possibleTypes = [type];
+
+  if (type === 'Extrinsic') {
+    setImports(imports, ['IExtrinsic']);
+    return ['IExtrinsic'];
+  }
+
+  if (isChildClass(Vec, ClassOfUnsafe(type))) {
+    return [`(${getSimilarTypes(imports, ((getTypeDef(type).sub) as TypeDef).type).join(' | ')})[]`];
+  }
+
+  // FIXME This is a hack, it's hard to correctly type StorageKeys in the
+  // current state
+  if (type === 'StorageKey') {
+    return ['any'];
+  }
+
+  // @ts-ignore Cannot get isChildClass of abstract class, but it works
+  if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
+    possibleTypes.push('Uint8Array', 'number', 'string');
+  } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
+    possibleTypes.push('Uint8Array', 'string');
+  } else if (isChildClass(String, ClassOfUnsafe(type))) {
+    possibleTypes.push('string');
+  }
+
+  return possibleTypes;
+}
+
+// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
+function generateRpcTypes (): void {
+  // Inject all types so that types-jsonrpc can use them
+  require('../injector');
+
+  // Get all imported types by types-jsonrpc
+  const allImportedTypes = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
+    return allSections.concat(
+      ...Object.values(interfaces[section].methods).map((method): string[] =>
+        [...method.params.map(({ type }): string => type), method.type])
+    );
+  }, []);
+
+  const imports = createImports({ types: allImportedTypes });
+
+  const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
+    const allMethods = Object.values(interfaces[section].methods).map((method): string => {
+      // FIXME These 2 are too hard to type, I give up
+      if (method.method === 'getStorage') {
+        setImports(imports, ['Codec']);
+        return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
+      } else if (method.method === 'subscribeStorage') {
+        return `    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;`;
+      }
+
+      const args = method.params.map((param): string => {
+        const similarTypes = getSimilarTypes(imports, param.type);
+        setImports(imports, similarTypes);
+
+        return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
+      });
+
+      return `    ${method.method}(${args.join(', ')}): Observable<${method.type}>;`;
+    });
+
+    return allSections.concat(
+      [
+        `  ${section}: {`,
+        ...allMethods,
+        `  };`
+      ].join('\n')
+    );
+  }, []).join('\n');
+
+  const header = createImportCode(HEADER, [
+    {
+      file: 'rxjs',
+      types: ['Observable']
+    },
+    {
+      file: '@polkadot/types/codec',
+      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: '@polkadot/types',
+      types: Object.keys(imports.primitiveTypes)
+    },
+    ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
+      file: `@polkadot/types/interfaces/${moduleName}`,
+      types: Object.keys(imports.localTypes[moduleName])
+    })),
+    {
+      file: '@polkadot/types/types',
+      types: Object.keys(imports.typesTypes)
+    }
+  ]);
+  const interfaceStart = 'export interface RpcInterface {\n';
+  const interfaceEnd = '\n}';
+
+  fs.writeFileSync(
+    `packages/rpc-core/src/jsonrpc.types.ts`,
+    header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
+    , { flag: 'w' }
+  );
+}
+
+console.log(`Writing packages/rpc-core/jsonrpc.types.ts`);
+
+generateRpcTypes();

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
@@ -87,7 +88,7 @@ export default abstract class ApiBase<ApiType> {
 
   private _queryMulti: QueryableStorageMulti<ApiType>;
 
-  private _rpc: DecoratedRpc<ApiType>;
+  private _rpc: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
 
@@ -318,7 +319,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  public get rpc (): DecoratedRpc<ApiType> {
+  public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
     return this._rpc;
   }
 
@@ -451,7 +452,7 @@ export default abstract class ApiBase<ApiType> {
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
    * via `deocrateMethod`.
    */
-  protected abstract decorateMethod (method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
+  protected abstract decorateMethod(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
   private emit (type: ApiInterfaceEvents, ...args: any[]): void {
     this._eventemitter.emit(type, ...args);
@@ -577,19 +578,22 @@ export default abstract class ApiBase<ApiType> {
     return output;
   }
 
-  private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType> {
-    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<ApiType> => {
-      const sectionName = _sectionName as keyof DecoratedRpc<ApiType>;
+  private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
+    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName): DecoratedRpcSection<ApiType> => {
+      // @ts-ignore Hard to type these correctly, I don't understand the TS errors
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+        // @ts-ignore
         const method = rpc[sectionName][methodName];
+        // @ts-ignore
         section[methodName] = decorateMethod(method, { methodName });
 
         return section;
-      }, {} as unknown as DecoratedRpcSection<ApiType>);
+      }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
 
       return result;
-    }, {} as unknown as DecoratedRpc<ApiType>);
+    }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
   }
 
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
@@ -652,10 +656,11 @@ export default abstract class ApiBase<ApiType> {
         (...args: any[]): Observable<Codec> => {
           return this._rpcCore.state
             // Unfortunately for one-shot calls we also use .subscribeStorage here
-            .subscribeStorage([
-              creator.meta.type.isDoubleMap
-                ? [creator, args]
-                : [creator, ...args]])
+            .subscribeStorage<[Codec]>([
+            creator.meta.type.isDoubleMap
+              ? [creator, args]
+              : [creator, ...args]
+          ])
             .pipe(
               // state_storage returns an array of values, since we have just subscribed to
               // a single entry, we pull that from the array and return it as-is
@@ -720,7 +725,7 @@ export default abstract class ApiBase<ApiType> {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
-      return this._rpcCore.state.subscribeStorage([[creator, key]])
+      return this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]])
         .pipe(
           switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
             const linkage = data[1];
@@ -784,12 +789,12 @@ export default abstract class ApiBase<ApiType> {
       (...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
         args.length
           ? this._rpcCore.state
-            .subscribeStorage([[creator, ...args]])
+            .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
             .pipe(
               map(([data]): [Codec, Linkage<Codec>] => data)
             )
           : this._rpcCore.state
-            .subscribeStorage([creator.headKey])
+            .subscribeStorage<[LinkageResult]>([creator.headKey])
             .pipe(
               switchMap(([key]): Observable<LinkageResult> => {
                 head = key;

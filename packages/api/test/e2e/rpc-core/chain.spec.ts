@@ -6,15 +6,21 @@ import { Header, RuntimeVersion } from '@polkadot/types/interfaces';
 
 import { ClassOf } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
-
 import Rpc from '@polkadot/rpc-core';
 
-describe.skip('e2e chain', (): void => {
+import { describeE2E } from '../../util';
+
+describeE2E({
+  except: [
+    'remote-polkadot-alexander',
+    'remote-substrate-1.0'
+  ]
+})('RPC-core e2e chain', (wsUrl: string): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider(wsUrl));
   });
 
   it('subscribes via subscribeNewHead', (done): void => {

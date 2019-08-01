@@ -2,20 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Header } from '@polkadot/types/interfaces';
+import { Header } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
-import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import ApiRx from '../../../src/rx';
-import describeE2E from '../../util/describeE2E';
+import { describeE2E } from '../../util';
 
-describeE2E()('Rx e2e queries', (wsUrl): void => {
-  const keyring = testingPairs({ type: 'ed25519' });
+describeE2E()('Rx e2e queries', (wsUrl: string): void => {
   let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {
@@ -32,14 +28,6 @@ describeE2E()('Rx e2e queries', (wsUrl): void => {
     expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
-  });
-
-  it('queries state for a balance', (done): void => {
-    api.query.balances.freeBalance(keyring.alice_stash.address).subscribe((balance): void => {
-      expect(balance).toBeInstanceOf(BN);
-      expect((balance as Balance).isZero()).toBe(false);
-      done();
-    });
   });
 
   it('makes a query at a specific block', (done): void => {

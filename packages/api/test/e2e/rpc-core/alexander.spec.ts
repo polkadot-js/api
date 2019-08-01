@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, StorageChangeSet } from '@polkadot/types/interfaces';
+import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
 import storage from '@polkadot/api-metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -10,27 +10,33 @@ import { ClassOf } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 
+import { describeE2E } from '../../util';
+
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
-describe.skip('e2e Alexander - Polkadot', (): void => {
+describeE2E({
+  only: [
+    'remote-polkadot-alexander',
+    'docker-polkadot-alexander'
+  ]
+})('e2e Alexander - Polkadot', (wsUrl: string): void => {
   let rpc: Rpc;
 
   beforeEach((): void => {
-    jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
+    rpc = new Rpc(new WsProvider(wsUrl));
   });
 
   it('subscribes to storage', (done): void => {
     rpc.state
-      .subscribeStorage([
-        [storage.system.accountNonce, randomAccount],
-        [storage.session.currentIndex]
-      ])
-      .subscribe((data: StorageChangeSet): void => {
+      .subscribeStorage<[BlockNumber, Index]>([
+      [storage.system.accountNonce, randomAccount],
+      [storage.session.currentIndex]
+    ])
+      .subscribe((data): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(ClassOf('BlockNumber')),
+            expect.any(ClassOf('Index')),
             expect.any(ClassOf('Index'))
           ])
         );

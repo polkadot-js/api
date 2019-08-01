@@ -25,7 +25,7 @@ import { drr } from '../util/drr';
  */
 export function bestNumberFinalized (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
-    (api.rpc.chain.subscribeFinalizedHeads() as Observable<Header>)
+    api.rpc.chain.subscribeFinalizedHeads()
       .pipe(
         filter((header: Header): boolean => !!header && !!header.number),
         map((header: Header): BlockNumber => header.number.unwrap()),
