@@ -21,7 +21,7 @@ import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './con
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
 
 interface ExtrinsicOptions {
-  meta?: Metadata;
+  metadata?: Metadata;
   version?: number;
 }
 
@@ -42,7 +42,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     super(Extrinsic.decodeExtrinsic(value, options));
   }
 
-  private static newFromValue (value: any, options: { meta?: Metadata; version: number }): ExtrinsicV1 | ExtrinsicV2 {
+  private static newFromValue (value: any, options: { metadata?: Metadata; version: number }): ExtrinsicV1 | ExtrinsicV2 {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
@@ -51,8 +51,8 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     const type = options.version & UNMASK_VERSION;
 
     switch (type) {
-      case 1: return new ExtrinsicV1(value, { isSigned, meta: options.meta });
-      case 2: return new ExtrinsicV2(value, { isSigned, meta: options.meta });
+      case 1: return new ExtrinsicV1(value, { isSigned, metadata: options.metadata });
+      case 2: return new ExtrinsicV2(value, { isSigned, metadata: options.metadata });
       default: throw new Error(`Unsupported extrinsic version ${type}`);
     }
   }
@@ -77,7 +77,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
       );
     } else if (isU8a(value)) {
       if (!value.length) {
-        return Extrinsic.newFromValue(new Uint8Array(), { version, meta: options.meta });
+        return Extrinsic.newFromValue(new Uint8Array(), { version, metadata: options.metadata });
       }
 
       const [offset, length] = Compact.decodeU8a(value);
@@ -87,10 +87,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
     } else if (value instanceof Call) {
-      return Extrinsic.newFromValue({ method: value }, { version, meta: options.meta });
+      return Extrinsic.newFromValue({ method: value }, { version, metadata: options.metadata });
     }
 
-    return Extrinsic.newFromValue(value, { version, meta: options.meta });
+    return Extrinsic.newFromValue(value, { version, metadata: options.metadata });
   }
 
   private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {

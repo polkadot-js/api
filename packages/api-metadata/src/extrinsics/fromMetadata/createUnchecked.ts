@@ -37,7 +37,7 @@ export default function createDescriptor (
     return createType('Call', {
       args,
       callIndex
-    }, { meta: runtimeMetadata });
+    }, { metadata: runtimeMetadata });
   };
 
   extrinsicFn.callIndex = callIndex;

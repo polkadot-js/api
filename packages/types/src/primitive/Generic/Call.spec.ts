@@ -26,7 +26,7 @@ describe('Call', (): void => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
     expect(
-      (new Call(new Uint8Array([5, 1]), { meta: runtimeMetadata })).methodName
+      (new Call(new Uint8Array([5, 1]), { metadata: runtimeMetadata })).methodName
     ).toEqual('setBalance');
   });
 

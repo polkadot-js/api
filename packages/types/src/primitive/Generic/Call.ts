@@ -12,7 +12,7 @@ import extrinsicsFromMetadata from '@polkadot/api-metadata/extrinsics/fromMetada
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 interface ConstructorOptions {
-  meta?: Metadata;
+  metadata?: Metadata;
 }
 
 interface DecodeMethodInput {
@@ -89,20 +89,20 @@ export default class Call extends Struct implements IMethod {
    * necessary.
    */
   private static decodeCall (value: Call | DecodedMethod | Uint8Array | string = new Uint8Array(), options: ConstructorOptions = {}): DecodedMethod {
-    const _meta = options.meta;
+    const _meta = options.metadata;
 
-    const unwrapMeta = (callIndex: Uint8Array, meta?: Metadata): {
+    const unwrapMeta = (callIndex: Uint8Array, metadata?: Metadata): {
       meta: FunctionMetadataV7;
       method: string;
       section: string;
     } => {
-      const methodFunction = (meta && Call.findByCallIndex(callIndex, meta)) || // meta is the runtime metadata
+      const methodFunction = (metadata && Call.findByCallIndex(callIndex, metadata)) || // meta is the runtime metadata
         Call.findFunction(callIndex); // Global lookup
 
       return { meta: methodFunction.meta, method: methodFunction.method, section: methodFunction.section };
     };
     if (isHex(value)) {
-      return Call.decodeCall(hexToU8a(value), { meta: _meta });
+      return Call.decodeCall(hexToU8a(value), { metadata: _meta });
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);

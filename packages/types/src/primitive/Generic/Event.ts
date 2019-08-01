@@ -18,7 +18,7 @@ import Unconstructable from '../Unconstructable';
 import { Type } from '..';
 
 interface ConstructorOptions {
-  meta?: Metadata;
+  metadata?: Metadata;
 }
 
 interface Method { meta: EventMetadataV7; eventIndex: Uint8Array; sectionName: string }
@@ -103,8 +103,8 @@ export default class Event extends Struct {
     }
 
     const index = value.subarray(0, 2);
-    const { meta } = options;
-    const DataType = (meta && Event.getDataType(index, meta)) ||
+    const { metadata } = options;
+    const DataType = (metadata && Event.getDataType(index, metadata)) ||
       EventTypes[index.toString()]; // global lookup
 
     assert(!isUndefined(DataType), `Unable to decode ${u8aToHex(index)}`);

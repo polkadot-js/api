@@ -19,7 +19,7 @@ export interface ExtrinsicValueV1 {
 
 interface ExtrinsicV1Options {
   isSigned?: boolean;
-  meta?: Metadata;
+  metadata?: Metadata;
 }
 
 const TRANSACTION_VERSION = 1;
@@ -46,7 +46,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, { isSigned });
-      const method = new Call(value.subarray(signature.encodedLength), { meta: options.meta });
+      const method = new Call(value.subarray(signature.encodedLength), { metadata: options.metadata });
 
       return {
         method,
