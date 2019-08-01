@@ -10,8 +10,8 @@ describe('Event', (): void => {
   it('handles extracting the event data type from the runtime metadata', (): void => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
-    const DataTypeConstructor = Event.getDataType(new Uint8Array([2, 1]), runtimeMetadata) as any;
-    const { section, method } = new DataTypeConstructor([]);
+    const event =  new Event(new Uint8Array([2, 1]), {metadata: runtimeMetadata});
+    const { section, method } = event.data;
 
     expect(section).toEqual('balances');
     expect(method).toEqual('ReapedAccount');
