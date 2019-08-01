@@ -10,7 +10,7 @@ describe('Event', (): void => {
   it('handles extracting the event data type from the runtime metadata', (): void => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
-    const event =  new Event(new Uint8Array([2, 1]), {metadata: runtimeMetadata});
+    const event = new Event(new Uint8Array([2, 1]), { metadata: runtimeMetadata });
     const { section, method } = event.data;
 
     expect(section).toEqual('balances');

@@ -37,7 +37,7 @@ export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
     }, ExtrinsicV2.decodeExtrinsic(value, options));
   }
 
-  public static decodeExtrinsic(value?: Call | Uint8Array | ExtrinsicValueV2, options: ExtrinsicV2Options = {}): ExtrinsicValueV2 {
+  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV2, options: ExtrinsicV2Options = {}): ExtrinsicValueV2 {
     const isSigned = !!options.isSigned;
     if (!value) {
       return {};
