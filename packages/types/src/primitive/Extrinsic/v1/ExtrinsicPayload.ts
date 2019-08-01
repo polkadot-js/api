@@ -15,6 +15,7 @@ import { sign } from '../util';
 export interface ExtrinsicPayloadValueV1 {
   blockHash: AnyU8a;
   era: AnyU8a | IExtrinsicEra;
+  genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
 }

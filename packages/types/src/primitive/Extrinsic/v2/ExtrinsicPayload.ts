@@ -15,6 +15,7 @@ import { sign } from '../util';
 export interface ExtrinsicPayloadValueV2 {
   blockHash: AnyU8a;
   era: AnyU8a | IExtrinsicEra;
+  genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
   tip: AnyNumber;
@@ -45,17 +46,17 @@ export default class ExtrinsicPayloadV2 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.get('method') as U8a;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
     return this.get('era') as ExtrinsicEra;
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.get('method') as U8a;
   }
 
   /**

@@ -57,17 +57,25 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.raw.method;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
     return this.raw.era;
+  }
+
+  /**
+   * @description The block [[Hash]] the signature applies to (mortal/immortal)
+   */
+  public get gensisHash (): Hash {
+    // NOTE only v3
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.raw.method;
   }
 
   /**
@@ -81,8 +89,8 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    // NOTE both v2 & v3 have the tip
-    return (this.raw as ExtrinsicPayloadV3).tip || createType('Compact<Balance>', 0);
+    // NOTE from v2
+    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
   }
 
   /**

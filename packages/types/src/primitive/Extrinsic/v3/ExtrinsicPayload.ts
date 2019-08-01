@@ -15,6 +15,7 @@ import { sign } from '../util';
 export interface ExtrinsicPayloadValueV3 {
   blockHash: AnyU8a;
   era: AnyU8a | IExtrinsicEra;
+  genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
   tip: AnyNumber;
@@ -33,7 +34,8 @@ export default class ExtrinsicPayloadV3 extends Struct {
       era: ExtrinsicEra,
       nonce: ClassOf('Compact<Index>'),
       tip: ClassOf('Compact<Balance>'),
-      blockHash: ClassOf('Hash')
+      blockHash: ClassOf('Hash'),
+      genesisHash: ClassOf('Hash')
     }, value);
   }
 
@@ -45,17 +47,24 @@ export default class ExtrinsicPayloadV3 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.get('method') as U8a;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
     return this.get('era') as ExtrinsicEra;
+  }
+
+  /**
+   * @description The genesis [[Hash]] the signature applies to (mortal/immortal)
+   */
+  public get genesisHash (): Hash {
+    return this.get('genesisHash') as Hash;
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.get('method') as U8a;
   }
 
   /**
