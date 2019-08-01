@@ -32,23 +32,26 @@ export default async function test (): Promise<void> {
     multiUnsub();
   });
 
-  await api.query.staking.intentions((intentions): void => {
-    console.log('intentions:', intentions);
-  });
+  // rpc section
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
     console.log('current blockNumber:', header.number);
-  });
-
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-    console.log('current author:', header.author);
   });
 
   await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
     console.log('current balance:', balance.toString());
   });
 
+  // derives
   await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
     console.log('current author:', header.author);
+  });
+
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+    console.log('current author:', header.author);
+  });
+
+  await api.query.staking.intentions((intentions): void => {
+    console.log('intentions:', intentions);
   });
 
   // constants has actual value & metadata

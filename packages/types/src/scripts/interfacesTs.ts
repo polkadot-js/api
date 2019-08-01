@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/types';
+import { Constructor } from '../types';
 
 import fs from 'fs';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
@@ -13,9 +14,8 @@ import * as codecClasses from '../codec';
 import AbstractInt from '../codec/AbstractInt';
 import { COMPACT_ENCODABLE } from '../codec/Compact';
 import Vec from '../codec/Vec';
-import * as primitiveClasses from '../primitive';
 import * as definitions from '../interfaces/definitions';
-import { Constructor } from '../types';
+import * as primitiveClasses from '../primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
@@ -73,7 +73,9 @@ function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boole
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
   // @ts-ignore AbstractInt is abstract, we shouldn't isChildClass it here, but it works
-  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean => isChildClass(CompactEncodable, Child));
+  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean =>
+    isChildClass(CompactEncodable, Child)
+  );
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
@@ -263,11 +265,14 @@ function createImportCode (header: string, checks: { file: string; types: string
 function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
+
   setImports(imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
 
   return [
     `${type}: ${type};`,
-    isCompact ? `'Compact<${type}>': Compact<${type}>;` : undefined,
+    isCompact
+      ? `'Compact<${type}>': Compact<${type}>;`
+      : undefined,
     `'Option<${type}>': Option<${type}>;`,
     `'Vec<${type}>': Vec<${type}>;`
   ]
@@ -383,7 +388,9 @@ function generateInterfaceRegistry (): void {
 
     return [
       accumulator,
-      ...Object.keys(types).map((type): string => getDerivedTypes(type, (types as any)[type], imports, 2))
+      ...Object.keys(types).map((type): string =>
+        getDerivedTypes(type, (types as any)[type], imports, 2)
+      )
     ].join('\n');
   }, '');
 
@@ -466,13 +473,11 @@ function generateRpcTypes (): void {
 
   const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.values(interfaces[section].methods).map((method): string => {
-      // FIXME
-      // These 3 are too hard to type, I give up
+      // FIXME These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
         setImports(imports, ['Codec']);
         return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
-      }
-      if (method.method === 'subscribeStorage') {
+      } else if (method.method === 'subscribeStorage') {
         return `    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;`;
       }
 
