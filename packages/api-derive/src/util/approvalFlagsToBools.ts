@@ -6,7 +6,7 @@ import { ApprovalFlag } from '@polkadot/types/interfaces/elections';
 
 import { Vec } from '@polkadot/types';
 
-export function approvalFlagsToBools (flags: Vec<ApprovalFlag>): boolean[] {
+export function approvalFlagsToBools (flags: Vec<ApprovalFlag> | ApprovalFlag[]): boolean[] {
   const bools: boolean[] = [];
 
   flags.forEach((flag: ApprovalFlag): void => {
