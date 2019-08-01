@@ -12,10 +12,13 @@ export function approvalFlagsToBools (flags: Vec<ApprovalFlag>): boolean[] {
   flags.forEach((flag: ApprovalFlag): void => {
     const str = flag.toString(2);
 
-    for (const bit of str) {
+    // read from lowest bit to highest
+    for (const bit of str.split('').reverse()) {
       bools.push(!!parseInt(bit, 10));
     }
   });
 
-  return bools;
+  // slice off trailing "false" values, as in substrate
+  const lastApproval: number = bools.lastIndexOf(true);
+  return lastApproval >= 0 ? bools.slice(0, lastApproval + 1) : [];
 }
