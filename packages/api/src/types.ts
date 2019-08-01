@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
+import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -57,45 +58,26 @@ export interface DecorateMethodOptions {
 // Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
 
-// eslint-disable-next-line @typescript-eslint/prefer-interface
-export type PromiseResult<F extends AnyFunction> = {
+export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
-};
+  <T>(...args: Parameters<F>): Promise<T>;
+  <T>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
+}
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs'
   ? RxResult<F>
   : PromiseResult<F>;
 
-type DecoratedRpcMethod<ApiType> = ApiType extends 'rxjs'
-  ? {
-    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>;
-    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>;
-  }
-  : {
-    // These signatures are allowed and exposed here (bit or a stoopid way, but checked
-    // RPCs and we have 3 max args, with subs max one arg... YMMV) -
-    //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
-    //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
-    //  (callback: Callback<Codec>): UnsubscribePromise;
-    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
-    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
-    <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
-    <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
-  };
-
-// FIXME https://github.com/polkadot-js/api/issues/1009
-export interface DecoratedRpcSection<ApiType> {
-  [index: string]: DecoratedRpcMethod<ApiType>;
+export type DecoratedRpcSection<ApiType, Section> = {
+  [Method in keyof Section]: Section[Method] extends AnyFunction
+    ? MethodResult<ApiType, Section[Method]>
+    : never
 }
 
-// FIXME https://github.com/polkadot-js/api/issues/1009
-export interface DecoratedRpc<ApiType> {
-  author: DecoratedRpcSection<ApiType>;
-  chain: DecoratedRpcSection<ApiType>;
-  state: DecoratedRpcSection<ApiType>;
-  system: DecoratedRpcSection<ApiType>;
+export type DecoratedRpc<ApiType, AllSections> = {
+  [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
 
 export interface StorageEntryObservable {
@@ -216,7 +198,7 @@ export interface ApiInterfaceRx {
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
-  rpc: DecoratedRpc<'rxjs'>;
+  rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;
   signer?: Signer;
 }
@@ -299,7 +281,7 @@ export interface Signer {
   /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload (payload: SignerPayload): Promise<SignerResult>;
+  signPayload(payload: SignerPayload): Promise<SignerResult>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

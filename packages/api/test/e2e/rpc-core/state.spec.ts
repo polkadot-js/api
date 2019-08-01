@@ -49,9 +49,9 @@ describeE2E({
   describe('test-suite getStorage()', (): void => {
     it('retrieves code', (done): void => {
       rpc.state
-        .getStorage([
-          storage.substrate.code
-        ])
+        .getStorage<Bytes>([
+        storage.substrate.code
+      ])
         .subscribe((code: Bytes): void => {
           expect(code).toBeDefined();
           expect(code).toBeInstanceOf(Bytes);
@@ -61,10 +61,10 @@ describeE2E({
 
     it('retrieves balances', (done): void => {
       rpc.state
-        .getStorage([
-          storage.balances.freeBalance, BOB_STASH
-        ])
-        .subscribe((balance: Balance): void => {
+        .getStorage<Balance>([
+        storage.balances.freeBalance, BOB_STASH
+      ])
+        .subscribe((balance): void => {
           expect(balance.isZero()).not.toEqual(true);
           done();
         });
@@ -72,9 +72,9 @@ describeE2E({
 
     it('retrieves timestamp', (done): void => {
       rpc.state
-        .getStorage([
-          storage.timestamp.now
-        ])
+        .getStorage<Moment>([
+        storage.timestamp.now
+      ])
         .subscribe((moment: Moment): void => {
           expect(moment.toNumber()).not.toEqual(0);
           done();

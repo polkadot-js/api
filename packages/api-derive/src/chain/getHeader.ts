@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/types/interfaces';
-
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
@@ -30,7 +28,7 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     // tslint:disable-next-line
     (combineLatest([
-      api.rpc.chain.getHeader(hash) as Observable<Header>,
+      api.rpc.chain.getHeader(hash),
       api.query.session
         ? api.query.session.validators.at(hash)
         : of([])
