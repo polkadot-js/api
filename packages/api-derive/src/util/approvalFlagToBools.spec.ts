@@ -26,9 +26,9 @@ describe('approvalFlagsToBools', (): void => {
   it('translates multiple inputs', (): void => {
     expect(
       approvalFlagsToBools([
-        createType('ApprovalFlag', 0b00),
-        createType('ApprovalFlag', 0b11)
+        createType('ApprovalFlag', 0b0000),
+        createType('ApprovalFlag', 0b1100)
       ])
-    ).toEqual([true, true, false, false]);
+    ).toEqual([false, false, false, true, true]);
   });
 });
