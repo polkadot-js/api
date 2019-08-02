@@ -13,7 +13,7 @@ import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
 import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicExtra from './ExtrinsicExtra';
+import ExtrinsicExtra from '../v2/ExtrinsicExtra';
 
 /**
  * @name ExtrinsicSignatureV3
