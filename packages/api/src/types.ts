@@ -11,7 +11,7 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
-import { u64 } from '@polkadot/types';
+import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
