@@ -53,7 +53,7 @@ export default class SignerPayload extends Struct.with({
       nonce: nonce.toHex(),
       tip: tip.toHex(),
       version: version.toNumber(),
-      toU8a (): Uint8Array {
+      get encoded (): Uint8Array {
         return createType('ExtrinsicPayload', this, { version: this.version }).toU8a();
       }
     };

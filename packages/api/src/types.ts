@@ -259,9 +259,9 @@ export interface SignerPayload {
   version: number;
 
   /**
-   * @description return encoded payload as Uint8Array
+   * @description encoded payload as Uint8Array
    */
-  toU8a(): Uint8Array;
+  encoded: Uint8Array;
 }
 
 export interface SignerResult {

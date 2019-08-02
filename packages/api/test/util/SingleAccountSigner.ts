@@ -40,7 +40,7 @@ export class SingleAccountSigner implements Signer {
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signed = this.keyringPair.sign(payload.toU8a());
+        const signed = this.keyringPair.sign(payload.encoded);
         const result: SignerResult = { id: ++id, signature: u8aToHex(signed) };
 
         resolve(result);
