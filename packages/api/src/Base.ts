@@ -232,7 +232,13 @@ export default abstract class ApiBase<ApiType> {
         throw new Error('No signer exists with a signRaw interface');
       }
 
-      return (await this._rx.signer.signRaw({ ...data, address: signer })).signature;
+      return (
+        await this._rx.signer.signRaw({
+          type: 'bytes',
+          ...data,
+          address: signer
+        })
+      ).signature;
     }
 
     return u8aToHex(signer.sign(u8aToU8a(data.data)));

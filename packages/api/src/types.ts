@@ -268,7 +268,7 @@ export interface SignerPayloadRawBase {
   /**
    * @description The type of the contained data
    */
-  type: 'bytes' | 'payload';
+  type?: 'bytes' | 'payload';
 }
 
 export interface SignerPayloadRaw extends SignerPayloadRawBase {
@@ -276,6 +276,11 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
    * @description The ss-58 encoded address
    */
   address: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type: 'bytes' | 'payload';
 }
 
 export interface SignerResult {
