@@ -62,9 +62,9 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
   }
 
   /**
-   * @description The block [[Hash]] the signature applies to (mortal/immortal)
+   * @description The genesis block [[Hash]] the signature applies to
    */
-  public get gensisHash (): Hash {
+  public get genesisHash (): Hash {
     // NOTE only v3
     return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
   }
