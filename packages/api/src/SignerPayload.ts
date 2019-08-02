@@ -5,7 +5,7 @@
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index } from '@polkadot/types/interfaces';
 import { SignerPayload as ISignerPayload } from './types';
 
-import { ClassOf, Compact, Struct, u8 } from '@polkadot/types';
+import { ClassOf, Compact, createType, Struct, u8 } from '@polkadot/types';
 
 export interface SignerPayloadType {
   address: Address;
@@ -52,7 +52,10 @@ export default class SignerPayload extends Struct.with({
       method: method.toHex(),
       nonce: nonce.toHex(),
       tip: tip.toHex(),
-      version: version.toNumber()
+      version: version.toNumber(),
+      toU8a (): Uint8Array {
+        return createType('ExtrinsicPayload', this, { version: this.version }).toU8a();
+      }
     };
   }
 }

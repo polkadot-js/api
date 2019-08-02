@@ -257,6 +257,11 @@ export interface SignerPayload {
    * @description The version of the extrinsic we are dealing with
    */
   version: number;
+
+  /**
+   * @description return encoded payload as Uint8Array
+   */
+  toU8a(): Uint8Array;
 }
 
 export interface SignerResult {
