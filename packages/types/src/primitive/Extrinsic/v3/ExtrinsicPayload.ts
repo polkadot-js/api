@@ -34,8 +34,8 @@ export default class ExtrinsicPayloadV3 extends Struct {
       era: ExtrinsicEra,
       nonce: ClassOf('Compact<Index>'),
       tip: ClassOf('Compact<Balance>'),
-      blockHash: ClassOf('Hash'),
-      genesisHash: ClassOf('Hash')
+      genesisHash: ClassOf('Hash'),
+      blockHash: ClassOf('Hash')
     }, value);
   }
 
