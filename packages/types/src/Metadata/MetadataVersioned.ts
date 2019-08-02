@@ -7,6 +7,7 @@ import { assert, isUndefined } from '@polkadot/util';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import MagicNumber from './MagicNumber';
+import toStripped from './util/toStripped';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
 import MetadataV2 from './v2';
@@ -24,7 +25,7 @@ import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
 
 class MetadataEnum extends Enum {
-  public constructor (value?: any) {
+  public constructor (value?: any, index?: number) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
@@ -34,7 +35,7 @@ class MetadataEnum extends Enum {
       MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV7
-    }, value);
+    }, value, index);
   }
 
   /**
@@ -354,6 +355,23 @@ export default class MetadataVersioned extends Struct {
     }
 
     return this._convertedV7;
+  }
+
+  /**
+   * @description Returns the wrapped metadata as the latest version
+   */
+  public get asLatest (): MetadataV7 {
+    return this.asV7;
+  }
+
+  /**
+   * @description Returns the wrapped metadata as a limited stripped (latest) version
+   */
+  public get asStripped (): any {
+    return new MetadataVersioned({
+      magicNumber: this.magicNumber,
+      metadata: new MetadataEnum(toStripped(this.asLatest), this.version)
+    }).toJSON();
   }
 
   public getUniqTypes (throwError: boolean): string[] {
