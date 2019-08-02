@@ -178,7 +178,8 @@ export default function createSubmittableExtrinsic<ApiType> (
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options,
-      ...extras
+      ...extras,
+      genesisHash: api.genesisHash
     } as unknown as SignatureOptions;
   }
 

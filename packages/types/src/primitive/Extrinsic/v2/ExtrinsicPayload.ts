@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Index } from '../../../interfaces/runtime';
-import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
@@ -12,14 +12,6 @@ import U8a from '../../../codec/U8a';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
-export interface ExtrinsicPayloadValueV2 {
-  blockHash: AnyU8a;
-  era: AnyU8a | IExtrinsicEra;
-  method: AnyU8a | IMethod;
-  nonce: AnyNumber;
-  tip: AnyNumber;
-}
-
 /**
  * @name ExtrinsicPayloadV2
  * @description
@@ -27,7 +19,7 @@ export interface ExtrinsicPayloadValueV2 {
  * on the contents included
  */
 export default class ExtrinsicPayloadV2 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | ExtrinsicPayloadValueV2 | Uint8Array | string) {
+  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
       method: U8a,
       era: ExtrinsicEra,
@@ -45,17 +37,17 @@ export default class ExtrinsicPayloadV2 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.get('method') as U8a;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
     return this.get('era') as ExtrinsicEra;
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.get('method') as U8a;
   }
 
   /**

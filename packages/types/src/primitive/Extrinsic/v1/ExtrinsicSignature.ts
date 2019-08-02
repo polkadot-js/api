@@ -4,6 +4,7 @@
 
 import { Address, Balance, Index, Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicSignatureOptions } from '../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
@@ -12,10 +13,6 @@ import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayload from './ExtrinsicPayload';
-
-interface ExtrinsicSignatureV1Options {
-  isSigned?: boolean;
-}
 
 /**
  * @name ExtrinsicSignature
@@ -28,7 +25,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
   //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
-  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureV1Options = {}) {
+  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: ClassOf('Address'),
       signature: ClassOf('Signature'),
@@ -123,13 +120,15 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, nonce }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
     const payload = new ExtrinsicPayload({
-      nonce,
-      method: method.toU8a(),
+      blockHash,
       era: era || IMMORTAL_ERA,
-      blockHash
+      genesisHash,
+      method: method.toU8a(),
+      nonce,
+      tip: 0
     });
     const signature = createType('Signature', payload.sign(account));
 
