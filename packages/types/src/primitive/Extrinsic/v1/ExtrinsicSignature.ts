@@ -123,13 +123,14 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, nonce }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
     const payload = new ExtrinsicPayload({
       nonce,
       method: method.toU8a(),
       era: era || IMMORTAL_ERA,
-      blockHash
+      blockHash,
+      genesisHash
     });
     const signature = createType('Signature', payload.sign(account));
 
