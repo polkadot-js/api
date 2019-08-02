@@ -17,7 +17,8 @@ describe('SignerPayload', (): void => {
     method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
     nonce: '0x0000000000001234',
     tip: '0x00000000000000000000000000005678',
-    version: 2
+    version: 2,
+    encoded: new Uint8Array([5, 0, 255, 215, 86, 142, 95, 10, 126, 218, 103, 168, 38, 145, 255, 55, 154, 196, 187, 164, 249, 201, 184, 89, 254, 119, 155, 93, 70, 54, 59, 97, 173, 45, 185, 229, 108, 7, 3, 209, 72, 226, 89, 1, 0, 222, 143, 105, 238, 181, 224, 101, 225, 140, 105, 80, 255, 112, 141, 126, 85, 31, 104, 220, 155, 245, 154, 7, 197, 35, 103, 192, 40, 15, 128, 94, 199])
   };
 
   beforeEach((): void => {
@@ -37,17 +38,7 @@ describe('SignerPayload', (): void => {
         tip: 0x5678,
         version: 2
       }).toPayload()
-    ).toEqual({
-      address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
-      blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
-      blockNumber: '0x0000000000231d30',
-      era: '0x0703',
-      genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-      method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
-      nonce: '0x0000000000001234',
-      tip: '0x00000000000000000000000000005678',
-      version: 2
-    });
+    ).toEqual(TEST);
   });
 
   it('re-constructs from JSON', (): void => {
