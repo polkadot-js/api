@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, Index } from '../../../interfaces/runtime';
-import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
@@ -11,14 +11,6 @@ import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
-
-export interface ExtrinsicPayloadValueV1 {
-  blockHash: AnyU8a;
-  era: AnyU8a | IExtrinsicEra;
-  genesisHash: AnyU8a;
-  method: AnyU8a | IMethod;
-  nonce: AnyNumber;
-}
 
 /**
  * @name ExtrinsicPayloadV1
@@ -32,7 +24,7 @@ export interface ExtrinsicPayloadValueV1 {
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class ExtrinsicPayloadV1 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | ExtrinsicPayloadValueV1 | Uint8Array | string) {
+  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
       nonce: ClassOf('Compact<Index>'),
       method: U8a,

@@ -6,7 +6,7 @@ import '../../../injector';
 
 import ExtrinsicExtra from './ExtrinsicExtra';
 
-describe('ExtrinsicExtraV2', (): void => {
+describe('ExtrinsicExtraV3', (): void => {
   it('encodes to a sane Uint8Array (default construction)', (): void => {
     expect(
       new ExtrinsicExtra().toU8a()

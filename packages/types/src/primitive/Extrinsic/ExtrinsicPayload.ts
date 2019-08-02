@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Index } from '../../interfaces/runtime';
-import { IKeyringPair } from '../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -11,17 +11,15 @@ import createType from '../../codec/createType';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
-import ExtrinsicPayloadV1, { ExtrinsicPayloadValueV1 } from './v1/ExtrinsicPayload';
-import ExtrinsicPayloadV2, { ExtrinsicPayloadValueV2 } from './v2/ExtrinsicPayload';
-import ExtrinsicPayloadV3, { ExtrinsicPayloadValueV3 } from './v3/ExtrinsicPayload';
+import ExtrinsicPayloadV1 from './v1/ExtrinsicPayload';
+import ExtrinsicPayloadV2 from './v2/ExtrinsicPayload';
+import ExtrinsicPayloadV3 from './v3/ExtrinsicPayload';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
 }
-
-type ExtrinsicPayloadValue = Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Partial<ExtrinsicPayloadValueV3>;
 
 /**
  * @name ExtrinsicPayload
@@ -30,9 +28,9 @@ type ExtrinsicPayloadValue = Partial<ExtrinsicPayloadValueV1> | Partial<Extrinsi
  * on the contents included
  */
 export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3> {
-  public constructor (value: ExtrinsicPayloadValue | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+  public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
-      ExtrinsicPayload.decodeExtrinsicPayload(value, version)
+      ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
     );
   }
 

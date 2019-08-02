@@ -4,6 +4,7 @@
 
 import { Address, Balance, Index, Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicSignatureOptions } from '../types';
 
 import createType, { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
@@ -14,17 +15,13 @@ import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from './ExtrinsicExtra';
 
-interface ExtrinsicSignatureV3Options {
-  isSigned?: boolean;
-}
-
 /**
- * @name ExtrinsicSignature
+ * @name ExtrinsicSignatureV3
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV3 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV3 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureV3Options = {}) {
+  public constructor (value: ExtrinsicSignatureV3 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: ClassOf('Address'),
       signature: ClassOf('Signature'),

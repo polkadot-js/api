@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
@@ -18,17 +19,13 @@ export interface ExtrinsicValueV3 {
   signature?: ExtrinsicSignature;
 }
 
-interface ExtrinsicV3Options {
-  isSigned?: boolean;
-}
-
 /**
- * @name ExtrinsicV2
+ * @name ExtrinsicV3
  * @description
  * The second generation of compact extrinsics
  */
 export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: ExtrinsicV3Options = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: ExtrinsicOptions = {}) {
     super({
       signature: ExtrinsicSignature,
       method: Call

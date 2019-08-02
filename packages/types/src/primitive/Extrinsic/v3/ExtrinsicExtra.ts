@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Index } from '../../../interfaces/runtime';
-import { AnyNumber } from '../../../types';
+import { ExtrinsicExtraValue } from '../types';
 
 import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
@@ -11,19 +11,13 @@ import Struct from '../../../codec/Struct';
 import Address from '../../Generic/Address';
 import ExtrinsicEra from '../ExtrinsicEra';
 
-interface ExtrinsicExtraValueV3 {
-  era?: Uint8Array;
-  nonce?: AnyNumber;
-  tip?: AnyNumber;
-}
-
 /**
  * @name ExtrinsicExtraV3
  * @description
  * A container for the extra information in an extrinsic
  */
 export default class ExtrinsicExtraV3 extends Struct {
-  public constructor (value?: ExtrinsicExtraValueV3 | Uint8Array) {
+  public constructor (value?: ExtrinsicExtraValue | Uint8Array) {
     super({
       era: ExtrinsicEra,
       nonce: ClassOf('Compact<Index>'),

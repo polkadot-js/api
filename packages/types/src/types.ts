@@ -174,8 +174,10 @@ interface ExtrinsicSignatureBase {
 }
 
 export interface ExtrinsicPayloadValue {
-  era: IExtrinsicEra | AnyU8a;
-  method: AnyU8a;
+  blockHash: AnyU8a;
+  era: AnyU8a | IExtrinsicEra;
+  genesisHash: AnyU8a;
+  method: AnyU8a | IMethod;
   nonce: AnyNumber;
   tip: AnyNumber;
 }

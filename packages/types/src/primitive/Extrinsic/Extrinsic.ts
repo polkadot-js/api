@@ -228,8 +228,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
     // @ts-ignore
     if (args.length === 2) {
       payload = {
+        blockHash: new Uint8Array(),
         // @ts-ignore
         era: args[1] as string,
+        genesisHash: new Uint8Array(),
         method: this.method.toHex(),
         nonce: args[0] as string,
         tip: 0
