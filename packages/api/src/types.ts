@@ -259,6 +259,30 @@ export interface SignerPayload {
   version: number;
 }
 
+export interface SignerPayloadRawBase {
+  /**
+   * @description The hex-encoded data for this request
+   */
+  data: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type?: 'bytes' | 'payload';
+}
+
+export interface SignerPayloadRaw extends SignerPayloadRawBase {
+  /**
+   * @description The ss-58 encoded address
+   */
+  address: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type: 'bytes' | 'payload';
+}
+
 export interface SignerResult {
   /**
    * @description The id for this request
@@ -273,7 +297,7 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @deprecated Implement and use signPayload instead
+   * @deprecated Implement and use signPayload and/or signRaw instead
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
   sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
@@ -281,7 +305,12 @@ export interface Signer {
   /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload(payload: SignerPayload): Promise<SignerResult>;
+  signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
+
+  /**
+   * @description signs a raw payload, only the bytes data as supplied
+   */
+  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

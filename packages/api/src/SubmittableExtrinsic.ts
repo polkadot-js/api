@@ -268,22 +268,29 @@ export default function createSubmittableExtrinsic<ApiType> (
                 if (isKeyringPair(account)) {
                   this.sign(account, eraOptions);
                 } else if (api.signer) {
+                  const payload = new SignerPayload({
+                    ...eraOptions,
+                    address,
+                    method: _extrinsic.method,
+                    blockNumber: header ? header.number : 0,
+                    genesisHash: api.genesisHash,
+                    version: api.extrinsicType
+                  });
+
                   if (api.signer.signPayload) {
-                    const signPayload = new SignerPayload({
-                      ...eraOptions,
-                      address,
-                      method: _extrinsic.method,
-                      blockNumber: header ? header.number : 0,
-                      genesisHash: api.genesisHash,
-                      version: api.extrinsicType
-                    });
-                    const result = await api.signer.signPayload(signPayload.toPayload());
+                    const { id, signature } = await api.signer.signPayload(payload.toPayload());
 
                     // Here we explicitly call `toPayload()` again instead of working with an object
                     // (reference) as passed to the signer. This means that we are sure that the
                     // payload data is not modified from our inputs, but the signer
-                    _extrinsic.addSignature(address, result.signature, signPayload.toPayload());
-                    updateId = result.id;
+                    _extrinsic.addSignature(address, signature, payload.toPayload());
+                    updateId = id;
+                  } else if (api.signer.signRaw) {
+                    const { id, signature } = await api.signer.signRaw(payload.toRaw());
+
+                    // as above, always trust our payload as the signle sourec of truth
+                    _extrinsic.addSignature(address, signature, payload.toPayload());
+                    updateId = id;
                   } else if (api.signer.sign) {
                     console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
 
