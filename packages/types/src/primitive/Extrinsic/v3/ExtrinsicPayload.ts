@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Index } from '../../../interfaces/runtime';
+import { Balance, Hash, Index } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import { ClassOf } from '../../../codec/createType';
@@ -13,22 +13,19 @@ import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
 /**
- * @name ExtrinsicPayloadV1
+ * @name ExtrinsicPayloadV3
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
- *
- *   1-8 bytes: The Transaction Compact<Index/Nonce> as provided in the transaction itself.
- *   2+ bytes: The Function Descriptor as provided in the transaction itself.
- *   1/2 bytes: The Transaction Era as provided in the transaction itself.
- *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
-export default class ExtrinsicPayloadV1 extends Struct {
+export default class ExtrinsicPayloadV3 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
-      nonce: ClassOf('Compact<Index>'),
       method: U8a,
       era: ExtrinsicEra,
+      nonce: ClassOf('Compact<Index>'),
+      tip: ClassOf('Compact<Balance>'),
+      genesisHash: ClassOf('Hash'),
       blockHash: ClassOf('Hash')
     }, value);
   }
@@ -41,13 +38,6 @@ export default class ExtrinsicPayloadV1 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.get('method') as U8a;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
@@ -55,10 +45,31 @@ export default class ExtrinsicPayloadV1 extends Struct {
   }
 
   /**
+   * @description The genesis [[Hash]] the signature applies to (mortal/immortal)
+   */
+  public get genesisHash (): Hash {
+    return this.get('genesisHash') as Hash;
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.get('method') as U8a;
+  }
+
+  /**
    * @description The [[Index]]
    */
   public get nonce (): Compact<Index> {
     return this.get('nonce') as Compact<Index>;
+  }
+
+  /**
+   * @description The tip [[Balance]]
+   */
+  public get tip (): Compact<Balance> {
+    return this.get('tip') as Compact<Balance>;
   }
 
   /**

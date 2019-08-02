@@ -16,23 +16,23 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from '../v2/ExtrinsicExtra';
 
 /**
- * @name ExtrinsicSignature
+ * @name ExtrinsicSignatureV3
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
-export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+export default class ExtrinsicSignatureV3 extends Struct implements IExtrinsicSignature {
+  public constructor (value: ExtrinsicSignatureV3 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: ClassOf('Address'),
       signature: ClassOf('Signature'),
       extra: ExtrinsicExtra
-    }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
+    }, ExtrinsicSignatureV3.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV2 | Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV3 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV3 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
-    } else if (value instanceof ExtrinsicSignatureV2) {
+    } else if (value instanceof ExtrinsicSignatureV3) {
       return value;
     }
 

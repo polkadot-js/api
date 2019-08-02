@@ -10,7 +10,7 @@ import Extrinsic from './Extrinsic';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-describe('ExtrinsicV2', (): void => {
+describe('ExtrinsicV3', (): void => {
   beforeEach((): void => {
     Call.injectMethods(extrinsics);
   });
@@ -49,8 +49,8 @@ describe('ExtrinsicV2', (): void => {
       '0x' +
       'ff' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
-      '975c79b3c7c57898153faa55a97744f71aa8b4c44ec319978c1206f7941db65e' +
-      '6cea25fe0bc700f8cb3c5eeef3894b21ed88398e8d8ab93b6af2e9d2fd9f5404' +
+      '2bb401483999053d2d69a4aebefb9682c8710ddd495d1298d4eedd241c73869f' +
+      '9d32c82dba98b12ef74bea5f987851b592956de3cf3e946533da815e3b6a2904' +
       '000408' + // era. nonce, tip
       '0500' +
       'ff' +

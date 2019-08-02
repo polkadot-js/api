@@ -15,10 +15,11 @@ import Address from '../Generic/Address';
 import Call from '../Generic/Call';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
+import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
-type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
 
 interface ExtrinsicOptions {
   metadata?: Metadata;
@@ -37,12 +38,12 @@ interface ExtrinsicOptions {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implements IExtrinsic {
+export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3> implements IExtrinsic {
   public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, options: ExtrinsicOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, options));
   }
 
-  private static newFromValue (value: any, options: { metadata?: Metadata; version: number }): ExtrinsicV1 | ExtrinsicV2 {
+  private static newFromValue (value: any, options: { metadata?: Metadata; version: number }): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
@@ -53,11 +54,12 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     switch (type) {
       case 1: return new ExtrinsicV1(value, { isSigned, metadata: options.metadata });
       case 2: return new ExtrinsicV2(value, { isSigned, metadata: options.metadata });
+      case 3: return new ExtrinsicV3(value, { isSigned, metadata: options.metadata });
       default: throw new Error(`Unsupported extrinsic version ${type}`);
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, options: ExtrinsicOptions = {}): ExtrinsicV1 | ExtrinsicV2 {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, options: ExtrinsicOptions = {}): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
     const version: number = options.version || DEFAULT_VERSION;
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
@@ -93,7 +95,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     return Extrinsic.newFromValue(value, { version, metadata: options.metadata });
   }
 
-  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 {
+  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
     return Extrinsic.newFromValue(value.subarray(1), { version: value[0] });
   }
 
@@ -229,8 +231,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2> implement
     // @ts-ignore
     if (args.length === 2) {
       payload = {
+        blockHash: new Uint8Array(),
         // @ts-ignore
         era: args[1] as string,
+        genesisHash: new Uint8Array(),
         method: this.method.toHex(),
         nonce: args[0] as string,
         tip: 0

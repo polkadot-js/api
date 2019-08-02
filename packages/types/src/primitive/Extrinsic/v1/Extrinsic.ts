@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
@@ -10,19 +11,13 @@ import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
-import Metadata from '../../../Metadata';
+
+const TRANSACTION_VERSION = 1;
 
 export interface ExtrinsicValueV1 {
   method?: Call;
   signature?: ExtrinsicSignature;
 }
-
-interface ExtrinsicV1Options {
-  isSigned?: boolean;
-  metadata?: Metadata;
-}
-
-const TRANSACTION_VERSION = 1;
 
 /**
  * @name ExtrinsicV1
@@ -30,14 +25,14 @@ const TRANSACTION_VERSION = 1;
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicV1Options = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicOptions = {}) {
     super({
       signature: ExtrinsicSignature,
       method: Call
     }, ExtrinsicV1.decodeExtrinsic(value, options));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicV1Options = {}): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, options: ExtrinsicOptions = {}): ExtrinsicValueV1 {
     const isSigned = !!options.isSigned;
     if (!value) {
       return {};
