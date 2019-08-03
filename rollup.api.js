@@ -6,7 +6,7 @@ export default {
     typescript()
   ],
   output: {
-    file: './packages/api/build/rollup-api.min.js',
+    file: './build/rollup/api.js',
     format: 'iife',
     name: 'polkadotApi'
   }
