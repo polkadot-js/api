@@ -8,7 +8,7 @@ export default {
     SlotNumber: 'u64',
     RawBabePreDigest: {
       slotNumber: 'SlotNumber',
-      authorityIndex: 'u64', // AuthorityIndex (also in aura, same size)
+      authorityIndex: 'u32', // AuthorityIndex (also in aura, not same size there)
       vrfOutput: 'H256', // should be '[u8; 32]' (generator support lacking here)
       vrfProof: 'H256' // should be '[u8; 32]'
     }

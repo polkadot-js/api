@@ -1851,10 +1851,10 @@
     "@polkadot/util" "^1.0.1"
     "@polkadot/util-crypto" "^1.0.1"
 
-"@polkadot/ts@^0.1.62":
-  version "0.1.62"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.62.tgz#aed5e951f1b8ee49efecb360302abdede155140b"
-  integrity sha512-sx1L7Z9WwqfltQ+e8im32xGcX89G2QdgpKNwMg/dur/RMnPBkVF0A0o4H4jFSEdMiBg+dasbfJkbnxvgjWlV2A==
+"@polkadot/ts@^0.1.63":
+  version "0.1.63"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.63.tgz#9de0014e706014fc4ce059bc37fd6818d20de492"
+  integrity sha512-NYdq63CFBp1+4V9RMzbaIxG7doaSvIVWlFBb6hMEu0MemheULiag+Gj/98lalVYipB8a4KCBoaIt//YTCEh6oQ==
   dependencies:
     "@types/chrome" "^0.0.86"
 
