@@ -5,6 +5,7 @@
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { Codec } from '@polkadot/types/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
@@ -12,7 +13,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { createType, Option, Tuple, Vec } from '@polkadot/types';
+import { createType, Option, Vec } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -74,25 +75,22 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     .reduce((curr, prev): BN => curr.add(prev.value.unwrap()), new BN(0));
 }
 
-function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraIds: AccountId[], nextKeys: Option<AccountId> | Vec<Tuple>): { nextSessionId?: AccountId; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionId?: AccountId; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
-  if (Array.isArray(nextKeys)) {
-    const validatorIdx = validatorIds.indexOf(stashId);
-    const sessionId = auraIds[validatorIdx];
-    const keys = nextKeys.find(([currentId]): boolean => currentId.eq(stashId)) as [AccountId, Keys] | undefined;
-    const nextSessionId = keys
-      ? keys[1].ed25519
-      : sessionId;
+  if (Array.isArray(queuedKeys)) {
+    const [, { ed25519: sessionId }] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { ed25519: undefined }];
 
     return {
-      nextSessionId,
+      nextSessionId: nextKeys.isSome
+        ? nextKeys.unwrap().ed25519
+        : undefined,
       sessionId
     };
   }
 
   // substrate 1.x
-  const nextSessionId = nextKeys.isSome
-    ? nextKeys.unwrap()
+  const nextSessionId = queuedKeys.isSome
+    ? queuedKeys.unwrap()
     : undefined;
 
   return {
@@ -101,122 +99,66 @@ function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraId
   };
 }
 
-function withStashController (api: ApiInterfaceRx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
-  const stashId = accountId;
-
+function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return (
     combineLatest([
       eraLength(api)(),
       bestNumber(api)(),
-      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
-      // should be added when only 2.x
-      api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vec<AccountId>>()
-        : of([] as AccountId[]),
       api.queryMulti([
         api.query.session.queuedKeys
           ? [api.query.session.queuedKeys]
           : [api.query.session.nextKeyFor, controllerId],
-        api.query.session.validators,
+        api.query.session.nextKeys
+          ? [api.query.session.nextKeys, [
+            api.consts.session.dedupKeyPrefix,
+            stashId
+          ]] as any
+          : of(createType('Option<Keys>', null)),
         [api.query.staking.ledger, controllerId],
         [api.query.staking.nominators, stashId],
         [api.query.staking.payee, stashId],
         [api.query.staking.stakers, stashId],
         [api.query.staking.validators, stashId]
       ])
-    ]) as Observable<[BN, BlockNumber, AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    ]) as Observable<[BN, BlockNumber, [Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<Keys>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([eraLength, bestNumber, auraIds, [nextKeys, validatorIds, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
-      const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
-      const { sessionId, nextSessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
-      const result: DerivedStaking = {
-        accountId,
+    map(([eraLength, bestNumber, [queuedKeys, nextKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+      const stakingLedger = _stakingLedger.unwrapOr(undefined);
+
+      return {
+        accountId: stashId,
         controllerId,
-        nextSessionId,
         nominators,
         redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         rewardDestination,
-        sessionId,
         stakers,
         stakingLedger,
         stashId,
         unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
-        validatorPrefs
+        validatorPrefs,
+        ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
       };
-
-      return result;
-    }),
-    drr()
-  );
-}
-
-function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
-  const controllerId = accountId;
-  const stashId = stakingLedger.stash;
-
-  return (
-    combineLatest([
-      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
-      // should be added when only 2.x
-      api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vec<AccountId>>()
-        : of([] as AccountId[]),
-      api.queryMulti([
-        api.query.session.queuedKeys
-          ? [api.query.session.queuedKeys]
-          : [api.query.session.nextKeyFor, controllerId],
-        api.query.session.validators,
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.payee, stashId],
-        [api.query.staking.stakers, stashId],
-        [api.query.staking.validators, stashId]
-      ])
-    ]) as Observable<[AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
-  ).pipe(
-    map(([auraIds, [nextKeys, validatorIds, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
-      const { nextSessionId, sessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
-      const result: DerivedStaking = {
-        accountId,
-        controllerId,
-        nextSessionId,
-        nominators,
-        rewardDestination,
-        sessionId,
-        stakers,
-        stakingLedger,
-        stashId,
-        validatorPrefs
-      };
-
-      return result;
     }),
     drr()
   );
 }
 
 /**
- * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
+ * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = createType('AccountId', _accountId);
 
-    return (
-      api.queryMulti([
-        [api.query.staking.bonded, accountId], // try to map to controller
-        [api.query.staking.ledger, accountId] // try to map to stash
-      ]) as Observable<[Option<AccountId>, Option<StakingLedger>]>
-    ).pipe(
-      switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
-        controllerId.isSome
-          // we have a controller, so input was a stash, great
-          ? withStashController(api, accountId, controllerId.unwrap())
-          : stakingLedger.isSome
-            ? withControllerLedger(api, accountId, stakingLedger.unwrap())
-            // dangit, this is something else, ok, we are done
+    return api.query.staking
+      .bonded<Option<AccountId>>(accountId) // try to map to controller
+      .pipe(
+        switchMap((controllerId): Observable<DerivedStaking> =>
+          controllerId.isSome
+            ? retrieveInfo(api, accountId, controllerId.unwrap())
             : of({ accountId })
-      ),
-      drr()
-    );
+        ),
+        drr()
+      );
   };
 }
