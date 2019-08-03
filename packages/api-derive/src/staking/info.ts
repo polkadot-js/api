@@ -99,28 +99,29 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   };
 }
 
+function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<Keys>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]> {
+  return api.queryMulti([
+    api.query.session.queuedKeys
+      ? [api.query.session.queuedKeys]
+      : [api.query.session.nextKeyFor, controllerId],
+    api.query.session.nextKeys
+      ? [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]] as any
+      : of(createType('Option<Keys>', null)),
+    [api.query.staking.ledger, controllerId],
+    [api.query.staking.nominators, stashId],
+    [api.query.staking.payee, stashId],
+    [api.query.staking.stakers, stashId],
+    [api.query.staking.validators, stashId]
+  ]) as any;
+}
+
 function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return (
     combineLatest([
       eraLength(api)(),
       bestNumber(api)(),
-      api.queryMulti([
-        api.query.session.queuedKeys
-          ? [api.query.session.queuedKeys]
-          : [api.query.session.nextKeyFor, controllerId],
-        api.query.session.nextKeys
-          ? [api.query.session.nextKeys, [
-            api.consts.session.dedupKeyPrefix,
-            stashId
-          ]] as any
-          : of(createType('Option<Keys>', null)),
-        [api.query.staking.ledger, controllerId],
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.payee, stashId],
-        [api.query.staking.stakers, stashId],
-        [api.query.staking.validators, stashId]
-      ])
-    ]) as Observable<[BN, BlockNumber, [Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<Keys>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
+      retrieveMulti(api, stashId, controllerId)
+    ])
   ).pipe(
     map(([eraLength, bestNumber, [queuedKeys, nextKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
@@ -138,8 +139,7 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
         validatorPrefs,
         ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
       };
-    }),
-    drr()
+    })
   );
 }
 
