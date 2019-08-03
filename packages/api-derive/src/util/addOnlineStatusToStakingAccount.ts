@@ -6,15 +6,15 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import { DerivedStakingAccount, DerivedRecentlyOffline } from '../types';
 
-export function addOnlineStatusToStakingAccount (recentlyOffline: DerivedRecentlyOffline): (account: AccountId | null, isOnline: boolean) => DerivedStakingAccount {
-  return (account: AccountId | null, isOnline: boolean): DerivedStakingAccount => {
+export function addOnlineStatusToStakingAccount (recentlyOffline: DerivedRecentlyOffline): (account: AccountId | null, isOnline?: boolean) => DerivedStakingAccount {
+  return (account: AccountId | null, isOnline?: boolean): DerivedStakingAccount => {
     return [
       account,
       !account
         ? {}
         : {
           online: {
-            isOnline
+            isOnline: isOnline || false
           },
           ...(
             recentlyOffline && recentlyOffline[account.toString()]

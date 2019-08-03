@@ -122,7 +122,7 @@ function withStashController (api: ApiInterfaceRx, accountId: AccountId, control
     ]) as Observable<[Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]]]>
   ])
     .pipe(
-      switchMap(([auraIds, [nextKeys, validatorIds, [nominators]]]): Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, boolean[], boolean[], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]> => {
+      switchMap(([auraIds, [nextKeys, validatorIds, [nominators]]]): Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, [boolean], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]> => {
         const { sessionId = null, nextSessionId = null } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
 
         return combineLatest([
@@ -134,27 +134,26 @@ function withStashController (api: ApiInterfaceRx, accountId: AccountId, control
           eraLength(api)(),
           bestNumber(api)(),
           recentlyOffline(api)(),
-          receivedHeartbeats(api)([stashId, controllerId, sessionId, nextSessionId]),
-          receivedHeartbeats(api)(nominators),
+          receivedHeartbeats(api)([stashId]),
           api.queryMulti([
             [api.query.staking.ledger, controllerId.toString()],
             [api.query.staking.payee, stashId.toString()],
             [api.query.staking.stakers, stashId.toString()],
             [api.query.staking.validators, stashId.toString()]
           ])
-        ]) as Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, boolean[], boolean[], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]>;
+        ]) as Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, [boolean], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]>;
       }),
-      map(([[nominators, sessionId, nextSessionId], eraLength, bestNumber, recentlyOffline, [stashHeartbeat, controllerHeartbeat, sessionHeartbeat, nextSessionHeartbeat], nominatorHeartbeats, [_stakingLedger, rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+      map(([[nominators, sessionId, nextSessionId], eraLength, bestNumber, recentlyOffline, [stashHeartbeat], [_stakingLedger, rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
         const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
 
         const result: DerivedStaking = {
           accountId,
-          controller: addOnlineStatusToStakingAccount(recentlyOffline)(controllerId, controllerHeartbeat),
-          nextSession: addOnlineStatusToStakingAccount(recentlyOffline)(nextSessionId, nextSessionHeartbeat),
-          nominators: nominators.map((nominator, index): DerivedStakingAccount => addOnlineStatusToStakingAccount(recentlyOffline)(nominator, nominatorHeartbeats[index])),
+          controller: addOnlineStatusToStakingAccount(recentlyOffline)(controllerId),
+          nextSession: addOnlineStatusToStakingAccount(recentlyOffline)(nextSessionId),
+          nominators: nominators.map((nominator): DerivedStakingAccount => addOnlineStatusToStakingAccount(recentlyOffline)(nominator)),
           redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
           rewardDestination,
-          session: addOnlineStatusToStakingAccount(recentlyOffline)(sessionId, sessionHeartbeat),
+          session: addOnlineStatusToStakingAccount(recentlyOffline)(sessionId),
           stakers,
           stakingLedger,
           stash: addOnlineStatusToStakingAccount(recentlyOffline)(stashId, stashHeartbeat),

@@ -25,26 +25,18 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
       (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
     ])
       .pipe(
-        switchMap(([recentlyOffline, [stashIds]]): Observable<[DerivedRecentlyOffline, AccountId[], Option<AccountId>[]]> =>
+        switchMap(([recentlyOffline, [stashIds]]): Observable<[DerivedRecentlyOffline, AccountId[], boolean[], Option<AccountId>[]]> =>
           combineLatest([
             of(recentlyOffline),
             of(stashIds),
+            receivedHeartbeats(api)(stashIds),
             api.query.staking.bonded.multi(stashIds) as Observable<Option<AccountId>[]>
           ])
         ),
-        switchMap(([recentlyOffline, stashIds, controllerOptions]): Observable<[DerivedRecentlyOffline, AccountId[], (AccountId | null)[], boolean[], boolean[]]> => {
+        map(([recentlyOffline, stashIds, stashHeartbeats, controllerOptions]): [DerivedStakingAccounts, DerivedStakingAccounts] => {
           const controllerIds = controllerOptions.map((option): AccountId | null => option.unwrapOr(null));
-          return combineLatest([
-            of(recentlyOffline),
-            of(stashIds),
-            of(controllerIds),
-            receivedHeartbeats(api)(stashIds),
-            receivedHeartbeats(api)(controllerIds)
-          ]);
-        }
-        ),
-        map(([recentlyOffline, stashIds, controllerIds, stashHeartbeats, controllerHeartbeats]): [DerivedStakingAccounts, DerivedStakingAccounts] =>
-          [
+
+          return [
             stashIds.map(
               (stashId, index): DerivedStakingAccount =>
                 addOnlineStatusToStakingAccount(recentlyOffline)(
@@ -53,13 +45,11 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
                 )
             ),
             controllerIds.map(
-              (controllerId, index): DerivedStakingAccount =>
-                addOnlineStatusToStakingAccount(recentlyOffline)(
-                  controllerId,
-                  controllerHeartbeats[index]
-                )
+              (controllerId): DerivedStakingAccount =>
+                addOnlineStatusToStakingAccount(recentlyOffline)(controllerId)
             )
-          ]
+          ];
+        }
         ),
         drr()
       );
