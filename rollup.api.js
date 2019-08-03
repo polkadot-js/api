@@ -3,9 +3,7 @@ import typescript from 'rollup-plugin-typescript2';
 export default {
   input: './packages/api/src/index.ts',
   plugins: [
-    typescript({
-      tsconfig: 'tsconfig.rollup.json'
-    })
+    typescript()
   ],
   output: {
     file: './packages/api/build/rollup-api.min.js',
