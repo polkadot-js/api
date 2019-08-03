@@ -27,6 +27,7 @@
       "./node_modules/@types"
     ],
     // FIXME This is a HACK that is needed for the current mock-socket defs
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "es2015"
   }
 }

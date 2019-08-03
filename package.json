@@ -20,6 +20,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
+    "rollup:api": "rollup --config packages/api/rollup.config.js",
     "test": "jest --coverage --testPathIgnorePatterns e2e",
     "test:all": "jest",
     "test:e2e": "jest packages/api/test/e2e",
@@ -34,6 +35,9 @@
     "@babel/runtime": "^7.5.5",
     "@polkadot/dev": "^0.30.0-beta.24",
     "@polkadot/ts": "^0.1.63",
-    "gh-pages": "^2.1.0"
+    "gh-pages": "^2.1.0",
+    "rollup": "^1.18.0",
+    "rollup-plugin-typescript2": "^0.22.1",
+    "tslib": "^1.10.0"
   }
 }
