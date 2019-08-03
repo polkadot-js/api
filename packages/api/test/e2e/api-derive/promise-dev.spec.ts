@@ -53,7 +53,7 @@ describeE2E({
         console.error(JSON.stringify(info));
 
         expect(info.accountId.eq(accountId)).toBe(true);
-        expect(info.controller![0]!.eq(accountId)).toBe(true);
+        expect(info.controllerId!.eq(accountId)).toBe(true);
         expect(info.stash![0]!.eq('5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY')).toBe(true);
         expect(info.stash![0]!.eq(info.stakingLedger!.stash)).toBe(true);
 
@@ -67,13 +67,13 @@ describeE2E({
       return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
         console.error(JSON.stringify(info));
 
-        if (!info.stash || !info.controller || !info.stakingLedger) {
+        if (!info.stash || !info.controllerId || !info.stakingLedger) {
           done.fail(new Error('At least one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
           return;
         }
 
         expect(info.accountId.eq(accountId)).toBe(true);
-        expect(info.controller[0]!.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
+        expect(info.controllerId!.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
         expect(info.stash[0]!.eq(accountId)).toBe(true);
         expect(info.stash[0]!.eq(info.stakingLedger.stash)).toBe(true);
 
