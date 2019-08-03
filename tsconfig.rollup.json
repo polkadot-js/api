@@ -26,6 +26,7 @@
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "ES2015"
   }
 }

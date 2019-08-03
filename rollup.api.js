@@ -4,13 +4,12 @@ export default {
   input: './packages/api/src/index.ts',
   plugins: [
     typescript({
-      tsconfigOverride: {
-        module: 'ES2015'
-      }
+      tsconfig: 'tsconfig.rollup.json'
     })
   ],
   output: {
-    file: './build/rollup-api.min.js',
-    format: 'iife'
+    file: './packages/api/build/rollup-api.min.js',
+    format: 'iife',
+    name: 'polkadotApi'
   }
 };
