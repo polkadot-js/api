@@ -99,14 +99,11 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   };
 }
 
-function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<Keys>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]> {
+function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]> {
   return api.queryMulti([
     api.query.session.queuedKeys
       ? [api.query.session.queuedKeys]
       : [api.query.session.nextKeyFor, controllerId],
-    api.query.session.nextKeys
-      ? [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]] as any
-      : of(createType('Option<Keys>', null)),
     [api.query.staking.ledger, controllerId],
     [api.query.staking.nominators, stashId],
     [api.query.staking.payee, stashId],
@@ -120,10 +117,15 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
     combineLatest([
       eraLength(api)(),
       bestNumber(api)(),
+      // TODO We really want this as part of the multi, however can only do that
+      // once we drop substrate 1.x support (nulti requires values for all)
+      api.query.session.nextKeys
+        ? api.query.session.nextKeys<Option<Keys>>(api.consts.session.dedupKeyPrefix, stashId)
+        : of(createType('Option<Keys>', null)),
       retrieveMulti(api, stashId, controllerId)
     ])
   ).pipe(
-    map(([eraLength, bestNumber, [queuedKeys, nextKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+    map(([eraLength, bestNumber, nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
       return {
@@ -150,15 +152,23 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = createType('AccountId', _accountId);
 
-    return api.query.staking
-      .bonded<Option<AccountId>>(accountId) // try to map to controller
-      .pipe(
-        switchMap((controllerId): Observable<DerivedStaking> =>
-          controllerId.isSome
-            ? retrieveInfo(api, accountId, controllerId.unwrap())
+    return (
+      // NOTE For 2.x-only support, only the first path is required, therefore we
+      // can replace this with `.bonded<Option<AccountId>>(accountId)` - in 2.x
+      // the session.validators return the stashes (as expected)
+      api.queryMulti([
+        [api.query.staking.bonded, accountId], // try to map to controller
+        [api.query.staking.ledger, accountId] // try to map to stash (1.x only)
+      ]) as Observable<[Option<AccountId>, Option<StakingLedger>]>
+    ).pipe(
+      switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
+        controllerId.isSome
+          ? retrieveInfo(api, accountId, controllerId.unwrap())
+          : stakingLedger.isSome
+            ? retrieveInfo(api, stakingLedger.unwrap().stash, accountId)
             : of({ accountId })
-        ),
-        drr()
-      );
+      ),
+      drr()
+    );
   };
 }
