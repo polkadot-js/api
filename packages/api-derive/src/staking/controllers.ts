@@ -18,8 +18,8 @@ import { addOnlineStatusToStakingAccount } from '../util/addOnlineStatusToStakin
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
-export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStakingAccounts, DerivedStakingAccounts]> {
-  return (): Observable<[DerivedStakingAccounts, DerivedStakingAccounts]> =>
+export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStakingAccounts, Option<AccountId>[]]> {
+  return (): Observable<[DerivedStakingAccounts, Option<AccountId>[]]> =>
     combineLatest([
       recentlyOffline(api)(),
       (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
@@ -33,10 +33,8 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
             api.query.staking.bonded.multi(stashIds) as Observable<Option<AccountId>[]>
           ])
         ),
-        map(([recentlyOffline, stashIds, stashHeartbeats, controllerOptions]): [DerivedStakingAccounts, DerivedStakingAccounts] => {
-          const controllerIds = controllerOptions.map((option): AccountId | null => option.unwrapOr(null));
-
-          return [
+        map(([recentlyOffline, stashIds, stashHeartbeats, controllerIds]): [DerivedStakingAccounts, Option<AccountId>[]] =>
+          [
             stashIds.map(
               (stashId, index): DerivedStakingAccount =>
                 addOnlineStatusToStakingAccount(recentlyOffline)(
@@ -44,12 +42,8 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
                   stashHeartbeats[index]
                 )
             ),
-            controllerIds.map(
-              (controllerId): DerivedStakingAccount =>
-                addOnlineStatusToStakingAccount(recentlyOffline)(controllerId)
-            )
-          ];
-        }
+            controllerIds
+          ]
         ),
         drr()
       );

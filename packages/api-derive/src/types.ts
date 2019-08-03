@@ -94,12 +94,12 @@ export interface DerivedStakingOnlineStatus {
 
 export interface DerivedStaking {
   accountId: AccountId;
-  controller?: DerivedStakingAccount;
-  nextSession?: DerivedStakingAccount;
-  nominators?: DerivedStakingAccount[];
+  controllerId?: AccountId;
+  nextSessionId?: AccountId;
+  nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
-  session?: DerivedStakingAccount;
+  sessionId?: AccountId;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stash?: DerivedStakingAccount;
