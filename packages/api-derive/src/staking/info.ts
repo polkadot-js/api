@@ -7,7 +7,7 @@ import { Keys } from '@polkadot/types/interfaces/session';
 import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedStaking, DerivedUnlocking } from '../types';
+import { DerivedRecentlyOffline, DerivedStaking, DerivedStakingAccount, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -17,8 +17,11 @@ import { createType, Option, Tuple, Vec } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import { bestNumber } from '../chain/bestNumber';
+import { receivedHeartbeats } from '../imOnline/receivedHeartbeats';
 import { eraLength } from '../session/eraLength';
+import { recentlyOffline } from './recentlyOffline';
 import { drr } from '../util/drr';
+import { addOnlineStatusToStakingAccount } from '../util/addOnlineStatusToStakingAccount';
 
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   return list.reduce((map, { era, value }): Record<string, BN> => {
@@ -104,94 +107,126 @@ function unwrapSessionIds (stashId: AccountId, validatorIds: AccountId[], auraId
 function withStashController (api: ApiInterfaceRx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
-  return (
-    combineLatest([
-      eraLength(api)(),
-      bestNumber(api)(),
-      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
-      // should be added when only 2.x
-      api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vec<AccountId>>()
-        : of([] as AccountId[]),
-      api.queryMulti([
-        api.query.session.queuedKeys
-          ? [api.query.session.queuedKeys]
-          : [api.query.session.nextKeyFor, controllerId],
-        api.query.session.validators,
-        [api.query.staking.ledger, controllerId],
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.payee, stashId],
-        [api.query.staking.stakers, stashId],
-        [api.query.staking.validators, stashId]
-      ])
-    ]) as Observable<[BN, BlockNumber, AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
-  ).pipe(
-    map(([eraLength, bestNumber, auraIds, [nextKeys, validatorIds, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
-      const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
-      const { sessionId, nextSessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
-      const result: DerivedStaking = {
-        accountId,
-        controllerId,
-        nextSessionId,
-        nominators,
-        redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
-        rewardDestination,
-        sessionId,
-        stakers,
-        stakingLedger,
-        stashId,
-        unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
-        validatorPrefs
-      };
+  return combineLatest([
+    // FIXME while we have 2.x and 1.x support, don't add this to .multi -
+    // should be added when only 2.x
+    api.query.aura && api.query.aura.authorities
+      ? api.query.aura.authorities<Vec<AccountId>>()
+      : of([] as AccountId[]),
+    api.queryMulti([
+      api.query.session.queuedKeys
+        ? [api.query.session.queuedKeys]
+        : [api.query.session.nextKeyFor, controllerId.toString()],
+      api.query.session.validators,
+      [api.query.staking.nominators, stashId.toString()]
+    ]) as Observable<[Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]]]>
+  ])
+    .pipe(
+      switchMap(([auraIds, [nextKeys, validatorIds, [nominators]]]): Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, boolean[], boolean[], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]> => {
+        const { sessionId = null, nextSessionId = null } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
 
-      return result;
-    }),
-    drr()
-  );
+        return combineLatest([
+          of([
+            nominators,
+            sessionId,
+            nextSessionId
+          ]),
+          eraLength(api)(),
+          bestNumber(api)(),
+          recentlyOffline(api)(),
+          receivedHeartbeats(api)([stashId, controllerId, sessionId, nextSessionId]),
+          receivedHeartbeats(api)(nominators),
+          api.queryMulti([
+            [api.query.staking.ledger, controllerId.toString()],
+            [api.query.staking.payee, stashId.toString()],
+            [api.query.staking.stakers, stashId.toString()],
+            [api.query.staking.validators, stashId.toString()]
+          ])
+        ]) as Observable<[[AccountId[], AccountId | null, AccountId | null], BlockNumber, BlockNumber, DerivedRecentlyOffline, boolean[], boolean[], [Option<StakingLedger>, RewardDestination, Exposure, [ValidatorPrefs]]]>;
+      }),
+      map(([[nominators, sessionId, nextSessionId], eraLength, bestNumber, recentlyOffline, [stashHeartbeat, controllerHeartbeat, sessionHeartbeat, nextSessionHeartbeat], nominatorHeartbeats, [_stakingLedger, rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+        const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
+
+        const result: DerivedStaking = {
+          accountId,
+          controller: addOnlineStatusToStakingAccount(recentlyOffline)(controllerId, controllerHeartbeat),
+          nextSession: addOnlineStatusToStakingAccount(recentlyOffline)(nextSessionId, nextSessionHeartbeat),
+          nominators: nominators.map((nominator, index): DerivedStakingAccount => addOnlineStatusToStakingAccount(recentlyOffline)(nominator, nominatorHeartbeats[index])),
+          redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
+          rewardDestination,
+          session: addOnlineStatusToStakingAccount(recentlyOffline)(sessionId, sessionHeartbeat),
+          stakers,
+          stakingLedger,
+          stash: addOnlineStatusToStakingAccount(recentlyOffline)(stashId, stashHeartbeat),
+          unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
+          validatorPrefs
+        };
+
+        return result;
+      }),
+      drr()
+    );
 }
 
 function withControllerLedger (api: ApiInterfaceRx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
 
-  return (
-    combineLatest([
-      // FIXME while we have 2.x and 1.x support, don't add this to .multi -
-      // should be added when only 2.x
-      api.query.aura && api.query.aura.authorities
-        ? api.query.aura.authorities<Vec<AccountId>>()
-        : of([] as AccountId[]),
-      api.queryMulti([
-        api.query.session.queuedKeys
-          ? [api.query.session.queuedKeys]
-          : [api.query.session.nextKeyFor, controllerId],
-        api.query.session.validators,
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.payee, stashId],
-        [api.query.staking.stakers, stashId],
-        [api.query.staking.validators, stashId]
-      ])
-    ]) as Observable<[AccountId[], [Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]>
-  ).pipe(
-    map(([auraIds, [nextKeys, validatorIds, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
-      const { nextSessionId, sessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
-      const result: DerivedStaking = {
-        accountId,
-        controllerId,
-        nextSessionId,
-        nominators,
-        rewardDestination,
-        sessionId,
-        stakers,
-        stakingLedger,
-        stashId,
-        validatorPrefs
-      };
+  return combineLatest([
+    // FIXME while we have 2.x and 1.x support, don't add this to .multi -
+    // should be added when only 2.x
+    api.query.aura && api.query.aura.authorities
+      ? api.query.aura.authorities<Vec<AccountId>>()
+      : of([] as AccountId[]),
+    api.queryMulti([
+      api.query.session.queuedKeys
+        ? [api.query.session.queuedKeys]
+        : [api.query.session.nextKeyFor, controllerId.toString()],
+      api.query.session.validators,
+      [api.query.staking.nominators, stashId.toString()]
+    ]) as Observable<[Option<AccountId> | Vec<Tuple>, AccountId[], [AccountId[]]]>
+  ])
+    .pipe(
+      switchMap(([auraIds, [nextKeys, validatorIds, [nominators]]]): Observable<[[AccountId[], AccountId | null, AccountId | null], DerivedRecentlyOffline, boolean[], boolean[], [RewardDestination, Exposure, [ValidatorPrefs]]]> => {
+        const { sessionId, nextSessionId } = unwrapSessionIds(stashId, validatorIds, auraIds, nextKeys);
 
-      return result;
-    }),
-    drr()
-  );
+        const result = combineLatest([
+          of([
+            nominators,
+            sessionId || null,
+            nextSessionId || null
+          ]),
+          recentlyOffline(api)(),
+          receivedHeartbeats(api)([stashId, controllerId, sessionId, nextSessionId]),
+          receivedHeartbeats(api)(nominators),
+          api.queryMulti([
+            [api.query.staking.payee, stashId.toString()],
+            [api.query.staking.stakers, stashId.toString()],
+            [api.query.staking.validators, stashId.toString()]
+          ])
+        ]);
+
+        return result as Observable<[[AccountId[], AccountId | null, AccountId | null], DerivedRecentlyOffline, boolean[], boolean[], [RewardDestination, Exposure, [ValidatorPrefs]]]>;
+      }),
+
+      map(([[nominators, sessionId, nextSessionId], recentlyOffline, [stashHeartbeat, controllerHeartbeat, sessionHeartbeat, nextSessionHeartbeat], nominatorHeartbeats, [rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+        const result: DerivedStaking = {
+          accountId,
+          controller: addOnlineStatusToStakingAccount(recentlyOffline)(controllerId, controllerHeartbeat),
+          nextSession: addOnlineStatusToStakingAccount(recentlyOffline)(nextSessionId, nextSessionHeartbeat),
+          nominators: nominators.map((nominator, index): DerivedStakingAccount => addOnlineStatusToStakingAccount(recentlyOffline)(nominator, nominatorHeartbeats[index])),
+          rewardDestination,
+          session: addOnlineStatusToStakingAccount(recentlyOffline)(sessionId, sessionHeartbeat),
+          stakers,
+          stakingLedger,
+          stash: addOnlineStatusToStakingAccount(recentlyOffline)(stashId, stashHeartbeat),
+          validatorPrefs
+        };
+
+        return result;
+      }),
+      drr()
+    );
 }
 
 /**
@@ -203,8 +238,8 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
 
     return (
       api.queryMulti([
-        [api.query.staking.bonded, accountId], // try to map to controller
-        [api.query.staking.ledger, accountId] // try to map to stash
+        [api.query.staking.bonded, accountId.toString()], // try to map to controller
+        [api.query.staking.ledger, accountId.toString()] // try to map to stash,
       ]) as Observable<[Option<AccountId>, Option<StakingLedger>]>
     ).pipe(
       switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>

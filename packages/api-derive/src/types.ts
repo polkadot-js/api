@@ -51,6 +51,13 @@ export interface DerivedFees {
   transferFee: BN;
 }
 
+export interface RecentlyOffline {
+  blockNumber: BlockNumber;
+  count: BN;
+}
+
+export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;
+
 export interface DerivedReferendumVote {
   accountId: AccountId;
   balance: Balance;
@@ -70,17 +77,32 @@ export interface DerivedSessionInfo {
   sessionProgress: BN;
 }
 
+export type DerivedStakingAccount = [AccountId | null, DerivedStakingOnlineStatus];
+
+export type DerivedStakingAccounts = DerivedStakingAccount[];
+
+export interface DerivedStakingOnlineStatus {
+  online?: {
+    isOnline: boolean;
+    blockNumber?: BlockNumber;
+  };
+  offline?: {
+    blockNumber: BlockNumber;
+    count: BN;
+  }[];
+}
+
 export interface DerivedStaking {
   accountId: AccountId;
-  controllerId?: AccountId;
-  nextSessionId?: AccountId;
-  nominators?: AccountId[];
+  controller?: DerivedStakingAccount;
+  nextSession?: DerivedStakingAccount;
+  nominators?: DerivedStakingAccount[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
-  sessionId?: AccountId;
+  session?: DerivedStakingAccount;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
-  stashId?: AccountId;
+  stash?: DerivedStakingAccount;
   unlocking?: DerivedUnlocking;
   validatorPrefs?: ValidatorPrefs;
 }
