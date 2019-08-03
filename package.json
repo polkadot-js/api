@@ -12,7 +12,7 @@
     "typescript": "^3.5.3"
   },
   "scripts": {
-    "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
+    "build": "yarn build:interfaces && polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
