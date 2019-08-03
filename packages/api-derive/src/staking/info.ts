@@ -99,17 +99,24 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   };
 }
 
-function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]> {
-  return api.queryMulti([
-    api.query.session.queuedKeys
-      ? [api.query.session.queuedKeys]
-      : [api.query.session.nextKeyFor, controllerId],
-    [api.query.staking.ledger, controllerId],
-    [api.query.staking.nominators, stashId],
-    [api.query.staking.payee, stashId],
-    [api.query.staking.stakers, stashId],
-    [api.query.staking.validators, stashId]
-  ]) as any;
+function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<Keys>, [Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]> {
+  return combineLatest([
+    // TODO We really want this as part of the multi, however can only do that
+    // once we drop substrate 1.x support (nulti requires values for all)
+    api.query.session.nextKeys
+      ? api.query.session.nextKeys<Option<Keys>>(api.consts.session.dedupKeyPrefix, stashId)
+      : of(createType('Option<Keys>', null)),
+    api.queryMulti([
+      api.query.session.queuedKeys
+        ? [api.query.session.queuedKeys]
+        : [api.query.session.nextKeyFor, controllerId],
+      [api.query.staking.ledger, controllerId],
+      [api.query.staking.nominators, stashId],
+      [api.query.staking.payee, stashId],
+      [api.query.staking.stakers, stashId],
+      [api.query.staking.validators, stashId]
+    ]) as Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]>
+  ]);
 }
 
 function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
@@ -117,15 +124,10 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
     combineLatest([
       eraLength(api)(),
       bestNumber(api)(),
-      // TODO We really want this as part of the multi, however can only do that
-      // once we drop substrate 1.x support (nulti requires values for all)
-      api.query.session.nextKeys
-        ? api.query.session.nextKeys<Option<Keys>>(api.consts.session.dedupKeyPrefix, stashId)
-        : of(createType('Option<Keys>', null)),
       retrieveMulti(api, stashId, controllerId)
     ])
   ).pipe(
-    map(([eraLength, bestNumber, nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]): DerivedStaking => {
+    map(([eraLength, bestNumber, [nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
       return {
