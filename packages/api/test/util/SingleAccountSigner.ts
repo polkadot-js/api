@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer, SignerPayload, SignerResult } from '@polkadot/api/types';
+import { Signer, SignerPayload, SignerResult, SignerPayloadRaw } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import { createType } from '@polkadot/types';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
 
 let id = 0;
 
@@ -19,32 +20,36 @@ export class SingleAccountSigner implements Signer {
     this.signDelay = signDelay;
   }
 
-  // @deprecated Kept here until we have it removed completely
-  // public async sign (extrinsic: IExtrinsic, address: string, options: SignatureOptions): Promise<number> {
-  //   if (!this.keyringPair || String(address) !== this.keyringPair.address) {
-  //     throw new Error('does not have the keyringPair');
-  //   }
-
-  //   return new Promise((resolve): void => {
-  //     setTimeout((): void => {
-  //       extrinsic.sign(this.keyringPair, options);
-
-  //       resolve(++id);
-  //     }, this.signDelay);
-  //   });
-  // }
-
   public async signPayload (payload: SignerPayload): Promise<SignerResult> {
-    if (!this.keyringPair || payload.address !== this.keyringPair.address) {
+    if (payload.address !== this.keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
         const signed = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
-        const result: SignerResult = { id: ++id, ...signed };
 
-        resolve(result);
+        resolve({
+          id: ++id,
+          ...signed
+        });
+      }, this.signDelay);
+    });
+  }
+
+  public async signRaw ({ address, data }: SignerPayloadRaw): Promise<SignerResult> {
+    if (address !== this.keyringPair.address) {
+      throw new Error('does not have the keyringPair');
+    }
+
+    return new Promise((resolve): void => {
+      setTimeout((): void => {
+        const signature = u8aToHex(this.keyringPair.sign(hexToU8a(data)));
+
+        resolve({
+          id: ++id,
+          signature
+        });
       }, this.signDelay);
     });
   }

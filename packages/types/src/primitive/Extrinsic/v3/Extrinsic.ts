@@ -12,31 +12,33 @@ import Call from '../../Generic/Call';
 import Address from '../../Generic/Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
-export interface ExtrinsicValueV1 {
+const TRANSACTION_VERSION = 3;
+
+export interface ExtrinsicValueV3 {
   method?: Call;
   signature?: ExtrinsicSignature;
 }
 
-const TRANSACTION_VERSION = 1;
-
 /**
- * @name ExtrinsicV1
+ * @name ExtrinsicV3
  * @description
- * The first generation of compact extrinsics
+ * The second generation of compact extrinsics
  */
-export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicOptions = {}) {
+export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
+  public constructor (value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: ExtrinsicOptions = {}) {
     super({
       signature: ExtrinsicSignature,
       method: Call
-    }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
+    }, ExtrinsicV3.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned: boolean = false): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV3, isSigned: boolean = false): ExtrinsicValueV3 {
     if (!value) {
       return {};
-    } else if (value instanceof ExtrinsicV1) {
+    } else if (value instanceof ExtrinsicV3) {
       return value;
+    } else if (value instanceof Call) {
+      return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = new ExtrinsicSignature(value, { isSigned });
@@ -82,7 +84,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): ExtrinsicV1 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): ExtrinsicV3 {
     this.signature.addSignature(signer, signature, payload);
 
     return this;
@@ -91,7 +93,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV1 {
+  public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV3 {
     this.signature.sign(this.method, account, options);
 
     return this;

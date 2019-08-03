@@ -286,14 +286,17 @@ export default class Rpc implements RpcInterface {
         throw error;
       }
     } else if ((method.type as string) === 'StorageChangeSet') {
+      const keys = params[0] as Vec<StorageKey>;
+      const withCache = keys.length !== 1;
+
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vec<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
+      return keys.reduce((results, key: StorageKey): (Codec | undefined)[] => {
         try {
-          results.push(this.formatStorageSet(key, base as StorageChangeSet));
+          results.push(this.formatStorageSet(key, base as StorageChangeSet, withCache));
         } catch (error) {
           console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
 
@@ -323,7 +326,7 @@ export default class Rpc implements RpcInterface {
     return createTypeUnsafe(type, [isNull ? meta.fallback : base], true);
   }
 
-  private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec {
+  private formatStorageSet (key: StorageKey, base: StorageChangeSet, witCache: boolean): Codec {
     // Fallback to Data (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Data';
     const hexKey = key.toHex();
@@ -334,9 +337,9 @@ export default class Rpc implements RpcInterface {
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
     const emptyVal = (
-      base.changes.length === 1
-        ? null
-        : this._storageCache.get(hexKey)
+      witCache
+        ? this._storageCache.get(hexKey)
+        : null
     ) || new Option<StorageData>(ClassOf('StorageData'), null);
 
     // see if we have a result value for this specific key, fallback to the cache value
