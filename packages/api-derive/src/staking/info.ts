@@ -144,6 +144,7 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
         accountId: stashId,
         controllerId,
         nominators,
+        offline: recentlyOffline[stashId.toString()],
         redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         rewardDestination,
         stakers,
@@ -151,8 +152,7 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
         stashId,
         unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs,
-        ...unwrapSessionIds(stashId, queuedKeys, nextKeys),
-        ...recentlyOffline
+        ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
       };
     })
   );

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -17,26 +18,25 @@ import { drr } from '../util/drr';
  */
 export function recentlyOffline (api: ApiInterfaceRx): () => Observable<DerivedRecentlyOffline> {
   return (): Observable<DerivedRecentlyOffline> =>
-    (api.query.staking.recentlyOffline() as any as Observable<[AccountId, BlockNumber, BN][]>)
+    api.query.staking
+      .recentlyOffline<[AccountId, BlockNumber, BN][] & Codec>()
       .pipe(
         map((recentlyOffline): DerivedRecentlyOffline =>
-          recentlyOffline.reduce(
-            (result: DerivedRecentlyOffline, [accountId, blockNumber, count]): DerivedRecentlyOffline => {
-              const key = accountId.toString();
+          recentlyOffline.reduce((result: DerivedRecentlyOffline, [accountId, blockNumber, count]): DerivedRecentlyOffline => {
+            const key = accountId.toString();
 
-              if (!result[key]) {
-                result[key] = [];
-              }
+            if (!result[key]) {
+              result[key] = [];
+            }
 
-              result[key].push({
-                blockNumber,
-                count
-              });
+            result[key].push({
+              blockNumber,
+              count
+            });
 
-              return result;
-            },
-            {}
-          )
+            return result;
+          },
+          {})
         ),
         drr()
       );

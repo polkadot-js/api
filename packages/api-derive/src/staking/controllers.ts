@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -21,7 +22,7 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
   return (): Observable<[DerivedStakingAccounts, Option<AccountId>[]]> =>
     combineLatest([
       recentlyOffline(api)(),
-      (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
+      api.query.staking.validators<[AccountId[], any] & Codec>()
     ])
       .pipe(
         switchMap(([recentlyOffline, [stashIds]]): Observable<[DerivedRecentlyOffline, AccountId[], Option<AccountId>[]]> =>
