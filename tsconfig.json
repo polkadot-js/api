@@ -1,10 +1,8 @@
 {
   "extends": "./node_modules/@polkadot/dev/config/tsconfig",
-  "compilerOptions":
-  {
+  "compilerOptions": {
     "baseUrl": ".",
-    "paths":
-    {
+    "paths": {
       "@polkadot/api": ["packages/api/src"],
       "@polkadot/api/*": ["packages/api/src/*"],
       "@polkadot/api-contract": ["packages/api-contract/src"],
@@ -22,11 +20,9 @@
       "@polkadot/types": ["packages/types/src"],
       "@polkadot/types/*": ["packages/types/src/*"]
     },
-    "typeRoots": [
-      "./node_modules/@polkadot/ts",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./node_modules/@polkadot/ts", "./node_modules/@types"],
     // FIXME This is a HACK that is needed for the current mock-socket defs
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "ES2015"
   }
 }
