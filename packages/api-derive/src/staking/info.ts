@@ -26,23 +26,23 @@ type MultiResult = [Option<Keys>, [
 ]];
 
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
-  return list.reduce((map, { era, value }): Record<string, BN> => {
+  return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
     const key = era.toString();
 
-    if (!map[key]) {
-      map[key] = value.unwrap();
-    } else {
-      map[key] = map[key].add(value.unwrap());
-    }
+    map[key] = !map[key]
+      ? value.unwrap()
+      : map[key].add(value.unwrap());
 
     return map;
-  }, {} as unknown as Record<string, BN>);
+  }, {});
 }
 
 function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
   const remaining = eraLength.mul(era).sub(bestNumber);
 
-  return remaining.lten(0) ? new BN(0) : remaining;
+  return remaining.lten(0)
+    ? new BN(0)
+    : remaining;
 }
 
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
@@ -75,8 +75,12 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }
 
   return stakingLedger.unlocking
-    .filter((chunk): boolean => remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0))
-    .reduce((curr, prev): BN => curr.add(prev.value.unwrap()), new BN(0));
+    .filter((chunk): boolean =>
+      remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0)
+    )
+    .reduce((curr, prev): BN =>
+      curr.add(prev.value.unwrap()), new BN(0)
+    );
 }
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionId?: AccountId; sessionId?: AccountId } {
