@@ -92,7 +92,7 @@ export interface DerivedStakingOnlineStatus {
   }[];
 }
 
-export interface DerivedStaking {
+export interface DerivedStaking extends DerivedStakingOnlineStatus {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;
@@ -102,7 +102,7 @@ export interface DerivedStaking {
   sessionId?: AccountId;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
-  stash?: DerivedStakingAccount;
+  stashId?: AccountId;
   unlocking?: DerivedUnlocking;
   validatorPrefs?: ValidatorPrefs;
 }
