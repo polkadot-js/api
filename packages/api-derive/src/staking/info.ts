@@ -21,6 +21,10 @@ import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { drr } from '../util/drr';
 
+type MultiResult = [Option<Keys>, [
+  Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]
+]];
+
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   return list.reduce((map, { era, value }): Record<string, BN> => {
     const key = era.toString();
@@ -99,7 +103,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   };
 }
 
-function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<[Option<Keys>, [Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]]> {
+function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<MultiResult> {
   return combineLatest([
     // TODO We really want this as part of the multi, however can only do that
     // once we drop substrate 1.x support (nulti requires values for all)
@@ -115,8 +119,8 @@ function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: A
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId]
-    ]) as Observable<[Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]]>
-  ]);
+    ])
+  ]) as Observable<MultiResult>;
 }
 
 function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
