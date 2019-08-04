@@ -129,14 +129,12 @@ function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: A
 }
 
 function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
-  return (
-    combineLatest([
-      eraLength(api)(),
-      bestNumber(api)(),
-      recentlyOffline(api)(),
-      retrieveMulti(api, stashId, controllerId)
-    ])
-  ).pipe(
+  return combineLatest([
+    eraLength(api)(),
+    bestNumber(api)(),
+    recentlyOffline(api)(),
+    retrieveMulti(api, stashId, controllerId)
+  ]).pipe(
     map(([eraLength, bestNumber, recentlyOffline, [nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
