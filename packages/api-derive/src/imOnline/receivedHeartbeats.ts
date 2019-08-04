@@ -5,7 +5,7 @@
 import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
 
-import { combineLatest, of, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes } from '@polkadot/types';
@@ -25,12 +25,8 @@ export function receivedHeartbeats (api: ApiInterfaceRx): (addresses: (CodecArg 
       ? api.query.session.currentIndex<SessionIndex>()
         .pipe(
           switchMap((currentIndex): Observable<Bytes[]> =>
-            combineLatest(
-              addresses.map((address): Observable<Bytes> =>
-                address
-                  ? api.query.imOnline.receivedHeartbeats<Bytes>(currentIndex.toString(), address.toString())
-                  : of(new Bytes())
-              )
+            api.query.imOnline.receivedHeartbeats.multi(
+              addresses.map((address): any => [currentIndex.toString(), address])
             )
           ),
           map((heartbeats): boolean[] =>

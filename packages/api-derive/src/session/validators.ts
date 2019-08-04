@@ -4,18 +4,17 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedRecentlyOffline, DerivedStakingAccount, DerivedStakingAccounts } from '../types';
+import { DerivedStakingAccount, DerivedStakingAccounts } from '../types';
 
-import { receivedHeartbeats } from '../imOnline';
 import { recentlyOffline } from '../staking';
 import { drr } from '../util/drr';
 import { addOnlineStatusToStakingAccount } from '../util/addOnlineStatusToStakingAccount';
 
 /**
- * @description From the list of stash accounts, retrieve the list of controllers
+ * @description Retrieve the current session validators and any offline status reports
  */
 export function validators (api: ApiInterfaceRx): () => Observable<DerivedStakingAccounts> {
   return (): Observable<DerivedStakingAccounts> =>
@@ -24,20 +23,10 @@ export function validators (api: ApiInterfaceRx): () => Observable<DerivedStakin
       api.query.session.validators() as any as Observable<AccountId[]>
     ])
       .pipe(
-        switchMap(([recentlyOffline, validatorIds]): Observable<[DerivedRecentlyOffline, AccountId[], boolean[]]> =>
-          combineLatest([
-            of(recentlyOffline),
-            of(validatorIds),
-            receivedHeartbeats(api)(validatorIds)
-          ])
-        ),
-        map(([recentlyOffline, validatorIds, validatorHeartbeats]): DerivedStakingAccounts =>
+        map(([recentlyOffline, validatorIds]): DerivedStakingAccounts =>
           validatorIds.map(
-            (validatorId, index): DerivedStakingAccount =>
-              addOnlineStatusToStakingAccount(recentlyOffline)(
-                validatorId,
-                validatorHeartbeats[index]
-              )
+            (validatorId): DerivedStakingAccount =>
+              addOnlineStatusToStakingAccount(recentlyOffline)(validatorId)
           )
         ),
         drr()

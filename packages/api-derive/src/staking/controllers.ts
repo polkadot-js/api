@@ -11,7 +11,6 @@ import { Option } from '@polkadot/types';
 import { DerivedRecentlyOffline, DerivedStakingAccount, DerivedStakingAccounts } from '../types';
 
 import { recentlyOffline } from './recentlyOffline';
-import { receivedHeartbeats } from '../imOnline/receivedHeartbeats';
 import { drr } from '../util/drr';
 import { addOnlineStatusToStakingAccount } from '../util/addOnlineStatusToStakingAccount';
 
@@ -25,22 +24,18 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[DerivedStak
       (api.query.staking.validators() as any as Observable<[AccountId[], any]>)
     ])
       .pipe(
-        switchMap(([recentlyOffline, [stashIds]]): Observable<[DerivedRecentlyOffline, AccountId[], boolean[], Option<AccountId>[]]> =>
+        switchMap(([recentlyOffline, [stashIds]]): Observable<[DerivedRecentlyOffline, AccountId[], Option<AccountId>[]]> =>
           combineLatest([
             of(recentlyOffline),
             of(stashIds),
-            receivedHeartbeats(api)(stashIds),
             api.query.staking.bonded.multi(stashIds) as Observable<Option<AccountId>[]>
           ])
         ),
-        map(([recentlyOffline, stashIds, stashHeartbeats, controllerIds]): [DerivedStakingAccounts, Option<AccountId>[]] =>
+        map(([recentlyOffline, stashIds, controllerIds]): [DerivedStakingAccounts, Option<AccountId>[]] =>
           [
             stashIds.map(
-              (stashId, index): DerivedStakingAccount =>
-                addOnlineStatusToStakingAccount(recentlyOffline)(
-                  stashId,
-                  stashHeartbeats[index]
-                )
+              (stashId): DerivedStakingAccount =>
+                addOnlineStatusToStakingAccount(recentlyOffline)(stashId)
             ),
             controllerIds
           ]
