@@ -3824,35 +3824,6 @@
                 " If contract is not evicted as a result of this call, no actions are taken and",
                 " the sender is not eligible for the reward."
               ]
-            },
-            {
-              "name": "restore_to",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "code_hash",
-                  "type": "CodeHash"
-                },
-                {
-                  "name": "rent_allowance",
-                  "type": "BalanceOf"
-                },
-                {
-                  "name": "delta",
-                  "type": "Vec<ContractStorageKey>"
-                }
-              ],
-              "documentation": [
-                " Allows a contract to restore a tombstone by giving its storage.",
-                "",
-                " The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a",
-                " tombstone with its storage and the given code_hash. If the computed tombstone",
-                " match the destination one, the destination contract is restored with the rent_allowance` specified,",
-                " while the origin sends all its funds to the destination and is removed."
-              ]
             }
           ],
           "events": [
@@ -4158,16 +4129,20 @@
                   "PlainType": "BlockNumber"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "documentation": [
+                  " The block number when we should gossip."
+                ]
               },
               {
-                "name": "LastNewEraStart",
-                "modifier": "Optional",
+                "name": "Keys",
+                "modifier": "Default",
                 "type": {
-                  "PlainType": "SessionIndex"
+                  "PlainType": "Vec<AuthorityId>"
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "documentation": [
+                  " The current set of keys that may issue a heartbeat."
+                ]
               },
               {
                 "name": "ReceivedHeartbeats",
@@ -4176,13 +4151,16 @@
                   "DoubleMapType": {
                     "hasher": "Blake2_256",
                     "key1": "SessionIndex",
-                    "key2": "AuthorityId",
+                    "key2": "AuthIndex",
                     "value": "Bytes",
                     "key2Hasher": "Blake2_256"
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "documentation": [
+                  " For each session index we keep a mapping of `AuthorityId`",
+                  " to `offchain::OpaqueNetworkState`."
+                ]
               }
             ]
           },
@@ -4196,7 +4174,7 @@
                 },
                 {
                   "name": "_signature",
-                  "type": "Bytes"
+                  "type": "AuthoritySignature"
                 }
               ],
               "documentation": []
@@ -4206,24 +4184,14 @@
             {
               "name": "HeartbeatReceived",
               "args": [
-                "BlockNumber",
                 "AuthorityId"
               ],
               "documentation": [
-                " A new heartbeat was received at this `BlockNumber` from `AuthorityId`"
+                " A new heartbeat was received from `AuthorityId`"
               ]
             }
           ],
-          "constants": [
-            {
-              "name": "SessionsPerEra",
-              "type": "SessionIndex",
-              "value": "0x06000000",
-              "documentation": [
-                " Number of sessions per era."
-              ]
-            }
-          ]
+          "constants": []
         }
       ]
     }

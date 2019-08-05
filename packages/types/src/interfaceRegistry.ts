@@ -15,7 +15,7 @@ import { AliveContractInfo, CodeHash, ContractInfo, ContractStorageKey, Gas, Pre
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from './interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from './interfaces/genericAsset';
-import { Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
+import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
 import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
@@ -423,6 +423,13 @@ export interface InterfaceRegistry {
   AssetOptions: AssetOptions;
   'Option<AssetOptions>': Option<AssetOptions>;
   'Vec<AssetOptions>': Vec<AssetOptions>;
+  AuthIndex: AuthIndex;
+  'Compact<AuthIndex>': Compact<AuthIndex>;
+  'Option<AuthIndex>': Option<AuthIndex>;
+  'Vec<AuthIndex>': Vec<AuthIndex>;
+  AuthoritySignature: AuthoritySignature;
+  'Option<AuthoritySignature>': Option<AuthoritySignature>;
+  'Vec<AuthoritySignature>': Vec<AuthoritySignature>;
   OpaqueMultiaddr: OpaqueMultiaddr;
   'Option<OpaqueMultiaddr>': Option<OpaqueMultiaddr>;
   'Vec<OpaqueMultiaddr>': Vec<OpaqueMultiaddr>;

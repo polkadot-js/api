@@ -86,11 +86,11 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionId?: AccountId; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
-    const [, { ed25519: sessionId }] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { ed25519: undefined }];
+    const [, { grandpa: sessionId }] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { grandpa: undefined }];
 
     return {
       nextSessionId: nextKeys.isSome
-        ? nextKeys.unwrap().ed25519
+        ? nextKeys.unwrap().grandpa // grandpa, babe, imOnline
         : undefined,
       sessionId
     };

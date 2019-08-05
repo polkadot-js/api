@@ -7,9 +7,11 @@ import { AccountId } from '../runtime';
 /** Struct */
 export interface Keys extends Struct {
   /** AccountId */
-  readonly ed25519: AccountId;
+  readonly grandpa: AccountId;
   /** AccountId */
-  readonly sr25519: AccountId;
+  readonly babe: AccountId;
+  /** AccountId */
+  readonly imOnline: AccountId;
 }
 
 /** u32 */
