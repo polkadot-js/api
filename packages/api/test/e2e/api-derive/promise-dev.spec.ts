@@ -73,7 +73,7 @@ describeE2E({
         }
 
         expect(info.accountId.eq(accountId)).toBe(true);
-        expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
+        expect(info.controllerId!.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
         expect(info.stashId.eq(accountId)).toBe(true);
         expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
 
