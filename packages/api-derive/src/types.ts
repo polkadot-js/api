@@ -77,7 +77,7 @@ export interface DerivedSessionInfo {
   sessionProgress: BN;
 }
 
-export type DerivedStakingAccount = [AccountId | null, DerivedStakingOnlineStatus];
+export type DerivedStakingAccount = [AccountId, DerivedStakingOnlineStatus];
 
 export type DerivedStakingAccounts = DerivedStakingAccount[];
 
