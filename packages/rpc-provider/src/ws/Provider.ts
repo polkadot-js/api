@@ -10,6 +10,7 @@ import './polyfill';
 import EventEmitter from 'eventemitter3';
 import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
+// @ts-ignore
 import { start_client, Client, default as init } from '../wasm/pkg/node_browser'; // FIXME: just for testing put it here, move up later
 import Coder from '../coder';
 import defaults from '../defaults';
@@ -132,6 +133,7 @@ export default class WsProvider implements WSProviderInterface {
    */
     public connect (): void {
         try {
+            // @ts-ignore
             this.websocket = this.useBundledWasm ? init('../wasm/pkg/node_browser.bg.wasm').then(wasm => { return wasm }).catch(e => console.error('Could not init wasm.')) : new WebSocket(this.endpoint);
 
             this.websocket.onclose = this.onSocketClose;
