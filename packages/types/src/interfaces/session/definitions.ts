@@ -5,10 +5,17 @@
 export default {
   types: {
     SessionIndex: 'u32',
-    // node/runtime/src/lib.rs, impl_opaque_keys
+
+    // The runtime definition of SessionKeys are passes as a Trait to session
+    // Defined in `node/runtime/src/lib.rs` as follow
+    //   impl_opaque_keys! {
+    //     pub struct SessionKeys {
+    // FIXME For Polkadot this is probably expanded, i.e. a 4th key would be
+    // available here and should be catered for (open question as to how)
     Keys: {
-      ed25519: 'AccountId', // Grandpa, aka GrandpaId
-      sr25519: 'AccountId' // Babe, aka BabeId
+      grandpa: 'AccountId', // aka GrandpaId
+      babe: 'AccountId', // aka BabeId
+      imOnline: 'AccountId' // aka ImOnlineId
     }
   }
 };
