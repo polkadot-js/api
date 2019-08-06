@@ -7,104 +7,115 @@ import '../../injector';
 import Vote from './Vote';
 
 describe('Vote', (): void => {
-  it('constructs via boolean true', (): void => {
-    expect(new Vote(true).toU8a()).toEqual(new Uint8Array([128]));
-    expect(new Vote(true).isAye).toBe(true);
-    expect(new Vote(true).isNay).toBe(false);
+  describe('construction', (): void => {
+    it('constructs via boolean true', (): void => {
+      expect(new Vote(true).toU8a()).toEqual(new Uint8Array([128]));
+      expect(new Vote(true).isAye).toBe(true);
+      expect(new Vote(true).isNay).toBe(false);
+    });
+
+    it('constructs via boolean false', (): void => {
+      expect(new Vote(false).toU8a()).toEqual(new Uint8Array([0]));
+      expect(new Vote(false).isNay).toBe(true);
+      expect(new Vote(false).isAye).toBe(false);
+    });
+
+    it('has isYay for positive', (): void => {
+      // eslint-disable-next-line no-new-wrappers
+      expect(new Vote(true).isAye).toBe(true);
+    });
+
+    it('has isNay for negative', (): void => {
+      // eslint-disable-next-line no-new-wrappers
+      expect(new Vote(false).isNay).toBe(true);
+    });
+
+    it('is Aye for negative numbers', (): void => {
+      expect(new Vote(-128).isAye).toBe(true);
+    });
+
+    it('is Nay for positive numbers', (): void => {
+      expect(new Vote(127).isNay).toBe(true);
+    });
+
+    it('is Nay for 0', (): void => {
+      expect(new Vote(0).isNay).toBe(true);
+    });
   });
 
-  it('constructs via boolean false', (): void => {
-    expect(new Vote(false).toU8a()).toEqual(new Uint8Array([0]));
-    expect(new Vote(false).isNay).toBe(true);
-    expect(new Vote(false).isAye).toBe(false);
+  describe('Vote with conviction', (): void => {
+    it('constructs Vote with raw boolean', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'Locked1x'
+        }).toU8a()
+      ).toEqual(new Uint8Array([0b10000001]));
+    });
+
+    it('constructs with Vote aye is false, conviction is None', (): void => {
+      expect(
+        new Vote({
+          aye: false,
+          conviction: 'None'
+        }).toU8a()
+      ).toEqual(new Uint8Array([0b00000000]));
+    });
+
+    it('constructs with Vote aye is true, conviction is Locked4x', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'Locked4x'
+        }).toU8a()
+      ).toEqual(new Uint8Array([0b10000100]));
+    });
   });
 
-  it('has isYay for positive', (): void => {
-    // eslint-disable-next-line no-new-wrappers
-    expect(new Vote(true).isAye).toBe(true);
-  });
+  describe('getters', (): void => {
+    it('Conviction getter works', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'Locked2x'
+        }).conviction.toString()
+      ).toEqual('Locked2x');
+    });
 
-  it('has isNay for negative', (): void => {
-    // eslint-disable-next-line no-new-wrappers
-    expect(new Vote(false).isNay).toBe(true);
-  });
+    it('Conviction getter works with raw boolean and string conviction', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'Locked2x'
+        }).conviction.toString()
+      ).toEqual('Locked2x');
+    });
 
-  it('is Aye for negative numbers', (): void => {
-    expect(new Vote(-128).isAye).toBe(true);
-  });
+    it('Conviction getter works with raw boolean and conviction index', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 2
+        }).conviction.toString()
+      ).toEqual('Locked2x');
+    });
 
-  it('is Nay for positive numbers', (): void => {
-    expect(new Vote(127).isNay).toBe(true);
-  });
+    it('isAye getter works', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'None'
+        }).isAye)
+        .toEqual(true);
+    });
 
-  it('constructs V2 Vote with raw boolean', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'Locked1x'
-      }).toU8a()
-    ).toEqual(new Uint8Array([0b10000001]));
-  });
-
-  it('constructs with V2 Vote aye is false, conviction is None', (): void => {
-    expect(
-      new Vote({
-        aye: false,
-        conviction: 'None'
-      }).toU8a()
-    ).toEqual(new Uint8Array([0b00000000]));
-  });
-
-  it('constructs with Vote aye is true, conviction is Locked4x', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'Locked4x'
-      }).toU8a()
-    ).toEqual(new Uint8Array([0b10000100]));
-  });
-
-  it('Conviction getter works', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'Locked2x'
-      }).conviction.toString()
-    ).toEqual('Locked2x');
-  });
-
-  it('Conviction getter works with raw boolean and string conviction', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'Locked2x'
-      }).conviction.toString()
-    ).toEqual('Locked2x');
-  });
-  it('Conviction getter works with raw boolean and conviction index', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 2
-      }).conviction.toString()
-    ).toEqual('Locked2x');
-  });
-
-  it('isAye getter works', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'None'
-      }).isAye)
-      .toEqual(true);
-  });
-
-  it('isNay getter works', (): void => {
-    expect(
-      new Vote({
-        aye: true,
-        conviction: 'None'
-      }).isNay)
-      .toEqual(false);
+    it('isNay getter works', (): void => {
+      expect(
+        new Vote({
+          aye: true,
+          conviction: 'None'
+        }).isNay)
+        .toEqual(false);
+    });
   });
 });
