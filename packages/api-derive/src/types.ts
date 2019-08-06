@@ -95,11 +95,15 @@ export interface DerivedStakingOnlineStatus {
 export interface DerivedStaking extends DerivedStakingOnlineStatus {
   accountId: AccountId;
   controllerId?: AccountId;
+  // @deprecated Use nextSessionIds instead
   nextSessionId?: AccountId;
+  nextSessionIds: AccountId[];
   nominators?: AccountId[];
   redeemable?: BN;
   rewardDestination?: RewardDestination;
+  // @deprecated Use sessionIds instead
   sessionId?: AccountId;
+  sessionIds: AccountId[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;

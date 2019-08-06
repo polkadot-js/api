@@ -84,16 +84,20 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     );
 }
 
-function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionId?: AccountId; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
-    const [, { ed25519: sessionId }] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { ed25519: undefined }];
+    const [, _sessionIds] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { toArray: (): AccountId[] => [] }];
+    const sessionIds = _sessionIds.toArray() as AccountId[];
+    const nextSessionIds = nextKeys.isSome
+      ? nextKeys.unwrap().toArray() as AccountId[]
+      : [];
 
     return {
-      nextSessionId: nextKeys.isSome
-        ? nextKeys.unwrap().ed25519
-        : undefined,
-      sessionId
+      nextSessionId: nextSessionIds[0],
+      nextSessionIds,
+      sessionId: sessionIds[0],
+      sessionIds
     };
   }
 
@@ -101,10 +105,13 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   const nextSessionId = queuedKeys.isSome
     ? queuedKeys.unwrap()
     : undefined;
+  const nextSessionIds = nextSessionId ? [nextSessionId] : [];
 
   return {
     nextSessionId,
-    sessionId: nextSessionId
+    nextSessionIds,
+    sessionId: nextSessionId,
+    sessionIds: nextSessionIds
   };
 }
 
@@ -177,7 +184,7 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
           ? retrieveInfo(api, accountId, controllerId.unwrap())
           : stakingLedger.isSome
             ? retrieveInfo(api, stakingLedger.unwrap().stash, accountId)
-            : of({ accountId })
+            : of({ accountId, nextSessionIds: [], sessionIds: [] })
       ),
       drr()
     );
