@@ -61,6 +61,10 @@ describe('derive', (): void => {
     testFunction(api)('session', 'eraLength', []);
     testFunction(api)('session', 'eraProgress', []);
     testFunction(api)('session', 'sessionProgress', []);
+
+    testFunction(api)('staking', 'info', []);
+    testFunction(api)('staking', 'recentlyOffline', []);
+    testFunction(api)('staking', 'controllers', []);
   });
 
   describe('custom', (): void => {
