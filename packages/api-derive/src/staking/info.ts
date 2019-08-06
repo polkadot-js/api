@@ -87,8 +87,7 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
-    const [, _sessionIds] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { toArray: (): AccountId[] => [] }];
-    const sessionIds = _sessionIds.toArray() as AccountId[];
+    const sessionIds = (queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { toArray: (): AccountId[] => [] }])[1].toArray() as AccountId[];
     const nextSessionIds = nextKeys.isSome
       ? nextKeys.unwrap().toArray() as AccountId[]
       : [];
@@ -102,15 +101,14 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
   }
 
   // substrate 1.x
-  const nextSessionId = queuedKeys.isSome
-    ? queuedKeys.unwrap()
-    : undefined;
-  const nextSessionIds = nextSessionId ? [nextSessionId] : [];
+  const nextSessionIds = queuedKeys.isSome
+    ? [queuedKeys.unwrap()]
+    : [];
 
   return {
-    nextSessionId,
+    nextSessionId: nextSessionIds[0],
     nextSessionIds,
-    sessionId: nextSessionId,
+    sessionId: nextSessionIds[0],
     sessionIds: nextSessionIds
   };
 }
