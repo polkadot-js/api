@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/types/interfaces';
+import { Header, Keys } from '@polkadot/types/interfaces';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -107,15 +107,15 @@ describeE2E({
         console.error('*** query.session.nextKeys');
 
         const result = JSON.stringify(
-          await api.query.session.nextKeys(
+          (await api.query.session.nextKeys<Keys>(
             api.consts.session.dedupKeyPrefix,
             keyring.bob.address
-          )
+          )).toArray()
         );
 
-        console.error(result, { babe, grandpa, imOnline });
+        console.error(result, [grandpa, babe, imOnline]);
 
-        expect(result).toEqual(JSON.stringify({ babe, grandpa, imOnline }));
+        expect(result).toEqual(JSON.stringify([grandpa, babe, imOnline]));
         done();
       }
 
