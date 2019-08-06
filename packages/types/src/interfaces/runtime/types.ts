@@ -111,6 +111,9 @@ export type Permill = u32;
 /** Null */
 export type Phantom = Null;
 
+/** Null */
+export type PhantomData = Null;
+
 /** [ConsensusEngineId, Bytes] & Codec */
 export type PreRuntime = [ConsensusEngineId, Bytes] & Codec;
 

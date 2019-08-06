@@ -1912,35 +1912,6 @@
               ]
             },
             {
-              "name": "emergency_propose",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                },
-                {
-                  "name": "threshold",
-                  "type": "VoteThreshold"
-                },
-                {
-                  "name": "voting_period",
-                  "type": "BlockNumber"
-                },
-                {
-                  "name": "delay",
-                  "type": "BlockNumber"
-                }
-              ],
-              "documentation": [
-                " Schedule an emergency referendum.",
-                "",
-                " This will create a new referendum for the `proposal`, approved as long as counted votes",
-                " exceed `threshold` and, if approved, enacted after the given `delay`.",
-                "",
-                " It may be called from either the Root or the Emergency origin."
-              ]
-            },
-            {
               "name": "emergency_cancel",
               "args": [
                 {
@@ -1976,11 +1947,30 @@
               ],
               "documentation": [
                 " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
-                " an external referendum."
+                " an external referendum.",
+                "",
+                " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
+                " pre-scheduled `external_propose` call."
               ]
             },
             {
-              "name": "external_push",
+              "name": "external_propose_default",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a negative-turnout-bias referendum to be tabled next once it is legal to",
+                " schedule an external referendum.",
+                "",
+                " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
+                " pre-scheduled `external_propose` call."
+              ]
+            },
+            {
+              "name": "fast_track",
               "args": [
                 {
                   "name": "proposal_hash",
@@ -2258,7 +2248,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x8097060000000000",
+              "value": "0x0027060000000000",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -3276,6 +3266,128 @@
               ]
             }
           ]
+        },
+        {
+          "name": "TechnicalMembership",
+          "storage": {
+            "prefix": "Instance1Membership",
+            "items": [
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "Vec<AccountId>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current membership, stored as an ordered Vec."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "add_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Add a member `who` to the set.",
+                "",
+                " May only be called from `AddOrigin` or root."
+              ]
+            },
+            {
+              "name": "remove_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Remove a member `who` from the set.",
+                "",
+                " May only be called from `RemoveOrigin` or root."
+              ]
+            },
+            {
+              "name": "swap_member",
+              "args": [
+                {
+                  "name": "remove",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "add",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Swap out one member `remove` for another `add`.",
+                "",
+                " May only be called from `SwapOrigin` or root."
+              ]
+            },
+            {
+              "name": "reset_members",
+              "args": [
+                {
+                  "name": "members",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Change the membership to a new set, disregarding the existing membership. Be nice and",
+                " pass `members` pre-sorted.",
+                "",
+                " May only be called from `ResetOrigin` or root."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "MemberAdded",
+              "args": [],
+              "documentation": [
+                " The given member was added; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MemberRemoved",
+              "args": [],
+              "documentation": [
+                " The given member was removed; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MembersSwapped",
+              "args": [],
+              "documentation": [
+                " Two members were swapped; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MembersReset",
+              "args": [],
+              "documentation": [
+                " The membership was reset; see the transaction for who the new set is."
+              ]
+            },
+            {
+              "name": "Dummy",
+              "args": [
+                "PhantomData"
+              ],
+              "documentation": [
+                " Phantom member, never used."
+              ]
+            }
+          ],
+          "constants": []
         },
         {
           "name": "FinalityTracker",
