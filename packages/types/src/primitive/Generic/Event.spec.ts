@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '@polkadot/types/injector';
+
 import Metadata from '../../Metadata';
 import latestSubstrate from '../../Metadata/v7/latest.substrate.v7.json';
 import Event from './Event';

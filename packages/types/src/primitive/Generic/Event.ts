@@ -15,7 +15,7 @@ import Metadata from '../../Metadata';
 import { EventMetadata as EventMetadataV7 } from '../../Metadata/v7/Events';
 import Null from '../Null';
 import Unconstructable from '../Unconstructable';
-import { Type } from '..';
+import Type from '../Type';
 
 interface ConstructorOptions {
   metadata?: Metadata;
