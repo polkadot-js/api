@@ -8,7 +8,9 @@ import { Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from '.
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
+import { RawAuraPreDigest } from './interfaces/aura';
 import { BabeWeight, RawBabePreDigest, SlotNumber } from './interfaces/babe';
+import { RawAuraBorosPreDigest } from './interfaces/abrs';
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
 import { MemberCount, ProposalIndex, Votes } from './interfaces/collective';
 import { AliveContractInfo, CodeHash, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from './interfaces/contracts';
@@ -311,6 +313,9 @@ export interface InterfaceRegistry {
   UncleEntryItem: UncleEntryItem;
   'Option<UncleEntryItem>': Option<UncleEntryItem>;
   'Vec<UncleEntryItem>': Vec<UncleEntryItem>;
+  RawAuraPreDigest: RawAuraPreDigest;
+  'Option<RawAuraPreDigest>': Option<RawAuraPreDigest>;
+  'Vec<RawAuraPreDigest>': Vec<RawAuraPreDigest>;
   BabeWeight: BabeWeight;
   'Compact<BabeWeight>': Compact<BabeWeight>;
   'Option<BabeWeight>': Option<BabeWeight>;
@@ -322,6 +327,9 @@ export interface InterfaceRegistry {
   RawBabePreDigest: RawBabePreDigest;
   'Option<RawBabePreDigest>': Option<RawBabePreDigest>;
   'Vec<RawBabePreDigest>': Vec<RawBabePreDigest>;
+  RawAuraBorosPreDigest: RawAuraBorosPreDigest;
+  'Option<RawAuraBorosPreDigest>': Option<RawAuraBorosPreDigest>;
+  'Vec<RawAuraBorosPreDigest>': Vec<RawAuraBorosPreDigest>;
   VestingSchedule: VestingSchedule;
   'Option<VestingSchedule>': Option<VestingSchedule>;
   'Vec<VestingSchedule>': Vec<VestingSchedule>;

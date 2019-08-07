@@ -10,13 +10,13 @@ import { bnToBn } from '@polkadot/util';
 import createType from '../../codec/createType';
 import Bytes from '../Bytes';
 import U32 from '../U32';
-import U64 from '../U64';
 
+const CID_ABRS = 0x53524241; // 'ABRS'
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'
 const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
 
-export { CID_AURA, CID_BABE, CID_GRPA };
+export { CID_ABRS, CID_AURA, CID_BABE, CID_GRPA };
 
 /**
  * @name ConsensusEngineId
@@ -36,6 +36,13 @@ export default class ConsensusEngineId extends U32 {
       .split('')
       .reverse()
       .reduce((result, char): number => (result * 256) + char.charCodeAt(0), 0);
+  }
+
+  /**
+   * @description `true` if the engine matches abrs
+   */
+  public get isAbrs (): boolean {
+    return this.eq(CID_ABRS);
   }
 
   /**
@@ -63,14 +70,22 @@ export default class ConsensusEngineId extends U32 {
    * @description From the input bytes, decode into an author
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    if (this.isAura) {
+    if (this.isAbrs) {
+      const r = createType('RawAuraBorosPreDigest', bytes.toU8a(true));
+
+      console.error('ABRS', r.isAura, r.isBabe);
+    } else if (this.isAura) {
       // TODO We really want proper decoding of the digest as below (i.e. via type)
       return sessionValidators[
-        new U64(bytes.toU8a(true).subarray(0, 8)).modn(sessionValidators.length)
+        createType('RawAuraPreDigest', bytes.toU8a(true))
+          .slotNumber
+          .modn(sessionValidators.length)
       ];
     } else if (this.isBabe) {
       return sessionValidators[
-        createType('RawBabePreDigest', bytes.toU8a(true)).authorityIndex.toNumber()
+        createType('RawBabePreDigest', bytes.toU8a(true))
+          .authorityIndex
+          .toNumber()
       ];
     }
 

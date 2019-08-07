@@ -21,9 +21,13 @@ export { default as grandpa } from './grandpa/definitions';
 // elections before democracy
 export { default as elections } from './elections/definitions';
 
-// remaining, alphabetical odering
+// authoring, abra uses babe & aura
 export { default as authorship } from './authorship/definitions';
+export { default as aura } from './aura/definitions';
 export { default as babe } from './babe/definitions';
+export { default as abrs } from './abrs/definitions';
+
+// remaining, alphabetical odering
 export { default as balances } from './balances/definitions';
 export { default as collective } from './collective/definitions';
 export { default as contracts } from './contracts/definitions';
