@@ -380,15 +380,37 @@
                 ]
               },
               {
+                "name": "SegmentIndex",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " Randomness under construction.",
+                  "",
+                  " We make a tradeoff between storage accesses and list length.",
+                  " We store the under-construction randomness in segments of up to",
+                  " `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.",
+                  "",
+                  " Once a segment reaches this length, we begin the next one.",
+                  " We reset all segments and return to `0` at the beginning of every",
+                  " epoch."
+                ]
+              },
+              {
                 "name": "UnderConstruction",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "[u8;32]"
+                  "MapType": {
+                    "hasher": "Blake2_256",
+                    "key": "u32",
+                    "value": "Vec<[u8;32]>",
+                    "isLinked": false
+                  }
                 },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " Randomness under construction."
-                ]
+                "fallback": "0x00",
+                "documentation": []
               }
             ]
           },
