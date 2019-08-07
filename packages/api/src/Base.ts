@@ -574,6 +574,14 @@ export default abstract class ApiBase<ApiType> {
     this._query = this.decorateStorage(storage, this.decorateMethod);
     this._consts = constants;
 
+    // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
+    // implementation) are different. Detect Polkadot and inject the `Keys`
+    // definition as applicable. (3 keys in substrate vs 4 in Polkadot). If
+    // we have reflected metadata, this override becomes unneeded
+    if (this._query.parachains) {
+      getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
+    }
+
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;

@@ -4,8 +4,14 @@ import { Struct } from '../../codec';
 import { u32 } from '../../primitive';
 import { AccountId } from '../runtime';
 
+/** SessionKeysSubstrate */
+export type Keys = SessionKeysSubstrate;
+
+/** u32 */
+export type SessionIndex = u32;
+
 /** Struct */
-export interface Keys extends Struct {
+export interface SessionKeysPolkadot extends Struct {
   /** AccountId */
   readonly grandpa: AccountId;
   /** AccountId */
@@ -14,5 +20,12 @@ export interface Keys extends Struct {
   readonly imOnline: AccountId;
 }
 
-/** u32 */
-export type SessionIndex = u32;
+/** Struct */
+export interface SessionKeysSubstrate extends Struct {
+  /** AccountId */
+  readonly grandpa: AccountId;
+  /** AccountId */
+  readonly babe: AccountId;
+  /** AccountId */
+  readonly imOnline: AccountId;
+}

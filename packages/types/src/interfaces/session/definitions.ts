@@ -10,12 +10,16 @@ export default {
     // Defined in `node/runtime/src/lib.rs` as follow
     //   impl_opaque_keys! {
     //     pub struct SessionKeys {
-    // FIXME For Polkadot this is probably expanded, i.e. a 4th key would be
-    // available here and should be catered for (open question as to how)
-    Keys: {
+    SessionKeysSubstrate: {
       grandpa: 'AccountId', // aka GrandpaId
       babe: 'AccountId', // aka BabeId
       imOnline: 'AccountId' // aka ImOnlineId
-    }
+    },
+    SessionKeysPolkadot: {
+      grandpa: 'AccountId', // aka GrandpaId
+      babe: 'AccountId', // aka BabeId
+      imOnline: 'AccountId' // aka ImOnlineId
+    },
+    Keys: 'SessionKeysSubstrate'
   }
 };
