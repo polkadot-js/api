@@ -4,6 +4,8 @@
 
 export default {
   types: {
+    AuthIndex: 'u32',
+    AuthoritySignature: 'Signature',
     OpaqueMultiaddr: 'Bytes',
     OpaquePeerId: 'Bytes',
     OpaqueNetworkState: {

@@ -2,9 +2,9 @@
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { AuthorityId } from './interfaces/consensus';
-import { Keys, SessionIndex } from './interfaces/session';
+import { Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
@@ -15,7 +15,7 @@ import { AliveContractInfo, CodeHash, ContractInfo, ContractStorageKey, Gas, Pre
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from './interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from './interfaces/genericAsset';
-import { Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
+import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
@@ -166,6 +166,9 @@ export interface InterfaceRegistry {
   Phantom: Phantom;
   'Option<Phantom>': Option<Phantom>;
   'Vec<Phantom>': Vec<Phantom>;
+  PhantomData: PhantomData;
+  'Option<PhantomData>': Option<PhantomData>;
+  'Vec<PhantomData>': Vec<PhantomData>;
   ValidatorId: ValidatorId;
   'Option<ValidatorId>': Option<ValidatorId>;
   'Vec<ValidatorId>': Vec<ValidatorId>;
@@ -250,6 +253,12 @@ export interface InterfaceRegistry {
   'Compact<SessionIndex>': Compact<SessionIndex>;
   'Option<SessionIndex>': Option<SessionIndex>;
   'Vec<SessionIndex>': Vec<SessionIndex>;
+  SessionKeysSubstrate: SessionKeysSubstrate;
+  'Option<SessionKeysSubstrate>': Option<SessionKeysSubstrate>;
+  'Vec<SessionKeysSubstrate>': Vec<SessionKeysSubstrate>;
+  SessionKeysPolkadot: SessionKeysPolkadot;
+  'Option<SessionKeysPolkadot>': Option<SessionKeysPolkadot>;
+  'Vec<SessionKeysPolkadot>': Vec<SessionKeysPolkadot>;
   Keys: Keys;
   'Option<Keys>': Option<Keys>;
   'Vec<Keys>': Vec<Keys>;
@@ -424,6 +433,13 @@ export interface InterfaceRegistry {
   AssetOptions: AssetOptions;
   'Option<AssetOptions>': Option<AssetOptions>;
   'Vec<AssetOptions>': Vec<AssetOptions>;
+  AuthIndex: AuthIndex;
+  'Compact<AuthIndex>': Compact<AuthIndex>;
+  'Option<AuthIndex>': Option<AuthIndex>;
+  'Vec<AuthIndex>': Vec<AuthIndex>;
+  AuthoritySignature: AuthoritySignature;
+  'Option<AuthoritySignature>': Option<AuthoritySignature>;
+  'Vec<AuthoritySignature>': Vec<AuthoritySignature>;
   OpaqueMultiaddr: OpaqueMultiaddr;
   'Option<OpaqueMultiaddr>': Option<OpaqueMultiaddr>;
   'Vec<OpaqueMultiaddr>': Vec<OpaqueMultiaddr>;

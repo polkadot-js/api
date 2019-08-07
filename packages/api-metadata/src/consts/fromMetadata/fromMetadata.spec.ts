@@ -16,6 +16,6 @@ const consts = fromMetadata(metadata);
 describe('fromMetadata', (): void => {
   it('should return constants with the correct type and value', (): void => {
     expect(consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf('BlockNumber'));
-    expect(consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
+    expect(consts.democracy.cooloffPeriod.toHex()).toEqual('0x0000000000062700');
   });
 });

@@ -20,6 +20,7 @@ export default {
     Perbill: 'u32',
     Permill: 'u32',
     Phantom: 'Null',
+    PhantomData: 'Null',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',
