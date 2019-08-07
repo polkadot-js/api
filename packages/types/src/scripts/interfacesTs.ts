@@ -56,8 +56,6 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, typesTy
 
       if (moduleName) {
         localTypes[moduleName][type] = true;
-
-        console.log(`\tImporting ${type} from ../${moduleName}`);
       }
     }
   });
@@ -348,6 +346,14 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
       types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);
+
+  Object.entries(imports.localTypes).forEach(([moduleName, typeMap]): void => {
+    const types = Object.keys(typeMap).sort();
+
+    if (types.length) {
+      console.log(`\timport { ${types.join(', ')} } from '../${moduleName}'`);
+    }
+  });
 
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
