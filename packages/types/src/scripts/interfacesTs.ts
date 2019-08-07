@@ -229,7 +229,7 @@ function _tsTupleGetterType (tupleName: string | undefined, { info, sub, type }:
 }
 
 function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
-  setImports(imports, ['Tuple']);
+  setImports(imports, ['Codec', 'Tuple']);
 
   const types = (sub as TypeDef[]).map((typedef): string =>
     _tsTupleGetterType(tupleName, typedef, imports)
@@ -246,7 +246,9 @@ function tsVec ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImpo
   // FIXME This should be a VecFixed
   // FIXME Technically Vec has length prefix, so for others this is not 100%
   if (info === TypeDefInfo.VecFixed && type === 'u8') {
-    return exportType(vectorName, 'Uint8Array');
+    setImports(imports, ['Codec']);
+
+    return exportType(vectorName, 'Uint8Array & Codec');
   }
 
   setImports(imports, ['Vec', type]);
@@ -337,7 +339,7 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   const header = createImportCode(HEADER, [
     {
       file: '../../types',
-      types: imports.codecTypes['Tuple'] ? ['Codec'] : []
+      types: Object.keys(imports.typesTypes)
     },
     {
       file: '../../codec',

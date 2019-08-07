@@ -1,5 +1,6 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
+import { Codec } from '../../types';
 import { Enum, Struct, Vec } from '../../codec';
 import { Bytes, GenericEvent, u32 } from '../../primitive';
 import { Digest, Hash } from '../runtime';
@@ -10,8 +11,8 @@ export type DigestOf = Digest;
 /** GenericEvent */
 export type Event = GenericEvent;
 
-/** Uint8Array */
-export type EventId = Uint8Array;
+/** Uint8Array & Codec */
+export type EventId = Uint8Array & Codec;
 
 /** u32 */
 export type EventIndex = u32;

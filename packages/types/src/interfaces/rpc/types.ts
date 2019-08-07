@@ -5,8 +5,8 @@ import { Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '../../primitive';
 import { BlockNumber, Hash } from '../runtime';
 
-/** Uint8Array */
-export type ApiId = Uint8Array;
+/** Uint8Array & Codec */
+export type ApiId = Uint8Array & Codec;
 
 /** Struct */
 export interface ChainProperties extends Struct {

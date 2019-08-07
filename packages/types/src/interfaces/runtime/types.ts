@@ -90,8 +90,8 @@ export type KeyTypeId = u32;
 /** [StorageKey, StorageData] & Codec */
 export type KeyValue = [StorageKey, StorageData] & Codec;
 
-/** Uint8Array */
-export type LockIdentifier = Uint8Array;
+/** Uint8Array & Codec */
+export type LockIdentifier = Uint8Array & Codec;
 
 /** u64 */
 export type Moment = u64;
