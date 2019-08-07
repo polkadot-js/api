@@ -6,7 +6,8 @@ import { Call } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
-import { createType, Metadata } from '@polkadot/types';
+import { Metadata } from '@polkadot/types';
+import createType from '@polkadot/types/codec/createType';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
