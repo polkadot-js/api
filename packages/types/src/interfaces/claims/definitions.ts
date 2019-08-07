@@ -4,7 +4,7 @@
 
 export default {
   types: {
-    EcdsaSignature: `[u8; 65]`,
-    EthereumAddress: `[u8; 20]`
+    EcdsaSignature: '[u8; 65]',
+    EthereumAddress: '[u8; 20]'
   }
 };
