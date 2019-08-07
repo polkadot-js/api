@@ -27,6 +27,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[technicalCommittee](#technicalCommittee)**
 
+- **[technicalMembership](#technicalMembership)**
+
 - **[treasury](#treasury)**
 
 
@@ -153,8 +155,8 @@ ___
 
 ### imOnline
 
-▸ **HeartbeatReceived**(`BlockNumber`, `AuthorityId`)
-- **summary**:   A new heartbeat was received at this `BlockNumber` from `AuthorityId`
+▸ **HeartbeatReceived**(`AuthorityId`)
+- **summary**:   A new heartbeat was received from `AuthorityId`
 
 ___
 
@@ -230,6 +232,26 @@ ___
 
 ▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
 - **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
+
+___
+
+
+### technicalMembership
+
+▸ **Dummy**(`PhantomData`)
+- **summary**:   Phantom member, never used.
+
+▸ **MemberAdded**()
+- **summary**:   The given member was added; see the transaction for who.
+
+▸ **MemberRemoved**()
+- **summary**:   The given member was removed; see the transaction for who.
+
+▸ **MembersReset**()
+- **summary**:   The membership was reset; see the transaction for who the new set is.
+
+▸ **MembersSwapped**()
+- **summary**:   Two members were swapped; see the transaction for who.
 
 ___
 
