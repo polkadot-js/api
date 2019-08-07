@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Vec } from '../../codec';
-import { u8 } from '../../primitive';
+import { Codec } from '../../types';
+import { H160, H256, u8 } from '../../primitive';
 
-/** Vec<u8> */
-export type EcdsaSignature = Vec<u8>;
+/** [H256, H256, u8] & Codec */
+export type EcdsaSignature = [H256, H256, u8] & Codec;
 
-/** Vec<u8> */
-export type EthereumAddress = Vec<u8>;
+/** H160 */
+export type EthereumAddress = H160;
