@@ -2,11 +2,11 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
+import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '../../primitive';
 import { BlockNumber, Hash } from '../runtime';
 
-/** Vec<u8> */
-export type ApiId = Vec<u8>;
+/** Uint8Array & Codec */
+export type ApiId = Uint8Array & Codec;
 
 /** Struct */
 export interface ChainProperties extends Struct {

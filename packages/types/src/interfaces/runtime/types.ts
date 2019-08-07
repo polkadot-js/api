@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
 import { Codec } from '../../types';
-import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Compact, Struct } from '../../codec';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -90,8 +90,8 @@ export type KeyTypeId = u32;
 /** [StorageKey, StorageData] & Codec */
 export type KeyValue = [StorageKey, StorageData] & Codec;
 
-/** Vec<u8> */
-export type LockIdentifier = Vec<u8>;
+/** Uint8Array & Codec */
+export type LockIdentifier = Uint8Array & Codec;
 
 /** u64 */
 export type Moment = u64;
