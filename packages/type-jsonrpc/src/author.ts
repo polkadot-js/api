@@ -15,6 +15,17 @@ const removeExtrinsic: RpcMethodOpt = {
   type: 'Vec<Hash>'
 };
 
+const insertKey: RpcMethodOpt = {
+  isSigned: true,
+  description: 'Insert a key into the keystore.',
+  params: [
+    createParam('keyType', 'Text'),
+    createParam('suri', 'Text'),
+    createParam('maybePublic', 'Bytes', { isOptional: true })
+  ],
+  type: 'Bytes'
+};
+
 const pendingExtrinsics: RpcMethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
@@ -55,6 +66,7 @@ export default {
   description: 'Authoring of network items',
   section,
   methods: {
+    insertKey: createMethod(section, 'insertKey', insertKey),
     removeExtrinsic: createMethod(section, 'removeExtrinsic', removeExtrinsic),
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
