@@ -31,10 +31,13 @@ export { default as democracy } from './democracy/definitions';
 export { default as deprecated } from './deprecated/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
 export { default as imOnline } from './imOnline/definitions';
-export { default as parachains } from './parachains/definitions';
 export { default as staking } from './staking/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
+
+// polkadot-specific types
+export { default as claims } from './claims/definitions';
+export { default as parachains } from './parachains/definitions';
 
 // pull in rpc last, assuming that is uses info from above
 export { default as rpc } from './rpc/definitions';

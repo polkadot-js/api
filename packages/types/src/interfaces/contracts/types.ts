@@ -1,7 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 
-import { Compact, Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, Null, bool, u32, u64, u8 } from '../../primitive';
+import { Codec } from '../../types';
+import { Compact, Enum, Option, Struct } from '../../codec';
+import { Bytes, Null, bool, u32, u64 } from '../../primitive';
 import { Balance, BlockNumber, Hash } from '../runtime';
 
 /** Struct */
@@ -35,8 +36,8 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
-/** Vec<u8> */
-export type ContractStorageKey = Vec<u8>;
+/** Uint8Array & Codec */
+export type ContractStorageKey = Uint8Array & Codec;
 
 /** u64 */
 export type Gas = u64;
