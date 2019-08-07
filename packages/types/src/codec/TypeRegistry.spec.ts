@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeRegistry } from './typeRegistry';
+import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 
@@ -58,9 +59,9 @@ describe('TypeRegistry', (): void => {
         bar: 'testing'
       });
 
-      expect(SomeStruct.name).toBe('Struct');
-      expect(struct.get('foo').toNumber()).toEqual(42);
-      expect(struct.get('bar').toString()).toEqual('testing');
+      expect(struct instanceof Struct).toBe(true);
+      expect(struct.foo.toNumber()).toEqual(42);
+      expect(struct.bar.toString()).toEqual('testing');
     });
   });
 });
