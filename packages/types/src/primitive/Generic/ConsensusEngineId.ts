@@ -66,27 +66,42 @@ export default class ConsensusEngineId extends U32 {
     return this.eq(CID_GRPA);
   }
 
+  private getAbrsAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    const pre = createType('RawAuraBorosPreDigest', bytes.toU8a(true));
+
+    return sessionValidators[
+      pre.isBabe
+        ? pre.asBabe.authorityIndex.toNumber()
+        : pre.asAura.slotNumber.modn(sessionValidators.length)
+    ];
+  }
+
+  private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    return sessionValidators[
+      createType('RawAuraPreDigest', bytes.toU8a(true))
+        .slotNumber
+        .modn(sessionValidators.length)
+    ];
+  }
+
+  private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    return sessionValidators[
+      createType('RawBabePreDigest', bytes.toU8a(true))
+        .authorityIndex
+        .toNumber()
+    ];
+  }
+
   /**
    * @description From the input bytes, decode into an author
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     if (this.isAbrs) {
-      const r = createType('RawAuraBorosPreDigest', bytes.toU8a(true));
-
-      console.error('ABRS', r.isAura, r.isBabe);
+      return this.getAbrsAuthor(bytes, sessionValidators);
     } else if (this.isAura) {
-      // TODO We really want proper decoding of the digest as below (i.e. via type)
-      return sessionValidators[
-        createType('RawAuraPreDigest', bytes.toU8a(true))
-          .slotNumber
-          .modn(sessionValidators.length)
-      ];
+      return this.getAuraAuthor(bytes, sessionValidators);
     } else if (this.isBabe) {
-      return sessionValidators[
-        createType('RawBabePreDigest', bytes.toU8a(true))
-          .authorityIndex
-          .toNumber()
-      ];
+      return this.getBabeAuthor(bytes, sessionValidators);
     }
 
     throw new Error('Invalid engine for extractAuthor conversion');

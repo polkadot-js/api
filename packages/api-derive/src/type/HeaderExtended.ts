@@ -32,7 +32,7 @@ export default class HeaderExtended extends _Header {
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isBabe || engine.isAura) {
+      if (engine.isAbrs || engine.isBabe || engine.isAura) {
         this._author = engine.extractAuthor(data, sessionValidators);
       }
     } else {
