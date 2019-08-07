@@ -56,8 +56,6 @@ function setImports ({ codecTypes, localTypes, ownTypes, primitiveTypes, typesTy
 
       if (moduleName) {
         localTypes[moduleName][type] = true;
-
-        console.log(`\tImporting ${type} from ../${moduleName}`);
       }
     }
   });
@@ -349,20 +347,17 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
     }))
   ]);
 
+  Object.entries(imports.localTypes).forEach(([moduleName, typeMap]): void => {
+    const types = Object.keys(typeMap).sort();
+
+    if (types.length) {
+      console.log(`\timport { ${types.join(', ')} } from '../${moduleName}'`);
+    }
+  });
+
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
 }
-
-Object.entries(definitions).forEach(([defName, obj]): void => {
-  console.log(`Extracting interfaces for ${defName}`);
-
-  generateTsDef(defName, obj);
-});
-
-console.log(`Writing interfaces/types.ts`);
-
-fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
-fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
 function generateInterfaceRegistry (): void {
@@ -418,10 +413,6 @@ function generateInterfaceRegistry (): void {
     , { flag: 'w' }
   );
 }
-
-console.log(`Writing interfaceRegistry.ts`);
-
-generateInterfaceRegistry();
 
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
@@ -532,6 +523,25 @@ function generateRpcTypes (): void {
   );
 }
 
-console.log(`Writing packages/rpc-core/jsonrpc.types.ts`);
+function main (): void {
+  Object.entries(definitions).forEach(([defName, obj]): void => {
+    console.log(`Extracting interfaces for ${defName}`);
 
-generateRpcTypes();
+    generateTsDef(defName, obj);
+  });
+
+  console.log(`Writing interfaces/types.ts`);
+
+  fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
+
+  console.log(`Writing interfaceRegistry.ts`);
+
+  generateInterfaceRegistry();
+
+  console.log(`Writing packages/rpc-core/jsonrpc.types.ts`);
+
+  generateRpcTypes();
+}
+
+main();
