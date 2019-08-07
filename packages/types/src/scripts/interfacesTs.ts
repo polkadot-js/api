@@ -243,6 +243,12 @@ function tsVec ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImpo
     ? (ext as TypeDefExtVecFixed).type
     : (sub as TypeDef).type;
 
+  // FIXME This should be a VecFixed
+  // FIXME Technically Vec has length prefix, so for others this is not 100%
+  if (info === TypeDefInfo.VecFixed && type === 'u8') {
+    return exportType(vectorName, 'Uint8Array');
+  }
+
   setImports(imports, ['Vec', type]);
 
   return exportType(vectorName, `Vec<${type}>`);

@@ -4,9 +4,7 @@
 
 export default {
   types: {
-    // like in the Rust codebase, a workaround  since `[u8; 65]` adds length
-    EcdsaSignature: '(H512, u8)',
-    // Workaround for `[u8; 20]` (it is not a Vec<u8>)
+    EcdsaSignature: '[u8; 65]',
     EthereumAddress: 'H160'
   }
 };
