@@ -22,6 +22,10 @@ import { eraLength } from '../session/eraLength';
 import { recentlyOffline } from './recentlyOffline';
 import { drr } from '../util/drr';
 
+const EMPTY_KEYS = {
+  toU8a: (): Uint8Array => new Uint8Array()
+};
+
 type MultiResult = [Option<Keys>, [
   Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]
 ]];
@@ -84,13 +88,27 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     );
 }
 
+function keysToAccountIds (keys: Uint8Array): AccountId[] {
+  const result: AccountId[] = [];
+  let offset = 0;
+
+  while (offset < keys.length) {
+    result.push(createType('AccountId', keys.subarray(offset, offset + 32)));
+    offset += 32;
+  }
+
+  return result;
+}
+
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
-    const sessionIds = (queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { toArray: (): AccountId[] => [] }])[1].toArray() as AccountId[];
-    const nextSessionIds = nextKeys.isSome
-      ? nextKeys.unwrap().toArray() as AccountId[]
-      : [];
+    const sessionIds = keysToAccountIds(
+      (queuedKeys.find(([currentId]): boolean =>
+        currentId.eq(stashId)
+      ) || [undefined, EMPTY_KEYS])[1].toU8a(true)
+    );
+    const nextSessionIds = keysToAccountIds(nextKeys.unwrapOr(EMPTY_KEYS).toU8a(true));
 
     return {
       nextSessionId: nextSessionIds[0],
