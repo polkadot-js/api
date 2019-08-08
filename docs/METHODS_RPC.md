@@ -17,11 +17,17 @@ ___
 
 _Authoring of network items_
 
+▸ **insertKey**(keyType: `Text`, suri: `Text`, maybePublic?: `Bytes`): `Bytes`
+- **summary**: Insert a key into the keystore.
+
 ▸ **pendingExtrinsics**(): `Vec<Extrinsic>`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
 ▸ **removeExtrinsic**(bytesOrHash: `Vec<ExtrinsicOrHash>`): `Vec<Hash>`
 - **summary**: Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
+
+▸ **rotateKeys**(): `Bytes`
+- **summary**: Generate new session keys and returns the corresponding public keys
 
 ▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`): `ExtrinsicStatus`
 - **summary**: Submit and subscribe to watch an extrinsic until unsubscribed
