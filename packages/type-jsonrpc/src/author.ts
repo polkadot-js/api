@@ -16,13 +16,18 @@ const removeExtrinsic: RpcMethodOpt = {
 };
 
 const insertKey: RpcMethodOpt = {
-  isSigned: true,
   description: 'Insert a key into the keystore.',
   params: [
     createParam('keyType', 'Text'),
     createParam('suri', 'Text'),
     createParam('maybePublic', 'Bytes', { isOptional: true })
   ],
+  type: 'Bytes'
+};
+
+const rotateKeys: RpcMethodOpt = {
+  description: 'Generate new session keys and returns the corresponding public keys',
+  params: [],
   type: 'Bytes'
 };
 
@@ -68,6 +73,7 @@ export default {
   methods: {
     insertKey: createMethod(section, 'insertKey', insertKey),
     removeExtrinsic: createMethod(section, 'removeExtrinsic', removeExtrinsic),
+    rotateKeys: createMethod(section, 'rotateKeys', rotateKeys),
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
     submitAndWatchExtrinsic: createMethod(section, 'submitAndWatchExtrinsic', submitAndWatchExtrinsic)
