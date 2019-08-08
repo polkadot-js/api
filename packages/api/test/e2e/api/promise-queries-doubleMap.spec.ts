@@ -110,7 +110,7 @@ describeE2E({
           (await api.query.session.nextKeys<Keys>(
             api.consts.session.dedupKeyPrefix,
             keyring.bob.address
-          )).toArray()
+          ))
         );
 
         console.error(result, [grandpa, babe, imOnline]);
