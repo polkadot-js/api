@@ -10,16 +10,9 @@ export default {
     // Defined in `node/runtime/src/lib.rs` as follow
     //   impl_opaque_keys! {
     //     pub struct SessionKeys {
-    SessionKeysSubstrate: {
-      grandpa: 'AccountId', // aka GrandpaId
-      babe: 'AccountId', // aka BabeId
-      imOnline: 'AccountId' // aka ImOnlineId
-    },
-    SessionKeysPolkadot: {
-      grandpa: 'AccountId', // aka GrandpaId
-      babe: 'AccountId', // aka BabeId
-      imOnline: 'AccountId' // aka ImOnlineId
-    },
+    // Here we revert to tuples to keep the interfaces "opaque", as per the use
+    SessionKeysSubstrate: '(AccountId, AccountId, AccountId)', // Grandpa, Babe, ImOnline
+    SessionKeysPolkadot: '(AccountId, AccountId, AccountId)',
     Keys: 'SessionKeysSubstrate'
   }
 };
