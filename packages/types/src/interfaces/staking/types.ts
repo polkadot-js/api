@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Enum, Struct, Vec } from '../../codec';
 import { u32 } from '../../primitive';

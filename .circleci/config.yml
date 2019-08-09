@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      ignore:
+        - gh-pages
     working_directory: ~/polkadot-js
     docker:
       - image: circleci/node:10
