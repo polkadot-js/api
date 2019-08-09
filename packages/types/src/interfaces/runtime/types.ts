@@ -29,8 +29,8 @@ export type BalanceOf = Balance;
 /** GenericBlock */
 export type Block = GenericBlock;
 
-/** u64 */
-export type BlockNumber = u64;
+/** u32 */
+export type BlockNumber = u32;
 
 /** GenericCall */
 export type Call = GenericCall;
