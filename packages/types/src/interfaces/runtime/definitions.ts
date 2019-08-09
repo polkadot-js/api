@@ -11,7 +11,7 @@ export default {
     AssetId: 'u32',
     Balance: 'u128',
     BalanceOf: 'Balance',
-    BlockNumber: 'u64',
+    BlockNumber: 'u32',
     Hash: 'H256',
     Index: 'u64',
     KeyTypeId: 'u32',
