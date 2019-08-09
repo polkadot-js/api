@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct } from '../../codec';
 import { AccountId, Balance } from '../runtime';

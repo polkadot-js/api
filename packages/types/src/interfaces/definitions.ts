@@ -42,6 +42,7 @@ export { default as treasury } from './treasury/definitions';
 // polkadot-specific types
 export { default as claims } from './claims/definitions';
 export { default as parachains } from './parachains/definitions';
+export { default as attestations } from './attestations/definitions';
 
 // pull in rpc last, assuming that is uses info from above
 export { default as rpc } from './rpc/definitions';

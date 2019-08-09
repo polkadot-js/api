@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 export * from './runtime/types';
 export * from './consensus/types';
@@ -21,4 +22,5 @@ export * from './system/types';
 export * from './treasury/types';
 export * from './claims/types';
 export * from './parachains/types';
+export * from './attestations/types';
 export * from './rpc/types';
