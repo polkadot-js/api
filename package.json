@@ -20,7 +20,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage --testPathIgnorePatterns e2e",
+    "test": "jest --coverage --runInBand --testPathIgnorePatterns e2e",
     "test:all": "jest",
     "test:e2e": "jest packages/api/test/e2e",
     "test:e2e-docker": "TEST_DOCKER=1 jest packages/api/test/e2e",
