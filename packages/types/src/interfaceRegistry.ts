@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
@@ -23,6 +24,7 @@ import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Ke
 import { TreasuryProposal } from './interfaces/treasury';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
+import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
@@ -601,6 +603,15 @@ export interface InterfaceRegistry {
   WinningData: WinningData;
   'Option<WinningData>': Option<WinningData>;
   'Vec<WinningData>': Vec<WinningData>;
+  BlockAttestations: BlockAttestations;
+  'Option<BlockAttestations>': Option<BlockAttestations>;
+  'Vec<BlockAttestations>': Vec<BlockAttestations>;
+  IncludedBlocks: IncludedBlocks;
+  'Option<IncludedBlocks>': Option<IncludedBlocks>;
+  'Vec<IncludedBlocks>': Vec<IncludedBlocks>;
+  MoreAttestations: MoreAttestations;
+  'Option<MoreAttestations>': Option<MoreAttestations>;
+  'Vec<MoreAttestations>': Vec<MoreAttestations>;
   ApiId: ApiId;
   'Option<ApiId>': Option<ApiId>;
   'Vec<ApiId>': Vec<ApiId>;

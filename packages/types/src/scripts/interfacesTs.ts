@@ -33,7 +33,7 @@ interface TypeImports {
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
 }
 
-const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n\n';
+const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
 const FOOTER = '\n';
 
 // Maps the types as found to the source location. This is used to generate the
