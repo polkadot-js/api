@@ -11,7 +11,7 @@ describe('SignerPayload', (): void => {
   const TEST = {
     address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
     blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
-    blockNumber: '0x0000000000231d30',
+    blockNumber: '0x00231d30',
     era: '0x0703',
     genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
     method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
@@ -40,7 +40,7 @@ describe('SignerPayload', (): void => {
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
       blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
-      blockNumber: '0x0000000000231d30',
+      blockNumber: '0x00231d30',
       era: '0x0703',
       genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
       method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',

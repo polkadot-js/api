@@ -223,10 +223,10 @@ describe('createClass', (): void => {
   });
 
   it('should return equivalents for Bytes & Vec<u8>', (): void => {
-    const a = createClass('Vec<u8>');
-    const b = createClass('Bytes');
+    const A = createClass('Vec<u8>');
+    const B = createClass('Bytes');
 
-    expect(a).toBe(b);
+    expect(new A() instanceof B).toBe(true);
   });
 });
 

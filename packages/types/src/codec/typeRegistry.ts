@@ -37,14 +37,20 @@ export class TypeRegistry {
   private registerObject (obj: RegistryTypes, overwrite: boolean = true): void {
     Object.entries(obj).forEach(([name, type]): void => {
       if (overwrite || !this.get(name)) {
+        let Type;
+
         if (isString(type)) {
-          this._registry.set(name, createClass(type));
+          // Here we extend the interface, specifically so that types allow for
+          // (e.g. Balance) Balance !== u128, however Balance instanceof u128
+          Type = class extends createClass(type) {};
         } else if (isFunction(type)) {
           // This _looks_ a bit funny, but `typeof Clazz === 'function'
-          this._registry.set(name, type);
+          Type = type;
         } else {
-          this._registry.set(name, createClass(JSON.stringify(type)));
+          Type = createClass(JSON.stringify(type));
         }
+
+        this._registry.set(name, Type);
       }
     });
   }
