@@ -48,10 +48,12 @@ export class TypeRegistry {
           : JSON.stringify(type);
 
         if (this._classes.has(name)) {
-          console.warn(`The type '${name}' is already existing as a class, re-registration as '${def}' ignored`);
-        } else {
-          this._definitions.set(name, def);
+          console.warn(`The type '${name}' is already existing as a class, re-registration as '${def}' possibly ignored`);
+
+          this._classes.delete(name);
         }
+
+        this._definitions.set(name, def);
       }
     });
   }
