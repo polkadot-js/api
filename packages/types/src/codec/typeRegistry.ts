@@ -11,9 +11,9 @@ import { createClass } from './createType';
 export class TypeRegistry {
   public static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
-  private _definitions: Map<string, string> = new Map();
+  private _classes: Map<string, Constructor> = new Map();
 
-  private _registry: Map<string, Constructor> = new Map();
+  private _definitions: Map<string, string> = new Map();
 
   public register (type: Constructor | RegistryTypes): void;
 
@@ -26,12 +26,12 @@ export class TypeRegistry {
       const name = arg1;
       const type = arg2!;
 
-      this._registry.set(name, type);
+      this._classes.set(name, type);
     } else if (isFunction(arg1)) {
       const name = arg1.name;
       const type = arg1;
 
-      this._registry.set(name, type);
+      this._classes.set(name, type);
     } else {
       this.registerObject(arg1);
     }
@@ -42,11 +42,11 @@ export class TypeRegistry {
       if (overwrite || !this.get(name)) {
         if (isFunction(type)) {
           // This _looks_ a bit funny, but `typeof Clazz === 'function'
-          this._registry.set(name, type);
+          this._classes.set(name, type);
         } else {
           // when registering, remove the old value
-          if (this._registry.has(name)) {
-            this._registry.delete(name);
+          if (this._classes.has(name)) {
+            this._classes.delete(name);
           }
 
           // We only create types on-demand, so just register the definition
@@ -61,7 +61,7 @@ export class TypeRegistry {
   }
 
   public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
-    let Type = this._registry.get(name);
+    let Type = this._classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
@@ -78,7 +78,7 @@ export class TypeRegistry {
           public static Fallback = BaseType.Fallback;
         };
 
-        this._registry.set(name, Type);
+        this._classes.set(name, Type);
       }
     }
 
@@ -97,6 +97,10 @@ export class TypeRegistry {
     }
 
     return type;
+  }
+
+  public hasType (name: string): boolean {
+    return this._classes.has(name) || this._definitions.has(name);
   }
 }
 
