@@ -46,7 +46,7 @@ describeE2E({
 
   beforeAll(async (done): Promise<() => void> => {
     abi = new Abi(incrementerAbi);
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
     return (
       api.tx.contracts
         .putCode(MAX_GAS, `0x${incrementerCode}`)
@@ -73,7 +73,7 @@ describeE2E({
   describe('e2e state child methods', (): void => {
     beforeAll(async (done): Promise<() => void> => {
       abi = new Abi(incrementerAbi);
-      api = await ApiPromise.create(new WsProvider(wsUrl));
+      api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
       // An instance of a contract can only be deployed once by one specific account.
       // That's why we need a random starting point for our incrementer contract to be
       // able to run this test multiple times without the need of pruning the database

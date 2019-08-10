@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SignerPayloadRawBase, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer } from './types';
@@ -23,7 +22,7 @@ import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from 
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, isObject, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactStripLength, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
@@ -116,10 +115,7 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  public constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
-    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as unknown as ApiOptions
-      : provider as ApiOptions;
+  public constructor (options: ApiOptions = {}, type: ApiTypes) {
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());

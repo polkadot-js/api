@@ -21,7 +21,7 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
   let api: ApiRx;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiRx.create(new WsProvider(wsUrl)).toPromise();
+    api = await ApiRx.create({ provider: new WsProvider(wsUrl) }).toPromise();
 
     done();
   });

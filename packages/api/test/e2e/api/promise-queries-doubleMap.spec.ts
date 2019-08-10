@@ -25,7 +25,7 @@ describeE2E({
   const keyring = testingPairs({ type: 'ed25519' });
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
 
     done();
   });

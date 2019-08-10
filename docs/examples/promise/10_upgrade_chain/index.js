@@ -12,7 +12,7 @@ async function main () {
   const provider = new WsProvider('ws://127.0.0.1:9944');
 
   // Create the API and wait until ready (optional provider passed through)
-  const api = await ApiPromise.create(provider);
+  const api = await ApiPromise.create({ provider });
 
   // retrieve the upgrade key from the chain state
   const adminId = await api.query.sudo.key();

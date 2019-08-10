@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
 import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
@@ -55,7 +54,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * const provider = new WsProvider('wss://example.com:9944')
  *
  * // initialise via isReady & new with specific provider
- * const api = await new ApiPromise(provider).isReady;
+ * const api = await new ApiPromise({ provider }).isReady;
  *
  * // retrieve the block target time
  * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
@@ -120,7 +119,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  public static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+  public static create (options?: ApiOptions): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -143,7 +142,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  public constructor (options?: ApiOptions | ProviderInterface) {
+  public constructor (options?: ApiOptions) {
     super(options, 'promise');
 
     this._isReadyPromise = new Promise((resolve): void => {

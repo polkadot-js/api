@@ -9,7 +9,7 @@ function main () {
   const provider = new WsProvider('ws://127.0.0.1:9944');
 
   // Create the API and wait until ready
-  const api = await ApiRx.create(provider).toPromise();
+  const api = await ApiRx.create({ provider }).toPromise();
 
   // We're using RxJs 'zip()' combination operator to get the emitted values
   // of multiple observables as an array
