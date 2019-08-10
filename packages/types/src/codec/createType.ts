@@ -22,7 +22,7 @@ import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
 import Vec from './Vec';
 import VecFixed from './VecFixed';
-import getRegistry from './typeRegistry';
+import getTypeRegistry from './typeRegistry';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
 type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
@@ -181,9 +181,7 @@ const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends string 
   type: K
 ): Constructor<FromReg<T, K>> => {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FromReg<T, K>>(
-    getTypeDef(type)
-  );
+  return getTypeClass<FromReg<T, K>>(getTypeDef(type));
 }, { length: 1 });
 
 export function createClass<T extends Codec = Codec, K extends string = string> (
@@ -216,7 +214,7 @@ export function getTypeClassMap (defs: TypeDef[]): { [index: string]: Constructo
 
 // Returns the type Class for construction
 export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor<T>): Constructor<T> {
-  const Type = getRegistry().get<T>(value.type);
+  const Type = getTypeRegistry().get<T>(value.type);
 
   if (Type) {
     return Type;

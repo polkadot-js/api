@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
 import { Constructor } from '../types';
 
 import { TypeRegistry } from './typeRegistry';
@@ -52,7 +54,10 @@ describe('TypeRegistry', (): void => {
       registry.register({
         U32Renamed: 'u32'
       });
-      expect(isChildClass(U32, registry.get('U32Renamed'))).toBe(true);
+
+      const Type = registry.getOrThrow('U32Renamed');
+
+      expect(new Type() instanceof U32).toBe(true);
     });
 
     it('can create structs via definition', (): void => {

@@ -5,25 +5,24 @@
 export default {
   types: {
     DigestOf: 'Digest',
+    Event: 'GenericEvent',
     EventId: '[u8; 2]',
     EventIndex: 'u32',
+    EventRecord: {
+      phase: 'Phase',
+      event: 'Event',
+      topics: 'Vec<Hash>'
+    },
+    EventRecord0to76: {
+      phase: 'Phase',
+      event: 'Event'
+    },
     Key: 'Bytes',
     Phase: {
       _enum: {
         ApplyExtrinsic: 'u32',
         Finalization: 'Null'
       }
-    },
-    Event: 'GenericEvent',
-    EventRecord0to76: {
-      phase: 'Phase',
-      event: 'Event'
-    },
-    // Fallback in injectDefinitions
-    EventRecord: {
-      phase: 'Phase',
-      event: 'Event',
-      topics: 'Vec<Hash>'
     }
   }
 };

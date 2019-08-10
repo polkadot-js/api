@@ -4,9 +4,16 @@
 
 export default {
   types: {
+    BalanceLock: {
+      id: 'LockIdentifier',
+      amount: 'Balance',
+      until: 'BlockNumber',
+      reasons: 'WithdrawReasons'
+    },
     VestingSchedule: {
       offset: 'Balance',
-      perBlock: 'Balance'
+      perBlock: 'Balance',
+      startingBlock: 'BlockNumber'
     },
     WithdrawReasons: {
       _set: {
@@ -15,12 +22,6 @@ export default {
         Reserve: 0b00000100,
         Fee: 0b00001000
       }
-    },
-    BalanceLock: {
-      id: 'LockIdentifier',
-      amount: 'Balance',
-      until: 'BlockNumber',
-      reasons: 'WithdrawReasons'
     }
   }
 };

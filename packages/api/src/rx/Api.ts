@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction } from '@polkadot/types/types';
 import { ApiOptions } from '../types';
 
@@ -55,7 +54,7 @@ import ApiBase from '../Base';
  * const provider = new WsProvider('wss://example.com:9944')
  *
  * // initialise via isReady & new with specific provider
- * new ApiRx(provider)
+ * new ApiRx({ provider })
  *   .isReady
  *   .pipe(
  *     switchMap((api) =>
@@ -135,7 +134,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
+  public static create (options?: ApiOptions): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
@@ -161,8 +160,8 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public constructor (provider?: ApiOptions | ProviderInterface) {
-    super(provider, 'rxjs');
+  public constructor (options?: ApiOptions) {
+    super(options, 'rxjs');
 
     this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better

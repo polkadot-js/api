@@ -27,7 +27,7 @@ const testFunction = (api: ApiRx): any => {
 
 describe('derive', (): void => {
   describe('builtin', (): void => {
-    const api = new ApiRx(new MockProvider());
+    const api = new ApiRx({ provider: new MockProvider() });
 
     beforeAll((done): void => {
       api.isReady.subscribe((): void => done());

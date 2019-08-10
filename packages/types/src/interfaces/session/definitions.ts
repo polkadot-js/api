@@ -11,10 +11,10 @@ export default {
     //   impl_opaque_keys! {
     //     pub struct SessionKeys {
     // Here we revert to tuples to keep the interfaces "opaque", as per the use
+    Keys: 'SessionKeysSubstrate',
     // For substrate: Grandpa, Babe, ImOnline
     SessionKeysSubstrate: '(AccountId, AccountId, AccountId)',
     // For polkadot: Grandpa, Babe, ImOnline, Parachains
-    SessionKeysPolkadot: '(AccountId, AccountId, AccountId, AccountId)',
-    Keys: 'SessionKeysSubstrate'
+    SessionKeysPolkadot: '(AccountId, AccountId, AccountId, AccountId)'
   }
 };
