@@ -44,6 +44,11 @@ export class TypeRegistry {
           // This _looks_ a bit funny, but `typeof Clazz === 'function'
           this._registry.set(name, type);
         } else {
+          // when registering, remove the old value
+          if (this._registry.has(name)) {
+            this._registry.delete(name);
+          }
+
           // We only create types on-demand, so just register the definition
           this._definitions.set(name, (
             isString(type)
@@ -73,6 +78,10 @@ export class TypeRegistry {
     }
 
     return Type as Constructor<T>;
+  }
+
+  public getDefinition (name: string): string | undefined {
+    return this._definitions.get(name);
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {

@@ -538,6 +538,13 @@ export default abstract class ApiBase<ApiType> {
         this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
 
+      // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
+      // implementation) are different. Detect Polkadot and inject the `Keys`
+      // definition as applicable. (3 keys in substrate vs 4 in Polkadot).
+      if (this._runtimeVersion.specName.eq('polkadot')) {
+        getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
+      }
+
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
 
       if (metadataKey in metadata) {
@@ -573,22 +580,6 @@ export default abstract class ApiBase<ApiType> {
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
     this._consts = constants;
-
-    // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-    // implementation) are different. Detect Polkadot and inject the `Keys`
-    // definition as applicable. (3 keys in substrate vs 4 in Polkadot). If
-    // we have reflected metadata, this override becomes unneeded
-    if (this._query.parachains) {
-      getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
-    }
-
-    // FIXME This is absolutely NOT the right place and the check is not 100% -
-    // however, I need to get this working, today. So basically, when we detect
-    // a v1 extrinsic, we assume that we are dealing win an ancient 1.x chain, so
-    // setup the overrides. TL;DR This is an even bigger HACK than the NOTE above
-    if (this._extrinsicType === 1) {
-      getTypeRegistry().register({ EventRecord: 'EventRecord0to76' });
-    }
 
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
