@@ -6,7 +6,8 @@ export default {
   types: {
     VestingSchedule: {
       offset: 'Balance',
-      perBlock: 'Balance'
+      perBlock: 'Balance',
+      startingBlock: 'BlockNumber'
     },
     WithdrawReasons: {
       _set: {
