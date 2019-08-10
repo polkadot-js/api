@@ -572,12 +572,6 @@ export default abstract class ApiBase<ApiType> {
     this._query = this.decorateStorage(storage, this.decorateMethod);
     this._consts = constants;
 
-    // HACK Assume that for extrinsic v1 chains (e.g. Alex), BlockNumber is
-    // still a u64 (we don't really have a way to detect this otherwise)
-    if (this._extrinsicType === 1) {
-      getTypeRegistry().register({ BlockNumber: 'u64' });
-    }
-
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
