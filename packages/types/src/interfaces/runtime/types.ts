@@ -79,8 +79,8 @@ export interface Header extends Struct {
 /** GenericImmortalEra */
 export type ImmortalEra = GenericImmortalEra;
 
-/** u64 */
-export type Index = u64;
+/** u32 */
+export type Index = u32;
 
 /** Bytes */
 export type Justification = Bytes;

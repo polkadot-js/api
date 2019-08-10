@@ -28,7 +28,7 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
-    Index: 'u64',
+    Index: 'u32',
     Justification: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',

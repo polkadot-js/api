@@ -4,11 +4,15 @@
 
 import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash } from '../types';
 
-import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import { InterfaceRegistry } from '../interfaceRegistry';
+import { ClassOf } from './createType';
 import U8a from './U8a';
 import { compareMap, decodeU8a } from './utils';
+
+type AllowedTypes = keyof InterfaceRegistry;
 
 /**
  * @name Struct
@@ -125,10 +129,16 @@ export default class Struct<
 
   public static with<
     S extends ConstructorDef
-  > (Types: S): Constructor<Struct<S>> {
+  > (Types: Record<string, Constructor | AllowedTypes>): Constructor<Struct<S>> {
     return class extends Struct<S> {
       public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
-        super(Types, value, jsonMap);
+        const TypesObj: Record<string, Constructor> = {};
+
+        Object.entries(Types).forEach(([key, type]): void => {
+          TypesObj[key] = isString(type) ? ClassOf(type as any) : type;
+        });
+
+        super(TypesObj as S, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
           // do not clobber existing properties on the object

@@ -5,7 +5,7 @@
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index } from '@polkadot/types/interfaces';
 import { SignerPayload, SignerPayloadRaw } from './types';
 
-import { createType, ClassOf, Compact, Struct, u8 } from '@polkadot/types';
+import { createType, Compact, Struct, u8 } from '@polkadot/types';
 
 export interface SignerPayloadType {
   address: Address;
@@ -20,14 +20,14 @@ export interface SignerPayloadType {
 }
 
 export default class Payload extends Struct.with({
-  address: ClassOf('Address'),
-  blockHash: ClassOf('Hash'),
-  blockNumber: ClassOf('BlockNumber'),
-  era: ClassOf('ExtrinsicEra'),
-  genesisHash: ClassOf('Hash'),
-  method: ClassOf('Call'),
-  nonce: ClassOf('Compact<Index>'),
-  tip: ClassOf('Compact<Balance>'),
+  address: 'Address',
+  blockHash: 'Hash',
+  blockNumber: 'BlockNumber',
+  era: 'ExtrinsicEra',
+  genesisHash: 'Hash',
+  method: 'Call',
+  nonce: 'Compact<Index>',
+  tip: 'Compact<Balance>',
   version: u8
 }) {
   /**
