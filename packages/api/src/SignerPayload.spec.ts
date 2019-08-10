@@ -15,7 +15,7 @@ describe('SignerPayload', (): void => {
     era: '0x0703',
     genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
     method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
-    nonce: '0x0000000000001234',
+    nonce: '0x00001234',
     tip: '0x00000000000000000000000000005678',
     version: 2
   };
@@ -44,7 +44,7 @@ describe('SignerPayload', (): void => {
       era: '0x0703',
       genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
       method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
-      nonce: '0x0000000000001234',
+      nonce: '0x00001234',
       tip: '0x00000000000000000000000000005678',
       version: 2
     });
