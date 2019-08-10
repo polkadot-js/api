@@ -4,8 +4,6 @@
 
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
 
-import { isUndefined } from '@polkadot/util';
-
 import { getTypeDef } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
@@ -40,7 +38,7 @@ export default function validateTypes (types: string[], throwError: boolean): vo
 
   const typeRegistry = getTypeRegistry();
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
-    isUndefined(typeRegistry.get(type))
+    !typeRegistry.hasType(type)
   );
 
   if (missing.length !== 0) {

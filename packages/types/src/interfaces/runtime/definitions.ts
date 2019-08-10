@@ -11,47 +11,16 @@ export default {
     AssetId: 'u32',
     Balance: 'u128',
     BalanceOf: 'Balance',
+    Block: 'GenericBlock',
     BlockNumber: 'u64',
-    Hash: 'H256',
-    Index: 'u64',
-    KeyTypeId: 'u32',
-    LockIdentifier: '[u8; 8]',
-    Moment: 'u64',
-    Perbill: 'u32',
-    Permill: 'u32',
-    Phantom: 'Null',
-    PhantomData: 'Null',
-    ValidatorId: 'AccountId',
-    Weight: 'u32',
-    WeightMultiplier: 'Fixed64',
-
-    // storage helpers
-    KeyValue: '(StorageKey, StorageData)',
-
-    // signatures (used in block & extrinsics)
-    Signature: 'H512',
-    Ed25519Signature: 'Signature',
-    Sr25519Signature: 'Signature',
-
-    // extrinsic definition
     Call: 'GenericCall',
-    Origin: 'GenericOrigin',
-    ImmortalEra: 'GenericImmortalEra',
-    MortalEra: 'GenericMortalEra',
+    ConsensusEngineId: 'GenericConsensusEngineId',
+    Digest: 'GenericDigest',
+    DigestItem: 'GenericDigestItem',
+    Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
-    Extrinsic: 'GenericExtrinsic',
-
-    // block definition
-    // :: digest
-    ConsensusEngineId: 'GenericConsensusEngineId',
-    PreRuntime: '(ConsensusEngineId, Bytes)',
-    SealV0: '(u64, Signature)',
-    Seal: '(ConsensusEngineId, Bytes)',
-    Consensus: '(ConsensusEngineId, Bytes)',
-    DigestItem: 'GenericDigestItem',
-    Digest: 'GenericDigest',
-    // :: parts
+    Hash: 'H256',
     Header: {
       parentHash: 'Hash',
       number: 'Compact<BlockNumber>',
@@ -59,12 +28,38 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
+    Index: 'u64',
     Justification: 'Bytes',
-    // :: definitions
-    Block: 'GenericBlock',
+    KeyValue: '(StorageKey, StorageData)',
+    KeyTypeId: 'u32',
+    LockIdentifier: '[u8; 8]',
+    Moment: 'u64',
+    Origin: 'GenericOrigin',
+    Perbill: 'u32',
+    Permill: 'u32',
+    Phantom: 'Null',
+    PhantomData: 'Null',
+    Signature: 'H512',
     SignedBlock: {
       block: 'Block',
       justification: 'Justification'
-    }
+    },
+    ValidatorId: 'AccountId',
+    Weight: 'u32',
+    WeightMultiplier: 'Fixed64',
+
+    // signatures (used in block & extrinsics)
+    Ed25519Signature: 'Signature',
+    Sr25519Signature: 'Signature',
+
+    // extrinsic definition
+    ImmortalEra: 'GenericImmortalEra',
+    MortalEra: 'GenericMortalEra',
+
+    // :: digest
+    PreRuntime: '(ConsensusEngineId, Bytes)',
+    SealV0: '(u64, Signature)',
+    Seal: '(ConsensusEngineId, Bytes)',
+    Consensus: '(ConsensusEngineId, Bytes)'
   }
 };
