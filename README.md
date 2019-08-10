@@ -5,7 +5,7 @@
 [![travisci](https://img.shields.io/travis/com/polkadot-js/api?label=&logo=travis&style=for-the-badge)](https://travis-ci.com/polkadot-js/api)
 [![circleci](https://img.shields.io/circleci/build/github/polkadot-js/api/master?label=&logo=circleci&style=for-the-badge)](https://circleci.com/gh/polkadot-js/api)
 [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api?label=&logo=code-climate&style=for-the-badge)](https://codeclimate.com/github/polkadot-js/api)
-[![coverage](https://img.shields.io/codeclimate/coverage/polkadot-js/api?label=&logo=code-climatestyle=for-the-badge)](https://codeclimate.com/github/polkadot-js/api)
+[![coverage](https://img.shields.io/codeclimate/coverage/polkadot-js/api?label=&logo=code-climate&style=for-the-badge)](https://codeclimate.com/github/polkadot-js/api)
 [![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen?label=&logo=greenkeeper&style=for-the-badge)](https://greenkeeper.io/)
 
 # @polkadot/api
