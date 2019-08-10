@@ -6,6 +6,12 @@ export default {
   types: {
     AuthIndex: 'u32',
     AuthoritySignature: 'Signature',
+    Heartbeat: {
+      blockNumber: 'BlockNumber',
+      networkState: 'OpaqueNetworkState',
+      sessionIndex: 'SessionIndex',
+      authorityId: 'AuthorityId'
+    },
     OpaqueMultiaddr: 'Bytes',
     OpaquePeerId: 'Bytes',
     OpaqueNetworkState: {
@@ -13,12 +19,6 @@ export default {
       peerId: 'OpaquePeerId',
       /// List of addresses the node knows it can be reached as.
       externalAddresses: 'Vec<OpaqueMultiaddr>'
-    },
-    Heartbeat: {
-      blockNumber: 'BlockNumber',
-      networkState: 'OpaqueNetworkState',
-      sessionIndex: 'SessionIndex',
-      authorityId: 'AuthorityId'
     }
   }
 };
