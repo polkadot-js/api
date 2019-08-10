@@ -582,6 +582,14 @@ export default abstract class ApiBase<ApiType> {
       getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
     }
 
+    // FIXME This is absolutely NOT the right place and the check is not 100% -
+    // however, I need to get this working, today. So basically, when we detect
+    // a v1 extrinsic, we assume that we are dealing win an ancient 1.x chain, so
+    // setup the overrides. TL;DR This is an even bigger HACK than the NOTE above
+    if (this._extrinsicType === 1) {
+      getTypeRegistry().register({ EventRecord: 'EventRecord0to76' });
+    }
+
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
