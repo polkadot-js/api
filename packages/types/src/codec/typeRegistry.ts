@@ -44,7 +44,7 @@ export class TypeRegistry {
           // This _looks_ a bit funny, but `typeof Clazz === 'function'
           this._registry.set(name, type);
         } else {
-          // we want to lazy create this one lazily
+          // We only create types on-demand, so just register the definition
           this._definitions.set(name, (
             isString(type)
               ? type
