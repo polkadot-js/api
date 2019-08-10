@@ -22,6 +22,8 @@ export interface VestingSchedule extends Struct {
   readonly offset: Balance;
   /** Balance */
   readonly perBlock: Balance;
+  /** BlockNumber */
+  readonly startingBlock: BlockNumber;
 }
 
 /** Set */
