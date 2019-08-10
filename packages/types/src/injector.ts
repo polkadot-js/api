@@ -23,8 +23,8 @@ export function injectTypes (): void {
 
   // FIXME Register the fallbacks. The issue with this atm is that it forcibly
   // creates the actual classes here, which is something we don't really want,
-  // we want it do be done on-demand. Def. an issue if it expands in-use
-  ClassOf('EventRecord').Fallback = ClassOf('EventRecord0to76');
+  // we want it do be done on-demand, not up-front.
+  ClassOf('Vec<EventRecord>').Fallback = ClassOf('Vec<EventRecord0to76>');
 }
 
 injectTypes();

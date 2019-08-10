@@ -22,7 +22,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import * as interfacesTypes from '@polkadot/types/interfaces/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -125,6 +124,13 @@ export default abstract class ApiBase<ApiType> {
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
 
+    // We only register the types (global) if this is not a cloned instance.
+    // Do right up-front, so we get in the user types before we are actually
+    // doing anything on-chain, this ensures we have the overrides in-place
+    if (!options.source && options.types) {
+      this.registerTypes(options.types);
+    }
+
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
@@ -138,17 +144,6 @@ export default abstract class ApiBase<ApiType> {
     this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
-
-    // we only re-register the types (global) if this is not a cloned instance
-    if (!options.source) {
-      // first register the definitions we have, i.e. those where there are no type classes
-      Object.values(interfacesTypes).forEach(({ types }): void =>
-        this.registerTypes(types)
-      );
-
-      // next register all the user types
-      this.registerTypes(options.types);
-    }
 
     this.init();
   }
