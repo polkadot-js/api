@@ -11,8 +11,8 @@ export type Keys = SessionKeysSubstrate;
 /** u32 */
 export type SessionIndex = u32;
 
-/** [AccountId, AccountId, AccountId] & Codec */
-export type SessionKeysPolkadot = [AccountId, AccountId, AccountId] & Codec;
+/** [AccountId, AccountId, AccountId, AccountId] & Codec */
+export type SessionKeysPolkadot = [AccountId, AccountId, AccountId, AccountId] & Codec;
 
 /** [AccountId, AccountId, AccountId] & Codec */
 export type SessionKeysSubstrate = [AccountId, AccountId, AccountId] & Codec;
