@@ -9,10 +9,14 @@ import Struct from './Struct';
 import Tuple from './Tuple';
 import Vec from './Vec';
 
-type TypeWithValues = [Constructor | InterfaceTypes, any[]];
+type TypeWithValues = [Constructor, any[]];
 
 const EMPTY = new Uint8Array();
 
+/**
+ * @name Linkage
+ * @description The wrapper for the result from a LinkedMap
+ */
 export default class Linkage<T extends Codec> extends Struct {
   public constructor (Type: Constructor | InterfaceTypes, value?: any) {
     super({
@@ -54,6 +58,10 @@ export default class Linkage<T extends Codec> extends Struct {
   }
 }
 
+/**
+ * @name LinkageResult
+ * @description A Linkage keys/Values tuple
+ */
 export class LinkageResult extends Tuple {
   public constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
     super({
