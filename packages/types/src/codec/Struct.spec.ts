@@ -194,8 +194,8 @@ describe('Struct', (): void => {
     expect(
       new Struct({
         blockNumber: ClassOf('Option<BlockNumber>')
-      }, { blockNumber: '0x1234567890abcdef' }).toString()
-    ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
+      }, { blockNumber: '0x0000000010abcdef' }).toString()
+    ).toEqual('{"blockNumber":279694831}');
   });
 
   it('generates sane toRawType', (): void => {
@@ -212,9 +212,9 @@ describe('Struct', (): void => {
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
       balanceCompact: 'Compact<Balance>', // Override in Uint
-      blockNumber: 'u64',
-      compactNumber: 'Compact<u64>',
-      optionNumber: 'Option<u64>',
+      blockNumber: 'u32',
+      compactNumber: 'Compact<u32>',
+      optionNumber: 'Option<u32>',
       counter: 'u32',
       vector: 'Vec<AccountId>'
     }));

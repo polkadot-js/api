@@ -12,7 +12,7 @@ export default {
     Balance: 'u128',
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
-    BlockNumber: 'u64',
+    BlockNumber: 'u32',
     Call: 'GenericCall',
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
@@ -28,7 +28,7 @@ export default {
       extrinsicsRoot: 'Hash',
       digest: 'Digest'
     },
-    Index: 'u64',
+    Index: 'u32',
     Justification: 'Bytes',
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',

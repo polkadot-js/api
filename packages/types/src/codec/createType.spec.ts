@@ -8,6 +8,7 @@ import { Codec, Constructor } from '../types';
 import { TypeDef, TypeDefInfo } from './types';
 
 import createType, { createClass, createTypeUnsafe, getTypeClass, getTypeDef, typeSplit, ClassOf } from './createType';
+import getTypeRegistry from './typeRegistry';
 import CodecSet from './Set';
 
 describe('typeSplit', (): void => {
@@ -223,10 +224,10 @@ describe('createClass', (): void => {
   });
 
   it('should return equivalents for Bytes & Vec<u8>', (): void => {
-    const a = createClass('Vec<u8>');
-    const b = createClass('Bytes');
+    const A = createClass('Vec<u8>');
+    const B = createClass('Bytes');
 
-    expect(a).toBe(b);
+    expect(new A() instanceof B).toBe(true);
   });
 });
 
@@ -288,17 +289,59 @@ describe('createType', (): void => {
     });
 
     it('instanceof should work (complex type)', (): void => {
-      const complexType = '{"balance":"Balance","account_id":"AccountId","log":"(u64, u32)","fromSrml":"Gas"}';
+      getTypeRegistry().register({
+        TestComplex: {
+          balance: 'Balance',
+          accountId: 'AccountId',
+          log: '(u64, u32)',
+          fromSrml: 'Gas'
+        }
+      });
 
-      const value = createTypeUnsafe(complexType, [{
+      const value = createTypeUnsafe('TestComplex', [{
         balance: 123,
-        accountId: '',
+        accountId: '0x1234567812345678123456781234567812345678123456781234567812345678',
         log: [456, 789],
         fromSrml: 0
       }]);
-      const ComplexType = createClass(complexType);
 
-      expect(value instanceof ComplexType).toBe(true);
+      expect(value instanceof createClass('TestComplex')).toBe(true);
+    });
+
+    it('allows for re-registration of a type', (): void => {
+      const balDef = createType('Balance');
+
+      expect(balDef instanceof ClassOf('Balance'));
+      expect(balDef.bitLength()).toEqual(128);
+
+      getTypeRegistry().register({ Balance: 'u32' });
+
+      const balu32 = createType('Balance');
+
+      expect(balu32 instanceof ClassOf('Balance'));
+      expect(balu32.bitLength()).toEqual(32);
+    });
+
+    it('allows for re-registration of a type (affecting derives)', (): void => {
+      getTypeRegistry().register({
+        Balance: 'u128',
+        TestComplex: {
+          balance: 'Balance',
+          accountId: 'AccountId',
+          log: '(u64, u32)',
+          fromSrml: 'Gas'
+        }
+      });
+
+      const cmpDef: any = createTypeUnsafe('TestComplex');
+
+      expect(cmpDef.balance.bitLength()).toEqual(128);
+
+      getTypeRegistry().register({ Balance: 'u32' });
+
+      const cmpu32: any = createTypeUnsafe('TestComplex');
+
+      expect(cmpu32.balance.bitLength()).toEqual(32);
     });
   });
 });

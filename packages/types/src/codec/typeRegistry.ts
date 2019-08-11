@@ -37,25 +37,23 @@ export class TypeRegistry {
     }
   }
 
-  private registerObject (obj: RegistryTypes, overwrite: boolean = true): void {
+  private registerObject (obj: RegistryTypes): void {
     Object.entries(obj).forEach(([name, type]): void => {
-      if (overwrite || !this.get(name)) {
-        if (isFunction(type)) {
-          // This _looks_ a bit funny, but `typeof Clazz === 'function'
-          this._classes.set(name, type);
-        } else {
-          // when registering, remove the old value
-          if (this._classes.has(name)) {
-            this._classes.delete(name);
-          }
+      if (isFunction(type)) {
+        // This _looks_ a bit funny, but `typeof Clazz === 'function'
+        this._classes.set(name, type);
+      } else {
+        const def = isString(type)
+          ? type
+          : JSON.stringify(type);
 
-          // We only create types on-demand, so just register the definition
-          this._definitions.set(name, (
-            isString(type)
-              ? type
-              : JSON.stringify(type)
-          ));
+        if (this._classes.has(name)) {
+          console.warn(`The type '${name}' is already existing as a class, re-registering definition`);
+
+          this._classes.delete(name);
         }
+
+        this._definitions.set(name, def);
       }
     });
   }

@@ -29,8 +29,8 @@ export type BalanceOf = Balance;
 /** GenericBlock */
 export type Block = GenericBlock;
 
-/** u64 */
-export type BlockNumber = u64;
+/** u32 */
+export type BlockNumber = u32;
 
 /** GenericCall */
 export type Call = GenericCall;
@@ -79,8 +79,8 @@ export interface Header extends Struct {
 /** GenericImmortalEra */
 export type ImmortalEra = GenericImmortalEra;
 
-/** u64 */
-export type Index = u64;
+/** u32 */
+export type Index = u32;
 
 /** Bytes */
 export type Justification = Bytes;

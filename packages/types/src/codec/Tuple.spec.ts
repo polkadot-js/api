@@ -14,6 +14,7 @@ import { ClassOf } from '../codec/createType';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import U128 from '../primitive/U128';
 import Tuple from './Tuple';
 
 describe('Tuple', (): void => {
@@ -111,14 +112,14 @@ describe('Tuple', (): void => {
   describe('toRawType', (): void => {
     it('generates sane value with array types', (): void => {
       expect(
-        new Tuple([U32, ClassOf('BlockNumber')]).toRawType()
-      ).toEqual('(u32,u64)');
+        new Tuple([U128, ClassOf('BlockNumber')]).toRawType()
+      ).toEqual('(u128,u32)');
     });
 
     it('generates sane value with object types', (): void => {
       expect(
-        new Tuple({ number: U32, blockNumber: ClassOf('BlockNumber') }).toRawType()
-      ).toEqual('(u32,u64)');
+        new Tuple({ number: U128, blockNumber: ClassOf('BlockNumber') }).toRawType()
+      ).toEqual('(u128,u32)');
     });
   });
 });
