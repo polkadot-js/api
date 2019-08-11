@@ -6,7 +6,7 @@ import { Constructor, Codec } from '../types';
 
 import { InterfaceRegistry } from '../interfaceRegistry';
 import Option from './Option';
-import Struct from './struct';
+import Struct from './Struct';
 import Tuple from './Tuple';
 import Vec from './Vec';
 
