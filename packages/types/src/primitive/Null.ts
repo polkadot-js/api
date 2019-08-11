@@ -5,9 +5,6 @@
 import { Codec, IHash } from '../types';
 
 import { isNull } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
-
-import createType from '../codec/createType';
 
 /**
  * @name Null
@@ -26,7 +23,7 @@ export default class Null implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    throw new Error('.hash is not implemented on Null');
   }
 
   /**
