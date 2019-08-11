@@ -566,6 +566,17 @@ export default abstract class ApiBase<ApiType> {
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       this._extrinsicType = lastBlock.block.extrinsics[0].type;
+
+      // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
+      // and has the old EventRecord format. Remove this ASAP with support for
+      // Alex dropped
+      if (this._extrinsicType === 1) {
+        getTypeRegistry().register({
+          BlockNumber: 'u64',
+          Index: 'u64',
+          EventRecord: 'EventRecord0to76'
+        });
+      }
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
