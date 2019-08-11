@@ -25,11 +25,7 @@ type FromReg<T extends Codec, K extends string> = K extends InterfaceTypes ? Int
 
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): string[] {
-  let cDepth = 0; // compact/doublemap/linkedmap/option/vector depth
-  let fDepth = 0; // vector (fixed) depth
-  let sDepth = 0; // struct depth
-  let tDepth = 0; // tuple depth
-  let start = 0;
+  let [cDepth, fDepth, sDepth, tDepth, start] = [0, 0, 0, 0, 0];
   const result = [];
 
   for (let index = 0; index < type.length; index++) {

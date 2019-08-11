@@ -8,34 +8,34 @@ import { getTypeDef } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
+function extractTypes (types: string[]): any[] {
+  return types.map((type): any => {
+    const decoded = getTypeDef(type);
+
+    switch (decoded.info) {
+      case TypeDefInfo.Plain:
+        return decoded.type;
+
+      case TypeDefInfo.Compact:
+      case TypeDefInfo.Option:
+      case TypeDefInfo.Vec:
+        return extractTypes([(decoded.sub as TypeDef).type]);
+
+      case TypeDefInfo.VecFixed:
+        return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
+
+      case TypeDefInfo.Tuple:
+        return extractTypes(
+          (decoded.sub as TypeDef[]).map((sub): string => sub.type)
+        );
+
+      default:
+        throw new Error(`Uhandled: Unnable to create and validate type from ${type}`);
+    }
+  });
+}
+
 export default function validateTypes (types: string[], throwError: boolean): void {
-  const extractTypes = (types: string[]): any[] => {
-    return types.map((type): any => {
-      const decoded = getTypeDef(type);
-
-      switch (decoded.info) {
-        case TypeDefInfo.Plain:
-          return decoded.type;
-
-        case TypeDefInfo.Compact:
-        case TypeDefInfo.Option:
-        case TypeDefInfo.Vec:
-          return extractTypes([(decoded.sub as TypeDef).type]);
-
-        case TypeDefInfo.VecFixed:
-          return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
-
-        case TypeDefInfo.Tuple:
-          return extractTypes(
-            (decoded.sub as TypeDef[]).map((sub): string => sub.type)
-          );
-
-        default:
-          throw new Error(`Uhandled: Unnable to create and validate type from ${type}`);
-      }
-    });
-  };
-
   const typeRegistry = getTypeRegistry();
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     !typeRegistry.hasType(type)
