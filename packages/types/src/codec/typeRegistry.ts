@@ -48,7 +48,7 @@ export class TypeRegistry {
           : JSON.stringify(type);
 
         if (this._classes.has(name)) {
-          console.warn(`The type '${name}' is already existing as a class, re-registration as '${def}' possibly ignored`);
+          console.warn(`The type '${name}' is already existing as a class, re-registering definition`);
 
           this._classes.delete(name);
         }

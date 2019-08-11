@@ -5,7 +5,6 @@
 import { Codec, Constructor, InterfaceTypes } from '../types';
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from './types';
 
-import memoizee from 'memoizee';
 import { assert } from '@polkadot/util';
 
 import { InterfaceRegistry } from '../interfaceRegistry';
@@ -173,18 +172,12 @@ export function getTypeDef (_type: string, name?: string): TypeDef {
   return value;
 }
 
-// Memoized helper of the `createClass` function below
-const memoizedCreateClass = memoizee(<T extends Codec = Codec, K extends string = string>(
-  type: K
-): Constructor<FromReg<T, K>> => {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return getTypeClass<FromReg<T, K>>(getTypeDef(type));
-}, { length: 1 });
-
 export function createClass<T extends Codec = Codec, K extends string = string> (
   type: K
 ): Constructor<FromReg<T, K>> {
-  return memoizedCreateClass(type);
+  // return memoizedCreateClass(type);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return getTypeClass<FromReg<T, K>>(getTypeDef(type));
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`
