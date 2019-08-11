@@ -5,7 +5,6 @@
 import { Balance, Index } from '../../../interfaces/runtime';
 import { ExtrinsicExtraValue } from '../types';
 
-import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Address from '../../Generic/Address';
@@ -20,8 +19,8 @@ export default class ExtrinsicExtraV2 extends Struct {
   public constructor (value?: ExtrinsicExtraValue | Uint8Array) {
     super({
       era: ExtrinsicEra,
-      nonce: ClassOf('Compact<Index>'),
-      tip: ClassOf('Compact<Balance>')
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>'
     }, value);
   }
 

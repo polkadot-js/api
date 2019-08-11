@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor, InterfaceTypes } from '../types';
+
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
-import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
+import { typeToConstructor } from './utils';
+import Base from './Base';
 
 /**
  * @name Option
@@ -19,12 +21,12 @@ import Null from '../primitive/Null';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  public constructor (Type: Constructor, value?: any) {
-    super(
-      Option.decodeOption(Type, value)
-    );
+  public constructor (Type: Constructor | InterfaceTypes, value?: any) {
+    const Clazz = typeToConstructor(Type);
 
-    this._Type = Type;
+    super(Option.decodeOption(Clazz, value));
+
+    this._Type = Clazz;
   }
 
   public static decodeOption (Type: Constructor, value?: any): Codec {
@@ -46,7 +48,7 @@ export default class Option<T extends Codec> extends Base<T> {
     return new Type(value);
   }
 
-  public static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       public constructor (value?: any) {
         super(Type, value);

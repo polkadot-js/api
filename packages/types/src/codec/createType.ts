@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor, InterfaceTypes } from '../types';
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from './types';
 
 import memoizee from 'memoizee';
 import { assert } from '@polkadot/util';
 
 import { InterfaceRegistry } from '../interfaceRegistry';
-import { Codec, Constructor } from '../types';
-import Bytes from '../primitive/Bytes';
-import Null from '../primitive/Null';
 import Compact from './Compact';
 import Enum from './Enum';
 import Linkage from './Linkage';
@@ -19,13 +17,12 @@ import CodecSet from './Set';
 import Struct from './Struct';
 import Tuple from './Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
-import UInt from './UInt';
 import Vec from './Vec';
 import VecFixed from './VecFixed';
 import getTypeRegistry from './typeRegistry';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
-type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry ? InterfaceRegistry[K] : T
+type FromReg<T extends Codec, K extends string> = K extends InterfaceTypes ? InterfaceRegistry[K] : T
 
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): string[] {
@@ -198,18 +195,24 @@ export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string
 }
 
 // alias for createClass
-export function ClassOf<K extends keyof InterfaceRegistry> (name: K): Constructor<InterfaceRegistry[K]> {
+export function ClassOf<K extends InterfaceTypes> (name: K): Constructor<InterfaceRegistry[K]> {
   return ClassOfUnsafe<Codec, K>(name) as Constructor<InterfaceRegistry[K]>;
 }
 
-// create an array of constructors from the input
-export function getTypeClassMap (defs: TypeDef[]): { [index: string]: Constructor } {
-  return defs.reduce((result, sub): Record<string, Constructor> => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    result[sub.name as string] = getTypeClass(sub);
+// create a maps of type string constructors from the input
+export function getTypeClassMap (defs: TypeDef[]): Record<string, InterfaceTypes> {
+  return defs.reduce((result, sub): Record<string, InterfaceTypes> => {
+    result[sub.name as string] = sub.type as any;
 
     return result;
-  }, {} as unknown as Record<string, Constructor>);
+  }, {} as unknown as Record<string, InterfaceTypes>);
+}
+
+// create an array of type string constructors from the input
+export function getTypeClassArray (defs: TypeDef[]): (InterfaceTypes)[] {
+  return defs.map(({ type }): InterfaceTypes =>
+    type as any
+  );
 }
 
 // Returns the type Class for construction
@@ -224,19 +227,19 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
     case TypeDefInfo.Compact:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
       return Compact.with(
-        getTypeClass<UInt>(value.sub as TypeDef)
+        (value.sub as TypeDef).type as any
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Enum:
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
       return Enum.with(
-        getTypeClassMap(value.sub as TypeDef[])
+        getTypeClassMap(value.sub as TypeDef[]) as any
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Option:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
       return Option.with(
-        getTypeClass(value.sub as TypeDef)
+        (value.sub as TypeDef).type as any
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Set:
@@ -258,7 +261,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
     case TypeDefInfo.Tuple:
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
       return Tuple.with(
-        (value.sub as TypeDef[]).map((Type): Constructor<Codec> => getTypeClass(Type))
+        getTypeClassArray(value.sub as TypeDef[])
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Vec:
@@ -268,8 +271,8 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
 
       return (
         vsub.type === 'u8'
-          ? Bytes
-          : Vec.with(getTypeClass<Codec>(vsub))
+          ? ClassOf('Bytes')
+          : Vec.with(vsub.type as any)
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.VecFixed:
@@ -280,13 +283,13 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
       return (
         ext.type === 'u8'
           ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
-          : VecFixed.with(createClass<Codec>(ext.type), ext.length)
+          : VecFixed.with(ext.type as any, ext.length)
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
       return Linkage.withKey(
-        getTypeClass<Codec>(value.sub as TypeDef)
+        (value.sub as TypeDef).type as any
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.DoubleMap:
@@ -294,7 +297,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
       return getTypeClass(value.sub as TypeDef);
 
     case TypeDefInfo.Null:
-      return Null as unknown as Constructor<T>;
+      return ClassOf('Null') as unknown as Constructor<T>;
   }
 
   if (Fallback) {
@@ -367,7 +370,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * output's one. Slower, but ensures that we have a 100% grasp on the actual
  * provided value
  */
-export default function createType<K extends keyof InterfaceRegistry> (
+export default function createType<K extends InterfaceTypes> (
   type: K,
   ...params: any[]
 ): InterfaceRegistry[K] {
