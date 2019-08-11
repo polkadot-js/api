@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Constructor, InterfaceTypes } from '../types';
+import { AnyNumber, Codec, Constructor, InterfaceTypes } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
@@ -10,13 +10,13 @@ import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import { typeToConstructor } from './utils';
 import { UIntBitLength } from './AbstractInt';
-import CodecDate from './Date';
-import UInt from './UInt';
 import Base from './Base';
 
-// List of codec types that are compact-encodable
-export const COMPACT_ENCODABLE = [UInt, CodecDate];
-export type CompactEncodable = UInt | CodecDate; // FIXME is there a way to do it not-manually from the array?
+export interface CompactEncodable extends Codec {
+  bitLength (): UIntBitLength;
+  toBn (): BN;
+  toNumber (): number;
+}
 
 /**
  * @name Compact
