@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor, InterfaceTypes } from '../types';
+
 import { u8aToU8a, assert } from '@polkadot/util';
 
 import Compact from './Compact';
-import { Codec, Constructor } from '../types';
-import { decodeU8a } from './utils';
+import { decodeU8a, typeToConstructor } from './utils';
 import AbstractArray from './AbstractArray';
 
 const MAX_LENGTH = 32768;
@@ -21,12 +22,12 @@ const MAX_LENGTH = 32768;
 export default class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
-    super(
-      ...Vec.decodeVec(Type, value)
-    );
+  public constructor (Type: Constructor<T> | InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
+    const Clazz = typeToConstructor<T>(Type);
 
-    this._Type = Type;
+    super(...Vec.decodeVec(Clazz, value));
+
+    this._Type = Clazz;
   }
 
   public static decodeVec<T extends Codec> (Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
@@ -52,13 +53,15 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
-  public static with<O extends Codec> (Type: Constructor<O>): Constructor<Vec<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | InterfaceTypes): Constructor<Vec<O>> {
     return class extends Vec<O> {
       public constructor (value?: any[]) {
         super(Type, value);
       }
 
+      // @ts-ignore
       public static Fallback = Type.Fallback
+        // @ts-ignore
         ? Vec.with(Type.Fallback)
         : undefined;
     };

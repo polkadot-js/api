@@ -5,7 +5,6 @@
 import { Balance, Hash, Index } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
-import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
@@ -23,10 +22,10 @@ export default class ExtrinsicPayloadV3 extends Struct {
     super({
       method: U8a,
       era: ExtrinsicEra,
-      nonce: ClassOf('Compact<Index>'),
-      tip: ClassOf('Compact<Balance>'),
-      genesisHash: ClassOf('Hash'),
-      blockHash: ClassOf('Hash')
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>',
+      genesisHash: 'Hash',
+      blockHash: 'Hash'
     }, value);
   }
 

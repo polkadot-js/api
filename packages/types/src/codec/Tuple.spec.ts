@@ -55,6 +55,15 @@ describe('Tuple', (): void => {
     testEncode('toString', '["bazzing",69]');
   });
 
+  it('creates from string types', (): void => {
+    expect(
+      new Tuple(
+        ['Text', 'u32', U32],
+        ['foo', 69, 42]
+      ).toString()
+    ).toEqual('["foo",69,42]');
+  });
+
   it.skip('creates properly via actual hex string', (): void => {
     Call.injectMethods(extrinsics);
 

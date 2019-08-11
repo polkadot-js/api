@@ -5,7 +5,6 @@
 import { Hash, Index } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
-import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import U8a from '../../../codec/U8a';
@@ -26,10 +25,10 @@ import { sign } from '../util';
 export default class ExtrinsicPayloadV1 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
-      nonce: ClassOf('Compact<Index>'),
+      nonce: 'Compact<Index>',
       method: U8a,
       era: ExtrinsicEra,
-      blockHash: ClassOf('Hash')
+      blockHash: 'Hash'
     }, value);
   }
 

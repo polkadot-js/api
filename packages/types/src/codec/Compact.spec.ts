@@ -113,7 +113,13 @@ describe('Compact', (): void => {
       ).toEqual(64);
     });
 
-    it('has the correct encodedLength for constructor values (BlockNumber)', (): void => {
+    it('has the correct encodedLength for constructor values (string BlockNumber)', (): void => {
+      expect(
+        new Compact('BlockNumber', 0xfffffff9).encodedLength
+      ).toEqual(5);
+    });
+
+    it('has the correct encodedLength for constructor values (class BlockNumber)', (): void => {
       expect(
         new Compact(ClassOf('BlockNumber'), 0xfffffff9).encodedLength
       ).toEqual(5);

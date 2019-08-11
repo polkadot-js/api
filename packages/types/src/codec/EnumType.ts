@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec, Constructor } from '../types';
+import { AnyJson, Codec, Constructor, InterfaceTypes } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Null from '../primitive/Null';
+import { mapToTypeMap } from './utils';
 import Base from './Base';
 
 interface EnumConstructor<T = Codec> {
@@ -38,7 +39,7 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  public constructor (def: TypesDef | string[], value?: any, index?: number | Enum) {
+  public constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number | Enum) {
     const defInfo = Enum.extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
@@ -50,10 +51,10 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static extractDef (def: TypesDef | string[]): { def: TypesDef; isBasic: boolean } {
+  private static extractDef (def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
     if (!Array.isArray(def)) {
       return {
-        def,
+        def: mapToTypeMap(def),
         isBasic: false
       };
     }
@@ -126,7 +127,7 @@ export default class Enum extends Base<Codec> {
     };
   }
 
-  public static with (Types: TypesDef | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       public constructor (value?: any, index?: number) {
         super(Types, value, index);

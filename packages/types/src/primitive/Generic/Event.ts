@@ -8,7 +8,7 @@ import { Constructor, Codec } from '../../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import { ClassOf, getTypeClass, getTypeDef } from '../../codec/createType';
+import { getTypeClass, getTypeDef } from '../../codec/createType';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Metadata from '../../Metadata';
@@ -83,7 +83,7 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
-      index: ClassOf('EventId'),
+      index: 'EventId',
       data: DataType
     }, value);
   }

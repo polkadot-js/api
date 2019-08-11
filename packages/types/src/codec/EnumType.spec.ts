@@ -47,6 +47,15 @@ describe('Enum', (): void => {
       ).toEqual('4660'); // 0x1234 in decimal
     });
 
+    it('decodes from hex (string types)', (): void => {
+      expect(
+        new Enum(
+          { foo: 'Text', bar: 'u32' },
+          '0x0134120000'
+        ).value.toString()
+      ).toEqual('4660'); // 0x1234 in decimal
+    });
+
     it('decodes from a JSON input (mixed case)', (): void => {
       expect(
         new Enum(
