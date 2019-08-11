@@ -6,7 +6,7 @@ import { Address, Balance, Index, Signature } from '../../../interfaces/runtime'
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
-import createType, { ClassOf } from '../../../codec/createType';
+import createType from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
@@ -23,8 +23,8 @@ import ExtrinsicExtra from '../v2/ExtrinsicExtra';
 export default class ExtrinsicSignatureV3 extends Struct implements IExtrinsicSignature {
   public constructor (value: ExtrinsicSignatureV3 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
-      signer: ClassOf('Address'),
-      signature: ClassOf('Signature'),
+      signer: 'Address',
+      signature: 'Signature',
       extra: ExtrinsicExtra
     }, ExtrinsicSignatureV3.decodeExtrinsicSignature(value, isSigned));
   }

@@ -8,6 +8,8 @@ import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
+import { InterfaceRegistry } from '../interfaceRegistry';
+import { typeToConstructor } from './utils';
 import { UIntBitLength } from './AbstractInt';
 import CodecDate from './Date';
 import UInt from './UInt';
@@ -26,11 +28,11 @@ export type CompactEncodable = UInt | CodecDate; // FIXME is there a way to do i
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> {
-  public constructor (Type: Constructor<T>, value: Compact<T> | AnyNumber = 0) {
-    super(Compact.decodeCompact<T>(Type, value));
+  public constructor (Type: Constructor<T> | keyof InterfaceRegistry, value: Compact<T> | AnyNumber = 0) {
+    super(Compact.decodeCompact<T>(typeToConstructor(Type), value));
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T>): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceRegistry): Constructor<Compact<T>> {
     return class extends Compact<T> {
       public constructor (value?: any) {
         super(Type, value);

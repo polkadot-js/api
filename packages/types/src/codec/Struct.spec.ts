@@ -105,6 +105,18 @@ describe('Struct', (): void => {
     ).toEqual('{"txt":"foo","u32":1193046}');
   });
 
+  it('provides a clean toString() (string types)', (): void => {
+    expect(
+      new (
+        Struct.with({
+          txt: 'Text',
+          num: 'u32',
+          cls: U32
+        })
+      )({ txt: 'foo', num: 0x123456, cls: 123 }).toString()
+    ).toEqual('{"txt":"foo","num":1193046,"cls":123}');
+  });
+
   it('exposes the properties on the object', (): void => {
     const struct = new (
       Struct.with({

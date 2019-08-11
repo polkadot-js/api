@@ -48,6 +48,12 @@ describe('Vec', (): void => {
     ).toEqual(['6', '7']);
   });
 
+  it('allows contruction via JSON (string type)', (): void => {
+    expect(
+      new Vec('u32', ['6', '7']).toJSON()
+    ).toEqual([6, 7]);
+  });
+
   it('exposes the type', (): void => {
     expect(vector.Type).toEqual('Text');
   });
