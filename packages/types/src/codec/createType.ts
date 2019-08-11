@@ -289,7 +289,7 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
       return Linkage.withKey(
-        getTypeClass<Codec>(value.sub as TypeDef)
+        (value.sub as TypeDef).type as any
       ) as unknown as Constructor<T>;
 
     case TypeDefInfo.DoubleMap:

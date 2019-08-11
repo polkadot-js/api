@@ -2,22 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Struct, Option, Tuple, Vec } from '.';
 import { Constructor, Codec } from '../types';
 
-type TypeWithValues = [Constructor, any[]];
+import { InterfaceRegistry } from '../interfaceRegistry';
+import Option from './Option';
+import Struct from './struct';
+import Tuple from './Tuple';
+import Vec from './Vec';
+
+type TypeWithValues = [Constructor | keyof InterfaceRegistry, any[]];
 
 const EMPTY = new Uint8Array();
 
 export default class Linkage<T extends Codec> extends Struct {
-  public constructor (Type: Constructor, value?: any) {
+  public constructor (Type: Constructor | keyof InterfaceRegistry, value?: any) {
     super({
       previous: Option.with(Type),
       next: Option.with(Type)
     }, value);
   }
 
-  public static withKey<O extends Codec> (Type: Constructor): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceRegistry): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       public constructor (value?: any) {
         super(Type, value);

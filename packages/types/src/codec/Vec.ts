@@ -54,13 +54,15 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
-  public static with<O extends Codec> (Type: Constructor<O>): Constructor<Vec<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceRegistry): Constructor<Vec<O>> {
     return class extends Vec<O> {
       public constructor (value?: any[]) {
         super(Type, value);
       }
 
+      // @ts-ignore
       public static Fallback = Type.Fallback
+        // @ts-ignore
         ? Vec.with(Type.Fallback)
         : undefined;
     };
