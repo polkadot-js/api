@@ -58,12 +58,6 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
       public constructor (value?: any[]) {
         super(Type, value);
       }
-
-      // @ts-ignore
-      public static Fallback = Type.Fallback
-        // @ts-ignore
-        ? Vec.with(Type.Fallback)
-        : undefined;
     };
   }
 

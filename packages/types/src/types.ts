@@ -123,8 +123,6 @@ export interface IHash extends U8a { }
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
-  Fallback?: Constructor<Codec>;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(...value: any[]): T;
 }

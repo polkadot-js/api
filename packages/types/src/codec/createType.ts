@@ -209,7 +209,7 @@ export function getTypeClassArray (defs: TypeDef[]): (InterfaceTypes)[] {
 }
 
 // Returns the type Class for construction
-export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?: Constructor<T>): Constructor<T> {
+export function getTypeClass<T extends Codec = Codec> (value: TypeDef): Constructor<T> {
   const Type = getTypeRegistry().get<T>(value.type);
 
   if (Type) {
@@ -293,50 +293,34 @@ export function getTypeClass<T extends Codec = Codec> (value: TypeDef, Fallback?
       return ClassOf('Null') as unknown as Constructor<T>;
   }
 
-  if (Fallback) {
-    return Fallback;
-  }
-
   throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
 }
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
 function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
-  try {
-    const created = new Type(...params);
-    const [value] = params;
+  const created = new Type(...params);
+  const [value] = params;
 
-    // With isPedantic, actually check that the encoding matches that supplied. This
-    // is much slower, but verifies that we have the correct types defined
-    if (isPedantic && value && value.toU8a && !value.isEmpty) {
-      const inHex = value.toHex(true);
-      const crHex = created.toHex(true);
-      const hasMatch = inHex === crHex || (
-        created instanceof Uint8Array
-          // strip the input length
-          ? (value.toU8a(true).toString() === created.toU8a().toString())
-          // compare raw. without additions
-          : (value.toU8a(true).toString() === created.toU8a(true).toString())
-      );
+  // With isPedantic, actually check that the encoding matches that supplied. This
+  // is much slower, but verifies that we have the correct types defined
+  if (isPedantic && value && value.toU8a && !value.isEmpty) {
+    const inHex = value.toHex(true);
+    const crHex = created.toHex(true);
+    const hasMatch = inHex === crHex || (
+      created instanceof Uint8Array
+        // strip the input length
+        ? (value.toU8a(true).toString() === created.toU8a().toString())
+        // compare raw. without additions
+        : (value.toU8a(true).toString() === created.toU8a(true).toString())
+    );
 
-      if (!hasMatch) {
-        if (Type.Fallback) {
-          return initType(Type.Fallback as Constructor<FromReg<T, K>>, params, isPedantic);
-        }
-
-        console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
-      }
+    if (!hasMatch) {
+      console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
     }
-
-    return created;
-  } catch (error) {
-    if (Type.Fallback) {
-      return initType(Type.Fallback as Constructor<FromReg<T, K>>, params, isPedantic);
-    }
-
-    throw error;
   }
+
+  return created;
 }
 
 // An unsafe version of the `createType` below. It's unsafe because the `type`

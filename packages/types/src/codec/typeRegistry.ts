@@ -71,10 +71,7 @@ export class TypeRegistry {
 
         // NOTE If we didn't extend here, we would have strange artifacts. An example is
         // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
-        Type = class extends BaseType {
-          // ensure we carry through any fallbacks identified - since they are now lower
-          public static Fallback = BaseType.Fallback;
-        };
+        Type = class extends BaseType {};
 
         this._classes.set(name, Type);
       }

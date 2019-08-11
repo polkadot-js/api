@@ -34,7 +34,7 @@ export default class Option<T extends Codec> extends Base<T> {
       return new Null();
     } else if (value instanceof Option) {
       return Option.decodeOption(Type, value.value);
-    } else if (value instanceof Type || (Type.Fallback && value instanceof Type.Fallback)) {
+    } else if (value instanceof Type) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
     } else if (isU8a(value)) {

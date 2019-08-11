@@ -47,10 +47,6 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
       public constructor (value?: any[]) {
         super(Type, length, value);
       }
-
-      public static Fallback = Type.Fallback
-        ? VecFixed.with(Type.Fallback, length)
-        : undefined;
     };
   }
 
