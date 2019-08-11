@@ -50,9 +50,7 @@ export default class HeaderExtended extends _Header {
 
         // extract author from the seal (pre substrate 1.0, backwards compat)
         if (sitem) {
-          this._author = sessionValidators[
-            sitem.asSealV0[0].modn(sessionValidators.length)
-          ];
+          this._author = sessionValidators[sitem.asSealV0[0].modn(sessionValidators.length)];
         }
       }
     }

@@ -57,24 +57,11 @@ export class MortalEra extends Tuple {
 
   private static decodeMortalEra (value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
     if (isHex(value)) {
-      return MortalEra.decodeMortalEra(hexToU8a(value));
+      return MortalEra.decodeMortalU8a(hexToU8a(value));
     } else if (Array.isArray(value)) {
-      return MortalEra.decodeMortalEra(new Uint8Array(value));
+      return MortalEra.decodeMortalU8a(new Uint8Array(value));
     } else if (isU8a(value)) {
-      if (value.length === 0) {
-        return [new U64(), new U64()];
-      }
-
-      const first = u8aToBn(value.subarray(0, 1)).toNumber();
-      const second = u8aToBn(value.subarray(1, 2)).toNumber();
-      const encoded: number = first + (second << 8);
-      const period = 2 << (encoded % (1 << 4));
-      const quantizeFactor = Math.max(period >> 12, 1);
-      const phase = (encoded >> 4) * quantizeFactor;
-
-      assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
-
-      return [new U64(period), new U64(phase)];
+      return MortalEra.decodeMortalU8a(value);
     } else if (isObject(value)) {
       const { current, period } = value;
       let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
@@ -89,6 +76,23 @@ export class MortalEra extends Tuple {
     }
 
     throw new Error('Invalid data passed to Mortal era');
+  }
+
+  private static decodeMortalU8a (value: Uint8Array): MortalEraValue {
+    if (value.length === 0) {
+      return [new U64(), new U64()];
+    }
+
+    const first = u8aToBn(value.subarray(0, 1)).toNumber();
+    const second = u8aToBn(value.subarray(1, 2)).toNumber();
+    const encoded: number = first + (second << 8);
+    const period = 2 << (encoded % (1 << 4));
+    const quantizeFactor = Math.max(period >> 12, 1);
+    const phase = (encoded >> 4) * quantizeFactor;
+
+    assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
+
+    return [new U64(period), new U64(phase)];
   }
 
   /**
@@ -199,11 +203,9 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
     } else if (isHex(value)) {
       return ExtrinsicEra.decodeExtrinsicEra(hexToU8a(value));
     } else if (isU8a(value)) {
-      if (!value.length || value[0] === 0) {
-        return new Uint8Array([0]);
-      } else {
-        return new Uint8Array([1, value[0], value[1]]);
-      }
+      return (!value.length || value[0] === 0)
+        ? new Uint8Array([0])
+        : new Uint8Array([1, value[0], value[1]]);
     } else if (isObject(value)) {
       // this is to de-serialize from JSON
       if ((value as MortalEnumDef).MortalEra) {
