@@ -9,16 +9,31 @@ import { Balance, Header, Index } from '@polkadot/types/interfaces';
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
-import testKeyring from '@polkadot/keyring/testingPairs';
+import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
 
 import { SubmittableResult } from './';
 
-export default async function test (): Promise<void> {
-  const api = await ApiPromise.create();
-  const keyring = testKeyring();
+async function consts (api: ApiPromise): Promise<void> {
+  // constants has actual value & metadata
+  console.log(
+    api.consts.balances.creationFee.toHex(),
+    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
+  );
+}
 
+async function derive (api: ApiPromise): Promise<void> {
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+    console.log('current author:', header.author);
+  });
+
+  await api.query.staking.intentions((intentions): void => {
+    console.log('intentions:', intentions);
+  });
+}
+
+async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
 
@@ -31,35 +46,32 @@ export default async function test (): Promise<void> {
 
     multiUnsub();
   });
+}
 
-  // rpc section
+async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
-    console.log('current blockNumber:', header.number);
+    console.log('current header:', header);
   });
 
   await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
     console.log('current balance:', balance.toString());
   });
+}
 
-  // derives
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-    console.log('current author:', header.author);
-  });
+function types (): void {
+  // check correct types with `createType`
+  const balance = createType('Balance', 2);
+  const gas = createType('Gas', 2);
+  const compact = createType('Compact<u32>', 2);
+  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
 
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-    console.log('current author:', header.author);
-  });
+  const gasUnsafe = createTypeUnsafe('Gas', [2]);
+  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
 
-  await api.query.staking.intentions((intentions): void => {
-    console.log('intentions:', intentions);
-  });
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
+}
 
-  // constants has actual value & metadata
-  console.log(
-    api.consts.balances.creationFee.toHex(),
-    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
-  );
-
+async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
   console.log('transfer as Call', transfer as IMethod);
@@ -77,12 +89,10 @@ export default async function test (): Promise<void> {
   ).toHex();
 
   // just with the callback
-  const unsub = await api.tx.balances
+  await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
-
-      unsub();
     });
 
   // with options and the callback
@@ -94,15 +104,18 @@ export default async function test (): Promise<void> {
 
       unsub2();
     });
-
-  // check correct types with `createType`
-  const balance = createType('Balance', 2);
-  const gas = createType('Gas', 2);
-  const compact = createType('Compact<u32>', 2);
-  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
-
-  const gasUnsafe = createTypeUnsafe('Gas', [2]);
-  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
-
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }
+
+async function main (): Promise<void> {
+  const api = await ApiPromise.create();
+  const keyring = testKeyring();
+
+  consts(api);
+  derive(api);
+  query(api, keyring);
+  rpc(api);
+  types();
+  tx(api, keyring);
+}
+
+main().catch(console.error);

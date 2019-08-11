@@ -217,9 +217,6 @@ export default class ApiPromise extends ApiBase<'promise'> {
         return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
       }
 
-      // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
-      // when I remove it...
-      // tslint:disable-next-line
       return new Promise((resolve, reject): void => {
         let isCompleted = false;
         const subscription = method(...actualArgs)
