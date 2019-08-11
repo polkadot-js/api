@@ -12,7 +12,7 @@ import interfaces from '../../../type-jsonrpc/src';
 import { ClassOfUnsafe, getTypeDef } from '../codec/createType';
 import * as codecClasses from '../codec';
 import AbstractInt from '../codec/AbstractInt';
-import { COMPACT_ENCODABLE } from '../codec/Compact';
+import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import * as definitions from '../interfaces/definitions';
 import * as primitiveClasses from '../primitive';
@@ -70,10 +70,7 @@ function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boole
 }
 
 function isCompactEncodable (Child: Constructor<any>): boolean {
-  // @ts-ignore AbstractInt is abstract, we shouldn't isChildClass it here, but it works
-  return Object.values(COMPACT_ENCODABLE).some((CompactEncodable): boolean =>
-    isChildClass(CompactEncodable, Child)
-  );
+  return isChildClass(UInt, Child);
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
