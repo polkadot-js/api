@@ -28,10 +28,6 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
-    console.log('current author:', header.author);
-  });
-
   await api.query.staking.intentions((intentions): void => {
     console.log('intentions:', intentions);
   });
@@ -54,7 +50,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
 async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.subscribeNewHead((header: Header): void => {
-    console.log('current blockNumber:', header.number);
+    console.log('current header:', header);
   });
 
   await api.rpc.state.subscribeStorage<[Balance]>(['my_balance_key'], ([balance]): void => {
