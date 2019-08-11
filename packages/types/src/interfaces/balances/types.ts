@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Set, Struct } from '../../codec';
 import { Balance, BlockNumber, LockIdentifier } from '../runtime';
@@ -21,6 +22,8 @@ export interface VestingSchedule extends Struct {
   readonly offset: Balance;
   /** Balance */
   readonly perBlock: Balance;
+  /** BlockNumber */
+  readonly startingBlock: BlockNumber;
 }
 
 /** Set */

@@ -96,7 +96,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
       api.state
         .getStorage([storage.system.accountNonce, ADDR_ONE])
         .subscribe((value): void => {
-          expect(value.toHex()).toEqual('0x0000000000000000');
+          expect(value.toHex()).toEqual('0x00000000');
           done();
         });
     });

@@ -4,8 +4,6 @@
 
 export default {
   types: {
-    CodeHash: 'Hash',
-    TrieId: 'Bytes',
     AliveContractInfo: {
       trieId: 'TrieId',
       storageSize: 'u32',
@@ -14,7 +12,7 @@ export default {
       deductBlock: 'BlockNumber',
       lastWrite: 'Option<BlockNumber>'
     },
-    TombstoneContractInfo: 'Hash',
+    CodeHash: 'Hash',
     ContractInfo: {
       _enum: {
         Alive: 'AliveContractInfo',
@@ -23,7 +21,6 @@ export default {
     },
     ContractStorageKey: '[u8; 32]',
     Gas: 'u64',
-    PrefabWasmModuleReserved: 'Option<Null>',
     PrefabWasmModule: {
       scheduleVersion: 'Compact<u32>',
       initial: 'Compact<u32>',
@@ -31,6 +28,7 @@ export default {
       _reserved: 'PrefabWasmModuleReserved',
       code: 'Bytes'
     },
+    PrefabWasmModuleReserved: 'Option<Null>',
     Schedule: {
       version: 'u32',
       putCodePerByteCost: 'Gas',
@@ -48,6 +46,8 @@ export default {
       enablePrintln: 'bool',
       maxSubjectLen: 'u32'
     },
-    SeedOf: 'Hash'
+    SeedOf: 'Hash',
+    TombstoneContractInfo: 'Hash',
+    TrieId: 'Bytes'
   }
 };

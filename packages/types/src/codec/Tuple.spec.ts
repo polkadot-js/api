@@ -14,6 +14,7 @@ import { ClassOf } from '../codec/createType';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import U128 from '../primitive/U128';
 import Tuple from './Tuple';
 
 describe('Tuple', (): void => {
@@ -53,6 +54,15 @@ describe('Tuple', (): void => {
     testEncode('toJSON', ['bazzing', 69]);
     testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
     testEncode('toString', '["bazzing",69]');
+  });
+
+  it('creates from string types', (): void => {
+    expect(
+      new Tuple(
+        ['Text', 'u32', U32],
+        ['foo', 69, 42]
+      ).toString()
+    ).toEqual('["foo",69,42]');
   });
 
   it.skip('creates properly via actual hex string', (): void => {
@@ -102,14 +112,14 @@ describe('Tuple', (): void => {
   describe('toRawType', (): void => {
     it('generates sane value with array types', (): void => {
       expect(
-        new Tuple([U32, ClassOf('BlockNumber')]).toRawType()
-      ).toEqual('(u32,u64)');
+        new Tuple([U128, ClassOf('BlockNumber')]).toRawType()
+      ).toEqual('(u128,u32)');
     });
 
     it('generates sane value with object types', (): void => {
       expect(
-        new Tuple({ number: U32, blockNumber: ClassOf('BlockNumber') }).toRawType()
-      ).toEqual('(u32,u64)');
+        new Tuple({ number: U128, blockNumber: ClassOf('BlockNumber') }).toRawType()
+      ).toEqual('(u128,u32)');
     });
   });
 });

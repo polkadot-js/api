@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types/codec';
@@ -9,7 +10,9 @@ import { Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
   author: {
+    insertKey(keyType: Text | string, suri: Text | string, maybePublic?: Bytes | Uint8Array | string): Observable<Bytes>;
     removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
+    rotateKeys(): Observable<Bytes>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
     submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
     submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;

@@ -13,8 +13,6 @@ _The following sections contain the module constants, also known as parameter ty
 
 - **[finalityTracker](#finalityTracker)**
 
-- **[imOnline](#imOnline)**
-
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -176,14 +174,6 @@ ___
 
 ▸ **windowSize**: `BlockNumber`
 - **summary**:   The number of recent samples to keep from this chain. Default is 101.
-
-___
-
-
-### imOnline
-
-▸ **sessionsPerEra**: `SessionIndex`
-- **summary**:   Number of sessions per era.
 
 ___
 

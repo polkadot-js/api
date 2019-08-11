@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SignerPayloadRawBase, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer } from './types';
@@ -22,9 +21,8 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import * as interfacesTypes from '@polkadot/types/interfaces/definitions';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, isObject, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactStripLength, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
@@ -117,13 +115,17 @@ export default abstract class ApiBase<ApiType> {
    * });
    * ```
    */
-  public constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
-    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as unknown as ApiOptions
-      : provider as ApiOptions;
+  public constructor (options: ApiOptions = {}, type: ApiTypes) {
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
+
+    // We only register the types (global) if this is not a cloned instance.
+    // Do right up-front, so we get in the user types before we are actually
+    // doing anything on-chain, this ensures we have the overrides in-place
+    if (!options.source && options.types) {
+      this.registerTypes(options.types);
+    }
 
     this._options = options;
     this._type = type;
@@ -138,17 +140,6 @@ export default abstract class ApiBase<ApiType> {
     this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
-
-    // we only re-register the types (global) if this is not a cloned instance
-    if (!options.source) {
-      // first register the definitions we have, i.e. those where there are no type classes
-      Object.values(interfacesTypes).forEach(({ types }): void =>
-        this.registerTypes(types)
-      );
-
-      // next register all the user types
-      this.registerTypes(options.types);
-    }
 
     this.init();
   }
@@ -538,6 +529,13 @@ export default abstract class ApiBase<ApiType> {
         this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
 
+      // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
+      // implementation) are different. Detect Polkadot and inject the `Keys`
+      // definition as applicable. (3 keys in substrate vs 4 in Polkadot).
+      if (this._runtimeVersion.specName.eq('polkadot')) {
+        getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
+      }
+
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
 
       if (metadataKey in metadata) {
@@ -568,6 +566,17 @@ export default abstract class ApiBase<ApiType> {
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       this._extrinsicType = lastBlock.block.extrinsics[0].type;
+
+      // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
+      // and has the old EventRecord format. Remove this ASAP with support for
+      // Alex dropped
+      if (this._extrinsicType === 1) {
+        getTypeRegistry().register({
+          BlockNumber: 'u64',
+          Index: 'u64',
+          EventRecord: 'EventRecord0to76'
+        });
+      }
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);

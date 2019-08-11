@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor } from '../types';
+import { Codec, Constructor, InterfaceTypes } from '../types';
 
 import { assert, isU8a, u8aConcat, compactToU8a } from '@polkadot/util';
-
 import AbstractArray from './AbstractArray';
+import { typeToConstructor } from './utils';
 import Vec from './Vec';
 
 /**
@@ -17,12 +17,12 @@ import Vec from './Vec';
 export default class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T>, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
-    super(
-      ...VecFixed.decodeVecFixed(Type, length, value)
-    );
+  public constructor (Type: Constructor<T> | InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+    const Clazz = typeToConstructor<T>(Type);
 
-    this._Type = Type;
+    super(...VecFixed.decodeVecFixed(Clazz, length, value));
+
+    this._Type = Clazz;
   }
 
   public static decodeVecFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
@@ -47,10 +47,6 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
       public constructor (value?: any[]) {
         super(Type, length, value);
       }
-
-      public static Fallback = Type.Fallback
-        ? VecFixed.with(Type.Fallback, length)
-        : undefined;
     };
   }
 

@@ -1,7 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { Codec } from '../../types';
 import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, GenericEvent, u32, u8 } from '../../primitive';
+import { Bytes, GenericEvent, u32 } from '../../primitive';
 import { Digest, Hash } from '../runtime';
 
 /** Digest */
@@ -10,8 +12,8 @@ export type DigestOf = Digest;
 /** GenericEvent */
 export type Event = GenericEvent;
 
-/** Vec<u8> */
-export type EventId = Vec<u8>;
+/** Uint8Array & Codec */
+export type EventId = Uint8Array & Codec;
 
 /** u32 */
 export type EventIndex = u32;

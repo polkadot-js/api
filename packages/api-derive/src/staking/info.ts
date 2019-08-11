@@ -19,6 +19,7 @@ import { isUndefined } from '@polkadot/util';
 
 import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
+import { recentlyOffline } from './recentlyOffline';
 import { drr } from '../util/drr';
 
 type MultiResult = [Option<Keys>, [
@@ -83,27 +84,32 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     );
 }
 
-function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionId?: AccountId; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
-    const [, { ed25519: sessionId }] = queuedKeys.find(([currentId]): boolean => currentId.eq(stashId)) || [undefined, { ed25519: undefined }];
+    const sessionIds = (queuedKeys.find(([currentId]): boolean =>
+      currentId.eq(stashId)
+    ) || [undefined, [] as AccountId[]])[1];
+    const nextSessionIds = nextKeys.unwrapOr([] as AccountId[]);
 
     return {
-      nextSessionId: nextKeys.isSome
-        ? nextKeys.unwrap().ed25519
-        : undefined,
-      sessionId
+      nextSessionId: nextSessionIds[0],
+      nextSessionIds,
+      sessionId: sessionIds[0],
+      sessionIds
     };
   }
 
   // substrate 1.x
-  const nextSessionId = queuedKeys.isSome
-    ? queuedKeys.unwrap()
-    : undefined;
+  const nextSessionIds = queuedKeys.isSome
+    ? [queuedKeys.unwrap()]
+    : [];
 
   return {
-    nextSessionId,
-    sessionId: nextSessionId
+    nextSessionId: nextSessionIds[0],
+    nextSessionIds,
+    sessionId: nextSessionIds[0],
+    sessionIds: nextSessionIds
   };
 }
 
@@ -128,20 +134,20 @@ function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: A
 }
 
 function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
-  return (
-    combineLatest([
-      eraLength(api)(),
-      bestNumber(api)(),
-      retrieveMulti(api, stashId, controllerId)
-    ])
-  ).pipe(
-    map(([eraLength, bestNumber, [nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]]): DerivedStaking => {
+  return combineLatest([
+    eraLength(api)(),
+    bestNumber(api)(),
+    recentlyOffline(api)(),
+    retrieveMulti(api, stashId, controllerId)
+  ]).pipe(
+    map(([eraLength, bestNumber, recentlyOffline, [nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
       return {
         accountId: stashId,
         controllerId,
         nominators,
+        offline: recentlyOffline[stashId.toString()],
         redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         rewardDestination,
         stakers,
@@ -176,7 +182,7 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
           ? retrieveInfo(api, accountId, controllerId.unwrap())
           : stakingLedger.isSome
             ? retrieveInfo(api, stakingLedger.unwrap().stash, accountId)
-            : of({ accountId })
+            : of({ accountId, nextSessionIds: [], sessionIds: [] })
       ),
       drr()
     );

@@ -16,7 +16,7 @@ describeE2E({
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
 
     done();
   });

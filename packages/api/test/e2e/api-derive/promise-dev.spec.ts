@@ -21,7 +21,7 @@ describeE2E({
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
     done();
   });
 
@@ -73,7 +73,7 @@ describeE2E({
         }
 
         expect(info.accountId.eq(accountId)).toBe(true);
-        expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
+        expect(info.controllerId!.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
         expect(info.stashId.eq(accountId)).toBe(true);
         expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
 

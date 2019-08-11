@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash } from '../types';
+import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes } from '../types';
 
 import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import U8a from './U8a';
-import { compareMap, decodeU8a } from './utils';
+import { compareMap, decodeU8a, mapToTypeMap } from './utils';
+
+type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
 
 /**
  * @name Struct
@@ -22,7 +24,7 @@ import { compareMap, decodeU8a } from './utils';
  */
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
-  S extends ConstructorDef = ConstructorDef,
+  S extends TypesDef = TypesDef,
   // internal type, instance of classes mapped by key
   T extends { [K in keyof S]: Codec } = { [K in keyof S]: Codec },
   // input values, mapped by key can be anything (construction)
@@ -31,17 +33,16 @@ export default class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
 
-  protected _Types: S;
+  protected _Types: ConstructorDef;
 
   public constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
-    const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
+    const Clazzes = mapToTypeMap(Types);
+    const decoded = Struct.decodeStruct(Clazzes, value, jsonMap);
 
-    super(
-      Object.entries(decoded)
-    );
+    super(Object.entries(decoded as any));
 
     this._jsonMap = jsonMap;
-    this._Types = Types;
+    this._Types = Clazzes;
   }
 
   /**
@@ -59,11 +60,7 @@ export default class Struct<
    * `Object.keys(Types)`
    * @param jsonMap
    */
-  private static decodeStruct<
-    S extends ConstructorDef,
-    _,
-    T extends { [K in keyof S]: Codec }
-  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+  private static decodeStruct <T> (Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
@@ -72,7 +69,7 @@ export default class Struct<
       const values = decodeU8a(value, Object.values(Types));
 
       // Transform array of values to {key: value} mapping
-      return Object.keys(Types).reduce((raw: T, key: keyof S, index): T => {
+      return Object.keys(Types).reduce((raw, key, index): T => {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         (raw as any)[key] = values[index];
 
@@ -86,30 +83,26 @@ export default class Struct<
     return Struct.decodeStructFromObject(Types, value, jsonMap);
   }
 
-  private static decodeStructFromObject<
-    S extends ConstructorDef,
-    _,
-    T extends { [K in keyof S]: Codec }
-  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
-    return Object.keys(Types).reduce((raw: T, key: keyof S, index): T => {
+  private static decodeStructFromObject <T> (Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+    return Object.keys(Types).reduce((raw, key, index): T => {
       // The key in the JSON can be snake_case (or other cases), but in our
       // Types, result or any other maps, it's camelCase
       const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
       try {
         if (Array.isArray(value)) {
-          raw[key] = value[index] instanceof Types[key]
+          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+          (raw as any)[key] = value[index] instanceof Types[key]
             ? value[index]
             : new Types[key](value[index]);
         } else if (value instanceof Map) {
           const mapped = value.get(jsonKey);
 
-          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
           (raw as any)[key] = mapped instanceof Types[key]
             ? mapped
             : new Types[key](mapped);
         } else if (isObject(value)) {
-          raw[key] = value[jsonKey as string] instanceof Types[key]
+          (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
             ? value[jsonKey as string]
             : new Types[key](value[jsonKey as string]);
         } else {
@@ -123,9 +116,7 @@ export default class Struct<
     }, {} as unknown as T);
   }
 
-  public static with<
-    S extends ConstructorDef
-  > (Types: S): Constructor<Struct<S>> {
+  public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

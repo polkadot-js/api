@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header } from '@polkadot/types/interfaces';
+import { Header, Keys } from '@polkadot/types/interfaces';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -25,7 +25,7 @@ describeE2E({
   const keyring = testingPairs({ type: 'ed25519' });
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
 
     done();
   });
@@ -99,22 +99,23 @@ describeE2E({
 
   describe('session Keys', (): void => {
     it('sets a session key, retrieves the value', async (done): Promise<void> => {
-      const ed25519 = encodeAddress(randomAsU8a());
-      const sr25519 = encodeAddress(randomAsU8a());
+      const babe = encodeAddress(randomAsU8a());
+      const grandpa = encodeAddress(randomAsU8a());
+      const imOnline = encodeAddress(randomAsU8a());
 
       async function queryKeys (): Promise<void> {
         console.error('*** query.session.nextKeys');
 
         const result = JSON.stringify(
-          await api.query.session.nextKeys(
+          (await api.query.session.nextKeys<Keys>(
             api.consts.session.dedupKeyPrefix,
             keyring.bob.address
-          )
+          ))
         );
 
-        console.error(result, { ed25519, sr25519 });
+        console.error(result, [grandpa, babe, imOnline]);
 
-        expect(result).toEqual(JSON.stringify({ ed25519, sr25519 }));
+        expect(result).toEqual(JSON.stringify([grandpa, babe, imOnline]));
         done();
       }
 
@@ -122,7 +123,7 @@ describeE2E({
         console.error('*** tx.session.setKeys');
 
         await api.tx.session
-          .setKeys({ ed25519, sr25519 }, new Uint8Array([]))
+          .setKeys({ babe, grandpa, imOnline }, new Uint8Array([]))
           .signAndSend(keyring.eve, (result): void => {
             if (result.isCompleted) {
               queryKeys();

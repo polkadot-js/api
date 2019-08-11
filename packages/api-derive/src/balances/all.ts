@@ -18,11 +18,8 @@ import { drr } from '../util/drr';
 
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
 
-const EMPTY_ACCOUNT = createType('AccountId');
-const ZERO = createType('Balance', 0);
-
-function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = ZERO]]: Result): DerivedBalances {
-  let lockedBalance = ZERO;
+function calcBalances ([accountId = createType('AccountId'), bestNumber = createType('Balance'), [freeBalance = createType('Balance'), reservedBalance = createType('Balance'), locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = createType('Balance')]]: Result): DerivedBalances {
+  let lockedBalance = createType('Balance');
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
@@ -30,7 +27,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     lockedBalance = totals[0]
       ? bnMax(...totals.map(({ amount }): Balance => amount)) as Balance
-      : ZERO;
+      : createType('Balance');
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
@@ -45,7 +42,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
   // The locked is > the vested and ended up with the locked > free,
   // i.e. related to https://github.com/paritytech/polkadot/issues/225
   // (most probably due to movements from stash -> controller -> free)
-  const availableBalance: BN = bnMax(ZERO, vestedBalance.sub(lockedBalance));
+  const availableBalance: BN = bnMax(createType('Balance'), vestedBalance.sub(lockedBalance));
 
   return {
     accountId,

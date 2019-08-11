@@ -18,13 +18,9 @@ export default class Unconstructable extends Null {
     throw new Error('Unconstructable should not be constructed, it is only a placeholder for compatibility');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static with (typeDef: any): Constructor {
-    return class extends Null {
-      public constructor () {
-        super();
-
-        throw new Error(`Unable to construct ${JSON.stringify(typeDef)}`);
-      }
+    return class extends Unconstructable {
     };
   }
 }

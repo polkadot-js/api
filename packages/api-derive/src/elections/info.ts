@@ -12,6 +12,19 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedElectionsInfo } from '../types';
 import { drr } from '../util/drr';
 
+function query (api: ApiInterfaceRx): Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, SetIndex, BlockNumber, VoteIndex, SetIndex]> {
+  return api.queryMulti([
+    api.query.elections.members,
+    api.query.elections.candidates,
+    api.query.elections.candidateCount,
+    api.query.elections.desiredSeats,
+    api.query.elections.nextVoterSet,
+    api.query.elections.termDuration,
+    api.query.elections.voteCount,
+    api.query.elections.voterCount
+  ]) as any;
+}
+
 /**
  * @name info
  * @returns An object containing the combined results of the storage queries for
@@ -27,18 +40,7 @@ import { drr } from '../util/drr';
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
   return (): Observable<DerivedElectionsInfo> => {
-    return (
-      api.queryMulti([
-        api.query.elections.members,
-        api.query.elections.candidates,
-        api.query.elections.candidateCount,
-        api.query.elections.desiredSeats,
-        api.query.elections.nextVoterSet,
-        api.query.elections.termDuration,
-        api.query.elections.voteCount,
-        api.query.elections.voterCount
-      ]) as any as Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, SetIndex, BlockNumber, VoteIndex, SetIndex]>
-    ).pipe(
+    return query(api).pipe(
       map(([members, candidates, candidateCount, desiredSeats, nextVoterSet, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
         members: members.reduce(
           (record: Record<string, BlockNumber>, [accountId, blockNumber]): Record<string, BlockNumber> => {

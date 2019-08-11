@@ -37,6 +37,12 @@ describe('Option', (): void => {
     ).toEqual('hello');
   });
 
+  it('converts an option to an option (strings)', (): void => {
+    expect(
+      new Option('Text', new Option('Text', 'hello')).toString()
+    ).toEqual('hello');
+  });
+
   it('converts correctly from hex with toHex (Bytes)', (): void => {
     // Option<Bytes> for a parachain head, however, this is effectively an
     // Option<Option<Bytes>> (hence the length, since it is from storage)

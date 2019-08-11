@@ -2,9 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../injector';
+
+import { Constructor } from '../types';
+
 import { TypeRegistry } from './typeRegistry';
+import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+
+// Copied from interfacesTs
+function isChildClass (Parent: Constructor<any>, Child?: Constructor<any>): boolean {
+  return Child
+    // eslint-disable-next-line no-prototype-builtins
+    ? Parent === Child || Parent.isPrototypeOf(Child)
+    : false;
+}
 
 describe('TypeRegistry', (): void => {
   let registry: TypeRegistry;
@@ -24,7 +37,7 @@ describe('TypeRegistry', (): void => {
 
   it('can register type with a different name', (): void => {
     registry.register('TextRenamed', Text);
-    expect(registry.get('TextRenamed')).toBe(Text);
+    expect(isChildClass(Text, registry.get('TextRenamed'))).toBe(true);
   });
 
   describe('object registration', (): void => {
@@ -33,15 +46,18 @@ describe('TypeRegistry', (): void => {
         Text,
         U32Renamed: U32
       });
-      expect(registry.get('Text')).toBe(Text);
-      expect(registry.get('U32Renamed')).toBe(U32);
+      expect(isChildClass(Text, registry.get('Text'))).toBe(true);
+      expect(isChildClass(U32, registry.get('U32Renamed'))).toBe(true);
     });
 
     it('can create types from string', (): void => {
       registry.register({
         U32Renamed: 'u32'
       });
-      expect(registry.get('U32Renamed')).toBe(U32);
+
+      const Type = registry.getOrThrow('U32Renamed');
+
+      expect(new Type() instanceof U32).toBe(true);
     });
 
     it('can create structs via definition', (): void => {
@@ -58,9 +74,9 @@ describe('TypeRegistry', (): void => {
         bar: 'testing'
       });
 
-      expect(SomeStruct.name).toBe('Struct');
-      expect(struct.get('foo').toNumber()).toEqual(42);
-      expect(struct.get('bar').toString()).toEqual('testing');
+      expect(struct instanceof Struct).toBe(true);
+      expect(struct.foo.toNumber()).toEqual(42);
+      expect(struct.bar.toString()).toEqual('testing');
     });
   });
 });

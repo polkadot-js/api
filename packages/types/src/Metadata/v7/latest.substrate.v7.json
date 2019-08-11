@@ -380,15 +380,37 @@
                 ]
               },
               {
+                "name": "SegmentIndex",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " Randomness under construction.",
+                  "",
+                  " We make a tradeoff between storage accesses and list length.",
+                  " We store the under-construction randomness in segments of up to",
+                  " `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.",
+                  "",
+                  " Once a segment reaches this length, we begin the next one.",
+                  " We reset all segments and return to `0` at the beginning of every",
+                  " epoch."
+                ]
+              },
+              {
                 "name": "UnderConstruction",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "[u8;32]"
+                  "MapType": {
+                    "hasher": "Blake2_256",
+                    "key": "u32",
+                    "value": "Vec<[u8;32]>",
+                    "isLinked": false
+                  }
                 },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " Randomness under construction."
-                ]
+                "fallback": "0x00",
+                "documentation": []
               }
             ]
           },
@@ -1912,35 +1934,6 @@
               ]
             },
             {
-              "name": "emergency_propose",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                },
-                {
-                  "name": "threshold",
-                  "type": "VoteThreshold"
-                },
-                {
-                  "name": "voting_period",
-                  "type": "BlockNumber"
-                },
-                {
-                  "name": "delay",
-                  "type": "BlockNumber"
-                }
-              ],
-              "documentation": [
-                " Schedule an emergency referendum.",
-                "",
-                " This will create a new referendum for the `proposal`, approved as long as counted votes",
-                " exceed `threshold` and, if approved, enacted after the given `delay`.",
-                "",
-                " It may be called from either the Root or the Emergency origin."
-              ]
-            },
-            {
               "name": "emergency_cancel",
               "args": [
                 {
@@ -1976,11 +1969,30 @@
               ],
               "documentation": [
                 " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
-                " an external referendum."
+                " an external referendum.",
+                "",
+                " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
+                " pre-scheduled `external_propose` call."
               ]
             },
             {
-              "name": "external_push",
+              "name": "external_propose_default",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a negative-turnout-bias referendum to be tabled next once it is legal to",
+                " schedule an external referendum.",
+                "",
+                " Unlike `external_propose`, blacklisting has no effect on this and it may replace a",
+                " pre-scheduled `external_propose` call."
+              ]
+            },
+            {
+              "name": "fast_track",
               "args": [
                 {
                   "name": "proposal_hash",
@@ -2258,7 +2270,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x8097060000000000",
+              "value": "0x0027060000000000",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -3278,6 +3290,128 @@
           ]
         },
         {
+          "name": "TechnicalMembership",
+          "storage": {
+            "prefix": "Instance1Membership",
+            "items": [
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "Vec<AccountId>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current membership, stored as an ordered Vec."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "add_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Add a member `who` to the set.",
+                "",
+                " May only be called from `AddOrigin` or root."
+              ]
+            },
+            {
+              "name": "remove_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Remove a member `who` from the set.",
+                "",
+                " May only be called from `RemoveOrigin` or root."
+              ]
+            },
+            {
+              "name": "swap_member",
+              "args": [
+                {
+                  "name": "remove",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "add",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Swap out one member `remove` for another `add`.",
+                "",
+                " May only be called from `SwapOrigin` or root."
+              ]
+            },
+            {
+              "name": "reset_members",
+              "args": [
+                {
+                  "name": "members",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Change the membership to a new set, disregarding the existing membership. Be nice and",
+                " pass `members` pre-sorted.",
+                "",
+                " May only be called from `ResetOrigin` or root."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "MemberAdded",
+              "args": [],
+              "documentation": [
+                " The given member was added; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MemberRemoved",
+              "args": [],
+              "documentation": [
+                " The given member was removed; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MembersSwapped",
+              "args": [],
+              "documentation": [
+                " Two members were swapped; see the transaction for who."
+              ]
+            },
+            {
+              "name": "MembersReset",
+              "args": [],
+              "documentation": [
+                " The membership was reset; see the transaction for who the new set is."
+              ]
+            },
+            {
+              "name": "Dummy",
+              "args": [
+                "PhantomData"
+              ],
+              "documentation": [
+                " Phantom member, never used."
+              ]
+            }
+          ],
+          "constants": []
+        },
+        {
           "name": "FinalityTracker",
           "storage": null,
           "calls": [
@@ -3824,35 +3958,6 @@
                 " If contract is not evicted as a result of this call, no actions are taken and",
                 " the sender is not eligible for the reward."
               ]
-            },
-            {
-              "name": "restore_to",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "code_hash",
-                  "type": "CodeHash"
-                },
-                {
-                  "name": "rent_allowance",
-                  "type": "BalanceOf"
-                },
-                {
-                  "name": "delta",
-                  "type": "Vec<ContractStorageKey>"
-                }
-              ],
-              "documentation": [
-                " Allows a contract to restore a tombstone by giving its storage.",
-                "",
-                " The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a",
-                " tombstone with its storage and the given code_hash. If the computed tombstone",
-                " match the destination one, the destination contract is restored with the rent_allowance` specified,",
-                " while the origin sends all its funds to the destination and is removed."
-              ]
             }
           ],
           "events": [
@@ -4158,16 +4263,20 @@
                   "PlainType": "BlockNumber"
                 },
                 "fallback": "0x0000000000000000",
-                "documentation": []
+                "documentation": [
+                  " The block number when we should gossip."
+                ]
               },
               {
-                "name": "LastNewEraStart",
-                "modifier": "Optional",
+                "name": "Keys",
+                "modifier": "Default",
                 "type": {
-                  "PlainType": "SessionIndex"
+                  "PlainType": "Vec<AuthorityId>"
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "documentation": [
+                  " The current set of keys that may issue a heartbeat."
+                ]
               },
               {
                 "name": "ReceivedHeartbeats",
@@ -4176,13 +4285,16 @@
                   "DoubleMapType": {
                     "hasher": "Blake2_256",
                     "key1": "SessionIndex",
-                    "key2": "AuthorityId",
+                    "key2": "AuthIndex",
                     "value": "Bytes",
                     "key2Hasher": "Blake2_256"
                   }
                 },
                 "fallback": "0x00",
-                "documentation": []
+                "documentation": [
+                  " For each session index we keep a mapping of `AuthorityId`",
+                  " to `offchain::OpaqueNetworkState`."
+                ]
               }
             ]
           },
@@ -4196,7 +4308,7 @@
                 },
                 {
                   "name": "_signature",
-                  "type": "Bytes"
+                  "type": "AuthoritySignature"
                 }
               ],
               "documentation": []
@@ -4206,24 +4318,14 @@
             {
               "name": "HeartbeatReceived",
               "args": [
-                "BlockNumber",
                 "AuthorityId"
               ],
               "documentation": [
-                " A new heartbeat was received at this `BlockNumber` from `AuthorityId`"
+                " A new heartbeat was received from `AuthorityId`"
               ]
             }
           ],
-          "constants": [
-            {
-              "name": "SessionsPerEra",
-              "type": "SessionIndex",
-              "value": "0x06000000",
-              "documentation": [
-                " Number of sessions per era."
-              ]
-            }
-          ]
+          "constants": []
         }
       ]
     }

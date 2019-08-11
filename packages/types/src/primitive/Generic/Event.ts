@@ -8,13 +8,12 @@ import { Constructor, Codec } from '../../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import { ClassOf, getTypeClass, getTypeDef } from '../../codec/createType';
+import { getTypeClass, getTypeDef } from '../../codec/createType';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Metadata from '../../Metadata';
 import { EventMetadata as EventMetadataV7 } from '../../Metadata/v7/Events';
 import Null from '../Null';
-import Unconstructable from '../Unconstructable';
 
 const EventTypes: Record<string, Constructor<EventData>> = {};
 
@@ -83,7 +82,7 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
-      index: ClassOf('EventId'),
+      index: 'EventId',
       data: DataType
     }, value);
   }
@@ -121,7 +120,7 @@ export default class Event extends Struct {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
           const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
-          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef, Unconstructable.with(typeDef)));
+          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
             public constructor (value: Uint8Array) {

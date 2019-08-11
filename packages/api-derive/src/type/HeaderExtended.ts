@@ -5,11 +5,11 @@
 import { AccountId, Header } from '@polkadot/types/interfaces';
 import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 
-import { ClassOf } from '@polkadot/types';
+import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
+import { Struct } from '@polkadot/types';
 
-// This is a bit hacky, but is exactly what it resolves to when compiled -
-// and as a bonus is gets the typing right
-const _Header: Constructor<Header> = ClassOf('Header');
+// @ts-ignore
+const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header);
 
 /**
  * @name HeaderExtended
@@ -32,7 +32,7 @@ export default class HeaderExtended extends _Header {
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isBabe || engine.isAura) {
+      if (engine.isAbrs || engine.isBabe || engine.isAura) {
         this._author = engine.extractAuthor(data, sessionValidators);
       }
     } else {
@@ -50,9 +50,7 @@ export default class HeaderExtended extends _Header {
 
         // extract author from the seal (pre substrate 1.0, backwards compat)
         if (sitem) {
-          this._author = sessionValidators[
-            sitem.asSealV0[0].modn(sessionValidators.length)
-          ];
+          this._author = sessionValidators[sitem.asSealV0[0].modn(sessionValidators.length)];
         }
       }
     }

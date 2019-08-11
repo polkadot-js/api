@@ -2,15 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor, RegistryTypes } from '../types';
+
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
-import { Codec, Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
 
 export class TypeRegistry {
   public static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
-  private _registry: Map<string, Constructor> = new Map();
+  private _classes: Map<string, Constructor> = new Map();
+
+  private _definitions: Map<string, string> = new Map();
 
   public register (type: Constructor | RegistryTypes): void;
 
@@ -23,34 +26,62 @@ export class TypeRegistry {
       const name = arg1;
       const type = arg2!;
 
-      this._registry.set(name, type);
+      this._classes.set(name, type);
     } else if (isFunction(arg1)) {
       const name = arg1.name;
       const type = arg1;
 
-      this._registry.set(name, type);
+      this._classes.set(name, type);
     } else {
       this.registerObject(arg1);
     }
   }
 
-  private registerObject (obj: RegistryTypes, overwrite: boolean = true): void {
+  private registerObject (obj: RegistryTypes): void {
     Object.entries(obj).forEach(([name, type]): void => {
-      if (overwrite || !this.get(name)) {
-        if (isString(type)) {
-          this._registry.set(name, createClass(type));
-        } else if (isFunction(type)) {
-          // This _looks_ a bit funny, but `typeof Clazz === 'function'
-          this._registry.set(name, type);
-        } else {
-          this._registry.set(name, createClass(JSON.stringify(type)));
+      if (isFunction(type)) {
+        // This _looks_ a bit funny, but `typeof Clazz === 'function'
+        this._classes.set(name, type);
+      } else {
+        const def = isString(type)
+          ? type
+          : JSON.stringify(type);
+
+        if (this._classes.has(name)) {
+          console.warn(`The type '${name}' is already existing as a class, re-registering definition`);
+
+          this._classes.delete(name);
         }
+
+        this._definitions.set(name, def);
       }
     });
   }
 
   public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
-    return this._registry.get(name) as unknown as Constructor<T>;
+    let Type = this._classes.get(name);
+
+    // we have not already created the type, attempt it
+    if (!Type) {
+      const definition = this._definitions.get(name);
+
+      // we have a definition, so create the class now (lazily)
+      if (definition) {
+        const BaseType = createClass(definition);
+
+        // NOTE If we didn't extend here, we would have strange artifacts. An example is
+        // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
+        Type = class extends BaseType {};
+
+        this._classes.set(name, Type);
+      }
+    }
+
+    return Type as Constructor<T>;
+  }
+
+  public getDefinition (name: string): string | undefined {
+    return this._definitions.get(name);
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
@@ -62,18 +93,12 @@ export class TypeRegistry {
 
     return type;
   }
+
+  public hasType (name: string): boolean {
+    return this._classes.has(name) || this._definitions.has(name);
+  }
 }
 
-let defaultRegistry: TypeRegistry;
-
 export default function getDefaultRegistry (): TypeRegistry {
-  if (!defaultRegistry) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const defaultTypes = require('../index.types');
-
-    defaultRegistry = new TypeRegistry();
-    defaultRegistry.register({ ...defaultTypes });
-  }
-
-  return defaultRegistry;
+  return TypeRegistry.defaultRegistry;
 }

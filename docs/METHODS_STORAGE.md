@@ -31,6 +31,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[technicalCommittee](#technicalCommittee)**
 
+- **[technicalMembership](#technicalMembership)**
+
 - **[timestamp](#timestamp)**
 
 - **[treasury](#treasury)**
@@ -75,8 +77,10 @@ ___
 ▸ **randomness**(): `[u8;32]`
 - **summary**:   The epoch randomness for the *current* epoch.   # Security   This MUST NOT be used for gambling, as it can be influenced by a  malicious validator in the short term. It MAY be used in many  cryptographic protocols, however, so long as one remembers that this  (like everything else on-chain) it is public. For example, it can be  used where a number is needed that cannot have been chosen by an  adversary, for purposes such as public-coin zero-knowledge proofs.
 
-▸ **underConstruction**(): `[u8;32]`
-- **summary**:   Randomness under construction.
+▸ **segmentIndex**(): `u32`
+- **summary**:   Randomness under construction.   We make a tradeoff between storage accesses and list length.  We store the under-construction randomness in segments of up to  `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.   Once a segment reaches this length, we begin the next one.  We reset all segments and return to `0` at the beginning of every  epoch.
+
+▸ **underConstruction**(`u32`): `Vec<[u8;32]>`
 
 ___
 
@@ -273,10 +277,13 @@ ___
 ### imOnline
 
 ▸ **gossipAt**(): `BlockNumber`
+- **summary**:   The block number when we should gossip.
 
-▸ **lastNewEraStart**(): `Option<SessionIndex>`
+▸ **keys**(): `Vec<AuthorityId>`
+- **summary**:   The current set of keys that may issue a heartbeat.
 
-▸ **receivedHeartbeats**(`SessionIndex, AuthorityId`): `Bytes`
+▸ **receivedHeartbeats**(`SessionIndex, AuthIndex`): `Bytes`
+- **summary**:   For each session index we keep a mapping of `AuthorityId`  to `offchain::OpaqueNetworkState`.
 
 ___
 
@@ -460,6 +467,14 @@ ___
 
 ▸ **voting**(`Hash`): `Option<Votes>`
 - **summary**:   Votes on a given proposal, if it is ongoing.
+
+___
+
+
+### technicalMembership
+
+▸ **members**(): `Vec<AccountId>`
+- **summary**:   The current membership, stored as an ordered Vec.
 
 ___
 

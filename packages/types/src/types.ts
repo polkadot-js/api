@@ -8,11 +8,14 @@ import BN from 'bn.js';
 
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
+import { InterfaceRegistry } from './interfaceRegistry';
 import { FunctionMetadata } from './Metadata/v7/Calls';
 import Call from './primitive/Generic/Call';
 import Address from './primitive/Generic/Address';
 
 export * from './codec/types';
+
+export type InterfaceTypes = keyof InterfaceRegistry;
 
 export interface CallFunction {
   (...args: any[]): Call;
@@ -120,8 +123,6 @@ export interface IHash extends U8a { }
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
-  Fallback?: Constructor<Codec>;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(...value: any[]): T;
 }
