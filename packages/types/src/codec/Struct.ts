@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash } from '../types';
+import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes } from '../types';
 
 import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { InterfaceRegistry } from '../interfaceRegistry';
 import U8a from './U8a';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, keyof InterfaceRegistry | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
 
 /**
  * @name Struct

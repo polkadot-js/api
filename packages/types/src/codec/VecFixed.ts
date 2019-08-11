@@ -2,11 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor } from '../types';
+import { Codec, Constructor, InterfaceTypes } from '../types';
 
 import { assert, isU8a, u8aConcat, compactToU8a } from '@polkadot/util';
-
-import { InterfaceRegistry } from '../interfaceRegistry';
 import AbstractArray from './AbstractArray';
 import { typeToConstructor } from './utils';
 import Vec from './Vec';
@@ -19,8 +17,8 @@ import Vec from './Vec';
 export default class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T> | keyof InterfaceRegistry, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
-    const Clazz = typeToConstructor(Type);
+  public constructor (Type: Constructor<T> | InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+    const Clazz = typeToConstructor<T>(Type);
 
     super(...VecFixed.decodeVecFixed(Clazz, length, value));
 
