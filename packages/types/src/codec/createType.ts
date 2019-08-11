@@ -54,12 +54,9 @@ export function typeSplit (type: string): string[] {
       case '{': sDepth++; break;
       case '}': sDepth--; break;
 
-      // adjusttuple depth
+      // adjust tuple depth
       case '(': tDepth++; break;
       case ')': tDepth--; break;
-
-      // normal character
-      default: break;
     }
   }
 

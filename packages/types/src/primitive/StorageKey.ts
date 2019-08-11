@@ -64,9 +64,7 @@ export default class StorageKey extends Bytes {
       };
     } else if (!value || isString(value) || isU8a(value)) {
       // let Bytes handle these inputs
-      return {
-        key: value
-      };
+      return { key: value };
     } else if (isFunction(value)) {
       return {
         key: value(),
