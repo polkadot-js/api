@@ -20,7 +20,7 @@ import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
+import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -564,8 +564,12 @@ export default abstract class ApiBase<ApiType> {
 
       // detect the extrinsic version in-use based on the last block
       const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
+      const blockExtrinsic = lastBlock.block.extrinsics[0];
 
-      this._extrinsicType = lastBlock.block.extrinsics[0].type;
+      // If we haven't sync-ed to 1 yes, this won't have any values
+      this._extrinsicType = blockExtrinsic
+        ? blockExtrinsic.type
+        : EXTRINSIC_LATEST_VERSION;
 
       // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
       // and has the old EventRecord format. Remove this ASAP with support for
