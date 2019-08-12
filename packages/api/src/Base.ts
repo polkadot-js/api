@@ -20,7 +20,7 @@ import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
+import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';

@@ -8,7 +8,7 @@ export const BIT_UNSIGNED = 0;
 
 export const EMPTY_U8A = new Uint8Array();
 
-export const EXTRINSIC_LATEST_VERSION = 3;
+export const LATEST_VERSION = 3;
 
 // TODO We really want to swap this to V3, however all the test data is setup
 // for V1, so this will take some time to convert... "some" time :)
