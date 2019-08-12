@@ -19,7 +19,7 @@ import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV
 import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
-import { EraIndex, EraRewards, Exposure, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
+import { EraIndex, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
@@ -472,6 +472,9 @@ export interface InterfaceRegistry {
   Exposure: Exposure;
   'Option<Exposure>': Option<Exposure>;
   'Vec<Exposure>': Vec<Exposure>;
+  Forcing: Forcing;
+  'Option<Forcing>': Option<Forcing>;
+  'Vec<Forcing>': Vec<Forcing>;
   IndividualExposure: IndividualExposure;
   'Option<IndividualExposure>': Option<IndividualExposure>;
   'Vec<IndividualExposure>': Vec<IndividualExposure>;

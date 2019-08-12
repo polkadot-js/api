@@ -14,6 +14,13 @@ export default {
       own: 'Compact<Balance>',
       others: 'Vec<IndividualExposure>'
     },
+    Forcing: {
+      _enum: [
+        'NotForcing',
+        'ForceNew',
+        'ForceNone'
+      ]
+    },
     IndividualExposure: {
       who: 'AccountId',
       value: 'Compact<Balance>'
