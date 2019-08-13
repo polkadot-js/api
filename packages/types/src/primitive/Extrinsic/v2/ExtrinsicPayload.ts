@@ -66,8 +66,7 @@ export default class ExtrinsicPayloadV2 extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a());
+    return sign(signerPair, this.toU8a(true));
   }
 }
