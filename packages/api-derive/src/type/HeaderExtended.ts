@@ -8,7 +8,7 @@ import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
 
-// @ts-ignore
+// @ts-ignore We can ignore the properties, added via Struct.with
 const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header);
 
 /**

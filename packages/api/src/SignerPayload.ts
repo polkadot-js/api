@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index } from '@polkadot/types/interfaces';
+import { Constructor } from '@polkadot/types/types';
 import { SignerPayload, SignerPayloadRaw } from './types';
 
 import { createType, Compact, Struct, u8 } from '@polkadot/types';
@@ -19,7 +20,9 @@ export interface SignerPayloadType {
   version: u8;
 }
 
-export default class Payload extends Struct.with({
+// We explicitly cast the type here to get the actual TypeScript exports right
+// @ts-ignore We can ignore the properties, added via Struct.with
+const _Payload: Constructor<SignerPayloadType> = Struct.with({
   address: 'Address',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
@@ -29,7 +32,9 @@ export default class Payload extends Struct.with({
   nonce: 'Compact<Index>',
   tip: 'Compact<Balance>',
   version: u8
-}) {
+});
+
+export default class Payload extends _Payload {
   /**
    * @description Returns this as a SignerPayloadType. This works since the Struct.with injects all the getters automatically (just ensure the 2 definitiona are matching)
    */
