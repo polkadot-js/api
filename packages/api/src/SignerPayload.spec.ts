@@ -17,7 +17,7 @@ describe('SignerPayload', (): void => {
     method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
     nonce: '0x00001234',
     tip: '0x00000000000000000000000000005678',
-    version: 2
+    version: 3
   };
 
   beforeEach((): void => {
@@ -35,7 +35,7 @@ describe('SignerPayload', (): void => {
         method: createType('Call', '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c'),
         nonce: 0x1234,
         tip: 0x5678,
-        version: 2
+        version: 3
       }).toPayload()
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
@@ -46,7 +46,7 @@ describe('SignerPayload', (): void => {
       method: '0x0500ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
       nonce: '0x00001234',
       tip: '0x00000000000000000000000000005678',
-      version: 2
+      version: 3
     });
   });
 
