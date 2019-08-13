@@ -26,6 +26,16 @@ export interface Exposure extends Struct {
   readonly others: Vec<IndividualExposure>;
 }
 
+/** Enum */
+export interface Forcing extends Enum {
+  /** 0:: NotForcing */
+  readonly isNotForcing: boolean;
+  /** 1:: ForceNew */
+  readonly isForceNew: boolean;
+  /** 2:: ForceNone */
+  readonly isForceNone: boolean;
+}
+
 /** Struct */
 export interface IndividualExposure extends Struct {
   /** AccountId */
