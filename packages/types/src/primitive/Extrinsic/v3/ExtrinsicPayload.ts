@@ -7,7 +7,7 @@ import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import U8a from '../../../codec/U8a';
+import Bytes from '../../../primitive/Bytes';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
@@ -20,7 +20,7 @@ import { sign } from '../util';
 export default class ExtrinsicPayloadV3 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
-      method: U8a,
+      method: 'Bytes',
       era: ExtrinsicEra,
       nonce: 'Compact<Index>',
       tip: 'Compact<Balance>',
@@ -51,10 +51,10 @@ export default class ExtrinsicPayloadV3 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
+   * @description The [[Bytes]] contained in the payload
    */
-  public get method (): U8a {
-    return this.get('method') as U8a;
+  public get method (): Bytes {
+    return this.get('method') as Bytes;
   }
 
   /**
@@ -74,8 +74,7 @@ export default class ExtrinsicPayloadV3 extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a());
+    return sign(signerPair, this.toU8a(true));
   }
 }

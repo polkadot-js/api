@@ -126,7 +126,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
-      method: method.toU8a(),
+      method: method.toHex(),
       nonce,
       tip: 0
     });
