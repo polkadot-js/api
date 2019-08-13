@@ -128,10 +128,7 @@ function _decodeFixedVec (type: string, value: TypeDef): TypeDef {
   assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
   value.info = TypeDefInfo.VecFixed;
-  value.ext = {
-    length: vecLen,
-    type: vecType
-  } as unknown as TypeDefExtVecFixed;
+  value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
 
   return value;
 }
