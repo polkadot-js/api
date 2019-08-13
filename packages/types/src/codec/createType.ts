@@ -340,11 +340,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if not parseable, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (
-  type: K,
-  params: any[] = [],
-  isPedantic?: boolean
-): FromReg<T, K> {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
     return initType(createClass<T, K>(type), params, isPedantic);
   } catch (error) {
@@ -353,17 +349,11 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
 }
 
 /**
- * Create an instance of a `type` with a given `value`.
+ * Create an instance of a `type` with a given `params`.
  * @param type - A recognizable string representing the type to create an
  * instance from
- * @param value - The value to instantiate the type with
- * @param isPedantic - Double-check that the input's encoding matches the
- * output's one. Slower, but ensures that we have a 100% grasp on the actual
- * provided value
+ * @param params - The value to instantiate the type with
  */
-export default function createType<K extends InterfaceTypes> (
-  type: K,
-  ...params: any[]
-): InterfaceRegistry[K] {
+export default function createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
   return createTypeUnsafe<Codec, K>(type, params) as InterfaceRegistry[K];
 }
