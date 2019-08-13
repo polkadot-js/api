@@ -348,7 +348,7 @@ ___
 ▸ **currentEraStartSessionIndex**(): `SessionIndex`
 - **summary**:   The session index at which the current era started.
 
-▸ **forceNewEra**(): `bool`
+▸ **forceEra**(): `Forcing`
 - **summary**:   True if the next session change will be a new era regardless of index.
 
 ▸ **invulnerables**(): `Vec<AccountId>`

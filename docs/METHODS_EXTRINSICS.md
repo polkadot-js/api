@@ -229,13 +229,16 @@ ___
 - **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains one read.  - Writes are limited to the `origin` account key.  # </weight>
 
 ▸ **forceNewEra**()
-- **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.   # <weight>  - Independent of the arguments.  - Triggers the Phragmen election. Expensive but not user-controlled.  - Depends on state: `O(|edges| * |validators|)`.  # </weight>
+- **summary**:   Force there to be a new era at the end of the next session. After this, it will be  reset to normal (non-forced) behaviour.   # <weight>  - No arguments.  # </weight>
+
+▸ **forceNoEras**()
+- **summary**:   Force there to be no new eras indefinitely.   # <weight>  - No arguments.  # </weight>
 
 ▸ **nominate**(targets: `Vec<Address>`)
 - **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - The transaction's complexity is proportional to the size of `targets`,  which is capped at `MAX_NOMINATIONS`.  - Both the reads and writes follow a similar pattern.  # </weight>
 
 ▸ **setController**(controller: `Address`)
-- **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
+- **summary**:   (Re-)set the controller of a stash.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
 
 ▸ **setInvulnerables**(validators: `Vec<AccountId>`)
 - **summary**:   Set the validators who cannot be slashed (if any).
