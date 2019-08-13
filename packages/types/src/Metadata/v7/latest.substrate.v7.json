@@ -19,7 +19,7 @@
                     "isLinked": false
                   }
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000",
                 "documentation": [
                   " Extrinsics nonce for accounts."
                 ]
@@ -119,7 +119,7 @@
                 "type": {
                   "PlainType": "BlockNumber"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000",
                 "documentation": [
                   " The current block number being processed. Set by `execute_block`."
                 ]
@@ -1124,10 +1124,10 @@
                 ]
               },
               {
-                "name": "ForceNewEra",
+                "name": "ForceEra",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "bool"
+                  "PlainType": "Forcing"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1355,7 +1355,7 @@
                 }
               ],
               "documentation": [
-                " (Re-)set the payment target for a controller.",
+                " (Re-)set the controller of a stash.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
@@ -1381,16 +1381,25 @@
               ]
             },
             {
+              "name": "force_no_eras",
+              "args": [],
+              "documentation": [
+                " Force there to be no new eras indefinitely.",
+                "",
+                " # <weight>",
+                " - No arguments.",
+                " # </weight>"
+              ]
+            },
+            {
               "name": "force_new_era",
               "args": [],
               "documentation": [
-                " Force there to be a new era. This also forces a new session immediately after.",
-                " `apply_rewards` should be true for validators to get the session reward.",
+                " Force there to be a new era at the end of the next session. After this, it will be",
+                " reset to normal (non-forced) behaviour.",
                 "",
                 " # <weight>",
-                " - Independent of the arguments.",
-                " - Triggers the Phragmen election. Expensive but not user-controlled.",
-                " - Depends on state: `O(|edges| * |validators|)`.",
+                " - No arguments.",
                 " # </weight>"
               ]
             },
@@ -2226,7 +2235,7 @@
             {
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
-              "value": "0x8097060000000000",
+              "value": "0x80970600",
               "documentation": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
@@ -2238,7 +2247,7 @@
             {
               "name": "LaunchPeriod",
               "type": "BlockNumber",
-              "value": "0x0027060000000000",
+              "value": "0x00270600",
               "documentation": [
                 " How often (in blocks) new public referenda are launched."
               ]
@@ -2246,7 +2255,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x0027060000000000",
+              "value": "0x00270600",
               "documentation": [
                 " How often (in blocks) to check for new votes."
               ]
@@ -2262,7 +2271,7 @@
             {
               "name": "EmergencyVotingPeriod",
               "type": "BlockNumber",
-              "value": "0xc0a8000000000000",
+              "value": "0xc0a80000",
               "documentation": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
@@ -2270,7 +2279,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x0027060000000000",
+              "value": "0x00270600",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -2716,7 +2725,7 @@
                 "type": {
                   "PlainType": "BlockNumber"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000",
                 "documentation": [
                   " How long to give each top candidate to present themselves after the vote ends."
                 ]
@@ -2727,7 +2736,7 @@
                 "type": {
                   "PlainType": "BlockNumber"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000",
                 "documentation": [
                   " How long each position is active for."
                 ]
@@ -3253,7 +3262,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x8070000000000000",
+              "value": "0x80700000",
               "documentation": [
                 " How often (in blocks) to check for new votes. A reasonable default value",
                 " is 1000."
@@ -3434,7 +3443,7 @@
             {
               "name": "WindowSize",
               "type": "BlockNumber",
-              "value": "0x6500000000000000",
+              "value": "0x65000000",
               "documentation": [
                 " The number of recent samples to keep from this chain. Default is 101."
               ]
@@ -3442,7 +3451,7 @@
             {
               "name": "ReportLatency",
               "type": "BlockNumber",
-              "value": "0xe803000000000000",
+              "value": "0xe8030000",
               "documentation": [
                 " The delay after which point things become suspicious. Default is 1000."
               ]
@@ -3730,7 +3739,7 @@
             {
               "name": "SpendPeriod",
               "type": "BlockNumber",
-              "value": "0x4038000000000000",
+              "value": "0x40380000",
               "documentation": [
                 " Period between successive spends."
               ]
@@ -4026,7 +4035,7 @@
             {
               "name": "SignedClaimHandicap",
               "type": "BlockNumber",
-              "value": "0x0200000000000000",
+              "value": "0x02000000",
               "documentation": [
                 " Number of block delay an extrinsic claim surcharge has.",
                 "",
@@ -4262,7 +4271,7 @@
                 "type": {
                   "PlainType": "BlockNumber"
                 },
-                "fallback": "0x0000000000000000",
+                "fallback": "0x00000000",
                 "documentation": [
                   " The block number when we should gossip."
                 ]
