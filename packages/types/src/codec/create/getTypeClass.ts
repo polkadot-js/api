@@ -20,11 +20,27 @@ import VecFixed from '../VecFixed';
 import { ClassOf } from './createClass';
 import { getTypeRegistry } from './registry';
 
+function getSubDefArray (value: TypeDef): TypeDef[] {
+  assert(value.sub && Array.isArray(value.sub), `Expected subtype as TypeDef[] in ${JSON.stringify(value)}`);
+
+  return value.sub as TypeDef[];
+}
+
+function getSubDef (value: TypeDef): TypeDef {
+  assert(value.sub && !Array.isArray(value.sub), `Expected subtype as TypeDef in ${JSON.stringify(value)}`);
+
+  return value.sub as TypeDef;
+}
+
+function getSubType (value: TypeDef): InterfaceTypes {
+  return getSubDef(value).type as InterfaceTypes;
+}
+
 // create a maps of type string constructors from the input
-function getTypeClassMap (defs: TypeDef[]): Record<string, InterfaceTypes> {
+function getTypeClassMap (value: TypeDef): Record<string, InterfaceTypes> {
   const result: Record<string, InterfaceTypes> = {};
 
-  return defs.reduce((result, sub): Record<string, InterfaceTypes> => {
+  return getSubDefArray(value).reduce((result, sub): Record<string, InterfaceTypes> => {
     result[sub.name as string] = sub.type as any;
 
     return result;
@@ -32,68 +48,36 @@ function getTypeClassMap (defs: TypeDef[]): Record<string, InterfaceTypes> {
 }
 
 // create an array of type string constructors from the input
-function getTypeClassArray (defs: TypeDef[]): (InterfaceTypes)[] {
-  return defs.map(({ type }): InterfaceTypes =>
+function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
+  return getSubDefArray(value).map(({ type }): InterfaceTypes =>
     type as InterfaceTypes
   );
 }
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
-  [TypeDefInfo.Compact]: (value: TypeDef): Constructor => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
+  [TypeDefInfo.Compact]: (value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
-    return Compact.with(
-      (value.sub as TypeDef).type as InterfaceTypes
-    );
-  },
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  [TypeDefInfo.DoubleMap]: (value: TypeDef): Constructor => getTypeClass(getSubDef(value)),
 
-  [TypeDefInfo.DoubleMap]: (value: TypeDef): Constructor => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
+  [TypeDefInfo.Enum]: (value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
 
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return getTypeClass(value.sub as TypeDef);
-  },
-
-  [TypeDefInfo.Enum]: (value: TypeDef): Constructor => {
-    assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
-
-    return Enum.with(
-      getTypeClassMap(value.sub as TypeDef[])
-    );
-  },
-
-  [TypeDefInfo.Linkage]: (value: TypeDef): Constructor => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
-
-    return Linkage.withKey(
-      (value.sub as TypeDef).type as InterfaceTypes
-    );
-  },
+  [TypeDefInfo.Linkage]: (value: TypeDef): Constructor => Linkage.withKey(getSubType(value)),
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (value: TypeDef): Constructor => {
-    return ClassOf('Null');
-  },
+  [TypeDefInfo.Null]: (value: TypeDef): Constructor => ClassOf('Null'),
 
-  [TypeDefInfo.Option]: (value: TypeDef): Constructor => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
-
-    return Option.with(
-      (value.sub as TypeDef).type as InterfaceTypes
-    );
-  },
+  [TypeDefInfo.Option]: (value: TypeDef): Constructor => Option.with(getSubType(value)),
 
   [TypeDefInfo.Plain]: (value: TypeDef): Constructor => {
-    throw new Error(`Unable to find plain type for ${value.name}:${value.type}`);
+    throw new Error(`Unable to find plain type for ${JSON.stringify(value)}`);
   },
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {
-    assert(Array.isArray(value.sub), 'Expected nested info for Set');
-
     const result: Record<string, number> = {};
 
     return CodecSet.with(
-      (value.sub as TypeDef[]).reduce((result, { name, index }): Record<string, number> => {
+      getSubDefArray(value).reduce((result, { name, index }): Record<string, number> => {
         result[name as string] = index as number;
 
         return result;
@@ -101,31 +85,17 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
     );
   },
 
-  [TypeDefInfo.Struct]: (value: TypeDef): Constructor => {
-    assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
+  [TypeDefInfo.Struct]: (value: TypeDef): Constructor => Struct.with(getTypeClassMap(value)),
 
-    return Struct.with(
-      getTypeClassMap(value.sub as TypeDef[])
-    );
-  },
-
-  [TypeDefInfo.Tuple]: (value: TypeDef): Constructor => {
-    assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
-
-    return Tuple.with(
-      getTypeClassArray(value.sub as TypeDef[])
-    );
-  },
+  [TypeDefInfo.Tuple]: (value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
 
   [TypeDefInfo.Vec]: (value: TypeDef): Constructor => {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vec');
-
-    const vsub = value.sub as TypeDef;
+    const subType = getSubType(value);
 
     return (
-      vsub.type === 'u8'
+      subType === 'u8'
         ? ClassOf('Bytes')
-        : Vec.with(vsub.type as InterfaceTypes)
+        : Vec.with(subType)
     );
   },
 
