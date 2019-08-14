@@ -102,13 +102,15 @@ export function getTypeDef (_type: string, name?: string): TypeDef {
   let subType = '';
 
   const _hasWrapper = (type: string, start: string, end: string): boolean => {
-    if (type.substr(0, start.length) === start) {
-      assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
-
-      subType = type.substr(start.length, type.length - start.length - 1);
+    if (type.substr(0, start.length) !== start) {
+      return false;
     }
 
-    return !!subType;
+    assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+
+    subType = type.substr(start.length, type.length - start.length - 1);
+
+    return true;
   };
 
   if (_hasWrapper(type, '[', ']')) {
