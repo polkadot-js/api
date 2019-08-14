@@ -11,7 +11,7 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import createType, { createTypeUnsafe } from '@polkadot/types/codec/create';
 
 import { SubmittableResult } from './';
 

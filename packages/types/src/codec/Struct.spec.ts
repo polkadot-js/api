@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import { ClassOf } from '../codec/createType';
+import { ClassOf } from './create';
 import AccountId from '../primitive/Generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';

@@ -6,7 +6,7 @@ import { AnyU8a } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { ClassOf } from '../codec/createType';
+import { ClassOf } from '../codec/create';
 import Compact from '../codec/Compact';
 import U8a from '../codec/U8a';
 

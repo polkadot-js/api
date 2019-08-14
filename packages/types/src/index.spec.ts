@@ -6,7 +6,7 @@ import './injector';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { createTypeUnsafe } from './codec/createType';
+import { createTypeUnsafe } from './codec/create';
 import GenericCall from './primitive/Generic/Call';
 import { Codec } from './types';
 import * as exported from './index.types';

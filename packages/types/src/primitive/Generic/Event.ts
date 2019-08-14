@@ -8,7 +8,7 @@ import { Constructor, Codec } from '../../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import { getTypeClass, getTypeDef } from '../../codec/createType';
+import { getTypeClass, getTypeDef } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Metadata from '../../Metadata';

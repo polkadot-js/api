@@ -6,7 +6,7 @@ import { Codec, Constructor, InterfaceTypes } from '../../types';
 
 import { isString } from '@polkadot/util';
 
-import { ClassOf } from '../createType';
+import { ClassOf } from '../create';
 
 export function typeToConstructor <T = Codec> (type: InterfaceTypes | Constructor<T>): Constructor<T> {
   return (

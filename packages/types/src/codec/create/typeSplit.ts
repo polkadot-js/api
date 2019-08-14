@@ -1,0 +1,49 @@
+// Copyright 2017-2019 @polkadot/types authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { assert } from '@polkadot/util';
+
+// safely split a string on ', ' while taking care of any nested occurences
+export function typeSplit (type: string): string[] {
+  let [cDepth, fDepth, sDepth, tDepth, start] = [0, 0, 0, 0, 0];
+  const result = [];
+  const checkType = (ch: string, index: number): void => {
+    switch (ch) {
+      case ',':
+        // we are not nested, add the type
+        if (cDepth === 0 && fDepth === 0 && sDepth === 0 && tDepth === 0) {
+          result.push(type.substr(start, index - start).trim());
+          start = index + 1;
+        }
+        break;
+
+      // adjust compact/vec (and friends) depth
+      case '<': cDepth++; break;
+      case '>': cDepth--; break;
+
+      // adjust fixed vec depths
+      case '[': fDepth++; break;
+      case ']': fDepth--; break;
+
+      // adjust struct depth
+      case '{': sDepth++; break;
+      case '}': sDepth--; break;
+
+      // adjust tuple depth
+      case '(': tDepth++; break;
+      case ')': tDepth--; break;
+    }
+  };
+
+  for (let index = 0; index < type.length; index++) {
+    checkType(type[index], index);
+  }
+
+  assert(!cDepth && !fDepth && !sDepth && !tDepth, `Invalid defintion (missing terminators) found in ${type}`);
+
+  // the final leg of the journey
+  result.push(type.substr(start, type.length - start).trim());
+
+  return result;
+}

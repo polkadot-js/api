@@ -6,7 +6,7 @@ import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from 
 
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../../codec/createType';
+import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
 import { FunctionMetadata as FunctionMetadataV7, FunctionArgumentMetadata } from '../../Metadata/v7/Calls';

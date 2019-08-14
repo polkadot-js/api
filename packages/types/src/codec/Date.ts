@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from './createType';
+import createType from './create';
 import { UIntBitLength } from './AbstractInt';
 
 const BITLENGTH: UIntBitLength = 64;
