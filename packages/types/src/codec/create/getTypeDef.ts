@@ -90,7 +90,7 @@ function _decodeTuple (value: TypeDef, type: string, subType: string): TypeDef {
   return value;
 }
 
-function hasWrapper (type: string, start: string, end: string): boolean {
+function hasWrapper (type: string, [start, end]: [string, string, any]): boolean {
   if (type.substr(0, start.length) !== start) {
     return false;
   }
@@ -114,25 +114,29 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['DoubleMap<', '>', TypeDefInfo.DoubleMap]
 ];
 
+function extractSubType (type: string, [start, end]: [string, string, any]): string {
+  return type.substr(start.length, type.length - start.length - end.length);
+}
+
 export function getTypeDef (_type: string, name?: string): TypeDef {
   const type = _type.toString().trim();
   const value: TypeDef = { info: TypeDefInfo.Plain, name, type };
 
-  const nested = nestedExtraction.find(([start, end]): boolean => hasWrapper(type, start, end));
+  const nested = nestedExtraction.find((nested): boolean =>
+    hasWrapper(type, nested)
+  );
 
   if (nested) {
-    const subType = type.substr(nested[0].length, type.length - nested[0].length - nested[1].length);
-
-    return nested[2](value, type, subType);
+    return nested[2](value, type, extractSubType(type, nested));
   }
 
-  const wrapped = wrappedExtraction.find(([start, end]): boolean => hasWrapper(type, start, end));
+  const wrapped = wrappedExtraction.find((wrapped): boolean =>
+    hasWrapper(type, wrapped)
+  );
 
   if (wrapped) {
     value.info = wrapped[2];
-    value.sub = getTypeDef(
-      type.substr(wrapped[0].length, type.length - wrapped[0].length - wrapped[1].length)
-    );
+    value.sub = getTypeDef(extractSubType(type, wrapped));
   }
 
   return value;
