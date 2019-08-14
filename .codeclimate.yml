@@ -6,3 +6,8 @@ exclude_patterns:
 - "docs/**/*.js"
 - "packages/types/src/interfaces/"
 - "packages/types/src/scripts/"
+checks:
+  return-statements:
+    enabled: true
+    config:
+      threshold: 5
