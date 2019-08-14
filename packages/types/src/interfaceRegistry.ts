@@ -7,7 +7,7 @@ import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, Balanc
 import { RawAuraBorosPreDigest } from './interfaces/abrs';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
-import { BabeAuthorityWeight, BabeBlockWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
 import { MemberCount, ProposalIndex, Votes } from './interfaces/collective';
 import { AuthorityId } from './interfaces/consensus';
@@ -273,6 +273,10 @@ export interface InterfaceRegistry {
   'Compact<BabeBlockWeight>': Compact<BabeBlockWeight>;
   'Option<BabeBlockWeight>': Option<BabeBlockWeight>;
   'Vec<BabeBlockWeight>': Vec<BabeBlockWeight>;
+  BabeWeight: BabeWeight;
+  'Compact<BabeWeight>': Compact<BabeWeight>;
+  'Option<BabeWeight>': Option<BabeWeight>;
+  'Vec<BabeWeight>': Vec<BabeWeight>;
   RawBabePreDigest: RawBabePreDigest;
   'Option<RawBabePreDigest>': Option<RawBabePreDigest>;
   'Vec<RawBabePreDigest>': Vec<RawBabePreDigest>;

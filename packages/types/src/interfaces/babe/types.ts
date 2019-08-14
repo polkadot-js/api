@@ -10,6 +10,9 @@ export type BabeAuthorityWeight = u64;
 /** u32 */
 export type BabeBlockWeight = u32;
 
+/** u64 */
+export type BabeWeight = u64;
+
 /** Enum */
 export interface RawBabePreDigest extends Enum {
   /** 0:: Primary(RawBabePreDigestPrimary) */
