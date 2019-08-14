@@ -11,20 +11,18 @@ import { createClass } from './createClass';
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: any, created: FromReg<T, K>): void {
-  if (value && value.toU8a && !value.isEmpty) {
-    const inHex = value.toHex(true);
-    const crHex = created.toHex(true);
-    const hasMatch = inHex === crHex || (
-      created instanceof Uint8Array
-        // strip the input length
-        ? (value.toU8a(true).toString() === created.toU8a().toString())
-        // compare raw. without additions
-        : (value.toU8a(true).toString() === created.toU8a(true).toString())
-    );
+  const inHex = value.toHex(true);
+  const crHex = created.toHex(true);
+  const hasMatch = (inHex === crHex) || (value.toU8a(true).toString() === (
+    created instanceof Uint8Array
+      // strip the input length
+      ? created.toU8a().toString()
+      // compare raw. without additions
+      : created.toU8a(true).toString()
+  ));
 
-    if (!hasMatch) {
-      console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
-    }
+  if (!hasMatch) {
+    console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
   }
 }
 
@@ -34,7 +32,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
   const created = new Type(...params);
   const [value] = params;
 
-  if (isPedantic) {
+  if (isPedantic && value && value.toU8a && !value.isEmpty) {
     checkInstance(value, created);
   }
 
