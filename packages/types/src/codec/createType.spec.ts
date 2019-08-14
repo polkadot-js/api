@@ -244,6 +244,12 @@ describe('createType', (): void => {
     });
   });
 
+  it('allows creation of a Tuple', (): void => {
+    expect(
+      createTypeUnsafe('(Balance,u32)', [[1234, 5678]]).toJSON()
+    ).toEqual([1234, 5678]);
+  });
+
   it('allows creation of a Enum (simple)', (): void => {
     expect(
       createTypeUnsafe('{"_enum": ["A", "B", "C"]}', [1]).toJSON()

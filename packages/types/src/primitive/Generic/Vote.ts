@@ -48,9 +48,7 @@ export default class Vote extends U8aFixed {
     } else if (value instanceof Boolean) {
       return Vote.decodeVote(value.valueOf());
     } else if (isNumber(value)) {
-      return value < 0
-        ? new Uint8Array([AYE_BITS | DEF_CONV])
-        : new Uint8Array([NAY_BITS]);
+      return Vote.decodeVote(value < 0);
     } else if (isU8a(value)) {
       return value.length
         ? value.subarray(0, 1)

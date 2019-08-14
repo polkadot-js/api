@@ -99,16 +99,65 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
   return value;
 }
 
+// decode a struct, set or enum
+function _decodeStruct (type: string, value: TypeDef): TypeDef {
+  const parsed = JSON.parse(type);
+  const keys = Object.keys(parsed);
+
+  if (keys.length === 1 && keys[0] === '_enum') {
+    return _decodeEnum(value, parsed[keys[0]]);
+  } else if (keys.length === 1 && keys[0] === '_set') {
+    return _decodeSet(value, parsed[keys[0]]);
+  }
+
+  value.info = TypeDefInfo.Struct;
+  value.sub = keys.map((name): TypeDef =>
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    getTypeDef(parsed[name], name)
+  );
+
+  return value;
+}
+
+// decode a fixed vector, e.g. [u8;32]
+function _decodeFixedVec (type: string, value: TypeDef): TypeDef {
+  const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
+  const vecLen = parseInt(_vecLen.trim(), 10);
+
+  // as a first round, only u8 via u8aFixed, we can add more support
+  assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
+
+  value.info = TypeDefInfo.VecFixed;
+  value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
+
+  return value;
+}
+
+// decode a tuple
+function _decodeTuple (subType: string, value: TypeDef): TypeDef {
+  value.info = TypeDefInfo.Tuple;
+  value.sub = typeSplit(subType).map((inner): TypeDef =>
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    getTypeDef(inner)
+  );
+
+  return value;
+}
+
+const simpleExtraction: [string, string, TypeDefInfo][] = [
+  ['Compact<', '>', TypeDefInfo.Compact],
+  ['Option<', '>', TypeDefInfo.Option],
+  ['Vec<', '>', TypeDefInfo.Vec],
+  ['Linkage<', '>', TypeDefInfo.Linkage],
+  ['DoubleMap<', '>', TypeDefInfo.DoubleMap]
+];
+
 export function getTypeDef (_type: string, name?: string): TypeDef {
   const type = _type.toString().trim();
-  const value: TypeDef = {
-    info: TypeDefInfo.Plain,
-    name,
-    type
-  };
+  const value: TypeDef = { info: TypeDefInfo.Plain, name, type };
   let subType = '';
 
-  const startingWith = (type: string, start: string, end: string): boolean => {
+  const _hasWrapper = (type: string, start: string, end: string): boolean => {
     if (type.substr(0, start.length) !== start) {
       return false;
     }
@@ -120,45 +169,18 @@ export function getTypeDef (_type: string, name?: string): TypeDef {
     return true;
   };
 
-  if (startingWith(type, '(', ')')) {
-    value.info = TypeDefInfo.Tuple;
-    value.sub = typeSplit(subType).map((inner): TypeDef => getTypeDef(inner));
-  } else if (startingWith(type, '[', ']')) {
-    // this handles e.g. [u8;32]
-    const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
-    const vecLen = parseInt(_vecLen.trim(), 10);
+  if (_hasWrapper(type, '[', ']')) {
+    return _decodeFixedVec(type, value);
+  } else if (_hasWrapper(type, '{', '}')) {
+    return _decodeStruct(type, value);
+  } else if (_hasWrapper(type, '(', ')')) {
+    return _decodeTuple(subType, value);
+  }
 
-    // as a first round, only u8 via u8aFixed, we can add more support
-    assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
+  const extracted = simpleExtraction.find(([start, end]): boolean => _hasWrapper(type, start, end));
 
-    value.info = TypeDefInfo.VecFixed;
-    value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
-  } else if (startingWith(type, '{', '}')) {
-    const parsed = JSON.parse(type);
-    const keys = Object.keys(parsed);
-
-    if (keys.length === 1 && keys[0] === '_enum') {
-      _decodeEnum(value, parsed[keys[0]]);
-    } else if (keys.length === 1 && keys[0] === '_set') {
-      _decodeSet(value, parsed[keys[0]]);
-    } else {
-      value.info = TypeDefInfo.Struct;
-      value.sub = keys.map((name): TypeDef => getTypeDef(parsed[name], name));
-    }
-  } else if (startingWith(type, 'Compact<', '>')) {
-    value.info = TypeDefInfo.Compact;
-    value.sub = getTypeDef(subType);
-  } else if (startingWith(type, 'Option<', '>')) {
-    value.info = TypeDefInfo.Option;
-    value.sub = getTypeDef(subType);
-  } else if (startingWith(type, 'Vec<', '>')) {
-    value.info = TypeDefInfo.Vec;
-    value.sub = getTypeDef(subType);
-  } else if (startingWith(type, 'Linkage<', '>')) {
-    value.info = TypeDefInfo.Linkage;
-    value.sub = getTypeDef(subType);
-  } else if (startingWith(type, 'DoubleMap<', '>')) {
-    value.info = TypeDefInfo.DoubleMap;
+  if (extracted) {
+    value.info = extracted[2];
     value.sub = getTypeDef(subType);
   }
 
@@ -168,7 +190,6 @@ export function getTypeDef (_type: string, name?: string): TypeDef {
 export function createClass<T extends Codec = Codec, K extends string = string> (
   type: K
 ): Constructor<FromReg<T, K>> {
-  // return memoizedCreateClass(type);
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return getTypeClass<FromReg<T, K>>(getTypeDef(type));
 }
@@ -319,11 +340,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if not parseable, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (
-  type: K,
-  params: any[] = [],
-  isPedantic?: boolean
-): FromReg<T, K> {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
     return initType(createClass<T, K>(type), params, isPedantic);
   } catch (error) {
@@ -332,17 +349,11 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
 }
 
 /**
- * Create an instance of a `type` with a given `value`.
+ * Create an instance of a `type` with a given `params`.
  * @param type - A recognizable string representing the type to create an
  * instance from
- * @param value - The value to instantiate the type with
- * @param isPedantic - Double-check that the input's encoding matches the
- * output's one. Slower, but ensures that we have a 100% grasp on the actual
- * provided value
+ * @param params - The value to instantiate the type with
  */
-export default function createType<K extends InterfaceTypes> (
-  type: K,
-  ...params: any[]
-): InterfaceRegistry[K] {
+export default function createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
   return createTypeUnsafe<Codec, K>(type, params) as InterfaceRegistry[K];
 }
