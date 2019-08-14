@@ -33,14 +33,18 @@ export default class Address extends Base<AccountId | AccountIndex> {
   public static decodeAddress (value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
-    } else if (isBn(value) || isNumber(value)) {
-      return createType('AccountIndex', value);
     } else if (value instanceof Address) {
       return value.raw;
+    } else if (isBn(value) || isNumber(value)) {
+      return createType('AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
       return Address.decodeU8a(u8aToU8a(value));
     }
 
+    return Address.decodeString(value);
+  }
+
+  private static decodeString (value: string): AccountId | AccountIndex {
     const decoded = decodeAddress(value);
 
     return decoded.length === 32
