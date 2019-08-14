@@ -4,7 +4,7 @@
 
 import { Constants, ConstantCodec, ModuleConstants } from '../types';
 
-import { createTypeUnsafe } from '@polkadot/types/codec/create';
+import { createTypeUnsafe } from '@polkadot/types/codec';
 import Metadata from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
