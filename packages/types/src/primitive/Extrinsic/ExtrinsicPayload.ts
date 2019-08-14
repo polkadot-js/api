@@ -7,7 +7,7 @@ import { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import createType from '../../codec/create';
+import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';

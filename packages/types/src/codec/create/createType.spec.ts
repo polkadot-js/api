@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import createType, { createClass, createTypeUnsafe, getTypeRegistry, ClassOf } from '.';
+import { createClass, createType, createTypeUnsafe, getTypeRegistry, ClassOf } from '.';
 import CodecSet from '../Set';
 
 describe('createType', (): void => {

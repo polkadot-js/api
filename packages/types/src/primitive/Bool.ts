@@ -7,7 +7,7 @@ import { Codec, IHash } from '../types';
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from '../codec/create';
+import { createType } from '../codec/create';
 
 /**
  * @name Bool
