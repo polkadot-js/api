@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 export * from './runtime/types';
-export * from './abrs/types';
 export * from './authorship/types';
 export * from './aura/types';
 export * from './babe/types';

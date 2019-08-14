@@ -4,7 +4,6 @@
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
-import { RawAuraBorosPreDigest } from './interfaces/abrs';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
@@ -250,9 +249,6 @@ export interface InterfaceRegistry {
   Consensus: Consensus;
   'Option<Consensus>': Option<Consensus>;
   'Vec<Consensus>': Vec<Consensus>;
-  RawAuraBorosPreDigest: RawAuraBorosPreDigest;
-  'Option<RawAuraBorosPreDigest>': Option<RawAuraBorosPreDigest>;
-  'Vec<RawAuraBorosPreDigest>': Vec<RawAuraBorosPreDigest>;
   InclusionHeight: InclusionHeight;
   'Option<InclusionHeight>': Option<InclusionHeight>;
   'Vec<InclusionHeight>': Vec<InclusionHeight>;
