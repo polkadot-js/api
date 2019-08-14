@@ -32,19 +32,27 @@ export default class CodecSet extends Set<string> implements Codec {
     if (isU8a(value)) {
       return value.length === 0
         ? []
-        : CodecSet.decodeSet(setValues, value[0]);
+        : CodecSet.decodeSetNumber(setValues, value[0]);
     } else if (value instanceof Set) {
-      return CodecSet.decodeSet(setValues, [...value.values()]);
+      return CodecSet.decodeSetArray(setValues, [...value.values()]);
     } else if (Array.isArray(value)) {
-      return value.reduce((result, key): string[] => {
-        assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
-
-        result.push(key);
-
-        return result;
-      }, [] as string[]);
+      return CodecSet.decodeSetArray(setValues, value);
     }
 
+    return CodecSet.decodeSetNumber(setValues, value);
+  }
+
+  private static decodeSetArray (setValues: SetValues, value: string[]): string[] {
+    return value.reduce((result, key): string[] => {
+      assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
+
+      result.push(key);
+
+      return result;
+    }, [] as string[]);
+  }
+
+  private static decodeSetNumber (setValues: SetValues, value: number): string[] {
     const result = Object.keys(setValues).reduce((result, key): string[] => {
       if ((value & setValues[key]) === setValues[key]) {
         result.push(key);

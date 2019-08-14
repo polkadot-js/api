@@ -61,23 +61,23 @@ export default class RxCode extends RxBase {
       return this.apiContracts
         .putCode(maxGas, compactAddLength(this.code))
         .signAndSend(account)
-        .pipe(
-          map((result: ISubmittableResult): CodePutCodeResult => {
-            let blueprint: RxBlueprint | undefined;
-
-            if (result.isFinalized) {
-              const record = result.findRecord('contract', 'CodeStored');
-
-              if (record) {
-                blueprint = new RxBlueprint(this.api, this.abi, record.event.data[0] as Hash);
-              }
-            }
-
-            return new CodePutCodeResult(result, blueprint);
-          })
-        );
+        .pipe(map(this.createResult));
     };
 
     return { signAndSend };
+  }
+
+  private createResult = (result: ISubmittableResult): CodePutCodeResult => {
+    let blueprint: RxBlueprint | undefined;
+
+    if (result.isFinalized) {
+      const record = result.findRecord('contract', 'CodeStored');
+
+      if (record) {
+        blueprint = new RxBlueprint(this.api, this.abi, record.event.data[0] as Hash);
+      }
+    }
+
+    return new CodePutCodeResult(result, blueprint);
   }
 }

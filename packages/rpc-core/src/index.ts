@@ -148,26 +148,25 @@ export default class Rpc implements RpcInterface {
       // a try/catch block). So we:
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
-      return of(1)
-        .pipe(
-          map((): Codec[] => this.formatInputs(method, values)),
-          switchMap((params): Observable<[Codec[], any]> =>
-            combineLatest([
-              of(params),
-              from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
-            ])
-          ),
-          map(([params, result]): any => this.formatOutput(method, params, result)),
-          catchError((error): any => {
-            const message = this.createErrorMessage(method, error);
+      return of(1).pipe(
+        map((): Codec[] => this.formatInputs(method, values)),
+        switchMap((params): Observable<[Codec[], any]> =>
+          combineLatest([
+            of(params),
+            from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
+          ])
+        ),
+        map(([params, result]): any => this.formatOutput(method, params, result)),
+        catchError((error): any => {
+          const message = this.createErrorMessage(method, error);
 
-            l.error(message);
+          l.error(message);
 
-            return throwError(new ExtError(message, (error as ExtError).code, undefined));
-          }),
-          publishReplay(1), // create a Replay(1)
-          refCount() // Unsubcribe WS when there are no more subscribers
-        );
+          return throwError(new ExtError(message, (error as ExtError).code, undefined));
+        }),
+        publishReplay(1), // create a Replay(1)
+        refCount() // Unsubcribe WS when there are no more subscribers
+      );
     };
 
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
@@ -186,7 +185,6 @@ export default class Rpc implements RpcInterface {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
-
         const errorHandler = (error: Error): void => {
           const message = this.createErrorMessage(method, error);
 
@@ -235,11 +233,9 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => {
-              const message = this.createErrorMessage(method, error);
-
-              l.error(message);
-            });
+            .catch((error: Error): void =>
+              l.error(this.createErrorMessage(method, error))
+            );
         };
       }).pipe(
         publishReplay(1),
@@ -319,7 +315,9 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull ? null : createTypeUnsafe(type, [base], true)
+        isNull
+          ? null
+          : createTypeUnsafe(type, [base], true)
       );
     }
 
@@ -356,7 +354,9 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        value.isNone ? null : createTypeUnsafe(type, [value.unwrap()], true)
+        value.isNone
+          ? null
+          : createTypeUnsafe(type, [value.unwrap()], true)
       );
     }
 
