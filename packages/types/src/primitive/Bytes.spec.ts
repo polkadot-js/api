@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import createType from '../codec/createType';
+import { createType } from '../codec/create';
 import Bytes from './Bytes';
 
 describe('Bytes', (): void => {

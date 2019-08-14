@@ -4,14 +4,14 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
+import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import { createType, createTypeUnsafe } from '@polkadot/types/codec';
 
 import { SubmittableResult } from './';
 

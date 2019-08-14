@@ -6,7 +6,7 @@ import { Address, Balance, Index, Signature } from '../../../interfaces/runtime'
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
-import createType from '../../../codec/createType';
+import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';

@@ -6,7 +6,7 @@ import '../../injector';
 
 import BN from 'bn.js';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import AccountIndex from './AccountIndex';
 
 describe('AccountIndex', (): void => {

@@ -6,7 +6,7 @@ import '../../injector';
 
 import { setAddressPrefix } from '@polkadot/util-crypto';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import U8a from '../../codec/U8a';
 import jsonVec from '../../json/AccountIdVec.001.json';
 import AccountId from './AccountId';

@@ -4,7 +4,7 @@
 
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
 
-import { getTypeDef } from '../../codec/createType';
+import { getTypeDef } from '../../codec/create';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 

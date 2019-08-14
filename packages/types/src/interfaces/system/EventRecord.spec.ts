@@ -6,7 +6,7 @@ import '../../injector';
 
 import { EventRecord } from './types';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';

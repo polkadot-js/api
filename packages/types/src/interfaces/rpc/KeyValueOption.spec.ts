@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 
 describe('KeyValueOption', (): void => {
   it('exposes the properties for key/value', (): void => {

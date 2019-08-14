@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
+import '../../injector';
 
-import { Constructor } from '../types';
+import { Constructor } from '../../types';
 
-import { TypeRegistry } from './typeRegistry';
-import Struct from '../codec/Struct';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
+import { TypeRegistry } from './registry';
+import Struct from '../Struct';
+import Text from '../../primitive/Text';
+import U32 from '../../primitive/U32';
 
 // Copied from interfacesTs
 function isChildClass (Parent: Constructor<any>, Child?: Constructor<any>): boolean {

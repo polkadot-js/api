@@ -9,7 +9,7 @@ import fs from 'fs';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
-import { ClassOfUnsafe, getTypeDef } from '../codec/createType';
+import { ClassOfUnsafe, getTypeDef } from '../codec/create';
 import * as codecClasses from '../codec';
 import AbstractInt from '../codec/AbstractInt';
 import UInt from '../codec/UInt';

@@ -6,7 +6,7 @@ import '../../injector';
 
 import { ExtrinsicStatus } from './types';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
