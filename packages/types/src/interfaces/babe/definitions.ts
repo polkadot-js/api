@@ -6,6 +6,8 @@ export default {
   types: {
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
+    // TODO Remove as soon as merged and metadata static updated
+    BabeWeight: 'u64',
     RawBabePreDigest: {
       _enum: {
         Primary: 'RawBabePreDigestPrimary',
