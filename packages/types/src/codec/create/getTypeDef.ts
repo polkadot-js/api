@@ -44,7 +44,8 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 }
 
 // decode a struct, set or enum
-function _decodeStruct (type: string, value: TypeDef): TypeDef {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _decodeStruct (value: TypeDef, type: string, subType: string): TypeDef {
   const parsed = JSON.parse(type);
   const keys = Object.keys(parsed);
 
@@ -64,7 +65,8 @@ function _decodeStruct (type: string, value: TypeDef): TypeDef {
 }
 
 // decode a fixed vector, e.g. [u8;32]
-function _decodeFixedVec (type: string, value: TypeDef): TypeDef {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _decodeFixedVec (value: TypeDef, type: string, subType: string): TypeDef {
   const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
   const vecLen = parseInt(_vecLen.trim(), 10);
 
@@ -78,7 +80,7 @@ function _decodeFixedVec (type: string, value: TypeDef): TypeDef {
 }
 
 // decode a tuple
-function _decodeTuple (subType: string, value: TypeDef): TypeDef {
+function _decodeTuple (value: TypeDef, type: string, subType: string): TypeDef {
   value.info = TypeDefInfo.Tuple;
   value.sub = typeSplit(subType).map((inner): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -88,7 +90,23 @@ function _decodeTuple (subType: string, value: TypeDef): TypeDef {
   return value;
 }
 
-const simpleExtraction: [string, string, TypeDefInfo][] = [
+function hasWrapper (type: string, start: string, end: string): boolean {
+  if (type.substr(0, start.length) !== start) {
+    return false;
+  }
+
+  assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+
+  return true;
+}
+
+const nestedExtraction: [string, string, (value: TypeDef, type: string, subType: string) => TypeDef][] = [
+  ['[', ']', _decodeFixedVec],
+  ['{', '}', _decodeStruct],
+  ['(', ')', _decodeTuple]
+];
+
+const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
   ['Option<', '>', TypeDefInfo.Option],
   ['Vec<', '>', TypeDefInfo.Vec],
@@ -99,33 +117,22 @@ const simpleExtraction: [string, string, TypeDefInfo][] = [
 export function getTypeDef (_type: string, name?: string): TypeDef {
   const type = _type.toString().trim();
   const value: TypeDef = { info: TypeDefInfo.Plain, name, type };
-  let subType = '';
 
-  const _hasWrapper = (type: string, start: string, end: string): boolean => {
-    if (type.substr(0, start.length) !== start) {
-      return false;
-    }
+  const nested = nestedExtraction.find(([start, end]): boolean => hasWrapper(type, start, end));
 
-    assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+  if (nested) {
+    const subType = type.substr(nested[0].length, type.length - nested[0].length - nested[1].length);
 
-    subType = type.substr(start.length, type.length - start.length - 1);
-
-    return true;
-  };
-
-  if (_hasWrapper(type, '[', ']')) {
-    return _decodeFixedVec(type, value);
-  } else if (_hasWrapper(type, '{', '}')) {
-    return _decodeStruct(type, value);
-  } else if (_hasWrapper(type, '(', ')')) {
-    return _decodeTuple(subType, value);
+    return nested[2](value, type, subType);
   }
 
-  const extracted = simpleExtraction.find(([start, end]): boolean => _hasWrapper(type, start, end));
+  const wrapped = wrappedExtraction.find(([start, end]): boolean => hasWrapper(type, start, end));
 
-  if (extracted) {
-    value.info = extracted[2];
-    value.sub = getTypeDef(subType);
+  if (wrapped) {
+    value.info = wrapped[2];
+    value.sub = getTypeDef(
+      type.substr(wrapped[0].length, type.length - wrapped[0].length - wrapped[1].length)
+    );
   }
 
   return value;

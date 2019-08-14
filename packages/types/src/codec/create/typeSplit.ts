@@ -12,16 +12,17 @@ function isNotNested (...counters: number[]): boolean {
 export function typeSplit (type: string): string[] {
   let [cDepth, fDepth, sDepth, tDepth, start] = [0, 0, 0, 0, 0];
   const result = [];
+  const extract = (index: number): void => {
+    if (isNotNested(cDepth, fDepth, sDepth, tDepth)) {
+      result.push(type.substr(start, index - start).trim());
+      start = index + 1;
+    }
+  };
 
   for (let index = 0; index < type.length; index++) {
     switch (type[index]) {
-      case ',':
-        // we are not nested, add the type
-        if (isNotNested(cDepth, fDepth, sDepth, tDepth)) {
-          result.push(type.substr(start, index - start).trim());
-          start = index + 1;
-        }
-        break;
+      // if we are not nested, add the type
+      case ',': extract(index); break;
 
       // adjust compact/vec (and friends) depth
       case '<': cDepth++; break;
