@@ -100,7 +100,10 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   storageFn.method = stringLowerFirst(method);
   storageFn.prefix = prefix;
   storageFn.section = section;
-  storageFn.toJSON = (): any => meta.toJSON();
+
+  // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
+  // instances (e.g. collective) will not work since it is only matched on param meta
+  storageFn.toJSON = (): any => ({ ...(meta.toJSON() as any), storage: { method, prefix, section } });
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     const headHash = new U8a(hasher(`head of ${stringKey}`));
