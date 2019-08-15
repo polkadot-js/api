@@ -6,8 +6,9 @@ import { Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
-import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from '../v3/Storage';
+import { ModuleMetadata as ModuleMetadataV4 } from '../v4/Metadata';
 import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
+import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage';
 
 /**
  * Convert V3 StorageFunction to V4 StorageFunction
@@ -36,11 +37,11 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
       }), 2];
 
   return new StorageFunctionMetadata({
-    name: name,
-    modifier: modifier,
-    type: new StorageFunctionType(newType, index),
-    fallback: fallback,
-    documentation: documentation
+    documentation,
+    fallback,
+    name,
+    modifier,
+    type: new StorageFunctionType(newType, index)
   });
 }
 
@@ -50,20 +51,16 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
  */
 export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
   return new MetadataV4({
-    // FIXME, this needs typing, not any
-    modules: metadataV3.modules.map((modul): any => {
-      return {
-        name: modul.name,
-        prefix: modul.prefix,
-        storage: modul.storage.isSome
-          ? new Option(
-            Vec.with(StorageFunctionMetadata),
-            modul.storage.unwrap().map(toV4StorageFunction)
-          )
-          : undefined,
-        calls: modul.calls,
-        events: modul.events
-      };
-    })
+    modules: metadataV3.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
+      new ModuleMetadataV4({
+        calls,
+        events,
+        name,
+        prefix,
+        storage: storage.isSome
+          ? new Option(Vec.with(StorageFunctionMetadata), storage.unwrap().map(toV4StorageFunction))
+          : undefined
+      })
+    )
   });
 }

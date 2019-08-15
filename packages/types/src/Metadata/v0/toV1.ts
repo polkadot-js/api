@@ -11,7 +11,7 @@ import { RuntimeModuleMetadata } from './Modules';
 import { Text } from '../../primitive';
 import { FunctionMetadata } from '../v1/Calls';
 import { EventMetadata } from '../v1/Events';
-import MetadataV1, { ModuleMetadata } from '../v1/Metadata';
+import MetadataV1, { ModuleMetadata as ModuleMetadataV1 } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
 function toV1Calls (modul: RuntimeModuleMetadata): Option<FunctionMetadata> {
@@ -42,13 +42,13 @@ function toV1Storage (modul: RuntimeModuleMetadata): Option<StorageFunctionMetad
  */
 export default function toV1 (metadataV0: MetadataV0): MetadataV1 {
   return new MetadataV1({
-    modules: metadataV0.modules.map((modul): ModuleMetadata => {
+    modules: metadataV0.modules.map((modul): ModuleMetadataV1 => {
       // The prefix of this module (capitalized)
       const prefix = modul.storage.isSome
         ? modul.storage.unwrap().prefix.toString()
         : stringUpperFirst(modul.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
-      return new ModuleMetadata({
+      return new ModuleMetadataV1({
         name: modul.prefix, // Not capitalized
         prefix, // Capitalized
         storage: toV1Storage(modul),

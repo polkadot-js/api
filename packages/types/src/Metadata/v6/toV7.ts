@@ -4,6 +4,7 @@
 
 import MetadataV6 from './Metadata';
 import MetadataV7 from '../v7';
+import { ModuleMetadata as ModuleMetadataV7 } from '../v7/Metadata';
 import { StorageMetadata as StorageV7 } from '../v7/Storage';
 
 /**
@@ -11,20 +12,16 @@ import { StorageMetadata as StorageV7 } from '../v7/Storage';
  */
 export default function toV7 ({ modules }: MetadataV6): MetadataV7 {
   return new MetadataV7({
-    // FIXME, this needs typing, not any
-    modules: modules.map(({ calls, constants, events, name, prefix, storage }): any => {
-      return {
+    modules: modules.map(({ calls, constants, events, name, prefix, storage }): ModuleMetadataV7 =>
+      new ModuleMetadataV7({
+        calls,
+        constants,
+        events,
         name,
         storage: storage.isSome
-          ? new StorageV7({
-            prefix,
-            items: storage.unwrap()
-          })
-          : null,
-        calls,
-        events,
-        constants
-      };
-    })
+          ? new StorageV7({ prefix, items: storage.unwrap() })
+          : null
+      })
+    )
   });
 }

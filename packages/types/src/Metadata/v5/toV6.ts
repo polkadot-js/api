@@ -4,6 +4,7 @@
 
 import MetadataV5 from './Metadata';
 import MetadataV6 from '../v6';
+import { ModuleMetadata as ModuleMetadataV6 } from '../v6/Metadata';
 
 /**
  * Convert from MetadataV5 to MetadataV6
@@ -11,16 +12,15 @@ import MetadataV6 from '../v6';
  */
 export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
   return new MetadataV6({
-    // FIXME, this needs typing, not any
-    modules: metadataV5.modules.map((modul): any => {
-      return {
-        name: modul.name,
-        prefix: modul.prefix,
-        storage: modul.storage,
-        calls: modul.calls,
-        events: modul.events,
-        constants: []
-      };
-    })
+    modules: metadataV5.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV6 =>
+      new ModuleMetadataV6({
+        calls,
+        constants: [],
+        events,
+        name,
+        prefix,
+        storage
+      })
+    )
   });
 }
