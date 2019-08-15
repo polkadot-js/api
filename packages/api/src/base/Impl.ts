@@ -5,9 +5,8 @@
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiInterfaceEvents, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SignerPayloadRawBase, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer } from './types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
-import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
@@ -22,11 +21,12 @@ import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from 
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
-import { decorateSections } from './util/decorate';
+import createSubmittable, { SubmittableExtrinsic } from '../SubmittableExtrinsic';
+import { decorateSections } from '../util/decorate';
+import Events from './Events';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -36,22 +36,9 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-interface KeyringSigner {
-  sign (message: Uint8Array): Uint8Array;
-}
-
 const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
-
-let pkgJson: { name: string; version: string };
-
-try {
-  pkgJson = require('./package.json');
-} catch (error) {
-  // development environment
-  pkgJson = { name: '@polkadot/api', version: '-' };
-}
 
 /**
  * Put the `this.onCall` function of ApiRx here, because it is needed by
@@ -61,24 +48,18 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
-function assertResult <T> (value: T | undefined): T {
-  assert(!isUndefined(value), `Api needs to be initialised before using, listen on 'ready'`);
+export default abstract class ApiBase<ApiType> extends Events {
+  protected _consts?: Constants;
 
-  return value as T;
-}
+  protected _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
 
-export default abstract class ApiBase<ApiType> {
-  private _consts?: Constants;
+  protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  private _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
+  protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
-  private _eventemitter: EventEmitter;
+  protected _genesisHash?: Hash;
 
-  private _extrinsics?: SubmittableExtrinsics<ApiType>;
-
-  private _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
-
-  private _genesisHash?: Hash;
+  private _healthTimer: NodeJS.Timeout | null = null;
 
   protected _isConnected: BehaviorSubject<boolean>;
 
@@ -86,21 +67,21 @@ export default abstract class ApiBase<ApiType> {
 
   protected readonly _options: ApiOptions;
 
-  private _query?: QueryableStorage<ApiType>;
+  protected _query?: QueryableStorage<ApiType>;
 
-  private _queryMulti: QueryableStorageMulti<ApiType>;
+  protected _queryMulti: QueryableStorageMulti<ApiType>;
 
-  private _rpc: DecoratedRpc<ApiType, RpcInterface>;
+  protected _rpc: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
 
-  private _runtimeMetadata?: Metadata;
+  protected _runtimeMetadata?: Metadata;
 
-  private _runtimeVersion?: RuntimeVersion;
+  protected _runtimeVersion?: RuntimeVersion;
 
-  private _rx: Partial<ApiInterfaceRx> = {};
+  protected _rx: Partial<ApiInterfaceRx> = {};
 
-  private _type: ApiTypes;
+  protected _type: ApiTypes;
 
   /**
    * @description Create an instance of the class
@@ -121,6 +102,8 @@ export default abstract class ApiBase<ApiType> {
    * ```
    */
   public constructor (options: ApiOptions = {}, type: ApiTypes) {
+    super();
+
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
@@ -134,11 +117,10 @@ export default abstract class ApiBase<ApiType> {
 
     this._options = options;
     this._type = type;
-    this._eventemitter = new EventEmitter();
     this._rpcCore = new RpcCore(thisProvider);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
 
-    assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
+    assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
     this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
     this._rx.rpc = this.decorateRpc(this._rpcCore, rxDecorateMethod);
@@ -146,297 +128,9 @@ export default abstract class ApiBase<ApiType> {
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
 
-    this.init();
-  }
-
-  /**
-   * @description  Returns th version of extrinsics in-use on this chain
-   */
-  public get extrinsicVersion (): number {
-    return this._extrinsicType;
-  }
-
-  /**
-   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
-   */
-  public get genesisHash (): Hash {
-    return assertResult(this._genesisHash as Hash);
-  }
-
-  /**
-   * @description `true` when subscriptions are supported
-   */
-  public get hasSubscriptions (): boolean {
-    return this._rpcCore.provider.hasSubscriptions;
-  }
-
-  /**
-   * @description The library information name & version (from package.json)
-   */
-  public get libraryInfo (): string {
-    return `${pkgJson.name} v${pkgJson.version}`;
-  }
-
-  /**
-   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
-   */
-  public get runtimeMetadata (): Metadata {
-    return assertResult(this._runtimeMetadata as Metadata);
-  }
-
-  /**
-   * @description Contains the version information for the current runtime.
-   */
-  public get runtimeVersion (): RuntimeVersion {
-    return assertResult(this._runtimeVersion as RuntimeVersion);
-  }
-
-  /**
-   * @description The type of this API instance, either 'rxjs' or 'promise'
-   */
-  public get type (): ApiTypes {
-    return this._type;
-  }
-
-  /**
-   * @description Finds the definition for a specific [[Call]] based on the index supplied
-   */
-  public findCall (callIndex: Uint8Array | string): CallFunction {
-    return GenericCall.findFunction(u8aToU8a(callIndex));
-  }
-
-  /**
-   * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
-   */
-  public setSigner (signer: Signer): void {
-    this._rx.signer = signer;
-  }
-
-  /**
-   * @description Signs a raw signer payload, string or Uint8Array
-   */
-  public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
-    // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
-    if (isString(signer)) {
-      if (!this._rx.signer || !this._rx.signer.signRaw) {
-        throw new Error('No signer exists with a signRaw interface');
-      }
-
-      return (
-        await this._rx.signer.signRaw({
-          type: 'bytes',
-          ...data,
-          address: signer
-        })
-      ).signature;
-    }
-
-    return u8aToHex(signer.sign(u8aToU8a(data.data)));
-  }
-
-  /**
-   * @description Derived results that are injected into the API, allowing for combinations of various query results.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.derive.chain.bestNumber((number) => {
-   *   console.log('best number', number);
-   * });
-   * ```
-   */
-  public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
-    return assertResult(this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>);
-  }
-
-  /**
-   * @description Contains the parameter types (constants) of all modules.
-   *
-   * The values are instances of the appropriate type and are accessible using `section`.`constantName`,
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * console.log(api.consts.democracy.enactmentPeriod.toString())
-   * ```
-   */
-  public get consts (): Constants {
-    return assertResult(this._consts as Constants);
-  }
-
-  /**
-   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
-   *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.query.balances.freeBalance(<accountId>, (balance) => {
-   *   console.log('new balance', balance);
-   * });
-   * ```
-   */
-  public get query (): QueryableStorage<ApiType> {
-    return assertResult(this._query as QueryableStorage<ApiType>);
-  }
-
-  /**
-   * @description Allows for the querying of multiple storage entries and the combination thereof into a single result. This is a very optimal way to make multiple queries since it only makes a single connection to the node and retrieves the data over one subscription.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * const unsub = await api.queryMulti(
-   *   [
-   *     // you can include the storage without any parameters
-   *     api.query.balances.totalIssuance,
-   *     // or you can pass parameters to the storage query
-   *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
-   *   ],
-   *   ([existential, balance]) => {
-   *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
-   *
-   *     unsub();
-   *   }
-   * );
-   * ```
-   */
-  public get queryMulti (): QueryableStorageMulti<ApiType> {
-    return this._queryMulti;
-  }
-
-  /**
-   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
-   *
-   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.rpc.chain.subscribeNewHead((header) => {
-   *   console.log('new header', header);
-   * });
-   * ```
-   */
-  public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
-    return this._rpc;
-  }
-
-  /**
-   * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.tx.balances
-   *   .transfer(<recipientId>, <balance>)
-   *   .signAndSend(<keyPair>, ({status}) => {
-   *     console.log('tx status', status.asFinalized.toHex());
-   *   });
-   * ```
-   */
-  public get tx (): SubmittableExtrinsics<ApiType> {
-    return assertResult(this._extrinsics as SubmittableExtrinsics<ApiType>);
-  }
-
-  /**
-   * @description Disconnect from the underlying provider, halting all comms
-   */
-  public disconnect (): void {
-    this._rpcCore.disconnect();
-  }
-
-  /**
-   * @description Attach an eventemitter handler to listen to a specific event
-   *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.on('connected', (): void => {
-   *   console.log('API has been connected to the endpoint');
-   * });
-   *
-   * api.on('disconnected', (): void => {
-   *   console.log('API has been disconnected from the endpoint');
-   * });
-   * ```
-   */
-  public on (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.on(type, handler);
-
-    return this;
-  }
-
-  /**
-   * @description Remove the given eventemitter handler
-   *
-   * @param type The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error`
-   * @param handler The callback to unregister.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * const handler = (): void => {
-   *  console.log('Connected !);
-   * };
-   *
-   * // Start listening
-   * api.on('connected', handler);
-   *
-   * // Stop listening
-   * api.off('connected', handler);
-   * ```
-   */
-  public off (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.removeListener(type, handler);
-
-    return this;
-  }
-
-  /**
-   * @description Attach an one-time eventemitter handler to listen to a specific event
-   *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.once('connected', (): void => {
-   *   console.log('API has been connected to the endpoint');
-   * });
-   *
-   * api.once('disconnected', (): void => {
-   *   console.log('API has been disconnected from the endpoint');
-   * });
-   * ```
-   */
-  public once (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this._eventemitter.once(type, handler);
-
-    return this;
-  }
-
-  /**
-   * @description Register additional user-defined of chain-specific types in the type registry
-   */
-  public registerTypes (types?: RegistryTypes): void {
-    if (types) {
-      getTypeRegistry().register(types);
-    }
+    this._rpcCore.provider.on('disconnected', this.onProviderDisconnect);
+    this._rpcCore.provider.on('error', this.onProviderError);
+    this._rpcCore.provider.on('connected', this.onProviderConnect);
   }
 
   /**
@@ -457,57 +151,51 @@ export default abstract class ApiBase<ApiType> {
    */
   protected abstract decorateMethod(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
-  private emit (type: ApiInterfaceEvents, ...args: any[]): void {
-    this._eventemitter.emit(type, ...args);
-  }
+  public abstract registerTypes (types?: RegistryTypes): void;
 
-  private init (): void {
-    let healthTimer: NodeJS.Timeout | null = null;
+  private onProviderConnect = async (): Promise<void> => {
+    this.emit('connected');
+    this._isConnected.next(true);
 
-    this._rpcCore.provider.on('disconnected', (): void => {
-      this.emit('disconnected');
-      this._isConnected.next(false);
+    try {
+      const [hasMeta, cryptoReady] = await Promise.all([
+        this.loadMeta(),
+        cryptoWaitReady()
+      ]);
 
-      if (healthTimer) {
-        clearInterval(healthTimer);
-        healthTimer = null;
+      if (hasMeta && !this._isReady && cryptoReady) {
+        this._isReady = true;
+
+        this.emit('ready', this);
       }
-    });
 
-    this._rpcCore.provider.on('error', (error): void => {
+      this._healthTimer = setInterval((): void => {
+        this._rpcCore.system.health().toPromise().catch((): void => {
+          // ignore
+        });
+      }, KEEPALIVE_INTERVAL);
+    } catch (_error) {
+      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
+
+      l.error(error);
+
       this.emit('error', error);
-    });
-
-    this._rpcCore.provider.on('connected', async (): Promise<void> => {
-      this.emit('connected');
-      this._isConnected.next(true);
-
-      try {
-        const [hasMeta, cryptoReady] = await Promise.all([
-          this.loadMeta(),
-          cryptoWaitReady()
-        ]);
-
-        if (hasMeta && !this._isReady && cryptoReady) {
-          this._isReady = true;
-
-          this.emit('ready', this);
-        }
-
-        healthTimer = setInterval((): void => {
-          this._rpcCore.system.health().toPromise().catch((): void => {
-            // ignore
-          });
-        }, KEEPALIVE_INTERVAL);
-      } catch (_error) {
-        const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
-
-        l.error(error);
-
-        this.emit('error', error);
-      }
-    });
+    }
   }
+
+  private onProviderDisconnect = (): void => {
+    this.emit('disconnected');
+    this._isConnected.next(false);
+
+    if (this._healthTimer) {
+      clearInterval(this._healthTimer);
+      this._healthTimer = null;
+    }
+  };
+
+  private onProviderError = (error: Error): void => {
+    this.emit('error', error);
+  };
 
   private async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
@@ -536,7 +224,7 @@ export default abstract class ApiBase<ApiType> {
       }
 
       // get unique types & validate
-      this.runtimeMetadata.getUniqTypes(false);
+      this._runtimeMetadata.getUniqTypes(false);
     } else {
       this._extrinsicType = this._options.source.extrinsicVersion;
       this._runtimeMetadata = this._options.source.runtimeMetadata;
@@ -544,13 +232,13 @@ export default abstract class ApiBase<ApiType> {
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-    const storage = storageFromMeta(this.runtimeMetadata);
-    const constants = constantsFromMeta(this.runtimeMetadata);
+    const extrinsics = extrinsicsFromMeta(this._runtimeMetadata);
+    const storage = storageFromMeta(this._runtimeMetadata);
+    const constants = constantsFromMeta(this._runtimeMetadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      GenericEvent.injectMetadata(this.runtimeMetadata);
+      GenericEvent.injectMetadata(this._runtimeMetadata);
       GenericCall.injectMethods(extrinsics);
 
       // detect the extrinsic version in-use based on the last block
@@ -637,7 +325,7 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-      createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, value);
+      createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName): SubmittableExtrinsics<ApiType> => {
       const section = extrinsics[sectionName];
@@ -655,7 +343,7 @@ export default abstract class ApiBase<ApiType> {
   private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
-        createSubmittable(this.type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
+        createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
