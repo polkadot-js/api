@@ -10,18 +10,13 @@ import { ApiOptions, ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageM
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
-import { assert, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import Impl from './Impl';
+import Init from './Init';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
 }
-
-const KEEPALIVE_INTERVAL = 15000;
-
-const l = logger('api/decorator');
 
 let pkgJson: { name: string; version: string };
 
@@ -38,9 +33,7 @@ function assertResult <T> (value: T | undefined): T {
   return value as T;
 }
 
-export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
-  private _healthTimer: NodeJS.Timeout | null = null;
-
+export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Create an instance of the class
    *
@@ -61,10 +54,6 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    */
   public constructor (options: ApiOptions = {}, type: ApiTypes) {
     super(options, type);
-
-    this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
-    this._rpcCore.provider.on('error', this._onProviderError);
-    this._rpcCore.provider.on('connected', this._onProviderConnect);
   }
 
   /**
@@ -277,48 +266,4 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
 
     return u8aToHex(signer.sign(u8aToU8a(data.data)));
   }
-
-  private _onProviderConnect = async (): Promise<void> => {
-    this.emit('connected');
-    this._isConnected.next(true);
-
-    try {
-      const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
-        cryptoWaitReady()
-      ]);
-
-      if (hasMeta && !this._isReady && cryptoReady) {
-        this._isReady = true;
-
-        this.emit('ready', this);
-      }
-
-      this._healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch((): void => {
-          // ignore
-        });
-      }, KEEPALIVE_INTERVAL);
-    } catch (_error) {
-      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
-
-      l.error(error);
-
-      this.emit('error', error);
-    }
-  }
-
-  private _onProviderDisconnect = (): void => {
-    this.emit('disconnected');
-    this._isConnected.next(false);
-
-    if (this._healthTimer) {
-      clearInterval(this._healthTimer);
-      this._healthTimer = null;
-    }
-  };
-
-  private _onProviderError = (error: Error): void => {
-    this.emit('error', error);
-  };
 }

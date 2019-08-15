@@ -3,25 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { Hash, RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls, RegistryTypes } from '@polkadot/types/types';
+import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
+import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
-import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import { Constants } from '@polkadot/api-metadata/consts/types';
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
-import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
+import { Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
+import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
+import { compactStripLength, u8aToHex } from '@polkadot/util';
 
 import createSubmittable, { SubmittableExtrinsic } from '../SubmittableExtrinsic';
 import { decorateSections } from '../util/decorate';
@@ -35,35 +33,13 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-// these are override types for polkadot chains
-// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-// implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (3 keys in substrate vs 4 in Polkadot).
-const TYPES_FOR_POLKADOT = {
-  Keys: 'SessionKeysPolkadot'
-};
+export default abstract class Decorate<ApiType> extends Events {
+  // HACK Use BN import so decorateDerive works... yes, wtf.
+  protected __phantom = new BN(0);
 
-// these are the types that we are using when we detect a extrinsic V1 chain
-// NOTE for older chains (e.g. Alex) the BlockNumber/Index is u64, for current
-// these are now set to u32
-const TYPES_FOR_V1 = {
-  BlockNumber: 'u64',
-  Index: 'u64',
-  EventRecord: 'EventRecord0to76'
-};
-
-/**
- * Put the `this.onCall` function of ApiRx here, because it is needed by
- * `api._rx`.
- */
-function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
-  return method;
-}
-
-export default abstract class ApiBase<ApiType> extends Events {
   protected _consts?: Constants;
 
-  protected _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
+  protected _derive?: ReturnType<Decorate<ApiType>['decorateDerive']>;
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
@@ -79,9 +55,9 @@ export default abstract class ApiBase<ApiType> extends Events {
 
   protected _query?: QueryableStorage<ApiType>;
 
-  protected _queryMulti: QueryableStorageMulti<ApiType>;
+  protected _queryMulti?: QueryableStorageMulti<ApiType>;
 
-  protected _rpc: DecoratedRpc<ApiType, RpcInterface>;
+  protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
 
@@ -118,25 +94,10 @@ export default abstract class ApiBase<ApiType> extends Events {
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
 
-    // We only register the types (global) if this is not a cloned instance.
-    // Do right up-front, so we get in the user types before we are actually
-    // doing anything on-chain, this ensures we have the overrides in-place
-    if (!options.source && options.types) {
-      this.registerTypes(options.types);
-    }
-
     this._options = options;
     this._type = type;
     this._rpcCore = new RpcCore(thisProvider);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
-
-    assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
-
-    this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
-    this._rx.rpc = this.decorateRpc(this._rpcCore, rxDecorateMethod);
-    this._queryMulti = this.decorateMulti(this.decorateMethod);
-    this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
-    this._rx.signer = options.signer;
   }
 
   /**
@@ -157,82 +118,6 @@ export default abstract class ApiBase<ApiType> extends Events {
    */
   protected abstract decorateMethod(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
-  public abstract registerTypes (types?: RegistryTypes): void;
-
-  protected async loadMeta (): Promise<boolean> {
-    const { metadata = {} } = this._options;
-
-    // only load from on-chain if we are not a clone (default path), alternatively
-    // just use the values from the source instance provided
-    if (!this._options.source || !this._options.source._isReady) {
-      [this._genesisHash, this._runtimeVersion] = await Promise.all([
-        this._rpcCore.chain.getBlockHash(0).toPromise(),
-        this._rpcCore.chain.getRuntimeVersion().toPromise()
-      ]);
-
-      if (this._runtimeVersion.specName.eq('polkadot')) {
-        this.registerTypes(TYPES_FOR_POLKADOT);
-      }
-
-      const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
-
-      this._runtimeMetadata = metadataKey in metadata
-        ? new Metadata(metadata[metadataKey])
-        : await this._rpcCore.state.getMetadata().toPromise();
-
-      // get unique types & validate
-      this._runtimeMetadata.getUniqTypes(false);
-    } else {
-      this._extrinsicType = this._options.source.extrinsicVersion;
-      this._runtimeMetadata = this._options.source.runtimeMetadata;
-      this._runtimeVersion = this._options.source.runtimeVersion;
-      this._genesisHash = this._options.source.genesisHash;
-    }
-
-    return this.initFromMeta(this._runtimeMetadata);
-  }
-
-  private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    const extrinsics = extrinsicsFromMeta(metadata);
-    const storage = storageFromMeta(metadata);
-    const constants = constantsFromMeta(metadata);
-
-    // only inject if we are not a clone (global init)
-    if (!this._options.source) {
-      GenericEvent.injectMetadata(metadata);
-      GenericCall.injectMethods(extrinsics);
-
-      // detect the extrinsic version in-use based on the last block
-      const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
-
-      // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
-
-      // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
-      // and has the old EventRecord format. Remove this ASAP with support for
-      // Alex dropped
-      if (this._extrinsicType === 1) {
-        this.registerTypes(TYPES_FOR_V1);
-      }
-    }
-
-    this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
-    this._query = this.decorateStorage(storage, this.decorateMethod);
-    this._consts = constants;
-
-    this._rx.extrinsicType = this._extrinsicType;
-    this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion;
-    this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
-    this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
-    this._rx.consts = constants;
-
-    // derive is last, since it uses the decorated rx
-    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
-
-    return true;
-  }
-
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;
@@ -246,7 +131,7 @@ export default abstract class ApiBase<ApiType> extends Events {
     return output;
   }
 
-  private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
+  protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
     return ['author', 'chain', 'state', 'system'].reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
@@ -262,7 +147,7 @@ export default abstract class ApiBase<ApiType> extends Events {
     }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
   }
 
-  private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
+  protected decorateMulti<ApiType> (decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod((calls: QueryableStorageMultiArgs<ApiType>): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
         calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
@@ -272,7 +157,7 @@ export default abstract class ApiBase<ApiType> extends Events {
             : [arg.creator] as any)));
   }
 
-  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+  protected decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: Decorate<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
@@ -287,14 +172,14 @@ export default abstract class ApiBase<ApiType> extends Events {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: Decorate<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  private decorateStorage<ApiType> (storage: Storage, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
+  protected decorateStorage<ApiType> (storage: Storage, decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
     return Object.entries(storage).reduce((out, [name, section]): QueryableStorage<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorage<ApiType> => {
         out[name] = this.decorateStorageEntry(method, decorateMethod);
@@ -306,7 +191,7 @@ export default abstract class ApiBase<ApiType> extends Events {
     }, {} as unknown as QueryableStorage<ApiType>);
   }
 
-  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
+  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (...args: any[]): any[] => creator.meta.type.isDoubleMap
       ? [creator, args]
@@ -344,7 +229,7 @@ export default abstract class ApiBase<ApiType> extends Events {
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: Decorate<ApiType>['decorateMethod']): ReturnType<Decorate<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -416,12 +301,20 @@ export default abstract class ApiBase<ApiType> extends Events {
     );
   }
 
-  // FIXME I have no idea how to get this done
+  // FIXME Any better ideas? `any` doesn't work, needs a return but TS infers
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
+  protected decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: Decorate<ApiType>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 
     return decorateSections<ApiType, typeof derive>(derive, decorateMethod);
+  }
+
+  /**
+   * Put the `this.onCall` function of ApiRx here, because it is needed by
+   * `api._rx`.
+   */
+  protected rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
+    return method;
   }
 }
