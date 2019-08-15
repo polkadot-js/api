@@ -80,7 +80,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get consts (): Constants {
-    return assertResult(this._consts as Constants);
+    return assertResult(this._consts);
   }
 
   /**
@@ -96,7 +96,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
-    return assertResult(this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>);
+    return assertResult(this._derive);
   }
 
   /**
@@ -110,7 +110,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
   public get genesisHash (): Hash {
-    return assertResult(this._genesisHash as Hash);
+    return assertResult(this._genesisHash);
   }
 
   /**
@@ -142,7 +142,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get query (): QueryableStorage<ApiType> {
-    return assertResult(this._query as QueryableStorage<ApiType>);
+    return assertResult(this._query);
   }
 
   /**
@@ -193,14 +193,14 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
   public get runtimeMetadata (): Metadata {
-    return assertResult(this._runtimeMetadata as Metadata);
+    return assertResult(this._runtimeMetadata);
   }
 
   /**
    * @description Contains the version information for the current runtime.
    */
   public get runtimeVersion (): RuntimeVersion {
-    return assertResult(this._runtimeVersion as RuntimeVersion);
+    return assertResult(this._runtimeVersion);
   }
 
   /**
@@ -225,7 +225,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get tx (): SubmittableExtrinsics<ApiType> {
-    return assertResult(this._extrinsics as SubmittableExtrinsics<ApiType>);
+    return assertResult(this._extrinsics);
   }
 
   /**

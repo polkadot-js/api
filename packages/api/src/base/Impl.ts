@@ -298,9 +298,8 @@ export default abstract class ApiBase<ApiType> extends Events {
   }
 
   private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
-    const decorated =
-      (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
-        createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
+    const decorated = (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
+      createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
@@ -320,46 +319,30 @@ export default abstract class ApiBase<ApiType> extends Events {
   }
 
   private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
+    const getStorageArgs = (...args: any[]): any[] =>
+      creator.meta.type.isDoubleMap
+        ? [creator, args]
+        : [creator, ...args];
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
-      : decorateMethod(
-        (...args: any[]): Observable<Codec> => {
-          return this._rpcCore.state
-            // Unfortunately for one-shot calls we also use .subscribeStorage here
-            .subscribeStorage<[Codec]>([
-            creator.meta.type.isDoubleMap
-              ? [creator, args]
-              : [creator, ...args]
-          ])
-            .pipe(
-              // state_storage returns an array of values, since we have just subscribed to
-              // a single entry, we pull that from the array and return it as-is
-              map(([data]): Codec => data)
-            );
-        }, {
-          methodName: creator.method
-        });
+      : decorateMethod((...args: any[]): Observable<Codec> => {
+        return this._rpcCore.state
+          // Unfortunately for one-shot calls we also use .subscribeStorage here
+          .subscribeStorage<[Codec]>([getStorageArgs(...args)])
+          // state_storage returns an array of values, since we have just subscribed to
+          // a single entry, we pull that from the array and return it as-is
+          .pipe(map(([data]): Codec => data));
+      }, { methodName: creator.method });
 
     decorated.creator = creator;
 
     decorated.at = decorateMethod(
       (hash: Hash, arg1?: CodecArg, arg2?: CodecArg): Observable<Codec> =>
-        this._rpcCore.state.getStorage(
-          creator.meta.type.isDoubleMap
-            ? [creator, [arg1, arg2]]
-            : [creator, arg1],
-          hash
-        )
-    );
+        this._rpcCore.state.getStorage(getStorageArgs(arg1, arg2), hash));
 
     decorated.hash = decorateMethod(
       (arg1?: CodecArg, arg2?: CodecArg): Observable<Hash> =>
-        this._rpcCore.state.getStorageHash(
-          creator.meta.type.isDoubleMap
-            ? [creator, [arg1, arg2]]
-            : [creator, arg1]
-        )
-    );
+        this._rpcCore.state.getStorageHash(getStorageArgs(arg1, arg2)));
 
     decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
@@ -372,16 +355,11 @@ export default abstract class ApiBase<ApiType> extends Events {
             args.map((arg: CodecArg[] | CodecArg): [StorageEntry, CodecArg | CodecArg[]] =>
               [creator, arg]
             )
-          )
-    );
+          ));
 
     decorated.size = decorateMethod(
       (arg1?: CodecArg, arg2?: CodecArg): Observable<u64> =>
-        this._rpcCore.state.getStorageSize(
-          creator.meta.type.isDoubleMap
-            ? [creator, [arg1, arg2]]
-            : [creator, arg1])
-    );
+        this._rpcCore.state.getStorageSize(getStorageArgs(arg1, arg2)));
 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
@@ -395,62 +373,55 @@ export default abstract class ApiBase<ApiType> extends Events {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
-      return this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]])
-        .pipe(
-          switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
-            const linkage = data[1];
+      return this._rpcCore.state
+        .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]])
+        .pipe(switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
+          const linkage = data[1];
 
-            result.set(key, data);
+          result.set(key, data);
 
-            // iterate from this key to the children, constructing
-            // entries for all those found and available
-            if (linkage.next.isSome) {
-              return getNext(linkage.next.unwrap());
+          // iterate from this key to the children, constructing
+          // entries for all those found and available
+          if (linkage.next.isSome) {
+            return getNext(linkage.next.unwrap());
+          }
+
+          const keys = [];
+          const vals = [];
+          let nextKey = head;
+
+          // loop through the results collected, starting at the head an re-creating
+          // the list. Our map may have old entries, based on the linking these will
+          // not be returned in the final result
+          while (nextKey) {
+            const entry = result.get(nextKey);
+
+            if (!entry) {
+              break;
             }
 
-            const keys = [];
-            const values = [];
-            let nextKey = head;
+            const [item, linkage] = entry;
 
-            // loop through the results collected, starting at the head an re-creating
-            // the list. Our map may have old entries, based on the linking these will
-            // not be returned in the final result
-            while (nextKey) {
-              const entry = result.get(nextKey);
+            keys.push(nextKey);
+            vals.push(item);
 
-              if (!entry) {
-                break;
-              }
+            nextKey = linkage.next && linkage.next.unwrapOr(null);
+          }
 
-              const [item, linkage] = entry;
+          const nextResult = vals.length
+            ? new LinkageResult([keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
+            : new LinkageResult([Null, []], [Null, []]);
 
-              keys.push(nextKey);
-              values.push(item);
+          // we set our result into a subject so we have a single observable for
+          // which the value changes over time. Initially create, follow-up next
+          if (subject) {
+            subject.next(nextResult);
+          } else {
+            subject = new BehaviorSubject(nextResult);
+          }
 
-              nextKey = linkage.next && linkage.next.unwrapOr(null);
-            }
-
-            const nextResult = values.length
-              ? new LinkageResult(
-                [keys[0].constructor as any, keys],
-                [values[0].constructor as any, values]
-              )
-              : new LinkageResult(
-                [Null, []],
-                [Null, []]
-              );
-
-            // we set our result into a subject so we have a single observable for
-            // which the value changes over time. Initially create, follow-up next
-            if (subject) {
-              subject.next(nextResult);
-            } else {
-              subject = new BehaviorSubject(nextResult);
-            }
-
-            return subject;
-          })
-        );
+          return subject;
+        }));
     };
 
     // this handles the case where the head changes effectively, i.e. a new entry
@@ -460,18 +431,10 @@ export default abstract class ApiBase<ApiType> extends Events {
         args.length
           ? this._rpcCore.state
             .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
-            .pipe(
-              map(([data]): [Codec, Linkage<Codec>] => data)
-            )
+            .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
           : this._rpcCore.state
             .subscribeStorage<[LinkageResult]>([creator.headKey])
-            .pipe(
-              switchMap(([key]): Observable<LinkageResult> => {
-                head = key;
-
-                return getNext(key);
-              })
-            )
+            .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
     );
   }
 
