@@ -60,6 +60,35 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
+function decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
+  output.meta = input.meta;
+  output.method = input.method;
+  output.section = input.section;
+  output.toJSON = input.toJSON;
+
+  if (input.callIndex) {
+    output.callIndex = input.callIndex;
+  }
+
+  return output;
+}
+
+function decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
+  return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+    const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
+
+    // @ts-ignore Hard to type these correctly, I don't understand the TS errors
+    result[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+      // @ts-ignore
+      section[methodName] = decorateMethod(method, { methodName });
+
+      return section;
+    }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+
+    return result;
+  }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
+}
+
 export default abstract class ApiBase<ApiType> extends Events {
   protected _consts?: Constants;
 
@@ -132,8 +161,8 @@ export default abstract class ApiBase<ApiType> extends Events {
 
     assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
-    this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
-    this._rx.rpc = this.decorateRpc(this._rpcCore, rxDecorateMethod);
+    this._rpc = decorateRpc(this._rpcCore, this.decorateMethod);
+    this._rx.rpc = decorateRpc(this._rpcCore, rxDecorateMethod);
     this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
@@ -176,11 +205,9 @@ export default abstract class ApiBase<ApiType> extends Events {
 
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
 
-      if (metadataKey in metadata) {
-        this._runtimeMetadata = new Metadata(metadata[metadataKey]);
-      } else {
-        this._runtimeMetadata = await this._rpcCore.state.getMetadata().toPromise();
-      }
+      this._runtimeMetadata = metadataKey in metadata
+        ? new Metadata(metadata[metadataKey])
+        : await this._rpcCore.state.getMetadata().toPromise();
 
       // get unique types & validate
       this._runtimeMetadata.getUniqTypes(false);
@@ -235,60 +262,26 @@ export default abstract class ApiBase<ApiType> extends Events {
     return true;
   }
 
-  private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
-    output.meta = input.meta;
-    output.method = input.method;
-    output.section = input.section;
-    output.toJSON = input.toJSON;
-
-    if (input.callIndex) {
-      output.callIndex = input.callIndex;
-    }
-
-    return output;
-  }
-
-  private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
-    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
-      const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
-
-      // @ts-ignore Hard to type these correctly, I don't understand the TS errors
-      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        // @ts-ignore
-        const method = rpc[sectionName][methodName];
-        // @ts-ignore
-        section[methodName] = decorateMethod(method, { methodName });
-
-        return section;
-      }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
-
-      return result;
-    }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
-  }
-
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
-    return decorateMethod(
-      (calls: QueryableStorageMultiArgs<ApiType>): Observable<Codec[]> => {
-        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...CodecArg[]] =>
-          // the input is a QueryableStorageEntry, convert to StorageEntry
-          Array.isArray(arg)
-            ? [arg[0].creator, ...arg.slice(1)]
-            : [arg.creator] as any
-        );
+    return decorateMethod((calls: QueryableStorageMultiArgs<ApiType>): Observable<Codec[]> => {
+      const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...CodecArg[]] =>
+        // the input is a QueryableStorageEntry, convert to StorageEntry
+        Array.isArray(arg)
+          ? [arg[0].creator, ...arg.slice(1)]
+          : [arg.creator] as any
+      );
 
-        return this._rpcCore.state.subscribeStorage(mapped);
-      });
+      return this._rpcCore.state.subscribeStorage(mapped);
+    });
   }
 
   private decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, value);
 
-    return Object.keys(extrinsics).reduce((result, sectionName): SubmittableExtrinsics<ApiType> => {
-      const section = extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName): SubmittableModuleExtrinsics<ApiType> => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
+    return Object.entries(extrinsics).reduce((result, [name, section]): SubmittableExtrinsics<ApiType> => {
+      result[name] = Object.entries(section).reduce((result, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
+        result[name] = this.decorateExtrinsicEntry(method, decorateMethod);
 
         return result;
       }, {} as unknown as SubmittableModuleExtrinsics<ApiType>);
@@ -301,15 +294,13 @@ export default abstract class ApiBase<ApiType> extends Events {
     const decorated = (...params: CodecArg[]): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
 
-    return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
+    return decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
 
   private decorateStorage<ApiType> (storage: Storage, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
-    return Object.keys(storage).reduce((result, sectionName): QueryableStorage<ApiType> => {
-      const section = storage[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName): QueryableModuleStorage<ApiType> => {
-        result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
+    return Object.entries(storage).reduce((result, [name, section]): QueryableStorage<ApiType> => {
+      result[name] = Object.entries(section).reduce((result, [name, method]): QueryableModuleStorage<ApiType> => {
+        result[name] = this.decorateStorageEntry(method, decorateMethod);
 
         return result;
       }, {} as unknown as QueryableModuleStorage<ApiType>);
@@ -336,32 +327,26 @@ export default abstract class ApiBase<ApiType> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod(
-      (hash: Hash, arg1?: CodecArg, arg2?: CodecArg): Observable<Codec> =>
-        this._rpcCore.state.getStorage(getStorageArgs(arg1, arg2), hash));
+    decorated.at = decorateMethod((hash: Hash, arg1?: CodecArg, arg2?: CodecArg): Observable<Codec> =>
+      this._rpcCore.state.getStorage(getStorageArgs(arg1, arg2), hash));
 
-    decorated.hash = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg): Observable<Hash> =>
-        this._rpcCore.state.getStorageHash(getStorageArgs(arg1, arg2)));
+    decorated.hash = decorateMethod((arg1?: CodecArg, arg2?: CodecArg): Observable<Hash> =>
+      this._rpcCore.state.getStorageHash(getStorageArgs(arg1, arg2)));
 
     decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
     // When using double map storage function, user need to path double map key as an array
-    decorated.multi = decorateMethod(
-      (args: (CodecArg | CodecArg[])[]): Observable<Codec[]> =>
-        this._rpcCore.state
-          .subscribeStorage(
-            args.map((arg: CodecArg[] | CodecArg): [StorageEntry, CodecArg | CodecArg[]] =>
-              [creator, arg]
-            )
-          ));
+    decorated.multi = decorateMethod((args: (CodecArg | CodecArg[])[]): Observable<Codec[]> =>
+      this._rpcCore.state
+        .subscribeStorage(
+          args.map((arg: CodecArg[] | CodecArg): [StorageEntry, CodecArg | CodecArg[]] =>
+            [creator, arg])));
 
-    decorated.size = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg): Observable<u64> =>
-        this._rpcCore.state.getStorageSize(getStorageArgs(arg1, arg2)));
+    decorated.size = decorateMethod((arg1?: CodecArg, arg2?: CodecArg): Observable<u64> =>
+      this._rpcCore.state.getStorageSize(getStorageArgs(arg1, arg2)));
 
-    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
+    return decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
   private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
@@ -426,21 +411,20 @@ export default abstract class ApiBase<ApiType> extends Events {
 
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
-    return decorateMethod(
-      (...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
-        args.length
-          ? this._rpcCore.state
-            .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
-            .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
-          : this._rpcCore.state
-            .subscribeStorage<[LinkageResult]>([creator.headKey])
-            .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
+    return decorateMethod((...args: any[]): Observable<LinkageResult | [Codec, Linkage<Codec>]> =>
+      args.length
+        ? this._rpcCore.state
+          .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
+          .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
+        : this._rpcCore.state
+          .subscribeStorage<[LinkageResult]>([creator.headKey])
+          .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
     );
   }
 
   // FIXME I have no idea how to get this done
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
+  private decorateDerive <ApiType> (apiRx: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 
