@@ -17,7 +17,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
+import { GenericCall, GenericEvent, Metadata, Null, u64 } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -34,6 +34,23 @@ interface MetaDecoration {
   section: string;
   toJSON: () => any;
 }
+
+// these are override types for polkadot chains
+// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
+// implementation) are different. Detect Polkadot and inject the `Keys`
+// definition as applicable. (3 keys in substrate vs 4 in Polkadot).
+const TYPES_FOR_POLKADOT = {
+  Keys: 'SessionKeysPolkadot'
+};
+
+// these are the types that we are using when we detect a extrinsic V1 chain
+// NOTE for older chains (e.g. Alex) the BlockNumber/Index is u64, for current
+// these are now set to u32
+const TYPES_FOR_V1 = {
+  BlockNumber: 'u64',
+  Index: 'u64',
+  EventRecord: 'EventRecord0to76'
+};
 
 /**
  * Put the `this.onCall` function of ApiRx here, because it is needed by
@@ -153,11 +170,8 @@ export default abstract class ApiBase<ApiType> extends Events {
         this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
 
-      // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-      // implementation) are different. Detect Polkadot and inject the `Keys`
-      // definition as applicable. (3 keys in substrate vs 4 in Polkadot).
       if (this._runtimeVersion.specName.eq('polkadot')) {
-        getTypeRegistry().register({ Keys: 'SessionKeysPolkadot' });
+        this.registerTypes(TYPES_FOR_POLKADOT);
       }
 
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
@@ -177,33 +191,30 @@ export default abstract class ApiBase<ApiType> extends Events {
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this._runtimeMetadata);
-    const storage = storageFromMeta(this._runtimeMetadata);
-    const constants = constantsFromMeta(this._runtimeMetadata);
+    return this.initFromMeta(this._runtimeMetadata);
+  }
+
+  private async initFromMeta (metadata: Metadata): Promise<boolean> {
+    const extrinsics = extrinsicsFromMeta(metadata);
+    const storage = storageFromMeta(metadata);
+    const constants = constantsFromMeta(metadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      GenericEvent.injectMetadata(this._runtimeMetadata);
+      GenericEvent.injectMetadata(metadata);
       GenericCall.injectMethods(extrinsics);
 
       // detect the extrinsic version in-use based on the last block
-      const lastBlock: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
-      const blockExtrinsic = lastBlock.block.extrinsics[0];
+      const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = blockExtrinsic
-        ? blockExtrinsic.type
-        : EXTRINSIC_LATEST_VERSION;
+      this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
 
       // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
       // and has the old EventRecord format. Remove this ASAP with support for
       // Alex dropped
       if (this._extrinsicType === 1) {
-        this.registerTypes({
-          BlockNumber: 'u64',
-          Index: 'u64',
-          EventRecord: 'EventRecord0to76'
-        });
+        this.registerTypes(TYPES_FOR_V1);
       }
     }
 
@@ -218,6 +229,7 @@ export default abstract class ApiBase<ApiType> extends Events {
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
     this._rx.consts = constants;
 
+    // derive is last, since it uses the decorated rx
     this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
 
     return true;
