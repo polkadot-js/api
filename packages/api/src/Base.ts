@@ -40,7 +40,6 @@ interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
 }
 
-const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
@@ -60,6 +59,12 @@ try {
  */
 function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
   return method;
+}
+
+function assertResult <T> (value: T | undefined): T {
+  assert(!isUndefined(value), `Api needs to be initialised before using, listen on 'ready'`);
+
+  return value as T;
 }
 
 export default abstract class ApiBase<ApiType> {
@@ -155,9 +160,7 @@ export default abstract class ApiBase<ApiType> {
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
   public get genesisHash (): Hash {
-    assert(!isUndefined(this._genesisHash), INIT_ERROR);
-
-    return this._genesisHash as Hash;
+    return assertResult(this._genesisHash as Hash);
   }
 
   /**
@@ -178,18 +181,14 @@ export default abstract class ApiBase<ApiType> {
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
   public get runtimeMetadata (): Metadata {
-    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
-
-    return this._runtimeMetadata as Metadata;
+    return assertResult(this._runtimeMetadata as Metadata);
   }
 
   /**
    * @description Contains the version information for the current runtime.
    */
   public get runtimeVersion (): RuntimeVersion {
-    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
-
-    return this._runtimeVersion as RuntimeVersion;
+    return assertResult(this._runtimeVersion as RuntimeVersion);
   }
 
   /**
@@ -248,9 +247,7 @@ export default abstract class ApiBase<ApiType> {
    * ```
    */
   public get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
-    assert(!isUndefined(this._derive), INIT_ERROR);
-
-    return this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>;
+    return assertResult(this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>);
   }
 
   /**
@@ -266,9 +263,7 @@ export default abstract class ApiBase<ApiType> {
    * ```
    */
   public get consts (): Constants {
-    assert(!isUndefined(this._consts), INIT_ERROR);
-
-    return this._consts as Constants;
+    return assertResult(this._consts as Constants);
   }
 
   /**
@@ -286,9 +281,7 @@ export default abstract class ApiBase<ApiType> {
    * ```
    */
   public get query (): QueryableStorage<ApiType> {
-    assert(!isUndefined(this._query), INIT_ERROR);
-
-    return this._query as QueryableStorage<ApiType>;
+    return assertResult(this._query as QueryableStorage<ApiType>);
   }
 
   /**
@@ -350,9 +343,7 @@ export default abstract class ApiBase<ApiType> {
    * ```
    */
   public get tx (): SubmittableExtrinsics<ApiType> {
-    assert(!isUndefined(this._extrinsics), INIT_ERROR);
-
-    return this._extrinsics as SubmittableExtrinsics<ApiType>;
+    return assertResult(this._extrinsics as SubmittableExtrinsics<ApiType>);
   }
 
   /**

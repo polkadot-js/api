@@ -269,7 +269,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
-    const base = createTypeUnsafe(method.type as string, [result]);
+    const base = createTypeUnsafe(method.type, [result]);
 
     if (method.type === 'StorageData') {
       const key = params[0] as StorageKey;

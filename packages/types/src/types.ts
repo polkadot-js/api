@@ -196,22 +196,22 @@ export interface IExtrinsicEra extends Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicImpl extends Codec {
-  readonly method: Call;
-  readonly signature: IExtrinsicSignature;
-  readonly version: number;
-
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+interface IExtrinsicSignable<T> {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+  sign (account: IKeyringPair, options: SignatureOptions): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
   readonly length: number;
   readonly method: Call;
   readonly type: number;
   readonly version: number;
-
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }
