@@ -6,17 +6,22 @@ import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { CallFunction, RegistryTypes } from '@polkadot/types/types';
 
-import { ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
+import { ApiOptions, ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { getTypeRegistry, GenericCall, Metadata } from '@polkadot/types';
-import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Impl from './Impl';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
 }
+
+const KEEPALIVE_INTERVAL = 15000;
+
+const l = logger('api/decorator');
 
 let pkgJson: { name: string; version: string };
 
@@ -34,6 +39,34 @@ function assertResult <T> (value: T | undefined): T {
 }
 
 export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
+  private _healthTimer: NodeJS.Timeout | null = null;
+
+  /**
+   * @description Create an instance of the class
+   *
+   * @param options Options object to create API instance or a Provider instance
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import Api from '@polkadot/api/promise';
+   *
+   * const api = new Api().isReady();
+   *
+   * api.rpc.subscribeNewHead((header) => {
+   *   console.log(`new block #${header.number.toNumber()}`);
+   * });
+   * ```
+   */
+  public constructor (options: ApiOptions = {}, type: ApiTypes) {
+    super(options, type);
+
+    this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
+    this._rpcCore.provider.on('error', this._onProviderError);
+    this._rpcCore.provider.on('connected', this._onProviderConnect);
+  }
+
   /**
    * @description Contains the parameter types (constants) of all modules.
    *
@@ -246,4 +279,48 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
       getTypeRegistry().register(types);
     }
   }
+
+  private _onProviderConnect = async (): Promise<void> => {
+    this.emit('connected');
+    this._isConnected.next(true);
+
+    try {
+      const [hasMeta, cryptoReady] = await Promise.all([
+        this.loadMeta(),
+        cryptoWaitReady()
+      ]);
+
+      if (hasMeta && !this._isReady && cryptoReady) {
+        this._isReady = true;
+
+        this.emit('ready', this);
+      }
+
+      this._healthTimer = setInterval((): void => {
+        this._rpcCore.system.health().toPromise().catch((): void => {
+          // ignore
+        });
+      }, KEEPALIVE_INTERVAL);
+    } catch (_error) {
+      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
+
+      l.error(error);
+
+      this.emit('error', error);
+    }
+  }
+
+  private _onProviderDisconnect = (): void => {
+    this.emit('disconnected');
+    this._isConnected.next(false);
+
+    if (this._healthTimer) {
+      clearInterval(this._healthTimer);
+      this._healthTimer = null;
+    }
+  };
+
+  private _onProviderError = (error: Error): void => {
+    this.emit('error', error);
+  };
 }

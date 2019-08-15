@@ -21,8 +21,7 @@ import { getTypeRegistry, GenericCall, GenericEvent, Metadata, Null, u64 } from 
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION, LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, logger, u8aToHex } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
 
 import createSubmittable, { SubmittableExtrinsic } from '../SubmittableExtrinsic';
 import { decorateSections } from '../util/decorate';
@@ -35,10 +34,6 @@ interface MetaDecoration {
   section: string;
   toJSON: () => any;
 }
-
-const KEEPALIVE_INTERVAL = 15000;
-
-const l = logger('api/decorator');
 
 /**
  * Put the `this.onCall` function of ApiRx here, because it is needed by
@@ -59,11 +54,9 @@ export default abstract class ApiBase<ApiType> extends Events {
 
   protected _genesisHash?: Hash;
 
-  private _healthTimer: NodeJS.Timeout | null = null;
-
   protected _isConnected: BehaviorSubject<boolean>;
 
-  private _isReady: boolean = false;
+  protected _isReady: boolean = false;
 
   protected readonly _options: ApiOptions;
 
@@ -101,7 +94,7 @@ export default abstract class ApiBase<ApiType> extends Events {
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes) {
+  public constructor (options: ApiOptions, type: ApiTypes) {
     super();
 
     const thisProvider = options.source
@@ -127,10 +120,6 @@ export default abstract class ApiBase<ApiType> extends Events {
     this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
-
-    this._rpcCore.provider.on('disconnected', this.onProviderDisconnect);
-    this._rpcCore.provider.on('error', this.onProviderError);
-    this._rpcCore.provider.on('connected', this.onProviderConnect);
   }
 
   /**
@@ -153,51 +142,7 @@ export default abstract class ApiBase<ApiType> extends Events {
 
   public abstract registerTypes (types?: RegistryTypes): void;
 
-  private onProviderConnect = async (): Promise<void> => {
-    this.emit('connected');
-    this._isConnected.next(true);
-
-    try {
-      const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
-        cryptoWaitReady()
-      ]);
-
-      if (hasMeta && !this._isReady && cryptoReady) {
-        this._isReady = true;
-
-        this.emit('ready', this);
-      }
-
-      this._healthTimer = setInterval((): void => {
-        this._rpcCore.system.health().toPromise().catch((): void => {
-          // ignore
-        });
-      }, KEEPALIVE_INTERVAL);
-    } catch (_error) {
-      const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
-
-      l.error(error);
-
-      this.emit('error', error);
-    }
-  }
-
-  private onProviderDisconnect = (): void => {
-    this.emit('disconnected');
-    this._isConnected.next(false);
-
-    if (this._healthTimer) {
-      clearInterval(this._healthTimer);
-      this._healthTimer = null;
-    }
-  };
-
-  private onProviderError = (error: Error): void => {
-    this.emit('error', error);
-  };
-
-  private async loadMeta (): Promise<boolean> {
+  protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
 
     // only load from on-chain if we are not a clone (default path), alternatively
@@ -254,7 +199,7 @@ export default abstract class ApiBase<ApiType> extends Events {
       // and has the old EventRecord format. Remove this ASAP with support for
       // Alex dropped
       if (this._extrinsicType === 1) {
-        getTypeRegistry().register({
+        this.registerTypes({
           BlockNumber: 'u64',
           Index: 'u64',
           EventRecord: 'EventRecord0to76'
