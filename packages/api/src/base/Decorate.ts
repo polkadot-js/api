@@ -240,14 +240,12 @@ export default abstract class Decorate<ApiType> extends Events {
     const getNext = (key: Codec): Observable<LinkageResult> =>
       this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]]).pipe(
         switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
-          const linkage = data[1];
-
           result.set(key, data);
 
-          // iterate from this key to the children, constructing
-          // entries for all those found and available
-          if (linkage.next.isSome) {
-            return getNext(linkage.next.unwrap());
+          // iterate from this key to the linkages, constructing entries for all
+          // those found and available
+          if (data[1].next.isSome) {
+            return getNext(data[1].next.unwrap());
           }
 
           const [keys, vals]: [Codec[], Codec[]] = [[], []];
