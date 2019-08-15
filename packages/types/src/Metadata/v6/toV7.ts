@@ -14,16 +14,13 @@ export default function toV7 ({ modules }: MetadataV6): MetadataV7 {
   return new MetadataV7({
     modules: modules.map(({ calls, constants, events, name, prefix, storage }): ModuleMetadataV7 =>
       new ModuleMetadataV7({
+        calls,
+        constants,
+        events,
         name,
         storage: storage.isSome
-          ? new StorageV7({
-            prefix,
-            items: storage.unwrap()
-          })
-          : null,
-        calls,
-        events,
-        constants
+          ? new StorageV7({ prefix, items: storage.unwrap() })
+          : null
       })
     )
   });

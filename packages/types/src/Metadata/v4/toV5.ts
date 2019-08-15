@@ -47,11 +47,11 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
       }), 2];
 
   return new StorageFunctionMetadata({
+    documentation,
+    fallback,
     name,
     modifier,
-    type: new StorageFunctionType(newType, index),
-    fallback,
-    documentation
+    type: new StorageFunctionType(newType, index)
   });
 }
 
@@ -66,10 +66,7 @@ export default function toV5 (metadataV4: MetadataV4): MetadataV5 {
         name,
         prefix,
         storage: storage.isSome
-          ? new Option(
-            Vec.with(StorageFunctionMetadata),
-            storage.unwrap().map(toV5StorageFunction)
-          )
+          ? new Option(Vec.with(StorageFunctionMetadata), storage.unwrap().map(toV5StorageFunction))
           : undefined,
         calls,
         events

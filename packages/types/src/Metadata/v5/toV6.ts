@@ -14,12 +14,12 @@ export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
   return new MetadataV6({
     modules: metadataV5.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV6 =>
       new ModuleMetadataV6({
+        calls,
+        constants: [],
+        events,
         name,
         prefix,
-        storage,
-        calls,
-        events,
-        constants: []
+        storage
       })
     )
   });
