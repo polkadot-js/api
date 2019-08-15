@@ -14,7 +14,7 @@ import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provi
 import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import ApiBase from './Base';
+import ApiBase from './base';
 import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 // Prepend an element V onto the beginning of a tuple T.
