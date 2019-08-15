@@ -71,23 +71,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
-      [this._genesisHash, this._runtimeVersion] = await Promise.all([
-        this._rpcCore.chain.getBlockHash(0).toPromise(),
-        this._rpcCore.chain.getRuntimeVersion().toPromise()
-      ]);
-
-      if (this._runtimeVersion.specName.eq('polkadot')) {
-        this.registerTypes(TYPES_FOR_POLKADOT);
-      }
-
-      const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
-
-      this._runtimeMetadata = metadataKey in metadata
-        ? new Metadata(metadata[metadataKey])
-        : await this._rpcCore.state.getMetadata().toPromise();
-
-      // get unique types & validate
-      this._runtimeMetadata.getUniqTypes(false);
+      this._runtimeMetadata = await this.metaFromChain(metadata);
     } else {
       this._extrinsicType = this._options.source.extrinsicVersion;
       this._runtimeMetadata = this._options.source.runtimeMetadata;
@@ -96,6 +80,27 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     }
 
     return this.initFromMeta(this._runtimeMetadata);
+  }
+
+  private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
+    [this._genesisHash, this._runtimeVersion] = await Promise.all([
+      this._rpcCore.chain.getBlockHash(0).toPromise(),
+      this._rpcCore.chain.getRuntimeVersion().toPromise()
+    ]);
+
+    if (this._runtimeVersion.specName.eq('polkadot')) {
+      this.registerTypes(TYPES_FOR_POLKADOT);
+    }
+
+    const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+    const metadata = metadataKey in optMetadata
+      ? new Metadata(optMetadata[metadataKey])
+      : await this._rpcCore.state.getMetadata().toPromise();
+
+    // get unique types & validate
+    metadata.getUniqTypes(false);
+
+    return metadata;
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {

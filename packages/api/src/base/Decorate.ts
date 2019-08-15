@@ -238,9 +238,8 @@ export default abstract class Decorate<ApiType> extends Events {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state
-        .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]])
-        .pipe(switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
+      this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]]).pipe(
+        switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
           const linkage = data[1];
 
           result.set(key, data);
@@ -251,8 +250,7 @@ export default abstract class Decorate<ApiType> extends Events {
             return getNext(linkage.next.unwrap());
           }
 
-          const keys = [];
-          const vals = [];
+          const [keys, vals]: [Codec[], Codec[]] = [[], []];
           let nextKey = head;
 
           // loop through the results collected, starting at the head an re-creating
