@@ -9,7 +9,7 @@ import { CallFunction, RegistryTypes } from '@polkadot/types/types';
 import { ApiOptions, ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
-import { getTypeRegistry, GenericCall, Metadata } from '@polkadot/types';
+import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
 import { assert, isString, isUndefined, logger, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -168,7 +168,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get queryMulti (): QueryableStorageMulti<ApiType> {
-    return this._queryMulti;
+    return assertResult(this._queryMulti);
   }
 
   /**
@@ -186,7 +186,7 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
    * ```
    */
   public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
-    return this._rpc;
+    return assertResult(this._rpc);
   }
 
   /**
@@ -243,6 +243,13 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
   }
 
   /**
+   * @description Register additional user-defined of chain-specific types in the type registry
+   */
+  public registerTypes (types?: RegistryTypes): void {
+    types && getTypeRegistry().register(types);
+  }
+
+  /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
   public setSigner (signer: Signer): void {
@@ -269,15 +276,6 @@ export default abstract class ApiBase<ApiType> extends Impl<ApiType> {
     }
 
     return u8aToHex(signer.sign(u8aToU8a(data.data)));
-  }
-
-  /**
-   * @description Register additional user-defined of chain-specific types in the type registry
-   */
-  public registerTypes (types?: RegistryTypes): void {
-    if (types) {
-      getTypeRegistry().register(types);
-    }
   }
 
   private _onProviderConnect = async (): Promise<void> => {
