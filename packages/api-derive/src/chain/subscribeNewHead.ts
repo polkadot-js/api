@@ -6,7 +6,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Header } from '@polkadot/types/interfaces';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
@@ -28,23 +28,21 @@ export type HeaderAndValidators = [Header, AccountId[]];
  */
 export function subscribeNewHead (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
   return (): Observable<HeaderExtended> =>
-    (api.rpc.chain.subscribeNewHead() as Observable<Header>)
-      .pipe(
-        filter((header: Header): boolean => !!header && !!header.number),
-        switchMap((header: Header): Observable<HeaderAndValidators> =>
-          (combineLatest([
-            of(header),
-            // theoretically we could combine at the first call with session.validators(), however
-            // we make 100% sure we actually get the validators at a specific block so when these
-            // change at an era boundary, we have the previous values to ensure our indexes are correct
-            api.query.session
-              ? api.query.session.validators.at(header.hash)
-              : of([])
-          ]) as Observable<HeaderAndValidators>)
-        ),
-        map(([header, validators]): HeaderExtended =>
-          new HeaderExtended(header, validators)
-        ),
-        drr()
-      );
+    api.rpc.chain.subscribeNewHead().pipe(
+      switchMap((header: Header): Observable<HeaderAndValidators> =>
+        (combineLatest([
+          of(header),
+          // theoretically we could combine at the first call with session.validators(), however
+          // we make 100% sure we actually get the validators at a specific block so when these
+          // change at an era boundary, we have the previous values to ensure our indexes are correct
+          api.query.session
+            ? api.query.session.validators.at(header.hash)
+            : of([])
+        ]) as Observable<HeaderAndValidators>)
+      ),
+      map(([header, validators]): HeaderExtended =>
+        new HeaderExtended(header, validators)
+      ),
+      drr()
+    );
 }

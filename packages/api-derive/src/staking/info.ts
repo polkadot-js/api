@@ -26,6 +26,7 @@ type MultiResult = [Option<Keys>, [
   Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]
 ]];
 
+// groups the supplied chunks by era, i.e. { [era]: BN(total of values) }
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   return list.reduce((map: Record<string, BN>, { era, value }): Record<string, BN> => {
     const key = era.toString();
@@ -38,6 +39,7 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   }, {});
 }
 
+// calculate the remining blocks in a specific unlock era
 function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
   const remaining = eraLength.mul(era).sub(bestNumber);
 
@@ -46,15 +48,19 @@ function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
     : remaining;
 }
 
+// select the Unlockchunks that can't be redeemed yet
+function calcChunks (stakingLedger: StakingLedger, eraLength: BN, bestNumber: BlockNumber): UnlockChunk[] {
+  return stakingLedger.unlocking.filter((chunk): boolean =>
+    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
+  );
+}
+
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
-  // select the Unlockchunks that can't be redeemed yet.
-  const unlockingChunks = stakingLedger.unlocking.filter((chunk): boolean =>
-    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
-  );
+  const unlockingChunks = calcChunks(stakingLedger, eraLength, bestNumber);
 
   if (!unlockingChunks.length) {
     return undefined;
@@ -75,13 +81,9 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     return new BN(0);
   }
 
-  return stakingLedger.unlocking
-    .filter((chunk): boolean =>
-      remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).eqn(0)
-    )
-    .reduce((curr, prev): BN =>
-      curr.add(prev.value.unwrap()), new BN(0)
-    );
+  return calcChunks(stakingLedger, eraLength, bestNumber).reduce((curr, prev): BN =>
+    curr.add(prev.value.unwrap()), new BN(0)
+  );
 }
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
