@@ -6,8 +6,9 @@ import { Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
-import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from '../v3/Storage';
+import { ModuleMetadata as ModuleMetadataV4 } from '../v4/Metadata';
 import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
+import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage';
 
 /**
  * Convert V3 StorageFunction to V4 StorageFunction
@@ -50,9 +51,8 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
  */
 export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
   return new MetadataV4({
-    // FIXME, this needs typing, not any
-    modules: metadataV3.modules.map((modul): any => {
-      return {
+    modules: metadataV3.modules.map((modul): ModuleMetadataV4 =>
+      new ModuleMetadataV4({
         name: modul.name,
         prefix: modul.prefix,
         storage: modul.storage.isSome
@@ -63,7 +63,7 @@ export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
           : undefined,
         calls: modul.calls,
         events: modul.events
-      };
-    })
+      })
+    )
   });
 }
