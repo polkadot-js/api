@@ -47,11 +47,11 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
       }), 2];
 
   return new StorageFunctionMetadata({
-    name: name,
-    modifier: modifier,
+    name,
+    modifier,
     type: new StorageFunctionType(newType, index),
-    fallback: fallback,
-    documentation: documentation
+    fallback,
+    documentation
   });
 }
 
@@ -61,18 +61,18 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
  */
 export default function toV5 (metadataV4: MetadataV4): MetadataV5 {
   return new MetadataV5({
-    modules: metadataV4.modules.map((modul): ModuleMetadataV5 =>
+    modules: metadataV4.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
       new ModuleMetadataV5({
-        name: modul.name,
-        prefix: modul.prefix,
-        storage: modul.storage.isSome
+        name,
+        prefix,
+        storage: storage.isSome
           ? new Option(
             Vec.with(StorageFunctionMetadata),
-            modul.storage.unwrap().map(toV5StorageFunction)
+            storage.unwrap().map(toV5StorageFunction)
           )
           : undefined,
-        calls: modul.calls,
-        events: modul.events
+        calls,
+        events
       })
     )
   });

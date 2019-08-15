@@ -12,13 +12,13 @@ import { ModuleMetadata as ModuleMetadataV6 } from '../v6/Metadata';
  */
 export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
   return new MetadataV6({
-    modules: metadataV5.modules.map((modul): ModuleMetadataV6 =>
+    modules: metadataV5.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV6 =>
       new ModuleMetadataV6({
-        name: modul.name,
-        prefix: modul.prefix,
-        storage: modul.storage,
-        calls: modul.calls,
-        events: modul.events,
+        name,
+        prefix,
+        storage,
+        calls,
+        events,
         constants: []
       })
     )
