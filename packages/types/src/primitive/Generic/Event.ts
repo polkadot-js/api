@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '../../codec/types';
+import { EventMetadataV7 } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
 import { Constructor, Codec } from '../../types';
 
@@ -12,7 +13,6 @@ import { getTypeClass, getTypeDef } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Metadata from '../../Metadata';
-import { EventMetadata as EventMetadataV7 } from '../../Metadata/v7/Events';
 import Null from '../Null';
 
 const EventTypes: Record<string, Constructor<EventData>> = {};

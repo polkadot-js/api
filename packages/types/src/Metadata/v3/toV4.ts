@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option, Vec } from '../../codec';
+import { createType, Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
 import { ModuleMetadata as ModuleMetadataV4 } from '../v4/Metadata';
-import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
+import { MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
 import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage';
 
 /**
@@ -28,7 +28,7 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
         value: type.asMap.value,
         isLinked: type.asMap.isLinked
       }), 1]
-      : [new DoubleMapType({
+      : [createType('DoubleMapTypeV4', {
         hasher: new StorageHasher('Twox128'),
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
@@ -49,9 +49,9 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
  * Convert from MetadataV3 to MetadataV4
  * See https://github.com/paritytech/substrate/pull/2268 for details
  */
-export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
+export default function toV4 ({ modules }: MetadataV3): MetadataV4 {
   return new MetadataV4({
-    modules: metadataV3.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
+    modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
       new ModuleMetadataV4({
         calls,
         events,

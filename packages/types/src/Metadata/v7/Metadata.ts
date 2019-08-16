@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventMetadataV7, FunctionMetadataV7, ModuleConstantMetadataV7 } from '../../interfaces/metadata/types';
 import { MetadataInterface } from '../types';
 
 import Option from '../../codec/Option';
@@ -10,9 +11,6 @@ import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import { flattenUniq, validateTypes } from '../util';
 
-import { FunctionMetadata } from './Calls';
-import { ModuleConstantMetadata } from './Constants';
-import { EventMetadata } from './Events';
 import { StorageMetadata } from './Storage';
 
 /**
@@ -25,31 +23,31 @@ export class ModuleMetadata extends Struct {
     super({
       name: Text,
       storage: Option.with(StorageMetadata),
-      calls: Option.with(Vec.with(FunctionMetadata)),
-      events: Option.with(Vec.with(EventMetadata)),
-      constants: Vec.with(ModuleConstantMetadata)
+      calls: Option.with(Vec.with('FunctionMetadataV7')),
+      events: Option.with(Vec.with('EventMetadataV7')),
+      constants: Vec.with('ModuleConstantMetadataV7')
     }, value);
   }
 
   /**
    * @description the module calls
    */
-  public get calls (): Option<Vec<FunctionMetadata>> {
-    return this.get('calls') as Option<Vec<FunctionMetadata>>;
+  public get calls (): Option<Vec<FunctionMetadataV7>> {
+    return this.get('calls') as Option<Vec<FunctionMetadataV7>>;
   }
 
   /**
    * @description the module constants
    */
-  public get constants (): Vec<ModuleConstantMetadata> {
-    return this.get('constants') as Vec<ModuleConstantMetadata>;
+  public get constants (): Vec<ModuleConstantMetadataV7> {
+    return this.get('constants') as Vec<ModuleConstantMetadataV7>;
   }
 
   /**
    * @description the module events
    */
-  public get events (): Option<Vec<EventMetadata>> {
-    return this.get('events') as Option<Vec<EventMetadata>>;
+  public get events (): Option<Vec<EventMetadataV7>> {
+    return this.get('events') as Option<Vec<EventMetadataV7>>;
   }
 
   /**

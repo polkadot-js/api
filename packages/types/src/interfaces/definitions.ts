@@ -29,5 +29,6 @@ export { default as attestations } from './attestations/definitions';
 export { default as claims } from './claims/definitions';
 export { default as parachains } from './parachains/definitions';
 
-// pull in rpc last, assuming that is uses info from above
+// pull in metadata & rpc last, assuming that is uses info from above
+export { default as metadata } from './metadata/definitions';
 export { default as rpc } from './rpc/definitions';
