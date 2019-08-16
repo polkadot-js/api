@@ -59,14 +59,6 @@ export class FunctionMetadata extends Struct {
   }
 
   /**
-   * @description The [[Text]] documentation
-   * @deprecated Use `.documentation` instead.
-   */
-  public get docs (): Vec<Text> {
-    return this.documentation;
-  }
-
-  /**
    * @description The call name
    */
   public get name (): Text {

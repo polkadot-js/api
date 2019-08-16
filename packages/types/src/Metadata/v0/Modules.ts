@@ -52,26 +52,10 @@ export class FunctionMetadata extends Struct {
   }
 
   /**
-   * @description The [[FunctionArgumentMetadata]] for arguments
-   * @deprecated Use `.args` instead
-   */
-  public get arguments (): Vec<FunctionArgumentMetadata> {
-    return this.get('arguments') as Vec<FunctionArgumentMetadata>;
-  }
-
-  /**
    * @description The [[Text]] documentation
    */
   public get documentation (): Vec<Text> {
     return this.get('documentation') as Vec<Text>;
-  }
-
-  /**
-   * @description The [[Text]] documentation
-   * @deprecated Use `.documentation` instead.
-   */
-  public get docs (): Vec<Text> {
-    return this.documentation;
   }
 
   /**

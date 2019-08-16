@@ -25,26 +25,10 @@ export class EventMetadata extends Struct {
   }
 
   /**
-   * @description The arguments of [[Type]]
-   * @deprecated Use `.args` instead
-   */
-  public get arguments (): Vec<Type> {
-    return this.args;
-  }
-
-  /**
    * @description The [[Text]] documentation
    */
   public get documentation (): Vec<Text> {
     return this.get('documentation') as Vec<Text>;
-  }
-
-  /**
-   * @description The [[Text]] documentation
-   * @deprecated Use `.documentation` instead.
-   */
-  public get docs (): Vec<Text> {
-    return this.documentation;
   }
 
   /**

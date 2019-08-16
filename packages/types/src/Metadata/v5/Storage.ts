@@ -172,14 +172,6 @@ export class StorageFunctionMetadata extends Struct {
 
   /**
    * @description The default value of the storage function
-   * @deprecated Use `.fallback` instead.
-   */
-  public get default (): Bytes {
-    return this.fallback;
-  }
-
-  /**
-   * @description The default value of the storage function
    */
   public get fallback (): Bytes {
     return this.get('fallback') as Bytes;
@@ -190,14 +182,6 @@ export class StorageFunctionMetadata extends Struct {
    */
   public get documentation (): Vec<Text> {
     return this.get('documentation') as Vec<Text>;
-  }
-
-  /**
-   * @description The [[Text]] documentation
-   * @deprecated Use `.documentation` instead.
-   */
-  public get docs (): Vec<Text> {
-    return this.documentation;
   }
 
   /**
