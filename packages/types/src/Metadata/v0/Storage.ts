@@ -181,7 +181,7 @@ export class StorageFunctionMetadata extends Struct {
   }
 }
 
-export class StorageMetadata extends Struct {
+export class StorageMetadataV0 extends Struct {
   public constructor (value?: any) {
     super({
       prefix: Text,

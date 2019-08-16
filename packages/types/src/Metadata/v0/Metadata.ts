@@ -12,7 +12,7 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { flattenUniq, validateTypes } from '../util';
 import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
-import { RuntimeModuleMetadata } from './Modules';
+import { RuntimeModuleMetadataV0 } from './Modules';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
 
@@ -21,11 +21,11 @@ import { RuntimeModuleMetadata } from './Modules';
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV0 extends Struct implements MetadataInterface<RuntimeModuleMetadata> {
+export default class MetadataV0 extends Struct implements MetadataInterface<RuntimeModuleMetadataV0> {
   public constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: Vec.with(RuntimeModuleMetadata),
+      modules: Vec.with(RuntimeModuleMetadataV0),
       outerDispatch: 'OuterDispatchMetadataV0'
     }, MetadataV0.decodeMetadata(value));
   }
@@ -69,14 +69,14 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[RuntimeModuleMetadata]]
    */
-  public get modules (): Vec<RuntimeModuleMetadata> {
-    return this.get('modules') as Vec<RuntimeModuleMetadata>;
+  public get modules (): Vec<RuntimeModuleMetadataV0> {
+    return this.get('modules') as Vec<RuntimeModuleMetadataV0>;
   }
 
   private get argNames (): string[][][] {
-    return this.modules.map((modul): string[][] =>
-      modul.module.call.functions.map((fn): string[] =>
-        fn.args.map((argument): string => argument.type.toString())
+    return this.modules.map(({ module: { call: { functions } } }): string[][] =>
+      functions.map(({ args }): string[] =>
+        args.map((arg): string => arg.type.toString())
       )
     );
   }
@@ -92,10 +92,10 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   private get storageNames (): string[][][] {
     return this.modules.map((modul): string[][] =>
       modul.storage.isSome
-        ? modul.storage.unwrap().functions.map((fn): string[] =>
-          fn.type.isMap
-            ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
-            : [fn.type.asType.toString()]
+        ? modul.storage.unwrap().functions.map(({ type }): string[] =>
+          type.isMap
+            ? [type.asMap.key.toString(), type.asMap.value.toString()]
+            : [type.asType.toString()]
         )
         : []
     );

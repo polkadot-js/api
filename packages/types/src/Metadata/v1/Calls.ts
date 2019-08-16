@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { FunctionArgumentMetadataV1 } from '../../interfaces/metadata/types';
+
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import { FunctionArgumentMetadata } from '../v0/Modules';
-
-// re-export non-changes interfaces from v0
-export { FunctionArgumentMetadata };
 
 /**
  * @name FunctionMetadata
@@ -19,7 +17,7 @@ export class FunctionMetadata extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
-      args: Vec.with(FunctionArgumentMetadata),
+      args: Vec.with('FunctionArgumentMetadataV1'),
       documentation: Vec.with(Text)
     }, value);
   }
@@ -27,8 +25,8 @@ export class FunctionMetadata extends Struct {
   /**
    * @description The [[FunctionArgumentMetadata]] for arguments
    */
-  public get args (): Vec<FunctionArgumentMetadata> {
-    return this.get('args') as Vec<FunctionArgumentMetadata>;
+  public get args (): Vec<FunctionArgumentMetadataV1> {
+    return this.get('args') as Vec<FunctionArgumentMetadataV1>;
   }
 
   /**

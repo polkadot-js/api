@@ -8,13 +8,13 @@ import { stringUpperFirst } from '@polkadot/util';
 
 import { Option, Vec } from '../../codec';
 import MetadataV0 from './Metadata';
-import { RuntimeModuleMetadata } from './Modules';
+import { RuntimeModuleMetadataV0 } from './Modules';
 import { Text } from '../../primitive';
 import { FunctionMetadata } from '../v1/Calls';
 import MetadataV1, { ModuleMetadata as ModuleMetadataV1 } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
-function toV1Calls (modul: RuntimeModuleMetadata): Option<FunctionMetadata> {
+function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadata> {
   return modul.module.call.functions.length === 0
     ? new Option(Vec.with(FunctionMetadata))
     : new Option(Vec.with(FunctionMetadata), modul.module.call.functions);
@@ -28,7 +28,7 @@ function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadata
     : new Option(Vec.with('EventMetadataV1'));
 }
 
-function toV1Storage (modul: RuntimeModuleMetadata): Option<StorageFunctionMetadata> {
+function toV1Storage (modul: RuntimeModuleMetadataV0): Option<StorageFunctionMetadata> {
   return modul.storage.isNone
     ? new Option(Vec.with(StorageFunctionMetadata))
     : new Option(

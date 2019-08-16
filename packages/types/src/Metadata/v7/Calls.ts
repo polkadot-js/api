@@ -3,7 +3,4 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // Re-export classes that haven't changed between V6 & V7
-export {
-  FunctionArgumentMetadata,
-  FunctionMetadata
-} from '../v6/Calls';
+export { FunctionMetadata } from '../v6/Calls';
