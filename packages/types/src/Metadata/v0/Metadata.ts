@@ -10,7 +10,6 @@ import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import { flattenUniq, validateTypes } from '../util';
 import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
 import { RuntimeModuleMetadataV0 } from './Modules';
 
@@ -71,44 +70,5 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
    */
   public get modules (): Vec<RuntimeModuleMetadataV0> {
     return this.get('modules') as Vec<RuntimeModuleMetadataV0>;
-  }
-
-  private get argNames (): string[][][] {
-    return this.modules.map(({ module: { call: { functions } } }): string[][] =>
-      functions.map(({ args }): string[] =>
-        args.map((arg): string => arg.type.toString())
-      )
-    );
-  }
-
-  private get eventNames (): string[][][] {
-    return this.events.map((modul): string[][] =>
-      modul.events.map((event): string[] =>
-        event.args.map((argument): string => argument.toString())
-      )
-    );
-  }
-
-  private get storageNames (): string[][][] {
-    return this.modules.map((modul): string[][] =>
-      modul.storage.isSome
-        ? modul.storage.unwrap().functions.map(({ type }): string[] =>
-          type.isMap
-            ? [type.asMap.key.toString(), type.asMap.value.toString()]
-            : [type.asType.toString()]
-        )
-        : []
-    );
-  }
-
-  /**
-   * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
-   */
-  public getUniqTypes (throwError: boolean): string[] {
-    const types = flattenUniq([this.argNames, this.eventNames, this.storageNames]);
-
-    validateTypes(types, throwError);
-
-    return types;
   }
 }

@@ -9,7 +9,6 @@ import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import { flattenUniq, validateTypes } from '../util';
 
 import { StorageFunctionMetadata } from './Storage';
 
@@ -82,48 +81,5 @@ export default class MetadataV1 extends Struct implements MetadataInterface<Modu
    */
   public get modules (): Vec<ModuleMetadata> {
     return this.get('modules') as Vec<ModuleMetadata>;
-  }
-
-  private get callNames (): string[][][] {
-    return this.modules.map((mod): string[][] =>
-      mod.calls.isNone
-        ? []
-        : mod.calls.unwrap().map((fn): string[] =>
-          fn.args.map((arg): string => arg.type.toString())
-        )
-    );
-  }
-
-  private get eventNames (): string[][][] {
-    return this.modules.map((mod): string[][] =>
-      mod.events.isNone
-        ? []
-        : mod.events.unwrap().map((event): string[] =>
-          event.args.map((arg): string => arg.toString())
-        )
-    );
-  }
-
-  private get storageNames (): string[][][] {
-    return this.modules.map((mod): string[][] =>
-      mod.storage.isNone
-        ? []
-        : mod.storage.unwrap().map((fn): string[] =>
-          fn.type.isMap
-            ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
-            : [fn.type.asType.toString()]
-        )
-    );
-  }
-
-  /**
-   * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
-   */
-  public getUniqTypes (throwError: boolean): string[] {
-    const types = flattenUniq([this.callNames, this.eventNames, this.storageNames]);
-
-    validateTypes(types, throwError);
-
-    return types;
   }
 }

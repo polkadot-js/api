@@ -3,4 +3,5 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as flattenUniq } from './flattenUniq';
+export { default as getUniqTypes } from './getUniqTypes';
 export { default as validateTypes } from './validateTypes';

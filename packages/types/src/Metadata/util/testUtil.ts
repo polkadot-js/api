@@ -11,6 +11,7 @@ import Metadata from '../Metadata';
 import Call from '../../primitive/Generic/Call';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
+import getUniqTypes from './getUniqTypes';
 
 /**
  * Given the static `rpcData` and the `latestSubstrate` JSON file, Metadata
@@ -42,8 +43,10 @@ export function toV7<Modules extends Codec> (version: number, rpcData: string): 
     const metadataV7 = new Metadata(rpcData).asV7;
 
     expect(
-      (metadata as unknown as MetadataInterface<Modules>).getUniqTypes(true)
-    ).toEqual(metadataV7.getUniqTypes(true));
+      getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)
+    ).toEqual(
+      getUniqTypes(metadataV7, true)
+    );
   });
 }
 

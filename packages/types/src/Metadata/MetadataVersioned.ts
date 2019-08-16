@@ -22,6 +22,7 @@ import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
+import { getUniqTypes } from './util';
 
 type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
 type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -307,6 +308,6 @@ export default class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return this.asLatest.getUniqTypes(throwError);
+    return getUniqTypes(this.asLatest, throwError);
   }
 }
