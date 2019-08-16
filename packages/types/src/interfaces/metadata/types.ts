@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '../../codec';
-import { Text, Type, u16 } from '../../primitive';
+import { StorageHasher, Text, Type, u16 } from '../../primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {
@@ -11,6 +11,52 @@ export interface CallMetadataV0 extends Struct {
   /** Vec<FunctionMetadataV0> */
   readonly functions: Vec<FunctionMetadataV0>;
 }
+
+/** Struct */
+export interface DoubleMapTypeV3 extends Struct {
+  /** Type */
+  readonly key1: Type;
+  /** Type */
+  readonly key2: Type;
+  /** Type */
+  readonly value: Type;
+  /** Text */
+  readonly key2Hasher: Text;
+}
+
+/** Struct */
+export interface DoubleMapTypeV4 extends Struct {
+  /** StorageHasher */
+  readonly hasher: StorageHasher;
+  /** Type */
+  readonly key1: Type;
+  /** Type */
+  readonly key2: Type;
+  /** Type */
+  readonly value: Type;
+  /** Text */
+  readonly key2Hasher: Text;
+}
+
+/** Struct */
+export interface DoubleMapTypeV5 extends Struct {
+  /** StorageHasher */
+  readonly hasher: StorageHasher;
+  /** Type */
+  readonly key1: Type;
+  /** Type */
+  readonly key2: Type;
+  /** Type */
+  readonly value: Type;
+  /** StorageHasher */
+  readonly key2Hasher: StorageHasher;
+}
+
+/** DoubleMapTypeV5 */
+export type DoubleMapTypeV6 = DoubleMapTypeV5;
+
+/** DoubleMapTypeV6 */
+export type DoubleMapTypeV7 = DoubleMapTypeV6;
 
 /** Struct */
 export interface EventMetadataV0 extends Struct {

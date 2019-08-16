@@ -47,22 +47,44 @@ export default {
     FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
 
     // v3
+    DoubleMapTypeV3: {
+      key1: 'Type',
+      key2: 'Type',
+      value: 'Type',
+      key2Hasher: 'Text'
+    },
     EventMetadataV3: 'EventMetadataV2',
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
 
     // v4
+    DoubleMapTypeV4: {
+      hasher: 'StorageHasher',
+      key1: 'Type',
+      key2: 'Type',
+      value: 'Type',
+      key2Hasher: 'Text'
+    },
     EventMetadataV4: 'EventMetadataV3',
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
 
     // v5
+    DoubleMapTypeV5: {
+      hasher: 'StorageHasher',
+      key1: 'Type',
+      key2: 'Type',
+      value: 'Type',
+      key2Hasher: 'StorageHasher'
+    },
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
 
     // v6
+    DoubleMapTypeV6: 'DoubleMapTypeV5',
     EventMetadataV6: 'EventMetadataV5',
     FunctionArgumentMetadataV6: 'FunctionArgumentMetadataV5',
 
     // v7
+    DoubleMapTypeV7: 'DoubleMapTypeV6',
     EventMetadataV7: 'EventMetadataV6',
     FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6'
   }

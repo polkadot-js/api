@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DoubleMapTypeV5 } from '../../interfaces/metadata/types';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -10,9 +11,7 @@ import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
-import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
 import { MapType, PlainType, StorageFunctionModifier } from '../v4/Storage';
 
 // Re-export classes that haven't changed between V4 and V5
@@ -22,69 +21,22 @@ export {
   StorageFunctionModifier
 };
 
-export class DoubleMapType extends Struct {
-  public constructor (value?: any) {
-    super({
-      hasher: StorageHasher,
-      key1: Type,
-      key2: Type,
-      value: Type,
-      key2Hasher: StorageHasher
-    }, value);
-  }
-
-  /**
-   * @description The hashing algorithm used to hash keys, as [[StorageHasher]]
-   */
-  public get hasher (): StorageHasher {
-    return this.get('hasher') as StorageHasher;
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key1 (): Type {
-    return this.get('key1') as Type;
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key2 (): Type {
-    return this.get('key2') as Type;
-  }
-
-  /**
-   * @description The hashing algorithm used to hash key2, as [[StorageHasher]]
-   */
-  public get key2Hasher (): StorageHasher {
-    return this.get('key2Hasher') as StorageHasher;
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get value (): Type {
-    return this.get('value') as Type;
-  }
-}
-
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
       PlainType,
       MapType,
-      DoubleMapType
+      DoubleMapType: 'DoubleMapTypeV5'
     }, value, index);
   }
 
   /**
    * @description The value as a mapped value
    */
-  public get asDoubleMap (): DoubleMapType {
+  public get asDoubleMap (): DoubleMapTypeV5 {
     assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
 
-    return this.value as DoubleMapType;
+    return this.value as DoubleMapTypeV5;
   }
 
   /**

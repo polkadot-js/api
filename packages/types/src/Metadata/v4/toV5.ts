@@ -4,13 +4,13 @@
 
 import { assert } from '@polkadot/util';
 
-import { Option, Vec } from '../../codec';
+import { createType, Option, Vec } from '../../codec';
 import Text from '../../primitive/Text';
 import MetadataV4 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV5 from '../v5';
 import { ModuleMetadata as ModuleMetadataV5 } from '../v5/Metadata';
-import { DoubleMapType, StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
+import { StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
 import { StorageFunctionMetadata as StorageFunctionMetadataV4 } from './Storage';
 
 const hasherMap: Map<string, string> = new Map([
@@ -38,7 +38,7 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
     ? [type, 0]
     : type.isMap
       ? [type.asMap, 1]
-      : [new DoubleMapType({
+      : [createType('DoubleMapTypeV5', {
         hasher: type.asDoubleMap.hasher,
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
@@ -59,9 +59,9 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
  * Convert from MetadataV4 to MetadataV5
  * See https://github.com/paritytech/substrate/pull/2836/files for details
  */
-export default function toV5 (metadataV4: MetadataV4): MetadataV5 {
+export default function toV5 ({ modules }: MetadataV4): MetadataV5 {
   return new MetadataV5({
-    modules: metadataV4.modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
+    modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
       new ModuleMetadataV5({
         name,
         prefix,
