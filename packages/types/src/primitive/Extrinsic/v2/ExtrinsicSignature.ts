@@ -13,7 +13,7 @@ import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from '../v2/ExtrinsicExtra';
-import ExtrinsicPayload from './ExtrinsicPayload';
+import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
  * @name ExtrinsicSignature
@@ -99,7 +99,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.extra.tip;
   }
 
-  protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
+  protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV2): IExtrinsicSignature {
     this.extra.set('era', era);
     this.extra.set('nonce', nonce);
     this.extra.set('tip', tip);
@@ -117,7 +117,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.injectSignature(
       createType('Address', signer),
       createType('Signature', signature),
-      new ExtrinsicPayload(payload)
+      new ExtrinsicPayloadV2(payload)
     );
   }
 
@@ -126,7 +126,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayload({
+    const payload = new ExtrinsicPayloadV2({
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,

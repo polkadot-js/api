@@ -9,7 +9,7 @@ import { createType } from '../../../codec/create';
 import Call from '../../Generic/Call';
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
-import ExtrinsicPayload from './ExtrinsicPayload';
+import ExtrinsicPayloadV3 from './ExtrinsicPayload';
 
 /**
  * @name ExtrinsicSignatureV3
@@ -24,7 +24,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
     return this.injectSignature(
       createType('Address', signer),
       createType('Signature', signature),
-      new ExtrinsicPayload(payload)
+      new ExtrinsicPayloadV3(payload)
     );
   }
 
@@ -33,7 +33,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayload({
+    const payload = new ExtrinsicPayloadV3({
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
