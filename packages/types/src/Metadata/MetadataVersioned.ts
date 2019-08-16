@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isUndefined } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
@@ -22,6 +22,10 @@ import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
+
+type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
+type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
 
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
@@ -186,25 +190,34 @@ class MetadataEnum extends Enum {
  * The versioned runtime metadata as a decoded structure
  */
 export default class MetadataVersioned extends Struct {
-  private _convertedV1?: MetadataV1;
-
-  private _convertedV2?: MetadataV2;
-
-  private _convertedV3?: MetadataV3;
-
-  private _convertedV4?: MetadataV4;
-
-  private _convertedV5?: MetadataV5;
-
-  private _convertedV6?: MetadataV6;
-
-  private _convertedV7?: MetadataV7;
+  private _converted: Map<number, MetaMapped> = new Map();
 
   public constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
       metadata: MetadataEnum
     }, value);
+  }
+
+  private assertVersion (version: number): boolean {
+    assert(this.metadata.version <= version, `Cannot convert metadata from v${this.metadata.version} to v${version}`);
+
+    return this.version === version;
+  }
+
+  private getVersion <T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (input: F) => T): T {
+    const asCurr: MetaAsX = `asV${version}` as any;
+    const asPrev: MetaAsX = `asV${version - 1}` as any;
+
+    if (this.assertVersion(version)) {
+      return this.metadata[asCurr] as T;
+    }
+
+    if (!this._converted.has(version)) {
+      this._converted.set(version, fromPrev(this[asPrev] as F));
+    }
+
+    return this._converted.get(version) as T;
   }
 
   /**
@@ -232,7 +245,7 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped metadata as a V0 object
    */
   public get asV0 (): MetadataV0 {
-    assert(this.metadata.version === 0, `Cannot convert metadata from v${this.metadata.version} to v0`);
+    this.assertVersion(0);
 
     return this.metadata.asV0;
   }
@@ -241,122 +254,59 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V1 object
    */
   public get asV1 (): MetadataV1 {
-    assert(this.metadata.version <= 1, `Cannot convert metadata from v${this.metadata.version} to v1`);
-
-    if (this.metadata.version === 1) {
-      return this.metadata.asV1;
-    }
-
-    if (isUndefined(this._convertedV1)) {
-      this._convertedV1 = v0ToV1(this.asV0);
-    }
-
-    return this._convertedV1;
+    return this.getVersion(1, v0ToV1);
   }
 
   /**
    * @description Returns the wrapped values as a V2 object
    */
   public get asV2 (): MetadataV2 {
-    assert(this.metadata.version <= 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
-
-    if (this.metadata.version === 2) {
-      return this.metadata.asV2;
-    }
-
-    if (isUndefined(this._convertedV2)) {
-      this._convertedV2 = v1ToV2(this.asV1);
-    }
-
-    return this._convertedV2;
+    return this.getVersion(2, v1ToV2);
   }
 
   /**
    * @description Returns the wrapped values as a V3 object
    */
   public get asV3 (): MetadataV3 {
-    assert(this.metadata.version <= 3, `Cannot convert metadata from v${this.metadata.version} to v3`);
-
-    if (this.metadata.version === 3) {
-      return this.metadata.asV3;
-    }
-
-    if (isUndefined(this._convertedV3)) {
-      this._convertedV3 = v2ToV3(this.asV2);
-    }
-
-    return this._convertedV3;
+    return this.getVersion(3, v2ToV3);
   }
 
   /**
    * @description Returns the wrapped values as a V4 object
    */
   public get asV4 (): MetadataV4 {
-    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
-
-    if (this.metadata.version === 4) {
-      return this.metadata.asV4;
-    }
-
-    if (isUndefined(this._convertedV4)) {
-      this._convertedV4 = v3ToV4(this.asV3);
-    }
-
-    return this._convertedV4;
+    return this.getVersion(4, v3ToV4);
   }
 
   /**
    * @description Returns the wrapped values as a V5 object
    */
   public get asV5 (): MetadataV5 {
-    assert(this.metadata.version <= 5, `Cannot convert metadata from v${this.metadata.version} to v5`);
-
-    if (this.metadata.version === 5) {
-      return this.metadata.asV5;
-    }
-
-    if (isUndefined(this._convertedV5)) {
-      this._convertedV5 = v4ToV5(this.asV4);
-    }
-
-    return this._convertedV5;
+    return this.getVersion(5, v4ToV5);
   }
 
   /**
    * @description Returns the wrapped values as a V6 object
    */
   public get asV6 (): MetadataV6 {
-    assert(this.metadata.version <= 6, `Cannot convert metadata from v${this.metadata.version} to v6`);
-
-    if (this.metadata.version === 6) {
-      return this.metadata.asV6;
-    }
-
-    if (isUndefined(this._convertedV6)) {
-      this._convertedV6 = v5ToV6(this.asV5);
-    }
-
-    return this._convertedV6;
+    return this.getVersion(6, v5ToV6);
   }
 
   /**
    * @description Returns the wrapped values as a V7 object
    */
   public get asV7 (): MetadataV7 {
-    assert(this.metadata.version <= 7, `Cannot convert metadata from v${this.metadata.version} to v7`);
+    return this.getVersion(7, v6ToV7);
+  }
 
-    if (this.metadata.version === 7) {
-      return this.metadata.asV7;
-    }
-
-    if (isUndefined(this._convertedV7)) {
-      this._convertedV7 = v6ToV7(this.asV6);
-    }
-
-    return this._convertedV7;
+  /**
+   * @description Returns the wrapped values as a latest version object
+   */
+  public get asLatest (): MetadataV7 {
+    return this.asV7;
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return this.asV7.getUniqTypes(throwError);
+    return this.asLatest.getUniqTypes(throwError);
   }
 }

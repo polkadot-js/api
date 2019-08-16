@@ -17,8 +17,8 @@ import createUnchecked from './createUnchecked';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
-  return metadata.asV7.modules
-    .filter((modul): boolean => modul.calls.isSome)
+  return metadata.asLatest.modules
+    .filter(({ calls }): boolean => calls.isSome)
     .reduce((result, modul: ModuleMetadata, sectionIndex): ModulesWithCalls => {
       const section = stringCamelCase(modul.name.toString());
 

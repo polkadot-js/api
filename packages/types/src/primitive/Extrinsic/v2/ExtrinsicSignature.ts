@@ -11,9 +11,9 @@ import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
-import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicExtra from '../v2/ExtrinsicExtra';
+import ExtrinsicExtraV2 from './ExtrinsicExtra';
+import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
  * @name ExtrinsicSignature
@@ -25,7 +25,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     super({
       signer: 'Address',
       signature: 'Signature',
-      extra: ExtrinsicExtra
+      extra: ExtrinsicExtraV2
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
@@ -60,8 +60,8 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description Returns the extra extrinsic info
    */
-  public get extra (): ExtrinsicExtra {
-    return this.get('extra') as ExtrinsicExtra;
+  public get extra (): ExtrinsicExtraV2 {
+    return this.get('extra') as ExtrinsicExtraV2;
   }
 
   /**
@@ -99,7 +99,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.extra.tip;
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
+  protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV2): IExtrinsicSignature {
     this.extra.set('era', era);
     this.extra.set('nonce', nonce);
     this.extra.set('tip', tip);
@@ -117,7 +117,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.injectSignature(
       createType('Address', signer),
       createType('Signature', signature),
-      new ExtrinsicPayload(payload)
+      new ExtrinsicPayloadV2(payload)
     );
   }
 
@@ -126,7 +126,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayload({
+    const payload = new ExtrinsicPayloadV2({
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,

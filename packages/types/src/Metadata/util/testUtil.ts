@@ -56,7 +56,7 @@ export function defaultValues (rpcData: string): void {
 
     Call.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV7.modules
+    metadata.asLatest.modules
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
