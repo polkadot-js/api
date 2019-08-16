@@ -317,7 +317,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "PlainType": "Vec<(AuthorityId,BabeWeight)>"
+                  "PlainType": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -346,6 +346,30 @@
                 "fallback": "0x0000000000000000",
                 "documentation": [
                   " Current slot number."
+                ]
+              },
+              {
+                "name": "SecondarySlots",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "(bool,bool)"
+                },
+                "fallback": "0x0101",
+                "documentation": [
+                  " Whether secondary slots are enabled in case the VRF-based slot is",
+                  " empty for the current epoch and the next epoch, respectively."
+                ]
+              },
+              {
+                "name": "PendingSecondarySlotsChange",
+                "modifier": "Optional",
+                "type": {
+                  "PlainType": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Pending change to enable/disable secondary slots which will be",
+                  " triggered at `current_epoch + 2`."
                 ]
               },
               {
@@ -414,13 +438,28 @@
               }
             ]
           },
-          "calls": [],
+          "calls": [
+            {
+              "name": "set_pending_secondary_slots_change",
+              "args": [
+                {
+                  "name": "change",
+                  "type": "Option<bool>"
+                }
+              ],
+              "documentation": [
+                " Sets a pending change to enable / disable secondary slot assignment.",
+                " The pending change will be set at the end of the current epoch and",
+                " will be enacted at `current_epoch + 2`."
+              ]
+            }
+          ],
           "events": null,
           "constants": [
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x6b01000000000000",
+              "value": "0x6400000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -496,7 +535,7 @@
             {
               "name": "MinimumPeriod",
               "type": "Moment",
-              "value": "0x3903000000000000",
+              "value": "0xb80b000000000000",
               "documentation": [
                 " The minimum period between blocks. Beware that this is different to the *expected* period",
                 " that the block production apparatus provides. Your chosen consensus system will generally",

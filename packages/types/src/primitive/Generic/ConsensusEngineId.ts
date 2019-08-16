@@ -11,12 +11,11 @@ import { createType } from '../../codec/create';
 import Bytes from '../Bytes';
 import U32 from '../U32';
 
-const CID_ABRS = 0x53524241; // 'ABRS'
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'
 const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
 
-export { CID_ABRS, CID_AURA, CID_BABE, CID_GRPA };
+export { CID_AURA, CID_BABE, CID_GRPA };
 
 /**
  * @name ConsensusEngineId
@@ -36,13 +35,6 @@ export default class ConsensusEngineId extends U32 {
       .split('')
       .reverse()
       .reduce((result, char): number => (result * 256) + char.charCodeAt(0), 0);
-  }
-
-  /**
-   * @description `true` if the engine matches abrs
-   */
-  public get isAbrs (): boolean {
-    return this.eq(CID_ABRS);
   }
 
   /**
@@ -66,16 +58,6 @@ export default class ConsensusEngineId extends U32 {
     return this.eq(CID_GRPA);
   }
 
-  private getAbrsAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    const pre = createType('RawAuraBorosPreDigest', bytes.toU8a(true));
-
-    return sessionValidators[
-      pre.isBabe
-        ? pre.asBabe.authorityIndex.toNumber()
-        : pre.asAura.slotNumber.modn(sessionValidators.length)
-    ];
-  }
-
   private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     return sessionValidators[
       createType('RawAuraPreDigest', bytes.toU8a(true))
@@ -85,20 +67,20 @@ export default class ConsensusEngineId extends U32 {
   }
 
   private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    return sessionValidators[
-      createType('RawBabePreDigest', bytes.toU8a(true))
-        .authorityIndex
-        .toNumber()
-    ];
+    const digest = createType('RawBabePreDigest', bytes.toU8a(true));
+
+    return sessionValidators[(
+      digest.isPrimary
+        ? digest.asPrimary
+        : digest.asSecondary
+    ).authorityIndex.toNumber()];
   }
 
   /**
    * @description From the input bytes, decode into an author
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    if (this.isAbrs) {
-      return this.getAbrsAuthor(bytes, sessionValidators);
-    } else if (this.isAura) {
+    if (this.isAura) {
       return this.getAuraAuthor(bytes, sessionValidators);
     } else if (this.isBabe) {
       return this.getBabeAuthor(bytes, sessionValidators);
