@@ -10,7 +10,7 @@ import { Option, Vec } from '../../codec';
 import MetadataV0 from './Metadata';
 import { RuntimeModuleMetadataV0 } from './Modules';
 import { Text } from '../../primitive';
-import MetadataV1, { ModuleMetadata as ModuleMetadataV1 } from '../v1/Metadata';
+import MetadataV1, { ModuleMetadataV1 } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
 function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {

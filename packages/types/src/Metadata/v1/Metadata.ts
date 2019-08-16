@@ -13,11 +13,11 @@ import Text from '../../primitive/Text';
 import { StorageFunctionMetadata } from './Storage';
 
 /**
- * @name ModuleMetadata
+ * @name ModuleMetadataV1
  * @description
  * The definition of a module in the system
  */
-export class ModuleMetadata extends Struct {
+export class ModuleMetadataV1 extends Struct {
   public constructor (value?: any) {
     super({
       name: Text,
@@ -69,17 +69,17 @@ export class ModuleMetadata extends Struct {
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV1 extends Struct implements MetadataInterface<ModuleMetadata> {
+export default class MetadataV1 extends Struct implements MetadataInterface<ModuleMetadataV1> {
   public constructor (value?: any) {
     super({
-      modules: Vec.with(ModuleMetadata)
+      modules: Vec.with(ModuleMetadataV1)
     }, value);
   }
 
   /**
    * @description The associated modules for this structure
    */
-  public get modules (): Vec<ModuleMetadata> {
-    return this.get('modules') as Vec<ModuleMetadata>;
+  public get modules (): Vec<ModuleMetadataV1> {
+    return this.get('modules') as Vec<ModuleMetadataV1>;
   }
 }

@@ -6,7 +6,7 @@ import { createType, Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
-import { ModuleMetadata as ModuleMetadataV4 } from '../v4/Metadata';
+import { ModuleMetadataV4 } from '../v4/Metadata';
 import { MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
 import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage';
 
