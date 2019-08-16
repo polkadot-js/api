@@ -3,6 +3,8 @@
 _The following sections contain Extrinsics methods are part of the default Substrate runtime._
 - **[authorship](#authorship)**
 
+- **[babe](#babe)**
+
 - **[balances](#balances)**
 
 - **[contracts](#contracts)**
@@ -43,6 +45,14 @@ ___
 
 ▸ **setUncles**(new_uncles: `Vec<Header>`)
 - **summary**:   Provide a set of uncles.
+
+___
+
+
+### babe
+
+▸ **setPendingSecondarySlotsChange**(change: `Option<bool>`)
+- **summary**:   Sets a pending change to enable / disable secondary slot assignment.  The pending change will be set at the end of the current epoch and  will be enacted at `current_epoch + 2`.
 
 ___
 

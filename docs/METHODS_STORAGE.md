@@ -59,7 +59,7 @@ ___
 
 ### babe
 
-▸ **authorities**(): `Vec<(AuthorityId,BabeWeight)>`
+▸ **authorities**(): `Vec<(AuthorityId,BabeAuthorityWeight)>`
 - **summary**:   Current epoch authorities.
 
 ▸ **currentSlot**(): `u64`
@@ -74,8 +74,14 @@ ___
 ▸ **nextRandomness**(): `[u8;32]`
 - **summary**:   Next epoch randomness.
 
+▸ **pendingSecondarySlotsChange**(): `Option<bool>`
+- **summary**:   Pending change to enable/disable secondary slots which will be  triggered at `current_epoch + 2`.
+
 ▸ **randomness**(): `[u8;32]`
 - **summary**:   The epoch randomness for the *current* epoch.   # Security   This MUST NOT be used for gambling, as it can be influenced by a  malicious validator in the short term. It MAY be used in many  cryptographic protocols, however, so long as one remembers that this  (like everything else on-chain) it is public. For example, it can be  used where a number is needed that cannot have been chosen by an  adversary, for purposes such as public-coin zero-knowledge proofs.
+
+▸ **secondarySlots**(): `(bool,bool)`
+- **summary**:   Whether secondary slots are enabled in case the VRF-based slot is  empty for the current epoch and the next epoch, respectively.
 
 ▸ **segmentIndex**(): `u32`
 - **summary**:   Randomness under construction.   We make a tradeoff between storage accesses and list length.  We store the under-construction randomness in segments of up to  `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.   Once a segment reaches this length, we begin the next one.  We reset all segments and return to `0` at the beginning of every  epoch.
