@@ -27,11 +27,7 @@ type Item = {
   };
 } & Codec;
 
-type Storage = Option<
-Vec<Item> |
-{ items: Vec<Item> } & Codec |
-{ functions: Vec<Item> } & Codec
->;
+type Storage = Option<Vec<Item> | { functions?: Vec<Item>; items?: Vec<Item> } & Codec>;
 
 type Module = {
   calls?: Option<Vec<{ args: Vec<{ type: Type } & Codec> } & Codec>>;
@@ -48,7 +44,9 @@ function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ calls }): string[][] =>
     calls && calls.isSome
       ? calls.unwrap().map(({ args }): string[] =>
-        args.map((arg): string => arg.type.toString())
+        args.map((arg): string =>
+          arg.type.toString()
+        )
       )
       : []
   );
@@ -57,7 +55,9 @@ function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
 function getConstantNames ({ modules }: ExtractionMetadata): string[][] {
   return modules.map(({ constants }): string[] =>
     constants
-      ? constants.map((constant): string => constant.type.toString())
+      ? constants.map((constant): string =>
+        constant.type.toString()
+      )
       : []
   );
 }
@@ -66,24 +66,24 @@ function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ events }): string[][] =>
     events && events.isSome
       ? events.unwrap().map(({ args }): string[] =>
-        args.map((arg): string => arg.toString())
+        args.map((arg): string =>
+          arg.toString()
+        )
       )
       : []
   );
 }
 
 function unwrapStorageItems (storage?: Storage): Item[] {
-  if (storage && storage.isSome) {
-    const data = storage.unwrap();
-
-    return Array.isArray(data)
-      ? data
-      : (data as any).items
-        ? (data as any).items
-        : (data as any).functions;
+  if (!storage) {
+    return [];
   }
 
-  return [];
+  const data = storage.unwrapOr([]);
+
+  return Array.isArray(data)
+    ? data
+    : (data.items || data.functions) as Item[];
 }
 
 function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
