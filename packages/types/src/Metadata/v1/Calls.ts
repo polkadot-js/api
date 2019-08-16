@@ -5,30 +5,10 @@
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
+import { FunctionArgumentMetadata } from '../v0/Modules';
 
-export class FunctionArgumentMetadata extends Struct {
-  public constructor (value?: any) {
-    super({
-      name: Text,
-      type: Type
-    }, value);
-  }
-
-  /**
-   * @description The argument name
-   */
-  public get name (): Text {
-    return this.get('name') as Text;
-  }
-
-  /**
-   * @description The [[Type]]
-   */
-  public get type (): Type {
-    return this.get('type') as Type;
-  }
-}
+// re-export non-changes interfaces from v0
+export { FunctionArgumentMetadata };
 
 /**
  * @name FunctionMetadata

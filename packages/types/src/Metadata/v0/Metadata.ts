@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { OuterDispatchMetadataV0, OuterDispatchCallV0 } from '../../interfaces/metadata/types';
 import { MetadataInterface } from '../types';
 
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
@@ -10,7 +11,6 @@ import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { flattenUniq, validateTypes } from '../util';
-import { OuterDispatchMetadata, OuterDispatchCall } from './Calls';
 import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
 import { RuntimeModuleMetadata } from './Modules';
 
@@ -26,7 +26,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
     super({
       outerEvent: OuterEventMetadata,
       modules: Vec.with(RuntimeModuleMetadata),
-      outerDispatch: OuterDispatchMetadata
+      outerDispatch: 'OuterDispatchMetadataV0'
     }, MetadataV0.decodeMetadata(value));
   }
 
@@ -55,8 +55,8 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[OuterDispatchCall]]
    */
-  public get calls (): Vec<OuterDispatchCall> {
-    return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
+  public get calls (): Vec<OuterDispatchCallV0> {
+    return (this.get('outerDispatch') as OuterDispatchMetadataV0).calls;
   }
 
   /**

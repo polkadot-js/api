@@ -23,4 +23,5 @@ export * from './treasury/types';
 export * from './attestations/types';
 export * from './claims/types';
 export * from './parachains/types';
+export * from './metadata/types';
 export * from './rpc/types';

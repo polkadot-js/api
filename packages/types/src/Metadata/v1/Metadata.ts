@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventMetadataV1 } from '../../interfaces/metadata/types';
 import { MetadataInterface } from '../types';
 
 import Option from '../../codec/Option';
@@ -11,7 +12,6 @@ import Text from '../../primitive/Text';
 import { flattenUniq, validateTypes } from '../util';
 
 import { FunctionMetadata } from './Calls';
-import { EventMetadata } from './Events';
 import { StorageFunctionMetadata } from './Storage';
 
 /**
@@ -26,7 +26,7 @@ export class ModuleMetadata extends Struct {
       prefix: Text,
       storage: Option.with(Vec.with(StorageFunctionMetadata)),
       calls: Option.with(Vec.with(FunctionMetadata)),
-      events: Option.with(Vec.with(EventMetadata))
+      events: Option.with(Vec.with('EventMetadataV1'))
     }, value);
   }
 
@@ -40,8 +40,8 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the module events
    */
-  public get events (): Option<Vec<EventMetadata>> {
-    return this.get('events') as Option<Vec<EventMetadata>>;
+  public get events (): Option<Vec<EventMetadataV1>> {
+    return this.get('events') as Option<Vec<EventMetadataV1>>;
   }
 
   /**
