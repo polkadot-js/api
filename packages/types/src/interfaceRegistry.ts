@@ -25,7 +25,7 @@ import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
-import { CallMetadataV0, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, ModuleMetadataV0, OuterDispatchCallV0, OuterDispatchMetadataV0, RuntimeModuleMetadataV0 } from './interfaces/metadata';
+import { CallMetadataV0, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, ModuleMetadataV0, OuterDispatchCallV0, OuterDispatchMetadataV0 } from './interfaces/metadata';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
@@ -637,9 +637,6 @@ export interface InterfaceRegistry {
   OuterDispatchMetadataV0: OuterDispatchMetadataV0;
   'Option<OuterDispatchMetadataV0>': Option<OuterDispatchMetadataV0>;
   'Vec<OuterDispatchMetadataV0>': Vec<OuterDispatchMetadataV0>;
-  RuntimeModuleMetadataV0: RuntimeModuleMetadataV0;
-  'Option<RuntimeModuleMetadataV0>': Option<RuntimeModuleMetadataV0>;
-  'Vec<RuntimeModuleMetadataV0>': Vec<RuntimeModuleMetadataV0>;
   EventMetadataV1: EventMetadataV1;
   'Option<EventMetadataV1>': Option<EventMetadataV1>;
   'Vec<EventMetadataV1>': Vec<EventMetadataV1>;

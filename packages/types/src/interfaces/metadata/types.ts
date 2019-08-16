@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Option, Struct, Vec } from '../../codec';
+import { Struct, Vec } from '../../codec';
 import { Text, Type, u16 } from '../../primitive';
 
 /** Struct */
@@ -108,14 +108,4 @@ export interface OuterDispatchMetadataV0 extends Struct {
   readonly name: Text;
   /** Vec<OuterDispatchCallV0> */
   readonly calls: Vec<OuterDispatchCallV0>;
-}
-
-/** Struct */
-export interface RuntimeModuleMetadataV0 extends Struct {
-  /** Text */
-  readonly prefix: Text;
-  /** ModuleMetadataV0 */
-  readonly module: ModuleMetadataV0;
-  /** Option<StorageMetadata> */
-  readonly storage: Option<StorageMetadata>;
 }
