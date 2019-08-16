@@ -11,9 +11,9 @@ import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
-import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicExtra from '../v2/ExtrinsicExtra';
+import ExtrinsicPayload from './ExtrinsicPayload';
 
 /**
  * @name ExtrinsicSignature
@@ -99,7 +99,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     return this.extra.tip;
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
+  protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
     this.extra.set('era', era);
     this.extra.set('nonce', nonce);
     this.extra.set('tip', tip);

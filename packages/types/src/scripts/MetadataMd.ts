@@ -241,7 +241,7 @@ function writeToEventsMd (metadata: MetadataV7): void {
   writeFile('docs/METHODS_EVENTS.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asV7;
+const metadata = new Metadata(rpcdata).asLatest;
 
 writeToRpcMd();
 writeToConstantsMd(metadata);

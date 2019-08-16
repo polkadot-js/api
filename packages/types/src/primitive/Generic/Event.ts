@@ -111,8 +111,8 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   public static injectMetadata (metadata: Metadata): void {
-    metadata.asV7.modules
-      .filter((section): boolean => section.events.isSome)
+    metadata.asLatest.modules
+      .filter(({ events }): boolean => events.isSome)
       .forEach((section, sectionIndex): void => {
         const sectionName = stringCamelCase(section.name.toString());
 
