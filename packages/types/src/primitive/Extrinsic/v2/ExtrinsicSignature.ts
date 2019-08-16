@@ -12,7 +12,7 @@ import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicExtra from '../v2/ExtrinsicExtra';
+import ExtrinsicExtraV2 from './ExtrinsicExtra';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
@@ -25,7 +25,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     super({
       signer: 'Address',
       signature: 'Signature',
-      extra: ExtrinsicExtra
+      extra: ExtrinsicExtraV2
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
@@ -60,8 +60,8 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   /**
    * @description Returns the extra extrinsic info
    */
-  public get extra (): ExtrinsicExtra {
-    return this.get('extra') as ExtrinsicExtra;
+  public get extra (): ExtrinsicExtraV2 {
+    return this.get('extra') as ExtrinsicExtraV2;
   }
 
   /**
