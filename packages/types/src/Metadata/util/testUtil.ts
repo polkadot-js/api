@@ -38,7 +38,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  * unique types.
  */
 export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
-  it('converts to V7', (): void => {
+  it(`converts v${version} to v7`, (): void => {
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV7 = new Metadata(rpcData).asV7;
 
