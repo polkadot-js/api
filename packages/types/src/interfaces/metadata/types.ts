@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '../../codec';
-import { StorageHasher, Text, Type, u16 } from '../../primitive';
+import { Bytes, StorageHasher, Text, Type, u16 } from '../../primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {
@@ -129,6 +129,49 @@ export interface FunctionMetadataV0 extends Struct {
   /** Vec<Text> */
   readonly documentation: Vec<Text>;
 }
+
+/** Struct */
+export interface FunctionMetadataV1 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Vec<FunctionArgumentMetadataV1> */
+  readonly args: Vec<FunctionArgumentMetadataV1>;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
+
+/** FunctionMetadataV1 */
+export type FunctionMetadataV2 = FunctionMetadataV1;
+
+/** FunctionMetadataV2 */
+export type FunctionMetadataV3 = FunctionMetadataV2;
+
+/** FunctionMetadataV3 */
+export type FunctionMetadataV4 = FunctionMetadataV3;
+
+/** FunctionMetadataV4 */
+export type FunctionMetadataV5 = FunctionMetadataV4;
+
+/** FunctionMetadataV5 */
+export type FunctionMetadataV6 = FunctionMetadataV5;
+
+/** FunctionMetadataV6 */
+export type FunctionMetadataV7 = FunctionMetadataV6;
+
+/** Struct */
+export interface ModuleConstantMetadataV6 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Type */
+  readonly type: Type;
+  /** Bytes */
+  readonly value: Bytes;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
+
+/** ModuleConstantMetadataV6 */
+export type ModuleConstantMetadataV7 = ModuleConstantMetadataV6;
 
 /** Struct */
 export interface ModuleMetadataV0 extends Struct {

@@ -41,10 +41,16 @@ export default {
     // v1
     EventMetadataV1: 'EventMetadataV0',
     FunctionArgumentMetadataV1: 'FunctionArgumentMetadataV0',
+    FunctionMetadataV1: {
+      name: 'Text',
+      args: 'Vec<FunctionArgumentMetadataV1>',
+      documentation: 'Vec<Text>'
+    },
 
     // v2
     EventMetadataV2: 'EventMetadataV1',
     FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
+    FunctionMetadataV2: 'FunctionMetadataV1',
 
     // v3
     DoubleMapTypeV3: {
@@ -55,6 +61,7 @@ export default {
     },
     EventMetadataV3: 'EventMetadataV2',
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
+    FunctionMetadataV3: 'FunctionMetadataV2',
 
     // v4
     DoubleMapTypeV4: {
@@ -66,6 +73,7 @@ export default {
     },
     EventMetadataV4: 'EventMetadataV3',
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
+    FunctionMetadataV4: 'FunctionMetadataV3',
 
     // v5
     DoubleMapTypeV5: {
@@ -77,15 +85,25 @@ export default {
     },
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
+    FunctionMetadataV5: 'FunctionMetadataV4',
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
     EventMetadataV6: 'EventMetadataV5',
     FunctionArgumentMetadataV6: 'FunctionArgumentMetadataV5',
+    FunctionMetadataV6: 'FunctionMetadataV5',
+    ModuleConstantMetadataV6: {
+      name: 'Text',
+      type: 'Type',
+      value: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
 
     // v7
     DoubleMapTypeV7: 'DoubleMapTypeV6',
     EventMetadataV7: 'EventMetadataV6',
-    FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6'
+    FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
+    FunctionMetadataV7: 'FunctionMetadataV6',
+    ModuleConstantMetadataV7: 'ModuleConstantMetadataV6'
   }
 };

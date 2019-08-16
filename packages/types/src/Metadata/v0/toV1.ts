@@ -3,21 +3,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventMetadataV1 } from '../../interfaces/metadata/types';
+import { EventMetadataV1, FunctionMetadataV1 } from '../../interfaces/metadata/types';
 import { stringUpperFirst } from '@polkadot/util';
 
 import { Option, Vec } from '../../codec';
 import MetadataV0 from './Metadata';
 import { RuntimeModuleMetadataV0 } from './Modules';
 import { Text } from '../../primitive';
-import { FunctionMetadata } from '../v1/Calls';
 import MetadataV1, { ModuleMetadata as ModuleMetadataV1 } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
-function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadata> {
+function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
   return modul.module.call.functions.length === 0
-    ? new Option(Vec.with(FunctionMetadata))
-    : new Option(Vec.with(FunctionMetadata), modul.module.call.functions);
+    ? new Option(Vec.with('FunctionMetadataV1'))
+    : new Option(Vec.with('FunctionMetadataV1'), modul.module.call.functions);
 }
 
 function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadataV1> {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionArgumentMetadataV7 } from '../../interfaces/metadata';
+import { FunctionArgumentMetadataV7, FunctionMetadataV7 } from '../../interfaces/metadata';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
 
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
@@ -10,7 +10,6 @@ import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
-import { FunctionMetadata as FunctionMetadataV7 } from '../../Metadata/v7/Calls';
 
 interface DecodeMethodInput {
   args: any;
