@@ -32,7 +32,7 @@ export default class HeaderExtended extends _Header {
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isAbrs || engine.isBabe || engine.isAura) {
+      if (engine.isBabe || engine.isAura) {
         this._author = engine.extractAuthor(data, sessionValidators);
       }
     } else {
@@ -44,13 +44,6 @@ export default class HeaderExtended extends _Header {
 
         if (engine.isAura) {
           this._author = engine.extractAuthor(data, sessionValidators);
-        }
-      } else {
-        const [sitem] = header.digest.logsWith('SealV0');
-
-        // extract author from the seal (pre substrate 1.0, backwards compat)
-        if (sitem) {
-          this._author = sessionValidators[sitem.asSealV0[0].modn(sessionValidators.length)];
         }
       }
     }
