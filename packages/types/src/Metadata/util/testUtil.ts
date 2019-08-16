@@ -42,11 +42,13 @@ export function toV7<Modules extends Codec> (version: number, rpcData: string): 
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV7 = new Metadata(rpcData).asV7;
 
-    expect(
-      getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)
-    ).toEqual(
-      getUniqTypes(metadataV7, true)
-    );
+    if (version !== 0) {
+      expect(
+        getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)
+      ).toEqual(
+        getUniqTypes(metadataV7, true)
+      );
+    }
   });
 }
 

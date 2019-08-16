@@ -10,6 +10,10 @@ import { Text, Type } from '../../primitive';
 import flattenUniq from './flattenUniq';
 import validateTypes from './validateTypes';
 
+// NOTE This does not support V0 unique conversions, conversion works, however
+// due to the different nature of the types, the actual checking is not included
+// here completely
+
 type Item = {
   type: {
     isDoubleMap?: boolean;
@@ -27,10 +31,19 @@ type Item = {
   };
 } & Codec;
 
-type Storage = Option<Vec<Item> | { functions?: Vec<Item>; items?: Vec<Item> } & Codec>;
+type Storage = Option<Vec<Item> | {
+  // V7
+  items?: Vec<Item>;
+} & Codec>;
+
+type Call = { args: Vec<{ type: Type } & Codec> } & Codec;
+
+type Calls = Option<Vec<Call>>;
 
 type Module = {
-  calls?: Option<Vec<{ args: Vec<{ type: Type } & Codec> } & Codec>>;
+  // V1+
+  calls?: Calls;
+  // V6+
   constants?: Vec<{ type: Text } & Codec>;
   events?: Option<Vec<{ args: Vec<Type> } & Codec>>;
   storage?: Storage;
@@ -40,15 +53,21 @@ interface ExtractionMetadata {
   modules: Vec<Module>;
 }
 
+function unwrapCalls (calls?: Calls): Call[] {
+  if (!calls) {
+    return [];
+  }
+
+  return calls.unwrapOr([]);
+}
+
 function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ calls }): string[][] =>
-    calls && calls.isSome
-      ? calls.unwrap().map(({ args }): string[] =>
-        args.map((arg): string =>
-          arg.type.toString()
-        )
+    unwrapCalls(calls).map(({ args }): string[] =>
+      args.map((arg): string =>
+        arg.type.toString()
       )
-      : []
+    )
   );
 }
 
@@ -74,7 +93,7 @@ function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
   );
 }
 
-function unwrapStorageItems (storage?: Storage): Item[] {
+function unwrapStorage (storage?: Storage): Item[] {
   if (!storage) {
     return [];
   }
@@ -83,12 +102,12 @@ function unwrapStorageItems (storage?: Storage): Item[] {
 
   return Array.isArray(data)
     ? data
-    : (data.items || data.functions) as Item[];
+    : data.items as Item[];
 }
 
 function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
   return modules.map(({ storage }): string[][] =>
-    unwrapStorageItems(storage).map(({ type }): string[] => {
+    unwrapStorage(storage).map(({ type }): string[] => {
       if (type.isDoubleMap && type.asDoubleMap) {
         return [
           type.asDoubleMap.key1.toString(),
