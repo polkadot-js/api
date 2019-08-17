@@ -17,6 +17,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[indices](#indices)**
 
+- **[offences](#offences)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -169,6 +171,14 @@ ___
 ___
 
 
+### offences
+
+▸ **Offence**(`Kind`, `OpaqueTimeSlot`)
+- **summary**:   There is an offence reported of the given `kind` happened at the `session_index` and  (kind-specific) time slot. This event is not deposited for duplicate slashes.
+
+___
+
+
 ### session
 
 ▸ **NewSession**(`SessionIndex`)
@@ -179,14 +189,14 @@ ___
 
 ### staking
 
-▸ **OfflineSlash**(`AccountId`, `Balance`)
-- **summary**:   One validator (and its nominators) has been slashed by the given amount.
-
-▸ **OfflineWarning**(`AccountId`, `u32`)
-- **summary**:   One validator (and its nominators) has been given an offline-warning (it is still  within its grace). The accrued number of slashes is recorded, too.
+▸ **OldSlashingReportDiscarded**(`SessionIndex`)
+- **summary**:   An old slashing report from a prior era was discarded because it could  not be processed.
 
 ▸ **Reward**(`Balance`)
 - **summary**:   All validators have been rewarded by the given balance.
+
+▸ **Slash**(`AccountId`, `Balance`)
+- **summary**:   One validator (and its nominators) has been slashed by the given amount.
 
 ___
 
