@@ -435,6 +435,18 @@
                 },
                 "fallback": "0x00",
                 "documentation": []
+              },
+              {
+                "name": "Initialized",
+                "modifier": "Optional",
+                "type": {
+                  "PlainType": "bool"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Temporary value (cleared at block finalization) which is true",
+                  " if per-block initialization has already been called for current block."
+                ]
               }
             ]
           },
@@ -932,28 +944,6 @@
                 ]
               },
               {
-                "name": "OfflineSlash",
-                "modifier": "Default",
-                "type": {
-                  "PlainType": "Perbill"
-                },
-                "fallback": "0x40420f00",
-                "documentation": [
-                  " Slash, per validator that is taken for the first time they are found to be offline."
-                ]
-              },
-              {
-                "name": "OfflineSlashGrace",
-                "modifier": "Default",
-                "type": {
-                  "PlainType": "u32"
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " Number of instances of offline reports before slashing begins for validators."
-                ]
-              },
-              {
                 "name": "Invulnerables",
                 "modifier": "Default",
                 "type": {
@@ -1025,7 +1015,7 @@
                     "isLinked": true
                   }
                 },
-                "fallback": "0x0c00",
+                "fallback": "0x00",
                 "documentation": [
                   " The map from (wannabe) validator stash key to the preferences of that validator."
                 ]
@@ -1134,35 +1124,6 @@
                 ]
               },
               {
-                "name": "SlashCount",
-                "modifier": "Default",
-                "type": {
-                  "MapType": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "u32",
-                    "isLinked": false
-                  }
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " The number of times a given validator has been reported offline. This gets decremented",
-                  " by one each era that passes."
-                ]
-              },
-              {
-                "name": "RecentlyOffline",
-                "modifier": "Default",
-                "type": {
-                  "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how",
-                  " many instances they were offline for)."
-                ]
-              },
-              {
                 "name": "ForceEra",
                 "modifier": "Default",
                 "type": {
@@ -1174,6 +1135,19 @@
                 ]
               },
               {
+                "name": "SlashRewardFraction",
+                "modifier": "Default",
+                "type": {
+                  "PlainType": "Perbill"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The percentage of the slash that is distributed to reporters.",
+                  "",
+                  " The rest of the slashed value is handled by the `Slash`."
+                ]
+              },
+              {
                 "name": "BondedEras",
                 "modifier": "Default",
                 "type": {
@@ -1182,6 +1156,22 @@
                 "fallback": "0x00",
                 "documentation": [
                   " A mapping from still-bonded eras to the first session index of that era."
+                ]
+              },
+              {
+                "name": "EraSlashJournal",
+                "modifier": "Default",
+                "type": {
+                  "MapType": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "Vec<SlashJournalEntry>",
+                    "isLinked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All slashes that have occurred in a given era."
                 ]
               }
             ]
@@ -1443,18 +1433,6 @@
               ]
             },
             {
-              "name": "set_offline_slash_grace",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "documentation": [
-                " Set the offline slash grace period."
-              ]
-            },
-            {
               "name": "set_invulnerables",
               "args": [
                 {
@@ -1478,24 +1456,23 @@
               ]
             },
             {
-              "name": "OfflineWarning",
-              "args": [
-                "AccountId",
-                "u32"
-              ],
-              "documentation": [
-                " One validator (and its nominators) has been given an offline-warning (it is still",
-                " within its grace). The accrued number of slashes is recorded, too."
-              ]
-            },
-            {
-              "name": "OfflineSlash",
+              "name": "Slash",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
                 " One validator (and its nominators) has been slashed by the given amount."
+              ]
+            },
+            {
+              "name": "OldSlashingReportDiscarded",
+              "args": [
+                "SessionIndex"
+              ],
+              "documentation": [
+                " An old slashing report from a prior era was discarded because it could",
+                " not be processed."
               ]
             }
           ],
@@ -4355,7 +4332,7 @@
                   "type": "Heartbeat"
                 },
                 {
-                  "name": "_signature",
+                  "name": "signature",
                   "type": "AuthoritySignature"
                 }
               ],
@@ -4370,6 +4347,83 @@
               ],
               "documentation": [
                 " A new heartbeat was received from `AuthorityId`"
+              ]
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "Offences",
+          "storage": {
+            "prefix": "Offences",
+            "items": [
+              {
+                "name": "Reports",
+                "modifier": "Optional",
+                "type": {
+                  "MapType": {
+                    "hasher": "Blake2_256",
+                    "key": "ReportIdOf",
+                    "value": "OffenceDetails",
+                    "isLinked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The primary structure that holds all offence records keyed by report identifiers."
+                ]
+              },
+              {
+                "name": "ConcurrentReportsIndex",
+                "modifier": "Default",
+                "type": {
+                  "DoubleMapType": {
+                    "hasher": "Blake2_256",
+                    "key1": "Kind",
+                    "key2": "OpaqueTimeSlot",
+                    "value": "Vec<ReportIdOf>",
+                    "key2Hasher": "Blake2_256"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A vector of reports of the same kind that happened at the same time slot."
+                ]
+              },
+              {
+                "name": "ReportsByKindIndex",
+                "modifier": "Default",
+                "type": {
+                  "MapType": {
+                    "hasher": "Blake2_256",
+                    "key": "Kind",
+                    "value": "Bytes",
+                    "isLinked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Enumerates all reports of a kind along with the time they happened.",
+                  "",
+                  " All reports are sorted by the time of offence.",
+                  "",
+                  " Note that the actual type of this mapping is `Vec<u8>`, this is because values of",
+                  " different types are not supported at the moment so we are doing the manual serialization."
+                ]
+              }
+            ]
+          },
+          "calls": [],
+          "events": [
+            {
+              "name": "Offence",
+              "args": [
+                "Kind",
+                "OpaqueTimeSlot"
+              ],
+              "documentation": [
+                " There is an offence reported of the given `kind` happened at the `session_index` and",
+                " (kind-specific) time slot. This event is not deposited for duplicate slashes."
               ]
             }
           ],
