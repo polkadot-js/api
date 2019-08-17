@@ -4,6 +4,8 @@
 
 export default {
   types: {
+    FullIdentification: 'Exposure',
+    IdentificationTuple: '(ValidatorId, FullIdentification)',
     SessionIndex: 'u32',
 
     // The runtime definition of SessionKeys are passes as a Trait to session
