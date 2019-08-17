@@ -31,13 +31,6 @@ export interface ContractABITypesStruct {
 
 export type ContractABITypes = string | ContractABITypesStruct | (string | ContractABITypesStruct)[];
 
-export interface ContractAbiTypesV2 {
-  id: string | ContractABITypesStruct;
-  name?: string;
-  namespace?: string;
-  params?: ContractAbiTypesV2[];
-}
-
 export interface ContractABIArg {
   name: string;
   type: ContractABITypes;
