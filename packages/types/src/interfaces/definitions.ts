@@ -19,6 +19,7 @@ export { default as elections } from './elections/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
 export { default as grandpa } from './grandpa/definitions';
 export { default as imOnline } from './imOnline/definitions';
+export { default as offences } from './offences/definitions';
 export { default as session } from './session/definitions';
 export { default as staking } from './staking/definitions';
 export { default as system } from './system/definitions';
