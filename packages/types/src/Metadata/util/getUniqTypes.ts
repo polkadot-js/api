@@ -10,9 +10,7 @@ import { Text, Type } from '../../primitive';
 import flattenUniq from './flattenUniq';
 import validateTypes from './validateTypes';
 
-// NOTE This does not support V0 unique conversions, conversion works, however
-// due to the different nature of the types, the actual checking is not included
-// here completely
+type Arg = { type: Type } & Codec;
 
 type Item = {
   type: {
@@ -32,38 +30,53 @@ type Item = {
 } & Codec;
 
 type Storage = Option<Vec<Item> | {
+  // v0
+  functions?: Vec<Item>;
   // V7
   items?: Vec<Item>;
 } & Codec>;
 
-type Call = { args: Vec<{ type: Type } & Codec> } & Codec;
+type Call = { args: Vec<Arg> } & Codec;
 
 type Calls = Option<Vec<Call>>;
 
+type Event = { args: Vec<Type> } & Codec;
+
+type Events = Option<Vec<Event>>;
+
 type Module = {
+  // V0
+  module?: {
+    call: {
+      functions: Vec<Call>;
+    };
+  };
   // V1+
   calls?: Calls;
   // V6+
   constants?: Vec<{ type: Text } & Codec>;
-  events?: Option<Vec<{ args: Vec<Type> } & Codec>>;
+  events?: Events;
   storage?: Storage;
 } & Codec;
 
 interface ExtractionMetadata {
+  // V0
+  events?: Vec<{ events: Vec<Event> } & Codec>;
   modules: Vec<Module>;
 }
 
-function unwrapCalls (calls?: Calls): Call[] {
-  if (!calls) {
-    return [];
-  }
-
-  return calls.unwrapOr([]);
+function unwrapCalls (mod: Module): Call[] {
+  return mod.calls
+    ? mod.calls.unwrapOr([])
+    // V0
+    : mod.module
+      ? mod.module.call.functions
+      : [];
 }
 
 function getCallNames ({ modules }: ExtractionMetadata): string[][][] {
-  return modules.map(({ calls }): string[][] =>
-    unwrapCalls(calls).map(({ args }): string[] =>
+  return modules.map((mod): string[][] =>
+    unwrapCalls(mod).map(({ args }): string[] =>
       args.map((arg): string =>
         arg.type.toString()
       )
@@ -81,15 +94,30 @@ function getConstantNames ({ modules }: ExtractionMetadata): string[][] {
   );
 }
 
-function getEventNames ({ modules }: ExtractionMetadata): string[][][] {
+function unwrapEvents (events?: Events): Event[] {
+  if (!events) {
+    return [];
+  }
+
+  return events.unwrapOr([]);
+}
+
+function getEventNames ({ events, modules }: ExtractionMetadata): string[][][] {
+  const mapArg = ({ args }: Event): string[] =>
+    args.map((arg): string =>
+      arg.toString()
+    );
+
+  // V0
+  if (events) {
+    return events.map(({ events }): string[][] =>
+      events.map(mapArg)
+    );
+  }
+
+  // V1+
   return modules.map(({ events }): string[][] =>
-    events && events.isSome
-      ? events.unwrap().map(({ args }): string[] =>
-        args.map((arg): string =>
-          arg.toString()
-        )
-      )
-      : []
+    unwrapEvents(events).map(mapArg)
   );
 }
 
@@ -102,7 +130,7 @@ function unwrapStorage (storage?: Storage): Item[] {
 
   return Array.isArray(data)
     ? data
-    : data.items as Item[];
+    : (data.items || data.functions) as Item[];
 }
 
 function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {

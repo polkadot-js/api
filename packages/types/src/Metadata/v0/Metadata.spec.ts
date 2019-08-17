@@ -20,7 +20,7 @@ describe('Metadata', (): void => {
     const metadata = new Metadata(rpcData);
     const json = metadata.asV0.toJSON();
 
-    console.error(JSON.stringify(json));
+    // console.error(JSON.stringify(json));
 
     expect(metadata.version).toBe(0);
     expect(metadata.asV0.modules.length).not.toBe(0);
