@@ -195,11 +195,27 @@ export interface MapTypeV4 extends Struct {
 /** MapTypeV4 */
 export type MapTypeV5 = MapTypeV4;
 
-/** MapTypeV6 */
-export type MapTypeV6 = MapTypeV6;
+/** MapTypeV5 */
+export type MapTypeV6 = MapTypeV5;
 
 /** MapTypeV6 */
 export type MapTypeV7 = MapTypeV6;
+
+/** Struct */
+export interface MetadataV0 extends Struct {
+  /** OuterEventMetadataV0 */
+  readonly outerEvent: OuterEventMetadataV0;
+  /** Vec<RuntimeModuleMetadataV0> */
+  readonly modules: Vec<RuntimeModuleMetadataV0>;
+  /** OuterDispatchMetadataV0 */
+  readonly outerDispatch: OuterDispatchMetadataV0;
+}
+
+/** Struct */
+export interface MetadataV1 extends Struct {
+  /** Vec<ModuleMetadataV1> */
+  readonly modules: Vec<ModuleMetadataV1>;
+}
 
 /** Struct */
 export interface ModuleConstantMetadataV6 extends Struct {

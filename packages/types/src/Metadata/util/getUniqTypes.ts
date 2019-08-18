@@ -60,9 +60,12 @@ type Module = {
 } & Codec;
 
 interface ExtractionMetadata {
-  // V0
-  events?: Vec<[Text, Vec<Event>] & Codec>;
   modules: Vec<Module>;
+
+  // V0
+  outerEvent?: {
+    events: Vec<[Text, Vec<Event>] & Codec>;
+  };
 }
 
 function unwrapCalls (mod: Module): Call[] {
@@ -102,15 +105,15 @@ function unwrapEvents (events?: Events): Event[] {
   return events.unwrapOr([]);
 }
 
-function getEventNames ({ events, modules }: ExtractionMetadata): string[][][] {
+function getEventNames ({ modules, outerEvent }: ExtractionMetadata): string[][][] {
   const mapArg = ({ args }: Event): string[] =>
     args.map((arg): string =>
       arg.toString()
     );
 
   // V0
-  if (events) {
-    return events.map(([, events]): string[][] =>
+  if (outerEvent) {
+    return outerEvent.events.map(([, events]): string[][] =>
       events.map(mapArg)
     );
   }

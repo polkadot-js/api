@@ -28,6 +28,11 @@ export default {
       key: 'Type',
       value: 'Type'
     },
+    MetadataV0: {
+      outerEvent: 'OuterEventMetadataV0',
+      modules: 'Vec<RuntimeModuleMetadataV0>',
+      outerDispatch: 'OuterDispatchMetadataV0'
+    },
     ModuleMetadataV0: {
       name: 'Text',
       call: 'CallMetadataV0'
@@ -81,6 +86,9 @@ export default {
       name: 'Text',
       args: 'Vec<FunctionArgumentMetadataV1>',
       documentation: 'Vec<Text>'
+    },
+    MetadataV1: {
+      modules: 'Vec<ModuleMetadataV1>'
     },
     ModuleMetadataV1: {
       name: 'Text',

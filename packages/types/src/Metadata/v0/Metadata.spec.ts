@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import MetadataV0 from './';
+import { createType } from '../../codec';
 import Metadata from '../';
 import latestSubstrateV0 from './static-substrate.json';
 import rpcData from './static';
@@ -11,7 +11,7 @@ import { defaultValues, toV7 } from '../util/testUtil';
 describe('Metadata', (): void => {
   it('works with fallback', (): void => {
     const metadata = new Metadata(rpcData);
-    const metadataV0 = new MetadataV0(rpcData);
+    const metadataV0 = createType('MetadataV0', rpcData);
 
     expect(metadata.asV0.toString()).toEqual(metadataV0.toString());
   });

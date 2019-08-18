@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataV0, MetadataV1 } from '../interfaces/metadata';
+
 import { assert } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import MagicNumber from './MagicNumber';
-import MetadataV0 from './v0';
-import MetadataV1 from './v1';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';
 import MetadataV4 from './v4';
@@ -31,8 +31,8 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
     super({
-      MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
       MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
