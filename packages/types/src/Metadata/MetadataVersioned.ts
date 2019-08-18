@@ -125,56 +125,56 @@ class MetadataEnum extends Enum {
    * @description `true` if V0
    */
   public get isV0 (): boolean {
-    return this.type === 'MetadataV0';
+    return this.type === 'V0';
   }
 
   /**
    * @description `true` if V1
    */
   public get isV1 (): boolean {
-    return this.type === 'MetadataV1';
+    return this.type === 'V1';
   }
 
   /**
    * @description `true` if V2
    */
   public get isV2 (): boolean {
-    return this.type === 'MetadataV2';
+    return this.type === 'V2';
   }
 
   /**
    * @description `true` if V3
    */
   public get isV3 (): boolean {
-    return this.type === 'MetadataV3';
+    return this.type === 'V3';
   }
 
   /**
    * @description `true` if V4
    */
   public get isV4 (): boolean {
-    return this.type === 'MetadataV4';
+    return this.type === 'V4';
   }
 
   /**
    * @description `true` if V5
    */
   public get isV5 (): boolean {
-    return this.type === 'MetadataV5';
+    return this.type === 'V5';
   }
 
   /**
    * @description `true` if V6
    */
   public get isV6 (): boolean {
-    return this.type === 'MetadataV6';
+    return this.type === 'V6';
   }
 
   /**
    * @description `true` if V7
    */
   public get isV7 (): boolean {
-    return this.type === 'MetadataV7';
+    return this.type === 'V7';
   }
 }
 
