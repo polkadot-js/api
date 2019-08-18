@@ -11,7 +11,7 @@
               "name": "AccountNonce",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Index",
@@ -27,7 +27,7 @@
               "name": "ExtrinsicCount",
               "modifier": 0,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
@@ -38,7 +38,7 @@
               "name": "AllExtrinsicsLen",
               "modifier": 0,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
@@ -49,7 +49,7 @@
               "name": "BlockHash",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Hash",
@@ -65,7 +65,7 @@
               "name": "ExtrinsicData",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "u32",
                   "value": "Bytes",
@@ -81,7 +81,7 @@
               "name": "RandomMaterial",
               "modifier": 1,
               "type": {
-                "PlainType": "(i8,Vec<Hash>)"
+                "Type": "(i8,Vec<Hash>)"
               },
               "fallback": "0x0000",
               "documentation": [
@@ -93,7 +93,7 @@
               "name": "Number",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -104,7 +104,7 @@
               "name": "ParentHash",
               "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -115,7 +115,7 @@
               "name": "ExtrinsicsRoot",
               "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -126,7 +126,7 @@
               "name": "Digest",
               "modifier": 1,
               "type": {
-                "PlainType": "Digest"
+                "Type": "Digest"
               },
               "fallback": "0x00",
               "documentation": [
@@ -137,7 +137,7 @@
               "name": "Events",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<EventRecord>"
+                "Type": "Vec<EventRecord>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -148,7 +148,7 @@
               "name": "EventCount",
               "modifier": 1,
               "type": {
-                "PlainType": "EventIndex"
+                "Type": "EventIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -159,7 +159,7 @@
               "name": "EventTopics",
               "modifier": 1,
               "type": {
-                "DoubleMapType": {
+                "DoubleMap": {
                   "hasher": "Blake2_256",
                   "key1": "Null",
                   "key2": "Hash",
@@ -218,7 +218,7 @@
               "name": "Now",
               "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "Type": "Moment"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -229,7 +229,7 @@
               "name": "BlockPeriod",
               "modifier": 0,
               "type": {
-                "PlainType": "Moment"
+                "Type": "Moment"
               },
               "fallback": "0x00",
               "documentation": [
@@ -240,7 +240,7 @@
               "name": "MinimumPeriod",
               "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "Type": "Moment"
               },
               "fallback": "0x0300000000000000",
               "documentation": [
@@ -254,7 +254,7 @@
               "name": "DidUpdate",
               "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -293,7 +293,7 @@
               "name": "OriginalAuthorities",
               "modifier": 0,
               "type": {
-                "PlainType": "Vec<SessionKey>"
+                "Type": "Vec<SessionKey>"
               },
               "fallback": "0x00",
               "documentation": []
@@ -395,7 +395,7 @@
               "name": "NextEnumSet",
               "modifier": 1,
               "type": {
-                "PlainType": "AccountIndex"
+                "Type": "AccountIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -406,7 +406,7 @@
               "name": "EnumSet",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
@@ -444,7 +444,7 @@
               "name": "TotalIssuance",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -455,7 +455,7 @@
               "name": "ExistentialDeposit",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -466,7 +466,7 @@
               "name": "TransferFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -477,7 +477,7 @@
               "name": "CreationFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -488,7 +488,7 @@
               "name": "TransactionBaseFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -499,7 +499,7 @@
               "name": "TransactionByteFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -510,7 +510,7 @@
               "name": "Vesting",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VestingSchedule",
@@ -526,7 +526,7 @@
               "name": "FreeBalance",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
@@ -552,7 +552,7 @@
               "name": "ReservedBalance",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
@@ -578,7 +578,7 @@
               "name": "Locks",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
@@ -685,7 +685,7 @@
               "name": "Validators",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -696,7 +696,7 @@
               "name": "SessionLength",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -707,7 +707,7 @@
               "name": "CurrentIndex",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -718,7 +718,7 @@
               "name": "CurrentStart",
               "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "Type": "Moment"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -729,7 +729,7 @@
               "name": "ForcingNewSession",
               "modifier": 0,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -742,7 +742,7 @@
               "name": "LastLengthChange",
               "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
               "documentation": [
@@ -753,7 +753,7 @@
               "name": "NextKeyFor",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "SessionKey",
@@ -769,7 +769,7 @@
               "name": "NextSessionLength",
               "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
               "documentation": [
@@ -837,7 +837,7 @@
               "name": "ValidatorCount",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -848,7 +848,7 @@
               "name": "MinimumValidatorCount",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x04000000",
               "documentation": [
@@ -859,7 +859,7 @@
               "name": "SessionsPerEra",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -870,7 +870,7 @@
               "name": "SessionReward",
               "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x3c000000",
               "documentation": [
@@ -881,7 +881,7 @@
               "name": "OfflineSlash",
               "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x40420f00",
               "documentation": [
@@ -892,7 +892,7 @@
               "name": "OfflineSlashGrace",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -903,7 +903,7 @@
               "name": "BondingDuration",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0c00000000000000",
               "documentation": [
@@ -914,7 +914,7 @@
               "name": "Invulnerables",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -926,7 +926,7 @@
               "name": "Bonded",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
@@ -942,7 +942,7 @@
               "name": "Ledger",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "StakingLedger",
@@ -958,7 +958,7 @@
               "name": "Payee",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "RewardDestination",
@@ -974,7 +974,7 @@
               "name": "Validators",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
@@ -990,7 +990,7 @@
               "name": "Nominators",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
@@ -1006,7 +1006,7 @@
               "name": "Stakers",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Exposure",
@@ -1025,7 +1025,7 @@
               "name": "CurrentElected",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1036,7 +1036,7 @@
               "name": "CurrentEra",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -1047,7 +1047,7 @@
               "name": "CurrentSessionReward",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1058,7 +1058,7 @@
               "name": "CurrentEraReward",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1070,7 +1070,7 @@
               "name": "NextSessionsPerEra",
               "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1081,7 +1081,7 @@
               "name": "LastEraLengthChange",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -1092,7 +1092,7 @@
               "name": "SlotStake",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1105,7 +1105,7 @@
               "name": "SlashCount",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "u32",
@@ -1121,7 +1121,7 @@
               "name": "ForcingNewEra",
               "modifier": 0,
               "type": {
-                "PlainType": "Null"
+                "Type": "Null"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1132,7 +1132,7 @@
               "name": "RecentlyOffline",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
+                "Type": "Vec<(AccountId,BlockNumber,u32)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1410,7 +1410,7 @@
               "name": "PublicPropCount",
               "modifier": 1,
               "type": {
-                "PlainType": "PropIndex"
+                "Type": "PropIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1421,7 +1421,7 @@
               "name": "PublicProps",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
+                "Type": "Vec<(PropIndex,Proposal,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1432,7 +1432,7 @@
               "name": "DepositOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
@@ -1448,7 +1448,7 @@
               "name": "ReferendumCount",
               "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1459,7 +1459,7 @@
               "name": "NextTally",
               "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1470,7 +1470,7 @@
               "name": "ReferendumInfoOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
@@ -1486,7 +1486,7 @@
               "name": "DispatchQueue",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
@@ -1502,7 +1502,7 @@
               "name": "VotersFor",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
@@ -1518,7 +1518,7 @@
               "name": "VoteOf",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
@@ -1537,7 +1537,7 @@
               "name": "Proxy",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
@@ -1554,7 +1554,7 @@
               "name": "Delegations",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(AccountId,Conviction)",
@@ -1570,7 +1570,7 @@
               "name": "LastTabledWasExternal",
               "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1582,7 +1582,7 @@
               "name": "NextExternal",
               "modifier": 0,
               "type": {
-                "PlainType": "(Proposal,VoteThreshold)"
+                "Type": "(Proposal,VoteThreshold)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1596,7 +1596,7 @@
               "name": "Blacklist",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "(BlockNumber,Vec<AccountId>)",
@@ -1613,7 +1613,7 @@
               "name": "Cancellations",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "bool",
@@ -1950,7 +1950,7 @@
               "name": "CandidacyBond",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x09000000000000000000000000000000",
               "documentation": [
@@ -1961,7 +1961,7 @@
               "name": "VotingBond",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1972,7 +1972,7 @@
               "name": "PresentSlashPerVoter",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x01000000000000000000000000000000",
               "documentation": [
@@ -1983,7 +1983,7 @@
               "name": "CarryCount",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x02000000",
               "documentation": [
@@ -1994,7 +1994,7 @@
               "name": "PresentationDuration",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -2005,7 +2005,7 @@
               "name": "InactiveGracePeriod",
               "modifier": 1,
               "type": {
-                "PlainType": "VoteIndex"
+                "Type": "VoteIndex"
               },
               "fallback": "0x01000000",
               "documentation": [
@@ -2017,7 +2017,7 @@
               "name": "VotingPeriod",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -2028,7 +2028,7 @@
               "name": "TermDuration",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0500000000000000",
               "documentation": [
@@ -2039,7 +2039,7 @@
               "name": "DesiredSeats",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2050,7 +2050,7 @@
               "name": "ActiveCouncil",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber)>"
+                "Type": "Vec<(AccountId,BlockNumber)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2064,7 +2064,7 @@
               "name": "VoteCount",
               "modifier": 1,
               "type": {
-                "PlainType": "VoteIndex"
+                "Type": "VoteIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2075,7 +2075,7 @@
               "name": "ApprovalsOf",
               "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<bool>",
@@ -2092,7 +2092,7 @@
               "name": "RegisterInfoOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
@@ -2109,7 +2109,7 @@
               "name": "LastActiveOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VoteIndex",
@@ -2125,7 +2125,7 @@
               "name": "Voters",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2136,7 +2136,7 @@
               "name": "Candidates",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2147,7 +2147,7 @@
               "name": "CandidateCount",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": []
@@ -2156,7 +2156,7 @@
               "name": "NextFinalize",
               "modifier": 0,
               "type": {
-                "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
+                "Type": "(BlockNumber,u32,Vec<AccountId>)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2167,7 +2167,7 @@
               "name": "SnapshotedStakes",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<BalanceOf>"
+                "Type": "Vec<BalanceOf>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2178,7 +2178,7 @@
               "name": "Leaderboard",
               "modifier": 0,
               "type": {
-                "PlainType": "Vec<(BalanceOf,AccountId)>"
+                "Type": "Vec<(BalanceOf,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2402,7 +2402,7 @@
               "name": "Proposals",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<Hash>"
+                "Type": "Vec<Hash>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2413,7 +2413,7 @@
               "name": "ProposalOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
@@ -2429,7 +2429,7 @@
               "name": "Voting",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Votes",
@@ -2445,7 +2445,7 @@
               "name": "ProposalCount",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2598,7 +2598,7 @@
               "name": "PendingChange",
               "modifier": 0,
               "type": {
-                "PlainType": "StoredPendingChange"
+                "Type": "StoredPendingChange"
               },
               "fallback": "0x00",
               "documentation": []
@@ -2607,7 +2607,7 @@
               "name": "NextForced",
               "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
               "documentation": []
@@ -2647,7 +2647,7 @@
               "name": "ProposalBond",
               "modifier": 1,
               "type": {
-                "PlainType": "Permill"
+                "Type": "Permill"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2659,7 +2659,7 @@
               "name": "ProposalBondMinimum",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2670,7 +2670,7 @@
               "name": "SpendPeriod",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0100000000000000",
               "documentation": [
@@ -2681,7 +2681,7 @@
               "name": "Burn",
               "modifier": 1,
               "type": {
-                "PlainType": "Permill"
+                "Type": "Permill"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2692,7 +2692,7 @@
               "name": "Pot",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2703,7 +2703,7 @@
               "name": "ProposalCount",
               "modifier": 1,
               "type": {
-                "PlainType": "ProposalIndex"
+                "Type": "ProposalIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2714,7 +2714,7 @@
               "name": "Proposals",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ProposalIndex",
                   "value": "TreasuryProposal",
@@ -2730,7 +2730,7 @@
               "name": "Approvals",
               "modifier": 1,
               "type": {
-                "PlainType": "Vec<ProposalIndex>"
+                "Type": "Vec<ProposalIndex>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2877,7 +2877,7 @@
               "name": "SignedClaimHandicap",
               "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -2891,7 +2891,7 @@
               "name": "TombstoneDeposit",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2902,7 +2902,7 @@
               "name": "StorageSizeOffset",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2914,7 +2914,7 @@
               "name": "RentByteFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2925,7 +2925,7 @@
               "name": "RentDepositOffset",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2942,7 +2942,7 @@
               "name": "SurchargeReward",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2954,7 +2954,7 @@
               "name": "TransferFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2965,7 +2965,7 @@
               "name": "CreationFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2976,7 +2976,7 @@
               "name": "TransactionBaseFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2987,7 +2987,7 @@
               "name": "TransactionByteFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2998,7 +2998,7 @@
               "name": "ContractFee",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x15000000000000000000000000000000",
               "documentation": [
@@ -3009,7 +3009,7 @@
               "name": "CallBaseFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0x8700000000000000",
               "documentation": [
@@ -3020,7 +3020,7 @@
               "name": "CreateBaseFee",
               "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0xaf00000000000000",
               "documentation": [
@@ -3031,7 +3031,7 @@
               "name": "GasPrice",
               "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x01000000000000000000000000000000",
               "documentation": [
@@ -3042,7 +3042,7 @@
               "name": "MaxDepth",
               "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x64000000",
               "documentation": [
@@ -3053,7 +3053,7 @@
               "name": "BlockGasLimit",
               "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0x8096980000000000",
               "documentation": [
@@ -3064,7 +3064,7 @@
               "name": "GasSpent",
               "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -3075,7 +3075,7 @@
               "name": "CurrentSchedule",
               "modifier": 1,
               "type": {
-                "PlainType": "Schedule"
+                "Type": "Schedule"
               },
               "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000400000000000100100000000020000000",
               "documentation": [
@@ -3086,7 +3086,7 @@
               "name": "PristineCode",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "Bytes",
@@ -3102,7 +3102,7 @@
               "name": "CodeStorage",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "PrefabWasmModule",
@@ -3118,7 +3118,7 @@
               "name": "AccountCounter",
               "modifier": 1,
               "type": {
-                "PlainType": "u64"
+                "Type": "u64"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -3129,7 +3129,7 @@
               "name": "ContractInfoOf",
               "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ContractInfo",
@@ -3358,7 +3358,7 @@
               "name": "Key",
               "modifier": 1,
               "type": {
-                "PlainType": "AccountId"
+                "Type": "AccountId"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [

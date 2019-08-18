@@ -49,8 +49,8 @@ export class MapType extends Struct {
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType: 'PlainTypeV2',
-      MapType
+      Type: 'PlainTypeV2',
+      Map: MapType
     }, value, index);
   }
 

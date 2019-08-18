@@ -12,10 +12,10 @@ import MetadataV0 from './Metadata';
 import { Text } from '../../primitive';
 import MetadataV1 from '../v1/Metadata';
 
-function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
-  return modul.module.call.functions.length === 0
-    ? new Option(Vec.with('FunctionMetadataV1'))
-    : new Option(Vec.with('FunctionMetadataV1'), modul.module.call.functions);
+function toV1Calls ({ module: { call: { functions } } }: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
+  return functions.length
+    ? new Option(Vec.with('FunctionMetadataV1'), functions)
+    : new Option(Vec.with('FunctionMetadataV1'));
 }
 
 function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadataV1> {
@@ -27,9 +27,9 @@ function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadata
 }
 
 function toV1Storage ({ storage }: RuntimeModuleMetadataV0): Option<StorageFunctionMetadataV1> {
-  return storage.isNone
-    ? new Option('Vec<StorageFunctionMetadataV1>')
-    : new Option('Vec<StorageFunctionMetadataV1>', storage.unwrap().functions);
+  return storage.isSome
+    ? new Option('Vec<StorageFunctionMetadataV1>', storage.unwrap().functions)
+    : new Option('Vec<StorageFunctionMetadataV1>');
 }
 
 /**
@@ -37,18 +37,18 @@ function toV1Storage ({ storage }: RuntimeModuleMetadataV0): Option<StorageFunct
  */
 export default function toV1 (metadataV0: MetadataV0): MetadataV1 {
   return new MetadataV1({
-    modules: metadataV0.modules.map((modul): ModuleMetadataV1 => {
+    modules: metadataV0.modules.map((mod): ModuleMetadataV1 => {
       // The prefix of this module (capitalized)
-      const prefix = modul.storage.isSome
-        ? modul.storage.unwrap().prefix.toString()
-        : stringUpperFirst(modul.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
+      const prefix = mod.storage.isSome
+        ? mod.storage.unwrap().prefix.toString()
+        : stringUpperFirst(mod.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
       return createType('ModuleMetadataV1', {
-        name: modul.prefix, // Not capitalized
+        name: mod.prefix, // Not capitalized
         prefix, // Capitalized
-        storage: toV1Storage(modul),
-        calls: toV1Calls(modul),
-        events: toV1Events(metadataV0, modul.prefix)
+        storage: toV1Storage(mod),
+        calls: toV1Calls(mod),
+        events: toV1Events(metadataV0, mod.prefix)
       });
     })
   });
