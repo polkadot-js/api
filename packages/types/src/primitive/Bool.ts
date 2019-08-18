@@ -55,6 +55,20 @@ export default class Bool extends Boolean implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value (always false)
+   */
+  public get isFalse (): boolean {
+    return !this.isTrue;
+  }
+
+  /**
+   * @description Checks if the value is an empty value (always false)
+   */
+  public get isTrue (): boolean {
+    return this.valueOf();
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
