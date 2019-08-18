@@ -20,11 +20,11 @@ import { StorageFunctionMetadata } from './Storage';
 export class ModuleMetadataV1 extends Struct {
   public constructor (value?: any) {
     super({
-      name: Text,
-      prefix: Text,
+      name: 'Text',
+      prefix: 'Text',
       storage: Option.with(Vec.with(StorageFunctionMetadata)),
-      calls: Option.with(Vec.with('FunctionMetadataV1')),
-      events: Option.with(Vec.with('EventMetadataV1'))
+      calls: Option.with('Vec<FunctionMetadataV1>'),
+      events: Option.with('Vec<EventMetadataV1>')
     }, value);
   }
 

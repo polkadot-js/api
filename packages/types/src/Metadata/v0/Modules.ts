@@ -13,7 +13,7 @@ import { StorageMetadataV0 } from './Storage';
 export class RuntimeModuleMetadataV0 extends Struct {
   public constructor (value?: any) {
     super({
-      prefix: Text,
+      prefix: 'Text',
       module: 'ModuleMetadataV0',
       storage: Option.with(StorageMetadataV0)
     }, value);

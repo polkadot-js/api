@@ -114,11 +114,11 @@ export interface StorageFunctionMetadataValue {
 export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
-      name: Text,
+      name: 'Text',
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      fallback: Bytes,
-      documentation: Vec.with(Text)
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
     }, value);
   }
 

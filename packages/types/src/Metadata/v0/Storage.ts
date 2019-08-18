@@ -36,8 +36,8 @@ export class MapType extends Struct {
 
   public constructor (value?: any) {
     super({
-      key: Type,
-      value: Type
+      key: 'Type',
+      value: 'Type'
     }, value);
 
     if (value && value.isLinked) {
@@ -137,11 +137,11 @@ export interface StorageFunctionMetadataValue {
 export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
-      name: Text,
+      name: 'Text',
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      fallback: Bytes,
-      documentation: Vec.with(Text)
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
     }, value);
   }
 
@@ -184,7 +184,7 @@ export class StorageFunctionMetadata extends Struct {
 export class StorageMetadataV0 extends Struct {
   public constructor (value?: any) {
     super({
-      prefix: Text,
+      prefix: 'Text',
       functions: Vec.with(StorageFunctionMetadata)
     }, value);
   }

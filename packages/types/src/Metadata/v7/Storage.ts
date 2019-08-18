@@ -20,7 +20,7 @@ export {
 export class StorageMetadata extends Struct {
   public constructor (value?: any) {
     super({
-      prefix: Text,
+      prefix: 'Text',
       // NOTE renamed to items from entries (since Struct already has entries from Map)
       items: Vec.with(StorageEntryMetadata)
     }, value);

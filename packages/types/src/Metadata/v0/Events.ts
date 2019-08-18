@@ -32,7 +32,7 @@ export class OuterEventEventMetadata extends Tuple {
 export class OuterEventMetadata extends Struct {
   public constructor (value?: any) {
     super({
-      name: Text,
+      name: 'Text',
       events: Vec.with(OuterEventEventMetadata)
     }, value);
   }
