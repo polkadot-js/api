@@ -148,8 +148,8 @@ export interface SignatureOptions {
   era?: IExtrinsicEra;
   genesisHash: AnyU8a;
   nonce: AnyNumber;
+  runtimeVersion: RuntimeVersionInterface;
   tip?: AnyNumber;
-  version: RuntimeVersionInterface;
 }
 
 export type ArgsDef = Record<string, Constructor>;

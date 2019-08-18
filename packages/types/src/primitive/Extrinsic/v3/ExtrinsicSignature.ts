@@ -31,7 +31,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip, version }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip, runtimeVersion: { specVersion } }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
     const payload = new ExtrinsicPayloadV3({
       blockHash,
@@ -39,7 +39,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
       genesisHash,
       method: method.toHex(),
       nonce,
-      specVersion: version.specVersion,
+      specVersion,
       tip: tip || 0
     });
     const signature = createType('Signature', payload.sign(account));

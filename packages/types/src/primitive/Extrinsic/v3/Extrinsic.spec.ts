@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
@@ -43,6 +44,14 @@ describe('ExtrinsicV3', (): void => {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
         nonce: 1,
+        runtimeVersion: {
+          apis: [],
+          authoringVersion: new BN(123),
+          implName: 'test',
+          implVersion: new BN(123),
+          specName: 'test',
+          specVersion: new BN(123)
+        },
         tip: 2
       }).toHex()
     ).toEqual(

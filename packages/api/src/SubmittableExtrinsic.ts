@@ -274,6 +274,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                     method: _extrinsic.method,
                     blockNumber: header ? header.number : 0,
                     genesisHash: api.genesisHash,
+                    runtimeVersion: api.runtimeVersion,
                     version: api.extrinsicType
                   });
 

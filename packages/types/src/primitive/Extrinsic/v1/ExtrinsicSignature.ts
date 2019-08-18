@@ -128,6 +128,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
       genesisHash,
       method: method.toHex(),
       nonce,
+      specVersion: 0, // ignored
       tip: 0
     });
     const signature = createType('Signature', payload.sign(account));

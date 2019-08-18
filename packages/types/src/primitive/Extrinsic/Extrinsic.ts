@@ -234,6 +234,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
         genesisHash: new Uint8Array(),
         method: this.method.toHex(),
         nonce: args[0] as string,
+        specVersion: 0,
         tip: 0
       };
     }
