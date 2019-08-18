@@ -8,7 +8,7 @@ import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../ty
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
-import u32 from '../../../primitive/u32';
+import u32 from '../../../primitive/U32';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
