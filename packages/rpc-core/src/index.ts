@@ -23,7 +23,7 @@ const EMPTY_META = {
   fallback: undefined,
   modifier: { isOptional: true },
   type: {
-    asMap: { isLinked: false },
+    asMap: { linked: { isTrue: false } },
     isMap: false
   }
 };

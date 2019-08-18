@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV5, PlainTypeV5, StorageFunctionModifierV5 } from '../../interfaces/metadata';
+import { DoubleMapTypeV5, MapTypeV5, PlainTypeV5, StorageFunctionModifierV5 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -12,16 +12,12 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MapType } from '../v4/Storage';
-
-// Re-export classes that haven't changed between V4 and V5
-export { MapType };
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
       Type: 'PlainTypeV5',
-      Map: MapType,
+      Map: 'MapTypeV5',
       DoubleMap: 'DoubleMapTypeV5'
     }, value, index);
   }
@@ -38,10 +34,10 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV5 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV5;
   }
 
   /**
@@ -83,7 +79,7 @@ export class StorageFunctionType extends Enum {
     }
 
     if (this.isMap) {
-      if (this.asMap.isLinked) {
+      if (this.asMap.linked.isTrue) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
 

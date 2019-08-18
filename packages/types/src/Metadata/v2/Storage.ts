@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { PlainTypeV2, StorageFunctionModifierV2 } from '../../interfaces/metadata';
+import { MapTypeV2, PlainTypeV2, StorageFunctionModifierV2 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -10,57 +10,24 @@ import { assert } from '@polkadot/util';
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
-
-export class MapType extends Struct {
-  public constructor (value?: any) {
-    super({
-      key: 'Type',
-      value: 'Type',
-      isLinked: 'bool'
-    }, value);
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  public get value (): Type {
-    return this.get('value') as Type;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  public get isLinked (): boolean {
-    return (this.get('isLinked') as Bool).valueOf();
-  }
-}
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
       Type: 'PlainTypeV2',
-      Map: MapType
+      Map: 'MapTypeV2'
     }, value, index);
   }
 
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV2 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV2;
   }
 
   /**
@@ -91,7 +58,7 @@ export class StorageFunctionType extends Enum {
    */
   public toString (): string {
     if (this.isMap) {
-      if (this.asMap.isLinked) {
+      if (this.asMap.linked.isTrue) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
 

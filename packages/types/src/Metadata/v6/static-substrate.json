@@ -15,7 +15,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Index",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000",
@@ -76,7 +76,7 @@
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Hash",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -92,7 +92,7 @@
                   "hasher": "Blake2_256",
                   "key": "u32",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -461,7 +461,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -511,7 +511,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VestingSchedule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -527,7 +527,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -553,7 +553,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -579,7 +579,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -816,7 +816,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -832,7 +832,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "StakingLedger",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -848,7 +848,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "RewardDestination",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -864,7 +864,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x0c00",
@@ -880,7 +880,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x00",
@@ -896,7 +896,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Exposure",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x000000",
@@ -973,7 +973,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "u32",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000",
@@ -1526,7 +1526,7 @@
                   "hasher": "Blake2_256",
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1564,7 +1564,7 @@
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1580,7 +1580,7 @@
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1596,7 +1596,7 @@
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1612,7 +1612,7 @@
                   "hasher": "Blake2_256",
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1631,7 +1631,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1648,7 +1648,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(AccountId,Conviction)",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -1690,7 +1690,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "(BlockNumber,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1707,7 +1707,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "bool",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2176,7 +2176,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2192,7 +2192,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Votes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2388,7 +2388,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2404,7 +2404,7 @@
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Votes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2647,7 +2647,7 @@
                   "hasher": "Blake2_256",
                   "key": "(AccountId,SetIndex)",
                   "value": "Vec<ApprovalFlag>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2667,7 +2667,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2684,7 +2684,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VoterInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2700,7 +2700,7 @@
                   "hasher": "Blake2_256",
                   "key": "SetIndex",
                   "value": "Vec<Option<AccountId>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2783,7 +2783,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3322,7 +3322,7 @@
                   "hasher": "Blake2_256",
                   "key": "ProposalIndex",
                   "value": "TreasuryProposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3524,7 +3524,7 @@
                   "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3540,7 +3540,7 @@
                   "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "PrefabWasmModule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3567,7 +3567,7 @@
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ContractInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",

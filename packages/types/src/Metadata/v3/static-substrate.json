@@ -14,7 +14,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Index",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000",
@@ -51,7 +51,7 @@
                 "Map": {
                   "key": "BlockNumber",
                   "value": "Hash",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -66,7 +66,7 @@
                 "Map": {
                   "key": "u32",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -365,7 +365,7 @@
                 "Map": {
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -468,7 +468,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "VestingSchedule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -483,7 +483,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -508,7 +508,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -533,7 +533,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -706,7 +706,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "SessionKey",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -878,7 +878,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -893,7 +893,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "StakingLedger",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -908,7 +908,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "RewardDestination",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -923,7 +923,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x0c00",
@@ -938,7 +938,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x00",
@@ -953,7 +953,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Exposure",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x000000",
@@ -1051,7 +1051,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "u32",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000",
@@ -1373,7 +1373,7 @@
                 "Map": {
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1465,7 +1465,7 @@
                 "Map": {
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1480,7 +1480,7 @@
                 "Map": {
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1495,7 +1495,7 @@
                 "Map": {
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1510,7 +1510,7 @@
                 "Map": {
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1527,7 +1527,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "(AccountId,LockPeriods)",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -1862,7 +1862,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "Vec<bool>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1878,7 +1878,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1894,7 +1894,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "VoteIndex",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2206,7 +2206,7 @@
                 "Map": {
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2219,7 +2219,7 @@
                 "Map": {
                   "key": "Hash",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2232,7 +2232,7 @@
                 "Map": {
                   "key": "(Hash,AccountId)",
                   "value": "bool",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2245,7 +2245,7 @@
                 "Map": {
                   "key": "Hash",
                   "value": "(BlockNumber,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2359,7 +2359,7 @@
                 "Map": {
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2374,7 +2374,7 @@
                 "Map": {
                   "key": "Hash",
                   "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2633,7 +2633,7 @@
                 "Map": {
                   "key": "ProposalIndex",
                   "value": "TreasuryProposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2927,7 +2927,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "CodeHash",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2942,7 +2942,7 @@
                 "Map": {
                   "key": "CodeHash",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2957,7 +2957,7 @@
                 "Map": {
                   "key": "CodeHash",
                   "value": "PrefabWasmModule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2983,7 +2983,7 @@
                 "Map": {
                   "key": "AccountId",
                   "value": "AccountInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",

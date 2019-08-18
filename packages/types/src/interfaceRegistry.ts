@@ -25,7 +25,7 @@ import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
-import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeV0, PlainTypeV1, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, RuntimeModuleMetadataV0, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from './interfaces/metadata';
+import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, MapTypeV2, MapTypeV3, MapTypeV4, MapTypeV5, MapTypeV6, MapTypeV7, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeV0, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, RuntimeModuleMetadataV0, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from './interfaces/metadata';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
@@ -717,9 +717,6 @@ export interface InterfaceRegistry {
   ModuleMetadataV1: ModuleMetadataV1;
   'Option<ModuleMetadataV1>': Option<ModuleMetadataV1>;
   'Vec<ModuleMetadataV1>': Vec<ModuleMetadataV1>;
-  PlainTypeV1: PlainTypeV1;
-  'Option<PlainTypeV1>': Option<PlainTypeV1>;
-  'Vec<PlainTypeV1>': Vec<PlainTypeV1>;
   StorageFunctionMetadataV1: StorageFunctionMetadataV1;
   'Option<StorageFunctionMetadataV1>': Option<StorageFunctionMetadataV1>;
   'Vec<StorageFunctionMetadataV1>': Vec<StorageFunctionMetadataV1>;
@@ -738,6 +735,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV2: FunctionMetadataV2;
   'Option<FunctionMetadataV2>': Option<FunctionMetadataV2>;
   'Vec<FunctionMetadataV2>': Vec<FunctionMetadataV2>;
+  MapTypeV2: MapTypeV2;
+  'Option<MapTypeV2>': Option<MapTypeV2>;
+  'Vec<MapTypeV2>': Vec<MapTypeV2>;
   PlainTypeV2: PlainTypeV2;
   'Option<PlainTypeV2>': Option<PlainTypeV2>;
   'Vec<PlainTypeV2>': Vec<PlainTypeV2>;
@@ -756,6 +756,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV3: FunctionMetadataV3;
   'Option<FunctionMetadataV3>': Option<FunctionMetadataV3>;
   'Vec<FunctionMetadataV3>': Vec<FunctionMetadataV3>;
+  MapTypeV3: MapTypeV3;
+  'Option<MapTypeV3>': Option<MapTypeV3>;
+  'Vec<MapTypeV3>': Vec<MapTypeV3>;
   PlainTypeV3: PlainTypeV3;
   'Option<PlainTypeV3>': Option<PlainTypeV3>;
   'Vec<PlainTypeV3>': Vec<PlainTypeV3>;
@@ -774,6 +777,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV4: FunctionMetadataV4;
   'Option<FunctionMetadataV4>': Option<FunctionMetadataV4>;
   'Vec<FunctionMetadataV4>': Vec<FunctionMetadataV4>;
+  MapTypeV4: MapTypeV4;
+  'Option<MapTypeV4>': Option<MapTypeV4>;
+  'Vec<MapTypeV4>': Vec<MapTypeV4>;
   PlainTypeV4: PlainTypeV4;
   'Option<PlainTypeV4>': Option<PlainTypeV4>;
   'Vec<PlainTypeV4>': Vec<PlainTypeV4>;
@@ -792,6 +798,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV5: FunctionMetadataV5;
   'Option<FunctionMetadataV5>': Option<FunctionMetadataV5>;
   'Vec<FunctionMetadataV5>': Vec<FunctionMetadataV5>;
+  MapTypeV5: MapTypeV5;
+  'Option<MapTypeV5>': Option<MapTypeV5>;
+  'Vec<MapTypeV5>': Vec<MapTypeV5>;
   PlainTypeV5: PlainTypeV5;
   'Option<PlainTypeV5>': Option<PlainTypeV5>;
   'Vec<PlainTypeV5>': Vec<PlainTypeV5>;
@@ -810,6 +819,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV6: FunctionMetadataV6;
   'Option<FunctionMetadataV6>': Option<FunctionMetadataV6>;
   'Vec<FunctionMetadataV6>': Vec<FunctionMetadataV6>;
+  MapTypeV6: MapTypeV6;
+  'Option<MapTypeV6>': Option<MapTypeV6>;
+  'Vec<MapTypeV6>': Vec<MapTypeV6>;
   ModuleConstantMetadataV6: ModuleConstantMetadataV6;
   'Option<ModuleConstantMetadataV6>': Option<ModuleConstantMetadataV6>;
   'Vec<ModuleConstantMetadataV6>': Vec<ModuleConstantMetadataV6>;
@@ -831,6 +843,9 @@ export interface InterfaceRegistry {
   FunctionMetadataV7: FunctionMetadataV7;
   'Option<FunctionMetadataV7>': Option<FunctionMetadataV7>;
   'Vec<FunctionMetadataV7>': Vec<FunctionMetadataV7>;
+  MapTypeV7: MapTypeV7;
+  'Option<MapTypeV7>': Option<MapTypeV7>;
+  'Vec<MapTypeV7>': Vec<MapTypeV7>;
   ModuleConstantMetadataV7: ModuleConstantMetadataV7;
   'Option<ModuleConstantMetadataV7>': Option<ModuleConstantMetadataV7>;
   'Vec<ModuleConstantMetadataV7>': Vec<ModuleConstantMetadataV7>;

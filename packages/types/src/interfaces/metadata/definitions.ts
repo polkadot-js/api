@@ -89,7 +89,6 @@ export default {
       calls: 'Option<Vec<FunctionMetadataV1>>',
       events: 'Option<Vec<EventMetadataV1>>'
     },
-    PlainTypeV1: 'Type',
     StorageFunctionMetadataV1: 'StorageFunctionMetadataV0',
     StorageFunctionModifierV1: 'StorageFunctionModifierV0',
     StorageFunctionTypeV1: 'StorageFunctionTypeV0',
@@ -98,6 +97,11 @@ export default {
     EventMetadataV2: 'EventMetadataV1',
     FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
     FunctionMetadataV2: 'FunctionMetadataV1',
+    MapTypeV2: {
+      key: 'Type',
+      value: 'Type',
+      linked: 'bool'
+    },
     PlainTypeV2: 'Type',
     StorageFunctionModifierV2: 'StorageFunctionModifierV1',
 
@@ -111,6 +115,7 @@ export default {
     EventMetadataV3: 'EventMetadataV2',
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
     FunctionMetadataV3: 'FunctionMetadataV2',
+    MapTypeV3: 'MapTypeV2',
     PlainTypeV3: 'Type',
     StorageFunctionModifierV3: 'StorageFunctionModifierV2',
 
@@ -125,6 +130,12 @@ export default {
     EventMetadataV4: 'EventMetadataV3',
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
     FunctionMetadataV4: 'FunctionMetadataV3',
+    MapTypeV4: {
+      hasher: 'StorageHasher',
+      key: 'Type',
+      value: 'Type',
+      linked: 'bool'
+    },
     PlainTypeV4: 'Type',
     StorageFunctionModifierV4: 'StorageFunctionModifierV3',
 
@@ -139,6 +150,7 @@ export default {
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
     FunctionMetadataV5: 'FunctionMetadataV4',
+    MapTypeV5: 'MapTypeV4',
     PlainTypeV5: 'Type',
     StorageFunctionModifierV5: 'StorageFunctionModifierV4',
 
@@ -147,6 +159,7 @@ export default {
     EventMetadataV6: 'EventMetadataV5',
     FunctionArgumentMetadataV6: 'FunctionArgumentMetadataV5',
     FunctionMetadataV6: 'FunctionMetadataV5',
+    MapTypeV6: 'MapTypeV5',
     ModuleConstantMetadataV6: {
       name: 'Text',
       type: 'Type',
@@ -161,6 +174,7 @@ export default {
     EventMetadataV7: 'EventMetadataV6',
     FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
     FunctionMetadataV7: 'FunctionMetadataV6',
+    MapTypeV7: 'MapTypeV6',
     ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
     PlainTypeV7: 'Type',
     StorageEntryModifierV7: 'StorageEntryModifierV6'

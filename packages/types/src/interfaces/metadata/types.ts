@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageHasher, Text, Type, u16 } from '../../primitive';
+import { Bytes, StorageHasher, Text, Type, bool, u16 } from '../../primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {
@@ -168,6 +168,40 @@ export interface MapTypeV0 extends Struct {
 }
 
 /** Struct */
+export interface MapTypeV2 extends Struct {
+  /** Type */
+  readonly key: Type;
+  /** Type */
+  readonly value: Type;
+  /** bool */
+  readonly linked: bool;
+}
+
+/** MapTypeV2 */
+export type MapTypeV3 = MapTypeV2;
+
+/** Struct */
+export interface MapTypeV4 extends Struct {
+  /** StorageHasher */
+  readonly hasher: StorageHasher;
+  /** Type */
+  readonly key: Type;
+  /** Type */
+  readonly value: Type;
+  /** bool */
+  readonly linked: bool;
+}
+
+/** MapTypeV4 */
+export type MapTypeV5 = MapTypeV4;
+
+/** MapTypeV6 */
+export type MapTypeV6 = MapTypeV6;
+
+/** MapTypeV6 */
+export type MapTypeV7 = MapTypeV6;
+
+/** Struct */
 export interface ModuleConstantMetadataV6 extends Struct {
   /** Text */
   readonly name: Text;
@@ -238,9 +272,6 @@ export interface OuterEventMetadataV0 extends Struct {
 
 /** Type */
 export type PlainTypeV0 = Type;
-
-/** Type */
-export type PlainTypeV1 = Type;
 
 /** Type */
 export type PlainTypeV2 = Type;

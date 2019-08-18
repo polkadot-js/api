@@ -105,7 +105,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
   // instances (e.g. collective) will not work since it is only matched on param meta
   storageFn.toJSON = (): any => ({ ...(meta.toJSON() as any), storage: { method, prefix, section } });
 
-  if (meta.type.isMap && meta.type.asMap.isLinked) {
+  if (meta.type.isMap && meta.type.asMap.linked.isTrue) {
     const headHash = new U8a(hasher(`head of ${stringKey}`));
     const headFn: any = (): U8a => headHash;
 

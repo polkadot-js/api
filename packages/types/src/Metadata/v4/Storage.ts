@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV4, PlainTypeV4, StorageFunctionModifierV4 } from '../../interfaces/metadata';
+import { DoubleMapTypeV4, MapTypeV4, PlainTypeV4, StorageFunctionModifierV4 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -10,56 +10,14 @@ import { assert } from '@polkadot/util';
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
-import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
-
-export class MapType extends Struct {
-  public constructor (value?: any) {
-    super({
-      hasher: 'StorageHasher',
-      key: 'Type',
-      value: 'Type',
-      isLinked: 'bool'
-    }, value);
-  }
-
-  /**
-   * @description The hash algorithm used to hash keys, as [[StorageHasher]]
-   */
-  public get hasher (): StorageHasher {
-    return this.get('hasher') as StorageHasher;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  public get isLinked (): boolean {
-    return (this.get('isLinked') as Bool).valueOf();
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  public get value (): Type {
-    return this.get('value') as Type;
-  }
-}
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
       Type: 'PlainTypeV4',
-      Map: MapType,
+      Map: 'MapTypeV4',
       DoubleMap: 'DoubleMapTypeV4'
     }, value, index);
   }
@@ -76,10 +34,10 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV4 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV4;
   }
 
   /**
@@ -121,7 +79,7 @@ export class StorageFunctionType extends Enum {
     }
 
     if (this.isMap) {
-      if (this.asMap.isLinked) {
+      if (this.asMap.linked.isTrue) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
 
