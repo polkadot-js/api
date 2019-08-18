@@ -26,10 +26,9 @@ const TYPES_FOR_POLKADOT: Record<string, string> = {
   Keys: 'SessionKeysPolkadot'
 };
 
-// these are the types that we are using when we detect a extrinsic V1 chain
-// NOTE for older chains (e.g. Alex) the BlockNumber/Index is u64, for current
-// these are now set to u32
-const TYPES_FOR_V1 = {
+// NOTE this is for support of old, e.g. Alex, old metadata and BlockNumber/Index
+// This is detected based on metadata version, since this is what we have up-front
+const TYPES_SUBSTRATE_1 = {
   BlockNumber: 'u64',
   Index: 'u64',
   EventRecord: 'EventRecord0to76'
@@ -111,6 +110,11 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
+    // HACK-ish Old EventRecord format for e.g. Alex, based on \metadata format
+    if (metadata.version <= 3) {
+      this.registerTypes(TYPES_SUBSTRATE_1);
+    }
+
     const extrinsics = extrinsicsFromMeta(metadata);
     const storage = storageFromMeta(metadata);
     const constants = constantsFromMeta(metadata);
@@ -125,13 +129,6 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
 
       // If we haven't sync-ed to 1 yes, this won't have any values
       this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
-
-      // HACK Assume that old versions, substrate 1.x is u64 BlockNumber/Nonce
-      // and has the old EventRecord format. Remove this ASAP with support for
-      // Alex dropped
-      if (this._extrinsicType === 1) {
-        this.registerTypes(TYPES_FOR_V1);
-      }
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
