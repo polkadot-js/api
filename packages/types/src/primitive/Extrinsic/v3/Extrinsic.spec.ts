@@ -58,8 +58,8 @@ describe('ExtrinsicV3', (): void => {
       '0x' +
       'ff' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
-      '2bb401483999053d2d69a4aebefb9682c8710ddd495d1298d4eedd241c73869f' +
-      '9d32c82dba98b12ef74bea5f987851b592956de3cf3e946533da815e3b6a2904' +
+      '21de8ff3cae3ee72ced565ed5f79fd153dc84a3be9166b7904eecde8045ba59a' +
+      'd2f998cc970e59157f168ec762eea061f4930b5288f57a45a1c1911863860208' +
       '000408' + // era. nonce, tip
       '0500' +
       'ff' +
