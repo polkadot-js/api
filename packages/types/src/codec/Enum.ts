@@ -9,6 +9,7 @@ import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefin
 import Null from '../primitive/Null';
 import { mapToTypeMap } from './utils';
 import Base from './Base';
+import Struct from './Struct';
 
 interface EnumConstructor<T = Codec> {
   new(value?: any, index?: number): T;
@@ -250,11 +251,7 @@ export default class Enum extends Base<Codec> {
   public toRawType (): string {
     const _enum = this._isBasic
       ? Object.keys(this._def)
-      : Object.entries(this._def).reduce((result, [key, Type]): Record<string, string> => {
-        result[key] = new Type().toRawType();
-
-        return result;
-      }, {} as unknown as Record<string, string>);
+      : Struct.typesToMap(this._def);
 
     return JSON.stringify({ _enum });
   }
