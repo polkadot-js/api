@@ -11,7 +11,7 @@ import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
-import u32 from '../../primitive/u32';
+import u32 from '../../primitive/U32';
 import ExtrinsicPayloadV1 from './v1/ExtrinsicPayload';
 import ExtrinsicPayloadV2 from './v2/ExtrinsicPayload';
 import ExtrinsicPayloadV3 from './v3/ExtrinsicPayload';
