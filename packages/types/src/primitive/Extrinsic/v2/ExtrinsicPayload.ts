@@ -3,13 +3,28 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
+
+// NOTE for V2 the Signed extra is of this form
+//   system::CheckEra<Runtime>,
+//   system::CheckNonce<Runtime>,
+//   system::CheckWeight<Runtime>, // no impact, value
+//   balances::TakeFees<Runtime>
+
+// SignedExtra adds the following fields to the payload
+const SignedExtraV2: Record<string, InterfaceTypes> = {
+  // system::CheckEra<Runtime>
+  blockHash: 'Hash'
+  // system::CheckNonce<Runtime>
+  // system::CheckWeight<Runtime>
+  // balances::TakeFees<Runtime>
+};
 
 /**
  * @name ExtrinsicPayloadV2
@@ -24,7 +39,7 @@ export default class ExtrinsicPayloadV2 extends Struct {
       era: ExtrinsicEra,
       nonce: 'Compact<Index>',
       tip: 'Compact<Balance>',
-      blockHash: 'Hash'
+      ...SignedExtraV2
     }, value);
   }
 

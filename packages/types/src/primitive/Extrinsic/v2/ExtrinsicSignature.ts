@@ -12,7 +12,6 @@ import Struct from '../../../codec/Struct';
 import Call from '../../Generic/Call';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicExtraV2 from './ExtrinsicExtra';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
@@ -25,7 +24,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     super({
       signer: 'Address',
       signature: 'Signature',
-      extra: ExtrinsicExtraV2
+      era: ExtrinsicEra,
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>'
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
@@ -58,24 +59,17 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description Returns the extra extrinsic info
-   */
-  public get extra (): ExtrinsicExtraV2 {
-    return this.get('extra') as ExtrinsicExtraV2;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
   public get era (): ExtrinsicEra {
-    return this.extra.era;
+    return this.era;
   }
 
   /**
    * @description The [[Index]] for the signature
    */
   public get nonce (): Compact<Index> {
-    return this.extra.nonce;
+    return this.nonce;
   }
 
   /**
@@ -96,16 +90,15 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description The [[Balance]] tip
    */
   public get tip (): Compact<Balance> {
-    return this.extra.tip;
+    return this.tip;
   }
 
   protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV2): IExtrinsicSignature {
-    this.extra.set('era', era);
-    this.extra.set('nonce', nonce);
-    this.extra.set('tip', tip);
-
+    this.set('era', era);
+    this.set('nonce', nonce);
     this.set('signer', signer);
     this.set('signature', signature);
+    this.set('tip', tip);
 
     return this;
   }
@@ -132,6 +125,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
       genesisHash,
       method: method.toHex(),
       nonce,
+      specVersion: 0, // unused for v2
       tip: tip || 0
     });
     const signature = createType('Signature', payload.sign(account));

@@ -149,7 +149,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   tip?: AnyNumber;
-  version?: RuntimeVersionInterface;
+  version: RuntimeVersionInterface;
 }
 
 export type ArgsDef = Record<string, Constructor>;
@@ -180,6 +180,7 @@ export interface ExtrinsicPayloadValue {
   genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
+  specVersion: AnyNumber;
   tip: AnyNumber;
 }
 
