@@ -21,6 +21,27 @@ interface Decoded {
   value: Codec;
 }
 
+function extractDef (_def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
+  if (!Array.isArray(_def)) {
+    const def = mapToTypeMap(_def);
+    const isBasic = !Object.values(def).some((type): boolean => type !== Null);
+
+    return {
+      def,
+      isBasic
+    };
+  }
+
+  return {
+    def: _def.reduce((def, key): TypesDef => {
+      def[key] = Null;
+
+      return def;
+    }, {} as unknown as TypesDef),
+    isBasic: true
+  };
+}
+
 /**
  * @name Enum
  * @description
@@ -40,7 +61,7 @@ export default class Enum extends Base<Codec> {
   private _isBasic: boolean;
 
   public constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number | Enum) {
-    const defInfo = Enum.extractDef(def);
+    const defInfo = extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
     super(decoded.value);
@@ -49,27 +70,6 @@ export default class Enum extends Base<Codec> {
     this._isBasic = defInfo.isBasic;
     this._indexes = Object.keys(defInfo.def).map((_, index): number => index);
     this._index = this._indexes.indexOf(decoded.index) || 0;
-  }
-
-  private static extractDef (_def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
-    if (!Array.isArray(_def)) {
-      const def = mapToTypeMap(_def);
-      const isBasic = !Object.values(def).some((type): boolean => type !== Null);
-
-      return {
-        def,
-        isBasic
-      };
-    }
-
-    return {
-      def: _def.reduce((def, key): TypesDef => {
-        def[key] = Null;
-
-        return def;
-      }, {} as unknown as TypesDef),
-      isBasic: true
-    };
   }
 
   private static decodeEnum (def: TypesDef, value?: any, index?: number | Enum): Decoded {
