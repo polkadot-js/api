@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Struct, Vec } from '../../codec';
+import { Enum, Struct, Vec } from '../../codec';
 import { Bytes, StorageHasher, Text, Type, u16 } from '../../primitive';
 
 /** Struct */
@@ -230,3 +230,34 @@ export type PlainTypeV6 = Type;
 
 /** Type */
 export type PlainTypeV7 = Type;
+
+/** StorageFunctionModifierV5 */
+export type StorageEntryModifierV6 = StorageFunctionModifierV5;
+
+/** StorageEntryModifierV6 */
+export type StorageEntryModifierV7 = StorageEntryModifierV6;
+
+/** Enum */
+export interface StorageFunctionModifierV0 extends Enum {
+  /** 0:: Optional */
+  readonly isOptional: boolean;
+  /** 1:: Default */
+  readonly isDefault: boolean;
+  /** 2:: Required */
+  readonly isRequired: boolean;
+}
+
+/** StorageFunctionModifierV0 */
+export type StorageFunctionModifierV1 = StorageFunctionModifierV0;
+
+/** StorageFunctionModifierV1 */
+export type StorageFunctionModifierV2 = StorageFunctionModifierV1;
+
+/** StorageFunctionModifierV2 */
+export type StorageFunctionModifierV3 = StorageFunctionModifierV2;
+
+/** StorageFunctionModifierV3 */
+export type StorageFunctionModifierV4 = StorageFunctionModifierV3;
+
+/** StorageFunctionModifierV4 */
+export type StorageFunctionModifierV5 = StorageFunctionModifierV4;

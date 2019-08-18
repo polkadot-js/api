@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { PlainTypeV2 } from '../../interfaces/metadata';
+import { PlainTypeV2, StorageFunctionModifierV2 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -14,10 +14,6 @@ import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { StorageFunctionModifier } from '../v1/Storage';
-
-// Re-export classes that haven't changed between V1 and V2
-export { StorageFunctionModifier };
 
 export class MapType extends Struct {
   public constructor (value?: any) {
@@ -108,7 +104,7 @@ export class StorageFunctionType extends Enum {
 
 export interface StorageFunctionMetadataValue {
   name: string | Text;
-  modifier: StorageFunctionModifier | AnyNumber;
+  modifier: StorageFunctionModifierV2 | AnyNumber;
   type: StorageFunctionType;
   fallback: Bytes;
   documentation: Vec<Text> | string[];
@@ -123,7 +119,7 @@ export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: 'Text',
-      modifier: StorageFunctionModifier,
+      modifier: 'StorageFunctionModifierV2',
       type: StorageFunctionType,
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
@@ -145,10 +141,10 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   /**
-   * @description The [[MetadataArgument]] for arguments
+   * @description The [[StorageFunctionModifierV2]] for arguments
    */
-  public get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
+  public get modifier (): StorageFunctionModifierV2 {
+    return this.get('modifier') as StorageFunctionModifierV2;
   }
 
   /**

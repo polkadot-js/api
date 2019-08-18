@@ -7,7 +7,7 @@ import { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
 import { createType, createTypeUnsafe } from '@polkadot/types/codec';
-import { StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
+import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
@@ -113,7 +113,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
     // meta fallback only applies to actual entry values, create one for head
     headFn.meta = new StorageEntryMetadata({
       name: meta.name,
-      modifier: new StorageEntryModifier('Required'),
+      modifier: createType('StorageEntryModifierV7', 1), // required
       type: new StorageEntryType(createType('PlainTypeV7', meta.type.asMap.key), 0),
       fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
       documentation: meta.documentation

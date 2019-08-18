@@ -24,7 +24,7 @@ import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
-import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, OuterDispatchCallV0, OuterDispatchMetadataV0, PlainTypeV0, PlainTypeV1, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7 } from './interfaces/metadata';
+import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, OuterDispatchCallV0, OuterDispatchMetadataV0, PlainTypeV0, PlainTypeV1, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5 } from './interfaces/metadata';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
@@ -653,6 +653,9 @@ export interface InterfaceRegistry {
   PlainTypeV0: PlainTypeV0;
   'Option<PlainTypeV0>': Option<PlainTypeV0>;
   'Vec<PlainTypeV0>': Vec<PlainTypeV0>;
+  StorageFunctionModifierV0: StorageFunctionModifierV0;
+  'Option<StorageFunctionModifierV0>': Option<StorageFunctionModifierV0>;
+  'Vec<StorageFunctionModifierV0>': Vec<StorageFunctionModifierV0>;
   EventMetadataV1: EventMetadataV1;
   'Option<EventMetadataV1>': Option<EventMetadataV1>;
   'Vec<EventMetadataV1>': Vec<EventMetadataV1>;
@@ -665,6 +668,9 @@ export interface InterfaceRegistry {
   PlainTypeV1: PlainTypeV1;
   'Option<PlainTypeV1>': Option<PlainTypeV1>;
   'Vec<PlainTypeV1>': Vec<PlainTypeV1>;
+  StorageFunctionModifierV1: StorageFunctionModifierV1;
+  'Option<StorageFunctionModifierV1>': Option<StorageFunctionModifierV1>;
+  'Vec<StorageFunctionModifierV1>': Vec<StorageFunctionModifierV1>;
   EventMetadataV2: EventMetadataV2;
   'Option<EventMetadataV2>': Option<EventMetadataV2>;
   'Vec<EventMetadataV2>': Vec<EventMetadataV2>;
@@ -677,6 +683,9 @@ export interface InterfaceRegistry {
   PlainTypeV2: PlainTypeV2;
   'Option<PlainTypeV2>': Option<PlainTypeV2>;
   'Vec<PlainTypeV2>': Vec<PlainTypeV2>;
+  StorageFunctionModifierV2: StorageFunctionModifierV2;
+  'Option<StorageFunctionModifierV2>': Option<StorageFunctionModifierV2>;
+  'Vec<StorageFunctionModifierV2>': Vec<StorageFunctionModifierV2>;
   DoubleMapTypeV3: DoubleMapTypeV3;
   'Option<DoubleMapTypeV3>': Option<DoubleMapTypeV3>;
   'Vec<DoubleMapTypeV3>': Vec<DoubleMapTypeV3>;
@@ -692,6 +701,9 @@ export interface InterfaceRegistry {
   PlainTypeV3: PlainTypeV3;
   'Option<PlainTypeV3>': Option<PlainTypeV3>;
   'Vec<PlainTypeV3>': Vec<PlainTypeV3>;
+  StorageFunctionModifierV3: StorageFunctionModifierV3;
+  'Option<StorageFunctionModifierV3>': Option<StorageFunctionModifierV3>;
+  'Vec<StorageFunctionModifierV3>': Vec<StorageFunctionModifierV3>;
   DoubleMapTypeV4: DoubleMapTypeV4;
   'Option<DoubleMapTypeV4>': Option<DoubleMapTypeV4>;
   'Vec<DoubleMapTypeV4>': Vec<DoubleMapTypeV4>;
@@ -707,6 +719,9 @@ export interface InterfaceRegistry {
   PlainTypeV4: PlainTypeV4;
   'Option<PlainTypeV4>': Option<PlainTypeV4>;
   'Vec<PlainTypeV4>': Vec<PlainTypeV4>;
+  StorageFunctionModifierV4: StorageFunctionModifierV4;
+  'Option<StorageFunctionModifierV4>': Option<StorageFunctionModifierV4>;
+  'Vec<StorageFunctionModifierV4>': Vec<StorageFunctionModifierV4>;
   DoubleMapTypeV5: DoubleMapTypeV5;
   'Option<DoubleMapTypeV5>': Option<DoubleMapTypeV5>;
   'Vec<DoubleMapTypeV5>': Vec<DoubleMapTypeV5>;
@@ -722,6 +737,9 @@ export interface InterfaceRegistry {
   PlainTypeV5: PlainTypeV5;
   'Option<PlainTypeV5>': Option<PlainTypeV5>;
   'Vec<PlainTypeV5>': Vec<PlainTypeV5>;
+  StorageFunctionModifierV5: StorageFunctionModifierV5;
+  'Option<StorageFunctionModifierV5>': Option<StorageFunctionModifierV5>;
+  'Vec<StorageFunctionModifierV5>': Vec<StorageFunctionModifierV5>;
   DoubleMapTypeV6: DoubleMapTypeV6;
   'Option<DoubleMapTypeV6>': Option<DoubleMapTypeV6>;
   'Vec<DoubleMapTypeV6>': Vec<DoubleMapTypeV6>;
@@ -740,6 +758,9 @@ export interface InterfaceRegistry {
   PlainTypeV6: PlainTypeV6;
   'Option<PlainTypeV6>': Option<PlainTypeV6>;
   'Vec<PlainTypeV6>': Vec<PlainTypeV6>;
+  StorageEntryModifierV6: StorageEntryModifierV6;
+  'Option<StorageEntryModifierV6>': Option<StorageEntryModifierV6>;
+  'Vec<StorageEntryModifierV6>': Vec<StorageEntryModifierV6>;
   DoubleMapTypeV7: DoubleMapTypeV7;
   'Option<DoubleMapTypeV7>': Option<DoubleMapTypeV7>;
   'Vec<DoubleMapTypeV7>': Vec<DoubleMapTypeV7>;
@@ -758,6 +779,9 @@ export interface InterfaceRegistry {
   PlainTypeV7: PlainTypeV7;
   'Option<PlainTypeV7>': Option<PlainTypeV7>;
   'Vec<PlainTypeV7>': Vec<PlainTypeV7>;
+  StorageEntryModifierV7: StorageEntryModifierV7;
+  'Option<StorageEntryModifierV7>': Option<StorageEntryModifierV7>;
+  'Vec<StorageEntryModifierV7>': Vec<StorageEntryModifierV7>;
   ApiId: ApiId;
   'Option<ApiId>': Option<ApiId>;
   'Vec<ApiId>': Vec<ApiId>;

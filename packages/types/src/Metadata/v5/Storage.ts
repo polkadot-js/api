@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV5, PlainTypeV5 } from '../../interfaces/metadata';
+import { DoubleMapTypeV5, PlainTypeV5, StorageFunctionModifierV5 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -12,13 +12,10 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MapType, StorageFunctionModifier } from '../v4/Storage';
+import { MapType } from '../v4/Storage';
 
 // Re-export classes that haven't changed between V4 and V5
-export {
-  MapType,
-  StorageFunctionModifier
-};
+export { MapType };
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
@@ -99,7 +96,7 @@ export class StorageFunctionType extends Enum {
 
 export interface StorageFunctionMetadataValue {
   name: string | Text;
-  modifier: StorageFunctionModifier | AnyNumber;
+  modifier: StorageFunctionModifierV5 | AnyNumber;
   type: StorageFunctionType;
   fallback: Bytes;
   documentation: Vec<Text> | string[];
@@ -114,7 +111,7 @@ export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: 'Text',
-      modifier: StorageFunctionModifier,
+      modifier: 'StorageFunctionModifierV5',
       type: StorageFunctionType,
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
@@ -145,8 +142,8 @@ export class StorageFunctionMetadata extends Struct {
   /**
    * @description The modifier
    */
-  public get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
+  public get modifier (): StorageFunctionModifierV5 {
+    return this.get('modifier') as StorageFunctionModifierV5;
   }
 
   /**

@@ -5,14 +5,13 @@
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import { MapType, StorageEntryMetadata, StorageEntryMetadataValue, StorageEntryModifier, StorageEntryType } from '../v6/Storage';
+import { MapType, StorageEntryMetadata, StorageEntryMetadataValue, StorageEntryType } from '../v6/Storage';
 
 // Re-export classes that haven't changed between V6 and V7
 export {
   MapType,
   StorageEntryMetadata,
   StorageEntryMetadataValue,
-  StorageEntryModifier,
   StorageEntryType
 };
 

@@ -51,16 +51,19 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static extractDef (def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
-    if (!Array.isArray(def)) {
+  private static extractDef (_def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
+    if (!Array.isArray(_def)) {
+      const def = mapToTypeMap(_def);
+      const isBasic = !Object.values(def).some((type): boolean => type !== Null);
+
       return {
-        def: mapToTypeMap(def),
-        isBasic: false
+        def,
+        isBasic
       };
     }
 
     return {
-      def: def.reduce((def, key): TypesDef => {
+      def: _def.reduce((def, key): TypesDef => {
         def[key] = Null;
 
         return def;

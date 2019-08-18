@@ -10,7 +10,7 @@
             "items": [
               {
                 "name": "AccountNonce",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -26,7 +26,7 @@
               },
               {
                 "name": "ExtrinsicCount",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -37,7 +37,7 @@
               },
               {
                 "name": "AllExtrinsicsWeight",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "Weight"
                 },
@@ -48,7 +48,7 @@
               },
               {
                 "name": "AllExtrinsicsLen",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -59,7 +59,7 @@
               },
               {
                 "name": "NextWeightMultiplier",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "WeightMultiplier"
                 },
@@ -71,7 +71,7 @@
               },
               {
                 "name": "BlockHash",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -87,7 +87,7 @@
               },
               {
                 "name": "ExtrinsicData",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -103,7 +103,7 @@
               },
               {
                 "name": "RandomMaterial",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "(i8,Vec<Hash>)"
                 },
@@ -115,7 +115,7 @@
               },
               {
                 "name": "Number",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BlockNumber"
                 },
@@ -126,7 +126,7 @@
               },
               {
                 "name": "ParentHash",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Hash"
                 },
@@ -137,7 +137,7 @@
               },
               {
                 "name": "ExtrinsicsRoot",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Hash"
                 },
@@ -148,7 +148,7 @@
               },
               {
                 "name": "Digest",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "DigestOf"
                 },
@@ -159,7 +159,7 @@
               },
               {
                 "name": "Events",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<EventRecord>"
                 },
@@ -170,7 +170,7 @@
               },
               {
                 "name": "EventCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "EventIndex"
                 },
@@ -181,7 +181,7 @@
               },
               {
                 "name": "EventTopics",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "DoubleMapType": {
                     "hasher": "Blake2_256",
@@ -304,7 +304,7 @@
             "items": [
               {
                 "name": "EpochIndex",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u64"
                 },
@@ -315,7 +315,7 @@
               },
               {
                 "name": "Authorities",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
@@ -326,7 +326,7 @@
               },
               {
                 "name": "EpochStartSlot",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u64"
                 },
@@ -339,7 +339,7 @@
               },
               {
                 "name": "CurrentSlot",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u64"
                 },
@@ -350,7 +350,7 @@
               },
               {
                 "name": "SecondarySlots",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "(bool,bool)"
                 },
@@ -362,7 +362,7 @@
               },
               {
                 "name": "PendingSecondarySlotsChange",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -374,7 +374,7 @@
               },
               {
                 "name": "Randomness",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "[u8;32]"
                 },
@@ -394,7 +394,7 @@
               },
               {
                 "name": "NextRandomness",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "[u8;32]"
                 },
@@ -405,7 +405,7 @@
               },
               {
                 "name": "SegmentIndex",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -424,7 +424,7 @@
               },
               {
                 "name": "UnderConstruction",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -486,7 +486,7 @@
             "items": [
               {
                 "name": "Now",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Moment"
                 },
@@ -497,7 +497,7 @@
               },
               {
                 "name": "DidUpdate",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -552,7 +552,7 @@
             "items": [
               {
                 "name": "Uncles",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<UncleEntryItem>"
                 },
@@ -563,7 +563,7 @@
               },
               {
                 "name": "Author",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "AccountId"
                 },
@@ -574,7 +574,7 @@
               },
               {
                 "name": "DidSetUncles",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -609,7 +609,7 @@
             "items": [
               {
                 "name": "NextEnumSet",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "AccountIndex"
                 },
@@ -620,7 +620,7 @@
               },
               {
                 "name": "EnumSet",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -661,7 +661,7 @@
             "items": [
               {
                 "name": "TotalIssuance",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Balance"
                 },
@@ -672,7 +672,7 @@
               },
               {
                 "name": "Vesting",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -688,7 +688,7 @@
               },
               {
                 "name": "FreeBalance",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -714,7 +714,7 @@
               },
               {
                 "name": "ReservedBalance",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -740,7 +740,7 @@
               },
               {
                 "name": "Locks",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -911,7 +911,7 @@
             "items": [
               {
                 "name": "ValidatorCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -922,7 +922,7 @@
               },
               {
                 "name": "MinimumValidatorCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -933,7 +933,7 @@
               },
               {
                 "name": "OfflineSlash",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Perbill"
                 },
@@ -944,7 +944,7 @@
               },
               {
                 "name": "OfflineSlashGrace",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -955,7 +955,7 @@
               },
               {
                 "name": "Invulnerables",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -968,7 +968,7 @@
               },
               {
                 "name": "Bonded",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -984,7 +984,7 @@
               },
               {
                 "name": "Ledger",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1000,7 +1000,7 @@
               },
               {
                 "name": "Payee",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1016,7 +1016,7 @@
               },
               {
                 "name": "Validators",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1032,7 +1032,7 @@
               },
               {
                 "name": "Nominators",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1048,7 +1048,7 @@
               },
               {
                 "name": "Stakers",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1067,7 +1067,7 @@
               },
               {
                 "name": "CurrentElected",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -1078,7 +1078,7 @@
               },
               {
                 "name": "CurrentEra",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "EraIndex"
                 },
@@ -1089,7 +1089,7 @@
               },
               {
                 "name": "CurrentEraStart",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "MomentOf"
                 },
@@ -1100,7 +1100,7 @@
               },
               {
                 "name": "CurrentEraStartSessionIndex",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "SessionIndex"
                 },
@@ -1111,7 +1111,7 @@
               },
               {
                 "name": "CurrentEraRewards",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "EraRewards"
                 },
@@ -1122,7 +1122,7 @@
               },
               {
                 "name": "SlotStake",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BalanceOf"
                 },
@@ -1135,7 +1135,7 @@
               },
               {
                 "name": "SlashCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1152,7 +1152,7 @@
               },
               {
                 "name": "RecentlyOffline",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
                 },
@@ -1164,7 +1164,7 @@
               },
               {
                 "name": "ForceEra",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Forcing"
                 },
@@ -1175,7 +1175,7 @@
               },
               {
                 "name": "BondedEras",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(EraIndex,SessionIndex)>"
                 },
@@ -1525,7 +1525,7 @@
             "items": [
               {
                 "name": "Validators",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<ValidatorId>"
                 },
@@ -1536,7 +1536,7 @@
               },
               {
                 "name": "CurrentIndex",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "SessionIndex"
                 },
@@ -1547,7 +1547,7 @@
               },
               {
                 "name": "Changed",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -1558,7 +1558,7 @@
               },
               {
                 "name": "QueuedChanged",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -1569,7 +1569,7 @@
               },
               {
                 "name": "QueuedKeys",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(ValidatorId,Keys)>"
                 },
@@ -1581,7 +1581,7 @@
               },
               {
                 "name": "NextKeys",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "DoubleMapType": {
                     "hasher": "Twox64Concat",
@@ -1601,7 +1601,7 @@
               },
               {
                 "name": "KeyOwner",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "DoubleMapType": {
                     "hasher": "Twox64Concat",
@@ -1679,7 +1679,7 @@
             "items": [
               {
                 "name": "PublicPropCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "PropIndex"
                 },
@@ -1690,7 +1690,7 @@
               },
               {
                 "name": "PublicProps",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
                 },
@@ -1701,7 +1701,7 @@
               },
               {
                 "name": "DepositOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1717,7 +1717,7 @@
               },
               {
                 "name": "ReferendumCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "ReferendumIndex"
                 },
@@ -1728,7 +1728,7 @@
               },
               {
                 "name": "NextTally",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "ReferendumIndex"
                 },
@@ -1739,7 +1739,7 @@
               },
               {
                 "name": "ReferendumInfoOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1755,7 +1755,7 @@
               },
               {
                 "name": "DispatchQueue",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1771,7 +1771,7 @@
               },
               {
                 "name": "VotersFor",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1787,7 +1787,7 @@
               },
               {
                 "name": "VoteOf",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1806,7 +1806,7 @@
               },
               {
                 "name": "Proxy",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1823,7 +1823,7 @@
               },
               {
                 "name": "Delegations",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1839,7 +1839,7 @@
               },
               {
                 "name": "LastTabledWasExternal",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "bool"
                 },
@@ -1851,7 +1851,7 @@
               },
               {
                 "name": "NextExternal",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "(Proposal,VoteThreshold)"
                 },
@@ -1865,7 +1865,7 @@
               },
               {
                 "name": "Blacklist",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -1882,7 +1882,7 @@
               },
               {
                 "name": "Cancellations",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2332,7 +2332,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<Hash>"
                 },
@@ -2343,7 +2343,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2359,7 +2359,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2375,7 +2375,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -2386,7 +2386,7 @@
               },
               {
                 "name": "Members",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -2546,7 +2546,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<Hash>"
                 },
@@ -2557,7 +2557,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2573,7 +2573,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2589,7 +2589,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -2600,7 +2600,7 @@
               },
               {
                 "name": "Members",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -2760,7 +2760,7 @@
             "items": [
               {
                 "name": "PresentationDuration",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BlockNumber"
                 },
@@ -2771,7 +2771,7 @@
               },
               {
                 "name": "TermDuration",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BlockNumber"
                 },
@@ -2782,7 +2782,7 @@
               },
               {
                 "name": "DesiredSeats",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -2793,7 +2793,7 @@
               },
               {
                 "name": "Members",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(AccountId,BlockNumber)>"
                 },
@@ -2807,7 +2807,7 @@
               },
               {
                 "name": "VoteCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "VoteIndex"
                 },
@@ -2818,7 +2818,7 @@
               },
               {
                 "name": "ApprovalsOf",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2838,7 +2838,7 @@
               },
               {
                 "name": "RegisterInfoOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2855,7 +2855,7 @@
               },
               {
                 "name": "VoterInfoOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2871,7 +2871,7 @@
               },
               {
                 "name": "Voters",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -2887,7 +2887,7 @@
               },
               {
                 "name": "NextVoterSet",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "SetIndex"
                 },
@@ -2898,7 +2898,7 @@
               },
               {
                 "name": "VoterCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "SetIndex"
                 },
@@ -2909,7 +2909,7 @@
               },
               {
                 "name": "Candidates",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -2920,7 +2920,7 @@
               },
               {
                 "name": "CandidateCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u32"
                 },
@@ -2931,7 +2931,7 @@
               },
               {
                 "name": "NextFinalize",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
                 },
@@ -2942,7 +2942,7 @@
               },
               {
                 "name": "Leaderboard",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "Vec<(BalanceOf,AccountId)>"
                 },
@@ -2954,7 +2954,7 @@
               },
               {
                 "name": "Proxy",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -3344,7 +3344,7 @@
             "items": [
               {
                 "name": "Members",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AccountId>"
                 },
@@ -3504,7 +3504,7 @@
             "items": [
               {
                 "name": "Authorities",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<(AuthorityId,AuthorityWeight)>"
                 },
@@ -3515,7 +3515,7 @@
               },
               {
                 "name": "State",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "StoredState"
                 },
@@ -3526,7 +3526,7 @@
               },
               {
                 "name": "PendingChange",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "StoredPendingChange"
                 },
@@ -3537,7 +3537,7 @@
               },
               {
                 "name": "NextForced",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "BlockNumber"
                 },
@@ -3548,7 +3548,7 @@
               },
               {
                 "name": "Stalled",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "PlainType": "(BlockNumber,BlockNumber)"
                 },
@@ -3607,7 +3607,7 @@
             "items": [
               {
                 "name": "ProposalCount",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "ProposalIndex"
                 },
@@ -3618,7 +3618,7 @@
               },
               {
                 "name": "Proposals",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -3634,7 +3634,7 @@
               },
               {
                 "name": "Approvals",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<ProposalIndex>"
                 },
@@ -3800,7 +3800,7 @@
             "items": [
               {
                 "name": "GasSpent",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Gas"
                 },
@@ -3811,7 +3811,7 @@
               },
               {
                 "name": "CurrentSchedule",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Schedule"
                 },
@@ -3822,7 +3822,7 @@
               },
               {
                 "name": "PristineCode",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -3838,7 +3838,7 @@
               },
               {
                 "name": "CodeStorage",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -3854,7 +3854,7 @@
               },
               {
                 "name": "AccountCounter",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "u64"
                 },
@@ -3865,7 +3865,7 @@
               },
               {
                 "name": "ContractInfoOf",
-                "modifier": "Optional",
+                "modifier": 0,
                 "type": {
                   "MapType": {
                     "hasher": "Blake2_256",
@@ -3881,7 +3881,7 @@
               },
               {
                 "name": "GasPrice",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BalanceOf"
                 },
@@ -4224,7 +4224,7 @@
             "items": [
               {
                 "name": "Key",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "AccountId"
                 },
@@ -4306,7 +4306,7 @@
             "items": [
               {
                 "name": "GossipAt",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "BlockNumber"
                 },
@@ -4317,7 +4317,7 @@
               },
               {
                 "name": "Keys",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "PlainType": "Vec<AuthorityId>"
                 },
@@ -4328,7 +4328,7 @@
               },
               {
                 "name": "ReceivedHeartbeats",
-                "modifier": "Default",
+                "modifier": 1,
                 "type": {
                   "DoubleMapType": {
                     "hasher": "Blake2_256",

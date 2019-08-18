@@ -3,14 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import {
-  StorageFunctionModifier,
   StorageFunctionType,
   StorageFunctionMetadata
 } from '../v0/Storage';
 
 // Re-export classes that haven't changed between V0 and V1
 export {
-  StorageFunctionModifier,
   StorageFunctionType,
   StorageFunctionMetadata
 };

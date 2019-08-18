@@ -42,6 +42,9 @@ export default {
       calls: 'Vec<OuterDispatchCallV0>'
     },
     PlainTypeV0: 'Type',
+    StorageFunctionModifierV0: {
+      _enum: ['Optional', 'Default', 'Required']
+    },
 
     // v1
     EventMetadataV1: 'EventMetadataV0',
@@ -52,12 +55,14 @@ export default {
       documentation: 'Vec<Text>'
     },
     PlainTypeV1: 'Type',
+    StorageFunctionModifierV1: 'StorageFunctionModifierV0',
 
     // v2
     EventMetadataV2: 'EventMetadataV1',
     FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
     FunctionMetadataV2: 'FunctionMetadataV1',
     PlainTypeV2: 'Type',
+    StorageFunctionModifierV2: 'StorageFunctionModifierV1',
 
     // v3
     DoubleMapTypeV3: {
@@ -70,6 +75,7 @@ export default {
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
     FunctionMetadataV3: 'FunctionMetadataV2',
     PlainTypeV3: 'Type',
+    StorageFunctionModifierV3: 'StorageFunctionModifierV2',
 
     // v4
     DoubleMapTypeV4: {
@@ -83,6 +89,7 @@ export default {
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
     FunctionMetadataV4: 'FunctionMetadataV3',
     PlainTypeV4: 'Type',
+    StorageFunctionModifierV4: 'StorageFunctionModifierV3',
 
     // v5
     DoubleMapTypeV5: {
@@ -96,6 +103,7 @@ export default {
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
     FunctionMetadataV5: 'FunctionMetadataV4',
     PlainTypeV5: 'Type',
+    StorageFunctionModifierV5: 'StorageFunctionModifierV4',
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
@@ -109,6 +117,7 @@ export default {
       documentation: 'Vec<Text>'
     },
     PlainTypeV6: 'Type',
+    StorageEntryModifierV6: 'StorageFunctionModifierV5',
 
     // v7
     DoubleMapTypeV7: 'DoubleMapTypeV6',
@@ -116,6 +125,7 @@ export default {
     FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
     FunctionMetadataV7: 'FunctionMetadataV6',
     ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
-    PlainTypeV7: 'Type'
+    PlainTypeV7: 'Type',
+    StorageEntryModifierV7: 'StorageEntryModifierV6'
   }
 };
