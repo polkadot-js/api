@@ -58,6 +58,16 @@ export interface RewardDestination extends Enum {
 }
 
 /** Struct */
+export interface SlashJournalEntry extends Struct {
+  /** AccountId */
+  readonly who: AccountId;
+  /** Balance */
+  readonly amount: Balance;
+  /** Balance */
+  readonly ownSlash: Balance;
+}
+
+/** Struct */
 export interface StakingLedger extends Struct {
   /** AccountId */
   readonly stash: AccountId;

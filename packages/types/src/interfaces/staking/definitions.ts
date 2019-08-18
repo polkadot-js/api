@@ -33,6 +33,11 @@ export default {
         'Controller'
       ]
     },
+    SlashJournalEntry: {
+      who: 'AccountId',
+      amount: 'Balance',
+      ownSlash: 'Balance'
+    },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',

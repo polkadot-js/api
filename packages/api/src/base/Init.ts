@@ -22,7 +22,7 @@ const KEEPALIVE_INTERVAL = 15000;
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
 // implementation) are different. Detect Polkadot and inject the `Keys`
 // definition as applicable. (3 keys in substrate vs 4 in Polkadot).
-const TYPES_FOR_POLKADOT = {
+const TYPES_FOR_POLKADOT: Record<string, string> = {
   Keys: 'SessionKeysPolkadot'
 };
 
@@ -33,6 +33,12 @@ const TYPES_FOR_V1 = {
   BlockNumber: 'u64',
   Index: 'u64',
   EventRecord: 'EventRecord0to76'
+};
+
+// Type overrides for specific node types
+const SPEC_TYPES: Record<string, Record<string, string>> = {
+  kusama: TYPES_FOR_POLKADOT,
+  polkadot: TYPES_FOR_POLKADOT
 };
 
 const l = logger('api/decorator');
@@ -88,9 +94,10 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       this._rpcCore.chain.getRuntimeVersion().toPromise()
     ]);
 
-    if (this._runtimeVersion.specName.eq('polkadot')) {
-      this.registerTypes(TYPES_FOR_POLKADOT);
-    }
+    // based on the node, inject specific types
+    this.registerTypes(
+      SPEC_TYPES[this._runtimeVersion.specName.toString()]
+    );
 
     const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
     const metadata = metadataKey in optMetadata

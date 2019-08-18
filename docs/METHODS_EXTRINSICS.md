@@ -214,7 +214,7 @@ ___
 
 ### imOnline
 
-▸ **heartbeat**(heartbeat: `Heartbeat`, _signature: `AuthoritySignature`)
+▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `AuthoritySignature`)
 
 ___
 
@@ -252,9 +252,6 @@ ___
 
 ▸ **setInvulnerables**(validators: `Vec<AccountId>`)
 - **summary**:   Set the validators who cannot be slashed (if any).
-
-▸ **setOfflineSlashGrace**(new: `Compact<u32>`)
-- **summary**:   Set the offline slash grace period.
 
 ▸ **setPayee**(payee: `RewardDestination`)
 - **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>

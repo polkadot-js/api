@@ -15,6 +15,7 @@ export * from './elections/types';
 export * from './genericAsset/types';
 export * from './grandpa/types';
 export * from './imOnline/types';
+export * from './offences/types';
 export * from './session/types';
 export * from './staking/types';
 export * from './system/types';
