@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import latestSubstrate from './latest.substrate.v1.json';
+import latestSubstrate from './static-substrate.json';
 import rpcData from './static';
 import { decodeLatestSubstrate, defaultValues, toV7 } from '../util/testUtil';
 

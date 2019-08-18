@@ -4,7 +4,7 @@
 
 import MetadataV0 from './';
 import Metadata from '../';
-import latestSubstrateV0 from './latest.substrate.v0.json';
+import latestSubstrateV0 from './static-substrate.json';
 import rpcData from './static';
 import { defaultValues, toV7 } from '../util/testUtil';
 
