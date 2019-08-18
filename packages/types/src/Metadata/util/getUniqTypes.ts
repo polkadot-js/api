@@ -61,7 +61,7 @@ type Module = {
 
 interface ExtractionMetadata {
   // V0
-  events?: Vec<{ events: Vec<Event> } & Codec>;
+  events?: Vec<[Text, Vec<Event>] & Codec>;
   modules: Vec<Module>;
 }
 
@@ -110,7 +110,7 @@ function getEventNames ({ events, modules }: ExtractionMetadata): string[][][] {
 
   // V0
   if (events) {
-    return events.map(({ events }): string[][] =>
+    return events.map(([, events]): string[][] =>
       events.map(mapArg)
     );
   }

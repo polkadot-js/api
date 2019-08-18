@@ -25,7 +25,7 @@ import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
-import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, PlainTypeV0, PlainTypeV1, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, RuntimeModuleMetadataV0, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from './interfaces/metadata';
+import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeV0, PlainTypeV1, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, RuntimeModuleMetadataV0, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from './interfaces/metadata';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
@@ -678,6 +678,15 @@ export interface InterfaceRegistry {
   OuterDispatchMetadataV0: OuterDispatchMetadataV0;
   'Option<OuterDispatchMetadataV0>': Option<OuterDispatchMetadataV0>;
   'Vec<OuterDispatchMetadataV0>': Vec<OuterDispatchMetadataV0>;
+  OuterEventEventMetadataEventsV0: OuterEventEventMetadataEventsV0;
+  'Option<OuterEventEventMetadataEventsV0>': Option<OuterEventEventMetadataEventsV0>;
+  'Vec<OuterEventEventMetadataEventsV0>': Vec<OuterEventEventMetadataEventsV0>;
+  OuterEventEventMetadataV0: OuterEventEventMetadataV0;
+  'Option<OuterEventEventMetadataV0>': Option<OuterEventEventMetadataV0>;
+  'Vec<OuterEventEventMetadataV0>': Vec<OuterEventEventMetadataV0>;
+  OuterEventMetadataV0: OuterEventMetadataV0;
+  'Option<OuterEventMetadataV0>': Option<OuterEventMetadataV0>;
+  'Vec<OuterEventMetadataV0>': Vec<OuterEventMetadataV0>;
   PlainTypeV0: PlainTypeV0;
   'Option<PlainTypeV0>': Option<PlainTypeV0>;
   'Vec<PlainTypeV0>': Vec<PlainTypeV0>;

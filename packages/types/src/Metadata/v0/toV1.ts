@@ -19,10 +19,10 @@ function toV1Calls ({ module: { call: { functions } } }: RuntimeModuleMetadataV0
 }
 
 function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadataV1> {
-  const events = metadataV0.events.find((event): boolean => event.name.eq(prefix));
+  const events = metadataV0.events.find((event): boolean => event[0].eq(prefix));
 
   return events
-    ? new Option(Vec.with('EventMetadataV1'), events.events)
+    ? new Option(Vec.with('EventMetadataV1'), events[1])
     : new Option(Vec.with('EventMetadataV1'));
 }
 

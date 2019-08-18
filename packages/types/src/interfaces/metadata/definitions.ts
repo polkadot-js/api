@@ -41,6 +41,12 @@ export default {
       name: 'Text',
       calls: 'Vec<OuterDispatchCallV0>'
     },
+    OuterEventEventMetadataEventsV0: 'Vec<EventMetadataV0>',
+    OuterEventEventMetadataV0: '(Text, OuterEventEventMetadataEventsV0)',
+    OuterEventMetadataV0: {
+      name: 'Text',
+      events: 'Vec<OuterEventEventMetadataV0>'
+    },
     PlainTypeV0: 'Type',
     RuntimeModuleMetadataV0: {
       prefix: 'Text',

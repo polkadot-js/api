@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OuterDispatchMetadataV0, OuterDispatchCallV0, RuntimeModuleMetadataV0 } from '../../interfaces/metadata';
+import { OuterDispatchMetadataV0, OuterDispatchCallV0, OuterEventMetadataV0, OuterEventEventMetadataV0, RuntimeModuleMetadataV0 } from '../../interfaces/metadata';
 import { MetadataInterface } from '../types';
 
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
@@ -10,7 +10,6 @@ import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
 
@@ -22,17 +21,17 @@ import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
 export default class MetadataV0 extends Struct implements MetadataInterface<RuntimeModuleMetadataV0> {
   public constructor (value?: any) {
     super({
-      outerEvent: OuterEventMetadata,
+      outerEvent: 'OuterEventMetadataV0',
       modules: 'Vec<RuntimeModuleMetadataV0>',
       outerDispatch: 'OuterDispatchMetadataV0'
-    }, MetadataV0.decodeMetadata(value));
+    }, MetadataV0.decodeMetadataV0(value));
   }
 
-  public static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
+  public static decodeMetadataV0 (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
       // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
-      return MetadataV0.decodeMetadata(hexToU8a(value));
+      return MetadataV0.decodeMetadataV0(hexToU8a(value));
     } else if (isU8a(value)) {
       // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
       // encoded, it does not have a length prefix. For latest substrate master, it
@@ -60,8 +59,8 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   /**
    * @description Wrapped [[OuterEventEventMetadata]]
    */
-  public get events (): Vec<OuterEventEventMetadata> {
-    return (this.get('outerEvent') as OuterEventMetadata).events;
+  public get events (): Vec<OuterEventEventMetadataV0> {
+    return (this.get('outerEvent') as OuterEventMetadataV0).events;
   }
 
   /**

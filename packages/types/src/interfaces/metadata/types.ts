@@ -1,6 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, StorageHasher, Text, Type, u16 } from '../../primitive';
 
@@ -219,6 +220,20 @@ export interface OuterDispatchMetadataV0 extends Struct {
   readonly name: Text;
   /** Vec<OuterDispatchCallV0> */
   readonly calls: Vec<OuterDispatchCallV0>;
+}
+
+/** Vec<EventMetadataV0> */
+export type OuterEventEventMetadataEventsV0 = Vec<EventMetadataV0>;
+
+/** [Text, OuterEventEventMetadataEventsV0] & Codec */
+export type OuterEventEventMetadataV0 = [Text, OuterEventEventMetadataEventsV0] & Codec;
+
+/** Struct */
+export interface OuterEventMetadataV0 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Vec<OuterEventEventMetadataV0> */
+  readonly events: Vec<OuterEventEventMetadataV0>;
 }
 
 /** Type */
