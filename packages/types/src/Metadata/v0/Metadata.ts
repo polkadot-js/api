@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OuterDispatchMetadataV0, OuterDispatchCallV0 } from '../../interfaces/metadata';
+import { OuterDispatchMetadataV0, OuterDispatchCallV0, RuntimeModuleMetadataV0 } from '../../interfaces/metadata';
 import { MetadataInterface } from '../types';
 
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
@@ -11,7 +11,6 @@ import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
-import { RuntimeModuleMetadataV0 } from './Modules';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
 
@@ -24,7 +23,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   public constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: Vec.with(RuntimeModuleMetadataV0),
+      modules: 'Vec<RuntimeModuleMetadataV0>',
       outerDispatch: 'OuterDispatchMetadataV0'
     }, MetadataV0.decodeMetadata(value));
   }

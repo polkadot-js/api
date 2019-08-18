@@ -3,16 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventMetadataV1, FunctionMetadataV1 } from '../../interfaces/metadata';
+import { EventMetadataV1, FunctionMetadataV1, ModuleMetadataV1, RuntimeModuleMetadataV0, StorageFunctionMetadataV1 } from '../../interfaces/metadata';
 
 import { stringUpperFirst } from '@polkadot/util';
 
-import { Option, Vec } from '../../codec';
+import { createType, Option, Vec } from '../../codec';
 import MetadataV0 from './Metadata';
-import { RuntimeModuleMetadataV0 } from './Modules';
 import { Text } from '../../primitive';
-import MetadataV1, { ModuleMetadataV1 } from '../v1/Metadata';
-import { StorageFunctionMetadata } from '../v1/Storage';
+import MetadataV1 from '../v1/Metadata';
 
 function toV1Calls (modul: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
   return modul.module.call.functions.length === 0
@@ -28,13 +26,10 @@ function toV1Events (metadataV0: MetadataV0, prefix: Text): Option<EventMetadata
     : new Option(Vec.with('EventMetadataV1'));
 }
 
-function toV1Storage (modul: RuntimeModuleMetadataV0): Option<StorageFunctionMetadata> {
-  return modul.storage.isNone
-    ? new Option(Vec.with(StorageFunctionMetadata))
-    : new Option(
-      Vec.with(StorageFunctionMetadata),
-      modul.storage.unwrap().functions
-    );
+function toV1Storage ({ storage }: RuntimeModuleMetadataV0): Option<StorageFunctionMetadataV1> {
+  return storage.isNone
+    ? new Option('Vec<StorageFunctionMetadataV1>')
+    : new Option('Vec<StorageFunctionMetadataV1>', storage.unwrap().functions);
 }
 
 /**
@@ -48,7 +43,7 @@ export default function toV1 (metadataV0: MetadataV0): MetadataV1 {
         ? modul.storage.unwrap().prefix.toString()
         : stringUpperFirst(modul.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
-      return new ModuleMetadataV1({
+      return createType('ModuleMetadataV1', {
         name: modul.prefix, // Not capitalized
         prefix, // Capitalized
         storage: toV1Storage(modul),

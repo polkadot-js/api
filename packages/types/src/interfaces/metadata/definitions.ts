@@ -42,8 +42,30 @@ export default {
       calls: 'Vec<OuterDispatchCallV0>'
     },
     PlainTypeV0: 'Type',
+    RuntimeModuleMetadataV0: {
+      prefix: 'Text',
+      module: 'ModuleMetadataV0',
+      storage: 'Option<StorageMetadataV0>'
+    },
+    StorageFunctionMetadataV0: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV0',
+      type: 'StorageFunctionTypeV0',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
     StorageFunctionModifierV0: {
       _enum: ['Optional', 'Default', 'Required']
+    },
+    StorageFunctionTypeV0: {
+      _enum: {
+        Type: 'PlainTypeV0',
+        Map: 'MapTypeV0'
+      }
+    },
+    StorageMetadataV0: {
+      prefix: 'Text',
+      functions: 'Vec<StorageFunctionMetadataV0>'
     },
 
     // v1
@@ -54,8 +76,17 @@ export default {
       args: 'Vec<FunctionArgumentMetadataV1>',
       documentation: 'Vec<Text>'
     },
+    ModuleMetadataV1: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageFunctionMetadataV1>>',
+      calls: 'Option<Vec<FunctionMetadataV1>>',
+      events: 'Option<Vec<EventMetadataV1>>'
+    },
     PlainTypeV1: 'Type',
+    StorageFunctionMetadataV1: 'StorageFunctionMetadataV0',
     StorageFunctionModifierV1: 'StorageFunctionModifierV0',
+    StorageFunctionTypeV1: 'StorageFunctionTypeV0',
 
     // v2
     EventMetadataV2: 'EventMetadataV1',

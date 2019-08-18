@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct, Vec } from '../../codec';
+import { Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, StorageHasher, Text, Type, u16 } from '../../primitive';
 
 /** Struct */
@@ -190,6 +190,20 @@ export interface ModuleMetadataV0 extends Struct {
 }
 
 /** Struct */
+export interface ModuleMetadataV1 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Text */
+  readonly prefix: Text;
+  /** Option<Vec<StorageFunctionMetadataV1>> */
+  readonly storage: Option<Vec<StorageFunctionMetadataV1>>;
+  /** Option<Vec<FunctionMetadataV1>> */
+  readonly calls: Option<Vec<FunctionMetadataV1>>;
+  /** Option<Vec<EventMetadataV1>> */
+  readonly events: Option<Vec<EventMetadataV1>>;
+}
+
+/** Struct */
 export interface OuterDispatchCallV0 extends Struct {
   /** Text */
   readonly name: Text;
@@ -231,11 +245,38 @@ export type PlainTypeV6 = Type;
 /** Type */
 export type PlainTypeV7 = Type;
 
+/** Struct */
+export interface RuntimeModuleMetadataV0 extends Struct {
+  /** Text */
+  readonly prefix: Text;
+  /** ModuleMetadataV0 */
+  readonly module: ModuleMetadataV0;
+  /** Option<StorageMetadataV0> */
+  readonly storage: Option<StorageMetadataV0>;
+}
+
 /** StorageFunctionModifierV5 */
 export type StorageEntryModifierV6 = StorageFunctionModifierV5;
 
 /** StorageEntryModifierV6 */
 export type StorageEntryModifierV7 = StorageEntryModifierV6;
+
+/** Struct */
+export interface StorageFunctionMetadataV0 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** StorageFunctionModifierV0 */
+  readonly modifier: StorageFunctionModifierV0;
+  /** StorageFunctionTypeV0 */
+  readonly type: StorageFunctionTypeV0;
+  /** Bytes */
+  readonly fallback: Bytes;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
+
+/** StorageFunctionMetadataV0 */
+export type StorageFunctionMetadataV1 = StorageFunctionMetadataV0;
 
 /** Enum */
 export interface StorageFunctionModifierV0 extends Enum {
@@ -261,3 +302,26 @@ export type StorageFunctionModifierV4 = StorageFunctionModifierV3;
 
 /** StorageFunctionModifierV4 */
 export type StorageFunctionModifierV5 = StorageFunctionModifierV4;
+
+/** Enum */
+export interface StorageFunctionTypeV0 extends Enum {
+  /** 0:: Type(PlainTypeV0) */
+  readonly isType: boolean;
+  /** PlainTypeV0 */
+  readonly asType: PlainTypeV0;
+  /** 1:: Map(MapTypeV0) */
+  readonly isMap: boolean;
+  /** MapTypeV0 */
+  readonly asMap: MapTypeV0;
+}
+
+/** StorageFunctionTypeV0 */
+export type StorageFunctionTypeV1 = StorageFunctionTypeV0;
+
+/** Struct */
+export interface StorageMetadataV0 extends Struct {
+  /** Text */
+  readonly prefix: Text;
+  /** Vec<StorageFunctionMetadataV0> */
+  readonly functions: Vec<StorageFunctionMetadataV0>;
+}
