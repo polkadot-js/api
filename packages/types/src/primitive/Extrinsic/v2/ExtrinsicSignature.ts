@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, Index, Signature } from '../../../interfaces/runtime';
+import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Call from '../../Generic/Call';
-import ExtrinsicEra from '../ExtrinsicEra';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
@@ -24,7 +22,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     super({
       signer: 'Address',
       signature: 'Signature',
-      era: ExtrinsicEra,
+      era: 'ExtrinsicEra',
       nonce: 'Compact<Index>',
       tip: 'Compact<Balance>'
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));

@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address } from '../../../interfaces/runtime';
+import { Address, Call } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import { createType } from '../../../codec/create';
-import Call from '../../Generic/Call';
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';

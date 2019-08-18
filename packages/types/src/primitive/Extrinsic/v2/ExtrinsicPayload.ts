@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Hash, Index } from '../../../interfaces/runtime';
+import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
-import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
 // SignedExtra adds the following fields to the payload
@@ -30,7 +29,7 @@ export default class ExtrinsicPayloadV2 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
       method: 'Bytes',
-      era: ExtrinsicEra,
+      era: 'ExtrinsicEra',
       nonce: 'Compact<Index>',
       tip: 'Compact<Balance>',
       ...SignedExtraV2
