@@ -370,9 +370,7 @@ function generateInterfaceRegistry (): void {
 
   const primitives = Object
     .keys(primitiveClasses)
-    .filter((name): boolean =>
-      !!name.indexOf('Generic') && !!name.indexOf('Metadata')
-    )
+    .filter((name): boolean => !!name.indexOf('Generic'))
     .reduce((accumulator, primitiveName): string => {
       setImports(imports, [primitiveName]);
 

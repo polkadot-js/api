@@ -31,14 +31,14 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
     super({
-      MetadataV0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV7
+      V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
+      V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
+      V2: MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
+      V3: MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
+      V4: MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
+      V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
+      V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
+      V7: MetadataV7
     }, value);
   }
 
@@ -176,13 +176,6 @@ class MetadataEnum extends Enum {
   public get isV7 (): boolean {
     return this.type === 'MetadataV7';
   }
-
-  /**
-   * @description The version this metadata represents
-   */
-  public get version (): number {
-    return this.index;
-  }
 }
 
 /**
@@ -201,7 +194,7 @@ export default class MetadataVersioned extends Struct {
   }
 
   private assertVersion (version: number): boolean {
-    assert(this.metadata.version <= version, `Cannot convert metadata from v${this.metadata.version} to v${version}`);
+    assert(this.version <= version, `Cannot convert metadata from v${this.version} to v${version}`);
 
     return this.version === version;
   }
