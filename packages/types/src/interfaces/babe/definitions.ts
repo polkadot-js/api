@@ -15,14 +15,14 @@ export default {
       }
     },
     RawBabePreDigestPrimary: {
-      authorityIndex: 'u32', // AuthorityIndex (also in aura, not same size there)
+      authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight',
       vrfOutput: 'H256', // should be '[u8; 32]' (generator support lacking here)
       vrfProof: 'H256' // should be '[u8; 32]'
     },
     RawBabePreDigestSecondary: {
-      authorityIndex: 'u32', // AuthorityIndex (also in aura, not same size there)
+      authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight'
     },

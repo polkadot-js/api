@@ -11,7 +11,6 @@
 export { default as Compact } from './Compact';
 // export { default as Date } from './Date';
 export { default as Enum } from './Enum';
-export { default as EnumType } from './EnumType';
 export { default as Option } from './Option';
 export { default as Set } from './Set';
 export { default as Struct } from './Struct';
