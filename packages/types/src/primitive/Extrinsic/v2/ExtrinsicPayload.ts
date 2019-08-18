@@ -11,12 +11,6 @@ import Bytes from '../../../primitive/Bytes';
 import ExtrinsicEra from '../ExtrinsicEra';
 import { sign } from '../util';
 
-// NOTE for V2 the Signed extra is of this form
-//   system::CheckEra<Runtime>,
-//   system::CheckNonce<Runtime>,
-//   system::CheckWeight<Runtime>, // no impact, value
-//   balances::TakeFees<Runtime>
-
 // SignedExtra adds the following fields to the payload
 const SignedExtraV2: Record<string, InterfaceTypes> = {
   // system::CheckEra<Runtime>
