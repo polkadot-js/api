@@ -14,13 +14,13 @@ import { Codec } from '../../types';
 import getUniqTypes from './getUniqTypes';
 
 /**
- * Given the static `rpcData` and the `latestSubstrate` JSON file, Metadata
- * should decode `rpcData` and output `latestSubstrate`.
+ * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
+ * should decode `rpcData` and output `staticSubstrate`.
  */
 export function decodeLatestSubstrate<Modules extends Codec> (
   version: number,
   rpcData: string,
-  latestSubstrate: object
+  staticSubstrate: object
 ): void {
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(rpcData);
@@ -29,7 +29,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 
     expect(metadata.version).toBe(version);
     expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-    expect(metadata.toJSON()).toEqual(latestSubstrate);
+    expect(metadata.toJSON()).toEqual(staticSubstrate);
   });
 }
 
