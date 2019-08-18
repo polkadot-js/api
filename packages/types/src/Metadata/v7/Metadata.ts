@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventMetadataV7, FunctionMetadataV7, ModuleConstantMetadataV7 } from '../../interfaces/metadata/types';
+import { EventMetadataV7, FunctionMetadataV7, ModuleConstantMetadataV7 } from '../../interfaces/metadata';
+import { Constructor } from '../../types';
 import { MetadataInterface } from '../types';
 
 import Option from '../../codec/Option';
@@ -70,22 +71,14 @@ export class ModuleMetadataV7 extends Struct {
   }
 }
 
+// @ts-ignore We can ignore the properties, added via Struct.with
+const _MetadataV7: Constructor<MetadataInterface<ModuleMetadataV7>> = Struct.with({
+  modules: Vec.with(ModuleMetadataV7)
+});
+
 /**
  * @name MetadataV7
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV7 extends Struct implements MetadataInterface<ModuleMetadataV7> {
-  public constructor (value?: any) {
-    super({
-      modules: Vec.with(ModuleMetadataV7)
-    }, value);
-  }
-
-  /**
-   * @description The associated modules for this structure
-   */
-  public get modules (): Vec<ModuleMetadataV7> {
-    return this.get('modules') as Vec<ModuleMetadataV7>;
-  }
-}
+export default class MetadataV7 extends _MetadataV7 {}
