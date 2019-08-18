@@ -9,7 +9,7 @@ import Text from '../../primitive/Text';
 import MetadataV4 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV5 from '../v5';
-import { ModuleMetadata as ModuleMetadataV5 } from '../v5/Metadata';
+import { ModuleMetadataV5 } from '../v5/Metadata';
 import { StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
 import { StorageFunctionMetadata as StorageFunctionMetadataV4 } from './Storage';
 

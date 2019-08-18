@@ -4,7 +4,7 @@
 
 import MetadataV6 from './Metadata';
 import MetadataV7 from '../v7';
-import { ModuleMetadata as ModuleMetadataV7 } from '../v7/Metadata';
+import { ModuleMetadataV7 } from '../v7/Metadata';
 import { StorageMetadata as StorageV7 } from '../v7/Storage';
 
 /**

@@ -29,7 +29,7 @@ describe('createType', (): void => {
   it('allows creation of a Enum (simple)', (): void => {
     expect(
       createTypeUnsafe('{"_enum": ["A", "B", "C"]}', [1]).toJSON()
-    ).toEqual({ B: null });
+    ).toEqual(1);
   });
 
   it('allows creation of a Enum (parametrised)', (): void => {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV3 } from '../../interfaces/metadata/types';
+import { DoubleMapTypeV3, MapTypeV3, PlainTypeV3, StorageFunctionModifierV3 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -12,21 +12,13 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MapType, PlainType, StorageFunctionModifier } from '../v2/Storage';
-
-// Re-export classes that haven't changed between V2 and V3
-export {
-  MapType,
-  PlainType,
-  StorageFunctionModifier
-};
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType,
-      MapType,
-      DoubleMapType: 'DoubleMapTypeV3'
+      Type: 'PlainTypeV3',
+      Map: 'MapTypeV3',
+      DoubleMap: 'DoubleMapTypeV3'
     }, value, index);
   }
 
@@ -42,19 +34,19 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV3 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV3;
   }
 
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainType {
+  public get asType (): PlainTypeV3 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
-    return this.value as PlainType;
+    return this.value as PlainTypeV3;
   }
 
   /**
@@ -87,7 +79,7 @@ export class StorageFunctionType extends Enum {
     }
 
     if (this.isMap) {
-      if (this.asMap.isLinked) {
+      if (this.asMap.linked.isTrue) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
 
@@ -100,7 +92,7 @@ export class StorageFunctionType extends Enum {
 
 export interface StorageFunctionMetadataValue {
   name: string | Text;
-  modifier: StorageFunctionModifier | AnyNumber;
+  modifier: StorageFunctionModifierV3 | AnyNumber;
   type: StorageFunctionType;
   fallback: Bytes;
   documentation: Vec<Text> | string[];
@@ -114,11 +106,11 @@ export interface StorageFunctionMetadataValue {
 export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
-      name: Text,
-      modifier: StorageFunctionModifier,
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV3',
       type: StorageFunctionType,
-      fallback: Bytes,
-      documentation: Vec.with(Text)
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
     }, value);
   }
 
@@ -137,10 +129,10 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   /**
-   * @description The [[MetadataArgument]] for arguments
+   * @description The [[StorageFunctionModifierV3]] for arguments
    */
-  public get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
+  public get modifier (): StorageFunctionModifierV3 {
+    return this.get('modifier') as StorageFunctionModifierV3;
   }
 
   /**

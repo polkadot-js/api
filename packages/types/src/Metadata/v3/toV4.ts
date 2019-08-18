@@ -6,8 +6,8 @@ import { createType, Option, Vec } from '../../codec';
 import MetadataV3 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV4 from '../v4';
-import { ModuleMetadata as ModuleMetadataV4 } from '../v4/Metadata';
-import { MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
+import { ModuleMetadataV4 } from '../v4/Metadata';
+import { StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
 import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage';
 
 /**
@@ -22,11 +22,11 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
   const [newType, index] = type.isPlainType
     ? [type, 0]
     : type.isMap
-      ? [new MapType({
+      ? [createType('MapTypeV4', {
         hasher: new StorageHasher('Twox128'),
         key: type.asMap.key,
         value: type.asMap.value,
-        isLinked: type.asMap.isLinked
+        linked: type.asMap.linked
       }), 1]
       : [createType('DoubleMapTypeV4', {
         hasher: new StorageHasher('Twox128'),

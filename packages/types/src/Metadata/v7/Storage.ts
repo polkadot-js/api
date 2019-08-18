@@ -5,22 +5,19 @@
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import { MapType, PlainType, StorageEntryMetadata, StorageEntryMetadataValue, StorageEntryModifier, StorageEntryType } from '../v6/Storage';
+import { StorageEntryMetadata, StorageEntryMetadataValue, StorageEntryType } from '../v6/Storage';
 
 // Re-export classes that haven't changed between V6 and V7
 export {
-  MapType,
-  PlainType,
   StorageEntryMetadata,
   StorageEntryMetadataValue,
-  StorageEntryModifier,
   StorageEntryType
 };
 
 export class StorageMetadata extends Struct {
   public constructor (value?: any) {
     super({
-      prefix: Text,
+      prefix: 'Text',
       // NOTE renamed to items from entries (since Struct already has entries from Map)
       items: Vec.with(StorageEntryMetadata)
     }, value);

@@ -1,7 +1,7 @@
 {
   "magicNumber": 1635018093,
   "metadata": {
-    "MetadataV3": {
+    "V5": {
       "modules": [
         {
           "name": "system",
@@ -9,12 +9,13 @@
           "storage": [
             {
               "name": "AccountNonce",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Index",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000",
@@ -24,9 +25,9 @@
             },
             {
               "name": "ExtrinsicCount",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
@@ -34,24 +35,25 @@
               ]
             },
             {
-              "name": "AllExtrinsicsLen",
-              "modifier": "Optional",
+              "name": "AllExtrinsicsWeight",
+              "modifier": 0,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
-                " Total length in bytes for all extrinsics put together, for the current block."
+                " Total weight for all extrinsics put together, for the current block."
               ]
             },
             {
               "name": "BlockHash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Hash",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -61,35 +63,37 @@
             },
             {
               "name": "ExtrinsicData",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "u32",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " Extrinsics data for the current block (maps extrinsic's index to its data)."
+                " Extrinsics data for the current block (maps an extrinsic's index to its data)."
               ]
             },
             {
-              "name": "RandomSeed",
-              "modifier": "Default",
+              "name": "RandomMaterial",
+              "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "(i8,Vec<Hash>)"
               },
-              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "fallback": "0x0000",
               "documentation": [
-                " Random seed of the current block."
+                " Series of block headers from the last 81 blocks that acts as random seed material. This is arranged as a",
+                " ring buffer with the `i8` prefix being the index into the `Vec` of the oldest hash."
               ]
             },
             {
               "name": "Number",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -98,9 +102,9 @@
             },
             {
               "name": "ParentHash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -109,9 +113,9 @@
             },
             {
               "name": "ExtrinsicsRoot",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -120,9 +124,9 @@
             },
             {
               "name": "Digest",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Digest"
+                "Type": "DigestOf"
               },
               "fallback": "0x00",
               "documentation": [
@@ -131,155 +135,57 @@
             },
             {
               "name": "Events",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<EventRecord>"
+                "Type": "Vec<EventRecord>"
               },
               "fallback": "0x00",
               "documentation": [
                 " Events deposited for the current block."
               ]
-            }
-          ],
-          "calls": null,
-          "events": [
-            {
-              "name": "ExtrinsicSuccess",
-              "args": [],
-              "documentation": [
-                " An extrinsic completed successfully."
-              ]
             },
             {
-              "name": "ExtrinsicFailed",
-              "args": [],
-              "documentation": [
-                " An extrinsic failed."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "aura",
-          "prefix": "",
-          "storage": null,
-          "calls": null,
-          "events": null
-        },
-        {
-          "name": "timestamp",
-          "prefix": "Timestamp",
-          "storage": [
-            {
-              "name": "Now",
-              "modifier": "Default",
+              "name": "EventCount",
+              "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "Type": "EventIndex"
               },
-              "fallback": "0x0000000000000000",
+              "fallback": "0x00000000",
               "documentation": [
-                " Current time for the current block."
+                " The number of events in the `Events<T>` list."
               ]
             },
             {
-              "name": "BlockPeriod",
-              "modifier": "Optional",
+              "name": "EventTopics",
+              "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "DoubleMap": {
+                  "hasher": "Blake2_256",
+                  "key1": "Null",
+                  "key2": "Hash",
+                  "value": "Vec<(BlockNumber,EventIndex)>",
+                  "key2Hasher": "Blake2_256"
+                }
               },
               "fallback": "0x00",
               "documentation": [
-                " Old storage item provided for compatibility. Remove after all networks upgraded."
-              ]
-            },
-            {
-              "name": "MinimumPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Moment"
-              },
-              "fallback": "0x0300000000000000",
-              "documentation": [
-                " The minimum period between blocks. Beware that this is different to the *expected* period",
-                " that the block production apparatus provides. Your chosen consensus system will generally",
-                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
-                " period on default settings."
-              ]
-            },
-            {
-              "name": "DidUpdate",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "bool"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Did the timestamp get updated in this block?"
+                " Mapping between a topic (represented by T::Hash) and a vector of indexes",
+                " of events in the `<Events<T>>` list.",
+                "",
+                " The first key serves no purpose. This field is declared as double_map just",
+                " for convenience of using `remove_prefix`.",
+                "",
+                " All topic vectors have deterministic storage locations depending on the topic. This",
+                " allows light-clients to leverage the changes trie storage tracking mechanism and",
+                " in case of changes fetch the list of events of interest.",
+                "",
+                " The value has the type `(T::BlockNumber, EventIndex)` because if we used only just",
+                " the `EventIndex` then in case if the topic has the same contents on the next block",
+                " no notification will be triggered thus the event might be lost."
               ]
             }
           ],
           "calls": [
-            {
-              "name": "set",
-              "args": [
-                {
-                  "name": "now",
-                  "type": "Compact<Moment>"
-                }
-              ],
-              "documentation": [
-                " Set the current time.",
-                "",
-                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
-                " if this call hasn't been invoked by that time.",
-                "",
-                " The timestamp should be greater than the previous one by the amount specified by `minimum_period`.",
-                " ",
-                " The dispatch origin for this call must be `Inherent`."
-              ]
-            }
-          ],
-          "events": null
-        },
-        {
-          "name": "consensus",
-          "prefix": "Consensus",
-          "storage": [
-            {
-              "name": "OriginalAuthorities",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "Vec<SessionKey>"
-              },
-              "fallback": "0x00",
-              "documentation": []
-            }
-          ],
-          "calls": [
-            {
-              "name": "report_misbehavior",
-              "args": [
-                {
-                  "name": "_report",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Report some misbehavior."
-              ]
-            },
-            {
-              "name": "note_offline",
-              "args": [
-                {
-                  "name": "offline",
-                  "type": "InherentOfflineReport"
-                }
-              ],
-              "documentation": [
-                " Note the previous block's validator missed their opportunity to propose a block."
-              ]
-            },
             {
               "name": "remark",
               "args": [
@@ -341,6 +247,103 @@
               ]
             }
           ],
+          "events": [
+            {
+              "name": "ExtrinsicSuccess",
+              "args": [],
+              "documentation": [
+                " An extrinsic completed successfully."
+              ]
+            },
+            {
+              "name": "ExtrinsicFailed",
+              "args": [],
+              "documentation": [
+                " An extrinsic failed."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "aura",
+          "prefix": "",
+          "storage": null,
+          "calls": null,
+          "events": null
+        },
+        {
+          "name": "timestamp",
+          "prefix": "Timestamp",
+          "storage": [
+            {
+              "name": "Now",
+              "modifier": 1,
+              "type": {
+                "Type": "Moment"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " Current time for the current block."
+              ]
+            },
+            {
+              "name": "BlockPeriod",
+              "modifier": 0,
+              "type": {
+                "Type": "Moment"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Old storage item provided for compatibility. Remove after all networks upgraded."
+              ]
+            },
+            {
+              "name": "MinimumPeriod",
+              "modifier": 1,
+              "type": {
+                "Type": "Moment"
+              },
+              "fallback": "0x0300000000000000",
+              "documentation": [
+                " The minimum period between blocks. Beware that this is different to the *expected* period",
+                " that the block production apparatus provides. Your chosen consensus system will generally",
+                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
+                " period on default settings."
+              ]
+            },
+            {
+              "name": "DidUpdate",
+              "modifier": 1,
+              "type": {
+                "Type": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Did the timestamp get updated in this block?"
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set",
+              "args": [
+                {
+                  "name": "now",
+                  "type": "Compact<Moment>"
+                }
+              ],
+              "documentation": [
+                " Set the current time.",
+                "",
+                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
+                " if this call hasn't been invoked by that time.",
+                "",
+                " The timestamp should be greater than the previous one by the amount specified by `minimum_period`.",
+                "",
+                " The dispatch origin for this call must be `Inherent`."
+              ]
+            }
+          ],
           "events": null
         },
         {
@@ -349,9 +352,9 @@
           "storage": [
             {
               "name": "NextEnumSet",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "AccountIndex"
+                "Type": "AccountIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -360,12 +363,13 @@
             },
             {
               "name": "EnumSet",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -397,9 +401,9 @@
           "storage": [
             {
               "name": "TotalIssuance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -408,9 +412,9 @@
             },
             {
               "name": "ExistentialDeposit",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -419,9 +423,9 @@
             },
             {
               "name": "TransferFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -430,9 +434,9 @@
             },
             {
               "name": "CreationFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -441,9 +445,9 @@
             },
             {
               "name": "TransactionBaseFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -452,9 +456,9 @@
             },
             {
               "name": "TransactionByteFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -463,12 +467,13 @@
             },
             {
               "name": "Vesting",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VestingSchedule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -478,12 +483,13 @@
             },
             {
               "name": "FreeBalance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -503,12 +509,13 @@
             },
             {
               "name": "ReservedBalance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -528,12 +535,13 @@
             },
             {
               "name": "Locks",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -563,7 +571,22 @@
                 " If the sender's account is below the existential deposit as a result",
                 " of the transfer, the account will be reaped.",
                 "",
-                " The dispatch origin for this call must be `Signed` by the transactor."
+                " The dispatch origin for this call must be `Signed` by the transactor.",
+                "",
+                " # <weight>",
+                " - Dependent on arguments but not critical, given proper implementations for",
+                "   input config types. See related functions below.",
+                " - It contains a limited number of reads and writes internally and no complex computation.",
+                "",
+                " Related functions:",
+                "",
+                "   - `ensure_can_withdraw` is always called internally but has a bounded complexity.",
+                "   - Transferring balances to accounts that did not exist before will cause",
+                "      `T::OnNewAccount::on_new_account` to be called.",
+                "   - Removing enough funds from an account will trigger",
+                "     `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`.",
+                "",
+                " # </weight>"
               ]
             },
             {
@@ -574,23 +597,28 @@
                   "type": "Address"
                 },
                 {
-                  "name": "free",
+                  "name": "new_free",
                   "type": "Compact<Balance>"
                 },
                 {
-                  "name": "reserved",
+                  "name": "new_reserved",
                   "type": "Compact<Balance>"
                 }
               ],
               "documentation": [
                 " Set the balances of a given account.",
                 "",
-                " This will alter `FreeBalance` and `ReservedBalance` in storage.",
+                " This will alter `FreeBalance` and `ReservedBalance` in storage. it will",
+                " also decrease the total issuance of the system (`TotalIssuance`).",
                 " If the new free or reserved balance is below the existential deposit,",
-                " it will also decrease the total issuance of the system (`TotalIssuance`)",
-                " and reset the account nonce (`system::AccountNonce`).",
+                " it will reset the account nonce (`system::AccountNonce`).",
                 "",
-                " The dispatch origin for this call is `root`."
+                " The dispatch origin for this call is `root`.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments.",
+                " - Contains a limited number of reads and writes.",
+                " # </weight>"
               ]
             }
           ],
@@ -634,9 +662,9 @@
           "storage": [
             {
               "name": "Validators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -644,69 +672,36 @@
               ]
             },
             {
-              "name": "SessionLength",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " Current length of the session."
-              ]
-            },
-            {
               "name": "CurrentIndex",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "SessionIndex"
               },
-              "fallback": "0x0000000000000000",
+              "fallback": "0x00000000",
               "documentation": [
                 " Current index of the session."
               ]
             },
             {
-              "name": "CurrentStart",
-              "modifier": "Default",
+              "name": "Changed",
+              "modifier": 1,
               "type": {
-                "PlainType": "Moment"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " Timestamp when current session started."
-              ]
-            },
-            {
-              "name": "ForcingNewSession",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
-                " New session is being forced is this entry exists; in which case, the boolean value is whether",
-                " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
-              ]
-            },
-            {
-              "name": "LastLengthChange",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Block at which the session length last changed."
+                " True if anything has changed in this session."
               ]
             },
             {
               "name": "NextKeyFor",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "SessionKey",
-                  "isLinked": false
+                  "value": "Keys",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -715,53 +710,46 @@
               ]
             },
             {
-              "name": "NextSessionLength",
-              "modifier": "Optional",
+              "name": "Active",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "u32",
+                  "value": "Vec<OpaqueKey>",
+                  "linked": false
+                }
               },
               "fallback": "0x00",
               "documentation": [
-                " The next session length."
+                " The keys that are currently active."
               ]
             }
           ],
           "calls": [
             {
-              "name": "set_key",
+              "name": "set_keys",
               "args": [
                 {
-                  "name": "key",
-                  "type": "SessionKey"
+                  "name": "keys",
+                  "type": "Keys"
+                },
+                {
+                  "name": "proof",
+                  "type": "Bytes"
                 }
               ],
               "documentation": [
-                " Sets the session key of `_validator` to `_key`. This doesn't take effect until the next",
-                " session."
-              ]
-            },
-            {
-              "name": "set_length",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": [
-                " Set a new session length. Won't kick in until the next session change (at current length)."
-              ]
-            },
-            {
-              "name": "force_new_session",
-              "args": [
-                {
-                  "name": "apply_rewards",
-                  "type": "bool"
-                }
-              ],
-              "documentation": [
-                " Forces a new session."
+                " Sets the session key(s) of the function caller to `key`.",
+                " Allows an account to set its session key prior to becoming a validator.",
+                " This doesn't take effect until the next session.",
+                "",
+                " The dispatch origin of this function must be signed.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - One extra DB entry.",
+                " # </weight>"
               ]
             }
           ],
@@ -769,7 +757,7 @@
             {
               "name": "NewSession",
               "args": [
-                "BlockNumber"
+                "SessionIndex"
               ],
               "documentation": [
                 " New session has happened. Note that the argument is the session index, not the block",
@@ -784,9 +772,9 @@
           "storage": [
             {
               "name": "ValidatorCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -795,9 +783,9 @@
             },
             {
               "name": "MinimumValidatorCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x04000000",
               "documentation": [
@@ -805,21 +793,10 @@
               ]
             },
             {
-              "name": "SessionsPerEra",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " The length of a staking era in sessions."
-              ]
-            },
-            {
               "name": "SessionReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x3c000000",
               "documentation": [
@@ -828,9 +805,9 @@
             },
             {
               "name": "OfflineSlash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x40420f00",
               "documentation": [
@@ -839,9 +816,9 @@
             },
             {
               "name": "OfflineSlashGrace",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -849,36 +826,27 @@
               ]
             },
             {
-              "name": "BondingDuration",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " The length of the bonding duration in blocks."
-              ]
-            },
-            {
               "name": "Invulnerables",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
-                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialize",
-                " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
+                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're",
+                " easy to initialize and the performance hit is minimal (we expect no more than four",
+                " invulnerables) and restricted to testnets."
               ]
             },
             {
               "name": "Bonded",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -888,12 +856,13 @@
             },
             {
               "name": "Ledger",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "StakingLedger",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -903,12 +872,13 @@
             },
             {
               "name": "Payee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "RewardDestination",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -918,12 +888,13 @@
             },
             {
               "name": "Validators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x0c00",
@@ -933,12 +904,13 @@
             },
             {
               "name": "Nominators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x00",
@@ -948,27 +920,28 @@
             },
             {
               "name": "Stakers",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Exposure",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x000000",
               "documentation": [
-                " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
-                " but you can find them in the `sessions` module.",
+                " Nominators for a particular account that is in action right now. You can't iterate",
+                " through validators here, but you can find them in the Session module.",
                 "",
                 " This is keyed by the stash account."
               ]
             },
             {
               "name": "CurrentElected",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -977,20 +950,20 @@
             },
             {
               "name": "CurrentEra",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "EraIndex"
               },
-              "fallback": "0x0000000000000000",
+              "fallback": "0x00000000",
               "documentation": [
                 " The current era index."
               ]
             },
             {
               "name": "CurrentSessionReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -999,43 +972,21 @@
             },
             {
               "name": "CurrentEraReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
-                " The accumulated reward for the current era. Reset to zero at the beginning of the era and",
-                " increased for every successfully finished session."
-              ]
-            },
-            {
-              "name": "NextSessionsPerEra",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The next value of sessions per era."
-              ]
-            },
-            {
-              "name": "LastEraLengthChange",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " The session index at which the era length last changed."
+                " The accumulated reward for the current era. Reset to zero at the beginning of the era",
+                " and increased for every successfully finished session."
               ]
             },
             {
               "name": "SlotStake",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1046,39 +997,42 @@
             },
             {
               "name": "SlashCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "u32",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000",
               "documentation": [
-                " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
-              ]
-            },
-            {
-              "name": "ForcingNewEra",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "Null"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " We are forcing a new era."
+                " The number of times a given validator has been reported offline. This gets decremented",
+                " by one each era that passes."
               ]
             },
             {
               "name": "RecentlyOffline",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
+                "Type": "Vec<(AccountId,BlockNumber,u32)>"
               },
               "fallback": "0x00",
               "documentation": [
-                " Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for)."
+                " Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how",
+                " many instances they were offline for)."
+              ]
+            },
+            {
+              "name": "ForceNewEra",
+              "modifier": 1,
+              "type": {
+                "Type": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " True if the next session change will be a new era regardless of index."
               ]
             }
           ],
@@ -1100,10 +1054,23 @@
                 }
               ],
               "documentation": [
-                " Take the origin account as a stash and lock up `value` of its balance. `controller` will be the",
-                " account that controls it.",
+                " Take the origin account as a stash and lock up `value` of its balance. `controller` will",
+                " be the  account that controls it.",
                 "",
-                " The dispatch origin for this call must be _Signed_."
+                " The dispatch origin for this call must be _Signed_ by the stash account.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Moderate complexity.",
+                " - O(1).",
+                " - Three extra DB entries.",
+                "",
+                " NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless",
+                " the `origin` falls below _existential deposit_ and gets removed as dust.",
+                "",
+                " NOTE: At the moment, there are no financial restrictions to bond",
+                " (which creates a bunch of storage items for an account). In essence, nothing prevents many accounts from",
+                " spamming `Staking` storage by bonding 1 UNIT. See test case: `bond_with_no_staked_value`.",
+                " # </weight>"
               ]
             },
             {
@@ -1115,12 +1082,18 @@
                 }
               ],
               "documentation": [
-                " Add some extra amount that have appeared in the stash `free_balance` into the balance up for",
-                " staking.",
+                " Add some extra amount that have appeared in the stash `free_balance` into the balance up",
+                " for  staking.",
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the stash, not the controller."
+                " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Insignificant complexity.",
+                " - O(1).",
+                " - One DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -1139,9 +1112,22 @@
                 " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
                 " the funds out of management ready for transfer.",
                 "",
+                " No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)",
+                " can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need",
+                " to be called first to remove some of the chunks (if possible).",
+                "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
-                " See also [`Call::withdraw_unbonded`]."
+                " See also [`Call::withdraw_unbonded`].",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Limited but potentially exploitable complexity.",
+                " - Contains a limited number of reads.",
+                " - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)",
+                "   will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.",
+                "   The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`.",
+                " - One DB entry.",
+                " </weight>"
               ]
             },
             {
@@ -1155,7 +1141,15 @@
                 "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
-                " See also [`Call::unbond`]."
+                " See also [`Call::unbond`].",
+                "",
+                " # <weight>",
+                " - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies",
+                "   `consolidate_unlocked` which loops over `Ledger.unlocking`, which is indirectly",
+                "   user-controlled. See [`unbond`] for more detail.",
+                " - Contains a limited number of reads, yet the size of which could be large based on `ledger`.",
+                " - Writes are limited to the `origin` account key.",
+                " # </weight>"
               ]
             },
             {
@@ -1171,7 +1165,13 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Insignificant complexity.",
+                " - Contains a limited number of reads.",
+                " - Writes are limited to the `origin` account key.",
+                " # </weight>"
               ]
             },
             {
@@ -1187,7 +1187,13 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " # <weight>",
+                " - The transaction's complexity is proportional to the size of `targets`,",
+                " which is capped at `MAX_NOMINATIONS`.",
+                " - Both the reads and writes follow a similar pattern.",
+                " # </weight>"
               ]
             },
             {
@@ -1198,7 +1204,13 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Insignificant complexity.",
+                " - Contains one read.",
+                " - Writes are limited to the `origin` account key.",
+                " # </weight>"
               ]
             },
             {
@@ -1214,7 +1226,13 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Insignificant complexity.",
+                " - Contains a limited number of reads.",
+                " - Writes are limited to the `origin` account key.",
+                " # </weight>"
               ]
             },
             {
@@ -1230,31 +1248,13 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the stash, not the controller."
-              ]
-            },
-            {
-              "name": "set_sessions_per_era",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": [
-                " Set the number of sessions in an era."
-              ]
-            },
-            {
-              "name": "set_bonding_duration",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": [
-                " The length of the bonding duration in eras."
+                " The dispatch origin for this call must be _Signed_ by the stash, not the controller.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments. Insignificant complexity.",
+                " - Contains a limited number of reads.",
+                " - Writes are limited to the `origin` account key.",
+                " # </weight>"
               ]
             },
             {
@@ -1271,15 +1271,16 @@
             },
             {
               "name": "force_new_era",
-              "args": [
-                {
-                  "name": "apply_rewards",
-                  "type": "bool"
-                }
-              ],
+              "args": [],
               "documentation": [
                 " Force there to be a new era. This also forces a new session immediately after.",
-                " `apply_rewards` should be true for validators to get the session reward."
+                " `apply_rewards` should be true for validators to get the session reward.",
+                "",
+                " # <weight>",
+                " - Independent of the arguments.",
+                " - Triggers the Phragmen election. Expensive but not user-controlled.",
+                " - Depends on state: `O(|edges| * |validators|)`.",
+                " # </weight>"
               ]
             },
             {
@@ -1324,8 +1325,8 @@
                 "u32"
               ],
               "documentation": [
-                " One validator (and their nominators) has been given a offline-warning (they're still",
-                " within their grace). The accrued number of slashes is recorded, too."
+                " One validator (and its nominators) has been given an offline-warning (it is still",
+                " within its grace). The accrued number of slashes is recorded, too."
               ]
             },
             {
@@ -1335,7 +1336,7 @@
                 "Balance"
               ],
               "documentation": [
-                " One validator (and their nominators) has been slashed by the given amount."
+                " One validator (and its nominators) has been slashed by the given amount."
               ]
             }
           ]
@@ -1346,9 +1347,9 @@
           "storage": [
             {
               "name": "PublicPropCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "PropIndex"
+                "Type": "PropIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1357,9 +1358,9 @@
             },
             {
               "name": "PublicProps",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
+                "Type": "Vec<(PropIndex,Proposal,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1368,12 +1369,13 @@
             },
             {
               "name": "DepositOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1382,76 +1384,21 @@
               ]
             },
             {
-              "name": "LaunchPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " How often (in blocks) new public referenda are launched."
-              ]
-            },
-            {
-              "name": "MinimumDeposit",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The minimum amount to be used as a deposit for a public referendum proposal."
-              ]
-            },
-            {
-              "name": "PublicDelay",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " The delay before enactment for all public referenda."
-              ]
-            },
-            {
-              "name": "MaxLockPeriods",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "LockPeriods"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
-              ]
-            },
-            {
-              "name": "VotingPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " How often (in blocks) to check for new votes."
-              ]
-            },
-            {
               "name": "ReferendumCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
-                " The next free referendum index, aka the number of referendums started so far."
+                " The next free referendum index, aka the number of referenda started so far."
               ]
             },
             {
               "name": "NextTally",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1460,12 +1407,13 @@
             },
             {
               "name": "ReferendumInfoOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1475,12 +1423,13 @@
             },
             {
               "name": "DispatchQueue",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1490,12 +1439,13 @@
             },
             {
               "name": "VotersFor",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1505,34 +1455,113 @@
             },
             {
               "name": "VoteOf",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
-                " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
-                " `voters_for`, then you can also check for simple existence with `VoteOf::exists` first."
+                " Get the vote in a given referendum of a particular voter. The result is meaningful only",
+                " if `voters_for` includes the voter when called with the referendum (you'll get the",
+                " default `Vote` value otherwise). If you don't want to check `voters_for`, then you can",
+                " also check for simple existence with `VoteOf::exists` first."
+              ]
+            },
+            {
+              "name": "Proxy",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "AccountId",
+                  "value": "AccountId",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Who is able to vote for whom. Value is the fund-holding account, key is the",
+                " vote-transaction-sending account."
               ]
             },
             {
               "name": "Delegations",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "(AccountId,LockPeriods)",
-                  "isLinked": true
+                  "value": "(AccountId,Conviction)",
+                  "linked": true
                 }
               },
               "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
                 " Get the account (and lock periods) to which another account is delegating vote."
+              ]
+            },
+            {
+              "name": "LastTabledWasExternal",
+              "modifier": 1,
+              "type": {
+                "Type": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " True if the last referendum tabled was submitted externally. False if it was a public",
+                " proposal."
+              ]
+            },
+            {
+              "name": "NextExternal",
+              "modifier": 0,
+              "type": {
+                "Type": "(Proposal,VoteThreshold)"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The referendum to be tabled whenever it would be valid to table an external proposal.",
+                " This happens when a referendum needs to be tabled and one of two conditions are met:",
+                " - `LastTabledWasExternal` is `false`; or",
+                " - `PublicProps` is empty."
+              ]
+            },
+            {
+              "name": "Blacklist",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "(BlockNumber,Vec<AccountId>)",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " A record of who vetoed what. Maps proposal hash to a possible existent block number",
+                " (until when it may not be resubmitted) and who vetoed it."
+              ]
+            },
+            {
+              "name": "Cancellations",
+              "modifier": 1,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "bool",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Record of all proposals that have been subject to emergency cancellation."
               ]
             }
           ],
@@ -1550,7 +1579,12 @@
                 }
               ],
               "documentation": [
-                " Propose a sensitive action to be taken."
+                " Propose a sensitive action to be taken.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Two DB changes, one DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -1562,7 +1596,12 @@
                 }
               ],
               "documentation": [
-                " Propose a sensitive action to be taken."
+                " Propose a sensitive action to be taken.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - One DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -1579,11 +1618,38 @@
               ],
               "documentation": [
                 " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
-                " otherwise it is a vote to keep the status quo."
+                " otherwise it is a vote to keep the status quo.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - One DB change, one DB entry.",
+                " # </weight>"
               ]
             },
             {
-              "name": "start_referendum",
+              "name": "proxy_vote",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": "Compact<ReferendumIndex>"
+                },
+                {
+                  "name": "vote",
+                  "type": "Vote"
+                }
+              ],
+              "documentation": [
+                " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
+                " the proposal;  otherwise it is a vote to keep the status quo.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - One DB change, one DB entry.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "emergency_propose",
               "args": [
                 {
                   "name": "proposal",
@@ -1594,12 +1660,72 @@
                   "type": "VoteThreshold"
                 },
                 {
+                  "name": "voting_period",
+                  "type": "BlockNumber"
+                },
+                {
                   "name": "delay",
                   "type": "BlockNumber"
                 }
               ],
               "documentation": [
-                " Start a referendum."
+                " Schedule an emergency referendum.",
+                "",
+                " This will create a new referendum for the `proposal`, approved as long as counted votes",
+                " exceed `threshold` and, if approved, enacted after the given `delay`.",
+                "",
+                " It may be called from either the Root or the Emergency origin."
+              ]
+            },
+            {
+              "name": "emergency_cancel",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Schedule an emergency cancellation of a referendum. Cannot happen twice to the same",
+                " referendum."
+              ]
+            },
+            {
+              "name": "external_propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a referendum to be tabled once it is legal to schedule an external",
+                " referendum."
+              ]
+            },
+            {
+              "name": "external_propose_majority",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
+                " an external referendum."
+              ]
+            },
+            {
+              "name": "veto_external",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Veto and blacklist the external proposal hash."
               ]
             },
             {
@@ -1624,10 +1750,57 @@
                 {
                   "name": "which",
                   "type": "Compact<u32>"
+                },
+                {
+                  "name": "what",
+                  "type": "Compact<ReferendumIndex>"
                 }
               ],
               "documentation": [
                 " Cancel a proposal queued for enactment."
+              ]
+            },
+            {
+              "name": "set_proxy",
+              "args": [
+                {
+                  "name": "proxy",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Specify a proxy. Called by the stash.",
+                "",
+                " # <weight>",
+                " - One extra DB entry.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "resign_proxy",
+              "args": [],
+              "documentation": [
+                " Clear the proxy. Called by the proxy.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "remove_proxy",
+              "args": [
+                {
+                  "name": "proxy",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Clear the proxy. Called by the stash.",
+                "",
+                " # <weight>",
+                " - One DB clear.",
+                " # </weight>"
               ]
             },
             {
@@ -1638,19 +1811,27 @@
                   "type": "AccountId"
                 },
                 {
-                  "name": "lock_periods",
-                  "type": "LockPeriods"
+                  "name": "conviction",
+                  "type": "Conviction"
                 }
               ],
               "documentation": [
-                " Delegate vote."
+                " Delegate vote.",
+                "",
+                " # <weight>",
+                " - One extra DB entry.",
+                " # </weight>"
               ]
             },
             {
               "name": "undelegate",
               "args": [],
               "documentation": [
-                " Undelegate vote."
+                " Undelegate vote.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " # </weight>"
               ]
             }
           ],
@@ -1670,6 +1851,11 @@
                 "Balance",
                 "Vec<AccountId>"
               ],
+              "documentation": []
+            },
+            {
+              "name": "ExternalTabled",
+              "args": [],
               "documentation": []
             },
             {
@@ -1723,6 +1909,15 @@
                 "AccountId"
               ],
               "documentation": []
+            },
+            {
+              "name": "Vetoed",
+              "args": [
+                "AccountId",
+                "Hash",
+                "BlockNumber"
+              ],
+              "documentation": []
             }
           ]
         },
@@ -1732,9 +1927,9 @@
           "storage": [
             {
               "name": "CandidacyBond",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x09000000000000000000000000000000",
               "documentation": [
@@ -1743,9 +1938,9 @@
             },
             {
               "name": "VotingBond",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -1753,10 +1948,21 @@
               ]
             },
             {
-              "name": "PresentSlashPerVoter",
-              "modifier": "Default",
+              "name": "VotingFee",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " The amount of fee paid upon each vote submission, unless if they submit a _hole_ index and replace it."
+              ]
+            },
+            {
+              "name": "PresentSlashPerVoter",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
               },
               "fallback": "0x01000000000000000000000000000000",
               "documentation": [
@@ -1765,9 +1971,9 @@
             },
             {
               "name": "CarryCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x02000000",
               "documentation": [
@@ -1776,9 +1982,9 @@
             },
             {
               "name": "PresentationDuration",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -1787,21 +1993,21 @@
             },
             {
               "name": "InactiveGracePeriod",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "VoteIndex"
+                "Type": "VoteIndex"
               },
               "fallback": "0x01000000",
               "documentation": [
-                " How many vote indexes need to go by after a target voter's last vote before they can be reaped if their",
+                " How many vote indices need to go by after a target voter's last vote before they can be reaped if their",
                 " approvals are moot."
               ]
             },
             {
               "name": "VotingPeriod",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0xe803000000000000",
               "documentation": [
@@ -1810,9 +2016,9 @@
             },
             {
               "name": "TermDuration",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0500000000000000",
               "documentation": [
@@ -1821,9 +2027,9 @@
             },
             {
               "name": "DesiredSeats",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1831,10 +2037,24 @@
               ]
             },
             {
-              "name": "ActiveCouncil",
-              "modifier": "Default",
+              "name": "DecayRatio",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber)>"
+                "Type": "u32"
+              },
+              "fallback": "0x18000000",
+              "documentation": [
+                " Decay factor of weight when being accumulated. It should typically be set to",
+                " __at least__ `council_size -1` to keep the council secure.",
+                " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight increment step `t`.",
+                " 0 will result in no weight being added at all (normal approval voting)."
+              ]
+            },
+            {
+              "name": "ActiveCouncil",
+              "modifier": 1,
+              "type": {
+                "Type": "Vec<(AccountId,BlockNumber)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1846,39 +2066,44 @@
             },
             {
               "name": "VoteCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "VoteIndex"
+                "Type": "VoteIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
-                " The total number of votes that have happened or are in progress."
+                " The total number of vote rounds that have happened or are in progress."
               ]
             },
             {
               "name": "ApprovalsOf",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "Vec<bool>",
-                  "isLinked": false
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "(AccountId,SetIndex)",
+                  "value": "Vec<ApprovalFlag>",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " A list of votes for each voter, respecting the last cleared vote index that this voter was",
-                " last active at."
+                " A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.",
+                "",
+                " In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].",
+                "",
+                " Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`."
               ]
             },
             {
               "name": "RegisterInfoOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1888,36 +2113,64 @@
               ]
             },
             {
-              "name": "LastActiveOf",
-              "modifier": "Optional",
+              "name": "VoterInfoOf",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "VoteIndex",
-                  "isLinked": false
+                  "value": "VoterInfo",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " The last cleared vote index that this voter was last active at."
+                " Basic information about a voter."
               ]
             },
             {
               "name": "Voters",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "SetIndex",
+                  "value": "Vec<Option<AccountId>>",
+                  "linked": false
+                }
               },
               "fallback": "0x00",
               "documentation": [
-                " The present voter list."
+                " The present voter list (chunked and capped at [`VOTER_SET_SIZE`])."
+              ]
+            },
+            {
+              "name": "NextVoterSet",
+              "modifier": 1,
+              "type": {
+                "Type": "SetIndex"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " the next free set to store a voter in. This will keep growing."
+              ]
+            },
+            {
+              "name": "VoterCount",
+              "modifier": 1,
+              "type": {
+                "Type": "SetIndex"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " Current number of Voters."
               ]
             },
             {
               "name": "Candidates",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1926,18 +2179,20 @@
             },
             {
               "name": "CandidateCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
-              "documentation": []
+              "documentation": [
+                " Current number of active candidates"
+              ]
             },
             {
               "name": "NextFinalize",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
+                "Type": "(BlockNumber,u32,Vec<AccountId>)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1945,25 +2200,15 @@
               ]
             },
             {
-              "name": "SnapshotedStakes",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<BalanceOf>"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The stakes as they were at the point that the vote ended."
-              ]
-            },
-            {
               "name": "Leaderboard",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "Vec<(BalanceOf,AccountId)>"
+                "Type": "Vec<(BalanceOf,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
-                " Get the leaderboard if we;re in the presentation phase."
+                " Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;",
+                " It may be the direct summed approval stakes, or a weighted version of it."
               ]
             }
           ],
@@ -1978,11 +2223,62 @@
                 {
                   "name": "index",
                   "type": "Compact<VoteIndex>"
+                },
+                {
+                  "name": "hint",
+                  "type": "SetIndex"
                 }
               ],
               "documentation": [
                 " Set candidate approvals. Approval slots stay valid as long as candidates in those slots",
-                " are registered."
+                " are registered.",
+                "",
+                " Locks the total balance of caller indefinitely.",
+                " Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.",
+                "",
+                " `hint` argument is interpreted differently based on:",
+                " - if `origin` is setting approvals for the first time: The index will be checked",
+                " for being a valid _hole_ in the voter list.",
+                "   - if the hint is correctly pointing to a hole, no fee is deducted from `origin`.",
+                "   - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk",
+                "   with free space happens. If the new push causes a new chunk to be created, a fee indicated by",
+                "   [`VotingFee`] is deducted.",
+                " - if `origin` is already a voter: the index __must__ be valid and point to the correct",
+                " position of the `origin` in the current voters list.",
+                "",
+                " Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate",
+                " and voting false, are equal.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Two extra DB entries, one DB change.",
+                " - Argument `votes` is limited in length to number of candidates.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "proxy_set_approvals",
+              "args": [
+                {
+                  "name": "votes",
+                  "type": "Vec<bool>"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<VoteIndex>"
+                },
+                {
+                  "name": "hint",
+                  "type": "SetIndex"
+                }
+              ],
+              "documentation": [
+                " Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots",
+                " are registered.",
+                "",
+                " # <weight>",
+                " - Same as `set_approvals` with one additional storage read.",
+                " # </weight>"
               ]
             },
             {
@@ -2010,7 +2306,14 @@
                 " must now be either unregistered or registered to a candidate that registered the slot after",
                 " the voter gave their last approval set.",
                 "",
-                " May be called by anyone. Returns the voter deposit to `signed`."
+                " Both indices must be provided as explained in [`voter_at`] function.",
+                "",
+                " May be called by anyone. Returns the voter deposit to `signed`.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Two fewer DB entries, one DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -2022,7 +2325,16 @@
                 }
               ],
               "documentation": [
-                " Remove a voter. All votes are cancelled and the voter deposit is returned."
+                " Remove a voter. All votes are cancelled and the voter deposit is returned.",
+                "",
+                " The index must be provided as explained in [`voter_at`] function.",
+                "",
+                " Also removes the lock on the balance of the voter. See [`do_set_approvals()`].",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Two fewer DB entries, one DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -2036,7 +2348,17 @@
               "documentation": [
                 " Submit oneself for candidacy.",
                 "",
-                " Account must have enough transferrable funds in it to pay the bond."
+                " Account must have enough transferrable funds in it to pay the bond.",
+                "",
+                " NOTE: if `origin` has already assigned approvals via [`set_approvals`],",
+                " it will NOT have any usable funds to pass candidacy bond and must first retract.",
+                " Note that setting approvals will lock the entire balance of the voter until",
+                " retraction or being reported.",
+                "",
+                " # <weight>",
+                " - Independent of input.",
+                " - Three DB changes.",
+                " # </weight>"
               ]
             },
             {
@@ -2057,8 +2379,13 @@
               ],
               "documentation": [
                 " Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.",
-                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``",
-                " `signed` should have at least"
+                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()`",
+                " `signed` should have at least",
+                "",
+                " # <weight>",
+                " - O(voters) compute.",
+                " - One DB change.",
+                " # </weight>"
               ]
             },
             {
@@ -2071,8 +2398,8 @@
               ],
               "documentation": [
                 " Set the desired member count; if lower than the current count, then seats will not be up",
-                " election when they expire. If more, then a new vote will be started if one is not already",
-                " in progress."
+                " election when they expire. If more, then a new vote will be started if one is not",
+                " already in progress."
               ]
             },
             {
@@ -2084,9 +2411,10 @@
                 }
               ],
               "documentation": [
-                " Remove a particular member. A tally will happen instantly (if not already in a presentation",
-                " period) to fill the seat if removal means that the desired members are not met.",
-                " This is effective immediately."
+                " Remove a particular member from the council. This is effective immediately.",
+                "",
+                " Note: A tally should happen instantly (if not already in a presentation",
+                " period) to fill the seat if removal means that the desired members are not met."
               ]
             },
             {
@@ -2158,208 +2486,29 @@
           ]
         },
         {
-          "name": "council_voting",
-          "prefix": "CouncilVoting",
-          "storage": [
-            {
-              "name": "CooloffPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": []
-            },
-            {
-              "name": "VotingPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0300000000000000",
-              "documentation": []
-            },
-            {
-              "name": "EnactDelayPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
-              ]
-            },
-            {
-              "name": "Proposals",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<(BlockNumber,Hash)>"
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "ProposalOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": "Hash",
-                  "value": "Proposal",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "ProposalVoters",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "Hash",
-                  "value": "Vec<AccountId>",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "CouncilVoteOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": "(Hash,AccountId)",
-                  "value": "bool",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "VetoedProposal",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": "Hash",
-                  "value": "(BlockNumber,Vec<AccountId>)",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            }
-          ],
-          "calls": [
-            {
-              "name": "propose",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "vote",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Hash"
-                },
-                {
-                  "name": "approve",
-                  "type": "bool"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "veto",
-              "args": [
-                {
-                  "name": "proposal_hash",
-                  "type": "Hash"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "set_cooloff_period",
-              "args": [
-                {
-                  "name": "blocks",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "set_voting_period",
-              "args": [
-                {
-                  "name": "blocks",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": []
-            }
-          ],
-          "events": [
-            {
-              "name": "TallyCancelation",
-              "args": [
-                "Hash",
-                "u32",
-                "u32",
-                "u32"
-              ],
-              "documentation": [
-                " A voting tally has happened for a referendum cancellation vote.",
-                " Last three are yes, no, abstain counts."
-              ]
-            },
-            {
-              "name": "TallyReferendum",
-              "args": [
-                "Hash",
-                "u32",
-                "u32",
-                "u32"
-              ],
-              "documentation": [
-                " A voting tally has happened for a referendum vote.",
-                " Last three are yes, no, abstain counts."
-              ]
-            }
-          ]
-        },
-        {
           "name": "council_motions",
           "prefix": "CouncilMotions",
           "storage": [
             {
               "name": "Proposals",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<Hash>"
+                "Type": "Vec<Hash>"
               },
               "fallback": "0x00",
               "documentation": [
-                " The (hashes of) the active proposals."
+                " The hashes of the active proposals."
               ]
             },
             {
               "name": "ProposalOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2369,24 +2518,25 @@
             },
             {
               "name": "Voting",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "Hash",
-                  "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)",
-                  "isLinked": false
+                  "value": "Votes",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
+                " Votes on a given proposal, if it is ongoing."
               ]
             },
             {
               "name": "ProposalCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2396,18 +2546,37 @@
           ],
           "calls": [
             {
+              "name": "execute",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Dispatch a proposal from a councilor using the `Member` origin.",
+                "",
+                " Origin must be a council member."
+              ]
+            },
+            {
               "name": "propose",
               "args": [
                 {
                   "name": "threshold",
-                  "type": "Compact<u32>"
+                  "type": "Compact<MemberCount>"
                 },
                 {
                   "name": "proposal",
                   "type": "Proposal"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage reads and writes.",
+                " - Argument `threshold` has bearing on weight.",
+                " # </weight>"
+              ]
             },
             {
               "name": "vote",
@@ -2425,7 +2594,12 @@
                   "type": "bool"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " # <weight>",
+                " - Bounded storage read and writes.",
+                " - Will be slightly heavier if the proposal is approved / disapproved after the vote.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -2435,10 +2609,11 @@
                 "AccountId",
                 "ProposalIndex",
                 "Hash",
-                "u32"
+                "MemberCount"
               ],
               "documentation": [
-                " A motion (given hash) has been proposed (by given account) with a threshold (given u32)."
+                " A motion (given hash) has been proposed (by given account) with a threshold (given",
+                " `MemberCount`)."
               ]
             },
             {
@@ -2447,12 +2622,12 @@
                 "AccountId",
                 "Hash",
                 "bool",
-                "u32",
-                "u32"
+                "MemberCount",
+                "MemberCount"
               ],
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
-                " a tally (yes votes and no votes given as u32s respectively)."
+                " a tally (yes votes and no votes given respectively as `MemberCount`)."
               ]
             },
             {
@@ -2481,6 +2656,16 @@
               ],
               "documentation": [
                 " A motion was executed; `bool` is true if returned without error."
+              ]
+            },
+            {
+              "name": "MemberExecuted",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A single councillor did some action; `bool` is true if returned without error."
               ]
             }
           ]
@@ -2511,22 +2696,48 @@
           "prefix": "GrandpaFinality",
           "storage": [
             {
-              "name": "PendingChange",
-              "modifier": "Optional",
+              "name": "Authorities",
+              "modifier": 1,
               "type": {
-                "PlainType": "StoredPendingChange"
+                "Type": "Vec<(AuthorityId,AuthorityWeight)>"
               },
               "fallback": "0x00",
-              "documentation": []
+              "documentation": [
+                " The current authority set."
+              ]
+            },
+            {
+              "name": "PendingChange",
+              "modifier": 0,
+              "type": {
+                "Type": "StoredPendingChange"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Pending change: (signaled at, scheduled change)."
+              ]
             },
             {
               "name": "NextForced",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
-              "documentation": []
+              "documentation": [
+                " next block number where we can force a change."
+              ]
+            },
+            {
+              "name": "Stalled",
+              "modifier": 0,
+              "type": {
+                "Type": "(BlockNumber,BlockNumber)"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " `true` if we are currently stalled."
+              ]
             }
           ],
           "calls": [
@@ -2547,7 +2758,7 @@
             {
               "name": "NewAuthorities",
               "args": [
-                "Vec<(SessionKey,u64)>"
+                "Vec<(AuthorityId,u64)>"
               ],
               "documentation": [
                 " New authority set has been applied."
@@ -2561,21 +2772,21 @@
           "storage": [
             {
               "name": "ProposalBond",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Permill"
+                "Type": "Permill"
               },
               "fallback": "0x00000000",
               "documentation": [
-                " Proportion of funds that should be bonded in order to place a proposal. An accepted",
-                " proposal gets these back. A rejected proposal doesn't."
+                " Fraction of a proposal's value that should be bonded in order to place the proposal.",
+                " An accepted proposal gets these back. A rejected proposal does not."
               ]
             },
             {
               "name": "ProposalBondMinimum",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2584,9 +2795,9 @@
             },
             {
               "name": "SpendPeriod",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0100000000000000",
               "documentation": [
@@ -2595,9 +2806,9 @@
             },
             {
               "name": "Burn",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Permill"
+                "Type": "Permill"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2606,9 +2817,9 @@
             },
             {
               "name": "Pot",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2617,9 +2828,9 @@
             },
             {
               "name": "ProposalCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ProposalIndex"
+                "Type": "ProposalIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2628,12 +2839,13 @@
             },
             {
               "name": "Proposals",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "ProposalIndex",
                   "value": "TreasuryProposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2643,9 +2855,9 @@
             },
             {
               "name": "Approvals",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<ProposalIndex>"
+                "Type": "Vec<ProposalIndex>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2669,7 +2881,13 @@
               "documentation": [
                 " Put forward a suggestion for spending. A deposit proportional to the value",
                 " is reserved and slashed if the proposal is rejected. It is returned once the",
-                " proposal is awarded."
+                " proposal is awarded.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change, one extra DB entry.",
+                " # </weight>"
               ]
             },
             {
@@ -2717,7 +2935,13 @@
                 }
               ],
               "documentation": [
-                " Reject a proposed spend. The original deposit will be slashed."
+                " Reject a proposed spend. The original deposit will be slashed.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB clear.",
+                " # </weight>"
               ]
             },
             {
@@ -2730,7 +2954,13 @@
               ],
               "documentation": [
                 " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
-                " and the original deposit will be returned."
+                " and the original deposit will be returned.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
               ]
             }
           ],
@@ -2789,10 +3019,87 @@
           "prefix": "Contract",
           "storage": [
             {
-              "name": "TransferFee",
-              "modifier": "Default",
+              "name": "SignedClaimHandicap",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " Number of block delay an extrinsic claim surcharge has.",
+                "",
+                " When claim surchage is called by an extrinsic the rent is checked",
+                " for current_block - delay"
+              ]
+            },
+            {
+              "name": "TombstoneDeposit",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " The minimum amount required to generate a tombstone."
+              ]
+            },
+            {
+              "name": "StorageSizeOffset",
+              "modifier": 1,
+              "type": {
+                "Type": "u32"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " Size of a contract at the time of creation. This is a simple way to ensure",
+                " that empty contracts eventually gets deleted."
+              ]
+            },
+            {
+              "name": "RentByteFee",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " Price of a byte of storage per one block interval. Should be greater than 0."
+              ]
+            },
+            {
+              "name": "RentDepositOffset",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " The amount of funds a contract should deposit in order to offset",
+                " the cost of one byte.",
+                "",
+                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
+                " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
+                " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
+                " then it would pay 500 BU/day."
+              ]
+            },
+            {
+              "name": "SurchargeReward",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " Reward that is received by the party whose touch has led",
+                " to removal of a contract."
+              ]
+            },
+            {
+              "name": "TransferFee",
+              "modifier": 1,
+              "type": {
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2801,9 +3108,9 @@
             },
             {
               "name": "CreationFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2812,9 +3119,9 @@
             },
             {
               "name": "TransactionBaseFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2823,9 +3130,9 @@
             },
             {
               "name": "TransactionByteFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -2834,9 +3141,9 @@
             },
             {
               "name": "ContractFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x15000000000000000000000000000000",
               "documentation": [
@@ -2845,9 +3152,9 @@
             },
             {
               "name": "CallBaseFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0x8700000000000000",
               "documentation": [
@@ -2856,9 +3163,9 @@
             },
             {
               "name": "CreateBaseFee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0xaf00000000000000",
               "documentation": [
@@ -2867,9 +3174,9 @@
             },
             {
               "name": "GasPrice",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x01000000000000000000000000000000",
               "documentation": [
@@ -2878,9 +3185,9 @@
             },
             {
               "name": "MaxDepth",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x64000000",
               "documentation": [
@@ -2889,20 +3196,20 @@
             },
             {
               "name": "BlockGasLimit",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
-              "fallback": "0x40420f0000000000",
+              "fallback": "0x8096980000000000",
               "documentation": [
                 " The maximum amount of gas that could be expended per block."
               ]
             },
             {
               "name": "GasSpent",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Gas"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -2911,38 +3218,24 @@
             },
             {
               "name": "CurrentSchedule",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Schedule"
+                "Type": "Schedule"
               },
-              "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000000010010000000",
+              "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000400000000000100100000000020000000",
               "documentation": [
                 " Current cost schedule for contracts."
               ]
             },
             {
-              "name": "CodeHashOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "CodeHash",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The code associated with a given account."
-              ]
-            },
-            {
               "name": "PristineCode",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2952,38 +3245,40 @@
             },
             {
               "name": "CodeStorage",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "CodeHash",
                   "value": "PrefabWasmModule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " A mapping between an original code hash and instrumented wasm code, ready for the execution."
+                " A mapping between an original code hash and instrumented wasm code, ready for execution."
               ]
             },
             {
               "name": "AccountCounter",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u64"
+                "Type": "u64"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
-                " The subtrie counter"
+                " The subtrie counter."
               ]
             },
             {
-              "name": "AccountInfoOf",
-              "modifier": "Optional",
+              "name": "ContractInfoOf",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
+                  "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "AccountInfo",
-                  "isLinked": false
+                  "value": "ContractInfo",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3020,7 +3315,7 @@
                 }
               ],
               "documentation": [
-                " Stores the given binary Wasm code into the chains storage and returns its `codehash`.",
+                " Stores the given binary Wasm code into the chain's storage and returns its `codehash`.",
                 " You can instantiate contracts only with stored code."
               ]
             },
@@ -3079,12 +3374,61 @@
                 "",
                 " Creation is executed as follows:",
                 "",
-                " - the destination address is computed based on the sender and hash of the code.",
-                " - the smart-contract account is created at the computed address.",
-                " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
+                " - The destination address is computed based on the sender and hash of the code.",
+                " - The smart-contract account is created at the computed address.",
+                " - The `ctor_code` is executed in the context of the newly-created account. Buffer returned",
                 "   after the execution is saved as the `code` of the account. That code will be invoked",
                 "   upon any call received by this account.",
                 " - The contract is initialized."
+              ]
+            },
+            {
+              "name": "claim_surcharge",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "aux_sender",
+                  "type": "Option<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Allows block producers to claim a small reward for evicting a contract. If a block producer",
+                " fails to do so, a regular users will be allowed to claim the reward.",
+                "",
+                " If contract is not evicted as a result of this call, no actions are taken and",
+                " the sender is not eligible for the reward."
+              ]
+            },
+            {
+              "name": "restore_to",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "code_hash",
+                  "type": "CodeHash"
+                },
+                {
+                  "name": "rent_allowance",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "delta",
+                  "type": "Vec<ContractStorageKey>"
+                }
+              ],
+              "documentation": [
+                " Allows a contract to restore a tombstone by giving its storage.",
+                "",
+                " The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a",
+                " tombstone with its storage and the given code_hash. If the computed tombstone",
+                " match the destination one, the destination contract is restored with the rent_allowance` specified,",
+                " while the origin sends all its funds to the destination and is removed."
               ]
             }
           ],
@@ -3138,6 +3482,16 @@
                 " A call was dispatched from the given account. The bool signals whether it was",
                 " successful execution or not."
               ]
+            },
+            {
+              "name": "Contract",
+              "args": [
+                "AccountId",
+                "Bytes"
+              ],
+              "documentation": [
+                " An event from contract of account."
+              ]
             }
           ]
         },
@@ -3147,12 +3501,14 @@
           "storage": [
             {
               "name": "Key",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "AccountId"
+                "Type": "AccountId"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "documentation": []
+              "documentation": [
+                " The `AccountId` of the sudo key."
+              ]
             }
           ],
           "calls": [
@@ -3164,7 +3520,17 @@
                   "type": "Proposal"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - No DB writes.",
+                " # </weight>"
+              ]
             },
             {
               "name": "set_key",
@@ -3174,7 +3540,17 @@
                   "type": "Address"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [

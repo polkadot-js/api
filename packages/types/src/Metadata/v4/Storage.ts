@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV4 } from '../../interfaces/metadata/types';
+import { DoubleMapTypeV4, MapTypeV4, PlainTypeV4, StorageFunctionModifierV4 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -10,64 +10,15 @@ import { assert } from '@polkadot/util';
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
-import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
-import { PlainType, StorageFunctionModifier } from '../v3/Storage';
-
-// Re-export classes that haven't changed between V3 and V4
-export {
-  PlainType,
-  StorageFunctionModifier
-};
-
-export class MapType extends Struct {
-  public constructor (value?: any) {
-    super({
-      hasher: StorageHasher,
-      key: Type,
-      value: Type,
-      isLinked: Bool
-    }, value);
-  }
-
-  /**
-   * @description The hash algorithm used to hash keys, as [[StorageHasher]]
-   */
-  public get hasher (): StorageHasher {
-    return this.get('hasher') as StorageHasher;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  public get isLinked (): boolean {
-    return (this.get('isLinked') as Bool).valueOf();
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  public get value (): Type {
-    return this.get('value') as Type;
-  }
-}
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType,
-      MapType,
-      DoubleMapType: 'DoubleMapTypeV4'
+      Type: 'PlainTypeV4',
+      Map: 'MapTypeV4',
+      DoubleMap: 'DoubleMapTypeV4'
     }, value, index);
   }
 
@@ -83,19 +34,19 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV4 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV4;
   }
 
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainType {
+  public get asType (): PlainTypeV4 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
-    return this.value as PlainType;
+    return this.value as PlainTypeV4;
   }
 
   /**
@@ -128,7 +79,7 @@ export class StorageFunctionType extends Enum {
     }
 
     if (this.isMap) {
-      if (this.asMap.isLinked) {
+      if (this.asMap.linked.isTrue) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
 
@@ -141,7 +92,7 @@ export class StorageFunctionType extends Enum {
 
 export interface StorageFunctionMetadataValue {
   name: string | Text;
-  modifier: StorageFunctionModifier | AnyNumber;
+  modifier: StorageFunctionModifierV4 | AnyNumber;
   type: StorageFunctionType;
   fallback: Bytes;
   documentation: Vec<Text> | string[];
@@ -155,11 +106,11 @@ export interface StorageFunctionMetadataValue {
 export class StorageFunctionMetadata extends Struct {
   public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
-      name: Text,
-      modifier: StorageFunctionModifier,
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV4',
       type: StorageFunctionType,
-      fallback: Bytes,
-      documentation: Vec.with(Text)
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
     }, value);
   }
 
@@ -187,8 +138,8 @@ export class StorageFunctionMetadata extends Struct {
   /**
    * @description The modifier
    */
-  public get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
+  public get modifier (): StorageFunctionModifierV4 {
+    return this.get('modifier') as StorageFunctionModifierV4;
   }
 
   /**

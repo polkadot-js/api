@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataV0, MetadataV1 } from '../interfaces/metadata';
+
 import { assert } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import MagicNumber from './MagicNumber';
-import MetadataV0 from './v0';
-import MetadataV1 from './v1';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';
 import MetadataV4 from './v4';
@@ -22,6 +22,7 @@ import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
+import { getUniqTypes } from './util';
 
 type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
 type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -30,14 +31,14 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
 class MetadataEnum extends Enum {
   public constructor (value?: any) {
     super({
-      MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV7
+      V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
+      V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
+      V2: MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
+      V3: MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
+      V4: MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
+      V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
+      V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
+      V7: MetadataV7
     }, value);
   }
 
@@ -124,63 +125,56 @@ class MetadataEnum extends Enum {
    * @description `true` if V0
    */
   public get isV0 (): boolean {
-    return this.type === 'MetadataV0';
+    return this.type === 'V0';
   }
 
   /**
    * @description `true` if V1
    */
   public get isV1 (): boolean {
-    return this.type === 'MetadataV1';
+    return this.type === 'V1';
   }
 
   /**
    * @description `true` if V2
    */
   public get isV2 (): boolean {
-    return this.type === 'MetadataV2';
+    return this.type === 'V2';
   }
 
   /**
    * @description `true` if V3
    */
   public get isV3 (): boolean {
-    return this.type === 'MetadataV3';
+    return this.type === 'V3';
   }
 
   /**
    * @description `true` if V4
    */
   public get isV4 (): boolean {
-    return this.type === 'MetadataV4';
+    return this.type === 'V4';
   }
 
   /**
    * @description `true` if V5
    */
   public get isV5 (): boolean {
-    return this.type === 'MetadataV5';
+    return this.type === 'V5';
   }
 
   /**
    * @description `true` if V6
    */
   public get isV6 (): boolean {
-    return this.type === 'MetadataV6';
+    return this.type === 'V6';
   }
 
   /**
    * @description `true` if V7
    */
   public get isV7 (): boolean {
-    return this.type === 'MetadataV7';
-  }
-
-  /**
-   * @description The version this metadata represents
-   */
-  public get version (): number {
-    return this.index;
+    return this.type === 'V7';
   }
 }
 
@@ -200,7 +194,7 @@ export default class MetadataVersioned extends Struct {
   }
 
   private assertVersion (version: number): boolean {
-    assert(this.metadata.version <= version, `Cannot convert metadata from v${this.metadata.version} to v${version}`);
+    assert(this.version <= version, `Cannot convert metadata from v${this.version} to v${version}`);
 
     return this.version === version;
   }
@@ -307,6 +301,6 @@ export default class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return this.asLatest.getUniqTypes(throwError);
+    return getUniqTypes(this.asLatest, throwError);
   }
 }

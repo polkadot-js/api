@@ -1,7 +1,7 @@
 {
   "magicNumber": 1635018093,
   "metadata": {
-    "MetadataV6": {
+    "V6": {
       "modules": [
         {
           "name": "system",
@@ -9,13 +9,13 @@
           "storage": [
             {
               "name": "AccountNonce",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Index",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000",
@@ -25,9 +25,9 @@
             },
             {
               "name": "ExtrinsicCount",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
@@ -36,9 +36,9 @@
             },
             {
               "name": "AllExtrinsicsWeight",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "Weight"
+                "Type": "u32"
               },
               "fallback": "0x00",
               "documentation": [
@@ -46,37 +46,14 @@
               ]
             },
             {
-              "name": "AllExtrinsicsLen",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "u32"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " Total length (in bytes) for all extrinsics put together, for the current block."
-              ]
-            },
-            {
-              "name": "NextWeightMultiplier",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "WeightMultiplier"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " The next weight multiplier. This should be updated at the end of each block based on the",
-                " saturation level (weight)."
-              ]
-            },
-            {
               "name": "BlockHash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Hash",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -86,13 +63,13 @@
             },
             {
               "name": "ExtrinsicData",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "u32",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -102,9 +79,9 @@
             },
             {
               "name": "RandomMaterial",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "(i8,Vec<Hash>)"
+                "Type": "(i8,Vec<Hash>)"
               },
               "fallback": "0x0000",
               "documentation": [
@@ -114,9 +91,9 @@
             },
             {
               "name": "Number",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -125,9 +102,9 @@
             },
             {
               "name": "ParentHash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -136,9 +113,9 @@
             },
             {
               "name": "ExtrinsicsRoot",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Hash"
+                "Type": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -147,9 +124,9 @@
             },
             {
               "name": "Digest",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "DigestOf"
+                "Type": "DigestOf"
               },
               "fallback": "0x00",
               "documentation": [
@@ -158,9 +135,9 @@
             },
             {
               "name": "Events",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<EventRecord>"
+                "Type": "Vec<EventRecord>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -169,9 +146,9 @@
             },
             {
               "name": "EventCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "EventIndex"
+                "Type": "EventIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -180,9 +157,9 @@
             },
             {
               "name": "EventTopics",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "DoubleMapType": {
+                "DoubleMap": {
                   "hasher": "Blake2_256",
                   "key1": "Null",
                   "key2": "Hash",
@@ -290,32 +267,9 @@
         },
         {
           "name": "aura",
-          "prefix": "Aura",
-          "storage": [
-            {
-              "name": "LastTimestamp",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Moment"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " The last timestamp."
-              ]
-            },
-            {
-              "name": "Authorities",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<AuthorityId>"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The current authorities"
-              ]
-            }
-          ],
-          "calls": [],
+          "prefix": "",
+          "storage": null,
+          "calls": null,
           "events": null,
           "constants": []
         },
@@ -325,9 +279,9 @@
           "storage": [
             {
               "name": "Now",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Moment"
+                "Type": "Moment"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -336,9 +290,9 @@
             },
             {
               "name": "DidUpdate",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -389,9 +343,9 @@
           "storage": [
             {
               "name": "Uncles",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<UncleEntryItem>"
+                "Type": "Vec<UncleEntryItem>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -400,9 +354,9 @@
             },
             {
               "name": "Author",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "AccountId"
+                "Type": "AccountId"
               },
               "fallback": "0x00",
               "documentation": [
@@ -411,9 +365,9 @@
             },
             {
               "name": "DidSetUncles",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -444,9 +398,9 @@
           "storage": [
             {
               "name": "NextEnumSet",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "AccountIndex"
+                "Type": "AccountIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -455,13 +409,13 @@
             },
             {
               "name": "EnumSet",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -494,9 +448,9 @@
           "storage": [
             {
               "name": "TotalIssuance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Balance"
+                "Type": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -505,13 +459,13 @@
             },
             {
               "name": "Vesting",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VestingSchedule",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -521,13 +475,13 @@
             },
             {
               "name": "FreeBalance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -547,13 +501,13 @@
             },
             {
               "name": "ReservedBalance",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Balance",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000000000000000000000000000",
@@ -573,13 +527,13 @@
             },
             {
               "name": "Locks",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -697,7 +651,7 @@
             {
               "name": "ExistentialDeposit",
               "type": "Balance",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The minimum amount required to keep an account open."
               ]
@@ -705,7 +659,7 @@
             {
               "name": "TransferFee",
               "type": "Balance",
-              "value": "0x0010a5d4e80000000000000000000000",
+              "value": "0x00e1f505000000000000000000000000",
               "documentation": [
                 " The fee required to make a transfer."
               ]
@@ -713,7 +667,7 @@
             {
               "name": "CreationFee",
               "type": "Balance",
-              "value": "0x0010a5d4e80000000000000000000000",
+              "value": "0x00e1f505000000000000000000000000",
               "documentation": [
                 " The fee required to create an account."
               ]
@@ -721,7 +675,7 @@
             {
               "name": "TransactionBaseFee",
               "type": "Balance",
-              "value": "0x0010a5d4e80000000000000000000000",
+              "value": "0x00e1f505000000000000000000000000",
               "documentation": [
                 " The fee to be paid for making a transaction; the base."
               ]
@@ -729,7 +683,7 @@
             {
               "name": "TransactionByteFee",
               "type": "Balance",
-              "value": "0x00e40b54020000000000000000000000",
+              "value": "0x40420f00000000000000000000000000",
               "documentation": [
                 " The fee to be paid for making a transaction; the per-byte portion."
               ]
@@ -742,9 +696,9 @@
           "storage": [
             {
               "name": "ValidatorCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -753,9 +707,9 @@
             },
             {
               "name": "MinimumValidatorCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x04000000",
               "documentation": [
@@ -764,9 +718,9 @@
             },
             {
               "name": "SessionReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x3c000000",
               "documentation": [
@@ -775,9 +729,9 @@
             },
             {
               "name": "OfflineSlash",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Perbill"
+                "Type": "Perbill"
               },
               "fallback": "0x40420f00",
               "documentation": [
@@ -786,9 +740,9 @@
             },
             {
               "name": "OfflineSlashGrace",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -797,9 +751,9 @@
             },
             {
               "name": "Invulnerables",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -810,13 +764,13 @@
             },
             {
               "name": "Bonded",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -826,13 +780,13 @@
             },
             {
               "name": "Ledger",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "StakingLedger",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -842,13 +796,13 @@
             },
             {
               "name": "Payee",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "RewardDestination",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -858,13 +812,13 @@
             },
             {
               "name": "Validators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x0c00",
@@ -874,13 +828,13 @@
             },
             {
               "name": "Nominators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x00",
@@ -890,13 +844,13 @@
             },
             {
               "name": "Stakers",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "Exposure",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x000000",
@@ -909,9 +863,9 @@
             },
             {
               "name": "CurrentElected",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -920,9 +874,9 @@
             },
             {
               "name": "CurrentEra",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "EraIndex"
+                "Type": "EraIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -931,9 +885,9 @@
             },
             {
               "name": "CurrentSessionReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -942,9 +896,9 @@
             },
             {
               "name": "CurrentEraReward",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -954,9 +908,9 @@
             },
             {
               "name": "SlotStake",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "BalanceOf"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
@@ -967,13 +921,13 @@
             },
             {
               "name": "SlashCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "u32",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00000000",
@@ -984,9 +938,9 @@
             },
             {
               "name": "RecentlyOffline",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
+                "Type": "Vec<(AccountId,BlockNumber,u32)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -996,9 +950,9 @@
             },
             {
               "name": "ForceNewEra",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1007,9 +961,9 @@
             },
             {
               "name": "BondedEras",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(EraIndex,SessionIndex)>"
+                "Type": "Vec<(EraIndex,SessionIndex)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1346,9 +1300,9 @@
           "storage": [
             {
               "name": "Validators",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<ValidatorId>"
+                "Type": "Vec<ValidatorId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1357,9 +1311,9 @@
             },
             {
               "name": "CurrentIndex",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "SessionIndex"
+                "Type": "SessionIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1368,9 +1322,9 @@
             },
             {
               "name": "Changed",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1379,9 +1333,9 @@
             },
             {
               "name": "QueuedChanged",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1390,54 +1344,14 @@
             },
             {
               "name": "QueuedKeys",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(ValidatorId,Keys)>"
+                "Type": "Vec<(ValidatorId,Keys)>"
               },
               "fallback": "0x00",
               "documentation": [
                 " The queued keys for the next session. When the next session begins, these keys",
                 " will be used to determine the validator's session keys."
-              ]
-            },
-            {
-              "name": "NextKeys",
-              "modifier": "Optional",
-              "type": {
-                "DoubleMapType": {
-                  "hasher": "Twox64Concat",
-                  "key1": "Bytes",
-                  "key2": "ValidatorId",
-                  "value": "Keys",
-                  "key2Hasher": "Blake2_256"
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The next session keys for a validator.",
-                "",
-                " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
-                " the trie. Having all data in the same branch should prevent slowing down other queries."
-              ]
-            },
-            {
-              "name": "KeyOwner",
-              "modifier": "Optional",
-              "type": {
-                "DoubleMapType": {
-                  "hasher": "Twox64Concat",
-                  "key1": "Bytes",
-                  "key2": "(KeyTypeId,Bytes)",
-                  "value": "ValidatorId",
-                  "key2Hasher": "Blake2_256"
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The owner of a key. The second key is the `KeyTypeId` + the encoded key.",
-                "",
-                " The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of",
-                " the trie. Having all data in the same branch should prevent slowing down other queries."
               ]
             }
           ],
@@ -1480,17 +1394,7 @@
               ]
             }
           ],
-          "constants": [
-            {
-              "name": "DEDUP_KEY_PREFIX",
-              "type": "Bytes",
-              "value": "0x343a73657373696f6e3a6b657973",
-              "documentation": [
-                " Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch",
-                " of the trie."
-              ]
-            }
-          ]
+          "constants": []
         },
         {
           "name": "democracy",
@@ -1498,9 +1402,9 @@
           "storage": [
             {
               "name": "PublicPropCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "PropIndex"
+                "Type": "PropIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1509,9 +1413,9 @@
             },
             {
               "name": "PublicProps",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
+                "Type": "Vec<(PropIndex,Proposal,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1520,13 +1424,13 @@
             },
             {
               "name": "DepositOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1536,9 +1440,9 @@
             },
             {
               "name": "ReferendumCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1547,9 +1451,9 @@
             },
             {
               "name": "NextTally",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ReferendumIndex"
+                "Type": "ReferendumIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -1558,13 +1462,13 @@
             },
             {
               "name": "ReferendumInfoOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1574,13 +1478,13 @@
             },
             {
               "name": "DispatchQueue",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1590,13 +1494,13 @@
             },
             {
               "name": "VotersFor",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1606,13 +1510,13 @@
             },
             {
               "name": "VoteOf",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1625,13 +1529,13 @@
             },
             {
               "name": "Proxy",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1642,13 +1546,13 @@
             },
             {
               "name": "Delegations",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(AccountId,Conviction)",
-                  "isLinked": true
+                  "linked": true
                 }
               },
               "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -1658,9 +1562,9 @@
             },
             {
               "name": "LastTabledWasExternal",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "bool"
+                "Type": "bool"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1670,9 +1574,9 @@
             },
             {
               "name": "NextExternal",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "(Proposal,VoteThreshold)"
+                "Type": "(Proposal,VoteThreshold)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -1684,13 +1588,13 @@
             },
             {
               "name": "Blacklist",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "(BlockNumber,Vec<AccountId>)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -1701,13 +1605,13 @@
             },
             {
               "name": "Cancellations",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "bool",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2130,7 +2034,7 @@
             {
               "name": "MinimumDeposit",
               "type": "BalanceOf",
-              "value": "0x0000c16ff28623000000000000000000",
+              "value": "0x0010a5d4e80000000000000000000000",
               "documentation": [
                 " The minimum amount to be used as a deposit for a public referendum proposal."
               ]
@@ -2159,9 +2063,9 @@
           "storage": [
             {
               "name": "Proposals",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<Hash>"
+                "Type": "Vec<Hash>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2170,13 +2074,13 @@
             },
             {
               "name": "ProposalOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2186,13 +2090,13 @@
             },
             {
               "name": "Voting",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Votes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2202,9 +2106,9 @@
             },
             {
               "name": "ProposalCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2213,9 +2117,9 @@
             },
             {
               "name": "Members",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2297,6 +2201,15 @@
             }
           ],
           "events": [
+            {
+              "name": "_Phantom",
+              "args": [
+                "Phantom"
+              ],
+              "documentation": [
+                " Dummy to manage the fact we have instancing."
+              ]
+            },
             {
               "name": "Proposed",
               "args": [
@@ -2371,9 +2284,9 @@
           "storage": [
             {
               "name": "Proposals",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<Hash>"
+                "Type": "Vec<Hash>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2382,13 +2295,13 @@
             },
             {
               "name": "ProposalOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Proposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2398,13 +2311,13 @@
             },
             {
               "name": "Voting",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
                   "value": "Votes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2414,9 +2327,9 @@
             },
             {
               "name": "ProposalCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2425,9 +2338,9 @@
             },
             {
               "name": "Members",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2509,6 +2422,15 @@
             }
           ],
           "events": [
+            {
+              "name": "_Phantom",
+              "args": [
+                "Phantom"
+              ],
+              "documentation": [
+                " Dummy to manage the fact we have instancing."
+              ]
+            },
             {
               "name": "Proposed",
               "args": [
@@ -2583,9 +2505,9 @@
           "storage": [
             {
               "name": "PresentationDuration",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -2594,9 +2516,9 @@
             },
             {
               "name": "TermDuration",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x0000000000000000",
               "documentation": [
@@ -2605,9 +2527,9 @@
             },
             {
               "name": "DesiredSeats",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2616,9 +2538,9 @@
             },
             {
               "name": "Members",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AccountId,BlockNumber)>"
+                "Type": "Vec<(AccountId,BlockNumber)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2630,9 +2552,9 @@
             },
             {
               "name": "VoteCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "VoteIndex"
+                "Type": "VoteIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2641,13 +2563,13 @@
             },
             {
               "name": "ApprovalsOf",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "(AccountId,SetIndex)",
                   "value": "Vec<ApprovalFlag>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2661,13 +2583,13 @@
             },
             {
               "name": "RegisterInfoOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2678,13 +2600,13 @@
             },
             {
               "name": "VoterInfoOf",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "VoterInfo",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2694,13 +2616,13 @@
             },
             {
               "name": "Voters",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "SetIndex",
                   "value": "Vec<Option<AccountId>>",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -2710,9 +2632,9 @@
             },
             {
               "name": "NextVoterSet",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "SetIndex"
+                "Type": "SetIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2721,9 +2643,9 @@
             },
             {
               "name": "VoterCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "SetIndex"
+                "Type": "SetIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2732,9 +2654,9 @@
             },
             {
               "name": "Candidates",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<AccountId>"
+                "Type": "Vec<AccountId>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2743,9 +2665,9 @@
             },
             {
               "name": "CandidateCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "u32"
+                "Type": "u32"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -2754,9 +2676,9 @@
             },
             {
               "name": "NextFinalize",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
+                "Type": "(BlockNumber,u32,Vec<AccountId>)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2765,9 +2687,9 @@
             },
             {
               "name": "Leaderboard",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "Vec<(BalanceOf,AccountId)>"
+                "Type": "Vec<(BalanceOf,AccountId)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -2777,13 +2699,13 @@
             },
             {
               "name": "Proxy",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
                   "value": "AccountId",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3069,7 +2991,7 @@
             {
               "name": "CandidacyBond",
               "type": "BalanceOf",
-              "value": "0x0080c6a47e8d03000000000000000000",
+              "value": "0x00e87648170000000000000000000000",
               "documentation": [
                 " How much should be locked up in order to submit one's candidacy. A reasonable",
                 " default value is 9."
@@ -3078,7 +3000,7 @@
             {
               "name": "VotingBond",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " How much should be locked up in order to be able to submit votes."
               ]
@@ -3086,7 +3008,7 @@
             {
               "name": "VotingFee",
               "type": "BalanceOf",
-              "value": "0x0080f420e6b500000000000000000000",
+              "value": "0x00c817a8040000000000000000000000",
               "documentation": [
                 " The amount of fee paid upon each vote submission, unless if they submit a",
                 " _hole_ index and replace it."
@@ -3095,7 +3017,7 @@
             {
               "name": "PresentSlashPerVoter",
               "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
+              "value": "0x00e1f505000000000000000000000000",
               "documentation": [
                 " The punishment, per voter, if you provide an invalid presentation. A",
                 " reasonable default value is 1."
@@ -3139,22 +3061,6 @@
                 " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight",
                 " increment step `t`. 0 will result in no weight being added at all (normal",
                 " approval voting). A reasonable default value is 24."
-              ]
-            },
-            {
-              "name": "VOTER_SET_SIZE",
-              "type": "u32",
-              "value": "0x40000000",
-              "documentation": [
-                " The chunk size of the voter vector."
-              ]
-            },
-            {
-              "name": "APPROVAL_SET_SIZE",
-              "type": "u32",
-              "value": "0x08000000",
-              "documentation": [
-                " The chunk size of the approval vector."
               ]
             }
           ]
@@ -3204,9 +3110,9 @@
           "storage": [
             {
               "name": "Authorities",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<(AuthorityId,AuthorityWeight)>"
+                "Type": "Vec<(AuthorityId,AuthorityWeight)>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -3214,21 +3120,10 @@
               ]
             },
             {
-              "name": "State",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "StoredState"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " State of the current authority set."
-              ]
-            },
-            {
               "name": "PendingChange",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "StoredPendingChange"
+                "Type": "StoredPendingChange"
               },
               "fallback": "0x00",
               "documentation": [
@@ -3237,9 +3132,9 @@
             },
             {
               "name": "NextForced",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "BlockNumber"
+                "Type": "BlockNumber"
               },
               "fallback": "0x00",
               "documentation": [
@@ -3248,9 +3143,9 @@
             },
             {
               "name": "Stalled",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "PlainType": "(BlockNumber,BlockNumber)"
+                "Type": "(BlockNumber,BlockNumber)"
               },
               "fallback": "0x00",
               "documentation": [
@@ -3281,22 +3176,43 @@
               "documentation": [
                 " New authority set has been applied."
               ]
-            },
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "curated_grandpa",
+          "prefix": "CuratedGrandpa",
+          "storage": [
             {
-              "name": "Paused",
-              "args": [],
+              "name": "ShufflePeriod",
+              "modifier": 1,
+              "type": {
+                "Type": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
               "documentation": [
-                " Current authority set has been paused."
-              ]
-            },
-            {
-              "name": "Resumed",
-              "args": [],
-              "documentation": [
-                " Current authority set has been resumed."
+                " How often to shuffle the GRANDPA sets.",
+                "",
+                " 0 means never."
               ]
             }
           ],
+          "calls": [
+            {
+              "name": "set_voters",
+              "args": [
+                {
+                  "name": "voters",
+                  "type": "Vec<(AuthorityId,u64)>"
+                }
+              ],
+              "documentation": [
+                " Changes the GRANDPA voter set."
+              ]
+            }
+          ],
+          "events": null,
           "constants": []
         },
         {
@@ -3305,9 +3221,9 @@
           "storage": [
             {
               "name": "ProposalCount",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "ProposalIndex"
+                "Type": "ProposalIndex"
               },
               "fallback": "0x00000000",
               "documentation": [
@@ -3316,13 +3232,13 @@
             },
             {
               "name": "Proposals",
-              "modifier": "Optional",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
                   "key": "ProposalIndex",
                   "value": "TreasuryProposal",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
@@ -3332,9 +3248,9 @@
             },
             {
               "name": "Approvals",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "Vec<ProposalIndex>"
+                "Type": "Vec<ProposalIndex>"
               },
               "fallback": "0x00",
               "documentation": [
@@ -3467,7 +3383,7 @@
             {
               "name": "ProposalBondMinimum",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " Minimum amount of funds that should be placed in a deposit for making a proposal."
               ]
@@ -3491,123 +3407,497 @@
           ]
         },
         {
-          "name": "contracts",
-          "prefix": "Contract",
+          "name": "parachains",
+          "prefix": "Parachains",
           "storage": [
             {
-              "name": "GasSpent",
-              "modifier": "Default",
+              "name": "Parachains",
+              "modifier": 1,
               "type": {
-                "PlainType": "Gas"
+                "Type": "Vec<ParaId>"
               },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " Gas spent so far in this block."
-              ]
+              "fallback": "0x00",
+              "documentation": []
             },
             {
-              "name": "CurrentSchedule",
-              "modifier": "Default",
+              "name": "Code",
+              "modifier": 0,
               "type": {
-                "PlainType": "Schedule"
-              },
-              "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af0000000000000001000000000000000100000000000000040000000000010010000000004000000020000000",
-              "documentation": [
-                " Current cost schedule for contracts."
-              ]
-            },
-            {
-              "name": "PristineCode",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
-                  "key": "CodeHash",
+                  "key": "ParaId",
                   "value": "Bytes",
-                  "isLinked": false
+                  "linked": false
                 }
               },
               "fallback": "0x00",
-              "documentation": [
-                " A mapping from an original code hash to the original code, untouched by instrumentation."
-              ]
+              "documentation": []
             },
             {
-              "name": "CodeStorage",
-              "modifier": "Optional",
+              "name": "Heads",
+              "modifier": 0,
               "type": {
-                "MapType": {
+                "Map": {
                   "hasher": "Blake2_256",
-                  "key": "CodeHash",
-                  "value": "PrefabWasmModule",
-                  "isLinked": false
+                  "key": "ParaId",
+                  "value": "Bytes",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": []
+            },
+            {
+              "name": "Watermarks",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaId",
+                  "value": "BlockNumber",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": []
+            },
+            {
+              "name": "UnroutedIngress",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "(BlockNumber,ParaId)",
+                  "value": "Vec<(ParaId,Hash)>",
+                  "linked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " A mapping between an original code hash and instrumented wasm code, ready for execution."
+                " Unrouted ingress. Maps (BlockNumber, to_chain) pairs to [(from_chain, egress_root)].",
+                "",
+                " There may be an entry under (i, p) in this map for every i between the parachain's",
+                " watermark and the current block."
               ]
             },
             {
-              "name": "AccountCounter",
-              "modifier": "Default",
+              "name": "RelayDispatchQueue",
+              "modifier": 1,
               "type": {
-                "PlainType": "u64"
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaId",
+                  "value": "Vec<UpwardMessage>",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Messages ready to be dispatched onto the relay chain. It is subject to",
+                " `MAX_MESSAGE_COUNT` and `WATERMARK_MESSAGE_SIZE`."
+              ]
+            },
+            {
+              "name": "RelayDispatchQueueSize",
+              "modifier": 1,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaId",
+                  "value": "(u32,u32)",
+                  "linked": false
+                }
               },
               "fallback": "0x0000000000000000",
               "documentation": [
-                " The subtrie counter."
+                " Size of the dispatch queues. Separated from actual data in order to avoid costly",
+                " decoding when checking receipt validity. First item in tuple is the count of messages"
               ]
             },
             {
-              "name": "ContractInfoOf",
-              "modifier": "Optional",
+              "name": "DidUpdate",
+              "modifier": 1,
               "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "AccountId",
-                  "value": "ContractInfo",
-                  "isLinked": false
-                }
+                "Type": "bool"
               },
               "fallback": "0x00",
-              "documentation": [
-                " The code associated with a given account."
-              ]
+              "documentation": []
             },
             {
-              "name": "GasPrice",
-              "modifier": "Default",
+              "name": "NextFreeId",
+              "modifier": 1,
               "type": {
-                "PlainType": "BalanceOf"
+                "Type": "ParaId"
               },
-              "fallback": "0x01000000000000000000000000000000",
+              "fallback": "0x00000000",
               "documentation": [
-                " The price of one unit of gas."
+                " The next unused ParaId value."
               ]
             }
           ],
           "calls": [
             {
-              "name": "update_schedule",
+              "name": "set_heads",
               "args": [
                 {
-                  "name": "schedule",
-                  "type": "Schedule"
+                  "name": "heads",
+                  "type": "Vec<AttestedCandidate>"
                 }
               ],
               "documentation": [
-                " Updates the schedule for metering contracts.",
-                "",
-                " The schedule must have a greater version than the stored schedule."
+                " Provide candidate receipts for parachains, in ascending order by id."
               ]
             },
             {
-              "name": "put_code",
+              "name": "register_parachain",
               "args": [
                 {
-                  "name": "gas_limit",
-                  "type": "Compact<Gas>"
+                  "name": "id",
+                  "type": "ParaId"
+                },
+                {
+                  "name": "code",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "initial_head_data",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Register a parachain with given code.",
+                " Fails if given ID is already used."
+              ]
+            },
+            {
+              "name": "deregister_parachain",
+              "args": [
+                {
+                  "name": "id",
+                  "type": "ParaId"
+                }
+              ],
+              "documentation": [
+                " Deregister a parachain with given id"
+              ]
+            }
+          ],
+          "events": null,
+          "constants": []
+        },
+        {
+          "name": "slots",
+          "prefix": "Slots",
+          "storage": [
+            {
+              "name": "AuctionCounter",
+              "modifier": 1,
+              "type": {
+                "Type": "AuctionIndex"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " The number of auctions that been started so far."
+              ]
+            },
+            {
+              "name": "ManagedIds",
+              "modifier": 1,
+              "type": {
+                "Type": "Vec<ParaIdOf>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " All `ParaId` values that are managed by this module. This includes chains that are not",
+                " yet deployed (but have won an auction in the future)."
+              ]
+            },
+            {
+              "name": "Deposits",
+              "modifier": 1,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaIdOf",
+                  "value": "Vec<BalanceOf>",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Various amounts on deposit for each parachain. An entry in `ManagedIds` implies a non-",
+                " default entry here.",
+                "",
+                " The actual amount locked on its behalf at any time is the maximum item in this list. The",
+                " first item in the list is the amount locked for the current Lease Period. Following",
+                " items are for the subsequent lease periods.",
+                "",
+                " The default value (an empty list) implies that the parachain no longer exists (or never",
+                " existed) as far as this module is concerned.",
+                "",
+                " If a parachain doesn't exist *yet* but is scheduled to exist in the future, then it",
+                " will be left-padded with one or more zeroes to denote the fact that nothing is held on",
+                " deposit for the non-existent chain currently, but is held at some point in the future."
+              ]
+            },
+            {
+              "name": "AuctionInfo",
+              "modifier": 0,
+              "type": {
+                "Type": "(LeasePeriodOf,BlockNumber)"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Information relating to the current auction, if there is one.",
+                "",
+                " The first item in the tuple is the lease period index that the first of the four",
+                " contiguous lease periods on auction is for. The second is the block number when the",
+                " auction will \"begin to end\", i.e. the first block of the Ending Period of the auction."
+              ]
+            },
+            {
+              "name": "Winning",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "BlockNumber",
+                  "value": "WinningData",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The winning bids for each of the 10 ranges at each block in the final Ending Period of",
+                " the current auction. The map's key is the 0-based index into the Ending Period. The",
+                " first block of the ending period is 0; the last is `EndingPeriod - 1`."
+              ]
+            },
+            {
+              "name": "ReservedAmounts",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "Bidder",
+                  "value": "BalanceOf",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Amounts currently reserved in the accounts of the bidders currently winning",
+                " (sub-)ranges."
+              ]
+            },
+            {
+              "name": "OnboardQueue",
+              "modifier": 1,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "LeasePeriodOf",
+                  "value": "Vec<ParaIdOf>",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The set of Para IDs that have won and need to be on-boarded at an upcoming lease-period.",
+                " This is cleared out on the first block of the lease period."
+              ]
+            },
+            {
+              "name": "Onboarding",
+              "modifier": 0,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaIdOf",
+                  "value": "(LeasePeriodOf,IncomingParachain)",
+                  "linked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The actual on-boarding information. Only exists when one of the following is true:",
+                " - It is before the lease period that the parachain should be on-boarded.",
+                " - The full on-boarding information has not yet been provided and the parachain is not",
+                " yet due to be off-boarded."
+              ]
+            },
+            {
+              "name": "Offboarding",
+              "modifier": 1,
+              "type": {
+                "Map": {
+                  "hasher": "Blake2_256",
+                  "key": "ParaIdOf",
+                  "value": "AccountId",
+                  "linked": false
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "documentation": [
+                " Off-boarding account; currency held on deposit for the parachain gets placed here if the",
+                " parachain gets off-boarded; i.e. its lease period is up and it isn't renewed."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "new_auction",
+              "args": [
+                {
+                  "name": "duration",
+                  "type": "Compact<BlockNumber>"
+                },
+                {
+                  "name": "lease_period_index",
+                  "type": "Compact<LeasePeriodOf>"
+                }
+              ],
+              "documentation": [
+                " Create a new auction.",
+                "",
+                " This can only happen when there isn't already an auction in progress and may only be",
+                " called by the root origin. Accepts the `duration` of this auction and the",
+                " `lease_period_index` of the initial lease period of the four that are to be auctioned."
+              ]
+            },
+            {
+              "name": "bid",
+              "args": [
+                {
+                  "name": "sub",
+                  "type": "Compact<SubId>"
+                },
+                {
+                  "name": "auction_index",
+                  "type": "Compact<AuctionIndex>"
+                },
+                {
+                  "name": "first_slot",
+                  "type": "Compact<LeasePeriodOf>"
+                },
+                {
+                  "name": "last_slot",
+                  "type": "Compact<LeasePeriodOf>"
+                },
+                {
+                  "name": "amount",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Make a new bid from an account (including a parachain account) for deploying a new",
+                " parachain.",
+                "",
+                " Multiple simultaneous bids from the same bidder are allowed only as long as all active",
+                " bids overlap each other (i.e. are mutually exclusive). Bids cannot be redacted.",
+                "",
+                " - `sub` is the sub-bidder ID, allowing for multiple competing bids to be made by (and",
+                " funded by) the same account.",
+                " - `auction_index` is the index of the auction to bid on. Should just be the present",
+                " value of `AuctionCounter`.",
+                " - `first_slot` is the first lease period index of the range to bid on. This is the",
+                " absolute lease period index value, not an auction-specific offset.",
+                " - `last_slot` is the last lease period index of the range to bid on. This is the",
+                " absolute lease period index value, not an auction-specific offset.",
+                " - `amount` is the amount to bid to be held as deposit for the parachain should the",
+                " bid win. This amount is held throughout the range."
+              ]
+            },
+            {
+              "name": "bid_renew",
+              "args": [
+                {
+                  "name": "auction_index",
+                  "type": "Compact<AuctionIndex>"
+                },
+                {
+                  "name": "first_slot",
+                  "type": "Compact<LeasePeriodOf>"
+                },
+                {
+                  "name": "last_slot",
+                  "type": "Compact<LeasePeriodOf>"
+                },
+                {
+                  "name": "amount",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Make a new bid from a parachain account for renewing that (pre-existing) parachain.",
+                "",
+                " The origin *must* be a parachain account.",
+                "",
+                " Multiple simultaneous bids from the same bidder are allowed only as long as all active",
+                " bids overlap each other (i.e. are mutually exclusive). Bids cannot be redacted.",
+                "",
+                " - `auction_index` is the index of the auction to bid on. Should just be the present",
+                " value of `AuctionCounter`.",
+                " - `first_slot` is the first lease period index of the range to bid on. This is the",
+                " absolute lease period index value, not an auction-specific offset.",
+                " - `last_slot` is the last lease period index of the range to bid on. This is the",
+                " absolute lease period index value, not an auction-specific offset.",
+                " - `amount` is the amount to bid to be held as deposit for the parachain should the",
+                " bid win. This amount is held throughout the range."
+              ]
+            },
+            {
+              "name": "set_offboarding",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "Address"
+                }
+              ],
+              "documentation": [
+                " Set the off-boarding information for a parachain.",
+                "",
+                " The origin *must* be a parachain account.",
+                "",
+                " - `dest` is the destination account to receive the parachain's deposit."
+              ]
+            },
+            {
+              "name": "fix_deploy_data",
+              "args": [
+                {
+                  "name": "sub",
+                  "type": "Compact<SubId>"
+                },
+                {
+                  "name": "para_id",
+                  "type": "Compact<ParaIdOf>"
+                },
+                {
+                  "name": "code_hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "initial_head_data",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Set the deploy information for a successful bid to deploy a new parachain.",
+                "",
+                " - `origin` must be the successful bidder account.",
+                " - `sub` is the sub-bidder ID of the bidder.",
+                " - `para_id` is the parachain ID allotted to the winning bidder.",
+                " - `code_hash` is the hash of the parachain's Wasm validation function.",
+                " - `initial_head_data` is the parachain's initial head data."
+              ]
+            },
+            {
+              "name": "elaborate_deploy_data",
+              "args": [
+                {
+                  "name": "para_id",
+                  "type": "Compact<ParaIdOf>"
                 },
                 {
                   "name": "code",
@@ -3615,331 +3905,100 @@
                 }
               ],
               "documentation": [
-                " Stores the given binary Wasm code into the chain's storage and returns its `codehash`.",
-                " You can instantiate contracts only with stored code."
-              ]
-            },
-            {
-              "name": "call",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "Address"
-                },
-                {
-                  "name": "value",
-                  "type": "Compact<BalanceOf>"
-                },
-                {
-                  "name": "gas_limit",
-                  "type": "Compact<Gas>"
-                },
-                {
-                  "name": "data",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Makes a call to an account, optionally transferring some balance.",
+                " Note a new parachain's code.",
                 "",
-                " * If the account is a smart-contract account, the associated code will be",
-                " executed and any value will be transferred.",
-                " * If the account is a regular account, any value will be transferred.",
-                " * If no account exists and the call value is not less than `existential_deposit`,",
-                " a regular account will be created and any value will be transferred."
-              ]
-            },
-            {
-              "name": "create",
-              "args": [
-                {
-                  "name": "endowment",
-                  "type": "Compact<BalanceOf>"
-                },
-                {
-                  "name": "gas_limit",
-                  "type": "Compact<Gas>"
-                },
-                {
-                  "name": "code_hash",
-                  "type": "CodeHash"
-                },
-                {
-                  "name": "data",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Creates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.",
+                " This must be called after `fix_deploy_data` and `code` must be the preimage of the",
+                " `code_hash` passed there for the same `para_id`.",
                 "",
-                " Creation is executed as follows:",
+                " This may be called before or after the beginning of the parachain's first lease period.",
+                " If called before then the parachain will become active at the first block of its",
+                " starting lease period. If after, then it will become active immediately after this call.",
                 "",
-                " - The destination address is computed based on the sender and hash of the code.",
-                " - The smart-contract account is created at the computed address.",
-                " - The `ctor_code` is executed in the context of the newly-created account. Buffer returned",
-                "   after the execution is saved as the `code` of the account. That code will be invoked",
-                "   upon any call received by this account.",
-                " - The contract is initialized."
-              ]
-            },
-            {
-              "name": "claim_surcharge",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "aux_sender",
-                  "type": "Option<AccountId>"
-                }
-              ],
-              "documentation": [
-                " Allows block producers to claim a small reward for evicting a contract. If a block producer",
-                " fails to do so, a regular users will be allowed to claim the reward.",
-                "",
-                " If contract is not evicted as a result of this call, no actions are taken and",
-                " the sender is not eligible for the reward."
-              ]
-            },
-            {
-              "name": "restore_to",
-              "args": [
-                {
-                  "name": "dest",
-                  "type": "AccountId"
-                },
-                {
-                  "name": "code_hash",
-                  "type": "CodeHash"
-                },
-                {
-                  "name": "rent_allowance",
-                  "type": "BalanceOf"
-                },
-                {
-                  "name": "delta",
-                  "type": "Vec<ContractStorageKey>"
-                }
-              ],
-              "documentation": [
-                " Allows a contract to restore a tombstone by giving its storage.",
-                "",
-                " The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a",
-                " tombstone with its storage and the given code_hash. If the computed tombstone",
-                " match the destination one, the destination contract is restored with the rent_allowance` specified,",
-                " while the origin sends all its funds to the destination and is removed."
+                " - `_origin` is irrelevant.",
+                " - `para_id` is the parachain ID whose code will be elaborated.",
+                " - `code` is the preimage of the registered `code_hash` of `para_id`."
               ]
             }
           ],
           "events": [
             {
-              "name": "Transfer",
+              "name": "NewLeasePeriod",
+              "args": [
+                "LeasePeriod"
+              ],
+              "documentation": [
+                " A new lease period is beginning."
+              ]
+            },
+            {
+              "name": "AuctionStarted",
+              "args": [
+                "AuctionIndex",
+                "LeasePeriod",
+                "BlockNumber"
+              ],
+              "documentation": [
+                " An auction started. Provides its index and the block number where it will begin to",
+                " close and the first lease period of the quadruplet that is auctioned."
+              ]
+            },
+            {
+              "name": "AuctionClosed",
+              "args": [
+                "AuctionIndex"
+              ],
+              "documentation": [
+                " An auction ended. All funds become unreserved."
+              ]
+            },
+            {
+              "name": "WonDeploy",
+              "args": [
+                "NewBidder",
+                "SlotRange",
+                "ParaId",
+                "Balance"
+              ],
+              "documentation": [
+                " Someone won the right to deploy a parachain. Balance amount is deducted for deposit."
+              ]
+            },
+            {
+              "name": "WonRenewal",
+              "args": [
+                "ParaId",
+                "SlotRange",
+                "Balance",
+                "Balance"
+              ],
+              "documentation": [
+                " An existing parachain won the right to continue."
+              ]
+            },
+            {
+              "name": "Reserved",
               "args": [
                 "AccountId",
+                "Balance",
+                "Balance"
+              ],
+              "documentation": [
+                " Funds were reserved for a winning bid. First balance is the extra amount reserved.",
+                " Second is the total."
+              ]
+            },
+            {
+              "name": "Unreserved",
+              "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
-                " Transfer happened `from` to `to` with given `value` as part of a `call` or `create`."
-              ]
-            },
-            {
-              "name": "Instantiated",
-              "args": [
-                "AccountId",
-                "AccountId"
-              ],
-              "documentation": [
-                " Contract deployed by address at the specified address."
-              ]
-            },
-            {
-              "name": "CodeStored",
-              "args": [
-                "Hash"
-              ],
-              "documentation": [
-                " Code with the specified hash has been stored."
-              ]
-            },
-            {
-              "name": "ScheduleUpdated",
-              "args": [
-                "u32"
-              ],
-              "documentation": [
-                " Triggered when the current schedule is updated."
-              ]
-            },
-            {
-              "name": "Dispatched",
-              "args": [
-                "AccountId",
-                "bool"
-              ],
-              "documentation": [
-                " A call was dispatched from the given account. The bool signals whether it was",
-                " successful execution or not."
-              ]
-            },
-            {
-              "name": "Contract",
-              "args": [
-                "AccountId",
-                "Bytes"
-              ],
-              "documentation": [
-                " An event from contract of account."
+                " Funds were unreserved since bidder is no longer active."
               ]
             }
           ],
-          "constants": [
-            {
-              "name": "SignedClaimHandicap",
-              "type": "BlockNumber",
-              "value": "0x0200000000000000",
-              "documentation": [
-                " Number of block delay an extrinsic claim surcharge has.",
-                "",
-                " When claim surcharge is called by an extrinsic the rent is checked",
-                " for current_block - delay"
-              ]
-            },
-            {
-              "name": "TombstoneDeposit",
-              "type": "BalanceOf",
-              "value": "0x10000000000000000000000000000000",
-              "documentation": [
-                " The minimum amount required to generate a tombstone."
-              ]
-            },
-            {
-              "name": "StorageSizeOffset",
-              "type": "u32",
-              "value": "0x08000000",
-              "documentation": [
-                " Size of a contract at the time of creation. This is a simple way to ensure",
-                " that empty contracts eventually gets deleted."
-              ]
-            },
-            {
-              "name": "RentByteFee",
-              "type": "BalanceOf",
-              "value": "0x04000000000000000000000000000000",
-              "documentation": [
-                " Price of a byte of storage per one block interval. Should be greater than 0."
-              ]
-            },
-            {
-              "name": "RentDepositOffset",
-              "type": "BalanceOf",
-              "value": "0xe8030000000000000000000000000000",
-              "documentation": [
-                " The amount of funds a contract should deposit in order to offset",
-                " the cost of one byte.",
-                "",
-                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
-                " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
-                " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
-                " then it would pay 500 BU/day."
-              ]
-            },
-            {
-              "name": "SurchargeReward",
-              "type": "BalanceOf",
-              "value": "0x96000000000000000000000000000000",
-              "documentation": [
-                " Reward that is received by the party whose touch has led",
-                " to removal of a contract."
-              ]
-            },
-            {
-              "name": "TransferFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee required to make a transfer."
-              ]
-            },
-            {
-              "name": "CreationFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee required to create an account."
-              ]
-            },
-            {
-              "name": "TransactionBaseFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
-            {
-              "name": "TransactionByteFee",
-              "type": "BalanceOf",
-              "value": "0x00e40b54020000000000000000000000",
-              "documentation": [
-                " The fee to be paid for making a transaction; the per-byte portion."
-              ]
-            },
-            {
-              "name": "ContractFee",
-              "type": "BalanceOf",
-              "value": "0x0010a5d4e80000000000000000000000",
-              "documentation": [
-                " The fee required to create a contract instance. A reasonable default value",
-                " is 21."
-              ]
-            },
-            {
-              "name": "CallBaseFee",
-              "type": "Gas",
-              "value": "0xe803000000000000",
-              "documentation": [
-                " The base fee charged for calling into a contract. A reasonable default",
-                " value is 135."
-              ]
-            },
-            {
-              "name": "CreateBaseFee",
-              "type": "Gas",
-              "value": "0xe803000000000000",
-              "documentation": [
-                " The base fee charged for creating a contract. A reasonable default value",
-                " is 175."
-              ]
-            },
-            {
-              "name": "MaxDepth",
-              "type": "u32",
-              "value": "0x00040000",
-              "documentation": [
-                " The maximum nesting level of a call/create stack. A reasonable default",
-                " value is 100."
-              ]
-            },
-            {
-              "name": "MaxValueSize",
-              "type": "u32",
-              "value": "0x00400000",
-              "documentation": [
-                " The maximum size of a storage value in bytes. A reasonable default is 16 KiB."
-              ]
-            },
-            {
-              "name": "BlockGasLimit",
-              "type": "Gas",
-              "value": "0x8096980000000000",
-              "documentation": [
-                " The maximum amount of gas that could be expended per block. A reasonable",
-                " default value is 10_000_000."
-              ]
-            }
-          ]
+          "constants": []
         },
         {
           "name": "sudo",
@@ -3947,9 +4006,9 @@
           "storage": [
             {
               "name": "Key",
-              "modifier": "Default",
+              "modifier": 1,
               "type": {
-                "PlainType": "AccountId"
+                "Type": "AccountId"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
@@ -4020,83 +4079,6 @@
             }
           ],
           "constants": []
-        },
-        {
-          "name": "im_online",
-          "prefix": "ImOnline",
-          "storage": [
-            {
-              "name": "GossipAt",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": []
-            },
-            {
-              "name": "LastNewEraStart",
-              "modifier": "Optional",
-              "type": {
-                "PlainType": "SessionIndex"
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "ReceivedHeartbeats",
-              "modifier": "Default",
-              "type": {
-                "DoubleMapType": {
-                  "hasher": "Blake2_256",
-                  "key1": "SessionIndex",
-                  "key2": "AuthorityId",
-                  "value": "Bytes",
-                  "key2Hasher": "Blake2_256"
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            }
-          ],
-          "calls": [
-            {
-              "name": "heartbeat",
-              "args": [
-                {
-                  "name": "heartbeat",
-                  "type": "Heartbeat"
-                },
-                {
-                  "name": "_signature",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": []
-            }
-          ],
-          "events": [
-            {
-              "name": "HeartbeatReceived",
-              "args": [
-                "BlockNumber",
-                "AuthorityId"
-              ],
-              "documentation": [
-                " A new heartbeat was received at this `BlockNumber` from `AuthorityId`"
-              ]
-            }
-          ],
-          "constants": [
-            {
-              "name": "SessionsPerEra",
-              "type": "SessionIndex",
-              "value": "0x06000000",
-              "documentation": [
-                " Number of sessions per era."
-              ]
-            }
-          ]
         }
       ]
     }
