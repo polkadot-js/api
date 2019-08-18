@@ -62,14 +62,14 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
   public get era (): ExtrinsicEra {
-    return this.era;
+    return this.get('era') as ExtrinsicEra;
   }
 
   /**
    * @description The [[Index]] for the signature
    */
   public get nonce (): Compact<Index> {
-    return this.nonce;
+    return this.get('nonce') as Compact<Index>;
   }
 
   /**
@@ -90,7 +90,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description The [[Balance]] tip
    */
   public get tip (): Compact<Balance> {
-    return this.tip;
+    return this.get('tip') as Compact<Balance>;
   }
 
   protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV2): IExtrinsicSignature {
