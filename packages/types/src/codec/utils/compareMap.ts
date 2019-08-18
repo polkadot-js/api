@@ -13,15 +13,17 @@ function hasMismatch (a?: any, b?: any): boolean {
   );
 }
 
+function notEntry (value: any): boolean {
+  return !Array.isArray(value) || value.length !== 2;
+}
+
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Map<string, Codec> that the first has to be as well
 export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
     // equal number of entries and each entry in the array should match
     return (a.size === b.length) && !b.some((entry): boolean =>
-      !Array.isArray(entry) ||
-      entry.length !== 2 ||
-      hasMismatch(a.get(entry[0]), entry[1])
+      notEntry(entry) || hasMismatch(a.get(entry[0]), entry[1])
     );
   } else if (b instanceof Map) {
     return compareMap(a, [...b.entries()]);

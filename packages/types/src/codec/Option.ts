@@ -40,12 +40,16 @@ export default class Option<T extends Codec> extends Base<T> {
     } else if (isU8a(value)) {
       // the isU8a check happens last in the if-tree - since the wrapped value
       // may be an instance of it, so Type and Option checks go in first
-      return !value.length || value[0] === 0
-        ? new Null()
-        : new Type(value.subarray(1));
+      return Option.decodeOptionU8a(Type, value);
     }
 
     return new Type(value);
+  }
+
+  private static decodeOptionU8a (Type: Constructor, value: Uint8Array): Codec {
+    return !value.length || value[0] === 0
+      ? new Null()
+      : new Type(value.subarray(1));
   }
 
   public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
