@@ -159,6 +159,14 @@ export type FunctionMetadataV6 = FunctionMetadataV5;
 export type FunctionMetadataV7 = FunctionMetadataV6;
 
 /** Struct */
+export interface MapTypeV0 extends Struct {
+  /** Type */
+  readonly key: Type;
+  /** Type */
+  readonly value: Type;
+}
+
+/** Struct */
 export interface ModuleConstantMetadataV6 extends Struct {
   /** Text */
   readonly name: Text;
@@ -198,3 +206,27 @@ export interface OuterDispatchMetadataV0 extends Struct {
   /** Vec<OuterDispatchCallV0> */
   readonly calls: Vec<OuterDispatchCallV0>;
 }
+
+/** Type */
+export type PlainTypeV0 = Type;
+
+/** Type */
+export type PlainTypeV1 = Type;
+
+/** Type */
+export type PlainTypeV2 = Type;
+
+/** Type */
+export type PlainTypeV3 = Type;
+
+/** Type */
+export type PlainTypeV4 = Type;
+
+/** Type */
+export type PlainTypeV5 = Type;
+
+/** Type */
+export type PlainTypeV6 = Type;
+
+/** Type */
+export type PlainTypeV7 = Type;

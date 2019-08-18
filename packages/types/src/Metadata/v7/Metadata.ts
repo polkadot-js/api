@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventMetadataV7, FunctionMetadataV7, ModuleConstantMetadataV7 } from '../../interfaces/metadata/types';
+import { EventMetadataV7, FunctionMetadataV7, ModuleConstantMetadataV7 } from '../../interfaces/metadata';
 import { MetadataInterface } from '../types';
 
 import Option from '../../codec/Option';

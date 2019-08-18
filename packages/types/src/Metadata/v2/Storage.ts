@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { PlainTypeV2 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -13,13 +14,10 @@ import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { PlainType, StorageFunctionModifier } from '../v1/Storage';
+import { StorageFunctionModifier } from '../v1/Storage';
 
 // Re-export classes that haven't changed between V1 and V2
-export {
-  PlainType,
-  StorageFunctionModifier
-};
+export { StorageFunctionModifier };
 
 export class MapType extends Struct {
   public constructor (value?: any) {
@@ -55,7 +53,7 @@ export class MapType extends Struct {
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType,
+      PlainType: 'PlainTypeV2',
       MapType
     }, value, index);
   }
@@ -72,10 +70,10 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainType {
+  public get asType (): PlainTypeV2 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
-    return this.value as PlainType;
+    return this.value as PlainTypeV2;
   }
 
   /**

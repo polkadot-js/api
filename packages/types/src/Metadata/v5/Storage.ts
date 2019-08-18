@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapTypeV5 } from '../../interfaces/metadata/types';
+import { DoubleMapTypeV5, PlainTypeV5 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -12,19 +12,18 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MapType, PlainType, StorageFunctionModifier } from '../v4/Storage';
+import { MapType, StorageFunctionModifier } from '../v4/Storage';
 
 // Re-export classes that haven't changed between V4 and V5
 export {
   MapType,
-  PlainType,
   StorageFunctionModifier
 };
 
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType,
+      PlainType: 'PlainTypeV5',
       MapType,
       DoubleMapType: 'DoubleMapTypeV5'
     }, value, index);
@@ -51,10 +50,10 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainType {
+  public get asType (): PlainTypeV5 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
-    return this.value as PlainType;
+    return this.value as PlainTypeV5;
   }
 
   /**

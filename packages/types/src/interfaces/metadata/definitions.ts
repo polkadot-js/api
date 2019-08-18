@@ -24,6 +24,10 @@ export default {
       args: 'Vec<FunctionArgumentMetadataV0>',
       documentation: 'Vec<Text>'
     },
+    MapTypeV0: {
+      key: 'Type',
+      value: 'Type'
+    },
     ModuleMetadataV0: {
       name: 'Text',
       call: 'CallMetadataV0'
@@ -37,6 +41,7 @@ export default {
       name: 'Text',
       calls: 'Vec<OuterDispatchCallV0>'
     },
+    PlainTypeV0: 'Type',
 
     // v1
     EventMetadataV1: 'EventMetadataV0',
@@ -46,11 +51,13 @@ export default {
       args: 'Vec<FunctionArgumentMetadataV1>',
       documentation: 'Vec<Text>'
     },
+    PlainTypeV1: 'Type',
 
     // v2
     EventMetadataV2: 'EventMetadataV1',
     FunctionArgumentMetadataV2: 'FunctionArgumentMetadataV1',
     FunctionMetadataV2: 'FunctionMetadataV1',
+    PlainTypeV2: 'Type',
 
     // v3
     DoubleMapTypeV3: {
@@ -62,6 +69,7 @@ export default {
     EventMetadataV3: 'EventMetadataV2',
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
     FunctionMetadataV3: 'FunctionMetadataV2',
+    PlainTypeV3: 'Type',
 
     // v4
     DoubleMapTypeV4: {
@@ -74,6 +82,7 @@ export default {
     EventMetadataV4: 'EventMetadataV3',
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
     FunctionMetadataV4: 'FunctionMetadataV3',
+    PlainTypeV4: 'Type',
 
     // v5
     DoubleMapTypeV5: {
@@ -86,6 +95,7 @@ export default {
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
     FunctionMetadataV5: 'FunctionMetadataV4',
+    PlainTypeV5: 'Type',
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
@@ -98,12 +108,14 @@ export default {
       value: 'Bytes',
       documentation: 'Vec<Text>'
     },
+    PlainTypeV6: 'Type',
 
     // v7
     DoubleMapTypeV7: 'DoubleMapTypeV6',
     EventMetadataV7: 'EventMetadataV6',
     FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
     FunctionMetadataV7: 'FunctionMetadataV6',
-    ModuleConstantMetadataV7: 'ModuleConstantMetadataV6'
+    ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
+    PlainTypeV7: 'Type'
   }
 };

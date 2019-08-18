@@ -3,7 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventMetadataV1, FunctionMetadataV1 } from '../../interfaces/metadata/types';
+import { EventMetadataV1, FunctionMetadataV1 } from '../../interfaces/metadata';
+
 import { stringUpperFirst } from '@polkadot/util';
 
 import { Option, Vec } from '../../codec';

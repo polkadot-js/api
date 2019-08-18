@@ -6,8 +6,8 @@ import { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
-import { createTypeUnsafe } from '@polkadot/types/codec';
-import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
+import { createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
@@ -114,7 +114,7 @@ export default function createFunction ({ meta, method, prefix, section }: Creat
     headFn.meta = new StorageEntryMetadata({
       name: meta.name,
       modifier: new StorageEntryModifier('Required'),
-      type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
+      type: new StorageEntryType(createType('PlainTypeV7', meta.type.asMap.key), 0),
       fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
       documentation: meta.documentation
     });

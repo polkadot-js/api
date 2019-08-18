@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MapTypeV0, PlainTypeV0 } from '../../interfaces/metadata';
 import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
@@ -11,7 +12,6 @@ import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
 
 export class StorageFunctionModifier extends Enum {
   public constructor (value?: any) {
@@ -31,69 +31,30 @@ export class StorageFunctionModifier extends Enum {
   }
 }
 
-export class MapType extends Struct {
-  private _isLinked = false;
-
-  public constructor (value?: any) {
-    super({
-      key: 'Type',
-      value: 'Type'
-    }, value);
-
-    if (value && value.isLinked) {
-      this._isLinked = true;
-    }
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  public get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  public get value (): Type {
-    return this.get('value') as Type;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  public get isLinked (): boolean {
-    return this._isLinked;
-  }
-}
-
-export class PlainType extends Type {
-}
-
 export class StorageFunctionType extends Enum {
   public constructor (value?: any, index?: number) {
     super({
-      PlainType,
-      MapType
+      PlainType: 'PlainTypeV0',
+      MapType: 'MapTypeV0'
     }, value, index);
   }
 
   /**
    * @description The value as a mapped value
    */
-  public get asMap (): MapType {
+  public get asMap (): MapTypeV0 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
-    return this.value as MapType;
+    return this.value as MapTypeV0;
   }
 
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainType {
+  public get asType (): PlainTypeV0 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
-    return this.value as PlainType;
+    return this.value as PlainTypeV0;
   }
 
   /**
@@ -115,10 +76,6 @@ export class StorageFunctionType extends Enum {
    */
   public toString (): string {
     if (this.isMap) {
-      if (this.asMap.isLinked) {
-        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
-      }
-
       return this.asMap.value.toString();
     }
 
