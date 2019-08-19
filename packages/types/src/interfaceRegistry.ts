@@ -19,7 +19,7 @@ import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPend
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from './interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
-import { EraIndex, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs } from './interfaces/staking';
+import { EraIndex, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from './interfaces/staking';
 import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
@@ -532,6 +532,9 @@ export interface InterfaceRegistry {
   ValidatorPrefs: ValidatorPrefs;
   'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
   'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
+  ValidatorPrefs0to145: ValidatorPrefs0to145;
+  'Option<ValidatorPrefs0to145>': Option<ValidatorPrefs0to145>;
+  'Vec<ValidatorPrefs0to145>': Vec<ValidatorPrefs0to145>;
   DigestOf: DigestOf;
   'Option<DigestOf>': Option<DigestOf>;
   'Vec<DigestOf>': Vec<DigestOf>;

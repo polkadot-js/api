@@ -49,6 +49,9 @@ export default {
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      validatorPayment: 'Compact<Balance>'
+    },
+    ValidatorPrefs0to145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }

@@ -89,6 +89,12 @@ export interface UnlockChunk extends Struct {
 
 /** Struct */
 export interface ValidatorPrefs extends Struct {
+  /** Compact<Balance> */
+  readonly validatorPayment: Compact<Balance>;
+}
+
+/** Struct */
+export interface ValidatorPrefs0to145 extends Struct {
   /** Compact<u32> */
   readonly unstakeThreshold: Compact<u32>;
   /** Compact<Balance> */

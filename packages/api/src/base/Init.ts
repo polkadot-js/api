@@ -31,7 +31,8 @@ const TYPES_FOR_POLKADOT: Record<string, string> = {
 const TYPES_SUBSTRATE_1 = {
   BlockNumber: 'u64',
   Index: 'u64',
-  EventRecord: 'EventRecord0to76'
+  EventRecord: 'EventRecord0to76',
+  ValidatorPrefs: 'ValidatorPrefs0to145'
 };
 
 // Type overrides for specific node types
