@@ -1,11 +1,9 @@
-[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org)
-![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)
-[![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard)
-[![npm](https://img.shields.io/npm/v/@polkadot/api.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/api)
-[![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.com/polkadot-js/api)
-[![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api)
-[![coverage](https://img.shields.io/codeclimate/coverage/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api)
-[![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg?style=flat-square)](https://greenkeeper.io/)
+[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange?style=flat-square)](https://polkadot.js.org)
+![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
+[![npm](https://img.shields.io/npm/v/@polkadot/api?logo=npm&style=flat-square)](https://www.npmjs.com/package/@polkadot/api)
+[![beta](https://img.shields.io/npm/v/@polkadot/api/beta?label=beta&logo=npm&&style=flat-square)](https://www.npmjs.com/package/@polkadot/api)
+[![maintainability](https://img.shields.io/codeclimate/maintainability-percentage/polkadot-js/api?logo=code-climate&style=flat-square)](https://codeclimate.com/github/polkadot-js/api)
+[![coverage](https://img.shields.io/codeclimate/coverage/polkadot-js/api?logo=code-climate&style=flat-square)](https://codeclimate.com/github/polkadot-js/api)
 
 # @polkadot/api
 

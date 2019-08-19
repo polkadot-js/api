@@ -2,22 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Index } from '../../../interfaces/runtime';
-import { AnyNumber, AnyU8a, ExtrinsicPayloadValue, IExtrinsicEra, IKeyringPair, IMethod } from '../../../types';
+import { Hash, ExtrinsicEra, Index } from '../../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
-import { ClassOf } from '../../../codec/createType';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import U8a from '../../../codec/U8a';
-import ExtrinsicEra from '../ExtrinsicEra';
+import Bytes from '../../../primitive/Bytes';
 import { sign } from '../util';
-
-export interface ExtrinsicPayloadValueV1 {
-  blockHash: AnyU8a;
-  era: AnyU8a | IExtrinsicEra;
-  method: AnyU8a | IMethod;
-  nonce: AnyNumber;
-}
 
 /**
  * @name ExtrinsicPayloadV1
@@ -31,12 +22,12 @@ export interface ExtrinsicPayloadValueV1 {
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class ExtrinsicPayloadV1 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | ExtrinsicPayloadValueV1 | Uint8Array | string) {
+  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
-      nonce: ClassOf('Compact<Index>'),
-      method: U8a,
-      era: ExtrinsicEra,
-      blockHash: ClassOf('Hash')
+      nonce: 'Compact<Index>',
+      method: 'Bytes',
+      era: 'ExtrinsicEra',
+      blockHash: 'Hash'
     }, value);
   }
 
@@ -48,10 +39,10 @@ export default class ExtrinsicPayloadV1 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
+   * @description The [[Bytes]] contained in the payload
    */
-  public get method (): U8a {
-    return this.get('method') as U8a;
+  public get method (): Bytes {
+    return this.get('method') as Bytes;
   }
 
   /**
@@ -71,8 +62,7 @@ export default class ExtrinsicPayloadV1 extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a());
+    return sign(signerPair, this.toU8a(true));
   }
 }

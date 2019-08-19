@@ -13,7 +13,7 @@ import Metadata from '@polkadot/types/Metadata';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
-import rpcMetadataV6 from '@polkadot/types/Metadata/static';
+import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
 import rpcMetadataV7 from '@polkadot/types/Metadata/v7/static';
 
 import Api from '.';
@@ -96,7 +96,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
       api.state
         .getStorage([storage.system.accountNonce, ADDR_ONE])
         .subscribe((value): void => {
-          expect(value.toHex()).toEqual('0x0000000000000000');
+          expect(value.toHex()).toEqual('0x00000000');
           done();
         });
     });

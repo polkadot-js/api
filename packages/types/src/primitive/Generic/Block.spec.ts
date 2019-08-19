@@ -23,7 +23,7 @@ describe('Block', (): void => {
       JSON.stringify({
         header: JSON.stringify({
           parentHash: 'H256',
-          number: 'Compact<u64>',
+          number: 'Compact<u32>',
           stateRoot: 'H256',
           extrinsicsRoot: 'H256',
           digest: JSON.stringify({

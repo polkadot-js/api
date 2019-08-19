@@ -6,7 +6,7 @@ import '../injector';
 
 import BN from 'bn.js';
 
-import createType, { ClassOf } from '../codec/createType';
+import { createType, ClassOf } from './create';
 import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';
@@ -110,10 +110,16 @@ describe('Compact', (): void => {
     it('has the correct bitLength for constructor values (BlockNumber)', (): void => {
       expect(
         new Compact(ClassOf('BlockNumber'), 0xfffffff9).bitLength()
-      ).toEqual(64);
+      ).toEqual(32);
     });
 
-    it('has the correct encodedLength for constructor values (BlockNumber)', (): void => {
+    it('has the correct encodedLength for constructor values (string BlockNumber)', (): void => {
+      expect(
+        new Compact('BlockNumber', 0xfffffff9).encodedLength
+      ).toEqual(5);
+    });
+
+    it('has the correct encodedLength for constructor values (class BlockNumber)', (): void => {
       expect(
         new Compact(ClassOf('BlockNumber'), 0xfffffff9).encodedLength
       ).toEqual(5);

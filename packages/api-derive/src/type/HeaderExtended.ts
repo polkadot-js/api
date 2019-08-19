@@ -5,11 +5,11 @@
 import { AccountId, Header } from '@polkadot/types/interfaces';
 import { AnyJsonObject, Constructor } from '@polkadot/types/types';
 
-import { ClassOf } from '@polkadot/types';
+import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
+import { Struct } from '@polkadot/types';
 
-// This is a bit hacky, but is exactly what it resolves to when compiled -
-// and as a bonus is gets the typing right
-const _Header: Constructor<Header> = ClassOf('Header');
+// @ts-ignore We can ignore the properties, added via Struct.with
+const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header);
 
 /**
  * @name HeaderExtended
@@ -19,43 +19,32 @@ const _Header: Constructor<Header> = ClassOf('Header');
 export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
-  public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
+  public constructor (header?: Header, sessionValidators?: AccountId[]) {
     super(header);
 
-    if (!header || !header.digest || !sessionValidators.length) {
-      return;
-    }
+    this._author = this.extractAuthor(sessionValidators);
+  }
 
-    const [pitem] = header.digest.logsWith('PreRuntime');
+  private extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
+    const [pitem] = this.digest.logsWith('PreRuntime');
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isBabe || engine.isAura) {
-        this._author = engine.extractAuthor(data, sessionValidators);
-      }
+      return engine.extractAuthor(data, sessionValidators);
     } else {
-      const [citem] = header.digest.logsWith('Consensus');
+      const [citem] = this.digest.logsWith('Consensus');
 
       // extract author from the consensus (substrate 1.0, digest)
       if (citem) {
         const [engine, data] = citem.asConsensus;
 
-        if (engine.isAura) {
-          this._author = engine.extractAuthor(data, sessionValidators);
-        }
-      } else {
-        const [sitem] = header.digest.logsWith('SealV0');
-
-        // extract author from the seal (pre substrate 1.0, backwards compat)
-        if (sitem) {
-          this._author = sessionValidators[
-            sitem.asSealV0[0].modn(sessionValidators.length)
-          ];
-        }
+        return engine.extractAuthor(data, sessionValidators);
       }
     }
+
+    return undefined;
   }
 
   /**

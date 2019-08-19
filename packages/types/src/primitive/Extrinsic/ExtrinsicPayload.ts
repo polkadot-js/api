@@ -3,16 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, Hash, Index } from '../../interfaces/runtime';
-import { IKeyringPair } from '../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
-import ExtrinsicPayloadV1, { ExtrinsicPayloadValueV1 } from './v1/ExtrinsicPayload';
-import ExtrinsicPayloadV2, { ExtrinsicPayloadValueV2 } from './v2/ExtrinsicPayload';
+import u32 from '../../primitive/U32';
+import ExtrinsicPayloadV1 from './v1/ExtrinsicPayload';
+import ExtrinsicPayloadV2 from './v2/ExtrinsicPayload';
+import ExtrinsicPayloadV3 from './v3/ExtrinsicPayload';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
@@ -26,14 +28,14 @@ interface ExtrinsicPayloadOptions {
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2> {
-  public constructor (value: Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3> {
+  public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
-      ExtrinsicPayload.decodeExtrinsicPayload(value, version)
+      ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
     );
   }
 
-  public static decodeExtrinsicPayload (value: ExtrinsicPayload | Partial<ExtrinsicPayloadValueV1> | Partial<ExtrinsicPayloadValueV2> | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 {
+  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
@@ -41,6 +43,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
     switch (version) {
       case 1: return new ExtrinsicPayloadV1(value as Uint8Array);
       case 2: return new ExtrinsicPayloadV2(value as Uint8Array);
+      case 3: return new ExtrinsicPayloadV3(value as Uint8Array);
       default: throw new Error(`Unsupported extrinsic version ${version}`);
     }
   }
@@ -53,17 +56,25 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
-   */
-  public get method (): U8a {
-    return this.raw.method;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]]
    */
   public get era (): ExtrinsicEra {
     return this.raw.era;
+  }
+
+  /**
+   * @description The genesis block [[Hash]] the signature applies to
+   */
+  public get genesisHash (): Hash {
+    // NOTE only v3
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
+  }
+
+  /**
+   * @description The [[U8a]] contained in the payload
+   */
+  public get method (): U8a {
+    return this.raw.method;
   }
 
   /**
@@ -74,10 +85,19 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
   }
 
   /**
+   * @description The specVersion as a [[u32]] for this payload
+   */
+  public get specVersion (): u32 {
+    // NOTE only v3
+    return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
+  }
+
+  /**
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>', 0);
+    // NOTE from v2
+    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
   }
 
   /**

@@ -1,8 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '../../types';
-import { Compact, Struct, Vec } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64, u8 } from '../../primitive';
+import { Compact, Struct } from '../../codec';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -28,8 +29,8 @@ export type BalanceOf = Balance;
 /** GenericBlock */
 export type Block = GenericBlock;
 
-/** u64 */
-export type BlockNumber = u64;
+/** u32 */
+export type BlockNumber = u32;
 
 /** GenericCall */
 export type Call = GenericCall;
@@ -78,8 +79,8 @@ export interface Header extends Struct {
 /** GenericImmortalEra */
 export type ImmortalEra = GenericImmortalEra;
 
-/** u64 */
-export type Index = u64;
+/** u32 */
+export type Index = u32;
 
 /** Bytes */
 export type Justification = Bytes;
@@ -90,8 +91,8 @@ export type KeyTypeId = u32;
 /** [StorageKey, StorageData] & Codec */
 export type KeyValue = [StorageKey, StorageData] & Codec;
 
-/** Vec<u8> */
-export type LockIdentifier = Vec<u8>;
+/** Uint8Array & Codec */
+export type LockIdentifier = Uint8Array & Codec;
 
 /** u64 */
 export type Moment = u64;
@@ -110,6 +111,9 @@ export type Permill = u32;
 
 /** Null */
 export type Phantom = Null;
+
+/** Null */
+export type PhantomData = Null;
 
 /** [ConsensusEngineId, Bytes] & Codec */
 export type PreRuntime = [ConsensusEngineId, Bytes] & Codec;

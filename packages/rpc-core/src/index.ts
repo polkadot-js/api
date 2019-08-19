@@ -14,7 +14,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { ClassOf, Option, StorageData, StorageKey, Vec, createClass } from '@polkadot/types';
-import { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import { createTypeUnsafe } from '@polkadot/types/codec';
 import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -23,7 +23,7 @@ const EMPTY_META = {
   fallback: undefined,
   modifier: { isOptional: true },
   type: {
-    asMap: { isLinked: false },
+    asMap: { linked: { isTrue: false } },
     isMap: false
   }
 };
@@ -148,26 +148,25 @@ export default class Rpc implements RpcInterface {
       // a try/catch block). So we:
       // - first do `of(1)` - won't throw
       // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
-      return of(1)
-        .pipe(
-          map((): Codec[] => this.formatInputs(method, values)),
-          switchMap((params): Observable<[Codec[], any]> =>
-            combineLatest([
-              of(params),
-              from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
-            ])
-          ),
-          map(([params, result]): any => this.formatOutput(method, params, result)),
-          catchError((error): any => {
-            const message = this.createErrorMessage(method, error);
+      return of(1).pipe(
+        map((): Codec[] => this.formatInputs(method, values)),
+        switchMap((params): Observable<[Codec[], any]> =>
+          combineLatest([
+            of(params),
+            from(this.provider.send(rpcName, params.map((param): AnyJson => param.toJSON())))
+          ])
+        ),
+        map(([params, result]): any => this.formatOutput(method, params, result)),
+        catchError((error): any => {
+          const message = this.createErrorMessage(method, error);
 
-            l.error(message);
+          l.error(message);
 
-            return throwError(new ExtError(message, (error as ExtError).code, undefined));
-          }),
-          publishReplay(1), // create a Replay(1)
-          refCount() // Unsubcribe WS when there are no more subscribers
-        );
+          return throwError(new ExtError(message, (error as ExtError).code, undefined));
+        }),
+        publishReplay(1), // create a Replay(1)
+        refCount() // Unsubcribe WS when there are no more subscribers
+      );
     };
 
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
@@ -186,7 +185,6 @@ export default class Rpc implements RpcInterface {
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
-
         const errorHandler = (error: Error): void => {
           const message = this.createErrorMessage(method, error);
 
@@ -235,11 +233,9 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => {
-              const message = this.createErrorMessage(method, error);
-
-              l.error(message);
-            });
+            .catch((error: Error): void =>
+              l.error(this.createErrorMessage(method, error))
+            );
         };
       }).pipe(
         publishReplay(1),
@@ -273,7 +269,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
-    const base = createTypeUnsafe(method.type as string, [result]);
+    const base = createTypeUnsafe(method.type, [result]);
 
     if (method.type === 'StorageData') {
       const key = params[0] as StorageKey;
@@ -286,14 +282,17 @@ export default class Rpc implements RpcInterface {
         throw error;
       }
     } else if ((method.type as string) === 'StorageChangeSet') {
+      const keys = params[0] as Vec<StorageKey>;
+      const withCache = keys.length !== 1;
+
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vec<StorageKey>).reduce((results, key: StorageKey): (Codec | undefined)[] => {
+      return keys.reduce((results, key: StorageKey): (Codec | undefined)[] => {
         try {
-          results.push(this.formatStorageSet(key, base as StorageChangeSet));
+          results.push(this.formatStorageSet(key, base as StorageChangeSet, withCache));
         } catch (error) {
           console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
 
@@ -316,14 +315,16 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull ? null : createTypeUnsafe(type, [base], true)
+        isNull
+          ? null
+          : createTypeUnsafe(type, [base], true)
       );
     }
 
     return createTypeUnsafe(type, [isNull ? meta.fallback : base], true);
   }
 
-  private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec {
+  private formatStorageSet (key: StorageKey, base: StorageChangeSet, witCache: boolean): Codec {
     // Fallback to Data (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Data';
     const hexKey = key.toHex();
@@ -334,9 +335,9 @@ export default class Rpc implements RpcInterface {
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
     const emptyVal = (
-      base.changes.length === 1
-        ? null
-        : this._storageCache.get(hexKey)
+      witCache
+        ? this._storageCache.get(hexKey)
+        : null
     ) || new Option<StorageData>(ClassOf('StorageData'), null);
 
     // see if we have a result value for this specific key, fallback to the cache value
@@ -353,7 +354,9 @@ export default class Rpc implements RpcInterface {
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        value.isNone ? null : createTypeUnsafe(type, [value.unwrap()], true)
+        value.isNone
+          ? null
+          : createTypeUnsafe(type, [value.unwrap()], true)
       );
     }
 

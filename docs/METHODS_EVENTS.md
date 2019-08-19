@@ -17,6 +17,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[indices](#indices)**
 
+- **[offences](#offences)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -26,6 +28,8 @@ Events are emitted for certain operations on the runtime. The following sections
 - **[system](#system)**
 
 - **[technicalCommittee](#technicalCommittee)**
+
+- **[technicalMembership](#technicalMembership)**
 
 - **[treasury](#treasury)**
 
@@ -153,8 +157,8 @@ ___
 
 ### imOnline
 
-▸ **HeartbeatReceived**(`BlockNumber`, `AuthorityId`)
-- **summary**:   A new heartbeat was received at this `BlockNumber` from `AuthorityId`
+▸ **HeartbeatReceived**(`AuthorityId`)
+- **summary**:   A new heartbeat was received from `AuthorityId`
 
 ___
 
@@ -163,6 +167,14 @@ ___
 
 ▸ **NewAccountIndex**(`AccountId`, `AccountIndex`)
 - **summary**:   A new account index was assigned.   This event is not triggered when an existing index is reassigned  to another `AccountId`.
+
+___
+
+
+### offences
+
+▸ **Offence**(`Kind`, `OpaqueTimeSlot`)
+- **summary**:   There is an offence reported of the given `kind` happened at the `session_index` and  (kind-specific) time slot. This event is not deposited for duplicate slashes.
 
 ___
 
@@ -177,14 +189,14 @@ ___
 
 ### staking
 
-▸ **OfflineSlash**(`AccountId`, `Balance`)
-- **summary**:   One validator (and its nominators) has been slashed by the given amount.
-
-▸ **OfflineWarning**(`AccountId`, `u32`)
-- **summary**:   One validator (and its nominators) has been given an offline-warning (it is still  within its grace). The accrued number of slashes is recorded, too.
+▸ **OldSlashingReportDiscarded**(`SessionIndex`)
+- **summary**:   An old slashing report from a prior era was discarded because it could  not be processed.
 
 ▸ **Reward**(`Balance`)
 - **summary**:   All validators have been rewarded by the given balance.
+
+▸ **Slash**(`AccountId`, `Balance`)
+- **summary**:   One validator (and its nominators) has been slashed by the given amount.
 
 ___
 
@@ -230,6 +242,26 @@ ___
 
 ▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
 - **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
+
+___
+
+
+### technicalMembership
+
+▸ **Dummy**(`PhantomData`)
+- **summary**:   Phantom member, never used.
+
+▸ **MemberAdded**()
+- **summary**:   The given member was added; see the transaction for who.
+
+▸ **MemberRemoved**()
+- **summary**:   The given member was removed; see the transaction for who.
+
+▸ **MembersReset**()
+- **summary**:   The membership was reset; see the transaction for who the new set is.
+
+▸ **MembersSwapped**()
+- **summary**:   Two members were swapped; see the transaction for who.
 
 ___
 

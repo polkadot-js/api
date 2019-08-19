@@ -4,6 +4,10 @@
 
 export default {
   types: {
+    AssetOptions: {
+      initalIssuance: 'Balance',
+      permissions: 'PermissionLatest'
+    },
     Owner: {
       _enum: {
         None: 'Null',
@@ -20,10 +24,6 @@ export default {
         V1: 'PermissionsV1'
       }
     },
-    PermissionLatest: 'PermissionsV1',
-    AssetOptions: {
-      initalIssuance: 'Balance',
-      permissions: 'PermissionLatest'
-    }
+    PermissionLatest: 'PermissionsV1'
   }
 };

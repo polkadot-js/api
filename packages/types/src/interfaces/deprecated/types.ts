@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Enum, Struct } from '../../codec';
 import { Bytes, Null, i8, u32, u64 } from '../../primitive';

@@ -7,7 +7,7 @@ import { AnyU8a, Codec, IHash } from '../types';
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from '../codec/createType';
+import { createType } from '../codec/create';
 import Compact from '../codec/Compact';
 
 /**

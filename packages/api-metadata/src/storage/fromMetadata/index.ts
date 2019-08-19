@@ -16,7 +16,7 @@ import { storage } from './storage';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Storage {
-  return metadata.asV7.modules.reduce((result, moduleMetadata): Storage => {
+  return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }

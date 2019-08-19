@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 
 describe('ChainProperties', (): void => {
   it('decodes from a null value', (): void => {

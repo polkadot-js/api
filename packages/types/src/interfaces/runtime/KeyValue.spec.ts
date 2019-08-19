@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 
 describe('KeyValue', (): void => {
   it('decodes KeyValue from u8a', (): void => {

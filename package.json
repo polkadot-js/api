@@ -1,5 +1,5 @@
 {
-  "version": "0.90.0-beta.13",
+  "version": "0.90.0-beta.66",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -12,7 +12,7 @@
     "typescript": "^3.5.3"
   },
   "scripts": {
-    "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
+    "build": "yarn build:interfaces && polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
@@ -20,7 +20,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage --testPathIgnorePatterns e2e",
+    "test": "jest --coverage --runInBand --testPathIgnorePatterns e2e",
     "test:all": "jest",
     "test:e2e": "jest packages/api/test/e2e",
     "test:e2e-docker": "TEST_DOCKER=1 jest packages/api/test/e2e",
@@ -32,8 +32,8 @@
     "@babel/core": "^7.5.5",
     "@babel/register": "^7.5.5",
     "@babel/runtime": "^7.5.5",
-    "@polkadot/dev": "^0.30.0-beta.23",
-    "@polkadot/ts": "^0.1.62",
-    "gh-pages": "^2.0.1"
+    "@polkadot/dev": "^0.31.0-beta.3",
+    "@polkadot/ts": "^0.1.64",
+    "gh-pages": "^2.1.1"
   }
 }

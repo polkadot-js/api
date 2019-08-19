@@ -9,14 +9,21 @@ export default {
       total: 'u32',
       rewards: 'Vec<u32>'
     },
-    IndividualExposure: {
-      who: 'AccountId',
-      value: 'Compact<Balance>'
-    },
     Exposure: {
       total: 'Compact<Balance>',
       own: 'Compact<Balance>',
       others: 'Vec<IndividualExposure>'
+    },
+    Forcing: {
+      _enum: [
+        'NotForcing',
+        'ForceNew',
+        'ForceNone'
+      ]
+    },
+    IndividualExposure: {
+      who: 'AccountId',
+      value: 'Compact<Balance>'
     },
     MomentOf: 'Moment',
     RewardDestination: {
@@ -26,15 +33,20 @@ export default {
         'Controller'
       ]
     },
-    UnlockChunk: {
-      value: 'Compact<Balance>',
-      era: 'Compact<BlockNumber>'
+    SlashJournalEntry: {
+      who: 'AccountId',
+      amount: 'Balance',
+      ownSlash: 'Balance'
     },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
+    },
+    UnlockChunk: {
+      value: 'Compact<Balance>',
+      era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
       unstakeThreshold: 'Compact<u32>',

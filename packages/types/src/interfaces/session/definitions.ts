@@ -4,11 +4,19 @@
 
 export default {
   types: {
+    FullIdentification: 'Exposure',
+    IdentificationTuple: '(ValidatorId, FullIdentification)',
     SessionIndex: 'u32',
-    // node/runtime/src/lib.rs, impl_opaque_keys
-    Keys: {
-      ed25519: 'AccountId', // Grandpa, aka GrandpaId
-      sr25519: 'AccountId' // Babe, aka BabeId
-    }
+
+    // The runtime definition of SessionKeys are passes as a Trait to session
+    // Defined in `node/runtime/src/lib.rs` as follow
+    //   impl_opaque_keys! {
+    //     pub struct SessionKeys {
+    // Here we revert to tuples to keep the interfaces "opaque", as per the use
+    Keys: 'SessionKeysSubstrate',
+    // For substrate: Grandpa, Babe, ImOnline
+    SessionKeysSubstrate: '(AccountId, AccountId, AccountId)',
+    // For polkadot: Grandpa, Babe, ImOnline, Parachains
+    SessionKeysPolkadot: '(AccountId, AccountId, AccountId, AccountId)'
   }
 };

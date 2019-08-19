@@ -7,7 +7,7 @@ async function main () {
   const provider = new WsProvider('ws://127.0.0.1:9944');
 
   // Create the API and wait until ready
-  const api = await ApiPromise.create(provider);
+  const api = await ApiPromise.create({ provider });
 
   // Retrieve the chain & node information information via rpc calls
   const [chain, nodeName, nodeVersion] = await Promise.all([

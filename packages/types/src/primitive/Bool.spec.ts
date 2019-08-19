@@ -45,5 +45,13 @@ describe('Bool', (): void => {
     it('compares agains a Bool', (): void => {
       expect(new Bool(false).eq(new Bool(false))).toBe(true);
     });
+
+    it('has isTrue', (): void => {
+      expect(new Bool(true).isTrue).toBe(true);
+    });
+
+    it('has isFalse', (): void => {
+      expect(new Bool(true).isFalse).toBe(false);
+    });
   });
 });

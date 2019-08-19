@@ -7,10 +7,9 @@ import { AccountId } from '../../interfaces/runtime';
 import BN from 'bn.js';
 import { bnToBn } from '@polkadot/util';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import Bytes from '../Bytes';
 import U32 from '../U32';
-import U64 from '../U64';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'
@@ -59,22 +58,35 @@ export default class ConsensusEngineId extends U32 {
     return this.eq(CID_GRPA);
   }
 
+  private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    return sessionValidators[
+      createType('RawAuraPreDigest', bytes.toU8a(true))
+        .slotNumber
+        .modn(sessionValidators.length)
+    ];
+  }
+
+  private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+    const digest = createType('RawBabePreDigest', bytes.toU8a(true));
+
+    return sessionValidators[(
+      digest.isPrimary
+        ? digest.asPrimary
+        : digest.asSecondary
+    ).authorityIndex.toNumber()];
+  }
+
   /**
    * @description From the input bytes, decode into an author
    */
-  public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
+  public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId | undefined {
     if (this.isAura) {
-      // TODO We really want proper decoding of the digest as below (i.e. via type)
-      return sessionValidators[
-        new U64(bytes.toU8a(true).subarray(0, 8)).modn(sessionValidators.length)
-      ];
+      return this.getAuraAuthor(bytes, sessionValidators);
     } else if (this.isBabe) {
-      return sessionValidators[
-        createType('RawBabePreDigest', bytes.toU8a(true)).authorityIndex.toNumber()
-      ];
+      return this.getBabeAuthor(bytes, sessionValidators);
     }
 
-    throw new Error('Invalid engine for extractAuthor conversion');
+    return undefined;
   }
 
   /**

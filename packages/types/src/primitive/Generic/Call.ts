@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { FunctionArgumentMetadataV7, FunctionMetadataV7 } from '../../interfaces/metadata';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
 
-import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../../codec/createType';
+import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
-import { FunctionMetadata as FunctionMetadataV7, FunctionArgumentMetadata } from '../../Metadata/v7/Calls';
 
 interface DecodeMethodInput {
   args: any;
@@ -70,46 +70,52 @@ export default class Call extends Struct implements IMethod {
    * necessary.
    */
   private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV7): DecodedMethod {
-    if (isHex(value)) {
-      return Call.decodeCall(hexToU8a(value), _meta);
-    } else if (isU8a(value)) {
-      // The first 2 bytes are the callIndex
-      const callIndex = value.subarray(0, 2);
-
-      // Find metadata with callIndex
-      const meta = _meta || Call.findFunction(callIndex).meta;
-
-      return {
-        args: value.subarray(2),
-        argsDef: Call.getArgsDef(meta),
-        callIndex,
-        meta
-      };
+    if (isHex(value) || isU8a(value)) {
+      return Call.decodeCallViaU8a(u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
-      // destructure value, we only pass args/methodsIndex out
-      const { args, callIndex } = value;
-
-      // Get the correct lookupIndex
-      const lookupIndex = callIndex instanceof CallIndex
-        ? callIndex.toU8a()
-        : callIndex;
-
-      // Find metadata with callIndex
-      const meta = _meta || Call.findFunction(lookupIndex).meta;
-
-      return {
-        args,
-        argsDef: Call.getArgsDef(meta),
-        meta,
-        callIndex
-      };
+      return Call.decodeCallViaObject(value, _meta);
     }
 
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
+  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataV7): DecodedMethod {
+    // destructure value, we only pass args/methodsIndex out
+    const { args, callIndex } = value;
+
+    // Get the correct lookupIndex
+    const lookupIndex = callIndex instanceof CallIndex
+      ? callIndex.toU8a()
+      : callIndex;
+
+    // Find metadata with callIndex
+    const meta = _meta || Call.findFunction(lookupIndex).meta;
+
+    return {
+      args,
+      argsDef: Call.getArgsDef(meta),
+      meta,
+      callIndex
+    };
+  }
+
+  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataV7): DecodedMethod {
+    // The first 2 bytes are the callIndex
+    const callIndex = value.subarray(0, 2);
+
+    // Find metadata with callIndex
+    const meta = _meta || Call.findFunction(callIndex).meta;
+
+    return {
+      args: value.subarray(2),
+      argsDef: Call.getArgsDef(meta),
+      callIndex,
+      meta
+    };
+  }
+
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataV7): FunctionArgumentMetadata[] {
+  public static filterOrigin (meta?: FunctionMetadataV7): FunctionArgumentMetadataV7[] {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
       ? meta.args.filter(({ type }): boolean =>

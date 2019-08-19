@@ -2,22 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Address, Call } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
+import { createType } from '../../../codec/create';
 import Struct from '../../../codec/Struct';
-import Call from '../../Generic/Call';
-import Address from '../../Generic/Address';
-import ExtrinsicSignature from './ExtrinsicSignature';
+import ExtrinsicSignatureV1 from './ExtrinsicSignature';
 
 export interface ExtrinsicValueV1 {
   method?: Call;
-  signature?: ExtrinsicSignature;
-}
-
-interface ExtrinsicV1Options {
-  isSigned?: boolean;
+  signature?: ExtrinsicSignatureV1;
 }
 
 const TRANSACTION_VERSION = 1;
@@ -28,10 +25,10 @@ const TRANSACTION_VERSION = 1;
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicV1Options = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicOptions = {}) {
     super({
-      signature: ExtrinsicSignature,
-      method: Call
+      signature: ExtrinsicSignatureV1,
+      method: 'Call'
     }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
   }
 
@@ -42,8 +39,8 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
       return value;
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignature(value, { isSigned });
-      const method = new Call(value.subarray(signature.encodedLength));
+      const signature = new ExtrinsicSignatureV1(value, { isSigned });
+      const method = createType('Call', value.subarray(signature.encodedLength));
 
       return {
         method,
@@ -69,10 +66,10 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description The [[ExtrinsicSignature]]
+   * @description The [[ExtrinsicSignatureV1]]
    */
-  public get signature (): ExtrinsicSignature {
-    return this.get('signature') as ExtrinsicSignature;
+  public get signature (): ExtrinsicSignatureV1 {
+    return this.get('signature') as ExtrinsicSignatureV1;
   }
 
   /**
@@ -83,7 +80,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
+   * @description Add an [[ExtrinsicSignatureV1]] to the extrinsic (already generated)
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): ExtrinsicV1 {
     this.signature.addSignature(signer, signature, payload);

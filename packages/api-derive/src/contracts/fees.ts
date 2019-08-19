@@ -6,12 +6,89 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedContractFees } from '../types';
 
 import BN from 'bn.js';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 
+type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
+
 const ZERO = new BN(0);
+
+// parse the result
+function parseResult ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]: ResultV2): DerivedContractFees {
+  return {
+    callBaseFee,
+    contractFee,
+    createBaseFee,
+    creationFee,
+    rentByteFee,
+    rentDepositOffset,
+    tombstoneDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  };
+}
+
+// Only for 1.0 support. rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
+// TODO remove this once 1.0 support is dropped
+function queryV1 (api: ApiInterfaceRx): Observable<DerivedContractFees> {
+  return (
+    api.queryMulti([
+      api.query.contract.callBaseFee,
+      api.query.contract.contractFee,
+      api.query.contract.createBaseFee,
+      api.query.contract.creationFee,
+      api.query.contract.transactionBaseFee,
+      api.query.contract.transactionByteFee,
+      api.query.contract.transferFee
+    ]) as unknown as Observable<BN[]>
+  ).pipe(
+    map(([callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
+      // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and
+      // see gaps, in this case those are filled with `ZERO`
+      parseResult([
+        callBaseFee, contractFee, createBaseFee, creationFee, ZERO, ZERO, ZERO, transactionBaseFee, transactionByteFee, transferFee
+      ])
+    ),
+    drr()
+  );
+}
+
+// query via query (early v2, non-current, support to be dropped])
+function queryQuery (api: ApiInterfaceRx): Observable<ResultV2> {
+  const queryBase = api.query.contracts || api.query.contract;
+
+  return api.queryMulti([
+    queryBase.callBaseFee,
+    queryBase.contractFee,
+    queryBase.createBaseFee,
+    queryBase.creationFee,
+    queryBase.rentByteFee,
+    queryBase.rentDepositOffset,
+    queryBase.tombstoneDeposit,
+    queryBase.transactionBaseFee,
+    queryBase.transactionByteFee,
+    queryBase.transferFee
+  ]) as unknown as Observable<ResultV2>;
+}
+
+// query via constants (current applicable path)
+function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
+  return of([
+    api.consts.contracts.callBaseFee,
+    api.consts.contracts.contractFee,
+    api.consts.contracts.createBaseFee,
+    api.consts.contracts.creationFee,
+    api.consts.contracts.rentByteFee,
+    api.consts.contracts.rentDepositOffset,
+    api.consts.contracts.tombstoneDeposit,
+    api.consts.contracts.transactionBaseFee,
+    api.consts.contracts.transactionByteFee,
+    api.consts.contracts.transferFee
+  ]) as unknown as Observable<ResultV2>;
+}
 
 /**
  * @name fees
@@ -28,85 +105,20 @@ const ZERO = new BN(0);
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return (): Observable<DerivedContractFees> => {
-    const queryBase = api.query.contracts || api.query.contract;
-
     if (api.query.contract && !api.query.contract.rentByteFee) {
-      // Only for 1.0 support. rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
-      // @TODO remove this once 1.0 support is dropped
-      return (combineLatest([
-        of([ZERO, ZERO, ZERO]),
-        api.queryMulti([
-          queryBase.callBaseFee,
-          queryBase.contractFee,
-          queryBase.createBaseFee,
-          queryBase.creationFee,
-          queryBase.transactionBaseFee,
-          queryBase.transactionByteFee,
-          queryBase.transferFee
-        ])
-      ]) as unknown as Observable<BN[][]>).pipe(
-        map(([
-          [rentByteFee, rentDepositOffset, tombstoneDeposit],
-          [callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]
-        ]): DerivedContractFees => ({
-          callBaseFee,
-          contractFee,
-          createBaseFee,
-          creationFee,
-          rentByteFee,
-          rentDepositOffset,
-          tombstoneDeposit,
-          transactionBaseFee,
-          transactionByteFee,
-          transferFee
-        } as unknown as DerivedContractFees)),
-        drr()
-      );
+      return queryV1(api);
     }
 
     return (
       api.consts.contracts
-      // get values from api.const for substrate versions post spec_version: 101
-      // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
-        ? of([
-          api.consts.contracts.callBaseFee,
-          api.consts.contracts.contractFee,
-          api.consts.contracts.createBaseFee,
-          api.consts.contracts.creationFee,
-          api.consts.contracts.rentByteFee,
-          api.consts.contracts.rentDepositOffset,
-          api.consts.contracts.tombstoneDeposit,
-          api.consts.contracts.transactionBaseFee,
-          api.consts.contracts.transactionByteFee,
-          api.consts.contracts.transferFee
-        ]) as unknown as Observable<BN[]>
-        // Support versions pre spec_version 101 and get values from storage
-        : api.queryMulti([
-          queryBase.callBaseFee,
-          queryBase.contractFee,
-          queryBase.createBaseFee,
-          queryBase.creationFee,
-          queryBase.rentByteFee,
-          queryBase.rentDepositOffset,
-          queryBase.tombstoneDeposit,
-          queryBase.transactionBaseFee,
-          queryBase.transactionByteFee,
-          queryBase.transferFee
-        ]) as unknown as Observable<BN[]>
+        ? queryConstants(api)
+        : queryQuery(api)
     ).pipe(
-      map(
-        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees => ({
-          callBaseFee,
-          contractFee,
-          createBaseFee,
-          creationFee,
-          rentByteFee,
-          rentDepositOffset,
-          tombstoneDeposit,
-          transactionBaseFee,
-          transactionByteFee,
-          transferFee
-        } as unknown as DerivedContractFees)
+      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
+        // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and see gaps
+        parseResult([
+          callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
+        ])
       ),
       drr()
     );

@@ -37,7 +37,7 @@ describeE2E({
   let CREATION_FEE: number;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create(new WsProvider(wsUrl));
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
     CREATION_FEE = 123456789123456;
 
     done();

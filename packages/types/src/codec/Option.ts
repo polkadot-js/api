@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor, InterfaceTypes } from '../types';
+
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
-import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
+import { typeToConstructor } from './utils';
+import Base from './Base';
 
 /**
  * @name Option
@@ -19,12 +21,12 @@ import Null from '../primitive/Null';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  public constructor (Type: Constructor, value?: any) {
-    super(
-      Option.decodeOption(Type, value)
-    );
+  public constructor (Type: Constructor | InterfaceTypes, value?: any) {
+    const Clazz = typeToConstructor(Type);
 
-    this._Type = Type;
+    super(Option.decodeOption(Clazz, value));
+
+    this._Type = Clazz;
   }
 
   public static decodeOption (Type: Constructor, value?: any): Codec {
@@ -32,21 +34,25 @@ export default class Option<T extends Codec> extends Base<T> {
       return new Null();
     } else if (value instanceof Option) {
       return Option.decodeOption(Type, value.value);
-    } else if (value instanceof Type || (Type.Fallback && value instanceof Type.Fallback)) {
+    } else if (value instanceof Type) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
     } else if (isU8a(value)) {
       // the isU8a check happens last in the if-tree - since the wrapped value
       // may be an instance of it, so Type and Option checks go in first
-      return !value.length || value[0] === 0
-        ? new Null()
-        : new Type(value.subarray(1));
+      return Option.decodeOptionU8a(Type, value);
     }
 
     return new Type(value);
   }
 
-  public static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
+  private static decodeOptionU8a (Type: Constructor, value: Uint8Array): Codec {
+    return !value.length || value[0] === 0
+      ? new Null()
+      : new Type(value.subarray(1));
+  }
+
+  public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       public constructor (value?: any) {
         super(Type, value);

@@ -10,7 +10,7 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
-import { createTypeUnsafe } from './createType';
+import { createTypeUnsafe } from './create';
 import Vec from './Vec';
 import Tuple from './Tuple';
 
@@ -46,6 +46,12 @@ describe('Vec', (): void => {
     expect(
       new Vec(Text, ['6', '7']).toJSON()
     ).toEqual(['6', '7']);
+  });
+
+  it('allows contruction via JSON (string type)', (): void => {
+    expect(
+      new Vec('u32', ['6', '7']).toJSON()
+    ).toEqual([6, 7]);
   });
 
   it('exposes the type', (): void => {

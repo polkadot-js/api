@@ -3,6 +3,8 @@
 _The following sections contain Extrinsics methods are part of the default Substrate runtime._
 - **[authorship](#authorship)**
 
+- **[babe](#babe)**
+
 - **[balances](#balances)**
 
 - **[contracts](#contracts)**
@@ -29,6 +31,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[technicalCommittee](#technicalCommittee)**
 
+- **[technicalMembership](#technicalMembership)**
+
 - **[timestamp](#timestamp)**
 
 - **[treasury](#treasury)**
@@ -41,6 +45,14 @@ ___
 
 ▸ **setUncles**(new_uncles: `Vec<Header>`)
 - **summary**:   Provide a set of uncles.
+
+___
+
+
+### babe
+
+▸ **setPendingSecondarySlotsChange**(change: `Option<bool>`)
+- **summary**:   Sets a pending change to enable / disable secondary slot assignment.  The pending change will be set at the end of the current epoch and  will be enacted at `current_epoch + 2`.
 
 ___
 
@@ -69,9 +81,6 @@ ___
 
 ▸ **putCode**(gas_limit: `Compact<Gas>`, code: `Bytes`)
 - **summary**:   Stores the given binary Wasm code into the chain's storage and returns its `codehash`.  You can instantiate contracts only with stored code.
-
-▸ **restoreTo**(dest: `AccountId`, code_hash: `CodeHash`, rent_allowance: `BalanceOf`, delta: `Vec<ContractStorageKey>`)
-- **summary**:   Allows a contract to restore a tombstone by giving its storage.   The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a  tombstone with its storage and the given code_hash. If the computed tombstone  match the destination one, the destination contract is restored with the rent_allowance` specified,  while the origin sends all its funds to the destination and is removed.
 
 ▸ **updateSchedule**(schedule: `Schedule`)
 - **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
@@ -110,16 +119,16 @@ ___
 ▸ **emergencyCancel**(ref_index: `ReferendumIndex`)
 - **summary**:   Schedule an emergency cancellation of a referendum. Cannot happen twice to the same  referendum.
 
-▸ **emergencyPropose**(proposal: `Proposal`, threshold: `VoteThreshold`, voting_period: `BlockNumber`, delay: `BlockNumber`)
-- **summary**:   Schedule an emergency referendum.   This will create a new referendum for the `proposal`, approved as long as counted votes  exceed `threshold` and, if approved, enacted after the given `delay`.   It may be called from either the Root or the Emergency origin.
-
 ▸ **externalPropose**(proposal: `Proposal`)
 - **summary**:   Schedule a referendum to be tabled once it is legal to schedule an external  referendum.
 
-▸ **externalProposeMajority**(proposal: `Proposal`)
-- **summary**:   Schedule a majority-carries referendum to be tabled next once it is legal to schedule  an external referendum.
+▸ **externalProposeDefault**(proposal: `Proposal`)
+- **summary**:   Schedule a negative-turnout-bias referendum to be tabled next once it is legal to  schedule an external referendum.   Unlike `external_propose`, blacklisting has no effect on this and it may replace a  pre-scheduled `external_propose` call.
 
-▸ **externalPush**(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
+▸ **externalProposeMajority**(proposal: `Proposal`)
+- **summary**:   Schedule a majority-carries referendum to be tabled next once it is legal to schedule  an external referendum.   Unlike `external_propose`, blacklisting has no effect on this and it may replace a  pre-scheduled `external_propose` call.
+
+▸ **fastTrack**(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
 - **summary**:   Schedule the currently externally-proposed majority-carries referendum to be tabled  immediately. If there is no externally-proposed referendum currently, or if there is one  but it is not a majority-carries referendum then it fails.   - `proposal_hash`: The hash of the current external proposal.  - `voting_period`: The period that is allowed for voting on this proposal.  - `delay`: The number of block after voting has ended in approval and this should be    enacted. Increased to `EmergencyVotingPeriod` if too low.
 
 ▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
@@ -205,7 +214,7 @@ ___
 
 ### imOnline
 
-▸ **heartbeat**(heartbeat: `Heartbeat`, _signature: `Bytes`)
+▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `AuthoritySignature`)
 
 ___
 
@@ -230,19 +239,19 @@ ___
 - **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains one read.  - Writes are limited to the `origin` account key.  # </weight>
 
 ▸ **forceNewEra**()
-- **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.   # <weight>  - Independent of the arguments.  - Triggers the Phragmen election. Expensive but not user-controlled.  - Depends on state: `O(|edges| * |validators|)`.  # </weight>
+- **summary**:   Force there to be a new era at the end of the next session. After this, it will be  reset to normal (non-forced) behaviour.   # <weight>  - No arguments.  # </weight>
+
+▸ **forceNoEras**()
+- **summary**:   Force there to be no new eras indefinitely.   # <weight>  - No arguments.  # </weight>
 
 ▸ **nominate**(targets: `Vec<Address>`)
 - **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - The transaction's complexity is proportional to the size of `targets`,  which is capped at `MAX_NOMINATIONS`.  - Both the reads and writes follow a similar pattern.  # </weight>
 
 ▸ **setController**(controller: `Address`)
-- **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
+- **summary**:   (Re-)set the controller of a stash.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
 
 ▸ **setInvulnerables**(validators: `Vec<AccountId>`)
 - **summary**:   Set the validators who cannot be slashed (if any).
-
-▸ **setOfflineSlashGrace**(new: `Compact<u32>`)
-- **summary**:   Set the offline slash grace period.
 
 ▸ **setPayee**(payee: `RewardDestination`)
 - **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
@@ -309,6 +318,23 @@ ___
 
 ▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 - **summary**:   # <weight>  - Bounded storage read and writes.  - Will be slightly heavier if the proposal is approved / disapproved after the vote.  # </weight>
+
+___
+
+
+### technicalMembership
+
+▸ **addMember**(who: `AccountId`)
+- **summary**:   Add a member `who` to the set.   May only be called from `AddOrigin` or root.
+
+▸ **removeMember**(who: `AccountId`)
+- **summary**:   Remove a member `who` from the set.   May only be called from `RemoveOrigin` or root.
+
+▸ **resetMembers**(members: `Vec<AccountId>`)
+- **summary**:   Change the membership to a new set, disregarding the existing membership. Be nice and  pass `members` pre-sorted.   May only be called from `ResetOrigin` or root.
+
+▸ **swapMember**(remove: `AccountId`, add: `AccountId`)
+- **summary**:   Swap out one member `remove` for another `add`.   May only be called from `SwapOrigin` or root.
 
 ___
 

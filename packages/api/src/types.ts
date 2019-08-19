@@ -11,10 +11,10 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
-import { u64 } from '@polkadot/types';
+import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import ApiBase from './Base';
+import ApiBase from './base';
 import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 // Prepend an element V onto the beginning of a tuple T.
@@ -80,15 +80,18 @@ export type DecoratedRpc<ApiType, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
 
-export interface StorageEntryObservable {
+interface StorageEntryBase<C, H, U> {
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => C;
+  creator: StorageEntry;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => H;
+  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => U;
+}
+
+export interface StorageEntryObservable extends StorageEntryBase<Observable<Codec>, Observable<Hash>, Observable<u64>> {
   (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
   multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<u64>;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -104,13 +107,8 @@ export interface StorageEntryPromiseMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
-export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+export interface StorageEntryPromise extends StorageEntryBase<Promise<Codec>, Promise<Hash>, Promise<u64>>, StorageEntryPromiseOverloads {
   multi: StorageEntryPromiseMulti;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<u64>;
 }
 
 export type QueryableStorageEntry<ApiType> =
@@ -249,6 +247,11 @@ export interface SignerPayload {
   nonce: string;
 
   /**
+   * @description The current spec version for  the runtime
+   */
+  specVersion: string;
+
+  /**
    * @description The tip for this transaction, in hex
    */
   tip: string;
@@ -257,6 +260,30 @@ export interface SignerPayload {
    * @description The version of the extrinsic we are dealing with
    */
   version: number;
+}
+
+export interface SignerPayloadRawBase {
+  /**
+   * @description The hex-encoded data for this request
+   */
+  data: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type?: 'bytes' | 'payload';
+}
+
+export interface SignerPayloadRaw extends SignerPayloadRawBase {
+  /**
+   * @description The ss-58 encoded address
+   */
+  address: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type: 'bytes' | 'payload';
 }
 
 export interface SignerResult {
@@ -273,7 +300,7 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @deprecated Implement and use signPayload instead
+   * @deprecated Implement and use signPayload and/or signRaw instead
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
   sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
@@ -281,7 +308,12 @@ export interface Signer {
   /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload(payload: SignerPayload): Promise<SignerResult>;
+  signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
+
+  /**
+   * @description signs a raw payload, only the bytes data as supplied
+   */
+  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

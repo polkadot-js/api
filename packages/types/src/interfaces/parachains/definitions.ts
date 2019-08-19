@@ -4,24 +4,18 @@
 
 export default {
   types: {
+    AttestedCandidate: {
+      candidate: 'CandidateReceipt',
+      validityVotes: 'Vec<ValidityVote>'
+    },
     AuctionIndex: 'u32',
-    CollatorSignature: 'Signature',
-    ValidityAttestation: {
+    BalanceUpload: '(AccountId, u64)',
+    Bidder: {
       _enum: {
-        // This Null is not in the original, however indexes start at 1, so add a
-        // placeholder in the first position (which is basically non-valid)
-        None: 'Null',
-        Implicit: 'CollatorSignature', // 1
-        Explicit: 'CollatorSignature' // 2
+        New: 'NewBidder',
+        Existing: 'ParaId'
       }
     },
-    ParaId: 'u32',
-    ParaIdOf: 'ParaId',
-    ValidatorIndex: 'u32',
-    ValidityVote: '(ValidatorIndex, ValidityAttestation)',
-    BalanceUpload: '(AccountId, u64)',
-    EgressQueueRoot: '(ParaId, Hash)',
-    HeadData: 'Bytes',
     CandidateReceipt: {
       parachainIndex: 'ParaId',
       collator: 'AccountId',
@@ -32,21 +26,9 @@ export default {
       fees: 'u64',
       blockDataHash: 'Hash'
     },
-    AttestedCandidate: {
-      candidate: 'CandidateReceipt',
-      validityVotes: 'Vec<ValidityVote>'
-    },
-    SubId: 'u32',
-    NewBidder: {
-      who: 'AccountId',
-      sub: 'SubId'
-    },
-    Bidder: {
-      _enum: {
-        New: 'NewBidder',
-        Existing: 'ParaId'
-      }
-    },
+    CollatorSignature: 'Signature',
+    EgressQueueRoot: '(ParaId, Hash)',
+    HeadData: 'Bytes',
     IncomingParachainDeploy: {
       code: 'Bytes',
       initialHeadData: 'Bytes'
@@ -64,6 +46,12 @@ export default {
     },
     LeasePeriod: 'BlockNumber',
     LeasePeriodOf: 'LeasePeriod',
+    NewBidder: {
+      who: 'AccountId',
+      sub: 'SubId'
+    },
+    ParaId: 'u32',
+    ParaIdOf: 'ParaId',
     ParachainDispatchOrigin: {
       _enum: [
         'Signed',
@@ -84,10 +72,22 @@ export default {
         'ThreeThree' // 9
       ]
     },
+    SubId: 'u32',
     UpwardMessage: {
       origin: 'ParachainDispatchOrigin',
       data: 'Bytes'
     },
+    ValidityAttestation: {
+      _enum: {
+        // This Null is not in the original, however indexes start at 1, so add a
+        // placeholder in the first position (which is basically non-valid)
+        None: 'Null',
+        Implicit: 'CollatorSignature', // 1
+        Explicit: 'CollatorSignature' // 2
+      }
+    },
+    ValidatorIndex: 'u32',
+    ValidityVote: '(ValidatorIndex, ValidityAttestation)',
     WinningDataEntry: '(AccountId, ParaIdOf, BalanceOf)',
     WinningData: '[WinningDataEntry; 10]'
   }

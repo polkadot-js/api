@@ -21,7 +21,6 @@ const ZERO = new BN(0);
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
 function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result0to94): DerivedSessionInfo {
-  const eraLength = sessionLength.mul(sessionsPerEra);
   const lastLengthChange = _lastLengthChange
     ? _lastLengthChange.unwrapOr(ZERO)
     : ZERO;
@@ -32,15 +31,14 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
   const currentEra = (currentIndex)
     .sub(lastEraLengthChange)
     .mod(sessionsPerEra);
-  const eraProgress = currentEra
-    .mul(sessionLength)
-    .add(sessionProgress);
 
   return {
     currentEra,
     currentIndex,
-    eraLength,
-    eraProgress,
+    eraLength: sessionLength.mul(sessionsPerEra),
+    eraProgress: currentEra
+      .mul(sessionLength)
+      .add(sessionProgress),
     isEpoch: false,
     lastEraLengthChange,
     lastLengthChange,
@@ -52,15 +50,17 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
 
 function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraLength = sessionsPerEra.mul(epochDuration);
-  const eraProgress = epochIndex.mod(sessionsPerEra).mul(epochDuration).add(sessionProgress);
+  const eraProgress = epochIndex
+    .mod(sessionsPerEra)
+    .mul(epochDuration)
+    .add(sessionProgress);
 
   // FIXME This alwasy assumes Babe, as per the substrate defaults - at least for
   // aura the `isEpoch` should be false
   return {
     currentEra,
     currentIndex,
-    eraLength,
+    eraLength: sessionsPerEra.mul(epochDuration),
     eraProgress,
     isEpoch: true,
     lastEraLengthChange: ZERO,

@@ -41,7 +41,6 @@ const health: RpcMethodOpt = {
 const peers: RpcMethodOpt = {
   description: 'Returns the currently connected peers',
   params: [],
-  // @ts-ignore the Vec<> wrap is fine
   type: 'Vec<PeerInfo>'
 };
 

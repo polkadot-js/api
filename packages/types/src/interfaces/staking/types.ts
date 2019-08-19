@@ -1,4 +1,5 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Enum, Struct, Vec } from '../../codec';
 import { u32 } from '../../primitive';
@@ -25,6 +26,16 @@ export interface Exposure extends Struct {
   readonly others: Vec<IndividualExposure>;
 }
 
+/** Enum */
+export interface Forcing extends Enum {
+  /** 0:: NotForcing */
+  readonly isNotForcing: boolean;
+  /** 1:: ForceNew */
+  readonly isForceNew: boolean;
+  /** 2:: ForceNone */
+  readonly isForceNone: boolean;
+}
+
 /** Struct */
 export interface IndividualExposure extends Struct {
   /** AccountId */
@@ -44,6 +55,16 @@ export interface RewardDestination extends Enum {
   readonly isStash: boolean;
   /** 2:: Controller */
   readonly isController: boolean;
+}
+
+/** Struct */
+export interface SlashJournalEntry extends Struct {
+  /** AccountId */
+  readonly who: AccountId;
+  /** Balance */
+  readonly amount: Balance;
+  /** Balance */
+  readonly ownSlash: Balance;
 }
 
 /** Struct */

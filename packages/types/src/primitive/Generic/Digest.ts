@@ -7,7 +7,6 @@ import { Consensus, Hash, PreRuntime, Seal, SealV0 } from '../../interfaces/runt
 
 import { assert } from '@polkadot/util';
 
-import { ClassOf } from '../../codec/createType';
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
@@ -21,13 +20,13 @@ import Bytes from '../Bytes';
 export class DigestItem extends Enum {
   public constructor (value: any) {
     super({
-      Other: ClassOf('Bytes'), // 0
-      AuthoritiesChange: ClassOf('Vec<AuthorityId>'), // 1
-      ChangesTrieRoot: ClassOf('Hash'), // 2
-      SealV0: ClassOf('SealV0'), // 3
-      Consensus: ClassOf('Consensus'), // 4
-      Seal: ClassOf('Seal'), // 5
-      PreRuntime: ClassOf('PreRuntime') // 6
+      Other: 'Bytes', // 0
+      AuthoritiesChange: 'Vec<AuthorityId>', // 1
+      ChangesTrieRoot: 'Hash', // 2
+      SealV0: 'SealV0', // 3
+      Consensus: 'Consensus', // 4
+      Seal: 'Seal', // 5
+      PreRuntime: 'PreRuntime' // 6
     }, value);
   }
 
