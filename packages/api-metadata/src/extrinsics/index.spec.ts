@@ -4,6 +4,7 @@
 
 import '@polkadot/types/injector';
 
+import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { createType } from '@polkadot/types';
 
@@ -19,7 +20,15 @@ describe('extrinsics', (): void => {
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-        nonce: 0
+        nonce: 0,
+        runtimeVersion: {
+          apis: [],
+          authoringVersion: new BN(123),
+          implName: 'test',
+          implVersion: new BN(123),
+          specName: 'test',
+          specVersion: new BN(123)
+        }
       }).toHex()
     ).toEqual(
       '0x' +

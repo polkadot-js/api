@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index } from '@polkadot/types/interfaces';
+import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '@polkadot/types/interfaces';
 import { Constructor } from '@polkadot/types/types';
 import { SignerPayload, SignerPayloadRaw } from './types';
 
@@ -16,6 +16,7 @@ export interface SignerPayloadType {
   genesisHash: Hash;
   method: Call;
   nonce: Compact<Index>;
+  runtimeVersion: RuntimeVersion;
   tip: Compact<Balance>;
   version: u8;
 }
@@ -30,6 +31,7 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   genesisHash: 'Hash',
   method: 'Call',
   nonce: 'Compact<Index>',
+  runtimeVersion: 'RuntimeVersion',
   tip: 'Compact<Balance>',
   version: u8
 });
@@ -46,7 +48,7 @@ export default class Payload extends _Payload {
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayload {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, tip, version } = this.self;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this.self;
 
     return {
       address: address.toString(),
@@ -56,6 +58,7 @@ export default class Payload extends _Payload {
       genesisHash: genesisHash.toHex(),
       method: method.toHex(),
       nonce: nonce.toHex(),
+      specVersion: specVersion.toHex(),
       tip: tip.toHex(),
       version: version.toNumber()
     };

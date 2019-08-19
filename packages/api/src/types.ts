@@ -247,6 +247,11 @@ export interface SignerPayload {
   nonce: string;
 
   /**
+   * @description The current spec version for  the runtime
+   */
+  specVersion: string;
+
+  /**
    * @description The tip for this transaction, in hex
    */
   tip: string;

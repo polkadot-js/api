@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address } from '../../../interfaces/runtime';
+import { Address, Call } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
 import { createType } from '../../../codec/create';
-import Call from '../../Generic/Call';
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';
@@ -31,7 +30,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
+  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip, runtimeVersion: { specVersion } }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
     const payload = new ExtrinsicPayloadV3({
       blockHash,
@@ -39,6 +38,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
       genesisHash,
       method: method.toHex(),
       nonce,
+      specVersion,
       tip: tip || 0
     });
     const signature = createType('Signature', payload.sign(account));

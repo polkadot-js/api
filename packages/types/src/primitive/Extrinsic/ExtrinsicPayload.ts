@@ -11,6 +11,7 @@ import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
+import u32 from '../../primitive/U32';
 import ExtrinsicPayloadV1 from './v1/ExtrinsicPayload';
 import ExtrinsicPayloadV2 from './v2/ExtrinsicPayload';
 import ExtrinsicPayloadV3 from './v3/ExtrinsicPayload';
@@ -81,6 +82,14 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | Extrinsi
    */
   public get nonce (): Compact<Index> {
     return this.raw.nonce;
+  }
+
+  /**
+   * @description The specVersion as a [[u32]] for this payload
+   */
+  public get specVersion (): u32 {
+    // NOTE only v3
+    return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
   }
 
   /**

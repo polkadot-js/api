@@ -176,10 +176,11 @@ export default function createSubmittableExtrinsic<ApiType> (
   function expandOptions (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
     return {
       blockHash: api.genesisHash,
-      version: api.runtimeVersion,
       ...options,
       ...extras,
-      genesisHash: api.genesisHash
+      genesisHash: api.genesisHash,
+      runtimeVersion: api.runtimeVersion,
+      version: api.extrinsicType
     } as unknown as SignatureOptions;
   }
 
@@ -272,9 +273,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                     ...eraOptions,
                     address,
                     method: _extrinsic.method,
-                    blockNumber: header ? header.number : 0,
-                    genesisHash: api.genesisHash,
-                    version: api.extrinsicType
+                    blockNumber: header ? header.number : 0
                   });
 
                   if (api.signer.signPayload) {
