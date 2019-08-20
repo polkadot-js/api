@@ -104,9 +104,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       : await this._rpcCore.state.getMetadata().toPromise();
 
     // based on the node, inject specific types - this is very specific to known chains
-    this.registerTypes(
-      SPEC_TYPES[this._runtimeVersion.specName.toString()]
-    );
+    this.registerTypes(SPEC_TYPES[this._runtimeVersion.specName.toString()]);
 
     // HACK-ish Old EventRecord format for e.g. Alex, based on metadata versions
     if (metadata.version <= 3) {
