@@ -10,7 +10,7 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
-import { createTypeUnsafe } from './createType';
+import { createTypeUnsafe } from './create';
 import Vec from './Vec';
 import Tuple from './Tuple';
 

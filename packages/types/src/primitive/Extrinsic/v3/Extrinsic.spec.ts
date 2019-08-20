@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
@@ -43,14 +44,22 @@ describe('ExtrinsicV3', (): void => {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
         nonce: 1,
+        runtimeVersion: {
+          apis: [],
+          authoringVersion: new BN(123),
+          implName: 'test',
+          implVersion: new BN(123),
+          specName: 'test',
+          specVersion: new BN(123)
+        },
         tip: 2
       }).toHex()
     ).toEqual(
       '0x' +
       'ff' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
-      '2bb401483999053d2d69a4aebefb9682c8710ddd495d1298d4eedd241c73869f' +
-      '9d32c82dba98b12ef74bea5f987851b592956de3cf3e946533da815e3b6a2904' +
+      '21de8ff3cae3ee72ced565ed5f79fd153dc84a3be9166b7904eecde8045ba59a' +
+      'd2f998cc970e59157f168ec762eea061f4930b5288f57a45a1c1911863860208' +
       '000408' + // era. nonce, tip
       '0500' +
       'ff' +

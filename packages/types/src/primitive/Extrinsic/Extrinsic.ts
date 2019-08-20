@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index } from '../../interfaces/runtime';
+import { FunctionMetadataV7 } from '../../interfaces/metadata/types';
+import { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
+import { ClassOf } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import { FunctionMetadata } from '../../Metadata/v7/Calls';
-import Address from '../Generic/Address';
-import Call from '../Generic/Call';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
@@ -85,7 +84,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
       assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
       return Extrinsic.decodeU8a(value.subarray(offset, total));
-    } else if (value instanceof Call) {
+    } else if (value instanceof ClassOf('Call')) {
       return Extrinsic.newFromValue({ method: value }, version);
     }
 
@@ -160,9 +159,9 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description The [[FunctionMetadata]] that describes the extrinsic
+   * @description The [[FunctionMetadataV7]] that describes the extrinsic
    */
-  public get meta (): FunctionMetadata {
+  public get meta (): FunctionMetadataV7 {
     return this.method.meta;
   }
 
@@ -234,6 +233,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
         genesisHash: new Uint8Array(),
         method: this.method.toHex(),
         nonce: args[0] as string,
+        specVersion: 0,
         tip: 0
       };
     }

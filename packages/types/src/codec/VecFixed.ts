@@ -42,7 +42,7 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
     return values;
   }
 
-  public static with<O extends Codec> (Type: Constructor<O>, length: number): Constructor<VecFixed<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | InterfaceTypes, length: number): Constructor<VecFixed<O>> {
     return class extends VecFixed<O> {
       public constructor (value?: any[]) {
         super(Type, length, value);

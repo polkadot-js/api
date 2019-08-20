@@ -14,7 +14,7 @@ import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provi
 import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import ApiBase from './Base';
+import ApiBase from './base';
 import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 // Prepend an element V onto the beginning of a tuple T.
@@ -80,15 +80,18 @@ export type DecoratedRpc<ApiType, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
 
-export interface StorageEntryObservable {
+interface StorageEntryBase<C, H, U> {
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => C;
+  creator: StorageEntry;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => H;
+  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => U;
+}
+
+export interface StorageEntryObservable extends StorageEntryBase<Observable<Codec>, Observable<Hash>, Observable<u64>> {
   (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
   multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<u64>;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -104,13 +107,8 @@ export interface StorageEntryPromiseMulti {
   <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
-export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+export interface StorageEntryPromise extends StorageEntryBase<Promise<Codec>, Promise<Hash>, Promise<u64>>, StorageEntryPromiseOverloads {
   multi: StorageEntryPromiseMulti;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<u64>;
 }
 
 export type QueryableStorageEntry<ApiType> =
@@ -247,6 +245,11 @@ export interface SignerPayload {
    * @description The nonce for this transaction, in hex
    */
   nonce: string;
+
+  /**
+   * @description The current spec version for  the runtime
+   */
+  specVersion: string;
 
   /**
    * @description The tip for this transaction, in hex

@@ -11,7 +11,25 @@ import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 
+type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
+
 const ZERO = new BN(0);
+
+// parse the result
+function parseResult ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]: ResultV2): DerivedContractFees {
+  return {
+    callBaseFee,
+    contractFee,
+    createBaseFee,
+    creationFee,
+    rentByteFee,
+    rentDepositOffset,
+    tombstoneDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  };
+}
 
 // Only for 1.0 support. rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
 // TODO remove this once 1.0 support is dropped
@@ -27,24 +45,19 @@ function queryV1 (api: ApiInterfaceRx): Observable<DerivedContractFees> {
       api.query.contract.transferFee
     ]) as unknown as Observable<BN[]>
   ).pipe(
-    map(([callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees => ({
-      callBaseFee,
-      contractFee,
-      createBaseFee,
-      creationFee,
-      rentByteFee: ZERO,
-      rentDepositOffset: ZERO,
-      tombstoneDeposit: ZERO,
-      transactionBaseFee,
-      transactionByteFee,
-      transferFee
-    } as unknown as DerivedContractFees)),
+    map(([callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
+      // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and
+      // see gaps, in this case those are filled with `ZERO`
+      parseResult([
+        callBaseFee, contractFee, createBaseFee, creationFee, ZERO, ZERO, ZERO, transactionBaseFee, transactionByteFee, transferFee
+      ])
+    ),
     drr()
   );
 }
 
 // query via query (early v2, non-current, support to be dropped])
-function queryQuery (api: ApiInterfaceRx): Observable<BN[]> {
+function queryQuery (api: ApiInterfaceRx): Observable<ResultV2> {
   const queryBase = api.query.contracts || api.query.contract;
 
   return api.queryMulti([
@@ -58,11 +71,11 @@ function queryQuery (api: ApiInterfaceRx): Observable<BN[]> {
     queryBase.transactionBaseFee,
     queryBase.transactionByteFee,
     queryBase.transferFee
-  ]) as unknown as Observable<BN[]>;
+  ]) as unknown as Observable<ResultV2>;
 }
 
 // query via constants (current applicable path)
-function queryConstants (api: ApiInterfaceRx): Observable<BN[]> {
+function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
     api.consts.contracts.callBaseFee,
     api.consts.contracts.contractFee,
@@ -74,7 +87,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<BN[]> {
     api.consts.contracts.transactionBaseFee,
     api.consts.contracts.transactionByteFee,
     api.consts.contracts.transferFee
-  ]) as unknown as Observable<BN[]>;
+  ]) as unknown as Observable<ResultV2>;
 }
 
 /**
@@ -101,19 +114,11 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees
         ? queryConstants(api)
         : queryQuery(api)
     ).pipe(
-      map(
-        ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees => ({
-          callBaseFee,
-          contractFee,
-          createBaseFee,
-          creationFee,
-          rentByteFee,
-          rentDepositOffset,
-          tombstoneDeposit,
-          transactionBaseFee,
-          transactionByteFee,
-          transferFee
-        } as unknown as DerivedContractFees)
+      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
+        // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and see gaps
+        parseResult([
+          callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
+        ])
       ),
       drr()
     );

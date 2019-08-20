@@ -19,41 +19,32 @@ const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header);
 export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
-  public constructor (header: Header | null = null, sessionValidators: AccountId[] = []) {
+  public constructor (header?: Header, sessionValidators?: AccountId[]) {
     super(header);
 
-    if (!header || !header.digest || !sessionValidators.length) {
-      return;
-    }
+    this._author = this.extractAuthor(sessionValidators);
+  }
 
-    const [pitem] = header.digest.logsWith('PreRuntime');
+  private extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
+    const [pitem] = this.digest.logsWith('PreRuntime');
 
     // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
       const [engine, data] = pitem.asPreRuntime;
 
-      if (engine.isAbrs || engine.isBabe || engine.isAura) {
-        this._author = engine.extractAuthor(data, sessionValidators);
-      }
+      return engine.extractAuthor(data, sessionValidators);
     } else {
-      const [citem] = header.digest.logsWith('Consensus');
+      const [citem] = this.digest.logsWith('Consensus');
 
       // extract author from the consensus (substrate 1.0, digest)
       if (citem) {
         const [engine, data] = citem.asConsensus;
 
-        if (engine.isAura) {
-          this._author = engine.extractAuthor(data, sessionValidators);
-        }
-      } else {
-        const [sitem] = header.digest.logsWith('SealV0');
-
-        // extract author from the seal (pre substrate 1.0, backwards compat)
-        if (sitem) {
-          this._author = sessionValidators[sitem.asSealV0[0].modn(sessionValidators.length)];
-        }
+        return engine.extractAuthor(data, sessionValidators);
       }
     }
+
+    return undefined;
   }
 
   /**

@@ -234,16 +234,20 @@ export default class Struct<
     }, {} as any);
   }
 
+  public static typesToMap (Types: Record<string, Constructor>): Record<string, string> {
+    return Object.entries(Types).reduce((result, [key, Type]): Record<string, string> => {
+      result[key] = new Type().toRawType();
+
+      return result;
+    }, {} as unknown as Record<string, string>);
+  }
+
   /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
     return JSON.stringify(
-      Object.entries(this._Types).reduce((result, [key, Type]): Record<string, string> => {
-        result[key] = new Type().toRawType();
-
-        return result;
-      }, {} as unknown as Record<string, string>)
+      Struct.typesToMap(this._Types)
     );
   }
 

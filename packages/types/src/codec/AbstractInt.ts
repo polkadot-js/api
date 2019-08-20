@@ -45,24 +45,28 @@ export default abstract class AbstractInt extends BN implements Codec {
     // This function returns a string, which will be passed in the BN
     // constructor. It would be ideal to actually return a BN, but there's a
     // bug: https://github.com/indutny/bn.js/issues/206.
-    if (isHex(value)) {
+    if (isHex(value, -1, true)) {
       return hexToBn(value, { isLe: false, isNegative }).toString();
     } else if (isU8a(value)) {
-      if (!value.length) {
-        return '0';
-      }
-
-      try {
-        // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
-        return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
-      } catch (error) {
-        throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${error.message}`);
-      }
+      return AbstractInt.decodeAbstracIntU8a(value, bitLength, isNegative);
     } else if (isString(value)) {
       return new BN(value, 10).toString();
     }
 
     return bnToBn(value).toString();
+  }
+
+  private static decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNegative: boolean): string {
+    if (!value.length) {
+      return '0';
+    }
+
+    try {
+      // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
+      return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
+    } catch (error) {
+      throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${error.message}`);
+    }
   }
 
   /**

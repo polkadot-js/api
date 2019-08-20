@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { FunctionMetadataV7 } from './interfaces/metadata';
 import { Balance, Index } from './interfaces/runtime';
 
 import BN from 'bn.js';
@@ -9,7 +10,6 @@ import BN from 'bn.js';
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import { InterfaceRegistry } from './interfaceRegistry';
-import { FunctionMetadata } from './Metadata/v7/Calls';
 import Call from './primitive/Generic/Call';
 import Address from './primitive/Generic/Address';
 
@@ -20,7 +20,7 @@ export type InterfaceTypes = keyof InterfaceRegistry;
 export interface CallFunction {
   (...args: any[]): Call;
   callIndex: Uint8Array;
-  meta: FunctionMetadata;
+  meta: FunctionMetadataV7;
   method: string;
   section: string;
   toJSON: () => any;
@@ -148,8 +148,8 @@ export interface SignatureOptions {
   era?: IExtrinsicEra;
   genesisHash: AnyU8a;
   nonce: AnyNumber;
+  runtimeVersion: RuntimeVersionInterface;
   tip?: AnyNumber;
-  version?: RuntimeVersionInterface;
 }
 
 export type ArgsDef = Record<string, Constructor>;
@@ -162,7 +162,7 @@ export interface IMethod extends Codec {
   readonly data: Uint8Array;
   readonly hash: IHash;
   readonly hasOrigin: boolean;
-  readonly meta: FunctionMetadata;
+  readonly meta: FunctionMetadataV7;
 }
 
 interface ExtrinsicSignatureBase {
@@ -180,6 +180,7 @@ export interface ExtrinsicPayloadValue {
   genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
+  specVersion: AnyNumber;
   tip: AnyNumber;
 }
 
@@ -196,22 +197,22 @@ export interface IExtrinsicEra extends Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicImpl extends Codec {
-  readonly method: Call;
-  readonly signature: IExtrinsicSignature;
-  readonly version: number;
-
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+interface IExtrinsicSignable<T> {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+  sign (account: IKeyringPair, options: SignatureOptions): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
   readonly length: number;
   readonly method: Call;
   readonly type: number;
   readonly version: number;
-
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
+import { Call, FunctionMetadataV7 } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
 
-import { FunctionMetadata } from '@polkadot/types/Metadata/v7/Calls';
 import { createType } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';
 
@@ -22,7 +21,7 @@ export default function createDescriptor (
   section: string,
   sectionIndex: number,
   methodIndex: number,
-  callMetadata: FunctionMetadata
+  callMetadata: FunctionMetadataV7
 ): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;

@@ -7,7 +7,7 @@ import { Codec, IHash } from '../types';
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import createType from '../codec/createType';
+import { createType } from '../codec/create';
 
 /**
  * @name Bool
@@ -52,6 +52,20 @@ export default class Bool extends Boolean implements Codec {
    */
   public get isEmpty (): boolean {
     return false;
+  }
+
+  /**
+   * @description Checks if the value is an empty value (always false)
+   */
+  public get isFalse (): boolean {
+    return !this.isTrue;
+  }
+
+  /**
+   * @description Checks if the value is an empty value (always false)
+   */
+  public get isTrue (): boolean {
+    return this.valueOf();
   }
 
   /**

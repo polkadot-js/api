@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 import Address from './Address';

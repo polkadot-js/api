@@ -6,7 +6,7 @@ import '../injector';
 
 import BN from 'bn.js';
 
-import createType, { ClassOf } from '../codec/createType';
+import { createType, ClassOf } from './create';
 import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';

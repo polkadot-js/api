@@ -10,7 +10,7 @@ import { CodecTo } from '../types';
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { ClassOf } from '../codec/createType';
+import { ClassOf } from './create';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';

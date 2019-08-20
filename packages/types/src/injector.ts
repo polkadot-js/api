@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import getTypeRegistry from './codec/typeRegistry';
+import { getTypeRegistry } from './codec/create';
 import * as definitions from './interfaces/definitions';
 import * as baseTypes from './index.types';
 

@@ -3,16 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '../../codec/types';
+import { EventMetadataV7 } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
 import { Constructor, Codec } from '../../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import { getTypeClass, getTypeDef } from '../../codec/createType';
+import { getTypeClass, getTypeDef } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Metadata from '../../Metadata';
-import { EventMetadata as EventMetadataV7 } from '../../Metadata/v7/Events';
 import Null from '../Null';
 
 const EventTypes: Record<string, Constructor<EventData>> = {};
@@ -111,8 +111,8 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   public static injectMetadata (metadata: Metadata): void {
-    metadata.asV7.modules
-      .filter((section): boolean => section.events.isSome)
+    metadata.asLatest.modules
+      .filter(({ events }): boolean => events.isSome)
       .forEach((section, sectionIndex): void => {
         const sectionName = stringCamelCase(section.name.toString());
 

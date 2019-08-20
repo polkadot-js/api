@@ -6,20 +6,21 @@ import '../../injector';
 
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 
-import { createTypeUnsafe } from '../../codec/createType';
+import { createTypeUnsafe } from '../../codec/create';
 import Metadata from '../Metadata';
 import Call from '../../primitive/Generic/Call';
 import { MetadataInterface } from '../types';
 import { Codec } from '../../types';
+import getUniqTypes from './getUniqTypes';
 
 /**
- * Given the static `rpcData` and the `latestSubstrate` JSON file, Metadata
- * should decode `rpcData` and output `latestSubstrate`.
+ * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
+ * should decode `rpcData` and output `staticSubstrate`.
  */
 export function decodeLatestSubstrate<Modules extends Codec> (
   version: number,
   rpcData: string,
-  latestSubstrate: object
+  staticSubstrate: object
 ): void {
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(rpcData);
@@ -28,7 +29,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 
     expect(metadata.version).toBe(version);
     expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-    expect(metadata.toJSON()).toEqual(latestSubstrate);
+    expect(metadata.toJSON()).toEqual(staticSubstrate);
   });
 }
 
@@ -37,13 +38,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  * unique types.
  */
 export function toV7<Modules extends Codec> (version: number, rpcData: string): void {
-  it('converts to V7', (): void => {
+  it(`converts v${version} to v7`, (): void => {
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV7 = new Metadata(rpcData).asV7;
 
     expect(
-      (metadata as unknown as MetadataInterface<Modules>).getUniqTypes(true)
-    ).toEqual(metadataV7.getUniqTypes(true));
+      getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)
+    ).toEqual(
+      getUniqTypes(metadataV7, true)
+    );
   });
 }
 
@@ -56,7 +59,7 @@ export function defaultValues (rpcData: string): void {
 
     Call.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV7.modules
+    metadata.asLatest.modules
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {

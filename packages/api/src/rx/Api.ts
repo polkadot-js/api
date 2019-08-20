@@ -7,7 +7,7 @@ import { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 
-import ApiBase from '../Base';
+import ApiBase from '../base';
 
 /**
  * # @polkadot/api/rx

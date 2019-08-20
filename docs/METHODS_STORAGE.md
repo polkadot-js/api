@@ -21,6 +21,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[indices](#indices)**
 
+- **[offences](#offences)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -59,7 +61,7 @@ ___
 
 ### babe
 
-▸ **authorities**(): `Vec<(AuthorityId,BabeWeight)>`
+▸ **authorities**(): `Vec<(AuthorityId,BabeAuthorityWeight)>`
 - **summary**:   Current epoch authorities.
 
 ▸ **currentSlot**(): `u64`
@@ -71,11 +73,20 @@ ___
 ▸ **epochStartSlot**(): `u64`
 - **summary**:   Slot at which the current epoch started. It is possible that no  block was authored at the given slot and the epoch change was  signalled later than this.
 
+▸ **initialized**(): `Option<bool>`
+- **summary**:   Temporary value (cleared at block finalization) which is true  if per-block initialization has already been called for current block.
+
 ▸ **nextRandomness**(): `[u8;32]`
 - **summary**:   Next epoch randomness.
 
+▸ **pendingSecondarySlotsChange**(): `Option<bool>`
+- **summary**:   Pending change to enable/disable secondary slots which will be  triggered at `current_epoch + 2`.
+
 ▸ **randomness**(): `[u8;32]`
 - **summary**:   The epoch randomness for the *current* epoch.   # Security   This MUST NOT be used for gambling, as it can be influenced by a  malicious validator in the short term. It MAY be used in many  cryptographic protocols, however, so long as one remembers that this  (like everything else on-chain) it is public. For example, it can be  used where a number is needed that cannot have been chosen by an  adversary, for purposes such as public-coin zero-knowledge proofs.
+
+▸ **secondarySlots**(): `(bool,bool)`
+- **summary**:   Whether secondary slots are enabled in case the VRF-based slot is  empty for the current epoch and the next epoch, respectively.
 
 ▸ **segmentIndex**(): `u32`
 - **summary**:   Randomness under construction.   We make a tradeoff between storage accesses and list length.  We store the under-construction randomness in segments of up to  `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.   Once a segment reaches this length, we begin the next one.  We reset all segments and return to `0` at the beginning of every  epoch.
@@ -299,6 +310,20 @@ ___
 ___
 
 
+### offences
+
+▸ **concurrentReportsIndex**(`Kind, OpaqueTimeSlot`): `Vec<ReportIdOf>`
+- **summary**:   A vector of reports of the same kind that happened at the same time slot.
+
+▸ **reports**(`ReportIdOf`): `Option<OffenceDetails>`
+- **summary**:   The primary structure that holds all offence records keyed by report identifiers.
+
+▸ **reportsByKindIndex**(`Kind`): `Bytes`
+- **summary**:   Enumerates all reports of a kind along with the time they happened.   All reports are sorted by the time of offence.   Note that the actual type of this mapping is `Vec<u8>`, this is because values of  different types are not supported at the moment so we are doing the manual serialization.
+
+___
+
+
 ### session
 
 ▸ **changed**(): `bool`
@@ -348,6 +373,9 @@ ___
 ▸ **currentEraStartSessionIndex**(): `SessionIndex`
 - **summary**:   The session index at which the current era started.
 
+▸ **eraSlashJournal**(`EraIndex`): `Vec<SlashJournalEntry>`
+- **summary**:   All slashes that have occurred in a given era.
+
 ▸ **forceEra**(): `Forcing`
 - **summary**:   True if the next session change will be a new era regardless of index.
 
@@ -363,20 +391,11 @@ ___
 ▸ **nominators**(`AccountId`): `(Vec<AccountId>, Linkage<AccountId>)`
 - **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
 
-▸ **offlineSlash**(): `Perbill`
-- **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
-
-▸ **offlineSlashGrace**(): `u32`
-- **summary**:   Number of instances of offline reports before slashing begins for validators.
-
 ▸ **payee**(`AccountId`): `RewardDestination`
 - **summary**:   Where the reward payment should be made. Keyed by stash.
 
-▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
-- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how  many instances they were offline for).
-
-▸ **slashCount**(`AccountId`): `u32`
-- **summary**:   The number of times a given validator has been reported offline. This gets decremented  by one each era that passes.
+▸ **slashRewardFraction**(): `Perbill`
+- **summary**:   The percentage of the slash that is distributed to reporters.   The rest of the slashed value is handled by the `Slash`.
 
 ▸ **slotStake**(): `BalanceOf`
 - **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.

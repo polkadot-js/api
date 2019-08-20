@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -33,14 +33,18 @@ export default class Address extends Base<AccountId | AccountIndex> {
   public static decodeAddress (value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
-    } else if (isBn(value) || isNumber(value)) {
-      return createType('AccountIndex', value);
     } else if (value instanceof Address) {
       return value.raw;
+    } else if (isBn(value) || isNumber(value)) {
+      return createType('AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
       return Address.decodeU8a(u8aToU8a(value));
     }
 
+    return Address.decodeString(value);
+  }
+
+  private static decodeString (value: string): AccountId | AccountIndex {
     const decoded = decodeAddress(value);
 
     return decoded.length === 32

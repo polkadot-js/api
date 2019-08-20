@@ -4,7 +4,7 @@
 
 import { Calls, ModulesWithCalls } from '@polkadot/types/types';
 
-import { ModuleMetadata } from '@polkadot/types/Metadata/v7/Metadata';
+import { ModuleMetadataV7 } from '@polkadot/types/Metadata/v7/Metadata';
 import Metadata from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -17,9 +17,9 @@ import createUnchecked from './createUnchecked';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
-  return metadata.asV7.modules
-    .filter((modul): boolean => modul.calls.isSome)
-    .reduce((result, modul: ModuleMetadata, sectionIndex): ModulesWithCalls => {
+  return metadata.asLatest.modules
+    .filter(({ calls }): boolean => calls.isSome)
+    .reduce((result, modul: ModuleMetadataV7, sectionIndex): ModulesWithCalls => {
       const section = stringCamelCase(modul.name.toString());
 
       result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex): Calls => {

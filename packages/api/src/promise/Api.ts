@@ -9,7 +9,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { isFunction, assert } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiBase from '../base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 
 /**

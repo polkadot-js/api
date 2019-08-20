@@ -48,23 +48,23 @@ export default class Blueprint extends RxBase {
       return this.apiContracts
         .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
         .signAndSend(account)
-        .pipe(
-          map((result: SubmittableResult): BlueprintCreateResult => {
-            let contract: RxContract | undefined;
-
-            if (result.isFinalized) {
-              const record = result.findRecord('contract', 'Instantiated');
-
-              if (record) {
-                contract = new RxContract(this.api, this.abi, record.event.data[1] as Address);
-              }
-            }
-
-            return new BlueprintCreateResult(result, contract);
-          })
-        );
+        .pipe(map(this.createResult));
     };
 
     return { signAndSend };
+  }
+
+  private createResult = (result: SubmittableResult): BlueprintCreateResult => {
+    let contract: RxContract | undefined;
+
+    if (result.isFinalized) {
+      const record = result.findRecord('contract', 'Instantiated');
+
+      if (record) {
+        contract = new RxContract(this.api, this.abi, record.event.data[1] as Address);
+      }
+    }
+
+    return new BlueprintCreateResult(result, contract);
   }
 }

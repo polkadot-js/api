@@ -5,7 +5,7 @@
 import { AnyNumber, Codec, Constructor, InterfaceTypes } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
+import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import { typeToConstructor } from './utils';
@@ -59,14 +59,8 @@ export default class Compact<T extends CompactEncodable> extends Base<T> {
   public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(value.raw);
-    } else if (isString(value)) {
-      return new Type(
-        isHex(value, -1, true)
-          ? hexToBn(value)
-          : new BN(value, 10)
-      );
-    } else if (isNumber(value) || isBn(value)) {
-      return new Type(bnToBn(value));
+    } else if (isString(value) || isNumber(value) || isBn(value)) {
+      return new Type(value);
     }
 
     const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());

@@ -3,7 +3,14 @@
 
 import { Codec } from '../../types';
 import { u32 } from '../../primitive';
-import { AccountId } from '../runtime';
+import { AccountId, ValidatorId } from '../runtime';
+import { Exposure } from '../staking';
+
+/** Exposure */
+export type FullIdentification = Exposure;
+
+/** [ValidatorId, FullIdentification] & Codec */
+export type IdentificationTuple = [ValidatorId, FullIdentification] & Codec;
 
 /** SessionKeysSubstrate */
 export type Keys = SessionKeysSubstrate;

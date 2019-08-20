@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '@polkadot/types/types';
-import { ModuleConstantMetadata as MetaV7 } from '@polkadot/types/Metadata/v6/Constants';
+import { ModuleConstantMetadataV7 } from '@polkadot/types/interfaces';
 
 export interface ConstantCodec extends Codec {
-  meta: MetaV7;
+  meta: ModuleConstantMetadataV7;
 }
 
 export type ModuleConstants = Record<string, Codec>;

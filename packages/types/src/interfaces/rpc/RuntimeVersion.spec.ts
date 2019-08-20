@@ -6,7 +6,7 @@ import '../../injector';
 
 import { RuntimeVersion } from './types';
 
-import createType from '../../codec/createType';
+import { createType } from '../../codec/create';
 import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {

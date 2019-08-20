@@ -33,6 +33,11 @@ export default {
         'Controller'
       ]
     },
+    SlashJournalEntry: {
+      who: 'AccountId',
+      amount: 'Balance',
+      ownSlash: 'Balance'
+    },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
@@ -44,6 +49,9 @@ export default {
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      validatorPayment: 'Compact<Balance>'
+    },
+    ValidatorPrefs0to145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }

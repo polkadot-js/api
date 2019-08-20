@@ -11,7 +11,6 @@
 export { default as Compact } from './Compact';
 // export { default as Date } from './Date';
 export { default as Enum } from './Enum';
-export { default as EnumType } from './EnumType';
 export { default as Option } from './Option';
 export { default as Set } from './Set';
 export { default as Struct } from './Struct';
@@ -24,6 +23,4 @@ export { default as U8a } from './U8a';
 export { default as UInt } from './UInt';
 
 // Type management helper functions
-export { default as createType, createClass, getTypeClass, ClassOf } from './createType';
-export { getTypeDef } from './utils';
-export { default as getTypeRegistry } from './typeRegistry';
+export * from './create';

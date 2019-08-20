@@ -4,7 +4,7 @@
 
 import { Constants, ConstantCodec, ModuleConstants } from '../types';
 
-import { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import { createTypeUnsafe } from '@polkadot/types/codec';
 import Metadata from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -14,7 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Constants {
-  return metadata.asV7.modules.reduce((result, moduleMetadata): Constants => {
+  return metadata.asLatest.modules.reduce((result, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;
     }
