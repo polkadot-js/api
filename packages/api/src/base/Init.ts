@@ -6,6 +6,8 @@ import { RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes } from '../types';
 
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
@@ -45,6 +47,8 @@ const l = logger('api/decorator');
 
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
+
+  private _versionSub: Subscription | null = null;
 
   public constructor (options: ApiOptions, type: ApiTypes) {
     super(options, type);
@@ -94,33 +98,61 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       this._rpcCore.chain.getRuntimeVersion().toPromise()
     ]);
 
-    // based on the node, inject specific types
-    this.registerTypes(
-      SPEC_TYPES[this._runtimeVersion.specName.toString()]
-    );
-
     const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
 
-    // get unique types & validate
-    metadata.getUniqTypes(false);
+    // based on the node, inject specific types - this is very specific to known chains
+    this.registerTypes(
+      SPEC_TYPES[this._runtimeVersion.specName.toString()]
+    );
 
-    return metadata;
-  }
-
-  private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord format for e.g. Alex, based on \metadata format
+    // HACK-ish Old EventRecord format for e.g. Alex, based on metadata versions
     if (metadata.version <= 3) {
       this.registerTypes(TYPES_SUBSTRATE_1);
     }
 
+    // get unique types & validate
+    metadata.getUniqTypes(false);
+
+    // subscribe to the runtime version, updating metadata as changes are made
+    this._versionSub = this.streamRuntimeVersion().subscribe();
+
+    return metadata;
+  }
+
+  private streamRuntimeVersion (): Observable<Promise<boolean>> {
+    return this._rpcCore.chain
+      .subscribeRuntimeVersion()
+      .pipe(map(async (version): Promise<boolean> => {
+        // We do a hadChanged check here since we are actually already getting the version
+        // as part of the chain initialization - effectively as it stands the logic to get the
+        // runtime version and then extract metadat should really be combined in here
+        const hasChanged = !this._runtimeVersion ||
+          !this._runtimeVersion.specVersion.eq(version.specVersion) ||
+          !this._runtimeVersion.implVersion.eq(version.implVersion);
+
+        if (hasChanged) {
+          const metadata = await this._rpcCore.state.getMetadata().toPromise();
+
+          this._runtimeMetadata = metadata;
+          this._runtimeVersion = version;
+
+          // From the changed metadata, re-init all the injected points
+          return this.initFromMeta(this._runtimeMetadata);
+        }
+
+        return false;
+      }));
+  }
+
+  private async initFromMeta (metadata: Metadata): Promise<boolean> {
     const extrinsics = extrinsicsFromMeta(metadata);
     const storage = storageFromMeta(metadata);
     const constants = constantsFromMeta(metadata);
 
-    // only inject if we are not a clone (global init)
+    // only inject if we are not a clone, clones would use parent types/versions
     if (!this._options.source) {
       GenericEvent.injectMetadata(metadata);
       GenericCall.injectMethods(extrinsics);
@@ -186,6 +218,11 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     if (this._healthTimer) {
       clearInterval(this._healthTimer);
       this._healthTimer = null;
+    }
+
+    if (this._versionSub) {
+      this._versionSub.unsubscribe();
+      this._versionSub = null;
     }
   };
 
