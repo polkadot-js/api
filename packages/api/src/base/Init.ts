@@ -104,9 +104,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       : await this._rpcCore.state.getMetadata().toPromise();
 
     // based on the node, inject specific types - this is very specific to known chains
-    this.registerTypes(
-      SPEC_TYPES[this._runtimeVersion.specName.toString()]
-    );
+    this.registerTypes(SPEC_TYPES[this._runtimeVersion.specName.toString()]);
 
     // HACK-ish Old EventRecord format for e.g. Alex, based on metadata versions
     if (metadata.version <= 3) {
@@ -116,14 +114,14 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // get unique types & validate
     metadata.getUniqTypes(false);
 
-    // subscribe to the runtime version, updating metadata as changes are made
-    this._versionSub = this.streamRuntimeVersion().subscribe();
+    // // subscribe to the runtime version, updating metadata as changes are made
+    this._versionSub = this.runtimeVersionObservable().subscribe();
 
     return metadata;
   }
 
-  private streamRuntimeVersion (): Observable<Promise<boolean>> {
-    return this._rpcCore.chain
+  private runtimeVersionObservable (): Observable<Promise<boolean>> {
+    return this._rpcCore.state
       .subscribeRuntimeVersion()
       .pipe(map(async (version): Promise<boolean> => {
         // We do a hadChanged check here since we are actually already getting the version

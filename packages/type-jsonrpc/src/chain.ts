@@ -69,17 +69,6 @@ const subscribeFinalizedHeads: RpcMethodOpt = {
   type: 'Header'
 };
 
-const subscribeRuntimeVersion: RpcMethodOpt = {
-  description: 'Retrieves the runtime version via subscription',
-  params: [],
-  pubsub: [
-    'runtimeVersion',
-    'subscribeRuntimeVersion',
-    'unsubscribeRuntimeVersion'
-  ],
-  type: 'RuntimeVersion'
-};
-
 const section = 'chain';
 
 /**
@@ -97,7 +86,6 @@ export default {
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
-    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
   }
 };

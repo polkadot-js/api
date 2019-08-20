@@ -105,6 +105,17 @@ const queryStorage: RpcMethodOpt = {
   type: 'Vec<StorageChangeSet>'
 };
 
+const subscribeRuntimeVersion: RpcMethodOpt = {
+  description: 'Retrieves the runtime version via subscription',
+  params: [],
+  pubsub: [
+    'runtimeVersion',
+    'subscribeRuntimeVersion',
+    'unsubscribeRuntimeVersion'
+  ],
+  type: 'RuntimeVersion'
+};
+
 const subscribeStorage: RpcMethodOpt = {
   description: 'Subscribes to storage changes for the provided keys',
   params: [
@@ -141,6 +152,7 @@ export default {
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
+    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
 };

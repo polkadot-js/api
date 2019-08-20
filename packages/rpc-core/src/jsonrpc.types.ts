@@ -24,7 +24,6 @@ export interface RpcInterface {
     getHeader(hash?: Hash | Uint8Array | string): Observable<Header>;
     getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
     subscribeFinalizedHeads(): Observable<Header>;
-    subscribeRuntimeVersion(): Observable<RuntimeVersion>;
     subscribeNewHead(): Observable<Header>;
   };
   state: {
@@ -40,6 +39,7 @@ export interface RpcInterface {
     getStorageHash(key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
     getStorageSize(key: any, block?: Hash | Uint8Array | string): Observable<u64>;
     queryStorage(keys: (any)[], startBlock: Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
+    subscribeRuntimeVersion(): Observable<RuntimeVersion>;
     subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;
   };
   system: {
