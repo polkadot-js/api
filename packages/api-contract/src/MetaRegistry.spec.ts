@@ -10,10 +10,10 @@ describe('MetaRegistry', (): void => {
   describe('construction', (): void => {
     it('initializes from a contract ABI', (): void => {
       const metaRegistry = new MetaRegistry(v2ABI);
-
+      console.log(metaRegistry);
       expect(
         true
-      ).toEqual(true);
+      ).toBe(true);
     });
   });
 });
