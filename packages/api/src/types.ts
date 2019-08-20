@@ -201,7 +201,7 @@ export interface ApiInterfaceRx {
   signer?: Signer;
 }
 
-export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
+export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'decorated' | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 

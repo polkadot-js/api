@@ -178,6 +178,8 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // derive is last, since it uses the decorated rx
     this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
 
+    this.emit('decorated');
+
     return true;
   }
 

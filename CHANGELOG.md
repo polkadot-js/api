@@ -13,6 +13,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 - Support substrate v7 metadata
 - The `Method.findFunction(callIndex)` (allowing decoding of raw data), is now available on `api.findCall(callIndex)`. To keep backwards compatibility, it is still available on `GenericCall.findMethod` but the `api.findCall` is recommended and suggested.
 - The `types/codec/createType` has been moved to `types/codec/create` with the same exports. If you explicitly imported from here (and not doing the suggested `import { createType } from '@polkadot/types`), the reference needs to be updated
+- the API will now subscribe to the runtimeVersion, re-decorate with the metadata as updated and emit a `decorated` event on any changes
 
 
 # 0.82.0-beta.x
