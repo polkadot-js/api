@@ -4,7 +4,7 @@
 
 import MetaRegistry from './MetaRegistry';
 
-import v2ABI from '../../../api-contract/test/contracts/V2.json';
+import v2ABI from './test/contracts/V2.json';
 
 describe('MetaRegistry', (): void => {
   describe('construction', (): void => {

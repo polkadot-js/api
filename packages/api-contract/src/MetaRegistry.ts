@@ -1,7 +1,7 @@
-import { MetaRegistryJson, MetaType, MetaTypeDef, MetaTypeDefStruct, MetaTypeDefTupleStruct, MetaTypeDefStructField, MetaTypeIdArray, MetaTypeIdCustom, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from './types';
+import { MetaRegistryJson, MetaType, MetaTypeDef, MetaTypeDefStruct, MetaTypeDefTupleStruct, MetaTypeDefStructField, MetaTypeIdArray, MetaTypeIdCustom, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
-import { encodeEnum, encodeStruct, encodeTuple } from './utils';
+import { encodeEnum, encodeStruct, encodeTuple } from '@polkadot/types';
 
 export default class MetaRegistry {
   private _strings: string[] = [];
