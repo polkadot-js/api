@@ -79,7 +79,7 @@ describe('Tuple', (): void => {
   });
 
   it('exposes the Types', (): void => {
-    expect(tuple.Types).toEqual(['Text', 'U32']);
+    expect(tuple.Types).toEqual(['Text', 'u32']);
   });
 
   it('exposes the Types (object creation)', (): void => {

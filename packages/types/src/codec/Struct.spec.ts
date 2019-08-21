@@ -154,7 +154,7 @@ describe('Struct', (): void => {
     ).toEqual({
       foo: 'Text',
       bar: 'Text',
-      baz: 'U32'
+      baz: 'u32'
     });
   });
 

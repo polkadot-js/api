@@ -158,7 +158,7 @@ export default class Struct<
     return (Object
       .entries(this._Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]): E => {
-        (result as any)[key] = Type.name;
+        (result as any)[key] = new Type().toRawType();
 
         return result;
       }, {} as unknown as E);
