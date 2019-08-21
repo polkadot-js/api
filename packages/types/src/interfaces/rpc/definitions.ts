@@ -6,8 +6,9 @@ export default {
   types: {
     ApiId: '[u8; 8]',
     ChainProperties: {
-      tokenDecimals: 'u32',
-      tokenSymbol: 'Text'
+      ss58Format: 'Option<u8>',
+      tokenDecimals: 'Option<u32>',
+      tokenSymbol: 'Option<Text>'
     },
     ExtrinsicOrHash: {
       _enum: {

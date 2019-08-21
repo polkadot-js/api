@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '../../primitive';
+import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash } from '../runtime';
 
 /** Uint8Array & Codec */
@@ -11,10 +11,12 @@ export type ApiId = Uint8Array & Codec;
 
 /** Struct */
 export interface ChainProperties extends Struct {
-  /** u32 */
-  readonly tokenDecimals: u32;
-  /** Text */
-  readonly tokenSymbol: Text;
+  /** Option<u8> */
+  readonly ss58Format: Option<u8>;
+  /** Option<u32> */
+  readonly tokenDecimals: Option<u32>;
+  /** Option<Text> */
+  readonly tokenSymbol: Option<Text>;
 }
 
 /** Enum */
