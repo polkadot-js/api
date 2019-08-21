@@ -120,7 +120,7 @@ export default class Type extends Text {
     throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
   }
 
-  protected static _alias (src: string, dest: string): Mapper {
+  private static _alias (src: string, dest: string): Mapper {
     return (value: string): string => {
       return value.replace(
         new RegExp(src, 'g'), dest
