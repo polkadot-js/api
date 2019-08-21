@@ -14,12 +14,14 @@ describe('ChainProperties', (): void => {
   });
 
   it('decodes from an actual object', (): void => {
-    const { tokenDecimals, tokenSymbol } = createType('ChainProperties', {
+    const { ss58Format, tokenDecimals, tokenSymbol } = createType('ChainProperties', {
+      ss58Format: 2,
       tokenDecimals: 15,
-      tokenSymbol: 'BBQ'
+      tokenSymbol: 'KSM'
     });
 
+    expect(ss58Format.eq(2)).toBe(true);
     expect(tokenDecimals.eq(15)).toBe(true);
-    expect(tokenSymbol.eq('BBQ')).toBe(true);
+    expect(tokenSymbol.eq('KSM')).toBe(true);
   });
 });
