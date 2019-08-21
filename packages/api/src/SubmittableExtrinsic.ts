@@ -246,7 +246,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                 // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
                 (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-                  ? api.rpc.chain.getHeader()
+                  ? api.rpc.chain.getHeader() as Observable<Header>
                   : of(null)
               ])
             ).pipe(
@@ -301,7 +301,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId);
               })
-            ) as Observable<Codec>)
+            ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
           )(statusCb);
         }
       }
