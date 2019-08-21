@@ -31,7 +31,8 @@ describeE2E()('Rx e2e queries', (wsUrl: string): void => {
   });
 
   it('makes a query at a specific block', (done): void => {
-    (api.rpc.chain.getHeader() as Observable<Header>)
+    api.rpc.chain
+      .getHeader()
       .pipe(
         switchMap(({ hash }: Header): Observable<any> =>
           api.query.system.events.at(hash)

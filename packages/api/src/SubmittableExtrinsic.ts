@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
@@ -110,8 +110,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
   api: ApiInterfaceRx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
-  extrinsic: Call | Uint8Array | string,
-  trackingCb?: Callback<ISubmittableResult>
+  extrinsic: Call | Uint8Array | string
 ): SubmittableExtrinsic<ApiType> {
   const _extrinsic = createType('Extrinsic', extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
@@ -124,35 +123,27 @@ export default function createSubmittableExtrinsic<ApiType> (
 
   function statusObservable (status: ExtrinsicStatus): Observable<ISubmittableResult> {
     if (!status.isFinalized) {
-      const result = new SubmittableResult({ status });
-
-      trackingCb && trackingCb(result);
-
-      return of(result);
+      return of(new SubmittableResult({ status }));
     }
 
     const blockHash = status.asFinalized;
 
     return combineLatest([
-      api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
+      api.rpc.chain.getBlock(blockHash),
       api.query.system.events.at(blockHash) as Observable<Vec<EventRecord>>
     ]).pipe(
-      map(([signedBlock, allEvents]): SubmittableResult => {
-        const result = new SubmittableResult({
+      map(([signedBlock, allEvents]): SubmittableResult =>
+        new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
           status
-        });
-
-        trackingCb && trackingCb(result);
-
-        return result;
-      })
+        })
+      )
     );
   }
 
   function sendObservable (updateId: number = -1): Observable<Hash> {
-    return (api.rpc.author
-      .submitExtrinsic(_extrinsic) as Observable<Hash>)
+    return api.rpc.author
+      .submitExtrinsic(_extrinsic)
       .pipe(
         tap((hash): void => {
           updateSigner(updateId, hash);
@@ -161,8 +152,8 @@ export default function createSubmittableExtrinsic<ApiType> (
   }
 
   function subscribeObservable (updateId: number = -1): Observable<ISubmittableResult> {
-    return (api.rpc.author
-      .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
+    return api.rpc.author
+      .submitAndWatchExtrinsic(_extrinsic)
       .pipe(
         switchMap((status): Observable<ISubmittableResult> =>
           statusObservable(status)
@@ -206,6 +197,20 @@ export default function createSubmittableExtrinsic<ApiType> (
     });
   }
 
+  function getPrelimState (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> {
+    return combineLatest([
+      // if we have a nonce already, don't retrieve the latest, use what is there
+      isUndefined(options.nonce)
+        ? api.query.system.accountNonce<Index>(address)
+        : of(createType('Index', options.nonce)),
+      // if we have an era provided already or eraLength is <= 0 (immortal)
+      // don't get the latest block, just pass null, handle in mergeMap
+      (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
+        ? api.rpc.chain.getHeader()
+        : of(null)
+    ]);
+  }
+
   const signOrigin = _extrinsic.sign;
 
   Object.defineProperties(
@@ -246,71 +251,60 @@ export default function createSubmittableExtrinsic<ApiType> (
           let updateId: number | undefined;
 
           return decorateMethod(
-            (): Observable<Codec> => ((
-              combineLatest([
-                // if we have a nonce already, don't retrieve the latest, use what is there
-                isUndefined(options.nonce)
-                  ? api.query.system.accountNonce<Index>(address)
-                  : of(createType('Index', options.nonce)),
-                // if we have an era provided already or eraLength is <= 0 (immortal)
-                // don't get the latest block, just pass null, handle in mergeMap
-                (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-                  ? api.rpc.chain.getHeader() as Observable<Header>
-                  : of(null)
-              ])
-            ).pipe(
-              first(),
-              mergeMap(async ([nonce, header]): Promise<void> => {
-                const eraOptions = expandEraOptions(options, { header, nonce });
+            (): Observable<Codec> => (
+              getPrelimState(address, options).pipe(
+                first(),
+                mergeMap(async ([nonce, header]): Promise<void> => {
+                  const eraOptions = expandEraOptions(options, { header, nonce });
 
-                // FIXME This is becoming real messy with all the options - way past
-                // "a method should fit on a single screen" stage. (Probably want to
-                // clean this when we remove `api.signer.sign` in the next beta cycle)
-                if (isKeyringPair(account)) {
-                  this.sign(account, eraOptions);
-                } else if (api.signer) {
-                  const payload = new SignerPayload({
-                    ...eraOptions,
-                    address,
-                    method: _extrinsic.method,
-                    blockNumber: header ? header.number : 0
-                  });
-
-                  if (api.signer.signPayload) {
-                    const { id, signature } = await api.signer.signPayload(payload.toPayload());
-
-                    // Here we explicitly call `toPayload()` again instead of working with an object
-                    // (reference) as passed to the signer. This means that we are sure that the
-                    // payload data is not modified from our inputs, but the signer
-                    _extrinsic.addSignature(address, signature, payload.toPayload());
-                    updateId = id;
-                  } else if (api.signer.signRaw) {
-                    const { id, signature } = await api.signer.signRaw(payload.toRaw());
-
-                    // as above, always trust our payload as the signle sourec of truth
-                    _extrinsic.addSignature(address, signature, payload.toPayload());
-                    updateId = id;
-                  } else if (api.signer.sign) {
-                    console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
-
-                    updateId = await api.signer.sign(_extrinsic, address, {
+                  // FIXME This is becoming real messy with all the options - way past
+                  // "a method should fit on a single screen" stage. (Probably want to
+                  // clean this when we remove `api.signer.sign` in the next beta cycle)
+                  if (isKeyringPair(account)) {
+                    this.sign(account, eraOptions);
+                  } else if (api.signer) {
+                    const payload = new SignerPayload({
                       ...eraOptions,
-                      blockNumber: header ? header.number.toBn() : new BN(0),
-                      genesisHash: api.genesisHash
+                      address,
+                      method: _extrinsic.method,
+                      blockNumber: header ? header.number : 0
                     });
+
+                    if (api.signer.signPayload) {
+                      const { id, signature } = await api.signer.signPayload(payload.toPayload());
+
+                      // Here we explicitly call `toPayload()` again instead of working with an object
+                      // (reference) as passed to the signer. This means that we are sure that the
+                      // payload data is not modified from our inputs, but the signer
+                      _extrinsic.addSignature(address, signature, payload.toPayload());
+                      updateId = id;
+                    } else if (api.signer.signRaw) {
+                      const { id, signature } = await api.signer.signRaw(payload.toRaw());
+
+                      // as above, always trust our payload as the signle sourec of truth
+                      _extrinsic.addSignature(address, signature, payload.toPayload());
+                      updateId = id;
+                    } else if (api.signer.sign) {
+                      console.warn('The Signer.sign interface is deprecated and will be removed in a future version, Swap to using the Signer.signPayload interface instead.');
+
+                      updateId = await api.signer.sign(_extrinsic, address, {
+                        ...eraOptions,
+                        blockNumber: header ? header.number.toBn() : new BN(0),
+                        genesisHash: api.genesisHash
+                      });
+                    } else {
+                      throw new Error('Invalid signer interface');
+                    }
                   } else {
-                    throw new Error('Invalid signer interface');
+                    throw new Error('no signer exists');
                   }
-                } else {
-                  throw new Error('no signer exists');
-                }
-              }),
-              switchMap((): Observable<ISubmittableResult> | Observable<Hash> => {
-                return isSubscription
-                  ? subscribeObservable(updateId)
-                  : sendObservable(updateId);
-              })
-            ) as Observable<Codec>)
+                }),
+                switchMap((): Observable<ISubmittableResult> | Observable<Hash> => {
+                  return isSubscription
+                    ? subscribeObservable(updateId)
+                    : sendObservable(updateId);
+                })
+              ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
           )(statusCb);
         }
       }
