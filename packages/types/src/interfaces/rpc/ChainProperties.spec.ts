@@ -20,8 +20,16 @@ describe('ChainProperties', (): void => {
       tokenSymbol: 'KSM'
     });
 
-    expect(ss58Format.eq(2)).toBe(true);
-    expect(tokenDecimals.eq(15)).toBe(true);
-    expect(tokenSymbol.eq('KSM')).toBe(true);
+    expect(ss58Format.unwrap().eq(2)).toBe(true);
+    expect(tokenDecimals.unwrap().eq(15)).toBe(true);
+    expect(tokenSymbol.unwrap().eq('KSM')).toBe(true);
+  });
+
+  it('decodes from an object, flagged for non-existent ss58Format', (): void => {
+    const { ss58Format, tokenDecimals, tokenSymbol } = createType('ChainProperties', { tokenSymbol: 'DEV' });
+
+    expect(ss58Format.isNone).toBe(true);
+    expect(tokenDecimals.isNone).toBe(true);
+    expect(tokenSymbol.isSome).toBe(true);
   });
 });
