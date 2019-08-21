@@ -54,17 +54,21 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return this._Type.name;
+    return new this._Type().toRawType();
   }
 
   public toU8a (): Uint8Array {
-    return super.toU8a(true);
+    // we override, we don't add the length prefix for outselves, and at the same time we
+    // ignore isBare on entries, since they should be properly encoded at all times
+    const encoded = this.map((entry): Uint8Array => entry.toU8a());
+
+    return u8aConcat(...encoded);
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `[${new this._Type().toRawType()};${this.length}`;
+    return `[${this.Type};${this.length}]`;
   }
 }
