@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes } from './types';
 
@@ -110,8 +110,7 @@ export default function createSubmittableExtrinsic<ApiType> (
   type: ApiTypes,
   api: ApiInterfaceRx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
-  extrinsic: Call | Uint8Array | string,
-  trackingCb?: Callback<ISubmittableResult>
+  extrinsic: Call | Uint8Array | string
 ): SubmittableExtrinsic<ApiType> {
   const _extrinsic = createType('Extrinsic', extrinsic, { version: api.extrinsicType }) as unknown as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
@@ -124,35 +123,27 @@ export default function createSubmittableExtrinsic<ApiType> (
 
   function statusObservable (status: ExtrinsicStatus): Observable<ISubmittableResult> {
     if (!status.isFinalized) {
-      const result = new SubmittableResult({ status });
-
-      trackingCb && trackingCb(result);
-
-      return of(result);
+      return of(new SubmittableResult({ status }));
     }
 
     const blockHash = status.asFinalized;
 
     return combineLatest([
-      api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
+      api.rpc.chain.getBlock(blockHash),
       api.query.system.events.at(blockHash) as Observable<Vec<EventRecord>>
     ]).pipe(
-      map(([signedBlock, allEvents]): SubmittableResult => {
-        const result = new SubmittableResult({
+      map(([signedBlock, allEvents]): SubmittableResult =>
+        new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
           status
-        });
-
-        trackingCb && trackingCb(result);
-
-        return result;
-      })
+        })
+      )
     );
   }
 
   function sendObservable (updateId: number = -1): Observable<Hash> {
-    return (api.rpc.author
-      .submitExtrinsic(_extrinsic) as Observable<Hash>)
+    return api.rpc.author
+      .submitExtrinsic(_extrinsic)
       .pipe(
         tap((hash): void => {
           updateSigner(updateId, hash);
@@ -161,8 +152,8 @@ export default function createSubmittableExtrinsic<ApiType> (
   }
 
   function subscribeObservable (updateId: number = -1): Observable<ISubmittableResult> {
-    return (api.rpc.author
-      .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
+    return api.rpc.author
+      .submitAndWatchExtrinsic(_extrinsic)
       .pipe(
         switchMap((status): Observable<ISubmittableResult> =>
           statusObservable(status)
@@ -255,7 +246,7 @@ export default function createSubmittableExtrinsic<ApiType> (
                 // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
                 (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-                  ? api.rpc.chain.getHeader() as Observable<Header>
+                  ? api.rpc.chain.getHeader()
                   : of(null)
               ])
             ).pipe(

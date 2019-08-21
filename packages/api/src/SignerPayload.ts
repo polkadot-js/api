@@ -38,17 +38,10 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
 
 export default class Payload extends _Payload {
   /**
-   * @description Returns this as a SignerPayloadType. This works since the Struct.with injects all the getters automatically (just ensure the 2 definitiona are matching)
-   */
-  public get self (): SignerPayloadType {
-    return this as any as SignerPayloadType;
-  }
-
-  /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayload {
-    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this.self;
+    const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
 
     return {
       address: address.toString(),
