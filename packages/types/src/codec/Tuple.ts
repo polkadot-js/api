@@ -80,7 +80,7 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map(({ name }): string => name)
+      ? this._Types.map((Type): string => new Type().toRawType())
       : Object.keys(this._Types);
   }
 
