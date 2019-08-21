@@ -54,13 +54,13 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
 }
 
 // create a key for a DoubleMap type
-function createDoubleMapKey ({ meta }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
+function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
   // since we are passing an almost-unknown through, trust, but verify
-  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${meta.name} expects two arguments`);
+  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${name} expects two arguments`);
 
   const [key1, key2] = args;
-  const type1 = meta.type.asDoubleMap.key1.toString();
-  const type2 = meta.type.asDoubleMap.key2.toString();
+  const type1 = type.asDoubleMap.key1.toString();
+  const type2 = type.asDoubleMap.key2.toString();
   const param1Encoded = u8aConcat(rawKey, createTypeUnsafe(type1, [key1]).toU8a(true));
   const param1Hashed = hasher(param1Encoded);
 
@@ -71,14 +71,14 @@ function createDoubleMapKey ({ meta }: CreateItemFn, rawKey: Uint8Array, args: [
 }
 
 // create a key for either a map or a plain value
-function createKey ({ meta }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   let key = rawKey;
 
-  if (meta.type.isMap) {
-    assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
+  if (type.isMap) {
+    assert(!isUndefined(arg) && !isNull(arg), `${name} expects one argument`);
 
-    const type = meta.type.asMap.key.toString();
-    const param = createTypeUnsafe(type, [arg]).toU8a();
+    const mapType = type.asMap.key.toString();
+    const param = createTypeUnsafe(mapType, [arg]).toU8a();
 
     key = u8aConcat(key, param);
   }
@@ -147,7 +147,7 @@ export default function createFunction (item: CreateItemFn, options: CreateItemO
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
-      ? createDoubleMapKey(item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
+      ? createKeyDoubleMap(item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
       : createKey(item, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
 
   const storageFn = expandWithMeta(item, _storageFn as StorageEntry);
