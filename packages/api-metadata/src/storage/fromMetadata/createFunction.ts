@@ -34,9 +34,11 @@ function createKeys ({ method, prefix }: CreateItemFn, options: CreateItemOption
   const stringKey = options.key
     ? options.key
     : `${prefix} ${method}`;
-  const rawKey = stringToU8a(stringKey);
 
-  return [stringKey, rawKey];
+  return [
+    stringKey,
+    stringToU8a(stringKey)
+  ];
 }
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
@@ -50,13 +52,17 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
     return [getHasher(type.asMap.hasher)];
   }
 
+  // the default
   return [getHasher()];
 }
 
 // create a key for a DoubleMap type
 function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
   // since we are passing an almost-unknown through, trust, but verify
-  assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${name} expects two arguments`);
+  assert(
+    Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
+    `${name} is a DoubleMap and requires two arguments`
+  );
 
   const [key1, key2] = args;
   const type1 = type.asDoubleMap.key1.toString();
@@ -67,6 +73,7 @@ function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uin
   // @ts-ignore If this fails it means the getHashers function failed - and we have much bigger issues
   const param2Hashed = key2Hasher(createTypeUnsafe(type2, [key2]).toU8a(true));
 
+  // as per createKey, always add the length prefix (underlying it is Bytes)
   return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
 }
 
@@ -75,7 +82,7 @@ function createKey ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, 
   let key = rawKey;
 
   if (type.isMap) {
-    assert(!isUndefined(arg) && !isNull(arg), `${name} expects one argument`);
+    assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
 
     const mapType = type.asMap.key.toString();
     const param = createTypeUnsafe(mapType, [arg]).toU8a();
@@ -96,24 +103,28 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 
   // explicitly add the actual method in the toJSON, this gets used to determine caching and without it
   // instances (e.g. collective) will not work since it is only matched on param meta
-  storageFn.toJSON = (): any => ({ ...(meta.toJSON() as any), storage: { method, prefix, section } });
+  storageFn.toJSON = (): any => ({
+    ...(meta.toJSON() as any),
+    storage: { method, prefix, section }
+  });
 
   return storageFn;
 }
 
 // attch the head key hashing for linked maps
-function extendLinkedMap ({ meta }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
+function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
   const headHash = new U8a(hasher(`head of ${stringKey}`));
-  const headFn: any = (): U8a => headHash;
+  const headFn: any = (): U8a =>
+    headHash;
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   headFn.meta = new StorageEntryMetadata({
-    name: meta.name,
+    name,
     modifier: createType('StorageEntryModifierV7', 1), // required
-    type: new StorageEntryType(createType('PlainTypeV7', meta.type.asMap.key), 0),
-    fallback: new Bytes(createTypeUnsafe(meta.type.asMap.key.toString()).toHex()),
-    documentation: meta.documentation
+    type: new StorageEntryType(createType('PlainTypeV7', type.asMap.key), 0),
+    fallback: new Bytes(createTypeUnsafe(type.asMap.key.toString()).toHex()),
+    documentation
   });
 
   // here we pass the section/method through as well - these are not on
@@ -130,7 +141,7 @@ function extendLinkedMap ({ meta }: CreateItemFn, storageFn: StorageEntry, strin
  * From the schema of a function in the module's storage, generate the function
  * that will return the correct storage key.
  *
- * @param schema - The function's definition schema to create the function from.
+ * @param item - The function's definition schema to create the function from.
  * The schema is taken from state_getMetadata.
  * @param options - Additional options when creating the function. These options
  * are not known at runtime (from state_getMetadata), they need to be supplied
