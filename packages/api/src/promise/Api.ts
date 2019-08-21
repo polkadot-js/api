@@ -17,7 +17,7 @@ interface Tracker {
   resolve: (value: () => void) => void;
 }
 
-// extract the arguments and callback parats from a value array possibly containing a callback
+// extract the arguments and callback params from a value array possibly containing a callback
 function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Codec> | undefined] {
   let callback: Callback<Codec> | undefined;
   const actualArgs = args.slice();
@@ -34,7 +34,7 @@ function extractArgs (args: any[], needsCallback: boolean): [any[], Callback<Cod
   return [actualArgs, callback];
 }
 
-// a Promise completion tracker, wrapping a complete variable that only fires once
+// a Promise completion tracker, wrapping an isComplete variable that ensures the promise only resolves once
 function promiseTracker (resolve: (value: () => void) => void, reject: (value: Error) => void): Tracker {
   let isCompleted = false;
   const complete = (fn: Function, value: any): void => {
@@ -238,7 +238,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   }
 
   /**
-   * @description Decores the method for the ApiPromise, where the results are converted to the Promise equivalent
+   * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
    */
   protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
