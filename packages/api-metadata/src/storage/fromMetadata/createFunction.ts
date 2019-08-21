@@ -137,7 +137,7 @@ function extendLinkedMap ({ meta }: CreateItemFn, storageFn: StorageEntry, strin
  * by us manually at compile time.
  */
 export default function createFunction (item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
-  const { meta } = item;
+  const { meta: { type } } = item;
   const [stringKey, rawKey] = createKeys(item, options);
   const [hasher, key2Hasher] = getHashers(item);
 
@@ -146,13 +146,13 @@ export default function createFunction (item: CreateItemFn, options: CreateItemO
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
-    meta.type.isDoubleMap
+    type.isDoubleMap
       ? createDoubleMapKey(item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
       : createKey(item, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
 
   const storageFn = expandWithMeta(item, _storageFn as StorageEntry);
 
-  if (meta.type.isMap && meta.type.asMap.linked.isTrue) {
+  if (type.isMap && type.asMap.linked.isTrue) {
     extendLinkedMap(item, storageFn, stringKey, hasher);
   }
 
