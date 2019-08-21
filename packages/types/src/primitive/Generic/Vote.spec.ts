@@ -41,6 +41,25 @@ describe('Vote', (): void => {
     it('is Nay for 0', (): void => {
       expect(new Vote(0).isNay).toBe(true);
     });
+
+    it('constructs via empty', (): void => {
+      expect(new Vote().isNay).toBe(true);
+    });
+
+    it('constructs via Uint8Array (empty)', (): void => {
+      expect(new Vote(new Uint8Array()).isNay).toBe(true);
+    });
+
+    it('constructs via Uint8Array (nay)', (): void => {
+      expect(new Vote(new Uint8Array([1])).isNay).toBe(true);
+    });
+
+    it('constructs via Uint8Array (aye)', (): void => {
+      const test = new Vote(new Uint8Array([0b10000010]));
+
+      expect(test.isNay).toBe(false);
+      expect(test.conviction.toString()).toEqual('Locked2x');
+    });
   });
 
   describe('Vote with conviction', (): void => {
@@ -100,6 +119,13 @@ describe('Vote', (): void => {
       ).toEqual('Locked2x');
     });
 
+    it('Conviction getter works with raw boolean and no conviction', (): void => {
+      const test = new Vote({ aye: true });
+
+      expect(test.isAye).toEqual(true);
+      expect(test.conviction.toString()).toEqual('None');
+    });
+
     it('isAye getter works', (): void => {
       expect(
         new Vote({
@@ -116,6 +142,12 @@ describe('Vote', (): void => {
           conviction: 'None'
         }).isNay)
         .toEqual(false);
+    });
+  });
+
+  describe('utils', (): void => {
+    it('has a sane toRawType', (): void => {
+      expect(new Vote().toRawType()).toEqual('Vote');
     });
   });
 });
