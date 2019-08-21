@@ -11,7 +11,8 @@ import { mapToTypeMap } from './utils';
 import Base from './Base';
 import Struct from './Struct';
 
-interface EnumConstructor<T = Codec> {
+// export interface, this is used in Enum.with, so required as public by TS
+export interface EnumConstructor<T = Codec> {
   new(value?: any, index?: number): T;
 }
 
@@ -61,7 +62,7 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  public constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number | Enum) {
+  public constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
@@ -73,13 +74,13 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static decodeEnum (def: TypesDef, value?: any, index?: number | Enum): Decoded {
-    if (value instanceof Enum) {
-      return Enum.createValue(def, value._index, value.raw);
-    } else if (index instanceof Enum) {
-      return Enum.createValue(def, index._index, index.raw);
-    } else if (isNumber(index)) {
+  private static decodeEnum (def: TypesDef, value?: any, index?: number): Decoded {
+    // NOTE We check the index path first, before looking at values - this allows treating
+    // the optional indexes before anything else, more-specific > less-specific
+    if (isNumber(index)) {
       return Enum.createValue(def, index, value);
+    } else if (value instanceof Enum) {
+      return Enum.createValue(def, value._index, value.raw);
     }
 
     // Or else, we just look at `value`
