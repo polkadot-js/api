@@ -218,7 +218,7 @@ export default abstract class Decorate<ApiType> extends Events {
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
-    // When using double map storage function, user need to path double map key as an array
+    // When using double map storage function, user need to pass double map key as an array
     decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
         args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
