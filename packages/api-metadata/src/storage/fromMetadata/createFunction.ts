@@ -30,7 +30,7 @@ type CreateArgType = boolean | string | number | null | BN | Uint8Array | Codec;
 const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
 
 // with the prefix, method & options, create both the string & raw keys
-function createKeys (prefix: string, method: string, options: CreateItemOptions): [string, Uint8Array] {
+function createKeys ({ method, prefix }: CreateItemFn, options: CreateItemOptions): [string, Uint8Array] {
   const stringKey = options.key
     ? options.key
     : `${prefix} ${method}`;
@@ -40,7 +40,7 @@ function createKeys (prefix: string, method: string, options: CreateItemOptions)
 }
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
-function getHashers ({ type }: StorageEntryMetadata): [HasherFunction, HasherFunction?] {
+function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFunction?] {
   if (type.isDoubleMap) {
     return [
       getHasher(type.asDoubleMap.hasher),
@@ -54,7 +54,7 @@ function getHashers ({ type }: StorageEntryMetadata): [HasherFunction, HasherFun
 }
 
 // create a key for a DoubleMap type
-function createDoubleMapKey (meta: StorageEntryMetadata, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
+function createDoubleMapKey ({ meta }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
   // since we are passing an almost-unknown through, trust, but verify
   assert(Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]), `${meta.name} expects two arguments`);
 
@@ -71,7 +71,7 @@ function createDoubleMapKey (meta: StorageEntryMetadata, rawKey: Uint8Array, arg
 }
 
 // create a key for either a map or a plain value
-function createKey (meta: StorageEntryMetadata, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey ({ meta }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   let key = rawKey;
 
   if (meta.type.isMap) {
@@ -88,7 +88,7 @@ function createKey (meta: StorageEntryMetadata, rawKey: Uint8Array, arg: CreateA
 }
 
 // attach the metadata to expsnd to a StorageFunction
-function expandWithMeta (storageFn: StorageEntry, { meta, method, prefix, section }: CreateItemFn): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
   storageFn.prefix = prefix;
@@ -102,7 +102,7 @@ function expandWithMeta (storageFn: StorageEntry, { meta, method, prefix, sectio
 }
 
 // attch the head key hashing for linked maps
-function extendLinkedMap (storageFn: StorageEntry, { meta }: CreateItemFn, stringKey: string, hasher: HasherFunction): StorageEntry {
+function extendLinkedMap ({ meta }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
   const headHash = new U8a(hasher(`head of ${stringKey}`));
   const headFn: any = (): U8a => headHash;
 
@@ -137,9 +137,9 @@ function extendLinkedMap (storageFn: StorageEntry, { meta }: CreateItemFn, strin
  * by us manually at compile time.
  */
 export default function createFunction (item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
-  const { meta, method, prefix } = item;
-  const [stringKey, rawKey] = createKeys(prefix, method, options);
-  const [hasher, key2Hasher] = getHashers(meta);
+  const { meta } = item;
+  const [stringKey, rawKey] = createKeys(item, options);
+  const [hasher, key2Hasher] = getHashers(item);
 
   // Can only have zero or one argument:
   //   - storage.balances.freeBalance(address)
@@ -147,13 +147,13 @@ export default function createFunction (item: CreateItemFn, options: CreateItemO
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     meta.type.isDoubleMap
-      ? createDoubleMapKey(meta, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : createKey(meta, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
+      ? createDoubleMapKey(item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
+      : createKey(item, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
 
-  const storageFn = expandWithMeta(_storageFn as StorageEntry, item);
+  const storageFn = expandWithMeta(item, _storageFn as StorageEntry);
 
   if (meta.type.isMap && meta.type.asMap.linked.isTrue) {
-    extendLinkedMap(storageFn, item, stringKey, hasher);
+    extendLinkedMap(item, storageFn, stringKey, hasher);
   }
 
   return storageFn;
