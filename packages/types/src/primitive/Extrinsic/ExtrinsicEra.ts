@@ -63,19 +63,23 @@ export class MortalEra extends Tuple {
     } else if (isU8a(value)) {
       return MortalEra.decodeMortalU8a(value);
     } else if (isObject(value)) {
-      const { current, period } = value;
-      let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
-      calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
-      const phase = current % calPeriod;
-      const quantizeFactor = Math.max(calPeriod >> 12, 1);
-      const quantizedPhase = phase / quantizeFactor * quantizeFactor;
-
-      return [new U64(calPeriod), new U64(quantizedPhase)];
+      return MortalEra.decodeMortalObject(value);
     } else if (!value) {
       return [new U64(), new U64()];
     }
 
     throw new Error('Invalid data passed to Mortal era');
+  }
+
+  private static decodeMortalObject (value: MortalMethod): MortalEraValue {
+    const { current, period } = value;
+    let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
+    calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
+    const phase = current % calPeriod;
+    const quantizeFactor = Math.max(calPeriod >> 12, 1);
+    const quantizedPhase = phase / quantizeFactor * quantizeFactor;
+
+    return [new U64(calPeriod), new U64(quantizedPhase)];
   }
 
   private static decodeMortalU8a (value: Uint8Array): MortalEraValue {

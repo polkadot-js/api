@@ -58,32 +58,9 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
 
   public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
     if (Array.isArray(value) || isHex(value)) {
-      // Instead of the block below, it should simply be:
-      // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-      const u8a = u8aToU8a(value);
-
-      // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
-      // extrinsics didn't have the length, cater for both approaches
-      const [offset, length] = Compact.decodeU8a(u8a);
-      const withPrefix = u8a.length === (offset + length.toNumber());
-
-      return Extrinsic.decodeExtrinsic(
-        withPrefix
-          ? u8a
-          : Compact.addLengthPrefix(u8a),
-        version
-      );
+      return Extrinsic.decodeU8aLike(value, version);
     } else if (isU8a(value)) {
-      if (!value.length) {
-        return Extrinsic.newFromValue(new Uint8Array(), version);
-      }
-
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return Extrinsic.decodeU8a(value.subarray(offset, total));
+      return Extrinsic.decodeU8a(value, version);
     } else if (value instanceof ClassOf('Call')) {
       return Extrinsic.newFromValue({ method: value }, version);
     }
@@ -91,8 +68,38 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
     return Extrinsic.newFromValue(value, version);
   }
 
-  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
-    return Extrinsic.newFromValue(value.subarray(1), value[0]);
+  private static decodeU8aLike (value: string | number[], version: number): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+    // Instead of the block below, it should simply be:
+    // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
+    const u8a = u8aToU8a(value);
+
+    // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
+    // extrinsics didn't have the length, cater for both approaches. This is very
+    // inconsistent with any other `Vec<u8>` implementation
+    const [offset, length] = Compact.decodeU8a(u8a);
+    const withPrefix = u8a.length === (offset + length.toNumber());
+
+    return Extrinsic.decodeU8a(
+      withPrefix
+        ? u8a
+        : Compact.addLengthPrefix(u8a),
+      version
+    );
+  }
+
+  private static decodeU8a (value: Uint8Array, version: number): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+    if (!value.length) {
+      return Extrinsic.newFromValue(new Uint8Array(), version);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    const data = value.subarray(offset, total);
+
+    return Extrinsic.newFromValue(data.subarray(1), data[0]);
   }
 
   /**
