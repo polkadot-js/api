@@ -24,7 +24,7 @@ async function consts (api: ApiPromise): Promise<void> {
 }
 
 async function derive (api: ApiPromise): Promise<void> {
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+  await api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
 
@@ -49,7 +49,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
-  await api.rpc.chain.subscribeNewHead((header: Header): void => {
+  await api.rpc.chain.subscribeNewHeads((header: Header): void => {
     console.log('current header:', header);
   });
 

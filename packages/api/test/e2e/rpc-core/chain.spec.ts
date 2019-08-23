@@ -23,11 +23,11 @@ describeE2E({
     rpc = new Rpc(new WsProvider(wsUrl));
   });
 
-  it('subscribes via subscribeNewHead', (done): void => {
+  it('subscribes via subscribeNewHeads', (done): void => {
     let count = 0;
 
     rpc.chain
-      .subscribeNewHead()
+      .subscribeNewHeads()
       .subscribe((header: Header): void => {
         expect(header).toBeInstanceOf(ClassOf('Header'));
 

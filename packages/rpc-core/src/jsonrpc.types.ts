@@ -25,7 +25,7 @@ export interface RpcInterface {
     getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
     subscribeFinalizedHeads(): Observable<Header>;
     subscribeRuntimeVersion(): Observable<RuntimeVersion>;
-    subscribeNewHead(): Observable<Header>;
+    subscribeNewHeads(): Observable<Header>;
   };
   state: {
     call(method: Text | string, data: Bytes | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;
