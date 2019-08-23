@@ -27,7 +27,8 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
   });
 
   it('makes a transfer', (done): void => {
-    (api.query.system.accountNonce(keyring.bob_stash.address) as Observable<Index>)
+    api.query.system
+      .accountNonce<Index>(keyring.bob_stash.address)
       .pipe(
         first(),
         switchMap((nonce: Index): Observable<SubmittableResult> =>
@@ -46,16 +47,17 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
 
   it('makes a proposal', (done): void => {
     const amount = calculateAccountDeposit(api);
-    (api.query.system.accountNonce(keyring.bob_stash.address) as Observable<Index>)
+    const proposal = api.tx.system && api.tx.system.setCode
+      ? api.tx.system.setCode(randomAsHex2097152) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
+      : api.tx.consensus.setCode(randomAsHex(4096)); // impl_version 0 - 93
+
+    api.query.system
+      .accountNonce<Index>(keyring.bob_stash.address)
       .pipe(
         first(),
         switchMap((nonce: Index): Observable<SubmittableResult> =>
           api.tx.democracy
-            .propose(
-              api.tx.system && api.tx.system.setCode
-                ? api.tx.system.setCode(randomAsHex2097152) // since impl_version 94 https://github.com/paritytech/substrate/pull/2802
-                : api.tx.consensus.setCode(randomAsHex(4096)) // impl_version 0 - 93
-              , amount)
+            .propose(proposal, amount)
             .sign(keyring.bob_stash, { nonce })
             .send()
         )

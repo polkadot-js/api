@@ -109,6 +109,12 @@ describe('Vec', (): void => {
         vector.reduce((r, e): string => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
+
+    it('exposes a working indexOf', (): void => {
+      expect(vector.indexOf('1')).toEqual(0);
+      expect(vector.indexOf(new Text('23'))).toEqual(1);
+      expect(vector.indexOf('0')).toEqual(-1);
+    });
   });
 
   describe('encode', (): void => {

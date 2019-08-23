@@ -7,7 +7,6 @@ import Text from './Text';
 type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
-
 /**
  * @name Type
  * @description
@@ -17,6 +16,47 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
  */
 export default class Type extends Text {
   private _originalLength: number;
+
+  private static _mappings: Mapper[] = [
+    // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
+    Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
+    // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
+    Type._alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
+    // <T::Balance as HasCompact>
+    Type._cleanupCompact(),
+    // Remove all the trait prefixes
+    Type._removeTraits(),
+    // remove PairOf<T> -> (T, T)
+    Type._removePairOf(),
+    // remove boxing, `Box<Proposal>` -> `Proposal`
+    Type._removeWrap('Box'),
+    // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
+    Type._removeGenerics(),
+    // alias String -> Text (compat with jsonrpc methods)
+    Type._alias('String', 'Text'),
+    // alias () -> Null
+    Type._alias('\\(\\)', 'Null'),
+    // alias Vec<u8> -> Bytes
+    Type._alias('Vec<u8>', 'Bytes'),
+    // alias &[u8] -> Bytes
+    Type._alias('&\\[u8\\]', 'Bytes'),
+    // alias RawAddress -> Address
+    Type._alias('RawAddress', 'Address'),
+    // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
+    Type._alias('Lookup::Source', 'Address'),
+    // alias Lookup::Target to AccountId (always the case)
+    Type._alias('Lookup::Target', 'AccountId'),
+    // alias for grandpa, as used in polkadot
+    Type._alias('grandpa::AuthorityId', 'AuthorityId'),
+    // specific for SessionIndex (could make this session::, but be conservative)
+    Type._alias('session::SessionIndex', 'SessionIndex'),
+    // HACK duplication between contracts & primitives, however contracts prefixed with exec
+    Type._alias('exec::StorageKey', 'ContractStorageKey'),
+    // flattens tuples with one value, `(AccountId)` -> `AccountId`
+    Type._flattenSingleTuple(),
+    // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
+    Type._removeColonPrefix()
+  ];
 
   public constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
@@ -34,48 +74,7 @@ export default class Type extends Text {
   }
 
   private static decodeType (value: string): string {
-    const mappings: Mapper[] = [
-      // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
-      Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
-      // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
-      Type._alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
-      // <T::Balance as HasCompact>
-      Type._cleanupCompact(),
-      // Remove all the trait prefixes
-      Type._removeTraits(),
-      // remove PairOf<T> -> (T, T)
-      Type._removePairOf(),
-      // remove boxing, `Box<Proposal>` -> `Proposal`
-      Type._removeWrap('Box'),
-      // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      Type._removeGenerics(),
-      // alias String -> Text (compat with jsonrpc methods)
-      Type._alias('String', 'Text'),
-      // alias () -> Null
-      Type._alias('\\(\\)', 'Null'),
-      // alias Vec<u8> -> Bytes
-      Type._alias('Vec<u8>', 'Bytes'),
-      // alias &[u8] -> Bytes
-      Type._alias('&\\[u8\\]', 'Bytes'),
-      // alias RawAddress -> Address
-      Type._alias('RawAddress', 'Address'),
-      // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
-      Type._alias('Lookup::Source', 'Address'),
-      // alias Lookup::Target to AccountId (always the case)
-      Type._alias('Lookup::Target', 'AccountId'),
-      // alias for grandpa, as used in polkadot
-      Type._alias('grandpa::AuthorityId', 'AuthorityId'),
-      // specific for SessionIndex (could make this session::, but be conservative)
-      Type._alias('session::SessionIndex', 'SessionIndex'),
-      // HACK duplication between contracts & primitives, however contracts prefixed with exec
-      Type._alias('exec::StorageKey', 'ContractStorageKey'),
-      // flattens tuples with one value, `(AccountId)` -> `AccountId`
-      Type._flattenSingleTuple(),
-      // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
-      Type._removeColonPrefix()
-    ];
-
-    return mappings.reduce((result, fn): string => {
+    return Type._mappings.reduce((result, fn): string => {
       return fn(result);
     }, value).trim();
   }

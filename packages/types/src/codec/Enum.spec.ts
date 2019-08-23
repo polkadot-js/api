@@ -234,20 +234,82 @@ describe('Enum', (): void => {
           new Enum(['foo', 'bar'], 1).eq('foo')
         ).toBe(false);
       });
+
+      it('has isNone set, with correct index (i.e. no values are used)', (): void => {
+        const test = new Enum(['foo', 'bar'], 1);
+
+        expect(test.isNone).toBe(true);
+        expect(test.index).toEqual(1);
+      });
     });
   });
 
-  describe('toRawType', (): void => {
-    it('has a sane output for basic enums', (): void => {
-      expect(
-        new Enum(['foo', 'bar']).toRawType()
-      ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
+  describe('index construction', (): void => {
+    it('creates enum where index is specified', (): void => {
+      const Test = Enum.with({
+        A: U32,
+        B: U32
+      });
+      const test = new Test(new U32(123), 1);
+
+      expect(test.type).toEqual('B');
+      expect((test.value as U32).toNumber()).toEqual(123);
     });
 
-    it('has a sane output for types enums', (): void => {
-      expect(
-        new Enum({ foo: Text, bar: U32 }).toRawType()
-      ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+    it('creates enum when value is an enum', (): void => {
+      const Test = Enum.with({
+        A: U32,
+        B: U32
+      });
+      const test = new Test(new Test(123, 1));
+
+      expect(test.type).toEqual('B');
+      expect((test.value as U32).toNumber()).toEqual(123);
+    });
+
+    it('creates via enum with nested enums as the value', (): void => {
+      const Nest = Enum.with({
+        C: U32,
+        D: U32
+      });
+      const Test = Enum.with({
+        A: U32,
+        B: Nest
+      });
+      const test = new Test(new Nest(123, 1), 1);
+
+      expect(test.type).toEqual('B');
+      expect((test.value as Enum).type).toEqual('D');
+      expect(((test.value as Enum).value as U32).toNumber()).toEqual(123);
+    });
+  });
+
+  describe('outputs', (): void => {
+    describe('toRawType', (): void => {
+      it('has a sane output for basic enums', (): void => {
+        expect(
+          new Enum(['foo', 'bar']).toRawType()
+        ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
+      });
+
+      it('has a sane output for typed enums', (): void => {
+        expect(
+          new Enum({ foo: Text, bar: U32 }).toRawType()
+        ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+      });
+    });
+
+    describe('toHex', (): void => {
+      it('has a proper hex representation & length', (): void => {
+        const Test = Enum.with({
+          A: Text,
+          B: U32
+        });
+        const test = new Test(123, 1);
+
+        expect(test.toHex()).toEqual('0x017b000000');
+        expect(test.encodedLength).toEqual(1 + 4);
+      });
     });
   });
 });

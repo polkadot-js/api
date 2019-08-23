@@ -114,9 +114,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   *
    * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
-   *
    * @example
    * <BR>
    *
@@ -140,9 +138,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
   /**
    * @description Create an instance of the ApiRx class
-   *
    * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
-   *
    * @example
    * <BR>
    *
@@ -164,7 +160,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
     super(options, 'rxjs');
 
     this._isReadyRx = from(
-      // convinced you can observable from an event, however my mind groks this form better
+      // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {
           resolve(this);
