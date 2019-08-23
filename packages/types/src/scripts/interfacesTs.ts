@@ -465,8 +465,10 @@ function generateRpcTypes (): void {
 
   const imports = createImports({ types: allImportedTypes });
 
-  const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
-    const allMethods = Object.values(interfaces[section].methods).map((method): string => {
+  const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
+    const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
+      const method = interfaces[section].methods[key];
+
       // FIXME These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
         setImports(imports, ['Codec']);
