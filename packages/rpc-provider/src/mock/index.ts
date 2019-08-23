@@ -30,6 +30,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
       .map(({ method, section }): string =>
         `${section}_${method}`
       )
+      .concat('chain_subscribeNewHead')
   )
 );
 
