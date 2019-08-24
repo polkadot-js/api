@@ -60,7 +60,7 @@ _Retrieval of chain data_
 ▸ **subscribeFinalizedHeads**(): `Header`
 - **summary**: Retrieves the best finalized header via subscription
 
-▸ **subscribeNewHead**(): `Header`
+▸ **subscribeNewHeads**(): `Header`
 - **summary**: Retrieves the best header via subscription
 
 ▸ **subscribeRuntimeVersion**(): `RuntimeVersion`
