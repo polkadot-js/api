@@ -11,11 +11,11 @@ import { Codec, IExtrinsic } from '@polkadot/types/types';
 export interface RpcInterface {
   author: {
     insertKey(keyType: Text | string, suri: Text | string, maybePublic?: Bytes | Uint8Array | string): Observable<Bytes>;
+    pendingExtrinsics(): Observable<Vec<Extrinsic>>;
     removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
     rotateKeys(): Observable<Bytes>;
-    pendingExtrinsics(): Observable<Vec<Extrinsic>>;
-    submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
     submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;
+    submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
   };
   chain: {
     getBlock(hash?: Hash | Uint8Array | string): Observable<SignedBlock>;
@@ -24,8 +24,8 @@ export interface RpcInterface {
     getHeader(hash?: Hash | Uint8Array | string): Observable<Header>;
     getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
     subscribeFinalizedHeads(): Observable<Header>;
+    subscribeNewHeads(): Observable<Header>;
     subscribeRuntimeVersion(): Observable<RuntimeVersion>;
-    subscribeNewHead(): Observable<Header>;
   };
   state: {
     call(method: Text | string, data: Bytes | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;

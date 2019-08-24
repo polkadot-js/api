@@ -199,10 +199,10 @@ describeE2E({
       });
     });
 
-    describe('subscribeNewHead', (): void => {
+    describe('subscribeNewHeads', (): void => {
       it('gets an observable of the current block header and it\'s author', async (done): Promise<void> => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended): void => {
+        api.derive.chain.subscribeNewHeads().subscribe((headerExtended: HeaderExtended): void => {
           // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });

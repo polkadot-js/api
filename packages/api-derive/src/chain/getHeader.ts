@@ -8,7 +8,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
-import { HeaderAndValidators } from './subscribeNewHead';
+import { HeaderAndValidators } from './subscribeNewHeads';
 
 /**
  * @name bestNumberFinalized

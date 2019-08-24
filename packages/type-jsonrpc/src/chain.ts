@@ -47,9 +47,10 @@ const getRuntimeVersion: RpcMethodOpt = {
   type: 'RuntimeVersion'
 };
 
-const subscribeNewHead: RpcMethodOpt = {
+const subscribeNewHeads: RpcMethodOpt = {
   description: 'Retrieves the best header via subscription',
   params: [],
+  // NOTE These still has the aliassed version, compatible with 1.x
   pubsub: [
     'newHead',
     'subscribeNewHead',
@@ -98,6 +99,6 @@ export default {
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
     subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
-    subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
+    subscribeNewHeads: createMethod(section, 'subscribeNewHeads', subscribeNewHeads)
   }
 };

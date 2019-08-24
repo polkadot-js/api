@@ -47,7 +47,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    *
    * const api = new Api().isReady();
    *
-   * api.rpc.subscribeNewHead((header) => {
+   * api.rpc.subscribeNewHeads((header) => {
    *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```
@@ -169,7 +169,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.rpc.chain.subscribeNewHead((header) => {
+   * api.rpc.chain.subscribeNewHeads((header) => {
    *   console.log('new header', header);
    * });
    * ```

@@ -54,7 +54,7 @@ describe('replay', (): void => {
   it('unsubscribes as required', (done): void => {
     rpc.provider.unsubscribe = jest.fn();
 
-    const subscription = rpc.chain.subscribeNewHead().subscribe((): void => {
+    const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
       subscription.unsubscribe();
 
       // There's a promise inside .unsubscribe(), wait a bit

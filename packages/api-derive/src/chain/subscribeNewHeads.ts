@@ -14,21 +14,21 @@ import { drr } from '../util/drr';
 export type HeaderAndValidators = [Header, AccountId[]];
 
 /**
- * @name subscribeNewHead
+ * @name subscribeNewHeads
  * @returns An array containing the block header and the block author
  * @description An observable of the current block header and it's author
  * @example
  * <BR>
  *
  * ```javascript
- * api.derive.chain.subscribeNewHead(({ author, blockNumber }) => {
+ * api.derive.chain.subscribeNewHeads(({ author, blockNumber }) => {
  *   console.log(`block #${blockNumber} was authored by ${author}`);
  * });
  * ```
  */
-export function subscribeNewHead (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
+export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
   return (): Observable<HeaderExtended> =>
-    api.rpc.chain.subscribeNewHead().pipe(
+    api.rpc.chain.subscribeNewHeads().pipe(
       switchMap((header: Header): Observable<HeaderAndValidators> =>
         (combineLatest([
           of(header),
