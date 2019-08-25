@@ -54,17 +54,11 @@ _Retrieval of chain data_
 ▸ **getHeader**(hash?: `Hash`): `Header`
 - **summary**: Retrieves the header for a specific block
 
-▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
-- **summary**: Get the runtime version (alias of state_getRuntimeVersion)
-
 ▸ **subscribeFinalizedHeads**(): `Header`
 - **summary**: Retrieves the best finalized header via subscription
 
 ▸ **subscribeNewHeads**(): `Header`
 - **summary**: Retrieves the best header via subscription
-
-▸ **subscribeRuntimeVersion**(): `RuntimeVersion`
-- **summary**: Retrieves the runtime version via subscription
 
 ___
 
@@ -108,6 +102,9 @@ _Query of state_
 
 ▸ **queryStorage**(keys: `Vec<StorageKey>`, startBlock: `Hash`, block?: `Hash`): `Vec<StorageChangeSet>`
 - **summary**: Query historical storage entries (by key) starting from a start block
+
+▸ **subscribeRuntimeVersion**(): `RuntimeVersion`
+- **summary**: Retrieves the runtime version via subscription
 
 ▸ **subscribeStorage**(keys: `Vec<StorageKey>`): `StorageChangeSet`
 - **summary**: Subscribes to storage changes for the provided keys
