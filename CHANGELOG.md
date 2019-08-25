@@ -1,3 +1,8 @@
+# 0.91.0-beta.x
+
+- The `getRuntimeVersion` and `subscribeRuntimeVersion` RPCs are now only available on the `rpc.state.*` endpoints. This aligns with the Substrate implementation.
+
+
 # 0.90.1
 
 If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
