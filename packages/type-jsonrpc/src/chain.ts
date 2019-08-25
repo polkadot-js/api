@@ -39,14 +39,6 @@ const getFinalizedHead: RpcMethodOpt = {
   type: 'Hash'
 };
 
-const getRuntimeVersion: RpcMethodOpt = {
-  description: 'Get the runtime version (alias of state_getRuntimeVersion)',
-  params: [
-    createParam('hash', 'Hash', { isOptional: true })
-  ],
-  type: 'RuntimeVersion'
-};
-
 const subscribeNewHeads: RpcMethodOpt = {
   description: 'Retrieves the best header via subscription',
   params: [],
@@ -70,17 +62,6 @@ const subscribeFinalizedHeads: RpcMethodOpt = {
   type: 'Header'
 };
 
-const subscribeRuntimeVersion: RpcMethodOpt = {
-  description: 'Retrieves the runtime version via subscription',
-  params: [],
-  pubsub: [
-    'runtimeVersion',
-    'subscribeRuntimeVersion',
-    'unsubscribeRuntimeVersion'
-  ],
-  type: 'RuntimeVersion'
-};
-
 const section = 'chain';
 
 /**
@@ -96,9 +77,7 @@ export default {
     getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
     getFinalizedHead: createMethod(section, 'getFinalizedHead', getFinalizedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
-    getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
-    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeNewHeads: createMethod(section, 'subscribeNewHeads', subscribeNewHeads)
   }
 };

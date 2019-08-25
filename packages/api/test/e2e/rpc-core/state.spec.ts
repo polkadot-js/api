@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Moment } from '@polkadot/types/interfaces';
-import { Bytes, Metadata, StorageKey } from '@polkadot/types';
+import { Balance, Moment, RuntimeVersion } from '@polkadot/types/interfaces';
 
 import storage from '@polkadot/api-metadata/storage/static';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { Bytes, ClassOf, Metadata, StorageKey } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
 
@@ -42,6 +42,15 @@ describeE2E({
       .getKeys(CODE)
       .subscribe((keys: StorageKey[]): void => {
         expect(keys.length).toEqual(1);
+        done();
+      });
+  });
+
+  it('retrieves the runtime version', (done): void => {
+    rpc.state
+      .getRuntimeVersion()
+      .subscribe((version: RuntimeVersion): void => {
+        expect(version).toBeInstanceOf(ClassOf('RuntimeVersion'));
         done();
       });
   });
