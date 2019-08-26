@@ -15,7 +15,7 @@ import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from './interfaces/genericAsset';
-import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
+import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from './interfaces/grandpa';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from './interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
@@ -436,6 +436,10 @@ export interface InterfaceRegistry {
   PendingResume: PendingResume;
   'Option<PendingResume>': Option<PendingResume>;
   'Vec<PendingResume>': Vec<PendingResume>;
+  SetId: SetId;
+  'Compact<SetId>': Compact<SetId>;
+  'Option<SetId>': Option<SetId>;
+  'Vec<SetId>': Vec<SetId>;
   StoredPendingChange: StoredPendingChange;
   'Option<StoredPendingChange>': Option<StoredPendingChange>;
   'Vec<StoredPendingChange>': Vec<StoredPendingChange>;

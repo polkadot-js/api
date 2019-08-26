@@ -838,6 +838,27 @@
                 " - Contains a limited number of reads and writes.",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "force_transfer",
+              "args": [
+                {
+                  "name": "source",
+                  "type": "Address"
+                },
+                {
+                  "name": "dest",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<Balance>"
+                }
+              ],
+              "documentation": [
+                " Exactly as `transfer`, except the origin must be root and the source account may be",
+                " specified."
+              ]
             }
           ],
           "events": [
@@ -1523,17 +1544,6 @@
                 ]
               },
               {
-                "name": "Changed",
-                "modifier": 1,
-                "type": {
-                  "Type": "bool"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " True if anything has changed in this session."
-                ]
-              },
-              {
                 "name": "QueuedChanged",
                 "modifier": 1,
                 "type": {
@@ -1541,7 +1551,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Queued keys changed."
+                  " True if the underlying economic identities or weighting behind the validators",
+                  " has changed in the queued validator set."
                 ]
               },
               {
@@ -3533,6 +3544,34 @@
                 "documentation": [
                   " `true` if we are currently stalled."
                 ]
+              },
+              {
+                "name": "CurrentSetId",
+                "modifier": 1,
+                "type": {
+                  "Type": "SetId"
+                },
+                "fallback": "0x0000000000000000",
+                "documentation": [
+                  " The number of changes (both in terms of keys and underlying economic responsibilities)",
+                  " in the \"set\" of Grandpa validators from genesis."
+                ]
+              },
+              {
+                "name": "SetIdSession",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "SetId",
+                    "value": "SessionIndex",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A mapping from grandpa set ID to the index of the *most recent* session for which its members were responsible."
+                ]
               }
             ]
           },
@@ -3554,7 +3593,7 @@
             {
               "name": "NewAuthorities",
               "args": [
-                "Vec<(AuthorityId,u64)>"
+                "Vec<(AuthorityId,AuthorityWeight)>"
               ],
               "documentation": [
                 " New authority set has been applied."
@@ -4350,6 +4389,13 @@
               ]
             }
           ],
+          "constants": []
+        },
+        {
+          "name": "AuthorityDiscovery",
+          "storage": null,
+          "calls": [],
+          "events": null,
           "constants": []
         },
         {
