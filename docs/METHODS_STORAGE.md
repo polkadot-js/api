@@ -270,11 +270,17 @@ ___
 ▸ **authorities**(): `Vec<(AuthorityId,AuthorityWeight)>`
 - **summary**:   The current authority set.
 
+▸ **currentSetId**(): `SetId`
+- **summary**:   The number of changes (both in terms of keys and underlying economic responsibilities)  in the "set" of Grandpa validators from genesis.
+
 ▸ **nextForced**(): `Option<BlockNumber>`
 - **summary**:   next block number where we can force a change.
 
 ▸ **pendingChange**(): `Option<StoredPendingChange>`
 - **summary**:   Pending change: (signaled at, scheduled change).
+
+▸ **setIdSession**(`SetId`): `Option<SessionIndex>`
+- **summary**:   A mapping from grandpa set ID to the index of the *most recent* session for which its members were responsible.
 
 ▸ **stalled**(): `Option<(BlockNumber,BlockNumber)>`
 - **summary**:   `true` if we are currently stalled.
@@ -326,9 +332,6 @@ ___
 
 ### session
 
-▸ **changed**(): `bool`
-- **summary**:   True if anything has changed in this session.
-
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
@@ -339,7 +342,7 @@ ___
 - **summary**:   The next session keys for a validator.   The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of  the trie. Having all data in the same branch should prevent slowing down other queries.
 
 ▸ **queuedChanged**(): `bool`
-- **summary**:   Queued keys changed.
+- **summary**:   True if the underlying economic identities or weighting behind the validators  has changed in the queued validator set.
 
 ▸ **queuedKeys**(): `Vec<(ValidatorId,Keys)>`
 - **summary**:   The queued keys for the next session. When the next session begins, these keys  will be used to determine the validator's session keys.
