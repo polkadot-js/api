@@ -4,19 +4,19 @@
 
 import { FunctionMetadataV7 } from '../../interfaces/metadata/types';
 import { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
+import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IExtrinsicEra, IExtrinsicImpl, IHash, IKeyringPair, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { ClassOf } from '../../codec/create';
+import { ClassOf, createTypeUnsafe } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
 import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
 import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
-import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
+type ExtrinsicImpl = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3;
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
 
 interface ExtrinsicOptions {
@@ -35,28 +35,22 @@ interface ExtrinsicOptions {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: ExtrinsicOptions = {}) {
+export default class Extrinsic<T extends IExtrinsicImpl = ExtrinsicImpl, U extends ExtrinsicValue = ExtrinsicValue> extends Base<T> implements IExtrinsic {
+  public constructor (value: Extrinsic | AnyU8a | Call | U | undefined, { version }: ExtrinsicOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, version));
   }
 
-  private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+  private static newFromValue<T extends IExtrinsicImpl> (value: any, version: number): T {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = version & UNMASK_VERSION;
-
-    switch (type) {
-      case 1: return new ExtrinsicV1(value, { isSigned });
-      case 2: return new ExtrinsicV2(value, { isSigned });
-      case 3: return new ExtrinsicV3(value, { isSigned });
-      default: throw new Error(`Unsupported extrinsic version ${type}`);
-    }
+    const extrinsicVer = version & UNMASK_VERSION;
+    return createTypeUnsafe(`ExtrinsicV${extrinsicVer}`, [value, { isSigned }]);
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+  public static decodeExtrinsic<T extends IExtrinsicImpl, U extends ExtrinsicValue> (value: Extrinsic | AnyU8a | Call | U | undefined, version: number = DEFAULT_VERSION): T {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -91,7 +85,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
     return Extrinsic.newFromValue(value, version);
   }
 
-  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+  private static decodeU8a<T extends IExtrinsicImpl> (value: Uint8Array): T {
     return Extrinsic.newFromValue(value.subarray(1), value[0]);
   }
 
@@ -124,9 +118,9 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description The era for thios extrinsic
+   * @description The era for this extrinsic
    */
-  public get era (): ExtrinsicEra {
+  public get era (): IExtrinsicEra {
     return this.raw.signature.era;
   }
 
@@ -217,7 +211,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic<T> {
     // FIXME Support for current extensions where 2 values are being passed in here, i.e.
     //   addSignature(signer, signature, nonce, era);
     // The above signature should be changed to the correct format in the next cycle, i.e.
@@ -246,7 +240,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
+  public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic<T> {
     this.raw.sign(account, options);
 
     return this;
