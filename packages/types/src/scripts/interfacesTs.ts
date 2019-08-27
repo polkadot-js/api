@@ -361,7 +361,7 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   });
 
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
@@ -411,7 +411,7 @@ function generateInterfaceRegistry (): void {
   const interfaceEnd = '\n}';
 
   fs.writeFileSync(
-    `packages/types/src/interfaceRegistry.ts`,
+    'packages/types/src/interfaceRegistry.ts',
     header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
@@ -472,9 +472,9 @@ function generateRpcTypes (): void {
       // FIXME These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
         setImports(imports, ['Codec']);
-        return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
+        return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
       } else if (method.method === 'subscribeStorage') {
-        return `    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;`;
+        return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
       }
 
       const args = method.params.map((param): string => {
@@ -491,7 +491,7 @@ function generateRpcTypes (): void {
       [
         `  ${section}: {`,
         ...allMethods,
-        `  };`
+        '  };'
       ].join('\n')
     );
   }, []).join('\n');
@@ -522,7 +522,7 @@ function generateRpcTypes (): void {
   const interfaceEnd = '\n}';
 
   fs.writeFileSync(
-    `packages/rpc-core/src/jsonrpc.types.ts`,
+    'packages/rpc-core/src/jsonrpc.types.ts',
     header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
@@ -535,16 +535,16 @@ function main (): void {
     generateTsDef(defName, obj);
   });
 
-  console.log(`Writing interfaces/types.ts`);
+  console.log('Writing interfaces/types.ts');
 
-  fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync('packages/types/src/interfaces/types.ts', HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync('packages/types/src/interfaces/index.ts', HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 
-  console.log(`Writing interfaceRegistry.ts`);
+  console.log('Writing interfaceRegistry.ts');
 
   generateInterfaceRegistry();
 
-  console.log(`Writing packages/rpc-core/jsonrpc.types.ts`);
+  console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
   generateRpcTypes();
 }
