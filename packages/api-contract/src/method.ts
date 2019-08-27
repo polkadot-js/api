@@ -16,7 +16,7 @@ export function typeToString (type: ContractABITypes): string {
   } else if (type['Option<T>']) {
     return `Option<${typeToString(type['Option<T>'].T)}>`;
   } else if (type['Result<T,E>']) {
-    return `()`; // Result is not supported, but only applicable for returns
+    return '()'; // Result is not supported, but only applicable for returns
   } else if (type['Vec<T>']) {
     return `Vec<${typeToString(type['Vec<T>'].T)}>`;
   } else if (type['[T;n]']) {

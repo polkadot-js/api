@@ -28,7 +28,7 @@ try {
 }
 
 function assertResult <T> (value: T | undefined): T {
-  assert(!isUndefined(value), `Api needs to be initialised before using, listen on 'ready'`);
+  assert(!isUndefined(value), 'Api needs to be initialised before using, listen on \'ready\'');
 
   return value as T;
 }
