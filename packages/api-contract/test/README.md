@@ -2,7 +2,7 @@ A breaking change was introduced by substrate runtime spec_version 97. https://g
 
 The change had to be implemented in ink! which changed the structure of the Wasm files.
 
-The Polkadot JS API is only supporting srml-contract and INK! versions after than spec_version 97.
+The Polkadot JS API is only supporting srml-contract and ink! versions after than spec_version 97.
 
 **Compatibility**
 If the substrate version is older than this https://github.com/paritytech/substrate/pull/2911 it will only work
