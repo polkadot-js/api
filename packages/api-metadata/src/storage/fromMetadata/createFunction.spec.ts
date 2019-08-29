@@ -95,7 +95,7 @@ describe('createFunction', (): void => {
     it('needs two arguments', (): void => {
       expect(
         (): Uint8Array => storageFn(['5DXUeE5N5LtkW97F2PzqYPyqNkxqSWESdGSPTX6AvkUAhwKP'])
-      ).toThrow(/metaName expects two arguments/);
+      ).toThrow(/requires two arguments/);
     });
   });
 
