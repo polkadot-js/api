@@ -18,9 +18,9 @@ import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
-// We use this type internally to cast the raw value since ExtrinsicUnknow does not actually properly
+// We use this type internally to cast the raw value since ExtrinsicUnknown does not actually properly
 // implement an Extrinsic - by design, it just throws on construction, allowing for overrides
-type ExtrinsicDefault = ExtrinsicV3;
+type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3;
 
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
 
@@ -40,12 +40,12 @@ interface CreateOptions {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicUnknown> implements IExtrinsic {
+export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
   public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, version));
   }
 
-  private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicUnknown {
+  private static newFromValue (value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
@@ -62,7 +62,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
     }
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicUnknown {
+  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -97,7 +97,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
     return Extrinsic.newFromValue(value, version);
   }
 
-  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicUnknown {
+  private static decodeU8a (value: Uint8Array): ExtrinsicVx | ExtrinsicUnknown {
     return Extrinsic.newFromValue(value.subarray(1), value[0]);
   }
 
@@ -133,7 +133,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description The era for thios extrinsic
    */
   public get era (): ExtrinsicEra {
-    return (this.raw as ExtrinsicDefault).signature.era;
+    return (this.raw as ExtrinsicVx).signature.era;
   }
 
   /**
@@ -154,7 +154,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return (this.raw as ExtrinsicDefault).signature.isSigned;
+    return (this.raw as ExtrinsicVx).signature.isSigned;
   }
 
   /**
@@ -175,42 +175,42 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
-    return (this.raw as ExtrinsicDefault).method;
+    return (this.raw as ExtrinsicVx).method;
   }
 
   /**
    * @description The nonce for this extrinsic
    */
   public get nonce (): Compact<Index> {
-    return (this.raw as ExtrinsicDefault).signature.nonce;
+    return (this.raw as ExtrinsicVx).signature.nonce;
   }
 
   /**
    * @description The [[ExtrinsicSignature]]
    */
   public get signature (): IHash {
-    return (this.raw as ExtrinsicDefault).signature.signature;
+    return (this.raw as ExtrinsicVx).signature.signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return (this.raw as ExtrinsicDefault).signature.signer;
+    return (this.raw as ExtrinsicVx).signature.signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): Compact<Balance> {
-    return (this.raw as ExtrinsicDefault).signature.tip;
+    return (this.raw as ExtrinsicVx).signature.tip;
   }
 
   /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
-    return (this.raw as ExtrinsicDefault).version;
+    return (this.raw as ExtrinsicVx).version;
   }
 
   /**
@@ -244,7 +244,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
       };
     }
 
-    (this.raw as ExtrinsicDefault).addSignature(signer, signature, payload);
+    (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
 
     return this;
   }
@@ -253,7 +253,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
-    (this.raw as ExtrinsicDefault).sign(account, options);
+    (this.raw as ExtrinsicVx).sign(account, options);
 
     return this;
   }
