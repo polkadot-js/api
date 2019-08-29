@@ -5,7 +5,7 @@
 
 import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { Callback, Codec, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiTypes } from '../types';
+import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableResultResult, SubmitableResultSubscription } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -17,7 +17,6 @@ import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
 import SignerPayload from '../SignerPayload';
 import SubmittableResult from './Result';
-import { SignerResult } from 'packages/api/build/types';
 
 type Creator<ApiType> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
 
