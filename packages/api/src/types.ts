@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, CallFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -15,7 +16,8 @@ import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './base';
-import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
+
+export * from './submittable/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
@@ -300,12 +302,6 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @deprecated Implement and use signPayload and/or signRaw instead
-   * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
-   */
-  sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
-
-  /**
    * @description signs an extrinsic payload from a serialized form
    */
   signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
@@ -318,5 +314,5 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: Hash | ISubmittableResult) => void;
+  update?: (id: number, status: Hash | SubmittableResultImpl) => void;
 }

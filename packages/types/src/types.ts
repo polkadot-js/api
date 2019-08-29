@@ -150,6 +150,7 @@ export interface SignatureOptions {
   nonce: AnyNumber;
   runtimeVersion: RuntimeVersionInterface;
   tip?: AnyNumber;
+  version: number;
 }
 
 export type ArgsDef = Record<string, Constructor>;

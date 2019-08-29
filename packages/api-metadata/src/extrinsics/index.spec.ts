@@ -28,7 +28,8 @@ describe('extrinsics', (): void => {
           implVersion: new BN(123),
           specName: 'test',
           specVersion: new BN(123)
-        }
+        },
+        version: 1
       }).toHex()
     ).toEqual(
       '0x' +

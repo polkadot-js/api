@@ -52,7 +52,8 @@ describe('ExtrinsicV2', (): void => {
           specName: 'test',
           specVersion: new BN(123)
         },
-        tip: 2
+        tip: 2,
+        version: 2
       }).toHex()
     ).toEqual(
       '0x' +
