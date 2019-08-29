@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
 import { ContractABI } from './types';
@@ -10,7 +10,7 @@ import { ContractABI } from './types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiRx } from '@polkadot/api';
+import { ApiRx, SubmittableResult } from '@polkadot/api';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from './Abi';
@@ -39,7 +39,7 @@ export interface CodePutCode {
 class CodePutCodeResult extends SubmittableResult {
   public readonly blueprint?: RxBlueprint;
 
-  public constructor (result: ISubmittableResult, blueprint?: RxBlueprint) {
+  public constructor (result: SubmittableResultImpl, blueprint?: RxBlueprint) {
     super(result);
 
     this.blueprint = blueprint;
@@ -67,7 +67,7 @@ export default class RxCode extends RxBase {
     return { signAndSend };
   }
 
-  private createResult = (result: ISubmittableResult): CodePutCodeResult => {
+  private createResult = (result: SubmittableResultImpl): CodePutCodeResult => {
     let blueprint: RxBlueprint | undefined;
 
     if (result.isFinalized) {
