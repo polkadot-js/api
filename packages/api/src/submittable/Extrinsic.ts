@@ -3,8 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
-import { Callback, Codec, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
+import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableResultResult, SubmitableResultSubscription } from './types';
 
@@ -33,7 +33,9 @@ const BLOCKTIME = 6;
 const ONE_MINUTE = 60 / BLOCKTIME;
 const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
-class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableExtrinsic<ApiType> {
+const _Extrinsic: Constructor<Extrinsic> = ClassOf('Extrinsic');
+
+class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<ApiType> {
   private readonly _api: ApiInterfaceRx;
 
   private readonly _decorateMethod: ApiBase<ApiType>['decorateMethod'];
@@ -56,7 +58,7 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
       ? { nonce: optionsOrNonce }
       : optionsOrNonce;
 
-    super.sign(account, this._expandOptions(options, {}));
+    super.sign(account, this._makeSignOptions(options, {}));
 
     return this;
   }
@@ -71,15 +73,8 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
   public signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
 
   // signAndSend implementation for all 3 cases above
-  public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, statusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
-    let options: Partial<SignerOptions> = {};
-
-    if (isFunction(optionsOrStatus)) {
-      statusCb = optionsOrStatus;
-    } else {
-      options = { ...optionsOrStatus };
-    }
-
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
+    const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
     const isSubscription = this._ignoreStatusCb || !!statusCb;
     const address = isKeyringPair(account) ? account.address : account.toString();
     let updateId: number | undefined;
@@ -89,7 +84,7 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
         this._getPrelimState(address, options).pipe(
           first(),
           mergeMap(async ([nonce, header]): Promise<void> => {
-            const eraOptions = this._expandEraOptions(options, { header, nonce });
+            const eraOptions = this._makeEraOptions(options, { header, nonce });
 
             if (isKeyringPair(account)) {
               this.sign(account, eraOptions);
@@ -123,6 +118,18 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
     )(statusCb);
   }
 
+  private _makeSignAndSendOptions (optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, statusCb?: Callback<SubmittableResultImpl>): [Partial<SignerOptions>, Callback<SubmittableResultImpl>?] {
+    let options: Partial<SignerOptions> = {};
+
+    if (isFunction(optionsOrStatus)) {
+      statusCb = optionsOrStatus;
+    } else {
+      options = { ...optionsOrStatus };
+    }
+
+    return [options, statusCb];
+  }
+
   private async _signViaSigner (address: string, eraOptions: SignatureOptions, header: Header | null): Promise<number> {
     if (!this._api.signer) {
       throw new Error('no signer attached');
@@ -152,7 +159,7 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
     return result.id;
   }
 
-  private _expandOptions (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
+  private _makeSignOptions (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
     return {
       blockHash: this._api.genesisHash,
       ...options,
@@ -163,7 +170,7 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
     } as unknown as SignatureOptions;
   }
 
-  private _expandEraOptions (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions {
+  private _makeEraOptions (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions {
     if (!header) {
       if (isNumber(options.era)) {
         // since we have no header, it is immortal, remove any option overrides
@@ -172,10 +179,10 @@ class Submittable<ApiType> extends ClassOf('Extrinsic') implements SubmittableEx
         delete options.blockHash;
       }
 
-      return this._expandOptions(options, { nonce });
+      return this._makeSignOptions(options, { nonce });
     }
 
-    return this._expandOptions(options, {
+    return this._makeSignOptions(options, {
       blockHash: header.hash,
       era: createType('ExtrinsicEra', {
         current: header.number,
