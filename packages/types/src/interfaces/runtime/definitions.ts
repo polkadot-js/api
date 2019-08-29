@@ -21,6 +21,9 @@ export default {
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
     ExtrinsicUnknown: 'GenericExtrinsicUnknown',
+    ExtrinsicV1: 'GenericExtrinsicV1',
+    ExtrinsicV2: 'GenericExtrinsicV2',
+    ExtrinsicV3: 'GenericExtrinsicV3',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',

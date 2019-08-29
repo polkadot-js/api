@@ -3,7 +3,7 @@
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicUnknown, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
@@ -170,6 +170,15 @@ export interface InterfaceRegistry {
   ExtrinsicUnknown: ExtrinsicUnknown;
   'Option<ExtrinsicUnknown>': Option<ExtrinsicUnknown>;
   'Vec<ExtrinsicUnknown>': Vec<ExtrinsicUnknown>;
+  ExtrinsicV1: ExtrinsicV1;
+  'Option<ExtrinsicV1>': Option<ExtrinsicV1>;
+  'Vec<ExtrinsicV1>': Vec<ExtrinsicV1>;
+  ExtrinsicV2: ExtrinsicV2;
+  'Option<ExtrinsicV2>': Option<ExtrinsicV2>;
+  'Vec<ExtrinsicV2>': Vec<ExtrinsicV2>;
+  ExtrinsicV3: ExtrinsicV3;
+  'Option<ExtrinsicV3>': Option<ExtrinsicV3>;
+  'Vec<ExtrinsicV3>': Vec<ExtrinsicV3>;
   Hash: Hash;
   'Option<Hash>': Option<Hash>;
   'Vec<Hash>': Vec<Hash>;
