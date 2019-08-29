@@ -31,7 +31,7 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicV1',
   'ExtrinsicV2',
-  'ExtrinsicV2'
+  'ExtrinsicV3'
 ];
 
 const VERSION_UNKNOWN = VERSIONS[0];
