@@ -47,7 +47,7 @@ export default function validateTypes (types: string[], throwError: boolean): vo
     if (throwError) {
       throw new Error(message);
     } else {
-      console.error(message);
+      console.warn(message);
     }
   }
 }

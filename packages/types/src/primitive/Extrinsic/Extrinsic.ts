@@ -3,18 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataV7 } from '../../interfaces/metadata/types';
-import { Address, Balance, Call, ExtrinsicUnknown, Index } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
-import { ExtrinsicOptions } from './types';
+import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Index } from '../../interfaces/runtime';
+import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createType, ClassOf } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
-import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
-import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
+import { ExtrinsicValueV1 } from './v1/Extrinsic';
+import { ExtrinsicValueV2 } from './v2/Extrinsic';
+import { ExtrinsicValueV3 } from './v3/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
@@ -27,6 +26,15 @@ type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
 interface CreateOptions {
   version?: number;
 }
+
+const VERSIONS: InterfaceTypes[] = [
+  'ExtrinsicUnknown', // v0 is unknown
+  'ExtrinsicV1',
+  'ExtrinsicV2',
+  'ExtrinsicV2'
+];
+
+const VERSION_UNKNOWN = VERSIONS[0];
 
 /**
  * @name Extrinsic
@@ -51,15 +59,11 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = version & UNMASK_VERSION;
-    const options: ExtrinsicOptions = { isSigned, version };
+    const type = VERSIONS[version & UNMASK_VERSION] || VERSION_UNKNOWN;
 
-    switch (type) {
-      case 1: return new ExtrinsicV1(value, options);
-      case 2: return new ExtrinsicV2(value, options);
-      case 3: return new ExtrinsicV3(value, options);
-      default: return createType('ExtrinsicUnknown', value, options);
-    }
+    // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
+    // "only add extrinsic types", and more string definitions become unwieldly
+    return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
   public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
@@ -228,7 +232,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
+   * @description Injects an already-generated signature into the extrinsic
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic {
     // FIXME Support for current extensions where 2 values are being passed in here, i.e.

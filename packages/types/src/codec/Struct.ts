@@ -37,9 +37,9 @@ export default class Struct<
 
   public constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(Types);
-    const decoded = Struct.decodeStruct(Clazzes, value, jsonMap);
+    const decoded: T = Struct.decodeStruct(Clazzes, value, jsonMap);
 
-    super(Object.entries(decoded as any));
+    super(Object.entries(decoded));
 
     this._jsonMap = jsonMap;
     this._Types = Clazzes;

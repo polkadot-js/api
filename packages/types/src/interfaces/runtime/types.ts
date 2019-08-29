@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicUnknown, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -61,6 +61,15 @@ export type ExtrinsicPayload = GenericExtrinsicPayload;
 
 /** GenericExtrinsicUnknown */
 export type ExtrinsicUnknown = GenericExtrinsicUnknown;
+
+/** GenericExtrinsicV1 */
+export type ExtrinsicV1 = GenericExtrinsicV1;
+
+/** GenericExtrinsicV2 */
+export type ExtrinsicV2 = GenericExtrinsicV2;
+
+/** GenericExtrinsicV3 */
+export type ExtrinsicV3 = GenericExtrinsicV3;
 
 /** H256 */
 export type Hash = H256;

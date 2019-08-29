@@ -7,7 +7,7 @@ import { Constructor } from '@polkadot/types/types';
 
 export interface Global extends NodeJS.Global {
   WebSocket: Constructor<WebSocket>;
-  fetch: GlobalFetch;
+  fetch: any;
 }
 
 export interface Mock {
