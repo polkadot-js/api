@@ -60,12 +60,11 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const options: ExtrinsicOptions = { isSigned, version };
     const type = VERSIONS[version & UNMASK_VERSION] || VERSION_UNKNOWN;
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
     // "only add extrinsic types", and more string definitions become unwieldly
-    return createType(type, value, options) as ExtrinsicVx;
+    return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
   public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
