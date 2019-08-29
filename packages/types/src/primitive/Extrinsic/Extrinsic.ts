@@ -5,7 +5,6 @@
 import { FunctionMetadataV7 } from '../../interfaces/metadata/types';
 import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
-import { ExtrinsicOptions } from './types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
