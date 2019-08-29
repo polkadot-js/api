@@ -1,6 +1,7 @@
 # 0.91.0-beta.x
 
 - The `getRuntimeVersion` and `subscribeRuntimeVersion` RPCs are now only available on the `rpc.state.*` endpoints. This aligns with the Substrate implementation.
+- Support for extrinsics with versions that is not in the base Substrate implementation (V1-V3) can now be done by providing an implementation for `ExtrinsicUnknown`
 
 
 # 0.90.1
