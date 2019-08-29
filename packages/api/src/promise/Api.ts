@@ -82,7 +82,7 @@ function promiseTracker (resolve: (value: () => void) => void, reject: (value: E
  * const api = await ApiPromise.create();
  *
  * // make a subscription to the network head
- * api.rpc.chain.subscribeNewHead((header) => {
+ * api.rpc.chain.subscribeNewHeads((header) => {
  *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
@@ -176,7 +176,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * import Api from '@polkadot/api/promise';
    *
    * new Api().isReady.then((api) => {
-   *   api.rpc.subscribeNewHead((header) => {
+   *   api.rpc.subscribeNewHeads((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * });
@@ -221,7 +221,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    *
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
-   *   api.rpc.chain.subscribeNewHead,
+   *   api.rpc.chain.subscribeNewHeads,
    *   [api.query.balances.freeBalance, address],
    *   (cb) => api.query.system.accountNonce(address, cb)
    * ], ([head, balance, nonce]) => {

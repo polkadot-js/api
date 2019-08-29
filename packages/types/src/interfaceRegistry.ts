@@ -3,7 +3,7 @@
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicUnknown, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
@@ -15,7 +15,7 @@ import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from './interfaces/genericAsset';
-import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, StoredPendingChange, StoredState } from './interfaces/grandpa';
+import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from './interfaces/grandpa';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from './interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
@@ -167,6 +167,9 @@ export interface InterfaceRegistry {
   ExtrinsicPayload: ExtrinsicPayload;
   'Option<ExtrinsicPayload>': Option<ExtrinsicPayload>;
   'Vec<ExtrinsicPayload>': Vec<ExtrinsicPayload>;
+  ExtrinsicUnknown: ExtrinsicUnknown;
+  'Option<ExtrinsicUnknown>': Option<ExtrinsicUnknown>;
+  'Vec<ExtrinsicUnknown>': Vec<ExtrinsicUnknown>;
   Hash: Hash;
   'Option<Hash>': Option<Hash>;
   'Vec<Hash>': Vec<Hash>;
@@ -436,6 +439,10 @@ export interface InterfaceRegistry {
   PendingResume: PendingResume;
   'Option<PendingResume>': Option<PendingResume>;
   'Vec<PendingResume>': Vec<PendingResume>;
+  SetId: SetId;
+  'Compact<SetId>': Compact<SetId>;
+  'Option<SetId>': Option<SetId>;
+  'Vec<SetId>': Vec<SetId>;
   StoredPendingChange: StoredPendingChange;
   'Option<StoredPendingChange>': Option<StoredPendingChange>;
   'Vec<StoredPendingChange>': Vec<StoredPendingChange>;

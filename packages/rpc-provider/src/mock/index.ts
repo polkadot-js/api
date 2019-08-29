@@ -30,6 +30,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
       .map(({ method, section }): string =>
         `${section}_${method}`
       )
+      .concat('chain_subscribeNewHead')
   )
 );
 
@@ -52,7 +53,7 @@ export default class Mock implements ProviderInterface {
     chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    chain_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
+    state_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]

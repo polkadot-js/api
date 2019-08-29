@@ -50,7 +50,7 @@ export function describeE2E (options?: Options): (message: string, inner: (wsUrl
   return function (message: string, inner: (wsUrl: string) => void): void {
     const wsEndpoints = getWsEndpoints(options);
     if (!wsEndpoints.length) {
-      describe(`Empty test Suite:`, (): void => {
+      describe('Empty test Suite', (): void => {
         it('No tests found for passed endpoints', (): void => {});
       });
     } else {

@@ -34,7 +34,7 @@ describe('Date', (): void => {
     testEncode('toNumber', 421);
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
 
-    it(`can encode toString`, (): void => {
+    it('can encode toString', (): void => {
       expect(
         new CodecDate(421)
           .toString()

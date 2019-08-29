@@ -84,7 +84,7 @@ describe('Combinator', (): void => {
     const mocker = async (): Promise<any> => done;
     const combinator = new Combinator([
       mocker,
-      async (): UnsubscribePromise => (): void => void 0
+      async (): UnsubscribePromise => (): void => {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ], (value: any[]): void => {
       // ignore

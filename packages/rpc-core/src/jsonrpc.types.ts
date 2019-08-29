@@ -11,21 +11,19 @@ import { Codec, IExtrinsic } from '@polkadot/types/types';
 export interface RpcInterface {
   author: {
     insertKey(keyType: Text | string, suri: Text | string, maybePublic?: Bytes | Uint8Array | string): Observable<Bytes>;
+    pendingExtrinsics(): Observable<Vec<Extrinsic>>;
     removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
     rotateKeys(): Observable<Bytes>;
-    pendingExtrinsics(): Observable<Vec<Extrinsic>>;
-    submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
     submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;
+    submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
   };
   chain: {
     getBlock(hash?: Hash | Uint8Array | string): Observable<SignedBlock>;
     getBlockHash(blockNumber?: BlockNumber | Uint8Array | number | string): Observable<Hash>;
     getFinalizedHead(): Observable<Hash>;
     getHeader(hash?: Hash | Uint8Array | string): Observable<Header>;
-    getRuntimeVersion(hash?: Hash | Uint8Array | string): Observable<RuntimeVersion>;
     subscribeFinalizedHeads(): Observable<Header>;
-    subscribeRuntimeVersion(): Observable<RuntimeVersion>;
-    subscribeNewHead(): Observable<Header>;
+    subscribeNewHeads(): Observable<Header>;
   };
   state: {
     call(method: Text | string, data: Bytes | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;
@@ -40,6 +38,7 @@ export interface RpcInterface {
     getStorageHash(key: any, block?: Hash | Uint8Array | string): Observable<Hash>;
     getStorageSize(key: any, block?: Hash | Uint8Array | string): Observable<u64>;
     queryStorage(keys: (any)[], startBlock: Hash | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
+    subscribeRuntimeVersion(): Observable<RuntimeVersion>;
     subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;
   };
   system: {

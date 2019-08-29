@@ -31,7 +31,7 @@ describeE2E()('Derive Promise e2e', (wsUrl: string): void => {
   });
 
   it('subscribes to newHead, retrieving the actual validator', (done): Promise<() => void> => {
-    return api.derive.chain.subscribeNewHead(({ author }: HeaderExtended): void => {
+    return api.derive.chain.subscribeNewHeads(({ author }: HeaderExtended): void => {
       console.log('author', author && author.toString());
 
       if (author) {

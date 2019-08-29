@@ -91,7 +91,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     [this._genesisHash, this._runtimeVersion] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
-      this._rpcCore.chain.getRuntimeVersion().toPromise()
+      this._rpcCore.state.getRuntimeVersion().toPromise()
     ]);
 
     // based on the node, inject specific types

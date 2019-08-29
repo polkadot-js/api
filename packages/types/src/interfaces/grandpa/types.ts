@@ -29,6 +29,9 @@ export interface PendingResume extends Struct {
   readonly delay: BlockNumber;
 }
 
+/** u64 */
+export type SetId = u64;
+
 /** Struct */
 export interface StoredPendingChange extends Struct {
   /** BlockNumber */

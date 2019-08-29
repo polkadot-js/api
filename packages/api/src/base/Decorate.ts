@@ -82,7 +82,7 @@ export default abstract class Decorate<ApiType> extends Events {
    *
    * const api = new Api().isReady();
    *
-   * api.rpc.subscribeNewHead((header) => {
+   * api.rpc.subscribeNewHeads((header) => {
    *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```

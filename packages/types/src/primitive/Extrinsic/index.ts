@@ -5,3 +5,4 @@
 export { default as GenericExtrinsic } from './Extrinsic';
 export { default as GenericExtrinsicEra, MortalEra as GenericMortalEra, ImmortalEra as GenericImmortalEra } from './ExtrinsicEra';
 export { default as GenericExtrinsicPayload } from './ExtrinsicPayload';
+export { default as GenericExtrinsicUnknown } from './ExtrinsicUnknown';

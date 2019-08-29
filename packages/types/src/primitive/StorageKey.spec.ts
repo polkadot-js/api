@@ -17,7 +17,7 @@ describe('StorageKey', (): void => {
   describe('with MetadataV3 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV3));
 
-    it(`should correctly get Alice's freeBalance storage key (hex)`, (): void => {
+    it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
           storage
@@ -28,7 +28,7 @@ describe('StorageKey', (): void => {
       ).toBe('0xc99f5446efa57788f39ab529311f4550'); // FIXME OK this should be length-prefixed in reality
     });
 
-    it(`should correctly get Alice's freeBalance storage key (u8a)`, (): void => {
+    it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
           storage
@@ -46,7 +46,7 @@ describe('StorageKey', (): void => {
   describe('with MetadataV4 (uses xxHash by default)', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV4));
 
-    it(`should correctly get Alice's freeBalance storage key (hex)`, (): void => {
+    it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
           storage
@@ -57,7 +57,7 @@ describe('StorageKey', (): void => {
       ).toBe('0x7f864e18e3dd8b58386310d2fe0919eef27c6e558564b7f67f22d99d20f587bb');
     });
 
-    it(`should correctly get Alice's freeBalance storage key (u8a)`, (): void => {
+    it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
           storage
@@ -73,7 +73,7 @@ describe('StorageKey', (): void => {
       );
     });
 
-    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -85,7 +85,7 @@ describe('StorageKey', (): void => {
       ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
     });
 
-    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -101,7 +101,7 @@ describe('StorageKey', (): void => {
   describe('with MetadataV5', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV5));
 
-    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -113,7 +113,7 @@ describe('StorageKey', (): void => {
       ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
     });
 
-    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -129,7 +129,7 @@ describe('StorageKey', (): void => {
   describe('with MetadataV6', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV6));
 
-    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -141,7 +141,7 @@ describe('StorageKey', (): void => {
       ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
     });
 
-    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -157,7 +157,7 @@ describe('StorageKey', (): void => {
   describe('with MetadataV7', (): void => {
     const storage = fromMetadata(new Metadata(rpcDataV7));
 
-    it(`should correctly get the EventTopics double map storage key (hex)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
           storage
@@ -169,7 +169,7 @@ describe('StorageKey', (): void => {
       ).toBe('0x3007c9ff7027f65900abcdfca4fdb107ead47e2a9e3558e01b691b0f4a5f8518d487326614f066416308bf6aa4e5041d1949928e4b26ede98e3cebb36a3b1726');
     });
 
-    it(`should correctly get the EventTopics double map storage key (u8a)`, (): void => {
+    it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
           storage

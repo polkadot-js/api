@@ -82,7 +82,7 @@ describeE2E({
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-      await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
+      await api.rpc.chain.subscribeNewHeads(async (header: Header): Promise<void> => {
         if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
@@ -111,7 +111,7 @@ describeE2E({
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12121);
 
-      await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
+      await api.rpc.chain.subscribeNewHeads(async (header: Header): Promise<void> => {
         if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);

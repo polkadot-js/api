@@ -35,7 +35,7 @@ import ApiBase from '../base';
  * const api = await ApiRx.create().toPromise();
  *
  * // make a call to retrieve the current network head
- * api.rpc.chain.subscribeNewHead().subscribe((header) => {
+ * api.rpc.chain.subscribeNewHeads().subscribe((header) => {
  *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
@@ -125,7 +125,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * Api.create()
    *   .pipe(
    *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHead()
+   *       api.rpc.chain.subscribeNewHeads()
    *   ))
    *   .subscribe((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);
@@ -149,7 +149,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * new Api().isReady
    *   .pipe(
    *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHead()
+   *       api.rpc.chain.subscribeNewHeads()
    *   ))
    *   .subscribe((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);

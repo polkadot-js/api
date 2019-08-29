@@ -28,7 +28,7 @@ try {
 }
 
 function assertResult <T> (value: T | undefined): T {
-  assert(!isUndefined(value), `Api needs to be initialised before using, listen on 'ready'`);
+  assert(!isUndefined(value), 'Api needs to be initialised before using, listen on \'ready\'');
 
   return value as T;
 }
@@ -47,7 +47,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    *
    * const api = new Api().isReady();
    *
-   * api.rpc.subscribeNewHead((header) => {
+   * api.rpc.subscribeNewHeads((header) => {
    *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```
@@ -169,7 +169,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.rpc.chain.subscribeNewHead((header) => {
+   * api.rpc.chain.subscribeNewHeads((header) => {
    *   console.log('new header', header);
    * });
    * ```

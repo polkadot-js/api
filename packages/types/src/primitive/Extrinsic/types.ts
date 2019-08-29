@@ -5,7 +5,8 @@
 import { AnyNumber } from '../../types';
 
 export interface ExtrinsicOptions {
-  isSigned?: boolean;
+  isSigned: boolean;
+  version: number;
 }
 
 export interface ExtrinsicSignatureOptions {

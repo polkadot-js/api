@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicUnknown, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -58,6 +58,9 @@ export type ExtrinsicEra = GenericExtrinsicEra;
 
 /** GenericExtrinsicPayload */
 export type ExtrinsicPayload = GenericExtrinsicPayload;
+
+/** GenericExtrinsicUnknown */
+export type ExtrinsicUnknown = GenericExtrinsicUnknown;
 
 /** H256 */
 export type Hash = H256;

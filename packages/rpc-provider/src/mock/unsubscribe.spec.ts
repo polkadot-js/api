@@ -12,7 +12,7 @@ describe('unsubscribe', (): void => {
     mock = new Mock();
 
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => void 0)
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})
       .then((_id): void => {
         id = _id;
       });

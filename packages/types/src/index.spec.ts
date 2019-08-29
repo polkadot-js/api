@@ -16,7 +16,11 @@ import * as definitions from './interfaces/definitions';
 // specifically for the types that _should_ throw in the constrtuctor, i.e
 // `usize` is not allowed (runtime incompat) and `origin` is not passed through
 // to any calls. All other types _must_ pass and allow for empty defaults
-const UNCONSTRUCTABLE = ['genericorigin', 'origin', 'usize'];
+const UNCONSTRUCTABLE = [
+  'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
+  'GenericOrigin', 'Origin',
+  'usize'
+].map((v): string => v.toLowerCase());
 
 function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {

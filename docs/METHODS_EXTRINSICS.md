@@ -59,6 +59,9 @@ ___
 
 ### balances
 
+▸ **forceTransfer**(source: `Address`, dest: `Address`, value: `Compact<Balance>`)
+- **summary**:   Exactly as `transfer`, except the origin must be root and the source account may be  specified.
+
 ▸ **setBalance**(who: `Address`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
 - **summary**:   Set the balances of a given account.   This will alter `FreeBalance` and `ReservedBalance` in storage. it will  also decrease the total issuance of the system (`TotalIssuance`).  If the new free or reserved balance is below the existential deposit,  it will reset the account nonce (`system::AccountNonce`).   The dispatch origin for this call is `root`.   # <weight>  - Independent of the arguments.  - Contains a limited number of reads and writes.  # </weight>
 
