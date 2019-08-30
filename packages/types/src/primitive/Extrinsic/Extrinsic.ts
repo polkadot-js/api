@@ -241,12 +241,11 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     //   payload: ExtrinsicPayloadValue | Uint8Array | string
     let payload = args[0];
 
-    // @ts-ignore
-    if (args.length === 2) {
+    // FIXME The old support as detailed above... needs to be dropped
+    if ((args as any[]).length === 2) {
       payload = {
         blockHash: new Uint8Array(),
-        // @ts-ignore
-        era: args[1] as string,
+        era: (args as any[])[1] as string,
         genesisHash: new Uint8Array(),
         method: this.method.toHex(),
         nonce: args[0] as string,

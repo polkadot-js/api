@@ -32,7 +32,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
     }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned: boolean = false): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned = false): ExtrinsicValueV1 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV1) {

@@ -38,10 +38,9 @@ export default class Bytes extends U8a {
     return value;
   }
 
-  private static decodeBytesStorage (value: Uint8Array): Uint8Array {
+  private static decodeBytesStorage (u8a: Uint8Array): Uint8Array {
     // Here we cater for the actual StorageData that _could_ have a length prefix. In the
     // case of `:code` it is not added, for others it is
-    const u8a = value as Uint8Array;
     const [offset, length] = Compact.decodeU8a(u8a);
 
     return u8a.length === length.addn(offset).toNumber()

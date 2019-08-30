@@ -21,7 +21,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 export default class Int extends AbstractInt {
   public constructor (
     value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
+    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
     super(
       true,
       value,
@@ -33,7 +33,7 @@ export default class Int extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe: boolean = false): string {
+  public toHex (isLe = false): string {
     return bnToHex(this, {
       bitLength: this._bitLength,
       isLe,

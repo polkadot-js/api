@@ -95,7 +95,7 @@ function hasWrapper (type: string, [start, end]: [string, string, any]): boolean
     return false;
   }
 
-  assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+  assert(type.endsWith(end), `Expected '${start}' closing with '${end}'`);
 
   return true;
 }
