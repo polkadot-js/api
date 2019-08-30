@@ -8,7 +8,8 @@ import WsProvider from './';
 import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-declare var global: Global;
+declare const global: Global;
+
 let ws: WsProvider;
 let mock: Mock;
 
@@ -16,7 +17,7 @@ function createMock (requests: any): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect: boolean = true): WsProvider {
+function createWs (autoConnect = true): WsProvider {
   ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;

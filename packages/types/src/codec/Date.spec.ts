@@ -10,7 +10,7 @@ import U64 from '../primitive/U64';
 
 describe('Date', (): void => {
   describe('decode', (): void => {
-    const testDecode = (type: string, input: Date | CodecDate | U64 | number, expected: string | number, toJSON: boolean = false): void =>
+    const testDecode = (type: string, input: Date | CodecDate | U64 | number, expected: string | number, toJSON = false): void =>
       it(`can decode from ${type}`, (): void => {
         expect(new CodecDate(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });

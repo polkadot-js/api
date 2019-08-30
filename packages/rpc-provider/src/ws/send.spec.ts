@@ -9,6 +9,7 @@ import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 declare const global: Global;
+
 let provider: WsProvider;
 let mock: Mock;
 
@@ -16,7 +17,7 @@ function createMock (requests: any[]): void {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect: boolean = true): WsProvider {
+function createWs (autoConnect = true): WsProvider {
   provider = new WsProvider(TEST_WS_URL, autoConnect);
 
   return provider;
@@ -47,8 +48,9 @@ describe('send', (): void => {
     };
 
     provider = createWs(true);
-    // @ts-ignore Accessing private method
-    provider.websocket.onopen();
+
+    // HACK this is a private method...
+    (provider as any).websocket.onopen();
 
     return provider
       .send('test_encoding', ['param'])

@@ -13,8 +13,7 @@ describe('onMessageSubscribe', (): void => {
 
   it('calls the subscriber with data', (done): void => {
     // We need to access the private WsProvider property 'handlers' here which otherwise triggers a tslint error..
-    // @ts-ignore
-    provider.handlers[11] = {
+    (provider as any).handlers[11] = {
       callback: (_: any, id: number): void => {
         expect(typeof id).toBe('number');
       },
@@ -30,16 +29,13 @@ describe('onMessageSubscribe', (): void => {
     };
 
     // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
-    // @ts-ignore
-    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
-    // @ts-ignore
-    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' }));
+    (provider as any).onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    (provider as any).onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' }));
   });
 
   it('calls the subscriber with error', (done): void => {
     // We need to access the private WsProvider property 'handlers' here which otherwise trigger a tslint error..
-    // @ts-ignore
-    provider.handlers[11] = {
+    (provider as any).handlers[11] = {
       callback: (_: any, id: number): void => {
         expect(typeof id).toBe('number');
       },
@@ -55,9 +51,7 @@ describe('onMessageSubscribe', (): void => {
     };
 
     // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
-    // @ts-ignore
-    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
-    // @ts-ignore
-    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' }));
+    (provider as any).onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    (provider as any).onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' }));
   });
 });

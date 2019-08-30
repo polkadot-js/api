@@ -6,7 +6,7 @@ import { Constructor } from '@polkadot/types/types';
 
 import { Global } from './../mock/types';
 
-declare let global: Global;
+declare const global: Global;
 
 describe('ws/polyfill', (): void => {
   let origWs: Constructor<WebSocket>;
