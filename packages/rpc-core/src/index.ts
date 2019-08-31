@@ -70,6 +70,7 @@ export default class Rpc implements RpcInterface {
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   public constructor (provider: ProviderInterface) {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this.provider = provider;
@@ -249,6 +250,7 @@ export default class Rpc implements RpcInterface {
       // Normalize args so that different args that should be cached
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(createType('AccountId', 'abc'));`
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       normalizer: JSON.stringify
     });
 

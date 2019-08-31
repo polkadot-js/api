@@ -23,6 +23,7 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[]
         switchMap(([stashIds]): Observable<[AccountId[], Option<AccountId>[]]> =>
           combineLatest([
             of(stashIds),
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             api.query.staking.bonded.multi(stashIds) as Observable<Option<AccountId>[]>
           ])
         ),

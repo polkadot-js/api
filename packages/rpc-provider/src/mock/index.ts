@@ -46,7 +46,7 @@ export default class Mock implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
-  public isUpdating: boolean = true;
+  public isUpdating = true;
 
   private requests: Record<string, (...params: any[]) => string> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,7 +74,7 @@ export default class Mock implements ProviderInterface {
     return subs;
   }, ({} as unknown as MockStateSubscriptions));
 
-  private subscriptionId: number = 0;
+  private subscriptionId = 0;
 
   private subscriptionMap: Record<number, string> = {};
 
@@ -102,6 +102,7 @@ export default class Mock implements ProviderInterface {
     this.emitter.on(type, sub);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async send (method: string, params: any[]): Promise<any> {
     if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
@@ -110,6 +111,7 @@ export default class Mock implements ProviderInterface {
     return this.requests[method](this.db, params);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async subscribe (type: string, method: string, ...params: any[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
@@ -130,6 +132,7 @@ export default class Mock implements ProviderInterface {
     throw new Error(`provider.subscribe: Invalid method '${method}'`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 

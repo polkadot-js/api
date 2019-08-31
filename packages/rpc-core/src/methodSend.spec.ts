@@ -37,12 +37,12 @@ describe('methodSend', (): void => {
   });
 
   it('wraps errors with the call signature', (done): void => {
-    // @ts-ignore private method
-    const method = rpc.createMethodSend(methods.blah);
+    // private access
+    const method = (rpc as any).createMethodSend(methods.blah);
 
     method().subscribe(
-      (): void => { /* noop */ },
-      (error): void => {
+      (): void => {},
+      (error: Error): void => {
         expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
         done();
       }
@@ -50,20 +50,20 @@ describe('methodSend', (): void => {
   });
 
   it('checks for mismatched parameters', (done): void => {
-    // @ts-ignore private method
-    const method = rpc.createMethodSend(methods.bleh);
+    // private method
+    const method = (rpc as any).createMethodSend(methods.bleh);
 
     method(1).subscribe(
-      (): void => { /* noop */ },
-      (error): void => {
+      (): void => {},
+      (error: Error): void => {
         expect(error.message).toMatch(/parameters, 1 found instead/);
         done();
       });
   });
 
   it('calls the provider with the correct parameters', (done): void => {
-    // @ts-ignore private method
-    const method = rpc.createMethodSend(methods.blah);
+    // private method
+    const method = (rpc as any).createMethodSend(methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
     method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe((): void => {

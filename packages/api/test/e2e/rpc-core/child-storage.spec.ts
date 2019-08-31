@@ -47,6 +47,7 @@ describeE2E({
   beforeAll(async (done): Promise<() => void> => {
     abi = new Abi(incrementerAbi);
     api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
+
     return (
       api.tx.contracts
         .putCode(MAX_GAS, `0x${incrementerCode}`)
@@ -62,7 +63,7 @@ describeE2E({
     );
   });
 
-  beforeEach(async (done): Promise<void> => {
+  beforeEach((done): void => {
     rpc = new Rpc(new WsProvider(wsUrl));
     done();
   });

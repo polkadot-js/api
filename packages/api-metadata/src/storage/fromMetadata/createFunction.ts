@@ -70,8 +70,8 @@ function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uin
   const param1Encoded = u8aConcat(rawKey, createTypeUnsafe(type1, [key1]).toU8a(true));
   const param1Hashed = hasher(param1Encoded);
 
-  // @ts-ignore If this fails it means the getHashers function failed - and we have much bigger issues
-  const param2Hashed = key2Hasher(createTypeUnsafe(type2, [key2]).toU8a(true));
+  // If this fails it means the getHashers function failed - and we have much bigger issues
+  const param2Hashed = (key2Hasher as HasherFunction)(createTypeUnsafe(type2, [key2]).toU8a(true));
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
