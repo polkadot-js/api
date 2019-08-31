@@ -232,7 +232,7 @@ class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<Ap
     );
   }
 
-  private _sendObservable (updateId: number = -1): Observable<Hash> {
+  private _sendObservable = (updateId = -1): Observable<Hash> => {
     return this._api.rpc.author
       .submitExtrinsic(this)
       .pipe(
@@ -242,7 +242,7 @@ class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<Ap
       );
   }
 
-  private _subscribeObservable (updateId: number = -1): Observable<SubmittableResultImpl> {
+  private _subscribeObservable = (updateId = -1): Observable<SubmittableResultImpl> => {
     return this._api.rpc.author
       .submitAndWatchExtrinsic(this)
       .pipe(

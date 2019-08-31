@@ -13,7 +13,7 @@ export interface CombinatorFunction {
 }
 
 export default class Combinator {
-  protected _allHasFired: boolean = false;
+  protected _allHasFired = false;
 
   protected _callback: CombinatorCallback;
 
@@ -21,7 +21,7 @@ export default class Combinator {
 
   protected _fns: CombinatorFunction[] = [];
 
-  protected _isActive: boolean = true;
+  protected _isActive = true;
 
   protected _results: any[] = [];
 
@@ -29,6 +29,8 @@ export default class Combinator {
 
   public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
+
+    // eslint-disable-next-line @typescript-eslint/require-await
     this._subscriptions = fns.map(async (input, index): UnsubscribePromise => {
       const [fn, ...args] = Array.isArray(input)
         ? input
@@ -37,8 +39,8 @@ export default class Combinator {
       this._fired.push(false);
       this._fns.push(fn);
 
-      // @ts-ignore Not quite 100% how to have a variable number at the front here
-      return fn(...args, this.createCallback(index));
+      // Not quite 100% how to have a variable number at the front here
+      return (fn as Function)(...args, this.createCallback(index));
     });
   }
 
@@ -78,6 +80,7 @@ export default class Combinator {
 
     this._isActive = false;
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this._subscriptions.forEach(async (subscription): Promise<void> => {
       try {
         const unsubscribe = await subscription;

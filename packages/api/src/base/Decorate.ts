@@ -6,7 +6,7 @@ import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -50,7 +50,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _isConnected: BehaviorSubject<boolean>;
 
-  protected _isReady: boolean = false;
+  protected _isReady = false;
 
   protected readonly _options: ApiOptions;
 
@@ -71,6 +71,24 @@ export default abstract class Decorate<ApiType> extends Events {
   protected _type: ApiTypes;
 
   /**
+   * This is the one and only method concrete children classes need to implement.
+   * It's a higher-order function, which takes one argument
+   * `method: Method extends (...args: any[]) => Observable<any>`
+   * (and one optional `options`), and should return the user facing method.
+   * For example:
+   * - For ApiRx, `decorateMethod` should just be identity, because the input
+   * function is already an Observable
+   * - For ApiPromise, `decorateMethod` should return a function that takes all
+   * the parameters from `method`, adds an optional `callback` argument, and
+   * returns a Promise.
+   *
+   * We could easily imagine other user-facing interfaces, which are simply
+   * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
+   * via `deocrateMethod`.
+   */
+  protected decorateMethod: DecorateMethod;
+
+  /**
    * @description Create an instance of the class
    *
    * @param options Options object to create API instance or a Provider instance
@@ -88,36 +106,19 @@ export default abstract class Decorate<ApiType> extends Events {
    * });
    * ```
    */
-  public constructor (options: ApiOptions, type: ApiTypes) {
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
     super();
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
 
+    this.decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
     this._rpcCore = new RpcCore(thisProvider);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
   }
-
-  /**
-   * This is the one and only method concrete children classes need to implement.
-   * It's a higher-order function, which takes one argument
-   * `method: Method extends (...args: any[]) => Observable<any>`
-   * (and one optional `options`), and should return the user facing method.
-   * For example:
-   * - For ApiRx, `decorateMethod` should just be identity, because the input
-   * function is already an Observable
-   * - For ApiPromise, `decorateMethod` should return a function that takes all
-   * the parameters from `method`, adds an optional `callback` argument, and
-   * returns a Promise.
-   *
-   * We could easily imagine other user-facing interfaces, which are simply
-   * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
-   * via `deocrateMethod`.
-   */
-  protected abstract decorateMethod(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
@@ -136,10 +137,9 @@ export default abstract class Decorate<ApiType> extends Events {
     return ['author', 'chain', 'state', 'system'].reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      // @ts-ignore Hard to type these correctly, I don't understand the TS errors
-      out[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        // @ts-ignore
-        section[methodName] = decorateMethod(method, { methodName });
+      // out and section here are horrors to get right from a typing perspective :()
+      (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+        (section as any)[methodName] = decorateMethod(method, { methodName });
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
@@ -310,7 +310,7 @@ export default abstract class Decorate<ApiType> extends Events {
    * Put the `this.onCall` function of ApiRx here, because it is needed by
    * `api._rx`.
    */
-  protected rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
+  protected rxDecorateMethod = <Method extends AnyFunction> (method: Method): Method => {
     return method;
   }
 }

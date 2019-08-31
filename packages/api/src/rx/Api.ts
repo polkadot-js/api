@@ -9,6 +9,10 @@ import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
+function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+  return method;
+}
+
 /**
  * # @polkadot/api/rx
  *
@@ -157,7 +161,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * ```
    */
   public constructor (options?: ApiOptions) {
-    super(options, 'rxjs');
+    super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(
       // You can create an observable from an event, however my mind groks this form better
@@ -191,9 +195,5 @@ export default class ApiRx extends ApiBase<'rxjs'> {
       ...this._options,
       source: this
     });
-  }
-
-  protected decorateMethod<Method extends AnyFunction> (method: Method): Method {
-    return method;
   }
 }
