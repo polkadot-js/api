@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair } from '../../types';
+import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, Hash, Index } from '../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -12,9 +12,6 @@ import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import U8a from '../../codec/U8a';
 import u32 from '../../primitive/U32';
-import ExtrinsicPayloadV1 from './v1/ExtrinsicPayload';
-import ExtrinsicPayloadV2 from './v2/ExtrinsicPayload';
-import ExtrinsicPayloadV3 from './v3/ExtrinsicPayload';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
 
@@ -22,30 +19,35 @@ interface ExtrinsicPayloadOptions {
   version?: number;
 }
 
+// all our known types that can be returned
+type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3;
+
+const VERSIONS: InterfaceTypes[] = [
+  'ExtrinsicPayloadUnknown', // v0 is unknown
+  'ExtrinsicPayloadV1',
+  'ExtrinsicPayloadV2',
+  'ExtrinsicPayloadV3'
+];
+
 /**
  * @name ExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayload extends Base<ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3> {
+export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
       ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
     );
   }
 
-  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 {
+  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
 
-    switch (version) {
-      case 1: return new ExtrinsicPayloadV1(value as Uint8Array);
-      case 2: return new ExtrinsicPayloadV2(value as Uint8Array);
-      case 3: return new ExtrinsicPayloadV3(value as Uint8Array);
-      default: throw new Error(`Unsupported extrinsic version ${version}`);
-    }
+    return createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
   }
 
   /**

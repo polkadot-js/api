@@ -17,6 +17,7 @@ import * as definitions from './interfaces/definitions';
 // `usize` is not allowed (runtime incompat) and `origin` is not passed through
 // to any calls. All other types _must_ pass and allow for empty defaults
 const UNCONSTRUCTABLE = [
+  'ExtrinsicPayloadUnknown', 'GenericExtrinsicPayloadUnknown',
   'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
   'GenericOrigin', 'Origin',
   'usize'

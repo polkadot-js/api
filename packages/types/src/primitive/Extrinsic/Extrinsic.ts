@@ -34,8 +34,6 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicV3'
 ];
 
-const VERSION_UNKNOWN = VERSIONS[0];
-
 /**
  * @name Extrinsic
  * @description
@@ -59,7 +57,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = VERSIONS[version & UNMASK_VERSION] || VERSION_UNKNOWN;
+    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
     // "only add extrinsic types", and more string definitions become unwieldly
