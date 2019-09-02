@@ -29,7 +29,11 @@ async function main (): Promise<void> {
   const props = await api.rpc.system.properties();
   const meta = await api.rpc.state.getMetadata();
 
+  // output the chain info, for easy re-use
   console.error(`export default { chain: '${chain.toString()}', genesisHash: '${api.genesisHash.toHex()}', ss58Format: ${props.ss58Format.unwrapOr(42)}, tokenDecimals: ${props.tokenDecimals.unwrapOr(0)}, tokenSymbol: '${props.tokenSymbol.unwrapOr('UNIT')}', metaCalls: '${Buffer.from(meta.asCallsOnly.toU8a()).toString('base64')}' };`);
+
+  // show any missing types
+  meta.getUniqTypes(false);
 }
 
 main()
