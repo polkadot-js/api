@@ -9,6 +9,10 @@ export interface ExtrinsicOptions {
   version: number;
 }
 
+export interface ExtrinsicPayloadOptions {
+  version: number;
+}
+
 export interface ExtrinsicSignatureOptions {
   isSigned?: boolean;
 }

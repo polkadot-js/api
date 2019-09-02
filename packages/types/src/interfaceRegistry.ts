@@ -3,7 +3,7 @@
 
 import { Compact, Option, Vec } from './codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from './primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, RawBabePreDigestPrimary, RawBabePreDigestSecondary, SlotNumber } from './interfaces/babe';
@@ -167,6 +167,18 @@ export interface InterfaceRegistry {
   ExtrinsicPayload: ExtrinsicPayload;
   'Option<ExtrinsicPayload>': Option<ExtrinsicPayload>;
   'Vec<ExtrinsicPayload>': Vec<ExtrinsicPayload>;
+  ExtrinsicPayloadUnknown: ExtrinsicPayloadUnknown;
+  'Option<ExtrinsicPayloadUnknown>': Option<ExtrinsicPayloadUnknown>;
+  'Vec<ExtrinsicPayloadUnknown>': Vec<ExtrinsicPayloadUnknown>;
+  ExtrinsicPayloadV1: ExtrinsicPayloadV1;
+  'Option<ExtrinsicPayloadV1>': Option<ExtrinsicPayloadV1>;
+  'Vec<ExtrinsicPayloadV1>': Vec<ExtrinsicPayloadV1>;
+  ExtrinsicPayloadV2: ExtrinsicPayloadV2;
+  'Option<ExtrinsicPayloadV2>': Option<ExtrinsicPayloadV2>;
+  'Vec<ExtrinsicPayloadV2>': Vec<ExtrinsicPayloadV2>;
+  ExtrinsicPayloadV3: ExtrinsicPayloadV3;
+  'Option<ExtrinsicPayloadV3>': Option<ExtrinsicPayloadV3>;
+  'Vec<ExtrinsicPayloadV3>': Vec<ExtrinsicPayloadV3>;
   ExtrinsicUnknown: ExtrinsicUnknown;
   'Option<ExtrinsicUnknown>': Option<ExtrinsicUnknown>;
   'Vec<ExtrinsicUnknown>': Vec<ExtrinsicUnknown>;
