@@ -217,7 +217,7 @@ ___
 
 ### imOnline
 
-▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `AuthoritySignature`)
+▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `Signature`)
 
 ___
 
