@@ -48,19 +48,14 @@ function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
     : remaining;
 }
 
-// select the Unlockchunks that can't be redeemed yet
-function calcChunks (stakingLedger: StakingLedger, eraLength: BN, bestNumber: BlockNumber): UnlockChunk[] {
-  return stakingLedger.unlocking.filter((chunk): boolean =>
-    remainingBlocks(chunk.era.unwrap(), eraLength, bestNumber).gtn(0)
-  );
-}
-
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
-  const unlockingChunks = calcChunks(stakingLedger, eraLength, bestNumber);
+  const unlockingChunks = stakingLedger.unlocking.filter(({ era }): boolean =>
+    remainingBlocks(era.unwrap(), eraLength, bestNumber).gtn(0)
+  );
 
   if (!unlockingChunks.length) {
     return undefined;
@@ -81,9 +76,11 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     return new BN(0);
   }
 
-  return calcChunks(stakingLedger, eraLength, bestNumber).reduce((curr, prev): BN =>
-    curr.add(prev.value.unwrap()), new BN(0)
-  );
+  return stakingLedger.unlocking.reduce((total, { era, value }): BN => {
+    return remainingBlocks(era.unwrap(), eraLength, bestNumber).eqn(0)
+      ? total.add(value.unwrap())
+      : total;
+  }, new BN(0));
 }
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
