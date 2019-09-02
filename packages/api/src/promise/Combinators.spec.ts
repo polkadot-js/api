@@ -7,6 +7,8 @@ import Combinator from './Combinator';
 
 describe('Combinator', (): void => {
   let fns: ((value: any) => void)[] = [];
+
+  // eslint-disable-next-line @typescript-eslint/require-await
   const storeFn = async (cb: (value: any) => void): UnsubscribePromise => {
     fns.push(cb);
 
@@ -81,9 +83,11 @@ describe('Combinator', (): void => {
   });
 
   it('unsubscribes as required', (done): void => {
+    // eslint-disable-next-line @typescript-eslint/require-await
     const mocker = async (): Promise<any> => done;
     const combinator = new Combinator([
       mocker,
+      // eslint-disable-next-line @typescript-eslint/require-await
       async (): UnsubscribePromise => (): void => {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ], (value: any[]): void => {

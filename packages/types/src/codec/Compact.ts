@@ -120,6 +120,6 @@ export default class Compact<T extends CompactEncodable> extends Base<T> {
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
   public unwrap (): T {
-    return this.raw as T;
+    return this.raw;
   }
 }

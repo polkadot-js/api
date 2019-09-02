@@ -68,15 +68,12 @@ function mockWs (requests: { method: string }[]): Scope {
   };
 
   server.on('connection', (socket): void => {
-    // @ts-ignore definitions are wrong, this is 'on', not 'onmessage'
-    socket.on('message', (body: { [index: string]: {} }): void => {
+    // FIXME This whole any mess is a mess
+    socket.on('message', (body: any): void => {
       const request = requests[requestCount];
-      // @ts-ignore Yes, SHOULD be fixed, this is a mess
-      const response = request.error
-        // @ts-ignore Yes, SHOULD be fixed, this is a mess
-        ? createError(request)
-        // @ts-ignore Yes, SHOULD be fixed, this is a mess
-        : createReply(request);
+      const response = (request as any).error
+        ? createError(request as any)
+        : createReply(request as any);
 
       scope.body[request.method] = body;
       requestCount++;

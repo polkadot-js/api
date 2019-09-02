@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EventRecord, Header } from '@polkadot/types/interfaces';
+import { AccountId, EventRecord } from '@polkadot/types/interfaces';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf, Option, Vec } from '@polkadot/types';
@@ -73,7 +73,7 @@ describeE2E({
   });
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
+    const header = await api.rpc.chain.getHeader();
     const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
 
     expect(events.length).not.toEqual(0);

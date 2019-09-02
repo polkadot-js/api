@@ -50,6 +50,8 @@ export interface DecorateMethodOptions {
   methodName?: string;
 }
 
+export type DecorateMethod = (method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions) => any;
+
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
 // - api.tx.*.*: SubmittableExtrinsic<ApiType>

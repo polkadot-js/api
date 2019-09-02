@@ -11,7 +11,7 @@ import { ClassOf } from '../create';
 export function typeToConstructor <T = Codec> (type: InterfaceTypes | Constructor<T>): Constructor<T> {
   return (
     isString(type)
-      ? ClassOf(type as InterfaceTypes)
+      ? ClassOf(type)
       : type
   ) as Constructor<T>;
 }

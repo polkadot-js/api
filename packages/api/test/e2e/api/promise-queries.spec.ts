@@ -72,14 +72,14 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
   });
 
   it('can retrive header by hash', async (): Promise<void> => {
-    const latest = await api.rpc.chain.getHeader() as Header;
-    const specific = await api.rpc.chain.getHeader(latest.hash) as Header;
+    const latest = await api.rpc.chain.getHeader();
+    const specific = await api.rpc.chain.getHeader(latest.hash);
 
     expect(latest.hash).toEqual(specific.hash);
   });
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
+    const header = await api.rpc.chain.getHeader();
     const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
 
     expect(events.length).not.toEqual(0);
@@ -106,7 +106,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
     });
 
     it('queries correct value at a specified block', async (): Promise<void> => {
-      const header = await api.rpc.chain.getHeader() as Header;
+      const header = await api.rpc.chain.getHeader();
       const sessionIndex = await api.query.session.currentIndex.at(header.hash) as SessionIndex;
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);

@@ -28,10 +28,10 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@polkadot/types": "^0.91.0-beta.10",
-    "@polkadot/util": "^1.1.1",
-    "@polkadot/util-crypto": "^1.1.1"
+    "@polkadot/util": "^1.2.0-beta.3",
+    "@polkadot/util-crypto": "^1.2.0-beta.3"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^1.1.1"
+    "@polkadot/keyring": "^1.2.0-beta.3"
   }
 }

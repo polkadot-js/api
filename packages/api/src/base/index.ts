@@ -5,8 +5,7 @@
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { CallFunction, RegistryTypes } from '@polkadot/types/types';
-
-import { ApiOptions, ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
+import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
@@ -52,8 +51,8 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes) {
-    super(options, type);
+  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod) {
+    super(options, type, decorateMethod);
   }
 
   /**

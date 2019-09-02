@@ -113,7 +113,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
   public async subscribe (types: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
@@ -123,7 +123,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
   public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     l.error(ERROR_SUBSCRIBE);
 

@@ -83,8 +83,8 @@ const getMetadata: RpcMethodOpt = {
   params: [
     createParam('block', 'Hash', { isOptional: true })
   ],
-  // @ts-ignore This is not part of InterfaceTypes
-  type: 'Metadata'
+  // This is not part of InterfaceTypes
+  type: 'Metadata' as any
 };
 
 const getRuntimeVersion: RpcMethodOpt = {

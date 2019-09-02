@@ -7,7 +7,7 @@ import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../ty
 import { assert, isUndefined, isNumber } from '@polkadot/util';
 
 export default class RpcCoder {
-  private id: number = 0;
+  private id = 0;
 
   public decodeResponse (response: JsonRpcResponse): any {
     assert(response, 'Empty response object received');

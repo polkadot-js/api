@@ -67,7 +67,7 @@ const l = logger('api-ws');
 export default class WsProvider implements WSProviderInterface {
   private _eventemitter: EventEmitter;
 
-  private _isConnected: boolean = false;
+  private _isConnected = false;
 
   private autoConnect: boolean;
 
@@ -89,7 +89,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  public constructor (endpoint: string = defaults.WS_URL, autoConnect: boolean = true) {
+  public constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._eventemitter = new EventEmitter();
@@ -376,6 +376,7 @@ export default class WsProvider implements WSProviderInterface {
 
     this.subscriptions = {};
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     Object.keys(subscriptions).forEach(async (id): Promise<void> => {
       const { callback, method, params, type } = subscriptions[id];
 
@@ -397,8 +398,8 @@ export default class WsProvider implements WSProviderInterface {
   private sendQueue (): void {
     Object.keys(this.queued).forEach((id): void => {
       try {
-        // @ts-ignore we have done the websocket check in onSocketOpen, if an issue, will catch it
-        this.websocket.send(
+        // we have done the websocket check in onSocketOpen, if an issue, will catch it
+        (this.websocket as WebSocket).send(
           this.queued[id]
         );
 

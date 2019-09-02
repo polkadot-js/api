@@ -9,8 +9,8 @@ import BN from 'bn.js';
 import democracyTypes from '@polkadot/types/interfaces/democracy/definitions';
 import { Struct, createType } from '@polkadot/types';
 
-// @ts-ignore We can ignore the properties, added via Struct.with
-const _ReferendumInfo: Constructor<ReferendumInfo> = Struct.with(democracyTypes.types.ReferendumInfo);
+// We can ignore the properties, added via Struct.with
+const _ReferendumInfo: Constructor<ReferendumInfo> = Struct.with(democracyTypes.types.ReferendumInfo as any) as any;
 
 /**
  * @name ReferendumInfoExtended

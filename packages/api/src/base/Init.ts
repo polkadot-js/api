@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
@@ -46,8 +46,8 @@ const l = logger('api/decorator');
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes) {
-    super(options, type);
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
+    super(options, type, decorateMethod);
 
     assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
@@ -99,7 +99,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       SPEC_TYPES[this._runtimeVersion.specName.toString()]
     );
 
-    const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+    const metadataKey = `${this._genesisHash}-${this._runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
@@ -111,7 +111,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord format for e.g. Alex, based on \metadata format
+    // HACK-ish Old EventRecord format for e.g. Alex, based on metadata format
     if (metadata.version <= 3) {
       this.registerTypes(TYPES_SUBSTRATE_1);
     }

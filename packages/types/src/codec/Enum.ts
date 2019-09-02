@@ -122,7 +122,7 @@ export default class Enum extends Base<Codec> {
     return Enum.createValue(def, index, value);
   }
 
-  private static createValue (def: TypesDef, index: number = 0, value?: any): Decoded {
+  private static createValue (def: TypesDef, index = 0, value?: any): Decoded {
     const Clazz = Object.values(def)[index];
 
     assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);

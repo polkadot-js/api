@@ -31,7 +31,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   public constructor (
     isNegative: boolean,
     value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
+    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
     super(
       AbstractInt.decodeAbstracInt(value, bitLength, isNegative)
     );

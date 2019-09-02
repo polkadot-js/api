@@ -22,7 +22,7 @@ export interface SignerPayloadType {
 }
 
 // We explicitly cast the type here to get the actual TypeScript exports right
-// @ts-ignore We can ignore the properties, added via Struct.with
+// We can ignore the properties, added via Struct.with
 const _Payload: Constructor<SignerPayloadType> = Struct.with({
   address: 'Address',
   blockHash: 'Hash',
@@ -34,7 +34,7 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   runtimeVersion: 'RuntimeVersion',
   tip: 'Compact<Balance>',
   version: u8
-});
+}) as any;
 
 export default class Payload extends _Payload {
   /**

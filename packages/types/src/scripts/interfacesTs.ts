@@ -74,17 +74,17 @@ function isCompactEncodable (Child: Constructor<any>): boolean {
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
-function exportInterface (name: string = '', base: string, body: string = ''): string {
+function exportInterface (name = '', base: string, body = ''): string {
   return `/** ${base} */\nexport interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
 
 // helper to create an `export <Name> = <Base>`
-function exportType (name: string = '', base: string): string {
+function exportType (name = '', base: string): string {
   return `/** ${base} */\nexport type ${name} = ${base};`;
 }
 
 // helper to generate a `readonly <Name>: <Type>;` getter
-function createGetter (name: string = '', type: string, imports: TypeImports, doc?: string): string {
+function createGetter (name = '', type: string, imports: TypeImports, doc?: string): string {
   setImports(imports, [type]);
   return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
 }
@@ -265,7 +265,7 @@ function createImportCode (header: string, checks: { file: string; types: string
 }
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
+function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent = 2): string {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
 
@@ -438,8 +438,8 @@ function getSimilarTypes (imports: Imports, type: string): string[] {
     return ['any'];
   }
 
-  // @ts-ignore Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
+  // Cannot get isChildClass of abstract class, but it works
+  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'number', 'string');
   } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'string');
