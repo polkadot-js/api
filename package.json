@@ -16,6 +16,7 @@
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
+    "chain:info": "node packages/types/src/scripts/extractChainWrapper.js",
     "check": "yarn lint",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
