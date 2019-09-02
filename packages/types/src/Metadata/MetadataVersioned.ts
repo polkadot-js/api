@@ -22,14 +22,14 @@ import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
-import { getUniqTypes } from './util';
+import { getUniqTypes, toCallsOnly } from './util';
 
 type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
 type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
 
 class MetadataEnum extends Enum {
-  public constructor (value?: any) {
+  public constructor (value?: any, index?: number) {
     super({
       V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
       V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
@@ -39,7 +39,7 @@ class MetadataEnum extends Enum {
       V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
       V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
       V7: MetadataV7
-    }, value);
+    }, value, index);
   }
 
   /**
@@ -291,6 +291,16 @@ export default class MetadataVersioned extends Struct {
    */
   public get asV7 (): MetadataV7 {
     return this.getVersion(7, v6ToV7);
+  }
+
+  /**
+   * @description Returns the wrapped metadata as a limited calls-only (latest) version
+   */
+  public get asCallsOnly (): MetadataVersioned {
+    return new MetadataVersioned({
+      magicNumber: this.magicNumber,
+      metadata: new MetadataEnum(toCallsOnly(this.asLatest), this.version)
+    });
   }
 
   /**

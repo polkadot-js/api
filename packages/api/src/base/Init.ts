@@ -171,6 +171,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
         });
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
+      console.error(_error);
       const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
 
       l.error(error);

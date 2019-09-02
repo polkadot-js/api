@@ -91,18 +91,6 @@ export default class Type extends Text {
     return this._originalLength;
   }
 
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
-    // Note Since we are mangling what we get in beyond recognition, we really should
-    // not allow the re-encoding. Additionally, this is probably more of a decoder-only
-    // helper, so treat it as such.
-    throw new Error('Type::toU8a: unimplemented');
-  }
-
   // given a starting index, find the closing >
   private static _findClosing (value: string, start: number): number {
     let depth = 0;
