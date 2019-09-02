@@ -33,7 +33,7 @@
     "@babel/register": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@polkadot/dev": "^0.31.0-beta.6",
-    "@polkadot/ts": "^0.1.69",
+    "@polkadot/ts": "^0.1.70",
     "gh-pages": "^2.1.1"
   }
 }
