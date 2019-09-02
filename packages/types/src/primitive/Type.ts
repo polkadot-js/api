@@ -52,6 +52,8 @@ export default class Type extends Text {
     Type._alias('session::SessionIndex', 'SessionIndex'),
     // HACK duplication between contracts & primitives, however contracts prefixed with exec
     Type._alias('exec::StorageKey', 'ContractStorageKey'),
+    // Phantom
+    Type._alias('rstd::marker::PhantomData', 'PhantomData'),
     // flattens tuples with one value, `(AccountId)` -> `AccountId`
     Type._flattenSingleTuple(),
     // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
