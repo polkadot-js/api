@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Constructor } from '@polkadot/types/types';
-import { SignerPayload, SignerPayloadRaw } from './types';
+import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion} from '../../interfaces';
+import Compact from '../../codec/Compact';
+import Struct from '../../codec/Struct';
+import { createType } from '../../codec';
+import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../../types';
+import u8 from '../U8';
 
-import { createType, Compact, Struct, u8 } from '@polkadot/types';
-
-export interface SignerPayloadType {
+export interface SignerPayloadType extends Codec{
   address: Address;
   blockHash: Hash;
   blockNumber: BlockNumber;
@@ -33,14 +34,14 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
   tip: 'Compact<Balance>',
-  version: u8
+  version: 'u8'
 }) as any;
 
-export default class Payload extends _Payload {
+export default class SignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
-  public toPayload (): SignerPayload {
+  public toPayload (): SignerPayloadJSON {
     const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
 
     return {

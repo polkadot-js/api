@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
 
 import BN from 'bn.js';
@@ -214,82 +214,6 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
-export interface SignerPayload {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The checkpoint hash of the block, in hex
-   */
-  blockHash: string;
-
-  /**
-   * @description The checkpoint block number, in hex
-   */
-  blockNumber: string;
-
-  /**
-   * @description The era for this transaction, in hex
-   */
-  era: string;
-
-  /**
-   * @description The genesis hash of the chain, in hex
-   */
-  genesisHash: string;
-
-  /**
-   * @description The encoded method (with arguments) in hex
-   */
-  method: string;
-
-  /**
-   * @description The nonce for this transaction, in hex
-   */
-  nonce: string;
-
-  /**
-   * @description The current spec version for  the runtime
-   */
-  specVersion: string;
-
-  /**
-   * @description The tip for this transaction, in hex
-   */
-  tip: string;
-
-  /**
-   * @description The version of the extrinsic we are dealing with
-   */
-  version: number;
-}
-
-export interface SignerPayloadRawBase {
-  /**
-   * @description The hex-encoded data for this request
-   */
-  data: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type?: 'bytes' | 'payload';
-}
-
-export interface SignerPayloadRaw extends SignerPayloadRawBase {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type: 'bytes' | 'payload';
-}
-
 export interface SignerResult {
   /**
    * @description The id for this request
@@ -306,7 +230,7 @@ export interface Signer {
   /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
+  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
 
   /**
    * @description signs a raw payload, only the bytes data as supplied
