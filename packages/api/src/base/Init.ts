@@ -121,8 +121,10 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord format for e.g. Alex, based on metadata format
-    if (metadata.version <= 3) {
+    // HACK-ish Old EventRecord, BlockNumber & Indexes for e.g. Alex, based on metadata version
+    //   v3 = Alex
+    //   v4 = v1.0 branch
+    if (metadata.version <= 4) {
       this.registerTypes(TYPES_SUBSTRATE_1);
     }
 
