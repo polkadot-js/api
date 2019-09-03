@@ -2,7 +2,10 @@
 
 - The `getRuntimeVersion` and `subscribeRuntimeVersion` RPCs are now only available on the `rpc.state.*` endpoints. This aligns with the Substrate implementation.
 - Support for extrinsics with versions that is not in the base Substrate implementation (V1-V3) can now be done by providing an implementation for `ExtrinsicUnknown`
-
+- **Breaking change** SignerPayload is registered and can be overrode now.
+  - SignerPayload is renamed to SignerPayloadJSON
+  - SignerPayloadJSON, SignerPayloadRawBase and SignerPayloadRaw are all moved to `@polkadot/types`
+  
 
 # 0.90.1
 
