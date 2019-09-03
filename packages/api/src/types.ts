@@ -188,6 +188,14 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
+  /**
+   * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
+   */
+  typesChain?: Record<string, RegistryTypes>;
+  /**
+   * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
+   */
+  typesSpec?: Record<string, RegistryTypes>;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic

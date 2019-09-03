@@ -35,8 +35,8 @@ const TYPES_SUBSTRATE_1 = {
   ValidatorPrefs: 'ValidatorPrefs0to145'
 };
 
-// Type overrides for specific node types
-const SPEC_TYPES: Record<string, Record<string, string>> = {
+// Type overrides for specific spec types as given in  runtimeVersion
+const TYPES_SPEC: Record<string, Record<string, string>> = {
   kusama: TYPES_FOR_POLKADOT,
   polkadot: TYPES_FOR_POLKADOT
 };
@@ -89,20 +89,30 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    [this._genesisHash, this._runtimeVersion] = await Promise.all([
+    const { typesChain = {}, typesSpec = {} } = this._options;
+    const [genesisHash, runtimeVersion, chain] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
-      this._rpcCore.state.getRuntimeVersion().toPromise()
+      this._rpcCore.state.getRuntimeVersion().toPromise(),
+      this._rpcCore.system.chain().toPromise()
     ]);
+    const specName = runtimeVersion.specName.toString();
 
-    // based on the node, inject specific types
-    this.registerTypes(
-      SPEC_TYPES[this._runtimeVersion.specName.toString()]
-    );
+    // based on the node spec & chain, inject specific type overrides
+    this.registerTypes({
+      ...(TYPES_SPEC[specName] || {}),
+      ...(typesSpec[specName] || {}),
+      ...(typesChain[chain.toString()] || {})
+    });
 
-    const metadataKey = `${this._genesisHash}-${this._runtimeVersion.specVersion}`;
+    // retrieve metadata, either from chain  or as pass-in via options
+    const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
+
+    // set our chain version & genesisHash as returned
+    this._genesisHash = genesisHash;
+    this._runtimeVersion = runtimeVersion;
 
     // get unique types & validate
     metadata.getUniqTypes(false);
@@ -171,7 +181,6 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
         });
       }, KEEPALIVE_INTERVAL);
     } catch (_error) {
-      console.error(_error);
       const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
 
       l.error(error);
