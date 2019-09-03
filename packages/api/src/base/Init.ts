@@ -93,8 +93,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     const [genesisHash, runtimeVersion, chain] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
-      this._rpcCore.system.chain().toPromise(),
-      this._rpcCore.system.name().toPromise()
+      this._rpcCore.system.chain().toPromise()
     ]);
     const specName = runtimeVersion.specName.toString();
 
