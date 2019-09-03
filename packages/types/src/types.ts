@@ -293,6 +293,7 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
   type: 'bytes' | 'payload';
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;

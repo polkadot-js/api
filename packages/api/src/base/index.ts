@@ -4,8 +4,8 @@
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { CallFunction, RegistryTypes } from '@polkadot/types/types';
-import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
+import { CallFunction, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
