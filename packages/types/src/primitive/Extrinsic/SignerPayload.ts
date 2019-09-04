@@ -9,7 +9,7 @@ import { createType } from '../../codec';
 import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../../types';
 import u8 from '../U8';
 
-export interface SignerPayloadType extends Codec{
+export interface SignerPayloadType extends Codec {
   address: Address;
   blockHash: Hash;
   blockNumber: BlockNumber;
