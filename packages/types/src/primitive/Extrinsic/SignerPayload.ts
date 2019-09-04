@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { u8aToHex } from '@polkadot/util';
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../../interfaces';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
@@ -63,7 +64,8 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
    */
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
-    const data = createType('ExtrinsicPayload', payload, { version: payload.version }).toHex();
+    // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
+    const data = u8aToHex(createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(true));
 
     return {
       address: payload.address,
