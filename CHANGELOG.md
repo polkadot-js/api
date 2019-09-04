@@ -7,7 +7,6 @@
   - SignerPayload is renamed to SignerPayloadJSON
   - SignerPayloadJSON, SignerPayloadRawBase and SignerPayloadRaw are all moved to `@polkadot/types`
 
-
 # 0.90.1
 
 If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
