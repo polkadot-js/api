@@ -17,7 +17,7 @@ ___
 
 _Authoring of network items_
 
-▸ **insertKey**(keyType: `Text`, suri: `Text`, maybePublic?: `Bytes`): `Bytes`
+▸ **insertKey**(keyType: `Text`, suri: `Text`, publicKey: `Bytes`): `Bytes`
 - **summary**: Insert a key into the keystore.
 
 ▸ **pendingExtrinsics**(): `Vec<Extrinsic>`
