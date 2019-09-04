@@ -10,7 +10,7 @@ import { Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
   author: {
-    insertKey(keyType: Text | string, suri: Text | string, maybePublic?: Bytes | Uint8Array | string): Observable<Bytes>;
+    insertKey(keyType: Text | string, suri: Text | string, publicKey: Bytes | Uint8Array | string): Observable<Bytes>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
     removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
     rotateKeys(): Observable<Bytes>;
