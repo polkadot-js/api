@@ -5,6 +5,10 @@
 export default {
   types: {
     DigestOf: 'Digest',
+    DispatchError: {
+      module: 'Option<u8>',
+      error: 'u8'
+    },
     Event: 'GenericEvent',
     EventId: '[u8; 2]',
     EventIndex: 'u32',

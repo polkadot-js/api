@@ -20,7 +20,7 @@ import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetwor
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from './interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
 import { EraIndex, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from './interfaces/staking';
-import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
+import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
@@ -569,6 +569,9 @@ export interface InterfaceRegistry {
   DigestOf: DigestOf;
   'Option<DigestOf>': Option<DigestOf>;
   'Vec<DigestOf>': Vec<DigestOf>;
+  DispatchError: DispatchError;
+  'Option<DispatchError>': Option<DispatchError>;
+  'Vec<DispatchError>': Vec<DispatchError>;
   Event: Event;
   'Option<Event>': Option<Event>;
   'Vec<Event>': Vec<Event>;
