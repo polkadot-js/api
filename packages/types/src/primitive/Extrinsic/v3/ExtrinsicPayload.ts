@@ -94,6 +94,10 @@ export default class ExtrinsicPayloadV3 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
+    // NOTE The `toU8a(true)` argument is absolutely critical - we don't want the method (Bytes)
+    // to have the length prefix included. This means that the data-as-signed is un-decodable,
+    // but is also doesn't need the extra information, only the pure data (and is not decoded)
+    // ... The same applies to V1 & V1, if we have a V4, carry move this comment to latest
     return sign(signerPair, this.toU8a(true));
   }
 }
