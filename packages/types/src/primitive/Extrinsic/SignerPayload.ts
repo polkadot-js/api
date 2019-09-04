@@ -64,6 +64,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
    */
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
+    // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
     const data = u8aToHex(createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(true));
 
     return {
