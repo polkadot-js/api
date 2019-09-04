@@ -13,3 +13,4 @@ export { default as GenericExtrinsicV2 } from './v2/Extrinsic';
 export { default as GenericExtrinsicPayloadV2 } from './v2/ExtrinsicPayload';
 export { default as GenericExtrinsicV3 } from './v3/Extrinsic';
 export { default as GenericExtrinsicPayloadV3 } from './v3/ExtrinsicPayload';
+export { default as GenericSignerPayload } from './SignerPayload';

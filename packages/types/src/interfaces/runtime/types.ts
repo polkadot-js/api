@@ -3,7 +3,7 @@
 
 import { Codec } from '../../types';
 import { Compact, Struct } from '../../codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '../../primitive';
 
 /** GenericAccountId */
 export type AccountId = GenericAccountId;
@@ -158,6 +158,9 @@ export interface SignedBlock extends Struct {
   /** Justification */
   readonly justification: Justification;
 }
+
+/** GenericSignerPayload */
+export type SignerPayload = GenericSignerPayload;
 
 /** Signature */
 export type Sr25519Signature = Signature;

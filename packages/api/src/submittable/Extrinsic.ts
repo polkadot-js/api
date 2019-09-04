@@ -15,7 +15,6 @@ import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
-import SignerPayload from '../SignerPayload';
 import SubmittableResult from './Result';
 
 type Creator<ApiType> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
@@ -130,13 +129,13 @@ class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<Ap
     return [options, statusCb];
   }
 
-  private async _signViaSigner (address: string, eraOptions: SignatureOptions, header: Header | null): Promise<number> {
+  private async _signViaSigner (address: string, optionsWithEra: SignatureOptions, header: Header | null): Promise<number> {
     if (!this._api.signer) {
       throw new Error('no signer attached');
     }
 
-    const payload = new SignerPayload({
-      ...eraOptions,
+    const payload = createType('SignerPayload', {
+      ...optionsWithEra,
       address,
       method: this.method,
       blockNumber: header ? header.number : 0

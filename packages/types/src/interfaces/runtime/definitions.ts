@@ -52,6 +52,7 @@ export default {
       block: 'Block',
       justification: 'Justification'
     },
+    SignerPayload: 'GenericSignerPayload',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',
