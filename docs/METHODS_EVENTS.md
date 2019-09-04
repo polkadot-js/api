@@ -214,7 +214,7 @@ ___
 
 ### system
 
-▸ **ExtrinsicFailed**()
+▸ **ExtrinsicFailed**(`DispatchError`)
 - **summary**:   An extrinsic failed.
 
 ▸ **ExtrinsicSuccess**()
