@@ -4,7 +4,6 @@ module.exports = {
   ...base,
   parserOptions: {
     ...base.parserOptions,
-    extraFileExtensions: ['*.d.ts'],
     project: [
       './tsconfig.eslint.json'
     ]
