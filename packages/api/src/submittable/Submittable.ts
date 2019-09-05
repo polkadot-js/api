@@ -17,8 +17,6 @@ import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
 import SubmittableResult from './Result';
 
-type Creator<ApiType> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
-
 interface SubmittableOptions<ApiType> {
   api: ApiInterfaceRx;
   decorateMethod: ApiBase<ApiType>['decorateMethod'];
@@ -34,7 +32,7 @@ const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 const _Extrinsic: Constructor<Extrinsic> = ClassOf('Extrinsic');
 
-class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<ApiType> {
+export default class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<ApiType> {
   private readonly _api: ApiInterfaceRx;
 
   private readonly _decorateMethod: ApiBase<ApiType>['decorateMethod'];
@@ -253,9 +251,4 @@ class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<Ap
         })
       );
   }
-}
-
-export default function createSubmittableExtrinsic<ApiType> (type: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
-  return (extrinsic: Call | Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-    new Submittable(extrinsic, { api, decorateMethod, type });
 }
