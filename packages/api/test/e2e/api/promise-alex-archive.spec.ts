@@ -36,26 +36,24 @@ describeE2E({
   });
 
   // https://github.com/polkadot-js/api/issues/846
-  it('handles toJSON with no issues', async (done): Promise<() => void> => {
-    return (
-      api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock): void => {
-        const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic): boolean => {
-          try {
-            const json = extrinsic.method.toJSON();
+  it('handles toJSON with no issues', (done): Promise<() => void> => {
+    return api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock): void => {
+      const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic): boolean => {
+        try {
+          const json = extrinsic.method.toJSON();
 
-            console.error(json);
+          console.error(json);
 
-            return false;
-          } catch (error) {
-            console.log(extrinsic.method);
-            console.log(extrinsic.method.keys());
-            console.error(error);
-            return true;
-          }
-        });
-        expect(failed).toBeTruthy();
-        done();
-      })
-    );
+          return false;
+        } catch (error) {
+          console.log(extrinsic.method);
+          console.log(extrinsic.method.keys());
+          console.error(error);
+          return true;
+        }
+      });
+      expect(failed).toBeTruthy();
+      done();
+    });
   });
 });
