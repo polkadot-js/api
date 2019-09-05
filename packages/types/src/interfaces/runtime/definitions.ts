@@ -20,6 +20,14 @@ export default {
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
+    ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown',
+    ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
+    ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
+    ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
+    ExtrinsicUnknown: 'GenericExtrinsicUnknown',
+    ExtrinsicV1: 'GenericExtrinsicV1',
+    ExtrinsicV2: 'GenericExtrinsicV2',
+    ExtrinsicV3: 'GenericExtrinsicV3',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
@@ -44,6 +52,7 @@ export default {
       block: 'Block',
       justification: 'Justification'
     },
+    SignerPayload: 'GenericSignerPayload',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',

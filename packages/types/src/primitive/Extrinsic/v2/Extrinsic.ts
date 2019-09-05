@@ -25,14 +25,14 @@ export interface ExtrinsicValueV2 {
  * The second generation of compact extrinsics
  */
 export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV2 | Call, { isSigned }: ExtrinsicOptions = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV2 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super({
       signature: ExtrinsicSignatureV2,
       method: 'Call'
     }, ExtrinsicV2.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV2, isSigned: boolean = false): ExtrinsicValueV2 {
+  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV2, isSigned = false): ExtrinsicValueV2 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV2) {

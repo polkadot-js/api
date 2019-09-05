@@ -7,7 +7,7 @@ import { Global } from './../mock/types';
 declare const global: Global;
 
 describe('http/polyfill', (): void => {
-  let origFetch: GlobalFetch;
+  let origFetch: any;
 
   beforeEach((): void => {
     origFetch = global.fetch;

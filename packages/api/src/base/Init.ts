@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeVersion, SignedBlock } from '@polkadot/types/interfaces';
+import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
@@ -35,8 +35,8 @@ const TYPES_SUBSTRATE_1 = {
   ValidatorPrefs: 'ValidatorPrefs0to145'
 };
 
-// Type overrides for specific node types
-const SPEC_TYPES: Record<string, Record<string, string>> = {
+// Type overrides for specific spec types as given in  runtimeVersion
+const TYPES_SPEC: Record<string, Record<string, string>> = {
   kusama: TYPES_FOR_POLKADOT,
   polkadot: TYPES_FOR_POLKADOT
 };
@@ -46,8 +46,8 @@ const l = logger('api/decorator');
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes) {
-    super(options, type);
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
+    super(options, type, decorateMethod);
 
     assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
@@ -89,20 +89,30 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    [this._genesisHash, this._runtimeVersion] = await Promise.all([
+    const { typesChain = {}, typesSpec = {} } = this._options;
+    const [genesisHash, runtimeVersion, chain] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
-      this._rpcCore.chain.getRuntimeVersion().toPromise()
+      this._rpcCore.state.getRuntimeVersion().toPromise(),
+      this._rpcCore.system.chain().toPromise()
     ]);
+    const specName = runtimeVersion.specName.toString();
 
-    // based on the node, inject specific types
-    this.registerTypes(
-      SPEC_TYPES[this._runtimeVersion.specName.toString()]
-    );
+    // based on the node spec & chain, inject specific type overrides
+    this.registerTypes({
+      ...(TYPES_SPEC[specName] || {}),
+      ...(typesSpec[specName] || {}),
+      ...(typesChain[chain.toString()] || {})
+    });
 
-    const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+    // retrieve metadata, either from chain  or as pass-in via options
+    const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
+
+    // set our chain version & genesisHash as returned
+    this._genesisHash = genesisHash;
+    this._runtimeVersion = runtimeVersion;
 
     // get unique types & validate
     metadata.getUniqTypes(false);
@@ -111,8 +121,10 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord format for e.g. Alex, based on \metadata format
-    if (metadata.version <= 3) {
+    // HACK-ish Old EventRecord, BlockNumber & Indexes for e.g. Alex, based on metadata version
+    //   v3 = Alex
+    //   v4 = v1.0 branch
+    if (metadata.version <= 4) {
       this.registerTypes(TYPES_SUBSTRATE_1);
     }
 

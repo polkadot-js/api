@@ -6,10 +6,11 @@ import { StorageHasher } from '@polkadot/types/primitive';
 import { u8aConcat, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
 
-type HasherInput = string | Buffer | Uint8Array;
-type HasherCheck = 'isBlake2128' | 'isBlake2256' | 'isTwox128' | 'isTwox256' | 'isTwox64Concat';
+export type HasherInput = string | Buffer | Uint8Array;
 
 export type HasherFunction = (data: HasherInput) => Uint8Array;
+
+type HasherCheck = 'isBlake2128' | 'isBlake2256' | 'isTwox128' | 'isTwox256' | 'isTwox64Concat';
 
 const DEFAULT = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
 

@@ -3,6 +3,5 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 if (typeof WebSocket === 'undefined') {
-  // @ts-ignore
-  global.WebSocket = require('websocket').w3cwebsocket;
+  (global as any).WebSocket = require('websocket').w3cwebsocket;
 }

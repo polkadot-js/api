@@ -93,7 +93,7 @@ export default class CodecDate extends Date implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe: boolean = false): string {
+  public toHex (isLe = false): string {
     return bnToHex(this.toBn(), {
       bitLength: BITLENGTH,
       isLe,

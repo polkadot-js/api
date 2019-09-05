@@ -8,7 +8,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
-import { HeaderAndValidators } from './subscribeNewHead';
+import { HeaderAndValidators } from './subscribeNewHeads';
 
 /**
  * @name bestNumberFinalized
@@ -39,7 +39,7 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
         // where rpc.chain.getHeader throws, we will land here - it can happen that
         // we supplied an invalid hash. (Due to defaults, storeage will have an
         // empty value, so only the RPC is affected). So return undefined
-        of() as Observable<undefined>
+        of()
       ),
       drr()
     );

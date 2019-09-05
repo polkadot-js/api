@@ -15,7 +15,7 @@ import { createType, createTypeUnsafe } from '@polkadot/types/codec';
 
 import { SubmittableResult } from './';
 
-async function consts (api: ApiPromise): Promise<void> {
+function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
     api.consts.balances.creationFee.toHex(),
@@ -24,7 +24,7 @@ async function consts (api: ApiPromise): Promise<void> {
 }
 
 async function derive (api: ApiPromise): Promise<void> {
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+  await api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
 
@@ -49,7 +49,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
-  await api.rpc.chain.subscribeNewHead((header: Header): void => {
+  await api.rpc.chain.subscribeNewHeads((header: Header): void => {
     console.log('current header:', header);
   });
 
@@ -118,4 +118,5 @@ async function main (): Promise<void> {
   tx(api, keyring);
 }
 
+// eslint-disable-next-line @typescript-eslint/unbound-method
 main().catch(console.error);

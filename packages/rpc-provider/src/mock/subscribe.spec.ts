@@ -21,7 +21,7 @@ describe('subscribe', (): void => {
 
   it('returns a subscription id', (): Promise<void> => {
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => void 0)
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})
       .then((id): void => {
         expect(id).toEqual(1);
       });
@@ -29,7 +29,7 @@ describe('subscribe', (): void => {
 
   it('calls back with the last known value', (done): Promise<number> => {
     mock.isUpdating = false;
-    mock.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
+    mock.subscriptions.chain_subscribeNewHead.lastValue = 'testValue';
 
     return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
       expect(value).toEqual('testValue');

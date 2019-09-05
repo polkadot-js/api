@@ -59,6 +59,9 @@ ___
 
 ### balances
 
+▸ **forceTransfer**(source: `Address`, dest: `Address`, value: `Compact<Balance>`)
+- **summary**:   Exactly as `transfer`, except the origin must be root and the source account may be  specified.
+
 ▸ **setBalance**(who: `Address`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
 - **summary**:   Set the balances of a given account.   This will alter `FreeBalance` and `ReservedBalance` in storage. it will  also decrease the total issuance of the system (`TotalIssuance`).  If the new free or reserved balance is below the existential deposit,  it will reset the account nonce (`system::AccountNonce`).   The dispatch origin for this call is `root`.   # <weight>  - Independent of the arguments.  - Contains a limited number of reads and writes.  # </weight>
 
@@ -214,7 +217,7 @@ ___
 
 ### imOnline
 
-▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `AuthoritySignature`)
+▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `Signature`)
 
 ___
 
@@ -230,7 +233,7 @@ ___
 ### staking
 
 ▸ **bond**(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
-- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will  be the account that controls it.   `value` must be more than the `existential_deposit` defined in the Balances module.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.  # </weight>
+- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will  be the account that controls it.   `value` must be more than the `minimum_balance` specified by `T::Currency`.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.  # </weight>
 
 ▸ **bondExtra**(max_additional: `Compact<BalanceOf>`)
 - **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up  for staking.   Use this if there are additional funds in your stash account that you wish to bond.  Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount  that can be added.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - O(1).  - One DB entry.  # </weight>
@@ -260,7 +263,7 @@ ___
 - **summary**:   The ideal number of validators.
 
 ▸ **unbond**(value: `Compact<BalanceOf>`)
-- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than  T::Currency::existential_deposit(), then it is increased to the full amount.   Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.   No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)  can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need  to be called first to remove some of the chunks (if possible).   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::withdraw_unbonded`].   # <weight>  - Independent of the arguments. Limited but potentially exploitable complexity.  - Contains a limited number of reads.  - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)    will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.    The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`.  - One DB entry.  </weight>
+- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than  T::Currency::minimum_balance(), then it is increased to the full amount.   Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.   No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)  can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need  to be called first to remove some of the chunks (if possible).   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::withdraw_unbonded`].   # <weight>  - Independent of the arguments. Limited but potentially exploitable complexity.  - Contains a limited number of reads.  - Each call (requires the remainder of the bonded balance to be above `minimum_balance`)    will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage.    The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`.  - One DB entry.  </weight>
 
 ▸ **validate**(prefs: `ValidatorPrefs`)
 - **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>

@@ -60,7 +60,7 @@ Retrieving best header via subscription -
 ```js
 api.chain
 rpc
-  .subscribeNewHead()
+  .subscribeNewHeads()
   .subscribe(
     (header) => {
       console.log(`best #${header.blockNumber}`);

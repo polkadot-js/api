@@ -83,8 +83,8 @@ const getMetadata: RpcMethodOpt = {
   params: [
     createParam('block', 'Hash', { isOptional: true })
   ],
-  // @ts-ignore This is not part of InterfaceTypes
-  type: 'Metadata'
+  // This is not part of InterfaceTypes
+  type: 'Metadata' as any
 };
 
 const getRuntimeVersion: RpcMethodOpt = {
@@ -103,6 +103,17 @@ const queryStorage: RpcMethodOpt = {
     createParam('block', 'Hash', { isOptional: true })
   ],
   type: 'Vec<StorageChangeSet>'
+};
+
+const subscribeRuntimeVersion: RpcMethodOpt = {
+  description: 'Retrieves the runtime version via subscription',
+  params: [],
+  pubsub: [
+    'runtimeVersion',
+    'subscribeRuntimeVersion',
+    'unsubscribeRuntimeVersion'
+  ],
+  type: 'RuntimeVersion'
 };
 
 const subscribeStorage: RpcMethodOpt = {
@@ -141,6 +152,7 @@ export default {
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
+    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
 };

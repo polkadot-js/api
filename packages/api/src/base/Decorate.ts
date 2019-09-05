@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethodOptions, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { SubmittableExtrinsic } from '../submittable/types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -21,7 +22,7 @@ import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/pr
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { compactStripLength, u8aToHex } from '@polkadot/util';
 
-import createSubmittable, { SubmittableExtrinsic } from '../SubmittableExtrinsic';
+import { createSubmittable } from '../submittable';
 import { decorateSections } from '../util/decorate';
 import Events from './Events';
 
@@ -49,7 +50,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _isConnected: BehaviorSubject<boolean>;
 
-  protected _isReady: boolean = false;
+  protected _isReady = false;
 
   protected readonly _options: ApiOptions;
 
@@ -70,37 +71,6 @@ export default abstract class Decorate<ApiType> extends Events {
   protected _type: ApiTypes;
 
   /**
-   * @description Create an instance of the class
-   *
-   * @param options Options object to create API instance or a Provider instance
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import Api from '@polkadot/api/promise';
-   *
-   * const api = new Api().isReady();
-   *
-   * api.rpc.subscribeNewHead((header) => {
-   *   console.log(`new block #${header.number.toNumber()}`);
-   * });
-   * ```
-   */
-  public constructor (options: ApiOptions, type: ApiTypes) {
-    super();
-
-    const thisProvider = options.source
-      ? options.source._rpcCore.provider.clone()
-      : (options.provider || new WsProvider());
-
-    this._options = options;
-    this._type = type;
-    this._rpcCore = new RpcCore(thisProvider);
-    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
-  }
-
-  /**
    * This is the one and only method concrete children classes need to implement.
    * It's a higher-order function, which takes one argument
    * `method: Method extends (...args: any[]) => Observable<any>`
@@ -116,7 +86,39 @@ export default abstract class Decorate<ApiType> extends Events {
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
    * via `deocrateMethod`.
    */
-  protected abstract decorateMethod(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions): any;
+  protected decorateMethod: DecorateMethod;
+
+  /**
+   * @description Create an instance of the class
+   *
+   * @param options Options object to create API instance or a Provider instance
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import Api from '@polkadot/api/promise';
+   *
+   * const api = new Api().isReady();
+   *
+   * api.rpc.subscribeNewHeads((header) => {
+   *   console.log(`new block #${header.number.toNumber()}`);
+   * });
+   * ```
+   */
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
+    super();
+
+    const thisProvider = options.source
+      ? options.source._rpcCore.provider.clone()
+      : (options.provider || new WsProvider());
+
+    this.decorateMethod = decorateMethod;
+    this._options = options;
+    this._type = type;
+    this._rpcCore = new RpcCore(thisProvider);
+    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
+  }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
@@ -135,10 +137,9 @@ export default abstract class Decorate<ApiType> extends Events {
     return ['author', 'chain', 'state', 'system'].reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      // @ts-ignore Hard to type these correctly, I don't understand the TS errors
-      out[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        // @ts-ignore
-        section[methodName] = decorateMethod(method, { methodName });
+      // out and section here are horrors to get right from a typing perspective :()
+      (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
+        (section as any)[methodName] = decorateMethod(method, { methodName });
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
@@ -158,12 +159,11 @@ export default abstract class Decorate<ApiType> extends Events {
   }
 
   protected decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: Decorate<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
-    const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-      createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, value);
+    const creator = createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod);
 
     return Object.entries(extrinsics).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
-        out[name] = this.decorateExtrinsicEntry(method, decorateMethod);
+        out[name] = this.decorateExtrinsicEntry(method, creator);
 
         return out;
       }, {} as unknown as SubmittableModuleExtrinsics<ApiType>);
@@ -172,9 +172,9 @@ export default abstract class Decorate<ApiType> extends Events {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: CallFunction, decorateMethod: Decorate<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
-      createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod, method(...params));
+      creator(method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
@@ -310,7 +310,7 @@ export default abstract class Decorate<ApiType> extends Events {
    * Put the `this.onCall` function of ApiRx here, because it is needed by
    * `api._rx`.
    */
-  protected rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
+  protected rxDecorateMethod = <Method extends AnyFunction> (method: Method): Method => {
     return method;
   }
 }

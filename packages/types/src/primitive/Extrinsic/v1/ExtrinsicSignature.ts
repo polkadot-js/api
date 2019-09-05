@@ -32,7 +32,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV1.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV1 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV1 | Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV1 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV1 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof ExtrinsicSignatureV1) {

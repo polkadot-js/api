@@ -143,7 +143,7 @@ ___
 
 ### grandpa
 
-▸ **NewAuthorities**(`Vec<(AuthorityId,u64)>`)
+▸ **NewAuthorities**(`Vec<(AuthorityId,AuthorityWeight)>`)
 - **summary**:   New authority set has been applied.
 
 ▸ **Paused**()
@@ -214,7 +214,7 @@ ___
 
 ### system
 
-▸ **ExtrinsicFailed**()
+▸ **ExtrinsicFailed**(`DispatchError`)
 - **summary**:   An extrinsic failed.
 
 ▸ **ExtrinsicSuccess**()

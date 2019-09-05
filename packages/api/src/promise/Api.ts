@@ -58,6 +58,37 @@ function promiseTracker (resolve: (value: () => void) => void, reject: (value: E
 }
 
 /**
+ * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
+ */
+function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+  const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
+
+  return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
+    const [actualArgs, callback] = extractArgs(args, !!needsCallback);
+
+    if (!callback) {
+      return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
+    }
+
+    return new Promise((resolve, reject): void => {
+      const tracker = promiseTracker(resolve, reject);
+      const subscription = method(...actualArgs)
+        .pipe(
+          // if we find an error (invalid params, etc), reject the promise
+          catchError((error): Observable<never> =>
+            tracker.reject(error)
+          ),
+          // upon the first result, resolve the with the unsub function
+          tap((): void =>
+            tracker.resolve((): void => subscription.unsubscribe())
+          )
+        )
+        .subscribe(callback);
+    }) as any; // ???
+  } as StorageEntryPromiseOverloads;
+}
+
+/**
  * # @polkadot/api/promise
  *
  * ## Overview
@@ -82,7 +113,7 @@ function promiseTracker (resolve: (value: () => void) => void, reject: (value: E
  * const api = await ApiPromise.create();
  *
  * // make a subscription to the network head
- * api.rpc.chain.subscribeNewHead((header) => {
+ * api.rpc.chain.subscribeNewHeads((header) => {
  *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
@@ -176,14 +207,14 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * import Api from '@polkadot/api/promise';
    *
    * new Api().isReady.then((api) => {
-   *   api.rpc.subscribeNewHead((header) => {
+   *   api.rpc.subscribeNewHeads((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * });
    * ```
    */
   public constructor (options?: ApiOptions) {
-    super(options, 'promise');
+    super(options, 'promise', decorateMethod);
 
     this._isReadyPromise = new Promise((resolve): void => {
       super.once('ready', (): void => {
@@ -221,7 +252,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    *
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
-   *   api.rpc.chain.subscribeNewHead,
+   *   api.rpc.chain.subscribeNewHeads,
    *   [api.query.balances.freeBalance, address],
    *   (cb) => api.query.system.accountNonce(address, cb)
    * ], ([head, balance, nonce]) => {
@@ -229,42 +260,12 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async combineLatest (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
       combinator.unsubscribe();
     };
-  }
-
-  /**
-   * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
-   */
-  protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
-    const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
-
-    return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
-      const [actualArgs, callback] = extractArgs(args, !!needsCallback);
-
-      if (!callback) {
-        return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
-      }
-
-      return new Promise((resolve, reject): void => {
-        const tracker = promiseTracker(resolve, reject);
-        const subscription = method(...actualArgs)
-          .pipe(
-            // if we find an error (invalid params, etc), reject the promise
-            catchError((error): Observable<never> =>
-              tracker.reject(error)
-            ),
-            // upon the first result, resolve the with the unsub function
-            tap((): void =>
-              tracker.resolve((): void => subscription.unsubscribe())
-            )
-          )
-          .subscribe(callback);
-      }) as UnsubscribePromise;
-    } as StorageEntryPromiseOverloads;
   }
 }

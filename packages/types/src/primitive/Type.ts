@@ -52,6 +52,8 @@ export default class Type extends Text {
     Type._alias('session::SessionIndex', 'SessionIndex'),
     // HACK duplication between contracts & primitives, however contracts prefixed with exec
     Type._alias('exec::StorageKey', 'ContractStorageKey'),
+    // Phantom
+    Type._alias('rstd::marker::PhantomData', 'PhantomData'),
     // flattens tuples with one value, `(AccountId)` -> `AccountId`
     Type._flattenSingleTuple(),
     // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
@@ -87,18 +89,6 @@ export default class Type extends Text {
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
     // only the decoding leg, allowing the decoders to work with original pointers
     return this._originalLength;
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
-    // Note Since we are mangling what we get in beyond recognition, we really should
-    // not allow the re-encoding. Additionally, this is probably more of a decoder-only
-    // helper, so treat it as such.
-    throw new Error('Type::toU8a: unimplemented');
   }
 
   // given a starting index, find the closing >

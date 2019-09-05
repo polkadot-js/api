@@ -22,17 +22,17 @@ export interface ExtrinsicValueV3 {
 /**
  * @name ExtrinsicV3
  * @description
- * The second generation of compact extrinsics
+ * The third generation of compact extrinsics
  */
 export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: ExtrinsicOptions = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super({
       signature: ExtrinsicSignatureV3,
       method: 'Call'
     }, ExtrinsicV3.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV3, isSigned: boolean = false): ExtrinsicValueV3 {
+  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV3, isSigned = false): ExtrinsicValueV3 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV3) {

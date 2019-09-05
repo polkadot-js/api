@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, Header, Index, SignedBlock } from '@polkadot/types/interfaces';
+import { EventRecord, Header, Index } from '@polkadot/types/interfaces';
 import { createType } from '@polkadot/types';
 
 import { SubmittableResult } from '../../../src';
@@ -50,7 +50,7 @@ describeE2E({
 
   describe('eras', (): void => {
     it('makes a transfer (specified era)', async (done): Promise<void> => {
-      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
@@ -62,7 +62,7 @@ describeE2E({
     });
 
     it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
-      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number.toBn().subn(1);
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
@@ -75,14 +75,14 @@ describeE2E({
 
     it('fails on a transfer with invalid time', async (done): Promise<void> => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
-      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-      await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
+      await api.rpc.chain.subscribeNewHeads(async (header: Header): Promise<void> => {
         if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
@@ -104,14 +104,14 @@ describeE2E({
       api.setSigner(signer);
 
       const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
-      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12121);
 
-      await api.rpc.chain.subscribeNewHead(async (header: Header): Promise<void> => {
+      await api.rpc.chain.subscribeNewHeads(async (header: Header): Promise<void> => {
         if (header.number.toNumber() === eraDeath - 1) {
           try {
             await ex.signAndSend(keyring.alice.address, { blockHash, era: exERA, nonce } as any);

@@ -73,7 +73,7 @@ describeE2E({
         }
 
         expect(info.accountId.eq(accountId)).toBe(true);
-        expect(info.controllerId!.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
+        expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
         expect(info.stashId.eq(accountId)).toBe(true);
         expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
 
@@ -142,17 +142,19 @@ describeE2E({
         let count = 0; // The # of times we got a callback response from api.derive.staking.info
 
         // Subscribe to staking.info
-        api.derive.staking.info(stashId, (result): void => {
-          ++count;
+        api.derive.staking
+          .info(stashId, (result): void => {
+            ++count;
 
-          console.error('***', count, JSON.stringify(result));
+            console.error('***', count, JSON.stringify(result));
 
-          if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
-            done();
-          }
-        }).catch(console.error);
+            if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
+              done();
+            }
+          });
 
         // Wait a bit, and change reward destination
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         setTimeout(async (): Promise<void> => {
           await api.tx.staking
             .setPayee('Stash')

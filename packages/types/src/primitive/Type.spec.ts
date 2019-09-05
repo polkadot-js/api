@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { stringToU8a, u8aConcat } from '@polkadot/util';
+
 import Text from './Text';
 import Type from './Type';
 
@@ -66,12 +68,6 @@ describe('Type', (): void => {
     ).toEqual('Null');
   });
 
-  it('does not allow toU8a', (): void => {
-    expect(
-      (): Uint8Array => new Type().toU8a()
-    ).toThrow(/unimplemented/);
-  });
-
   it('has a length for the type', (): void => {
     expect(
       new Type(
@@ -90,5 +86,16 @@ describe('Type', (): void => {
     expect(
       new Type('<T::InherentOfflineReport as InherentOfflineReport>::Inherent').toString()
     ).toEqual('InherentOfflineReport');
+  });
+
+  it('encodes correctly via toU8a()', (): void => {
+    const type = 'Compact<Balance>';
+
+    expect(new Text(type).toU8a()).toEqual(
+      u8aConcat(
+        new Uint8Array([type.length << 2]),
+        stringToU8a(type)
+      )
+    );
   });
 });

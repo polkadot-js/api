@@ -8,8 +8,7 @@ import { ContractABI, ContractABIFn, InterfaceContract, InterfaceContractCalls }
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
-import { ApiRx } from '@polkadot/api';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { ApiRx, SubmittableResult } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import Abi from './Abi';
 import RxBase from './RxBase';

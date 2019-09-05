@@ -18,6 +18,7 @@ export default {
       /// Number of blocks after which the change will be enacted.
       delay: 'BlockNumber'
     },
+    SetId: 'u64',
     StoredPendingChange: {
       scheduledAt: 'BlockNumber',
       delay: 'BlockNumber',

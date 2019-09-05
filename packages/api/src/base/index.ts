@@ -4,9 +4,8 @@
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { CallFunction, RegistryTypes } from '@polkadot/types/types';
-
-import { ApiOptions, ApiTypes, DecoratedRpc, QueryableStorage, QueryableStorageMulti, SignerPayloadRawBase, SubmittableExtrinsics, Signer } from '../types';
+import { CallFunction, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
@@ -28,7 +27,7 @@ try {
 }
 
 function assertResult <T> (value: T | undefined): T {
-  assert(!isUndefined(value), `Api needs to be initialised before using, listen on 'ready'`);
+  assert(!isUndefined(value), 'Api needs to be initialised before using, listen on \'ready\'');
 
   return value as T;
 }
@@ -47,13 +46,13 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    *
    * const api = new Api().isReady();
    *
-   * api.rpc.subscribeNewHead((header) => {
+   * api.rpc.subscribeNewHeads((header) => {
    *   console.log(`new block #${header.number.toNumber()}`);
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes) {
-    super(options, type);
+  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod) {
+    super(options, type, decorateMethod);
   }
 
   /**
@@ -169,7 +168,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.rpc.chain.subscribeNewHead((header) => {
+   * api.rpc.chain.subscribeNewHeads((header) => {
    *   console.log('new header', header);
    * });
    * ```

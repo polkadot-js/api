@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '@polkadot/types/interfaces';
-import { Constructor } from '@polkadot/types/types';
-import { SignerPayload, SignerPayloadRaw } from './types';
+import { u8aToHex } from '@polkadot/util';
+import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../../interfaces';
+import Compact from '../../codec/Compact';
+import Struct from '../../codec/Struct';
+import { createType } from '../../codec';
+import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../../types';
+import u8 from '../U8';
 
-import { createType, Compact, Struct, u8 } from '@polkadot/types';
-
-export interface SignerPayloadType {
+export interface SignerPayloadType extends Codec {
   address: Address;
   blockHash: Hash;
   blockNumber: BlockNumber;
@@ -22,7 +24,7 @@ export interface SignerPayloadType {
 }
 
 // We explicitly cast the type here to get the actual TypeScript exports right
-// @ts-ignore We can ignore the properties, added via Struct.with
+// We can ignore the properties, added via Struct.with
 const _Payload: Constructor<SignerPayloadType> = Struct.with({
   address: 'Address',
   blockHash: 'Hash',
@@ -33,14 +35,14 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
   tip: 'Compact<Balance>',
-  version: u8
-});
+  version: 'u8'
+}) as any;
 
-export default class Payload extends _Payload {
+export default class SignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
-  public toPayload (): SignerPayload {
+  public toPayload (): SignerPayloadJSON {
     const { address, blockHash, blockNumber, era, genesisHash, method, nonce, runtimeVersion: { specVersion }, tip, version } = this;
 
     return {
@@ -62,7 +64,8 @@ export default class Payload extends _Payload {
    */
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
-    const data = createType('ExtrinsicPayload', payload, { version: payload.version }).toHex();
+    // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
+    const data = u8aToHex(createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(true));
 
     return {
       address: payload.address,

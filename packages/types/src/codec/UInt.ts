@@ -22,7 +22,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 export default class UInt extends AbstractInt {
   public constructor (
     value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = false) {
+    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false) {
     super(
       false,
       value,
@@ -34,7 +34,7 @@ export default class UInt extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe: boolean = false): string {
+  public toHex (isLe = false): string {
     // For display/JSON, this is BE, for compare, use isLe
     return bnToHex(this, {
       bitLength: this._bitLength,

@@ -74,17 +74,17 @@ function isCompactEncodable (Child: Constructor<any>): boolean {
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
-function exportInterface (name: string = '', base: string, body: string = ''): string {
+function exportInterface (name = '', base: string, body = ''): string {
   return `/** ${base} */\nexport interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
 
 // helper to create an `export <Name> = <Base>`
-function exportType (name: string = '', base: string): string {
+function exportType (name = '', base: string): string {
   return `/** ${base} */\nexport type ${name} = ${base};`;
 }
 
 // helper to generate a `readonly <Name>: <Type>;` getter
-function createGetter (name: string = '', type: string, imports: TypeImports, doc?: string): string {
+function createGetter (name = '', type: string, imports: TypeImports, doc?: string): string {
   setImports(imports, [type]);
   return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
 }
@@ -265,7 +265,7 @@ function createImportCode (header: string, checks: { file: string; types: string
 }
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent: number = 2): string {
+function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports, indent = 2): string {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
 
@@ -361,7 +361,7 @@ function generateTsDef (defName: string, { types }: { types: Record<string, any>
   });
 
   fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
@@ -411,7 +411,7 @@ function generateInterfaceRegistry (): void {
   const interfaceEnd = '\n}';
 
   fs.writeFileSync(
-    `packages/types/src/interfaceRegistry.ts`,
+    'packages/types/src/interfaceRegistry.ts',
     header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
@@ -438,8 +438,8 @@ function getSimilarTypes (imports: Imports, type: string): string[] {
     return ['any'];
   }
 
-  // @ts-ignore Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt, ClassOfUnsafe(type))) {
+  // Cannot get isChildClass of abstract class, but it works
+  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'number', 'string');
   } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
     possibleTypes.push('Uint8Array', 'string');
@@ -465,14 +465,16 @@ function generateRpcTypes (): void {
 
   const imports = createImports({ types: allImportedTypes });
 
-  const body = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
-    const allMethods = Object.values(interfaces[section].methods).map((method): string => {
+  const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
+    const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
+      const method = interfaces[section].methods[key];
+
       // FIXME These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
         setImports(imports, ['Codec']);
-        return `    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;`;
+        return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
       } else if (method.method === 'subscribeStorage') {
-        return `    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;`;
+        return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
       }
 
       const args = method.params.map((param): string => {
@@ -489,7 +491,7 @@ function generateRpcTypes (): void {
       [
         `  ${section}: {`,
         ...allMethods,
-        `  };`
+        '  };'
       ].join('\n')
     );
   }, []).join('\n');
@@ -520,7 +522,7 @@ function generateRpcTypes (): void {
   const interfaceEnd = '\n}';
 
   fs.writeFileSync(
-    `packages/rpc-core/src/jsonrpc.types.ts`,
+    'packages/rpc-core/src/jsonrpc.types.ts',
     header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
@@ -533,16 +535,16 @@ function main (): void {
     generateTsDef(defName, obj);
   });
 
-  console.log(`Writing interfaces/types.ts`);
+  console.log('Writing interfaces/types.ts');
 
-  fs.writeFileSync(`packages/types/src/interfaces/types.ts`, HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(`packages/types/src/interfaces/index.ts`, HEADER.concat(`export * from './types';`).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync('packages/types/src/interfaces/types.ts', HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync('packages/types/src/interfaces/index.ts', HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 
-  console.log(`Writing interfaceRegistry.ts`);
+  console.log('Writing interfaceRegistry.ts');
 
   generateInterfaceRegistry();
 
-  console.log(`Writing packages/rpc-core/jsonrpc.types.ts`);
+  console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
   generateRpcTypes();
 }

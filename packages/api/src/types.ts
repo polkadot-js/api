@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, CallFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
+import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -15,7 +16,8 @@ import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './base';
-import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
+
+export * from './submittable/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
@@ -47,6 +49,8 @@ export type UnsubscribePromise = Promise<() => void>;
 export interface DecorateMethodOptions {
   methodName?: string;
 }
+
+export type DecorateMethod = (method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions) => any;
 
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
@@ -184,6 +188,14 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
+  /**
+   * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
+   */
+  typesChain?: Record<string, RegistryTypes>;
+  /**
+   * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
+   */
+  typesSpec?: Record<string, RegistryTypes>;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
@@ -210,82 +222,6 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
-export interface SignerPayload {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The checkpoint hash of the block, in hex
-   */
-  blockHash: string;
-
-  /**
-   * @description The checkpoint block number, in hex
-   */
-  blockNumber: string;
-
-  /**
-   * @description The era for this transaction, in hex
-   */
-  era: string;
-
-  /**
-   * @description The genesis hash of the chain, in hex
-   */
-  genesisHash: string;
-
-  /**
-   * @description The encoded method (with arguments) in hex
-   */
-  method: string;
-
-  /**
-   * @description The nonce for this transaction, in hex
-   */
-  nonce: string;
-
-  /**
-   * @description The current spec version for  the runtime
-   */
-  specVersion: string;
-
-  /**
-   * @description The tip for this transaction, in hex
-   */
-  tip: string;
-
-  /**
-   * @description The version of the extrinsic we are dealing with
-   */
-  version: number;
-}
-
-export interface SignerPayloadRawBase {
-  /**
-   * @description The hex-encoded data for this request
-   */
-  data: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type?: 'bytes' | 'payload';
-}
-
-export interface SignerPayloadRaw extends SignerPayloadRawBase {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type: 'bytes' | 'payload';
-}
-
 export interface SignerResult {
   /**
    * @description The id for this request
@@ -300,15 +236,9 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @deprecated Implement and use signPayload and/or signRaw instead
-   * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
-   */
-  sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
-
-  /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
+  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
 
   /**
    * @description signs a raw payload, only the bytes data as supplied
@@ -318,5 +248,5 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: Hash | ISubmittableResult) => void;
+  update?: (id: number, status: Hash | SubmittableResultImpl) => void;
 }

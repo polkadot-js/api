@@ -2,12 +2,20 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, GenericEvent, u32 } from '../../primitive';
+import { Enum, Option, Struct, Vec } from '../../codec';
+import { Bytes, GenericEvent, u32, u8 } from '../../primitive';
 import { Digest, Hash } from '../runtime';
 
 /** Digest */
 export type DigestOf = Digest;
+
+/** Struct */
+export interface DispatchError extends Struct {
+  /** Option<u8> */
+  readonly module: Option<u8>;
+  /** u8 */
+  readonly error: u8;
+}
 
 /** GenericEvent */
 export type Event = GenericEvent;

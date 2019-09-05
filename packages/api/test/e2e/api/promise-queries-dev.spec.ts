@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Header, Index } from '@polkadot/types/interfaces';
+import { Balance, Index } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
@@ -40,7 +40,7 @@ describeE2E({
   });
 
   it('allows retrieval of fallback when at query is made', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
+    const header = await api.rpc.chain.getHeader();
     const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
 
     expect(nonce.toHex()).toEqual('0x0000000000000000');
@@ -131,7 +131,7 @@ describeE2E({
     it('queries correct value at a specified block', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
-      const header = await api.rpc.chain.getHeader() as Header;
+      const header = await api.rpc.chain.getHeader();
       const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address) as Balance;
 
       expect(balanceAt.isZero()).toBe(false);

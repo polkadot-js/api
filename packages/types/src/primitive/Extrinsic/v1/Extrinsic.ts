@@ -25,14 +25,14 @@ const TRANSACTION_VERSION = 1;
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
-  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: ExtrinsicOptions = {}) {
+  public constructor (value?: Uint8Array | ExtrinsicValueV1, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super({
       signature: ExtrinsicSignatureV1,
       method: 'Call'
     }, ExtrinsicV1.decodeExtrinsic(value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned: boolean = false): ExtrinsicValueV1 {
+  public static decodeExtrinsic (value?: Uint8Array | ExtrinsicValueV1, isSigned = false): ExtrinsicValueV1 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV1) {
