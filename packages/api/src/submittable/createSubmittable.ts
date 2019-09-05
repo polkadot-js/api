@@ -19,7 +19,7 @@ export default function createSubmittable<ApiType> (type: ApiTypes, api: ApiInte
     // HACK This is not great, but basically what we do here is to lazily only require the class
     // right at the point it is actually needed - delaying initialization
     if (!Submittable) {
-      Submittable = require('./Submittable');
+      Submittable = require('./Submittable').default;
     }
 
     return new Submittable(extrinsic, { api, decorateMethod, type });
