@@ -52,54 +52,26 @@
     ],
     "types": [
       {
-        "id": "u128",
-        "def": "builtin"
-      },
-      {
-        "id": "u8",
-        "def": "builtin"
-      },
-      {
         "id": {
-          "array.len": 32,
-          "array.type": 7
-        },
-        "def": "builtin"
-      },
-      {
-        "id": {
-          "custom.name": 11,
+          "custom.name": 1,
           "custom.namespace": [
-            5,
-            6,
-            12
+            2
           ],
           "custom.params": []
         },
         "def": {
-          "tuple_struct.types": [
-            6
-          ]
-        }
-      },
-      {
-        "id": {
-          "custom.name": 9,
-          "custom.namespace": [
-            5,
-            6,
-            8,
-            10
-          ],
-          "custom.params": [
-            3
-          ]
-        },
-        "def": {
           "struct.fields": [
             {
-              "name": 8,
-              "type": 5
+              "name": 3,
+              "type": 2
+            },
+            {
+              "name": 13,
+              "type": 8
+            },
+            {
+              "name": 33,
+              "type": 16
             }
           ]
         }
@@ -126,6 +98,87 @@
         }
       },
       {
+        "id": "u128",
+        "def": "builtin"
+      },
+      {
+        "id": {
+          "custom.name": 9,
+          "custom.namespace": [
+            5,
+            6,
+            8,
+            10
+          ],
+          "custom.params": [
+            3
+          ]
+        },
+        "def": {
+          "struct.fields": [
+            {
+              "name": 8,
+              "type": 5
+            }
+          ]
+        }
+      },
+      {
+        "id": {
+          "custom.name": 11,
+          "custom.namespace": [
+            5,
+            6,
+            12
+          ],
+          "custom.params": []
+        },
+        "def": {
+          "tuple_struct.types": [
+            6
+          ]
+        }
+      },
+      {
+        "id": {
+          "array.len": 32,
+          "array.type": 7
+        },
+        "def": "builtin"
+      },
+      {
+        "id": "u8",
+        "def": "builtin"
+      },
+      {
+        "id": {
+          "custom.name": 14,
+          "custom.namespace": [
+            5,
+            6,
+            15,
+            16,
+            17
+          ],
+          "custom.params": [
+            9,
+            3
+          ]
+        },
+        "def": {
+          "struct.fields": [
+            {
+              "name": 22,
+              "type": 10
+            },
+            {
+              "name": 23,
+              "type": 13
+            }
+          ]
+        }
+      },
+      {
         "id": {
           "custom.name": 18,
           "custom.namespace": [
@@ -139,6 +192,27 @@
         "def": {
           "tuple_struct.types": [
             6
+          ]
+        }
+      },
+      {
+        "id": {
+          "custom.name": 4,
+          "custom.namespace": [
+            5,
+            6,
+            7
+          ],
+          "custom.params": [
+            11
+          ]
+        },
+        "def": {
+          "struct.fields": [
+            {
+              "name": 8,
+              "type": 12
+            }
           ]
         }
       },
@@ -170,21 +244,52 @@
       },
       {
         "id": {
-          "custom.name": 4,
+          "custom.name": 24,
           "custom.namespace": [
             5,
             6,
-            7
+            25,
+            26,
+            25
           ],
           "custom.params": [
-            11
+            14
           ]
         },
         "def": {
           "struct.fields": [
             {
-              "name": 8,
-              "type": 12
+              "name": 32,
+              "type": 5
+            }
+          ]
+        }
+      },
+      {
+        "id": {
+          "custom.name": 27,
+          "custom.namespace": [
+            5,
+            6,
+            15,
+            16,
+            17
+          ],
+          "custom.params": [
+            9,
+            3
+          ]
+        },
+        "def": {
+          "enum.variants": [
+            {
+              "tuple_struct_variant.name": 28,
+              "tuple_struct_variant.types": [
+                15
+              ]
+            },
+            {
+              "unit_variant.name": 31
             }
           ]
         }
@@ -219,7 +324,7 @@
       },
       {
         "id": {
-          "custom.name": 27,
+          "custom.name": 14,
           "custom.namespace": [
             5,
             6,
@@ -228,19 +333,29 @@
             17
           ],
           "custom.params": [
-            9,
+            17,
             3
           ]
         },
-        "def": [
-          {
-            "tuple_struct_variant.name": 28,
-            "tuple_struct.types": [
-              15
-            ]
-          },
-          31
-        ]
+        "def": {
+          "struct.fields": [
+            {
+              "name": 22,
+              "type": 10
+            },
+            {
+              "name": 23,
+              "type": 18
+            }
+          ]
+        }
+      },
+      {
+        "id": [
+          9,
+          9
+        ],
+        "def": "builtin"
       },
       {
         "id": {
@@ -253,7 +368,7 @@
             25
           ],
           "custom.params": [
-            14
+            19
           ]
         },
         "def": {
@@ -267,7 +382,7 @@
       },
       {
         "id": {
-          "custom.name": 14,
+          "custom.name": 27,
           "custom.namespace": [
             5,
             6,
@@ -276,29 +391,23 @@
             17
           ],
           "custom.params": [
-            9,
+            17,
             3
           ]
         },
         "def": {
-          "struct.fields": [
+          "enum.variants": [
             {
-              "name": 22,
-              "type": 10
+              "tuple_struct_variant.name": 28,
+              "tuple_struct_variant.types": [
+                20
+              ]
             },
             {
-              "name": 23,
-              "type": 13
+              "unit_variant.name": 31
             }
           ]
         }
-      },
-      {
-        "id": [
-          9,
-          9
-        ],
-        "def": "builtin"
       },
       {
         "id": {
@@ -329,107 +438,6 @@
         }
       },
       {
-        "id": {
-          "custom.name": 27,
-          "custom.namespace": [
-            5,
-            6,
-            15,
-            16,
-            17
-          ],
-          "custom.params": [
-            17,
-            3
-          ]
-        },
-        "def": [
-          {
-            "tuple_struct_variant.name": 28,
-            "tuple_struct.types": [
-              20
-            ]
-          },
-          31
-        ]
-      },
-      {
-        "id": {
-          "custom.name": 24,
-          "custom.namespace": [
-            5,
-            6,
-            25,
-            26,
-            25
-          ],
-          "custom.params": [
-            19
-          ]
-        },
-        "def": {
-          "struct.fields": [
-            {
-              "name": 32,
-              "type": 5
-            }
-          ]
-        }
-      },
-      {
-        "id": {
-          "custom.name": 14,
-          "custom.namespace": [
-            5,
-            6,
-            15,
-            16,
-            17
-          ],
-          "custom.params": [
-            17,
-            3
-          ]
-        },
-        "def": {
-          "struct.fields": [
-            {
-              "name": 22,
-              "type": 10
-            },
-            {
-              "name": 23,
-              "type": 18
-            }
-          ]
-        }
-      },
-      {
-        "id": {
-          "custom.name": 1,
-          "custom.namespace": [
-            2
-          ],
-          "custom.params": []
-        },
-        "def": {
-          "struct.fields": [
-            {
-              "name": 3,
-              "type": 2
-            },
-            {
-              "name": 13,
-              "type": 8
-            },
-            {
-              "name": 33,
-              "type": 16
-            }
-          ]
-        }
-      },
-      {
         "id": "bool",
         "def": "builtin"
       },
@@ -441,15 +449,19 @@
             9
           ]
         },
-        "def": [
-          47,
-          {
-            "tuple_struct_variant.name": 48,
-            "tuple_struct.types": [
-              9
-            ]
-          }
-        ]
+        "def": {
+          "enum.variants": [
+            {
+              "unit_variant.name": 47
+            },
+            {
+              "tuple_struct_variant.name": 48,
+              "tuple_struct_variant.types": [
+                9
+              ]
+            }
+          ]
+        }
       }
     ]
   },

@@ -5,12 +5,12 @@
 import { TypeDef } from '../types';
 
 export function encodeEnum (sub: TypeDef[]): string {
-  const isNoData = sub.reduce(
+  const isClikeEnum = sub.reduce(
     (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
     true
   );
 
-  if (isNoData) {
+  if (isClikeEnum) {
     return `[${
       sub
         .map(({ name }: TypeDef): string => `"${name}"`)

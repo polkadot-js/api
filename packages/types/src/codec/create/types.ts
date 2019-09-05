@@ -68,23 +68,57 @@ export type MetaTypeId = MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray
 // MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray | MetaTypeIdCustom;
 // export type MetaTypeId = Record<string, any>;
 
+export interface MetaTypeDefClikeEnumVariant {
+  name: StringIndex;
+  discriminant: number;
+}
+
+export interface MetaTypeDefClikeEnum {
+  'clike_enum.variants': MetaTypeDefClikeEnumVariant[];
+}
+
+export type MetaTypeDefBuiltIn = 'builtin';
+
+export interface MetaTypeDefEnumVariantUnit {
+  'unit_variant.name': StringIndex;
+}
+
+export interface MetaTypeDefEnumVariantTupleStruct {
+  'tuple_struct_variant.name': StringIndex;
+  'tuple_struct_variant.types': TypeIndex[];
+}
+
+export interface MetaTypeDefEnumVariantStruct {
+  'struct_variant.name': StringIndex;
+  'struct_variant.fields': MetaTypeDefStructField[];
+}
+
+export type MetaTypeDefEnumVariant = MetaTypeDefEnumVariantUnit | MetaTypeDefEnumVariantTupleStruct | MetaTypeDefEnumVariantStruct;
+
+export interface MetaTypeDefEnum {
+  'enum.variants': MetaTypeDefEnumVariant[];
+}
+
 export interface MetaTypeDefStructField {
   name: StringIndex;
   type: TypeIndex;
 }
 
-export type MetaTypeDefBuiltIn = 'builtin';
+export type MetaTypeDefUnionField = MetaTypeDefStructField;
 
 export interface MetaTypeDefStruct {
-  'struct.fields'?: MetaTypeDefStructField[];
+  'struct.fields': MetaTypeDefStructField[];
 }
 
 export interface MetaTypeDefTupleStruct {
-  'tuple_struct_variant.name'?: StringIndex;
   'tuple_struct.types': TypeIndex[];
 }
 
-export type MetaTypeDef = MetaTypeDefBuiltIn | MetaTypeDefStruct | MetaTypeDefTupleStruct;
+export interface MetaTypeDefUnion {
+  'union.fields': MetaTypeDefUnionField[];
+}
+
+export type MetaTypeDef = MetaTypeDefBuiltIn | MetaTypeDefClikeEnum | MetaTypeDefEnum | MetaTypeDefStruct | MetaTypeDefTupleStruct | MetaTypeDefUnion;
 
 export interface MetaType {
   def: MetaTypeDef;
