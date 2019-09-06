@@ -147,7 +147,7 @@ export interface QueryableStorage<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
 }
 
-export interface SubmittableExtrinsicFunction<ApiType> extends CallFunction {
+export interface SubmittableExtrinsicFunction<ApiType> extends Pick<CallFunction, 'callIndex' | 'meta' | 'method' | 'section' | 'toJSON'> {
   (...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 
