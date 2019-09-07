@@ -23,6 +23,15 @@ module.exports = {
     search: false,
     sidebar: [
       {
+        title: 'Getting started',
+        path: '/start/',
+        collapsable: false,
+        sidebarDepth: 1,
+        children: [
+          ['start/install/', 'Installation']
+        ]
+      },
+      {
         title: 'Examples (Promise API)',
         path: '/examples/promise/',
         collapsable: false,
