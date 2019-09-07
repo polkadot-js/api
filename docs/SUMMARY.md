@@ -1,8 +1,9 @@
 ## Getting started
 
 - [Introduction](start/README.md)
-- [Installation](start/install.md)
-- [Basics][start/basics.md]
+  - [Installation](start/install.md)
+  - [Basics][start/basics.md]
+  - [Creating][start/create.md]
 
 ## Packages
 

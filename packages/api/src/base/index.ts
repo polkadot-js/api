@@ -88,7 +88,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   }
 
   /**
-   * @description  Returns th version of extrinsics in-use on this chain
+   * @description  Returns the version of extrinsics in-use on this chain
    */
   public get extrinsicVersion (): number {
     return this._extrinsicType;

@@ -29,7 +29,8 @@ module.exports = {
         sidebarDepth: 1,
         children: [
           ['start/install.md', 'Installation'],
-          ['start/basics.md', 'Basics & Metadata']
+          ['start/basics.md', 'Basics & Metadata'],
+          ['start/create.md', 'Creating an instance']
         ]
       },
       {
