@@ -2,8 +2,10 @@
 
 - [Introduction](start/README.md)
   - [Installation](start/install.md)
-  - [Basics][start/basics.md]
-  - [Creating][start/create.md]
+  - [Basics](start/basics.md)
+  - [Creating](start/create.md)
+  - [api.consts](start/api.consts.md)
+  - [Types basics](start/types.basics.md)
 
 ## Packages
 
