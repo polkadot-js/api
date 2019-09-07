@@ -16,13 +16,15 @@
 
 ## Interfaces
 
-- [RPC](METHODS_RPC.md)
-- [Constants (runtime)](METHODS_CONSTANTS.md)
-- [Chain state (runtime)](METHODS_STORAGE.md)
-- [Extrinsics (runtime)](METHODS_EXTRINSICS.md)
-- [Events (runtime)](METHODS_EVENTS.md)
+- [Substrate](substrate/README.md)
+  - [RPC](substrate/rpc.md)
+  - [Constants (runtime)](substrate/constants.md)
+  - [Chain state (runtime)](substrate/storage.md)
+  - [Extrinsics (runtime)](substrate/extrinsics.md)
+  - [Events (runtime)](substrate/events.md)
 
 ## Examples
+
 - [ApiPromise](examples/promise/README.md)
   - [Simple connect](examples/promise/01_simple_connect/README.md)
   - [Listen to blocks](examples/promise/02_listen_to_blocks/README.md)
