@@ -51,15 +51,15 @@ module.exports = {
         ]
       },
       {
-        title: 'Substrate interfaces',
+        title: 'Substrate defaults',
         collapsable: false,
         sidebarDepth: 0,
         children: [
-          ['/METHODS_RPC.md', 'Substrate RPC'],
-          ['/METHODS_CONSTANTS.md', 'Constants (defaults)'],
-          ['/METHODS_STORAGE.md', 'State storage (defaults)'],
-          ['/METHODS_EXTRINSICS.md', 'Extrinsics (defaults)'],
-          ['/METHODS_EVENTS.md', 'System events (defaults)']
+          ['substrate/rpc.md', 'Substrate RPC'],
+          ['substrate/constants.md', 'Constants'],
+          ['substrate/storage.md', 'State storage'],
+          ['substrate/extrinsics.md', 'Extrinsics'],
+          ['substrate/events.md', 'System events']
         ]
       },
       ['/api/', '@polkadot/api'],
