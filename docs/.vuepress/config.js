@@ -30,7 +30,8 @@ module.exports = {
         children: [
           ['start/install.md', 'Installation'],
           ['start/basics.md', 'Basics & Metadata'],
-          ['start/create.md', 'Creating an instance']
+          ['start/create.md', 'Creating an instance'],
+          ['start/api.consts.md', 'Viewing constants']
         ]
       },
       {
