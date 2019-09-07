@@ -1,3 +1,8 @@
+## Getting started
+
+- [Introduction](start/REQADME.md)
+- [Installation](start/install/README.md)
+
 ## Packages
 
 - [api](api/README.md)
