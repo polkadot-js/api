@@ -8,4 +8,4 @@ If you spot gaps in the information provided, or are uncertain about any specifi
 
 ## Ready? Steady? Go!
 
-Will all that said, let's get started... [What should be installed, and how should we do it?](install/)
+Will all that said, let's get started... [What should be installed, and how should we do it?](install.md)

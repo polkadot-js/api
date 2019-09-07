@@ -24,4 +24,4 @@ If you do however decide to explicitly install other packages (even through they
 
 ## API basics
 
-So we have it installed. Before we jump into actual real-world usage, [let's understand what the API gives us](../basics/).
+So we have it installed. Before we jump into actual real-world usage, [let's understand what the API gives us](basics.md).
