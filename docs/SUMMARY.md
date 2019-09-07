@@ -2,6 +2,7 @@
 
 - [Introduction](start/REQADME.md)
 - [Installation](start/install/README.md)
+- [Basics][start/basics/README.md]
 
 ## Packages
 

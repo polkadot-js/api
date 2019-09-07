@@ -28,7 +28,8 @@ module.exports = {
         collapsable: false,
         sidebarDepth: 1,
         children: [
-          ['start/install/', 'Installation']
+          ['start/install/', 'Installation'],
+          ['start/basics/', 'Basics & Metadata']
         ]
       },
       {
