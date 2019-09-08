@@ -38,11 +38,14 @@ export function createArgClass (args: ContractABIFnArg[], baseDef: Record<string
   );
 }
 
-export function createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-  const args: ContractABIFnArg[] = method.args.map(({ name, type }): ContractABIFnArg => ({
-    name: stringCamelCase(name),
+export function createArgs (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFnArg[] {
+  return method.args.map(({ name, type }): ContractABIFnArg => ({
+    name: stringCamelCase(name as string),
     type: typeToString(type)
   }));
+}
+
+export function createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase, args: ContractABIFnArg[] = createArgs(name, method)): ContractABIFn {
   const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
   const baseStruct: { [index: string]: any } = { __selector: method.selector };
   const encoder = (...params: CodecArg[]): Uint8Array => {

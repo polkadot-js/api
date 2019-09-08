@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIFn, InterfaceAbi, AbiMessages } from './types';
+import { ContractABI, ContractABIV1, ContractABIV2, ContractABIV2Data, ContractABIFn, InterfaceAbi, AbiMessages, AbiVersion } from './types';
 
 import { stringCamelCase } from '@polkadot/util';
 
+import ContractRegistry from './ContractRegistry';
 import { createMethod } from './method';
 import { validateAbi } from './validation';
 
@@ -16,16 +17,41 @@ export default class ContractAbi implements InterfaceAbi {
 
   public readonly messages: AbiMessages = {};
 
-  public constructor (abi: ContractABI) {
-    validateAbi(abi);
+  public readonly version: AbiVersion = AbiVersion.v2;
 
-    this.abi = abi;
-    this.deploy = createMethod('deploy', abi.deploy);
+  public constructor (json: ContractABIV1 | ContractABIV2) {
+    let abi;
+    switch (json.version) {
+      case AbiVersion.v2:
+        const data = json.data as ContractABIV2Data;
+        abi = data.contract;
 
-    abi.messages.forEach((method): void => {
-      const name = stringCamelCase(method.name);
+        const registry = new ContractRegistry(data);
+        registry.validateAbi(abi);
 
-      this.messages[name] = createMethod(`messages.${name}`, method);
-    });
+        this.abi = abi;
+        this.deploy = createMethod('deploy', abi.deploy, registry.createArgs(abi.deploy));
+        abi.messages.forEach((method): void => {
+          const name = stringCamelCase(registry.stringAt(method.name as number));
+
+          this.messages[name] = createMethod(`messages.${name}`, method, registry.createArgs(method));
+        });
+
+        break;
+      case AbiVersion.v1:
+      default:
+        abi = json.data as ContractABI;
+        validateAbi(abi);
+
+        this.abi = abi;
+        this.deploy = createMethod('deploy', abi.deploy);
+        abi.messages.forEach((method): void => {
+          const name = stringCamelCase(method.name as string);
+
+          this.messages[name] = createMethod(`messages.${name}`, method);
+        });
+
+        break;
+    }
   }
 }
