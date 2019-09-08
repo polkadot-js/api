@@ -1,8 +1,8 @@
-# Constants & Queries
+# Runtime Constants
 
 Constant queries will introduce you to the concepts behind the types and the inteaction of the API with those types. The same concepts are implemented in the remainder of the API - the runtime constants is just the simplest starting point.
 
-for soime background on constants - there are values that are coded as part of the runtime (they can be changed as part of an upgrade), that defines certain values. Let's show some examples -
+For some background on constants: there are values that are coded as part of the runtime (they can be changed as part of an upgrade), that defines certain values used as part of chain operation. Let's show some examples -
 
 ```js
 // initialize the API as per previous sections
@@ -18,7 +18,7 @@ console.log(api.consts.balances.creationFee.toNumber());
 console.log(api.consts.balances.transactionByteFee.toNumber());
 ```
 
-Since these are constants and defined by the metadata, it is not a call, but rather the values are immediate available - as you'll see in subsequent sections, there is no need for `await` on these, it immediately returns the type.
+Since these are constants and defined by the metadata, it is not a call, but rather the values immediately available - as you'll see in subsequent sections, there is no need for `await` on these, it immediately returns the type and value for you to work with.
 
 ## The API and types
 
