@@ -5,7 +5,8 @@
   - [Basics](start/basics.md)
   - [Creating](start/create.md)
   - [api.consts](start/api.consts.md)
-  - [Types basics](start/types.basics.md)
+  - [Type basics](start/types.basics.md)
+  - [Type extension](start/types.extend.md)
 
 ## Packages
 

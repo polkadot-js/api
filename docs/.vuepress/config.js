@@ -32,7 +32,8 @@ module.exports = {
           ['start/basics.md', 'Basics & Metadata'],
           ['start/create.md', 'Creating an instance'],
           ['start/api.consts.md', 'Using constants'],
-          ['start/types.basics.md', 'Type basics']
+          ['start/types.basics.md', 'Type basics'],
+          ['start/types.extend.md', 'Type extension']
         ]
       },
       {
