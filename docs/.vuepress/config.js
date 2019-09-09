@@ -37,6 +37,7 @@ module.exports = {
           ['start/api.query.subs.md', 'Query subscriptions'],
           ['start/api.query.multi.md', 'Multi queries'],
           ['start/api.query.other.md', 'Query extras'],
+          ['start/api.tx.md', 'Transactions',]
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Type extension']
         ]
