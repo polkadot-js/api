@@ -47,7 +47,7 @@ An `Option<Type>` attempts to mimic the Rust approach of having `None` and `Some
 - `.isNone` - is `true` if no underlying values is warpped, effectively the same as `.isEmpty`
 - `.isSome` - this is `true` is a value is wrapped, i.e. if a `Option<u32>` has an actual underlying `u32`
 - `.unwrap()` - when `isSome`, this  will return the wrapped vlaue, i.e. for `Option<u32>`, this would return the `u32`. When the value is `isNone`, this call will  throw and exception.
-- `.unwrapOr(<default value>)` - this extends `unwrap()`, returning the wrapped value when `isSome` and in the case of `isNone`, it will return the `<default value>` passed.
+- `.unwrapOr(<default value>)` - this extends `unwrap()`, returning the wrapped value when `isSome` and in the case of `isNone` it will return the `<default value>` passed.
 
 ## Working with Tuples
 
@@ -57,7 +57,7 @@ A tuple is defined in the form of `(u32, AccountId)`. To access the individual v
 // assuming  a tuple defined as `(32, AccountId)`
 const [count, accountId] = tuple;
 
-console.log(accountId.toString() + ' has ' + count.toNumber() + ' values');
+console.log(`${accountId} has ${count.toNumber()} values`);
 ```
 
 ## Extending types
