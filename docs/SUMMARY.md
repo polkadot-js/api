@@ -6,6 +6,7 @@
   - [Creating](start/create.md)
   - [api.consts](start/api.consts.md)
   - [api.query](start/api.query.md)
+  - [api.rpc](start/api.rpc.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
 
