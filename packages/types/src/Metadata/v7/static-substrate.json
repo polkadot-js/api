@@ -4103,7 +4103,7 @@
             {
               "name": "TombstoneDeposit",
               "type": "BalanceOf",
-              "value": "0x10000000000000000000000000000000",
+              "value": "0x00407a10f35a00000000000000000000",
               "documentation": [
                 " The minimum amount required to generate a tombstone."
               ]
@@ -4120,7 +4120,7 @@
             {
               "name": "RentByteFee",
               "type": "BalanceOf",
-              "value": "0x04000000000000000000000000000000",
+              "value": "0x00407a10f35a00000000000000000000",
               "documentation": [
                 " Price of a byte of storage per one block interval. Should be greater than 0."
               ]
@@ -4128,7 +4128,7 @@
             {
               "name": "RentDepositOffset",
               "type": "BalanceOf",
-              "value": "0xe8030000000000000000000000000000",
+              "value": "0x00008a5d784563010000000000000000",
               "documentation": [
                 " The amount of funds a contract should deposit in order to offset",
                 " the cost of one byte.",
@@ -4142,7 +4142,7 @@
             {
               "name": "SurchargeReward",
               "type": "BalanceOf",
-              "value": "0x96000000000000000000000000000000",
+              "value": "0x0080a1a76b4a35000000000000000000",
               "documentation": [
                 " Reward that is received by the party whose touch has led",
                 " to removal of a contract."

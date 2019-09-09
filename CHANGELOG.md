@@ -1,11 +1,16 @@
-# 0.91.0-beta.x
+# 0.91.1
 
+- This release was focussed on stability, with a number of cleanups and bug-fixes
+- Adjustments for Substrate 1.x chain detection (with auto-types) and Substrate 2.x support has been extended with all latest types
 - The `getRuntimeVersion` and `subscribeRuntimeVersion` RPCs are now only available on the `rpc.state.*` endpoints. This aligns with the Substrate implementation.
 - The `author_insertKey` RPC's last argument `publicKey` is now required, as to reflect Substrate implementation.
 - Support for extrinsics with versions that is not in the base Substrate implementation (V1-V3) can now be done by providing an implementation for `ExtrinsicUnknown`
-- **Breaking change** SignerPayload is registered and can be overrode now.
-  - SignerPayload is renamed to SignerPayloadJSON
-  - SignerPayloadJSON, SignerPayloadRawBase and SignerPayloadRaw are all moved to `@polkadot/types`
+- Redeemed balance calculation if `api.derive` now returns the correct  values again (bugfix)
+- added the `yarn chain:info [--ws URL]` utility to extract a calls-only metadata version
+- Missing types are now logged via a `console.warn`, not via `.error`
+- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overriden now
+  - **Breaking change** `SignerPayload` is renamed to `SignerPayloadJSON`
+  - **Breaking change** `SignerPayloadJSON`, `SignerPayloadRawBase` and `SignerPayloadRaw` are all moved to `@polkadot/types`
 
 # 0.90.1
 
