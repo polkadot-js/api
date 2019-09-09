@@ -6,13 +6,13 @@ We've touched upon types in previous sections, i.e. that these are driven by met
 
 Just to re-iterate from the above. Eveything returned by the API is a type and has a consistent interface. This means that a `Vec<u32>` (an array) as well as a `Struct` (an object) or an `Enum` has the same consistent base interface. Additional types will have values, based on the type - decorated and available.
 
-As a minimum, anything retuned by the API, be it a `Vec<...>`, `Option<...>`, `Struct` or any normal type will always have the following methods -
+As a minimum, anything returned by the API, be it a `Vec<...>`, `Option<...>`, `Struct` or any normal type will always have the following methods -
 
 - `.eq(<other value>)` - checks for equality against the other value. In all cases, it will accept "like" values, i.e. in the case of a number you can pass a primitive (i.e. `1`), a hex value ( i.e. `0x01`) or even a `Unit8Array`
 - `toHex()` - returns a hex-base representation of the value, always prefixed by `0x`
-- `toJSON()` - returns a JSON-like represnetation of the value, this is generally use when calling `JAOM.stringify(...)` on the value
+- `toJSON()` - returns a JSON-like representation of the value, this is generally use when calling `JSON.stringify(...)` on the value
 - `toString()` - returns a string representation, in some cases this performs additional encoding, i.e. for `Address` and `AccountId` it will encode to the ss58 address
-- `.toU8a()` - returns a `Uint8Array` representation of the encoded value (genrally exactly as passed to the node, where values are SCALE encoded)
+- `.toU8a()` - returns a `Uint8Array` representation of the encoded value (generally exactly as passed to the node, where values are SCALE encoded)
 
 Additionally, the following getters and utilities are available -
 
@@ -21,7 +21,7 @@ Additionally, the following getters and utilities are available -
 
 ## Working with numbers
 
-All numbers wraps and extends an instance of [bn.js](https://github.com/indutny/bn.js/). This means that in addition  to the interfaces defined above, it has some additional methods -
+All numbers wrap and extend an instance of [bn.js](https://github.com/indutny/bn.js/). This means that in addition  to the interfaces defined above, they have some additional methods -
 
 - `.toNumber()` - a JS number (limited to 2^53 - 1). This does mean that for large values, e.g. `Balance` (a `u128` extension), can cause overflows
 - `.add(...)`, `.sub(...)`, ... - all the base methods available on the `BN` object

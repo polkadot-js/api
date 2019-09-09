@@ -28,7 +28,7 @@ We are basing all our examples on the [ApiPromise](../examples/promise/README.md
 
 ## Providers
 
-Focussing on the construction, any API requires a provider and we create one via the `const wsProvider = new WsProvider(...)`. (By default, if none is provided to the API it will construct a default `WsProvider` instance and connect to `ws://127.0.0.1:9944`, however in most cases we want to not just connect to a local node, ane even if we wish to, we probably want to be explicit).
+Focussing on the construction, any API requires a provider and we create one via the `const wsProvider = new WsProvider(...)`. (By default, if none is provided to the API it will construct a default `WsProvider` instance and connect to `ws://127.0.0.1:9944`, however in most cases we want to not just connect to a local node, and even if we wish to, we probably want to be explicit).
 
 At this time the only provider type that is fully supported by the API is the WebSocket version. Polkadot/Substrate really comes alive with possibilities once you have access to bo-directional RPCs, such as what WebSockets provide. (It is possible to have some limited capabilities via bare-HTTP, but at this point WebSockets is the only fully-operational and supported version - alwaysd remember that is "just upgraded HTTP".)
 

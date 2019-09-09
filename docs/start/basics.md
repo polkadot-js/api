@@ -8,15 +8,15 @@ To unpack this, we will start with the Metadata and explain what it actually pro
 
 When the API connects to a node, one of the first things it does is to retrieve the metadata. The metadata, effectively provides data in the form of `api.<type>.<module>.<section>` that fits into one of the following categories -
 
-- [consts](../substrate/constants.md) - All runtime constants, e.g. `api.consts.balances.creationFee`. Since these are constants, the are not fucnctiopns, but accessing the endpoint immediately yields the result.
-- [query](../substrate/storage.md) - All chain state, e.g. `api.query.balances.freeBalance(<accountId>)`. These
+- [consts](../substrate/constants.md) - All runtime constants, e.g. `api.consts.balances.creationFee`. Since these are not functions, accessing the endpoint immediately yields the result.
+- [query](../substrate/storage.md) - All chain state, e.g. `api.query.balances.freeBalance(<accountId>)`.
 - [tx](../substrate/extrinsics.md) - All extrinsics, e.g. `api.tx.balances.transfer(<accountId>, <value>)`.
 
 Additionally the metadata also provides information on [events](../substrate/events.md), these are query-able via the `api.query.system.events()` interface and also appear on transactions... both these cases are detailed later.
 
 ## Types
 
-The metadata details all the types for the various interfaces. At the moment (this is undergoing investigations and could improve int future versions of metadata), this also means that the types between the API and the node needs to be aligned. For instance, by default Substrate defines a `BlockNumber` type as a `u32` and the API follows the Substrate defaults - if a chain has a different definitions, the API needs to be aware of this so it can actually decode (and endode) the type.
+The metadata details all the types for the various interfaces. At the moment (this is undergoing investigations and could improve in future versions of metadata), this also means that the types between the API and the node need to be aligned. For instance, by default Substrate defines a `BlockNumber` type as a `u32` and the API follows the Substrate defaults - if a chain has a different definitions, the API needs to be aware of this so it can actually decode (and encode) the type.
 
 At this point, just be aware of it, we will touch of types, custom chains and their impacts in a later section.
 
@@ -26,9 +26,9 @@ In addition to the `api.[consts | query | tx]` detailed above, the API, upon con
 
 - `api.genesisHash` - The genesisHash of the connected chain
 - `api.runtimeMetadata` - The metadata as retrieved from the chain
-- `api.runtimeVersion` - The chain runtime version (include spec/impl. versions and types)
+- `api.runtimeVersion` - The chain runtime version (including spec/impl. versions and types)
 - `api.libraryInfo` - The  version of the API, i.e. `@polkadot/api v0.90.1`
 
 ## Let's do something!
 
-Now that we have covered what the API actually exposes, it is time to [dive in an actually use what we installed earlier](create.md).
+Now that we have covered what the API actually exposes, it is time to [dive in and actually use what we installed earlier](create.md).

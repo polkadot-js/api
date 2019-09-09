@@ -1,6 +1,6 @@
 # Making RPC queries
 
-The RPC calls provide the backbone for the transmission of data to and from the node. Thie means that all API endpoints such as `api.query`, `api.tx` or `api.derive` just wraps RPC calls, providing information in the correctly encoded format.
+The RPC calls provide the backbone for the transmission of data to and from the node. This means that all API endpoints such as `api.query`, `api.tx` or `api.derive` just wrap RPC calls, providing information in the correctly encoded format.
 
 Since you are already familiar with the `api.query` interface, the `api.rpc` interface follows the same format, for instance -
 
@@ -32,9 +32,9 @@ await api.rpc.chain.subscribeNewHeads((lastHeader) => {
 });
 ```
 
-Since we are dealing with a subscription, we now pass a callback into the `subscribeNewHeads` function, and this will  be trigerred on each header, as they are imported. the same pattern would apply to each of the `api.rpc.subscribe*` functions, as a last parameter a callback is to be provided that streams the latest data.
+Since we are dealing with a subscription, we now pass a callback into the `subscribeNewHeads` function, and this will  be triggered on each header, as they are imported. the same pattern would apply to each of the `api.rpc.subscribe*` functions, as a last parameter, a callback is to be provided that streams the latest data.
 
-In general, whenever we create a subsciption, we would like to cleanup after ourselves and unsubscribe, so assuming we only want to log the first 10 headers, the above example can be adjusted in the following manner -
+In general, whenever we create a subscription, we would like to cleanup after ourselves and unsubscribe, so assuming we only want to log the first 10 headers, the above example can be adjusted in the following manner -
 
 ```js
 ...
