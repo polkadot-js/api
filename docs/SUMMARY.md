@@ -7,7 +7,9 @@
   - [Constant queries](start/api.consts.md)
   - [State queries](start/api.query.md)
   - [RPC queries](start/api.rpc.md)
-  - [State subscriptions](start/api.consts.subs.md)
+  - [State subscriptions](start/api.query.subs.md)
+  - [Multi state retrieval](start/api.query.multi.md)
+  - [State query utilities](start/api.query.other.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
 

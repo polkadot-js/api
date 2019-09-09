@@ -35,6 +35,8 @@ module.exports = {
           ['start/api.query.md', 'Using queries'],
           ['start/api.rpc.md', 'RPC calls'],
           ['start/api.query.subs.md', 'Query subscriptions'],
+          ['start/api.query.multi.md', 'Multi queries'],
+          ['start/api.query.other.md', 'Query extras'],
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Type extension']
         ]
