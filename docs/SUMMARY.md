@@ -4,9 +4,10 @@
   - [Installation](start/install.md)
   - [Basics](start/basics.md)
   - [Creating](start/create.md)
-  - [api.consts](start/api.consts.md)
-  - [api.query](start/api.query.md)
-  - [api.rpc](start/api.rpc.md)
+  - [Constant queries](start/api.consts.md)
+  - [State queries](start/api.query.md)
+  - [RPC queries](start/api.rpc.md)
+  - [State subscriptions](start/api.consts.subs.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
 

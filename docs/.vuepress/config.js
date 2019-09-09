@@ -34,6 +34,7 @@ module.exports = {
           ['start/api.consts.md', 'Using constants'],
           ['start/api.query.md', 'Using queries'],
           ['start/api.rpc.md', 'RPC calls'],
+          ['start/api.query.subs.md', 'Query subscriptions'],
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Type extension']
         ]
