@@ -1,3 +1,7 @@
+# 0.92.0-beta.x
+
+- The API now correctly sets the ss58 prefix as retrieved from the chain properties vis `ss58Format`
+
 # 0.91.1
 
 - This release was focussed on stability, with a number of cleanups and bug-fixes

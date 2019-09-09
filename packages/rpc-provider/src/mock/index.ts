@@ -48,7 +48,7 @@ export default class Mock implements ProviderInterface {
 
   public isUpdating = true;
 
-  private requests: Record<string, (...params: any[]) => string> = {
+  private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,6 +62,7 @@ export default class Mock implements ProviderInterface {
     system_chain: (): string => 'mockChain',
     state_getMetadata: (): string => rpcMetadata,
     system_name: (): string => 'mockClient',
+    system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
     system_version: (): string => '9.8.7'
   };
 
