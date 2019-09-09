@@ -4,7 +4,7 @@ Previously we send simple transactions with the `api.tx` endpoints, in this sect
 
 ## Transaction finalization
 
-To send a transaction and then waiting  until it has been included in a block, we will use a subscription interface instead of just waiting for the inclusion to yield the extrinsic hash. For the simplest form, we can do the following -
+To send a transaction and then waiting until it has been included in a block, we will use a subscription interface instead of just waiting for the inclusion to yield the extrinsic hash. For the simplest form, we can do the following -
 
 ```js
 ...
@@ -15,12 +15,16 @@ const alice = keyring.addFromUri('//Alice');
 // make a transfer from Alice to Bob (defined elsewhere), waiting for inclusion
 const unsub = await api.tx.balances
   .transfer(BOB, 12345)
-  .signAndSend(alice, ({ status }) => {
-    console.log(`Current status is ${status}`);
+  .signAndSend(alice, (result) => {
+    console.log(`Current status is ${result.status}`);
 
-    if (status.isFinalized) {
-      console.log(`Transaction included at blockHash ${status.asFinalized}`);
+    if (result.status.isFinalized) {
+      console.log(`Transaction included at blockHash ${result.status.asFinalized}`);
       unsub();
     }
   });
 ```
+
+As per all previous subscriptions, the transaction subscription returns in `unsub()` and the actual method has a subscription callback. The `result` object has 2 parts, `events` (to to covered in the next section) and the `status` enum. When this enum is in `Finalized` state (checked via `isFinalized`), the underlying value contains the block hash of the block where the transaction has been included.
+
+## Transaction events
