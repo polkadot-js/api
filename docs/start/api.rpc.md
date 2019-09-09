@@ -50,7 +50,20 @@ const unsubHeads = await api.rpc.chain.subscribeNewHeads((lastHeader) => {
 });
 ```
 
-Unlike single-shot queries, the value we are using `await` for on subscriptions is a function, taking no parameters (that also returns nothing) that can be used to unsubscribe for the  subscription. So in the above example we set `ubsubHeads` and then call it when we wish to cancel the subscription.
+Unlike single-shot queries, the value we are using `await` for on subscriptions is a function, taking no parameters (that also returns nothing) that can be used to unsubscribe for the  subscription. So in the above example we set `unsubHeads` and then call it when we wish to cancel the subscription.
+
+## Detour into derives
+
+The `api.derive` interfaces will be covered in a follow-up section, but since the above example deals with new head subscriptions, a quick detour is warranted. The derives are just helpers that define certain functions and combine results from multiple sources. For new headers, the following information is useful in certain scenarios -
+
+```js
+...
+const unsub = await api.derive.chain.subscribeNewHeads((lastHeader) => {
+  console.log(`#${lastHeader.number} was authored by ${lastHeader.author}`);
+});
+```
+
+In the above case the `subscribeNewHeads` derive augments the header retrieved with an `.author` getter, which is retrieved by parsing the actual header received and filling in the author from the `api.query.session.validators` call.
 
 ## Extended Queries
 
