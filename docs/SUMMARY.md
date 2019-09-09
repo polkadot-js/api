@@ -11,6 +11,7 @@
   - [Multi state retrieval](start/api.query.multi.md)
   - [State query utilities](start/api.query.other.md)
   - [Transactions](start/api.tx.md)
+  - [Keyring](start/keyring.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
 
