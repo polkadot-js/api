@@ -22,7 +22,7 @@ export type HeaderAndValidators = [Header, AccountId[]];
  *
  * ```javascript
  * api.derive.chain.subscribeNewHeads((header) => {
- *   console.log(`block #${header.numer} was authored by ${header.author}`);
+ *   console.log(`block #${header.number} was authored by ${header.author}`);
  * });
  * ```
  */
