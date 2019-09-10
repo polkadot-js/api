@@ -6,6 +6,7 @@ We have the API installed and we understand what will actually be exposed, down 
 // import
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
+...
 // construct
 const wsProvider = new WsProvider('wss://poc-3.polkadot.io');
 const api = await ApiPromise.create({ provider: wsProvider });
@@ -14,9 +15,13 @@ const api = await ApiPromise.create({ provider: wsProvider });
 console.log(api.genesisHash.toHex());
 ```
 
-## ES2015 Usage
+## ES2015 Usage and examples
 
-Before we jump into an explanation of the above, be aware that in all examples we are using ES2015, including things like `async`/`await`, `import` and others. Depending on your environment, this may require some adjustments. For instance, in the case of Node.js you would change the `import` into `require`, i.e.
+Before we jump into an explanation of the above, be aware that in all examples we are using ES2015, including things like `async`/`await`, `import` and others. Depending on your environment, this may require some adjustments.
+
+While we are using the `await` naked in all examples (removing boilerplate), it will need to be wrapped in an `async` block, for instance `async function main () { ... }`.
+
+Additionally in the case of Node.js you would change the `import` into `require`, i.e.
 
 ```js
 // import
