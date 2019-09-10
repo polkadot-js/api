@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIV1, ContractABIV2, ContractABIV2Data, ContractABIFn, InterfaceAbi, AbiMessages, AbiVersion } from './types';
+import { ContractABI, ContractABIV1, ContractABIV2, ContractABIFn, InterfaceAbi, AbiMessages, AbiVersion } from './types';
 
 import { stringCamelCase } from '@polkadot/util';
 
@@ -21,12 +21,14 @@ export default class ContractAbi implements InterfaceAbi {
 
   public constructor (json: ContractABIV1 | ContractABIV2) {
     let abi;
+    let data;
+    let registry: ContractRegistry;
     switch (json.version) {
       case AbiVersion.v2:
-        const data = json.data as ContractABIV2Data;
+        data = json.data;
         abi = data.contract;
 
-        const registry = new ContractRegistry(data);
+        registry = new ContractRegistry(data);
         registry.validateAbi(abi);
 
         this.abi = abi;
@@ -40,7 +42,7 @@ export default class ContractAbi implements InterfaceAbi {
         break;
       case AbiVersion.v1:
       default:
-        abi = json.data as ContractABI;
+        abi = json.data;
         validateAbi(abi);
 
         this.abi = abi;

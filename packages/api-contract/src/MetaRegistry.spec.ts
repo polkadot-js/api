@@ -9,6 +9,7 @@ import MetaRegistry from './MetaRegistry';
 
 import erc20Abi from '../test/contracts/Erc20.json';
 import v2Abi from '../test/contracts/V2.json';
+import flipperAbi from '../test/contracts/FlipperV2.json';
 
 describe('MetaRegistry', (): void => {
   describe('construction', (): void => {
@@ -24,6 +25,15 @@ describe('MetaRegistry', (): void => {
     it('initializes from a contract ABI (ERC20)', (): void => {
       const metaRegistry = new MetaRegistry(erc20Abi);
       fs.writeFile(path.join(__dirname, 'erc20.test.json'), JSON.stringify(metaRegistry.typeDefs, null, 2), function (err): void {
+        if (err) throw err;
+      });
+
+      expect(true).toBe(true);
+    });
+
+    it('initializes from a contract ABI (Flipper)', (): void => {
+      const metaRegistry = new MetaRegistry(flipperAbi);
+      fs.writeFile(path.join(__dirname, 'flipper.test.json'), JSON.stringify(metaRegistry.typeDefs, null, 2), function (err): void {
         if (err) throw err;
       });
 

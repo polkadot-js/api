@@ -36,7 +36,7 @@
                 "namespace": "ink_core::storage::key",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -67,7 +67,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -118,7 +118,7 @@
                     "namespace": "ink_core::storage::key",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -155,7 +155,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -193,7 +193,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -220,7 +220,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -260,7 +260,7 @@
                 "namespace": "ink_core::storage::key",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -295,7 +295,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -316,7 +316,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -369,7 +369,7 @@
                     "namespace": "ink_core::storage::key",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -410,7 +410,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -431,7 +431,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -475,7 +475,7 @@
                                 "namespace": "ink_core::env::srml::types",
                                 "sub": [
                                   {
-                                    "info": 11,
+                                    "info": 10,
                                     "type": "[u8;32]",
                                     "ext": {
                                       "length": 32,
@@ -496,7 +496,7 @@
                                 "namespace": "ink_core::env::srml::types",
                                 "sub": [
                                   {
-                                    "info": 11,
+                                    "info": 10,
                                     "type": "[u8;32]",
                                     "ext": {
                                       "length": 32,
@@ -529,7 +529,7 @@
                                 "namespace": "ink_core::env::srml::types",
                                 "sub": [
                                   {
-                                    "info": 11,
+                                    "info": 10,
                                     "type": "[u8;32]",
                                     "ext": {
                                       "length": 32,
@@ -550,7 +550,7 @@
                                 "namespace": "ink_core::env::srml::types",
                                 "sub": [
                                   {
-                                    "info": 11,
+                                    "info": 10,
                                     "type": "[u8;32]",
                                     "ext": {
                                       "length": 32,
@@ -593,7 +593,7 @@
                 "namespace": "ink_core::storage::key",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -644,7 +644,7 @@
             "namespace": "ink_core::storage::key",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -685,7 +685,7 @@
         "namespace": "ink_core::storage::key",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -708,7 +708,7 @@
     "namespace": "ink_core::storage::key",
     "sub": [
       {
-        "info": 11,
+        "info": 10,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
@@ -723,7 +723,7 @@
     ]
   },
   {
-    "info": 11,
+    "info": 10,
     "type": "[u8;32]",
     "ext": {
       "length": 32,
@@ -751,7 +751,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -802,7 +802,7 @@
                 "namespace": "ink_core::storage::key",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -839,7 +839,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -877,7 +877,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -904,7 +904,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -944,7 +944,7 @@
             "namespace": "ink_core::storage::key",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -969,7 +969,7 @@
     "namespace": "ink_core::env::srml::types",
     "sub": [
       {
-        "info": 11,
+        "info": 10,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
@@ -1014,7 +1014,7 @@
             "namespace": "ink_core::storage::key",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1055,7 +1055,7 @@
         "namespace": "ink_core::storage::key",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1090,7 +1090,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1128,7 +1128,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1155,7 +1155,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1195,7 +1195,7 @@
         "namespace": "ink_core::storage::key",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1224,7 +1224,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1262,7 +1262,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1289,7 +1289,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1333,7 +1333,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1360,7 +1360,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1398,7 +1398,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1419,7 +1419,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1472,7 +1472,7 @@
                 "namespace": "ink_core::storage::key",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1513,7 +1513,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1534,7 +1534,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1578,7 +1578,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -1599,7 +1599,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -1632,7 +1632,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -1653,7 +1653,7 @@
                             "namespace": "ink_core::env::srml::types",
                             "sub": [
                               {
-                                "info": 11,
+                                "info": 10,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -1696,7 +1696,7 @@
             "namespace": "ink_core::storage::key",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1725,7 +1725,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1746,7 +1746,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1785,7 +1785,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1806,7 +1806,7 @@
                 "namespace": "ink_core::env::srml::types",
                 "sub": [
                   {
-                    "info": 11,
+                    "info": 10,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1850,7 +1850,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -1871,7 +1871,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -1904,7 +1904,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -1925,7 +1925,7 @@
                         "namespace": "ink_core::env::srml::types",
                         "sub": [
                           {
-                            "info": 11,
+                            "info": 10,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -1968,7 +1968,7 @@
         "namespace": "ink_core::storage::key",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -2001,7 +2001,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2022,7 +2022,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2066,7 +2066,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -2087,7 +2087,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -2120,7 +2120,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -2141,7 +2141,7 @@
                     "namespace": "ink_core::env::srml::types",
                     "sub": [
                       {
-                        "info": 11,
+                        "info": 10,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -2192,7 +2192,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2213,7 +2213,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2246,7 +2246,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2267,7 +2267,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -2307,7 +2307,7 @@
         "namespace": "ink_core::env::srml::types",
         "sub": [
           {
-            "info": 11,
+            "info": 10,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -2340,7 +2340,7 @@
             "namespace": "ink_core::env::srml::types",
             "sub": [
               {
-                "info": 11,
+                "info": 10,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
