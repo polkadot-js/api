@@ -40,6 +40,7 @@ module.exports = {
           ['start/api.tx.md', 'Transactions'],
           ['start/keyring.md', 'Keyring'],
           ['start/api.tx.subs.md', 'Transaction subscriptions'],
+          ['start/api.tx.wrap.md', 'Complex transactions'],
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Type extension']
         ]

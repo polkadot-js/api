@@ -13,6 +13,7 @@
   - [Transactions](start/api.tx.md)
   - [Keyring](start/keyring.md)
   - [Transaction subscriptions](start/api.tx.subs.md)
+  - [Complex transactions](start/api.tx.wrap.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
 

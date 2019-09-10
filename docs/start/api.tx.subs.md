@@ -56,6 +56,6 @@ const unsub = await api.tx.balances
 
 Be aware that when a transaction status is `isFinalized`, it means it is included, but it may still have failed - for instance  if you try to send a larger amount that you have free, the transaction is included in a block, however from a end-user perspective the transaction failed since the transfer did not occur. In these cases a `system.ExtrinsicFailed` event will be available in the events array. (And a `system.ExtrinsicSuccess` in the transaction yielded no errors)
 
-## Understanding types
+## Complex transactions
 
-As has been very apparent in all the preceding sections, the management of types is what allows the API to ciommunicate with the node. Most values are in a [SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and the reponsibility of the  API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).
+In many cases transactions can carry quite complex information, be it for passing objects or proposing changes. In the next section we will take a dive [into complex transactions, including those wrapped for sudo](api.tx.wrap.md).
