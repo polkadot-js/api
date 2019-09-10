@@ -158,7 +158,7 @@ export default class MetaRegistry {
       // builtin array
       const { 'array.type': vecTypeIndex, 'array.len': vecLength } = id as t.MetaTypeIdArray;
       if (vecTypeIndex) {
-        assert(!vecLength || vecLength <= 256, `MetaRegistry: Only support for [Type; <length>], where length <= 256`);
+        assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
         assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
         const sub = this.typeDefFromMetaTypeAt(vecTypeIndex);
 
@@ -179,6 +179,9 @@ export default class MetaRegistry {
         };
       }
     }
+
+    // union
+    assert(!(def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
     // enum
     const { 'enum.variants': enumVariants } = def as t.MetaTypeDefEnum;
@@ -234,25 +237,6 @@ export default class MetaRegistry {
 
       return {
         info: t.TypeDefInfo.Enum,
-        type: encodeEnum(sub),
-        sub
-      };
-    }
-
-    // union
-    const { 'union.fields': unionFields } = def as t.MetaTypeDefUnion;
-    if (unionFields) {
-      const sub = unionFields.map(
-        ({ name: nameIndex, type: typeIndex }): t.TypeDef => {
-          return {
-            ...this.typeDefFromMetaTypeAt(typeIndex),
-            name: this.stringAt(nameIndex)
-          };
-        }
-      );
-
-      return {
-        info: t.TypeDefInfo.Null,
         type: encodeEnum(sub),
         sub
       };

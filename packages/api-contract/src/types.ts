@@ -66,9 +66,11 @@ export interface ContractABI {
   docs?: ContractABIDocs;
 }
 
+export type ContractABIV1Data = ContractABI;
+
 export interface ContractABIV1 {
   version: AbiVersion.v1;
-  data: ContractABI;
+  data: ContractABIV1Data;
 }
 
 export interface ContractABIV2Data extends MetaRegistryJson {
@@ -96,13 +98,6 @@ export interface ContractABIFn extends ContractABIMeta {
   (...args: CodecArg[]): Uint8Array;
 }
 
-// export interface ContractABIArgV2 {
-//   name: string | StringIndex;
-//   type: TypeIndex;
-// }
-
-// export type ContractABIFnArgV2 = ContractABIArgV2;
-//
 export interface ContractABIEventArg {
   name: string;
   indexed: boolean;
@@ -111,18 +106,6 @@ export interface ContractABIEventArg {
 
 export type ContractABIDocs = string[];
 
-// export interface ContractABIMethodBaseV2 {
-//   args: ContractABIArgV2[];
-//   docs: ContractABIDocsV2;
-// }
-
-// export interface ContractABIMethodV2 extends ContractABIMethodBaseV2 {
-//   name: StringIndex;
-//   selector: number;
-//   mutates?: boolean;
-//   return_type: TypeIndex;
-// }
-//
 export interface ContractABIEvent extends ContractABIMethodBase {
   args: ContractABIEventArg[];
 }
@@ -146,11 +129,6 @@ export interface ContractABIStorageStruct {
 }
 
 export type ContractABIStorage = ContractABIStorageStruct;
-
-// export interface ContractABIV2 extends MetaRegistryJson {
-//   storage: ContractABIStorage;
-//   contract: ContractABI;
-// }
 
 export type AbiMessages = Record<string, ContractABIFn>;
 

@@ -18,9 +18,7 @@ describe('MetaRegistry', (): void => {
         if (err) throw err;
       });
 
-      expect(
-        true
-      ).toBe(true);
+      expect(true).toBe(true);
     });
 
     it('initializes from a contract ABI (ERC20)', (): void => {
@@ -29,9 +27,7 @@ describe('MetaRegistry', (): void => {
         if (err) throw err;
       });
 
-      expect(
-        true
-      ).toBe(true);
+      expect(true).toBe(true);
     });
   });
 });
