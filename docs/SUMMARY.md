@@ -16,6 +16,7 @@
   - [Complex transactions](start/api.tx.wrap.md)
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
+  - [TypeScript interfaces](start/typescript.md)
 
 ## Packages
 
