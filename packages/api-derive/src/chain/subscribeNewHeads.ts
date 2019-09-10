@@ -21,8 +21,8 @@ export type HeaderAndValidators = [Header, AccountId[]];
  * <BR>
  *
  * ```javascript
- * api.derive.chain.subscribeNewHeads(({ author, blockNumber }) => {
- *   console.log(`block #${blockNumber} was authored by ${author}`);
+ * api.derive.chain.subscribeNewHeads((header) => {
+ *   console.log(`block #${header.numer} was authored by ${header.author}`);
  * });
  * ```
  */
