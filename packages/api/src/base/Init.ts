@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Prefix } from '@polkadot/util-crypto/address/types';
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -9,14 +10,15 @@ import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
-import { GenericCall, GenericEvent, Metadata } from '@polkadot/types';
+import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { assert, logger } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { cryptoWaitReady, setAddressPrefix } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
+const DEFAULT_SS58 = new U32(42);
 
 // these are override types for polkadot chains
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
@@ -90,10 +92,11 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const { typesChain = {}, typesSpec = {} } = this._options;
-    const [genesisHash, runtimeVersion, chain] = await Promise.all([
+    const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
-      this._rpcCore.system.chain().toPromise()
+      this._rpcCore.system.chain().toPromise(),
+      this._rpcCore.system.properties().toPromise()
     ]);
     const specName = runtimeVersion.specName.toString();
 
@@ -113,6 +116,9 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // set our chain version & genesisHash as returned
     this._genesisHash = genesisHash;
     this._runtimeVersion = runtimeVersion;
+
+    // set the global ss58Format as detected by the chain
+    setAddressPrefix(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber() as Prefix);
 
     // get unique types & validate
     metadata.getUniqTypes(false);
