@@ -28,9 +28,9 @@ We are basing all our examples on the [ApiPromise](../examples/promise/README.md
 
 ## Providers
 
-Focussing on the construction, any API requires a provider and we create one via the `const wsProvider = new WsProvider(...)`. (By default, if none is provided to the API it will construct a default `WsProvider` instance and connect to `ws://127.0.0.1:9944`, however in most cases we want to not just connect to a local node, and even if we wish to, we probably want to be explicit).
+Focusing on the construction, any API requires a provider and we create one via the `const wsProvider = new WsProvider(...)`. By default, if none is provided to the API it will construct a default `WsProvider` instance and connect to `ws://127.0.0.1:9944`. We do recommend always specifying the endpoint since in most cases we want to connect to an external node and even for local nodes, it is better being explicit.
 
-At this time the only provider type that is fully supported by the API is the WebSocket version. Polkadot/Substrate really comes alive with possibilities once you have access to bo-directional RPCs, such as what WebSockets provide. (It is possible to have some limited capabilities via bare-HTTP, but at this point WebSockets is the only fully-operational and supported version - alwaysd remember that is "just upgraded HTTP".)
+At this time the only provider type that is fully supported by the API is the WebSocket version. Polkadot/Substrate really comes alive with possibilities once you have access to bo-directional RPCs, such as what WebSockets provide. (It is possible to have some limited capabilities via bare-HTTP, but at this point WebSockets is the only fully-operational and supported version - always remember that it is just "upgraded HTTP".)
 
 ## API Instance
 
@@ -61,7 +61,7 @@ console.log(api.genesisHash.toHex());
 
 There are more advanced cases where you would prefer to use the longer version, for instance: if you want to explicitly listen to events emitted, you probably want to attach to the API even before connecting to the chain. In these cases, create via `new`, attach listeners and then wait for the `isReady`.
 
-All instances Api implement an `EventEmitter` interface, with `on` handlers, which emit `connected`, `disconnected`, `ready` and `error` events, which allows you to listen to what actually happens on the transport layer.
+All API instances implement an `EventEmitter` interface, with `on` handlers, which emit `connected`, `disconnected`, `ready` and `error` events, allowing you to listen to events on the transport layer.
 
 ## Do something
 

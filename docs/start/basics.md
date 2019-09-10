@@ -18,7 +18,7 @@ Additionally the metadata also provides information on [events](../substrate/eve
 
 The metadata details all the types for the various interfaces. At the moment (this is undergoing investigations and could improve in future versions of metadata), this also means that the types between the API and the node need to be aligned. For instance, by default Substrate defines a `BlockNumber` type as a `u32` and the API follows the Substrate defaults - if a chain has a different definitions, the API needs to be aware of this so it can actually decode (and encode) the type.
 
-At this point, just be aware of it, we will touch of types, custom chains and their impacts in a later section.
+At this point just be aware of it, we will touch on types, custom chains and their impacts in a later section.
 
 ## Chain Defaults
 
