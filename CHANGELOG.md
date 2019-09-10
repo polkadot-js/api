@@ -1,6 +1,7 @@
 # 0.92.0-beta.x
 
 - The API now correctly sets the ss58 prefix as retrieved from the chain properties vis `ss58Format`
+- Bump to `@polkadot/util` 1.3.1, removing use of `ExtError`
 
 # 0.91.1
 
