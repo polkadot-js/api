@@ -26,7 +26,7 @@ module.exports = {
         title: 'Getting started',
         path: '/start/',
         collapsable: false,
-        sidebarDepth: 1,
+        sidebarDepth: 0,
         children: [
           ['start/install.md', 'Installation'],
           ['start/basics.md', 'Basics & Metadata'],
@@ -50,7 +50,7 @@ module.exports = {
         title: 'Examples (Promise API)',
         path: '/examples/promise/',
         collapsable: false,
-        sidebarDepth: 1,
+        sidebarDepth: 0,
         children: [
           ['examples/promise/01_simple_connect/', 'Simple connect'],
           ['examples/promise/02_listen_to_blocks/', 'Listen to blocks'],
