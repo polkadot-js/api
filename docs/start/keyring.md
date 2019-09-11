@@ -1,6 +1,6 @@
 # Keyring
 
-This section will give a quick introduction into the Keyring, including the addition of accounts, retrieving pairs and the use thereof for signing. Unlike the rest of the API, only  the core concepts will be covered with the most-used-functions. however, what is covered is enough for 99.9 of the use-cases ... or rather, that is the aim.
+This section will give a quick introduction into the Keyring, including the addition of accounts, retrieving pairs and the signing of any data. Unlike the rest of the API, only the core concepts will be covered with the most-used-functions. However, what is covered is enough for 99.9 of the use-cases ... or rather, that is the aim.
 
 ## Installation
 
@@ -8,7 +8,7 @@ They [@polkadot/keyring](https://github.com/polkadot-js/common/tree/master/packa
 
 `yarn add @polkadot/keyring`
 
-It is best-practice to ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `1.2.1`, it would make sense to include `1.2.1` as the `@polkadot/keyring` version. (This helps in making  sure extra version of the tools are not included as duplicates, especially in the case where bundles are created.)
+It is best-practice to ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `1.2.1`, it would make sense to include `1.2.1` as the `@polkadot/keyring` version. (This helps in making sure extra versions of the libraries are not included as duplicates, especially in the case where bundles are created.)
 
 ## Creating a keyring instance
 
@@ -57,10 +57,10 @@ const PHRASE = 'entire material egg meadow latin bargain dutch coral blood melt 
 // add an account, straight menemonic
 const newPair = keyring.addFromUri(PHRASE);
 
-// (advanced) add an account with a derivation path
+// (advanced) add an account with a derivation path (hard & soft)
 const newDeri = keyring.addFromUri(`${PHRASE}//hard-derived/soft-derived`);
 
-// (advanced, development-only) add and account with an implied dev seed and hard dev-account derivation
+// (advanced, development-only) add with an implied dev seed and hard derivation
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 ```
 
@@ -77,10 +77,10 @@ In the previous examples we added a pair to the keyring (and we actually immedia
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 
 // log some info
-console.log(`${alice.meta.name} has address ${alice.address} with publicKey Uint8Array([${alice.publicKey}])`);
+console.log(`${alice.meta.name}: has address ${alice.address} with publicKey [${alice.publicKey}]`);
 ```
 
-Additionally you can sign and verify using the pairs (the API uses the signing internally when constructing transactions) -
+Additionally you can sign and verify using the pairs. This is the same internally to the API when constructing transactions -
 
 ```js
 // some helper functions used here
