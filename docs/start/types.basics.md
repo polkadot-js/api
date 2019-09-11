@@ -4,26 +4,26 @@ We've touched upon types in most previous sections, i.e. that these are driven b
 
 ## Everything is a type
 
-Just to re-iterate from the above. Eveything returned by the API is a type and has a consistent interface. This means that a `Vec<u32>` (an array) as well as a `Struct` (an object) or an `Enum` has the same consistent base interface. Additional types will have values, based on the type - decorated and available.
+Just to re-iterate from the above. Eveything returned by the API is a type and has a consistent interface. This means that a `Vec<u32>` (an array of `u32` values) as well as a `Struct` (an pre-defined object) or an `Enum` has the same consistent base interface. Specific types types will have values, based on the type - decorated and available.
 
 As a minimum, anything returned by the API, be it a `Vec<...>`, `Option<...>`, `Struct` or any normal type will always have the following methods -
 
-- `.eq(<other value>)` - checks for equality against the other value. In all cases, it will accept "like" values, i.e. in the case of a number you can pass a primitive (i.e. `1`), a hex value ( i.e. `0x01`) or even a `Unit8Array`
+- `.eq(<other value>)` - checks for equality against the other value. In all cases, it will accept "like" values, i.e. in the case of a number you can pass a primitive (such as `1`), a hex value (such as `0x01`) or even an `Unit8Array`
 - `toHex()` - returns a hex-base representation of the value, always prefixed by `0x`
-- `toJSON()` - returns a JSON-like representation of the value, this is generally use when calling `JSON.stringify(...)` on the value
-- `toString()` - returns a string representation, in some cases this performs additional encoding, i.e. for `Address` and `AccountId` it will encode to the ss58 address
+- `toJSON()` - returns a JSON-like representation of the value, this is generally used when calling `JSON.stringify(...)` on the value
+- `toString()` - returns a string representation, in some cases this performs additional encoding, i.e. for `Address`, `AccountId` and `AccountIndex` it will encode to the ss58 address
 - `.toU8a()` - returns a `Uint8Array` representation of the encoded value (generally exactly as passed to the node, where values are SCALE encoded)
 
 Additionally, the following getters and utilities are available -
 
-- `.isEmpty` - `true` if the value is an all-empy value, i.e. `0` in for numbers, all-zero for Arrays (or anything `Uint8Array`)
-- `.hash` - a `Hash` (once again with all the methods above) that is a `blake2-256` of the contained value
+- `.isEmpty` - `true` if the value is an all-empy value, i.e. `0` in for numbers, all-zero for Arrays (or anything `Uint8Array`), `false` is non-zero
+- `.hash` - a `Hash` (once again with all the methods above) that is a `blake2-256` representation of the contained value
 
 ## Working with numbers
 
 All numbers wrap and extend an instance of [bn.js](https://github.com/indutny/bn.js/). This means that in addition  to the interfaces defined above, they have some additional methods -
 
-- `.toNumber()` - a JS number (limited to 2^53 - 1). This does mean that for large values, e.g. `Balance` (a `u128` extension), can cause overflows
+- `.toNumber()` - a JS number (limited to 2^53 - 1). This does mean that for large values, e.g. `Balance` (a `u128` extension), this can cause overflows
 - `.add(...)`, `.sub(...)`, ... - all the base methods available on the `BN` object
 
 In cases where a `Compact` is returned, i.e. `Compact<Balance>`, the value is wrapped. This object should be `.unwrap()`-ed first to gain access to the underlying `Balance` object.
@@ -40,7 +40,7 @@ Be aware that in the JS version naming defaults to `camelCase` where names of fi
 
 Each enum has additional getters which are injected based on the fields wrapped. These take the form of `.is<Name>` and `.as<Name>` to allow you to check is the enum is a certain value or to retrieve the underlying value as a specific type.
 
-As an example, when an extrinsic is applied, the `Phase` enum has one of two states, `ApplyExtrinsic(u32)` or `Finalization`. In this case `.isApplyExtrinsic` would be `true` when an extrinsic is being applied, and `.asApplyExtrinsic` would return the value as a `u32` (which is the index of the extrinsic in the block, as it is being applied).
+As a real-world example, when an extrinsic is applied, the `Phase` enum has one of two states, `ApplyExtrinsic(u32)` or `Finalization`. In this case `.isApplyExtrinsic` would be `true` when an extrinsic is being applied, and `.asApplyExtrinsic` would return the value as a `u32` (which is the index of the extrinsic in the block, as it is being applied). When `isisApplyExtrinsic` is `false` and `asApplyExtrinsic` is called, the getter will throw.
 
 ## Working with Option&lt;Type&gt;
 
@@ -48,7 +48,7 @@ An `Option<Type>` attempts to mimic the Rust approach of having `None` and `Some
 
 - `.isNone` - is `true` if no underlying values is warpped, effectively the same as `.isEmpty`
 - `.isSome` - this is `true` is a value is wrapped, i.e. if a `Option<u32>` has an actual underlying `u32`
-- `.unwrap()` - when `isSome`, this  will return the wrapped vlaue, i.e. for `Option<u32>`, this would return the `u32`. When the value is `isNone`, this call will  throw and exception.
+- `.unwrap()` - when `isSome`, this  will return the wrapped value, i.e. for `Option<u32>`, this would return the `u32`. When the value is `isNone`, this call will throw an exception.
 - `.unwrapOr(<default value>)` - this extends `unwrap()`, returning the wrapped value when `isSome` and in the case of `isNone` it will return the `<default value>` passed.
 
 ## Working with Tuples
