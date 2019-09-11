@@ -1,10 +1,10 @@
 # Complex transactions
 
-Up till now we have focussed on the base operation of transactions. There are however some more complex operations that deserve some more information, for instance when doing either democracy proposals or excuting sudo calls, in both these cases the transaction send a call or proposal to be evaluated.
+Up till now we have focussed on the base operation of transactions. There are however some more complex operations that deserve some more information, for instance when doing either democracy proposals or excuting sudo calls, in both these cases the transaction wraps a call or proposal to be evaluated.
 
 ## Sudo use
 
-When running a development chain (Polkadot/Substrate with a `--dev` flag), or in certain testnets a sudo module is available - just like the sudo command found on some systems, it allows root-level access to perform actions. For instance, we can perform a `setBalance` on an account -
+When running a development chain (Polkadot/Substrate with a `--dev` flag), or in certain testnets a sudo module is available - just like the sudo command found on some systems, it allows root-level access to perform actions. For instance, we can perform a `setBalance(<accountId>, <free>, <reserved>)` on an account -
 
 ```js
 ...
