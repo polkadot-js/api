@@ -8,7 +8,7 @@ To unpack this, we will start with the Metadata and explain what it actually pro
 
 When the API connects to a node, one of the first things it does is to retrieve the metadata. The metadata, effectively provides data in the form of `api.<type>.<module>.<section>` that fits into one of the following categories -
 
-- [consts](../substrate/constants.md) - All runtime constants, e.g. `api.consts.balances.creationFee`. Since these are not functions, accessing the endpoint immediately yields the result.
+- [consts](../substrate/constants.md) - All runtime constants, e.g. `api.consts.balances.creationFee`. These are not functions, rather accessing the endpoint immediately yields the result as defined.
 - [query](../substrate/storage.md) - All chain state, e.g. `api.query.balances.freeBalance(<accountId>)`.
 - [tx](../substrate/extrinsics.md) - All extrinsics, e.g. `api.tx.balances.transfer(<accountId>, <value>)`.
 
@@ -16,7 +16,7 @@ Additionally the metadata also provides information on [events](../substrate/eve
 
 ## Types
 
-The metadata details all the types for the various interfaces. At the moment (this is undergoing investigations and could improve in future versions of metadata), this also means that the types between the API and the node need to be aligned. For instance, by default Substrate defines a `BlockNumber` type as a `u32` and the API follows the Substrate defaults - if a chain has a different definitions, the API needs to be aware of this so it can actually decode (and encode) the type.
+The metadata defiends the calls with all the type names used in the various interfaces. At the moment (this is undergoing investigations and could improve in future versions of metadata), this also means that the types between the API and the node need to be aligned. For instance, by default Substrate defines a `BlockNumber` type as a `u32` and the API follows the Substrate defaults - if a chain has a different definitions, the API needs to be aware of this so it can actually decode (and encode) the type.
 
 At this point just be aware of it, we will touch on types, custom chains and their impacts in a later section.
 
