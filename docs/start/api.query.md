@@ -10,25 +10,26 @@ Let's dive right in, connect to a general chain and retrieve some information on
 // initialize the API as in previous sections
 ...
 
-// const the actual address that we will use
+// the actual address that we will use
 const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
 
 // retrieve the last timestamp
 const now = await api.query.timestamp.now();
 
-// retrieve the current nonce via the system module
+// retrieve the account nonce via the system module
 const nonce = await api.query.system.accountNonce(ADDR);
 
-// retrieve the current balance
+// retrieve the account balance via the balances module
 const balance = await api.query.balance.freeBalance(ADDR);
 
 console.log(`${now}: balance of ${balance} and a nonce of ${nonce}`);
 ```
 
-There have been some additions in the code above comparing with retrieving runtime constants. In these cases, since we are making a query to the actual chain, we use the `await` syntax to retrieve the information. Since the API is Promise-based, this means we can also re-write the above to follow a Promise pattern,
+There have been some additions in the code above comparing with retrieving runtime constants. In these cases, since we are making a query to the actual chain, we use the `await` syntax to retrieve the information. Since the API is Promise-based, this means we can also rewrite the above to follow a Promise pattern,
 
 ```js
-// retrieve nonce & balance
+...
+// retrieve last block timestamp, account nonce & balance
 const [now, nonce, balance] = await Promise.all([
   api.query.timestamp.now(),
   api.query.system.accountNonce(ADDR),
@@ -44,4 +45,4 @@ Additionally we have provided some parameters for the query calls, specifically 
 
 ## Exploring RPCs
 
-Next up we will take a dive into [making RPC calls via the API](api.rpc.md). Where all query functions use the underlying RPCs together with metadata to retrieve information, the direct RPCs can be seen as raw calls.
+Where all query functions use the underlying RPCs, together with metadata, to construct and retrieve information, the direct node RPCs can be seen as raw calls that enable these (slightly) higher-level operations. Next up we will take a dive into [making RPC calls via the API](api.rpc.md).

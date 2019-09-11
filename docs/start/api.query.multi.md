@@ -1,6 +1,6 @@
 # Multi queries
 
-In a number of applications, it is useful to monitor a number of like-queries at the same time. For instance, we may want to track the balances for a list of accounts we have. The `api.query` interfaces allows this via the `.multi` sub-call.
+In a number of applications, it is useful to monitor a number of like-queries at the same time. For instance, we may want to track the balances for a list of accounts we have. The `api.query` interfaces allows this via the `.multi` subscription call.
 
 ## Multi queries, same type
 
@@ -31,11 +31,11 @@ const unsub = await api.query.balances.freeBalance.multi(validators, (balances) 
 });
 ```
 
-The above example does not subscribe to the validators explicitly, but only gets a snapshot and used this into the future. It should be trivially extendendable to  subscribe to the validators, track which one have entered or left and then subscribe to balances as they change through the next blocks.
+The above example does not subscribe to the validators explicitly, but only gets a snapshot and uses this into the future. It should be trivially extendable to subscribe to the validators, track which one have entered or left and then subscribe to balances as they change through the next blocks.
 
 ## Multi queries, distinct types
 
-The previous `.multi` examples assumes that we do queries for the same types, i.e. we retrieve the balances for a number of accounts. However, there is also a need to retrieve various distinct types, as an example we would like to track the block timestamp in addition to the nonce and balance of a specific account. To cater for this, the api hs a specific `api.queryMulti` interface that can be used to perform this query -
+The previous `.multi` examples assumes that we do queries for the same types, i.e. we retrieve the balances for a number of accounts. However, there is also a need to retrieve various distinct types, as an example we would like to track the block timestamp in addition to the nonce and balance of a specific account. To cater for this, the api has a specific `api.queryMulti` interface that can be used to perform this query -
 
 ```js
 ...
@@ -57,4 +57,4 @@ The above example certainly does not quite look as ergonomic and clean, but the 
 
 ## Rounding out queries
 
-To round out our query introduction, there are a [number of other utilities and calls available](api.query.other.md) that allows the `api.query` user to perform certain tasks, like querying state at a specific block. These are covered in the next section.
+To round out our query introduction, there are a [number of other utilities and calls available](api.query.other.md) that allows the `api.query` user to perform certain tasks, such as querying state at a specific block. These are covered in the next section.

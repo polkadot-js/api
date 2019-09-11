@@ -1,10 +1,10 @@
 # Streaming queries
 
-Previously we explained the concepts between `api.query`. In this section we will expand on that knowledge to introduce subscriptions (akin to what we found in `api.rpc`) as well as introducing the ability to perform multiple queries at once over a single RPC call.
+Previously we explained the concepts between `api.query`. In this section we will expand on that knowledge to introduce subscriptions (akin to what we found in `api.rpc`) to stream results from the state, as it changes between blocks.
 
 ## Subcriptions
 
-As in the case with `api.rpc` subscriptions, query subscriptions follow exactly the same form - an actual call is augmented with a callback to return the current state value, update as it changes.  As an example extending on what we had previously -
+As in the case with `api.rpc` subscriptions, query subscriptions follow exactly the same form - an actual call is augmented with a callback to return the current state value that is updated as the underlying value changes. As an example, we can extend on what we had previously -
 
 ```js
 ...
@@ -15,11 +15,11 @@ const unsub = await api.query.timestamp.now((moment) => {
 });
 ```
 
-The form is exactly the same as the subscriptions we have seen previously, instead of the `await` returning the actual once-off value, it returns a subscription. The supplied callback will contain the value as it changes, streamed from the node.
+The form is exactly the same as the subscriptions we have seen previously, instead of the `await` returning the actual once-off value, it returns a subscription `unsub()` function that can be used to stop the subscription and clear up any underlying RPC connections. The supplied callback will contain the value as it changes, streamed from the node.
 
 ## Subscriptions with params
 
-If we had a query with parameters, i.e. the case where we retrieve the balance, the form is exactly the same - the last parameter contains the actual callback, after all parameters. For examplke to retrieve the balances for an account as it changes -
+If we had a query with parameters, i.e. where we wish to perform a query for a specific account, the form is exactly the same - the last parameter contains the actual callback, after all other parameters. To retrieve the balances for an account as it changes, we could do the following -
 
 ```js
 ...
@@ -30,8 +30,8 @@ const unsub = await api.query.balances.freeBalance(ADDR, (balance) => {
 });
 ```
 
-As in the case of the `api.rpc` calls, the subscription call returns a function (`unsub()` in these cases), that can be used unsubscribe and free up resources.
+By now this subscription form should be familiar to you, including the usage of `unsub`.
 
 ## Multiple queries
 
-In most non-trivial applications, it is useful [to perform multiple queries at once, over the same RPC call](api.query.multi.md) in the next section we will dive into this usecase.
+In most non-trivial applications, it is useful to optimize both our code in terms of callbacks as well as node resources, for instance by [performing multiple queries at once, over the same RPC call](api.query.multi.md).
