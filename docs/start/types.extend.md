@@ -2,17 +2,17 @@
 
 Circling back to metadata, by default the metadata information (at this point in time), only returns the type names as they apply to any section, be it a call, event or query. As an example, this means that transfers are defined as `balances.transfer(AccountId, Balance)` with no details as to the mapping of the `Balance` type to a `u128`. (The underlying Substrate/Polkadot default)
 
-Therefore to cater for all types, a mapping in done on the [@polkadot/types library](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces) to define each of the types, align with their underlying structures as it maps to a default Substrate or Polkadot chain.
+Therefore to cater for all types, a mapping in done on the [@polkadot/types library](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces) to define each of the types and align with their underlying structures as it maps to a default Substrate or Polkadot chain.
 
-Additionally, the API contains some logic for type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. some of the work in maintaining the API for Substrate/Polkadot as it evolves, it the addition of types as they appear and gets used in the Rust codebases.
+Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Substrate/Polkadot is the addition of types as they appear and gets used in the Rust codebases.
 
-There is a the [recommentation](install.md#betas) to use a `@polkadot/api@beta` whould you wish to track the master branches of Substrate or Polkadot, since master changes do not make it into a stable release immediately.
+There is a the [recommentation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Substrate or Polkadot, since master changes for the addition of new types do not make it into a stable release immediately.
 
 ## Extension
 
-As a blockchain toolkit, Substrate makes it easy to add your own modules and types. In most non-trivial implementations, this would mean that developers are adding specific types for their implementation as well. The API will get to know the names of these types via the metadata, however it won't understand what they are, which means it cannot encode or decode them. To close this gap, the API allows for the injection of types, i.e. you can explicitly define (or override) types for the node/chain you are connecting to.
+As a blockchain toolkit, Substrate makes it easy to add your own modules and types. In most non-trivial implementations, this would mean that developers are adding specific types for their implementation as well. The API will get to know the names of these types via the metadata, however it won't understand what they are, which means it cannot encode or decode them.
 
-In the simplest example, assuming you have a chain where your `Balance` type is a `u64` (as opposed to the default `u128`), you need to let the API know -
+To close this gap, the API allows for the injection of types, i.e. you can explicitly define (or override) types for the node/chain you are connecting to. In the simplest example, assuming you have a chain where your `Balance` type is a `u64` (as opposed to the default `u128`), you need to let the API know -
 
 ```js
 ...
@@ -24,11 +24,11 @@ const api = await ApiPromise.create({
 });
 ```
 
-The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean  that immediately the API will treat all occurences of `Balance` not as the default, but rather as the on-chain size.
+The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean  that immediately the API will treat all occurences of `Balance` not as the default, but rather as the defined size.
 
 ## User-defined types
 
-Registration also applies to any type that can be found on-chain, i.e. we can add any types that is available -
+Registration also applies to any type that can be found on a specific chain, i.e. we can add any types that is available on a specific node -
 
 ```js
 ...
@@ -52,7 +52,7 @@ const api = await ApiPromise.create({
 })
 ```
 
-The example above defines non-primitive types (as found in the specific implementation) as structs. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Additionally you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
+The example above defines non-primitive types (as found in the specific implementation) as structs. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Here you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
 
 One form of types that appear regularly is enums, these can be defined as follow -
 
@@ -80,7 +80,9 @@ As seen in these examples, types are built up in terms of primitives and aligns 
 
 ## Node and chain-specific types
 
-There are cases where a single API object can be used to connect to different types of nodes or chains, each including their own specific types. For these cases the `typesChain` and `typesSpec` injectors are made available. As a real-world example, the [polkadot-js/apps UI](https://github.com/polkadot-js/apps) can connect to a variety of chains. To support [Edgeware](https://edgewa.re/) by default, the following node-type (`specName` as per the runtime version) overrides are made -
+There are cases where a single API object can be used to connect to different types of nodes or chains, each including their own specific types. For these cases the `typesChain` and `typesSpec` injectors are made available.
+
+As a real-world example, the [polkadot-js/apps UI](https://github.com/polkadot-js/apps) can connect to a variety of chains. To support [Edgeware](https://edgewa.re/) by default, the following node-type (`specName` as per the runtime version) overrides are made -
 
 ```js
 import { IdentityTypes } from 'edgeware-node-types/dist/identity';
@@ -100,7 +102,7 @@ const api = await ApiPromise.create({
 });
 ```
 
-In the same way `typesChain` can be used to match on the actual chain name, i.e. for a chain such as Kusama, the  following overrides can be made (as per example only, it uses the Polkadot defaults, so no overrides are needed) -
+In the same way `typesChain` can be used to match on the actual chain name, i.e. for a chain such as Kusama, the  following overrides can be made (as per example only - Kusama uses the Polkadot defaults, so no overrides are needed) -
 
 ```js
 ...
@@ -115,7 +117,7 @@ const api = await ApiPromise.create({
 });
 ```
 
-The `types`, `typesChain` and `typesSpec` overrides are all optional and all are applied, as applicable to a specific connection. `types` are registered first, followed by `typesSpec` for node-specific overrides, followed by `typesChain` for chain-specific overrides. The would mean is you have the following (contrived) example,
+The `types`, `typesChain` and `typesSpec` overrides are all optional and all are applied, as applicable to a specific connection. From the options `types` are registered first, followed by `typesSpec` for node-specific overrides and finally `typesChain` for chain-specific overrides. The would mean is you have the following (contrived) example,
 
 ```js
 ...
@@ -137,4 +139,4 @@ const api = await ApiPromise.create({
 
 ## Using with TypeScript
 
-The API is built with TypeScript (as are all projects in the polkadot-js organization) and as such allows developers using TS to have access to all the type interfaces defined on the chain, as well as having  access to typings on interacting with the `api.*` namespaces. In the next section we will provide an overview of [what is available in terms of types and TypeScript](typescript.md).
+The API is built with TypeScript (as are all projects in the [polkadot-js organization](https://github.com/polkadot-js/)) and as such allows developers using TS to have access to all the type interfaces defined on the chain, as well as having  access to typings on interacting with the `api.*` namespaces. In the next section we will provide an overview of [what is available in terms of types and TypeScript](typescript.md).
