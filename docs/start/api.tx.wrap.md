@@ -17,18 +17,18 @@ const sudoPair = keyring.getPair(sudoKey);
 // send the actual sudo transaction
 const unsub = await api.tx.sudo
   .sudo(
-    api.tx.balances.setBalance(ADDR, 12345, 0)
+    api.tx.balances.setBalance(ADDR, 12345, 678)
   )
   .signAndSend(sudoPair, (result) => { ... });
 ```
 
-The above is really quite straight-forward, the `sudo.sudo(<call>)` call takes 1 parameter, which is a `Call`. We construct this via the `api.tx` and pass it through. The only difference is that this nested call has no actual `.signAndSend` on it, rather it is only used as a container for data.
+The above is really quite straight-forward, the `sudo.sudo(<call>)` call takes 1 parameter, which is a `Call`. We construct this via the `api.tx` and pass it through. The only difference is that the nested call has no actual `.signAndSend` on it, rather it is only used as a container for data.
 
 Exactly the same would apply to the standard `democracy.propose(<proposal>, <value>)`, for instance we can just swap the above sudo wrapper with a proposal and add the correct fees for the proposal.
 
 ## Complex types
 
-As indicated in previous sections (we will cover types in more detail next), the API will format the inputs into the actual type required for submission. For primitives such as numbers, this is quite understandable, but it is worth spending at least one example on cases where an object is provides as an input. For instance, making a call to validate -
+As indicated in previous sections (we will cover types in more detail next), the API will format the inputs into the actual type required for submission. For primitives such as numbers, this is quite understandable, but it is worth spending at least one example on cases where an object is provided as an input. For instance, making a call to validate -
 
 ```js
 ...
@@ -37,10 +37,8 @@ const txHash = await api.tx.staking.validate({
 });
 ```
 
-In the above example, all we need to provide is a call with the fields for the `ValidatorPrefs` object. (Any fields not defined will be set to the default for that type, i.e. all zero). This object maps through to what is defined on the Substrate side, with the [@polkadot/types version](https://github.com/polkadot-js/api/blob/master/packages/types/src/interfaces/staking/definitions.ts) mapping all fields.
-
-Be aware that in the JS version naming defaults to `camelCase` where names of fields in Substrate defaults to `snake_case`. (Each aligning with conventions in the respective languages)
+In the above example, all we need to provide is a the fields for the `ValidatorPrefs` object. (Any fields not defined will be set to the default for that type, i.e. all zero). This object maps through to what is defined on the Substrate side, with the [@polkadot/types version](https://github.com/polkadot-js/api/blob/master/packages/types/src/interfaces/staking/definitions.ts) mapping all fields.
 
 ## Understanding types
 
-As has been very apparent in all the preceding sections, the management of types is what allows the API to ciommunicate with the node. Most values are in a [SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and the reponsibility of the  API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).
+As has been very apparent in all the preceding sections, the management of types is what allows the API to communicate with the node. Most values are in a [binary SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and it is the reponsibility of the  API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).

@@ -34,6 +34,8 @@ All structures, a wrapping of an object containing a number of member variables,
 
 As an example, a `Header` will have getters for the `.parentHash`, `.number`, `.stateRoot`, `.extrinsicsRoot` and `.digest` fields. The same applies for all structures, as they are returned, each member will have an associated getter.
 
+Be aware that in the JS version naming defaults to `camelCase` where names of fields in Substrate defaults to `snake_case`. (Each version aligning with conventions in the respective languages)
+
 ## Working with enums
 
 Each enum has additional getters which are injected based on the fields wrapped. These take the form of `.is<Name>` and `.as<Name>` to allow you to check is the enum is a certain value or to retrieve the underlying value as a specific type.
