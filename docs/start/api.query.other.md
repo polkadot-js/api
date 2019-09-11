@@ -12,7 +12,7 @@ Quite often is is useful (taking pruning into account, more on this later) to re
 // retrieve the current block header
 const lastHdr = await api.rpc.chain.getHeader();
 
-// retrieve the balance at both at the current hash and the parentHash
+// retrieve the balance at both the current and the parent hashes
 const [balanceNow, balancePrev] = await Promise.all([
   api.query.balances.freeBalance.at(lastHdr.hash, ADDR),
   api.query.balances.freeBalance.at(lastHdr.parentHash, ADDR)
@@ -37,7 +37,7 @@ An additional point to take care of (briefly mentioned above), is state pruning.
 
 ## State entries
 
-In addition to using `api.query` to make actual on-chain queries, it can also be used to retrieve some information on the state entries. For instance to retrieve both the hash and size of an exitisng entry, we can make the following calls -
+In addition to using `api.query` to make actual on-chain queries, it can also be used to retrieve some information on the state entries. For instance to retrieve both the hash and size of an existing entry, we can make the following calls -
 
 ```js
 ...
@@ -63,12 +63,13 @@ It has been explained that the `api.query` interfaces are decorated from the met
 const { meta, method, section } = api.query.balances.freeBalance;
 
 // display some info on a specific entry
-console.log(`${section}.${method}: ${meta.documentation.join(' ')} has a query key ${api.query.balances.freeBalance.key(ADDR)}`);
+console.log(`${section}.${method}: ${meta.documentation.join(' ')}`);
+console.log(`query key: ${api.query.balances.freeBalance.key(ADDR)}`);
 ```
 
 The `section` & `method` is an indication of where it is exposed on the API. In addition the `meta` holds an array with the metadata documentation for the entry.
 
-The `key` endpoint requires some explanation. In the chain state, the key values (identified by the module, method & params) are hashed and this ise used as a lookup. So underlying a single-shot query would utilize the `api.rpc.state.getStorage` entry, passing the output of `key` (which is a hashed representation of the values).
+The `key` endpoint requires some explanation. In the chain state, the key values (identified by the module, method & params) are hashed and this is used as a lookup. So underlying a single-shot query would utilize the `api.rpc.state.getStorage` entry, passing the output of `key` (which is a hashed representation of the values). Apart from the hashing, the API also takes care of type formatting, handling optional values and merging results accross multiple subscriptions.
 
 ## Let's transact already!
 
