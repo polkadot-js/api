@@ -2,9 +2,9 @@
 
 Previously we send simple transactions with the `api.tx` endpoints, in this section we will extend that to monitor the actual transactions for inclusion and also extend the monitoring for transaction events.
 
-## Transaction finalization
+## Transaction inclusion
 
-To send a transaction and then waiting until it has been included in a block, we will use a subscription interface instead of just waiting for the inclusion to yield the extrinsic hash. For the simplest form, we can do the following -
+To send a transaction and then waiting until it has been included in a block, we will use a subscription interface instead of just waiting for the transaction pool addition to yield the extrinsic hash. For the simplest form, we can do the following -
 
 ```js
 ...
@@ -25,7 +25,7 @@ const unsub = await api.tx.balances
   });
 ```
 
-As per all previous subscriptions, the transaction subscription returns in `unsub()` and the actual method has a subscription callback. The `result` object has 2 parts, `events` (to to covered in the next section) and the `status` enum. When this enum is in `Finalized` state (checked via `isFinalized`), the underlying value contains the block hash of the block where the transaction has been included.
+As per all previous subscriptions, the transaction subscription returns in `unsub()` and the actual method has a subscription callback. The `result` object has 2 parts, `events` (to to covered in the next section) and the `status` enum. When this enum is in `Finalized` state (checked via `isFinalized`), the underlying value contains the block hash of the block where the transaction has been included. This does not mean the block is finalized, but rather applies to the transaction state, as further updates will be received for this subscription.
 
 ## Transaction events
 
