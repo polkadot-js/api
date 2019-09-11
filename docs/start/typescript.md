@@ -1,6 +1,6 @@
 # TypeScript interfaces
 
-The API is written in TypeScript, and as such definitions for all actual exposed interfaces are available. In general terms, care has been taken to expose types via a `@polkadot/<package>/types` interface, for instance the `ApiOptions` type (which is passed through) on  the `.create` interface is available under `@polkadot/api/types`.
+The API is written in TypeScript, and as such definitions for all actual exposed interfaces are available. In general terms, care has been taken to expose types via a `@polkadot/<package>/types` interface, for instance the `ApiOptions` type which is passed through on  the `.create` interface is available under `@polkadot/api/types`.
 
 ## RPC interfaces
 
@@ -25,7 +25,9 @@ As indicated, most of the Substrate/Polkadot default types are available via `ty
 
 ## Metadata injected
 
-For any interface injected by metadata, the types are not available by default (although it may be in the future for default interfaces), but rather what the API typings understand is that all results need to comply to the `Codec` interface. However, to make this sane from a use perspective, the injected methods are generic, effectively making the following possible -
+For any interface injected by metadata, the types are not available by default (although it may be in the future for default interfaces), but rather what the API understands is that all results need to comply to the `Codec` interface. (The bas of all out types)
+
+However, to make this sane from a developer perspective the injected methods are generic, effectively making the following possible -
 
 ```js
 import { Balance, Index } from '@polkadot/types/interfaces';
@@ -46,7 +48,7 @@ As of this writing, there are still some gray areas to type detection, specifica
 
 In additiont to expanding the type covereage, we wish to make the actual generation script for the types from `@polkadot/types/interfaces` available in 2 ways -
 
-- allowing you to point to a folder of types and auto-generate the TypeScript typings from those. (Which is aking wo what we use internally). This would allow a reduction in type classes explicitly written and injected.
+- allowing you to point to a folder of types and auto-generate the TypeScript typings from those. (Which is akin to what we do internally). This would allow a reduction in type classes explicitly written and injected.
 - once the metadata itself supports full type definitions, the script can be used to generate interface definitions specifically tailored for a chain
 
 ## And it is a wrap
