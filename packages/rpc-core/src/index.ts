@@ -15,7 +15,7 @@ import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operat
 import interfaces from '@polkadot/jsonrpc';
 import { ClassOf, Option, StorageData, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
-import { ExtError, assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
+import { assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -163,7 +163,7 @@ export default class Rpc implements RpcInterface {
 
           l.error(message);
 
-          return throwError(new ExtError(message, (error as ExtError).code, undefined));
+          return throwError(new Error(message));
         }),
         publishReplay(1), // create a Replay(1)
         refCount() // Unsubcribe WS when there are no more subscribers
@@ -191,7 +191,7 @@ export default class Rpc implements RpcInterface {
 
           l.error(message);
 
-          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+          observer.error(new Error(message));
         };
 
         try {
