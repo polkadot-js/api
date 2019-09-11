@@ -1,6 +1,8 @@
 ## Events
 
-Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.
+Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. 
+
+(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)
 - **[balances](#balances)**
 
 - **[contracts](#contracts)**

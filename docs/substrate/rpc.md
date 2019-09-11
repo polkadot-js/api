@@ -1,6 +1,7 @@
 ## JSON-RPC
 
-_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._
+The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.
+
 - **[author](#author)**
 
 - **[chain](#chain)**
