@@ -16,11 +16,13 @@ import MetadataV7, { ModuleMetadataV7 } from '../Metadata/v7';
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
 
-const DESC_CONSTANTS = '\n\n_The following sections contain the module constants, also known as parameter types.\n';
-const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime._\n';
-const DESC_EVENTS = '\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
-const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._';
-const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
+const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
+
+const DESC_CONSTANTS = `\n\nThe following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}\n`;
+const DESC_EXTRINSICS = `\n\nThe following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}\n`;
+const DESC_EVENTS = `\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}\n`;
+const DESC_RPC = '\n\nThe following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.\n';
+const DESC_STORAGE = `\n\nThe following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}\n`;
 
 function sectionLink (sectionName: string): string {
   return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
@@ -219,26 +221,26 @@ function writeFile (name: string, ...chunks: any[]): void {
 }
 
 function writeToRpcMd (): void {
-  writeFile('docs/METHODS_RPC.md', addRpc());
+  writeFile('docs/substrate/rpc.md', addRpc());
 }
 
 function writeToConstantsMd (metadata: MetadataV7): void {
-  writeFile('docs/METHODS_CONSTANTS.md', addConstants(metadata));
+  writeFile('docs/substrate/constants.md', addConstants(metadata));
 }
 
 function writeToStorageMd (metadata: MetadataV7): void {
   const options = { flags: 'r', encoding: 'utf8' };
-  const data = fs.readFileSync('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', options);
+  const data = fs.readFileSync('docs/substrate/storage-known.md', options);
 
-  writeFile('docs/METHODS_STORAGE.md', addStorage(metadata), data);
+  writeFile('docs/substrate/storage.md', addStorage(metadata), data);
 }
 
 function writeToExtrinsicsMd (metadata: MetadataV7): void {
-  writeFile('docs/METHODS_EXTRINSICS.md', addExtrinsics(metadata));
+  writeFile('docs/substrate/extrinsics.md', addExtrinsics(metadata));
 }
 
 function writeToEventsMd (metadata: MetadataV7): void {
-  writeFile('docs/METHODS_EVENTS.md', addEvents(metadata));
+  writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
 const metadata = new Metadata(rpcdata).asLatest;
