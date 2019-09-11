@@ -1,6 +1,8 @@
 ## Constants
 
-_The following sections contain the module constants, also known as parameter types.
+The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via `api.consts.<module>.<method>`. 
+
+(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)
 - **[babe](#babe)**
 
 - **[balances](#balances)**
