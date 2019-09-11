@@ -4,7 +4,7 @@ Up till now we have focussed on the base operation of transactions. There are ho
 
 ## Sudo use
 
-When running a development chain (Polkadot/Substrate with a `--dev` flag), or in certain testnets a sudo module is available - just like the sudo command on *nix systems, it allows root-level access to perform actions. For instance, we can perform a `setBalance` on an account -
+When running a development chain (Polkadot/Substrate with a `--dev` flag), or in certain testnets a sudo module is available - just like the sudo command found on some systems, it allows root-level access to perform actions. For instance, we can perform a `setBalance` on an account -
 
 ```js
 ...
