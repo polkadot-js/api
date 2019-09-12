@@ -45,7 +45,7 @@ describeE2E({
   let rpc: Rpc;
 
   beforeAll(async (done): Promise<() => void> => {
-    abi = new Abi(incrementerAbi);
+    abi = new Abi({ isV2: false, data: incrementerAbi });
     api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
 
     return (
@@ -73,7 +73,7 @@ describeE2E({
   // @TODO Add tests for Polkadot once child storage is being used there.
   describe('e2e state child methods', (): void => {
     beforeAll(async (done): Promise<() => void> => {
-      abi = new Abi(incrementerAbi);
+      abi = new Abi({ isV2: false, data: incrementerAbi });
       api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
       // An instance of a contract can only be deployed once by one specific account.
       // That's why we need a random starting point for our incrementer contract to be

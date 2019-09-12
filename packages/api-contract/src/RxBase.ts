@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { AbiVersion, ApiObject, ContractABI, ContractBase } from './types';
+import { ApiObject, ContractABI, ContractBase } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -20,7 +20,7 @@ export default abstract class RxBase implements ContractBase<'rxjs'> {
   public constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi({ version: AbiVersion.v1, data: abi });
+      : new Abi({ isV2: false, data: abi });
     this.api = api;
 
     // cater for substrate 2.x & 1.x (in order)

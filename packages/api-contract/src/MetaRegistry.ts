@@ -45,7 +45,12 @@ export default class MetaRegistry {
     );
   }
 
-  public typeDefAt (index: t.TypeIndex): t.TypeDef | undefined {
+  public hasTypeDefAt (index: t.TypeIndex): boolean {
+    return !!this.typeDefs[index - 1];
+  }
+
+  public typeDefAt (index: t.TypeIndex): t.TypeDef {
+    assert(this.hasTypeDefAt(index), `Invalid TypeDef index requested: ${index}`);
     return this.typeDefs[index - 1];
   }
 
@@ -274,7 +279,7 @@ export default class MetaRegistry {
   }
 
   public typeDefFromMetaTypeAt (typeIndex: t.TypeIndex): t.TypeDef {
-    if (!this.typeDefAt(typeIndex)) {
+    if (!this.hasTypeDefAt(typeIndex)) {
       this.setTypeDefAtIndex(typeIndex);
     }
     return this.typeDefAt(typeIndex)!;

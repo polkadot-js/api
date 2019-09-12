@@ -6,7 +6,7 @@ import { CodecArg, Constructor } from '@polkadot/types/types';
 import { ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
 
 import { Compact, createClass } from '@polkadot/types';
-import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 export function typeToString (type: ContractABITypes): string {
   if (isString(type)) {
@@ -38,7 +38,7 @@ export function createArgClass (args: ContractABIFnArg[], baseDef: Record<string
   );
 }
 
-export function createArgs (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFnArg[] {
+export function createArgs (_: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFnArg[] {
   return method.args.map(({ name, type }): ContractABIFnArg => ({
     name: stringCamelCase(name as string),
     type: typeToString(type)
@@ -66,7 +66,9 @@ export function createMethod (name: string, method: Partial<ContractABIMethod> &
 
   fn.args = args;
   fn.isConstant = !(method.mutates || false);
-  fn.type = method.return_type ? typeToString(method.return_type) : null;
+  if (!isNumber(method.return_type)) {
+    fn.type = method.return_type ? typeToString(method.return_type) : null;
+  }
 
   return fn;
 }

@@ -9,13 +9,8 @@ import { MetaRegistryJson, StringIndex, TypeIndex } from '@polkadot/types/codec/
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
-export enum AbiVersion {
-  v1 = 1,
-  v2 = 2
-}
-
 export interface ContractABIBase {
-  version: AbiVersion;
+  isV2: boolean;
   data: any;
 }
 
@@ -69,7 +64,7 @@ export interface ContractABI {
 export type ContractABIV1Data = ContractABI;
 
 export interface ContractABIV1 {
-  version: AbiVersion.v1;
+  isV2: false;
   data: ContractABIV1Data;
 }
 
@@ -79,7 +74,7 @@ export interface ContractABIV2Data extends MetaRegistryJson {
 }
 
 export interface ContractABIV2 {
-  version: AbiVersion.v2;
+  isV2: true;
   data: ContractABIV2Data;
 }
 
@@ -136,7 +131,7 @@ export interface InterfaceAbi {
   readonly abi: ContractABI;
   readonly deploy: ContractABIFn;
   readonly messages: AbiMessages;
-  readonly version: AbiVersion;
+  readonly isV2: boolean;
 }
 
 export interface ContractBase<ApiType> {

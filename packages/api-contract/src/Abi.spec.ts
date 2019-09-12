@@ -14,7 +14,7 @@ describe('Abi', (): void => {
     let abi: Abi;
 
     beforeAll((): void => {
-      abi = new Abi(typesAbi);
+      abi = new Abi({ isV2: false, data: typesAbi });
     });
 
     function check (method: string, args: ContractABIArg[], type: string | null): void {
@@ -108,7 +108,7 @@ describe('Abi', (): void => {
     let abi: Abi;
 
     beforeEach((): void => {
-      abi = new Abi(erc20Abi);
+      abi = new Abi({ isV2: false, data: erc20Abi });
     });
 
     it('has the attached methods', (): void => {

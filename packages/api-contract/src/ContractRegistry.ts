@@ -1,8 +1,8 @@
-import { ContractABI, ContractABIArg, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase } from './types';
+import { ContractABI, ContractABIArg, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase } from './types';
 
-import { assert, isNumber, isString, isObject, stringCamelCase } from '@polkadot/util';
+import { assert, isNull, isNumber, isString, isObject, stringCamelCase } from '@polkadot/util';
 import MetaRegistry from './MetaRegistry';
-import { typeToString } from './method';
+import { createMethod, typeToString } from './method';
 
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
@@ -19,7 +19,7 @@ export default class ContractRegistry extends MetaRegistry {
   }
 
   public validateDeploy ({ deploy }: ContractABI): void {
-    const unknownKeys = Object.keys(deploy).filter((key): boolean => !['args'].includes(key));
+    const unknownKeys = Object.keys(deploy).filter((key): boolean => !['args', 'docs'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI deploy`);
 
@@ -28,20 +28,20 @@ export default class ContractRegistry extends MetaRegistry {
 
   public validateMethods ({ messages }: ContractABI): void {
     messages.forEach((method): void => {
-      const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
+      const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
       const { name, selector, return_type: returnType } = method;
       assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for messages.${method.name}`);
       assert(isNumber(selector), `Expected selector for messages.${method.name}`);
-      assert(isNumber(returnType) && isObject(this.typeDefAt(returnType)), `Expected return_type for messages.${method.name}`);
+      assert(isNull(returnType) || (isNumber(returnType) && isObject(this.typeDefAt(returnType))), `Expected return_type for messages.${method.name}`);
 
       this.validateArgs(`messages.${method.name}`, method.args);
     });
   }
 
   public validateAbi (abi: ContractABI): void {
-    const unknownKeys = Object.keys(abi).filter((key): boolean => !['deploy', 'messages', 'name'].includes(key));
+    const unknownKeys = Object.keys(abi).filter((key): boolean => !['deploy', 'docs', 'events', 'messages', 'name'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
     assert(abi.deploy && abi.messages && isNumber(abi.name) && isString(this.stringAt(abi.name)), 'ABI should have deploy, messages & name sections');
@@ -51,9 +51,21 @@ export default class ContractRegistry extends MetaRegistry {
   }
 
   public createArgs (method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFnArg[] {
-    return method.args.map(({ name, type }): ContractABIFnArg => ({
-      name: stringCamelCase(this.stringAt(name as number)),
-      type: typeToString(type)
-    }));
+    return method.args.map(({ name, type }): ContractABIFnArg => {
+      assert(isNumber(type) && this.typeDefAt(type as number), `Invalid type at index ${type}`);
+      return {
+        name: stringCamelCase(this.stringAt(name as number)),
+        type: typeToString(this.typeDefAt(type as number)!.type)
+      };
+    });
+  }
+
+  public createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
+    const fn = createMethod(`messages.${name}`, method, this.createArgs(method));
+    if (isNumber(method.return_type)) {
+      assert(this.typeDefAt(method.return_type), `Invalid type at index ${method.return_type}`);
+      fn.type = typeToString(this.typeDefAt(method.return_type)!.type);
+    }
+    return fn;
   }
 }
