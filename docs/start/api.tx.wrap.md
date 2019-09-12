@@ -37,7 +37,7 @@ const txHash = await api.tx.staking.validate({
 });
 ```
 
-In the above example, all we need to provide is a the fields for the `ValidatorPrefs` object. (Any fields not defined will be set to the default for that type, i.e. all zero). This object maps through to what is defined on the Substrate side, with the [@polkadot/types version](https://github.com/polkadot-js/api/blob/master/packages/types/src/interfaces/staking/definitions.ts) mapping all fields.
+In the above example, all we need to provide is a the fields for the `ValidatorPrefs` object. (Any fields not defined will be set to the default for that type, i.e. all zero). This object maps through to what is defined on the Polkadot/Substrate side, with the [@polkadot/types version](https://github.com/polkadot-js/api/blob/master/packages/types/src/interfaces/staking/definitions.ts) mapping all fields.
 
 ## Understanding types
 

@@ -33,7 +33,7 @@ const momentPrev = await api.query.timestamp.now.at(lastHdr.parentHash);
 
 The `.at` queries are all single-shot, i.e. there are no subscription option to these, since the state for a previous block should be static. (This is true to a certain extent, i.e. when blocks have been finalized).
 
-An additional point to take care of (briefly mentioned above), is state pruning. By default a Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes agressive state pruning)
+An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes agressive state pruning)
 
 ## State entries
 

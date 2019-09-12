@@ -21,7 +21,7 @@ In the above example a couple of things are introduced - most of the chain defin
 
 In the subscription example, we explicitly define `lastHead: Header`, although the same definition  is missing for `firstHead`. However, in both these cases the definitions for the `api.rpc` sections are such that TypeScript understands that `firstHead` and `lastHead` are of type `Header`. The `: Header` here is rather for our own understanding (and could be needed based on your eslint/tslint config).
 
-As indicated, most of the Substrate/Polkadot default types are available via `types/interfaces`. However, for primitives types where there is an actual implementation, these are made available via `@polkadot/types` directly. For instance, `import { u32 } from '@polkadot/types` is valid in this context.
+As indicated, most of the Polkadot/Substrate default types are available via `types/interfaces`. However, for primitives types where there is an actual implementation, these are made available via `@polkadot/types` directly. For instance, `import { u32 } from '@polkadot/types` is valid in this context.
 
 ## Metadata injected
 

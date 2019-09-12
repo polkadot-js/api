@@ -19,7 +19,7 @@ import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, Sto
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from './interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from './interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from './interfaces/session';
-import { EraIndex, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from './interfaces/staking';
+import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from './interfaces/staking';
 import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from './interfaces/system';
 import { TreasuryProposal } from './interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interfaces/attestations';
@@ -533,6 +533,9 @@ export interface InterfaceRegistry {
   'Compact<EraIndex>': Compact<EraIndex>;
   'Option<EraIndex>': Option<EraIndex>;
   'Vec<EraIndex>': Vec<EraIndex>;
+  EraPoints: EraPoints;
+  'Option<EraPoints>': Option<EraPoints>;
+  'Vec<EraPoints>': Vec<EraPoints>;
   EraRewards: EraRewards;
   'Option<EraRewards>': Option<EraRewards>;
   'Vec<EraRewards>': Vec<EraRewards>;
@@ -548,6 +551,10 @@ export interface InterfaceRegistry {
   MomentOf: MomentOf;
   'Option<MomentOf>': Option<MomentOf>;
   'Vec<MomentOf>': Vec<MomentOf>;
+  Points: Points;
+  'Compact<Points>': Compact<Points>;
+  'Option<Points>': Option<Points>;
+  'Vec<Points>': Vec<Points>;
   RewardDestination: RewardDestination;
   'Option<RewardDestination>': Option<RewardDestination>;
   'Vec<RewardDestination>': Vec<RewardDestination>;

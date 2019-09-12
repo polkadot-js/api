@@ -4,19 +4,17 @@ This section will give a quick introduction into the Keyring, including the addi
 
 ## Installation
 
-They [@polkadot/keyring](https://github.com/polkadot-js/common/tree/master/packages/keyring) keyring is not included directly with the API as a dependency, so rather it should be installed seperately, you can do so via
+They [@polkadot/keyring](https://github.com/polkadot-js/common/tree/master/packages/keyring) keyring is included directly with the API as a dependency, so it is directly importable (since the 0.92 version) alongside the API.
 
-`yarn add @polkadot/keyring`
-
-It is best-practice to ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `1.2.1`, it would make sense to include `1.2.1` as the `@polkadot/keyring` version. (This helps in making sure extra versions of the libraries are not included as duplicates, especially in the case where bundles are created.)
+If you do opt to install it seperately, ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `util-crypto 1.4.1`, it would make sense to include `keyring 1.4.1` as the installed version. (This helps in making sure extra versions of the libraries are not included as duplicates, especially in the case where bundles are created. Additionally, this makes sure that weird side-effects in the WASM initialization is avoided.)
 
 ## Creating a keyring instance
 
-Once installed, you can create an instance by just creating the class -
+Once installed, you can create an instance by just creating an instance of the `Keyring` class -
 
 ```js
 // import the keyring as required
-import { Keyring } from '@polkadot/keyring';
+import { Keyring } from '@polkadot/api';
 
 // initialize the API as we would normally do
 ...
@@ -64,7 +62,7 @@ const newDeri = keyring.addFromUri(`${PHRASE}//hard-derived/soft-derived`);
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 ```
 
-The above additions cater for most of the usecases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Substrate/Polkadot with a `--dev` flag.
+The above additions cater for most of the usecases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Polkadot/Substrate with a `--dev` flag.
 
 ## Working with pairs
 
@@ -94,7 +92,7 @@ const signature = alice.sign(message);
 const isValid = alice.verify(message, signature);
 
 // log info
-console.log(`The signature ${u8aToHex(signature)}, is ${isValid ? '' : 'not '}verified`);
+console.log(`The signature ${u8aToHex(signature)}, is ${isValid ? '' : 'in'}valid`);
 ```
 
 This covers the keyring basics, however there are two additional functions here of interest, `keyring.getPairs()` to retrieve a list of all pairs in the keyring and `keyring.getPair(<address or publicKey>)` to retrieve a pair where we have an identifier.
