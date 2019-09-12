@@ -1,4 +1,4 @@
-# Introduction to types
+# Type basics
 
 We've touched upon types in most previous sections, i.e. that these are driven by metadata and that they are created and converted to/from automatically by the API. Since they appear in all results, we will divert a bit from the regularly scheduled program in explaining the API interfaces to giving some info on the base types.
 

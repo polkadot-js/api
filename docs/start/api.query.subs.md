@@ -1,4 +1,4 @@
-# Streaming queries
+# Query subscriptions
 
 Previously we explained the concepts between `api.query`. In this section we will expand on that knowledge to introduce subscriptions (akin to what we found in `api.rpc`) to stream results from the state, as it changes between blocks.
 

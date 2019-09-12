@@ -1,4 +1,4 @@
-# Making RPC queries
+# RPC queries
 
 The RPC calls provide the backbone for the transmission of data to and from the node. This means that all API endpoints such as `api.query`, `api.tx` or `api.derive` just wrap RPC calls, providing information in the encoded format as expected by the node.
 

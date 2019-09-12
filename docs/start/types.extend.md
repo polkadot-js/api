@@ -1,4 +1,4 @@
-# Adding additional types
+# Extending types
 
 Circling back to metadata, by default the metadata information (at this point in time), only returns the type names as they apply to any section, be it a call, event or query. As an example, this means that transfers are defined as `balances.transfer(AccountId, Balance)` with no details as to the mapping of the `Balance` type to a `u128`. (The underlying Substrate/Polkadot default)
 

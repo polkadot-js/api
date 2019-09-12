@@ -1,4 +1,4 @@
-# Transactions and subscriptions
+# Transaction subscriptions
 
 Previously we sent simple transactions using the `api.tx` endpoints, in this section we will extend that to monitor the actual transactions for inclusion and also extend the monitoring for transaction events.
 
