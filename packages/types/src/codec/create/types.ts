@@ -47,6 +47,7 @@ export interface TypeDef {
 }
 
 export type TypeIndex = number;
+
 export type StringIndex = number;
 
 export type MetaTypeIdPrimitive = string;
