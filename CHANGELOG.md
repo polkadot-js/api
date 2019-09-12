@@ -2,6 +2,7 @@
 
 - The API now correctly sets the ss58 prefix as retrieved from the chain properties vis `ss58Format`
 - Bump to `@polkadot/util` 1.3.1, removing use of `ExtError`
+- the `Keyring` from `@polkadot/keyring` is now exposed on the API as well. You can do `import { Keyring } from '@polkadot/api'` - this alleviates the need for extra dependencies (apart from `@polkadot/api`), and since the keyring is critical for signing operations, aligns everything in one bundle
 
 # 0.91.1
 
