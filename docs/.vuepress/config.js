@@ -31,8 +31,8 @@ module.exports = {
           ['start/install.md', 'Installation'],
           ['start/basics.md', 'Basics & Metadata'],
           ['start/create.md', 'Creating an instance'],
-          ['start/api.consts.md', 'Using constants'],
-          ['start/api.query.md', 'Using queries'],
+          ['start/api.consts.md', 'Runtime Constants'],
+          ['start/api.query.md', 'State queries'],
           ['start/api.rpc.md', 'RPC calls'],
           ['start/api.query.subs.md', 'Query subscriptions'],
           ['start/api.query.multi.md', 'Multi queries'],
@@ -42,8 +42,9 @@ module.exports = {
           ['start/api.tx.subs.md', 'Transaction subscriptions'],
           ['start/api.tx.wrap.md', 'Complex transactions'],
           ['start/types.basics.md', 'Type basics'],
-          ['start/types.extend.md', 'Type extension'],
-          ['start/typescript.md', 'TypeScript interfaces']
+          ['start/types.extend.md', 'Extending types'],
+          ['start/typescript.md', 'TypeScript interfaces'],
+          ['start/FAQ.md', 'FAQ']
         ]
       },
       {

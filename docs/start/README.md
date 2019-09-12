@@ -12,4 +12,4 @@ If you spot gaps in the information provided, or are uncertain about any specifi
 
 ## Ready? Steady? Go!
 
-With all that said, let's get started... [What should be installed, and how should we do it?](install.md)
+If you already have a good grasp on the API and are just looking for a specific answer, you may want to take a look at the [Frequently Asked Questions](FAQ.md). With all that said, let's get started... [What should be installed, and how should we do it?](install.md)
