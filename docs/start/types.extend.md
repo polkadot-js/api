@@ -1,12 +1,12 @@
 # Extending types
 
-Circling back to metadata, by default the metadata information (at this point in time), only returns the type names as they apply to any section, be it a call, event or query. As an example, this means that transfers are defined as `balances.transfer(AccountId, Balance)` with no details as to the mapping of the `Balance` type to a `u128`. (The underlying Substrate/Polkadot default)
+Circling back to metadata, by default the metadata information (at this point in time), only returns the type names as they apply to any section, be it a call, event or query. As an example, this means that transfers are defined as `balances.transfer(AccountId, Balance)` with no details as to the mapping of the `Balance` type to a `u128`. (The underlying Polkadot/Substrate default)
 
-Therefore to cater for all types, a mapping in done on the [@polkadot/types library](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces) to define each of the types and align with their underlying structures as it maps to a default Substrate or Polkadot chain.
+Therefore to cater for all types, a mapping in done on the [@polkadot/types library](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces) to define each of the types and align with their underlying structures as it maps to a default Polkadot or Substrate chain.
 
-Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Substrate/Polkadot is the addition of types as they appear and gets used in the Rust codebases.
+Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Polkadot/Substrate is the addition of types as they appear and gets used in the Rust codebases.
 
-There is a the [recommentation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Substrate or Polkadot, since master changes for the addition of new types do not make it into a stable release immediately.
+There is a the [recommentation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Polkadot or Substrate, since master changes for the addition of new types do not make it into a stable release immediately.
 
 ## Extension
 
