@@ -289,7 +289,9 @@
             },
             {
               "name": "ExtrinsicFailed",
-              "args": [],
+              "args": [
+                "DispatchError"
+              ],
               "documentation": [
                 " An extrinsic failed."
               ]
@@ -471,7 +473,7 @@
             {
               "name": "EpochDuration",
               "type": "u64",
-              "value": "0x5802000000000000",
+              "value": "0x6009000000000000",
               "documentation": [
                 " The number of **slots** that an epoch takes. We couple sessions to",
                 " epochs, i.e. we start a new session once the new epoch begins."
@@ -480,7 +482,7 @@
             {
               "name": "ExpectedBlockTime",
               "type": "Moment",
-              "value": "0xe803000000000000",
+              "value": "0x7017000000000000",
               "documentation": [
                 " The expected average block time at which BABE should be creating",
                 " blocks. Since BABE is probabilistic it is not trivial to figure out",
@@ -547,7 +549,7 @@
             {
               "name": "MinimumPeriod",
               "type": "Moment",
-              "value": "0xf401000000000000",
+              "value": "0xb80b000000000000",
               "documentation": [
                 " The minimum period between blocks. Beware that this is different to the *expected* period",
                 " that the block production apparatus provides. Your chosen consensus system will generally",
@@ -781,6 +783,27 @@
                 " - Contains a limited number of reads and writes.",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "force_transfer",
+              "args": [
+                {
+                  "name": "source",
+                  "type": "Address"
+                },
+                {
+                  "name": "dest",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<Balance>"
+                }
+              ],
+              "documentation": [
+                " Exactly as `transfer`, except the origin must be root and the source account may be",
+                " specified."
+              ]
             }
           ],
           "events": [
@@ -944,28 +967,6 @@
                 ]
               },
               {
-                "name": "OfflineSlash",
-                "modifier": 1,
-                "type": {
-                  "Type": "Perbill"
-                },
-                "fallback": "0x40420f00",
-                "documentation": [
-                  " Slash, per validator that is taken for the first time they are found to be offline."
-                ]
-              },
-              {
-                "name": "OfflineSlashGrace",
-                "modifier": 1,
-                "type": {
-                  "Type": "u32"
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " Number of instances of offline reports before slashing begins for validators."
-                ]
-              },
-              {
                 "name": "Invulnerables",
                 "modifier": 1,
                 "type": {
@@ -1037,7 +1038,7 @@
                     "linked": true
                   }
                 },
-                "fallback": "0x0c00",
+                "fallback": "0x00",
                 "documentation": [
                   " The map from (wannabe) validator stash key to the preferences of that validator."
                 ]
@@ -1146,35 +1147,6 @@
                 ]
               },
               {
-                "name": "SlashCount",
-                "modifier": 1,
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "u32",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00000000",
-                "documentation": [
-                  " The number of times a given validator has been reported offline. This gets decremented",
-                  " by one each era that passes."
-                ]
-              },
-              {
-                "name": "RecentlyOffline",
-                "modifier": 1,
-                "type": {
-                  "Type": "Vec<(AccountId,BlockNumber,u32)>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how",
-                  " many instances they were offline for)."
-                ]
-              },
-              {
                 "name": "ForceEra",
                 "modifier": 1,
                 "type": {
@@ -1186,6 +1158,19 @@
                 ]
               },
               {
+                "name": "SlashRewardFraction",
+                "modifier": 1,
+                "type": {
+                  "Type": "Perbill"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The percentage of the slash that is distributed to reporters.",
+                  "",
+                  " The rest of the slashed value is handled by the `Slash`."
+                ]
+              },
+              {
                 "name": "BondedEras",
                 "modifier": 1,
                 "type": {
@@ -1194,6 +1179,22 @@
                 "fallback": "0x00",
                 "documentation": [
                   " A mapping from still-bonded eras to the first session index of that era."
+                ]
+              },
+              {
+                "name": "EraSlashJournal",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "Vec<SlashJournalEntry>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All slashes that have occurred in a given era."
                 ]
               }
             ]
@@ -1219,7 +1220,7 @@
                 " Take the origin account as a stash and lock up `value` of its balance. `controller` will",
                 " be the account that controls it.",
                 "",
-                " `value` must be more than the `existential_deposit` defined in the Balances module.",
+                " `value` must be more than the `minimum_balance` specified by `T::Currency`.",
                 "",
                 " The dispatch origin for this call must be _Signed_ by the stash account.",
                 "",
@@ -1269,7 +1270,7 @@
               "documentation": [
                 " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
                 " period ends. If this leaves an amount actively bonded less than",
-                " T::Currency::existential_deposit(), then it is increased to the full amount.",
+                " T::Currency::minimum_balance(), then it is increased to the full amount.",
                 "",
                 " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
                 " the funds out of management ready for transfer.",
@@ -1455,18 +1456,6 @@
               ]
             },
             {
-              "name": "set_offline_slash_grace",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "documentation": [
-                " Set the offline slash grace period."
-              ]
-            },
-            {
               "name": "set_invulnerables",
               "args": [
                 {
@@ -1490,24 +1479,23 @@
               ]
             },
             {
-              "name": "OfflineWarning",
-              "args": [
-                "AccountId",
-                "u32"
-              ],
-              "documentation": [
-                " One validator (and its nominators) has been given an offline-warning (it is still",
-                " within its grace). The accrued number of slashes is recorded, too."
-              ]
-            },
-            {
-              "name": "OfflineSlash",
+              "name": "Slash",
               "args": [
                 "AccountId",
                 "Balance"
               ],
               "documentation": [
                 " One validator (and its nominators) has been slashed by the given amount."
+              ]
+            },
+            {
+              "name": "OldSlashingReportDiscarded",
+              "args": [
+                "SessionIndex"
+              ],
+              "documentation": [
+                " An old slashing report from a prior era was discarded because it could",
+                " not be processed."
               ]
             }
           ],
@@ -1523,12 +1511,89 @@
             {
               "name": "BondingDuration",
               "type": "EraIndex",
-              "value": "0xa0020000",
+              "value": "0x1c000000",
               "documentation": [
                 " Number of eras that staked funds must remain bonded for."
               ]
             }
           ]
+        },
+        {
+          "name": "Offences",
+          "storage": {
+            "prefix": "Offences",
+            "items": [
+              {
+                "name": "Reports",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "ReportIdOf",
+                    "value": "OffenceDetails",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The primary structure that holds all offence records keyed by report identifiers."
+                ]
+              },
+              {
+                "name": "ConcurrentReportsIndex",
+                "modifier": 1,
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Blake2_256",
+                    "key1": "Kind",
+                    "key2": "OpaqueTimeSlot",
+                    "value": "Vec<ReportIdOf>",
+                    "key2Hasher": "Blake2_256"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A vector of reports of the same kind that happened at the same time slot."
+                ]
+              },
+              {
+                "name": "ReportsByKindIndex",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "Kind",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Enumerates all reports of a kind along with the time they happened.",
+                  "",
+                  " All reports are sorted by the time of offence.",
+                  "",
+                  " Note that the actual type of this mapping is `Vec<u8>`, this is because values of",
+                  " different types are not supported at the moment so we are doing the manual serialization."
+                ]
+              }
+            ]
+          },
+          "calls": [],
+          "events": [
+            {
+              "name": "Offence",
+              "args": [
+                "Kind",
+                "OpaqueTimeSlot"
+              ],
+              "documentation": [
+                " There is an offence reported of the given `kind` happened at the `session_index` and",
+                " (kind-specific) time slot. This event is not deposited for duplicate slashes."
+              ]
+            }
+          ],
+          "constants": []
         },
         {
           "name": "Session",
@@ -1558,17 +1623,6 @@
                 ]
               },
               {
-                "name": "Changed",
-                "modifier": 1,
-                "type": {
-                  "Type": "bool"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " True if anything has changed in this session."
-                ]
-              },
-              {
                 "name": "QueuedChanged",
                 "modifier": 1,
                 "type": {
@@ -1576,7 +1630,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Queued keys changed."
+                  " True if the underlying economic identities or weighting behind the validators",
+                  " has changed in the queued validator set."
                 ]
               },
               {
@@ -1781,6 +1836,34 @@
                 "documentation": [
                   " `true` if we are currently stalled."
                 ]
+              },
+              {
+                "name": "CurrentSetId",
+                "modifier": 1,
+                "type": {
+                  "Type": "SetId"
+                },
+                "fallback": "0x0000000000000000",
+                "documentation": [
+                  " The number of changes (both in terms of keys and underlying economic responsibilities)",
+                  " in the \"set\" of Grandpa validators from genesis."
+                ]
+              },
+              {
+                "name": "SetIdSession",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "SetId",
+                    "value": "SessionIndex",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A mapping from grandpa set ID to the index of the *most recent* session for which its members were responsible."
+                ]
               }
             ]
           },
@@ -1802,7 +1885,7 @@
             {
               "name": "NewAuthorities",
               "args": [
-                "Vec<(AuthorityId,u64)>"
+                "Vec<(AuthorityId,AuthorityWeight)>"
               ],
               "documentation": [
                 " New authority set has been applied."
@@ -1882,7 +1965,7 @@
                 },
                 {
                   "name": "signature",
-                  "type": "AuthoritySignature"
+                  "type": "Signature"
                 }
               ],
               "documentation": []
@@ -2503,7 +2586,7 @@
             {
               "name": "EnactmentPeriod",
               "type": "BlockNumber",
-              "value": "0x008d2700",
+              "value": "0x80970600",
               "documentation": [
                 " The minimum period of locking and the period between a proposal being approved and enacted.",
                 "",
@@ -2515,7 +2598,7 @@
             {
               "name": "LaunchPeriod",
               "type": "BlockNumber",
-              "value": "0x00ea2400",
+              "value": "0x00270600",
               "documentation": [
                 " How often (in blocks) new public referenda are launched."
               ]
@@ -2523,7 +2606,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x00ea2400",
+              "value": "0x00270600",
               "documentation": [
                 " How often (in blocks) to check for new votes."
               ]
@@ -2539,7 +2622,7 @@
             {
               "name": "EmergencyVotingPeriod",
               "type": "BlockNumber",
-              "value": "0x80f40300",
+              "value": "0xc0a80000",
               "documentation": [
                 " Minimum voting period allowed for an emergency referendum."
               ]
@@ -2547,7 +2630,7 @@
             {
               "name": "CooloffPeriod",
               "type": "BlockNumber",
-              "value": "0x00ea2400",
+              "value": "0x00270600",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
@@ -3530,7 +3613,7 @@
             {
               "name": "VotingPeriod",
               "type": "BlockNumber",
-              "value": "0x00a30200",
+              "value": "0x80700000",
               "documentation": [
                 " How often (in blocks) to check for new votes. A reasonable default value",
                 " is 1000."
@@ -3858,7 +3941,7 @@
             {
               "name": "ProposalBondMinimum",
               "type": "BalanceOf",
-              "value": "0x00e40b54020000000000000000000000",
+              "value": "0x0010a5d4e80000000000000000000000",
               "documentation": [
                 " Minimum amount of funds that should be placed in a deposit for making a proposal."
               ]
@@ -3866,7 +3949,7 @@
             {
               "name": "SpendPeriod",
               "type": "BlockNumber",
-              "value": "0x80510100",
+              "value": "0x00460500",
               "documentation": [
                 " Period between successive spends."
               ]
@@ -3874,7 +3957,7 @@
             {
               "name": "Burn",
               "type": "Permill",
-              "value": "0x20a10700",
+              "value": "0x50c30000",
               "documentation": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
               ]
@@ -3952,88 +4035,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "Sudo",
-          "storage": {
-            "prefix": "Sudo",
-            "items": [
-              {
-                "name": "Key",
-                "modifier": 1,
-                "type": {
-                  "Type": "AccountId"
-                },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                "documentation": [
-                  " The `AccountId` of the sudo key."
-                ]
-              }
-            ]
-          },
-          "calls": [
-            {
-              "name": "sudo",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": [
-                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - No DB writes.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_key",
-              "args": [
-                {
-                  "name": "new",
-                  "type": "Address"
-                }
-              ],
-              "documentation": [
-                " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - Limited storage reads.",
-                " - One DB change.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "Sudid",
-              "args": [
-                "bool"
-              ],
-              "documentation": [
-                " A sudo just took place."
-              ]
-            },
-            {
-              "name": "KeyChanged",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " The sudoer just switched identity; the old key is supplied."
-              ]
-            }
-          ],
-          "constants": []
         },
         {
           "name": "Parachains",
@@ -4719,6 +4720,88 @@
               ],
               "documentation": [
                 " Funds were unreserved since bidder is no longer active."
+              ]
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "Sudo",
+          "storage": {
+            "prefix": "Sudo",
+            "items": [
+              {
+                "name": "Key",
+                "modifier": 1,
+                "type": {
+                  "Type": "AccountId"
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " The `AccountId` of the sudo key."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "sudo",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Root` origin.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - No DB writes.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Address"
+                }
+              ],
+              "documentation": [
+                " Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB change.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Sudid",
+              "args": [
+                "bool"
+              ],
+              "documentation": [
+                " A sudo just took place."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " The sudoer just switched identity; the old key is supplied."
               ]
             }
           ],
