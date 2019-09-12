@@ -2,7 +2,7 @@
 
 The list will be updated/expanded as questions come up, dealing with some common issues that API users find.
 
-## I connected to node xyz and I am getting a "Unknown types found, no types for ..." error
+## I connected to a node and I am getting a "Unknown types found, no types for ..." error
 
 There are 2 caused for this, both related to the version of the API that you are using and the support of types. As explained in the elsewhere, types on Polkadot/Substrate are continuously evolving - the latest version of the API always tries to support types for the latest Polkadot networks, such as [Kusama](https://kusama.network/). So for Polkadot public chains, ensure that you are using the latest released API version.
 
