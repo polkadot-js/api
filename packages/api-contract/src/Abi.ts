@@ -18,6 +18,38 @@ const EMPTY_REGISTRY = new ContractRegistry({
 });
 
 export default class ContractAbi implements InterfaceAbi {
+  private static decodeV1 (json: ContractABIV1): [ContractABI, ContractABIFn, AbiMessages] {
+    const abi = json.data;
+    validateAbi(abi);
+
+    const deploy = createMethod('deploy', abi.deploy);
+    const messages: AbiMessages = {};
+    abi.messages.forEach((method): void => {
+      const name = stringCamelCase(method.name as string);
+
+      messages[name] = createMethod(`messages.${name}`, method);
+    });
+
+    return [abi, deploy, messages];
+  }
+
+  private static decodeV2 (json: ContractABIV2): [ContractABI, ContractABIFn, AbiMessages, ContractRegistry] {
+    const abi = json.data.contract;
+
+    const registry = new ContractRegistry(json.data);
+    registry.validateAbi(abi);
+
+    const deploy = registry.createMethod('deploy', abi.deploy);
+    const messages: AbiMessages = {};
+    abi.messages.forEach((method): void => {
+      const name = stringCamelCase(registry.stringAt(method.name as number));
+
+      messages[name] = registry.createMethod(`messages.${name}`, method);
+    });
+
+    return [abi, deploy, messages, registry];
+  }
+
   public readonly abi: ContractABI;
 
   public readonly deploy: ContractABIFn;
@@ -29,35 +61,10 @@ export default class ContractAbi implements InterfaceAbi {
   public readonly isV2: boolean = false;
 
   public constructor (json: ContractABIV1 | ContractABIV2) {
-    let abi;
-    let data;
     if (json.isV2) {
-      data = json.data;
-      abi = data.contract;
-
-      this.registry = new ContractRegistry(data);
-      this.registry.validateAbi(abi);
-
-      this.isV2 = true;
-      this.abi = abi;
-      this.deploy = this.registry.createMethod('deploy', abi.deploy);
-      abi.messages.forEach((method): void => {
-        const name = stringCamelCase(this.registry.stringAt(method.name as number));
-
-        this.messages[name] = this.registry.createMethod(`messages.${name}`, method);
-      });
+      [this.abi, this.deploy, this.messages, this.registry] = ContractAbi.decodeV2(json);
     } else {
-      abi = json.data;
-      validateAbi(abi);
-
-      this.isV2 = false;
-      this.abi = abi;
-      this.deploy = createMethod('deploy', abi.deploy);
-      abi.messages.forEach((method): void => {
-        const name = stringCamelCase(method.name as string);
-
-        this.messages[name] = createMethod(`messages.${name}`, method);
-      });
+      [this.abi, this.deploy, this.messages] = ContractAbi.decodeV1(json);
     }
   }
 }

@@ -1,3 +1,7 @@
+// Copyright 2017-2019 @polkadot/api-contract authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import { ContractABI, ContractABIArg, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase } from './types';
 
 import { assert, isNull, isNumber, isString, isObject, stringCamelCase } from '@polkadot/util';
