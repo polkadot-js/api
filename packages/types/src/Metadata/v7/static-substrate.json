@@ -1123,10 +1123,10 @@
                 ]
               },
               {
-                "name": "CurrentEraRewards",
+                "name": "CurrentEraPointsEarned",
                 "modifier": 1,
                 "type": {
-                  "Type": "EraRewards"
+                  "Type": "EraPoints"
                 },
                 "fallback": "0x0000000000",
                 "documentation": [

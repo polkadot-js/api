@@ -9,6 +9,14 @@ import { AccountId, Balance, BlockNumber, Moment } from '../runtime';
 export type EraIndex = u32;
 
 /** Struct */
+export interface EraPoints extends Struct {
+  /** Points */
+  readonly total: Points;
+  /** Vec<Points> */
+  readonly individual: Vec<Points>;
+}
+
+/** Struct */
 export interface EraRewards extends Struct {
   /** u32 */
   readonly total: u32;
@@ -46,6 +54,9 @@ export interface IndividualExposure extends Struct {
 
 /** Moment */
 export type MomentOf = Moment;
+
+/** u32 */
+export type Points = u32;
 
 /** Enum */
 export interface RewardDestination extends Enum {
