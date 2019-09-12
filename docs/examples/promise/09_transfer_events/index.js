@@ -37,8 +37,7 @@ async function main () {
   // Do the transfer and track the actual status
   api.tx.balances
     .transfer(recipient, AMOUNT)
-    .sign(alicePair, { nonce })
-    .send(({ events = [], status }) => {
+    .signAndSend(alicePair, { nonce }, ({ events = [], status }) => {
       console.log('Transaction status:', status.type);
 
       if (status.isFinalized) {

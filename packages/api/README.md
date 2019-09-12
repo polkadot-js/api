@@ -7,13 +7,13 @@ The API wrappers provide a standard interface for use -
 - A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
 - The above is just a wrapper for `new Api(<optional ApiOptions>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-  - [RPC (node interface)](../METHODS_RPC.md)
+  - [RPC (node interface)](../substrate/rpc.md)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-  - [Storage chain state (runtime node interface)](../METHODS_STORAGE.md)
+  - [Storage chain state (runtime node interface)](../substrate/storage.md)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
-  - [Extrinsics (runtime node interface)](../METHODS_EXTRINSICS.md)
+  - [Extrinsics (runtime node interface)](../substrate/extrinsics.md)
 - `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
-  - [Constants (runtime node interface)](../METHODS_CONSTANTS.md)
+  - [Constants (runtime node interface)](../substrate/constants.md)
 
 ## API Selection
 
@@ -46,7 +46,7 @@ const api = await ApiPromise.create();
 
 // make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHeads((header) => {
-  console.log(`Chain is at #${header.blockNumber}`);
+  console.log(`Chain is at #${header.number}`);
 });
 ```
 
@@ -60,7 +60,7 @@ const api = await ApiRx.create().toPromise();
 
 // make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHeads().subscribe((header) => {
-  console.log(`Chain is at #${header.blockNumber}`);
+  console.log(`Chain is at #${header.number}`);
 });
 ```
 
