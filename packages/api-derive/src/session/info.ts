@@ -15,9 +15,10 @@ import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
 type Result0to94 = [BlockNumber, [SessionIndex, Option<BlockNumber>, BN, BN, SessionIndex]];
-type Result = [[u64, SessionIndex], [u64, u64, u64, SessionIndex, EraIndex]];
+type Result = [[u64, SessionIndex], [u64, u64, u64], [SessionIndex, EraIndex]];
 
 const ZERO = new BN(0);
+const ONE = new BN(1);
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
 function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result0to94): DerivedSessionInfo {
@@ -48,7 +49,7 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
   } as unknown as DerivedSessionInfo;
 }
 
-function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
+function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot], [currentIndex, currentEra]]: Result): DerivedSessionInfo {
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = epochIndex
     .mod(sessionsPerEra)
@@ -75,6 +76,8 @@ function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochInd
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
+  const hasBabe = !!api.consts.babe;
+
   return (): Observable<DerivedSessionInfo> => {
     // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
     // pre-94 we had more info and needed to calculate (handle old/Alex first)
@@ -101,13 +104,19 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
           // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
           // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
           of([
-            api.consts.babe.epochDuration,
+            hasBabe
+              ? api.consts.babe.epochDuration
+              : ONE,
             api.consts.staking.sessionsPerEra
           ]),
+          hasBabe
+            ? api.queryMulti([
+              api.query.babe.currentSlot,
+              api.query.babe.epochIndex,
+              api.query.babe.epochStartSlot
+            ])
+            : of([ONE, ONE, ONE]),
           api.queryMulti([
-            api.query.babe.currentSlot,
-            api.query.babe.epochIndex,
-            api.query.babe.epochStartSlot,
             api.query.session.currentIndex,
             api.query.staking.currentEra
           ])
