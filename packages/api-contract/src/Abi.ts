@@ -2,52 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIV1, ContractABIV2, ContractABIFn, InterfaceAbi, AbiMessages } from './types';
-
+import { ContractABI, ContractABIFn, InterfaceAbi, AbiMessages } from './types';
 import { stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
-import { createMethod } from './method';
-import { validateAbi } from './validation';
 
-const EMPTY_REGISTRY = new ContractRegistry({
-  registry: {
-    strings: [],
-    types: []
-  }
-});
+export default class ContractAbi extends ContractRegistry implements InterfaceAbi {
+  private decode (abi: ContractABI): [ContractABI, ContractABIFn, AbiMessages] {
+    this.validateAbi(abi);
 
-export default class ContractAbi implements InterfaceAbi {
-  private static decodeV1 (json: ContractABIV1): [ContractABI, ContractABIFn, AbiMessages] {
-    const abi = json.data;
-    validateAbi(abi);
-
-    const deploy = createMethod('deploy', abi.deploy);
+    const deploy = this.createMethod('deploy', abi.contract.deploy);
     const messages: AbiMessages = {};
-    abi.messages.forEach((method): void => {
-      const name = stringCamelCase(method.name as string);
+    abi.contract.messages.forEach((method): void => {
+      const name = stringCamelCase(this.stringAt(method.name));
 
-      messages[name] = createMethod(`messages.${name}`, method);
+      messages[name] = this.createMethod(`messages.${name}`, method);
     });
 
     return [abi, deploy, messages];
-  }
-
-  private static decodeV2 (json: ContractABIV2): [ContractABI, ContractABIFn, AbiMessages, ContractRegistry] {
-    const abi = json.data.contract;
-
-    const registry = new ContractRegistry(json.data);
-    registry.validateAbi(abi);
-
-    const deploy = registry.createMethod('deploy', abi.deploy);
-    const messages: AbiMessages = {};
-    abi.messages.forEach((method): void => {
-      const name = stringCamelCase(registry.stringAt(method.name as number));
-
-      messages[name] = registry.createMethod(`messages.${name}`, method);
-    });
-
-    return [abi, deploy, messages, registry];
   }
 
   public readonly abi: ContractABI;
@@ -56,15 +28,12 @@ export default class ContractAbi implements InterfaceAbi {
 
   public readonly messages: AbiMessages = {};
 
-  public readonly registry: ContractRegistry = EMPTY_REGISTRY;
+  public constructor (abi: ContractABI) {
+    super(abi);
+    [this.abi, this.deploy, this.messages] = this.decode(abi);
+  }
 
-  public readonly isV2: boolean = false;
-
-  public constructor (json: ContractABIV1 | ContractABIV2) {
-    if (json.isV2) {
-      [this.abi, this.deploy, this.messages, this.registry] = ContractAbi.decodeV2(json);
-    } else {
-      [this.abi, this.deploy, this.messages] = ContractAbi.decodeV1(json);
-    }
+  public get name (): string {
+    return this.stringAt(this.abi.contract.name);
   }
 }

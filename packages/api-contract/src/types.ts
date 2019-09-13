@@ -9,37 +9,13 @@ import { MetaRegistryJson, StringIndex, TypeIndex } from '@polkadot/types/codec/
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
-export interface ContractABIBase {
-  isV2: boolean;
-  data: any;
-}
-
 export type ApiObject<ApiType> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
 
-export interface ContractABITypesStruct {
-  'Option<T>'?: {
-    T: ContractABITypes;
-  };
-  'Result<T,E>'?: {
-    T: ContractABITypes;
-    E: ContractABITypes;
-  };
-  'Vec<T>'?: {
-    T: ContractABITypes;
-  };
-  '[T;n]'?: {
-    T: ContractABITypes;
-    n: number;
-  };
-}
-
-export type ContractABITypes = string | ContractABITypesStruct | (string | ContractABITypesStruct)[];
-
 export interface ContractABIArg {
-  name: string | StringIndex;
-  type: ContractABITypes;
+  name: StringIndex;
+  type: TypeIndex;
 }
 
 export interface ContractABIMethodBase {
@@ -48,34 +24,22 @@ export interface ContractABIMethodBase {
 
 export interface ContractABIMethod extends ContractABIMethodBase {
   mutates?: boolean;
-  name: string | StringIndex;
+  name: StringIndex;
   selector: number;
-  return_type: ContractABITypes | null;
+  return_type: TypeIndex;
 }
 
-export interface ContractABI {
+export interface ContractABIContract {
   deploy: ContractABIMethodBase;
   messages: ContractABIMethod[];
-  name: string | StringIndex;
+  name: StringIndex;
   events?: ContractABIEvent[];
   docs?: ContractABIDocs;
 }
 
-export type ContractABIV1Data = ContractABI;
-
-export interface ContractABIV1 {
-  isV2: false;
-  data: ContractABIV1Data;
-}
-
-export interface ContractABIV2Data extends MetaRegistryJson {
+export interface ContractABI extends MetaRegistryJson {
   storage: ContractABIStorage;
-  contract: ContractABI;
-}
-
-export interface ContractABIV2 {
-  isV2: true;
-  data: ContractABIV2Data;
+  contract: ContractABIContract;
 }
 
 export interface ContractABIFnArg {
@@ -94,9 +58,9 @@ export interface ContractABIFn extends ContractABIMeta {
 }
 
 export interface ContractABIEventArg {
-  name: string;
+  name: StringIndex;
   indexed: boolean;
-  type: string;
+  type: TypeIndex;
 }
 
 export type ContractABIDocs = string[];
@@ -131,7 +95,6 @@ export interface InterfaceAbi {
   readonly abi: ContractABI;
   readonly deploy: ContractABIFn;
   readonly messages: AbiMessages;
-  readonly isV2: boolean;
 }
 
 export interface ContractBase<ApiType> {

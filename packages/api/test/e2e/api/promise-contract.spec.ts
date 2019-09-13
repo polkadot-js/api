@@ -48,7 +48,7 @@ describeE2E({
     let abi: Abi;
 
     beforeEach((): void => {
-      abi = new Abi({ isV2: false, data: incrementerAbi });
+      abi = new Abi(incrementerAbi);
     });
 
     it('allows putCode', (done): Promise<() => void> => {

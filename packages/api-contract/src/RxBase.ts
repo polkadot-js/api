@@ -20,7 +20,7 @@ export default abstract class RxBase implements ContractBase<'rxjs'> {
   public constructor (api: ApiObject<'rxjs'>, abi: ContractABI | Abi) {
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi({ isV2: false, data: abi });
+      : new Abi(abi);
     this.api = api;
 
     // cater for substrate 2.x & 1.x (in order)

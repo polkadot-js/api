@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { CodecArg } from '@polkadot/types/types';
 import { ContractABI, ContractABIArg, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase } from './types';
 
-import { assert, isNull, isNumber, isString, isObject, stringCamelCase } from '@polkadot/util';
+import { Compact } from '@polkadot/types';
+import { assert, isNull, isNumber, isString, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 import MetaRegistry from './MetaRegistry';
-import { createMethod, typeToString } from './method';
+import { createArgClass } from './method';
 
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
@@ -22,7 +24,7 @@ export default class ContractRegistry extends MetaRegistry {
     });
   }
 
-  public validateDeploy ({ deploy }: ContractABI): void {
+  public validateDeploy ({ contract: { deploy } }: ContractABI): void {
     const unknownKeys = Object.keys(deploy).filter((key): boolean => !['args', 'docs'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI deploy`);
@@ -30,7 +32,7 @@ export default class ContractRegistry extends MetaRegistry {
     this.validateArgs('deploy', deploy.args);
   }
 
-  public validateMethods ({ messages }: ContractABI): void {
+  public validateMethods ({ contract: { messages } }: ContractABI): void {
     messages.forEach((method): void => {
       const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
@@ -45,31 +47,48 @@ export default class ContractRegistry extends MetaRegistry {
   }
 
   public validateAbi (abi: ContractABI): void {
-    const unknownKeys = Object.keys(abi).filter((key): boolean => !['deploy', 'docs', 'events', 'messages', 'name'].includes(key));
-
+    const unknownKeys = Object.keys(abi.contract).filter((key): boolean => !['deploy', 'docs', 'events', 'messages', 'name'].includes(key));
     assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
-    assert(abi.deploy && abi.messages && isNumber(abi.name) && isString(this.stringAt(abi.name)), 'ABI should have deploy, messages & name sections');
+
+    const { contract: { deploy, messages, name } } = abi;
+    assert(deploy && messages && isString(this.stringAt(name)), 'ABI should have deploy, messages & name sections');
 
     this.validateDeploy(abi);
     this.validateMethods(abi);
   }
 
-  public createArgs (method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFnArg[] {
-    return method.args.map(({ name, type }): ContractABIFnArg => {
-      assert(isNumber(type) && this.typeDefAt(type as number), `Invalid type at index ${type}`);
+  public createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
+    const args = method.args.map(({ name, type }): ContractABIFnArg => {
+      assert(isNumber(type) && this.typeDefAt(type), `Invalid type at index ${type}`);
       return {
-        name: stringCamelCase(this.stringAt(name as number)),
-        type: typeToString(this.typeDefAt(type as number)!.type)
+        name: stringCamelCase(this.stringAt(name)),
+        type: this.typeDefAt(type).type
       };
     });
-  }
+    const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
+    const baseStruct: { [index: string]: any } = { __selector: method.selector };
+    const encoder = (...params: CodecArg[]): Uint8Array => {
+      assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
-  public createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-    const fn = createMethod(`messages.${name}`, method, this.createArgs(method));
-    if (isNumber(method.return_type)) {
-      assert(this.typeDefAt(method.return_type), `Invalid type at index ${method.return_type}`);
-      fn.type = typeToString(this.typeDefAt(method.return_type)!.type);
+      const u8a = new Clazz(
+        args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
+          mapped[name] = params[index];
+
+          return mapped;
+        }, { ...baseStruct })
+      ).toU8a();
+
+      return Compact.addLengthPrefix(u8a);
+    };
+
+    const fn = (encoder as ContractABIFn);
+
+    fn.args = args;
+    fn.isConstant = !(method.mutates || false);
+    if (!isNumber(method.return_type)) {
+      fn.type = method.return_type ? this.typeDefAt(method.return_type).type : null;
     }
+
     return fn;
   }
 }

@@ -32,7 +32,7 @@ export default class RxContract extends RxBase implements InterfaceContract {
 
     this.address = createType('Address', address);
 
-    Object.entries(abi.messages).forEach(([name]): void => {
+    Object.entries(this.abi.messages).forEach(([name]): void => {
       this.calls[name] = (fn: ContractABIFn): CallResult =>
         (value: BN | number, maxGas: BN | number, ...params: any[]): ContractCall =>
           this.apiContracts.call(this.address, value, maxGas, fn(...params));
