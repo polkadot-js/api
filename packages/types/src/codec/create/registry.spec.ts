@@ -6,7 +6,7 @@ import '../../injector';
 
 import { Constructor } from '../../types';
 
-import { TypeRegistry } from './registry';
+import { TypeRegistry, getTypeRegistry } from './registry';
 import Struct from '../Struct';
 import Text from '../../primitive/Text';
 import U32 from '../../primitive/U32';
@@ -23,7 +23,7 @@ describe('TypeRegistry', (): void => {
   let registry: TypeRegistry;
 
   beforeEach((): void => {
-    registry = new TypeRegistry();
+    registry = getTypeRegistry();
   });
 
   it('handles non exist type', (): void => {
@@ -69,6 +69,30 @@ describe('TypeRegistry', (): void => {
 
       expect((first as any).next.isSome).toBe(true);
       expect((first as any).next.unwrap().next.isSome).toBe(false);
+    });
+
+    it('can register cross-referencing types ()', (): void => {
+      registry.register({
+        A: {
+          next: 'B'
+        },
+        B: {
+          _enum: {
+            End: null,
+            Other: 'A'
+          }
+        }
+      });
+
+      const A = registry.getOrThrow('A');
+      const B = registry.getOrThrow('B');
+
+      expect(registry.hasClass('Recursive')).toBe(true);
+
+      const last = new B({ End: null });
+      const first = new B({ Other: new A({ next: last }) });
+
+      expect((first as any).isOther).toBe(true);
     });
 
     it('can create types from string', (): void => {
