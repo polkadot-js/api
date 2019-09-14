@@ -50,33 +50,25 @@ describe('TypeRegistry', (): void => {
       expect(isChildClass(U32, registry.get('U32Renamed'))).toBe(true);
     });
 
-    it('can register nested types', (): void => {
+    it('can register recursive types', (): void => {
       registry.register({
-        Cons: {
-          head: 'u64',
-          tail: 'ConsList'
-        },
-        ConsList: {
-          _enum: {
-            End: null,
-            Cons: 'Cons'
-          }
+        Recursive: {
+          next: 'Option<Recursive>'
         }
       });
 
-      expect(registry.hasDef('Cons')).toBe(true);
-      expect(registry.hasClass('Cons')).toBe(false);
+      expect(registry.hasDef('Recursive')).toBe(true);
+      expect(registry.hasClass('Recursive')).toBe(false);
 
-      const Cons = registry.getOrThrow('Cons');
-      const List = registry.getOrThrow('ConsList');
+      const Recursive = registry.getOrThrow('Recursive');
 
-      expect(registry.hasDef('ConsList')).toBe(true);
-      expect(registry.hasClass('ConsList')).toBe(true);
+      expect(registry.hasClass('Recursive')).toBe(true);
 
-      const last = new Cons({ head: 1, tail: new List() });
-      const first = new Cons({ head: 0, tail: new List({ Cons: last }) });
+      const last = new Recursive({ next: null });
+      const first = new Recursive({ next: last });
 
-      expect((first as any).tail.isCons).toBe(true);
+      expect((first as any).next.isSome).toBe(true);
+      expect((first as any).next.unwrap().next.isSome).toBe(false);
     });
 
     it('can create types from string', (): void => {
