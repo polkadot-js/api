@@ -129,7 +129,7 @@ export interface Constructor<T = Codec> {
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
-export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string> } | { _set: Record<string, number> }>;
+export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
 export interface RuntimeVersionInterface {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
