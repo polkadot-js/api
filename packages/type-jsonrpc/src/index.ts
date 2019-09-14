@@ -6,12 +6,14 @@ import { RpcSection } from './types';
 
 import author from './author';
 import chain from './chain';
+import rpc from './rpc';
 import state from './state';
 import system from './system';
 
 const interfaces: Record<string, RpcSection> = {
   author,
   chain,
+  rpc,
   state,
   system
 };

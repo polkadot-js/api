@@ -60,6 +60,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly chain: RpcInterface['chain'];
 
+  public readonly rpc: RpcInterface['rpc'];
+
   public readonly state: RpcInterface['state'];
 
   public readonly system: RpcInterface['system'];
@@ -77,6 +79,7 @@ export default class Rpc implements RpcInterface {
 
     this.author = this.createInterface('author');
     this.chain = this.createInterface('chain');
+    this.rpc = this.createInterface('rpc');
     this.state = this.createInterface('state');
     this.system = this.createInterface('system');
   }

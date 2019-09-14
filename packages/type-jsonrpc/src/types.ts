@@ -16,6 +16,7 @@ export interface RpcMethodOpt {
   description: string;
   isDeprecated?: boolean;
   isHidden?: boolean;
+  isOptional?: boolean;
   isSigned?: boolean;
   isSubscription?: boolean;
   params: RpcParam[];
@@ -28,6 +29,7 @@ export interface RpcMethod {
   description: string;
   isDeprecated: boolean;
   isHidden: boolean;
+  isOptional: boolean;
   isSigned: boolean;
   isSubscription: boolean;
   method: string;
