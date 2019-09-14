@@ -40,7 +40,7 @@ describe('TypeRegistry', (): void => {
     expect(isChildClass(Text, registry.get('TextRenamed'))).toBe(true);
   });
 
-  describe.only('object registration', (): void => {
+  describe('object registration', (): void => {
     it('can register multiple types', (): void => {
       registry.register({
         Text,
@@ -50,7 +50,7 @@ describe('TypeRegistry', (): void => {
       expect(isChildClass(U32, registry.get('U32Renamed'))).toBe(true);
     });
 
-    it.only('can register nested types', (): void => {
+    it('can register nested types', (): void => {
       registry.register({
         Cons: {
           head: 'u64',
