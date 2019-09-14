@@ -40,7 +40,7 @@ describe('TypeRegistry', (): void => {
     expect(isChildClass(Text, registry.get('TextRenamed'))).toBe(true);
   });
 
-  describe('object registration', (): void => {
+  describe.only('object registration', (): void => {
     it('can register multiple types', (): void => {
       registry.register({
         Text,
@@ -50,7 +50,7 @@ describe('TypeRegistry', (): void => {
       expect(isChildClass(U32, registry.get('U32Renamed'))).toBe(true);
     });
 
-    it('can register nested types', (): void => {
+    it.only('can register nested types', (): void => {
       registry.register({
         Cons: {
           head: 'u64',
@@ -64,8 +64,14 @@ describe('TypeRegistry', (): void => {
         }
       });
 
+      expect(registry.hasDef('Cons')).toBe(true);
+      expect(registry.hasClass('Cons')).toBe(false);
+
       const Cons = registry.getOrThrow('Cons');
       const List = registry.getOrThrow('ConsList');
+
+      expect(registry.hasDef('ConsList')).toBe(true);
+      expect(registry.hasClass('ConsList')).toBe(true);
 
       const last = new Cons({ head: 1, tail: new List() });
       const first = new Cons({ head: 0, tail: new List({ Cons: last }) });
