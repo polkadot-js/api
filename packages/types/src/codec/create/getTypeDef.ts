@@ -6,6 +6,7 @@ import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
+import sanitize from './sanitize';
 import { typeSplit } from './typeSplit';
 
 // decode an enum of either of the following forms
@@ -119,7 +120,8 @@ function extractSubType (type: string, [start, end]: [string, string, any]): str
 }
 
 export function getTypeDef (_type: string, name?: string): TypeDef {
-  const type = _type.toString().trim();
+  // create the type via Type, allowing types to be sanitized
+  const type = sanitize(_type);
   const value: TypeDef = { info: TypeDefInfo.Plain, name, type };
 
   const nested = nestedExtraction.find((nested): boolean =>
