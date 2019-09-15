@@ -4,7 +4,7 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
@@ -141,21 +141,28 @@ export default abstract class Decorate<ApiType> extends Events {
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected filterRpcMethods (): void {
-    this._rpcCore.rpc.methods().toPromise()
-      .catch((): { methods: string[] } => ({ methods: [] }))
-      .then(({ methods }: RpcMethods | { methods: string[] }): void => {
-        // this is true when the RPC has entries
-        const hasResults = methods.length !== 0;
+  protected async filterRpcMethods (): Promise<void> {
+    let methods: (string | Text)[];
 
-        [...this._rpcMap.entries()].forEach(([key, { isOptional, method, section }]): void => {
-          // only remove when optional, or the RPC is really not there (results returned)
-          if (!methods.includes(key) && (hasResults || isOptional)) {
-            delete (this._rpc as any)[section][method];
-            delete (this._rx.rpc as any)[section][method];
-          }
-        });
-      });
+    try {
+      // we ignore the version (adjust as versions change, for now only "1")
+      methods = (await this._rpcCore.rpc.methods().toPromise()).methods;
+    } catch (error) {
+      // the method is not there, we adjust accordingly
+      methods = [];
+    }
+
+    // this is true when the RPC has entries
+    const hasResults = methods.length !== 0;
+
+    // loop through all entries we have (populated in decorate) and filter as required
+    [...this._rpcMap.entries()].forEach(([key, { isOptional, method, section }]): void => {
+      // only remove when optional, or the RPC is really not there (and  actual results returned)
+      if (!methods.includes(key) && (hasResults || isOptional)) {
+        delete (this._rpc as any)[section][method];
+        delete (this._rx.rpc as any)[section][method];
+      }
+    });
   }
 
   protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
