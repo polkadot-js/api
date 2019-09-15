@@ -142,11 +142,11 @@ export default abstract class Decorate<ApiType> extends Events {
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
   protected async filterRpcMethods (): Promise<void> {
-    let methods: (string | Text)[];
+    let methods: string[];
 
     try {
       // we ignore the version (adjust as versions change, for now only "1")
-      methods = (await this._rpcCore.rpc.methods().toPromise()).methods;
+      methods = (await this._rpcCore.rpc.methods().toPromise()).methods.map((t) => t.toString());
     } catch (error) {
       // the method is not there, we adjust accordingly
       methods = [];
