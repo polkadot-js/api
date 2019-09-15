@@ -161,7 +161,7 @@ export default abstract class Decorate<ApiType> extends Events {
         (section as any)[methodName] = decorateMethod(method, { methodName });
 
         // add this endpoint mapping to our internal map - we use this for filters
-        this._rpcMap.set(`${sectionName}_${methodName}`, (jsonrpc as any)[sectionName][methodName]);
+        this._rpcMap.set(`${sectionName}_${methodName}`, jsonrpc[sectionName].methods[methodName]);
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
