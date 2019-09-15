@@ -137,14 +137,20 @@ export default abstract class Decorate<ApiType> extends Events {
     return output;
   }
 
-  // filter all RPC methods based on the results of the rpc_methods call
+  // Filter all RPC methods based on the results of the rpc_methods call. We do this in the following
+  // manner to cater for both old and new:
+  //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
+  //   - when non-zero, remove anything that is not in the array (we don't do this)
   protected filterRpcMethods (): void {
     this._rpcCore.rpc.methods().toPromise()
       .catch((): { methods: string[] } => ({ methods: [] }))
       .then(({ methods }: RpcMethods | { methods: string[] }): void => {
-        // filter the entries we have based on what is in the result array
+        // this is true when the RPC has entries
+        const hasResults = methods.length !== 0;
+
         [...this._rpcMap.entries()].forEach(([key, { isOptional, method, section }]): void => {
-          if (isOptional && !methods.includes(key)) {
+          // only remove when optional, or the RPC is really not there (results returned)
+          if (!methods.includes(key) && (hasResults || isOptional)) {
             delete (this._rpc as any)[section][method];
             delete (this._rx.rpc as any)[section][method];
           }
