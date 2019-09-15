@@ -107,6 +107,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       ...(typesSpec[specName] || {}),
       ...(typesChain[chain.toString()] || {})
     });
+    this.filterRpcMethods();
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;

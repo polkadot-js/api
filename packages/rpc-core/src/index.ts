@@ -56,9 +56,13 @@ export default class Rpc implements RpcInterface {
 
   public readonly provider: ProviderInterface;
 
+  public readonly account: RpcInterface['account'];
+
   public readonly author: RpcInterface['author'];
 
   public readonly chain: RpcInterface['chain'];
+
+  public readonly contracts: RpcInterface['contracts'];
 
   public readonly rpc: RpcInterface['rpc'];
 
@@ -77,7 +81,9 @@ export default class Rpc implements RpcInterface {
 
     this.provider = provider;
 
+    this.account = this.createInterface('account');
     this.author = this.createInterface('author');
+    this.contracts = this.createInterface('contracts');
     this.chain = this.createInterface('chain');
     this.rpc = this.createInterface('rpc');
     this.state = this.createInterface('state');

@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Call, Hash, RpcMethods, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
@@ -14,6 +15,7 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { Storage } from '@polkadot/api-metadata/storage/types';
+import jsonrpc from '@polkadot/jsonrpc';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, u64 } from '@polkadot/types';
@@ -61,6 +63,8 @@ export default abstract class Decorate<ApiType> extends Events {
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
+
+  private _rpcMap: Map<string, RpcMethod> = new Map();
 
   protected _runtimeMetadata?: Metadata;
 
@@ -133,13 +137,31 @@ export default abstract class Decorate<ApiType> extends Events {
     return output;
   }
 
+  // filter all RPC methods based on the results of the rpc_methods call
+  protected filterRpcMethods (): void {
+    this._rpcCore.rpc.methods().toPromise()
+      .catch((): { methods: string[] } => ({ methods: [] }))
+      .then(({ methods }: RpcMethods | { methods: string[] }): void => {
+        // filter the entries we have based on what is in the result array
+        [...this._rpcMap.entries()].forEach(([key, { isOptional, method, section }]): void => {
+          if (isOptional && !methods.includes(key)) {
+            delete (this._rpc as any)[section][method];
+            delete (this._rx.rpc as any)[section][method];
+          }
+        });
+      });
+  }
+
   protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
-    return ['author', 'chain', 'state', 'system'].reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+    return Object.keys(jsonrpc).reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       // out and section here are horrors to get right from a typing perspective :()
       (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
         (section as any)[methodName] = decorateMethod(method, { methodName });
+
+        // add this endpoint mapping to our internal map - we use this for filters
+        this._rpcMap.set(`${sectionName}_${methodName}`, (jsonrpc as any)[sectionName][methodName]);
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);

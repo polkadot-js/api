@@ -13,6 +13,23 @@ export default {
       lastWrite: 'Option<BlockNumber>'
     },
     CodeHash: 'Hash',
+    ContractCallRequest: {
+      origin: 'AccountId',
+      dest: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'u64',
+      inputData: 'Bytes'
+    },
+    ContractExecResultSuccess: {
+      status: 'u8',
+      data: 'Bytes'
+    },
+    ContractExecResult: {
+      _enum: {
+        Success: 'ContractExecResultSuccess',
+        Error: 'Null'
+      }
+    },
     ContractInfo: {
       _enum: {
         Alive: 'AliveContractInfo',

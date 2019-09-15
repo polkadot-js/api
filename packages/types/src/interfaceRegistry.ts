@@ -10,7 +10,7 @@ import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, Raw
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
 import { MemberCount, ProposalIndex, Votes } from './interfaces/collective';
 import { AuthorityId } from './interfaces/consensus';
-import { AliveContractInfo, CodeHash, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from './interfaces/contracts';
+import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from './interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from './interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
@@ -344,6 +344,15 @@ export interface InterfaceRegistry {
   CodeHash: CodeHash;
   'Option<CodeHash>': Option<CodeHash>;
   'Vec<CodeHash>': Vec<CodeHash>;
+  ContractCallRequest: ContractCallRequest;
+  'Option<ContractCallRequest>': Option<ContractCallRequest>;
+  'Vec<ContractCallRequest>': Vec<ContractCallRequest>;
+  ContractExecResultSuccess: ContractExecResultSuccess;
+  'Option<ContractExecResultSuccess>': Option<ContractExecResultSuccess>;
+  'Vec<ContractExecResultSuccess>': Vec<ContractExecResultSuccess>;
+  ContractExecResult: ContractExecResult;
+  'Option<ContractExecResult>': Option<ContractExecResult>;
+  'Vec<ContractExecResult>': Vec<ContractExecResult>;
   ContractInfo: ContractInfo;
   'Option<ContractInfo>': Option<ContractInfo>;
   'Vec<ContractInfo>': Vec<ContractInfo>;
