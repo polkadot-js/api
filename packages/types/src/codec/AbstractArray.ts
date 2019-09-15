@@ -140,6 +140,6 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @description Checks if the array includes a specific value
    */
   public includes (check: any): boolean {
-    return !!this.filter((value: T): boolean => value.eq(check));
+    return this.some((value: T): boolean => value.eq(check));
   }
 }
