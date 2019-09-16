@@ -43,6 +43,10 @@ export default {
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
     },
+    RpcMethods: {
+      version: 'u32',
+      methods: 'Vec<Text>'
+    },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',

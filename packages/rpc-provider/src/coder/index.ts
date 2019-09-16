@@ -56,8 +56,6 @@ export default class RpcCoder {
         ? ''
         : ' (' + `${data}`.substr(0, 10) + ')';
 
-      console.error(`${code}: ${message}${_data}`);
-
       throw new Error(`${code}: ${message}${_data}`);
     }
   }

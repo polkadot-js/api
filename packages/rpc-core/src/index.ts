@@ -56,9 +56,15 @@ export default class Rpc implements RpcInterface {
 
   public readonly provider: ProviderInterface;
 
+  public readonly account: RpcInterface['account'];
+
   public readonly author: RpcInterface['author'];
 
   public readonly chain: RpcInterface['chain'];
+
+  public readonly contracts: RpcInterface['contracts'];
+
+  public readonly rpc: RpcInterface['rpc'];
 
   public readonly state: RpcInterface['state'];
 
@@ -75,8 +81,11 @@ export default class Rpc implements RpcInterface {
 
     this.provider = provider;
 
+    this.account = this.createInterface('account');
     this.author = this.createInterface('author');
+    this.contracts = this.createInterface('contracts');
     this.chain = this.createInterface('chain');
+    this.rpc = this.createInterface('rpc');
     this.state = this.createInterface('state');
     this.system = this.createInterface('system');
   }
@@ -161,7 +170,10 @@ export default class Rpc implements RpcInterface {
         catchError((error): any => {
           const message = this.createErrorMessage(method, error);
 
-          l.error(message);
+          // don't scare with old nodes, this is handled transparently
+          if (rpcName !== 'rpc_methods') {
+            l.error(message);
+          }
 
           return throwError(new Error(message));
         }),

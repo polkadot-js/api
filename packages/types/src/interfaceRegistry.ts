@@ -10,7 +10,7 @@ import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, RawBabePreDigest, Raw
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
 import { MemberCount, ProposalIndex, Votes } from './interfaces/collective';
 import { AuthorityId } from './interfaces/consensus';
-import { AliveContractInfo, CodeHash, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from './interfaces/contracts';
+import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from './interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from './interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from './interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from './interfaces/elections';
@@ -26,7 +26,7 @@ import { BlockAttestations, IncludedBlocks, MoreAttestations } from './interface
 import { EcdsaSignature, EthereumAddress } from './interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from './interfaces/parachains';
 import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, MapTypeV0, MapTypeV2, MapTypeV3, MapTypeV4, MapTypeV5, MapTypeV6, MapTypeV7, MetadataV0, MetadataV1, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeV0, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, RuntimeModuleMetadataV0, StorageEntryModifierV6, StorageEntryModifierV7, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from './interfaces/metadata';
-import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
+import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RpcMethods, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from './interfaces/rpc';
 
 export interface InterfaceRegistry {
   bool: bool;
@@ -344,6 +344,15 @@ export interface InterfaceRegistry {
   CodeHash: CodeHash;
   'Option<CodeHash>': Option<CodeHash>;
   'Vec<CodeHash>': Vec<CodeHash>;
+  ContractCallRequest: ContractCallRequest;
+  'Option<ContractCallRequest>': Option<ContractCallRequest>;
+  'Vec<ContractCallRequest>': Vec<ContractCallRequest>;
+  ContractExecResultSuccess: ContractExecResultSuccess;
+  'Option<ContractExecResultSuccess>': Option<ContractExecResultSuccess>;
+  'Vec<ContractExecResultSuccess>': Vec<ContractExecResultSuccess>;
+  ContractExecResult: ContractExecResult;
+  'Option<ContractExecResult>': Option<ContractExecResult>;
+  'Vec<ContractExecResult>': Vec<ContractExecResult>;
   ContractInfo: ContractInfo;
   'Option<ContractInfo>': Option<ContractInfo>;
   'Vec<ContractInfo>': Vec<ContractInfo>;
@@ -929,6 +938,9 @@ export interface InterfaceRegistry {
   PeerInfo: PeerInfo;
   'Option<PeerInfo>': Option<PeerInfo>;
   'Vec<PeerInfo>': Vec<PeerInfo>;
+  RpcMethods: RpcMethods;
+  'Option<RpcMethods>': Option<RpcMethods>;
+  'Vec<RpcMethods>': Vec<RpcMethods>;
   RuntimeVersionApi: RuntimeVersionApi;
   'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
   'Vec<RuntimeVersionApi>': Vec<RuntimeVersionApi>;

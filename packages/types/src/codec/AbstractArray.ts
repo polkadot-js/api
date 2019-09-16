@@ -135,4 +135,11 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[] {
     return this.toArray().map(callbackfn, thisArg);
   }
+
+  /**
+   * @description Checks if the array includes a specific value
+   */
+  public includes (check: any): boolean {
+    return this.some((value: T): boolean => value.eq(check));
+  }
 }
