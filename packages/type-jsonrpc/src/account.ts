@@ -29,6 +29,6 @@ export default {
   description: '(Optional) Methods that retrieves account-specific information',
   section,
   methods: {
-    methods: createMethod(section, 'nextIndex', nextIndex)
+    nextIndex: createMethod(section, 'nextIndex', nextIndex)
   }
 };

@@ -156,13 +156,17 @@ export default abstract class Decorate<ApiType> extends Events {
     const hasResults = methods.length !== 0;
 
     // loop through all entries we have (populated in decorate) and filter as required
-    [...this._rpcMap.entries()].forEach(([key, { isOptional, method, section }]): void => {
-      // only remove when optional, or the RPC is really not there (and  actual results returned)
-      if (!methods.includes(key) && (hasResults || isOptional)) {
+    [...this._rpcMap.entries()]
+      .filter(([key, { isOptional }]): boolean =>
+        // only remove when we have results and method missing, or with no results if optional
+        hasResults
+          ? !methods.includes(key)
+          : isOptional
+      )
+      .forEach(([_, { method, section }]): void => {
         delete (this._rpc as any)[section][method];
         delete (this._rx.rpc as any)[section][method];
-      }
-    });
+      });
   }
 
   protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {

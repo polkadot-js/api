@@ -30,6 +30,6 @@ export default {
   description: '(Optional) Methods that performs actions on contracts',
   section,
   methods: {
-    methods: createMethod(section, 'call', call)
+    call: createMethod(section, 'call', call)
   }
 };
