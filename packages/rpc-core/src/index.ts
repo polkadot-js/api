@@ -170,7 +170,10 @@ export default class Rpc implements RpcInterface {
         catchError((error): any => {
           const message = this.createErrorMessage(method, error);
 
-          l.error(message);
+          // don't scare with old nodes, this is handled transparently
+          if (rpcName !== 'rpc_methods') {
+            l.error(message);
+          }
 
           return throwError(new Error(message));
         }),
