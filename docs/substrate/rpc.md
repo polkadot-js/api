@@ -2,14 +2,30 @@
 
 The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.
 
+- **[account](#account)**
+
 - **[author](#author)**
 
 - **[chain](#chain)**
+
+- **[contracts](#contracts)**
+
+- **[rpc](#rpc)**
 
 - **[state](#state)**
 
 - **[system](#system)**
 
+
+___
+
+
+### account
+
+_(Optional) Methods that retrieves account-specific information_
+
+▸ **nextIndex**(accountId: `AccountId`): `Index`
+- **summary**: Retrieves the next accountIndex as available on the node
 
 ___
 
@@ -60,6 +76,26 @@ _Retrieval of chain data_
 
 ▸ **subscribeNewHeads**(): `Header`
 - **summary**: Retrieves the best header via subscription
+
+___
+
+
+### contracts
+
+_(Optional) Methods that performs actions on contracts_
+
+▸ **call**(callRequest: `ContractCallRequest`, at?: `Hash`): `ContractExecResult`
+- **summary**: Executes a call to a contract
+
+___
+
+
+### rpc
+
+_Retrieves information about the RPC endpoints_
+
+▸ **methods**(): `RpcMethods`
+- **summary**: Retrieves the list of RPC methods that are exposed by the node
 
 ___
 
