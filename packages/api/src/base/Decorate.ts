@@ -160,8 +160,8 @@ export default abstract class Decorate<ApiType> extends Events {
       .filter(([key, { isOptional }]): boolean =>
         // only remove when we have results and method missing, or with no results if optional
         hasResults
-          ? !methods.includes(key)
-          : isOptional
+          ? !methods.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
+          : isOptional || key === 'rpc_methods' // we didn't find this one, remove
       )
       .forEach(([_, { method, section }]): void => {
         delete (this._rpc as any)[section][method];
