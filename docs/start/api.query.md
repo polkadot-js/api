@@ -20,7 +20,7 @@ const now = await api.query.timestamp.now();
 const nonce = await api.query.system.accountNonce(ADDR);
 
 // retrieve the account balance via the balances module
-const balance = await api.query.balance.freeBalance(ADDR);
+const balance = await api.query.balances.freeBalance(ADDR);
 
 console.log(`${now}: balance of ${balance} and a nonce of ${nonce}`);
 ```
@@ -33,7 +33,7 @@ There have been some additions in the code above comparing with retrieving runti
 const [now, nonce, balance] = await Promise.all([
   api.query.timestamp.now(),
   api.query.system.accountNonce(ADDR),
-  api.query.balance.freeBalance(ADDR)
+  api.query.balances.freeBalance(ADDR)
 ]);
 ```
 

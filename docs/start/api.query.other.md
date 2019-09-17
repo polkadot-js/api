@@ -44,8 +44,8 @@ In addition to using `api.query` to make actual on-chain queries, it can also be
 
 // retrieve the hash & size of the entry as stored on-chain
 const [entryHash, entrySize] = await Promise.all([
-  api.query.freeBalance.hash(ADDR),
-  api.query.freeBalance.size(ADDR)
+  api.query.balances.freeBalance.hash(ADDR),
+  api.query.balances.freeBalance.size(ADDR)
 ]);
 
 // output the info
