@@ -27,7 +27,7 @@ In the above example, we introduce the `.at(<hash>[, ...params])` query. For all
 ```js
 ...
 
-// retrieve the timestampt for the  previous block
+// retrieve the timestamp for the  previous block
 const momentPrev = await api.query.timestamp.now.at(lastHdr.parentHash);
 ```
 
