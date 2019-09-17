@@ -13,7 +13,7 @@ import { Header } from '@polkadot/types/interfaces';
 const firstHead = api.rpc.chain.getHeader();
 
 api.rpc.chain.subscribeNewHeads((lastHead: Header): void => {
-  console.log('current header:', JSON.stringify(header));
+  console.log('current header:', JSON.stringify(lastHead));
 });
 ```
 
