@@ -2,6 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo } from '../../codec/types';
+
+import { getTypeDef } from '../../codec/create';
+import { Imports, setImports } from './imports';
+
 export const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
 export const FOOTER = '\n';
 
@@ -27,37 +32,77 @@ export function exportType (name = '', base: string): string {
 }
 
 /**
- * Given the innerType `T`, return a `Compact<T>` string
+ * Given the inner `T`, return a `Compact<T>` string
  */
-export function formatCompact (innerType: string): string {
-  return `Compact<${innerType}>`;
+export function formatCompact (inner: string): string {
+  return `Compact<${inner}>`;
 }
 
 /**
- * Given the innerType `T`, return a `Option<T>` string
+ * Given the inner `T`, return a `Option<T>` string
  */
-export function formatOption (innerType: string): string {
-  return `Option<${innerType}>`;
+export function formatOption (inner: string): string {
+  return `Option<${inner}>`;
 }
 
 /**
- * Given the innerTypes `T[]`, return a `[...T] & Codec` string
+ * Given the inners `T[]`, return a `[...T] & Codec` string
  */
-export function formatTuple (innerTypes: string[]): string {
-  return `[${innerTypes.join(', ')}] & Codec`;
+export function formatTuple (inners: string[]): string {
+  return `[${inners.join(', ')}] & Codec`;
 }
 
 /**
- * Given the innerType `T`, return a `Vec<T>` string
+ * Given the inner `T`, return a `Vec<T>` string
  */
-export function formatVec (innerType: string): string {
-  return `Vec<${innerType}>`;
+export function formatVec (inner: string): string {
+  return `Vec<${inner}>`;
+}
+
+/**
+ * Correctly format a given type
+ */
+export function formatType (type: string, imports: Imports): string {
+  const typeDef = getTypeDef(type);
+
+  switch (typeDef.info) {
+    case TypeDefInfo.Compact: {
+      return formatCompact(formatType((typeDef.sub as TypeDef).type, imports));
+    }
+    case TypeDefInfo.Option: {
+      return formatOption(formatType((typeDef.sub as TypeDef).type, imports));
+    }
+    case TypeDefInfo.Plain: {
+      return type;
+    }
+    case TypeDefInfo.Vec: {
+      return formatVec(formatType((typeDef.sub as TypeDef).type, imports));
+    }
+    case TypeDefInfo.Tuple: {
+      setImports(imports, ['Codec']);
+
+      // `(a,b)` gets transformed into `[a, b] & Codec`
+      return formatTuple(
+        ((typeDef.sub as TypeDef[])
+          .map((sub): string => formatType(sub.type, imports)))
+      );
+    }
+    case TypeDefInfo.VecFixed: {
+      setImports(imports, ['U8a']);
+
+      // `[u8, 32]` gets transformed into U8a
+      return 'U8a';
+    }
+    default: {
+      throw new Error(`Cannot format ${type}.`);
+    }
+  }
 }
 
 /**
  * Indent a string with `n` spaces before.
  */
-export function indent (n: number, char = ''): (str: string) => string {
+export function indent (n: number, char = ' '): (str: string) => string {
   return function (str: string): string {
     return `${char.repeat(n)}${str}`;
   };

@@ -9,19 +9,44 @@ import { Metadata } from '../..';
 import { ModuleMetadataV7 } from '../../Metadata/v7/Metadata';
 import { StorageEntryMetadata } from '../../Metadata/v7/Storage';
 import staticData from '../../Metadata/v7/static';
-import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
+import { createImportCode, createImports, FOOTER, formatType, HEADER, indent, setImports, TypeImports } from '../util';
 
-// Generate types for one storage entry in a module
-function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
+// From a storage entry metadata, we return [args, returnType]
+function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
   if (storageEntry.type.isPlainType) {
     setImports(imports, [storageEntry.type.asType.toString()]);
 
+    return ['', formatType(storageEntry.type.asType.toString(), imports)];
+  } else if (storageEntry.type.isMap) {
+    setImports(imports, [storageEntry.type.asMap.key.toString(), storageEntry.type.asMap.value.toString()]);
+
     return [
-      `${stringLowerFirst(storageEntry.name.toString())}(): ${storageEntry.type.asType}`
+      `arg: ${formatType(storageEntry.type.asMap.key.toString(), imports)}`,
+      formatType(storageEntry.type.asMap.value.toString(), imports)
+    ];
+  } else if (storageEntry.type.isDoubleMap) {
+    setImports(imports, [
+      storageEntry.type.asDoubleMap.key1.toString(),
+      storageEntry.type.asDoubleMap.key2.toString(),
+      storageEntry.type.asDoubleMap.value.toString()
+    ]);
+
+    return [
+      `key1: ${formatType(storageEntry.type.asDoubleMap.key1.toString(), imports)}, key2: ${formatType(storageEntry.type.asDoubleMap.key2, imports)}`,
+      formatType(storageEntry.type.asDoubleMap.value.toString(), imports)
     ];
   }
 
-  return [];
+  throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name}`);
+}
+
+// Generate types for one storage entry in a module
+function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
+  const [args, returnType] = entrySignature(storageEntry, imports);
+
+  return [
+    `${stringLowerFirst(storageEntry.name.toString())}: MethodResult<ApiType, (${args}) => ${returnType}>;`
+  ];
 }
 
 // Generate types for one module
@@ -30,16 +55,15 @@ function generateModule (modul: ModuleMetadataV7, imports: TypeImports): string[
     return [];
   }
 
-  return [indent(2)(`${stringLowerFirst(modul.name.toString())}: {`)]
+  return [indent(4)(`${stringLowerFirst(modul.name.toString())}: {`)]
     .concat(
       modul.storage.unwrap().items
         .reduce((acc, storageEntry): string[] => {
-          return acc
-            .concat(generateEntry(storageEntry, imports).map(indent(4)));
+          return acc.concat(generateEntry(storageEntry, imports).map(indent(6)));
         }, [] as string[])
-        .join(',\n')
+        .join('\n')
     )
-    .concat([indent(2)('}')]);
+    .concat([indent(4)('};')]);
 }
 
 // Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
@@ -59,10 +83,6 @@ function generateForMeta (meta: Metadata): void {
 
   const header = createImportCode(HEADER, [
     {
-      file: './types',
-      types: ['QueryableStorage']
-    },
-    {
       file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
@@ -80,8 +100,12 @@ function generateForMeta (meta: Metadata): void {
     }
   ]);
 
-  const interfaceStart = 'export interface QueryInterface<ApiType> extends QueryableStorage<ApiType> {\n';
-  const interfaceEnd = '\n}';
+  const interfaceStart =
+    [
+      "declare module './types' {",
+      indent(2)('export interface QueryableStorage<ApiType> {\n')
+    ].join('\n');
+  const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
   fs.writeFileSync(
     'packages/api/src/query.types.ts',

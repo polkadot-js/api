@@ -104,6 +104,10 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
       unsub2();
     });
+
+  // api.query.*.* is well-typed
+  await api.query.foo.bar();
+  const digest = await api.query.system.digest();
 }
 
 async function main (): Promise<void> {
