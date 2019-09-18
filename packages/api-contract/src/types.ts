@@ -23,6 +23,7 @@ export interface ContractABIMethodBase {
 }
 
 export interface ContractABIMethod extends ContractABIMethodBase {
+  docs?: ContractABIDocs;
   mutates?: boolean;
   name: StringIndex;
   selector: number;

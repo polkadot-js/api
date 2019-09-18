@@ -7,6 +7,8 @@ import * as t from '@polkadot/types/types';
 import { assert } from '@polkadot/util';
 import { encodeEnum, encodeStruct, encodeTuple } from '@polkadot/types';
 
+const SPECIAL_TYPES = ['AccountId', 'Balance'];
+
 export default class MetaRegistry {
   private _strings: string[] = [];
 
@@ -81,6 +83,10 @@ export default class MetaRegistry {
           paramsIndices && paramsIndices.length
             ? { params: this.typesAt(paramsIndices).map((type): t.TypeDef => this.typeDefFromMetaType(type)) }
             : {}
+        ),
+        ...(SPECIAL_TYPES.includes(this.stringAt(nameIndex))
+          ? { type: this.stringAt(nameIndex) }
+          : {}
         )
       };
     }
@@ -120,8 +126,8 @@ export default class MetaRegistry {
     const typeDef: t.TypeDef = {
       info: t.TypeDefInfo.Null,
       type: '',
-      ...this.typeDefIdFields(metaType),
-      ...this.typeDefDefFields(metaType, typeIndex)
+      ...this.typeDefDefFields(metaType, typeIndex),
+      ...this.typeDefIdFields(metaType)
     };
 
     return typeDef;
