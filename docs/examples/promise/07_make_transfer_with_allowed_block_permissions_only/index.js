@@ -15,16 +15,16 @@ async function main () {
   // Constuct the keying after the API (crypto has an async init)
   const keyring = new Keyring({ type: 'sr25519' });
 
-  // Add alice to our keyring with a hard-derived path (empty phrase, so uses dev)
+  // Add Alice to our keyring with a hard-derived path (empty phrase, so uses dev)
   const alice = keyring.addFromUri('//Alice');
 
   // Get nonce for account
   const nonce = await api.query.system.accountNonce(alice.address);
 
-  // get current block
+  // Get current block
   const signedBlock = await api.rpc.chain.getBlock();
 
-  // get current block height and hash
+  // Get current block height and hash
   const currentHeight = signedBlock.block.header.number;
   const blockHash = signedBlock.block.header.hash;
 

@@ -5,16 +5,16 @@ Constant queries will introduce you to the concepts behind the types and the int
 For some background: constants are values that are defined in the runtime and used as part of chain operations. These constants can be changed as part of an upgrade.
 
 ```js
-// initialize the API as per previous sections
+// Initialize the API as per previous sections
 ...
 
-// the length of an epoch (session) in Babe
+// The length of an epoch (session) in Babe
 console.log(api.consts.babe.epochDuration.toNumber());
 
-// the amount required to create a new account
+// The amount required to create a new account
 console.log(api.consts.balances.creationFee.toNumber());
 
-// the amount required per byte on an extrinsic
+// The amount required per byte on an extrinsic
 console.log(api.consts.balances.transactionByteFee.toNumber());
 ```
 
