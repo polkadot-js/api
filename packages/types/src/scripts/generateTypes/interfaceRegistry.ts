@@ -6,7 +6,13 @@ import fs from 'fs';
 
 import * as definitions from '../../interfaces/definitions';
 import * as primitiveClasses from '../../primitive';
-import { createImportCode, createImports, FOOTER, getDerivedTypes, HEADER, setImports } from '../util';
+import {
+  createImportCode, createImports,
+  FOOTER,
+  getDerivedTypes,
+  HEADER,
+  setImports
+} from '../util';
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
 export default function generateInterfaceRegistry (): void {

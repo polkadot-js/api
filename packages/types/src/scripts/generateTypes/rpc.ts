@@ -14,19 +14,13 @@ export default function generateRpcTypes (): void {
   // Inject all types so that types-jsonrpc can use them
   require('../../injector');
 
-  // Get all imported types by types-jsonrpc
-  const allImportedTypes = Object.keys(interfaces).reduce<string[]>((allSections, section): string[] => {
-    return allSections.concat(
-      ...Object.values(interfaces[section].methods).map((method): string[] =>
-        [...method.params.map(({ type }): string => type), method.type])
-    );
-  }, []);
-
-  const imports = createImports({ types: allImportedTypes });
+  const imports = createImports();
 
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
       const method = interfaces[section].methods[key];
+
+      setImports(imports, [method.type]);
 
       // FIXME These 2 are too hard to type, I give up
       if (method.method === 'getStorage') {
@@ -38,7 +32,7 @@ export default function generateRpcTypes (): void {
 
       const args = method.params.map((param): string => {
         const similarTypes = getSimilarTypes(imports, param.type);
-        setImports(imports, similarTypes);
+        setImports(imports, [param.type, ...similarTypes]);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
       });
