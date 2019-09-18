@@ -19,6 +19,23 @@ Additionally, the following getters and utilities are available -
 - `.isEmpty` - `true` if the value is an all-empy value, i.e. `0` in for numbers, all-zero for Arrays (or anything `Uint8Array`), `false` is non-zero
 - `.hash` - a `Hash` (once again with all the methods above) that is a `blake2-256` representation of the contained value
 
+## Comparing types
+
+To reiterate the above API, the `.eq` method is the preferred means of comparing base types, rather than the JavaScript equality operator (`===`).
+
+For example:
+
+```js
+const { metadata } = await api.rpc.state.getMetadata();
+const modules = metadata.asV3.modules;
+
+// This will not work, because `name` is an instance of `Text`, not a string
+// const system = modules.find(m => m.name === 'system');
+
+// This will work, because `Text.eq()` can compare against a string
+const system = modules.find(m => m.name.eq('system'));
+```
+
 ## Working with numbers
 
 All numbers wrap and extend an instance of [bn.js](https://github.com/indutny/bn.js/). This means that in addition  to the interfaces defined above, they have some additional methods -
