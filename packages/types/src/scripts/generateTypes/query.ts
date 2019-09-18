@@ -11,18 +11,20 @@ import { StorageEntryMetadata } from '../../Metadata/v7/Storage';
 import staticData from '../../Metadata/v7/static';
 import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
+// Generate types for one storage entry in a module
 function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
   if (storageEntry.type.isPlainType) {
     setImports(imports, [storageEntry.type.asType.toString()]);
 
     return [
-      `${stringLowerFirst(storageEntry.name.toString())}(): ${storageEntry.type.asType.is}`
+      `${stringLowerFirst(storageEntry.name.toString())}(): ${storageEntry.type.asType}`
     ];
   }
 
   return [];
 }
 
+// Generate types for one module
 function generateModule (modul: ModuleMetadataV7, imports: TypeImports): string[] {
   if (modul.storage.isNone) {
     return [];
@@ -92,6 +94,7 @@ function generateForMeta (meta: Metadata): void {
   );
 }
 
+// Call `generateForMeta()` with current static metadat
 export default function generateQuery (): void {
   return generateForMeta(new Metadata(staticData));
 }
