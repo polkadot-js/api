@@ -89,6 +89,14 @@ export interface PeerInfo extends Struct {
 }
 
 /** Struct */
+export interface RpcMethods extends Struct {
+  /** u32 */
+  readonly version: u32;
+  /** Vec<Text> */
+  readonly methods: Vec<Text>;
+}
+
+/** Struct */
 export interface RuntimeVersion extends Struct {
   /** Text */
   readonly specName: Text;

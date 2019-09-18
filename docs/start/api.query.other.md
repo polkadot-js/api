@@ -27,13 +27,13 @@ In the above example, we introduce the `.at(<hash>[, ...params])` query. For all
 ```js
 ...
 
-// retrieve the timestampt for the  previous block
+// retrieve the timestamp for the  previous block
 const momentPrev = await api.query.timestamp.now.at(lastHdr.parentHash);
 ```
 
 The `.at` queries are all single-shot, i.e. there are no subscription option to these, since the state for a previous block should be static. (This is true to a certain extent, i.e. when blocks have been finalized).
 
-An additional point to take care of (briefly mentioned above), is state pruning. By default a Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes agressive state pruning)
+An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes agressive state pruning)
 
 ## State entries
 
@@ -44,8 +44,8 @@ In addition to using `api.query` to make actual on-chain queries, it can also be
 
 // retrieve the hash & size of the entry as stored on-chain
 const [entryHash, entrySize] = await Promise.all([
-  api.query.freeBalance.hash(ADDR),
-  api.query.freeBalance.size(ADDR)
+  api.query.balances.freeBalance.hash(ADDR),
+  api.query.balances.freeBalance.size(ADDR)
 ]);
 
 // output the info

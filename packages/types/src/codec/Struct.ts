@@ -61,8 +61,6 @@ export default class Struct<
    * @param jsonMap
    */
   private static decodeStruct <T> (Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
-    // l.debug(() => ['Struct.decode', { Types, value }]);
-
     if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
     } else if (isU8a(value)) {

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
@@ -14,6 +15,7 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { Storage } from '@polkadot/api-metadata/storage/types';
+import jsonrpc from '@polkadot/jsonrpc';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, u64 } from '@polkadot/types';
@@ -61,6 +63,8 @@ export default abstract class Decorate<ApiType> extends Events {
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
+
+  private _rpcMap: Map<string, RpcMethod> = new Map();
 
   protected _runtimeMetadata?: Metadata;
 
@@ -133,13 +137,48 @@ export default abstract class Decorate<ApiType> extends Events {
     return output;
   }
 
+  // Filter all RPC methods based on the results of the rpc_methods call. We do this in the following
+  // manner to cater for both old and new:
+  //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
+  //   - when non-zero, remove anything that is not in the array (we don't do this)
+  protected async filterRpcMethods (): Promise<void> {
+    let methods: string[];
+
+    try {
+      // we ignore the version (adjust as versions change, for now only "1")
+      methods = (await this._rpcCore.rpc.methods().toPromise()).methods.map((t) => t.toString());
+    } catch (error) {
+      // the method is not there, we adjust accordingly
+      methods = [];
+    }
+
+    // this is true when the RPC has entries
+    const hasResults = methods.length !== 0;
+
+    // loop through all entries we have (populated in decorate) and filter as required
+    [...this._rpcMap.entries()]
+      .filter(([key, { isOptional }]): boolean =>
+        // only remove when we have results and method missing, or with no results if optional
+        hasResults
+          ? !methods.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
+          : isOptional || key === 'rpc_methods' // we didn't find this one, remove
+      )
+      .forEach(([_, { method, section }]): void => {
+        delete (this._rpc as any)[section][method];
+        delete (this._rx.rpc as any)[section][method];
+      });
+  }
+
   protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
-    return ['author', 'chain', 'state', 'system'].reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+    return Object.keys(jsonrpc).reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
       // out and section here are horrors to get right from a typing perspective :()
       (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
         (section as any)[methodName] = decorateMethod(method, { methodName });
+
+        // add this endpoint mapping to our internal map - we use this for filters
+        this._rpcMap.set(`${sectionName}_${methodName}`, jsonrpc[sectionName].methods[methodName]);
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);

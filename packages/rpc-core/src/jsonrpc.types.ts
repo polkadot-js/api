@@ -4,11 +4,15 @@
 import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types/codec';
 import { Bytes, Metadata, StorageData, StorageKey, Text, u64 } from '@polkadot/types';
-import { BlockNumber, Extrinsic, Hash, Header, SignedBlock } from '@polkadot/types/interfaces/runtime';
-import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
+import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 import { Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
+  account: {
+    nextIndex(accountId: AccountId | Uint8Array | string): Observable<Index>;
+  };
   author: {
     insertKey(keyType: Text | string, suri: Text | string, publicKey: Bytes | Uint8Array | string): Observable<Bytes>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
@@ -24,6 +28,12 @@ export interface RpcInterface {
     getHeader(hash?: Hash | Uint8Array | string): Observable<Header>;
     subscribeFinalizedHeads(): Observable<Header>;
     subscribeNewHeads(): Observable<Header>;
+  };
+  contracts: {
+    call(callRequest: ContractCallRequest, at?: Hash | Uint8Array | string): Observable<ContractExecResult>;
+  };
+  rpc: {
+    methods(): Observable<RpcMethods>;
   };
   state: {
     call(method: Text | string, data: Bytes | Uint8Array | string, block?: Hash | Uint8Array | string): Observable<Bytes>;

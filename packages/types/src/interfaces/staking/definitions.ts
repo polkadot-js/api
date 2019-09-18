@@ -5,6 +5,10 @@
 export default {
   types: {
     EraIndex: 'u32',
+    EraPoints: {
+      total: 'Points',
+      individual: 'Vec<Points>'
+    },
     EraRewards: {
       total: 'u32',
       rewards: 'Vec<u32>'
@@ -26,6 +30,7 @@ export default {
       value: 'Compact<Balance>'
     },
     MomentOf: 'Moment',
+    Points: 'u32',
     RewardDestination: {
       _enum: [
         'Staked',

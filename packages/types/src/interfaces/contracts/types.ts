@@ -3,8 +3,8 @@
 
 import { Codec } from '../../types';
 import { Compact, Enum, Option, Struct } from '../../codec';
-import { Bytes, Null, bool, u32, u64 } from '../../primitive';
-import { Balance, BlockNumber, Hash } from '../runtime';
+import { Bytes, Null, bool, u32, u64, u8 } from '../../primitive';
+import { AccountId, Balance, BlockNumber, Hash } from '../runtime';
 
 /** Struct */
 export interface AliveContractInfo extends Struct {
@@ -24,6 +24,38 @@ export interface AliveContractInfo extends Struct {
 
 /** Hash */
 export type CodeHash = Hash;
+
+/** Struct */
+export interface ContractCallRequest extends Struct {
+  /** AccountId */
+  readonly origin: AccountId;
+  /** AccountId */
+  readonly dest: AccountId;
+  /** Balance */
+  readonly value: Balance;
+  /** u64 */
+  readonly gasLimit: u64;
+  /** Bytes */
+  readonly inputData: Bytes;
+}
+
+/** Enum */
+export interface ContractExecResult extends Enum {
+  /** 0:: Success(ContractExecResultSuccess) */
+  readonly isSuccess: boolean;
+  /** ContractExecResultSuccess */
+  readonly asSuccess: ContractExecResultSuccess;
+  /** 1:: Error */
+  readonly isError: boolean;
+}
+
+/** Struct */
+export interface ContractExecResultSuccess extends Struct {
+  /** u8 */
+  readonly status: u8;
+  /** Bytes */
+  readonly data: Bytes;
+}
 
 /** Enum */
 export interface ContractInfo extends Enum {

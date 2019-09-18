@@ -31,10 +31,10 @@ export interface VoterInfo extends Struct {
 
 /** Enum */
 export interface VoteThreshold extends Enum {
-  /** 0:: Super majority approval */
-  readonly isSuperMajorityApproval: boolean;
-  /** 1:: Super majority rejection */
-  readonly isSuperMajorityRejection: boolean;
-  /** 2:: Simple majority */
-  readonly isSimpleMajority: boolean;
+  /** 0:: Supermajorityapproval */
+  readonly isSupermajorityapproval: boolean;
+  /** 1:: Supermajorityrejection */
+  readonly isSupermajorityrejection: boolean;
+  /** 2:: Simplemajority */
+  readonly isSimplemajority: boolean;
 }

@@ -369,7 +369,7 @@ ___
 ▸ **currentEra**(): `EraIndex`
 - **summary**:   The current era index.
 
-▸ **currentEraRewards**(): `EraRewards`
+▸ **currentEraPointsEarned**(): `EraPoints`
 - **summary**:   Rewards for the current era. Using indices of current elected set.
 
 ▸ **currentEraStart**(): `MomentOf`

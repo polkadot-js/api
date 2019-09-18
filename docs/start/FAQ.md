@@ -4,7 +4,7 @@ The list will be updated/expanded as questions come up, dealing with some common
 
 ## I am getting a "Unknown types found, no types for ..." error
 
-There are 2 caused for this, both related to the version of the API that you are using and the support of types. As explained in the elsewhere, types on Polkadot/Substrate are continuously evolving - the latest version of the API always tries to support types for the latest Polkadot networks, such as [Kusama](https://kusama.network/). So for Polkadot public chains, ensure that you are using the latest released API version.
+There are 2 causes for this, both related to the version of the API that you are using and the support of types. As explained in the elsewhere, types on Polkadot/Substrate are continuously evolving - the latest version of the API always tries to support types for the latest Polkadot networks, such as [Kusama](https://kusama.network/). So for Polkadot public chains, ensure that you are using the latest released API version.
 
 If however you are running against a master branch of either Polkadot or Substrate, you may well be better suited running [a beta version, tracking master](install.md#betas). If you are connected to a customized chain, you would rather want to [register the types](types.extend.md) either on your own, or via packages that the chain vendor provides.
 

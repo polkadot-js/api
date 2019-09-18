@@ -18,15 +18,15 @@ describe('getTypeDef', (): void => {
   it('does not allow invalid vectors, end >', (): void => {
     expect(
       (): TypeDef => getTypeDef('Vec<u64')
-    ).toThrow(/Expected 'Vec<' closing with '>'/);
+    ).toThrow(/Unable to find closing matching/);
   });
 
   it('returns a type structure', (): void => {
     expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text,Vec<(Bool,u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))',
+      type: '(u32,Compact<u32>,Vec<u64>,Option<u128>,DoubleMap<u128>,(Text,Vec<(Bool,u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -66,7 +66,7 @@ describe('getTypeDef', (): void => {
         },
         {
           info: TypeDefInfo.Tuple,
-          type: '(Text, Vec<(Bool, u128)>)',
+          type: '(Text,Vec<(Bool,u128)>)',
           sub: [
             {
               info: TypeDefInfo.Plain,
@@ -74,10 +74,10 @@ describe('getTypeDef', (): void => {
             },
             {
               info: TypeDefInfo.Vec,
-              type: 'Vec<(Bool, u128)>',
+              type: 'Vec<(Bool,u128)>',
               sub: {
                 info: TypeDefInfo.Tuple,
-                type: '(Bool, u128)',
+                type: '(Bool,u128)',
                 sub: [
                   {
                     info: TypeDefInfo.Plain,
@@ -96,15 +96,42 @@ describe('getTypeDef', (): void => {
     });
   });
 
+  it('returns a type structure (sanitized)', (): void => {
+    expect(
+      getTypeDef('Vec<(Box<PropIndex>, Proposal,Lookup::Target)>')
+    ).toEqual({
+      info: TypeDefInfo.Vec,
+      type: 'Vec<(PropIndex,Proposal,AccountId)>',
+      sub: {
+        info: TypeDefInfo.Tuple,
+        type: '(PropIndex,Proposal,AccountId)',
+        sub: [
+          {
+            info: TypeDefInfo.Plain,
+            type: 'PropIndex'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'Proposal'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'AccountId'
+          }
+        ]
+      }
+    });
+  });
+
   it('returns a type structure (actual)', (): void => {
     expect(
       getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
     ).toEqual({
       info: TypeDefInfo.Vec,
-      type: 'Vec<(PropIndex, Proposal, AccountId)>',
+      type: 'Vec<(PropIndex,Proposal,AccountId)>',
       sub: {
         info: TypeDefInfo.Tuple,
-        type: '(PropIndex, Proposal, AccountId)',
+        type: '(PropIndex,Proposal,AccountId)',
         sub: [
           {
             info: TypeDefInfo.Plain,
@@ -128,7 +155,7 @@ describe('getTypeDef', (): void => {
       getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}')
     ).toEqual({
       info: TypeDefInfo.Struct,
-      type: '{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}',
+      type: '{"balance":"Balance","account_id":"AccountId","log":"(u64,Signature)"}',
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -143,7 +170,7 @@ describe('getTypeDef', (): void => {
         {
           info: TypeDefInfo.Tuple,
           name: 'log',
-          type: '(u64, Signature)',
+          type: '(u64,Signature)',
           sub: [
             {
               info: TypeDefInfo.Plain,

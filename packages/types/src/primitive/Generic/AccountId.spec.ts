@@ -4,7 +4,7 @@
 
 import '../../injector';
 
-import { setAddressPrefix } from '@polkadot/util-crypto';
+import { setSS58Format } from '@polkadot/util-crypto';
 
 import { createType } from '../../codec/create';
 import U8a from '../../codec/U8a';
@@ -84,7 +84,7 @@ describe('AccountId', (): void => {
 
   describe('storage decoding', (): void => {
     it('has the correct entries', (): void => {
-      setAddressPrefix(68);
+      setSS58Format(68);
 
       const data = createType('StorageData', jsonVec.params.result.changes[0][1]);
       const list = createType('Vec<AccountId>', data).map((accountId): string => accountId.toString());

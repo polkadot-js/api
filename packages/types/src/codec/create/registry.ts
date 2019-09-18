@@ -93,8 +93,16 @@ export class TypeRegistry {
     return type;
   }
 
+  public hasClass (name: string): boolean {
+    return this._classes.has(name);
+  }
+
+  public hasDef (name: string): boolean {
+    return this._definitions.has(name);
+  }
+
   public hasType (name: string): boolean {
-    return this._classes.has(name) || this._definitions.has(name);
+    return this.hasClass(name) || this.hasDef(name);
   }
 }
 

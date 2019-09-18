@@ -69,9 +69,8 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
 
   [TypeDefInfo.Option]: (value: TypeDef): Constructor => Option.with(getSubType(value)),
 
-  [TypeDefInfo.Plain]: (value: TypeDef): Constructor => {
-    throw new Error(`Unable to find plain type for ${JSON.stringify(value)}`);
-  },
+  [TypeDefInfo.Plain]: (value: TypeDef): Constructor =>
+    getTypeRegistry().getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {
     const result: Record<string, number> = {};
