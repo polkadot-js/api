@@ -137,10 +137,21 @@ export interface QueryableModuleStorage<ApiType> {
   [index: string]: QueryableStorageEntry<ApiType>;
 }
 
+// Some gymnastics to make api.queryMulti work correctly
+// For more info about distributive conditional types:
+// https://www.typescriptlang.org/docs/handbook/advanced-types.html#distributive-conditional-types
+type DistributiveValues<T extends Record<string, any>> = T extends T ? T[keyof T] : never;
+type InnerValues<
+  T extends Record<keyof T, object>,
+  K extends keyof T
+> = DistributiveValues<T[K]>;
 export type QueryableStorageMultiArg<ApiType> =
-  // FIXME It should not be `| any`, but something like `| StorageEntryExact`
-  // However, I can't make it work
-  [QueryableStorageEntry<ApiType> | any, CodecArg, CodecArg?];
+  QueryableStorageEntry<ApiType> | InnerValues<QueryableStorageExact<ApiType>, keyof QueryableStorageExact<ApiType>> |
+  [
+    QueryableStorageEntry<ApiType> | InnerValues<QueryableStorageExact<ApiType>, keyof QueryableStorageExact<ApiType>>,
+    CodecArg,
+    CodecArg?
+  ];
 
 export interface QueryableStorageMultiBase<ApiType> {
   <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;

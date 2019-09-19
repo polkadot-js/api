@@ -39,6 +39,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
+    api.query.staking.validatorCount,
     [api.query.system.accountNonce, keyring.eve.address],
     [api.query.system.accountNonce, keyring.bob.address]
   ], (balances): void => {
