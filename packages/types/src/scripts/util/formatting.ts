@@ -5,7 +5,7 @@
 import { TypeDef, TypeDefInfo } from '../../codec/types';
 
 import { getTypeDef } from '../../codec/create';
-import { Imports, setImports } from './imports';
+import { setImports, TypeImports } from './imports';
 
 export const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
 export const FOOTER = '\n';
@@ -62,7 +62,7 @@ export function formatVec (inner: string): string {
 /**
  * Correctly format a given type
  */
-export function formatType (type: string, imports: Imports): string {
+export function formatType (type: string, imports: TypeImports): string {
   const typeDef = getTypeDef(type);
 
   switch (typeDef.info) {

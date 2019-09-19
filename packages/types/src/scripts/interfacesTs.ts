@@ -7,11 +7,11 @@ import generateQueryTypes from './generateTypes/query';
 import generateRpcTypes from './generateTypes/rpc';
 import generateTsDef from './generateTypes/tsDef';
 
-function main (): void {
-  generateInterfaceRegistry();
+function main(): void {
+  // generateInterfaceRegistry();
   generateQueryTypes();
-  generateRpcTypes();
-  generateTsDef();
+  // generateRpcTypes();
+  // generateTsDef();
 }
 
 main();

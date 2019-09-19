@@ -32,7 +32,7 @@ function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImport
     ]);
 
     return [
-      `key1: ${formatType(storageEntry.type.asDoubleMap.key1.toString(), imports)}, key2: ${formatType(storageEntry.type.asDoubleMap.key2, imports)}`,
+      `key1: ${formatType(storageEntry.type.asDoubleMap.key1.toString(), imports)}, key2: ${formatType(storageEntry.type.asDoubleMap.key2.toString(), imports)}`,
       formatType(storageEntry.type.asDoubleMap.value.toString(), imports)
     ];
   }
@@ -45,7 +45,8 @@ function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports
   const [args, returnType] = entrySignature(storageEntry, imports);
 
   return [
-    `${stringLowerFirst(storageEntry.name.toString())}: MethodResult<ApiType, (${args}) => ${returnType}>;`
+    `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>>;`
+    // `${stringLowerFirst(storageEntry.name.toString())}: QueryableStorageEntry<ApiType>;`
   ];
 }
 
@@ -83,6 +84,10 @@ function generateForMeta (meta: Metadata): void {
 
   const header = createImportCode(HEADER, [
     {
+      file: 'rxjs',
+      types: ['Observable']
+    },
+    {
       file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
@@ -103,7 +108,7 @@ function generateForMeta (meta: Metadata): void {
   const interfaceStart =
     [
       "declare module './types' {",
-      indent(2)('export interface QueryableStorage<ApiType> {\n')
+      indent(2)('export interface QueryableStorageExact<ApiType> {\n')
     ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 

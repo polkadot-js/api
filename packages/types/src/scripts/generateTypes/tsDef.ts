@@ -14,8 +14,12 @@ import {
   exportInterface, exportType,
   formatCompact, formatOption, formatTuple, formatVec,
   FOOTER, HEADER,
-  Imports, setImports, TypeImports
+  setImports, TypeImports
 } from '../util';
+
+interface Imports extends TypeImports {
+  interfaces: [string, string][];
+}
 
 // helper to generate a `readonly <Name>: <Type>;` getter
 export function createGetter (name = '', type: string, imports: TypeImports, doc?: string): string {
@@ -214,7 +218,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
 }
 
 function generateTsDefFor (defName: string, { types }: { types: Record<string, any> }): void {
-  const imports = createImports({ types });
+  const imports = { ...createImports({ types }), interfaces: [] } as Imports;
   const interfaces = generateInterfaces({ types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 

@@ -24,10 +24,6 @@ export interface TypeImports {
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
 }
 
-export interface Imports extends TypeImports {
-  interfaces: [string, string][];
-}
-
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
 export function setImports (imports: TypeImports, types: string[]): void {
@@ -36,7 +32,7 @@ export function setImports (imports: TypeImports, types: string[]): void {
   types.forEach((type): void => {
     if (ignoredTypes.includes(type)) {
       // do nothing
-    } else if (['Codec', 'IExtrinsic'].includes(type)) {
+    } else if (['AnyFunction', 'Codec', 'IExtrinsic'].includes(type)) {
       typesTypes[type] = true;
     } else if ((codecClasses as any)[type]) {
       codecTypes[type] = true;
@@ -69,7 +65,7 @@ export function setImports (imports: TypeImports, types: string[]): void {
 }
 
 // Create an Imports object, can be prefilled with `ignoredTypes`
-export function createImports ({ types }: { types: Record<string, any> } = { types: {} }): Imports {
+export function createImports ({ types }: { types: Record<string, any> } = { types: {} }): TypeImports {
   const codecTypes: TypeExist = {};
   const localTypes: TypeExistMap = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
     localTypes[moduleName] = {};
@@ -79,9 +75,8 @@ export function createImports ({ types }: { types: Record<string, any> } = { typ
   const ignoredTypes = Object.keys(types);
   const primitiveTypes: TypeExist = {};
   const typesTypes: TypeExist = {};
-  const interfaces = [] as [string, string][];
 
-  const imports = { codecTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes, interfaces };
+  const imports = { codecTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes };
 
   return imports;
 }
