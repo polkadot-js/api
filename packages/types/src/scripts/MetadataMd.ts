@@ -90,7 +90,8 @@ function addConstants (metadata: MetadataV7): string {
 
     return orderedConstants.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
-      const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
+      const doc = func.documentation
+        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
       const type = func.type;
       const renderSignature = `${md}\n▸ **${methodName}**: ` + '`' + type + '`';
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
@@ -122,7 +123,9 @@ function addEvents (metadata: MetadataV7): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = func.name.toString();
       const args = func.args.map((type): string => '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
+      const doc = func.documentation
+        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+
       const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
@@ -153,7 +156,8 @@ function addExtrinsics (metadata: MetadataV7): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
+      const doc = func.documentation
+        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
       const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
@@ -187,7 +191,8 @@ function addStorage (metadata: MetadataV7): string {
           : func.type.isDoubleMap
             ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
             : '';
-      const doc = func.documentation.reduce((md, doc): string => `${md} ${doc}`, '');
+      const doc = func.documentation
+        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
       let result = (
         func.type.isDoubleMap
           ? func.type.asDoubleMap.value

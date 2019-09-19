@@ -4,12 +4,12 @@ In a number of applications, it is useful to monitor a number of like-queries at
 
 ## Multi queries, same type
 
-Where possible, the use of multi queries are encouraged since it tracks a number of state entries over a single RPC call, instead of making a call for each single item. In addition it allows you to have  a single callback to track changes. For queries of the same type we can use `.multi`, for example to retrieve the balances of a number of accounts at once -
+Where possible, the use of multi queries are encouraged since it tracks a number of state entries over a single RPC call, instead of making a call for each single item. In addition it allows you to have a single callback to track changes. For queries of the same type we can use `.multi`, for example to retrieve the balances of a number of accounts at once -
 
 ```js
 ...
 
-// subscribe to balance changes for 2 accounts, ADDR1 & ADDR2 (already defined)
+// Subscribe to balance changes for 2 accounts, ADDR1 & ADDR2 (already defined)
 const unsub = await api.query.balances.freeBalance.multi([ADDR1, ADDR2], (balances) => {
   const [balance1, balance2] = balances;
 
@@ -22,10 +22,10 @@ A couple of items to note in the example above: we don't call `freeBalance` dire
 ```js
 ...
 
-// retrieve a snapshot of the validators
+// Retrieve a snapshot of the validators
 const validators = await api.query.session.validators();
 
-// subscribe to the balances for these accounts
+// Subscribe to the balances for these accounts
 const unsub = await api.query.balances.freeBalance.multi(validators, (balances) => {
   console.log(`The balances are: ${balances}`);
 });
@@ -40,7 +40,7 @@ The previous `.multi` examples assumes that we do queries for the same types, i.
 ```js
 ...
 
-// subscribe to the timestamp, our index and balance
+// Subscribe to the timestamp, our index and balance
 const unsub = await api.queryMulti([
   api.query.timestamp.now,
   [api.query.system.accountNonce, ADDR],

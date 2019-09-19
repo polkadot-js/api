@@ -7,7 +7,7 @@ const { switchMap } = require('rxjs/operators');
 
 async function main () {
   // Create a new instance of the api
-  // Subscribe to chain updates and log the current block  number on update.
+  // Subscribe to chain updates and log the current block number on update.
   const subscription = new ApiRx().isReady
     .pipe(
       switchMap((api) =>

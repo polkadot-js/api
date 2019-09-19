@@ -9,16 +9,16 @@ Quite often is is useful (taking pruning into account, more on this later) to re
 ```js
 ...
 
-// retrieve the current block header
+// Retrieve the current block header
 const lastHdr = await api.rpc.chain.getHeader();
 
-// retrieve the balance at both the current and the parent hashes
+// Retrieve the balance at both the current and the parent hashes
 const [balanceNow, balancePrev] = await Promise.all([
   api.query.balances.freeBalance.at(lastHdr.hash, ADDR),
   api.query.balances.freeBalance.at(lastHdr.parentHash, ADDR)
 ]);
 
-// display the difference
+// Display the difference
 console.log(`The delta was ${balanceNow.sub(balancePrev)}`);
 ```
 
@@ -27,13 +27,13 @@ In the above example, we introduce the `.at(<hash>[, ...params])` query. For all
 ```js
 ...
 
-// retrieve the timestamp for the  previous block
+// Retrieve the timestamp for the previous block
 const momentPrev = await api.query.timestamp.now.at(lastHdr.parentHash);
 ```
 
 The `.at` queries are all single-shot, i.e. there are no subscription option to these, since the state for a previous block should be static. (This is true to a certain extent, i.e. when blocks have been finalized).
 
-An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes agressive state pruning)
+An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes aggressive state pruning)
 
 ## State entries
 
@@ -42,13 +42,13 @@ In addition to using `api.query` to make actual on-chain queries, it can also be
 ```js
 ...
 
-// retrieve the hash & size of the entry as stored on-chain
+// Retrieve the hash & size of the entry as stored on-chain
 const [entryHash, entrySize] = await Promise.all([
   api.query.balances.freeBalance.hash(ADDR),
   api.query.balances.freeBalance.size(ADDR)
 ]);
 
-// output the info
+// Output the info
 console.log(`The current size is ${entrySize} bytes with a hash of ${entryHash}`);
 ```
 
@@ -59,10 +59,10 @@ As per the previous examples, the params here apply explicitly to the actual nee
 It has been explained that the `api.query` interfaces are decorated from the metadata. This also means that there is some information that we can gather from the entry, as decorated -
 
 ```js
-// extract the info
+// Extract the info
 const { meta, method, section } = api.query.balances.freeBalance;
 
-// display some info on a specific entry
+// Display some info on a specific entry
 console.log(`${section}.${method}: ${meta.documentation.join(' ')}`);
 console.log(`query key: ${api.query.balances.freeBalance.key(ADDR)}`);
 ```

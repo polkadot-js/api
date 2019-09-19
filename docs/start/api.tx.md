@@ -9,12 +9,12 @@ To start off, let's make a balance transfer from Alice to Bob.
 ```js
 ...
 
-// sign and send a transfer from Alice to Bob
+// Sign and send a transfer from Alice to Bob
 const txHash = await api.tx.balances
   .transfer(BOB, 12345)
   .signAndSend(alice);
 
-// show the hash
+// Show the hash
 console.log(`Submitted with hash ${txHash}`);
 ```
 
@@ -26,7 +26,7 @@ The result for this call (we will deal with subscriptions in a short while), is 
 
 ## Under the hood
 
-Despite the single-line format of `signAndSend`, there is a lot hapenning under the hood (and all of this can be manually provided) -
+Despite the single-line format of `signAndSend`, there is a lot happening under the hood (and all of this can be manually provided) -
 
 - Based on the sender, the API will retrieve the `system.accountNonce` to determine the next nonce to use
 - The API will retrieve the current block hash and use it to create a mortal transaction, i.e. the transaction will only be valid for a limited number of blocks (by default this is 5 mins at 6s blocktimes)

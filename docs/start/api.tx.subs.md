@@ -9,10 +9,10 @@ To send a transaction and then waiting until it has been included in a block, we
 ```js
 ...
 
-// create alice (carry-over from the keyring section)
+// Create alice (carry-over from the keyring section)
 const alice = keyring.addFromUri('//Alice');
 
-// make a transfer from Alice to BOB, waiting for inclusion
+// Make a transfer from Alice to BOB, waiting for inclusion
 const unsub = await api.tx.balances
   .transfer(BOB, 12345)
   .signAndSend(alice, (result) => {
@@ -39,7 +39,7 @@ To display or act on these events, we can do the following -
 
 ```js
 ...
-// make a transfer from Alice to BOB, waiting for inclusion
+// Make a transfer from Alice to BOB, waiting for inclusion
 const unsub = await api.tx.balances
   .transfer(BOB, 12345)
   .signAndSend(alice, ({ events = [], status }) => {
@@ -48,7 +48,7 @@ const unsub = await api.tx.balances
     if (status.isFinalized) {
       console.log(`Transaction included at blockHash ${status.asFinalized}`);
 
-      // loop through Vec<EventRecord> to display all events
+      // Loop through Vec<EventRecord> to display all events
       events.forEach(({ phase, event: { data, method, section } }) => {
         console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
       });
@@ -58,7 +58,7 @@ const unsub = await api.tx.balances
   });
 ```
 
-Be aware that when a transaction status is `isFinalized`, it means it is included, but it may still have failed - for instance  if you try to send a larger amount that you have free, the transaction is included in a block, however from a end-user perspective the transaction failed since the transfer did not occur. In these cases a `system.ExtrinsicFailed` event will be available in the events array.
+Be aware that when a transaction status is `isFinalized`, it means it is included, but it may still have failed - for instance if you try to send a larger amount that you have free, the transaction is included in a block, however from a end-user perspective the transaction failed since the transfer did not occur. In these cases a `system.ExtrinsicFailed` event will be available in the events array.
 
 ## Complex transactions
 

@@ -16,22 +16,22 @@ async function main () {
   // Create the API and wait until ready (optional provider passed through)
   const api = await ApiPromise.create({ provider });
 
-  // retrieve the upgrade key from the chain state
+  // Retrieve the upgrade key from the chain state
   const adminId = await api.query.sudo.key();
 
-  // find the actual keypair in the keyring (if this is an changed value, the key
+  // Find the actual keypair in the keyring (if this is a changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
   // Alice as the key - and this already exists on the test keyring)
   const keyring = testKeyring.default();
   const adminPair = keyring.getPair(adminId.toString());
 
-  // retrieve the runtime to upgrade to
+  // Retrieve the runtime to upgrade to
   const code = fs.readFileSync('./test.wasm').toString('hex');
   const proposal = api.tx.consensus.setCode(`0x${code}`);
 
   console.log(`Upgrading from ${adminId}, ${code.length / 2} bytes`);
 
-  // preform the actual chain upgrade via the sudo module
+  // Perform the actual chain upgrade via the sudo module
   api.tx.sudo
     .sudo(proposal)
     .signAndSend(adminPair, ({ events = [], status }) => {

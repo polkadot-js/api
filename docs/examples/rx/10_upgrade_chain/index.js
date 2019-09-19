@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API & Provider and some utility functions
 const { ApiRx, WsProvider } = require('@polkadot/api');
-// import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
+// Import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 const fs = require('fs');
 
@@ -14,27 +14,27 @@ async function main () {
   // Create the API and wait until ready (optional provider passed through)
   const api = await ApiRx.create({ provider }).toPromise();
 
-  // retrieve the upgrade key from the chain state
+  // Retrieve the upgrade key from the chain state
   const adminId = await api.query.sudo.key().toPromise();
 
-  // find the actual keypair in the keyring (if this is an changed value, the key
+  // Find the actual keypair in the keyring (if this is an changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
   // Alice as the key - and this already exists on the test keyring)
   const keyring = testKeyring.default();
   const adminPair = keyring.getPair(adminId.toString());
 
-  // retrieve the runtime to upgrade to
+  // Retrieve the runtime to upgrade to
   const code = fs.readFileSync('./test.wasm').toString('hex');
   const proposal = api.tx.consensus.setCode(`0x${code}`);
 
   console.log(`Upgrading chain runtime from ${adminId}`);
 
   api.tx.sudo
-    // preform the actual chain upgrade via the sudo module
+    // Perform the actual chain upgrade via the sudo module
     .sudo(proposal)
-    // sign and send the proposal
+    // Sign and send the proposal
     .signAndSend(adminPair)
-    // subscribe to overall result
+    // Subscribe to overall result
     .subscribe(({ events = [], status }) => {
       // Log transfer events
       console.log('Proposal status:', status.type);

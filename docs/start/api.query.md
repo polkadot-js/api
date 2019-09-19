@@ -7,19 +7,19 @@ In previous sections, we initialized the API and retrieved runtime constants. Th
 Let's dive right in, connect to a general chain and retrieve some information on the current state. Of interest may be retrieving the nonce of a particular account as well as the current balance, this can be achieved via -
 
 ```js
-// initialize the API as in previous sections
+// Initialize the API as in previous sections
 ...
 
-// the actual address that we will use
+// The actual address that we will use
 const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
 
-// retrieve the last timestamp
+// Retrieve the last timestamp
 const now = await api.query.timestamp.now();
 
-// retrieve the account nonce via the system module
+// Retrieve the account nonce via the system module
 const nonce = await api.query.system.accountNonce(ADDR);
 
-// retrieve the account balance via the balances module
+// Retrieve the account balance via the balances module
 const balance = await api.query.balances.freeBalance(ADDR);
 
 console.log(`${now}: balance of ${balance} and a nonce of ${nonce}`);
@@ -29,7 +29,7 @@ There have been some additions in the code above comparing with retrieving runti
 
 ```js
 ...
-// retrieve last block timestamp, account nonce & balance
+// Retrieve last block timestamp, account nonce & balance
 const [now, nonce, balance] = await Promise.all([
   api.query.timestamp.now(),
   api.query.system.accountNonce(ADDR),
@@ -41,7 +41,7 @@ const [now, nonce, balance] = await Promise.all([
 
 As indicated in previous sections, any return value is always an object with a consistent interface that reflects the type being returned. In the above example, the timestamp is a `Moment` (a `u64` value), the nonce is an `Index` (a `u32` value) and the `Balance` is an underlying `u128`.
 
-Additionally we have provided some parameters for the query calls, specifically for the retrieval of the nonce and balance. It is important to note that the API will automatically convert any parameters into the correct type for encoding  and making calls, in this case the `AccountId` parameter could be specified as a ss58 address (as it was), an actual `AccountId` (retrieved via another call) or just a plain `Uint8Array` (or even hex-string representation) for a publicKey.
+Additionally we have provided some parameters for the query calls, specifically for the retrieval of the nonce and balance. It is important to note that the API will automatically convert any parameters into the correct type for encoding and making calls, in this case the `AccountId` parameter could be specified as a ss58 address (as it was), an actual `AccountId` (retrieved via another call) or just a plain `Uint8Array` (or even hex-string representation) for a publicKey.
 
 ## Exploring RPCs
 
