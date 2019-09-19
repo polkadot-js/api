@@ -22,4 +22,4 @@ As of this writing we don't have an explicit example of implementing the signer 
 
 Some calls in Polkadot/Substrate can only be submitted as root, these are indicated by `ensure_root(origin)` in the Rust codebase. Root here does not refer to the actual account, i.e. `//Alice` on  a `--dev` chain, but rather that it cannot be submitted as a bare user transaction. This restriction applies to chain upgrades, changing balances or anything that modifies the state and/or chain operation.
 
-To submit these transactions, it needs to be send as a [wrapped transaction][api.tx.wrap.md#sudo-use] via either `sudo.sudo` (assuming you have access on your chain) or `democracy.proposal` (which would allow users of the chain to vote on it).
+To submit these transactions, it needs to be send as a [wrapped transaction](api.tx.wrap.md#sudo-use) via either `sudo.sudo` (assuming you have access on your chain) or `democracy.proposal` (which would allow users of the chain to vote on it).
