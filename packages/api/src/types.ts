@@ -126,6 +126,8 @@ export interface StorageEntryPromiseOverloads {
 export interface StorageEntryPromise extends StorageEntryBase<'promise', GenericStorageEntryFunction>, StorageEntryPromiseOverloads {
 }
 
+export type StorageEntryExact<ApiType, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F>
+
 export type QueryableStorageEntry<ApiType> =
   ApiType extends 'rxjs'
     ? StorageEntryObservable
@@ -153,8 +155,6 @@ export type QueryableStorageMulti<ApiType> =
   ApiType extends 'rxjs'
     ? QueryableStorageMultiBase<ApiType>
     : QueryableStorageMultiPromise<ApiType>;
-
-export type StorageEntryExact<ApiType, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F>
 
 // QueryableStorageExact will hold the exact typed api.query.*.* generated from
 // metadata. For now it's empty, it's ready to be module augmented.
