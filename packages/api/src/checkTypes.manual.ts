@@ -108,7 +108,8 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // api.query.*.* is well-typed
   const bar = await api.query.foo.bar(); // bar should be codec
   const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal should be u128
-  console.log(bar, bal);
+  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  console.log(bar, bal, oldBal);
 }
 
 async function main (): Promise<void> {

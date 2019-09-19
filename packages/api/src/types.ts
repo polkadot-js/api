@@ -138,17 +138,16 @@ export interface QueryableModuleStorage<ApiType> {
 }
 
 export type QueryableStorageMultiArg<ApiType> =
-  QueryableStorageEntry<ApiType> |
-  [QueryableStorageEntry<ApiType>, ...CodecArg[]];
-
-export type QueryableStorageMultiArgs<ApiType> = QueryableStorageMultiArg<ApiType>[];
+  // FIXME It should not be `| any`, but something like `| StorageEntryExact`
+  // However, I can't make it work
+  [QueryableStorageEntry<ApiType> | any, CodecArg, CodecArg?];
 
 export interface QueryableStorageMultiBase<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<T[]>;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
 }
 
 export type QueryableStorageMulti<ApiType> =
