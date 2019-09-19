@@ -11,6 +11,7 @@ import {
   FOOTER,
   getDerivedTypes,
   HEADER,
+  indent,
   setImports
 } from '../util';
 
@@ -28,7 +29,7 @@ export default function generateInterfaceRegistry (): void {
 
       return [
         accumulator,
-        getDerivedTypes(primitiveName, primitiveName, imports)
+        indent(2)(getDerivedTypes(primitiveName, primitiveName, imports))
       ].join('\n');
     }, '');
 
@@ -39,7 +40,7 @@ export default function generateInterfaceRegistry (): void {
     return [
       accumulator,
       ...Object.keys(types).map((type): string =>
-        getDerivedTypes(type, (types as any)[type], imports, 2)
+        indent(2)(getDerivedTypes(type, (types as any)[type], imports))
       )
     ].join('\n');
   }, '');

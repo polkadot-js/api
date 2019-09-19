@@ -31,7 +31,7 @@ export default function generateRpcTypes (): void {
       }
 
       const args = method.params.map((param): string => {
-        const similarTypes = getSimilarTypes(imports, param.type);
+        const similarTypes = getSimilarTypes(param.type, imports);
         setImports(imports, [param.type, ...similarTypes]);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;

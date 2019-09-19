@@ -28,14 +28,14 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  await api.query.staking.intentions((intentions): void => {
-    console.log('intentions:', intentions);
+  await api.query.staking.validatorCount((count): void => {
+    console.log('count:', count);
   });
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const intentions = await api.query.staking.intentions();
-  console.log('intentions:', intentions);
+  const count = await api.query.staking.validatorCount();
+  console.log('count:', count);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
@@ -108,6 +108,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   // api.query.*.* is well-typed
   const bar = await api.query.foo.bar(); // bar should be codec
   const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal should be u128
+  console.log(bar, bal);
 }
 
 async function main (): Promise<void> {

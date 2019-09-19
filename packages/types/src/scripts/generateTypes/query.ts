@@ -9,7 +9,7 @@ import { Metadata } from '../..';
 import { ModuleMetadataV7 } from '../../Metadata/v7/Metadata';
 import { StorageEntryMetadata } from '../../Metadata/v7/Storage';
 import staticData from '../../Metadata/v7/static';
-import { createImportCode, createImports, FOOTER, formatType, HEADER, indent, setImports, TypeImports } from '../util';
+import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
 
 // From a storage entry metadata, we return [args, returnType]
 function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
@@ -18,21 +18,34 @@ function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImport
 
     return ['', formatType(storageEntry.type.asType.toString(), imports)];
   } else if (storageEntry.type.isMap) {
-    setImports(imports, [storageEntry.type.asMap.key.toString(), storageEntry.type.asMap.value.toString()]);
+    // Find similar types of the `key` type
+    const similarTypes = getSimilarTypes(storageEntry.type.asMap.key.toString(), imports);
 
-    return [
-      `arg: ${formatType(storageEntry.type.asMap.key.toString(), imports)}`,
-      formatType(storageEntry.type.asMap.value.toString(), imports)
-    ];
-  } else if (storageEntry.type.isDoubleMap) {
     setImports(imports, [
-      storageEntry.type.asDoubleMap.key1.toString(),
-      storageEntry.type.asDoubleMap.key2.toString(),
-      storageEntry.type.asDoubleMap.value.toString()
+      ...similarTypes,
+      storageEntry.type.asMap.value.toString()
     ]);
 
     return [
-      `key1: ${formatType(storageEntry.type.asDoubleMap.key1.toString(), imports)}, key2: ${formatType(storageEntry.type.asDoubleMap.key2.toString(), imports)}`,
+      `arg: ${similarTypes.map((type) => formatType(type, imports)).join(' | ')}`,
+      formatType(storageEntry.type.asMap.value.toString(), imports)
+    ];
+  } else if (storageEntry.type.isDoubleMap) {
+    // Find similartypes of `key1` and `key2` types
+    const similarTypes1 = getSimilarTypes(storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(storageEntry.type.asDoubleMap.key2.toString(), imports);
+
+    setImports(imports, [
+      ...similarTypes1,
+      ...similarTypes2,
+      storageEntry.type.asDoubleMap.value.toString()
+    ]);
+
+    const key1Types = similarTypes1.map((type) => formatType(type, imports)).join(' | ');
+    const key2Types = similarTypes2.map((type) => formatType(type, imports)).join(' | ');
+
+    return [
+      `key1: ${key1Types}, key2: ${key2Types}`,
       formatType(storageEntry.type.asDoubleMap.value.toString(), imports)
     ];
   }
