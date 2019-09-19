@@ -80,7 +80,8 @@ function generateModule (modul: ModuleMetadataV7, imports: TypeImports): string[
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
+// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
+// metadata
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/query.types.ts');
 
@@ -136,7 +137,7 @@ function generateForMeta (meta: Metadata): void {
   );
 }
 
-// Call `generateForMeta()` with current static metadat
+// Call `generateForMeta()` with current static metadata
 export default function generateQuery (): void {
   return generateForMeta(new Metadata(staticData));
 }

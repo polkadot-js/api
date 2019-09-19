@@ -38,9 +38,9 @@ export function setImports (imports: TypeImports, types: string[]): void {
       codecTypes[type] = true;
     } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
-    } else if (type.includes('<')) {
-      // If it contains a nested type ('<' sign), then we recursively call
-      // setImports
+    } else if (type.includes('<') || type.includes('(') || type.includes('[')) {
+      // If the type is a bit special (tuple, fixed u8, nested type...), then we
+      // need to parse it with `getTypeDef`.
       const typeDef = getTypeDef(type);
       setImports(imports, [TypeDefInfo[typeDef.info]]);
 
