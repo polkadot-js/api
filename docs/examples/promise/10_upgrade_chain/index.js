@@ -25,9 +25,11 @@ async function main () {
   const keyring = testKeyring.default();
   const adminPair = keyring.getPair(adminId.toString());
 
-  // Retrieve the runtime to upgrade to
+  // Retrieve the runtime to upgrade
   const code = fs.readFileSync('./test.wasm').toString('hex');
-  const proposal = api.tx.consensus.setCode(`0x${code}`);
+  const proposal = api.tx.system && api.tx.system.setCode
+    ? api.tx.system.setCode(`0x${code}`) // For newer versions of Substrate
+    : api.tx.consensus.setCode(`0x${code}`); // For previous versions
 
   console.log(`Upgrading from ${adminId}, ${code.length / 2} bytes`);
 

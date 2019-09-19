@@ -12,13 +12,13 @@ async function main () {
   const api = await ApiRx.create().toPromise();
 
   // Create an instance of the keyring
-  const keyring = new Keyring({ type: 's25519' });
+  const keyring = new Keyring({ type: 'sr25519' });
 
   // Add Alice to our keyring (with the known seed for the account)
-  const alice = keyring.addFomUri('//Alice');
+  const alice = keyring.addFromUri('//Alice');
 
-  //  Create a extrinsic, transferring 12345 units to Bob.
-  api.tx.balances
+  // Create a extrinsic, transferring 12345 units to Bob.
+  const subscription = api.tx.balances
     // create transfer
     .transfer(BOB, 12345)
     // Sign and send the transcation
@@ -27,10 +27,11 @@ async function main () {
     .subscribe(({ status }) => {
       if (status.isFinalized) {
         console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalized.toHex()}`);
+        subscription.unsubscribe();
       } else {
-        console.log(`Staus of transfer: ${status.type}`);
+        console.log(`Status of transfer: ${status.type}`);
       }
     });
 }
 
-main().catch(console.error).finally(() => process.exit());
+main().catch(console.error);

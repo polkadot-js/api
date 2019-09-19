@@ -11,7 +11,7 @@ async function main () {
   const subscription = new ApiRx().isReady
     .pipe(
       switchMap((api) =>
-        api.rpc.chain.subscribeNewHead()
+        api.rpc.chain.subscribeNewHeads()
       ))
     .subscribe((header) => {
       console.log(`Chain is at block: #${header.number}`);
