@@ -3,14 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, EventRecord, Hash, Header, Index } from '@polkadot/types/interfaces';
+import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableResultResult, SubmitableResultSubscription } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, ClassOf, Vec } from '@polkadot/types';
+import { createType, ClassOf } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
@@ -99,10 +99,10 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
   }
 
   // send with an immediate Hash result
-  public send (): SubmitableResultResult<ApiType>;
+  public send(): SubmitableResultResult<ApiType>;
 
   // send with a status callback
-  public send (statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public send(statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
 
   // send implementation for both immediate Hash and statusCb variants
   public send (statusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
@@ -218,7 +218,7 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
 
     return combineLatest([
       this._api.rpc.chain.getBlock(blockHash),
-      this._api.query.system.events.at(blockHash) as Observable<Vec<EventRecord>>
+      this._api.query.system.events.at(blockHash)
     ]).pipe(
       map(([signedBlock, allEvents]): SubmittableResultImpl =>
         new SubmittableResult({

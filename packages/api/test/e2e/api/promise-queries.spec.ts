@@ -7,7 +7,7 @@ import { EventRecord, Hash, Header, SessionIndex } from '@polkadot/types/interfa
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Option, Vec, createType } from '@polkadot/types';
+import { Option, createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -80,7 +80,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader();
-    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
+    const events = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
 
@@ -100,14 +100,14 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
 
   describe('with plain type', (): void => {
     it('queries a correct value', async (): Promise<void> => {
-      const sessionIndex = await api.query.session.currentIndex() as SessionIndex;
+      const sessionIndex = await api.query.session.currentIndex();
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
     it('queries correct value at a specified block', async (): Promise<void> => {
       const header = await api.rpc.chain.getHeader();
-      const sessionIndex = await api.query.session.currentIndex.at(header.hash) as SessionIndex;
+      const sessionIndex = await api.query.session.currentIndex.at(header.hash);
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
