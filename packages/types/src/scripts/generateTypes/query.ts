@@ -58,7 +58,7 @@ function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports
   const [args, returnType] = entrySignature(storageEntry, imports);
 
   return [
-    `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>>;`
+    `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
     // `${stringLowerFirst(storageEntry.name.toString())}: QueryableStorageEntry<ApiType>;`
   ];
 }
@@ -70,6 +70,7 @@ function generateModule (modul: ModuleMetadataV7, imports: TypeImports): string[
   }
 
   return [indent(4)(`${stringLowerFirst(modul.name.toString())}: {`)]
+    .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
     .concat(
       modul.storage.unwrap().items
         .reduce((acc, storageEntry): string[] => {

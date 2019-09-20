@@ -28,18 +28,17 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  await api.query.staking.validatorCount((count): void => {
-    console.log('count:', count);
+  await api.query.staking.intentions((intentions): void => {
+    console.log('intentions:', intentions);
   });
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const count = await api.query.staking.validatorCount();
-  console.log('count:', count);
+  const intentions = await api.query.staking.intentions();
+  console.log('intentions:', intentions);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    api.query.staking.validatorCount,
     [api.query.system.accountNonce, keyring.eve.address],
     [api.query.system.accountNonce, keyring.bob.address]
   ], (balances): void => {
@@ -97,7 +96,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce<Index>(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
@@ -107,11 +106,12 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 
   // api.query.*.* is well-typed
-  const bar = await api.query.foo.bar(); // bar should be codec
-  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal should be u128
-  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override should be Header (it's here just in case)
+  const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
+  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is u128
+  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
   const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
-  console.log(bar, bal, override, oldBal);
+  console.log(bar, bal, bal2, override, oldBal);
 }
 
 async function main (): Promise<void> {
