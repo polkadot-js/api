@@ -8,13 +8,13 @@ When running a development chain (Polkadot/Substrate with a `--dev` flag), or in
 
 ```js
 ...
-// get the  current sudo key in the system
+// Get the current sudo key in the system
 const sudoKey = await api.query.sudo.key();
 
-// lookup from keyring (assuming we have added all, on --dev this would be `//Alice`)
+// Lookup from keyring (assuming we have added all, on --dev this would be `//Alice`)
 const sudoPair = keyring.getPair(sudoKey);
 
-// send the actual sudo transaction
+// Send the actual sudo transaction
 const unsub = await api.tx.sudo
   .sudo(
     api.tx.balances.setBalance(ADDR, 12345, 678)
@@ -41,4 +41,4 @@ In the above example, all we need to provide is a the fields for the `ValidatorP
 
 ## Understanding types
 
-As has been very apparent in all the preceding sections, the management of types is what allows the API to communicate with the node. Most values are in a [binary SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and it is the reponsibility of the  API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).
+As has been very apparent in all the preceding sections, the management of types is what allows the API to communicate with the node. Most values are in a [binary SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and it is the reponsibility of the API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).

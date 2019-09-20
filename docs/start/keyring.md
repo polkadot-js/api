@@ -13,13 +13,13 @@ If you do opt to install it seperately, ensure that the version of `@polkadot/ut
 Once installed, you can create an instance by just creating an instance of the `Keyring` class -
 
 ```js
-// import the keyring as required
+// Import the keyring as required
 import { Keyring } from '@polkadot/api';
 
-// initialize the API as we would normally do
+// Initialize the API as we would normally do
 ...
 
-// create a keyring instance
+// Create a keyring instance
 const keyring = new Keyring({ type: 'sr25519' });
 ```
 
@@ -27,18 +27,18 @@ In the above example, the import is self-explanatory. Upon creation we pass thro
 
 So effectively, when creating an account and not specifying a type, it will be `sr25519` by default based on the above construction params, however we can also add an `ed25519` account and use it transparently in the same keyring.
 
-One "trick" that is done implictly in the above sample is that that keyring  is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
+One "trick" that is done implictly in the above sample is that that keyring is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
 
 However, this initialization can also be done explicitly, mostly for more advances use-cases, or in cases where the API won't be attached until much later -
 
 ```js
-// crypto promise, package  used by keyring internally
+// Crypto promise, package used by keyring internally
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-// wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+// Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
 await cryptoWaitReady();
 
-// create a keyring instance
+// Create a keyring instance
 const keyring = new Keyring({ type: 'sr25519' });
 ```
 
@@ -49,16 +49,16 @@ The recommended catch-all approach to adding accounts is via `.addFromUri(<suri>
 ```js
 ...
 
-// some mnemonic phrase
+// Some mnemonic phrase
 const PHRASE = 'entire material egg meadow latin bargain dutch coral blood melt acoustic thought';
 
-// add an account, straight menemonic
+// Add an account, straight menemonic
 const newPair = keyring.addFromUri(PHRASE);
 
-// (advanced) add an account with a derivation path (hard & soft)
+// (Advanced) add an account with a derivation path (hard & soft)
 const newDeri = keyring.addFromUri(`${PHRASE}//hard-derived/soft-derived`);
 
-// (advanced, development-only) add with an implied dev seed and hard derivation
+// (Advanced, development-only) add with an implied dev seed and hard derivation
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 ```
 
@@ -71,27 +71,27 @@ In the previous examples we added a pair to the keyring (and we actually immedia
 ```js
 ...
 
-// add our Alice dev account
+// Add our Alice dev account
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 
-// log some info
+// Log some info
 console.log(`${alice.meta.name}: has address ${alice.address} with publicKey [${alice.publicKey}]`);
 ```
 
 Additionally you can sign and verify using the pairs. This is the same internally to the API when constructing transactions -
 
 ```js
-// some helper functions used here
+// Some helper functions used here
 import { stringToU8a, u8aToHex } from '@polkadot/util';
 
 ...
 
-// convert message, sign and then verify
+// Convert message, sign and then verify
 const message = stringToU8a('this is our message');
 const signature = alice.sign(message);
 const isValid = alice.verify(message, signature);
 
-// log info
+// Log info
 console.log(`The signature ${u8aToHex(signature)}, is ${isValid ? '' : 'in'}valid`);
 ```
 

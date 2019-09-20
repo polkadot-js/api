@@ -27,7 +27,7 @@ In addition to the `api.[consts | query | tx]` detailed above, the API, upon con
 - `api.genesisHash` - The genesisHash of the connected chain
 - `api.runtimeMetadata` - The metadata as retrieved from the chain
 - `api.runtimeVersion` - The chain runtime version (including spec/impl. versions and types)
-- `api.libraryInfo` - The  version of the API, i.e. `@polkadot/api v0.90.1`
+- `api.libraryInfo` - The version of the API, i.e. `@polkadot/api v0.90.1`
 
 ## Let's do something!
 

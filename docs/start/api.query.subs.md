@@ -9,7 +9,7 @@ As in the case with `api.rpc` subscriptions, query subscriptions follow exactly 
 ```js
 ...
 
-// retrieve the current timestamp via subscription
+// Retrieve the current timestamp via subscription
 const unsub = await api.query.timestamp.now((moment) => {
   console.log(`The last block has a timestamp of ${moment}`);
 });
@@ -24,7 +24,7 @@ If we had a query with parameters, i.e. where we wish to perform a query for a s
 ```js
 ...
 
-// subscribe to balance changes for our account
+// Subscribe to balance changes for our account
 const unsub = await api.query.balances.freeBalance(ADDR, (balance) => {
   console.log(`Your account balance is ${balance}`);
 });

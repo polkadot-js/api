@@ -7,13 +7,13 @@ Since you are already familiar with the `api.query` interface, the `api.rpc` int
 ```js
 ...
 
-// retrieve the chain name
+// Retrieve the chain name
 const chain = await api.rpc.system.chain();
 
-// retrieve the latest header
+// Retrieve the latest header
 const lastHeader = await api.rpc.chain.getHeader();
 
-// log the information
+// Log the information
 console.log(`${chain}: last block #${lastHeader.number} has hash ${lastHeader.hash}`);
 ```
 
@@ -26,13 +26,13 @@ The RPCs lend themselves to using subscriptions, for instance in the above case 
 ```js
 ...
 
-// subscribe to the new headers
+// Subscribe to the new headers
 await api.rpc.chain.subscribeNewHeads((lastHeader) => {
   console.log(`${chain}: last block #${lastHeader.number} has hash ${lastHeader.hash}`);
 });
 ```
 
-Since we are dealing with a subscription, we now pass a callback into the `subscribeNewHeads` function, and this will  be triggered on each header, as they are imported. The same pattern would apply to each of the `api.rpc.subscribe*` functions - as a last parameter a callback is to be provided that streams the latest data, as it becomes available.
+Since we are dealing with a subscription, we now pass a callback into the `subscribeNewHeads` function, and this will be triggered on each header, as they are imported. The same pattern would apply to each of the `api.rpc.subscribe*` functions - as a last parameter a callback is to be provided that streams the latest data, as it becomes available.
 
 In general, whenever we create a subscription, we would like to cleanup after ourselves and unsubscribe, so assuming we only want to log the first 10 headers, the above example can be adjusted in the following manner -
 
@@ -40,7 +40,7 @@ In general, whenever we create a subscription, we would like to cleanup after ou
 ...
 let count = 0;
 
-// subscribe to the new headers
+// Subscribe to the new headers
 const unsubHeads = await api.rpc.chain.subscribeNewHeads((lastHeader) => {
   console.log(`${chain}: last block #${lastHeader.number} has hash ${lastHeader.hash}`);
 

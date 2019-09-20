@@ -4,4 +4,5 @@
 
 export * from './calculateAccountDeposit';
 export * from './describeE2E';
+export * from './logEvents';
 export * from './SingleAccountSigner';
