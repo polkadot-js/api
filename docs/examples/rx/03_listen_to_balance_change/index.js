@@ -22,7 +22,7 @@ async function main () {
       pairwise()
     )
     .subscribe((balance) => {
-      if (balance[0].eq('first')) {
+      if (balance[0] === 'first') {
         // Now we know that if the previous value emitted as balance[0] is `first`,
         // then balance[1] is the initial value of Alice account.
         console.log(`Alice ${Alice} has a balance of ${balance[1]}`);

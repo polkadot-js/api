@@ -15,6 +15,7 @@ async function main () {
   const api = await ApiRx.create({ provider }).toPromise();
 
   // Retrieve the upgrade key from the chain state
+  // TODO It seems like this promise doesn't resolve
   const adminId = await api.query.sudo.key().toPromise();
 
   // Find the actual keypair in the keyring (if this is an changed value, the key
