@@ -171,10 +171,10 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
       // NOTE For 2.x-only support, only the first path is required, therefore we
       // can replace this with `.bonded<Option<AccountId>>(accountId)` - in 2.x
       // the session.validators return the stashes (as expected)
-      api.queryMulti([
+      api.queryMulti<[Option<AccountId>, Option<StakingLedger>]>([
         [api.query.staking.bonded, accountId], // try to map to controller
         [api.query.staking.ledger, accountId] // try to map to stash (1.x only)
-      ]) as Observable<[Option<AccountId>, Option<StakingLedger>]>
+      ])
     ).pipe(
       switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
         controllerId.isSome

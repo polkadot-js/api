@@ -74,7 +74,7 @@ describeE2E({
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
     const header = await api.rpc.chain.getHeader();
-    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
+    const events = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
   });

@@ -1,13 +1,13 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
+import { Codec, ITuple } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '../../primitive';
 import { BlockNumber, Hash } from '../runtime';
 
-/** Uint8Array & Codec */
-export type ApiId = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface ApiId extends Uint8Array, Codec {}
 
 /** Struct */
 export interface ChainProperties extends Struct {
@@ -65,8 +65,8 @@ export interface Health extends Struct {
   readonly shouldHavePeers: bool;
 }
 
-/** [StorageKey, Option<StorageData>] & Codec */
-export type KeyValueOption = [StorageKey, Option<StorageData>] & Codec;
+/** ITuple<[StorageKey, Option<StorageData>]> */
+export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
 
 /** Struct */
 export interface NetworkState extends Struct {
@@ -112,8 +112,8 @@ export interface RuntimeVersion extends Struct {
   readonly apis: Vec<RuntimeVersionApi>;
 }
 
-/** [ApiId, u32] & Codec */
-export type RuntimeVersionApi = [ApiId, u32] & Codec;
+/** ITuple<[ApiId, u32]> */
+export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 
 /** Struct */
 export interface StorageChangeSet extends Struct {

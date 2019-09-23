@@ -7,7 +7,6 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { u8aToHex } from '@polkadot/util';
-import { Index } from '@polkadot/types/interfaces';
 
 import ApiPromise from '../../../src/promise';
 import randomAsHex2097152 from '../../mock-data/randomAsHex_2097152';
@@ -26,7 +25,7 @@ describeE2E({
   });
 
   it('can submit an extrinsic from hex', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .sign(keyring.bob_stash, { nonce })
@@ -36,7 +35,7 @@ describeE2E({
   });
 
   it('invalid hex does throw a catchable exception', async (done): Promise<void> => {
-    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
     const hex = api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .sign(keyring.bob_stash, { nonce })
@@ -58,7 +57,7 @@ describeE2E({
   });
 
   it('makes a transfer (sign, then send)', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
 
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
@@ -67,7 +66,7 @@ describeE2E({
   });
 
   it('makes a transfer (sign, then send - compat version)', async (done): Promise<() => void> => {
-    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
 
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)

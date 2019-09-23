@@ -6,13 +6,13 @@ import { Enum, Option, Struct } from '../../codec';
 import { u32, u64 } from '../../primitive';
 
 /** u64 */
-export type BabeAuthorityWeight = u64;
+export interface BabeAuthorityWeight extends u64 {}
 
 /** u32 */
-export type BabeBlockWeight = u32;
+export interface BabeBlockWeight extends u32 {}
 
 /** u64 */
-export type BabeWeight = u64;
+export interface BabeWeight extends u64 {}
 
 /** Option<VrfData> */
 export type MaybeVrf = Option<VrfData>;
@@ -73,11 +73,11 @@ export interface RawBabePreDigestSecondary0to159 extends Struct {
   readonly weight: BabeBlockWeight;
 }
 
-/** u64 */
-export type SlotNumber = u64;
-
 /** Uint8Array & Codec */
 export type VrfData = Uint8Array & Codec;
 
 /** Uint8Array & Codec */
 export type VrfProof = Uint8Array & Codec;
+
+/** u64 */
+export interface SlotNumber extends u64 {}

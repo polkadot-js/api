@@ -23,7 +23,7 @@ export interface Owner extends Enum {
 }
 
 /** PermissionsV1 */
-export type PermissionLatest = PermissionsV1;
+export interface PermissionLatest extends PermissionsV1 {}
 
 /** Struct */
 export interface PermissionsV1 extends Struct {

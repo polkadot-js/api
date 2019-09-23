@@ -6,7 +6,7 @@ import { u32 } from '../../primitive';
 import { AccountId, Balance, BlockNumber, Moment } from '../runtime';
 
 /** u32 */
-export type EraIndex = u32;
+export interface EraIndex extends u32 {}
 
 /** Struct */
 export interface EraPoints extends Struct {
@@ -53,10 +53,10 @@ export interface IndividualExposure extends Struct {
 }
 
 /** Moment */
-export type MomentOf = Moment;
+export interface MomentOf extends Moment {}
 
 /** u32 */
-export type Points = u32;
+export interface Points extends u32 {}
 
 /** Enum */
 export interface RewardDestination extends Enum {

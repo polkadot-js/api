@@ -60,14 +60,21 @@ export type DecorateMethod = (method: (...args: any[]) => Observable<any>, optio
 
 // These are the types that don't lose type information (used for api.derive.*)
 // Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
-export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
-
+export interface RxResult<F extends AnyFunction> {
+  (...args: Parameters<F>): Observable<ObsInnerType<ReturnType<F>>>;
+  <T>(...args: Parameters<F>): Observable<T>;
+}
 export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
-  <T>(...args: Parameters<F>): Promise<T>;
-  <T>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
+  <T extends Codec | Codec[]>(...args: Parameters<F>): Promise<T>;
+  <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
 }
+
+// FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
+export type PromiseOrObs<ApiType, T> = ApiType extends 'rxjs'
+  ? Observable<T>
+  : Promise<T>
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs'
@@ -84,18 +91,22 @@ export type DecoratedRpc<ApiType, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
 
-interface StorageEntryBase<C, H, U> {
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => C;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => H;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => U;
+interface StorageEntryObservableMulti {
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
 }
 
-export interface StorageEntryObservable extends StorageEntryBase<Observable<Codec>, Observable<Hash>, Observable<u64>> {
-  (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
-  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
-  multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
+interface StorageEntryPromiseMulti {
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+}
+
+export interface StorageEntryBase<ApiType, F extends AnyFunction> {
+  at: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
+  creator: StorageEntry;
+  hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
+  key: (...args: Parameters<F>) => string;
+  size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+  multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -106,19 +117,15 @@ export interface StorageEntryPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
-export interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
-}
+export type StorageEntryExact<ApiType, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F>
 
-export interface StorageEntryPromise extends StorageEntryBase<Promise<Codec>, Promise<Hash>, Promise<u64>>, StorageEntryPromiseOverloads {
-  multi: StorageEntryPromiseMulti;
-}
+// This is the most generic typings we can have for a storage entry function
+type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>
 
 export type QueryableStorageEntry<ApiType> =
   ApiType extends 'rxjs'
-    ? StorageEntryObservable
-    : StorageEntryPromise;
+    ? StorageEntryExact<'rxjs', GenericStorageEntryFunction>
+    : StorageEntryExact<'promise', GenericStorageEntryFunction> & StorageEntryPromiseOverloads;
 
 export interface QueryableModuleStorage<ApiType> {
   [index: string]: QueryableStorageEntry<ApiType>;
@@ -128,14 +135,12 @@ export type QueryableStorageMultiArg<ApiType> =
   QueryableStorageEntry<ApiType> |
   [QueryableStorageEntry<ApiType>, ...CodecArg[]];
 
-export type QueryableStorageMultiArgs<ApiType> = QueryableStorageMultiArg<ApiType>[];
-
 export interface QueryableStorageMultiBase<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<T[]>;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
 }
 
 export type QueryableStorageMulti<ApiType> =
@@ -143,7 +148,12 @@ export type QueryableStorageMulti<ApiType> =
     ? QueryableStorageMultiBase<ApiType>
     : QueryableStorageMultiPromise<ApiType>;
 
-export interface QueryableStorage<ApiType> {
+// QueryableStorageExact will hold the exact typed api.query.*.* generated from
+// metadata. For now it's empty, it's ready to be module augmented.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface QueryableStorageExact<ApiType> { }
+
+export interface QueryableStorage<ApiType> extends QueryableStorageExact<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
 }
 

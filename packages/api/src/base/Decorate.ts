@@ -7,7 +7,7 @@ import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -163,6 +163,7 @@ export default abstract class Decorate<ApiType> extends Events {
           ? !methods.includes(key) && key !== 'rpc_methods' // rpc_methods doesn't appear, v1
           : isOptional || key === 'rpc_methods' // we didn't find this one, remove
       )
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, { method, section }]): void => {
         delete (this._rpc as any)[section][method];
         delete (this._rx.rpc as any)[section][method];
@@ -188,7 +189,7 @@ export default abstract class Decorate<ApiType> extends Events {
   }
 
   protected decorateMulti<ApiType> (decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
-    return decorateMethod((calls: QueryableStorageMultiArgs<ApiType>): Observable<Codec[]> =>
+    return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
         calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
           // the input is a QueryableStorageEntry, convert to StorageEntry
@@ -349,7 +350,7 @@ export default abstract class Decorate<ApiType> extends Events {
    * Put the `this.onCall` function of ApiRx here, because it is needed by
    * `api._rx`.
    */
-  protected rxDecorateMethod = <Method extends AnyFunction> (method: Method): Method => {
+  protected rxDecorateMethod = <Method extends AnyFunction>(method: Method): Method => {
     return method;
   }
 }

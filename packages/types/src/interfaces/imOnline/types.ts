@@ -8,10 +8,10 @@ import { AuthorityId } from '../consensus';
 import { SessionIndex } from '../session';
 
 /** u32 */
-export type AuthIndex = u32;
+export interface AuthIndex extends u32 {}
 
 /** Signature */
-export type AuthoritySignature = Signature;
+export interface AuthoritySignature extends Signature {}
 
 /** Struct */
 export interface Heartbeat extends Struct {
@@ -26,7 +26,7 @@ export interface Heartbeat extends Struct {
 }
 
 /** Bytes */
-export type OpaqueMultiaddr = Bytes;
+export interface OpaqueMultiaddr extends Bytes {}
 
 /** Struct */
 export interface OpaqueNetworkState extends Struct {
@@ -37,4 +37,4 @@ export interface OpaqueNetworkState extends Struct {
 }
 
 /** Bytes */
-export type OpaquePeerId = Bytes;
+export interface OpaquePeerId extends Bytes {}

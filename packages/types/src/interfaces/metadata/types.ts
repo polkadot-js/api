@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
+import { ITuple } from '../../types';
 import { Enum, Option, Struct, Vec } from '../../codec';
 import { Bytes, StorageHasher, Text, Type, bool, u16 } from '../../primitive';
 
@@ -54,10 +54,10 @@ export interface DoubleMapTypeV5 extends Struct {
 }
 
 /** DoubleMapTypeV5 */
-export type DoubleMapTypeV6 = DoubleMapTypeV5;
+export interface DoubleMapTypeV6 extends DoubleMapTypeV5 {}
 
 /** DoubleMapTypeV6 */
-export type DoubleMapTypeV7 = DoubleMapTypeV6;
+export interface DoubleMapTypeV7 extends DoubleMapTypeV6 {}
 
 /** Struct */
 export interface EventMetadataV0 extends Struct {
@@ -70,25 +70,25 @@ export interface EventMetadataV0 extends Struct {
 }
 
 /** EventMetadataV0 */
-export type EventMetadataV1 = EventMetadataV0;
+export interface EventMetadataV1 extends EventMetadataV0 {}
 
 /** EventMetadataV1 */
-export type EventMetadataV2 = EventMetadataV1;
+export interface EventMetadataV2 extends EventMetadataV1 {}
 
 /** EventMetadataV2 */
-export type EventMetadataV3 = EventMetadataV2;
+export interface EventMetadataV3 extends EventMetadataV2 {}
 
 /** EventMetadataV3 */
-export type EventMetadataV4 = EventMetadataV3;
+export interface EventMetadataV4 extends EventMetadataV3 {}
 
 /** EventMetadataV4 */
-export type EventMetadataV5 = EventMetadataV4;
+export interface EventMetadataV5 extends EventMetadataV4 {}
 
 /** EventMetadataV5 */
-export type EventMetadataV6 = EventMetadataV5;
+export interface EventMetadataV6 extends EventMetadataV5 {}
 
 /** EventMetadataV6 */
-export type EventMetadataV7 = EventMetadataV6;
+export interface EventMetadataV7 extends EventMetadataV6 {}
 
 /** Struct */
 export interface FunctionArgumentMetadataV0 extends Struct {
@@ -99,25 +99,25 @@ export interface FunctionArgumentMetadataV0 extends Struct {
 }
 
 /** FunctionArgumentMetadataV0 */
-export type FunctionArgumentMetadataV1 = FunctionArgumentMetadataV0;
+export interface FunctionArgumentMetadataV1 extends FunctionArgumentMetadataV0 {}
 
 /** FunctionArgumentMetadataV1 */
-export type FunctionArgumentMetadataV2 = FunctionArgumentMetadataV1;
+export interface FunctionArgumentMetadataV2 extends FunctionArgumentMetadataV1 {}
 
 /** FunctionArgumentMetadataV2 */
-export type FunctionArgumentMetadataV3 = FunctionArgumentMetadataV2;
+export interface FunctionArgumentMetadataV3 extends FunctionArgumentMetadataV2 {}
 
 /** FunctionArgumentMetadataV3 */
-export type FunctionArgumentMetadataV4 = FunctionArgumentMetadataV3;
+export interface FunctionArgumentMetadataV4 extends FunctionArgumentMetadataV3 {}
 
 /** FunctionArgumentMetadataV4 */
-export type FunctionArgumentMetadataV5 = FunctionArgumentMetadataV4;
+export interface FunctionArgumentMetadataV5 extends FunctionArgumentMetadataV4 {}
 
 /** FunctionArgumentMetadataV5 */
-export type FunctionArgumentMetadataV6 = FunctionArgumentMetadataV5;
+export interface FunctionArgumentMetadataV6 extends FunctionArgumentMetadataV5 {}
 
 /** FunctionArgumentMetadataV6 */
-export type FunctionArgumentMetadataV7 = FunctionArgumentMetadataV6;
+export interface FunctionArgumentMetadataV7 extends FunctionArgumentMetadataV6 {}
 
 /** Struct */
 export interface FunctionMetadataV0 extends Struct {
@@ -142,22 +142,22 @@ export interface FunctionMetadataV1 extends Struct {
 }
 
 /** FunctionMetadataV1 */
-export type FunctionMetadataV2 = FunctionMetadataV1;
+export interface FunctionMetadataV2 extends FunctionMetadataV1 {}
 
 /** FunctionMetadataV2 */
-export type FunctionMetadataV3 = FunctionMetadataV2;
+export interface FunctionMetadataV3 extends FunctionMetadataV2 {}
 
 /** FunctionMetadataV3 */
-export type FunctionMetadataV4 = FunctionMetadataV3;
+export interface FunctionMetadataV4 extends FunctionMetadataV3 {}
 
 /** FunctionMetadataV4 */
-export type FunctionMetadataV5 = FunctionMetadataV4;
+export interface FunctionMetadataV5 extends FunctionMetadataV4 {}
 
 /** FunctionMetadataV5 */
-export type FunctionMetadataV6 = FunctionMetadataV5;
+export interface FunctionMetadataV6 extends FunctionMetadataV5 {}
 
 /** FunctionMetadataV6 */
-export type FunctionMetadataV7 = FunctionMetadataV6;
+export interface FunctionMetadataV7 extends FunctionMetadataV6 {}
 
 /** Struct */
 export interface MapTypeV0 extends Struct {
@@ -178,7 +178,7 @@ export interface MapTypeV2 extends Struct {
 }
 
 /** MapTypeV2 */
-export type MapTypeV3 = MapTypeV2;
+export interface MapTypeV3 extends MapTypeV2 {}
 
 /** Struct */
 export interface MapTypeV4 extends Struct {
@@ -193,13 +193,13 @@ export interface MapTypeV4 extends Struct {
 }
 
 /** MapTypeV4 */
-export type MapTypeV5 = MapTypeV4;
+export interface MapTypeV5 extends MapTypeV4 {}
 
 /** MapTypeV5 */
-export type MapTypeV6 = MapTypeV5;
+export interface MapTypeV6 extends MapTypeV5 {}
 
 /** MapTypeV6 */
-export type MapTypeV7 = MapTypeV6;
+export interface MapTypeV7 extends MapTypeV6 {}
 
 /** Struct */
 export interface MetadataV0 extends Struct {
@@ -230,7 +230,7 @@ export interface ModuleConstantMetadataV6 extends Struct {
 }
 
 /** ModuleConstantMetadataV6 */
-export type ModuleConstantMetadataV7 = ModuleConstantMetadataV6;
+export interface ModuleConstantMetadataV7 extends ModuleConstantMetadataV6 {}
 
 /** Struct */
 export interface ModuleMetadataV0 extends Struct {
@@ -273,10 +273,10 @@ export interface OuterDispatchMetadataV0 extends Struct {
 }
 
 /** Vec<EventMetadataV0> */
-export type OuterEventEventMetadataEventsV0 = Vec<EventMetadataV0>;
+export interface OuterEventEventMetadataEventsV0 extends Vec<EventMetadataV0> {}
 
-/** [Text, OuterEventEventMetadataEventsV0] & Codec */
-export type OuterEventEventMetadataV0 = [Text, OuterEventEventMetadataEventsV0] & Codec;
+/** ITuple<[Text, OuterEventEventMetadataEventsV0]> */
+export interface OuterEventEventMetadataV0 extends ITuple<[Text, OuterEventEventMetadataEventsV0]> {}
 
 /** Struct */
 export interface OuterEventMetadataV0 extends Struct {
@@ -287,25 +287,25 @@ export interface OuterEventMetadataV0 extends Struct {
 }
 
 /** Type */
-export type PlainTypeV0 = Type;
+export interface PlainTypeV0 extends Type {}
 
 /** Type */
-export type PlainTypeV2 = Type;
+export interface PlainTypeV2 extends Type {}
 
 /** Type */
-export type PlainTypeV3 = Type;
+export interface PlainTypeV3 extends Type {}
 
 /** Type */
-export type PlainTypeV4 = Type;
+export interface PlainTypeV4 extends Type {}
 
 /** Type */
-export type PlainTypeV5 = Type;
+export interface PlainTypeV5 extends Type {}
 
 /** Type */
-export type PlainTypeV6 = Type;
+export interface PlainTypeV6 extends Type {}
 
 /** Type */
-export type PlainTypeV7 = Type;
+export interface PlainTypeV7 extends Type {}
 
 /** Struct */
 export interface RuntimeModuleMetadataV0 extends Struct {
@@ -318,10 +318,10 @@ export interface RuntimeModuleMetadataV0 extends Struct {
 }
 
 /** StorageFunctionModifierV5 */
-export type StorageEntryModifierV6 = StorageFunctionModifierV5;
+export interface StorageEntryModifierV6 extends StorageFunctionModifierV5 {}
 
 /** StorageEntryModifierV6 */
-export type StorageEntryModifierV7 = StorageEntryModifierV6;
+export interface StorageEntryModifierV7 extends StorageEntryModifierV6 {}
 
 /** Struct */
 export interface StorageFunctionMetadataV0 extends Struct {
@@ -338,7 +338,7 @@ export interface StorageFunctionMetadataV0 extends Struct {
 }
 
 /** StorageFunctionMetadataV0 */
-export type StorageFunctionMetadataV1 = StorageFunctionMetadataV0;
+export interface StorageFunctionMetadataV1 extends StorageFunctionMetadataV0 {}
 
 /** Enum */
 export interface StorageFunctionModifierV0 extends Enum {
@@ -351,19 +351,19 @@ export interface StorageFunctionModifierV0 extends Enum {
 }
 
 /** StorageFunctionModifierV0 */
-export type StorageFunctionModifierV1 = StorageFunctionModifierV0;
+export interface StorageFunctionModifierV1 extends StorageFunctionModifierV0 {}
 
 /** StorageFunctionModifierV1 */
-export type StorageFunctionModifierV2 = StorageFunctionModifierV1;
+export interface StorageFunctionModifierV2 extends StorageFunctionModifierV1 {}
 
 /** StorageFunctionModifierV2 */
-export type StorageFunctionModifierV3 = StorageFunctionModifierV2;
+export interface StorageFunctionModifierV3 extends StorageFunctionModifierV2 {}
 
 /** StorageFunctionModifierV3 */
-export type StorageFunctionModifierV4 = StorageFunctionModifierV3;
+export interface StorageFunctionModifierV4 extends StorageFunctionModifierV3 {}
 
 /** StorageFunctionModifierV4 */
-export type StorageFunctionModifierV5 = StorageFunctionModifierV4;
+export interface StorageFunctionModifierV5 extends StorageFunctionModifierV4 {}
 
 /** Enum */
 export interface StorageFunctionTypeV0 extends Enum {
@@ -378,7 +378,7 @@ export interface StorageFunctionTypeV0 extends Enum {
 }
 
 /** StorageFunctionTypeV0 */
-export type StorageFunctionTypeV1 = StorageFunctionTypeV0;
+export interface StorageFunctionTypeV1 extends StorageFunctionTypeV0 {}
 
 /** Struct */
 export interface StorageMetadataV0 extends Struct {
