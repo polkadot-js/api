@@ -327,16 +327,15 @@
                 ]
               },
               {
-                "name": "EpochStartSlot",
+                "name": "GenesisSlot",
                 "modifier": 1,
                 "type": {
                   "Type": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
-                  " Slot at which the current epoch started. It is possible that no",
-                  " block was authored at the given slot and the epoch change was",
-                  " signalled later than this."
+                  " The slot at which the first epoch actually started. This is 0",
+                  " until the first block of the chain."
                 ]
               },
               {
@@ -348,30 +347,6 @@
                 "fallback": "0x0000000000000000",
                 "documentation": [
                   " Current slot number."
-                ]
-              },
-              {
-                "name": "SecondarySlots",
-                "modifier": 1,
-                "type": {
-                  "Type": "(bool,bool)"
-                },
-                "fallback": "0x0101",
-                "documentation": [
-                  " Whether secondary slots are enabled in case the VRF-based slot is",
-                  " empty for the current epoch and the next epoch, respectively."
-                ]
-              },
-              {
-                "name": "PendingSecondarySlotsChange",
-                "modifier": 0,
-                "type": {
-                  "Type": "bool"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Pending change to enable/disable secondary slots which will be",
-                  " triggered at `current_epoch + 2`."
                 ]
               },
               {
@@ -442,32 +417,17 @@
                 "name": "Initialized",
                 "modifier": 0,
                 "type": {
-                  "Type": "bool"
+                  "Type": "MaybeVrf"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Temporary value (cleared at block finalization) which is true",
+                  " Temporary value (cleared at block finalization) which is `Some`",
                   " if per-block initialization has already been called for current block."
                 ]
               }
             ]
           },
-          "calls": [
-            {
-              "name": "set_pending_secondary_slots_change",
-              "args": [
-                {
-                  "name": "change",
-                  "type": "Option<bool>"
-                }
-              ],
-              "documentation": [
-                " Sets a pending change to enable / disable secondary slot assignment.",
-                " The pending change will be set at the end of the current epoch and",
-                " will be enacted at `current_epoch + 2`."
-              ]
-            }
-          ],
+          "calls": [],
           "events": null,
           "constants": [
             {
@@ -2789,10 +2749,10 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The current membership. When there's a vote going on, this should still be used for executive",
-                  " matters. The block number (second element in the tuple) is the block that their position is",
-                  " active until (calculated by the sum of the block number when the member was elected",
-                  " and their term duration)."
+                  "  The current membership. When there's a vote going on, this should still be used for",
+                  "  executive matters. The block number (second element in the tuple) is the block that",
+                  "  their position is active until (calculated by the sum of the block number when the",
+                  "  member was elected and their term duration)."
                 ]
               },
               {
@@ -2818,13 +2778,7 @@
                   }
                 },
                 "fallback": "0x00",
-                "documentation": [
-                  " A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.",
-                  "",
-                  " In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].",
-                  "",
-                  " Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`."
-                ]
+                "documentation": []
               },
               {
                 "name": "RegisterInfoOf",
@@ -2839,8 +2793,8 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
-                  " currently registered."
+                  " The vote index and list slot that the candidate `who` was registered or `None` if they",
+                  " are not currently registered."
                 ]
               },
               {
@@ -2938,8 +2892,9 @@
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;",
-                  " It may be the direct summed approval stakes, or a weighted version of it."
+                  " Get the leaderboard if we're in the presentation phase. The first element is the weight",
+                  " of each entry; It may be the direct summed approval stakes, or a weighted version of it.",
+                  " Sorted from low to high."
                 ]
               },
               {
@@ -2976,27 +2931,31 @@
                 {
                   "name": "hint",
                   "type": "SetIndex"
+                },
+                {
+                  "name": "value",
+                  "type": "BalanceOf"
                 }
               ],
               "documentation": [
                 " Set candidate approvals. Approval slots stay valid as long as candidates in those slots",
                 " are registered.",
                 "",
-                " Locks the total balance of caller indefinitely.",
-                " Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.",
+                " Locks `value` from the balance of `origin` indefinitely. Only [`retract_voter`] or",
+                " [`reap_inactive_voter`] can unlock the balance.",
                 "",
                 " `hint` argument is interpreted differently based on:",
-                " - if `origin` is setting approvals for the first time: The index will be checked",
-                " for being a valid _hole_ in the voter list.",
+                " - if `origin` is setting approvals for the first time: The index will be checked for",
+                "   being a valid _hole_ in the voter list.",
                 "   - if the hint is correctly pointing to a hole, no fee is deducted from `origin`.",
-                "   - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk",
-                "   with free space happens. If the new push causes a new chunk to be created, a fee indicated by",
-                "   [`VotingFee`] is deducted.",
+                "   - Otherwise, the call will succeed but the index is ignored and simply a push to the",
+                "     last chunk with free space happens. If the new push causes a new chunk to be",
+                "     created, a fee indicated by [`VotingFee`] is deducted.",
                 " - if `origin` is already a voter: the index __must__ be valid and point to the correct",
-                " position of the `origin` in the current voters list.",
+                "   position of the `origin` in the current voters list.",
                 "",
-                " Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate",
-                " and voting false, are equal.",
+                " Note that any trailing `false` votes in `votes` is ignored; In approval voting, not",
+                " voting for a candidate and voting false, are equal.",
                 "",
                 " # <weight>",
                 " - O(1).",
@@ -3019,11 +2978,15 @@
                 {
                   "name": "hint",
                   "type": "SetIndex"
+                },
+                {
+                  "name": "value",
+                  "type": "BalanceOf"
                 }
               ],
               "documentation": [
-                " Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots",
-                " are registered.",
+                " Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in",
+                " those slots are registered.",
                 "",
                 " # <weight>",
                 " - Same as `set_approvals` with one additional storage read.",
@@ -3052,8 +3015,8 @@
               ],
               "documentation": [
                 " Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices",
-                " must now be either unregistered or registered to a candidate that registered the slot after",
-                " the voter gave their last approval set.",
+                " must now be either unregistered or registered to a candidate that registered the slot",
+                " after the voter gave their last approval set.",
                 "",
                 " Both indices must be provided as explained in [`voter_at`] function.",
                 "",
@@ -3127,9 +3090,10 @@
                 }
               ],
               "documentation": [
-                " Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.",
-                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()`",
-                " `signed` should have at least",
+                " Claim that `candidate` is one of the top `carry_count + desired_seats` candidates. Only",
+                " works iff the presentation period is active. `candidate` should have at least collected",
+                " some non-zero `total` votes and `origin` must have enough funds to pay for a potential",
+                " slash.",
                 "",
                 " # <weight>",
                 " - O(voters) compute.",
@@ -3295,6 +3259,14 @@
               "documentation": [
                 " How often (in blocks) to check for new votes. A reasonable default value",
                 " is 1000."
+              ]
+            },
+            {
+              "name": "MinimumVotingLock",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " Minimum about that can be used as the locked value for voting."
               ]
             },
             {
@@ -4270,7 +4242,8 @@
                 " # <weight>",
                 " - O(1).",
                 " - Limited storage reads.",
-                " - No DB writes.",
+                " - One DB write (event).",
+                " - Unknown weight of derivative `proposal` execution.",
                 " # </weight>"
               ]
             },
@@ -4293,6 +4266,32 @@
                 " - One DB change.",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "sudo_as",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "Address"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Authenticates the sudo key and dispatches a function call with `Signed` origin from",
+                " a given account.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - O(1).",
+                " - Limited storage reads.",
+                " - One DB write (event).",
+                " - Unknown weight of derivative `proposal` execution.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -4312,6 +4311,15 @@
               ],
               "documentation": [
                 " The sudoer just switched identity; the old key is supplied."
+              ]
+            },
+            {
+              "name": "SudoAsDone",
+              "args": [
+                "bool"
+              ],
+              "documentation": [
+                " A sudo just took place."
               ]
             }
           ],
