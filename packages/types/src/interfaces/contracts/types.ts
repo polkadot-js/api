@@ -23,7 +23,7 @@ export interface AliveContractInfo extends Struct {
 }
 
 /** Hash */
-export type CodeHash = Hash;
+export interface CodeHash extends Hash {}
 
 /** Struct */
 export interface ContractCallRequest extends Struct {
@@ -69,11 +69,11 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
-/** Uint8Array & Codec */
-export type ContractStorageKey = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface ContractStorageKey extends Uint8Array, Codec {}
 
 /** u64 */
-export type Gas = u64;
+export interface Gas extends u64 {}
 
 /** Struct */
 export interface PrefabWasmModule extends Struct {
@@ -90,7 +90,7 @@ export interface PrefabWasmModule extends Struct {
 }
 
 /** Option<Null> */
-export type PrefabWasmModuleReserved = Option<Null>;
+export interface PrefabWasmModuleReserved extends Option<Null> {}
 
 /** Struct */
 export interface Schedule extends Struct {
@@ -127,10 +127,10 @@ export interface Schedule extends Struct {
 }
 
 /** Hash */
-export type SeedOf = Hash;
+export interface SeedOf extends Hash {}
 
 /** Hash */
-export type TombstoneContractInfo = Hash;
+export interface TombstoneContractInfo extends Hash {}
 
 /** Bytes */
-export type TrieId = Bytes;
+export interface TrieId extends Bytes {}

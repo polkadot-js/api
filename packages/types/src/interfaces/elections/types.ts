@@ -6,16 +6,16 @@ import { GenericVote, u32 } from '../../primitive';
 import { Balance } from '../runtime';
 
 /** u32 */
-export type ApprovalFlag = u32;
+export interface ApprovalFlag extends u32 {}
 
 /** u32 */
-export type SetIndex = u32;
+export interface SetIndex extends u32 {}
 
 /** GenericVote */
-export type Vote = GenericVote;
+export interface Vote extends GenericVote {}
 
 /** u32 */
-export type VoteIndex = u32;
+export interface VoteIndex extends u32 {}
 
 /** Struct */
 export interface VoterInfo extends Struct {

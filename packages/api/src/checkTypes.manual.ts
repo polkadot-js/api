@@ -37,6 +37,17 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
 
+  // api.query.*.* is well-typed
+  const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
+  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is Balance
+  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
+  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
+  // In the meantime, we can case with `<Balance>`
+  const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+  console.log('query types:', bar, bal, bal2, override, oldBal, multi);
+
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
     [api.query.system.accountNonce, keyring.eve.address],
@@ -96,7 +107,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce<Index>(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {

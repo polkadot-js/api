@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Header, Index } from '@polkadot/types/interfaces';
+import { Header } from '@polkadot/types/interfaces';
 import { createType } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
@@ -54,7 +54,7 @@ describeE2E({
     });
 
     it('fails on a transfer with invalid time', async (done): Promise<void> => {
-      const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
+      const nonce = await api.query.system.accountNonce(keyring.alice.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
@@ -83,7 +83,7 @@ describeE2E({
 
       api.setSigner(signer);
 
-      const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+      const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
