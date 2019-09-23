@@ -6,7 +6,7 @@ import { Option, U8a, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, bool, i8, u32, u64 } from '@polkadot/types';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
-import { BabeAuthorityWeight } from '@polkadot/types/interfaces/babe';
+import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
 import { BalanceLock, VestingSchedule } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -46,15 +46,13 @@ declare module './types' {
       [index: string]: QueryableStorageEntry<ApiType>;
       epochIndex: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
       authorities: StorageEntryExact<ApiType, () => Observable<Vec<ITuple<[AuthorityId, BabeAuthorityWeight]>>>> & QueryableStorageEntry<ApiType>;
-      epochStartSlot: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
+      genesisSlot: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
       currentSlot: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
-      secondarySlots: StorageEntryExact<ApiType, () => Observable<ITuple<[bool, bool]>>> & QueryableStorageEntry<ApiType>;
-      pendingSecondarySlotsChange: StorageEntryExact<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
       randomness: StorageEntryExact<ApiType, () => Observable<U8a>> & QueryableStorageEntry<ApiType>;
       nextRandomness: StorageEntryExact<ApiType, () => Observable<U8a>> & QueryableStorageEntry<ApiType>;
       segmentIndex: StorageEntryExact<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
       underConstruction: StorageEntryExact<ApiType, (arg: u32 | Uint8Array | number | string) => Observable<Vec<U8a>>> & QueryableStorageEntry<ApiType>;
-      initialized: StorageEntryExact<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
+      initialized: StorageEntryExact<ApiType, () => Observable<MaybeVrf>> & QueryableStorageEntry<ApiType>;
     };
     timestamp: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -108,6 +106,7 @@ declare module './types' {
       currentIndex: StorageEntryExact<ApiType, () => Observable<SessionIndex>> & QueryableStorageEntry<ApiType>;
       queuedChanged: StorageEntryExact<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
       queuedKeys: StorageEntryExact<ApiType, () => Observable<Vec<ITuple<[ValidatorId, Keys]>>>> & QueryableStorageEntry<ApiType>;
+      disabledValidators: StorageEntryExact<ApiType, () => Observable<Vec<u32>>> & QueryableStorageEntry<ApiType>;
       nextKeys: StorageEntryExact<ApiType, (key1: Bytes | Uint8Array | string, key2: ValidatorId | Uint8Array | string) => Observable<Keys>> & QueryableStorageEntry<ApiType>;
       keyOwner: StorageEntryExact<ApiType, (key1: Bytes | Uint8Array | string, key2: ITuple<[KeyTypeId, Bytes]>) => Observable<ValidatorId>> & QueryableStorageEntry<ApiType>;
     };

@@ -15,7 +15,7 @@ export interface BabeBlockWeight extends u32 {}
 export interface BabeWeight extends u64 {}
 
 /** Option<VrfData> */
-export type MaybeVrf = Option<VrfData>;
+export interface MaybeVrf extends Option<VrfData> {}
 
 /** Enum */
 export interface RawBabePreDigest extends Enum {
@@ -73,11 +73,11 @@ export interface RawBabePreDigestSecondary0to159 extends Struct {
   readonly weight: BabeBlockWeight;
 }
 
-/** Uint8Array & Codec */
-export type VrfData = Uint8Array & Codec;
-
-/** Uint8Array & Codec */
-export type VrfProof = Uint8Array & Codec;
-
 /** u64 */
 export interface SlotNumber extends u64 {}
+
+/** Uint8Array, Codec */
+export interface VrfData extends Uint8Array, Codec {}
+
+/** Uint8Array, Codec */
+export interface VrfProof extends Uint8Array, Codec {}
