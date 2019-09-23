@@ -25,7 +25,7 @@ As indicated, most of the Polkadot/Substrate default types are available via `ty
 
 ## Metadata injected
 
-For any interface injected by metadata, the types are not available by default (although it may be in the future for default interfaces), but rather what the API understands is that all results need to comply to the `Codec` interface. (The bas of all out types)
+For any interface injected by metadata, the types are not available by default (although it may be in the future for default interfaces), but rather what the API understands is that all results need to comply to the `Codec` interface. (The base of all our types)
 
 However, to make this sane from a developer perspective the injected methods are generic, effectively making the following possible -
 
