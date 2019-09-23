@@ -164,7 +164,7 @@ function _tsTupleGetterType (tupleName: string | undefined, { info, sub, type }:
 }
 
 function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
-  setImports(imports, ['Codec', 'Tuple']);
+  setImports(imports, ['ITuple']);
 
   const types = (sub as TypeDef[]).map((typedef): string =>
     _tsTupleGetterType(tupleName, typedef, imports)
@@ -183,7 +183,7 @@ function tsVec ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImpo
   if (info === TypeDefInfo.VecFixed && type === 'u8') {
     setImports(imports, ['Codec']);
 
-    return exportType(vectorName, 'Uint8Array & Codec');
+    return exportType(vectorName, 'Uint8Array, Codec');
   }
 
   setImports(imports, ['Vec', type]);

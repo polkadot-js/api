@@ -154,6 +154,10 @@ export interface SignatureOptions {
 
 export type ArgsDef = Record<string, Constructor>;
 
+// A type alias for [Type1, Type2] & Codec
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export type ITuple<Sub extends Codec[]> = Sub & Codec
+
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
   readonly args: Codec[];

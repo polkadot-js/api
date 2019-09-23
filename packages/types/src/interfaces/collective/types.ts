@@ -6,10 +6,10 @@ import { u32 } from '../../primitive';
 import { AccountId } from '../runtime';
 
 /** u32 */
-export type MemberCount = u32;
+export interface MemberCount extends u32 {}
 
 /** u32 */
-export type ProposalIndex = u32;
+export interface ProposalIndex extends u32 {}
 
 /** Struct */
 export interface Votes extends Struct {

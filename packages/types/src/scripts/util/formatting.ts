@@ -26,9 +26,11 @@ export function exportInterface (name = '', base: string, body = ''): string {
   return `/** ${base} */\nexport interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
 
-// helper to create an `export <Name> = <Base>`
+// helper to create an `export type <Name> = <Base>`
+// but since we don't want type alias (TS doesn't preserve names) we use
+// interface here.
 export function exportType (name = '', base: string): string {
-  return `/** ${base} */\nexport type ${name} = ${base};`;
+  return exportInterface(name, base);
 }
 
 /**
@@ -46,10 +48,10 @@ export function formatOption (inner: string): string {
 }
 
 /**
- * Given the inners `T[]`, return a `[...T] & Codec` string
+ * Given the inners `T[]`, return a `ITuple<...T>` string
  */
 export function formatTuple (inners: string[]): string {
-  return `[${inners.join(', ')}] & Codec`;
+  return `ITuple<[${inners.join(', ')}]>`;
 }
 
 /**
@@ -79,9 +81,9 @@ export function formatType (type: string, imports: TypeImports): string {
       return formatVec(formatType((typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
-      setImports(imports, ['Codec']);
+      setImports(imports, ['ITuple']);
 
-      // `(a,b)` gets transformed into `[a, b] & Codec`
+      // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
         ((typeDef.sub as TypeDef[])
           .map((sub): string => formatType(sub.type, imports)))

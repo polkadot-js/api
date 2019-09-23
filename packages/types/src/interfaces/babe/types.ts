@@ -5,13 +5,13 @@ import { Enum, Struct } from '../../codec';
 import { H256, u32, u64 } from '../../primitive';
 
 /** u64 */
-export type BabeAuthorityWeight = u64;
+export interface BabeAuthorityWeight extends u64 {}
 
 /** u32 */
-export type BabeBlockWeight = u32;
+export interface BabeBlockWeight extends u32 {}
 
 /** u64 */
-export type BabeWeight = u64;
+export interface BabeWeight extends u64 {}
 
 /** Enum */
 export interface RawBabePreDigest extends Enum {
@@ -50,4 +50,4 @@ export interface RawBabePreDigestSecondary extends Struct {
 }
 
 /** u64 */
-export type SlotNumber = u64;
+export interface SlotNumber extends u64 {}

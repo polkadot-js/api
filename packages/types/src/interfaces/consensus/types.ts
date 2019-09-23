@@ -4,4 +4,4 @@
 import { AccountId } from '../runtime';
 
 /** AccountId */
-export type AuthorityId = AccountId;
+export interface AuthorityId extends AccountId {}
