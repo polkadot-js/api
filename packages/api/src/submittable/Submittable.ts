@@ -61,13 +61,13 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
   }
 
   // signAndSend with an immediate Hash result
-  public signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmitableResultResult<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmitableResultResult<ApiType>;
 
   // signAndSend with a subscription, i.e. callback provided
-  public signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
 
   // signAndSend with options and a callback
-  public signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
 
   // signAndSend implementation for all 3 cases above
   public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
@@ -99,10 +99,10 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
   }
 
   // send with an immediate Hash result
-  public send(): SubmitableResultResult<ApiType>;
+  public send (): SubmitableResultResult<ApiType>;
 
   // send with a status callback
-  public send(statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public send (statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
 
   // send implementation for both immediate Hash and statusCb variants
   public send (statusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
