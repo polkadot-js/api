@@ -15,7 +15,7 @@ import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
 type Result0to94 = [BlockNumber, [SessionIndex, Option<BlockNumber>, BN, BN, SessionIndex]];
-type Result = [[boolean, u64, SessionIndex], [u64, u64, u64], [SessionIndex, EraIndex]];
+type Result = [[boolean, boolean, u64, SessionIndex], [u64, u64, u64], [SessionIndex, EraIndex]];
 
 const ZERO = new BN(0);
 const ONE = new BN(1);
@@ -49,15 +49,18 @@ function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sess
   } as unknown as DerivedSessionInfo;
 }
 
-function createDerived ([[hasBabe, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot], [currentIndex, currentEra]]: Result): DerivedSessionInfo {
+function createDerived ([[hasBabe, isGenesisSlot, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochOrGenesisStartSlot], [currentIndex, currentEra]]: Result): DerivedSessionInfo {
+  const epochStartSlot = isGenesisSlot
+    ? epochIndex
+      .mul(epochDuration)
+      .add(epochOrGenesisStartSlot)
+    : epochOrGenesisStartSlot;
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = epochIndex
     .mod(sessionsPerEra)
     .mul(epochDuration)
     .add(sessionProgress);
 
-  // FIXME This alwasy assumes Babe, as per the substrate defaults - at least for
-  // aura the `isEpoch` should be false
   return {
     currentEra,
     currentIndex,
@@ -105,6 +108,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
           // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
           of([
             hasBabe,
+            !!api.query.babe.genesisSlot,
             hasBabe
               ? api.consts.babe.epochDuration
               : ONE,
