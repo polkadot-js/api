@@ -29,7 +29,7 @@ export default function generateInterfaceRegistry (): void {
 
       return [
         accumulator,
-        indent(2)(getDerivedTypes(primitiveName, primitiveName, imports))
+        getDerivedTypes(primitiveName, primitiveName, imports).map(indent(2)).join('\n')
       ].join('\n');
     }, '');
 
@@ -40,7 +40,7 @@ export default function generateInterfaceRegistry (): void {
     return [
       accumulator,
       ...Object.keys(types).map((type): string =>
-        indent(2)(getDerivedTypes(type, (types as any)[type], imports))
+        getDerivedTypes(type, (types as any)[type], imports).map(indent(2)).join('\n')
       )
     ].join('\n');
   }, '');

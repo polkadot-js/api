@@ -14,7 +14,7 @@ import { setImports, TypeImports } from './imports';
 import * as primitiveClasses from '../../primitive';
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-export function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports): string {
+export function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
 
@@ -24,12 +24,11 @@ export function getDerivedTypes (type: string, primitiveName: string, imports: T
     `${type}: ${type};`,
     isCompact
       ? `'${formatCompact(type)}': ${formatCompact(type)};`
-      : undefined,
+      : '',
     `'${formatOption(type)}': ${formatOption(type)};`,
     `'${formatVec(type)}': ${formatVec(type)};`
   ]
-    .filter((x): boolean => !!x)
-    .join('\n');
+    .filter((x): boolean => !!x);
 }
 
 // Make types a little bit more flexible
