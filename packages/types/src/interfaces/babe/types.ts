@@ -19,11 +19,13 @@ export interface MaybeVrf extends Option<VrfData> {}
 
 /** Enum */
 export interface RawBabePreDigest extends Enum {
-  /** 0:: Primary(RawBabePreDigestPrimary) */
+  /** 0:: Phantom */
+  readonly isPhantom: boolean;
+  /** 1:: Primary(RawBabePreDigestPrimary) */
   readonly isPrimary: boolean;
   /** RawBabePreDigestPrimary */
   readonly asPrimary: RawBabePreDigestPrimary;
-  /** 1:: Secondary(RawBabePreDigestSecondary) */
+  /** 2:: Secondary(RawBabePreDigestSecondary) */
   readonly isSecondary: boolean;
   /** RawBabePreDigestSecondary */
   readonly asSecondary: RawBabePreDigestSecondary;
@@ -43,14 +45,14 @@ export interface RawBabePreDigest0to159 extends Enum {
 
 /** Struct */
 export interface RawBabePreDigestPrimary extends Struct {
-  /** VrfData */
-  readonly vrfOutput: VrfData;
-  /** VrfProof */
-  readonly vrfProof: VrfProof;
   /** u32 */
   readonly authorityIndex: u32;
   /** SlotNumber */
   readonly slotNumber: SlotNumber;
+  /** VrfData */
+  readonly vrfOutput: VrfData;
+  /** VrfProof */
+  readonly vrfProof: VrfProof;
 }
 
 /** Struct */

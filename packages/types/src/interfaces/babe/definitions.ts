@@ -11,15 +11,16 @@ export default {
     BabeWeight: 'u64',
     RawBabePreDigest: {
       _enum: {
+        Phantom: 'Null', // index starts at 1... empty slot at 0
         Primary: 'RawBabePreDigestPrimary',
         Secondary: 'RawBabePreDigestSecondary'
       }
     },
     RawBabePreDigestPrimary: {
-      vrfOutput: 'VrfData',
-      vrfProof: 'VrfProof',
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
-      slotNumber: 'SlotNumber'
+      slotNumber: 'SlotNumber',
+      vrfOutput: 'VrfData',
+      vrfProof: 'VrfProof'
     },
     RawBabePreDigestSecondary: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
