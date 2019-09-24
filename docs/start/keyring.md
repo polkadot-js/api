@@ -64,6 +64,23 @@ const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 
 The above additions cater for most of the usecases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Polkadot/Substrate with a `--dev` flag.
 
+## Adding accounts with raw seeds
+
+Since mnemonics are recommended and the defacto standard for current Polkadot/Substrate generations, the only mentioned way of adding keys thus far has been via mnemonic. However, the `addFromUri` method on the keyring is intelligent enough to detect and add from inputs specified as mnemonics, hex seeds and string seeds (appropriately padded).
+
+With the above in mind, we could extend our examples above for custom raw seed. For instance to add both a hex and string seed, we can follow the following approach -
+
+```js
+...
+// add a hex seed, 32-characters in length
+const hexPair = keyring.addFromUri('0x1234567890123456789012345678901234567890123456789012345678901234');
+
+// add a string seed, internally this is padded with ' ' to 32-bytes in length
+const strPair = keyring.addFromUri('Janice');
+```
+
+You could extend derivation from these specified seeds with derivation paths if applicable, i.e. `Janice//hard` will perform a hard derivation with the path `hard` on the pair that is generated from the `Janice` seed. As far as possible, try to stick with mnemonics in your applications, unless you have a good reason to not do so. Humans are generally bad at generating their own entropy and mnemonics has additional properties such as built-in checksums.
+
 ## Working with pairs
 
 In the previous examples we added a pair to the keyring (and we actually immediately got access to the pair). From this pair there is some information we can retrieve -
