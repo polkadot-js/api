@@ -6,6 +6,7 @@ export default {
   types: {
     BabeAuthorityWeight: 'u64',
     BabeBlockWeight: 'u32',
+    MaybeVrf: 'Option<VrfData>',
     // TODO Remove as soon as merged and metadata static updated
     BabeWeight: 'u64',
     RawBabePreDigest: {
@@ -15,17 +16,35 @@ export default {
       }
     },
     RawBabePreDigestPrimary: {
+      vrfOutput: 'VrfData',
+      vrfProof: 'VrfProof',
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
-      slotNumber: 'SlotNumber',
-      weight: 'BabeBlockWeight',
-      vrfOutput: 'H256', // should be '[u8; 32]' (generator support lacking here)
-      vrfProof: 'H256' // should be '[u8; 32]'
+      slotNumber: 'SlotNumber'
     },
     RawBabePreDigestSecondary: {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
+      slotNumber: 'SlotNumber'
+    },
+    RawBabePreDigest0to159: {
+      _enum: {
+        Primary: 'RawBabePreDigestPrimary0to159',
+        Secondary: 'RawBabePreDigestSecondary0to159'
+      }
+    },
+    RawBabePreDigestPrimary0to159: {
+      authorityIndex: 'u32',
+      slotNumber: 'SlotNumber',
+      weight: 'BabeBlockWeight',
+      vrfOutput: 'VrfData',
+      vrfProof: 'VrfProof'
+    },
+    RawBabePreDigestSecondary0to159: {
+      authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight'
     },
-    SlotNumber: 'u64'
+    SlotNumber: 'u64',
+    VrfData: '[u8; 32]',
+    VrfProof: '[u8; 64]'
   }
 };
