@@ -29,6 +29,18 @@ export interface RawBabePreDigest extends Enum {
   readonly asSecondary: RawBabePreDigestSecondary;
 }
 
+/** Enum */
+export interface RawBabePreDigest0to159 extends Enum {
+  /** 0:: Primary(RawBabePreDigestPrimary0to159) */
+  readonly isPrimary: boolean;
+  /** RawBabePreDigestPrimary0to159 */
+  readonly asPrimary: RawBabePreDigestPrimary0to159;
+  /** 1:: Secondary(RawBabePreDigestSecondary0to159) */
+  readonly isSecondary: boolean;
+  /** RawBabePreDigestSecondary0to159 */
+  readonly asSecondary: RawBabePreDigestSecondary0to159;
+}
+
 /** Struct */
 export interface RawBabePreDigestPrimary extends Struct {
   /** VrfData */
