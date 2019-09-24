@@ -72,23 +72,17 @@ ___
 ▸ **epochIndex**(): `u64`
 - **summary**: Current epoch index.
 
-▸ **epochStartSlot**(): `u64`
-- **summary**: Slot at which the current epoch started. It is possible that no block was authored at the given slot and the epoch change was signalled later than this.
+▸ **genesisSlot**(): `u64`
+- **summary**: The slot at which the first epoch actually started. This is 0 until the first block of the chain.
 
-▸ **initialized**(): `Option<bool>`
-- **summary**: Temporary value (cleared at block finalization) which is true if per-block initialization has already been called for current block.
+▸ **initialized**(): `Option<MaybeVrf>`
+- **summary**: Temporary value (cleared at block finalization) which is `Some` if per-block initialization has already been called for current block.
 
 ▸ **nextRandomness**(): `[u8;32]`
 - **summary**: Next epoch randomness.
 
-▸ **pendingSecondarySlotsChange**(): `Option<bool>`
-- **summary**: Pending change to enable/disable secondary slots which will be triggered at `current_epoch + 2`.
-
 ▸ **randomness**(): `[u8;32]`
 - **summary**: The epoch randomness for the *current* epoch.  # Security  This MUST NOT be used for gambling, as it can be influenced by a malicious validator in the short term. It MAY be used in many cryptographic protocols, however, so long as one remembers that this (like everything else on-chain) it is public. For example, it can be used where a number is needed that cannot have been chosen by an adversary, for purposes such as public-coin zero-knowledge proofs.
-
-▸ **secondarySlots**(): `(bool,bool)`
-- **summary**: Whether secondary slots are enabled in case the VRF-based slot is empty for the current epoch and the next epoch, respectively.
 
 ▸ **segmentIndex**(): `u32`
 - **summary**: Randomness under construction.  We make a tradeoff between storage accesses and list length. We store the under-construction randomness in segments of up to `UNDER_CONSTRUCTION_SEGMENT_LENGTH`.  Once a segment reaches this length, we begin the next one. We reset all segments and return to `0` at the beginning of every epoch.
@@ -217,7 +211,6 @@ ___
 ### elections
 
 ▸ **approvalsOf**(`(AccountId,SetIndex)`): `Vec<ApprovalFlag>`
-- **summary**: A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.  In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].  Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`.
 
 ▸ **candidateCount**(): `u32`
 - **summary**: Current number of active candidates
@@ -229,7 +222,7 @@ ___
 - **summary**: Number of accounts that should constitute the collective.
 
 ▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
-- **summary**: Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry; It may be the direct summed approval stakes, or a weighted version of it.
+- **summary**: Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry; It may be the direct summed approval stakes, or a weighted version of it. Sorted from low to high.
 
 ▸ **members**(): `Vec<(AccountId,BlockNumber)>`
 - **summary**: The current membership. When there's a vote going on, this should still be used for executive matters. The block number (second element in the tuple) is the block that their position is active until (calculated by the sum of the block number when the member was elected and their term duration).
@@ -336,6 +329,9 @@ ___
 
 ▸ **currentIndex**(): `SessionIndex`
 - **summary**: Current index of the session.
+
+▸ **disabledValidators**(): `Vec<u32>`
+- **summary**: Indices of disabled validators.  The set is cleared when `on_session_ending` returns a new set of identities.
 
 ▸ **keyOwner**(`Bytes, (KeyTypeId,Bytes)`): `Option<ValidatorId>`
 - **summary**: The owner of a key. The second key is the `KeyTypeId` + the encoded key.  The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of the trie. Having all data in the same branch should prevent slowing down other queries.

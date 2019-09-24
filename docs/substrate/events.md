@@ -71,7 +71,7 @@ ___
 - **summary**: Triggered when the current schedule is updated.
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
-- **summary**: Transfer happened `from` to `to` with given `value` as part of a `call` or `create`.
+- **summary**: Transfer happened `from` to `to` with given `value` as part of a `call` or `instantiate`.
 
 ___
 
@@ -209,6 +209,9 @@ ___
 - **summary**: The sudoer just switched identity; the old key is supplied.
 
 ▸ **Sudid**(`bool`)
+- **summary**: A sudo just took place.
+
+▸ **SudoAsDone**(`bool`)
 - **summary**: A sudo just took place.
 
 ___

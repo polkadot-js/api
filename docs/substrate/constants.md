@@ -67,16 +67,16 @@ ___
 - **summary**: The base fee charged for calling into a contract. A reasonable default value is 135.
 
 ▸ **contractFee**: `BalanceOf`
-- **summary**: The fee required to create a contract instance. A reasonable default value is 21.
-
-▸ **createBaseFee**: `Gas`
-- **summary**: The base fee charged for creating a contract. A reasonable default value is 175.
+- **summary**: The fee required to instantiate a contract instance. A reasonable default value is 21.
 
 ▸ **creationFee**: `BalanceOf`
 - **summary**: The fee required to create an account.
 
+▸ **instantiateBaseFee**: `Gas`
+- **summary**: The base fee charged for instantiating a contract. A reasonable default value is 175.
+
 ▸ **maxDepth**: `u32`
-- **summary**: The maximum nesting level of a call/create stack. A reasonable default value is 100.
+- **summary**: The maximum nesting level of a call/instantiate stack. A reasonable default value is 100.
 
 ▸ **maxValueSize**: `u32`
 - **summary**: The maximum size of a storage value in bytes. A reasonable default is 16 KiB.
@@ -91,7 +91,7 @@ ___
 - **summary**: Number of block delay an extrinsic claim surcharge has.  When claim surcharge is called by an extrinsic the rent is checked for current_block - delay
 
 ▸ **storageSizeOffset**: `u32`
-- **summary**: Size of a contract at the time of creation. This is a simple way to ensure that empty contracts eventually gets deleted.
+- **summary**: Size of a contract at the time of instantiaion. This is a simple way to ensure that empty contracts eventually gets deleted.
 
 ▸ **surchargeReward**: `BalanceOf`
 - **summary**: Reward that is received by the party whose touch has led to removal of a contract.
@@ -150,6 +150,9 @@ ___
 
 ▸ **inactiveGracePeriod**: `VoteIndex`
 - **summary**: How many vote indices need to go by after a target voter's last vote before they can be reaped if their approvals are moot. A reasonable default value is 1.
+
+▸ **minimumVotingLock**: `BalanceOf`
+- **summary**: Minimum about that can be used as the locked value for voting.
 
 ▸ **presentSlashPerVoter**: `BalanceOf`
 - **summary**: The punishment, per voter, if you provide an invalid presentation. A reasonable default value is 1.
