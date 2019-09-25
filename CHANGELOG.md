@@ -1,3 +1,11 @@
+# 0.93.0-beta.x
+
+- For TypeScript users `api.query.*.*` is now properly typed for default Substrate calls, i.e. `api.query.balances.freeBalance(...)` will return a `Balance` type. Additionally the `api.queryMulti` and `.multi` on queries not allow generic type params.
+- Add `api.rpc.accounts.nextIndex`, `api.rpc.contracts.call` and `api.rpc.rpc.methods` calls. Optional calls (such as account/contracts) is decorated based on the results from `rpc.methods`, so they don't show up on nodes where they are not active.
+- Updated types to support the latest Polkadot/Substrate master changes
+- Support recursive type registration (self-referencing via `Box`) in addition to better sanitation of user-defined-types
+- Documentation and example updates (thanks mostly to contributions)
+
 # 0.92.1
 
 - The API now correctly sets the ss58 prefix as retrieved from the chain properties via `ss58Format`

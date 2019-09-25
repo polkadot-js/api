@@ -25,12 +25,13 @@ const { argv: { ws } } = yargs
 async function main (): Promise<void> {
   const provider = new WsProvider(ws);
   const api = await ApiPromise.create({ provider });
-
-  const chain = await api.rpc.system.chain();
-  const props = await api.rpc.system.properties();
+  const [chain, props] = await Promise.all([
+    api.rpc.system.chain(),
+    api.rpc.system.properties()
+  ]);
 
   // output the chain info, for easy re-use
-  console.error(`export default { chain: '${chain.toString()}', genesisHash: '${api.genesisHash.toHex()}', specVersion: ${api.runtimeVersion.specVersion.toNumber()}, ss58Format: ${props.ss58Format.unwrapOr(42)}, tokenDecimals: ${props.tokenDecimals.unwrapOr(0)}, tokenSymbol: '${props.tokenSymbol.unwrapOr('UNIT')}', metaCalls: '${Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64')}' };`);
+  console.error(`// Generated via 'yarn run chain:info ${ws}'\n\nexport default {\n  chain: '${chain.toString()}',\n  genesisHash: '${api.genesisHash.toHex()}',\n  specVersion: ${api.runtimeVersion.specVersion.toNumber()},\n  ss58Format: ${props.ss58Format.unwrapOr(42)},\n  tokenDecimals: ${props.tokenDecimals.unwrapOr(0)},\n  tokenSymbol: '${props.tokenSymbol.unwrapOr('UNIT')}',\n  metaCalls: '${Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64')}'\n};`);
 
   // show any missing types
   api.runtimeMetadata.getUniqTypes(false);
