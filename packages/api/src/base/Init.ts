@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Prefix } from '@polkadot/util-crypto/address/types';
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -132,7 +131,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._runtimeVersion = runtimeVersion;
 
     // set the global ss58Format as detected by the chain
-    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber() as Prefix);
+    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber());
 
     // get unique types & validate
     metadata.getUniqTypes(false);
