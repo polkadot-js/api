@@ -4,32 +4,12 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, Header, Index } from '@polkadot/types/interfaces';
+import { Header } from '@polkadot/types/interfaces';
 import { createType } from '@polkadot/types';
 
-import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import { Signer } from '../../../src/types';
-import { describeE2E, SingleAccountSigner } from '../../util';
-
-// log all events for the transfer, calling done() when finalized
-const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
-  ({ events, status }: SubmittableResult): void => {
-    console.log('Transaction status:', status.type);
-
-    if (status.isFinalized) {
-      console.log('Completed at block hash', status.value.toHex());
-      console.log('Events:');
-
-      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
-        console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-      });
-
-      if (events.length) {
-        done();
-      }
-    }
-  };
+import { describeE2E, logEvents, SingleAccountSigner } from '../../util';
 
 describeE2E({
   except: [
@@ -74,7 +54,7 @@ describeE2E({
     });
 
     it('fails on a transfer with invalid time', async (done): Promise<void> => {
-      const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
+      const nonce = await api.query.system.accountNonce(keyring.alice.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
@@ -103,7 +83,7 @@ describeE2E({
 
       api.setSigner(signer);
 
-      const nonce = await api.query.system.accountNonce(keyring.bob_stash.address) as Index;
+      const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
       const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });

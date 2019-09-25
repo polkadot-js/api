@@ -23,13 +23,13 @@ export interface Conviction extends Enum {
 }
 
 /** u32 */
-export type PropIndex = u32;
+export interface PropIndex extends u32 {}
 
 /** Call */
-export type Proposal = Call;
+export interface Proposal extends Call {}
 
 /** u32 */
-export type ReferendumIndex = u32;
+export interface ReferendumIndex extends u32 {}
 
 /** Struct */
 export interface ReferendumInfo extends Struct {

@@ -7,8 +7,8 @@ import { Bytes } from '../../primitive';
 import { AccountId, Hash } from '../runtime';
 import { IdentificationTuple } from '../session';
 
-/** Uint8Array & Codec */
-export type Kind = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface Kind extends Uint8Array, Codec {}
 
 /** Struct */
 export interface OffenceDetails extends Struct {
@@ -19,13 +19,13 @@ export interface OffenceDetails extends Struct {
 }
 
 /** IdentificationTuple */
-export type Offender = IdentificationTuple;
+export interface Offender extends IdentificationTuple {}
 
 /** Bytes */
-export type OpaqueTimeSlot = Bytes;
+export interface OpaqueTimeSlot extends Bytes {}
 
 /** AccountId */
-export type Reporter = AccountId;
+export interface Reporter extends AccountId {}
 
 /** Hash */
-export type ReportIdOf = Hash;
+export interface ReportIdOf extends Hash {}

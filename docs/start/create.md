@@ -3,15 +3,15 @@
 We have the API installed, we have an understanding of what will actually be exposed and how the API knows what to expose. So down the rabbit hole we go - let's create an actual API instance, and then take it from there -
 
 ```js
-// import
+// Import
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 ...
-// construct
+// Construct
 const wsProvider = new WsProvider('wss://poc-3.polkadot.io');
 const api = await ApiPromise.create({ provider: wsProvider });
 
-// do something
+// Do something
 console.log(api.genesisHash.toHex());
 ```
 
@@ -21,12 +21,12 @@ We will have some explanation on the ES2015 syntax used next, but just a small n
 
 Before we jump into an explanation of the above example, be aware that in all cases we are using ES2015, including using things like `async`/`await`, `import` and others. Depending on your environment, this may require some adjustments.
 
-While we are using the `await` naked in all examples (this removes boilerplate), it will need to be wrapped in an `async` block, for we could warp all samples inside a `async function main () { ... }` and then  just call `main()`.
+While we are using the `await` naked in all examples (this removes boilerplate), it will need to be wrapped in an `async` block, for we could warp all samples inside a `async function main () { ... }` and then just call `main()`.
 
 In the case of Node.js you would change the `import` into `require`, i.e.
 
 ```js
-// import
+// Import
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 ...
 ```
@@ -58,13 +58,13 @@ ApiPromise
 In most cases we would suggest using the `.create` shortcut, which really just takes care of the following boilerplate that otherwise needs to be provided -
 
 ```js
-// create the instance
+// Create the instance
 const api = new ApiPromise({ provider: wsProvider });
 
-// wait until we are ready and connected
+// Wait until we are ready and connected
 await api.isReady;
 
-// do something
+// Do something
 console.log(api.genesisHash.toHex());
 ```
 
@@ -76,4 +76,4 @@ In these cases, create via `new`, attach listeners and then wait for the `isRead
 
 ## Do something
 
-Now that we have the API initialized, the next step would  be to start using it to interact and extract data [starting with chain constants](api.consts.md).
+Now that we have the API initialized, the next step would be to start using it to interact and extract data [starting with chain constants](api.consts.md).

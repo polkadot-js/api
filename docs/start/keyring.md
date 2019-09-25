@@ -13,13 +13,13 @@ If you do opt to install it seperately, ensure that the version of `@polkadot/ut
 Once installed, you can create an instance by just creating an instance of the `Keyring` class -
 
 ```js
-// import the keyring as required
+// Import the keyring as required
 import { Keyring } from '@polkadot/api';
 
-// initialize the API as we would normally do
+// Initialize the API as we would normally do
 ...
 
-// create a keyring instance
+// Create a keyring instance
 const keyring = new Keyring({ type: 'sr25519' });
 ```
 
@@ -27,18 +27,18 @@ In the above example, the import is self-explanatory. Upon creation we pass thro
 
 So effectively, when creating an account and not specifying a type, it will be `sr25519` by default based on the above construction params, however we can also add an `ed25519` account and use it transparently in the same keyring.
 
-One "trick" that is done implictly in the above sample is that that keyring  is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
+One "trick" that is done implictly in the above sample is that that keyring is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
 
 However, this initialization can also be done explicitly, mostly for more advances use-cases, or in cases where the API won't be attached until much later -
 
 ```js
-// crypto promise, package  used by keyring internally
+// Crypto promise, package used by keyring internally
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-// wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+// Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
 await cryptoWaitReady();
 
-// create a keyring instance
+// Create a keyring instance
 const keyring = new Keyring({ type: 'sr25519' });
 ```
 
@@ -49,20 +49,37 @@ The recommended catch-all approach to adding accounts is via `.addFromUri(<suri>
 ```js
 ...
 
-// some mnemonic phrase
+// Some mnemonic phrase
 const PHRASE = 'entire material egg meadow latin bargain dutch coral blood melt acoustic thought';
 
-// add an account, straight menemonic
+// Add an account, straight menemonic
 const newPair = keyring.addFromUri(PHRASE);
 
-// (advanced) add an account with a derivation path (hard & soft)
+// (Advanced) add an account with a derivation path (hard & soft)
 const newDeri = keyring.addFromUri(`${PHRASE}//hard-derived/soft-derived`);
 
-// (advanced, development-only) add with an implied dev seed and hard derivation
+// (Advanced, development-only) add with an implied dev seed and hard derivation
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 ```
 
 The above additions cater for most of the usecases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Polkadot/Substrate with a `--dev` flag.
+
+## Adding accounts with raw seeds
+
+Since mnemonics are recommended and the defacto standard for current Polkadot/Substrate generations, the only mentioned way of adding keys thus far has been via mnemonic. However, the `addFromUri` method on the keyring is intelligent enough to detect and add from inputs specified as mnemonics, hex seeds and string seeds (appropriately padded).
+
+With the above in mind, we could extend our examples above for custom raw seed. For instance to add both a hex and string seed, we can follow the following approach -
+
+```js
+...
+// add a hex seed, 32-characters in length
+const hexPair = keyring.addFromUri('0x1234567890123456789012345678901234567890123456789012345678901234');
+
+// add a string seed, internally this is padded with ' ' to 32-bytes in length
+const strPair = keyring.addFromUri('Janice');
+```
+
+You could extend derivation from these specified seeds with derivation paths if applicable, i.e. `Janice//hard` will perform a hard derivation with the path `hard` on the pair that is generated from the `Janice` seed. As far as possible, try to stick with mnemonics in your applications, unless you have a good reason to not do so. Humans are generally bad at generating their own entropy and mnemonics has additional properties such as built-in checksums.
 
 ## Working with pairs
 
@@ -71,27 +88,27 @@ In the previous examples we added a pair to the keyring (and we actually immedia
 ```js
 ...
 
-// add our Alice dev account
+// Add our Alice dev account
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 
-// log some info
+// Log some info
 console.log(`${alice.meta.name}: has address ${alice.address} with publicKey [${alice.publicKey}]`);
 ```
 
 Additionally you can sign and verify using the pairs. This is the same internally to the API when constructing transactions -
 
 ```js
-// some helper functions used here
+// Some helper functions used here
 import { stringToU8a, u8aToHex } from '@polkadot/util';
 
 ...
 
-// convert message, sign and then verify
+// Convert message, sign and then verify
 const message = stringToU8a('this is our message');
 const signature = alice.sign(message);
 const isValid = alice.verify(message, signature);
 
-// log info
+// Log info
 console.log(`The signature ${u8aToHex(signature)}, is ${isValid ? '' : 'in'}valid`);
 ```
 

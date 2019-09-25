@@ -4,7 +4,7 @@ These sections should provide you with all the information needed to install the
 
 ## What this is not
 
-This is not line-by-line documentation of all the extising function calls available, nor it is tied to a specific chain. (Although the examples do refer to the base Polkadot & Substrate chains). There will be some things in the API that are probably not covered, which brings us to the next point...
+This is not line-by-line documentation of all the existing function calls available, nor it is tied to a specific chain. (Although the examples do refer to the base Polkadot & Substrate chains). There will be some things in the API that are probably not covered, which brings us to the next point...
 
 ## Help us help others
 

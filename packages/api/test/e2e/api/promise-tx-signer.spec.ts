@@ -4,31 +4,10 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord } from '@polkadot/types/interfaces';
 
-import { SubmittableResult } from '../../../src';
 import ApiPromise from '../../../src/promise';
 import { Signer } from '../../../src/types';
-import { describeE2E, SingleAccountSigner } from '../../util';
-
-// log all events for the transfer, calling done() when finalized
-const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
-  ({ events, status }: SubmittableResult): void => {
-    console.log('Transaction status:', status.type);
-
-    if (status.isFinalized) {
-      console.log('Completed at block hash', status.value.toHex());
-      console.log('Events:');
-
-      events.forEach(({ phase, event: { data, method, section } }: EventRecord): void => {
-        console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-      });
-
-      if (events.length) {
-        done();
-      }
-    }
-  };
+import { describeE2E, logEvents, SingleAccountSigner } from '../../util';
 
 describeE2E({
   except: ['remote-polkadot-alexander', 'remote-substrate-1.0']

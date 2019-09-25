@@ -7,7 +7,7 @@ import { Bytes, GenericEvent, u32, u8 } from '../../primitive';
 import { Digest, Hash } from '../runtime';
 
 /** Digest */
-export type DigestOf = Digest;
+export interface DigestOf extends Digest {}
 
 /** Struct */
 export interface DispatchError extends Struct {
@@ -18,13 +18,13 @@ export interface DispatchError extends Struct {
 }
 
 /** GenericEvent */
-export type Event = GenericEvent;
+export interface Event extends GenericEvent {}
 
-/** Uint8Array & Codec */
-export type EventId = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface EventId extends Uint8Array, Codec {}
 
 /** u32 */
-export type EventIndex = u32;
+export interface EventIndex extends u32 {}
 
 /** Struct */
 export interface EventRecord extends Struct {
@@ -45,7 +45,7 @@ export interface EventRecord0to76 extends Struct {
 }
 
 /** Bytes */
-export type Key = Bytes;
+export interface Key extends Bytes {}
 
 /** Enum */
 export interface Phase extends Enum {

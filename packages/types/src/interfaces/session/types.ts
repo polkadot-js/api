@@ -1,25 +1,25 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
+import { ITuple } from '../../types';
 import { u32 } from '../../primitive';
 import { AccountId, ValidatorId } from '../runtime';
 import { Exposure } from '../staking';
 
 /** Exposure */
-export type FullIdentification = Exposure;
+export interface FullIdentification extends Exposure {}
 
-/** [ValidatorId, FullIdentification] & Codec */
-export type IdentificationTuple = [ValidatorId, FullIdentification] & Codec;
+/** ITuple<[ValidatorId, FullIdentification]> */
+export interface IdentificationTuple extends ITuple<[ValidatorId, FullIdentification]> {}
 
 /** SessionKeysSubstrate */
-export type Keys = SessionKeysSubstrate;
+export interface Keys extends SessionKeysSubstrate {}
 
 /** u32 */
-export type SessionIndex = u32;
+export interface SessionIndex extends u32 {}
 
-/** [AccountId, AccountId, AccountId, AccountId] & Codec */
-export type SessionKeysPolkadot = [AccountId, AccountId, AccountId, AccountId] & Codec;
+/** ITuple<[AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeysPolkadot extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
 
-/** [AccountId, AccountId, AccountId] & Codec */
-export type SessionKeysSubstrate = [AccountId, AccountId, AccountId] & Codec;
+/** ITuple<[AccountId, AccountId, AccountId]> */
+export interface SessionKeysSubstrate extends ITuple<[AccountId, AccountId, AccountId]> {}

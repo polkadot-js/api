@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Prefix } from '@polkadot/util-crypto/address/types';
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
@@ -38,7 +37,15 @@ const TYPES_SUBSTRATE_1 = {
   ValidatorPrefs: 'ValidatorPrefs0to145'
 };
 
-// Type overrides for specific spec types as given in  runtimeVersion
+// Type overrides based on specific nodes
+const TYPES_CHAIN: Record<string, Record<string, string>> = {
+  // TODO Remove this once it is not needed, i.e. upgraded
+  'Kusama CC1': {
+    RawBabePreDigest: 'RawBabePreDigest0to159'
+  }
+};
+
+// Type overrides for specific spec types as given in runtimeVersion
 const TYPES_SPEC: Record<string, Record<string, string>> = {
   kusama: TYPES_FOR_POLKADOT,
   polkadot: TYPES_FOR_POLKADOT
@@ -100,12 +107,14 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       this._rpcCore.system.properties().toPromise()
     ]);
     const specName = runtimeVersion.specName.toString();
+    const chainName = chain.toString();
 
     // based on the node spec & chain, inject specific type overrides
     this.registerTypes({
       ...(TYPES_SPEC[specName] || {}),
+      ...(TYPES_CHAIN[chainName] || {}),
       ...(typesSpec[specName] || {}),
-      ...(typesChain[chain.toString()] || {})
+      ...(typesChain[chainName] || {})
     });
 
     // filter the RPC methods (this does an rpc-methods call)
@@ -122,7 +131,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._runtimeVersion = runtimeVersion;
 
     // set the global ss58Format as detected by the chain
-    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber() as Prefix);
+    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber());
 
     // get unique types & validate
     metadata.getUniqTypes(false);

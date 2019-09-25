@@ -4,8 +4,8 @@
 import { Codec } from '../../types';
 import { H160 } from '../../primitive';
 
-/** Uint8Array & Codec */
-export type EcdsaSignature = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface EcdsaSignature extends Uint8Array, Codec {}
 
 /** H160 */
-export type EthereumAddress = H160;
+export interface EthereumAddress extends H160 {}

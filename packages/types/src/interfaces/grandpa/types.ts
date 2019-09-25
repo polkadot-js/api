@@ -1,17 +1,17 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
+import { ITuple } from '../../types';
 import { Enum, Struct, Vec } from '../../codec';
 import { u64 } from '../../primitive';
 import { BlockNumber } from '../runtime';
 import { AuthorityId } from '../consensus';
 
 /** u64 */
-export type AuthorityWeight = u64;
+export interface AuthorityWeight extends u64 {}
 
-/** [AuthorityId, u64] & Codec */
-export type NextAuthority = [AuthorityId, u64] & Codec;
+/** ITuple<[AuthorityId, u64]> */
+export interface NextAuthority extends ITuple<[AuthorityId, u64]> {}
 
 /** Struct */
 export interface PendingPause extends Struct {
@@ -30,7 +30,7 @@ export interface PendingResume extends Struct {
 }
 
 /** u64 */
-export type SetId = u64;
+export interface SetId extends u64 {}
 
 /** Struct */
 export interface StoredPendingChange extends Struct {

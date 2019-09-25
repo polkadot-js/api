@@ -123,7 +123,7 @@ describeE2E({
 
   describe('with map type', (): void => {
     it('queries correct value', async (): Promise<void> => {
-      const balance = await api.query.balances.freeBalance(keyring.bob_stash.address) as Balance;
+      const balance = await api.query.balances.freeBalance(keyring.bob_stash.address);
 
       expect(balance.isZero()).toBe(false);
     });
@@ -132,7 +132,7 @@ describeE2E({
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
       const header = await api.rpc.chain.getHeader();
-      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address) as Balance;
+      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address);
 
       expect(balanceAt.isZero()).toBe(false);
       expect(balanceAt.toString()).toEqual(balance.toString());

@@ -4,7 +4,6 @@
 
 import BN from 'bn.js';
 
-import { Balance } from '@polkadot/types/interfaces';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -29,7 +28,7 @@ describeE2E({
   it('queries state for a balance', (done): void => {
     api.query.balances.freeBalance(keyring.alice_stash.address).subscribe((balance): void => {
       expect(balance).toBeInstanceOf(BN);
-      expect((balance as Balance).isZero()).toBe(false);
+      expect(balance.isZero()).toBe(false);
       done();
     });
   });
