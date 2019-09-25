@@ -43,6 +43,22 @@ export interface RawBabePreDigest0to159 extends Enum {
   readonly asSecondary: RawBabePreDigestSecondary0to159;
 }
 
+/** Enum */
+export interface RawBabePreDigestCompat extends Enum {
+  /** 0:: Zero(u32) */
+  readonly isZero: boolean;
+  /** u32 */
+  readonly asZero: u32;
+  /** 1:: One(u32) */
+  readonly isOne: boolean;
+  /** u32 */
+  readonly asOne: u32;
+  /** 2:: Two(u32) */
+  readonly isTwo: boolean;
+  /** u32 */
+  readonly asTwo: u32;
+}
+
 /** Struct */
 export interface RawBabePreDigestPrimary extends Struct {
   /** u32 */

@@ -44,6 +44,17 @@ export default {
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight'
     },
+    // a cross old/new compatible version of the digest, that is _only_ useful
+    // for partial parsing and extraction of the author. This assumes that all
+    // entries has the authorityIndex in the first position - and that it is all
+    // we are interested in
+    RawBabePreDigestCompat: {
+      _enum: {
+        Zero: 'u32',
+        One: 'u32',
+        Two: 'u32'
+      }
+    },
     SlotNumber: 'u64',
     VrfData: '[u8; 32]',
     VrfProof: '[u8; 64]'

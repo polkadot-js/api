@@ -6,7 +6,7 @@ import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHashe
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from './interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from './interfaces/authorship';
 import { RawAuraPreDigest } from './interfaces/aura';
-import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from './interfaces/babe';
+import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from './interfaces/babe';
 import { BalanceLock, VestingSchedule, WithdrawReasons } from './interfaces/balances';
 import { MemberCount, ProposalIndex, Votes } from './interfaces/collective';
 import { AuthorityId } from './interfaces/consensus';
@@ -323,6 +323,9 @@ export interface InterfaceRegistry {
   RawBabePreDigestSecondary0to159: RawBabePreDigestSecondary0to159;
   'Option<RawBabePreDigestSecondary0to159>': Option<RawBabePreDigestSecondary0to159>;
   'Vec<RawBabePreDigestSecondary0to159>': Vec<RawBabePreDigestSecondary0to159>;
+  RawBabePreDigestCompat: RawBabePreDigestCompat;
+  'Option<RawBabePreDigestCompat>': Option<RawBabePreDigestCompat>;
+  'Vec<RawBabePreDigestCompat>': Vec<RawBabePreDigestCompat>;
   SlotNumber: SlotNumber;
   'Compact<SlotNumber>': Compact<SlotNumber>;
   'Option<SlotNumber>': Option<SlotNumber>;

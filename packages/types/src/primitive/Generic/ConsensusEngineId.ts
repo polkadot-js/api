@@ -67,13 +67,11 @@ export default class ConsensusEngineId extends U32 {
   }
 
   private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    const digest = createType('RawBabePreDigest', bytes.toU8a(true));
+    const digest = createType('RawBabePreDigestCompat', bytes.toU8a(true));
 
-    return sessionValidators[(
-      digest.isPrimary
-        ? digest.asPrimary
-        : digest.asSecondary
-    ).authorityIndex.toNumber()];
+    return sessionValidators[
+      (digest.value as U32).toNumber()
+    ];
   }
 
   /**
