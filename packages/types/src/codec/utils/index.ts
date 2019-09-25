@@ -5,5 +5,6 @@
 export { default as compareArray } from './compareArray';
 export { default as compareMap } from './compareMap';
 export { default as decodeU8a } from './decodeU8a';
+export { default as typeDefToString } from './typeDefToString';
 export * from './encodeTypes';
 export * from './mapToTypeMap';

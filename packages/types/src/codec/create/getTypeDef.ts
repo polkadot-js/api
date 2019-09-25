@@ -24,7 +24,7 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
     }))
     : Object.entries(details).map(([name, type]): TypeDef =>
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(type || 'Null', name)
+      getTypeDef(type || 'Null', { name })
     );
 
   return value;
@@ -46,7 +46,7 @@ function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
 
 // decode a struct, set or enum
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeStruct (value: TypeDef, type: string, subType: string): TypeDef {
+function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
   const parsed = JSON.parse(type);
   const keys = Object.keys(parsed);
 
@@ -59,7 +59,7 @@ function _decodeStruct (value: TypeDef, type: string, subType: string): TypeDef 
   value.info = TypeDefInfo.Struct;
   value.sub = keys.map((name): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], name)
+    getTypeDef(parsed[name], { name })
   );
 
   return value;
@@ -67,7 +67,7 @@ function _decodeStruct (value: TypeDef, type: string, subType: string): TypeDef 
 
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeFixedVec (value: TypeDef, type: string, subType: string): TypeDef {
+function _decodeFixedVec (value: TypeDef, type: string): TypeDef {
   const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
   const vecLen = parseInt(_vecLen.trim(), 10);
 
@@ -81,7 +81,7 @@ function _decodeFixedVec (value: TypeDef, type: string, subType: string): TypeDe
 }
 
 // decode a tuple
-function _decodeTuple (value: TypeDef, type: string, subType: string): TypeDef {
+function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
   value.info = TypeDefInfo.Tuple;
   value.sub = typeSplit(subType).map((inner): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -119,10 +119,15 @@ function extractSubType (type: string, [start, end]: [string, string, any]): str
   return type.substr(start.length, type.length - start.length - end.length);
 }
 
-export function getTypeDef (_type: string, name?: string): TypeDef {
+interface TypeDefOptions {
+  name?: string;
+  displayName?: string;
+}
+
+export function getTypeDef (_type: string, { name, displayName }: TypeDefOptions = {}): TypeDef {
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
-  const value: TypeDef = { info: TypeDefInfo.Plain, name, type };
+  const value: TypeDef = { info: TypeDefInfo.Plain, displayName, name, type };
 
   const nested = nestedExtraction.find((nested): boolean =>
     hasWrapper(type, nested)

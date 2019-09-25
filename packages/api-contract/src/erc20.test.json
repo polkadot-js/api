@@ -1,39 +1,19 @@
 [
   {
     "info": 7,
-    "type": "{\"total_supply\": {\"cell\": {\"cell\": ([u8;32])}}, \"balances\": {\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}, \"allowances\": {\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}}",
-    "name": "Erc20",
-    "namespace": "erc20",
+    "type": "{ \"_enum\": {\"total_supply\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u128\"} }<u128\", \"balances\": \"{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }\"} }<AccountId, u128\", \"allowances\": \"{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }\"} }<(AccountId, AccountId), u128\"} }",
     "sub": [
       {
         "info": 7,
-        "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-        "name": "total_supply",
-        "namespace": "ink_core::storage::value",
-        "params": [
-          {
-            "info": 5,
-            "type": "u128"
-          }
-        ],
+        "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u128\"} }",
         "sub": [
           {
             "info": 7,
-            "type": "{\"cell\": ([u8;32])}",
-            "name": "cell",
-            "namespace": "ink_core::storage::cell::sync_cell",
-            "params": [
-              {
-                "info": 5,
-                "type": "u128"
-              }
-            ],
+            "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
             "sub": [
               {
                 "info": 8,
                 "type": "([u8;32])",
-                "name": "cell",
-                "namespace": "ink_core::storage::key",
                 "sub": [
                   {
                     "info": 10,
@@ -48,23 +28,230 @@
                     },
                     "index": 0
                   }
-                ]
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::cell::sync_cell",
+            "params": [
+              {
+                "info": 5,
+                "type": "u128"
               }
             ]
+          }
+        ],
+        "name": "total_supply",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 5,
+            "type": "u128"
           }
         ]
       },
       {
         "info": 7,
-        "type": "{\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}",
+        "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }\"} }",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+            "sub": [
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "([u8;32])",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "cell",
+                    "namespace": "ink_core::storage::key"
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::cell::sync_cell",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              }
+            ],
+            "name": "len",
+            "namespace": "ink_core::storage::value",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cells_key",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "entries",
+            "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+            "params": [
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "name": "Occupied",
+                    "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)",
+                    "sub": [
+                      {
+                        "info": 7,
+                        "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }",
+                        "sub": [
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "key",
+                            "namespace": "ink_core::env::srml::types"
+                          },
+                          {
+                            "info": 5,
+                            "type": "u128",
+                            "name": "val"
+                          }
+                        ],
+                        "name": "OccupiedEntry",
+                        "namespace": "ink_core::storage::collections::hash_map::impls",
+                        "params": [
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
+                          },
+                          {
+                            "info": 5,
+                            "type": "u128"
+                          }
+                        ],
+                        "index": 0
+                      }
+                    ]
+                  },
+                  {
+                    "info": 5,
+                    "name": "Removed",
+                    "type": "Null"
+                  }
+                ],
+                "name": "Entry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 5,
+                    "type": "u128"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
         "name": "balances",
         "namespace": "ink_core::storage::collections::hash_map::impls",
         "params": [
           {
             "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
+            "type": "AccountId",
             "sub": [
               {
                 "info": 10,
@@ -79,294 +266,31 @@
                 },
                 "index": 0
               }
-            ]
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
           },
           {
             "info": 5,
             "type": "u128"
-          }
-        ],
-        "sub": [
-          {
-            "info": 7,
-            "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-            "name": "len",
-            "namespace": "ink_core::storage::value",
-            "params": [
-              {
-                "info": 5,
-                "type": "u32"
-              }
-            ],
-            "sub": [
-              {
-                "info": 7,
-                "type": "{\"cell\": ([u8;32])}",
-                "name": "cell",
-                "namespace": "ink_core::storage::cell::sync_cell",
-                "params": [
-                  {
-                    "info": 5,
-                    "type": "u32"
-                  }
-                ],
-                "sub": [
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "cell",
-                    "namespace": "ink_core::storage::key",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "info": 7,
-            "type": "{\"cells_key\": ([u8;32])}",
-            "name": "entries",
-            "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
-            "params": [
-              {
-                "info": 2,
-                "type": "{\"Occupied\": ({\"key\": ([u8;32]), \"val\": u128}), \"Removed\": Null}",
-                "name": "Entry",
-                "namespace": "ink_core::storage::collections::hash_map::impls",
-                "params": [
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  },
-                  {
-                    "info": 5,
-                    "type": "u128"
-                  }
-                ],
-                "sub": [
-                  {
-                    "info": 8,
-                    "name": "Occupied",
-                    "type": "({\"key\": ([u8;32]), \"val\": u128})",
-                    "sub": [
-                      {
-                        "info": 7,
-                        "type": "{\"key\": ([u8;32]), \"val\": u128}",
-                        "name": "OccupiedEntry",
-                        "namespace": "ink_core::storage::collections::hash_map::impls",
-                        "params": [
-                          {
-                            "info": 8,
-                            "type": "([u8;32])",
-                            "name": "AccountId",
-                            "namespace": "ink_core::env::srml::types",
-                            "sub": [
-                              {
-                                "info": 10,
-                                "type": "[u8;32]",
-                                "ext": {
-                                  "length": 32,
-                                  "type": ""
-                                },
-                                "sub": {
-                                  "info": 5,
-                                  "type": "u8"
-                                },
-                                "index": 0
-                              }
-                            ]
-                          },
-                          {
-                            "info": 5,
-                            "type": "u128"
-                          }
-                        ],
-                        "sub": [
-                          {
-                            "info": 8,
-                            "type": "([u8;32])",
-                            "name": "key",
-                            "namespace": "ink_core::env::srml::types",
-                            "sub": [
-                              {
-                                "info": 10,
-                                "type": "[u8;32]",
-                                "ext": {
-                                  "length": 32,
-                                  "type": ""
-                                },
-                                "sub": {
-                                  "info": 5,
-                                  "type": "u8"
-                                },
-                                "index": 0
-                              }
-                            ]
-                          },
-                          {
-                            "info": 5,
-                            "type": "u128",
-                            "name": "val"
-                          }
-                        ],
-                        "index": 0
-                      }
-                    ]
-                  },
-                  {
-                    "info": 5,
-                    "name": "Removed",
-                    "type": "Null"
-                  }
-                ]
-              }
-            ],
-            "sub": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "cells_key",
-                "namespace": "ink_core::storage::key",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              }
-            ]
           }
         ]
       },
       {
         "info": 7,
-        "type": "{\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}",
-        "name": "allowances",
-        "namespace": "ink_core::storage::collections::hash_map::impls",
-        "params": [
-          {
-            "info": 8,
-            "type": "(([u8;32]), ([u8;32]))",
-            "sub": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              },
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "info": 5,
-            "type": "u128"
-          }
-        ],
+        "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }\"} }",
         "sub": [
           {
             "info": 7,
-            "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-            "name": "len",
-            "namespace": "ink_core::storage::value",
-            "params": [
-              {
-                "info": 5,
-                "type": "u32"
-              }
-            ],
+            "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
             "sub": [
               {
                 "info": 7,
-                "type": "{\"cell\": ([u8;32])}",
-                "name": "cell",
-                "namespace": "ink_core::storage::cell::sync_cell",
-                "params": [
-                  {
-                    "info": 5,
-                    "type": "u32"
-                  }
-                ],
+                "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
                 "sub": [
                   {
                     "info": 8,
                     "type": "([u8;32])",
-                    "name": "cell",
-                    "namespace": "ink_core::storage::key",
                     "sub": [
                       {
                         "info": 10,
@@ -381,152 +305,79 @@
                         },
                         "index": 0
                       }
-                    ]
+                    ],
+                    "name": "cell",
+                    "namespace": "ink_core::storage::key"
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::cell::sync_cell",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
                   }
                 ]
+              }
+            ],
+            "name": "len",
+            "namespace": "ink_core::storage::value",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
               }
             ]
           },
           {
             "info": 7,
-            "type": "{\"cells_key\": ([u8;32])}",
+            "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cells_key",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
             "name": "entries",
             "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
             "params": [
               {
                 "info": 2,
-                "type": "{\"Occupied\": ({\"key\": (([u8;32]), ([u8;32])), \"val\": u128}), \"Removed\": Null}",
-                "name": "Entry",
-                "namespace": "ink_core::storage::collections::hash_map::impls",
-                "params": [
-                  {
-                    "info": 8,
-                    "type": "(([u8;32]), ([u8;32]))",
-                    "sub": [
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      },
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "info": 5,
-                    "type": "u128"
-                  }
-                ],
+                "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }",
                 "sub": [
                   {
                     "info": 8,
                     "name": "Occupied",
-                    "type": "({\"key\": (([u8;32]), ([u8;32])), \"val\": u128})",
+                    "type": "({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)",
                     "sub": [
                       {
                         "info": 7,
-                        "type": "{\"key\": (([u8;32]), ([u8;32])), \"val\": u128}",
-                        "name": "OccupiedEntry",
-                        "namespace": "ink_core::storage::collections::hash_map::impls",
-                        "params": [
-                          {
-                            "info": 8,
-                            "type": "(([u8;32]), ([u8;32]))",
-                            "sub": [
-                              {
-                                "info": 8,
-                                "type": "([u8;32])",
-                                "name": "AccountId",
-                                "namespace": "ink_core::env::srml::types",
-                                "sub": [
-                                  {
-                                    "info": 10,
-                                    "type": "[u8;32]",
-                                    "ext": {
-                                      "length": 32,
-                                      "type": ""
-                                    },
-                                    "sub": {
-                                      "info": 5,
-                                      "type": "u8"
-                                    },
-                                    "index": 0
-                                  }
-                                ]
-                              },
-                              {
-                                "info": 8,
-                                "type": "([u8;32])",
-                                "name": "AccountId",
-                                "namespace": "ink_core::env::srml::types",
-                                "sub": [
-                                  {
-                                    "info": 10,
-                                    "type": "[u8;32]",
-                                    "ext": {
-                                      "length": 32,
-                                      "type": ""
-                                    },
-                                    "sub": {
-                                      "info": 5,
-                                      "type": "u8"
-                                    },
-                                    "index": 0
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "info": 5,
-                            "type": "u128"
-                          }
-                        ],
+                        "type": "{ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
                         "sub": [
                           {
                             "info": 8,
-                            "type": "(([u8;32]), ([u8;32]))",
+                            "type": "(AccountId, AccountId)",
                             "sub": [
                               {
                                 "info": 8,
-                                "type": "([u8;32])",
-                                "name": "AccountId",
-                                "namespace": "ink_core::env::srml::types",
+                                "type": "AccountId",
                                 "sub": [
                                   {
                                     "info": 10,
@@ -541,13 +392,13 @@
                                     },
                                     "index": 0
                                   }
-                                ]
+                                ],
+                                "name": "AccountId",
+                                "namespace": "ink_core::env::srml::types"
                               },
                               {
                                 "info": 8,
-                                "type": "([u8;32])",
-                                "name": "AccountId",
-                                "namespace": "ink_core::env::srml::types",
+                                "type": "AccountId",
                                 "sub": [
                                   {
                                     "info": 10,
@@ -562,7 +413,9 @@
                                     },
                                     "index": 0
                                   }
-                                ]
+                                ],
+                                "name": "AccountId",
+                                "namespace": "ink_core::env::srml::types"
                               }
                             ],
                             "name": "key"
@@ -573,6 +426,62 @@
                             "name": "val"
                           }
                         ],
+                        "name": "OccupiedEntry",
+                        "namespace": "ink_core::storage::collections::hash_map::impls",
+                        "params": [
+                          {
+                            "info": 8,
+                            "type": "(AccountId, AccountId)",
+                            "sub": [
+                              {
+                                "info": 8,
+                                "type": "AccountId",
+                                "sub": [
+                                  {
+                                    "info": 10,
+                                    "type": "[u8;32]",
+                                    "ext": {
+                                      "length": 32,
+                                      "type": ""
+                                    },
+                                    "sub": {
+                                      "info": 5,
+                                      "type": "u8"
+                                    },
+                                    "index": 0
+                                  }
+                                ],
+                                "name": "AccountId",
+                                "namespace": "ink_core::env::srml::types"
+                              },
+                              {
+                                "info": 8,
+                                "type": "AccountId",
+                                "sub": [
+                                  {
+                                    "info": 10,
+                                    "type": "[u8;32]",
+                                    "ext": {
+                                      "length": 32,
+                                      "type": ""
+                                    },
+                                    "sub": {
+                                      "info": 5,
+                                      "type": "u8"
+                                    },
+                                    "index": 0
+                                  }
+                                ],
+                                "name": "AccountId",
+                                "namespace": "ink_core::env::srml::types"
+                              }
+                            ]
+                          },
+                          {
+                            "info": 5,
+                            "type": "u128"
+                          }
+                        ],
                         "index": 0
                       }
                     ]
@@ -582,15 +491,77 @@
                     "name": "Removed",
                     "type": "Null"
                   }
+                ],
+                "name": "Entry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "(AccountId, AccountId)",
+                    "sub": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      }
+                    ]
+                  },
+                  {
+                    "info": 5,
+                    "type": "u128"
+                  }
                 ]
               }
-            ],
+            ]
+          }
+        ],
+        "name": "allowances",
+        "namespace": "ink_core::storage::collections::hash_map::impls",
+        "params": [
+          {
+            "info": 8,
+            "type": "(AccountId, AccountId)",
             "sub": [
               {
                 "info": 8,
-                "type": "([u8;32])",
-                "name": "cells_key",
-                "namespace": "ink_core::storage::key",
+                "type": "AccountId",
                 "sub": [
                   {
                     "info": 10,
@@ -605,43 +576,54 @@
                     },
                     "index": 0
                   }
-                ]
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
               }
             ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "info": 7,
-    "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-    "name": "Value",
-    "namespace": "ink_core::storage::value",
-    "params": [
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
-    "sub": [
-      {
-        "info": 7,
-        "type": "{\"cell\": ([u8;32])}",
-        "name": "cell",
-        "namespace": "ink_core::storage::cell::sync_cell",
-        "params": [
+          },
           {
             "info": 5,
             "type": "u128"
           }
-        ],
+        ]
+      }
+    ],
+    "name": "Erc20",
+    "namespace": "erc20::normal"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u128\"} }",
+    "sub": [
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
         "sub": [
           {
             "info": 8,
             "type": "([u8;32])",
-            "name": "cell",
-            "namespace": "ink_core::storage::key",
             "sub": [
               {
                 "info": 10,
@@ -656,9 +638,27 @@
                 },
                 "index": 0
               }
-            ]
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::cell::sync_cell",
+        "params": [
+          {
+            "info": 5,
+            "type": "u128"
           }
         ]
+      }
+    ],
+    "name": "Value",
+    "namespace": "ink_core::storage::value",
+    "params": [
+      {
+        "info": 5,
+        "type": "u128"
       }
     ]
   },
@@ -668,21 +668,11 @@
   },
   {
     "info": 7,
-    "type": "{\"cell\": ([u8;32])}",
-    "name": "SyncCell",
-    "namespace": "ink_core::storage::cell::sync_cell",
-    "params": [
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
+    "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
     "sub": [
       {
         "info": 8,
         "type": "([u8;32])",
-        "name": "cell",
-        "namespace": "ink_core::storage::key",
         "sub": [
           {
             "info": 10,
@@ -697,15 +687,23 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncCell",
+    "namespace": "ink_core::storage::cell::sync_cell",
+    "params": [
+      {
+        "info": 5,
+        "type": "u128"
       }
     ]
   },
   {
     "info": 8,
     "type": "([u8;32])",
-    "name": "Key",
-    "namespace": "ink_core::storage::key",
     "sub": [
       {
         "info": 10,
@@ -720,7 +718,9 @@
         },
         "index": 0
       }
-    ]
+    ],
+    "name": "Key",
+    "namespace": "ink_core::storage::key"
   },
   {
     "info": 10,
@@ -740,52 +740,38 @@
   },
   {
     "info": 7,
-    "type": "{\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}",
-    "name": "HashMap",
-    "namespace": "ink_core::storage::collections::hash_map::impls",
-    "params": [
-      {
-        "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
-        "sub": [
-          {
-            "info": 10,
-            "type": "[u8;32]",
-            "ext": {
-              "length": 32,
-              "type": ""
-            },
-            "sub": {
-              "info": 5,
-              "type": "u8"
-            },
-            "index": 0
-          }
-        ]
-      },
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
+    "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }\"} }",
     "sub": [
       {
         "info": 7,
-        "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-        "name": "len",
-        "namespace": "ink_core::storage::value",
-        "params": [
-          {
-            "info": 5,
-            "type": "u32"
-          }
-        ],
+        "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
         "sub": [
           {
             "info": 7,
-            "type": "{\"cell\": ([u8;32])}",
+            "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
             "name": "cell",
             "namespace": "ink_core::storage::cell::sync_cell",
             "params": [
@@ -793,155 +779,25 @@
                 "info": 5,
                 "type": "u32"
               }
-            ],
-            "sub": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "cell",
-                "namespace": "ink_core::storage::key",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              }
             ]
+          }
+        ],
+        "name": "len",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
           }
         ]
       },
       {
         "info": 7,
-        "type": "{\"cells_key\": ([u8;32])}",
-        "name": "entries",
-        "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
-        "params": [
-          {
-            "info": 2,
-            "type": "{\"Occupied\": ({\"key\": ([u8;32]), \"val\": u128}), \"Removed\": Null}",
-            "name": "Entry",
-            "namespace": "ink_core::storage::collections::hash_map::impls",
-            "params": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              },
-              {
-                "info": 5,
-                "type": "u128"
-              }
-            ],
-            "sub": [
-              {
-                "info": 8,
-                "name": "Occupied",
-                "type": "({\"key\": ([u8;32]), \"val\": u128})",
-                "sub": [
-                  {
-                    "info": 7,
-                    "type": "{\"key\": ([u8;32]), \"val\": u128}",
-                    "name": "OccupiedEntry",
-                    "namespace": "ink_core::storage::collections::hash_map::impls",
-                    "params": [
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      },
-                      {
-                        "info": 5,
-                        "type": "u128"
-                      }
-                    ],
-                    "sub": [
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "key",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      },
-                      {
-                        "info": 5,
-                        "type": "u128",
-                        "name": "val"
-                      }
-                    ],
-                    "index": 0
-                  }
-                ]
-              },
-              {
-                "info": 5,
-                "name": "Removed",
-                "type": "Null"
-              }
-            ]
-          }
-        ],
+        "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
         "sub": [
           {
             "info": 8,
             "type": "([u8;32])",
-            "name": "cells_key",
-            "namespace": "ink_core::storage::key",
             "sub": [
               {
                 "info": 10,
@@ -956,17 +812,159 @@
                 },
                 "index": 0
               }
+            ],
+            "name": "cells_key",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "entries",
+        "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+        "params": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "name": "Occupied",
+                "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)",
+                "sub": [
+                  {
+                    "info": 7,
+                    "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }",
+                    "sub": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "key",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 5,
+                        "type": "u128",
+                        "name": "val"
+                      }
+                    ],
+                    "name": "OccupiedEntry",
+                    "namespace": "ink_core::storage::collections::hash_map::impls",
+                    "params": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 5,
+                        "type": "u128"
+                      }
+                    ],
+                    "index": 0
+                  }
+                ]
+              },
+              {
+                "info": 5,
+                "name": "Removed",
+                "type": "Null"
+              }
+            ],
+            "name": "Entry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 5,
+                "type": "u128"
+              }
             ]
           }
         ]
+      }
+    ],
+    "name": "HashMap",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
+      },
+      {
+        "info": 5,
+        "type": "u128"
       }
     ]
   },
   {
     "info": 8,
-    "type": "([u8;32])",
-    "name": "AccountId",
-    "namespace": "ink_core::env::srml::types",
+    "type": "AccountId",
     "sub": [
       {
         "info": 10,
@@ -981,37 +979,21 @@
         },
         "index": 0
       }
-    ]
+    ],
+    "name": "AccountId",
+    "namespace": "ink_core::env::srml::types"
   },
   {
     "info": 7,
-    "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-    "name": "Value",
-    "namespace": "ink_core::storage::value",
-    "params": [
-      {
-        "info": 5,
-        "type": "u32"
-      }
-    ],
+    "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
     "sub": [
       {
         "info": 7,
-        "type": "{\"cell\": ([u8;32])}",
-        "name": "cell",
-        "namespace": "ink_core::storage::cell::sync_cell",
-        "params": [
-          {
-            "info": 5,
-            "type": "u32"
-          }
-        ],
+        "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
         "sub": [
           {
             "info": 8,
             "type": "([u8;32])",
-            "name": "cell",
-            "namespace": "ink_core::storage::key",
             "sub": [
               {
                 "info": 10,
@@ -1026,9 +1008,27 @@
                 },
                 "index": 0
               }
-            ]
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::cell::sync_cell",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
           }
         ]
+      }
+    ],
+    "name": "Value",
+    "namespace": "ink_core::storage::value",
+    "params": [
+      {
+        "info": 5,
+        "type": "u32"
       }
     ]
   },
@@ -1038,21 +1038,11 @@
   },
   {
     "info": 7,
-    "type": "{\"cell\": ([u8;32])}",
-    "name": "SyncCell",
-    "namespace": "ink_core::storage::cell::sync_cell",
-    "params": [
-      {
-        "info": 5,
-        "type": "u32"
-      }
-    ],
+    "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
     "sub": [
       {
         "info": 8,
         "type": "([u8;32])",
-        "name": "cell",
-        "namespace": "ink_core::storage::key",
         "sub": [
           {
             "info": 10,
@@ -1067,92 +1057,65 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncCell",
+    "namespace": "ink_core::storage::cell::sync_cell",
+    "params": [
+      {
+        "info": 5,
+        "type": "u32"
       }
     ]
   },
   {
     "info": 7,
-    "type": "{\"cells_key\": ([u8;32])}",
+    "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cells_key",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
     "name": "SyncChunk",
     "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
     "params": [
       {
         "info": 2,
-        "type": "{\"Occupied\": ({\"key\": ([u8;32]), \"val\": u128}), \"Removed\": Null}",
-        "name": "Entry",
-        "namespace": "ink_core::storage::collections::hash_map::impls",
-        "params": [
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          },
-          {
-            "info": 5,
-            "type": "u128"
-          }
-        ],
+        "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }",
         "sub": [
           {
             "info": 8,
             "name": "Occupied",
-            "type": "({\"key\": ([u8;32]), \"val\": u128})",
+            "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)",
             "sub": [
               {
                 "info": 7,
-                "type": "{\"key\": ([u8;32]), \"val\": u128}",
-                "name": "OccupiedEntry",
-                "namespace": "ink_core::storage::collections::hash_map::impls",
-                "params": [
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  },
-                  {
-                    "info": 5,
-                    "type": "u128"
-                  }
-                ],
+                "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }",
                 "sub": [
                   {
                     "info": 8,
-                    "type": "([u8;32])",
-                    "name": "key",
-                    "namespace": "ink_core::env::srml::types",
+                    "type": "AccountId",
                     "sub": [
                       {
                         "info": 10,
@@ -1167,12 +1130,43 @@
                         },
                         "index": 0
                       }
-                    ]
+                    ],
+                    "name": "key",
+                    "namespace": "ink_core::env::srml::types"
                   },
                   {
                     "info": 5,
                     "type": "u128",
                     "name": "val"
+                  }
+                ],
+                "name": "OccupiedEntry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 5,
+                    "type": "u128"
                   }
                 ],
                 "index": 0
@@ -1184,28 +1178,34 @@
             "name": "Removed",
             "type": "Null"
           }
-        ]
-      }
-    ],
-    "sub": [
-      {
-        "info": 8,
-        "type": "([u8;32])",
-        "name": "cells_key",
-        "namespace": "ink_core::storage::key",
-        "sub": [
+        ],
+        "name": "Entry",
+        "namespace": "ink_core::storage::collections::hash_map::impls",
+        "params": [
           {
-            "info": 10,
-            "type": "[u8;32]",
-            "ext": {
-              "length": 32,
-              "type": ""
-            },
-            "sub": {
-              "info": 5,
-              "type": "u8"
-            },
-            "index": 0
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 5,
+            "type": "u128"
           }
         ]
       }
@@ -1213,80 +1213,20 @@
   },
   {
     "info": 2,
-    "type": "{\"Occupied\": ({\"key\": ([u8;32]), \"val\": u128}), \"Removed\": Null}",
-    "name": "Entry",
-    "namespace": "ink_core::storage::collections::hash_map::impls",
-    "params": [
-      {
-        "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
-        "sub": [
-          {
-            "info": 10,
-            "type": "[u8;32]",
-            "ext": {
-              "length": 32,
-              "type": ""
-            },
-            "sub": {
-              "info": 5,
-              "type": "u8"
-            },
-            "index": 0
-          }
-        ]
-      },
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
+    "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)\", \"Removed\": \"Null\"} }",
     "sub": [
       {
         "info": 8,
         "name": "Occupied",
-        "type": "({\"key\": ([u8;32]), \"val\": u128})",
+        "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }<AccountId, u128)",
         "sub": [
           {
             "info": 7,
-            "type": "{\"key\": ([u8;32]), \"val\": u128}",
-            "name": "OccupiedEntry",
-            "namespace": "ink_core::storage::collections::hash_map::impls",
-            "params": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              },
-              {
-                "info": 5,
-                "type": "u128"
-              }
-            ],
+            "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }",
             "sub": [
               {
                 "info": 8,
-                "type": "([u8;32])",
-                "name": "key",
-                "namespace": "ink_core::env::srml::types",
+                "type": "AccountId",
                 "sub": [
                   {
                     "info": 10,
@@ -1301,12 +1241,43 @@
                     },
                     "index": 0
                   }
-                ]
+                ],
+                "name": "key",
+                "namespace": "ink_core::env::srml::types"
               },
               {
                 "info": 5,
                 "type": "u128",
                 "name": "val"
+              }
+            ],
+            "name": "OccupiedEntry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 5,
+                "type": "u128"
               }
             ],
             "index": 0
@@ -1318,19 +1289,13 @@
         "name": "Removed",
         "type": "Null"
       }
-    ]
-  },
-  {
-    "info": 7,
-    "type": "{\"key\": ([u8;32]), \"val\": u128}",
-    "name": "OccupiedEntry",
+    ],
+    "name": "Entry",
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
         "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
+        "type": "AccountId",
         "sub": [
           {
             "info": 10,
@@ -1345,19 +1310,23 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
       },
       {
         "info": 5,
         "type": "u128"
       }
-    ],
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"u128\"} }",
     "sub": [
       {
         "info": 8,
-        "type": "([u8;32])",
-        "name": "key",
-        "namespace": "ink_core::env::srml::types",
+        "type": "AccountId",
         "sub": [
           {
             "info": 10,
@@ -1372,104 +1341,61 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "key",
+        "namespace": "ink_core::env::srml::types"
       },
       {
         "info": 5,
         "type": "u128",
         "name": "val"
       }
-    ]
-  },
-  {
-    "info": 7,
-    "type": "{\"len\": {\"cell\": {\"cell\": ([u8;32])}}, \"entries\": {\"cells_key\": ([u8;32])}}",
-    "name": "HashMap",
+    ],
+    "name": "OccupiedEntry",
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
         "info": 8,
-        "type": "(([u8;32]), ([u8;32]))",
+        "type": "AccountId",
         "sub": [
           {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          },
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
           }
-        ]
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
       },
       {
         "info": 5,
         "type": "u128"
       }
-    ],
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }\"} }",
     "sub": [
       {
         "info": 7,
-        "type": "{\"cell\": {\"cell\": ([u8;32])}}",
-        "name": "len",
-        "namespace": "ink_core::storage::value",
-        "params": [
-          {
-            "info": 5,
-            "type": "u32"
-          }
-        ],
+        "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
         "sub": [
           {
             "info": 7,
-            "type": "{\"cell\": ([u8;32])}",
-            "name": "cell",
-            "namespace": "ink_core::storage::cell::sync_cell",
-            "params": [
-              {
-                "info": 5,
-                "type": "u32"
-              }
-            ],
+            "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
             "sub": [
               {
                 "info": 8,
                 "type": "([u8;32])",
-                "name": "cell",
-                "namespace": "ink_core::storage::key",
                 "sub": [
                   {
                     "info": 10,
@@ -1484,152 +1410,79 @@
                     },
                     "index": 0
                   }
-                ]
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::cell::sync_cell",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
               }
             ]
+          }
+        ],
+        "name": "len",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
           }
         ]
       },
       {
         "info": 7,
-        "type": "{\"cells_key\": ([u8;32])}",
+        "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+        "sub": [
+          {
+            "info": 8,
+            "type": "([u8;32])",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "cells_key",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
         "name": "entries",
         "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
         "params": [
           {
             "info": 2,
-            "type": "{\"Occupied\": ({\"key\": (([u8;32]), ([u8;32])), \"val\": u128}), \"Removed\": Null}",
-            "name": "Entry",
-            "namespace": "ink_core::storage::collections::hash_map::impls",
-            "params": [
-              {
-                "info": 8,
-                "type": "(([u8;32]), ([u8;32]))",
-                "sub": [
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  },
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "info": 5,
-                "type": "u128"
-              }
-            ],
+            "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }",
             "sub": [
               {
                 "info": 8,
                 "name": "Occupied",
-                "type": "({\"key\": (([u8;32]), ([u8;32])), \"val\": u128})",
+                "type": "({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)",
                 "sub": [
                   {
                     "info": 7,
-                    "type": "{\"key\": (([u8;32]), ([u8;32])), \"val\": u128}",
-                    "name": "OccupiedEntry",
-                    "namespace": "ink_core::storage::collections::hash_map::impls",
-                    "params": [
-                      {
-                        "info": 8,
-                        "type": "(([u8;32]), ([u8;32]))",
-                        "sub": [
-                          {
-                            "info": 8,
-                            "type": "([u8;32])",
-                            "name": "AccountId",
-                            "namespace": "ink_core::env::srml::types",
-                            "sub": [
-                              {
-                                "info": 10,
-                                "type": "[u8;32]",
-                                "ext": {
-                                  "length": 32,
-                                  "type": ""
-                                },
-                                "sub": {
-                                  "info": 5,
-                                  "type": "u8"
-                                },
-                                "index": 0
-                              }
-                            ]
-                          },
-                          {
-                            "info": 8,
-                            "type": "([u8;32])",
-                            "name": "AccountId",
-                            "namespace": "ink_core::env::srml::types",
-                            "sub": [
-                              {
-                                "info": 10,
-                                "type": "[u8;32]",
-                                "ext": {
-                                  "length": 32,
-                                  "type": ""
-                                },
-                                "sub": {
-                                  "info": 5,
-                                  "type": "u8"
-                                },
-                                "index": 0
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "info": 5,
-                        "type": "u128"
-                      }
-                    ],
+                    "type": "{ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
                     "sub": [
                       {
                         "info": 8,
-                        "type": "(([u8;32]), ([u8;32]))",
+                        "type": "(AccountId, AccountId)",
                         "sub": [
                           {
                             "info": 8,
-                            "type": "([u8;32])",
-                            "name": "AccountId",
-                            "namespace": "ink_core::env::srml::types",
+                            "type": "AccountId",
                             "sub": [
                               {
                                 "info": 10,
@@ -1644,13 +1497,13 @@
                                 },
                                 "index": 0
                               }
-                            ]
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
                           },
                           {
                             "info": 8,
-                            "type": "([u8;32])",
-                            "name": "AccountId",
-                            "namespace": "ink_core::env::srml::types",
+                            "type": "AccountId",
                             "sub": [
                               {
                                 "info": 10,
@@ -1665,7 +1518,9 @@
                                 },
                                 "index": 0
                               }
-                            ]
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
                           }
                         ],
                         "name": "key"
@@ -1674,6 +1529,62 @@
                         "info": 5,
                         "type": "u128",
                         "name": "val"
+                      }
+                    ],
+                    "name": "OccupiedEntry",
+                    "namespace": "ink_core::storage::collections::hash_map::impls",
+                    "params": [
+                      {
+                        "info": 8,
+                        "type": "(AccountId, AccountId)",
+                        "sub": [
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
+                          },
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
+                          }
+                        ]
+                      },
+                      {
+                        "info": 5,
+                        "type": "u128"
                       }
                     ],
                     "index": 0
@@ -1685,15 +1596,77 @@
                 "name": "Removed",
                 "type": "Null"
               }
+            ],
+            "name": "Entry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "(AccountId, AccountId)",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  }
+                ]
+              },
+              {
+                "info": 5,
+                "type": "u128"
+              }
             ]
           }
-        ],
+        ]
+      }
+    ],
+    "name": "HashMap",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "(AccountId, AccountId)",
         "sub": [
           {
             "info": 8,
-            "type": "([u8;32])",
-            "name": "cells_key",
-            "namespace": "ink_core::storage::key",
+            "type": "AccountId",
             "sub": [
               {
                 "info": 10,
@@ -1708,21 +1681,46 @@
                 },
                 "index": 0
               }
-            ]
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
           }
         ]
+      },
+      {
+        "info": 5,
+        "type": "u128"
       }
     ]
   },
   {
     "info": 8,
-    "type": "(([u8;32]), ([u8;32]))",
+    "type": "(AccountId, AccountId)",
     "sub": [
       {
         "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
+        "type": "AccountId",
         "sub": [
           {
             "info": 10,
@@ -1737,13 +1735,13 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
       },
       {
         "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
+        "type": "AccountId",
         "sub": [
           {
             "info": 10,
@@ -1758,150 +1756,61 @@
             },
             "index": 0
           }
-        ]
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
       }
     ]
   },
   {
     "info": 7,
-    "type": "{\"cells_key\": ([u8;32])}",
+    "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cells_key",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
     "name": "SyncChunk",
     "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
     "params": [
       {
         "info": 2,
-        "type": "{\"Occupied\": ({\"key\": (([u8;32]), ([u8;32])), \"val\": u128}), \"Removed\": Null}",
-        "name": "Entry",
-        "namespace": "ink_core::storage::collections::hash_map::impls",
-        "params": [
-          {
-            "info": 8,
-            "type": "(([u8;32]), ([u8;32]))",
-            "sub": [
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              },
-              {
-                "info": 8,
-                "type": "([u8;32])",
-                "name": "AccountId",
-                "namespace": "ink_core::env::srml::types",
-                "sub": [
-                  {
-                    "info": 10,
-                    "type": "[u8;32]",
-                    "ext": {
-                      "length": 32,
-                      "type": ""
-                    },
-                    "sub": {
-                      "info": 5,
-                      "type": "u8"
-                    },
-                    "index": 0
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "info": 5,
-            "type": "u128"
-          }
-        ],
+        "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }",
         "sub": [
           {
             "info": 8,
             "name": "Occupied",
-            "type": "({\"key\": (([u8;32]), ([u8;32])), \"val\": u128})",
+            "type": "({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)",
             "sub": [
               {
                 "info": 7,
-                "type": "{\"key\": (([u8;32]), ([u8;32])), \"val\": u128}",
-                "name": "OccupiedEntry",
-                "namespace": "ink_core::storage::collections::hash_map::impls",
-                "params": [
-                  {
-                    "info": 8,
-                    "type": "(([u8;32]), ([u8;32]))",
-                    "sub": [
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      },
-                      {
-                        "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
-                        "sub": [
-                          {
-                            "info": 10,
-                            "type": "[u8;32]",
-                            "ext": {
-                              "length": 32,
-                              "type": ""
-                            },
-                            "sub": {
-                              "info": 5,
-                              "type": "u8"
-                            },
-                            "index": 0
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "info": 5,
-                    "type": "u128"
-                  }
-                ],
+                "type": "{ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
                 "sub": [
                   {
                     "info": 8,
-                    "type": "(([u8;32]), ([u8;32]))",
+                    "type": "(AccountId, AccountId)",
                     "sub": [
                       {
                         "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
+                        "type": "AccountId",
                         "sub": [
                           {
                             "info": 10,
@@ -1916,13 +1825,13 @@
                             },
                             "index": 0
                           }
-                        ]
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
                       },
                       {
                         "info": 8,
-                        "type": "([u8;32])",
-                        "name": "AccountId",
-                        "namespace": "ink_core::env::srml::types",
+                        "type": "AccountId",
                         "sub": [
                           {
                             "info": 10,
@@ -1937,7 +1846,9 @@
                             },
                             "index": 0
                           }
-                        ]
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
                       }
                     ],
                     "name": "key"
@@ -1946,6 +1857,62 @@
                     "info": 5,
                     "type": "u128",
                     "name": "val"
+                  }
+                ],
+                "name": "OccupiedEntry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "(AccountId, AccountId)",
+                    "sub": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      }
+                    ]
+                  },
+                  {
+                    "info": 5,
+                    "type": "u128"
                   }
                 ],
                 "index": 0
@@ -1957,28 +1924,61 @@
             "name": "Removed",
             "type": "Null"
           }
-        ]
-      }
-    ],
-    "sub": [
-      {
-        "info": 8,
-        "type": "([u8;32])",
-        "name": "cells_key",
-        "namespace": "ink_core::storage::key",
-        "sub": [
+        ],
+        "name": "Entry",
+        "namespace": "ink_core::storage::collections::hash_map::impls",
+        "params": [
           {
-            "info": 10,
-            "type": "[u8;32]",
-            "ext": {
-              "length": 32,
-              "type": ""
-            },
-            "sub": {
-              "info": 5,
-              "type": "u8"
-            },
-            "index": 0
+            "info": 8,
+            "type": "(AccountId, AccountId)",
+            "sub": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              }
+            ]
+          },
+          {
+            "info": 5,
+            "type": "u128"
           }
         ]
       }
@@ -1986,138 +1986,24 @@
   },
   {
     "info": 2,
-    "type": "{\"Occupied\": ({\"key\": (([u8;32]), ([u8;32])), \"val\": u128}), \"Removed\": Null}",
-    "name": "Entry",
-    "namespace": "ink_core::storage::collections::hash_map::impls",
-    "params": [
-      {
-        "info": 8,
-        "type": "(([u8;32]), ([u8;32]))",
-        "sub": [
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          },
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
+    "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)\", \"Removed\": \"Null\"} }",
     "sub": [
       {
         "info": 8,
         "name": "Occupied",
-        "type": "({\"key\": (([u8;32]), ([u8;32])), \"val\": u128})",
+        "type": "({ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128)",
         "sub": [
           {
             "info": 7,
-            "type": "{\"key\": (([u8;32]), ([u8;32])), \"val\": u128}",
-            "name": "OccupiedEntry",
-            "namespace": "ink_core::storage::collections::hash_map::impls",
-            "params": [
-              {
-                "info": 8,
-                "type": "(([u8;32]), ([u8;32]))",
-                "sub": [
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  },
-                  {
-                    "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
-                    "sub": [
-                      {
-                        "info": 10,
-                        "type": "[u8;32]",
-                        "ext": {
-                          "length": 32,
-                          "type": ""
-                        },
-                        "sub": {
-                          "info": 5,
-                          "type": "u8"
-                        },
-                        "index": 0
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "info": 5,
-                "type": "u128"
-              }
-            ],
+            "type": "{ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
             "sub": [
               {
                 "info": 8,
-                "type": "(([u8;32]), ([u8;32]))",
+                "type": "(AccountId, AccountId)",
                 "sub": [
                   {
                     "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
+                    "type": "AccountId",
                     "sub": [
                       {
                         "info": 10,
@@ -2132,13 +2018,13 @@
                         },
                         "index": 0
                       }
-                    ]
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
                   },
                   {
                     "info": 8,
-                    "type": "([u8;32])",
-                    "name": "AccountId",
-                    "namespace": "ink_core::env::srml::types",
+                    "type": "AccountId",
                     "sub": [
                       {
                         "info": 10,
@@ -2153,7 +2039,9 @@
                         },
                         "index": 0
                       }
-                    ]
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
                   }
                 ],
                 "name": "key"
@@ -2162,6 +2050,62 @@
                 "info": 5,
                 "type": "u128",
                 "name": "val"
+              }
+            ],
+            "name": "OccupiedEntry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "(AccountId, AccountId)",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  }
+                ]
+              },
+              {
+                "info": 5,
+                "type": "u128"
               }
             ],
             "index": 0
@@ -2173,171 +2117,17 @@
         "name": "Removed",
         "type": "Null"
       }
-    ]
-  },
-  {
-    "info": 7,
-    "type": "{\"key\": (([u8;32]), ([u8;32])), \"val\": u128}",
-    "name": "OccupiedEntry",
+    ],
+    "name": "Entry",
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
         "info": 8,
-        "type": "(([u8;32]), ([u8;32]))",
+        "type": "(AccountId, AccountId)",
         "sub": [
           {
             "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          },
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "info": 5,
-        "type": "u128"
-      }
-    ],
-    "sub": [
-      {
-        "info": 8,
-        "type": "(([u8;32]), ([u8;32]))",
-        "sub": [
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          },
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
-            "sub": [
-              {
-                "info": 10,
-                "type": "[u8;32]",
-                "ext": {
-                  "length": 32,
-                  "type": ""
-                },
-                "sub": {
-                  "info": 5,
-                  "type": "u8"
-                },
-                "index": 0
-              }
-            ]
-          }
-        ],
-        "name": "key"
-      },
-      {
-        "info": 5,
-        "type": "u128",
-        "name": "val"
-      }
-    ]
-  },
-  {
-    "info": 5,
-    "type": "bool"
-  },
-  {
-    "info": 2,
-    "type": "{\"None\": Null, \"Some\": (([u8;32]))}",
-    "name": "Option",
-    "params": [
-      {
-        "info": 8,
-        "type": "([u8;32])",
-        "name": "AccountId",
-        "namespace": "ink_core::env::srml::types",
-        "sub": [
-          {
-            "info": 10,
-            "type": "[u8;32]",
-            "ext": {
-              "length": 32,
-              "type": ""
-            },
-            "sub": {
-              "info": 5,
-              "type": "u8"
-            },
-            "index": 0
-          }
-        ]
-      }
-    ],
-    "sub": [
-      {
-        "info": 5,
-        "name": "None",
-        "type": "Null"
-      },
-      {
-        "info": 8,
-        "name": "Some",
-        "type": "(([u8;32]))",
-        "sub": [
-          {
-            "info": 8,
-            "type": "([u8;32])",
-            "name": "AccountId",
-            "namespace": "ink_core::env::srml::types",
+            "type": "AccountId",
             "sub": [
               {
                 "info": 10,
@@ -2353,9 +2143,219 @@
                 "index": 0
               }
             ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          }
+        ]
+      },
+      {
+        "info": 5,
+        "type": "u128"
+      }
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "(AccountId, AccountId)",
+        "sub": [
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          }
+        ],
+        "name": "key"
+      },
+      {
+        "info": 5,
+        "type": "u128",
+        "name": "val"
+      }
+    ],
+    "name": "OccupiedEntry",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "(AccountId, AccountId)",
+        "sub": [
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          }
+        ]
+      },
+      {
+        "info": 5,
+        "type": "u128"
+      }
+    ]
+  },
+  {
+    "info": 5,
+    "type": "bool"
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(AccountId)\"} }",
+    "sub": [
+      {
+        "info": 5,
+        "name": "None",
+        "type": "Null"
+      },
+      {
+        "info": 8,
+        "name": "Some",
+        "type": "(AccountId)",
+        "sub": [
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types",
             "index": 0
           }
         ]
+      }
+    ],
+    "name": "Option",
+    "params": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
       }
     ]
   }

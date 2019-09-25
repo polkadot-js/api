@@ -5,7 +5,7 @@
 import { SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ContractABI } from './types';
+import { ContractABIPre } from './types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -37,7 +37,7 @@ class BlueprintCreateResult extends SubmittableResult {
 export default class Blueprint extends RxBase {
   public readonly codeHash: Hash;
 
-  public constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
+  public constructor (api: ApiRx, abi: ContractABIPre | Abi, codeHash: string | Hash) {
     super(api, abi);
 
     this.codeHash = createType('Hash', codeHash);
@@ -46,7 +46,7 @@ export default class Blueprint extends RxBase {
   public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription => {
       return this.apiContracts
-        .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
+        .create(endowment, maxGas, this.codeHash, this.abi.constructors[0](...params))
         .signAndSend(account)
         .pipe(map(this.createResult));
     };

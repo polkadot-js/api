@@ -1,0 +1,2385 @@
+[
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"mutators\": \"{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\", \"vec\": \"{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"cells\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<i32\"} }<i32\"} }",
+    "sub": [
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }\"} }",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+            "sub": [
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "([u8;32])",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "cell",
+                    "namespace": "ink_core::storage::key"
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::cell::sync_cell",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              }
+            ],
+            "name": "len",
+            "namespace": "ink_core::storage::value",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cells_key",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "entries",
+            "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+            "params": [
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "name": "Occupied",
+                    "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })",
+                    "sub": [
+                      {
+                        "info": 7,
+                        "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }",
+                        "sub": [
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "key",
+                            "namespace": "ink_core::env::srml::types"
+                          },
+                          {
+                            "info": 7,
+                            "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                            "sub": [
+                              {
+                                "info": 2,
+                                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "name": "None",
+                                    "type": "Null"
+                                  },
+                                  {
+                                    "info": 8,
+                                    "name": "Some",
+                                    "type": "(u32)",
+                                    "sub": [
+                                      {
+                                        "info": 5,
+                                        "type": "u32",
+                                        "index": 0
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "name": "begin",
+                                "params": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32"
+                                  }
+                                ]
+                              },
+                              {
+                                "info": 2,
+                                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "name": "None",
+                                    "type": "Null"
+                                  },
+                                  {
+                                    "info": 8,
+                                    "name": "Some",
+                                    "type": "(u32)",
+                                    "sub": [
+                                      {
+                                        "info": 5,
+                                        "type": "u32",
+                                        "index": 0
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "name": "end",
+                                "params": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32"
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "val",
+                            "namespace": "shared_vec"
+                          }
+                        ],
+                        "name": "OccupiedEntry",
+                        "namespace": "ink_core::storage::collections::hash_map::impls",
+                        "params": [
+                          {
+                            "info": 8,
+                            "type": "AccountId",
+                            "sub": [
+                              {
+                                "info": 10,
+                                "type": "[u8;32]",
+                                "ext": {
+                                  "length": 32,
+                                  "type": ""
+                                },
+                                "sub": {
+                                  "info": 5,
+                                  "type": "u8"
+                                },
+                                "index": 0
+                              }
+                            ],
+                            "name": "AccountId",
+                            "namespace": "ink_core::env::srml::types"
+                          },
+                          {
+                            "info": 7,
+                            "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                            "sub": [
+                              {
+                                "info": 2,
+                                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "name": "None",
+                                    "type": "Null"
+                                  },
+                                  {
+                                    "info": 8,
+                                    "name": "Some",
+                                    "type": "(u32)",
+                                    "sub": [
+                                      {
+                                        "info": 5,
+                                        "type": "u32",
+                                        "index": 0
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "name": "begin",
+                                "params": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32"
+                                  }
+                                ]
+                              },
+                              {
+                                "info": 2,
+                                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "name": "None",
+                                    "type": "Null"
+                                  },
+                                  {
+                                    "info": 8,
+                                    "name": "Some",
+                                    "type": "(u32)",
+                                    "sub": [
+                                      {
+                                        "info": 5,
+                                        "type": "u32",
+                                        "index": 0
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "name": "end",
+                                "params": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32"
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "Access",
+                            "namespace": "shared_vec"
+                          }
+                        ],
+                        "index": 0
+                      }
+                    ]
+                  },
+                  {
+                    "info": 5,
+                    "name": "Removed",
+                    "type": "Null"
+                  }
+                ],
+                "name": "Entry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 7,
+                    "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                    "sub": [
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "begin",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      },
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "end",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "Access",
+                    "namespace": "shared_vec"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "name": "mutators",
+        "namespace": "ink_core::storage::collections::hash_map::impls",
+        "params": [
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+            "sub": [
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                "sub": [
+                  {
+                    "info": 5,
+                    "name": "None",
+                    "type": "Null"
+                  },
+                  {
+                    "info": 8,
+                    "name": "Some",
+                    "type": "(u32)",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "type": "u32",
+                        "index": 0
+                      }
+                    ]
+                  }
+                ],
+                "name": "begin",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              },
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                "sub": [
+                  {
+                    "info": 5,
+                    "name": "None",
+                    "type": "Null"
+                  },
+                  {
+                    "info": 8,
+                    "name": "Some",
+                    "type": "(u32)",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "type": "u32",
+                        "index": 0
+                      }
+                    ]
+                  }
+                ],
+                "name": "end",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              }
+            ],
+            "name": "Access",
+            "namespace": "shared_vec"
+          }
+        ]
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"cells\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<i32\"} }",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+            "sub": [
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "([u8;32])",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "cell",
+                    "namespace": "ink_core::storage::key"
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::cell::sync_cell",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              }
+            ],
+            "name": "len",
+            "namespace": "ink_core::storage::value",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cells_key",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cells",
+            "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+            "params": [
+              {
+                "info": 5,
+                "type": "i32"
+              }
+            ]
+          }
+        ],
+        "name": "vec",
+        "namespace": "ink_core::storage::collections::vec::impls",
+        "params": [
+          {
+            "info": 5,
+            "type": "i32"
+          }
+        ]
+      }
+    ],
+    "name": "SharedVec",
+    "namespace": "shared_vec::normal"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"entries\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }\"} }",
+    "sub": [
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::cell::sync_cell",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "len",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
+          }
+        ]
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+        "sub": [
+          {
+            "info": 8,
+            "type": "([u8;32])",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "cells_key",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "entries",
+        "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+        "params": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "name": "Occupied",
+                "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })",
+                "sub": [
+                  {
+                    "info": 7,
+                    "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }",
+                    "sub": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "key",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 7,
+                        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                        "sub": [
+                          {
+                            "info": 2,
+                            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "name": "None",
+                                "type": "Null"
+                              },
+                              {
+                                "info": 8,
+                                "name": "Some",
+                                "type": "(u32)",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32",
+                                    "index": 0
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "begin",
+                            "params": [
+                              {
+                                "info": 5,
+                                "type": "u32"
+                              }
+                            ]
+                          },
+                          {
+                            "info": 2,
+                            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "name": "None",
+                                "type": "Null"
+                              },
+                              {
+                                "info": 8,
+                                "name": "Some",
+                                "type": "(u32)",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32",
+                                    "index": 0
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "end",
+                            "params": [
+                              {
+                                "info": 5,
+                                "type": "u32"
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "val",
+                        "namespace": "shared_vec"
+                      }
+                    ],
+                    "name": "OccupiedEntry",
+                    "namespace": "ink_core::storage::collections::hash_map::impls",
+                    "params": [
+                      {
+                        "info": 8,
+                        "type": "AccountId",
+                        "sub": [
+                          {
+                            "info": 10,
+                            "type": "[u8;32]",
+                            "ext": {
+                              "length": 32,
+                              "type": ""
+                            },
+                            "sub": {
+                              "info": 5,
+                              "type": "u8"
+                            },
+                            "index": 0
+                          }
+                        ],
+                        "name": "AccountId",
+                        "namespace": "ink_core::env::srml::types"
+                      },
+                      {
+                        "info": 7,
+                        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                        "sub": [
+                          {
+                            "info": 2,
+                            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "name": "None",
+                                "type": "Null"
+                              },
+                              {
+                                "info": 8,
+                                "name": "Some",
+                                "type": "(u32)",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32",
+                                    "index": 0
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "begin",
+                            "params": [
+                              {
+                                "info": 5,
+                                "type": "u32"
+                              }
+                            ]
+                          },
+                          {
+                            "info": 2,
+                            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "name": "None",
+                                "type": "Null"
+                              },
+                              {
+                                "info": 8,
+                                "name": "Some",
+                                "type": "(u32)",
+                                "sub": [
+                                  {
+                                    "info": 5,
+                                    "type": "u32",
+                                    "index": 0
+                                  }
+                                ]
+                              }
+                            ],
+                            "name": "end",
+                            "params": [
+                              {
+                                "info": 5,
+                                "type": "u32"
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "Access",
+                        "namespace": "shared_vec"
+                      }
+                    ],
+                    "index": 0
+                  }
+                ]
+              },
+              {
+                "info": 5,
+                "name": "Removed",
+                "type": "Null"
+              }
+            ],
+            "name": "Entry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                "sub": [
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "begin",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  },
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "end",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  }
+                ],
+                "name": "Access",
+                "namespace": "shared_vec"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "name": "HashMap",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "begin",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "end",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "Access",
+        "namespace": "shared_vec"
+      }
+    ]
+  },
+  {
+    "info": 8,
+    "type": "AccountId",
+    "sub": [
+      {
+        "info": 10,
+        "type": "[u8;32]",
+        "ext": {
+          "length": 32,
+          "type": ""
+        },
+        "sub": {
+          "info": 5,
+          "type": "u8"
+        },
+        "index": 0
+      }
+    ],
+    "name": "AccountId",
+    "namespace": "ink_core::env::srml::types"
+  },
+  {
+    "info": 10,
+    "type": "[u8;32]",
+    "ext": {
+      "length": 32,
+      "type": ""
+    },
+    "sub": {
+      "info": 5,
+      "type": "u8"
+    }
+  },
+  {
+    "info": 5,
+    "type": "u8"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+    "sub": [
+      {
+        "info": 2,
+        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+        "sub": [
+          {
+            "info": 5,
+            "name": "None",
+            "type": "Null"
+          },
+          {
+            "info": 8,
+            "name": "Some",
+            "type": "(u32)",
+            "sub": [
+              {
+                "info": 5,
+                "type": "u32",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "name": "begin",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
+          }
+        ]
+      },
+      {
+        "info": 2,
+        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+        "sub": [
+          {
+            "info": 5,
+            "name": "None",
+            "type": "Null"
+          },
+          {
+            "info": 8,
+            "name": "Some",
+            "type": "(u32)",
+            "sub": [
+              {
+                "info": 5,
+                "type": "u32",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "name": "end",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
+          }
+        ]
+      }
+    ],
+    "name": "Access",
+    "namespace": "shared_vec"
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+    "sub": [
+      {
+        "info": 5,
+        "name": "None",
+        "type": "Null"
+      },
+      {
+        "info": 8,
+        "name": "Some",
+        "type": "(u32)",
+        "sub": [
+          {
+            "info": 5,
+            "type": "u32",
+            "index": 0
+          }
+        ]
+      }
+    ],
+    "name": "Option",
+    "params": [
+      {
+        "info": 5,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 5,
+    "type": "u32"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+    "sub": [
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+        "sub": [
+          {
+            "info": 8,
+            "type": "([u8;32])",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::cell::sync_cell",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
+          }
+        ]
+      }
+    ],
+    "name": "Value",
+    "namespace": "ink_core::storage::value",
+    "params": [
+      {
+        "info": 5,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncCell",
+    "namespace": "ink_core::storage::cell::sync_cell",
+    "params": [
+      {
+        "info": 5,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 8,
+    "type": "([u8;32])",
+    "sub": [
+      {
+        "info": 10,
+        "type": "[u8;32]",
+        "ext": {
+          "length": 32,
+          "type": ""
+        },
+        "sub": {
+          "info": 5,
+          "type": "u8"
+        },
+        "index": 0
+      }
+    ],
+    "name": "Key",
+    "namespace": "ink_core::storage::key"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cells_key",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncChunk",
+    "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+    "params": [
+      {
+        "info": 2,
+        "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }",
+        "sub": [
+          {
+            "info": 8,
+            "name": "Occupied",
+            "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })",
+            "sub": [
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }",
+                "sub": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "key",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 7,
+                    "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                    "sub": [
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "begin",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      },
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "end",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "val",
+                    "namespace": "shared_vec"
+                  }
+                ],
+                "name": "OccupiedEntry",
+                "namespace": "ink_core::storage::collections::hash_map::impls",
+                "params": [
+                  {
+                    "info": 8,
+                    "type": "AccountId",
+                    "sub": [
+                      {
+                        "info": 10,
+                        "type": "[u8;32]",
+                        "ext": {
+                          "length": 32,
+                          "type": ""
+                        },
+                        "sub": {
+                          "info": 5,
+                          "type": "u8"
+                        },
+                        "index": 0
+                      }
+                    ],
+                    "name": "AccountId",
+                    "namespace": "ink_core::env::srml::types"
+                  },
+                  {
+                    "info": 7,
+                    "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                    "sub": [
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "begin",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      },
+                      {
+                        "info": 2,
+                        "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "name": "None",
+                            "type": "Null"
+                          },
+                          {
+                            "info": 8,
+                            "name": "Some",
+                            "type": "(u32)",
+                            "sub": [
+                              {
+                                "info": 5,
+                                "type": "u32",
+                                "index": 0
+                              }
+                            ]
+                          }
+                        ],
+                        "name": "end",
+                        "params": [
+                          {
+                            "info": 5,
+                            "type": "u32"
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "Access",
+                    "namespace": "shared_vec"
+                  }
+                ],
+                "index": 0
+              }
+            ]
+          },
+          {
+            "info": 5,
+            "name": "Removed",
+            "type": "Null"
+          }
+        ],
+        "name": "Entry",
+        "namespace": "ink_core::storage::collections::hash_map::impls",
+        "params": [
+          {
+            "info": 8,
+            "type": "AccountId",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "AccountId",
+            "namespace": "ink_core::env::srml::types"
+          },
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+            "sub": [
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                "sub": [
+                  {
+                    "info": 5,
+                    "name": "None",
+                    "type": "Null"
+                  },
+                  {
+                    "info": 8,
+                    "name": "Some",
+                    "type": "(u32)",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "type": "u32",
+                        "index": 0
+                      }
+                    ]
+                  }
+                ],
+                "name": "begin",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              },
+              {
+                "info": 2,
+                "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                "sub": [
+                  {
+                    "info": 5,
+                    "name": "None",
+                    "type": "Null"
+                  },
+                  {
+                    "info": 8,
+                    "name": "Some",
+                    "type": "(u32)",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "type": "u32",
+                        "index": 0
+                      }
+                    ]
+                  }
+                ],
+                "name": "end",
+                "params": [
+                  {
+                    "info": 5,
+                    "type": "u32"
+                  }
+                ]
+              }
+            ],
+            "name": "Access",
+            "namespace": "shared_vec"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"Occupied\": \"({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })\", \"Removed\": \"Null\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "name": "Occupied",
+        "type": "({ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }<AccountId, { \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} })",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "key",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                "sub": [
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "begin",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  },
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "end",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  }
+                ],
+                "name": "val",
+                "namespace": "shared_vec"
+              }
+            ],
+            "name": "OccupiedEntry",
+            "namespace": "ink_core::storage::collections::hash_map::impls",
+            "params": [
+              {
+                "info": 8,
+                "type": "AccountId",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "AccountId",
+                "namespace": "ink_core::env::srml::types"
+              },
+              {
+                "info": 7,
+                "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+                "sub": [
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "begin",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  },
+                  {
+                    "info": 2,
+                    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+                    "sub": [
+                      {
+                        "info": 5,
+                        "name": "None",
+                        "type": "Null"
+                      },
+                      {
+                        "info": 8,
+                        "name": "Some",
+                        "type": "(u32)",
+                        "sub": [
+                          {
+                            "info": 5,
+                            "type": "u32",
+                            "index": 0
+                          }
+                        ]
+                      }
+                    ],
+                    "name": "end",
+                    "params": [
+                      {
+                        "info": 5,
+                        "type": "u32"
+                      }
+                    ]
+                  }
+                ],
+                "name": "Access",
+                "namespace": "shared_vec"
+              }
+            ],
+            "index": 0
+          }
+        ]
+      },
+      {
+        "info": 5,
+        "name": "Removed",
+        "type": "Null"
+      }
+    ],
+    "name": "Entry",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "begin",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "end",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "Access",
+        "namespace": "shared_vec"
+      }
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"key\": \"AccountId\", \"val\": \"{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "key",
+        "namespace": "ink_core::env::srml::types"
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "begin",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "end",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "val",
+        "namespace": "shared_vec"
+      }
+    ],
+    "name": "OccupiedEntry",
+    "namespace": "ink_core::storage::collections::hash_map::impls",
+    "params": [
+      {
+        "info": 8,
+        "type": "AccountId",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "AccountId",
+        "namespace": "ink_core::env::srml::types"
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"begin\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\", \"end\": \"{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "begin",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "info": 2,
+            "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(u32)\"} }",
+            "sub": [
+              {
+                "info": 5,
+                "name": "None",
+                "type": "Null"
+              },
+              {
+                "info": 8,
+                "name": "Some",
+                "type": "(u32)",
+                "sub": [
+                  {
+                    "info": 5,
+                    "type": "u32",
+                    "index": 0
+                  }
+                ]
+              }
+            ],
+            "name": "end",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "Access",
+        "namespace": "shared_vec"
+      }
+    ]
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"len\": \"{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }<u32\", \"cells\": \"{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }<i32\"} }",
+    "sub": [
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cell\": \"{ \"_enum\": {\"cell\": \"([u8;32])\"} }<u32\"} }",
+        "sub": [
+          {
+            "info": 7,
+            "type": "{ \"_enum\": {\"cell\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 8,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 10,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": ""
+                    },
+                    "sub": {
+                      "info": 5,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::cell::sync_cell",
+            "params": [
+              {
+                "info": 5,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "len",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 5,
+            "type": "u32"
+          }
+        ]
+      },
+      {
+        "info": 7,
+        "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+        "sub": [
+          {
+            "info": 8,
+            "type": "([u8;32])",
+            "sub": [
+              {
+                "info": 10,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": ""
+                },
+                "sub": {
+                  "info": 5,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "cells_key",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "cells",
+        "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+        "params": [
+          {
+            "info": 5,
+            "type": "i32"
+          }
+        ]
+      }
+    ],
+    "name": "Vec",
+    "namespace": "ink_core::storage::collections::vec::impls",
+    "params": [
+      {
+        "info": 5,
+        "type": "i32"
+      }
+    ]
+  },
+  {
+    "info": 5,
+    "type": "i32"
+  },
+  {
+    "info": 7,
+    "type": "{ \"_enum\": {\"cells_key\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 10,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": ""
+            },
+            "sub": {
+              "info": 5,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cells_key",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncChunk",
+    "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
+    "params": [
+      {
+        "info": 5,
+        "type": "i32"
+      }
+    ]
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"Ok\": \"(())\", \"Err\": \"(u32)\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "name": "Ok",
+        "type": "(())",
+        "sub": [
+          {
+            "info": 8,
+            "type": "()",
+            "sub": [],
+            "index": 0
+          }
+        ]
+      },
+      {
+        "info": 8,
+        "name": "Err",
+        "type": "(u32)",
+        "sub": [
+          {
+            "info": 5,
+            "type": "u32",
+            "index": 0
+          }
+        ]
+      }
+    ],
+    "name": "Result",
+    "params": [
+      {
+        "info": 8,
+        "type": "()",
+        "sub": []
+      },
+      {
+        "info": 5,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 8,
+    "type": "()",
+    "sub": []
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"Ok\": \"(i32)\", \"Err\": \"(u32)\"} }",
+    "sub": [
+      {
+        "info": 8,
+        "name": "Ok",
+        "type": "(i32)",
+        "sub": [
+          {
+            "info": 5,
+            "type": "i32",
+            "index": 0
+          }
+        ]
+      },
+      {
+        "info": 8,
+        "name": "Err",
+        "type": "(u32)",
+        "sub": [
+          {
+            "info": 5,
+            "type": "u32",
+            "index": 0
+          }
+        ]
+      }
+    ],
+    "name": "Result",
+    "params": [
+      {
+        "info": 5,
+        "type": "i32"
+      },
+      {
+        "info": 5,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 2,
+    "type": "{ \"_enum\": { \"None\": \"Null\", \"Some\": \"(i32)\"} }",
+    "sub": [
+      {
+        "info": 5,
+        "name": "None",
+        "type": "Null"
+      },
+      {
+        "info": 8,
+        "name": "Some",
+        "type": "(i32)",
+        "sub": [
+          {
+            "info": 5,
+            "type": "i32",
+            "index": 0
+          }
+        ]
+      }
+    ],
+    "name": "Option",
+    "params": [
+      {
+        "info": 5,
+        "type": "i32"
+      }
+    ]
+  }
+]

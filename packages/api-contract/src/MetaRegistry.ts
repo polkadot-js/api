@@ -55,9 +55,12 @@ export default class MetaRegistry {
     return !!this.typeDefs[index - 1];
   }
 
-  public typeDefAt (index: t.TypeIndex): t.TypeDef {
+  public typeDefAt (index: t.TypeIndex, extra: Pick<t.TypeDef, never> = {}): t.TypeDef {
     assert(this.hasTypeDefAt(index), `Invalid TypeDef index requested: ${index}`);
-    return this.typeDefs[index - 1];
+    return {
+      ...this.typeDefs[index - 1],
+      ...extra
+    };
   }
 
   private typeDefIdFields ({ id }: t.MetaType): Pick<t.TypeDef, never> {

@@ -39,9 +39,11 @@ export interface TypeDefExtEnumDiscriminant {
 export interface TypeDef {
   info: TypeDefInfo;
   index?: number;
+  displayName?: string;
   ext?: TypeDefExtVecFixed | TypeDefExtEnumDiscriminant; // add additional here as required
   name?: string;
   namespace?: string;
+  params?: TypeDef[];
   type: string;
   sub?: TypeDef | TypeDef[];
 }

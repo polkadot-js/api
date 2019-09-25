@@ -4,6 +4,14 @@
 
 import { TypeDef } from '../types';
 
+export function encodeTypeWithParams ({ type, params }: TypeDef): string {
+  if (!params || params.length === 0) {
+    return type;
+  }
+
+  return `${type}<${params.map(({ type }) => type).join(', ')}`;
+}
+
 export function encodeEnum (sub: TypeDef[]): string {
   const isClikeEnum = sub.reduce(
     (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
@@ -18,25 +26,25 @@ export function encodeEnum (sub: TypeDef[]): string {
     }]`;
   }
 
-  return `{${
+  return `{ "_enum": { ${
     sub
-      .map(({ name, type }: TypeDef): string => `"${name}": ${type}`)
+      .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
       .join(', ')
-  }}`;
+  }} }`;
 }
 
 export function encodeStruct (sub: TypeDef[]): string {
-  return `{${
+  return `{ "_enum": {${
     sub
-      .map(({ name, type }: TypeDef): string => `"${name}": ${type}`)
+      .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
       .join(', ')
-  }}`;
+  }} }`;
 }
 
 export function encodeTuple (sub: TypeDef[]): string {
   return `(${
     sub
-      .map(({ type }: TypeDef): string => type)
+      .map((type: TypeDef): string => encodeTypeWithParams(type))
       .join(', ')
   })`;
 }

@@ -319,7 +319,7 @@ function createImports ({ types }: { types: Record<string, any> } = { types: {} 
   const primitiveTypes: TypeExist = {};
   const typesTypes: TypeExist = {};
   const interfaces = Object.entries(types).map(([name, type]): [string, string] => {
-    const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
+    const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), { name });
 
     return [name, generators[def.info](def, { codecTypes, localTypes, ownTypes, primitiveTypes, typesTypes })];
   });

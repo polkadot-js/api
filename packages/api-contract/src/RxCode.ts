@@ -5,7 +5,7 @@
 import { SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ContractABI } from './types';
+import { ContractABIPre } from './types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -50,7 +50,7 @@ class CodePutCodeResult extends SubmittableResult {
 export default class RxCode extends RxBase {
   public readonly code: Uint8Array;
 
-  public constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
+  public constructor (api: ApiRx, abi: ContractABIPre | Abi, wasm: string | Uint8Array) {
     super(api, abi);
 
     this.code = u8aToU8a(wasm);
