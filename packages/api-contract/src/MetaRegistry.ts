@@ -100,29 +100,27 @@ export default class MetaRegistry {
   private typeDefDefFields (metaType: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
     assert(!(metaType.def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
-    let typeDef: Pick<t.TypeDef, never> = {};
     if (this.isBuiltin(metaType)) {
-      typeDef = this.typeDefForBuiltin(metaType, typeIndex);
+      return this.typeDefForBuiltin(metaType, typeIndex);
     }
 
     if (this.isEnum(metaType)) {
-      typeDef = this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
+      return this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
     }
 
     if (this.isClikeEnum(metaType)) {
-      typeDef = this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
+      return this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
     }
 
     if (this.isStruct(metaType)) {
-      typeDef = this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
+      return this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
     }
 
     if (this.isTupleStruct(metaType)) {
-      typeDef = this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
+      return this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
     }
 
-    assert(Object.keys(typeDef).length > 0, 'Error decoding metadata type');
-    return typeDef || {};
+    return {};
   }
 
   public typeDefFromMetaType (metaType: t.MetaType, typeIndex?: t.TypeIndex): t.TypeDef {
@@ -154,9 +152,7 @@ export default class MetaRegistry {
   }
 
   private typeDefForBuiltin ({ id }: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
-    if (!id) {
-      throw new Error('Invalid builtin type metadata found');
-    }
+    assert(!!id, 'Invalid builtin type metadata found');
 
     // builtin primitive type
     if (typeof id === 'string') {

@@ -8,6 +8,7 @@ import { isString } from '@polkadot/util';
 
 export function typeDefToString ({ params = [], type, displayName = type }: TypeDef): string {
   const paramsText = params.map(param => typeDefToString(param)).join(', ');
+
   if (['Option', 'Result', 'Vec'].includes(displayName)) {
     return `${displayName}<${paramsText}>`;
   } else if (isString(displayName)) {

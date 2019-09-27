@@ -34,11 +34,11 @@ export function encodeEnum (sub: TypeDef[]): string {
 }
 
 export function encodeStruct (sub: TypeDef[]): string {
-  return `{ "_enum": {${
+  return `{ ${
     sub
       .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
       .join(', ')
-  }} }`;
+  } }`;
 }
 
 export function encodeTuple (sub: TypeDef[]): string {

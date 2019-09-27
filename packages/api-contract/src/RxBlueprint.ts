@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiRx, SubmittableResult } from '@polkadot/api';
 import { createType } from '@polkadot/types';
+import { assert } from '@polkadot/util';
 
 import Abi from './Abi';
 import RxBase from './RxBase';
@@ -43,10 +44,11 @@ export default class Blueprint extends RxBase {
     this.codeHash = createType('Hash', codeHash);
   }
 
-  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
+  public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
+    assert(!!this.abi.constructors[constructorIndex], `Specified constructor index ${constructorIndex} does not exist`);
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription => {
       return this.apiContracts
-        .create(endowment, maxGas, this.codeHash, this.abi.constructors[0](...params))
+        .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
         .signAndSend(account)
         .pipe(map(this.createResult));
     };

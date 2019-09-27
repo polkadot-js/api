@@ -8,25 +8,6 @@ import { stringCamelCase } from '@polkadot/util';
 import ContractRegistry from './ContractRegistry';
 
 export default class ContractAbi extends ContractRegistry implements InterfaceAbi {
-  private decode (abiPre: ContractABIPre): [ContractABI, ContractABIFn[], AbiMessages] {
-    this.validateAbi(abiPre);
-
-    const abi = this.convertAbi(abiPre);
-    const constructors = abi.contract.constructors.map(
-      (constructor, index): ContractABIFn => {
-        return this.createMethod(`constructor ${index}`, constructor);
-      }
-    );
-    const messages: AbiMessages = {};
-    abi.contract.messages.forEach((method): void => {
-      const name = stringCamelCase(method.name);
-
-      messages[name] = this.createMethod(`messages.${name}`, method);
-    });
-
-    return [abi, constructors, messages];
-  }
-
   public readonly abi: ContractABI;
 
   public readonly constructors: ContractABIFn[];
@@ -35,6 +16,26 @@ export default class ContractAbi extends ContractRegistry implements InterfaceAb
 
   public constructor (abi: ContractABIPre) {
     super(abi);
-    [this.abi, this.constructors, this.messages] = this.decode(abi);
+    [this.abi, this.constructors, this.messages] = this.decodeAbi(abi);
+  }
+
+  private decodeAbi (abiPre: ContractABIPre): [ContractABI, ContractABIFn[], AbiMessages] {
+    this.validateAbi(abiPre);
+
+    const abi = this.convertAbi(abiPre);
+    const constructors = abi.contract.constructors.map(
+      (constructor, index): ContractABIFn => {
+        return this.createMethod(`constructor ${index}`, constructor);
+      }
+    );
+
+    const messages: AbiMessages = {};
+    abi.contract.messages.forEach((method): void => {
+      const name = stringCamelCase(method.name);
+
+      messages[name] = this.createMethod(`messages.${name}`, method);
+    });
+
+    return [abi, constructors, messages];
   }
 }
