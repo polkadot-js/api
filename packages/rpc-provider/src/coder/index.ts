@@ -4,7 +4,7 @@
 
 import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isUndefined, isNumber } from '@polkadot/util';
+import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 
 export default class RpcCoder {
   private id = 0;
@@ -54,7 +54,7 @@ export default class RpcCoder {
       const { code, data, message } = error;
       const _data = isUndefined(data)
         ? ''
-        : ' (' + `${data}`.substr(0, 10) + ')';
+        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 22);
 
       throw new Error(`${code}: ${message}${_data}`);
     }
