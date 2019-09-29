@@ -1,5 +1,6 @@
-# 0.93.0-beta.x
+# 0.93.1
 
+- Support for Kusama CC2
 - In extrinsic submission, use `rpc.account.nextIndex` to retrieve the nonce when available
 - For TypeScript users `api.query.*.*` is now properly typed for default Substrate calls, i.e. `api.query.balances.freeBalance(...)` will return a `Balance` type. Additionally the `api.queryMulti` and `.multi` on queries not allow generic type params.
 - Add `api.rpc.accounts.nextIndex`, `api.rpc.contracts.call` and `api.rpc.rpc.methods` calls. Optional calls (such as account/contracts) is decorated based on the results from `rpc.methods`, so they don't show up on nodes where they are not active.
