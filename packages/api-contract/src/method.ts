@@ -5,13 +5,13 @@
 import { Constructor } from '@polkadot/types/types';
 import { ContractABIFnArg } from './types';
 
-import { createClass, typeDefToString } from '@polkadot/types';
+import { createClass, formatType } from '@polkadot/types';
 
 export function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
   return createClass(
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = typeDefToString(type);
+        base[name] = formatType(type);
 
         return base;
       }, baseDef)

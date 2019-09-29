@@ -64,8 +64,13 @@ export function formatVec (inner: string): string {
 /**
  * Correctly format a given type
  */
-export function formatType (type: string, imports: TypeImports): string {
-  const typeDef = getTypeDef(type);
+export function formatType (type: string | TypeDef, imports?: TypeImports): string {
+  let typeDef;
+  if (typeof type === 'string') {
+    typeDef = getTypeDef(type);
+  } else {
+    typeDef = type;
+  }
 
   switch (typeDef.info) {
     case TypeDefInfo.Compact: {
@@ -75,13 +80,13 @@ export function formatType (type: string, imports: TypeImports): string {
       return formatOption(formatType((typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Plain: {
-      return type;
+      return typeDef.type;
     }
     case TypeDefInfo.Vec: {
       return formatVec(formatType((typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
-      setImports(imports, ['ITuple']);
+      imports && setImports(imports, ['ITuple']);
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
@@ -90,7 +95,7 @@ export function formatType (type: string, imports: TypeImports): string {
       );
     }
     case TypeDefInfo.VecFixed: {
-      setImports(imports, ['U8a']);
+      imports && setImports(imports, ['U8a']);
 
       // `[u8, 32]` gets transformed into U8a
       return 'U8a';
