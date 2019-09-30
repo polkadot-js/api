@@ -4,7 +4,7 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import * as t from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
@@ -48,7 +48,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
-  protected _genesisHash?: Hash;
+  protected _genesisHash?: t.Hash;
 
   protected _isConnected: BehaviorSubject<boolean>;
 
@@ -68,7 +68,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _runtimeMetadata?: Metadata;
 
-  protected _runtimeVersion?: RuntimeVersion;
+  protected _runtimeVersion?: t.RuntimeVersion;
 
   protected _rx: Partial<ApiInterfaceRx> = {};
 
@@ -212,7 +212,7 @@ export default abstract class Decorate<ApiType> extends Events {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, creator: (value: t.Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
@@ -249,10 +249,10 @@ export default abstract class Decorate<ApiType> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
+    decorated.at = decorateMethod((hash: t.Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
+    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<t.Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
