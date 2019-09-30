@@ -1,6 +1,6 @@
 # Complex transactions
 
-Up till now we have focussed on the base operation of transactions. There are however some more complex operations that deserve some more information, for instance when doing either democracy proposals or excuting sudo calls, in both these cases the transaction wraps a call or proposal to be evaluated.
+Up till now we have focussed on the base operation of transactions. There are however some more complex operations that deserve some more information, for instance when doing either democracy proposals or executing sudo calls, in both these cases the transaction wraps a call or proposal to be evaluated.
 
 ## Sudo use
 
@@ -41,4 +41,4 @@ In the above example, all we need to provide is a the fields for the `ValidatorP
 
 ## Understanding types
 
-As has been very apparent in all the preceding sections, the management of types is what allows the API to communicate with the node. Most values are in a [binary SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and it is the reponsibility of the API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).
+As has been very apparent in all the preceding sections, the management of types is what allows the API to communicate with the node. Most values are in a [binary SCALE-encoded format](https://github.com/paritytech/parity-scale-codec) and it is the responsibility of the API is to encode and decode these. In the next section we will [take a look at what interfaces the API provides around types](types.basics.md).

@@ -4,7 +4,7 @@ Circling back to metadata, by default the metadata information (at this point in
 
 Therefore to cater for all types, a mapping in done on the [@polkadot/types library](https://github.com/polkadot-js/api/tree/master/packages/types/src/interfaces) to define each of the types and align with their underlying structures as it maps to a default Polkadot or Substrate chain.
 
-Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Polkadot/Substrate is the addition of types as they appear and gets used in the Rust codebases.
+Additionally, the API contains some logic for chain type detection, for instance in the case of Substrate 1.x based chains, it will define `BlockNumber` & `Index` (nonce) as a `u64`, while for current-generation chains, these will be defined as `u32`. Some of the work in maintaining the API for Polkadot/Substrate is the addition of types as they appear and gets used in the Rust codebase.
 
 There is a the [recommendation](install.md#betas) to use a `@polkadot/api@beta` should you wish to track the master branches of Polkadot or Substrate, since master changes for the addition of new types do not make it into a stable release immediately.
 
@@ -24,7 +24,7 @@ const api = await ApiPromise.create({
 });
 ```
 
-The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean that immediately the API will treat all occurences of `Balance` not as the default, but rather as the defined size.
+The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean that immediately the API will treat all occurrences of `Balance` not as the default, but rather as the defined size.
 
 ## User-defined types
 
@@ -52,7 +52,7 @@ const api = await ApiPromise.create({
 })
 ```
 
-The example above defines non-primitive types (as found in the specific implementation) as structs. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Here you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
+The example above defines non-primitive types (as found in the specific implementation) as structures. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Here you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
 
 One form of types that appear regularly is enums, these can be defined as follow -
 
@@ -137,6 +137,6 @@ const api = await ApiPromise.create({
 
 `Balance` would be defined as an `u128` at the end. Effectively based on the flow it is first registered as a `u32`, then overridden as a `u64` and finally overridden once more as a `u128` by the chain types.
 
-## Using with TypeScript
+## Extending extrinsics
 
-The API is built with TypeScript (as are all projects in the [polkadot-js organization](https://github.com/polkadot-js/)) and as such allows developers using TS to have access to all the type interfaces defined on the chain, as well as having access to typings on interacting with the `api.*` namespaces. In the next section we will provide an overview of [what is available in terms of types and TypeScript](typescript.md).
+On customized chains, it is possible to [extend the format of the extrinsics and extrinsic payload as customized on the chain](extrinsic.extend.md), next up we will look at this advanced use-case.

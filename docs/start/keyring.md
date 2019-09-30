@@ -6,7 +6,7 @@ This section will give a quick introduction into the Keyring, including the addi
 
 They [@polkadot/keyring](https://github.com/polkadot-js/common/tree/master/packages/keyring) keyring is included directly with the API as a dependency, so it is directly importable (since the 0.92 version) alongside the API.
 
-If you do opt to install it seperately, ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `util-crypto 1.4.1`, it would make sense to include `keyring 1.4.1` as the installed version. (This helps in making sure extra versions of the libraries are not included as duplicates, especially in the case where bundles are created. Additionally, this makes sure that weird side-effects in the WASM initialization is avoided.)
+If you do opt to install it separately, ensure that the version of `@polkadot/util-crypto` that is included with the API matches with the version of `@polkadot/keyring` installed. So if the API depends on `util-crypto 1.4.1`, it would make sense to include `keyring 1.4.1` as the installed version. (This helps in making sure extra versions of the libraries are not included as duplicates, especially in the case where bundles are created. Additionally, this makes sure that weird side-effects in the WASM initialization is avoided.)
 
 ## Creating a keyring instance
 
@@ -27,7 +27,7 @@ In the above example, the import is self-explanatory. Upon creation we pass thro
 
 So effectively, when creating an account and not specifying a type, it will be `sr25519` by default based on the above construction params, however we can also add an `ed25519` account and use it transparently in the same keyring.
 
-One "trick" that is done implictly in the above sample is that that keyring is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
+One "trick" that is done implicitly in the above sample is that that keyring is only initialized after the API. In the case of `sr25519` the keyring relies on a [WASM build](https://github.com/polkadot-js/wasm) of the [schnorrkel libraries](https://github.com/w3f/schnorrkel). Since the API inlitialization is already async, it initializes the WASM libraries are part of the setup.
 
 However, this initialization can also be done explicitly, mostly for more advances use-cases, or in cases where the API won't be attached until much later -
 
@@ -52,7 +52,7 @@ The recommended catch-all approach to adding accounts is via `.addFromUri(<suri>
 // Some mnemonic phrase
 const PHRASE = 'entire material egg meadow latin bargain dutch coral blood melt acoustic thought';
 
-// Add an account, straight menemonic
+// Add an account, straight mnemonic
 const newPair = keyring.addFromUri(PHRASE);
 
 // (Advanced) add an account with a derivation path (hard & soft)
@@ -62,7 +62,7 @@ const newDeri = keyring.addFromUri(`${PHRASE}//hard-derived/soft-derived`);
 const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
 ```
 
-The above additions cater for most of the usecases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Polkadot/Substrate with a `--dev` flag.
+The above additions cater for most of the use cases and aligns with the you would find in the Substrate `subkey`. Be very wary of the last "dev-seed" option, it is explicitly added for `subkey` compatibility and implies using the "known-everywhere" dev seed. It is however useful when running Polkadot/Substrate with a `--dev` flag.
 
 ## Adding accounts with raw seeds
 
