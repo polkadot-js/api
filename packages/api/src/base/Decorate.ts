@@ -4,6 +4,9 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+// Unfortunately we cannot import individual interfaces here, because the
+// return type of `decorateDerive` needs to have all interfaces. See
+// https://github.com/polkadot-js/api/issues/1425 for more info.
 import * as t from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
