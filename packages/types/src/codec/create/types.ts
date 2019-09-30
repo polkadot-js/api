@@ -52,6 +52,15 @@ export type TypeIndex = number;
 
 export type StringIndex = number;
 
+export enum MetaTypeInfo {
+  Builtin,
+  Enum,
+  ClikeEnum,
+  Struct,
+  TupleStruct,
+  Null
+}
+
 export type MetaTypeIdPrimitive = string;
 
 export type MetaTypeIdTuple = TypeIndex[];

@@ -9,6 +9,15 @@ import { encodeEnum, encodeStruct, encodeTuple } from '@polkadot/types';
 
 const SPECIAL_TYPES = ['AccountId', 'Balance'];
 
+const {
+  Builtin,
+  ClikeEnum,
+  Enum,
+  Struct,
+  TupleStruct,
+  Null
+} = t.MetaTypeInfo;
+
 export default class MetaRegistry {
   private _strings: string[] = [];
 
@@ -100,27 +109,21 @@ export default class MetaRegistry {
   private typeDefDefFields (metaType: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
     assert(!(metaType.def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
-    if (this.isBuiltin(metaType)) {
-      return this.typeDefForBuiltin(metaType, typeIndex);
+    switch (this.detectedType(metaType)) {
+      case Builtin:
+        return this.typeDefForBuiltin(metaType, typeIndex);
+      case Enum:
+        return this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
+      case ClikeEnum:
+        return this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
+      case Struct:
+        return this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
+      case TupleStruct:
+        return this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
+      case Null:
+      default:
+        throw new Error(`Invalid type detected at index ${typeIndex}`);
     }
-
-    if (this.isEnum(metaType)) {
-      return this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
-    }
-
-    if (this.isClikeEnum(metaType)) {
-      return this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
-    }
-
-    if (this.isStruct(metaType)) {
-      return this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
-    }
-
-    if (this.isTupleStruct(metaType)) {
-      return this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
-    }
-
-    return {};
   }
 
   public typeDefFromMetaType (metaType: t.MetaType, typeIndex?: t.TypeIndex): t.TypeDef {
@@ -147,8 +150,28 @@ export default class MetaRegistry {
     return this.typeDefAt(typeIndex)!;
   }
 
-  private isBuiltin ({ def }: t.MetaType): boolean {
-    return def === 'builtin';
+  private detectedType ({ def }: t.MetaType): t.MetaTypeInfo {
+    if (def === 'builtin') {
+      return t.MetaTypeInfo.Builtin;
+    }
+
+    if ((def as t.MetaTypeDefEnum)['enum.variants']) {
+      return t.MetaTypeInfo.Enum;
+    }
+
+    if ((def as t.MetaTypeDefClikeEnum)['clike_enum.variants']) {
+      return t.MetaTypeInfo.ClikeEnum;
+    }
+
+    if ((def as t.MetaTypeDefStruct)['struct.fields']) {
+      return t.MetaTypeInfo.Struct;
+    }
+
+    if ((def as t.MetaTypeDefTupleStruct)['tuple_struct.types']) {
+      return t.MetaTypeInfo.TupleStruct;
+    }
+
+    return t.MetaTypeInfo.Null;
   }
 
   private typeDefForBuiltin ({ id }: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
@@ -199,11 +222,6 @@ export default class MetaRegistry {
     return {};
   }
 
-  private isEnum ({ def }: t.MetaType): boolean {
-    const { 'enum.variants': enumVariants } = def as t.MetaTypeDefEnum;
-    return !!enumVariants;
-  }
-
   private typeDefForEnum (def: t.MetaTypeDefEnum): t.TypeDef {
     const sub = def['enum.variants'].map(
       (variant): t.TypeDef => {
@@ -240,11 +258,6 @@ export default class MetaRegistry {
     };
   }
 
-  private isClikeEnum ({ def }: t.MetaType): boolean {
-    const { 'clike_enum.variants': clikeEnumVariants } = def as t.MetaTypeDefClikeEnum;
-    return !!clikeEnumVariants;
-  }
-
   private typeDefForClikeEnum (def: t.MetaTypeDefClikeEnum): Pick<t.TypeDef, never> {
     const sub = def['clike_enum.variants'].map(
       ({ name: nameIndex, discriminant }): t.TypeDef => {
@@ -262,11 +275,6 @@ export default class MetaRegistry {
       type: encodeEnum(sub),
       sub
     };
-  }
-
-  private isStruct ({ def }: t.MetaType): Pick<t.TypeDef, never> {
-    const { 'struct.fields': structFields } = def as t.MetaTypeDefStruct;
-    return !!structFields;
   }
 
   public typeDefForStruct (def: t.MetaTypeDefStruct | t.MetaTypeDefEnumVariantStruct): t.TypeDef {
@@ -294,11 +302,6 @@ export default class MetaRegistry {
       type: encodeStruct(sub),
       sub
     };
-  }
-
-  private isTupleStruct ({ def }: t.MetaType): boolean {
-    const { 'tuple_struct.types': tupleStructTypes } = def as t.MetaTypeDefTupleStruct;
-    return !!tupleStructTypes;
   }
 
   private typeDefForTupleStruct (def: t.MetaTypeDefTupleStruct | t.MetaTypeDefEnumVariantTupleStruct): t.TypeDef {

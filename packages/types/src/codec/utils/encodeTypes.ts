@@ -12,6 +12,14 @@ export function encodeTypeWithParams ({ type, params }: TypeDef): string {
   return `${type}<${params.map(({ type }) => type).join(', ')}`;
 }
 
+function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
+  return `{ ${asEnum && '"_enum": { '} ${
+    sub
+      .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
+      .join(', ')
+  }} }`;
+}
+
 export function encodeEnum (sub: TypeDef[]): string {
   const isClikeEnum = sub.reduce(
     (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
@@ -26,19 +34,11 @@ export function encodeEnum (sub: TypeDef[]): string {
     }]`;
   }
 
-  return `{ "_enum": { ${
-    sub
-      .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
-      .join(', ')
-  }} }`;
+  return encodeSubTypes(sub, true);
 }
 
 export function encodeStruct (sub: TypeDef[]): string {
-  return `{ ${
-    sub
-      .map((type: TypeDef): string => `"${type.name}": "${encodeTypeWithParams(type)}"`)
-      .join(', ')
-  } }`;
+  return encodeSubTypes(sub);
 }
 
 export function encodeTuple (sub: TypeDef[]): string {
