@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '../../codec';
-import { GenericVote, u32 } from '../../primitive';
-import { Balance } from '../runtime';
+import { Enum, Struct } from '@polkadot/types/codec';
+import { GenericVote, u32 } from '@polkadot/types/primitive';
+import { Balance } from '@polkadot/types/interfaces/runtime';
 
 /** u32 */
 export interface ApprovalFlag extends u32 {}

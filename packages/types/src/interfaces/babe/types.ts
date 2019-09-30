@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Option, Struct } from '../../codec';
-import { u32, u64 } from '../../primitive';
+import { Codec } from '@polkadot/types/types';
+import { Enum, Option, Struct } from '@polkadot/types/codec';
+import { u32, u64 } from '@polkadot/types/primitive';
 
 /** u64 */
 export interface BabeAuthorityWeight extends u64 {}

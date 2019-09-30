@@ -47,15 +47,15 @@ export default function generateInterfaceRegistry (): void {
 
   const header = createImportCode(HEADER, [
     {
-      file: './codec',
+      file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
-      file: './primitive',
+      file: '@polkadot/types/primitive',
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `./interfaces/${moduleName}`,
+      file: `@polkadot/types/interfaces/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);

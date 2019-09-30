@@ -1,11 +1,11 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Struct, Vec } from '../../codec';
-import { H256 } from '../../primitive';
-import { AccountId, BlockNumber, Hash } from '../runtime';
-import { SessionIndex } from '../session';
-import { CandidateReceipt, ParaId } from '../parachains';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { H256 } from '@polkadot/types/primitive';
+import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { SessionIndex } from '@polkadot/types/interfaces/session';
+import { CandidateReceipt, ParaId } from '@polkadot/types/interfaces/parachains';
 
 /** Struct */
 export interface BlockAttestations extends Struct {

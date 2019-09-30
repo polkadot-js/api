@@ -1,11 +1,11 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { u64 } from '../../primitive';
-import { BlockNumber } from '../runtime';
-import { AuthorityId } from '../consensus';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { u64 } from '@polkadot/types/primitive';
+import { BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** u64 */
 export interface AuthorityWeight extends u64 {}

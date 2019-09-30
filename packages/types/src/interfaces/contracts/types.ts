@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct } from '../../codec';
-import { Bytes, Null, bool, u32, u64, u8 } from '../../primitive';
-import { AccountId, Balance, BlockNumber, Hash } from '../runtime';
+import { Codec } from '@polkadot/types/types';
+import { Compact, Enum, Option, Struct } from '@polkadot/types/codec';
+import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AliveContractInfo extends Struct {
