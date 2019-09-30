@@ -29,7 +29,7 @@ The result for this call (we will deal with subscriptions in a short while), is 
 Despite the single-line format of `signAndSend`, there is a lot happening under the hood (and all of this can be manually provided) -
 
 - Based on the sender, the API will retrieve the `system.accountNonce` to determine the next nonce to use
-- The API will retrieve the current block hash and use it to create a mortal transaction, i.e. the transaction will only be valid for a limited number of blocks (by default this is 5 mins at 6s blocktimes)
+- The API will retrieve the current block hash and use it to create a mortal transaction, i.e. the transaction will only be valid for a limited number of blocks (by default this is 5 mins at 6s block times)
 - It will construct a payload and sign this, this includes the `genesisHash`, the `blockHash` for the start of the mortal era as well as the current chain `specVersion`
 - The transaction is submitted to the node
 

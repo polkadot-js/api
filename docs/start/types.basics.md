@@ -4,7 +4,7 @@ We've touched upon types in most previous sections, i.e. that these are driven b
 
 ## Everything is a type
 
-Just to re-iterate from the above. Eveything returned by the API is a type and has a consistent interface. This means that a `Vec<u32>` (an array of `u32` values) as well as a `Struct` (an pre-defined object) or an `Enum` has the same consistent base interface. Specific types types will have values, based on the type - decorated and available.
+Just to re-iterate from the above. Everything returned by the API is a type and has a consistent interface. This means that a `Vec<u32>` (an array of `u32` values) as well as a `Struct` (an pre-defined object) or an `Enum` has the same consistent base interface. Specific types types will have values, based on the type - decorated and available.
 
 As a minimum, anything returned by the API, be it a `Vec<...>`, `Option<...>`, `Struct` or any normal type will always have the following methods -
 
@@ -16,7 +16,7 @@ As a minimum, anything returned by the API, be it a `Vec<...>`, `Option<...>`, `
 
 Additionally, the following getters and utilities are available -
 
-- `.isEmpty` - `true` if the value is an all-empy value, i.e. `0` in for numbers, all-zero for Arrays (or anything `Uint8Array`), `false` is non-zero
+- `.isEmpty` - `true` if the value is an all-empty value, i.e. `0` in for numbers, all-zero for Arrays (or anything `Uint8Array`), `false` is non-zero
 - `.hash` - a `Hash` (once again with all the methods above) that is a `blake2-256` representation of the contained value
 
 ## Comparing types
@@ -63,7 +63,7 @@ As a real-world example, when an extrinsic is applied, the `Phase` enum has one 
 
 An `Option<Type>` attempts to mimic the Rust approach of having `None` and `Some` available. This means the following getters & methods are available on an `Option` -
 
-- `.isNone` - is `true` if no underlying values is warpped, effectively the same as `.isEmpty`
+- `.isNone` - is `true` if no underlying values is wrapped, effectively the same as `.isEmpty`
 - `.isSome` - this is `true` is a value is wrapped, i.e. if a `Option<u32>` has an actual underlying `u32`
 - `.unwrap()` - when `isSome`, this will return the wrapped value, i.e. for `Option<u32>`, this would return the `u32`. When the value is `isNone`, this call will throw an exception.
 - `.unwrapOr(<default value>)` - this extends `unwrap()`, returning the wrapped value when `isSome` and in the case of `isNone` it will return the `<default value>` passed.
