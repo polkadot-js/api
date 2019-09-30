@@ -139,6 +139,12 @@ export interface MetaType {
   id: MetaTypeId | null;
 }
 
+export enum MetaRegistryItem {
+  String,
+  Type,
+  TypeDef
+}
+
 export interface MetaRegistryJson {
   registry: {
     strings: string[];

@@ -20,7 +20,46 @@ const {
   Null
 } = t.MetaTypeInfo;
 
+const {
+  String,
+  Type,
+  TypeDef
+} = t.MetaRegistryItem;
+
 export default class MetaRegistry {
+  private static detectedType ({ def, id }: t.MetaType): t.MetaTypeInfo {
+    let metaTypeInfo = t.MetaTypeInfo.Null;
+    if (def === 'builtin') {
+      if (typeof id === 'string') {
+        metaTypeInfo = t.MetaTypeInfo.BuiltinPlain;
+      }
+      if (Array.isArray(id)) {
+        metaTypeInfo = t.MetaTypeInfo.BuiltinTuple;
+      }
+      if ((id as t.MetaTypeIdArray)['array.type']) {
+        metaTypeInfo = t.MetaTypeInfo.BuiltinArray;
+      }
+    }
+
+    if ((def as t.MetaTypeDefEnum)['enum.variants']) {
+      metaTypeInfo = t.MetaTypeInfo.Enum;
+    }
+
+    if ((def as t.MetaTypeDefClikeEnum)['clike_enum.variants']) {
+      metaTypeInfo = t.MetaTypeInfo.ClikeEnum;
+    }
+
+    if ((def as t.MetaTypeDefStruct)['struct.fields']) {
+      metaTypeInfo = t.MetaTypeInfo.Struct;
+    }
+
+    if ((def as t.MetaTypeDefTupleStruct)['tuple_struct.types']) {
+      metaTypeInfo = t.MetaTypeInfo.TupleStruct;
+    }
+
+    return metaTypeInfo;
+  }
+
   private _strings: string[] = [];
 
   private _types: t.MetaType[] = [];
@@ -34,42 +73,61 @@ export default class MetaRegistry {
     this._types.forEach((_, index: number): void => this.setTypeDefAtIndex(index + 1));
   }
 
-  public stringAt (index: t.StringIndex): string {
-    assert(this._strings && index <= this._strings.length, `MetaRegistry: Invalid string index ${index} found in metadata`);
+  private hasItemAt (index: number, variant: t.MetaRegistryItem): boolean {
+    switch (variant) {
+      case String:
+        return this._strings && !!this._strings[index - 1];
+      case Type:
+        return this._types && !!this._types[index - 1];
+      case TypeDef:
+        return this.typeDefs && !!this.typeDefs[index - 1];
+    }
+  }
 
-    return this._strings[index - 1];
+  private itemAt (index: number, variant: t.MetaRegistryItem): any {
+    assert(this.hasItemAt(index, variant), `MetaRegistry: Invalid ${variant} index ${index} found in metadata`);
+
+    switch (variant) {
+      case String:
+        return this._strings[index - 1];
+      case Type:
+        return this._types[index - 1];
+      case TypeDef:
+        return this.typeDefs[index - 1];
+    }
+  }
+
+  private itemsAt (indices: number[], variant: t.MetaRegistryItem): any[] {
+    return indices.map(
+      (index: number): string => {
+        return this.itemAt(index, variant);
+      }
+    );
+  }
+
+  public stringAt (index: t.StringIndex): string {
+    return this.itemAt(index, String);
   }
 
   public stringsAt (indices: t.StringIndex[]): string[] {
-    return indices.map(
-      (index: number): string => {
-        return this.stringAt(index);
-      }
-    );
+    return this.itemsAt(indices, String);
   }
 
   public typeAt (index: t.TypeIndex): t.MetaType {
-    assert(this._types && index <= this._types.length, `MetaRegistry: Invalid type index ${index} found in metadata`);
-
-    return this._types[index - 1];
+    return this.itemAt(index, Type);
   }
 
   public typesAt (indices: t.TypeIndex[]): t.MetaType[] {
-    return indices.map(
-      (index: number): t.MetaType => {
-        return this.typeAt(index);
-      }
-    );
+    return this.itemsAt(indices, Type);
   }
 
   public hasTypeDefAt (index: t.TypeIndex): boolean {
-    return !!this.typeDefs[index - 1];
+    return this.hasItemAt(index, TypeDef);
   }
 
   public typeDefAt (index: t.TypeIndex, extra: Pick<t.TypeDef, never> = {}): t.TypeDef {
-    assert(this.hasTypeDefAt(index), `Invalid TypeDef index requested: ${index}`);
     return {
-      ...this.typeDefs[index - 1],
+      ...this.itemAt(index, TypeDef),
       ...extra
     };
   }
@@ -107,25 +165,34 @@ export default class MetaRegistry {
   private typeDefDefFields (metaType: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
     assert(!(metaType.def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
-    switch (this.detectedType(metaType)) {
+    let typeDef;
+    switch (MetaRegistry.detectedType(metaType)) {
       case BuiltinPlain:
-        return this.typeDefForBuiltinPlain(metaType.id as string);
+        typeDef = this.typeDefForBuiltinPlain(metaType.id as string);
+        break;
       case BuiltinTuple:
-        return this.typeDefForBuiltinTuple(metaType.id as t.TypeIndex[]);
+        typeDef = this.typeDefForBuiltinTuple(metaType.id as t.TypeIndex[]);
+        break;
       case BuiltinArray:
-        return this.typeDefForBuiltinArray(metaType.id as t.MetaTypeIdArray, typeIndex);
+        typeDef = this.typeDefForBuiltinArray(metaType.id as t.MetaTypeIdArray, typeIndex);
+        break;
       case Enum:
-        return this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
+        typeDef = this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
+        break;
       case ClikeEnum:
-        return this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
+        typeDef = this.typeDefForClikeEnum(metaType.def as t.MetaTypeDefClikeEnum);
+        break;
       case Struct:
-        return this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
+        typeDef = this.typeDefForStruct(metaType.def as t.MetaTypeDefStruct);
+        break;
       case TupleStruct:
-        return this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
+        typeDef = this.typeDefForTupleStruct(metaType.def as t.MetaTypeDefTupleStruct);
+        break;
       case Null:
       default:
         throw new Error(`Invalid type detected at index ${typeIndex}`);
     }
+    return typeDef;
   }
 
   public typeDefFromMetaType (metaType: t.MetaType, typeIndex?: t.TypeIndex): t.TypeDef {
@@ -150,39 +217,6 @@ export default class MetaRegistry {
       this.setTypeDefAtIndex(typeIndex);
     }
     return this.typeDefAt(typeIndex)!;
-  }
-
-  private detectedType ({ def, id }: t.MetaType): t.MetaTypeInfo {
-    if (def === 'builtin') {
-      if (typeof id === 'string') {
-        return t.MetaTypeInfo.BuiltinPlain;
-      }
-      if (Array.isArray(id)) {
-        return t.MetaTypeInfo.BuiltinTuple;
-      }
-      if ((id as t.MetaTypeIdArray)['array.type']) {
-        return t.MetaTypeInfo.BuiltinArray;
-      }
-      return t.MetaTypeInfo.Null;
-    }
-
-    if ((def as t.MetaTypeDefEnum)['enum.variants']) {
-      return t.MetaTypeInfo.Enum;
-    }
-
-    if ((def as t.MetaTypeDefClikeEnum)['clike_enum.variants']) {
-      return t.MetaTypeInfo.ClikeEnum;
-    }
-
-    if ((def as t.MetaTypeDefStruct)['struct.fields']) {
-      return t.MetaTypeInfo.Struct;
-    }
-
-    if ((def as t.MetaTypeDefTupleStruct)['tuple_struct.types']) {
-      return t.MetaTypeInfo.TupleStruct;
-    }
-
-    return t.MetaTypeInfo.Null;
   }
 
   private typeDefForBuiltinPlain (id: string): Pick<t.TypeDef, never> {
