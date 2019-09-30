@@ -28,9 +28,8 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  await api.query.staking.intentions((intentions): void => {
-    console.log('intentions:', intentions);
-  });
+  const fees = api.derive.balances.fees();
+  console.log('fees', fees);
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {

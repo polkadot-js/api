@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '../../types';
-import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageHasher, Text, Type, bool, u16 } from '../../primitive';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, StorageHasher, Text, Type, bool, u16 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {

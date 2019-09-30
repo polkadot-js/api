@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '../../codec';
-import { u32 } from '../../primitive';
-import { BlockNumber, Call } from '../runtime';
-import { VoteThreshold } from '../elections';
+import { Enum, Struct } from '@polkadot/types/codec';
+import { u32 } from '@polkadot/types/primitive';
+import { BlockNumber, Call } from '@polkadot/types/interfaces/runtime';
+import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 
 /** Enum */
 export interface Conviction extends Enum {

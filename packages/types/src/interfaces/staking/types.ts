@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Compact, Enum, Struct, Vec } from '../../codec';
-import { u32 } from '../../primitive';
-import { AccountId, Balance, BlockNumber, Moment } from '../runtime';
+import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
 
 /** u32 */
 export interface EraIndex extends u32 {}

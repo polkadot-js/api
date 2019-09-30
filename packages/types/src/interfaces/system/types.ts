@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, GenericEvent, u32, u8 } from '../../primitive';
-import { Digest, Hash } from '../runtime';
+import { Codec } from '@polkadot/types/types';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, GenericEvent, u32, u8 } from '@polkadot/types/primitive';
+import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
 export interface DigestOf extends Digest {}

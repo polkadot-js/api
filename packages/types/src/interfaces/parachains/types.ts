@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, u32, u64 } from '../../primitive';
-import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '../runtime';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, u32, u64 } from '@polkadot/types/primitive';
+import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AttestedCandidate extends Struct {
