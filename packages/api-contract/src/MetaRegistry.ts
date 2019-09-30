@@ -28,6 +28,8 @@ const {
 
 export default class MetaRegistry {
   private static detectedType ({ def, id }: t.MetaType): t.MetaTypeInfo {
+    assert(!(def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
+
     let metaTypeInfo = t.MetaTypeInfo.Null;
     if (def === 'builtin') {
       if (typeof id === 'string') {
@@ -163,8 +165,6 @@ export default class MetaRegistry {
   }
 
   private typeDefDefFields (metaType: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
-    assert(!(metaType.def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
-
     let typeDef;
     switch (MetaRegistry.detectedType(metaType)) {
       case BuiltinPlain:
