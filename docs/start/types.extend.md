@@ -137,6 +137,6 @@ const api = await ApiPromise.create({
 
 `Balance` would be defined as an `u128` at the end. Effectively based on the flow it is first registered as a `u32`, then overridden as a `u64` and finally overridden once more as a `u128` by the chain types.
 
-## Using with TypeScript
+## Extending extrinsics
 
-The API is built with TypeScript (as are all projects in the [polkadot-js organization](https://github.com/polkadot-js/)) and as such allows developers using TS to have access to all the type interfaces defined on the chain, as well as having access to typings on interacting with the `api.*` namespaces. In the next section we will provide an overview of [what is available in terms of types and TypeScript](typescript.md).
+On customised chains, it is possible to [extend the format of the extrinsics and extrinsic payload as customized on the chain](extrinsic.extend.md), next up we will look at this advanced use-case.
