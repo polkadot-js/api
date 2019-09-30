@@ -10,7 +10,9 @@ import { encodeEnum, encodeStruct, encodeTuple } from '@polkadot/types';
 const SPECIAL_TYPES = ['AccountId', 'Balance'];
 
 const {
-  Builtin,
+  BuiltinPlain,
+  BuiltinTuple,
+  BuiltinArray,
   ClikeEnum,
   Enum,
   Struct,
@@ -77,11 +79,7 @@ export default class MetaRegistry {
       return {};
     }
 
-    const {
-      'custom.name': nameIndex,
-      'custom.namespace': namespaceIndices,
-      'custom.params': paramsIndices
-    } = id as t.MetaTypeIdCustom;
+    const { 'custom.name': nameIndex, 'custom.namespace': namespaceIndices, 'custom.params': paramsIndices } = id as t.MetaTypeIdCustom;
 
     if (nameIndex) {
       return {
@@ -110,8 +108,12 @@ export default class MetaRegistry {
     assert(!(metaType.def as t.MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
     switch (this.detectedType(metaType)) {
-      case Builtin:
-        return this.typeDefForBuiltin(metaType, typeIndex);
+      case BuiltinPlain:
+        return this.typeDefForBuiltinPlain(metaType.id as string);
+      case BuiltinTuple:
+        return this.typeDefForBuiltinTuple(metaType.id as t.TypeIndex[]);
+      case BuiltinArray:
+        return this.typeDefForBuiltinArray(metaType.id as t.MetaTypeIdArray, typeIndex);
       case Enum:
         return this.typeDefForEnum(metaType.def as t.MetaTypeDefEnum);
       case ClikeEnum:
@@ -150,9 +152,18 @@ export default class MetaRegistry {
     return this.typeDefAt(typeIndex)!;
   }
 
-  private detectedType ({ def }: t.MetaType): t.MetaTypeInfo {
+  private detectedType ({ def, id }: t.MetaType): t.MetaTypeInfo {
     if (def === 'builtin') {
-      return t.MetaTypeInfo.Builtin;
+      if (typeof id === 'string') {
+        return t.MetaTypeInfo.BuiltinPlain;
+      }
+      if (Array.isArray(id)) {
+        return t.MetaTypeInfo.BuiltinTuple;
+      }
+      if ((id as t.MetaTypeIdArray)['array.type']) {
+        return t.MetaTypeInfo.BuiltinArray;
+      }
+      return t.MetaTypeInfo.Null;
     }
 
     if ((def as t.MetaTypeDefEnum)['enum.variants']) {
@@ -174,52 +185,44 @@ export default class MetaRegistry {
     return t.MetaTypeInfo.Null;
   }
 
-  private typeDefForBuiltin ({ id }: t.MetaType, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
-    assert(!!id, 'Invalid builtin type metadata found');
+  private typeDefForBuiltinPlain (id: string): Pick<t.TypeDef, never> {
+    return {
+      info: t.TypeDefInfo.Plain,
+      type: id
+    };
+  }
 
-    // builtin primitive type
-    if (typeof id === 'string') {
-      return {
-        info: t.TypeDefInfo.Plain,
-        type: id
-      };
-    }
+  private typeDefForBuiltinTuple (id: t.TypeIndex[]): Pick<t.TypeDef, never> {
+    const sub = id.map((tupleTypeIndex: number): t.TypeDef => this.typeDefFromMetaTypeAt(tupleTypeIndex));
+    return {
+      info: t.TypeDefInfo.Tuple,
+      type: encodeTuple(sub),
+      sub
+    };
+  }
 
-    // builtin tuple
-    if (Array.isArray(id)) {
-      const sub = id.map((tupleTypeIndex: number): t.TypeDef => this.typeDefFromMetaTypeAt(tupleTypeIndex));
-      return {
-        info: t.TypeDefInfo.Tuple,
-        type: encodeTuple(sub),
-        sub
-      };
-    }
+  private typeDefForBuiltinArray (id: t.MetaTypeIdArray, typeIndex?: t.TypeIndex): Pick<t.TypeDef, never> {
+    const { 'array.type': vecTypeIndex, 'array.len': vecLength } = id;
 
-    // builtin array
-    const { 'array.type': vecTypeIndex, 'array.len': vecLength } = id as t.MetaTypeIdArray;
-    if (vecTypeIndex) {
-      assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
-      assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
-      const sub = this.typeDefFromMetaTypeAt(vecTypeIndex);
+    assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
+    assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
+    const sub = this.typeDefFromMetaTypeAt(vecTypeIndex);
 
-      return {
-        ...(
-          vecLength
-            ? {
-              info: t.TypeDefInfo.VecFixed,
-              ext: { length: vecLength, type: '' },
-              type: `[${sub.name || sub.type};${vecLength}]`
-            }
-            : {
-              info: t.TypeDefInfo.Vec,
-              type: `Vec<${sub.name || sub.type}>`
-            }
-        ),
-        sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
-      };
-    }
-
-    return {};
+    return {
+      ...(
+        vecLength
+          ? {
+            info: t.TypeDefInfo.VecFixed,
+            ext: { length: vecLength, type: '' },
+            type: `[${sub.name || sub.type};${vecLength}]`
+          }
+          : {
+            info: t.TypeDefInfo.Vec,
+            type: `Vec<${sub.name || sub.type}>`
+          }
+      ),
+      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+    };
   }
 
   private typeDefForEnum (def: t.MetaTypeDefEnum): t.TypeDef {

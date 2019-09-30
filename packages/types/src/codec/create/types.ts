@@ -53,7 +53,9 @@ export type TypeIndex = number;
 export type StringIndex = number;
 
 export enum MetaTypeInfo {
-  Builtin,
+  BuiltinPlain,
+  BuiltinTuple,
+  BuiltinArray,
   Enum,
   ClikeEnum,
   Struct,
