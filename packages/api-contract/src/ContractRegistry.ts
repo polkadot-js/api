@@ -12,7 +12,7 @@ import { createArgClass } from './method';
 
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
-  public validateArgs (name: string, args: t.ContractABIArgPre[]): void {
+  public validateArgs (name: string, args: t.ContractABIArgBasePre[]): void {
     assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
 
     args.forEach((arg): void => {
@@ -99,6 +99,10 @@ export default class ContractRegistry extends MetaRegistry {
     };
   }
 
+  public convertArgs (args: t.ContractABIArgBasePre[]): any[] {
+    return args.map(({ name, type, ...arg }) => ({ ...arg, name: this.stringAt(name), type: this.convertType(type) }));
+  }
+
   public convertType ({ ty, display_name: displayNameIndices }: t.ContractABITypePre): TypeDef {
     const displayName = this.stringsAt(displayNameIndices).join('::');
     return this.typeDefAt(ty, { displayName });
@@ -127,7 +131,7 @@ export default class ContractRegistry extends MetaRegistry {
   public convertMethod ({ args, name, return_type: returnType, ...method }: t.ContractABIMethodPre): t.ContractABIMethod {
     return {
       ...method,
-      args: args.map(({ name, type }) => ({ name: this.stringAt(name), type: this.convertType(type) })),
+      args: this.convertArgs(args),
       name: this.stringAt(name),
       returnType: returnType ? this.convertType(returnType) : null
     };
@@ -135,7 +139,7 @@ export default class ContractRegistry extends MetaRegistry {
 
   public convertEvent ({ args }: t.ContractABIEventPre): t.ContractABIEvent {
     return {
-      args: args.map(({ indexed, name, type }) => ({ indexed, name: this.stringAt(name), type: this.convertType(type) }))
+      args: this.convertArgs(args)
     };
   }
 

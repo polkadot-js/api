@@ -18,22 +18,26 @@ export interface ContractABITypePre {
   display_name: StringIndex[];
 }
 
-export interface ContractABIArgPre {
+export interface ContractABIArgBasePre {
   name: StringIndex;
   type: ContractABITypePre;
 }
 
-export interface ContractABIArg {
+export interface ContractABIArgBase {
   name: string;
   type: TypeDef;
 }
 
+export type ContractABIMethodArgPre = ContractABIArgBasePre;
+
+export type ContractABIMethodArg = ContractABIArgBase;
+
 export interface ContractABIMethodBase {
-  args: ContractABIArg[];
+  args: ContractABIMethodArg[];
 }
 
 export interface ContractABIMethodBasePre {
-  args: ContractABIArgPre[];
+  args: ContractABIMethodArgPre[];
 }
 
 export interface ContractABIMethodCommon {
@@ -48,7 +52,7 @@ export interface ContractABIMethodPre extends ContractABIMethodCommon, ContractA
 }
 
 export interface ContractABIMethod extends ContractABIMethodCommon {
-  args: ContractABIArg[];
+  args: ContractABIMethodArg[];
   name: string;
   returnType: TypeDef | null;
 }
@@ -102,15 +106,9 @@ export interface ContractABIEventArgBase {
   indexed: boolean;
 }
 
-export interface ContractABIEventArgPre extends ContractABIEventArgBase {
-  name: StringIndex;
-  type: ContractABITypePre;
-}
+export interface ContractABIEventArgPre extends ContractABIArgBasePre, ContractABIEventArgBase {}
 
-export interface ContractABIEventArg extends ContractABIEventArgBase {
-  name: string;
-  type: TypeDef;
-}
+export interface ContractABIEventArg extends ContractABIArgBase, ContractABIEventArgBase {}
 
 export type ContractABIDocs = string[];
 
