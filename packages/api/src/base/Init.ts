@@ -79,7 +79,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._rpcCore.provider.on('connected', this._onProviderConnect);
   }
 
-  public abstract registerTypes(types?: RegistryTypes): void;
+  public abstract registerTypes (types?: RegistryTypes): void;
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
