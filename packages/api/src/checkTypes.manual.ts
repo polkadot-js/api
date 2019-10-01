@@ -28,7 +28,7 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  const fees = api.derive.balances.fees();
+  const fees = await api.derive.balances.fees();
   console.log('fees', fees);
 }
 

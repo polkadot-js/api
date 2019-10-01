@@ -14,7 +14,7 @@ import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/uti
 import Init from './Init';
 
 interface KeyringSigner {
-  sign (message: Uint8Array): Uint8Array;
+  sign(message: Uint8Array): Uint8Array;
 }
 
 let pkgJson: { name: string; version: string };
@@ -26,7 +26,7 @@ try {
   pkgJson = { name: '@polkadot/api', version: '-' };
 }
 
-function assertResult <T> (value: T | undefined): T {
+function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialised before using, listen on \'ready\'');
 
   return value as T;
@@ -51,7 +51,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod) {
+  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
   }
 
