@@ -3,16 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecArg, TypeDef } from '@polkadot/types/types';
-import * as t from './types';
-
+import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABIMethodPre, ContractABI, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
 import { Compact } from '@polkadot/types';
+
 import { assert, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
+
 import MetaRegistry from './MetaRegistry';
 import { createArgClass } from './method';
 
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
-  public validateArgs (name: string, args: t.ContractABIArgBasePre[]): void {
+  public validateArgs (name: string, args: ContractABIArgBasePre[]): void {
     assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
 
     args.forEach((arg): void => {
@@ -24,8 +25,8 @@ export default class ContractRegistry extends MetaRegistry {
     });
   }
 
-  public validateConstructors ({ contract: { constructors } }: t.ContractABIPre): void {
-    constructors.forEach((constructor: t.ContractABIMethodPre, index): void => {
+  public validateConstructors ({ contract: { constructors } }: ContractABIPre): void {
+    constructors.forEach((constructor: ContractABIMethodPre, index): void => {
       const unknownKeys = Object.keys(constructor).filter((key): boolean => !['args', 'docs', 'name', 'selector'].includes(key));
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI constructor`);
@@ -34,7 +35,7 @@ export default class ContractRegistry extends MetaRegistry {
     });
   }
 
-  public validateMethods ({ contract: { messages } }: t.ContractABIPre): void {
+  public validateMethods ({ contract: { messages } }: ContractABIPre): void {
     messages.forEach((method): void => {
       const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
@@ -48,7 +49,7 @@ export default class ContractRegistry extends MetaRegistry {
     });
   }
 
-  public validateAbi (abi: t.ContractABIPre): void {
+  public validateAbi (abi: ContractABIPre): void {
     const unknownKeys = Object.keys(abi.contract).filter((key): boolean => !['constructors', 'docs', 'events', 'messages', 'name'].includes(key));
     assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
 
@@ -59,8 +60,8 @@ export default class ContractRegistry extends MetaRegistry {
     this.validateMethods(abi);
   }
 
-  public createMethod (name: string, method: Partial<t.ContractABIMethod> & t.ContractABIMethodBase): t.ContractABIFn {
-    const args = method.args.map(({ name, type }): t.ContractABIFnArg => {
+  public createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
+    const args = method.args.map(({ name, type }): ContractABIFnArg => {
       assert(isObject(type), `Invalid type at index ${type}`);
       return {
         name: stringCamelCase(name),
@@ -83,7 +84,7 @@ export default class ContractRegistry extends MetaRegistry {
       return Compact.addLengthPrefix(u8a);
     };
 
-    const fn = (encoder as t.ContractABIFn);
+    const fn = (encoder as ContractABIFn);
 
     fn.args = args;
     fn.isConstant = !(method.mutates || false);
@@ -92,23 +93,23 @@ export default class ContractRegistry extends MetaRegistry {
     return fn;
   }
 
-  public convertAbi ({ contract, storage }: t.ContractABIPre): t.ContractABI {
+  public convertAbi ({ contract, storage }: ContractABIPre): ContractABI {
     return {
       contract: this.convertContract(contract),
       storage: this.convertStorage(storage)
     };
   }
 
-  public convertArgs (args: t.ContractABIArgBasePre[]): any[] {
+  public convertArgs (args: ContractABIArgBasePre[]): any[] {
     return args.map(({ name, type, ...arg }) => ({ ...arg, name: this.stringAt(name), type: this.convertType(type) }));
   }
 
-  public convertType ({ ty, display_name: displayNameIndices }: t.ContractABITypePre): TypeDef {
+  public convertType ({ ty, display_name: displayNameIndices }: ContractABITypePre): TypeDef {
     const displayName = this.stringsAt(displayNameIndices).join('::');
     return this.typeDefAt(ty, { displayName });
   }
 
-  public convertContract ({ constructors, messages, name, events, ...contract }: t.ContractABIContractPre): t.ContractABIContract {
+  public convertContract ({ constructors, messages, name, events, ...contract }: ContractABIContractPre): ContractABIContract {
     return {
       constructors: this.convertConstructors(constructors),
       messages: messages.map(method => this.convertMethod(method)),
@@ -120,15 +121,15 @@ export default class ContractRegistry extends MetaRegistry {
     };
   }
 
-  public convertConstructors (constructors: t.ContractABIMethodPre[]): t.ContractABIMethod[] {
+  public convertConstructors (constructors: ContractABIMethodPre[]): ContractABIMethod[] {
     return constructors.map(
-      (constructor: t.ContractABIMethodPre): t.ContractABIMethod => {
+      (constructor: ContractABIMethodPre): ContractABIMethod => {
         return this.convertMethod(constructor);
       }
     );
   }
 
-  public convertMethod ({ args, name, return_type: returnType, ...method }: t.ContractABIMethodPre): t.ContractABIMethod {
+  public convertMethod ({ args, name, return_type: returnType, ...method }: ContractABIMethodPre): ContractABIMethod {
     return {
       ...method,
       args: this.convertArgs(args),
@@ -137,25 +138,25 @@ export default class ContractRegistry extends MetaRegistry {
     };
   }
 
-  public convertEvent ({ args }: t.ContractABIEventPre): t.ContractABIEvent {
+  public convertEvent ({ args }: ContractABIEventPre): ContractABIEvent {
     return {
       args: this.convertArgs(args)
     };
   }
 
-  public convertStorage (storage: t.ContractABIStoragePre): t.ContractABIStorage {
+  public convertStorage (storage: ContractABIStoragePre): ContractABIStorage {
     return this.convertStorageStruct(storage);
   }
 
-  public convertStorageLayout (storageLayout: t.ContractABIStorageLayoutPre): t.ContractABIStorageLayout {
-    if ((storageLayout as t.ContractABIStorageStructPre)['struct.type']) {
-      return this.convertStorageStruct(storageLayout as t.ContractABIStorageStructPre);
+  public convertStorageLayout (storageLayout: ContractABIStorageLayoutPre): ContractABIStorageLayout {
+    if ((storageLayout as ContractABIStorageStructPre)['struct.type']) {
+      return this.convertStorageStruct(storageLayout as ContractABIStorageStructPre);
     } else {
-      return this.convertStorageRange(storageLayout as t.ContractABIRangePre);
+      return this.convertStorageRange(storageLayout as ContractABIRangePre);
     }
   }
 
-  public convertStorageStruct ({ 'struct.type': structType, 'struct.fields': structFields }: t.ContractABIStorageStructPre): t.ContractABIStorageStruct {
+  public convertStorageStruct ({ 'struct.type': structType, 'struct.fields': structFields }: ContractABIStorageStructPre): ContractABIStorageStruct {
     return {
       'struct.type': this.typeDefAt(structType),
       'struct.fields': structFields.map(({ name, layout }) => ({
@@ -165,7 +166,7 @@ export default class ContractRegistry extends MetaRegistry {
     };
   }
 
-  public convertStorageRange ({ 'range.elem_type': type, ...range }: t.ContractABIRangePre): t.ContractABIRange {
+  public convertStorageRange ({ 'range.elem_type': type, ...range }: ContractABIRangePre): ContractABIRange {
     return {
       ...range,
       'range.elem_type': this.typeDefAt(type)
