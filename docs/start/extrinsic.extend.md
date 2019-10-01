@@ -51,13 +51,13 @@ For each of the default extensions, we will take a look through to understand th
 
 - `system::CheckEra` - This checks the era (mortal or immortal) for the transaction being sent. It checks both the `era: Era` as part of the actual extrinsic and the `blockHash` via the `type AdditionalSigned = T::Hash`. This means that the extrinsic era is both in the data being signed and the extrinsic itself, while the `blockHash` the era applies to is only available in the signature payload.
 
-- `system::CheckNonce` - This checks the nonce for the sending account. Unlike the preceding checks, it has no payload-specific data, however the `nonce: Compact<T::Index>` (`Index` is default `u32`) it applicable to both the extrinsic and therefore the actual signature payload as well.
+- `system::CheckNonce` - This checks the nonce for the sending account. Unlike the preceding checks, it has no payload-specific data, however the `nonce: Compact<T::Index>` (`Index` is default `u32`) is applicable to both the extrinsic and, therefore, the actual signature payload as well.
 
 - `system::CheckWeight` - This checks the weight and length of the block and ensure that it does not exceed the limits. It does not have any specific data attached to either the extrinsic nor payload, but rather just does calculations based on the weights and type of transaction received.
 
 - `balances::TakeFees` - Consumes fees proportional to the length and weight of the transaction. It operates on the `fee: Compact<T::Balance>`, which means this value is included in both the extrinsic and subsequent payload being signed.
 
-- `contracts::CheckBlockGasLimit` - As explained briefly above, this extension add not data, however ensures that the transaction does not exceeds the block gas limit.
+- `contracts::CheckBlockGasLimit` - As explained briefly above, this extension does not add data to the extrinsic, or the signature payload, however it ensures that the transaction does not exceeds the block gas limit.
 
 ## Extrinsic and signature payloads
 
@@ -149,7 +149,7 @@ const api = ApiPromise.create({
 
 The above example is certainly an advanced example, but it shows that all data types in the API can be adjusted and these adjustment can be provided to the API. In all cases, if you made updates to the formats and types of the actual runtime, you need to ensure that the API is aware of these changes.
 
-In in the above example, should these updates only be made on the node side, without the required API adjustments, the API will generate invalid transactions for the node since it is unaware of the changes and adjusted formats. Making the adjustments on only one side will mean that the signature verification can fail and that the format will not be decodable via the node.
+In the above example, should these updates only be made on the node side, without the required API adjustments, the API will generate invalid transactions for the node since it is unaware of the changes and adjusted formats. Making the adjustments on only one side will mean that the signature verification can fail and that the format will not be decodable via the node.
 
 (These extensions are not exposed via metadata at all, and would be quite difficult to do as well - since each of these have specific logic as well as data types assigned.)
 
