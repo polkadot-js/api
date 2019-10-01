@@ -62,7 +62,7 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
         transactionBaseFee,
         transactionByteFee,
         transferFee
-      } as unknown as DerivedFees)),
+      })),
       drr()
     );
   };

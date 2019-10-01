@@ -4,18 +4,20 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-// Unfortunately we cannot import individual interfaces here, because the
-// return type of `decorateDerive` needs to have all interfaces. See
-// https://github.com/polkadot-js/api/issues/1425 for more info.
-import * as t from '@polkadot/types/interfaces';
+import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import {
+  ApiInterfaceRx, ApiOptions, ApiTypes,
+  DecorateMethod, DecoratedRpc, DecoratedRpcSection,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg,
+  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
+} from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import decorateDerive from '@polkadot/api-derive';
+import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { Storage } from '@polkadot/api-metadata/storage/types';
 import jsonrpc from '@polkadot/jsonrpc';
@@ -28,7 +30,7 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { compactStripLength, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
-import { decorateSections } from '../util/decorate';
+import { decorateSections, DeriveAllSections } from '../util/decorate';
 import Events from './Events';
 
 interface MetaDecoration {
@@ -51,7 +53,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
-  protected _genesisHash?: t.Hash;
+  protected _genesisHash?: Hash;
 
   protected _isConnected: BehaviorSubject<boolean>;
 
@@ -71,7 +73,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   protected _runtimeMetadata?: Metadata;
 
-  protected _runtimeVersion?: t.RuntimeVersion;
+  protected _runtimeVersion?: RuntimeVersion;
 
   protected _rx: Partial<ApiInterfaceRx> = {};
 
@@ -93,7 +95,7 @@ export default abstract class Decorate<ApiType> extends Events {
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
    * via `deocrateMethod`.
    */
-  protected decorateMethod: DecorateMethod;
+  protected decorateMethod: DecorateMethod<ApiType>;
 
   /**
    * @description Create an instance of the class
@@ -113,7 +115,7 @@ export default abstract class Decorate<ApiType> extends Events {
    * });
    * ```
    */
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
     const thisProvider = options.source
@@ -173,7 +175,7 @@ export default abstract class Decorate<ApiType> extends Events {
       });
   }
 
-  protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: Decorate<ApiType>['decorateMethod']): DecoratedRpc<ApiType, RpcInterface> {
+  protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
     return Object.keys(jsonrpc).reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
@@ -191,7 +193,7 @@ export default abstract class Decorate<ApiType> extends Events {
     }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
   }
 
-  protected decorateMulti<ApiType> (decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
+  protected decorateMulti<ApiType> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
         calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Arg[]] =>
@@ -201,7 +203,7 @@ export default abstract class Decorate<ApiType> extends Events {
             : [arg.creator] as any)));
   }
 
-  protected decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: Decorate<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+  protected decorateExtrinsics<ApiType> (extrinsics: ModulesWithCalls, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
     const creator = createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod);
 
     return Object.entries(extrinsics).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
@@ -215,14 +217,14 @@ export default abstract class Decorate<ApiType> extends Events {
     }, creator as unknown as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: CallFunction, creator: (value: t.Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
     const decorated = (...params: Arg[]): SubmittableExtrinsic<ApiType> =>
       creator(method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  protected decorateStorage<ApiType> (storage: Storage, decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
+  protected decorateStorage<ApiType> (storage: Storage, decorateMethod: DecorateMethod<ApiType>): QueryableStorage<ApiType> {
     return Object.entries(storage).reduce((out, [name, section]): QueryableStorage<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): QueryableModuleStorage<ApiType> => {
         out[name] = this.decorateStorageEntry(method, decorateMethod);
@@ -234,7 +236,7 @@ export default abstract class Decorate<ApiType> extends Events {
     }, {} as unknown as QueryableStorage<ApiType>);
   }
 
-  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: Decorate<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
+  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
     const getArgs = (...args: any[]): any[] => creator.meta.type.isDoubleMap
       ? [creator, args]
@@ -252,10 +254,10 @@ export default abstract class Decorate<ApiType> extends Events {
 
     decorated.creator = creator;
 
-    decorated.at = decorateMethod((hash: t.Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
+    decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<t.Hash> =>
+    decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
@@ -272,7 +274,7 @@ export default abstract class Decorate<ApiType> extends Events {
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: Decorate<ApiType>['decorateMethod']): ReturnType<Decorate<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -340,13 +342,11 @@ export default abstract class Decorate<ApiType> extends Events {
     );
   }
 
-  // FIXME Any better ideas? `any` doesn't work, needs a return but TS infers
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  protected decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: Decorate<ApiType>['decorateMethod']) {
+  protected decorateDerive (apiRx: ApiInterfaceRx, decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 
-    return decorateSections<ApiType, typeof derive>(derive, decorateMethod);
+    return decorateSections<ApiType, ExactDerive>(derive, decorateMethod);
   }
 
   /**
