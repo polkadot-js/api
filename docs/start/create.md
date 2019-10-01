@@ -15,7 +15,7 @@ const api = await ApiPromise.create({ provider: wsProvider });
 console.log(api.genesisHash.toHex());
 ```
 
-We will have some explanation on the ES2015 syntax used next, but just a small note on the above - where other code is included (or just some previous boilerplate is used), you will see `...` in most of the examples. This is not due to lazyness, but rather just to keep things straight and to the point.
+We will have some explanation on the ES2015 syntax used next, but just a small note on the above - where other code is included (or just some previous boilerplate is used), you will see `...` in most of the examples. This is not due to laziness, but rather just to keep things straight and to the point.
 
 ## ES2015 Usage and examples
 

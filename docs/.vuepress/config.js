@@ -43,6 +43,7 @@ module.exports = {
           ['start/api.tx.wrap.md', 'Complex transactions'],
           ['start/types.basics.md', 'Type basics'],
           ['start/types.extend.md', 'Extending types'],
+          ['start/extrinsic.extend.md', 'Extending extrinsics'],
           ['start/typescript.md', 'TypeScript interfaces'],
           ['start/FAQ.md', 'FAQ']
         ]

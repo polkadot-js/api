@@ -6,11 +6,11 @@ import { Observable, from } from 'rxjs';
 import ApiRx from '@polkadot/api/rx/Api';
 import MockProvider from '@polkadot/rpc-provider/mock';
 
-import { Derive } from '.';
+import { ExactDerive } from '.';
 
 const testFunction = (api: ApiRx): any => {
   return <
-    Section extends keyof Derive,
+    Section extends keyof ExactDerive,
     Method extends keyof (typeof api.derive[Section])
   >(section: Section, method: Method, inputs: any[]): void => {
     describe(`derive.${section}.${method}`, (): void => {

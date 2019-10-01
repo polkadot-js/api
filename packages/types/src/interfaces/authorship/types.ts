@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '../../types';
-import { Enum, Option } from '../../codec';
-import { AccountId, BlockNumber, Hash } from '../runtime';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Option } from '@polkadot/types/codec';
+import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** BlockNumber */
 export interface InclusionHeight extends BlockNumber {}

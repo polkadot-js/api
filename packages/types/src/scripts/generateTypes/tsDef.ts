@@ -224,19 +224,19 @@ function generateTsDefFor (defName: string, { types }: { types: Record<string, a
 
   const header = createImportCode(HEADER, [
     {
-      file: '../../types',
+      file: '@polkadot/types/types',
       types: Object.keys(imports.typesTypes)
     },
     {
-      file: '../../codec',
+      file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
     },
     {
-      file: '../../primitive',
+      file: '@polkadot/types/primitive',
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `../${moduleName}`,
+      file: `@polkadot/types/interfaces/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);

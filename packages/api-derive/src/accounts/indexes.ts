@@ -53,7 +53,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
             });
 
             return result;
-          }, {} as unknown as AccountIndexes)),
+          }, {} as AccountIndexes)),
         drr()
       );
   };

@@ -33,7 +33,7 @@ const momentPrev = await api.query.timestamp.now.at(lastHdr.parentHash);
 
 The `.at` queries are all single-shot, i.e. there are no subscription option to these, since the state for a previous block should be static. (This is true to a certain extent, i.e. when blocks have been finalized).
 
-An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generaly most public RPC nodes only run with default settings, which includes aggressive state pruning)
+An additional point to take care of (briefly mentioned above), is state pruning. By default a Polkadot/Substrate node will only keep state for the last 256 blocks, unless it is explicitly run in archive mode. This means that querying state further back than the pruning period will result in an error returned from the Node. (Generally most public RPC nodes only run with default settings, which includes aggressive state pruning)
 
 ## State entries
 
@@ -69,7 +69,7 @@ console.log(`query key: ${api.query.balances.freeBalance.key(ADDR)}`);
 
 The `section` & `method` is an indication of where it is exposed on the API. In addition the `meta` holds an array with the metadata documentation for the entry.
 
-The `key` endpoint requires some explanation. In the chain state, the key values (identified by the module, method & params) are hashed and this is used as a lookup. So underlying a single-shot query would utilize the `api.rpc.state.getStorage` entry, passing the output of `key` (which is a hashed representation of the values). Apart from the hashing, the API also takes care of type formatting, handling optional values and merging results accross multiple subscriptions.
+The `key` endpoint requires some explanation. In the chain state, the key values (identified by the module, method & params) are hashed and this is used as a lookup. So underlying a single-shot query would utilize the `api.rpc.state.getStorage` entry, passing the output of `key` (which is a hashed representation of the values). Apart from the hashing, the API also takes care of type formatting, handling optional values and merging results across multiple subscriptions.
 
 ## Let's transact already!
 

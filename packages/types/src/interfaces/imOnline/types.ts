@@ -1,11 +1,11 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Struct, Vec } from '../../codec';
-import { Bytes, u32 } from '../../primitive';
-import { BlockNumber, Signature } from '../runtime';
-import { AuthorityId } from '../consensus';
-import { SessionIndex } from '../session';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, u32 } from '@polkadot/types/primitive';
+import { BlockNumber, Signature } from '@polkadot/types/interfaces/runtime';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** u32 */
 export interface AuthIndex extends u32 {}

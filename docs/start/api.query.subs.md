@@ -2,7 +2,7 @@
 
 Previously we explained the concepts between `api.query`. In this section we will expand on that knowledge to introduce subscriptions (akin to what we found in `api.rpc`) to stream results from the state, as it changes between blocks.
 
-## Subcriptions
+## Subscriptions
 
 As in the case with `api.rpc` subscriptions, query subscriptions follow exactly the same form - an actual call is augmented with a callback to return the current state value that is updated as the underlying value changes. As an example, we can extend on what we had previously -
 

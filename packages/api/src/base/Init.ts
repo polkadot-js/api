@@ -56,7 +56,7 @@ const l = logger('api/decorator');
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod) {
+  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
     assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');

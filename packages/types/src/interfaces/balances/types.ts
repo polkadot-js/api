@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Set, Struct } from '../../codec';
-import { Balance, BlockNumber, LockIdentifier } from '../runtime';
+import { Set, Struct } from '@polkadot/types/codec';
+import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface BalanceLock extends Struct {

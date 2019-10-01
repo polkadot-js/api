@@ -53,7 +53,7 @@ function calcBalances ([accountId = createType('AccountId'), bestNumber = create
     reservedBalance,
     vestedBalance,
     votingBalance: freeBalance.add(reservedBalance)
-  } as unknown as DerivedBalances;
+  } as DerivedBalances;
 }
 
 /**

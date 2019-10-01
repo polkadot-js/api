@@ -19,14 +19,13 @@ import * as staking from './staking';
 
 export * from './type';
 
-export type ReturnTypes<Section> = {
+type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
     ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
     : never;
 };
-
-export type DeriveSections<AllSections> = {
-  [Section in keyof AllSections]: ReturnTypes<AllSections[Section]>
+type DeriveAllSections<AllSections> = {
+  [Section in keyof AllSections]: DeriveSection<AllSections[Section]>
 };
 
 export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
@@ -35,15 +34,15 @@ export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) =
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
  */
-function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSections): DeriveSections<AllSections> {
+function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   return Object
     .keys(allSections)
-    .reduce((deriveAcc, sectionName): DeriveSections<AllSections> => {
+    .reduce((deriveAcc, sectionName): DeriveAllSections<AllSections> => {
       const section = allSections[sectionName as keyof AllSections];
 
       deriveAcc[sectionName as keyof AllSections] = Object
         .keys(section)
-        .reduce((sectionAcc, _methodName): ReturnTypes<typeof section> => {
+        .reduce((sectionAcc, _methodName): DeriveSection<typeof section> => {
           const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
           const method = (section[methodName] as any)(api);
@@ -51,18 +50,18 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
           (sectionAcc as any)[methodName] = method;
 
           return sectionAcc;
-        }, {} as unknown as ReturnTypes<typeof section>);
+        }, {} as DeriveSection<typeof section>);
 
       return deriveAcc;
-    }, {} as unknown as DeriveSections<AllSections>);
+    }, {} as DeriveAllSections<AllSections>);
 }
 
 export const derive = { accounts, balances, chain, contracts, democracy, elections, imOnline, session, staking };
-export type Derive = typeof derive;
+export type ExactDerive = DeriveAllSections<typeof derive>;
 
-// FIXME I have no idea how to get this done
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}) {
+// FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
+// For now we just drop the custom derive typings
+export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(api, derive),
     ...injectFunctions(api, custom)

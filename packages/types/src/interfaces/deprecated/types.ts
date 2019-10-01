@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '../../codec';
-import { Bytes, Null, i8, u32, u64 } from '../../primitive';
-import { AccountId, Balance } from '../runtime';
+import { Enum, Struct } from '@polkadot/types/codec';
+import { Bytes, Null, i8, u32, u64 } from '@polkadot/types/primitive';
+import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AccountInfo extends Struct {
