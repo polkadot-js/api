@@ -146,7 +146,7 @@ export default abstract class Decorate<ApiType> extends Events {
   // manner to cater for both old and new:
   //   - when the number of entries are 0, only remove the ones with isOptional (account & contracts)
   //   - when non-zero, remove anything that is not in the array (we don't do this)
-  protected async filterRpcMethods (): Promise<void> {
+  protected async filterRpc (): Promise<void> {
     let methods: string[];
 
     try {
@@ -157,6 +157,10 @@ export default abstract class Decorate<ApiType> extends Events {
       methods = [];
     }
 
+    this.filterRpcMethods(methods);
+  }
+
+  protected filterRpcMethods (methods: string[]): void{
     // this is true when the RPC has entries
     const hasResults = methods.length !== 0;
 
