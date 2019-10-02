@@ -5,23 +5,19 @@
 import { Codec, Constructor, InterfaceTypes } from '../../types';
 import { FromReg } from './types';
 
+import { isU8a, u8aToHex } from '@polkadot/util';
+
 import { InterfaceRegistry } from '../../interfaceRegistry';
 import { createClass } from './createClass';
 
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
-function checkInstance<T extends Codec = Codec, K extends string = string> (value: any, created: FromReg<T, K>): void {
-  const inHex = value.toHex(true);
+function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
+  // For option, we are not adding  the initial byte (this is via storage)
   const crHex = created.toHex(true);
-  const hasMatch = (inHex === crHex) || (value.toU8a(true).toString() === (
-    created instanceof Uint8Array
-      // strip the input length
-      ? created.toU8a().toString()
-      // compare raw. without additions
-      : created.toU8a(true).toString()
-  ));
+  const inHex = u8aToHex(value);
 
-  if (!hasMatch) {
+  if (inHex !== crHex) {
     console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
   }
 }
@@ -32,7 +28,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
   const created = new Type(...params);
   const [value] = params;
 
-  if (isPedantic && value && value.toU8a && !value.isEmpty) {
+  if (isPedantic && isU8a(value)) {
     checkInstance(value, created);
   }
 
