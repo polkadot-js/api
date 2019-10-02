@@ -43,11 +43,5 @@ describe('StorageChangeSet', (): void => {
       expect(set.changes).toHaveLength(1);
       expect(set.changes[0][0].toHex()).toEqual('0x54bdbdb5e438d574dd4da05ee6131cee');
     });
-
-    it('converts result data to Bytes', (): void => {
-      const bytes = createType('Bytes', set.changes[0][1].unwrap());
-
-      expect(bytes).toHaveLength(4452);
-    });
   });
 });
