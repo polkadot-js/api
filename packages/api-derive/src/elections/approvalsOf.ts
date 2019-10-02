@@ -25,7 +25,7 @@ import { drr } from '../util/drr';
  */
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<boolean[][]> {
   return (who: AccountId | string): Observable<boolean[][]> =>
-    api.query.elections.nextVoterSet().pipe(
+    api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vec<ApprovalFlag>[]> =>
         api.query.elections.approvalsOf.multi(
           [...Array(nextVoterSet.toNumber() + 1).keys()].map((i): [string, number] => [
