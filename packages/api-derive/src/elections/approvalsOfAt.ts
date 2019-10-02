@@ -24,10 +24,9 @@ import { drr } from '../util/drr';
  * ```
  */
 export function approvalsOfAt (api: ApiInterfaceRx): (who: AccountId, at: SetIndex) => Observable<boolean[]> {
-  return (who: AccountId, at: SetIndex): Observable<boolean[]> =>
-    (api.query.elections.approvalsOf<Vec<ApprovalFlag>>([who.toString(), at]))
-      .pipe(
-        map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
-        drr()
-      );
+  return (who: AccountId | string, at: SetIndex): Observable<boolean[]> =>
+    api.query.elections.approvalsOf<Vec<ApprovalFlag>>([who.toString(), at]).pipe(
+      map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
+      drr()
+    );
 }
