@@ -4,7 +4,6 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { StorageChangeSet } from '@polkadot/types/interfaces';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface } from './jsonrpc.types';
 import { RpcInterfaceMethod } from './types';
@@ -13,9 +12,9 @@ import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { ClassOf, Option, StorageData, StorageKey, Vec, createClass } from '@polkadot/types';
+import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
-import { assert, isFunction, isNull, isNumber, logger } from '@polkadot/util';
+import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -52,7 +51,7 @@ const EMPTY_META = {
  * ```
  */
 export default class Rpc implements RpcInterface {
-  private _storageCache = new Map<string, Option<StorageData>>();
+  private _storageCache = new Map<string, string | null>();
 
   public readonly provider: ProviderInterface;
 
@@ -282,31 +281,36 @@ export default class Rpc implements RpcInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | (Codec | null | undefined)[] {
-    const base = createTypeUnsafe(method.type, [result]);
+  private treatAsHex (key: StorageKey): boolean {
+    // :code is problematic - it does not have the length attached, which is
+    // unlike all other storage entries where it is indeed properly encoded
+    return ['0x3a636f6465'].includes(key.toHex());
+  }
 
+  private formatOutput (method: RpcMethod, params: Codec[], result?: any): Codec | Codec[] {
     if (method.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
       try {
-        return this.formatStorageData(key, base, isNull(result));
+        return this.formatStorageData(key, result);
       } catch (error) {
         console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
 
         throw error;
       }
-    } else if ((method.type as string) === 'StorageChangeSet') {
+    } else if (method.type === 'StorageChangeSet') {
+      // For StorageChangeSet, the changes has the [key, value] mappings
+      const changes: [string, string | null][] = result.changes;
       const keys = params[0] as Vec<StorageKey>;
       const withCache = keys.length !== 1;
 
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
-      //   - Base - There is a valid value, non-empty
-      //   - null - The storage key is empty (but in the resultset)
-      //   - undefined - The storage value is not in the resultset
-      return keys.reduce((results, key: StorageKey): (Codec | undefined)[] => {
+      //   - Codec - There is a valid value, non-empty
+      //   - null - The storage key is empty
+      return keys.reduce((results, key: StorageKey): Codec[] => {
         try {
-          results.push(this.formatStorageSet(key, base as StorageChangeSet, withCache));
+          results.push(this.formatStorageSet(key, changes, withCache));
         } catch (error) {
           console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
 
@@ -314,66 +318,77 @@ export default class Rpc implements RpcInterface {
         }
 
         return results;
-      }, [] as (Codec | undefined)[]);
+      }, [] as Codec[]);
     }
 
-    return base;
+    return createTypeUnsafe(method.type, [result]);
   }
 
-  private formatStorageData (key: StorageKey, base: Codec, isNull: boolean): Codec {
+  private formatStorageData (key: StorageKey, value: string | null): Codec {
     // single return value (via state.getStorage), decode the value based on the
     // outputType that we have specified. Fallback to Data on nothing
     const type = key.outputType || 'Data';
     const meta = key.meta || EMPTY_META;
+    const isEmpty = isNull(value);
+
+    // we convert to Uint8Array since it maps to the raw encoding, all
+    // data will be correctly encoded (incl. numbers, excl. :code)
+    const input = isEmpty
+      ? null
+      : this.treatAsHex(key)
+        ? value
+        : u8aToU8a(value);
 
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull
+        isEmpty
           ? null
-          : createTypeUnsafe(type, [base], true)
+          : createTypeUnsafe(type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [isNull ? meta.fallback : base], true);
+    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
   }
 
-  private formatStorageSet (key: StorageKey, base: StorageChangeSet, witCache: boolean): Codec {
+  private formatStorageSet (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
     // Fallback to Data (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Data';
     const hexKey = key.toHex();
     const meta = key.meta || EMPTY_META;
 
-    // if we don't find the value, this is out fallback
+    // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
-    const emptyVal = (
-      witCache
-        ? this._storageCache.get(hexKey)
-        : null
-    ) || new Option<StorageData>(ClassOf('StorageData'), null);
+    const emptyVal = (witCache && this._storageCache.get(hexKey)) || null;
 
     // see if we have a result value for this specific key, fallback to the cache value
     // when the value in the set is not available, or is null/empty.
-    const [, value] = base.changes.find(([key, value]): boolean =>
-      value.isSome && key.toHex() === hexKey
+    const [, value] = changes.find(([key, value]): boolean =>
+      !isNull(value) && key === hexKey
     ) || [null, emptyVal];
+    const isEmpty = isNull(value);
+    const input = isEmpty
+      ? null
+      : this.treatAsHex(key)
+        ? value
+        : u8aToU8a(value);
 
     // store the retrieved result - the only issue with this cache is that there is no
-    // clearning of it, so very long running processes (not just a couple of hours, longer)
+    // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
     this._storageCache.set(hexKey, value);
 
     if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        value.isNone
+        isEmpty
           ? null
-          : createTypeUnsafe(type, [value.unwrap()], true)
+          : createTypeUnsafe(type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [value.unwrapOr(meta.fallback)], true);
+    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
   }
 }

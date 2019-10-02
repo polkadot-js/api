@@ -36,13 +36,5 @@ describe('Bytes', (): void => {
         ).toU8a()
       ).toEqual(CODE);
     });
-
-    it('creates via storagedata (with length prefix)', (): void => {
-      expect(
-        new Bytes(
-          createType('StorageData', '0x143a636f6465')
-        ).toU8a()
-      ).toEqual(CODE);
-    });
   });
 });
