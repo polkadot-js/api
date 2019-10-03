@@ -108,7 +108,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
           // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
           of([
             hasBabe,
-            !!api.query.babe.genesisSlot,
+            hasBabe && !!api.query.babe.genesisSlot,
             hasBabe
               ? api.consts.babe.epochDuration
               : ONE,
