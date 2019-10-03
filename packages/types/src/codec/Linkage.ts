@@ -51,8 +51,10 @@ export default class Linkage<T extends Codec> extends Struct {
   /**
    * @description Custom toU8a which with bare mode does not return the linkage if empty
    */
-  public toU8a (isBare?: boolean): Uint8Array {
-    return isBare && this.isEmpty
+  public toU8a (): Uint8Array {
+    // As part of a storage query (where these appear), in the case of empty, the values
+    // are NOT populated by the node - follow the same logic, leaving it empty
+    return this.isEmpty
       ? EMPTY
       : super.toU8a();
   }

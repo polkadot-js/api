@@ -6,7 +6,6 @@ import { AnyU8a } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { ClassOf } from '../codec/create';
 import Compact from '../codec/Compact';
 import U8a from '../codec/U8a';
 
@@ -24,11 +23,7 @@ export default class Bytes extends U8a {
 
   private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
     if (Array.isArray(value) || isString(value)) {
-      return Bytes.decodeBytesU8a(
-        Compact.addLengthPrefix(u8aToU8a(value))
-      );
-    } else if (value instanceof ClassOf('StorageData')) {
-      return Bytes.decodeBytesStorage(value);
+      return u8aToU8a(value);
     } else if (!(value instanceof U8a) && isU8a(value)) {
       // We are ensuring we are not a U8a instance. In the case of a U8a we already have gotten
       // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
@@ -36,16 +31,6 @@ export default class Bytes extends U8a {
     }
 
     return value;
-  }
-
-  private static decodeBytesStorage (u8a: Uint8Array): Uint8Array {
-    // Here we cater for the actual StorageData that _could_ have a length prefix. In the
-    // case of `:code` it is not added, for others it is
-    const [offset, length] = Compact.decodeU8a(u8a);
-
-    return u8a.length === length.addn(offset).toNumber()
-      ? u8a.subarray(offset)
-      : u8a;
   }
 
   private static decodeBytesU8a (value: Uint8Array): Uint8Array {

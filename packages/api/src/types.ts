@@ -260,3 +260,5 @@ export interface Signer {
    */
   update?: (id: number, status: Hash | SubmittableResultImpl) => void;
 }
+
+export { ApiBase };

@@ -4,7 +4,7 @@
 
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
-import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
@@ -89,13 +89,31 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     if (!this._options.source || !this._options.source._isReady) {
       this._runtimeMetadata = await this.metaFromChain(metadata);
     } else {
-      this._extrinsicType = this._options.source.extrinsicVersion;
-      this._runtimeMetadata = this._options.source.runtimeMetadata;
-      this._runtimeVersion = this._options.source.runtimeVersion;
-      this._genesisHash = this._options.source.genesisHash;
+      this._runtimeMetadata = await this.metaFromSource(this._options.source);
     }
 
     return this.initFromMeta(this._runtimeMetadata);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  private async metaFromSource (source: ApiBase<any>): Promise<Metadata> {
+    this._extrinsicType = source.extrinsicVersion;
+    this._runtimeVersion = source.runtimeVersion;
+    this._genesisHash = source.genesisHash;
+
+    const methods: string[] = [];
+
+    // manually build a list of all available methods in this RPC, we are
+    // going to filter on it to align the cloned RPC without making a call
+    Object.keys(source.rpc).forEach((section): void => {
+      Object.keys((source.rpc as any)[section]).forEach((method): void => {
+        methods.push(`${section}_${method}`);
+      });
+    });
+
+    this.filterRpcMethods(methods);
+
+    return source.runtimeMetadata;
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
@@ -118,7 +136,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     });
 
     // filter the RPC methods (this does an rpc-methods call)
-    await this.filterRpcMethods();
+    await this.filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
