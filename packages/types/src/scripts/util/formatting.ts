@@ -5,6 +5,7 @@
 import { TypeDef, TypeDefInfo } from '../../codec/types';
 
 import { getTypeDef } from '../../codec/create';
+import { paramsNotation } from '../../codec/utils';
 import { setImports, TypeImports } from './imports';
 
 export const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
@@ -37,34 +38,34 @@ export function exportType (name = '', base: string): string {
  * Given the inner `T`, return a `Compact<T>` string
  */
 export function formatCompact (inner: string): string {
-  return `Compact<${inner}>`;
+  return paramsNotation('Compact', inner);
 }
 
 /**
  * Given the inner `T`, return a `Option<T>` string
  */
 export function formatOption (inner: string): string {
-  return `Option<${inner}>`;
+  return paramsNotation('Option', inner);
 }
 
 /**
  * Given the inners `T[]`, return a `ITuple<...T>` string
  */
 export function formatTuple (inners: string[]): string {
-  return `ITuple<[${inners.join(', ')}]>`;
+  return paramsNotation('ITuple', `[${inners.join(', ')}]`);
 }
 
 /**
  * Given the inner `T`, return a `Vec<T>` string
  */
 export function formatVec (inner: string): string {
-  return `Vec<${inner}>`;
+  return paramsNotation('Vec', inner);
 }
 
 /**
  * Correctly format a given type
  */
-export function formatType (type: string | TypeDef, imports?: TypeImports): string {
+export function formatType (type: string | TypeDef, imports: TypeImports): string {
   let typeDef;
   if (typeof type === 'string') {
     typeDef = getTypeDef(type);
@@ -86,7 +87,7 @@ export function formatType (type: string | TypeDef, imports?: TypeImports): stri
       return formatVec(formatType((typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
-      imports && setImports(imports, ['ITuple']);
+      setImports(imports, ['ITuple']);
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
@@ -95,7 +96,7 @@ export function formatType (type: string | TypeDef, imports?: TypeImports): stri
       );
     }
     case TypeDefInfo.VecFixed: {
-      imports && setImports(imports, ['U8a']);
+      setImports(imports, ['U8a']);
 
       // `[u8, 32]` gets transformed into U8a
       return 'U8a';

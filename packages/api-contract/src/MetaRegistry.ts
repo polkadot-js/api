@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdArray, MetaTypeIdCustom, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
+import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdArray, MetaTypeIdCustom, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
-import { encodeEnum, encodeStruct, encodeTuple } from '@polkadot/types';
+import { withTypeString } from '@polkadot/types';
 
-const SPECIAL_TYPES = ['AccountId', 'Balance'];
+const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const {
   BuiltinPlain,
@@ -72,6 +72,7 @@ export default class MetaRegistry {
     this._strings = strings;
     this._types = types;
 
+    // Generate TypeDefs for each provided registry type
     this._types.forEach((_, index: number): void => this.setTypeDefAtIndex(index + 1));
   }
 
@@ -135,33 +136,29 @@ export default class MetaRegistry {
   }
 
   private typeDefIdFields ({ id }: MetaType): Pick<TypeDef, never> {
-    if (!id) {
+    const { 'custom.name': nameIndex, 'custom.namespace': namespaceIndices, 'custom.params': paramsIndices } = id as MetaTypeIdCustom;
+
+    if (!nameIndex) {
       return {};
     }
 
-    const { 'custom.name': nameIndex, 'custom.namespace': namespaceIndices, 'custom.params': paramsIndices } = id as MetaTypeIdCustom;
-
-    if (nameIndex) {
-      return {
-        name: this.stringAt(nameIndex),
-        ...(
-          namespaceIndices && namespaceIndices.length
-            ? { namespace: this.stringsAt(namespaceIndices).join('::') }
-            : {}
-        ),
-        ...(
-          paramsIndices && paramsIndices.length
-            ? { params: this.typesAt(paramsIndices).map((type): TypeDef => this.typeDefFromMetaType(type)) }
-            : {}
-        ),
-        ...(SPECIAL_TYPES.includes(this.stringAt(nameIndex))
-          ? { type: this.stringAt(nameIndex) }
+    return {
+      name: this.stringAt(nameIndex),
+      ...(
+        namespaceIndices && namespaceIndices.length
+          ? { namespace: this.stringsAt(namespaceIndices).join('::') }
           : {}
-        )
-      };
-    }
-
-    return {};
+      ),
+      ...(
+        paramsIndices && paramsIndices.length
+          ? { params: this.typesAt(paramsIndices).map((type): TypeDef => this.typeDefFromMetaType(type)) }
+          : {}
+      ),
+      ...(SPECIAL_TYPES.includes(this.stringAt(nameIndex))
+        ? { type: this.stringAt(nameIndex) }
+        : {}
+      )
+    };
   }
 
   private typeDefDefFields (metaType: MetaType, typeIndex?: TypeIndex): Pick<TypeDef, never> {
@@ -177,7 +174,7 @@ export default class MetaRegistry {
         typeDef = this.typeDefForBuiltinArray(metaType.id as MetaTypeIdArray, typeIndex);
         break;
       case Enum:
-        typeDef = this.typeDefForEnum(metaType.def as MetaTypeDefEnum);
+        typeDef = this.typeDefForEnum(metaType.def as MetaTypeDefEnum, metaType.id as MetaTypeIdCustom, typeIndex);
         break;
       case ClikeEnum:
         typeDef = this.typeDefForClikeEnum(metaType.def as MetaTypeDefClikeEnum);
@@ -219,6 +216,32 @@ export default class MetaRegistry {
     return this.typeDefAt(typeIndex)!;
   }
 
+  private typeDefForEnumVariant (variant: MetaTypeDefEnumVariant): Pick<TypeDef, any> {
+    const { 'unit_variant.name': unitNameIndex } = variant as MetaTypeDefEnumVariantUnit;
+    if (unitNameIndex) {
+      return {
+        info: TypeDefInfo.Plain,
+        name: this.stringAt(unitNameIndex),
+        type: 'Null'
+      };
+    }
+
+    const { 'tuple_struct_variant.name': tupleStructVariantNameIndex } = variant as MetaTypeDefEnumVariantTupleStruct;
+    if (tupleStructVariantNameIndex) {
+      return this.typeDefForTupleStruct(variant as MetaTypeDefEnumVariantTupleStruct);
+    }
+
+    const { 'struct_variant.name': structVariantNameIndex } = variant as MetaTypeDefEnumVariantStruct;
+    if (structVariantNameIndex) {
+      return this.typeDefForStruct(variant as MetaTypeDefEnumVariantStruct);
+    }
+
+    return {
+      info: TypeDefInfo.Null,
+      type: 'Null'
+    };
+  }
+
   private typeDefForBuiltinPlain (id: string): Pick<TypeDef, never> {
     return {
       info: TypeDefInfo.Plain,
@@ -228,11 +251,10 @@ export default class MetaRegistry {
 
   private typeDefForBuiltinTuple (id: TypeIndex[]): Pick<TypeDef, never> {
     const sub = id.map((tupleTypeIndex: number): TypeDef => this.typeDefFromMetaTypeAt(tupleTypeIndex));
-    return {
+    return withTypeString({
       info: TypeDefInfo.Tuple,
-      type: encodeTuple(sub),
       sub
-    };
+    });
   }
 
   private typeDefForBuiltinArray (id: MetaTypeIdArray, typeIndex?: TypeIndex): Pick<TypeDef, never> {
@@ -259,40 +281,19 @@ export default class MetaRegistry {
     };
   }
 
-  private typeDefForEnum (def: MetaTypeDefEnum): TypeDef {
-    const sub = def['enum.variants'].map(
-      (variant): TypeDef => {
-        const { 'unit_variant.name': unitNameIndex } = variant as MetaTypeDefEnumVariantUnit;
-        if (unitNameIndex) {
-          return {
-            info: TypeDefInfo.Plain,
-            name: this.stringAt(unitNameIndex),
-            type: 'Null'
-          };
-        }
+  private typeDefForEnum (def: MetaTypeDefEnum, id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+    const isOption = id && this.stringAt(id['custom.name']) === 'Option';
 
-        const { 'tuple_struct_variant.name': tupleStructVariantNameIndex } = variant as MetaTypeDefEnumVariantTupleStruct;
-        if (tupleStructVariantNameIndex) {
-          return this.typeDefForTupleStruct(variant as MetaTypeDefEnumVariantTupleStruct);
-        }
+    if (isOption) {
+      return this.typeDefForOption(def, typeIndex);
+    }
 
-        const { 'struct_variant.name': structVariantNameIndex } = variant as MetaTypeDefEnumVariantStruct;
-        if (structVariantNameIndex) {
-          return this.typeDefForStruct(variant as MetaTypeDefEnumVariantStruct);
-        }
+    const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
 
-        return {
-          info: TypeDefInfo.Null,
-          type: 'Null'
-        };
-      }
-    );
-
-    return {
+    return withTypeString({
       info: TypeDefInfo.Enum,
-      type: encodeEnum(sub),
       sub
-    };
+    });
   }
 
   private typeDefForClikeEnum (def: MetaTypeDefClikeEnum): Pick<TypeDef, never> {
@@ -307,14 +308,24 @@ export default class MetaRegistry {
       }
     );
 
-    return {
+    return withTypeString({
       info: TypeDefInfo.Enum,
-      type: encodeEnum(sub),
       sub
-    };
+    });
   }
 
-  public typeDefForStruct (def: MetaTypeDefStruct | MetaTypeDefEnumVariantStruct): TypeDef {
+  public typeDefForOption (def: MetaTypeDefEnum, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+    assert(def['enum.variants'][1], `Invalid Option type defined at index ${typeIndex}`);
+
+    const sub = this.typeDefForEnumVariant(def['enum.variants'][1]);
+
+    return withTypeString({
+      info: TypeDefInfo.Option,
+      sub
+    });
+  }
+
+  public typeDefForStruct (def: MetaTypeDefStruct | MetaTypeDefEnumVariantStruct): Pick<TypeDef, any> {
     const structFields = (def as MetaTypeDefStruct)['struct.fields'] || (def as MetaTypeDefEnumVariantStruct)['struct_variant.fields'];
     const structNameIndex = (def as MetaTypeDefEnumVariantStruct)['struct_variant.name'];
     const sub = structFields.map(
@@ -327,7 +338,7 @@ export default class MetaRegistry {
       }
     );
 
-    return {
+    return withTypeString({
       info: TypeDefInfo.Struct,
       ...(
         structNameIndex
@@ -336,12 +347,11 @@ export default class MetaRegistry {
           }
           : {}
       ),
-      type: encodeStruct(sub),
       sub
-    };
+    });
   }
 
-  private typeDefForTupleStruct (def: MetaTypeDefTupleStruct | MetaTypeDefEnumVariantTupleStruct): TypeDef {
+  private typeDefForTupleStruct (def: MetaTypeDefTupleStruct | MetaTypeDefEnumVariantTupleStruct): Pick<TypeDef, any> {
     const tupleStructTypes = (def as MetaTypeDefTupleStruct)['tuple_struct.types'] || (def as MetaTypeDefEnumVariantTupleStruct)['tuple_struct_variant.types'];
     const tupleStructNameIndex = (def as MetaTypeDefEnumVariantTupleStruct)['tuple_struct_variant.name'];
     const sub: TypeDef[] = tupleStructTypes.map(
@@ -353,7 +363,7 @@ export default class MetaRegistry {
       }
     );
 
-    return {
+    return withTypeString({
       info: TypeDefInfo.Tuple,
       ...(
         tupleStructNameIndex
@@ -362,8 +372,7 @@ export default class MetaRegistry {
           }
           : {}
       ),
-      type: encodeTuple(sub),
       sub
-    };
+    });
   }
 }
