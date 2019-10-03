@@ -59,6 +59,17 @@ export interface DoubleMapTypeV6 extends DoubleMapTypeV5 {}
 /** DoubleMapTypeV6 */
 export interface DoubleMapTypeV7 extends DoubleMapTypeV6 {}
 
+/** DoubleMapTypeV7 */
+export interface DoubleMapTypeV8 extends DoubleMapTypeV7 {}
+
+/** Struct */
+export interface ErrorMetadataV8 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
+
 /** Struct */
 export interface EventMetadataV0 extends Struct {
   /** Text */
@@ -90,6 +101,9 @@ export interface EventMetadataV6 extends EventMetadataV5 {}
 /** EventMetadataV6 */
 export interface EventMetadataV7 extends EventMetadataV6 {}
 
+/** EventMetadataV7 */
+export interface EventMetadataV8 extends EventMetadataV7 {}
+
 /** Struct */
 export interface FunctionArgumentMetadataV0 extends Struct {
   /** Text */
@@ -118,6 +132,9 @@ export interface FunctionArgumentMetadataV6 extends FunctionArgumentMetadataV5 {
 
 /** FunctionArgumentMetadataV6 */
 export interface FunctionArgumentMetadataV7 extends FunctionArgumentMetadataV6 {}
+
+/** FunctionArgumentMetadataV7 */
+export interface FunctionArgumentMetadataV8 extends FunctionArgumentMetadataV7 {}
 
 /** Struct */
 export interface FunctionMetadataV0 extends Struct {
@@ -158,6 +175,9 @@ export interface FunctionMetadataV6 extends FunctionMetadataV5 {}
 
 /** FunctionMetadataV6 */
 export interface FunctionMetadataV7 extends FunctionMetadataV6 {}
+
+/** FunctionMetadataV7 */
+export interface FunctionMetadataV8 extends FunctionMetadataV7 {}
 
 /** Struct */
 export interface MapTypeV0 extends Struct {
@@ -201,6 +221,9 @@ export interface MapTypeV6 extends MapTypeV5 {}
 /** MapTypeV6 */
 export interface MapTypeV7 extends MapTypeV6 {}
 
+/** MapTypeV7 */
+export interface MapTypeV8 extends MapTypeV7 {}
+
 /** Struct */
 export interface MetadataV0 extends Struct {
   /** OuterEventMetadataV0 */
@@ -231,6 +254,9 @@ export interface ModuleConstantMetadataV6 extends Struct {
 
 /** ModuleConstantMetadataV6 */
 export interface ModuleConstantMetadataV7 extends ModuleConstantMetadataV6 {}
+
+/** ModuleConstantMetadataV7 */
+export interface ModuleConstantMetadataV8 extends ModuleConstantMetadataV7 {}
 
 /** Struct */
 export interface ModuleMetadataV0 extends Struct {
@@ -307,6 +333,9 @@ export interface PlainTypeV6 extends Type {}
 /** Type */
 export interface PlainTypeV7 extends Type {}
 
+/** Type */
+export interface PlainTypeV8 extends Type {}
+
 /** Struct */
 export interface RuntimeModuleMetadataV0 extends Struct {
   /** Text */
@@ -322,6 +351,9 @@ export interface StorageEntryModifierV6 extends StorageFunctionModifierV5 {}
 
 /** StorageEntryModifierV6 */
 export interface StorageEntryModifierV7 extends StorageEntryModifierV6 {}
+
+/** StorageEntryModifierV7 */
+export interface StorageEntryModifierV8 extends StorageEntryModifierV7 {}
 
 /** Struct */
 export interface StorageFunctionMetadataV0 extends Struct {

@@ -6,7 +6,7 @@ import { createType } from '../../codec';
 import Metadata from '../';
 import latestSubstrateV0 from './static-substrate.json';
 import rpcData from './static';
-import { defaultValues, toV7 } from '../util/testUtil';
+import { defaultValues, toLatest } from '../util/testUtil';
 
 describe('Metadata', (): void => {
   it('works with fallback', (): void => {
@@ -27,7 +27,7 @@ describe('Metadata', (): void => {
     expect(json).toEqual(latestSubstrateV0);
   });
 
-  toV7(0, rpcData);
+  toLatest(0, rpcData);
 
   defaultValues(rpcData);
 });
