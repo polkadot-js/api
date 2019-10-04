@@ -15,6 +15,7 @@ import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
 import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
 import rpcMetadataV7 from '@polkadot/types/Metadata/v7/static';
+import rpcMetadataV8 from '@polkadot/types/Metadata/v8/static';
 
 import Api from '.';
 
@@ -208,6 +209,12 @@ formattingTests('v6', fromMetadata(new Metadata(rpcMetadataV6)), [
 ]);
 
 formattingTests('v7', fromMetadata(new Metadata(rpcMetadataV7)), [
+  '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
+  '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
+  '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'
+]);
+
+formattingTests('v8', fromMetadata(new Metadata(rpcMetadataV8)), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'

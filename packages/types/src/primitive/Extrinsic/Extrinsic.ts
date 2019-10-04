@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataV7 } from '../../interfaces/metadata/types';
+import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
 import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
 
@@ -174,9 +174,9 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description The [[FunctionMetadataV7]] that describes the extrinsic
+   * @description The [[FunctionMetadataLatest]] that describes the extrinsic
    */
-  public get meta (): FunctionMetadataV7 {
+  public get meta (): FunctionMetadataLatest {
     return this.method.meta;
   }
 

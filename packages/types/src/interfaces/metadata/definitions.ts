@@ -199,6 +199,14 @@ export default {
     MapTypeV8: 'MapTypeV7',
     ModuleConstantMetadataV8: 'ModuleConstantMetadataV7',
     PlainTypeV8: 'Type',
-    StorageEntryModifierV8: 'StorageEntryModifierV7'
+    StorageEntryModifierV8: 'StorageEntryModifierV7',
+
+    // This always maps to the latest
+    EventMetadataLatest: 'EventMetadataV8',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV8',
+    FunctionMetadataLatest: 'FunctionMetadataV8',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV8',
+    PlainTypeLatest: 'PlainTypeV8',
+    StorageEntryModifierLatest: 'StorageEntryModifierV8'
   }
 };

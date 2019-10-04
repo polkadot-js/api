@@ -9,7 +9,7 @@ import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
-import { StorageMetadata } from '../V7/Storage';
+import { StorageMetadata } from './Storage';
 
 /**
  * @name ModuleMetadataV8

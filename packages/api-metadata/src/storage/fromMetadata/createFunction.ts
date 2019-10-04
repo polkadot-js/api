@@ -7,7 +7,7 @@ import { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
 import { createType, createTypeUnsafe } from '@polkadot/types/codec';
-import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
+import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
@@ -121,8 +121,8 @@ function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn,
   // meta fallback only applies to actual entry values, create one for head
   headFn.meta = new StorageEntryMetadata({
     name,
-    modifier: createType('StorageEntryModifierV7', 1), // required
-    type: new StorageEntryType(createType('PlainTypeV7', type.asMap.key), 0),
+    modifier: createType('StorageEntryModifierLatest', 1), // required
+    type: new StorageEntryType(createType('PlainTypeLatest', type.asMap.key), 0),
     fallback: new Bytes(createTypeUnsafe(type.asMap.key.toString()).toHex()),
     documentation
   });

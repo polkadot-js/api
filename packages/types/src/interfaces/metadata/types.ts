@@ -70,6 +70,9 @@ export interface ErrorMetadataV8 extends Struct {
   readonly documentation: Vec<Text>;
 }
 
+/** EventMetadataV8 */
+export interface EventMetadataLatest extends EventMetadataV8 {}
+
 /** Struct */
 export interface EventMetadataV0 extends Struct {
   /** Text */
@@ -104,6 +107,9 @@ export interface EventMetadataV7 extends EventMetadataV6 {}
 /** EventMetadataV7 */
 export interface EventMetadataV8 extends EventMetadataV7 {}
 
+/** FunctionArgumentMetadataV8 */
+export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV8 {}
+
 /** Struct */
 export interface FunctionArgumentMetadataV0 extends Struct {
   /** Text */
@@ -135,6 +141,9 @@ export interface FunctionArgumentMetadataV7 extends FunctionArgumentMetadataV6 {
 
 /** FunctionArgumentMetadataV7 */
 export interface FunctionArgumentMetadataV8 extends FunctionArgumentMetadataV7 {}
+
+/** FunctionMetadataV8 */
+export interface FunctionMetadataLatest extends FunctionMetadataV8 {}
 
 /** Struct */
 export interface FunctionMetadataV0 extends Struct {
@@ -240,6 +249,9 @@ export interface MetadataV1 extends Struct {
   readonly modules: Vec<ModuleMetadataV1>;
 }
 
+/** ModuleConstantMetadataV8 */
+export interface ModuleConstantMetadataLatest extends ModuleConstantMetadataV8 {}
+
 /** Struct */
 export interface ModuleConstantMetadataV6 extends Struct {
   /** Text */
@@ -312,6 +324,9 @@ export interface OuterEventMetadataV0 extends Struct {
   readonly events: Vec<OuterEventEventMetadataV0>;
 }
 
+/** PlainTypeV8 */
+export interface PlainTypeLatest extends PlainTypeV8 {}
+
 /** Type */
 export interface PlainTypeV0 extends Type {}
 
@@ -345,6 +360,9 @@ export interface RuntimeModuleMetadataV0 extends Struct {
   /** Option<StorageMetadataV0> */
   readonly storage: Option<StorageMetadataV0>;
 }
+
+/** StorageEntryModifierV8 */
+export interface StorageEntryModifierLatest extends StorageEntryModifierV8 {}
 
 /** StorageFunctionModifierV5 */
 export interface StorageEntryModifierV6 extends StorageFunctionModifierV5 {}

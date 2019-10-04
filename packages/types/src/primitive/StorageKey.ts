@@ -4,14 +4,14 @@
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { StorageEntryMetadata as MetaV7 } from '../Metadata/v7/Storage';
+import { StorageEntryMetadata as MetaV8 } from '../Metadata/v8/Storage';
 import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
   headKey?: Uint8Array;
-  meta: MetaV7;
+  meta: MetaV8;
   method: string;
   prefix: string;
   section: string;
@@ -36,7 +36,7 @@ interface StorageKeyExtra {
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta?: MetaV7;
+  private _meta?: MetaV8;
 
   private _method?: string;
 
@@ -86,7 +86,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV7 | undefined {
+  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV8 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -117,7 +117,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  public get meta (): MetaV7 | undefined {
+  public get meta (): MetaV8 | undefined {
     return this._meta;
   }
 

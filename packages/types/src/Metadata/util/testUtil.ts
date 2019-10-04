@@ -34,13 +34,13 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV7 and MetadataV{version} should output the same
+ * Given a `version`, MetadataLatest and MetadataV{version} should output the same
  * unique types.
  */
 export function toLatest<Modules extends Codec> (version: number, rpcData: string): void {
   it(`converts v${version} to v8`, (): void => {
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV8 = new Metadata(rpcData).asV8;
+    const metadataV8 = new Metadata(rpcData).asLatest;
 
     expect(
       getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionArgumentMetadataV7, FunctionMetadataV7 } from '../../interfaces/metadata';
+import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
 
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
@@ -18,7 +18,7 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
-  meta: FunctionMetadataV7;
+  meta: FunctionMetadataLatest;
 }
 
 const FN_UNKNOWN: Partial<CallFunction> = {
@@ -46,9 +46,9 @@ export class CallIndex extends U8aFixed {
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
 export default class Call extends Struct implements IMethod {
-  protected _meta: FunctionMetadataV7;
+  protected _meta: FunctionMetadataLatest;
 
-  public constructor (value: any, meta?: FunctionMetadataV7) {
+  public constructor (value: any, meta?: FunctionMetadataLatest) {
     const decoded = Call.decodeCall(value, meta);
 
     super({
@@ -69,7 +69,7 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV7): DecodedMethod {
+  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
       return Call.decodeCallViaU8a(u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
@@ -79,7 +79,7 @@ export default class Call extends Struct implements IMethod {
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
-  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataV7): DecodedMethod {
+  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
     // destructure value, we only pass args/methodsIndex out
     const { args, callIndex } = value;
 
@@ -99,7 +99,7 @@ export default class Call extends Struct implements IMethod {
     };
   }
 
-  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataV7): DecodedMethod {
+  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
     // The first 2 bytes are the callIndex
     const callIndex = value.subarray(0, 2);
 
@@ -115,7 +115,7 @@ export default class Call extends Struct implements IMethod {
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataV7): FunctionArgumentMetadataV7[] {
+  public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
       ? meta.args.filter(({ type }): boolean =>
@@ -143,7 +143,7 @@ export default class Call extends Struct implements IMethod {
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: FunctionMetadataV7): ArgsDef {
+  private static getArgsDef (meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
       const Type = getTypeClass(
         getTypeDef(type.toString())
@@ -205,7 +205,7 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description The [[FunctionMetadata]]
    */
-  public get meta (): FunctionMetadataV7 {
+  public get meta (): FunctionMetadataLatest {
     return this._meta;
   }
 
