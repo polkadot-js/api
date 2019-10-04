@@ -7,12 +7,12 @@ import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
 
 describeE2E({
-  only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']
-})('Kusama', (): void => {
+  only: ['remote-polkadot-kusama']
+})('Promise e2e kusama queries', (wsUrl: string): void => {
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
-    api = await ApiPromise.create({ provider: new WsProvider('wss://kusama-rpc.polkadot.io') });
+    api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
 
     done();
   });
