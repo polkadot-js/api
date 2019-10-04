@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   lint:
-    name: Lint
+    name: Linting
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,7 +21,7 @@ jobs:
         yarn lint
 
   test:
-    name: Test
+    name: Testing
     runs-on: ubuntu-latest
     strategy:
       matrix:
