@@ -1,7 +1,7 @@
 {
   "magicNumber": 1635018093,
   "metadata": {
-    "V7": {
+    "V8": {
       "modules": [
         {
           "name": "System",
@@ -277,6 +277,18 @@
               "documentation": [
                 " Kill some items from storage."
               ]
+            },
+            {
+              "name": "kill_prefix",
+              "args": [
+                {
+                  "name": "prefix",
+                  "type": "Key"
+                }
+              ],
+              "documentation": [
+                " Kill all storage items with a key that starts with the given prefix."
+              ]
             }
           ],
           "events": [
@@ -297,7 +309,41 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": [
+            {
+              "name": "Other",
+              "documentation": [
+                "Other unspecified error"
+              ]
+            },
+            {
+              "name": "CannotLookup",
+              "documentation": [
+                "Can not lookup"
+              ]
+            },
+            {
+              "name": "BadSignature",
+              "documentation": []
+            },
+            {
+              "name": "BlockFull",
+              "documentation": []
+            },
+            {
+              "name": "RequireSignedOrigin",
+              "documentation": []
+            },
+            {
+              "name": "RequireRootOrigin",
+              "documentation": []
+            },
+            {
+              "name": "RequireNoOrigin",
+              "documentation": []
+            }
+          ]
         },
         {
           "name": "Babe",
@@ -451,7 +497,8 @@
                 " the probability of a slot being empty)."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Timestamp",
@@ -517,7 +564,8 @@
                 " period on default settings."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Authorship",
@@ -574,7 +622,8 @@
             }
           ],
           "events": null,
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Indices",
@@ -626,7 +675,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Balances",
@@ -897,7 +947,8 @@
                 " The fee to be paid for making a transaction; the per-byte portion."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Staking",
@@ -1476,7 +1527,8 @@
                 " Number of eras that staked funds must remain bonded for."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Session",
@@ -1633,7 +1685,8 @@
                 " of the trie."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Democracy",
@@ -2286,7 +2339,8 @@
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Council",
@@ -2500,7 +2554,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "TechnicalCommittee",
@@ -2714,7 +2769,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Elections",
@@ -2947,7 +3003,7 @@
                 },
                 {
                   "name": "value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
@@ -2994,7 +3050,7 @@
                 },
                 {
                   "name": "value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
@@ -3310,7 +3366,8 @@
                 " The chunk size of the approval vector."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "TechnicalMembership",
@@ -3432,7 +3489,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "FinalityTracker",
@@ -3470,7 +3528,8 @@
                 " The delay after which point things become suspicious. Default is 1000."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Grandpa",
@@ -3601,7 +3660,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Treasury",
@@ -3794,7 +3854,8 @@
                 " Percentage of spare funds (if any) that are burnt per spend period."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Contracts",
@@ -4218,7 +4279,8 @@
                 " default value is 10_000_000."
               ]
             }
-          ]
+          ],
+          "errors": []
         },
         {
           "name": "Sudo",
@@ -4336,7 +4398,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "ImOnline",
@@ -4412,14 +4475,16 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "AuthorityDiscovery",
           "storage": null,
           "calls": [],
           "events": null,
-          "constants": []
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Offences",
@@ -4496,7 +4561,8 @@
               ]
             }
           ],
-          "constants": []
+          "constants": [],
+          "errors": []
         }
       ]
     }
