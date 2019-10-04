@@ -8,6 +8,8 @@ import { assert } from '@polkadot/util';
 
 import { getTypeDef } from '../create';
 
+const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+
 export function paramsNotation (outer: string, inner?: string | any[], transform?: (_: any) => string): string {
   let array;
   if (inner) {
@@ -159,6 +161,8 @@ export function displayType (typeDef: Pick<TypeDef, any>): string {
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
   return {
     ...typeDef,
-    type: encodeType(typeDef)
+    type: SPECIAL_TYPES.includes(typeDef.name)
+      ? typeDef.name
+      : encodeType(typeDef)
   };
 }

@@ -7,8 +7,6 @@ import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, Met
 import { assert } from '@polkadot/util';
 import { withTypeString } from '@polkadot/types';
 
-const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
-
 const {
   BuiltinPlain,
   BuiltinTuple,
@@ -153,10 +151,6 @@ export default class MetaRegistry {
         paramsIndices && paramsIndices.length
           ? { params: this.typesAt(paramsIndices).map((type): TypeDef => this.typeDefFromMetaType(type)) }
           : {}
-      ),
-      ...(SPECIAL_TYPES.includes(this.stringAt(nameIndex))
-        ? { type: this.stringAt(nameIndex) }
-        : {}
       )
     };
   }
@@ -200,7 +194,7 @@ export default class MetaRegistry {
       ...this.typeDefIdFields(metaType)
     };
 
-    return typeDef;
+    return withTypeString(typeDef) as TypeDef;
   }
 
   public setTypeDefAtIndex (typeIndex: TypeIndex): void {
@@ -251,10 +245,10 @@ export default class MetaRegistry {
 
   private typeDefForBuiltinTuple (id: TypeIndex[]): Pick<TypeDef, never> {
     const sub = id.map((tupleTypeIndex: number): TypeDef => this.typeDefFromMetaTypeAt(tupleTypeIndex));
-    return withTypeString({
+    return {
       info: TypeDefInfo.Tuple,
       sub
-    });
+    };
   }
 
   private typeDefForBuiltinArray (id: MetaTypeIdArray, typeIndex?: TypeIndex): Pick<TypeDef, never> {
@@ -285,15 +279,15 @@ export default class MetaRegistry {
     const isOption = id && this.stringAt(id['custom.name']) === 'Option';
 
     if (isOption) {
-      return this.typeDefForOption(def, typeIndex);
+      return this.typeDefForOption(id, typeIndex);
     }
 
     const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
 
-    return withTypeString({
+    return {
       info: TypeDefInfo.Enum,
       sub
-    });
+    };
   }
 
   private typeDefForClikeEnum (def: MetaTypeDefClikeEnum): Pick<TypeDef, never> {
@@ -308,21 +302,19 @@ export default class MetaRegistry {
       }
     );
 
-    return withTypeString({
+    return {
       info: TypeDefInfo.Enum,
       sub
-    });
+    };
   }
 
-  public typeDefForOption (def: MetaTypeDefEnum, typeIndex?: TypeIndex): Pick<TypeDef, any> {
-    assert(def['enum.variants'][1], `Invalid Option type defined at index ${typeIndex}`);
+  public typeDefForOption (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+    assert(id['custom.params']![0], `Invalid Option type defined at index ${typeIndex}`);
 
-    const sub = this.typeDefForEnumVariant(def['enum.variants'][1]);
-
-    return withTypeString({
+    return {
       info: TypeDefInfo.Option,
-      sub
-    });
+      sub: this.typeDefFromMetaTypeAt(id['custom.params']![0])
+    };
   }
 
   public typeDefForStruct (def: MetaTypeDefStruct | MetaTypeDefEnumVariantStruct): Pick<TypeDef, any> {
