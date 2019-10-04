@@ -3,6 +3,7 @@
 - Adjust API cloning to take RPC filters from source into account
 - Simplification of isPedantic checks and less overhead on StorageData types
 - Cleanups and fixes around RPC and derive type definitions
+- Fix `derive.imOnline.receivedHeatbeats` to query via indexes
 - Adjustment of `api.derive.elections.{approvalsOf|approvalsOfAt}` to allow ss58 address input
 - Add documentation for custom extrinsic formats (advanced chains)
 
