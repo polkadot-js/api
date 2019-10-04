@@ -1,6 +1,5 @@
-name: Node CI
-
-on: [push]
+name: CI
+on: push
 
 jobs:
   lint:
