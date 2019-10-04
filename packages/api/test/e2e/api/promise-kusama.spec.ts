@@ -20,6 +20,6 @@ describeE2E({
   it('retrieves the list of validators', async (): Promise<void> => {
     const intentions = await api.query.staking.validators();
 
-    console.error(JSON.parse(JSON.stringify(intentions)))
+    console.error(JSON.parse(JSON.stringify(intentions)));
   });
 });
