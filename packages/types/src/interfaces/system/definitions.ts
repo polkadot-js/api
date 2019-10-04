@@ -9,14 +9,6 @@ export default {
       module: 'Option<u8>',
       error: 'u8'
     },
-    // Not 100% on this one this is defined as - result::Result<(), Error>
-    // we would probably need a result codec type (instead of approximating it)
-    DispatchResult: {
-      _enum: {
-        Ok: 'Null',
-        Error: 'Text'
-      }
-    },
     Event: 'GenericEvent',
     EventId: '[u8; 2]',
     EventIndex: 'u32',

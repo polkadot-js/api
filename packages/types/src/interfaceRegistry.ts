@@ -20,9 +20,9 @@ import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetwor
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
-import { DigestOf, DispatchError, DispatchResult, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
+import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
-import { DispatchResultOf } from '@polkadot/types/interfaces/utility';
+import { DispatchResult, DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
@@ -610,9 +610,6 @@ export interface InterfaceRegistry {
   DispatchError: DispatchError;
   'Option<DispatchError>': Option<DispatchError>;
   'Vec<DispatchError>': Vec<DispatchError>;
-  DispatchResult: DispatchResult;
-  'Option<DispatchResult>': Option<DispatchResult>;
-  'Vec<DispatchResult>': Vec<DispatchResult>;
   Event: Event;
   'Option<Event>': Option<Event>;
   'Vec<Event>': Vec<Event>;
