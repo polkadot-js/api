@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, u32, u8 } from '@polkadot/types/primitive';
+import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
@@ -15,6 +15,16 @@ export interface DispatchError extends Struct {
   readonly module: Option<u8>;
   /** u8 */
   readonly error: u8;
+}
+
+/** Enum */
+export interface DispatchResult extends Enum {
+  /** 0:: Ok */
+  readonly isOk: boolean;
+  /** 1:: Error(Text) */
+  readonly isError: boolean;
+  /** Text */
+  readonly asError: Text;
 }
 
 /** GenericEvent */

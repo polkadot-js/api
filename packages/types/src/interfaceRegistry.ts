@@ -20,7 +20,7 @@ import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetwor
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
-import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
+import { DigestOf, DispatchError, DispatchResult, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces/claims';
@@ -609,6 +609,9 @@ export interface InterfaceRegistry {
   DispatchError: DispatchError;
   'Option<DispatchError>': Option<DispatchError>;
   'Vec<DispatchError>': Vec<DispatchError>;
+  DispatchResult: DispatchResult;
+  'Option<DispatchResult>': Option<DispatchResult>;
+  'Vec<DispatchResult>': Vec<DispatchResult>;
   Event: Event;
   'Option<Event>': Option<Event>;
   'Vec<Event>': Vec<Event>;
@@ -634,6 +637,9 @@ export interface InterfaceRegistry {
   TreasuryProposal: TreasuryProposal;
   'Option<TreasuryProposal>': Option<TreasuryProposal>;
   'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
+  DispatchResult: DispatchResult;
+  'Option<DispatchResult>': Option<DispatchResult>;
+  'Vec<DispatchResult>': Vec<DispatchResult>;
   BlockAttestations: BlockAttestations;
   'Option<BlockAttestations>': Option<BlockAttestations>;
   'Vec<BlockAttestations>': Vec<BlockAttestations>;
