@@ -13,3 +13,6 @@ export interface DispatchResult extends Enum {
   /** Text */
   readonly asError: Text;
 }
+
+/** DispatchResult */
+export interface DispatchResultOf extends DispatchResult {}

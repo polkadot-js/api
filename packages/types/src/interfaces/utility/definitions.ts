@@ -11,6 +11,7 @@ export default {
         Ok: 'Null',
         Error: 'Text'
       }
-    }
+    },
+    DispatchResultOf: 'DispatchResult'
   }
 };

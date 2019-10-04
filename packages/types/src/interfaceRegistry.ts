@@ -22,6 +22,7 @@ import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKey
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, DispatchResult, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
@@ -640,6 +641,9 @@ export interface InterfaceRegistry {
   DispatchResult: DispatchResult;
   'Option<DispatchResult>': Option<DispatchResult>;
   'Vec<DispatchResult>': Vec<DispatchResult>;
+  DispatchResultOf: DispatchResultOf;
+  'Option<DispatchResultOf>': Option<DispatchResultOf>;
+  'Vec<DispatchResultOf>': Vec<DispatchResultOf>;
   BlockAttestations: BlockAttestations;
   'Option<BlockAttestations>': Option<BlockAttestations>;
   'Vec<BlockAttestations>': Vec<BlockAttestations>;
