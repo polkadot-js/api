@@ -80,6 +80,17 @@ function _decodeFixedVec (value: TypeDef, type: string, subType: string): TypeDe
   return value;
 }
 
+// decode a result into the result and error parts
+function _decodeResult (value: TypeDef, type: string, subType: string): TypeDef {
+  value.info = TypeDefInfo.Result;
+  value.sub = typeSplit(subType).map((inner): TypeDef =>
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    getTypeDef(inner)
+  );
+
+  return value;
+}
+
 // decode a tuple
 function _decodeTuple (value: TypeDef, type: string, subType: string): TypeDef {
   value.info = TypeDefInfo.Tuple;
@@ -104,15 +115,16 @@ function hasWrapper (type: string, [start, end]: [string, string, any]): boolean
 const nestedExtraction: [string, string, (value: TypeDef, type: string, subType: string) => TypeDef][] = [
   ['[', ']', _decodeFixedVec],
   ['{', '}', _decodeStruct],
-  ['(', ')', _decodeTuple]
+  ['(', ')', _decodeTuple],
+  ['Result<', '>', _decodeResult]
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
-  ['Option<', '>', TypeDefInfo.Option],
-  ['Vec<', '>', TypeDefInfo.Vec],
+  ['DoubleMap<', '>', TypeDefInfo.DoubleMap],
   ['Linkage<', '>', TypeDefInfo.Linkage],
-  ['DoubleMap<', '>', TypeDefInfo.DoubleMap]
+  ['Option<', '>', TypeDefInfo.Option],
+  ['Vec<', '>', TypeDefInfo.Vec]
 ];
 
 function extractSubType (type: string, [start, end]: [string, string, any]): string {
