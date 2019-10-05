@@ -35,10 +35,10 @@ describe('extrinsics', (): void => {
       '2502' + // length
       '81' + // signed flag
       'ffd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' + // who
-      'fa4c192f6960a3bcdbdee5bcd9c26a3f971b131081912abcc31eab6a0b7589ab' + // sig1
-      '7f99b81a01738cb5e2a911a19d5daa5c0b654d4b8dbc521a6b29090c6d205903' + // sig2
+      '5322aca55349f72dbfa57f3e2484f3457c960fbd7f540fcf70433180c70f8af5' + // sig1
+      '0f3c8dd7a7fbc8e23cfd9e3bc87f31008598e2be3feef512ed942f0240e1a908' + // sig2
       '0000' + // nonce & era
-      '0500' + // balances.transfer
+      '0600' + // balances.transfer
       'ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' + // to
       'e56c' // value
     );
