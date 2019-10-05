@@ -277,6 +277,18 @@
               "documentation": [
                 " Kill some items from storage."
               ]
+            },
+            {
+              "name": "kill_prefix",
+              "args": [
+                {
+                  "name": "prefix",
+                  "type": "Key"
+                }
+              ],
+              "documentation": [
+                " Kill all storage items with a key that starts with the given prefix."
+              ]
             }
           ],
           "events": [
@@ -295,6 +307,34 @@
               "documentation": [
                 " An extrinsic failed."
               ]
+            }
+          ],
+          "constants": []
+        },
+        {
+          "name": "Utility",
+          "storage": null,
+          "calls": [
+            {
+              "name": "batch",
+              "args": [
+                {
+                  "name": "calls",
+                  "type": "Vec<Call>"
+                }
+              ],
+              "documentation": [
+                " Send a batch of dispatch calls (only root)."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "BatchExecuted",
+              "args": [
+                "Vec<DispatchResult>"
+              ],
+              "documentation": []
             }
           ],
           "constants": []
@@ -2947,7 +2987,7 @@
                 },
                 {
                   "name": "value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
@@ -2994,7 +3034,7 @@
                 },
                 {
                   "name": "value",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [

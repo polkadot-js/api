@@ -32,7 +32,7 @@ describe('fromMetadata', (): void => {
         // version, no signature
         1,
         // index
-        2, 0,
+        3, 0,
         // values, Compact<Moment>
         116
       ])
