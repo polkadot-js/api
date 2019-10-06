@@ -4,11 +4,12 @@
 
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { CallFunction, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
+import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
-import { GenericCall, Metadata, getTypeRegistry } from '@polkadot/types';
+import { GenericCall, Metadata, createType, getTypeRegistry } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -214,6 +215,13 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    */
   public get tx (): SubmittableExtrinsics<ApiType> {
     return assertResult(this._extrinsics);
+  }
+
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
+    return createType(type, ...params);
   }
 
   /**
