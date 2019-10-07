@@ -21,6 +21,63 @@ describe('getTypeDef', (): void => {
     ).toThrow(/Unable to find closing matching/);
   });
 
+  it('maps empty tuples to Null', (): void => {
+    expect(
+      getTypeDef('()')
+    ).toEqual({
+      info: TypeDefInfo.Plain,
+      type: 'Null'
+    });
+  });
+
+  it('properly decodes a Result<u32, Text>', (): void => {
+    expect(
+      getTypeDef('Result<u32, Text>')
+    ).toEqual({
+      info: TypeDefInfo.Result,
+      type: 'Result<u32,Text>',
+      sub: [
+        {
+          info: TypeDefInfo.Plain,
+          type: 'u32'
+        },
+        {
+          info: TypeDefInfo.Plain,
+          type: 'Text'
+        }
+      ]
+    });
+  });
+
+  it('properly decodes a Result<Result<(), u32>, Text>', (): void => {
+    expect(
+      getTypeDef('Result<Result<Null,u32>,Text>')
+    ).toEqual({
+      info: TypeDefInfo.Result,
+      type: 'Result<Result<Null,u32>,Text>',
+      sub: [
+        {
+          info: TypeDefInfo.Result,
+          type: 'Result<Null,u32>',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              type: 'Null'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u32'
+            }
+          ]
+        },
+        {
+          info: TypeDefInfo.Plain,
+          type: 'Text'
+        }
+      ]
+    });
+  });
+
   it('returns a type structure', (): void => {
     expect(
       getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text,Vec<(Bool,u128)>))')

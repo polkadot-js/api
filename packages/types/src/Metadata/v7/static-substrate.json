@@ -332,7 +332,7 @@
             {
               "name": "BatchExecuted",
               "args": [
-                "Vec<DispatchResult>"
+                "Vec<Result<Null,DispatchError>>"
               ],
               "documentation": []
             }

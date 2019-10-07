@@ -11,6 +11,7 @@ import Compact from '../Compact';
 import Enum from '../Enum';
 import Linkage from '../Linkage';
 import Option from '../Option';
+import Result from '../Result';
 import CodecSet from '../Set';
 import Struct from '../Struct';
 import Tuple from '../Tuple';
@@ -71,6 +72,13 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
 
   [TypeDefInfo.Plain]: (value: TypeDef): Constructor =>
     getTypeRegistry().getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
+
+  [TypeDefInfo.Result]: (value: TypeDef): Constructor => {
+    const [okDef, errorDef] = getSubDefArray(value);
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return Result.with({ Ok: getTypeClass(okDef), Error: getTypeClass(errorDef) });
+  },
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {
     const result: Record<string, number> = {};

@@ -5,7 +5,7 @@
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['Compact', 'DoubleMap', 'Linkage', 'Option', 'Vec'];
+const ALLOWED_BOXES = ['Compact', 'DoubleMap', 'Linkage', 'Result', 'Option', 'Vec'];
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport

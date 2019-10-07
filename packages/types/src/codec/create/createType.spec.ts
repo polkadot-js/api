@@ -20,6 +20,12 @@ describe('createType', (): void => {
     });
   });
 
+  it('allows creation of a Result', (): void => {
+    expect(
+      createTypeUnsafe('Result<u32,Text>', ['0x011064656667']).toJSON()
+    ).toEqual({ Error: 'defg' });
+  });
+
   it('allows creation of a Tuple', (): void => {
     expect(
       createTypeUnsafe('(Balance,u32)', [[1234, 5678]]).toJSON()

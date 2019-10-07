@@ -44,6 +44,53 @@ function extractDef (_def: Record<string, InterfaceTypes | Constructor> | string
   };
 }
 
+function createFromValue (def: TypesDef, index = 0, value?: any): Decoded {
+  const Clazz = Object.values(def)[index];
+
+  assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
+
+  return {
+    index,
+    value: new Clazz(value)
+  };
+}
+
+function decodeFromJSON (def: TypesDef, key: string, value?: any): Decoded {
+  // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+  // additionally force to lower to ensure forward compat
+  const keys = Object.keys(def).map((k): string => k.toLowerCase());
+  const keyLower = key.toLowerCase();
+  const index = keys.indexOf(keyLower);
+
+  assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
+
+  return createFromValue(def, index, value);
+}
+
+function decodeFromString (def: TypesDef, value: string): Decoded {
+  return isHex(value)
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    ? decodeFromValue(def, hexToU8a(value))
+    : decodeFromJSON(def, value);
+}
+
+function decodeFromValue (def: TypesDef, value?: any): Decoded {
+  if (isU8a(value)) {
+    return createFromValue(def, value[0], value.subarray(1));
+  } else if (isNumber(value)) {
+    return createFromValue(def, value);
+  } else if (isString(value)) {
+    return decodeFromString(def, value.toString());
+  } else if (isObject(value)) {
+    const key = Object.keys(value)[0];
+
+    return decodeFromJSON(def, key, value[key]);
+  }
+
+  // Worst-case scenario, return the first with default
+  return createFromValue(def, 0);
+}
+
 /**
  * @name Enum
  * @description
@@ -78,59 +125,13 @@ export default class Enum extends Base<Codec> {
     // NOTE We check the index path first, before looking at values - this allows treating
     // the optional indexes before anything else, more-specific > less-specific
     if (isNumber(index)) {
-      return Enum.createValue(def, index, value);
+      return createFromValue(def, index, value);
     } else if (value instanceof Enum) {
-      return Enum.createValue(def, value._index, value.raw);
+      return createFromValue(def, value._index, value.raw);
     }
 
     // Or else, we just look at `value`
-    return Enum.decodeViaValue(def, value);
-  }
-
-  private static decodeViaValue (def: TypesDef, value?: any): Decoded {
-    if (isU8a(value)) {
-      return Enum.createValue(def, value[0], value.subarray(1));
-    } else if (isNumber(value)) {
-      return Enum.createValue(def, value);
-    } else if (isString(value)) {
-      return Enum.decodeViaString(def, value.toString());
-    } else if (isObject(value)) {
-      const key = Object.keys(value)[0];
-
-      return Enum.createViaJSON(def, key, value[key]);
-    }
-
-    // Worst-case scenario, return the first with default
-    return Enum.createValue(def, 0);
-  }
-
-  private static decodeViaString (def: TypesDef, value: string): Decoded {
-    return isHex(value)
-      ? Enum.decodeViaValue(def, hexToU8a(value))
-      : Enum.createViaJSON(def, value);
-  }
-
-  private static createViaJSON (def: TypesDef, key: string, value?: any): Decoded {
-    // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
-    // additionally force to lower to ensure forward compat
-    const keys = Object.keys(def).map((k): string => k.toLowerCase());
-    const keyLower = key.toLowerCase();
-    const index = keys.indexOf(keyLower);
-
-    assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
-
-    return Enum.createValue(def, index, value);
-  }
-
-  private static createValue (def: TypesDef, index = 0, value?: any): Decoded {
-    const Clazz = Object.values(def)[index];
-
-    assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
-
-    return {
-      index,
-      value: new Clazz(value)
-    };
+    return decodeFromValue(def, value);
   }
 
   public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
@@ -247,14 +248,19 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description Returns a raw struct representation of the enum types
+   */
+  protected toRawStruct (): string[] | Record<string, string> {
+    return this._isBasic
+      ? Object.keys(this._def)
+      : Struct.typesToMap(this._def);
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const _enum = this._isBasic
-      ? Object.keys(this._def)
-      : Struct.typesToMap(this._def);
-
-    return JSON.stringify({ _enum });
+    return JSON.stringify({ _enum: this.toRawStruct() });
   }
 
   /**

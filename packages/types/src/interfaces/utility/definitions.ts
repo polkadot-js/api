@@ -4,14 +4,8 @@
 
 export default {
   types: {
-    // Not 100% on this one this is defined as - result::Result<(), Error>
-    // we would probably need a result codec type (instead of approximating it)
-    DispatchResult: {
-      _enum: {
-        Ok: 'Null',
-        Error: 'Text'
-      }
-    },
+    // This is not deprecated, only there for a short while, replaced by Result<(), DispatchError>
+    DispatchResult: 'Result<(), Text>',
     DispatchResultOf: 'DispatchResult'
   }
 };
