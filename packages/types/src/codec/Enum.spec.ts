@@ -162,6 +162,10 @@ describe('Enum', (): void => {
       it('compares against values', (): void => {
         expect(test.eq('XYZ')).toBe(true);
       });
+
+      it('compares basic enum on string', (): void => {
+        expect(new Enum(['A', 'B', 'C'], 1).eq('B')).toBe(true);
+      });
     });
   });
 
