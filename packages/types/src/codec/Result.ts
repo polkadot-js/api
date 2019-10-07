@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes } from '../types';
+import { AnyJsonObject, Codec, Constructor, InterfaceTypes } from '../types';
 
-import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { typeToConstructor } from './utils';
 import Base from './Base';
@@ -38,15 +38,26 @@ export default class Result<O extends Codec, E extends Codec> extends Base<O | E
       return [true, new TypeOk()];
     } else if (value instanceof Result) {
       return [value.isOk, value.value];
-    } else if (value instanceof TypeError) {
-      return [false, value];
-    } else if (value instanceof TypeOk) {
-      return [true, value];
     } else if (isU8a(value)) {
       const isOk = value[0] === 0;
       const Clazz = isOk ? TypeOk : TypeError;
 
       return [isOk, new Clazz(value.subarray(1))];
+    }
+
+    return Result.decodeResultObject(TypeOk, TypeError, value);
+  }
+
+  public static decodeResultObject (TypeOk: Constructor, TypeError: Constructor, value: any): [boolean, Codec] {
+    if (value instanceof TypeError) {
+      return [false, value];
+    } else if (value instanceof TypeOk) {
+      return [true, value];
+    } else if (!isUndefined(value.Ok) || !isUndefined(value.Error)) {
+      const isOk = !isUndefined(value.Ok);
+      const Clazz = isOk ? TypeOk : TypeError;
+
+      return [isOk, new Clazz(value[isOk ? 'Ok' : 'Error'])];
     }
 
     return [true, new TypeOk(value)];
@@ -58,6 +69,24 @@ export default class Result<O extends Codec, E extends Codec> extends Base<O | E
         super(TypeOk, TypeError, value);
       }
     };
+  }
+
+  /**
+   * @description Results the wrapper Error value
+   */
+  public get asError (): E {
+    assert(this.isError, 'Cannot extract Error value from Ok result');
+
+    return this.value as E;
+  }
+
+  /**
+   * @description Results the wrapper Ok value
+   */
+  public get asOk (): O {
+    assert(this.isOk, 'Cannot extract Ok value from Error result');
+
+    return this.value as O;
   }
 
   /**
@@ -114,6 +143,15 @@ export default class Result<O extends Codec, E extends Codec> extends Base<O | E
     // This attempts to align with the JSON encoding - actually in this case
     // the isSome value is correct, however the `isNone` may be problematic
     return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): AnyJsonObject {
+    return {
+      [this.isOk ? 'Ok' : 'Error']: this.value.toJSON()
+    };
   }
 
   /**

@@ -88,7 +88,7 @@ function _decodeTuple (value: TypeDef, type: string, subType: string): TypeDef {
   return value;
 }
 
-function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any]): boolean {
+function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
   if (type.substr(0, start.length) !== start) {
     return false;
   }
@@ -114,7 +114,7 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Vec<', '>', TypeDefInfo.Vec]
 ];
 
-function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any]): string {
+function extractSubType (type: string, [start, end]: [string, string, TypeDefInfo, any?]): string {
   return type.substr(start.length, type.length - start.length - end.length);
 }
 
