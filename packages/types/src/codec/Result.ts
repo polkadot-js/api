@@ -14,11 +14,12 @@ import Enum from './Enum';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export default class Result<O extends Codec, E extends Codec> extends Enum {
-  public constructor (Ok: Constructor | InterfaceTypes, Error: Constructor | InterfaceTypes, value?: any) {
+  public constructor (Ok: Constructor<O> | InterfaceTypes, Error: Constructor<E> | InterfaceTypes, value?: any) {
+    // NOTE This is order-dependent, Ok (with index 0) needs to be first
     super({ Ok, Error }, value);
   }
 
-  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor | InterfaceTypes;Error: Constructor | InterfaceTypes }): Constructor<Result<O, E>> {
+  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | InterfaceTypes;Error: Constructor<E> | InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
       public constructor (value?: any) {
         super(Types.Ok, Types.Error, value);
@@ -27,39 +28,39 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
   }
 
   /**
-   * @description Results the wrapper Error value
+   * @description Returns the wrapper Error value (if isError)
    */
   public get asError (): E {
-    assert(this.isError, 'Cannot extract Error value from Ok result');
+    assert(this.isError, 'Cannot extract Error value from Ok result, check isError first');
 
     return this.value as E;
   }
 
   /**
-   * @description Results the wrapper Ok value
+   * @description Returns the wrapper Ok value (if isOk)
    */
   public get asOk (): O {
-    assert(this.isOk, 'Cannot extract Ok value from Error result');
+    assert(this.isOk, 'Cannot extract Ok value from Error result, check isOk first');
 
     return this.value as O;
   }
 
   /**
-   * @description Checks if the Option has no value
+   * @description Checks if the Result has no value
    */
   public get isEmpty (): boolean {
     return this.isOk && this.raw.isEmpty;
   }
 
   /**
-   * @description Checks if the Result has an error value
+   * @description Checks if the Result wraps an Error value
    */
   public get isError (): boolean {
     return !this.isOk;
   }
 
   /**
-   * @description Checks if the Option is success
+   * @description Checks if the Result wraps an Ok value
    */
   public get isOk (): boolean {
     return this.index === 0;
