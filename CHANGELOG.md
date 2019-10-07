@@ -1,11 +1,14 @@
 # 0.94.0-beta.x
 
-- Adjust API cloning to take RPC filters from source into account
+- Add handling of `Result<Ok, Error>` definitions
+- Adjust API cloning now takes RPC filters from source into account
 - Simplification of isPedantic checks and less overhead on StorageData types
 - Cleanups and fixes around RPC and derive type definitions
 - Fix `derive.imOnline.receivedHeatbeats` to query via indexes
 - Adjustment of `api.derive.elections.{approvalsOf|approvalsOfAt}` to allow ss58 address input
+- Cleanup `Enum` `.eq` handling to be more exhaustive
 - Add documentation for custom extrinsic formats (advanced chains)
+- Update to latest substrate master metadata
 
 # 0.93.1
 
