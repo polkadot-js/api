@@ -247,9 +247,9 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
-   * @description Returns a raw struct representation
+   * @description Returns a raw struct representation of the enum types
    */
-  protected toRawStruct (): string[] | Record<string, any> {
+  protected toRawStruct (): string[] | Record<string, string> {
     return this._isBasic
       ? Object.keys(this._def)
       : Struct.typesToMap(this._def);

@@ -77,7 +77,7 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
     const [okDef, errorDef] = getSubDefArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with<any, any>({ Ok: getTypeClass(okDef), Error: getTypeClass(errorDef) });
+    return Result.with({ Ok: getTypeClass(okDef), Error: getTypeClass(errorDef) });
   },
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {
