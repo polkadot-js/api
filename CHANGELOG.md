@@ -1,4 +1,4 @@
-# 0.94.0-beta.x
+# 0.94.1
 
 - Add handling of `Result<Ok, Error>` definitions
 - Adjust API cloning now takes RPC filters from source into account
