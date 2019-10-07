@@ -4,7 +4,7 @@
 
 export default {
   types: {
-    // This is not deprecated, only there for a shot while, replaced by Result<(), DispatchError>
+    // This is not deprecated, only there for a short while, replaced by Result<(), DispatchError>
     DispatchResult: 'Result<(), Text>',
     DispatchResultOf: 'DispatchResult'
   }

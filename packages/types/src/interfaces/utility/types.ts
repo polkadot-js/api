@@ -2,18 +2,16 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Result } from '@polkadot/types/codec';
-import { Text, u32 } from '@polkadot/types/primitive';
+import { Null, Text } from '@polkadot/types/primitive';
 
-/** Result<u32, Text> */
-export interface DispatchResult extends Result<u32, Text> {
+/** Result<Null, Text> */
+export interface DispatchResult extends Result<Null, Text> {
   /** Error:: (Text) */
   readonly isError: boolean;
   /** Text */
   readonly asError: Text;
-  /** Ok:: (u32) */
+  /** Ok::  */
   readonly isOk: boolean;
-  /** u32 */
-  readonly asOk: u32;
 }
 
 /** DispatchResult */

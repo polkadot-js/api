@@ -3,7 +3,7 @@
 
 import { Compact, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchError, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
@@ -20,7 +20,7 @@ import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetwor
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
-import { DigestOf, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
+import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { DispatchResult, DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
@@ -159,9 +159,6 @@ export interface InterfaceRegistry {
   DigestItem: DigestItem;
   'Option<DigestItem>': Option<DigestItem>;
   'Vec<DigestItem>': Vec<DigestItem>;
-  DispatchError: DispatchError;
-  'Option<DispatchError>': Option<DispatchError>;
-  'Vec<DispatchError>': Vec<DispatchError>;
   Extrinsic: Extrinsic;
   'Option<Extrinsic>': Option<Extrinsic>;
   'Vec<Extrinsic>': Vec<Extrinsic>;

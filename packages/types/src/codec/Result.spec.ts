@@ -7,10 +7,11 @@ import '../injector';
 import { hexToString } from '@polkadot/util';
 
 import { u32, Text } from '../primitive';
+import { createType } from './create';
 import Result from './Result';
 
 describe('Result', (): void => {
-  const Type = Result.with(u32, Text);
+  const Type = Result.with({ Ok: u32, Error: Text });
 
   it('has a sane toRawType representation', (): void => {
     expect(new Type().toRawType()).toEqual('Result<u32,Text>');
@@ -42,5 +43,9 @@ describe('Result', (): void => {
     const result = new Type({ Error: 'error' });
 
     expect(result.toHex()).toEqual('0x01146572726f72');
+  });
+
+  it('returns a proper raw typedef rom a built-in', (): void => {
+    expect(createType('DispatchResult').toRawType()).toEqual('Result<Null,Text>');
   });
 });
