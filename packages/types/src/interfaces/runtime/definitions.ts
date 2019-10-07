@@ -17,6 +17,10 @@ export default {
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
     DigestItem: 'GenericDigestItem',
+    DispatchError: {
+      module: 'Option<u8>',
+      error: 'u8'
+    },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',

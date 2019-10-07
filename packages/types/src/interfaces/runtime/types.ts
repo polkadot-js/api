@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec, ITuple } from '@polkadot/types/types';
-import { Compact, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '@polkadot/types/primitive';
+import { Compact, Option, Struct } from '@polkadot/types/codec';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 
 /** GenericAccountId */
 export interface AccountId extends GenericAccountId {}
@@ -46,6 +46,14 @@ export interface Digest extends GenericDigest {}
 
 /** GenericDigestItem */
 export interface DigestItem extends GenericDigestItem {}
+
+/** Struct */
+export interface DispatchError extends Struct {
+  /** Option<u8> */
+  readonly module: Option<u8>;
+  /** u8 */
+  readonly error: u8;
+}
 
 /** Signature */
 export interface Ed25519Signature extends Signature {}

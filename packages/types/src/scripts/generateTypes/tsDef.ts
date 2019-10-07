@@ -9,13 +9,7 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef } from '../../codec/create';
 import * as definitions from '../../interfaces/definitions';
-import {
-  createImportCode, createImports,
-  exportInterface, exportType,
-  formatCompact, formatOption, formatTuple, formatVec,
-  FOOTER, HEADER,
-  setImports, TypeImports
-} from '../util';
+import { createImportCode, createImports, exportInterface, exportType, formatCompact, formatOption, formatResult, formatTuple, formatVec, FOOTER, HEADER, setImports, TypeImports } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -89,6 +83,34 @@ function tsPlain ({ name: plainName, type }: TypeDef, imports: TypeImports): str
   setImports(imports, [type]);
 
   return exportType(plainName, type);
+}
+
+function tsResultGetter (resultName = '', getter: 'Ok' | 'Error', { info, name = '', type }: TypeDef, imports: TypeImports): string {
+  const [resultType, asGetter] = type === 'Null'
+    ? ['', '']
+    : [`(${type})`, createGetter(`as${getter}`, type, imports)];
+  const isGetter = createGetter(`is${getter}`, 'boolean', imports, `${getter}:: ${name}${resultType}`);
+
+  switch (info) {
+    case TypeDefInfo.Plain:
+    case TypeDefInfo.Vec:
+      return `${isGetter}${asGetter}`;
+
+    default:
+      throw new Error(`Result: ${resultName}: Unhandled type ${TypeDefInfo[info]}`);
+  }
+}
+
+function tsResult ({ name: resultName, sub, type }: TypeDef, imports: TypeImports): string {
+  const [okDef, errorDef] = (sub as TypeDef[]);
+  const inner = [
+    tsResultGetter(resultName, 'Error', errorDef, imports),
+    tsResultGetter(resultName, 'Ok', okDef, imports)
+  ].join('');
+
+  setImports(imports, [type]);
+
+  return exportInterface(resultName, formatResult(okDef.type, errorDef.type), inner);
 }
 
 function _tsStructGetterType (structName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): [string, string] {
@@ -203,6 +225,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
     [TypeDefInfo.Null]: errorUnhandled,
     [TypeDefInfo.Option]: tsOption,
     [TypeDefInfo.Plain]: tsPlain,
+    [TypeDefInfo.Result]: tsResult,
     [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,

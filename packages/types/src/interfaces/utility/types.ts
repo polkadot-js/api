@@ -1,17 +1,19 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum } from '@polkadot/types/codec';
-import { Text } from '@polkadot/types/primitive';
+import { Result } from '@polkadot/types/codec';
+import { Text, u32 } from '@polkadot/types/primitive';
 
-/** Enum */
-export interface DispatchResult extends Enum {
-  /** 0:: Ok */
-  readonly isOk: boolean;
-  /** 1:: Error(Text) */
+/** Result<u32, Text> */
+export interface DispatchResult extends Result<u32, Text> {
+  /** Error:: (Text) */
   readonly isError: boolean;
   /** Text */
   readonly asError: Text;
+  /** Ok:: (u32) */
+  readonly isOk: boolean;
+  /** u32 */
+  readonly asOk: u32;
 }
 
 /** DispatchResult */
