@@ -218,6 +218,14 @@ export default class Enum extends Base<Codec> {
       return this.toNumber() === other;
     } else if (this._isBasic && isString(other)) {
       return this.type === other;
+    } else if (isU8a(other)) {
+      return !this.toU8a().some((entry, index): boolean => entry !== other[index]);
+    } else if (isHex(other)) {
+      return this.toHex() === other;
+    } else if (other instanceof Enum) {
+      return this.index === other.index && this.value.eq(other.value);
+    } else if (isObject(other)) {
+      return this.value.eq(other[this.type]);
     }
 
     // compare the actual wrapper value

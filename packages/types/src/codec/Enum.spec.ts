@@ -4,6 +4,8 @@
 
 import '../injector';
 
+import { u8aToHex } from '@polkadot/util';
+
 import Enum from './Enum';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
@@ -133,21 +135,32 @@ describe('Enum', (): void => {
     });
 
     describe('utils', (): void => {
-      const eqtest = new Enum(
-        { U32, Text },
-        new Uint8Array([1, 3 << 2, 88, 89, 90])
-      );
+      const DEF = { num: U32, str: Text };
+      const u8a = new Uint8Array([1, 3 << 2, 88, 89, 90]);
+      const test = new Enum(DEF, u8a);
 
       it('compares against index', (): void => {
-        expect(
-          eqtest.eq(1)
-        ).toBe(true);
+        expect(test.eq(1)).toBe(true);
+      });
+
+      it('compares against u8a', (): void => {
+        expect(test.eq(u8a)).toBe(true);
+      });
+
+      it('compares against hex', (): void => {
+        expect(test.eq(u8aToHex(u8a))).toBe(true);
+      });
+
+      it('compares against another enum', (): void => {
+        expect(test.eq(new Enum(DEF, u8a))).toBe(true);
+      });
+
+      it('compares against another object', (): void => {
+        expect(test.eq({ str: 'XYZ' })).toBe(true);
       });
 
       it('compares against values', (): void => {
-        expect(
-          eqtest.eq('XYZ')
-        ).toBe(true);
+        expect(test.eq('XYZ')).toBe(true);
       });
     });
   });
