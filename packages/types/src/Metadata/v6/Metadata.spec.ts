@@ -6,12 +6,12 @@ import polkadotJson from './static-polkadot.json';
 import substrateJson from './static-substrate.json';
 import polkadotData from './static.polkadot';
 import substrateData from './static';
-import { decodeLatestSubstrate, defaultValues, toV7 } from '../util/testUtil';
+import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
 
 describe('MetadataV6 (substrate)', (): void => {
   decodeLatestSubstrate(6, substrateData, substrateJson);
 
-  toV7(6, substrateData);
+  toLatest(6, substrateData);
 
   defaultValues(substrateData);
 });
@@ -19,7 +19,7 @@ describe('MetadataV6 (substrate)', (): void => {
 describe('MetadataV6 (polkadot)', (): void => {
   decodeLatestSubstrate(6, polkadotData, polkadotJson);
 
-  toV7(6, polkadotData);
+  toLatest(6, polkadotData);
 
   defaultValues(polkadotData);
 });
