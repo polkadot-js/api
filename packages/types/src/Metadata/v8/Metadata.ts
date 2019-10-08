@@ -11,6 +11,22 @@ import Vec from '../../codec/Vec';
 import Text from '../../primitive/Text';
 import { StorageMetadata } from './Storage';
 
+// Note the following errors are non-duplicated and fill the first 2 slots for
+// each of the modules - this means that other errors start at index 2
+//
+// {
+//   "name": "Other",
+//   "documentation": [
+//     "Other unspecified error"
+//   ]
+// },
+// {
+//   "name": "CannotLookup",
+//   "documentation": [
+//     "Can not lookup"
+//   ]
+// }
+
 /**
  * @name ModuleMetadataV8
  * @description

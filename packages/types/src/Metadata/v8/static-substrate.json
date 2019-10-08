@@ -312,18 +312,6 @@
           "constants": [],
           "errors": [
             {
-              "name": "Other",
-              "documentation": [
-                "Other unspecified error"
-              ]
-            },
-            {
-              "name": "CannotLookup",
-              "documentation": [
-                "Can not lookup"
-              ]
-            },
-            {
               "name": "BadSignature",
               "documentation": []
             },
@@ -344,6 +332,35 @@
               "documentation": []
             }
           ]
+        },
+        {
+          "name": "Utility",
+          "storage": null,
+          "calls": [
+            {
+              "name": "batch",
+              "args": [
+                {
+                  "name": "calls",
+                  "type": "Vec<Call>"
+                }
+              ],
+              "documentation": [
+                " Send a batch of dispatch calls (only root)."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "BatchExecuted",
+              "args": [
+                "Vec<DispatchResult>"
+              ],
+              "documentation": []
+            }
+          ],
+          "constants": [],
+          "errors": []
         },
         {
           "name": "Babe",
