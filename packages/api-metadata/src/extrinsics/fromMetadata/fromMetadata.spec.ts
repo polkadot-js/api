@@ -5,7 +5,7 @@
 import '@polkadot/types/injector';
 
 import { createType, Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/v7/static';
+import json from '@polkadot/types/Metadata/static';
 
 import fromMetadata from '.';
 
@@ -32,7 +32,7 @@ describe('fromMetadata', (): void => {
         // version, no signature
         1,
         // index
-        2, 0,
+        3, 0,
         // values, Compact<Moment>
         116
       ])

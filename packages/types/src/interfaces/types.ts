@@ -20,6 +20,7 @@ export * from './session/types';
 export * from './staking/types';
 export * from './system/types';
 export * from './treasury/types';
+export * from './utility/types';
 export * from './attestations/types';
 export * from './claims/types';
 export * from './parachains/types';

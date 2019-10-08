@@ -56,13 +56,6 @@ export class ModuleMetadataV7 extends Struct {
   }
 
   /**
-   * @description the module prefix
-   */
-  public get prefix (): Text {
-    return this.get('prefix') as Text;
-  }
-
-  /**
    * @description the associated module storage
    */
   public get storage (): Option<StorageMetadata> {

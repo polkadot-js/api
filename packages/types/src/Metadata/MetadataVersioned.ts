@@ -15,6 +15,7 @@ import MetadataV4 from './v4';
 import MetadataV5 from './v5';
 import MetadataV6 from './v6';
 import MetadataV7 from './v7';
+import MetadataV8 from './v8';
 import v0ToV1 from './v0/toV1';
 import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
@@ -22,11 +23,12 @@ import v3ToV4 from './v3/toV4';
 import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
+import v7ToV8 from './v7/toV8';
 import { getUniqTypes, toCallsOnly } from './util';
 
 type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
-type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6';
+type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7';
 
 class MetadataEnum extends Enum {
   public constructor (value?: any, index?: number) {
@@ -38,7 +40,8 @@ class MetadataEnum extends Enum {
       V4: MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
       V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
       V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
-      V7: MetadataV7
+      V7: MetadataV7, // once rolled-out, can replace this with MetadataDeprecated
+      V8: MetadataV8
     }, value, index);
   }
 
@@ -115,6 +118,15 @@ class MetadataEnum extends Enum {
   }
 
   /**
+   * @description Returns the wrapped values as a V8 object
+   */
+  public get asV8 (): MetadataV8 {
+    assert(this.isV8, `Cannot convert '${this.type}' via asV8`);
+
+    return this.value as MetadataV8;
+  }
+
+  /**
    * @description `true` if Deprecated
    */
   public get isDeprecated (): boolean {
@@ -175,6 +187,13 @@ class MetadataEnum extends Enum {
    */
   public get isV7 (): boolean {
     return this.type === 'V7';
+  }
+
+  /**
+   * @description `true` if V8
+   */
+  public get isV8 (): boolean {
+    return this.type === 'V8';
   }
 }
 
@@ -294,6 +313,13 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped values as a V8 object
+   */
+  public get asV8 (): MetadataV8 {
+    return this.getVersion(8, v7ToV8);
+  }
+
+  /**
    * @description Returns the wrapped metadata as a limited calls-only (latest) version
    */
   public get asCallsOnly (): MetadataVersioned {
@@ -306,8 +332,8 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a latest version object
    */
-  public get asLatest (): MetadataV7 {
-    return this.asV7;
+  public get asLatest (): MetadataV8 {
+    return this.asV8;
   }
 
   public getUniqTypes (throwError: boolean): string[] {

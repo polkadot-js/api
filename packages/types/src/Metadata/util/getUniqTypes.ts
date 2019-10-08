@@ -32,7 +32,7 @@ type Item = {
 type Storage = Option<Vec<Item> | {
   // v0
   functions?: Vec<Item>;
-  // V7
+  // V7+
   items?: Vec<Item>;
 } & Codec>;
 

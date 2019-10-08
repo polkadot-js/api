@@ -35,6 +35,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[treasury](#treasury)**
 
+- **[utility](#utility)**
+
 
 ___
 
@@ -287,3 +289,10 @@ ___
 
 ▸ **Spending**(`Balance`)
 - **summary**: We have ended a spend period and will now allocate funds.
+
+___
+
+
+### utility
+
+▸ **BatchExecuted**(`Vec<DispatchResult>`)

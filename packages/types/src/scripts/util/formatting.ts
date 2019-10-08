@@ -42,6 +42,13 @@ export function formatCompact (inner: string): string {
 }
 
 /**
+ * Given the inner `O` & `E`, return a `Result<O, E>`  string
+ */
+export function formatResult (innerOk: string, innerError: string): string {
+  return `Result<${innerOk}, ${innerError}>`;
+}
+
+/**
  * Given the inner `T`, return a `Option<T>` string
  */
 export function formatOption (inner: string): string {

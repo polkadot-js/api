@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '../../codec/types';
-import { EventMetadataV7 } from '../../interfaces/metadata';
+import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
 import { Constructor, Codec } from '../../types';
 
@@ -23,7 +23,7 @@ const EventTypes: Record<string, Constructor<EventData>> = {};
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadataV7;
+  private _meta: EventMetadataLatest;
 
   private _method: string;
 
@@ -31,7 +31,7 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataV7, section: string, method: string) {
+  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -43,7 +43,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  public get meta (): EventMetadataV7 {
+  public get meta (): EventMetadataLatest {
     return this._meta;
   }
 
@@ -148,7 +148,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  public get meta (): EventMetadataV7 {
+  public get meta (): EventMetadataLatest {
     return this.data.meta;
   }
 

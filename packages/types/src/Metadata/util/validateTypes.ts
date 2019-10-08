@@ -24,13 +24,14 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.VecFixed:
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
+      case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
         return extractTypes(
           (decoded.sub as TypeDef[]).map((sub): string => sub.type)
         );
 
       default:
-        throw new Error(`Uhandled: Unnable to create and validate type from ${type}`);
+        throw new Error(`Unhandled: Unable to create and validate type from ${type}`);
     }
   });
 }

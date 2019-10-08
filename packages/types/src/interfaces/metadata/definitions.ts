@@ -185,6 +185,28 @@ export default {
     MapTypeV7: 'MapTypeV6',
     ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
     PlainTypeV7: 'Type',
-    StorageEntryModifierV7: 'StorageEntryModifierV6'
+    StorageEntryModifierV7: 'StorageEntryModifierV6',
+
+    // v8
+    DoubleMapTypeV8: 'DoubleMapTypeV7',
+    ErrorMetadataV8: {
+      name: 'Text',
+      documentation: 'Vec<Text>'
+    },
+    EventMetadataV8: 'EventMetadataV7',
+    FunctionArgumentMetadataV8: 'FunctionArgumentMetadataV7',
+    FunctionMetadataV8: 'FunctionMetadataV7',
+    MapTypeV8: 'MapTypeV7',
+    ModuleConstantMetadataV8: 'ModuleConstantMetadataV7',
+    PlainTypeV8: 'Type',
+    StorageEntryModifierV8: 'StorageEntryModifierV7',
+
+    // This always maps to the latest
+    EventMetadataLatest: 'EventMetadataV8',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV8',
+    FunctionMetadataLatest: 'FunctionMetadataV8',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV8',
+    PlainTypeLatest: 'PlainTypeV8',
+    StorageEntryModifierLatest: 'StorageEntryModifierV8'
   }
 };

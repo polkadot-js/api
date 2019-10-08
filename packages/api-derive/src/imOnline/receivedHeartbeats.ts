@@ -7,7 +7,7 @@ import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
 import { of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes } from '@polkadot/types';
+import { Bytes, Vec } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -17,21 +17,22 @@ import { drr } from '../util/drr';
 export function receivedHeartbeats (api: ApiInterfaceRx): (addresses: (AccountId | string)[]) => Observable<boolean[]> {
   return (addresses: (AccountId | string)[]): Observable<boolean[]> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats
-      ? api.query.session
-        .currentIndex<SessionIndex>()
-        .pipe(
-          switchMap((currentIndex): Observable<Bytes[]> =>
-            api.query.imOnline.receivedHeartbeats.multi(
-              addresses.map((address): [SessionIndex, AccountId | string] =>
-                [currentIndex, address]
-              )
+      ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
+        api.query.session.currentIndex,
+        api.query.imOnline.keys
+      ]).pipe(
+        switchMap(([currentIndex, keys]): Observable<Bytes[]> =>
+          api.query.imOnline.receivedHeartbeats.multi(
+            addresses.map((address): [SessionIndex, number] =>
+              [currentIndex, keys.indexOf(address)]
             )
-          ),
-          map((heartbeats): boolean[] =>
-            heartbeats.map((heartbeat): boolean => !heartbeat.isEmpty)
-          ),
-          drr()
-        )
+          )
+        ),
+        map((heartbeats): boolean[] =>
+          heartbeats.map((heartbeat): boolean => !heartbeat.isEmpty)
+        ),
+        drr()
+      )
       : of([...new Array(addresses.length).keys()].map((): boolean => false));
   };
 }

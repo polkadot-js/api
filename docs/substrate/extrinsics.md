@@ -37,6 +37,8 @@ The following sections contain Extrinsics methods are part of the default Substr
 
 - **[treasury](#treasury)**
 
+- **[utility](#utility)**
+
 
 ___
 
@@ -161,7 +163,7 @@ ___
 ▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
 - **summary**: Claim that `candidate` is one of the top `carry_count + desired_seats` candidates. Only works iff the presentation period is active. `candidate` should have at least collected some non-zero `total` votes and `origin` must have enough funds to pay for a potential slash.  # <weight> - O(voters) compute. - One DB change. # </weight>
 
-▸ **proxySetApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `BalanceOf`)
+▸ **proxySetApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `Compact<BalanceOf>`)
 - **summary**: Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots are registered.  # <weight> - Same as `set_approvals` with one additional storage read. # </weight>
 
 ▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
@@ -173,7 +175,7 @@ ___
 ▸ **retractVoter**(index: `Compact<u32>`)
 - **summary**: Remove a voter. All votes are cancelled and the voter deposit is returned.  The index must be provided as explained in [`voter_at`] function.  Also removes the lock on the balance of the voter. See [`do_set_approvals()`].  # <weight> - O(1). - Two fewer DB entries, one DB change. # </weight>
 
-▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `BalanceOf`)
+▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `Compact<BalanceOf>`)
 - **summary**: Set candidate approvals. Approval slots stay valid as long as candidates in those slots are registered.  Locks `value` from the balance of `origin` indefinitely. Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.  `hint` argument is interpreted differently based on: - if `origin` is setting approvals for the first time: The index will be checked for being a valid _hole_ in the voter list. - if the hint is correctly pointing to a hole, no fee is deducted from `origin`. - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk with free space happens. If the new push causes a new chunk to be created, a fee indicated by [`VotingFee`] is deducted. - if `origin` is already a voter: the index __must__ be valid and point to the correct position of the `origin` in the current voters list.  Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate and voting false, are equal.  # <weight> - O(1). - Two extra DB entries, one DB change. - Argument `votes` is limited in length to number of candidates. # </weight>
 
 ▸ **setDesiredSeats**(count: `Compact<u32>`)
@@ -285,6 +287,9 @@ ___
 ▸ **fillBlock**()
 - **summary**: A big dispatch that will disallow any other transaction to be included.
 
+▸ **killPrefix**(prefix: `Key`)
+- **summary**: Kill all storage items with a key that starts with the given prefix.
+
 ▸ **killStorage**(keys: `Vec<Key>`)
 - **summary**: Kill some items from storage.
 
@@ -355,3 +360,11 @@ ___
 
 ▸ **rejectProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**: Reject a proposed spend. The original deposit will be slashed.  # <weight> - O(1). - Limited storage reads. - One DB clear. # </weight>
+
+___
+
+
+### utility
+
+▸ **batch**(calls: `Vec<Call>`)
+- **summary**: Send a batch of dispatch calls (only root).

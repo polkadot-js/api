@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v7/Storage';
+import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { createType, Text, Vec } from '@polkadot/types';
 
@@ -19,7 +19,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     {
       meta: {
         documentation: new Vec(Text, [documentation]),
-        modifier: createType('StorageEntryModifierV7', 1), // required
+        modifier: createType('StorageEntryModifierLatest', 1), // required
         type: new StorageEntryType(type, 0),
         toJSON: (): any => key
       } as unknown as StorageEntryMetadata,

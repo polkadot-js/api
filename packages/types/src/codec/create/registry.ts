@@ -47,7 +47,7 @@ export class TypeRegistry {
           ? type
           : JSON.stringify(type);
 
-        // we alreday have this type, remove the classes registered for it
+        // we already have this type, remove the classes registered for it
         if (this._classes.has(name)) {
           this._classes.delete(name);
         }

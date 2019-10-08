@@ -12,6 +12,7 @@ export { default as Compact } from './Compact';
 // export { default as Date } from './Date';
 export { default as Enum } from './Enum';
 export { default as Option } from './Option';
+export { default as Result } from './Result';
 export { default as Set } from './Set';
 export { default as Struct } from './Struct';
 // export { default as StructAny } from './StructAny';

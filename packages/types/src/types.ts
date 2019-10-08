@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataV7 } from './interfaces/metadata';
+import { FunctionMetadataLatest } from './interfaces/metadata';
 import { Balance, Index } from './interfaces/runtime';
 
 import BN from 'bn.js';
@@ -20,7 +20,7 @@ export type InterfaceTypes = keyof InterfaceRegistry;
 export interface CallFunction {
   (...args: any[]): Call;
   callIndex: Uint8Array;
-  meta: FunctionMetadataV7;
+  meta: FunctionMetadataLatest;
   method: string;
   section: string;
   toJSON: () => any;
@@ -167,7 +167,7 @@ export interface IMethod extends Codec {
   readonly data: Uint8Array;
   readonly hash: IHash;
   readonly hasOrigin: boolean;
-  readonly meta: FunctionMetadataV7;
+  readonly meta: FunctionMetadataLatest;
 }
 
 interface ExtrinsicSignatureBase {

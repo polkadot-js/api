@@ -18,6 +18,7 @@ export enum TypeDefInfo {
   Linkage,
   Option,
   Plain,
+  Result,
   Set,
   Struct,
   Tuple,

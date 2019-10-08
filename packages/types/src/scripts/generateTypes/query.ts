@@ -6,9 +6,9 @@ import fs from 'fs';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
-import { ModuleMetadataV7 } from '../../Metadata/v7/Metadata';
-import { StorageEntryMetadata } from '../../Metadata/v7/Storage';
-import staticData from '../../Metadata/v7/static';
+import { ModuleMetadataV8 } from '../../Metadata/v8/Metadata';
+import { StorageEntryMetadata } from '../../Metadata/v8/Storage';
+import staticData from '../../Metadata/static';
 import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
 
 // From a storage entry metadata, we return [args, returnType]
@@ -64,7 +64,7 @@ function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports
 }
 
 // Generate types for one module
-function generateModule (modul: ModuleMetadataV7, imports: TypeImports): string[] {
+function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[] {
   if (modul.storage.isNone) {
     return [];
   }
