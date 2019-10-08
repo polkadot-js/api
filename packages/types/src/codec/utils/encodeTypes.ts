@@ -114,6 +114,9 @@ class TypeEncoder {
       case TypeDefInfo.Option: {
         return TypeEncoder.withParams(typeDef, 'Option');
       }
+      case TypeDefInfo.Result: {
+        return TypeEncoder.withParams(typeDef, 'Result');
+      }
       case TypeDefInfo.Vec: {
         return TypeEncoder.withParams(typeDef, 'Vec');
       }

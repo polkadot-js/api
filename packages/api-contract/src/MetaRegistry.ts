@@ -5,7 +5,7 @@
 import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdArray, MetaTypeIdCustom, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
-import { withTypeString } from '@polkadot/types';
+import { displayType, withTypeString } from '@polkadot/types';
 
 const {
   BuiltinPlain,
@@ -256,19 +256,21 @@ export default class MetaRegistry {
 
     assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
     assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
-    const sub = this.typeDefFromMetaTypeAt(vecTypeIndex);
+
+    const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+    assert(type && type.length > 0, `MetaRegistry: Invalid vector type found at index ${typeIndex}`);
 
     return {
       ...(
         vecLength
           ? {
             info: TypeDefInfo.VecFixed,
-            ext: { length: vecLength, type: '' },
-            type: `[${sub.name || sub.type};${vecLength}]`
+            ext: { length: vecLength, type },
+            type: `[${type};${vecLength}]`
           }
           : {
             info: TypeDefInfo.Vec,
-            type: `Vec<${sub.name || sub.type}>`
+            type: `Vec<${type}>`
           }
       ),
       sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
@@ -276,18 +278,22 @@ export default class MetaRegistry {
   }
 
   private typeDefForEnum (def: MetaTypeDefEnum, id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
-    const isOption = id && this.stringAt(id['custom.name']) === 'Option';
+    const name = id && this.stringAt(id['custom.name']);
 
-    if (isOption) {
-      return this.typeDefForOption(id, typeIndex);
+    switch (name) {
+      case 'Option':
+        return this.typeDefForOption(id, typeIndex);
+      case 'Result':
+        return this.typeDefForResult(id, typeIndex);
+      default: {
+        const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
+
+        return {
+          info: TypeDefInfo.Enum,
+          sub
+        };
+      }
     }
-
-    const sub = def['enum.variants'].map(variant => this.typeDefForEnumVariant(variant));
-
-    return {
-      info: TypeDefInfo.Enum,
-      sub
-    };
   }
 
   private typeDefForClikeEnum (def: MetaTypeDefClikeEnum): Pick<TypeDef, never> {
@@ -314,6 +320,15 @@ export default class MetaRegistry {
     return {
       info: TypeDefInfo.Option,
       sub: this.typeDefFromMetaTypeAt(id['custom.params']![0])
+    };
+  }
+
+  public typeDefForResult (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
+    assert(id['custom.params']![0] && id['custom.params']![1], `Invalid Result type defined at index ${typeIndex}`);
+
+    return {
+      info: TypeDefInfo.Result,
+      sub: id['custom.params']!.map((typeIndex): TypeDef => this.typeDefFromMetaTypeAt(typeIndex))
     };
   }
 
