@@ -295,4 +295,4 @@ ___
 
 ### utility
 
-▸ **BatchExecuted**(`Vec<Result<Null,DispatchError>>`)
+▸ **BatchExecuted**(`Vec<DispatchResult>`)
