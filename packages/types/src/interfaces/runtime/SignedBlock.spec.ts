@@ -51,7 +51,7 @@ describe('SignedBlock', (): void => {
   describe('eras', (): void => {
     it('can decode immortals', (): void => {
       const s = createType('SignedBlock', immortalTxs.result);
-      const immortalTx = s.block.extrinsics[2];
+      const immortalTx = s.block.extrinsics[0];
 
       expect(immortalTx.method.methodName).toEqual('transfer');
       expect(immortalTx.method.sectionName).toEqual('balances');
@@ -59,7 +59,7 @@ describe('SignedBlock', (): void => {
 
     it('can decode mortals', (): void => {
       const s = createType('SignedBlock', mortalTxs.result);
-      const mortalTx = s.block.extrinsics[2];
+      const mortalTx = s.block.extrinsics[0];
 
       expect(mortalTx.method.methodName).toEqual('transfer');
       expect(mortalTx.method.sectionName).toEqual('balances');

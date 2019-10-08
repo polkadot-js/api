@@ -15,15 +15,15 @@ describe('Call', (): void => {
     expect(
       new Call({
         args: [],
-        callIndex: [5, 1] // balances.setBalance
+        callIndex: [6, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([5, 1, 0, 0, 0]));
+    ).toEqual(new Uint8Array([6, 1, 0, 0, 0]));
   });
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call('0x0501').toU8a()
-    ).toEqual(new Uint8Array([5, 1, 0, 0, 0])); // balances.setBalance
+      new Call('0x0601').toU8a()
+    ).toEqual(new Uint8Array([6, 1, 0, 0, 0])); // balances.setBalance
   });
 
   describe('hasOrigin', (): void => {

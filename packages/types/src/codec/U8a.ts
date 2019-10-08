@@ -72,9 +72,8 @@ export default class U8a extends Uint8Array implements Codec {
    */
   public eq (other?: any): boolean {
     if (other instanceof Uint8Array) {
-      return (this.length === other.length) && isUndefined(
-        this.find((value, index): boolean => value !== other[index])
-      );
+      return (this.length === other.length) &&
+        !this.some((value, index): boolean => value !== other[index]);
     }
 
     return this.eq(U8a.decodeU8a(other));

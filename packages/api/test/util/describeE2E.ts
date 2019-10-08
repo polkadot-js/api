@@ -10,6 +10,7 @@ const WS_ENDPOINTS = {
   'docker-polkadot-master': 'ws://127.0.0.1:9948/',
   'docker-polkadot-alexander': 'ws://127.0.0.1:9949/',
   'remote-polkadot-alexander': 'wss://poc3-rpc.polkadot.io/',
+  'remote-polkadot-kusama': 'wss://kusama-rpc.polkadot.io/',
   'remote-substrate-1.0': 'wss://substrate-rpc.parity.io/'
 };
 

@@ -29,7 +29,7 @@ describe('ExtrinsicV3', (): void => {
       ).toHex()
     ).toEqual(
       '0x' +
-      '0500' + // balance.transfer
+      '0600' + // balance.transfer
       'ff' +
       'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
       'e56c'
@@ -58,10 +58,10 @@ describe('ExtrinsicV3', (): void => {
       '0x' +
       'ff' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
-      '21de8ff3cae3ee72ced565ed5f79fd153dc84a3be9166b7904eecde8045ba59a' +
-      'd2f998cc970e59157f168ec762eea061f4930b5288f57a45a1c1911863860208' +
+      'b8065808da3d11ddb4167afb156eafb51e8104ba792589bb443653a7fab82b90' +
+      'c6530e838df06bfc8befcbbcfca7e219350cff865439b815b10b8e64ae1e9b01' +
       '000408' + // era. nonce, tip
-      '0500' +
+      '0600' +
       'ff' +
       'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
       'e56c'
