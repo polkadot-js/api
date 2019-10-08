@@ -5,6 +5,7 @@
 import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
 import { Address } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
+import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
@@ -12,67 +13,159 @@ export type ApiObject<ApiType> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
 
-export interface ContractABITypesStruct {
-  'Option<T>'?: {
-    T: ContractABITypes;
-  };
-  'Result<T,E>'?: {
-    T: ContractABITypes;
-    E: ContractABITypes;
-  };
-  'Vec<T>'?: {
-    T: ContractABITypes;
-  };
-  '[T;n]'?: {
-    T: ContractABITypes;
-    n: number;
-  };
+export interface ContractABITypePre {
+  ty: TypeIndex;
+  display_name: StringIndex[];
 }
 
-export type ContractABITypes = string | ContractABITypesStruct | (string | ContractABITypesStruct)[];
+export interface ContractABIArgBasePre {
+  name: StringIndex;
+  type: ContractABITypePre;
+}
 
-export interface ContractABIArg {
+export interface ContractABIArgBase {
   name: string;
-  type: ContractABITypes;
+  type: TypeDef;
 }
+
+export type ContractABIMethodArgPre = ContractABIArgBasePre;
+
+export type ContractABIMethodArg = ContractABIArgBase;
 
 export interface ContractABIMethodBase {
-  args: ContractABIArg[];
+  args: ContractABIMethodArg[];
 }
 
-export interface ContractABIMethod extends ContractABIMethodBase {
+export interface ContractABIMethodBasePre {
+  args: ContractABIMethodArgPre[];
+}
+
+export interface ContractABIMethodCommon {
+  docs?: ContractABIDocs;
   mutates?: boolean;
-  name: string;
   selector: number;
-  return_type: ContractABITypes | null;
+}
+
+export interface ContractABIMethodPre extends ContractABIMethodCommon, ContractABIMethodBasePre {
+  name: StringIndex;
+  return_type: ContractABITypePre | null;
+}
+
+export interface ContractABIMethod extends ContractABIMethodCommon {
+  args: ContractABIMethodArg[];
+  name: string;
+  returnType: TypeDef | null;
+}
+
+export interface ContractABIContractCommon {
+  docs?: ContractABIDocs;
+}
+
+export interface ContractABIContractPre extends ContractABIContractCommon {
+  constructors: ContractABIMethodPre[];
+  messages: ContractABIMethodPre[];
+  name: StringIndex;
+  events?: ContractABIEventPre[];
+  docs?: ContractABIDocs;
+}
+
+export interface ContractABIContract extends ContractABIContractCommon {
+  constructors: ContractABIMethod[];
+  messages: ContractABIMethod[];
+  name: string;
+  events?: ContractABIEvent[];
+  docs?: ContractABIDocs;
+}
+
+export interface ContractABIPre extends MetaRegistryJson {
+  storage: ContractABIStoragePre;
+  contract: ContractABIContractPre;
 }
 
 export interface ContractABI {
-  deploy: ContractABIMethodBase;
-  messages: ContractABIMethod[];
-  name: string;
+  storage: ContractABIStorage;
+  contract: ContractABIContract;
 }
 
 export interface ContractABIFnArg {
   name: string;
-  type: string;
+  type: TypeDef;
 }
 
 export interface ContractABIMeta {
   args: ContractABIFnArg[];
   isConstant: boolean;
-  type: string | null;
+  type: TypeDef | null;
 }
 
 export interface ContractABIFn extends ContractABIMeta {
   (...args: CodecArg[]): Uint8Array;
 }
 
+export interface ContractABIEventArgBase {
+  indexed: boolean;
+}
+
+export interface ContractABIEventArgPre extends ContractABIArgBasePre, ContractABIEventArgBase {}
+
+export interface ContractABIEventArg extends ContractABIArgBase, ContractABIEventArgBase {}
+
+export type ContractABIDocs = string[];
+
+export interface ContractABIEventPre {
+  args: ContractABIEventArgPre[];
+}
+
+export interface ContractABIEvent {
+  args: ContractABIEventArg[];
+}
+
+export interface ContractABIRangeBase {
+  'range.offset': number[];
+  'range.len': number;
+}
+
+export interface ContractABIRangePre extends ContractABIRangeBase {
+  'range.elem_type': TypeIndex;
+}
+
+export interface ContractABIRange extends ContractABIRangeBase {
+  'range.elem_type': TypeDef;
+}
+
+export type ContractABIStorageLayoutPre = ContractABIStorageStructPre | ContractABIRangePre;
+
+export type ContractABIStorageLayout = ContractABIStorageStruct | ContractABIRange;
+
+export interface ContractABIStorageStructFieldPre {
+  name: StringIndex;
+  layout: ContractABIStorageLayoutPre;
+}
+
+export interface ContractABIStorageStructField {
+  name: string;
+  layout: ContractABIStorageLayout;
+}
+
+export interface ContractABIStorageStructPre {
+  'struct.type': TypeIndex;
+  'struct.fields': ContractABIStorageStructFieldPre[];
+}
+
+export interface ContractABIStorageStruct {
+  'struct.type': TypeDef;
+  'struct.fields': ContractABIStorageStructField[];
+}
+
+export type ContractABIStoragePre = ContractABIStorageStructPre;
+
+export type ContractABIStorage = ContractABIStorageStruct;
+
 export type AbiMessages = Record<string, ContractABIFn>;
 
 export interface InterfaceAbi {
   readonly abi: ContractABI;
-  readonly deploy: ContractABIFn;
+  readonly constructors: ContractABIFn[];
   readonly messages: AbiMessages;
 }
 

@@ -33,11 +33,122 @@ export interface TypeDefExtVecFixed {
   type: string;
 }
 
+export interface TypeDefExtEnumDiscriminant {
+  discriminant: number;
+}
+
 export interface TypeDef {
   info: TypeDefInfo;
   index?: number;
-  ext?: TypeDefExtVecFixed; // add additional here as required
+  displayName?: string;
+  ext?: TypeDefExtVecFixed | TypeDefExtEnumDiscriminant; // add additional here as required
   name?: string;
+  namespace?: string;
+  params?: TypeDef[];
   type: string;
   sub?: TypeDef | TypeDef[];
+}
+
+export type TypeIndex = number;
+
+export type StringIndex = number;
+
+export enum MetaTypeInfo {
+  BuiltinPlain,
+  BuiltinTuple,
+  BuiltinArray,
+  Enum,
+  ClikeEnum,
+  Struct,
+  TupleStruct,
+  Null
+}
+
+export type MetaTypeIdPrimitive = string;
+
+export type MetaTypeIdTuple = TypeIndex[];
+
+export interface MetaTypeIdArray {
+  'array.len': number;
+  'array.type': TypeIndex;
+}
+
+export interface MetaTypeIdCustom {
+  'custom.name': StringIndex;
+  'custom.namespace'?: StringIndex[];
+  'custom.params'?: TypeIndex[];
+}
+
+export type MetaTypeId = MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray | MetaTypeIdCustom;
+// MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray | MetaTypeIdCustom;
+// export type MetaTypeId = Record<string, any>;
+
+export interface MetaTypeDefClikeEnumVariant {
+  name: StringIndex;
+  discriminant: number;
+}
+
+export interface MetaTypeDefClikeEnum {
+  'clike_enum.variants': MetaTypeDefClikeEnumVariant[];
+}
+
+export type MetaTypeDefBuiltIn = 'builtin';
+
+export interface MetaTypeDefEnumVariantUnit {
+  'unit_variant.name': StringIndex;
+}
+
+export interface MetaTypeDefEnumVariantTupleStruct {
+  'tuple_struct_variant.name': StringIndex;
+  'tuple_struct_variant.types': TypeIndex[];
+}
+
+export interface MetaTypeDefEnumVariantStruct {
+  'struct_variant.name': StringIndex;
+  'struct_variant.fields': MetaTypeDefStructField[];
+}
+
+export type MetaTypeDefEnumVariant = MetaTypeDefEnumVariantUnit | MetaTypeDefEnumVariantTupleStruct | MetaTypeDefEnumVariantStruct;
+
+export interface MetaTypeDefEnum {
+  'enum.variants': MetaTypeDefEnumVariant[];
+}
+
+export interface MetaTypeDefStructField {
+  name: StringIndex;
+  type: TypeIndex;
+}
+
+export type MetaTypeDefUnionField = MetaTypeDefStructField;
+
+export interface MetaTypeDefStruct {
+  'struct.fields': MetaTypeDefStructField[];
+}
+
+export interface MetaTypeDefTupleStruct {
+  'tuple_struct.types': TypeIndex[];
+}
+
+export interface MetaTypeDefUnion {
+  'union.fields': MetaTypeDefUnionField[];
+}
+
+export type MetaTypeDef = MetaTypeDefBuiltIn | MetaTypeDefClikeEnum | MetaTypeDefEnum | MetaTypeDefStruct | MetaTypeDefTupleStruct | MetaTypeDefUnion;
+
+export interface MetaType {
+  def: MetaTypeDef;
+  id: MetaTypeId | null;
+}
+
+export enum MetaRegistryItem {
+  String,
+  Type,
+  TypeDef
+}
+
+export interface MetaRegistryJson {
+  registry: {
+    strings: string[];
+    types: MetaType[];
+  };
 }

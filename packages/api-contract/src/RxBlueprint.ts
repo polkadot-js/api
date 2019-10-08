@@ -5,13 +5,14 @@
 import { SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ContractABI } from './types';
+import { ContractABIPre } from './types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiRx, SubmittableResult } from '@polkadot/api';
 import { createType } from '@polkadot/types';
+import { assert } from '@polkadot/util';
 
 import Abi from './Abi';
 import RxBase from './RxBase';
@@ -37,16 +38,17 @@ class BlueprintCreateResult extends SubmittableResult {
 export default class Blueprint extends RxBase {
   public readonly codeHash: Hash;
 
-  public constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
+  public constructor (api: ApiRx, abi: ContractABIPre | Abi, codeHash: string | Hash) {
     super(api, abi);
 
     this.codeHash = createType('Hash', codeHash);
   }
 
-  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
+  public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate {
+    assert(!!this.abi.constructors[constructorIndex], `Specified constructor index ${constructorIndex} does not exist`);
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription => {
       return this.apiContracts
-        .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
+        .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
         .signAndSend(account)
         .pipe(map(this.createResult));
     };

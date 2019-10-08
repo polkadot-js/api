@@ -4,7 +4,7 @@
 
 import { AccountId, Address } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ContractABI, ContractABIFn, InterfaceContract, InterfaceContractCalls } from './types';
+import { ContractABIPre, ContractABIFn, InterfaceContract, InterfaceContractCalls } from './types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
@@ -27,12 +27,12 @@ export default class RxContract extends RxBase implements InterfaceContract {
 
   public readonly calls: InterfaceContractCalls = {};
 
-  public constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
+  public constructor (api: ApiRx, abi: ContractABIPre | Abi, address: string | AccountId | Address) {
     super(api, abi);
 
     this.address = createType('Address', address);
 
-    Object.entries(abi.messages).forEach(([name]): void => {
+    Object.entries(this.abi.messages).forEach(([name]): void => {
       this.calls[name] = (fn: ContractABIFn): CallResult =>
         (value: BN | number, maxGas: BN | number, ...params: any[]): ContractCall =>
           this.apiContracts.call(this.address, value, maxGas, fn(...params));

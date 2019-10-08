@@ -234,7 +234,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
   };
 
   return Object.entries(types).map(([name, type]): [string, string] => {
-    const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
+    const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), { name });
 
     return [name, generators[def.info](def, imports)];
   });

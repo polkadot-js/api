@@ -23,3 +23,4 @@ assertSingletonPackage('@polkadot/types');
 
 export * from './codec';
 export * from './index.types';
+export { formatType } from './scripts/util/formatting';

@@ -66,7 +66,7 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
   [TypeDefInfo.Linkage]: (value: TypeDef): Constructor => Linkage.withKey(getSubType(value)),
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (value: TypeDef): Constructor => ClassOf('Null'),
+  [TypeDefInfo.Null]: (_: TypeDef): Constructor => ClassOf('Null'),
 
   [TypeDefInfo.Option]: (value: TypeDef): Constructor => Option.with(getSubType(value)),
 

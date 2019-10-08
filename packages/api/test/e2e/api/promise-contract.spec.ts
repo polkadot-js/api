@@ -79,7 +79,7 @@ describeE2E({
 
       return (
         api.tx.contracts
-          .create(CREATION_FEE, MAX_GAS, codeHash, abi.deploy(randomStart))
+          .create(CREATION_FEE, MAX_GAS, codeHash, abi.constructors[0](randomStart))
           .signAndSend(keyring.dave, (result: SubmittableResult): void => {
             // console.error('create', JSON.stringify(result));
 
