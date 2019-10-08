@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^1.5.1",
-    "mock-socket": "^9.0.0",
-    "nock": "^11.3.5"
+    "mock-socket": "^9.0.1",
+    "nock": "^11.4.0"
   }
 }
