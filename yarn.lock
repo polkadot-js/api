@@ -1777,10 +1777,10 @@
     once "^1.4.0"
     universal-user-agent "^4.0.0"
 
-"@polkadot/dev@^0.32.0-beta.6":
-  version "0.32.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.32.0-beta.6.tgz#e013431e24eefcff6374f12cad6d0b8aee3e8a97"
-  integrity sha512-GlDmiN99+EvxctoL0TD3Raqfuz9eaOGTbS2Nt/4vQfy7nmLGNdQHU45lIkQag/kdQow5tMsUueaQbARcKcplYw==
+"@polkadot/dev@^0.32.0-beta.7":
+  version "0.32.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.32.0-beta.7.tgz#2b191937d3bfb5139e705bfb342654b992184ada"
+  integrity sha512-HUf2+5e55zKQHf4aW7HGLlSgiYTSCWv3suBbeg96TiEZ4mVlDVPxEj1G6yGvohD9MSGTXrO3mFffcj7R2w+33Q==
   dependencies:
     "@babel/cli" "^7.6.2"
     "@babel/core" "^7.6.2"
