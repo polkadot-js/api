@@ -18,6 +18,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: build
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+        GH_PAGES_SRC: build-docs
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --frozen-lockfile
-        yarn build
+        yarn polkadot-dev-ghact-build
+        yarn polkadot-dev-ghact-deploy
