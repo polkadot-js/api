@@ -5,8 +5,8 @@
 import { Proposal, PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
+import Metadata from '../Metadata';
+import metadataStatic from '../Metadata/static';
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
@@ -20,7 +20,7 @@ describe('Vec', (): void => {
   beforeEach((): void => {
     vector = new Vec(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
   });
 
   it('wraps a sequence of values', (): void => {

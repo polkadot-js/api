@@ -4,15 +4,15 @@
 
 import '../../injector';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
+import Metadata from '../../Metadata';
+import metadataStatic from '../../Metadata/static';
 import block00300 from '../../json/SignedBlock.003.00.json';
 import Call from './Call';
 import Block from './Block';
 
 describe('Block', (): void => {
   beforeEach((): void => {
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
   });
 
   it('has a valid toRawType', (): void => {

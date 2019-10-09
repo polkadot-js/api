@@ -2,10 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '../../../injector';
+
 import BN from 'bn.js';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
+import Metadata from '../../../Metadata';
+import metadataStatic from '../../../Metadata/static';
 import Call from '../../Generic/Call';
 import Extrinsic from './Extrinsic';
 
@@ -13,7 +17,7 @@ const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('ExtrinsicV3', (): void => {
   beforeEach((): void => {
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
   });
 
   it('constructs a sane Uint8Array (default)', (): void => {

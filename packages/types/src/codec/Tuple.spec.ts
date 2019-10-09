@@ -8,9 +8,9 @@ import { VoteThreshold } from '../interfaces/elections';
 import { BlockNumber } from '../interfaces/runtime';
 import { CodecTo } from '../types';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
 import { ClassOf } from './create';
+import Metadata from '../Metadata';
+import metadataStatic from '../Metadata/static';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -66,7 +66,7 @@ describe('Tuple', (): void => {
   });
 
   it.skip('creates properly via actual hex string', (): void => {
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
 
     const test = new (Tuple.with([
       ClassOf('BlockNumber'), ClassOf('Proposal'), ClassOf('VoteThreshold')

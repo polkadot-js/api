@@ -2,17 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ModulesWithCalls } from '@polkadot/types/types';
+
 import '@polkadot/types/injector';
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { createType } from '@polkadot/types';
+import { createType, Metadata } from '@polkadot/types';
+import metadataStatic from '@polkadot/types/Metadata/static';
 
-import extrinsics from './static';
+import fromMetadata from './fromMetadata';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('extrinsics', (): void => {
+  let extrinsics: ModulesWithCalls;
+
+  beforeEach((): void => {
+    extrinsics = fromMetadata(new Metadata(metadataStatic));
+  });
+
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
       createType('Extrinsic',

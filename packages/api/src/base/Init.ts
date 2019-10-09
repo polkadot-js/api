@@ -172,7 +172,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
       GenericEvent.injectMetadata(metadata);
-      GenericCall.injectMethods(extrinsics);
+      GenericCall.injectMetadata(metadata);
 
       // detect the extrinsic version in-use based on the last block
       const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
