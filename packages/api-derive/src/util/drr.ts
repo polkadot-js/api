@@ -4,23 +4,14 @@
 
 import { catchError, distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { isFunction, isNull, logger } from '@polkadot/util';
+import { logger } from '@polkadot/util';
 
 type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
 
 const l = logger('drr');
 
 function isEqual (prev: any, next: any): boolean {
-  if (isNull(prev) || isNull(next)) {
-    return next === prev;
-  } else if (Array.isArray(next)) {
-    return next.length === prev.length &&
-      !next.some((value: any, index): boolean => isEqual(prev[index], value));
-  } else if (isFunction(next.eq)) {
-    return next.eq(prev);
-  }
-
-  return next === prev;
+  return JSON.stringify({ value: next }) === JSON.stringify({ value: prev });
 }
 
 /**
