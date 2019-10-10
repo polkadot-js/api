@@ -4,8 +4,8 @@
 
 import { createType, GenericCall } from '@polkadot/types';
 
-import Metadata from '../../Metadata';
-import metadataStatic from '../../Metadata/static';
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import SignerPayload from './SignerPayload';
 
 describe('SignerPayload', (): void => {

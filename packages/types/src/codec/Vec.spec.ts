@@ -7,8 +7,8 @@ import '../injector';
 import { Proposal, PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
-import Metadata from '../Metadata';
-import metadataStatic from '../Metadata/static';
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';

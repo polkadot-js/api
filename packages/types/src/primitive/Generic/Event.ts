@@ -9,10 +9,10 @@ import { Constructor, Codec } from '../../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import Metadata from '@polkadot/api-metadata/Metadata';
 import { getTypeClass, getTypeDef } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
-import Metadata from '../../Metadata';
 import Null from '../Null';
 
 const EventTypes: Record<string, Constructor<EventData>> = {};

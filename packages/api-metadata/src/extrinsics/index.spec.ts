@@ -9,7 +9,7 @@ import '@polkadot/types/injector';
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { createType, Metadata } from '@polkadot/types';
-import metadataStatic from '@polkadot/types/Metadata/static';
+import metadataStatic from '../Metadata/static';
 
 import fromMetadata from './fromMetadata';
 

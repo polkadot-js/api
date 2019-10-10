@@ -6,14 +6,14 @@ import '../injector';
 
 import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
 import { hexToU8a } from '@polkadot/util';
-import rpcDataV3 from '@polkadot/types/Metadata/v3/static';
-import rpcDataV4 from '@polkadot/types/Metadata/v4/static';
-import rpcDataV5 from '@polkadot/types/Metadata/v5/static';
-import rpcDataV6 from '@polkadot/types/Metadata/v6/static';
-import rpcDataV7 from '@polkadot/types/Metadata/v7/static';
-import rpcDataV8 from '@polkadot/types/Metadata/v8/static';
+import rpcDataV3 from '@polkadot/api-metadata/Metadata/v3/static';
+import rpcDataV4 from '@polkadot/api-metadata/Metadata/v4/static';
+import rpcDataV5 from '@polkadot/api-metadata/Metadata/v5/static';
+import rpcDataV6 from '@polkadot/api-metadata/Metadata/v6/static';
+import rpcDataV7 from '@polkadot/api-metadata/Metadata/v7/static';
+import rpcDataV8 from '@polkadot/api-metadata/Metadata/v8/static';
 
-import Metadata from '../Metadata';
+import Metadata from '@polkadot/api-metadata/Metadata';
 import StorageKey from './StorageKey';
 
 describe('StorageKey', (): void => {

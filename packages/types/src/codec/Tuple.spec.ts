@@ -8,9 +8,9 @@ import { VoteThreshold } from '../interfaces/elections';
 import { BlockNumber } from '../interfaces/runtime';
 import { CodecTo } from '../types';
 
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import { ClassOf } from './create';
-import Metadata from '../Metadata';
-import metadataStatic from '../Metadata/static';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';

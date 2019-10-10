@@ -5,5 +5,5 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as Metadata } from './Metadata';
+export { default as Metadata } from '@polkadot/api-metadata/Metadata';
 export * from './primitive';

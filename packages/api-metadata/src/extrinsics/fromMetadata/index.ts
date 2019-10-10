@@ -4,8 +4,8 @@
 
 import { Calls, ModulesWithCalls } from '@polkadot/types/types';
 
-import { ModuleMetadataV8 } from '@polkadot/types/Metadata/v8/Metadata';
-import Metadata from '@polkadot/types/Metadata';
+import { ModuleMetadataV8 } from '../../Metadata/v8/Metadata';
+import Metadata from '../../Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
 import extrinsics from '../';
@@ -16,7 +16,7 @@ import createUnchecked from './createUnchecked';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
+export default function fromMetadata(metadata: Metadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)
     .reduce((result, { calls, name }: ModuleMetadataV8, sectionIndex): ModulesWithCalls => {

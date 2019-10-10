@@ -8,10 +8,10 @@ import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
+import Metadata from '@polkadot/api-metadata/Metadata';
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
-import Metadata from '../../Metadata';
 
 interface DecodeMethodInput {
   args: any;

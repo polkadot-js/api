@@ -4,7 +4,7 @@
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { StorageEntryMetadata as MetaV8 } from '../Metadata/v8/Storage';
+import { StorageEntryMetadata as MetaV8 } from '@polkadot/api-metadata/Metadata/v8/Storage';
 import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
@@ -44,7 +44,7 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  public constructor(value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
     super(key);
@@ -55,7 +55,7 @@ export default class StorageKey extends Bytes {
     this._section = override.section || section;
   }
 
-  public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
+  public static decodeStorageKey(value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {
         key: value,
@@ -86,7 +86,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV8 | undefined {
+  public static getMeta(value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV8 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -100,7 +100,7 @@ export default class StorageKey extends Bytes {
     return undefined;
   }
 
-  public static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
+  public static getType(value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -117,28 +117,28 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  public get meta (): MetaV8 | undefined {
+  public get meta(): MetaV8 | undefined {
     return this._meta;
   }
 
   /**
    * @description The key method or `undefined` when not specified
    */
-  public get method (): string | undefined {
+  public get method(): string | undefined {
     return this._method;
   }
 
   /**
    * @description The output type, `null` when not available
    */
-  public get outputType (): string | undefined {
+  public get outputType(): string | undefined {
     return this._outputType;
   }
 
   /**
    * @description The key section or `undefined` when not specified
    */
-  public get section (): string | undefined {
+  public get section(): string | undefined {
     return this._section;
   }
 }

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { createType } from '@polkadot/types/codec';
+import { StorageEntryMetadata, StorageEntryType } from '../../Metadata/v8/Storage';
 
 import createFunction from './createFunction';
 

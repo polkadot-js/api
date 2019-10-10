@@ -4,7 +4,7 @@
 
 import { ModuleStorage, Storage } from '../types';
 
-import Metadata from '@polkadot/types/Metadata';
+import Metadata from '../../Metadata';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './createFunction';
@@ -15,7 +15,7 @@ import { storage } from './storage';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata (metadata: Metadata): Storage {
+export default function fromMetadata(metadata: Metadata): Storage {
   return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;

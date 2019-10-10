@@ -8,8 +8,8 @@ import BN from 'bn.js';
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Metadata from '../../../Metadata';
-import metadataStatic from '../../../Metadata/static';
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import Call from '../../Generic/Call';
 import Extrinsic from './Extrinsic';
 

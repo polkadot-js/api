@@ -6,9 +6,9 @@ import '../../injector';
 
 import { hexToU8a } from '@polkadot/util';
 
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import Call from '../Generic/Call';
-import Metadata from '../../Metadata';
-import metadataStatic from '../../Metadata/static';
 import Extrinsic from './Extrinsic';
 
 describe('Extrinsic', (): void => {

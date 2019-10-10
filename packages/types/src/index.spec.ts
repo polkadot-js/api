@@ -4,8 +4,8 @@
 
 import './injector';
 
-import Metadata from './Metadata';
-import metadataStatic from './Metadata/static';
+import Metadata from '@polkadot/api-metadata/Metadata';
+import metadataStatic from '@polkadot/api-metadata/Metadata/static';
 import { createTypeUnsafe } from './codec/create';
 import GenericCall from './primitive/Generic/Call';
 import { Codec } from './types';
@@ -23,7 +23,7 @@ const UNCONSTRUCTABLE = [
   'usize'
 ].map((v): string => v.toLowerCase());
 
-function testTypes (type: string, typeNames: string[]): void {
+function testTypes(type: string, typeNames: string[]): void {
   describe(type, (): void => {
     describe(`${type}:: default creation`, (): void => {
       typeNames.forEach((name): void => {

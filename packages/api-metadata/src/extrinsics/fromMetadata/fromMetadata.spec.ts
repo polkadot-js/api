@@ -5,7 +5,7 @@
 import '@polkadot/types/injector';
 
 import { createType, Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/static';
+import json from '../../Metadata/static';
 
 import fromMetadata from '.';
 

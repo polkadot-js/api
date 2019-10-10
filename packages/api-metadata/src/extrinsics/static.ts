@@ -4,8 +4,8 @@
 
 import { ModulesWithCalls } from '@polkadot/types/types';
 
-import Metadata from '@polkadot/types/Metadata';
-import metadataRpc from '@polkadot/types/Metadata/static';
+import Metadata from '../Metadata';
+import metadataRpc from '../Metadata/static';
 
 import fromMetadata from './fromMetadata';
 
