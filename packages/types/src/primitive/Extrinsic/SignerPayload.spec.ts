@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import { createType, GenericCall } from '@polkadot/types';
 
+import Metadata from '../../Metadata';
+import metadataStatic from '../../Metadata/static';
 import SignerPayload from './SignerPayload';
 
 describe('SignerPayload', (): void => {
@@ -22,7 +23,7 @@ describe('SignerPayload', (): void => {
   };
 
   beforeEach((): void => {
-    GenericCall.injectMethods(extrinsics);
+    GenericCall.injectMetadata(new Metadata(metadataStatic));
   });
 
   it('creates a valid JSON output', (): void => {

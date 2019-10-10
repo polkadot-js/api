@@ -4,8 +4,8 @@
 
 import './injector';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
+import Metadata from './Metadata';
+import metadataStatic from './Metadata/static';
 import { createTypeUnsafe } from './codec/create';
 import GenericCall from './primitive/Generic/Call';
 import { Codec } from './types';
@@ -41,7 +41,7 @@ function testTypes (type: string, typeNames: string[]): void {
     });
 
     describe(`${type}:: default creation (empty bytes)`, (): void => {
-      GenericCall.injectMethods(extrinsics);
+      GenericCall.injectMetadata(new Metadata(metadataStatic));
 
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {

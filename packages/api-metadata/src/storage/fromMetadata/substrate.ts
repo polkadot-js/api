@@ -4,7 +4,7 @@
 
 import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { createType, Text, Vec } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
 import createFunction from './createFunction';
 
@@ -18,7 +18,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
   createFunction(
     {
       meta: {
-        documentation: new Vec(Text, [documentation]),
+        documentation: createType('Vec<Text>', [documentation]),
         modifier: createType('StorageEntryModifierLatest', 1), // required
         type: new StorageEntryType(type, 0),
         toJSON: (): any => key

@@ -5,8 +5,7 @@
 import { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Bytes, Compact, StorageKey, U8a } from '@polkadot/types';
-import { createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { Compact, U8a, createType, createTypeUnsafe } from '@polkadot/types/codec';
 import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
@@ -123,13 +122,13 @@ function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn,
     name,
     modifier: createType('StorageEntryModifierLatest', 1), // required
     type: new StorageEntryType(createType('PlainTypeLatest', type.asMap.key), 0),
-    fallback: new Bytes(createTypeUnsafe(type.asMap.key.toString()).toHex()),
+    fallback: createType('Bytes', createTypeUnsafe(type.asMap.key.toString()).toHex()),
     documentation
   });
 
   // here we pass the section/method through as well - these are not on
   // the function itself, so specify these explicitly to the constructor
-  storageFn.headKey = new StorageKey(headFn, {
+  storageFn.headKey = createType('StorageKey', headFn, {
     method: storageFn.method,
     section: `head of ${storageFn.section}`
   });

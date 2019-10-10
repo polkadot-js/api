@@ -3,13 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, ModulesWithCalls } from '../../types';
+import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
 
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
+import Metadata from '../../Metadata';
 
 interface DecodeMethodInput {
   args: any;
@@ -80,7 +82,7 @@ export default class Call extends Struct implements IMethod {
   }
 
   private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
-    // destructure value, we only pass args/methodsIndex out
+    // we only pass args/methodsIndex out
     const { args, callIndex } = value;
 
     // Get the correct lookupIndex
@@ -154,10 +156,10 @@ export default class Call extends Struct implements IMethod {
     }, {} as unknown as ArgsDef);
   }
 
-  // This is called/injected by the API on init, allowing a snapshot of
-  // the available system extrinsics to be used in lookups
-  public static injectMethods (moduleMethods: ModulesWithCalls): void {
-    Object.values(moduleMethods).forEach((methods): void =>
+  public static injectMetadata (metadata: Metadata): void {
+    const extrinsics = extrinsicsFromMeta(metadata);
+
+    Object.values(extrinsics).forEach((methods): void =>
       Object.values(methods).forEach((method): void => {
         injected[method.callIndex.toString()] = method;
       })
@@ -173,7 +175,7 @@ export default class Call extends Struct implements IMethod {
   }
 
   /**
-   * @description Thge argument defintions
+   * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
     return Call.getArgsDef(this.meta);

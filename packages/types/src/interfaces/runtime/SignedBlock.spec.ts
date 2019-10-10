@@ -4,8 +4,8 @@
 
 import '../../injector';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
+import Metadata from '../../Metadata';
+import metadataStatic from '../../Metadata/static';
 import { createType } from '../../codec/create';
 import Call from '../../primitive/Generic/Call';
 import events from '../../json/SignedBlock.002.json';
@@ -15,7 +15,7 @@ import knownMehods from '../../json/SignedBlock.005.json';
 
 describe('SignedBlock', (): void => {
   beforeEach((): void => {
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
   });
 
   it('decodes a full block', (): void => {

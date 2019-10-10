@@ -234,24 +234,13 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description
+   * @description Returns the wrapped metadata as a limited calls-only (latest) version
    */
-  public get magicNumber (): MagicNumber {
-    return this.get('magicNumber') as MagicNumber;
-  }
-
-  /**
-   * @description the metadata wrapped
-   */
-  private get metadata (): MetadataEnum {
-    return this.get('metadata') as MetadataEnum;
-  }
-
-  /**
-   * @description the metadata version this structure represents
-   */
-  public get version (): number {
-    return this.metadata.index;
+  public get asCallsOnly (): MetadataVersioned {
+    return new MetadataVersioned({
+      magicNumber: this.magicNumber,
+      metadata: new MetadataEnum(toCallsOnly(this.asLatest), this.version)
+    });
   }
 
   /**
@@ -320,20 +309,31 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description Returns the wrapped metadata as a limited calls-only (latest) version
-   */
-  public get asCallsOnly (): MetadataVersioned {
-    return new MetadataVersioned({
-      magicNumber: this.magicNumber,
-      metadata: new MetadataEnum(toCallsOnly(this.asLatest), this.version)
-    });
-  }
-
-  /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataV8 {
     return this.asV8;
+  }
+
+  /**
+   * @description
+   */
+  public get magicNumber (): MagicNumber {
+    return this.get('magicNumber') as MagicNumber;
+  }
+
+  /**
+   * @description the metadata wrapped
+   */
+  private get metadata (): MetadataEnum {
+    return this.get('metadata') as MetadataEnum;
+  }
+
+  /**
+   * @description the metadata version this structure represents
+   */
+  public get version (): number {
+    return this.metadata.index;
   }
 
   public getUniqTypes (throwError: boolean): string[] {

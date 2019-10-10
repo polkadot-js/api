@@ -5,17 +5,11 @@
 import '@polkadot/types/injector';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/static';
 import { u8aToHex } from '@polkadot/util';
 
-import fromMetadata from '../fromMetadata';
+import storage from '../static';
 
 const keyring = testingPairs({ type: 'ed25519' });
-
-// Use the pre-generated metadata
-const metadata = new Metadata(json);
-const storage = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if the storage function expects an argument', (): void => {

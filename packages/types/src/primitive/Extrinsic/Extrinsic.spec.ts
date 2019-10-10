@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
+import '../../injector';
 
 import { hexToU8a } from '@polkadot/util';
 
 import Call from '../Generic/Call';
+import Metadata from '../../Metadata';
+import metadataStatic from '../../Metadata/static';
 import Extrinsic from './Extrinsic';
 
 describe('Extrinsic', (): void => {
   beforeAll((): void => {
-    Call.injectMethods(extrinsics);
+    Call.injectMetadata(new Metadata(metadataStatic));
   });
 
   describe('V1', (): void => {

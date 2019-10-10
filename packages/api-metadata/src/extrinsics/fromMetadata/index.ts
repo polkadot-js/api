@@ -19,16 +19,16 @@ import createUnchecked from './createUnchecked';
 export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)
-    .reduce((result, modul: ModuleMetadataV8, sectionIndex): ModulesWithCalls => {
-      const section = stringCamelCase(modul.name.toString());
+    .reduce((result, { calls, name }: ModuleMetadataV8, sectionIndex): ModulesWithCalls => {
+      const section = stringCamelCase(name.toString());
 
-      result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex): Calls => {
+      result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
         const method = stringCamelCase(callMetadata.name.toString());
 
         newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
-      }, {} as unknown as Calls);
+      }, {});
 
       return result;
     }, { ...extrinsics });
