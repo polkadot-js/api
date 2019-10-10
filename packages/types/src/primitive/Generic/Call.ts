@@ -5,7 +5,7 @@
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
 
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
+import extrinsicsFromMeta from '@polkadot/api-metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
@@ -36,7 +36,7 @@ const injected: Record<string, CallFunction> = {};
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
 export class CallIndex extends U8aFixed {
-  public constructor (value?: AnyU8a) {
+  public constructor(value?: AnyU8a) {
     super(value, 16);
   }
 }
@@ -50,7 +50,7 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
-  public constructor (value: any, meta?: FunctionMetadataLatest) {
+  public constructor(value: any, meta?: FunctionMetadataLatest) {
     const decoded = Call.decodeCall(value, meta);
 
     super({
@@ -71,7 +71,7 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCall(value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
       return Call.decodeCallViaU8a(u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
@@ -81,7 +81,7 @@ export default class Call extends Struct implements IMethod {
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
-  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCallViaObject(value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
     // we only pass args/methodsIndex out
     const { args, callIndex } = value;
 
@@ -101,7 +101,7 @@ export default class Call extends Struct implements IMethod {
     };
   }
 
-  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCallViaU8a(value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
     // The first 2 bytes are the callIndex
     const callIndex = value.subarray(0, 2);
 
@@ -117,7 +117,7 @@ export default class Call extends Struct implements IMethod {
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
+  public static filterOrigin(meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
       ? meta.args.filter(({ type }): boolean =>
@@ -133,7 +133,7 @@ export default class Call extends Struct implements IMethod {
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
-  public static findFunction (callIndex: Uint8Array): CallFunction {
+  public static findFunction(callIndex: Uint8Array): CallFunction {
     assert(Object.keys(injected).length > 0, 'Calling Call.findFunction before extrinsics have been injected.');
 
     return injected[callIndex.toString()] || FN_UNKNOWN;
@@ -145,7 +145,7 @@ export default class Call extends Struct implements IMethod {
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: FunctionMetadataLatest): ArgsDef {
+  private static getArgsDef(meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
       const Type = getTypeClass(
         getTypeDef(type.toString())
@@ -156,7 +156,7 @@ export default class Call extends Struct implements IMethod {
     }, {} as unknown as ArgsDef);
   }
 
-  public static injectMetadata (metadata: Metadata): void {
+  public static injectMetadata(metadata: Metadata): void {
     const extrinsics = extrinsicsFromMeta(metadata);
 
     Object.values(extrinsics).forEach((methods): void =>
@@ -169,7 +169,7 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description The arguments for the function call
    */
-  public get args (): Codec[] {
+  public get args(): Codec[] {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
@@ -177,28 +177,28 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description The argument definitions
    */
-  public get argsDef (): ArgsDef {
+  public get argsDef(): ArgsDef {
     return Call.getArgsDef(this.meta);
   }
 
   /**
    * @description The encoded `[sectionIndex, methodIndex]` identifier
    */
-  public get callIndex (): Uint8Array {
+  public get callIndex(): Uint8Array {
     return (this.get('callIndex') as CallIndex).toU8a();
   }
 
   /**
    * @description The encoded data
    */
-  public get data (): Uint8Array {
+  public get data(): Uint8Array {
     return (this.get('args') as Struct).toU8a();
   }
 
   /**
    * @description `true` if the `Origin` type is on the method (extrinsic method)
    */
-  public get hasOrigin (): boolean {
+  public get hasOrigin(): boolean {
     const firstArg = this.meta.args[0];
 
     return !!firstArg && firstArg.type.toString() === 'Origin';
@@ -207,28 +207,28 @@ export default class Call extends Struct implements IMethod {
   /**
    * @description The [[FunctionMetadata]]
    */
-  public get meta (): FunctionMetadataLatest {
+  public get meta(): FunctionMetadataLatest {
     return this._meta;
   }
 
   /**
    * @description Returns the name of the method
    */
-  public get methodName (): string {
+  public get methodName(): string {
     return Call.findFunction(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
-  public get sectionName (): string {
+  public get sectionName(): string {
     return Call.findFunction(this.callIndex).section;
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
+  public toRawType(): string {
     return 'Call';
   }
 }

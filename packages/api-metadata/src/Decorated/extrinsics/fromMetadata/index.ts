@@ -4,10 +4,10 @@
 
 import { Calls, ModulesWithCalls } from '@polkadot/types/types';
 
-import { ModuleMetadataV8 } from '../../Metadata/v8/Metadata';
-import Metadata from '../../Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
+import { ModuleMetadataV8 } from '../../../Metadata/v8/Metadata';
+import Metadata from '../../../Metadata';
 import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 

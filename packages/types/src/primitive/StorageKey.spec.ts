@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
+import fromMetadata from '@polkadot/api-metadata/Decorated/storage/fromMetadata';
 import { hexToU8a } from '@polkadot/util';
 import rpcDataV3 from '@polkadot/api-metadata/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/api-metadata/Metadata/v4/static';

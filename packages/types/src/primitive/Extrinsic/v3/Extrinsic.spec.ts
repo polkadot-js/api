@@ -5,7 +5,7 @@
 import '../../../injector';
 
 import BN from 'bn.js';
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
+import extrinsics from '@polkadot/api-metadata/Decorated/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Metadata from '@polkadot/api-metadata/Metadata';

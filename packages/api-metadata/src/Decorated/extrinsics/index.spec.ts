@@ -9,8 +9,8 @@ import '@polkadot/types/injector';
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { createType, Metadata } from '@polkadot/types';
-import metadataStatic from '../Metadata/static';
 
+import metadataStatic from '../../Metadata/static';
 import fromMetadata from './fromMetadata';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
