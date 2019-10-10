@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// NOTE When adding any types here, we need to update the coumentation links as
+// NOTE When adding any types here, we need to update the documentation links as
 // well - <root>/docs/SUMMARY.md as well as ../README.md
 
 /**
  * @summary Type definitions that are used in the system
  */
-// NOTE We are exporting Bool as bool to match with Rust (however also using Bool internally),
-// so with the renamed versions, epose both cases, allowing createType to work
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
@@ -37,5 +35,5 @@ export { default as u128 } from './U128';
 export { default as u256 } from './U256';
 export { default as usize } from './USize';
 
-export * from './Extrinsic';
 export * from './Generic';
+export * from './Extrinsic';
