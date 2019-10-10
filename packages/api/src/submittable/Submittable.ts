@@ -72,7 +72,7 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
   // signAndSend implementation for all 3 cases above
   public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
     const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
-    const isSubscription = this._ignoreStatusCb || !!statusCb;
+    const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
     const address = isKeyringPair(account) ? account.address : account.toString();
     let updateId: number | undefined;
 
@@ -106,7 +106,7 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
 
   // send implementation for both immediate Hash and statusCb variants
   public send (statusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
-    const isSubscription = this._ignoreStatusCb || !!statusCb;
+    const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
 
     return this._decorateMethod(
       isSubscription

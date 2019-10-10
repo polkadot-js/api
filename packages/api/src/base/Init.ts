@@ -11,7 +11,7 @@ import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { assert, logger } from '@polkadot/util';
+import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
@@ -59,7 +59,9 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
-    assert(this._rpcCore.provider.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
+    if (!this.hasSubscriptions) {
+      console.warn('Api will be available in a limited mode since the provider does not support subscriptions');
+    }
 
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
