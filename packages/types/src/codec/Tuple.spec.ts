@@ -65,17 +65,16 @@ describe('Tuple', (): void => {
     ).toEqual('["foo",69,42]');
   });
 
-  it.skip('creates properly via actual hex string', (): void => {
+  it('creates properly via actual hex string', (): void => {
     Call.injectMetadata(new Metadata(metadataStatic));
 
     const test = new (Tuple.with([
-      ClassOf('BlockNumber'), ClassOf('Proposal'), ClassOf('VoteThreshold')
+      ClassOf('BlockNumber'), ClassOf('VoteThreshold')
     ]
-    ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
+    ))('0x6219000001');
 
     expect((test[0] as BlockNumber).toNumber()).toEqual(6498);
-    expect((test[1] as Call).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect((test[2] as VoteThreshold).toNumber()).toEqual(1);
+    expect((test[1] as VoteThreshold).toNumber()).toEqual(1);
   });
 
   it('exposes the Types', (): void => {

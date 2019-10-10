@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import { Proposal, PropIndex } from '../interfaces/democracy';
+import { PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
 import Metadata from '../Metadata';
@@ -60,15 +60,14 @@ describe('Vec', (): void => {
     expect(vector.Type).toEqual('Text');
   });
 
-  it.skip('decodes a complex type via construction', (): void => {
-    const test = createTypeUnsafe('Vec<(PropIndex, Proposal, AccountId)>', [new Uint8Array([
-      4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
+  it('decodes a complex type via construction', (): void => {
+    const test = createTypeUnsafe('Vec<(PropIndex, AccountId)>', [new Uint8Array([
+      4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ])]);
     const first = (test as Vec<Codec>)[0] as Tuple;
 
     expect((first[0] as PropIndex).toNumber()).toEqual(10);
-    expect((first[1] as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect((first[2] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
+    expect((first[1] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
   });
 
   describe('vector-like functions', (): void => {
