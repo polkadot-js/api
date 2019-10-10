@@ -1,4 +1,4 @@
-import '@polkadot/types/injector';
+import '../injector';
 import BTreeMap from './BTreeMap';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
