@@ -251,8 +251,8 @@ export default class Rpc implements RpcInterface {
         };
       }).pipe(
         // Duplicated in api-derive/util/drr
-        distinctUntilChanged((prev: any, next: any): boolean =>
-          JSON.stringify({ value: next }) === JSON.stringify({ value: prev })
+        distinctUntilChanged((a: any, b: any): boolean =>
+          JSON.stringify({ value: a }) === JSON.stringify({ value: b })
         ),
         publishReplay(1),
         refCount()

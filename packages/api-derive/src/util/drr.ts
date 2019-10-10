@@ -22,8 +22,8 @@ export const drr = (): DrrResult => <T> (source$: Observable<T>): Observable<T> 
 
       throw error;
     }),
-    distinctUntilChanged((prev: any, next: any): boolean =>
-      JSON.stringify({ value: next }) === JSON.stringify({ value: prev })
+    distinctUntilChanged((a: any, b: any): boolean =>
+      JSON.stringify({ value: a }) === JSON.stringify({ value: b })
     ),
     publishReplay(1),
     refCount()
