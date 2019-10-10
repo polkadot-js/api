@@ -118,7 +118,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
     // This is extensible, so we could quite readily extend to send back extra
     // information, such as for instance the payload, i.e. `payload: this.toHex()`
     // For the case here we sign via the extrinsic, we ignore the return, so generally
-    // thisis applicable for external signing
+    // this is applicable for external signing
     return {
       signature: u8aToHex(signature)
     };

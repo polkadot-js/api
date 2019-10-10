@@ -71,7 +71,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The actuall [[Signature]] hash
+   * @description The actual [[Signature]] hash
    */
   public get signature (): Signature {
     return this.get('signature') as Signature;
@@ -113,7 +113,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description Generate a payload and pplies the signature from a keypair
+   * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', account.publicKey);
