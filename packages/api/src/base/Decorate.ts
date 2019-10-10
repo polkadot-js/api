@@ -129,6 +129,13 @@ export default abstract class Decorate<ApiType> extends Events {
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
   }
 
+  /**
+   * @returns `true` if the API operates with subscriptions
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcCore.provider.hasSubscriptions;
+  }
+
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;
@@ -185,10 +192,13 @@ export default abstract class Decorate<ApiType> extends Events {
 
       // out and section here are horrors to get right from a typing perspective :()
       (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        (section as any)[methodName] = decorateMethod(method, { methodName });
+        //  skip subscriptions where we have a non-subscribable interface
+        if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
+          (section as any)[methodName] = decorateMethod(method, { methodName });
 
-        // add this endpoint mapping to our internal map - we use this for filters
-        this._rpcMap.set(`${sectionName}_${methodName}`, jsonrpc[sectionName].methods[methodName]);
+          // add this endpoint mapping to our internal map - we use this for filters
+          this._rpcMap.set(`${sectionName}_${methodName}`, jsonrpc[sectionName].methods[methodName]);
+        }
 
         return section;
       }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
@@ -246,15 +256,19 @@ export default abstract class Decorate<ApiType> extends Events {
       ? [creator, args]
       : [creator, ...args];
 
-    const decorated = creator.headKey
+    // FIXME We probably want to be able to query the full list with non-subs as well
+    const decorated = this.hasSubscriptions && creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
-      : decorateMethod((...args: any[]): Observable<Codec> =>
-        this._rpcCore.state
-          // Unfortunately for one-shot calls we also use .subscribeStorage here
-          .subscribeStorage<[Codec]>([getArgs(...args)])
-          // state_storage returns an array of values, since we have just subscribed to
-          // a single entry, we pull that from the array and return it as-is
-          .pipe(map(([data]): Codec => data)), { methodName: creator.method });
+      : decorateMethod((...args: any[]): Observable<Codec> => (
+        this.hasSubscriptions
+          ? this._rpcCore.state
+            // Unfortunately for one-shot calls we also use .subscribeStorage here
+            .subscribeStorage<[Codec]>([getArgs(...args)])
+            // state_storage returns an array of values, since we have just subscribed to
+            // a single entry, we pull that from the array and return it as-is
+            .pipe(map(([data]): Codec => data))
+          : this._rpcCore.state.getStorage(getArgs(...args))
+      ), { methodName: creator.method });
 
     decorated.creator = creator;
 
@@ -267,10 +281,12 @@ export default abstract class Decorate<ApiType> extends Events {
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
-    // When using double map storage function, user need to pass double map key as an array
-    decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
-      this._rpcCore.state.subscribeStorage(
-        args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
+    if (this.hasSubscriptions) {
+      // When using double map storage function, user need to pass double map key as an array
+      decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
+        this._rpcCore.state.subscribeStorage(
+          args.map((arg: Arg[] | Arg): [StorageEntry, Arg | Arg[]] => [creator, arg])));
+    }
 
     decorated.size = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(arg1, arg2)));
