@@ -14,7 +14,8 @@ function isEqual (prev: any, next: any): boolean {
   if (isNull(prev) || isNull(next)) {
     return next === prev;
   } else if (Array.isArray(next)) {
-    return !next.some((value: any, index): boolean => isEqual(prev[index], value));
+    return next.length === prev.length &&
+      !next.some((value: any, index): boolean => isEqual(prev[index], value));
   } else if (next.eq) {
     return next.eq(prev);
   }
