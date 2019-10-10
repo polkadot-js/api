@@ -4,7 +4,7 @@
 
 import { StorageEntryMetadata, StorageEntryType } from '@polkadot/types/Metadata/v8/Storage';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
 import createFunction from './createFunction';
 

@@ -14,7 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
  * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Constants {
-  return metadata.asLatest.modules.reduce((result, moduleMetadata): Constants => {
+  return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;
     }
@@ -22,7 +22,7 @@ export default function fromMetadata (metadata: Metadata): Constants {
     const { name } = moduleMetadata;
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
-    result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, meta): ModuleConstants => {
+    result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
       const codec = createTypeUnsafe(meta.type.toString(), [meta.value]);
 
       // This is not a perfect idea, however as it stands with number-only constants on the metadata
@@ -33,8 +33,8 @@ export default function fromMetadata (metadata: Metadata): Constants {
       newModule[stringCamelCase(meta.name.toString())] = codec;
 
       return newModule;
-    }, {} as unknown as ModuleConstants);
+    }, {});
 
     return result;
-  }, {} as unknown as Constants);
+  }, {});
 }
