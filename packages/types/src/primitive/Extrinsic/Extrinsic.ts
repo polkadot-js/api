@@ -60,7 +60,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
-    // "only add extrinsic types", and more string definitions become unwieldly
+    // "only add extrinsic types", and more string definitions become unwieldy
     return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
@@ -118,7 +118,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Thge argument defintions, compatible with [[Call]]
+   * @description The argument definitions, compatible with [[Call]]
    */
   public get argsDef (): ArgsDef {
     return this.method.argsDef;
@@ -139,7 +139,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description The era for thios extrinsic
+   * @description The era for this extrinsic
    */
   public get era (): ExtrinsicEra {
     return (this.raw as ExtrinsicVx).signature.era;
