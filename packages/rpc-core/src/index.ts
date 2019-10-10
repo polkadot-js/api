@@ -10,7 +10,7 @@ import { RpcInterfaceMethod } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
@@ -250,6 +250,10 @@ export default class Rpc implements RpcInterface {
             );
         };
       }).pipe(
+        // Duplicated in api-derive/util/drr
+        distinctUntilChanged((prev: any, next: any): boolean =>
+          JSON.stringify({ value: next }) === JSON.stringify({ value: prev })
+        ),
         publishReplay(1),
         refCount()
       );

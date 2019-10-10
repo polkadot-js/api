@@ -10,10 +10,6 @@ type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
 
 const l = logger('drr');
 
-function isEqual (prev: any, next: any): boolean {
-  return JSON.stringify({ value: next }) === JSON.stringify({ value: prev });
-}
-
 /**
  * Shorthand for distinctUntilChanged(), publishReplay(1) and refCount().
  *
@@ -26,7 +22,9 @@ export const drr = (): DrrResult => <T> (source$: Observable<T>): Observable<T> 
 
       throw error;
     }),
-    distinctUntilChanged(isEqual),
+    distinctUntilChanged((prev: any, next: any): boolean =>
+      JSON.stringify({ value: next }) === JSON.stringify({ value: prev })
+    ),
     publishReplay(1),
     refCount()
   );
