@@ -12,7 +12,7 @@ const l = logger('drr');
 
 function isEqual (prev: any, next: any): boolean {
   if (isNull(prev) || isNull(next)) {
-    return next !== prev;
+    return next === prev;
   } else if (Array.isArray(next)) {
     return !next.some((value: any, index): boolean => isEqual(prev[index], value));
   } else if (next.eq) {
