@@ -111,18 +111,6 @@ describe('Enum', (): void => {
       expect(new Test(1234, 1).toJSON()).toEqual({ B: 1234 });
     });
 
-    // We are currently not using this approach, none of the types in Substrate currently
-    // have any overrides. Instead of trying to support it (just-in-case), rather have it
-    // removed to simplify the code - it can be pulled-back if needed
-    it.skip('allows checking against defined indexes', (): void => {
-      expect(
-        new Enum(
-          { 1: Text, 5: U32 },
-          new Uint8Array([1, 2 << 2, 49, 50])
-        ).toString()
-      ).toEqual('Text');
-    });
-
     it('allows accessing the type and value', (): void => {
       const text = new Text('foo');
       const enumType = new Enum(
