@@ -23,7 +23,7 @@ const UNCONSTRUCTABLE = [
   'usize'
 ].map((v): string => v.toLowerCase());
 
-function testTypes(type: string, typeNames: string[]): void {
+function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {
     describe(`${type}:: default creation`, (): void => {
       typeNames.forEach((name): void => {
