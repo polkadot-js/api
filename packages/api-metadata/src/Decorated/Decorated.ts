@@ -12,8 +12,11 @@ import storageFromMeta from './storage/fromMetadata';
 
 export default class Decorated {
   public readonly consts: Constants;
+
   public readonly metadata: Metadata;
+
   public readonly query: Storage;
+
   public readonly tx: ModulesWithCalls;
 
   public constructor (value?: Uint8Array | string | Metadata) {
