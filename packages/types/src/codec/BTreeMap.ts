@@ -115,7 +115,9 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     this.forEach((v: V, k: K) => {
       len += v.encodedLength + k.encodedLength;
     });
-    return len;
+    return this.reduce((len, v: V, k: K) => {
+      return len + v.encodedLength + k.encodedLength;
+    }, Compact.encodeU8a(this.size).length);
   }
 
   /**
