@@ -7,13 +7,13 @@ import '../../injector';
 import { hexToU8a } from '@polkadot/util';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
-import metadataStatic from '@polkadot/api-metadata/Metadata/static';
+import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import Call from '../Generic/Call';
 import Extrinsic from './Extrinsic';
 
 describe('Extrinsic', (): void => {
   beforeAll((): void => {
-    Call.injectMetadata(new Metadata(metadataStatic));
+    Call.injectMetadata(new Metadata(rpcMetadata));
   });
 
   describe('V1', (): void => {

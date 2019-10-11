@@ -10,10 +10,10 @@ import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } fr
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
+import Decorated from '@polkadot/api-metadata/Decorated';
+import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
-import storage from '@polkadot/api-metadata/storage/static';
-import rpcMetadata from '@polkadot/types/Metadata/static';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -155,6 +155,8 @@ export default class Mock implements ProviderInterface {
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;
 
+    const decorated = new Decorated(rpcMetadata);
+
     // Do something every 1 seconds
     setInterval((): void => {
       if (!this.isUpdating) {
@@ -166,12 +168,12 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(decorated.query.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
+        this.setStateBn(decorated.query.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(storage.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(decorated.query.timestamp.now(), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals

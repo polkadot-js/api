@@ -9,7 +9,7 @@ import { BlockNumber } from '../interfaces/runtime';
 import { CodecTo } from '../types';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
-import metadataStatic from '@polkadot/api-metadata/Metadata/static';
+import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import { ClassOf } from './create';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
@@ -66,7 +66,7 @@ describe('Tuple', (): void => {
   });
 
   it.skip('creates properly via actual hex string', (): void => {
-    Call.injectMetadata(new Metadata(metadataStatic));
+    Call.injectMetadata(new Metadata(rpcMetadata));
 
     const test = new (Tuple.with([
       ClassOf('BlockNumber'), ClassOf('Proposal'), ClassOf('VoteThreshold')

@@ -7,8 +7,8 @@ import '../../injector';
 import { EventRecord } from './types';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
-import metadataV0 from '@polkadot/api-metadata/Metadata/v0/static';
-import metadata from '@polkadot/api-metadata/Metadata/static';
+import rpcMetadataV0 from '@polkadot/api-metadata/Metadata/v0/static';
+import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import { createType } from '../../codec/create';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';
@@ -19,7 +19,7 @@ describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(metadataV0)
+        new Metadata(rpcMetadataV0)
       );
     });
 
@@ -34,7 +34,7 @@ describe('EventRecord', (): void => {
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(metadata)
+        new Metadata(rpcMetadata)
       );
     });
 

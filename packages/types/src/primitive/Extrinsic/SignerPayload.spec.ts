@@ -5,7 +5,7 @@
 import { createType, GenericCall } from '@polkadot/types';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
-import metadataStatic from '@polkadot/api-metadata/Metadata/static';
+import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import SignerPayload from './SignerPayload';
 
 describe('SignerPayload', (): void => {
@@ -23,7 +23,7 @@ describe('SignerPayload', (): void => {
   };
 
   beforeEach((): void => {
-    GenericCall.injectMetadata(new Metadata(metadataStatic));
+    GenericCall.injectMetadata(new Metadata(rpcMetadata));
   });
 
   it('creates a valid JSON output', (): void => {
