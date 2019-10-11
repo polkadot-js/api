@@ -32,15 +32,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: test
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
         yarn install --frozen-lockfile
-        ./cc-test-reporter before-build
         yarn test
-        ./cc-test-reporter after-build --exit-code 0
 
   build_code:
     name: Build Code
