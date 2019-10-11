@@ -110,6 +110,9 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
+  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/api-metadata'`)
+  // instead of the Codec Metadata
+  // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
   public static injectMetadata (metadata: Metadata): void {
     metadata.asLatest.modules
       .filter(({ events }): boolean => events.isSome)

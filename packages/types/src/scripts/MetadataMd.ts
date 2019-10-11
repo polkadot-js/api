@@ -5,7 +5,7 @@
 import '../injector';
 
 import fs from 'fs';
-import Metadata from '@polkadot/api-metadata/Metadata';
+import Metadata from '@polkadot/api-metadata';
 import rpcdata from '@polkadot/api-metadata/Metadata/static';
 import MetadataV8, { ModuleMetadataV8 } from '@polkadot/api-metadata/Metadata/v8';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
@@ -248,7 +248,7 @@ function writeToEventsMd (metadata: MetadataV8): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asLatest;
+const metadata = new Metadata(rpcdata).metadata.asLatest;
 
 writeToRpcMd();
 writeToConstantsMd(metadata);

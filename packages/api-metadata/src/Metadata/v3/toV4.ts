@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Option, Vec } from '@polkadot/types/codec';
 import StorageHasher from '@polkadot/types/primitive/StorageHasher';
+import { createType, Option, Vec } from '@polkadot/types/codec';
+
 import MetadataV3 from './Metadata';
 import MetadataV4 from '../v4';
 import { ModuleMetadataV4 } from '../v4/Metadata';

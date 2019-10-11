@@ -6,7 +6,7 @@ import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import DecoratedMeta from '@polkadot/api-metadata/Decorated';
+import DecoratedMeta from '@polkadot/api-metadata';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { logger } from '@polkadot/util';

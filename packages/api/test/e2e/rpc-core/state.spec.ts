@@ -4,7 +4,7 @@
 
 import { Balance, Moment, RuntimeVersion } from '@polkadot/types/interfaces';
 
-import Decorated from '@polkadot/api-metadata/Decorated';
+import DecorateMeta from '@polkadot/api-metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -14,7 +14,7 @@ import { describeE2E } from '../../util';
 
 const BOB_STASH = '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc';
 const CODE = '0x3a636f6465'; // :code
-const decorated = new Decorated(rpcMetadata);
+const metadata = new DecorateMeta(rpcMetadata);
 
 describeE2E({
   except: [
@@ -61,7 +61,7 @@ describeE2E({
     it('retrieves code', (done): void => {
       rpc.state
         .getStorage<Bytes>([
-        decorated.query.substrate.code
+        metadata.query.substrate.code
       ])
         .subscribe((code: Bytes): void => {
           expect(code).toBeDefined();
@@ -73,7 +73,7 @@ describeE2E({
     it('retrieves balances', (done): void => {
       rpc.state
         .getStorage<Balance>([
-        decorated.query.balances.freeBalance, BOB_STASH
+        metadata.query.balances.freeBalance, BOB_STASH
       ])
         .subscribe((balance): void => {
           expect(balance.isZero()).not.toEqual(true);
@@ -84,7 +84,7 @@ describeE2E({
     it('retrieves timestamp', (done): void => {
       rpc.state
         .getStorage<Moment>([
-        decorated.query.timestamp.now
+        metadata.query.timestamp.now
       ])
         .subscribe((moment: Moment): void => {
           expect(moment.toNumber()).not.toEqual(0);

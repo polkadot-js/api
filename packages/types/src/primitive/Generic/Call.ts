@@ -158,6 +158,9 @@ export default class Call extends Struct implements IMethod {
     }, {} as unknown as ArgsDef);
   }
 
+  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/api-metadata'`)
+  // instead of the Codec Metadata
+  // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
   public static injectMetadata (metadata: Metadata): void {
     const extrinsics = extrinsicsFromMeta(metadata);
 

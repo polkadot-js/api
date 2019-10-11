@@ -9,8 +9,8 @@ import { Compact, U8a, createType, createTypeUnsafe } from '@polkadot/types/code
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
-import getHasher, { HasherFunction } from './getHasher';
 import { StorageEntryMetadata, StorageEntryType } from '../../../Metadata/v8/Storage';
+import getHasher, { HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;

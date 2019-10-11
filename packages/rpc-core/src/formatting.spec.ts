@@ -7,7 +7,7 @@ import '@polkadot/types/injector';
 import { Balance } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-import Decorated from '@polkadot/api-metadata/Decorated';
+import Metadata from '@polkadot/api-metadata';
 import rpcMetadataV3 from '@polkadot/api-metadata/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/api-metadata/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/api-metadata/Metadata/v5/static';
@@ -25,7 +25,7 @@ const BALANCE_KEYS = [
 ];
 const OPTION_BYTES_HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
 
-function formattingTests (version: string, decorated: Decorated, encodedValues: [string, string, string]): void {
+function formattingTests(version: string, decorated: Metadata, encodedValues: [string, string, string]): void {
   const [ENC_ONE, ENC_TWO, CONTRACT_KEY] = encodedValues;
 
   describe(`formatting with Metadata ${version}`, (): void => {
@@ -182,37 +182,37 @@ function formattingTests (version: string, decorated: Decorated, encodedValues: 
   });
 }
 
-formattingTests('v3', new Decorated(rpcMetadataV3), [
+formattingTests('v3', new Metadata(rpcMetadataV3), [
   '0x4af2c53fce3ec33c6ccccf22e926f1a7',
   '0x3e62f7ed6e788e1337bce2a97b68a12a',
   '0x777519cd81f845abdb40d253923d6098'
 ]);
 
-formattingTests('v4', new Decorated(rpcMetadataV4), [
+formattingTests('v4', new Metadata(rpcMetadataV4), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'
 ]);
 
-formattingTests('v5', new Decorated(rpcMetadataV5), [
+formattingTests('v5', new Metadata(rpcMetadataV5), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'
 ]);
 
-formattingTests('v6', new Decorated(rpcMetadataV6), [
+formattingTests('v6', new Metadata(rpcMetadataV6), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'
 ]);
 
-formattingTests('v7', new Decorated(rpcMetadataV7), [
+formattingTests('v7', new Metadata(rpcMetadataV7), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'
 ]);
 
-formattingTests('v8', new Decorated(rpcMetadataV8), [
+formattingTests('v8', new Metadata(rpcMetadataV8), [
   '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad',
   '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab',
   '0xc7879f4faa637a90d782070a3cb6be99a9fb0316e19a0454ce93c4f0a34712f1'

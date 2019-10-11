@@ -4,7 +4,7 @@
 
 import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
-import Decorated from '@polkadot/api-metadata/Decorated';
+import Metadata from '@polkadot/api-metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf } from '@polkadot/types';
@@ -14,7 +14,7 @@ import Rpc from '@polkadot/rpc-core';
 import { describeE2E } from '../../util';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
-const decorated = new Decorated(rpcMetadata);
+const metadata = new Metadata(rpcMetadata);
 
 describeE2E({
   only: [
@@ -31,8 +31,8 @@ describeE2E({
   it('subscribes to storage', (done): void => {
     rpc.state
       .subscribeStorage<[BlockNumber, Index]>([
-      [decorated.query.system.accountNonce, randomAccount],
-      [decorated.query.session.currentIndex]
+      [metadata.query.system.accountNonce, randomAccount],
+      [metadata.query.session.currentIndex]
     ])
       .subscribe((data): void => {
         expect(data).toHaveLength(2);

@@ -10,6 +10,11 @@ import constantsFromMeta from './consts/fromMetadata';
 import extrinsicsFromMeta from './extrinsics/fromMetadata';
 import storageFromMeta from './storage/fromMetadata';
 
+/**
+ * This class represents a decorated wrapper over the [[Metadata]]. The
+ * [[Metadata]] type is a Codec type returned by the node, and `Decorated`
+ * composes it and populates the `.query`, `.tx` and `.consts` sections.
+ */
 export default class Decorated {
   public readonly consts: Constants;
 
