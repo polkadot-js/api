@@ -225,7 +225,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
   }
 
   /**
-   * @description Overide the encoded length method
+   * @description Override the encoded length method
    */
   public get encodedLength (): number {
     if (this.index === 0) {

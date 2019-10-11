@@ -48,7 +48,7 @@ export default class UInt extends AbstractInt {
    */
   public toRawType (): string {
     // NOTE In the case of balances, which have a special meaning on the UI
-    // and can be interpreted differently, return a specifc value for it so
+    // and can be interpreted differently, return a specific value for it so
     // underlying it always matches (no matter which length it actually is)
     return this instanceof ClassOf('Balance')
       ? 'Balance'

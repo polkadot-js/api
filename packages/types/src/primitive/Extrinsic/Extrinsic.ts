@@ -60,7 +60,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
-    // "only add extrinsic types", and more string definitions become unwieldly
+    // "only add extrinsic types", and more string definitions become unwieldy
     return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
@@ -118,7 +118,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Thge argument defintions, compatible with [[Call]]
+   * @description The argument definitions, compatible with [[Call]]
    */
   public get argsDef (): ArgsDef {
     return this.method.argsDef;
@@ -139,7 +139,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description The era for thios extrinsic
+   * @description The era for this extrinsic
    */
   public get era (): ExtrinsicEra {
     return (this.raw as ExtrinsicVx).signature.era;
@@ -232,26 +232,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   /**
    * @description Injects an already-generated signature into the extrinsic
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic {
-    // FIXME Support for current extensions where 2 values are being passed in here, i.e.
-    //   addSignature(signer, signature, nonce, era);
-    // The above signature should be changed to the correct format in the next cycle, i.e.
-    //   payload: ExtrinsicPayloadValue | Uint8Array | string
-    let payload = args[0];
-
-    // FIXME The old support as detailed above... needs to be dropped
-    if ((args as any[]).length === 2) {
-      payload = {
-        blockHash: new Uint8Array(),
-        era: (args as any[])[1] as string,
-        genesisHash: new Uint8Array(),
-        method: this.method.toHex(),
-        nonce: args[0] as string,
-        specVersion: 0,
-        tip: 0
-      };
-    }
-
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
     (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
 
     return this;

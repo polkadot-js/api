@@ -28,7 +28,7 @@ try {
 }
 
 function assertResult<T> (value: T | undefined): T {
-  assert(!isUndefined(value), 'Api needs to be initialised before using, listen on \'ready\'');
+  assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');
 
   return value as T;
 }
@@ -163,7 +163,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
    *
-   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
+   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (using known keys) and the submission of transactions.
    *
    * @example
    * <BR>
@@ -225,7 +225,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   }
 
   /**
-   * @description Disconnect from the underlying provider, halting all comms
+   * @description Disconnect from the underlying provider, halting all network traffic
    */
   public disconnect (): void {
     this._rpcCore.disconnect();
