@@ -26,6 +26,7 @@ export default {
       fees: 'u64',
       blockDataHash: 'Hash'
     },
+    CollatorId: 'H256',
     CollatorSignature: 'Signature',
     EgressQueueRoot: '(ParaId, Hash)',
     HeadData: 'Bytes',
@@ -52,11 +53,20 @@ export default {
     },
     ParaId: 'u32',
     ParaIdOf: 'ParaId',
+    ParaInfo: {
+      scheduling: 'ParaScheduling',
+    },
     ParachainDispatchOrigin: {
-      _enum: [
-        'Signed',
-        'Parachain'
-      ]
+      _enum: ['Signed', 'Parachain']
+    },
+    ParaScheduling: {
+      _enum: ['Always', 'Dynamic']
+    },
+    Retriable: {
+      _enum: {
+        Never: 'Null',
+        WithRetries: 'u32'
+      }
     },
     SlotRange: {
       _enum: [
