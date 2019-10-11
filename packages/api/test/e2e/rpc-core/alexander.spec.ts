@@ -4,7 +4,8 @@
 
 import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
-import storage from '@polkadot/api-metadata/storage/static';
+import Decorated from '@polkadot/api-metadata/Decorated';
+import json from '@polkadot/api-metadata/Metadata/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf } from '@polkadot/types';
 
@@ -13,6 +14,7 @@ import Rpc from '@polkadot/rpc-core';
 import { describeE2E } from '../../util';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
+const decorated = new Decorated(json);
 
 describeE2E({
   only: [

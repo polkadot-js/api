@@ -33,7 +33,7 @@ import { StorageMetadata } from './Storage';
  * The definition of a module in the system
  */
 export class ModuleMetadataV8 extends Struct {
-  public constructor(value?: any) {
+  public constructor (value?: any) {
     super({
       name: 'Text',
       storage: Option.with(StorageMetadata),
@@ -47,42 +47,42 @@ export class ModuleMetadataV8 extends Struct {
   /**
    * @description the module calls
    */
-  public get calls(): Option<Vec<FunctionMetadataV8>> {
+  public get calls (): Option<Vec<FunctionMetadataV8>> {
     return this.get('calls') as Option<Vec<FunctionMetadataV8>>;
   }
 
   /**
    * @description the module constants
    */
-  public get constants(): Vec<ModuleConstantMetadataV8> {
+  public get constants (): Vec<ModuleConstantMetadataV8> {
     return this.get('constants') as Vec<ModuleConstantMetadataV8>;
   }
 
   /**
    * @description the module errors
    */
-  public get errors(): Vec<ErrorMetadataV8> {
+  public get errors (): Vec<ErrorMetadataV8> {
     return this.get('errors') as Vec<ErrorMetadataV8>;
   }
 
   /**
    * @description the module events
    */
-  public get events(): Option<Vec<EventMetadataV8>> {
+  public get events (): Option<Vec<EventMetadataV8>> {
     return this.get('events') as Option<Vec<EventMetadataV8>>;
   }
 
   /**
    * @description the module name
    */
-  public get name(): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description the associated module storage
    */
-  public get storage(): Option<StorageMetadata> {
+  public get storage (): Option<StorageMetadata> {
     return this.get('storage') as Option<StorageMetadata>;
   }
 }
@@ -93,7 +93,7 @@ export class ModuleMetadataV8 extends Struct {
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV8 extends Struct implements MetadataInterface<ModuleMetadataV8> {
-  public constructor(value?: any) {
+  public constructor (value?: any) {
     super({
       modules: Vec.with(ModuleMetadataV8)
     }, value);
@@ -102,7 +102,7 @@ export default class MetadataV8 extends Struct implements MetadataInterface<Modu
   /**
    * @description The associated modules for this structure
    */
-  public get modules(): Vec<ModuleMetadataV8> {
+  public get modules (): Vec<ModuleMetadataV8> {
     return this.get('modules') as Vec<ModuleMetadataV8>;
   }
 }

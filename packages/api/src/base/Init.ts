@@ -6,9 +6,7 @@ import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
+import DecoratedMeta from '@polkadot/api-metadata/Decorated';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { assert, logger } from '@polkadot/util';
@@ -79,7 +77,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._rpcCore.provider.on('connected', this._onProviderConnect);
   }
 
-  public abstract registerTypes (types?: RegistryTypes): void;
+  public abstract registerTypes(types?: RegistryTypes): void;
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
@@ -165,9 +163,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       this.registerTypes(TYPES_SUBSTRATE_1);
     }
 
-    const extrinsics = extrinsicsFromMeta(metadata);
-    const storage = storageFromMeta(metadata);
-    const constants = constantsFromMeta(metadata);
+    const decoratedMeta = new DecoratedMeta(metadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
@@ -181,16 +177,16 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
     }
 
-    this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
-    this._query = this.decorateStorage(storage, this.decorateMethod);
-    this._consts = constants;
+    this._extrinsics = this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod);
+    this._query = this.decorateStorage(decoratedMeta.query, this.decorateMethod);
+    this._consts = decoratedMeta.consts;
 
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
-    this._rx.tx = this.decorateExtrinsics(extrinsics, this.rxDecorateMethod);
-    this._rx.query = this.decorateStorage(storage, this.rxDecorateMethod);
-    this._rx.consts = constants;
+    this._rx.tx = this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod);
+    this._rx.query = this.decorateStorage(decoratedMeta.query, this.rxDecorateMethod);
+    this._rx.consts = decoratedMeta.consts;
 
     // derive is last, since it uses the decorated rx
     this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);

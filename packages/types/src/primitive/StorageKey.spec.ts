@@ -4,7 +4,7 @@
 
 import '../injector';
 
-import fromMetadata from '@polkadot/api-metadata/Decorated/storage/fromMetadata';
+import Decorated from '@polkadot/api-metadata/Decorated';
 import { hexToU8a } from '@polkadot/util';
 import rpcDataV3 from '@polkadot/api-metadata/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/api-metadata/Metadata/v4/static';
@@ -13,17 +13,17 @@ import rpcDataV6 from '@polkadot/api-metadata/Metadata/v6/static';
 import rpcDataV7 from '@polkadot/api-metadata/Metadata/v7/static';
 import rpcDataV8 from '@polkadot/api-metadata/Metadata/v8/static';
 
-import Metadata from '@polkadot/api-metadata/Metadata';
 import StorageKey from './StorageKey';
 
 describe('StorageKey', (): void => {
   describe('with MetadataV3 (uses xxHash by default)', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV3));
+    const decorated = new Decorated(rpcDataV3);
 
     it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
-          storage
+          decorated
+            .query
             .balances
             .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
         )
@@ -34,7 +34,8 @@ describe('StorageKey', (): void => {
     it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
-          storage
+          decorated
+            .query
             .balances
             .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
         )
@@ -47,12 +48,13 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV4 (uses xxHash by default)', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV4));
+    const decorated = new Decorated(rpcDataV4);
 
     it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
-          storage
+          decorated
+            .query
             .balances
             .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
         )
@@ -63,7 +65,8 @@ describe('StorageKey', (): void => {
     it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
-          storage
+          decorated
+            .query
             .balances
             .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
         )
@@ -79,7 +82,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -91,7 +95,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -102,12 +107,13 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV5', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV5));
+    const decorated = new Decorated(rpcDataV5);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -119,7 +125,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -130,12 +137,13 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV6', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV6));
+    const decorated = new Decorated(rpcDataV6);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -147,7 +155,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -158,12 +167,13 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV7', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV7));
+    const decorated = new Decorated(rpcDataV7);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -175,7 +185,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -186,12 +197,13 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV8', (): void => {
-    const storage = fromMetadata(new Metadata(rpcDataV8));
+    const decorated = new Decorated(rpcDataV8);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]
@@ -203,7 +215,8 @@ describe('StorageKey', (): void => {
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
         new StorageKey([
-          storage
+          decorated
+            .query
             .system
             .eventTopics,
           ['any', [1, 2, 3]]

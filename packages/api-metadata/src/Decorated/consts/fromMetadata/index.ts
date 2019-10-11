@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constants, ConstantCodec, ModuleConstants } from '../types';
+import { Constants, ConstantCodec, ModuleConstants } from '../../types';
 
 import { createTypeUnsafe } from '@polkadot/types/codec';
 import Metadata from '../../../Metadata';
@@ -13,7 +13,7 @@ import { stringCamelCase } from '@polkadot/util';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata(metadata: Metadata): Constants {
+export default function fromMetadata (metadata: Metadata): Constants {
   return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {
       return result;

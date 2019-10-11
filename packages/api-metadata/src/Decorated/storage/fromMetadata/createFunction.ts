@@ -29,7 +29,7 @@ type CreateArgType = boolean | string | number | null | BN | Uint8Array | Codec;
 const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
 
 // with the prefix, method & options, create both the string & raw keys
-function createKeys({ method, prefix }: CreateItemFn, options: CreateItemOptions): [string, Uint8Array] {
+function createKeys ({ method, prefix }: CreateItemFn, options: CreateItemOptions): [string, Uint8Array] {
   const stringKey = options.key
     ? options.key
     : `${prefix} ${method}`;
@@ -41,7 +41,7 @@ function createKeys({ method, prefix }: CreateItemFn, options: CreateItemOptions
 }
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
-function getHashers({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFunction?] {
+function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFunction?] {
   if (type.isDoubleMap) {
     return [
       getHasher(type.asDoubleMap.hasher),
@@ -56,7 +56,7 @@ function getHashers({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFu
 }
 
 // create a key for a DoubleMap type
-function createKeyDoubleMap({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
+function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
   // since we are passing an almost-unknown through, trust, but verify
   assert(
     Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
@@ -77,7 +77,7 @@ function createKeyDoubleMap({ meta: { name, type } }: CreateItemFn, rawKey: Uint
 }
 
 // create a key for either a map or a plain value
-function createKey({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   let key = rawKey;
 
   if (type.isMap) {
@@ -94,7 +94,7 @@ function createKey({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, a
 }
 
 // attach the metadata to expsnd to a StorageFunction
-function expandWithMeta({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
   storageFn.prefix = prefix;
@@ -111,7 +111,7 @@ function expandWithMeta({ meta, method, prefix, section }: CreateItemFn, storage
 }
 
 // attch the head key hashing for linked maps
-function extendLinkedMap({ meta: { documentation, name, type } }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
+function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
   const headHash = new U8a(hasher(`head of ${stringKey}`));
   const headFn: any = (): U8a =>
     headHash;
@@ -146,7 +146,7 @@ function extendLinkedMap({ meta: { documentation, name, type } }: CreateItemFn, 
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction(item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
+export default function createFunction (item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
   const { meta: { type } } = item;
   const [stringKey, rawKey] = createKeys(item, options);
   const [hasher, key2Hasher] = getHashers(item);

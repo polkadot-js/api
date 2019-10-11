@@ -14,7 +14,7 @@ import Bytes from '@polkadot/types/primitive/Bytes';
 import Text from '@polkadot/types/primitive/Text';
 
 export class StorageFunctionType extends Enum {
-  public constructor(value?: any, index?: number) {
+  public constructor (value?: any, index?: number) {
     super({
       Type: 'PlainTypeV3',
       Map: 'MapTypeV3',
@@ -25,7 +25,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asDoubleMap(): DoubleMapTypeV3 {
+  public get asDoubleMap (): DoubleMapTypeV3 {
     assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
 
     return this.value as DoubleMapTypeV3;
@@ -34,7 +34,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a mapped value
    */
-  public get asMap(): MapTypeV3 {
+  public get asMap (): MapTypeV3 {
     assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
 
     return this.value as MapTypeV3;
@@ -43,7 +43,7 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType(): PlainTypeV3 {
+  public get asType (): PlainTypeV3 {
     assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
 
     return this.value as PlainTypeV3;
@@ -52,28 +52,28 @@ export class StorageFunctionType extends Enum {
   /**
    * @description `true` if the storage entry is a doublemap
    */
-  public get isDoubleMap(): boolean {
+  public get isDoubleMap (): boolean {
     return this.toNumber() === 2;
   }
 
   /**
    * @description `true` if the storage entry is a map
    */
-  public get isMap(): boolean {
+  public get isMap (): boolean {
     return this.toNumber() === 1;
   }
 
   /**
    * @description `true` if the storage entry is a plain type
    */
-  public get isPlainType(): boolean {
+  public get isPlainType (): boolean {
     return this.toNumber() === 0;
   }
 
   /**
    * @description Returns the string representation of the value
    */
-  public toString(): string {
+  public toString (): string {
     if (this.isDoubleMap) {
       return `DoubleMap<${this.asDoubleMap.toString()}>`;
     }
@@ -104,7 +104,7 @@ export interface StorageFunctionMetadataValue {
  * The definition of a storage function
  */
 export class StorageFunctionMetadata extends Struct {
-  public constructor(value?: StorageFunctionMetadataValue | Uint8Array) {
+  public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: 'Text',
       modifier: 'StorageFunctionModifierV3',
@@ -117,35 +117,35 @@ export class StorageFunctionMetadata extends Struct {
   /**
    * @description The [[Text]] documentation
    */
-  public get documentation(): Vec<Text> {
+  public get documentation (): Vec<Text> {
     return this.get('documentation') as Vec<Text>;
   }
 
   /**
    * @description The [[Bytes]] fallback default
    */
-  public get fallback(): Bytes {
+  public get fallback (): Bytes {
     return this.get('fallback') as Bytes;
   }
 
   /**
    * @description The [[StorageFunctionModifierV3]] for arguments
    */
-  public get modifier(): StorageFunctionModifierV3 {
+  public get modifier (): StorageFunctionModifierV3 {
     return this.get('modifier') as StorageFunctionModifierV3;
   }
 
   /**
    * @description The call name
    */
-  public get name(): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description The [[StorageFunctionType]]
    */
-  public get type(): StorageFunctionType {
+  public get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;
   }
 }

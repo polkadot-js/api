@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constants } from '@polkadot/api-metadata/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
@@ -9,7 +10,6 @@ import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
-import { Constants } from '@polkadot/api-metadata/consts/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { Metadata, u64 } from '@polkadot/types';

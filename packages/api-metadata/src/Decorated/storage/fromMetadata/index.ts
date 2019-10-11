@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModuleStorage, Storage } from '../types';
+import { ModuleStorage, Storage } from '../../types';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
@@ -15,7 +15,7 @@ import { storage } from './storage';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata(metadata: Metadata): Storage {
+export default function fromMetadata (metadata: Metadata): Storage {
   return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;

@@ -13,7 +13,7 @@ import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage'
 /**
  * Convert V3 StorageFunction to V4 StorageFunction
  */
-function toV4StorageFunction(storageFn: StorageFunctionMetadataV3): StorageFunctionMetadata {
+function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunctionMetadata {
   const { documentation, fallback, modifier, name, type } = storageFn;
 
   // Convert the old type to the new type: there is one new field
@@ -49,7 +49,7 @@ function toV4StorageFunction(storageFn: StorageFunctionMetadataV3): StorageFunct
  * Convert from MetadataV3 to MetadataV4
  * See https://github.com/paritytech/substrate/pull/2268 for details
  */
-export default function toV4({ modules }: MetadataV3): MetadataV4 {
+export default function toV4 ({ modules }: MetadataV3): MetadataV4 {
   return new MetadataV4({
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
       new ModuleMetadataV4({

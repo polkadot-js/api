@@ -15,7 +15,7 @@ import { MetadataInterface } from '../types';
  * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
  * should decode `rpcData` and output `staticSubstrate`.
  */
-export function decodeLatestSubstrate<Modules extends Codec>(
+export function decodeLatestSubstrate<Modules extends Codec> (
   version: number,
   rpcData: string,
   staticSubstrate: object
@@ -35,7 +35,7 @@ export function decodeLatestSubstrate<Modules extends Codec>(
  * Given a `version`, MetadataLatest and MetadataV{version} should output the same
  * unique types.
  */
-export function toLatest<Modules extends Codec>(version: number, rpcData: string): void {
+export function toLatest<Modules extends Codec> (version: number, rpcData: string): void {
   it(`converts v${version} to v8`, (): void => {
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
     const metadataV8 = new Metadata(rpcData).asLatest;
@@ -51,7 +51,7 @@ export function toLatest<Modules extends Codec>(version: number, rpcData: string
 /**
  * Given a Metadata, no type should throw when given its fallback value.
  */
-export function defaultValues(rpcData: string): void {
+export function defaultValues (rpcData: string): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(rpcData);
 

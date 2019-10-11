@@ -13,14 +13,14 @@ import MetadataVersioned from './MetadataVersioned';
  * The versioned runtime metadata as a decoded structure
  */
 export default class Metadata extends MetadataVersioned {
-  public constructor(value?: Uint8Array | string) {
+  public constructor (value?: Uint8Array | string) {
     super(Metadata.decodeMetadata(value));
   }
 
   // first we try and parse using the versioned structure, if this does fail,
   // we adjust with the magic number and a manual version and re-try. As soon as
   // we remove support for V0, we will just do a new here
-  private static decodeMetadata(_value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
+  private static decodeMetadata (_value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
     const value = isHex(_value)
       ? hexToU8a(_value)
       : _value;

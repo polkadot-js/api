@@ -21,7 +21,7 @@ const hasherMap: Map<string, string> = new Map([
   ['twox_64_concat', 'Twox64Concat']
 ]);
 
-function toStorageHasher(text: Text): StorageHasher {
+function toStorageHasher (text: Text): StorageHasher {
   const mapped = hasherMap.get(text.toString());
 
   assert(mapped, `Invalid Storage hasher: ${text.toString()}`);
@@ -32,7 +32,7 @@ function toStorageHasher(text: Text): StorageHasher {
 /**
  * Convert V4 StorageFunction to V5 StorageFunction
  */
-function toV5StorageFunction(storageFn: StorageFunctionMetadataV4): StorageFunctionMetadata {
+function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunctionMetadata {
   const { documentation, fallback, modifier, name, type } = storageFn;
   const [newType, index] = type.isPlainType
     ? [type, 0]
@@ -59,7 +59,7 @@ function toV5StorageFunction(storageFn: StorageFunctionMetadataV4): StorageFunct
  * Convert from MetadataV4 to MetadataV5
  * See https://github.com/paritytech/substrate/pull/2836/files for details
  */
-export default function toV5({ modules }: MetadataV4): MetadataV5 {
+export default function toV5 ({ modules }: MetadataV4): MetadataV5 {
   return new MetadataV5({
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
       new ModuleMetadataV5({

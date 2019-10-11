@@ -18,7 +18,7 @@ import { StorageFunctionMetadata } from './Storage';
  * The definition of a module in the system
  */
 export class ModuleMetadataV2 extends Struct {
-  public constructor(value?: any) {
+  public constructor (value?: any) {
     super({
       name: 'Text',
       prefix: 'Text',
@@ -31,35 +31,35 @@ export class ModuleMetadataV2 extends Struct {
   /**
    * @description the module calls
    */
-  public get calls(): Option<Vec<FunctionMetadataV2>> {
+  public get calls (): Option<Vec<FunctionMetadataV2>> {
     return this.get('calls') as Option<Vec<FunctionMetadataV2>>;
   }
 
   /**
    * @description the module events
    */
-  public get events(): Option<Vec<EventMetadataV2>> {
+  public get events (): Option<Vec<EventMetadataV2>> {
     return this.get('events') as Option<Vec<EventMetadataV2>>;
   }
 
   /**
    * @description the module name
    */
-  public get name(): Text {
+  public get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
    * @description the module prefix
    */
-  public get prefix(): Text {
+  public get prefix (): Text {
     return this.get('prefix') as Text;
   }
 
   /**
    * @description the associated module storage
    */
-  public get storage(): Option<Vec<StorageFunctionMetadata>> {
+  public get storage (): Option<Vec<StorageFunctionMetadata>> {
     return this.get('storage') as Option<Vec<StorageFunctionMetadata>>;
   }
 }
@@ -70,7 +70,7 @@ export class ModuleMetadataV2 extends Struct {
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV2 extends Struct implements MetadataInterface<ModuleMetadataV2> {
-  public constructor(value?: any) {
+  public constructor (value?: any) {
     super({
       modules: Vec.with(ModuleMetadataV2)
     }, value);
@@ -79,7 +79,7 @@ export default class MetadataV2 extends Struct implements MetadataInterface<Modu
   /**
    * @description The associated modules for this structure
    */
-  public get modules(): Vec<ModuleMetadataV2> {
+  public get modules (): Vec<ModuleMetadataV2> {
     return this.get('modules') as Vec<ModuleMetadataV2>;
   }
 }

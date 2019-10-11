@@ -15,7 +15,7 @@ export {
 };
 
 export class StorageMetadata extends Struct {
-  public constructor(value?: any) {
+  public constructor (value?: any) {
     super({
       prefix: 'Text',
       // NOTE renamed to items from entries (since Struct already has entries from Map)
@@ -26,14 +26,14 @@ export class StorageMetadata extends Struct {
   /**
    * @description the storage entries
    */
-  public get items(): Vec<StorageEntryMetadata> {
+  public get items (): Vec<StorageEntryMetadata> {
     return this.get('items') as Vec<StorageEntryMetadata>;
   }
 
   /**
    * @description the prefix for this module
    */
-  public get prefix(): Text {
+  public get prefix (): Text {
     return this.get('prefix') as Text;
   }
 }

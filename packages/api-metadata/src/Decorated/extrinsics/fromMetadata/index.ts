@@ -16,7 +16,7 @@ import createUnchecked from './createUnchecked';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata(metadata: Metadata): ModulesWithCalls {
+export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)
     .reduce((result, { calls, name }: ModuleMetadataV8, sectionIndex): ModulesWithCalls => {

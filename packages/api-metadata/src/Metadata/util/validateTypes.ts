@@ -7,7 +7,7 @@ import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/codec/
 import { getTypeDef, getTypeRegistry } from '@polkadot/types/codec/create';
 import flattenUniq from './flattenUniq';
 
-function extractTypes(types: string[]): any[] {
+function extractTypes (types: string[]): any[] {
   return types.map((type): any => {
     const decoded = getTypeDef(type);
 
@@ -35,7 +35,7 @@ function extractTypes(types: string[]): any[] {
   });
 }
 
-export default function validateTypes(types: string[], throwError: boolean): void {
+export default function validateTypes (types: string[], throwError: boolean): void {
   const typeRegistry = getTypeRegistry();
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     !typeRegistry.hasType(type)

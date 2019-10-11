@@ -6,11 +6,10 @@ import '@polkadot/types/injector';
 
 import { ClassOf, createType } from '@polkadot/types/codec/create';
 
-import Decorated from './Decorated'
-import json from '../Metadata/static'
-import Metadata from '../Metadata'
+import Decorated from './Decorated';
+import json from '../Metadata/static';
 
-const decorated = new Decorated(new Metadata(json))
+const decorated = new Decorated(json);
 
 describe('Decorated', () => {
   it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {

@@ -4,7 +4,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ConstantCodec } from '@polkadot/api-metadata/Decorated/consts/types';
+import { ConstantCodec } from '@polkadot/api-metadata/Decorated/types';
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
@@ -15,7 +15,7 @@ import { createType, createTypeUnsafe } from '@polkadot/types/codec';
 
 import { SubmittableResult } from './';
 
-function consts(api: ApiPromise): void {
+function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
     api.consts.balances.creationFee.toHex(),
@@ -23,7 +23,7 @@ function consts(api: ApiPromise): void {
   );
 }
 
-async function derive(api: ApiPromise): Promise<void> {
+async function derive (api: ApiPromise): Promise<void> {
   await api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
@@ -32,7 +32,7 @@ async function derive(api: ApiPromise): Promise<void> {
   console.log('fees', fees);
 }
 
-async function query(api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
 
@@ -58,7 +58,7 @@ async function query(api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   });
 }
 
-async function rpc(api: ApiPromise): Promise<void> {
+async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.subscribeNewHeads((header: Header): void => {
     console.log('current header:', header);
   });
@@ -68,7 +68,7 @@ async function rpc(api: ApiPromise): Promise<void> {
   });
 }
 
-function types(): void {
+function types (): void {
   // check correct types with `createType`
   const balance = createType('Balance', 2);
   const gas = createType('Gas', 2);
@@ -81,7 +81,7 @@ function types(): void {
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }
 
-async function tx(api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
+async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
   console.log('transfer as Call', transfer as IMethod);
@@ -116,7 +116,7 @@ async function tx(api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 }
 
-async function main(): Promise<void> {
+async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const keyring = testKeyring();
 

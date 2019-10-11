@@ -6,6 +6,6 @@ import { MetadataV1 } from '@polkadot/types/interfaces/metadata';
 
 import MetadataV2 from '../v2';
 
-export default function toV2(metadataV1: MetadataV1): MetadataV2 {
+export default function toV2 (metadataV1: MetadataV1): MetadataV2 {
   return new MetadataV2(metadataV1);
 }
