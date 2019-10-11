@@ -3,6 +3,11 @@ import BTreeMap from './BTreeMap';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import { CodecTo } from '../types';
+import { CodecTo } from '../types';
+
+import Text from '../primitive/Text';
+import U32 from '../primitive/U32';
+import BTreeMap from './BTreeMap';
 import Struct from './Struct';
 
 const expectedMap = new Map<Text, U32>();
