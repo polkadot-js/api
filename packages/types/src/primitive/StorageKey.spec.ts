@@ -5,13 +5,13 @@
 import '../injector';
 
 import Decorated from '@polkadot/api-metadata/Decorated';
-import { hexToU8a } from '@polkadot/util';
 import rpcDataV3 from '@polkadot/api-metadata/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/api-metadata/Metadata/v4/static';
 import rpcDataV5 from '@polkadot/api-metadata/Metadata/v5/static';
 import rpcDataV6 from '@polkadot/api-metadata/Metadata/v6/static';
 import rpcDataV7 from '@polkadot/api-metadata/Metadata/v7/static';
 import rpcDataV8 from '@polkadot/api-metadata/Metadata/v8/static';
+import { hexToU8a } from '@polkadot/util';
 
 import StorageKey from './StorageKey';
 

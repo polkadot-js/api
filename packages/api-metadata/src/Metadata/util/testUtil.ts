@@ -4,12 +4,14 @@
 
 import '@polkadot/types/injector';
 
+import { Codec } from '@polkadot/types/types';
+import { MetadataInterface } from '../types';
+
 import { createTypeUnsafe } from '@polkadot/types/codec/create';
 import Call from '@polkadot/types/primitive/Generic/Call';
-import { Codec } from '@polkadot/types/types';
+
 import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
-import { MetadataInterface } from '../types';
 
 /**
  * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata

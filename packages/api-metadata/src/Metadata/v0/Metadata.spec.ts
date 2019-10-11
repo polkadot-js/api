@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { createType } from '@polkadot/types/codec';
+
 import Metadata from '../';
 import latestSubstrateV0 from './static-substrate.json';
 import rpcData from './static';

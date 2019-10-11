@@ -9,6 +9,7 @@ import { EventRecord } from './types';
 import Metadata from '@polkadot/api-metadata/Metadata';
 import rpcMetadataV0 from '@polkadot/api-metadata/Metadata/v0/static';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+
 import { createType } from '../../codec/create';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';

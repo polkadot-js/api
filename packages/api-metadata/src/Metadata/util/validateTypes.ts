@@ -5,6 +5,7 @@
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/codec/types';
 
 import { getTypeDef, getTypeRegistry } from '@polkadot/types/codec/create';
+
 import flattenUniq from './flattenUniq';
 
 function extractTypes (types: string[]): any[] {

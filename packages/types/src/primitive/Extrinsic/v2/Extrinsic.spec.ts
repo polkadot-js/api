@@ -5,11 +5,11 @@
 import '../../../injector';
 
 import BN from 'bn.js';
-import testingPairs from '@polkadot/keyring/testingPairs';
-
 import Decorated from '@polkadot/api-metadata/Decorated';
 import Metadata from '@polkadot/api-metadata/Metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+import testingPairs from '@polkadot/keyring/testingPairs';
+
 import Call from '../../Generic/Call';
 import Extrinsic from './Extrinsic';
 

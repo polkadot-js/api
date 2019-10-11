@@ -4,10 +4,10 @@
 
 import '../../injector';
 
-import { hexToU8a } from '@polkadot/util';
-
 import Metadata from '@polkadot/api-metadata/Metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+import { hexToU8a } from '@polkadot/util';
+
 import Call from '../Generic/Call';
 import Extrinsic from './Extrinsic';
 

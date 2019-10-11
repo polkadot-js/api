@@ -5,8 +5,9 @@
 import { Constants, ConstantCodec, ModuleConstants } from '../../types';
 
 import { createTypeUnsafe } from '@polkadot/types/codec';
-import Metadata from '../../../Metadata';
 import { stringCamelCase } from '@polkadot/util';
+
+import Metadata from '../../../Metadata';
 
 /**
  * Retrieve the parameter types (module constants) from the runtime metadata.

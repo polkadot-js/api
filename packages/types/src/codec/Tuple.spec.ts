@@ -10,6 +10,7 @@ import { CodecTo } from '../types';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+
 import { ClassOf } from './create';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';

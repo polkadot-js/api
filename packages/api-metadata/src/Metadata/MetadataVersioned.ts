@@ -8,6 +8,7 @@ import { assert } from '@polkadot/util';
 
 import Enum from '@polkadot/types/codec/Enum';
 import Struct from '@polkadot/types/codec/Struct';
+
 import MagicNumber from './MagicNumber';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';

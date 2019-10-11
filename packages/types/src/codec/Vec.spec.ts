@@ -9,6 +9,7 @@ import { Codec, CodecTo } from '../types';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
 import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';

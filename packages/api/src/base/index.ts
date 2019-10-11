@@ -15,7 +15,7 @@ import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/uti
 import Init from './Init';
 
 interface KeyringSigner {
-  sign(message: Uint8Array): Uint8Array;
+  sign (message: Uint8Array): Uint8Array;
 }
 
 let pkgJson: { name: string; version: string };

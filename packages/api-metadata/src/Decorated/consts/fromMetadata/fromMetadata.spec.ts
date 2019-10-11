@@ -6,11 +6,11 @@ import '@polkadot/types/injector';
 
 import { ClassOf, Metadata } from '@polkadot/types';
 
-import json from '../../../Metadata/static';
+import rpcMetadata from '../../../Metadata/static';
 import fromMetadata from '../fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata(json);
+const metadata = new Metadata(rpcMetadata);
 const consts = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
