@@ -5,13 +5,13 @@
 import '../injector';
 
 import fs from 'fs';
+import Metadata from '@polkadot/api-metadata/Metadata';
+import rpcdata from '@polkadot/api-metadata/Metadata/static';
+import MetadataV8, { ModuleMetadataV8 } from '@polkadot/api-metadata/Metadata/v8';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Call from '../primitive/Generic/Call';
-import Metadata from '../Metadata';
-import rpcdata from '../Metadata/static';
-import MetadataV8, { ModuleMetadataV8 } from '../Metadata/v8';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
