@@ -7,11 +7,11 @@ import '@polkadot/types/injector';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { u8aToHex } from '@polkadot/util';
 
-import json from '../../../Metadata/static';
+import rpcMetadata from '../../../Metadata/static';
 import Decorated from '../../Decorated';
 
 const keyring = testingPairs({ type: 'ed25519' });
-const decorated = new Decorated(json);
+const decorated = new Decorated(rpcMetadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if the storage function expects an argument', (): void => {
