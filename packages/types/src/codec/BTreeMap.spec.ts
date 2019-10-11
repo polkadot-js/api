@@ -42,7 +42,7 @@ describe('BTreeMap', (): void => {
 
     testDecode('map', mockU32U32Map, mockU32U32MapString);
     testDecode('hex', mockU32U32MapHexString, mockU32U32MapString);
-    testDecode('Uint8Array', mockU32U32MapUint8Array,mockU32U32MapString);
+    testDecode('Uint8Array', mockU32U32MapUint8Array, mockU32U32MapString);
   });
 
   describe('encoding', (): void => {
