@@ -18,6 +18,7 @@ export { default as Struct } from './Struct';
 // export { default as StructAny } from './StructAny';
 export { default as Tuple } from './Tuple';
 export { default as Vec } from './Vec';
+export { default as BTreeMap } from './BTreeMap';
 
 // Convenience base classes, used as "anything of this type" bases
 export { default as U8a } from './U8a';
