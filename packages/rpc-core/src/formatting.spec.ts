@@ -25,7 +25,7 @@ const BALANCE_KEYS = [
 ];
 const OPTION_BYTES_HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
 
-function formattingTests(version: string, decorated: Metadata, encodedValues: [string, string, string]): void {
+function formattingTests (version: string, decorated: Metadata, encodedValues: [string, string, string]): void {
   const [ENC_ONE, ENC_TWO, CONTRACT_KEY] = encodedValues;
 
   describe(`formatting with Metadata ${version}`, (): void => {
