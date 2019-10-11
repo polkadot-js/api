@@ -1,4 +1,5 @@
-import { Compact, U8a } from '.';
+import Compact from './Compact';
+import U8a from './U8a';
 import { compareMap, decodeU8a } from './utils';
 import { AnyJson, Constructor, Codec, IHash } from '../types';
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
