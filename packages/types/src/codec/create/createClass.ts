@@ -24,5 +24,7 @@ export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string
 
 // alias for createClass
 export function ClassOf<K extends InterfaceTypes> (name: K): Constructor<InterfaceRegistry[K]> {
-  return ClassOfUnsafe<Codec, K>(name) as Constructor<InterfaceRegistry[K]>;
+  // TS2589: Type instantiation is excessively deep and possibly infinite.
+  // The above happens with as Constructor<InterfaceRegistry[K]>;
+  return ClassOfUnsafe<Codec, K>(name) as any;
 }
