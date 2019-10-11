@@ -1,3 +1,7 @@
+// Copyright 2017-2019 @polkadot/types authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import Compact from './Compact';
 import U8a from './U8a';
 import { compareMap, decodeU8a } from './utils';
@@ -115,9 +119,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     this.forEach((v: V, k: K) => {
       len += v.encodedLength + k.encodedLength;
     });
-    return this.reduce((len, v: V, k: K) => {
-      return len + v.encodedLength + k.encodedLength;
-    }, Compact.encodeU8a(this.size).length);
+    return len;
   }
 
   /**

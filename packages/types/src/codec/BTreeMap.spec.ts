@@ -1,14 +1,14 @@
+// Copyright 2017-2019 @polkadot/types authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import '../injector';
-import BTreeMap from './BTreeMap';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import { CodecTo } from '../types';
+import Struct from './Struct';
 import { CodecTo } from '../types';
 
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
 import BTreeMap from './BTreeMap';
-import Struct from './Struct';
 
 const expectedMap = new Map<Text, U32>();
 expectedMap.set(new Text('bazzing'), new U32(69));
