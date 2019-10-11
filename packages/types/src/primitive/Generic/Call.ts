@@ -5,7 +5,9 @@
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
 import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
 
-import Decorated from '@polkadot/api-metadata/Decorated';
+// FIXME Here we unfortunately cannot use Decorated, because that already calls
+// fromMetadata for storage, and we have then a type import ordering problem
+import extrinsicsFromMeta from '@polkadot/api-metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Metadata from '@polkadot/api-metadata/Metadata';
@@ -157,9 +159,9 @@ export default class Call extends Struct implements IMethod {
   }
 
   public static injectMetadata (metadata: Metadata): void {
-    const decorated = new Decorated(metadata);
+    const extrinsics = extrinsicsFromMeta(metadata);
 
-    Object.values(decorated.tx).forEach((methods): void =>
+    Object.values(extrinsics).forEach((methods): void =>
       Object.values(methods).forEach((method): void => {
         injected[method.callIndex.toString()] = method;
       })
