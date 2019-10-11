@@ -54,7 +54,7 @@ export default {
     ParaId: 'u32',
     ParaIdOf: 'ParaId',
     ParaInfo: {
-      scheduling: 'ParaScheduling',
+      scheduling: 'ParaScheduling'
     },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain']
