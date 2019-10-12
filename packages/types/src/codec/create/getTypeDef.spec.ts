@@ -30,6 +30,25 @@ describe('getTypeDef', (): void => {
     });
   });
 
+  it('properly decodes a BTreeMap<u32, Text>', (): void => {
+    expect(
+      getTypeDef('BTreeMap<u32, Text>')
+    ).toEqual({
+      info: TypeDefInfo.BTreeMap,
+      type: 'BTreeMap<u32,Text>',
+      sub: [
+        {
+          info: TypeDefInfo.Plain,
+          type: 'u32'
+        },
+        {
+          info: TypeDefInfo.Plain,
+          type: 'Text'
+        }
+      ]
+    });
+  });
+
   it('properly decodes a Result<u32, Text>', (): void => {
     expect(
       getTypeDef('Result<u32, Text>')

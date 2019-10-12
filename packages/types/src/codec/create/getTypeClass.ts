@@ -56,6 +56,9 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 }
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
+  // FIXME once #1747 is merged
+  [TypeDefInfo.BTreeMap]: (value: TypeDef): never => { throw new Error('FIXME'); },
+
   [TypeDefInfo.Compact]: (value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
