@@ -46,7 +46,7 @@
   - [Unsubscribe from listening](examples/promise/04_unsubscribe/README.md)
   - [Read chain state](examples/promise/05_read_storage/README.md)
   - [Make a transfer](examples/promise/06_make_transfer/README.md)
-  - [Display system events](examples/promise/08_system_events/README.md)(
+  - [Display system events](examples/promise/08_system_events/README.md)
   - [Transaction with events](examples/promise/09_transfer_events/README.md)
   - [Upgrade via sudo](examples/promise/10_upgrade_chain/README.md)
 - [ApiRx](examples/rx/README.md)

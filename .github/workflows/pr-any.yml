@@ -51,7 +51,7 @@ jobs:
     - name: build
       run: |
         yarn install --frozen-lockfile
-        yarn build:split:code
+        yarn build
 
   build_docs:
     name: Build Docs
@@ -68,4 +68,4 @@ jobs:
     - name: build
       run: |
         yarn install --frozen-lockfile
-        yarn build:split:docs
+        yarn docs
