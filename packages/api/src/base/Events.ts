@@ -13,8 +13,8 @@ export default class Events {
     this._eventemitter = new EventEmitter();
   }
 
-  protected emit (type: ApiInterfaceEvents, ...args: any[]): void {
-    this._eventemitter.emit(type, ...args);
+  protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {
+    return this._eventemitter.emit(type, ...args);
   }
 
   /**
