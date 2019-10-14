@@ -58,10 +58,10 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
   [TypeDefInfo.BTreeMap]: (value: TypeDef): Constructor => {
-    const [keyDef, valueDef] = getSubDefArray(value);
+    const [keyType, valueType] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return BTreeMap.with(getTypeClass(keyDef), getTypeClass(valueDef));
+    return BTreeMap.with(keyType, valueType);
   },
 
   [TypeDefInfo.Compact]: (value: TypeDef): Constructor => Compact.with(getSubType(value)),
@@ -82,10 +82,10 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
     getTypeRegistry().getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
 
   [TypeDefInfo.Result]: (value: TypeDef): Constructor => {
-    const [okDef, errorDef] = getSubDefArray(value);
+    const [Ok, Error] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with({ Ok: getTypeClass(okDef), Error: getTypeClass(errorDef) });
+    return Result.with({ Ok, Error });
   },
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {

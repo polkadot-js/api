@@ -3,6 +3,7 @@
 - Adjust subscription update checks to avoid duplicated data updates
 - Support Metadata V8 (exposes per-module `decl_error` definitions)
 - Support next generation contracts ABI (with additional type definitions)
+- Support for `BTreeMap<K, V>` types and definitions
 - **Breaking change** `Call.injectMethods` is moved to `Call.injectMetadata` to align with `Events` (This _should_ not be used externally, however mentioned as breaking here)
 
 # 0.94.1

@@ -2,28 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Compact from './Compact';
-import U8a from './U8a';
-import { compareMap, decodeU8a } from './utils';
-import { AnyJson, Constructor, Codec, IHash } from '../types';
+import { AnyJson, Constructor, Codec, IHash, InterfaceTypes } from '../types';
+
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
-  protected _key: Constructor<K>
-  protected _val: Constructor<V>
+import Compact from './Compact';
+import U8a from './U8a';
+import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
-  constructor (keyT: Constructor<K>, valueT: Constructor<V>, rawValue: any) {
-    super(BTreeMap.decodeBTreeMap(keyT, valueT, rawValue));
-    this._key = keyT;
-    this._val = valueT;
+export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
+  protected _KeyClass: Constructor<K>;
+
+  protected _ValClass: Constructor<V>;
+
+  constructor (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+    const KeyClass = typeToConstructor(keyType);
+    const ValClass = typeToConstructor(valType);
+
+    super(BTreeMap.decodeBTreeMap(KeyClass, ValClass, rawValue));
+
+    this._KeyClass = KeyClass;
+    this._ValClass = ValClass;
   }
 
   /**
    * Decode input to pass into constructor.
    *
-   * @param keyConstructor - Type of the map key
-   * @param valueConstructor - Type of the map value
+   * @param KeyClass - Type of the map key
+   * @param ValClass - Type of the map value
    * @param value - Value to decode, one of:
    * - null
    * - undefined
@@ -33,49 +40,31 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    *   constructors or decodeable values for their types.
    * @param jsonMap
    */
-  public static decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (
-    KeyConstructor: Constructor<K>,
-    ValueConstructor: Constructor<V>,
-    value: Uint8Array | string | Map<any, any>): Map<K, V> {
+  private static decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Uint8Array | string | Map<any, any>): Map<K, V> {
     if (!value) {
       return new Map<K, V>();
-    }
-
-    // Convert hex values to UA8 and re-run the function
-    if (isHex(value)) {
-      return BTreeMap.decodeBTreeMap(
-        KeyConstructor,
-        ValueConstructor,
-        hexToU8a(value)
-      );
-    }
-
-    // Values already in U8A can be processed
-    if (isU8a(value)) {
-      return BTreeMap.decodeBTreeMapFromU8a<K, V>(KeyConstructor, ValueConstructor, u8aToU8a(value));
-    }
-
-    // Try to handle map types
-    if (value instanceof Map) {
-      return BTreeMap.decodeBTreeMapFromMap<K, V>(KeyConstructor, ValueConstructor, value);
+    } else if (isHex(value)) {
+      return BTreeMap.decodeBTreeMap(KeyClass, ValClass, hexToU8a(value));
+    } else if (isU8a(value)) {
+      return BTreeMap.decodeBTreeMapFromU8a<K, V>(KeyClass, ValClass, u8aToU8a(value));
+    } else if (value instanceof Map) {
+      return BTreeMap.decodeBTreeMapFromMap<K, V>(KeyClass, ValClass, value);
     }
 
     throw new Error('BTreeMap: cannot decode type');
   }
 
-  public static decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (
-    KeyConstructor: Constructor<K>,
-    ValueConstructor: Constructor<V>,
-    u8a: Uint8Array): Map<K, V> {
+  private static decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
     const output = new Map<K, V>();
     const [offset, length] = Compact.decodeU8a(u8a);
-
     const types = [];
+
     for (let i = 0; i < length.toNumber(); i++) {
-      types.push(KeyConstructor, ValueConstructor);
+      types.push(KeyClass, ValClass);
     }
 
     const values = decodeU8a(u8a.subarray(offset), types);
+
     for (let i = 0; i < values.length; i += 2) {
       output.set(values[i] as K, values[i + 1] as V);
     }
@@ -83,16 +72,14 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     return output;
   }
 
-  public static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (
-    KeyConstructor: Constructor<K>,
-    ValueConstructor: Constructor<V>,
-    value: Map<any, any>): Map<K, V> {
+  private static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
     const output = new Map<K, V>();
+
     value.forEach((v: any, k: any) => {
       let key, val;
       try {
-        key = (k instanceof KeyConstructor) ? k : new KeyConstructor(k);
-        val = (v instanceof ValueConstructor) ? v : new ValueConstructor(v);
+        key = (k instanceof KeyClass) ? k : new KeyClass(k);
+        val = (v instanceof ValClass) ? v : new ValClass(v);
       } catch (error) {
         console.error('Failed to decode BTreeMap key or value:', error.message);
         throw error;
@@ -100,13 +87,14 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
 
       output.set(key, val);
     });
+
     return output;
   }
 
-  public static with<K extends Codec, V extends Codec> (k: Constructor<K>, v: Constructor<V>): Constructor<BTreeMap<K, V>> {
+  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes): Constructor<BTreeMap<K, V>> {
     return class extends BTreeMap<K, V> {
       constructor (value?: any) {
-        super(k, v, value);
+        super(keyType, valType, value);
       }
     };
   }
@@ -116,9 +104,11 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    */
   public get encodedLength (): number {
     let len = Compact.encodeU8a(this.size).length;
+
     this.forEach((v: V, k: K) => {
       len += v.encodedLength + k.encodedLength;
     });
+
     return len;
   }
 
@@ -155,9 +145,11 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    */
   public toJSON (): AnyJson {
     const json: any = {};
+
     this.forEach((v: V, k: K) => {
       json[k.toString()] = v.toJSON();
     });
+
     return json;
   }
 
@@ -165,7 +157,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeMap<${new this._key().toRawType()},${new this._val().toRawType()}>`;
+    return `BTreeMap<${new this._KeyClass().toRawType()},${new this._ValClass().toRawType()}>`;
   }
 
   /**
