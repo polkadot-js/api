@@ -12,6 +12,7 @@ export type FromReg<T extends Codec, K extends string> = K extends InterfaceType
   : T;
 
 export enum TypeDefInfo {
+  BTreeMap,
   Compact,
   DoubleMap,
   Enum,
