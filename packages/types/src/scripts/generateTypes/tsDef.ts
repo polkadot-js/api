@@ -9,7 +9,7 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef } from '../../codec/create';
 import * as definitions from '../../interfaces/definitions';
-import { createImportCode, createImports, exportInterface, exportType, formatCompact, formatOption, formatResult, formatTuple, formatVec, FOOTER, HEADER, setImports, TypeImports } from '../util';
+import { createImportCode, createImports, exportInterface, exportType, formatBTreeMap, formatCompact, formatOption, formatResult, formatTuple, formatVec, FOOTER, HEADER, setImports, TypeImports } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -24,6 +24,14 @@ export function createGetter (name = '', type: string, imports: TypeImports, doc
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorUnhandled (def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
+}
+
+function tsBTreeMap ({ name: resultName, sub, type }: TypeDef, imports: TypeImports): string {
+  const [keyDef, valDef] = (sub as TypeDef[]);
+
+  setImports(imports, [type]);
+
+  return exportInterface(resultName, formatBTreeMap(keyDef.type, valDef.type));
 }
 
 function tsCompact ({ name: compactName, sub }: TypeDef, imports: TypeImports): string {
@@ -218,6 +226,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
   // `generators[typedef.info](...)` TS will show any unhandled types. Rather
   // we are being explicit in having no handlers where we do not support (yet)
   const generators = {
+    [TypeDefInfo.BTreeMap]: tsBTreeMap,
     [TypeDefInfo.Compact]: tsCompact,
     [TypeDefInfo.DoubleMap]: errorUnhandled,
     [TypeDefInfo.Enum]: tsEnum,

@@ -57,7 +57,7 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 }
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
-  [TypeDefInfo.BTreeMap]: (value: TypeDef): never => {
+  [TypeDefInfo.BTreeMap]: (value: TypeDef): Constructor => {
     const [keyDef, valueDef] = getSubDefArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
