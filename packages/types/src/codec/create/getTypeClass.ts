@@ -7,6 +7,7 @@ import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
+import BTreeMap from '../BTreeMap';
 import Compact from '../Compact';
 import Enum from '../Enum';
 import Linkage from '../Linkage';
@@ -56,8 +57,12 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 }
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
-  // FIXME once #1747 is merged
-  [TypeDefInfo.BTreeMap]: (value: TypeDef): never => { throw new Error('FIXME'); },
+  [TypeDefInfo.BTreeMap]: (value: TypeDef): never => {
+    const [keyDef, valueDef] = getSubDefArray(value);
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return BTreeMap.with(getTypeClass(keyDef), getTypeClass(valueDef));
+  },
 
   [TypeDefInfo.Compact]: (value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
