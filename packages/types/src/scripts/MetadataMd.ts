@@ -29,7 +29,7 @@ function sectionLink (sectionName: string): string {
 }
 
 function generateSectionHeader (md: string, sectionName: string): string {
-  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n### ${sectionName}\n`;
+  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n## ${sectionName}\n`;
 }
 
 function addRpc (): string {
@@ -50,10 +50,8 @@ function addRpc (): string {
         return name + (isOptional ? '?' : '') + ': `' + type + '`';
       }).join(', ');
       const type = '`' + method.type + '`';
-      // const isSub = method.isSubscription;
-      const renderSummary = method.description ? `\n- **summary**: ${method.description}\n` : '\n\n';
 
-      return `${md}\n### ${methodName}(${args}): ${type}\n- **raw**: ${sectionName}_${methodName}${renderSummary}`;
+      return `${md}\n### ${methodName}(${args}): ${type}\n- **jsonrpc**: ${sectionName}_${methodName}\n- **interface**: api.rpc.${sectionName}.${methodName}` + (method.description ? `\n- **summary**: ${method.description}\n` : '\n\n');
     }, renderSection);
   }, renderHeading + renderAnchors);
 }
@@ -89,11 +87,8 @@ function addConstants (metadata: MetadataV8): string {
       const methodName = stringCamelCase(func.name.toString());
       const doc = func.documentation
         .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-      const type = func.type;
-      const renderSignature = `${md}\n### ${methodName}: ` + '`' + type + '`';
-      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
-      return renderSignature + renderSummary;
+      return `${md}\n### ${methodName}: ` + '`' + func.type + '`' + `\n- **interface**: api.consts.${sectionName}.${methodName}` + (doc ? `\n- **summary**: ${doc}\n` : '\n');
     }, renderSection);
   }, '');
 
@@ -120,13 +115,10 @@ function addEvents (metadata: MetadataV8): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = func.name.toString();
       const args = func.args.map((type): string => '`' + type + '`').join(', ');
-      const doc = func.documentation
-        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = func.documentation.reduce((md, doc): string =>
+        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
 
-      const renderSignature = `${md}\n### ${methodName}(${args})`;
-      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-
-      return renderSignature + renderSummary;
+      return `${md}\n### ${methodName}(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
@@ -153,12 +145,10 @@ function addExtrinsics (metadata: MetadataV8): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
-      const doc = func.documentation
-        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-      const renderSignature = `${md}\n### ${methodName}(${args})`;
-      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      const doc = func.documentation.reduce((md, doc): string =>
+        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
 
-      return renderSignature + renderSummary;
+      return `${md}\n### ${methodName}(${args})` + `\n- **interface**: api.tx.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
@@ -188,8 +178,8 @@ function addStorage (metadata: MetadataV8): string {
           : func.type.isDoubleMap
             ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
             : '';
-      const doc = func.documentation
-        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = func.documentation.reduce((md, doc): string =>
+        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
       let result = (
         func.type.isDoubleMap
           ? func.type.asDoubleMap.value
@@ -200,7 +190,9 @@ function addStorage (metadata: MetadataV8): string {
         result = `Option<${result}>`;
       }
 
-      return `${md}\n### ${stringLowerFirst(func.name.toString())}(${arg}): ` + '`' + result + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      const methodName = stringLowerFirst(func.name.toString());
+
+      return `${md}\n### ${methodName}(${arg}): ` + '`' + result + '`' + `\n- **interface**: api.query.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
