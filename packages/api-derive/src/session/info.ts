@@ -102,7 +102,7 @@ function infoLatest (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
         ? api.consts.babe.epochDuration as u64
         : createType('u64', 1),
       api.consts.staking.sessionsPerEra as SessionIndex
-    ]) as Observable<ResultType>,
+    ] as ResultType),
     hasBabe
       ? api.queryMulti<ResultSlots>([
         api.query.babe.currentSlot,
@@ -111,7 +111,7 @@ function infoLatest (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
           ? api.query.babe.genesisSlot
           : api.query.babe.epochStartSlot
       ])
-      : of([createType('u64', 1), createType('u64', 1), createType('u64', 1)]) as Observable<ResultSlots>,
+      : of([createType('u64', 1), createType('u64', 1), createType('u64', 1)] as ResultSlots),
     api.queryMulti<ResultIndex>([
       api.query.session.currentIndex,
       api.query.staking.currentEra
