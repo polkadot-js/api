@@ -9,12 +9,12 @@ import BN from 'bn.js';
 export interface DerivedBalances {
   accountId: AccountId;
   accountNonce: Index;
-  freeBalance: BN;
-  lockedBalance: BN;
-  availableBalance: BN;
-  reservedBalance: BN;
-  votingBalance: BN;
-  vestedBalance: BN;
+  freeBalance: Balance;
+  lockedBalance: Balance;
+  availableBalance: Balance;
+  reservedBalance: Balance;
+  votingBalance: Balance;
+  vestedBalance: Balance;
 }
 
 export type DerivedBalancesMap = Record<string, DerivedBalances>;
