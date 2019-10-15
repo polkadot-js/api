@@ -34,25 +34,62 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicV3'
 ];
 
-/**
- * @name Extrinsic
- * @description
- * Representation of an Extrinsic in the system. It contains the actual call,
- * (optional) signature and encodes with an actual length prefix
- *
- * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
- *
- * Can be:
- * - signed, to create a transaction
- * - left as is, to create an inherent
- */
-export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
-    super(Extrinsic.decodeExtrinsic(value, version));
+function decodeU8a (value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  if (!value.length) {
+    return ExtrinsicBase.newFromValue(new Uint8Array(), version);
   }
 
-  private static newFromValue (value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (value instanceof Extrinsic) {
+  const [offset, length] = Compact.decodeU8a(value);
+  const total = offset + length.toNumber();
+
+  assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+  const data = value.subarray(offset, total);
+
+  return ExtrinsicBase.newFromValue(data.subarray(1), data[0]);
+}
+
+function decodeU8aLike (value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
+  // Instead of the block below, it should simply be:
+  // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
+  const u8a = u8aToU8a(value);
+
+  // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
+  // extrinsics didn't have the length, cater for both approaches. This is very
+  // inconsistent with any other `Vec<u8>` implementation
+  const [offset, length] = Compact.decodeU8a(u8a);
+  const withPrefix = u8a.length === (offset + length.toNumber());
+
+  return decodeU8a(
+    withPrefix
+      ? u8a
+      : Compact.addLengthPrefix(u8a),
+    version
+  );
+}
+
+function decodeExtrinsic (value: ExtrinsicBase | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+  if (Array.isArray(value) || isHex(value)) {
+    return decodeU8aLike(value, version);
+  } else if (isU8a(value)) {
+    return decodeU8a(value, version);
+  } else if (value instanceof ClassOf('Call')) {
+    return ExtrinsicBase.newFromValue({ method: value }, version);
+  }
+
+  return ExtrinsicBase.newFromValue(value, version);
+}
+
+// The base for the extrinsic, it has no required IExtrinsic interfaces (and does not implement
+// Call-like functionality), but rather just contains the actual data that we operate on. It only
+// serves as a base for Extrinsic, allowing it to fully implement the required interfaces
+class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
+  public constructor (value: ExtrinsicBase | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+    super(decodeExtrinsic(value, version));
+  }
+
+  public static newFromValue (value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (value instanceof ExtrinsicBase) {
       return value.raw;
     }
 
@@ -62,80 +99,6 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
     // "only add extrinsic types", and more string definitions become unwieldy
     return createType(type, value, { isSigned, version }) as ExtrinsicVx;
-  }
-
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (Array.isArray(value) || isHex(value)) {
-      return Extrinsic.decodeU8aLike(value, version);
-    } else if (isU8a(value)) {
-      return Extrinsic.decodeU8a(value, version);
-    } else if (value instanceof ClassOf('Call')) {
-      return Extrinsic.newFromValue({ method: value }, version);
-    }
-
-    return Extrinsic.newFromValue(value, version);
-  }
-
-  private static decodeU8aLike (value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
-    // Instead of the block below, it should simply be:
-    // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-    const u8a = u8aToU8a(value);
-
-    // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
-    // extrinsics didn't have the length, cater for both approaches. This is very
-    // inconsistent with any other `Vec<u8>` implementation
-    const [offset, length] = Compact.decodeU8a(u8a);
-    const withPrefix = u8a.length === (offset + length.toNumber());
-
-    return Extrinsic.decodeU8a(
-      withPrefix
-        ? u8a
-        : Compact.addLengthPrefix(u8a),
-      version
-    );
-  }
-
-  private static decodeU8a (value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (!value.length) {
-      return Extrinsic.newFromValue(new Uint8Array(), version);
-    }
-
-    const [offset, length] = Compact.decodeU8a(value);
-    const total = offset + length.toNumber();
-
-    assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-    const data = value.subarray(offset, total);
-
-    return Extrinsic.newFromValue(data.subarray(1), data[0]);
-  }
-
-  /**
-   * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
-   */
-  public get args (): Codec[] {
-    return this.method.args;
-  }
-
-  /**
-   * @description The argument definitions, compatible with [[Call]]
-   */
-  public get argsDef (): ArgsDef {
-    return this.method.argsDef;
-  }
-
-  /**
-   * @description The actual `[sectionIndex, methodIndex]` as used in the Call
-   */
-  public get callIndex (): Uint8Array {
-    return this.method.callIndex;
-  }
-
-  /**
-   * @description The actual data for the Call
-   */
-  public get data (): Uint8Array {
-    return this.method.data;
   }
 
   /**
@@ -150,13 +113,6 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
    */
   public get encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /**
-   * @description `true` is method has `Origin` argument (compatibility with [Call])
-   */
-  public get hasOrigin (): boolean {
-    return this.method.hasOrigin;
   }
 
   /**
@@ -230,6 +186,81 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
+   * @description Returns a hex string representation of the value
+   */
+  public toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): string {
+    return this.toHex();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a(isBare));
+
+    return isBare
+      ? encoded
+      : Compact.addLengthPrefix(encoded);
+  }
+}
+
+/**
+ * @name Extrinsic
+ * @description
+ * Representation of an Extrinsic in the system. It contains the actual call,
+ * (optional) signature and encodes with an actual length prefix
+ *
+ * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ *
+ * Can be:
+ * - signed, to create a transaction
+ * - left as is, to create an inherent
+ */
+export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
+  /**
+   * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
+   */
+  public get args (): Codec[] {
+    return this.method.args;
+  }
+
+  /**
+   * @description The argument definitions, compatible with [[Call]]
+   */
+  public get argsDef (): ArgsDef {
+    return this.method.argsDef;
+  }
+
+  /**
+   * @description The actual `[sectionIndex, methodIndex]` as used in the Call
+   */
+  public get callIndex (): Uint8Array {
+    return this.method.callIndex;
+  }
+
+  /**
+   * @description The actual data for the Call
+   */
+  public get data (): Uint8Array {
+    return this.method.data;
+  }
+
+  /**
+   * @description `true` is method has `Origin` argument (compatibility with [Call])
+   */
+  public get hasOrigin (): boolean {
+    return this.method.hasOrigin;
+  }
+
+  /**
    * @description Injects an already-generated signature into the extrinsic
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
@@ -248,35 +279,9 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (): string {
-    return u8aToHex(this.toU8a());
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string {
-    return this.toHex();
-  }
-
-  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
     return 'Extrinsic';
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a(isBare));
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
   }
 }
