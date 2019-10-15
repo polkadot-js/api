@@ -16,7 +16,7 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
   let arrayStr = '';
 
   if (inner) {
-    arrayStr = (Array.isArray(inner) ? inner : [inner]).map(transform).join(', ');
+    arrayStr = '<' + (Array.isArray(inner) ? inner : [inner]).map(transform).join(', ') + '>';
   }
 
   return `${outer}${arrayStr}`;
