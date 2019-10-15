@@ -34,9 +34,24 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicV3'
 ];
 
+function newFromValue (value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  if (value instanceof ExtrinsicBase) {
+    // this is a "bit" ugly... it is a protected member (but internal here)
+    return (value as any).raw;
+  }
+
+  const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+  const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+
+  // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
+  // "only add extrinsic types", and more string definitions become unwieldy
+  return createType(type, value, { isSigned, version }) as ExtrinsicVx;
+}
+
 function decodeU8a (value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
   if (!value.length) {
-    return ExtrinsicBase.newFromValue(new Uint8Array(), version);
+    return newFromValue(new Uint8Array(), version);
   }
 
   const [offset, length] = Compact.decodeU8a(value);
@@ -46,7 +61,7 @@ function decodeU8a (value: Uint8Array, version: number): ExtrinsicVx | Extrinsic
 
   const data = value.subarray(offset, total);
 
-  return ExtrinsicBase.newFromValue(data.subarray(1), data[0]);
+  return newFromValue(data.subarray(1), data[0]);
 }
 
 function decodeU8aLike (value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
@@ -74,10 +89,10 @@ function decodeExtrinsic (value: ExtrinsicBase | ExtrinsicValue | AnyU8a | Call 
   } else if (isU8a(value)) {
     return decodeU8a(value, version);
   } else if (value instanceof ClassOf('Call')) {
-    return ExtrinsicBase.newFromValue({ method: value }, version);
+    return newFromValue({ method: value }, version);
   }
 
-  return ExtrinsicBase.newFromValue(value, version);
+  return newFromValue(value, version);
 }
 
 // The base for the extrinsic, it has no required IExtrinsic interfaces (and does not implement
@@ -86,19 +101,6 @@ function decodeExtrinsic (value: ExtrinsicBase | ExtrinsicValue | AnyU8a | Call 
 class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   public constructor (value: ExtrinsicBase | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
     super(decodeExtrinsic(value, version));
-  }
-
-  public static newFromValue (value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (value instanceof ExtrinsicBase) {
-      return value.raw;
-    }
-
-    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
-
-    // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
-    // "only add extrinsic types", and more string definitions become unwieldy
-    return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
   /**
