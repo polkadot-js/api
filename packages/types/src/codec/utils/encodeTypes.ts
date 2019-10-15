@@ -10,155 +10,131 @@ import { getTypeDef } from '../create';
 
 const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
-export function paramsNotation (outer: string, inner?: string | any[], transform?: (_: any) => string): string {
-  let array;
-  if (inner) {
-    array = Array.isArray(inner) ? inner : [inner];
+const identity = (value: string): string => value;
 
-    if (transform) {
-      array = array.map(transform);
-    }
+export function paramsNotation (outer: string, inner?: string | any[], transform: (_: any) => string = identity): string {
+  let arrayStr = '';
+
+  if (inner) {
+    arrayStr = (Array.isArray(inner) ? inner : [inner]).map(transform).join(', ');
   }
-  return `${outer}${array ? `<${array.join(', ')}>` : ''}`;
+
+  return `${outer}${arrayStr}`;
 }
 
-class TypeEncoder {
-  private static enum (typeDef: Pick<TypeDef, any>): string {
-    assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Enum type');
+function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
+  const { params } = typeDef;
 
-    const sub = typeDef.sub as TypeDef[];
+  return paramsNotation(
+    outer,
+    params,
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    (param: TypeDef) => displayType(param)
+  );
+}
 
-    const isClikeEnum = sub.reduce(
-      (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
-      true
-    );
+function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
+  return `{ ${asEnum ? '"_enum": { ' : ''}${
+    sub
+      .map((type: TypeDef): string => `"${type.name}": "${encodeWithParams(type)}"`)
+      .join(', ')
+  }} }`;
+}
 
-    if (isClikeEnum) {
-      return `[${
-        sub
-          .map(({ name }: TypeDef): string => `"${name}"`)
-          .join(', ')
-      }]`;
-    }
+function encodeEnum (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Enum type');
 
-    return this.subTypes(sub, true);
-  }
+  const sub = typeDef.sub as TypeDef[];
 
-  private static struct (typeDef: Pick<TypeDef, any>): string {
-    assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
+  const isClikeEnum = sub.reduce(
+    (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
+    true
+  );
 
-    const sub = typeDef.sub as TypeDef[];
-
-    return this.subTypes(sub);
-  }
-
-  private static tuple (typeDef: Pick<TypeDef, any>): string {
-    assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
-
-    const sub = typeDef.sub as TypeDef[];
-
-    return `(${
-      sub
-        .map((type: TypeDef): string => TypeEncoder.withParams(type))
-        .join(', ')
-    })`;
-  }
-
-  private static vecFixed (typeDef: Pick<TypeDef, any>): string {
-    assert(typeDef.ext, 'Unable to encode VecFixed type');
-
-    const { type, length } = typeDef.ext as TypeDefExtVecFixed;
-
+  if (isClikeEnum) {
     return `[${
-      this.withParams(getTypeDef(type))
-    };${
-      length
+      sub
+        .map(({ name }: TypeDef): string => `"${name}"`)
+        .join(', ')
     }]`;
   }
 
-  private static subTypes (sub: TypeDef[], asEnum?: boolean): string {
-    return `{ ${asEnum ? '"_enum": { ' : ''}${
-      sub
-        .map((type: TypeDef): string => `"${type.name}": "${this.withParams(type)}"`)
-        .join(', ')
-    }} }`;
-  }
-
-  private static withParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-    const { params } = typeDef;
-
-    return paramsNotation(
-      outer,
-      params,
-      (param: TypeDef) => TypeEncoder.display(param)
-    );
-  }
-
-  public static encode (typeDef: Pick<TypeDef, any>): string {
-    switch (typeDef.info) {
-      case TypeDefInfo.Null: {
-        return '()';
-      }
-      case TypeDefInfo.Plain: {
-        return typeDef.displayName || typeDef.type;
-      }
-      case TypeDefInfo.Compact: {
-        return TypeEncoder.withParams(typeDef, 'Compact');
-      }
-      case TypeDefInfo.DoubleMap: {
-        return TypeEncoder.withParams(typeDef, 'DoubleMap');
-      }
-      case TypeDefInfo.Linkage: {
-        return TypeEncoder.withParams(typeDef, 'Linkage');
-      }
-      case TypeDefInfo.Option: {
-        return TypeEncoder.withParams(typeDef, 'Option');
-      }
-      case TypeDefInfo.Result: {
-        return TypeEncoder.withParams(typeDef, 'Result');
-      }
-      case TypeDefInfo.Vec: {
-        return TypeEncoder.withParams(typeDef, 'Vec');
-      }
-      case TypeDefInfo.Enum: {
-        return TypeEncoder.enum(typeDef);
-      }
-      case TypeDefInfo.Struct: {
-        return TypeEncoder.struct(typeDef);
-      }
-      case TypeDefInfo.Tuple: {
-        return TypeEncoder.tuple(typeDef);
-      }
-      case TypeDefInfo.VecFixed: {
-        return TypeEncoder.vecFixed(typeDef);
-      }
-      default: {
-        throw new Error(`Cannot encode type: ${typeDef}.`);
-      }
-    }
-  }
-
-  public static display (typeDef: Pick<TypeDef, any>): string {
-    if (typeDef.displayName) {
-      return TypeEncoder.withParams(typeDef);
-    }
-
-    switch (typeDef.info) {
-      case TypeDefInfo.Struct:
-      case TypeDefInfo.Enum:
-        return TypeEncoder.withParams(typeDef);
-      default:
-        return TypeEncoder.encode(typeDef);
-    }
-  }
+  return encodeSubTypes(sub, true);
 }
 
+function encodeStruct (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
+
+  const sub = typeDef.sub as TypeDef[];
+
+  return encodeSubTypes(sub);
+}
+
+function encodeTuple (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
+
+  const sub = typeDef.sub as TypeDef[];
+
+  return `(${
+    sub
+      .map((type: TypeDef): string => encodeWithParams(type))
+      .join(', ')
+  })`;
+}
+
+function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.ext, 'Unable to encode VecFixed type');
+
+  const { type, length } = typeDef.ext as TypeDefExtVecFixed;
+
+  return `[${
+    encodeWithParams(getTypeDef(type))
+  };${
+    length
+  }]`;
+}
+
+// We setup a record here to ensure we have comprehensive coverage (any item not covered will result
+// in a compile-time error with the missing index)
+const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
+  [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
+  [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
+  [TypeDefInfo.DoubleMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'DoubleMap'),
+  [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
+  [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  [TypeDefInfo.Null]: (typeDef: TypeDef): string => 'Null',
+  [TypeDefInfo.Option]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Option'),
+  [TypeDefInfo.Plain]: (typeDef: TypeDef): string => typeDef.displayName || typeDef.type,
+  [TypeDefInfo.Result]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Result'),
+  [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
+  [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
+  [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
+  [TypeDefInfo.Vec]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Vec'),
+  [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
+};
+
 export function encodeType (typeDef: Pick<TypeDef, any>): string {
-  return TypeEncoder.encode(typeDef);
+  const encoder = encoders[(typeDef as TypeDef).info];
+
+  assert(encoder, `Cannot encode type: ${typeDef}.`);
+
+  return encoder(typeDef as TypeDef);
 }
 
 export function displayType (typeDef: Pick<TypeDef, any>): string {
-  return TypeEncoder.display(typeDef);
+  if (typeDef.displayName) {
+    return encodeWithParams(typeDef);
+  }
+
+  switch (typeDef.info) {
+    case TypeDefInfo.Struct:
+    case TypeDefInfo.Enum:
+      return encodeWithParams(typeDef);
+
+    default:
+      return encodeType(typeDef);
+  }
 }
 
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
