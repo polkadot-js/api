@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, EraIndex, Exposure, Index, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
+import { u32 } from '@polkadot/types';
 
 export interface DerivedBalances {
   accountId: AccountId;
@@ -35,8 +36,8 @@ export interface DerivedContractFees {
 export interface DerivedElectionsInfo {
   members: Record<string, BlockNumber>;
   candidates: AccountId[];
-  candidateCount: BN;
-  desiredSeats: BN;
+  candidateCount: u32;
+  desiredSeats: u32;
   nextVoterSet: SetIndex;
   termDuration: BlockNumber;
   voteCount: VoteIndex;
@@ -44,11 +45,11 @@ export interface DerivedElectionsInfo {
 }
 
 export interface DerivedFees {
-  creationFee: BN;
-  existentialDeposit: BN;
-  transactionBaseFee: BN;
-  transactionByteFee: BN;
-  transferFee: BN;
+  creationFee: Balance;
+  existentialDeposit: Balance;
+  transactionBaseFee: Balance;
+  transactionByteFee: Balance;
+  transferFee: Balance;
 }
 
 export interface RecentlyOffline {
@@ -65,16 +66,16 @@ export interface DerivedReferendumVote {
 }
 
 export interface DerivedSessionInfo {
-  currentEra: BN;
-  currentIndex: BN;
-  eraLength: BN;
-  eraProgress: BN;
+  currentEra: EraIndex;
+  currentIndex: SessionIndex;
+  eraLength: BlockNumber;
+  eraProgress: BlockNumber;
   isEpoch: boolean;
-  lastEraLengthChange: BN;
-  lastLengthChange: BN;
-  sessionLength: BN;
-  sessionsPerEra: BN;
-  sessionProgress: BN;
+  lastEraLengthChange: BlockNumber;
+  lastLengthChange: BlockNumber;
+  sessionLength: BlockNumber;
+  sessionsPerEra: SessionIndex;
+  sessionProgress: BlockNumber;
 }
 
 export type DerivedStakingAccount = [AccountId, DerivedStakingOnlineStatus];
@@ -99,7 +100,7 @@ export interface DerivedStaking extends DerivedStakingOnlineStatus {
   nextSessionId?: AccountId;
   nextSessionIds: AccountId[];
   nominators?: AccountId[];
-  redeemable?: BN;
+  redeemable?: Balance;
   rewardDestination?: RewardDestination;
   // @deprecated Use sessionIds instead
   sessionId?: AccountId;
@@ -107,11 +108,11 @@ export interface DerivedStaking extends DerivedStakingOnlineStatus {
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
-  unlocking?: DerivedUnlocking;
+  unlocking?: DerivedUnlocking[];
   validatorPrefs?: ValidatorPrefs;
 }
 
-export type DerivedUnlocking = { remainingBlocks: BN; value: BN }[];
+export type DerivedUnlocking = { remainingBlocks: BlockNumber; value: Balance };
 
 export interface VoterPosition {
   globalIndex: BN;
