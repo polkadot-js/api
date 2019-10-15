@@ -93,7 +93,8 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
             queryBalances(api, accountId),
             api.rpc.account && api.rpc.account.nextIndex
               ? api.rpc.account.nextIndex(accountId)
-              : api.query.system.accountNonce(accountId)
+              // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
+              : api.query.system.accountNonce<Index>(accountId)
           ])
           : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>')], createType('Index')])
         )
