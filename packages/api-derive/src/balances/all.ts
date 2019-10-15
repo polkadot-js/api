@@ -4,6 +4,7 @@
 
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, VestingSchedule } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
@@ -43,7 +44,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
   // The locked is > the vested and ended up with the locked > free,
   // i.e. related to https://github.com/paritytech/polkadot/issues/225
   // (most probably due to movements from stash -> controller -> free)
-  const availableBalance = bnMax(createType('Balance'), createType('Balance', vestedBalance.sub(lockedBalance)));
+  const availableBalance = createType('Balance', bnMax(new BN(0), vestedBalance.sub(lockedBalance)));
 
   return {
     accountId,
@@ -54,7 +55,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     reservedBalance,
     vestedBalance,
     votingBalance: createType('Balance', freeBalance.add(reservedBalance))
-  } as DerivedBalances;
+  };
 }
 
 function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
