@@ -19,7 +19,7 @@ import { drr } from '../util/drr';
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
 
-function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce = createType('Index')]: Result): DerivedBalances {
+function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
   let lockedBalance = createType('Balance');
 
   if (Array.isArray(locks)) {
