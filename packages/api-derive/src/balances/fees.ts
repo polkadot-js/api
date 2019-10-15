@@ -18,9 +18,9 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
     // Support older versions and get values from storage
     api.query.balances.creationFee,
     api.query.balances.existentialDeposit,
+    api.query.balances.transferFee,
     api.query.balances.transactionBaseFee,
-    api.query.balances.transactionByteFee,
-    api.query.balances.transferFee
+    api.query.balances.transactionByteFee
   ]);
 }
 
@@ -32,9 +32,9 @@ function queryV2 (api: ApiInterfaceRx): Observable<Result> {
     // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
     api.consts.balances.creationFee as Balance,
     api.consts.balances.existentialDeposit as Balance,
+    api.consts.balances.transferFee as Balance,
     paymentBase.transactionBaseFee as Balance,
-    paymentBase.transactionByteFee as Balance,
-    api.consts.balances.transferFee as Balance
+    paymentBase.transactionByteFee as Balance
   ]);
 }
 
@@ -58,7 +58,7 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
         ? queryV2(api)
         : queryV1(api)
     ).pipe(
-      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedFees => ({
+      map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,
