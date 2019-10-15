@@ -44,11 +44,11 @@ export interface DerivedElectionsInfo {
 }
 
 export interface DerivedFees {
-  creationFee: BN;
-  existentialDeposit: BN;
-  transactionBaseFee: BN;
-  transactionByteFee: BN;
-  transferFee: BN;
+  creationFee: Balance;
+  existentialDeposit: Balance;
+  transactionBaseFee: Balance;
+  transactionByteFee: Balance;
+  transferFee: Balance;
 }
 
 export interface RecentlyOffline {

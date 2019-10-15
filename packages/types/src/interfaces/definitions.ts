@@ -24,6 +24,7 @@ export { default as session } from './session/definitions';
 export { default as staking } from './staking/definitions';
 export { default as system } from './system/definitions';
 export { default as treasury } from './treasury/definitions';
+export { default as txpayment } from './txpayment/definitions';
 export { default as utility } from './utility/definitions';
 
 // polkadot-specific types
