@@ -25,17 +25,15 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
 }
 
 function queryV2 (api: ApiInterfaceRx): Observable<Result> {
+  const paymentBase = api.consts.transactionPayment || api.consts.balances;
+
   return of([
     // get values from api.const for substrate versions post spec_version: 101
     // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
     api.consts.balances.creationFee as Balance,
     api.consts.balances.existentialDeposit as Balance,
-    api.consts.transactionPayment
-      ? api.consts.transactionPayment.transactionBaseFee as Balance
-      : api.consts.balances.transactionBaseFee as Balance,
-    api.consts.transactionPayment
-      ? api.consts.transactionPayment.transactionByteFee as Balance
-      : api.consts.balances.transactionByteFee as Balance,
+    paymentBase.transactionBaseFee as Balance,
+    paymentBase.transactionByteFee as Balance,
     api.consts.balances.transferFee as Balance
   ]);
 }
