@@ -187,7 +187,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
       this.setTypeDefAtIndex(typeIndex);
     }
 
-    return this.typeDefAt(typeIndex)!;
+    return this.typeDefAt(typeIndex);
   }
 
   private typeDefForEnumVariant (variant: MetaTypeDefEnumVariant): Pick<TypeDef, any> {
@@ -292,7 +292,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
   }
 
   public typeDefForOption (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
-    assert(id['custom.params']![0], `Invalid Option type defined at index ${typeIndex}`);
+    assert(id['custom.params'] && id['custom.params'][0], `Invalid Option type defined at index ${typeIndex}`);
 
     return {
       info: TypeDefInfo.Option,
@@ -301,7 +301,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
   }
 
   public typeDefForResult (id: MetaTypeIdCustom, typeIndex?: TypeIndex): Pick<TypeDef, any> {
-    assert(id['custom.params']![0] && id['custom.params']![1], `Invalid Result type defined at index ${typeIndex}`);
+    assert(id['custom.params'] && id['custom.params'][0] && id['custom.params'][1], `Invalid Result type defined at index ${typeIndex}`);
 
     return {
       info: TypeDefInfo.Result,
