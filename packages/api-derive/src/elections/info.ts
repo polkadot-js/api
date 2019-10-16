@@ -3,17 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
 import { drr } from '../util/drr';
 
-function query (api: ApiInterfaceRx): Observable<[[AccountId, BlockNumber][], AccountId[], BN, BN, SetIndex, BlockNumber, VoteIndex, SetIndex]> {
-  return api.queryMulti([
+type Result = [Vec<[AccountId, BlockNumber] & Codec>, Vec<AccountId>, u32, u32, SetIndex, BlockNumber, VoteIndex, SetIndex];
+
+function query (api: ApiInterfaceRx): Observable<Result> {
+  return api.queryMulti<Result>([
     api.query.elections.members,
     api.query.elections.candidates,
     api.query.elections.candidateCount,
@@ -22,7 +25,7 @@ function query (api: ApiInterfaceRx): Observable<[[AccountId, BlockNumber][], Ac
     api.query.elections.termDuration,
     api.query.elections.voteCount,
     api.query.elections.voterCount
-  ]) as any;
+  ]);
 }
 
 /**
@@ -33,7 +36,7 @@ function query (api: ApiInterfaceRx): Observable<[[AccountId, BlockNumber][], Ac
  * <BR>
  *
  * ```javascript
- * api.derive.elections.info(([members, candidates]) => {
+ * api.derive.elections.info(({ members, candidates }) => {
  *   console.log(`There are currently ${members.length} council members and ${candidates.length} prospective council candidates.`);
  * });
  * ```
@@ -56,7 +59,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
         termDuration,
         voteCount,
         voterCount
-      } as unknown as DerivedElectionsInfo)),
+      })),
       drr()
     );
   };
