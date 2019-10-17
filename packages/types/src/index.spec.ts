@@ -4,8 +4,8 @@
 
 import './injector';
 
-import Metadata from '@polkadot/api-metadata/Metadata';
-import metadataStatic from '@polkadot/api-metadata/Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import metadataStatic from '@polkadot/metadata/Metadata/static';
 
 import { createTypeUnsafe } from './codec/create';
 import GenericCall from './primitive/Generic/Call';

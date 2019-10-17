@@ -4,8 +4,8 @@
 
 import { Balance, Moment, RuntimeVersion } from '@polkadot/types/interfaces';
 
-import DecorateMeta from '@polkadot/api-metadata';
-import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+import DecorateMeta from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Bytes, ClassOf, Metadata, StorageKey } from '@polkadot/types';

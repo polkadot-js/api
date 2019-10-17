@@ -7,13 +7,13 @@ import '@polkadot/types/injector';
 import { Balance } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-import Metadata from '@polkadot/api-metadata';
-import rpcMetadataV3 from '@polkadot/api-metadata/Metadata/v3/static';
-import rpcMetadataV4 from '@polkadot/api-metadata/Metadata/v4/static';
-import rpcMetadataV5 from '@polkadot/api-metadata/Metadata/v5/static';
-import rpcMetadataV6 from '@polkadot/api-metadata/Metadata/v6/static';
-import rpcMetadataV7 from '@polkadot/api-metadata/Metadata/v7/static';
-import rpcMetadataV8 from '@polkadot/api-metadata/Metadata/v8/static';
+import Metadata from '@polkadot/metadata';
+import rpcMetadataV3 from '@polkadot/metadata/Metadata/v3/static';
+import rpcMetadataV4 from '@polkadot/metadata/Metadata/v4/static';
+import rpcMetadataV5 from '@polkadot/metadata/Metadata/v5/static';
+import rpcMetadataV6 from '@polkadot/metadata/Metadata/v6/static';
+import rpcMetadataV7 from '@polkadot/metadata/Metadata/v7/static';
+import rpcMetadataV8 from '@polkadot/metadata/Metadata/v8/static';
 
 import Api from '.';
 

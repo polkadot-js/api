@@ -4,7 +4,7 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ConstantCodec } from '@polkadot/api-metadata/Decorated/types';
+import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 

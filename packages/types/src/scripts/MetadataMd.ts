@@ -5,9 +5,9 @@
 import '../injector';
 
 import fs from 'fs';
-import Metadata from '@polkadot/api-metadata';
-import rpcdata from '@polkadot/api-metadata/Metadata/static';
-import MetadataV8, { ModuleMetadataV8 } from '@polkadot/api-metadata/Metadata/v8';
+import Metadata from '@polkadot/metadata';
+import rpcdata from '@polkadot/metadata/Metadata/static';
+import MetadataV8, { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';

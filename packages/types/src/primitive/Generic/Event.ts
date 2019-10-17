@@ -7,7 +7,7 @@ import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
 import { Constructor, Codec } from '../../types';
 
-import Metadata from '@polkadot/api-metadata/Metadata';
+import Metadata from '@polkadot/metadata/Metadata';
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import { getTypeClass, getTypeDef } from '../../codec/create';
@@ -110,7 +110,7 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
-  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/api-metadata'`)
+  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/metadata'`)
   // instead of the Codec Metadata
   // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
   public static injectMetadata (metadata: Metadata): void {

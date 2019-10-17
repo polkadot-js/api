@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-metadata authors & contributors
+// Copyright 2017-2019 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,10 +7,10 @@ import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
 
 // FIXME Here we unfortunately cannot use Decorated, because that already calls
 // fromMetadata for storage, and we have then a type import ordering problem
-import extrinsicsFromMeta from '@polkadot/api-metadata/Decorated/extrinsics/fromMetadata';
+import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
-import Metadata from '@polkadot/api-metadata/Metadata';
+import Metadata from '@polkadot/metadata/Metadata';
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
@@ -158,7 +158,7 @@ export default class Call extends Struct implements IMethod {
     }, {} as unknown as ArgsDef);
   }
 
-  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/api-metadata'`)
+  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/metadata'`)
   // instead of the Codec Metadata
   // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
   public static injectMetadata (metadata: Metadata): void {

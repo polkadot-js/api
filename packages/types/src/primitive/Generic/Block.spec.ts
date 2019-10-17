@@ -4,8 +4,8 @@
 
 import '../../injector';
 
-import Metadata from '@polkadot/api-metadata/Metadata';
-import rpcMetadata from '@polkadot/api-metadata/Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import block00300 from '../../json/SignedBlock.003.00.json';
 import Call from './Call';

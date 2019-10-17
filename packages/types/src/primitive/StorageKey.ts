@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadata as MetaV8 } from '@polkadot/api-metadata/Metadata/v8/Storage';
+import { StorageEntryMetadata as MetaV8 } from '@polkadot/metadata/Metadata/v8/Storage';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import { AnyU8a } from '../types';
