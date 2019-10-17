@@ -7,14 +7,10 @@ import { ApiInterfaceEvents } from '../types';
 import EventEmitter from 'eventemitter3';
 
 export default class Events {
-  private _eventemitter: EventEmitter;
+  private _eventemitter = new EventEmitter();
 
-  protected constructor () {
-    this._eventemitter = new EventEmitter();
-  }
-
-  protected emit (type: ApiInterfaceEvents, ...args: any[]): void {
-    this._eventemitter.emit(type, ...args);
+  protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {
+    return this._eventemitter.emit(type, ...args);
   }
 
   /**

@@ -102,7 +102,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['[', ']', TypeDefInfo.VecFixed, _decodeFixedVec],
   ['{', '}', TypeDefInfo.Struct, _decodeStruct],
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
-  // the inner for result is the same as tuple
+  // the inner for these are the same as tuple, multiple values
+  ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple]
 ];
 

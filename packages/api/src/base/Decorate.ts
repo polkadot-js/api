@@ -126,6 +126,7 @@ export default abstract class Decorate<ApiType> extends Events {
     this._type = type;
     this._rpcCore = new RpcCore(thisProvider);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
+    this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
 
   /**

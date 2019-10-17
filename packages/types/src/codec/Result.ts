@@ -19,7 +19,7 @@ export default class Result<O extends Codec, E extends Codec> extends Enum {
     super({ Ok, Error }, value);
   }
 
-  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | InterfaceTypes;Error: Constructor<E> | InterfaceTypes }): Constructor<Result<O, E>> {
+  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | InterfaceTypes; Error: Constructor<E> | InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
       public constructor (value?: any) {
         super(Types.Ok, Types.Error, value);

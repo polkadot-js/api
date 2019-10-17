@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
@@ -51,6 +51,9 @@ export interface CandidateReceipt extends Struct {
   /** Hash */
   readonly blockDataHash: Hash;
 }
+
+/** H256 */
+export interface CollatorId extends H256 {}
 
 /** Signature */
 export interface CollatorSignature extends Signature {}
@@ -120,6 +123,30 @@ export interface ParaId extends u32 {}
 
 /** ParaId */
 export interface ParaIdOf extends ParaId {}
+
+/** Struct */
+export interface ParaInfo extends Struct {
+  /** ParaScheduling */
+  readonly scheduling: ParaScheduling;
+}
+
+/** Enum */
+export interface ParaScheduling extends Enum {
+  /** 0:: Always */
+  readonly isAlways: boolean;
+  /** 1:: Dynamic */
+  readonly isDynamic: boolean;
+}
+
+/** Enum */
+export interface Retriable extends Enum {
+  /** 0:: Never */
+  readonly isNever: boolean;
+  /** 1:: WithRetries(u32) */
+  readonly isWithRetries: boolean;
+  /** u32 */
+  readonly asWithRetries: u32;
+}
 
 /** Enum */
 export interface SlotRange extends Enum {

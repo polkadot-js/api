@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Codec } from '@polkadot/types/types';
@@ -40,15 +40,16 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
 }
 
 // calculate the remining blocks in a specific unlock era
-function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BN {
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber): BlockNumber {
   const remaining = eraLength.mul(era).sub(bestNumber);
 
-  return remaining.lten(0)
+  return createType('BlockNumber', remaining.lten(0)
     ? new BN(0)
-    : remaining;
+    : remaining
+  );
 }
 
-function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking[] | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
@@ -63,24 +64,24 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // group the Unlockchunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
-  const results = Object.entries(groupedResult).map(([eraString, value]): { value: BN; remainingBlocks: BN } => ({
-    value,
+  const results = Object.entries(groupedResult).map(([eraString, value]): DerivedUnlocking => ({
+    value: createType('Balance', value),
     remainingBlocks: remainingBlocks(createType('BlockNumber', eraString), eraLength, bestNumber)
   }));
 
   return results.length ? results : undefined;
 }
 
-function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): BN {
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): Balance {
   if (isUndefined(stakingLedger)) {
-    return new BN(0);
+    return createType('Balance');
   }
 
-  return stakingLedger.unlocking.reduce((total, { era, value }): BN => {
+  return createType('Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
     return remainingBlocks(era.unwrap(), eraLength, bestNumber).eqn(0)
       ? total.add(value.unwrap())
       : total;
-  }, new BN(0));
+  }, new BN(0)));
 }
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {

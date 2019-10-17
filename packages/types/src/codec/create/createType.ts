@@ -58,5 +58,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * @param params - The value to instantiate the type with
  */
 export function createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
-  return createTypeUnsafe<Codec, K>(type, params) as InterfaceRegistry[K];
+  // error TS2589: Type instantiation is excessively deep and possibly infinite.
+  // The above happens with as Constructor<InterfaceRegistry[K]>;
+  return createTypeUnsafe<Codec, K>(type, params) as any;
 }

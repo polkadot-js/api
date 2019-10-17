@@ -22,10 +22,11 @@ import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKey
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { DispatchResult, DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces/claims';
-import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParachainDispatchOrigin, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
+import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorId, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParaInfo, ParaScheduling, ParachainDispatchOrigin, Retriable, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, DoubleMapTypeV8, ErrorMetadataV8, EventMetadataLatest, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, EventMetadataV8, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionArgumentMetadataV8, FunctionMetadataLatest, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, FunctionMetadataV8, MapTypeV0, MapTypeV2, MapTypeV3, MapTypeV4, MapTypeV5, MapTypeV6, MapTypeV7, MapTypeV8, MetadataV0, MetadataV1, ModuleConstantMetadataLatest, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleConstantMetadataV8, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeLatest, PlainTypeV0, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, PlainTypeV8, RuntimeModuleMetadataV0, StorageEntryModifierLatest, StorageEntryModifierV6, StorageEntryModifierV7, StorageEntryModifierV8, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from '@polkadot/types/interfaces/metadata';
 import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RpcMethods, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 
@@ -639,6 +640,9 @@ export interface InterfaceRegistry {
   TreasuryProposal: TreasuryProposal;
   'Option<TreasuryProposal>': Option<TreasuryProposal>;
   'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
+  Multiplier: Multiplier;
+  'Option<Multiplier>': Option<Multiplier>;
+  'Vec<Multiplier>': Vec<Multiplier>;
   DispatchResult: DispatchResult;
   'Option<DispatchResult>': Option<DispatchResult>;
   'Vec<DispatchResult>': Vec<DispatchResult>;
@@ -676,6 +680,9 @@ export interface InterfaceRegistry {
   CandidateReceipt: CandidateReceipt;
   'Option<CandidateReceipt>': Option<CandidateReceipt>;
   'Vec<CandidateReceipt>': Vec<CandidateReceipt>;
+  CollatorId: CollatorId;
+  'Option<CollatorId>': Option<CollatorId>;
+  'Vec<CollatorId>': Vec<CollatorId>;
   CollatorSignature: CollatorSignature;
   'Option<CollatorSignature>': Option<CollatorSignature>;
   'Vec<CollatorSignature>': Vec<CollatorSignature>;
@@ -710,9 +717,18 @@ export interface InterfaceRegistry {
   ParaIdOf: ParaIdOf;
   'Option<ParaIdOf>': Option<ParaIdOf>;
   'Vec<ParaIdOf>': Vec<ParaIdOf>;
+  ParaInfo: ParaInfo;
+  'Option<ParaInfo>': Option<ParaInfo>;
+  'Vec<ParaInfo>': Vec<ParaInfo>;
   ParachainDispatchOrigin: ParachainDispatchOrigin;
   'Option<ParachainDispatchOrigin>': Option<ParachainDispatchOrigin>;
   'Vec<ParachainDispatchOrigin>': Vec<ParachainDispatchOrigin>;
+  ParaScheduling: ParaScheduling;
+  'Option<ParaScheduling>': Option<ParaScheduling>;
+  'Vec<ParaScheduling>': Vec<ParaScheduling>;
+  Retriable: Retriable;
+  'Option<Retriable>': Option<Retriable>;
+  'Vec<Retriable>': Vec<Retriable>;
   SlotRange: SlotRange;
   'Option<SlotRange>': Option<SlotRange>;
   'Vec<SlotRange>': Vec<SlotRange>;

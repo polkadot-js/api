@@ -7,6 +7,7 @@ import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
+import BTreeMap from '../BTreeMap';
 import Compact from '../Compact';
 import Enum from '../Enum';
 import Linkage from '../Linkage';
@@ -56,6 +57,13 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 }
 
 const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
+  [TypeDefInfo.BTreeMap]: (value: TypeDef): Constructor => {
+    const [keyType, valueType] = getTypeClassArray(value);
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return BTreeMap.with(keyType, valueType);
+  },
+
   [TypeDefInfo.Compact]: (value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -74,10 +82,10 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
     getTypeRegistry().getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
 
   [TypeDefInfo.Result]: (value: TypeDef): Constructor => {
-    const [okDef, errorDef] = getSubDefArray(value);
+    const [Ok, Error] = getTypeClassArray(value);
 
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return Result.with({ Ok: getTypeClass(okDef), Error: getTypeClass(errorDef) });
+    return Result.with({ Ok, Error });
   },
 
   [TypeDefInfo.Set]: (value: TypeDef): Constructor => {

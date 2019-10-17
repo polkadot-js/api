@@ -35,6 +35,13 @@ export function exportType (name = '', base: string): string {
 }
 
 /**
+ * Given the inner `K` & `V`, return a `BTreeMap<K, V>`  string
+ */
+export function formatBTreeMap (key: string, val: string): string {
+  return `BTreeMap<${key}, ${val}>`;
+}
+
+/**
  * Given the inner `T`, return a `Compact<T>` string
  */
 export function formatCompact (inner: string): string {

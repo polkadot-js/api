@@ -20,6 +20,12 @@ describe('createType', (): void => {
     });
   });
 
+  it('allows creation of a BTreeMap', (): void => {
+    expect(
+      createTypeUnsafe('BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
+    ).toEqual('{"bazzing":69}');
+  });
+
   it('allows creation of a Result', (): void => {
     expect(
       createTypeUnsafe('Result<u32,Text>', ['0x011064656667']).toJSON()
