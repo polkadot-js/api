@@ -24,10 +24,12 @@ export default {
     ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
     ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
     ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
+    ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
     ExtrinsicUnknown: 'GenericExtrinsicUnknown',
     ExtrinsicV1: 'GenericExtrinsicV1',
     ExtrinsicV2: 'GenericExtrinsicV2',
     ExtrinsicV3: 'GenericExtrinsicV3',
+    ExtrinsicV4: 'GenericExtrinsicV4',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',

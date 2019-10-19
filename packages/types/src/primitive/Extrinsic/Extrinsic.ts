@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
-import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Index } from '../../interfaces/runtime';
+import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index } from '../../interfaces/runtime';
 import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -14,14 +14,15 @@ import Compact from '../../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';
 import { ExtrinsicValueV2 } from './v2/Extrinsic';
 import { ExtrinsicValueV3 } from './v3/Extrinsic';
+import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 // We use this type internally to cast the raw value since ExtrinsicUnknown does not actually properly
 // implement an Extrinsic - by design, it just throws on construction, allowing for overrides
-type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3;
+type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
 
-type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
 
 interface CreateOptions {
   version?: number;
@@ -31,7 +32,8 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicV1',
   'ExtrinsicV2',
-  'ExtrinsicV3'
+  'ExtrinsicV3',
+  'ExtrinsicV4'
 ];
 
 /**

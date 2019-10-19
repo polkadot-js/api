@@ -3,7 +3,7 @@
 
 import { Codec, ITuple } from '@polkadot/types/types';
 import { Compact, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '@polkadot/types/primitive';
 
 /** GenericAccountId */
 export interface AccountId extends GenericAccountId {}
@@ -71,6 +71,9 @@ export interface ExtrinsicPayloadV2 extends GenericExtrinsicPayloadV2 {}
 /** GenericExtrinsicPayloadV3 */
 export interface ExtrinsicPayloadV3 extends GenericExtrinsicPayloadV3 {}
 
+/** GenericExtrinsicPayloadV4 */
+export interface ExtrinsicPayloadV4 extends GenericExtrinsicPayloadV4 {}
+
 /** GenericExtrinsicUnknown */
 export interface ExtrinsicUnknown extends GenericExtrinsicUnknown {}
 
@@ -82,6 +85,9 @@ export interface ExtrinsicV2 extends GenericExtrinsicV2 {}
 
 /** GenericExtrinsicV3 */
 export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
+
+/** GenericExtrinsicV4 */
+export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
 
 /** H256 */
 export interface Hash extends H256 {}
