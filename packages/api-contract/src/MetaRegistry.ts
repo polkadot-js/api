@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdArray, MetaTypeIdCustom, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
+import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdCustom, MetaTypeIdVec, MetaTypeIdVecFixed, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 import { displayType, withTypeString } from '@polkadot/types';
@@ -10,7 +10,8 @@ import { displayType, withTypeString } from '@polkadot/types';
 const {
   BuiltinPlain,
   BuiltinTuple,
-  BuiltinArray,
+  BuiltinVec,
+  BuiltinVecFixed,
   ClikeEnum,
   Enum,
   Struct,
@@ -36,8 +37,11 @@ export default class MetaRegistry {
       if (Array.isArray(id)) {
         metaTypeInfo = MetaTypeInfo.BuiltinTuple;
       }
-      if ((id as MetaTypeIdArray)['array.type']) {
-        metaTypeInfo = MetaTypeInfo.BuiltinArray;
+      if ((id as MetaTypeIdVec)['slice.type']) {
+        metaTypeInfo = MetaTypeInfo.BuiltinVec;
+      }
+      if ((id as MetaTypeIdVecFixed)['array.type']) {
+        metaTypeInfo = MetaTypeInfo.BuiltinVecFixed;
       }
     }
 
@@ -164,8 +168,11 @@ export default class MetaRegistry {
       case BuiltinTuple:
         typeDef = this.typeDefForBuiltinTuple(metaType.id as TypeIndex[]);
         break;
-      case BuiltinArray:
-        typeDef = this.typeDefForBuiltinArray(metaType.id as MetaTypeIdArray, typeIndex);
+      case BuiltinVec:
+        typeDef = this.typeDefForBuiltinVec(metaType.id as MetaTypeIdVec, typeIndex);
+        break;
+      case BuiltinVecFixed:
+        typeDef = this.typeDefForBuiltinVecFixed(metaType.id as MetaTypeIdVecFixed, typeIndex);
         break;
       case Enum:
         typeDef = this.typeDefForEnum(metaType.def as MetaTypeDefEnum, metaType.id as MetaTypeIdCustom, typeIndex);
@@ -251,7 +258,22 @@ export default class MetaRegistry {
     };
   }
 
-  private typeDefForBuiltinArray (id: MetaTypeIdArray, typeIndex?: TypeIndex): Pick<TypeDef, never> {
+  private typeDefForBuiltinVec (id: MetaTypeIdVec, typeIndex?: TypeIndex): Pick<TypeDef, never> {
+    const { 'slice.type': vecTypeIndex } = id;
+
+    assert(!typeIndex || vecTypeIndex !== typeIndex, `MetaRegistry: self-referencing registry type at index ${typeIndex}`);
+
+    const type = displayType(this.typeDefFromMetaTypeAt(vecTypeIndex));
+    assert(type && type.length > 0, `MetaRegistry: Invalid builtin Vec type found at index ${typeIndex}`);
+
+    return {
+      info: TypeDefInfo.Vec,
+      type: `Vec<${type}>`,
+      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+    };
+  }
+
+  private typeDefForBuiltinVecFixed (id: MetaTypeIdVecFixed, typeIndex?: TypeIndex): Pick<TypeDef, never> {
     const { 'array.type': vecTypeIndex, 'array.len': vecLength } = id;
 
     assert(!vecLength || vecLength <= 256, 'MetaRegistry: Only support for [Type; <length>], where length <= 256');
@@ -261,18 +283,9 @@ export default class MetaRegistry {
     assert(type && type.length > 0, `MetaRegistry: Invalid vector type found at index ${typeIndex}`);
 
     return {
-      ...(
-        vecLength
-          ? {
-            info: TypeDefInfo.VecFixed,
-            ext: { length: vecLength, type },
-            type: `[${type};${vecLength}]`
-          }
-          : {
-            info: TypeDefInfo.Vec,
-            type: `Vec<${type}>`
-          }
-      ),
+      info: TypeDefInfo.VecFixed,
+      ext: { length: vecLength, type },
+      type: `[${type};${vecLength}]`,
       sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
     };
   }
