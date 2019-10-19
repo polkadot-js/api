@@ -69,7 +69,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The genesis block [[Hash]] the signature applies to
    */
   public get genesisHash (): Hash {
-    // NOTE only v3
+    // NOTE only v3+
     return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
   }
 
@@ -91,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The specVersion as a [[u32]] for this payload
    */
   public get specVersion (): u32 {
-    // NOTE only v3
+    // NOTE only v3+
     return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
   }
 
@@ -99,7 +99,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    // NOTE from v2
+    // NOTE from v2+
     return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
   }
 
