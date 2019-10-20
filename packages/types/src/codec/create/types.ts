@@ -57,22 +57,18 @@ export type StringIndex = number;
 export enum MetaTypeInfo {
   BuiltinPlain,
   BuiltinTuple,
-  BuiltinArray,
+  BuiltinVec,
+  BuiltinVecFixed,
   Enum,
   ClikeEnum,
   Struct,
   TupleStruct,
-  Null
+  Null,
 }
 
 export type MetaTypeIdPrimitive = string;
 
 export type MetaTypeIdTuple = TypeIndex[];
-
-export interface MetaTypeIdArray {
-  'array.len': number;
-  'array.type': TypeIndex;
-}
 
 export interface MetaTypeIdCustom {
   'custom.name': StringIndex;
@@ -80,7 +76,16 @@ export interface MetaTypeIdCustom {
   'custom.params'?: TypeIndex[];
 }
 
-export type MetaTypeId = MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray | MetaTypeIdCustom;
+export interface MetaTypeIdVec {
+  'slice.type': TypeIndex;
+}
+
+export interface MetaTypeIdVecFixed {
+  'array.len': number;
+  'array.type': TypeIndex;
+}
+
+export type MetaTypeId = MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdVec | MetaTypeIdVecFixed | MetaTypeIdCustom;
 // MetaTypeIdPrimitive | MetaTypeIdTuple | MetaTypeIdArray | MetaTypeIdCustom;
 // export type MetaTypeId = Record<string, any>;
 
