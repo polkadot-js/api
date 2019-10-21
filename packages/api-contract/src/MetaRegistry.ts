@@ -7,6 +7,13 @@ import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, Met
 import { assert } from '@polkadot/util';
 import { displayType, withTypeString } from '@polkadot/types';
 
+const builtinMap: [(id: any) => boolean, MetaTypeInfo][] = [
+  [(id: any): boolean => typeof id === 'string', MetaTypeInfo.BuiltinPlain],
+  [(id: any): boolean => Array.isArray(id), MetaTypeInfo.BuiltinTuple],
+  [(id: any): boolean => !!id['array.type'], MetaTypeInfo.BuiltinVecFixed],
+  [(id: any): boolean => !!id['slice.type'], MetaTypeInfo.BuiltinVec]
+];
+
 const typeMap: [string, MetaTypeInfo][] = [
   ['enum.variants', MetaTypeInfo.Enum],
   ['clike_enum.variants', MetaTypeInfo.ClikeEnum],
@@ -14,28 +21,12 @@ const typeMap: [string, MetaTypeInfo][] = [
   ['tuple_struct.types', MetaTypeInfo.TupleStruct]
 ];
 
-function detectBuiltinType (id: string | number[] | MetaTypeIdVec | MetaTypeIdVecFixed): MetaTypeInfo {
-  if (typeof id === 'string') {
-    return MetaTypeInfo.BuiltinPlain;
-  } else if (Array.isArray(id)) {
-    return MetaTypeInfo.BuiltinTuple;
-  } else if ((id as MetaTypeIdVecFixed)['array.type']) {
-    return MetaTypeInfo.BuiltinVecFixed;
-  } else if ((id as MetaTypeIdVec)['slice.type']) {
-    return MetaTypeInfo.BuiltinVec;
-  }
-
-  return MetaTypeInfo.Null;
-}
-
 function detectedType ({ def, id }: MetaType): MetaTypeInfo {
   assert(!(def as MetaTypeDefUnion)['union.fields'], 'Invalid union type definition found');
 
-  if (def === 'builtin') {
-    return detectBuiltinType(id as string);
-  }
-
-  const lookup = typeMap.find(([test]): boolean => !!(def as any)[test]);
+  const lookup = def === 'builtin'
+    ? builtinMap.find(([test]): boolean => test(id))
+    : typeMap.find(([test]): boolean => !!(def as any)[test]);
 
   return lookup
     ? lookup[1]
