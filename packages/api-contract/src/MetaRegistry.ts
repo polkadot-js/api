@@ -10,8 +10,8 @@ import { displayType, withTypeString } from '@polkadot/types';
 const builtinMap: [(id: any) => boolean, MetaTypeInfo][] = [
   [(id: any): boolean => typeof id === 'string', MetaTypeInfo.BuiltinPlain],
   [(id: any): boolean => Array.isArray(id), MetaTypeInfo.BuiltinTuple],
-  [(id: any): boolean => !!id['array.type'], MetaTypeInfo.BuiltinVecFixed],
-  [(id: any): boolean => !!id['slice.type'], MetaTypeInfo.BuiltinVec]
+  [(id: any): boolean => !!(id['array.type']), MetaTypeInfo.BuiltinVecFixed],
+  [(id: any): boolean => !!(id['slice.type']), MetaTypeInfo.BuiltinVec]
 ];
 
 const typeMap: [string, MetaTypeInfo][] = [
