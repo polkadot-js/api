@@ -22,6 +22,7 @@ import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKey
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Points, RewardDestination, SlashJournalEntry, StakingLedger, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { DispatchResult, DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces/claims';
@@ -639,6 +640,9 @@ export interface InterfaceRegistry {
   TreasuryProposal: TreasuryProposal;
   'Option<TreasuryProposal>': Option<TreasuryProposal>;
   'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
+  Multiplier: Multiplier;
+  'Option<Multiplier>': Option<Multiplier>;
+  'Vec<Multiplier>': Vec<Multiplier>;
   DispatchResult: DispatchResult;
   'Option<DispatchResult>': Option<DispatchResult>;
   'Vec<DispatchResult>': Vec<DispatchResult>;
