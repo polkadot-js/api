@@ -22,11 +22,10 @@
       "@polkadot/types": ["packages/types/src"],
       "@polkadot/types/*": ["packages/types/src/*"]
     },
+    "skipLibCheck": true,
     "typeRoots": [
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
-    ],
-    // FIXME This is a HACK that is needed for the current mock-socket defs
-    "skipLibCheck": true
+    ]
   }
 }
