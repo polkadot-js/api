@@ -111,9 +111,7 @@ export default class Rpc implements RpcInterface {
    * ```
    */
   public static signature ({ method, params, type }: RpcMethod): string {
-    const inputs = params.map(({ name, type }): string =>
-      `${name}: ${type}`
-    ).join(', ');
+    const inputs = params.map(({ name, type }): string => `${name}: ${type}`).join(', ');
 
     return `${method} (${inputs}): ${type}`;
   }
@@ -210,14 +208,12 @@ export default class Rpc implements RpcInterface {
           const message = this.createErrorMessage(method, error);
 
           // don't scare with old nodes, this is handled transparently
-          if (rpcName !== 'rpc_methods') {
-            l.error(message);
-          }
+          rpcName !== 'rpc_methods' && l.error(message);
 
           return throwError(new Error(message));
         }),
         publishReplay(1), // create a Replay(1)
-        refCount() // Unsubcribe WS when there are no more subscribers
+        refCount() // Unsubscribe WS when there are no more subscribers
       );
     };
 
