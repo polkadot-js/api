@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { isFunction } from '@polkadot/util';
 
 import Rpc from '.';
 
@@ -19,8 +20,40 @@ describe('Api', (): void => {
     expect(
       Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
-      'provider',
+      'provider', 'mapping', 'sections',
       'account', 'author', 'chain', 'contracts', 'rpc', 'state', 'system'
     ]);
+  });
+
+  it('allows for the definition of user RPCs', (): void => {
+    const rpc = new Rpc(new MockProvider(), {
+      testing: [
+        {
+          name: 'foo',
+          params: [{ name: 'bar', type: 'u32' }],
+          type: 'Balance'
+        }
+      ]
+    });
+
+    expect(isFunction((rpc as any).testing.foo)).toBe(true);
+    expect(rpc.sections.includes('testing')).toBe(true);
+    expect(rpc.mapping.get('testing_foo')).toEqual({
+      description: 'User defined',
+      isDeprecated: false,
+      isHidden: false,
+      isOptional: false,
+      isSigned: false,
+      isSubscription: false,
+      method: 'foo',
+      params: [{
+        isOptional: false,
+        name: 'bar',
+        type: 'u32'
+      }],
+      pubsub: ['', '', ''],
+      section: 'testing',
+      type: 'Balance'
+    });
   });
 });

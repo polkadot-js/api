@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { UserRpc } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
@@ -185,6 +186,10 @@ export interface ApiOptions {
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
    */
   provider?: ProviderInterface;
+  /**
+   * @description User-defined RPC methods
+   */
+  rpc?: UserRpc;
   /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
