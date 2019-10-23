@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
@@ -20,7 +19,6 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { Storage } from '@polkadot/api-metadata/storage/types';
-import jsonrpc from '@polkadot/jsonrpc';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, u64 } from '@polkadot/types';
@@ -68,8 +66,6 @@ export default abstract class Decorate<ApiType> extends Events {
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
-
-  private _rpcMap: Map<string, RpcMethod> = new Map();
 
   protected _runtimeMetadata?: Metadata;
 
@@ -125,7 +121,7 @@ export default abstract class Decorate<ApiType> extends Events {
     this.decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(thisProvider);
+    this._rpcCore = new RpcCore(thisProvider, this._options.rpc);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
@@ -173,7 +169,7 @@ export default abstract class Decorate<ApiType> extends Events {
     const hasResults = methods.length !== 0;
 
     // loop through all entries we have (populated in decorate) and filter as required
-    [...this._rpcMap.entries()]
+    [...this._rpcCore.mapping.entries()]
       .filter(([key, { isOptional }]): boolean =>
         // only remove when we have results and method missing, or with no results if optional
         hasResults
@@ -188,17 +184,14 @@ export default abstract class Decorate<ApiType> extends Events {
   }
 
   protected decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
-    return Object.keys(jsonrpc).reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
+    return rpc.sections.reduce((out, _sectionName): DecoratedRpc<ApiType, RpcInterface> => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType, RpcInterface>;
 
-      // out and section here are horrors to get right from a typing perspective :()
+      // out and section here are horrors to get right from a typing perspective :(
       (out as any)[sectionName] = Object.entries(rpc[sectionName]).reduce((section, [methodName, method]): DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]> => {
-        //  skip subscriptions where we have a non-subscribable interface
+        //  skip subscriptions where we have a non-subscribe interface
         if (this.hasSubscriptions || !(methodName.startsWith('subscribe') || methodName.startsWith('unsubscribe'))) {
           (section as any)[methodName] = decorateMethod(method, { methodName });
-
-          // add this endpoint mapping to our internal map - we use this for filters
-          this._rpcMap.set(`${sectionName}_${methodName}`, jsonrpc[sectionName].methods[methodName]);
         }
 
         return section;
@@ -207,6 +200,15 @@ export default abstract class Decorate<ApiType> extends Events {
       return out;
     }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
   }
+
+  // private expandWithUserRpc (): Record<string, RpcSection> {
+  //   const result = { ...jsonrpc };
+  //   const user = this._options.rpc || {};
+
+  //   return Object.keys(user).reduce((result, ))
+
+  //   return result;
+  // }
 
   protected decorateMulti<ApiType> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
