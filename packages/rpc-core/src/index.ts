@@ -137,33 +137,29 @@ export default class Rpc implements RpcInterface {
     Array.prototype.push.apply(this.sections, Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
 
     // convert the user inputs into the same format as used in jsonrpc
-    const user = Object
-      .entries(userBare)
-      .reduce((user: UserRpcConverted, [sectionName, methods]): UserRpcConverted => {
-        user[sectionName] = methods.reduce((section: Record<string, RpcMethod>, def): Record<string, RpcMethod> => {
-          const { description = 'User defined', name, params, type } = def;
+    const user = Object.entries(userBare).reduce((user: UserRpcConverted, [sectionName, methods]): UserRpcConverted => {
+      user[sectionName] = methods.reduce((section: Record<string, RpcMethod>, def): Record<string, RpcMethod> => {
+        const { description = 'User defined', name, params, type } = def;
 
-          section[name] = jsonrpcMethod(sectionName, name, {
-            description,
-            params: params.map(({ isOptional, name, type }): RpcParam =>
-              jsonrpcParam(name, type as any, { isOptional })
-            ),
-            type: type as any
-          });
+        section[name] = jsonrpcMethod(sectionName, name, {
+          description,
+          params: params.map(({ isOptional, name, type }): RpcParam =>
+            jsonrpcParam(name, type as any, { isOptional })),
+          type: type as any
+        });
 
-          return section;
-        }, {});
-
-        return user;
+        return section;
       }, {});
 
-    // decorate the sections
-    this.sections.forEach((sectionName): void => {
-      const base = this.createInterface(sectionName, interfaces[sectionName] ? interfaces[sectionName].methods : {});
-      const extra = this.createInterface(sectionName, user[sectionName] || {});
+      return user;
+    }, {});
 
-      // add our base definitions along with any user-defined extras
-      (this as any)[sectionName as Section] = { ...base, ...extra };
+    // decorate the sections with base and user methods
+    this.sections.forEach((sectionName): void => {
+      (this as any)[sectionName as Section] = {
+        ...this.createInterface(sectionName, interfaces[sectionName] ? interfaces[sectionName].methods : {}),
+        ...this.createInterface(sectionName, user[sectionName] || {})
+      };
     });
   }
 
