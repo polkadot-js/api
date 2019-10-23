@@ -131,10 +131,10 @@ export default class Rpc implements RpcInterface {
 
   private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
     // these are the base keys (i.e. part of jsonrpc)
-    this.sections.concat(...Object.keys(interfaces));
+    Array.prototype.push.apply(this.sections, Object.keys(interfaces));
 
     // add any extra user-defined sections
-    this.sections.concat(...Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
+    Array.prototype.push.apply(this.sections, Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
 
     // convert the user inputs into the same format as used in jsonrpc
     const user = Object

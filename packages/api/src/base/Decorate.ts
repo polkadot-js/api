@@ -201,15 +201,6 @@ export default abstract class Decorate<ApiType> extends Events {
     }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
   }
 
-  // private expandWithUserRpc (): Record<string, RpcSection> {
-  //   const result = { ...jsonrpc };
-  //   const user = this._options.rpc || {};
-
-  //   return Object.keys(user).reduce((result, ))
-
-  //   return result;
-  // }
-
   protected decorateMulti<ApiType> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
       this._rpcCore.state.subscribeStorage(
