@@ -32,6 +32,7 @@ import { compactStripLength, u8aToHex } from '@polkadot/util';
 import { createSubmittable } from '../submittable';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
 import Events from './Events';
+import { extractStorageArgs } from './validate';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
@@ -253,9 +254,7 @@ export default abstract class Decorate<ApiType> extends Events {
 
   private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     // get the storage arguments, with DoubleMap as an array entry, otherwise spread
-    const getArgs = (...args: any[]): any[] => creator.meta.type.isDoubleMap
-      ? [creator, args]
-      : [creator, ...args];
+    const getArgs = (...args: any[]): any[] => extractStorageArgs(creator, args);
 
     // FIXME We probably want to be able to query the full list with non-subs as well
     const decorated = this.hasSubscriptions && creator.headKey
