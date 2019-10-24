@@ -1729,7 +1729,7 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@octokit/endpoint@^5.5.0":
+"@octokit/endpoint@^5.1.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@octokit/endpoint/-/endpoint-5.5.0.tgz#d7e7960ffe39096cb67062f07efa84db52b20edb"
   integrity sha512-TXYS6zXeBImNB9BVj+LneMDqXX+H0exkOpyXobvp92O3B1348QsKnNioISFKgOMsb3ibZvQGwCdpiwQd3KAjIA==
@@ -1835,14 +1835,14 @@
     typescript "^3.6.4"
     vuepress "^1.2.0"
 
-"@polkadot/keyring@^1.6.0-beta.13":
-  version "1.6.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-1.6.0-beta.13.tgz#b33215cd0389bcc734edae6213bc87b360b25728"
-  integrity sha512-XR/23+pjeCr8mmn93A5IZcfgJR0n1DBgIJY3vV2AAnjhhb503cW1G75L2fmJGcRlDOs71U9Q/DUu43i9EJ80rw==
+"@polkadot/keyring@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-1.6.1.tgz#35966afba142b647b31767e3a349652947c57a90"
+  integrity sha512-ortPbweoaANKTKZR0JDbO796U6B3JGjj87yZD+ghlFRUWjMjlbP+LOWnfNyXHcI87yxNC23nK3YDv1KCl0eDUQ==
   dependencies:
     "@babel/runtime" "^7.6.3"
-    "@polkadot/util" "^1.6.0-beta.13"
-    "@polkadot/util-crypto" "^1.6.0-beta.13"
+    "@polkadot/util" "^1.6.1"
+    "@polkadot/util-crypto" "^1.6.1"
 
 "@polkadot/ts@^0.1.82":
   version "0.1.82"
@@ -1851,13 +1851,13 @@
   dependencies:
     "@types/chrome" "^0.0.91"
 
-"@polkadot/util-crypto@^1.6.0-beta.13":
-  version "1.6.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-1.6.0-beta.13.tgz#e9b23b2252dec4e25275c0824ae62faf2cf22049"
-  integrity sha512-wTbR5LrvZs1S6kbYwU9TKHx45gEJTErHbNWw6JFZqlxJRiCilM2ZVXrn17BgBn9pwdscuWUUx7bzVlRE3ifASw==
+"@polkadot/util-crypto@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-1.6.1.tgz#6d924c5eaecbf98f971da1aac69fb60b17a4bf55"
+  integrity sha512-Dbo5qsIGKO82HpkysFKh9GDY0w6O6tX9h5HPRDy4KIaTaCo3H5QTmxit+hPU9n3PIHsxGhnyPq8q1i2wD/iWYQ==
   dependencies:
     "@babel/runtime" "^7.6.3"
-    "@polkadot/util" "^1.6.0-beta.13"
+    "@polkadot/util" "^1.6.1"
     "@polkadot/wasm-crypto" "^0.14.1"
     "@types/bip39" "^2.4.2"
     "@types/bs58" "^4.0.0"
@@ -1873,10 +1873,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^1.6.0-beta.13":
-  version "1.6.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-1.6.0-beta.13.tgz#ba232d15ce758ae3fb22425b13a888af4f01a2f4"
-  integrity sha512-+oIZBacyVbGNzMisusmFolD0N2vOk4d7DDXMWnDvdBRguKo4j31lFAIYVRDMddtA9uGF8RKKDyMHy9Iq9VYRmQ==
+"@polkadot/util@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-1.6.1.tgz#8110c12a1670e564c5d6a1c19347cbb0dba8a3ce"
+  integrity sha512-uKRfapAXwZMcWQ24MdV+zg8jrYtidbKxJhUbq0G77Yy27d45OID8d+JcI3Q+d6d2pmC/h733iSeCqdiLYCKqMw==
   dependencies:
     "@babel/runtime" "^7.6.3"
     "@types/bn.js" "^4.11.5"
