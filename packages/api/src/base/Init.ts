@@ -59,7 +59,7 @@ const TYPES_SPEC: Record<string, Record<number, Record<string, string>>> = {
 
 const l = logger('api/decorator');
 
-function extractVersionedTypes (specVersion: U32, chainTypes: Record<number, Record<string, string>> = {}): Record<string, string> {
+function getVersionedTypes (specVersion: U32, chainTypes: Record<number, Record<string, string>> = {}): Record<string, string> {
   return Object
     .keys(chainTypes)
     .map((version): number => parseInt(`${version}`, 10))
@@ -71,13 +71,13 @@ function extractVersionedTypes (specVersion: U32, chainTypes: Record<number, Rec
     }), {});
 }
 
-function detectTypes (chain: Text, version: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+function getTypes (chain: Text, version: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
   const chainName = chain.toString();
   const specName = version.specName.toString();
 
   return {
-    ...extractVersionedTypes(version.specVersion, TYPES_SPEC[specName]),
-    ...extractVersionedTypes(version.specVersion, TYPES_CHAIN[chainName]),
+    ...getVersionedTypes(version.specVersion, TYPES_SPEC[specName]),
+    ...getVersionedTypes(version.specVersion, TYPES_CHAIN[chainName]),
     ...(typesSpec[specName] || {}),
     ...(typesChain[chainName] || {})
   };
@@ -158,7 +158,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     ]);
 
     // based on the node spec & chain, inject specific type overrides
-    this.registerTypes(detectTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.registerTypes(getTypes(chain, runtimeVersion, typesChain, typesSpec));
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
