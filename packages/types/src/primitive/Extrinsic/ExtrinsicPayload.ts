@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, Hash, Index } from '../../interfaces/runtime';
+import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
@@ -20,13 +20,14 @@ interface ExtrinsicPayloadOptions {
 }
 
 // all our known types that can be returned
-type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3;
+type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
 
 const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadV1',
   'ExtrinsicPayloadV2',
-  'ExtrinsicPayloadV3'
+  'ExtrinsicPayloadV3',
+  'ExtrinsicPayloadV4'
 ];
 
 /**
@@ -68,7 +69,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The genesis block [[Hash]] the signature applies to
    */
   public get genesisHash (): Hash {
-    // NOTE only v3
+    // NOTE only v3+
     return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
   }
 
@@ -90,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The specVersion as a [[u32]] for this payload
    */
   public get specVersion (): u32 {
-    // NOTE only v3
+    // NOTE only v3+
     return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
   }
 
@@ -98,7 +99,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description The [[Balance]]
    */
   public get tip (): Compact<Balance> {
-    // NOTE from v2
+    // NOTE from v2+
     return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
   }
 

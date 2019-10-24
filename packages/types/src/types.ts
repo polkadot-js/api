@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
-import { Balance, Index } from './interfaces/runtime';
+import { Balance, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
 
 import BN from 'bn.js';
 
@@ -34,7 +35,7 @@ export type ModulesWithCalls = Record<string, Calls>;
 export interface IKeyringPair {
   address: string;
   publicKey: Uint8Array;
-  sign: (data: Uint8Array) => Uint8Array;
+  sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -174,7 +175,7 @@ interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
   readonly nonce: Compact<Index>;
-  readonly signature: IHash;
+  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
   readonly tip: Compact<Balance>;
 }
