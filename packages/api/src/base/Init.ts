@@ -82,15 +82,15 @@ function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []):
     }), {});
 }
 
-function getTypes (chain: Text, version: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
-  const chainName = chain.toString();
-  const specName = version.specName.toString();
+function getTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
 
   return {
-    ...getVersionedTypes(version.specVersion, TYPES_SPEC[specName]),
-    ...getVersionedTypes(version.specVersion, TYPES_CHAIN[chainName]),
-    ...(typesSpec[specName] || {}),
-    ...(typesChain[chainName] || {})
+    ...getVersionedTypes(specVersion, TYPES_SPEC[_specName]),
+    ...getVersionedTypes(specVersion, TYPES_CHAIN[_chainName]),
+    ...(typesSpec[_specName] || {}),
+    ...(typesChain[_chainName] || {})
   };
 }
 
