@@ -22,8 +22,8 @@ interface CreateOptions {
   version?: number;
 }
 
-// NOTE The following 2 types, as well as the VERSION structure and the latest export is to be changed
-// with the addition of a new extrinsic version
+// NOTE The following 2 types, as well as the VERSION structure and the latest export
+// is to be changed with the addition of a new extrinsic version
 
 type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
@@ -63,8 +63,8 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
     const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
-    // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
-    // "only add extrinsic types", and more string definitions become unwieldy
+    // we cast here since the VERSION definition is incredibly broad - we don't have a
+    // slice for "only add extrinsic types", and more string definitions become unwieldy
     return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 

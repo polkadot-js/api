@@ -10,7 +10,7 @@ import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
-import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';

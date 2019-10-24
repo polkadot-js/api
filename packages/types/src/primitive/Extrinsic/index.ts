@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // generic
-export { default as GenericExtrinsic, LATEST_EXTRINSIC_VERSION } from './Extrinsic';
+export { default as GenericExtrinsic } from './Extrinsic';
 export { default as GenericExtrinsicEra, MortalEra as GenericMortalEra, ImmortalEra as GenericImmortalEra } from './ExtrinsicEra';
 export { default as GenericExtrinsicPayload } from './ExtrinsicPayload';
 export { default as GenericExtrinsicPayloadUnknown } from './ExtrinsicPayloadUnknown';
