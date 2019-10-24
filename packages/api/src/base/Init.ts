@@ -73,10 +73,10 @@ const l = logger('api/decorator');
 function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
   return chainTypes
     .filter(({ version: [min, max] }): boolean =>
-      (isUndefined(min) || specVersion.gten(min as number)) &&
-      (isUndefined(max) || specVersion.lten(max as number))
+      (isUndefined(min) || specVersion.gten(min)) &&
+      (isUndefined(max) || specVersion.lten(max))
     )
-    .reduce((result: Record<string, string>, { types }): Record<string, string>  => ({
+    .reduce((result: Record<string, string>, { types }): Record<string, string> => ({
       ...result,
       ...types
     }), {});
