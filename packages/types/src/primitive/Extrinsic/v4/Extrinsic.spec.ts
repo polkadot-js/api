@@ -62,6 +62,7 @@ describe('ExtrinsicV4', (): void => {
       '0x' +
       'ff' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
+      '00' + // ed25519
       'b8065808da3d11ddb4167afb156eafb51e8104ba792589bb443653a7fab82b90' +
       'c6530e838df06bfc8befcbbcfca7e219350cff865439b815b10b8e64ae1e9b01' +
       '000408' + // era. nonce, tip
