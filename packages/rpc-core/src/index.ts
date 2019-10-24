@@ -3,18 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
 import { AnyJson, Codec } from '@polkadot/types/types';
 import { RpcInterface } from './jsonrpc.types';
-import { RpcInterfaceMethod } from './types';
+import { RpcInterfaceMethod, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, distinctUntilChanged, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
-import interfaces from '@polkadot/jsonrpc';
+import jsonrpc from '@polkadot/jsonrpc';
+import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
+import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
+
+type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
 
 const l = logger('rpc-core');
 
@@ -55,38 +59,40 @@ export default class Rpc implements RpcInterface {
 
   public readonly provider: ProviderInterface;
 
-  public readonly account: RpcInterface['account'];
+  public readonly mapping: Map<string, RpcMethod> = new Map();
 
-  public readonly author: RpcInterface['author'];
+  public readonly sections: string[] = [];
 
-  public readonly chain: RpcInterface['chain'];
+  // Ok, this is quite horrible - we really should not be using the ! here, but we are actually assigning
+  // these via the createInterfaces inside the constructor. However... this is not quite visible. The reason
+  // why we don't do for individual assignments is to allow user-defined RPCs to also be defined
 
-  public readonly contracts: RpcInterface['contracts'];
+  public readonly account!: RpcInterface['account'];
 
-  public readonly rpc: RpcInterface['rpc'];
+  public readonly author!: RpcInterface['author'];
 
-  public readonly state: RpcInterface['state'];
+  public readonly chain!: RpcInterface['chain'];
 
-  public readonly system: RpcInterface['system'];
+  public readonly contracts!: RpcInterface['contracts'];
+
+  public readonly rpc!: RpcInterface['rpc'];
+
+  public readonly state!: RpcInterface['state'];
+
+  public readonly system!: RpcInterface['system'];
 
   /**
    * @constructor
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  public constructor (provider: ProviderInterface) {
+  public constructor (provider: ProviderInterface, userRpc: UserRpc = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this.provider = provider;
 
-    this.account = this.createInterface('account');
-    this.author = this.createInterface('author');
-    this.contracts = this.createInterface('contracts');
-    this.chain = this.createInterface('chain');
-    this.rpc = this.createInterface('rpc');
-    this.state = this.createInterface('state');
-    this.system = this.createInterface('system');
+    this.createInterfaces(jsonrpc, userRpc);
   }
 
   /**
@@ -105,9 +111,7 @@ export default class Rpc implements RpcInterface {
    * ```
    */
   public static signature ({ method, params, type }: RpcMethod): string {
-    const inputs = params.map(({ name, type }): string =>
-      `${name}: ${type}`
-    ).join(', ');
+    const inputs = params.map(({ name, type }): string => `${name}: ${type}`).join(', ');
 
     return `${method} (${inputs}): ${type}`;
   }
@@ -123,13 +127,47 @@ export default class Rpc implements RpcInterface {
     return `${Rpc.signature(method)}:: ${error.message}`;
   }
 
-  private createInterface<Section extends keyof RpcInterface> (section: Section): RpcInterface[Section] {
-    const { methods } = interfaces[section];
+  private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
+    // these are the base keys (i.e. part of jsonrpc)
+    this.sections.push(...Object.keys(interfaces));
 
+    // add any extra user-defined sections
+    this.sections.push(...Object.keys(userBare).filter((key): boolean => !this.sections.includes(key)));
+
+    // convert the user inputs into the same format as used in jsonrpc
+    const user = Object.entries(userBare).reduce((user: UserRpcConverted, [sectionName, methods]): UserRpcConverted => {
+      user[sectionName] = methods.reduce((section: Record<string, RpcMethod>, def): Record<string, RpcMethod> => {
+        const { description = 'User defined', name, params, type } = def;
+
+        section[name] = jsonrpcMethod(sectionName, name, {
+          description,
+          params: params.map(({ isOptional, name, type }): RpcParam =>
+            jsonrpcParam(name, type as any, { isOptional })),
+          type: type as any
+        });
+
+        return section;
+      }, {});
+
+      return user;
+    }, {});
+
+    // decorate the sections with base and user methods
+    this.sections.forEach((sectionName): void => {
+      (this as any)[sectionName as Section] = {
+        ...this.createInterface(sectionName, interfaces[sectionName] ? interfaces[sectionName].methods : {}),
+        ...this.createInterface(sectionName, user[sectionName] || {})
+      };
+    });
+  }
+
+  private createInterface<Section extends keyof RpcInterface> (section: string, methods: Record<string, RpcMethod>): RpcInterface[Section] {
     return Object
       .keys(methods)
-      .reduce((exposed, methodName): RpcInterface[Section] => {
-        const def = methods[methodName];
+      .reduce((exposed, method): RpcInterface[Section] => {
+        const def = methods[method];
+
+        this.mapping.set(`${section}_${method}`, def);
 
         // FIXME Remove any here
         // To do so, remove `RpcInterfaceMethod` from './types.ts', and refactor
@@ -137,7 +175,7 @@ export default class Rpc implements RpcInterface {
         // `<S extends keyof RpcInterface, M extends keyof RpcInterface[S]>`
         // Not doing so, because it makes this class a little bit less readable,
         // and leaving it as-is doesn't harm much
-        (exposed as any)[methodName] = def.isSubscription
+        (exposed as any)[method] = def.isSubscription
           ? this.createMethodSubscribe(def)
           : this.createMethodSend(def);
 
@@ -170,14 +208,12 @@ export default class Rpc implements RpcInterface {
           const message = this.createErrorMessage(method, error);
 
           // don't scare with old nodes, this is handled transparently
-          if (rpcName !== 'rpc_methods') {
-            l.error(message);
-          }
+          rpcName !== 'rpc_methods' && l.error(message);
 
           return throwError(new Error(message));
         }),
         publishReplay(1), // create a Replay(1)
-        refCount() // Unsubcribe WS when there are no more subscribers
+        refCount() // Unsubscribe WS when there are no more subscribers
       );
     };
 
