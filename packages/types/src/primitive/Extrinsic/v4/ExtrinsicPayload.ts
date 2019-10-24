@@ -3,26 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-
-// SignedExtra adds the following fields to the payload
-const SignedExtraV4: Record<string, InterfaceTypes> = {
-  // system::CheckVersion<Runtime>
-  specVersion: 'u32',
-  // system::CheckGenesis<Runtime>
-  genesisHash: 'Hash',
-  // system::CheckEra<Runtime>
-  blockHash: 'Hash'
-  // system::CheckNonce<Runtime>
-  // system::CheckWeight<Runtime>
-  // balances::TakeFees<Runtime>
-};
+import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload';
 
 /**
  * @name ExtrinsicPayloadV4
@@ -32,13 +20,7 @@ const SignedExtraV4: Record<string, InterfaceTypes> = {
  */
 export default class ExtrinsicPayloadV4 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super({
-      method: 'Bytes',
-      era: 'ExtrinsicEra',
-      nonce: 'Compact<Index>',
-      tip: 'Compact<Balance>',
-      ...SignedExtraV4
-    }, value);
+    super(SignedPayloadDefV4, value);
   }
 
   /**

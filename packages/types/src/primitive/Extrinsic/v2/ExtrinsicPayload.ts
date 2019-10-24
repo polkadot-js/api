@@ -19,6 +19,20 @@ const SignedExtraV2: Record<string, InterfaceTypes> = {
   // balances::TakeFees<Runtime>
 };
 
+// the base definition (excluding extras)
+export const SignedPayloadBaseV2: Record<string, InterfaceTypes> = {
+  method: 'Bytes',
+  era: 'ExtrinsicEra',
+  nonce: 'Compact<Index>',
+  tip: 'Compact<Balance>'
+};
+
+// the full definition for the payload
+const SignedPayloadDefV2: Record<string, InterfaceTypes> = {
+  ...SignedPayloadBaseV2,
+  ...SignedExtraV2
+};
+
 /**
  * @name ExtrinsicPayloadV2
  * @description
@@ -27,13 +41,7 @@ const SignedExtraV2: Record<string, InterfaceTypes> = {
  */
 export default class ExtrinsicPayloadV2 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super({
-      method: 'Bytes',
-      era: 'ExtrinsicEra',
-      nonce: 'Compact<Index>',
-      tip: 'Compact<Balance>',
-      ...SignedExtraV2
-    }, value);
+    super(SignedPayloadDefV2, value);
   }
 
   /**
