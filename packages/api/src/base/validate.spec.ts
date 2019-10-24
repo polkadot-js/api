@@ -15,7 +15,7 @@ import { extractStorageArgs } from './validate';
 describe('extractStorageArgs', (): void => {
   let storage: Storage;
 
-  beforeEach((): void  => {
+  beforeEach((): void => {
     const metadata = new Metadata(metaStatic);
 
     storage = storageFromMeta(metadata);
