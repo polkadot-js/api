@@ -11,11 +11,16 @@ import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import { GenericCall, GenericEvent, Metadata, Text, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { logger } from '@polkadot/util';
+import { isUndefined, logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
+
+interface VersionedType {
+  types: Record<string, string>;
+  version: [number?, number?];
+}
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_SS58 = new U32(addressDefaults.prefix);
@@ -38,36 +43,42 @@ const TYPES_SUBSTRATE_1 = {
 };
 
 // Type overrides based on specific nodes
-const TYPES_CHAIN: Record<string, Record<number, Record<string, string>>> = {
+const TYPES_CHAIN: Record<string, VersionedType[]> = {
   // TODO Remove this once it is not needed, i.e. upgraded
-  'Kusama CC1': {
-    0: {
-      RawBabePreDigest: 'RawBabePreDigest0to159'
+  'Kusama CC1': [
+    {
+      version: [0, undefined],
+      types: {
+        RawBabePreDigest: 'RawBabePreDigest0to159'
+      }
     }
-  }
+  ]
 };
 
-// Type overrides for specific spec types & versions as given in runtimeVersion
-const TYPES_SPEC: Record<string, Record<number, Record<string, string>>> = {
-  kusama: {
-    0: TYPES_FOR_POLKADOT
-  },
-  polkadot: {
-    0: TYPES_FOR_POLKADOT
+const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
+  {
+    version: [0, undefined],
+    types: TYPES_FOR_POLKADOT
   }
+];
+
+// Type overrides for specific spec types & versions as given in runtimeVersion
+const TYPES_SPEC: Record<string, VersionedType[]> = {
+  kusama: TYPES_POLKADOT_VERSIONED,
+  polkadot: TYPES_POLKADOT_VERSIONED
 };
 
 const l = logger('api/decorator');
 
-function getVersionedTypes (specVersion: U32, chainTypes: Record<number, Record<string, string>> = {}): Record<string, string> {
-  return Object
-    .keys(chainTypes)
-    .map((version): number => parseInt(`${version}`, 10))
-    .filter((version): boolean => specVersion.gten(version))
-    .map((version): Record<string, string> => chainTypes[version])
-    .reduce((result: Record<string, string>, input: Record<string, string>): Record<string, string>  => ({
+function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
+  return chainTypes
+    .filter(({ version: [min, max] }): boolean =>
+      (isUndefined(min) || specVersion.gten(min as number)) &&
+      (isUndefined(max) || specVersion.lten(max as number))
+    )
+    .reduce((result: Record<string, string>, { types }): Record<string, string>  => ({
       ...result,
-      ...input
+      ...types
     }), {});
 }
 
