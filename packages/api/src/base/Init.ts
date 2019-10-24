@@ -70,6 +70,8 @@ const TYPES_SPEC: Record<string, VersionedType[]> = {
 
 const l = logger('api/decorator');
 
+// from an indexed Record<string, VersionedType[]>, determine the applicable types based on the
+// supplied specVersion. Newere types override older types.
 function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
   return chainTypes
     .filter(({ version: [min, max] }): boolean =>
@@ -82,6 +84,7 @@ function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []):
     }), {});
 }
 
+// based on the chain and runtimeVersion, get the applicable types (ready for registration)
 function getTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
