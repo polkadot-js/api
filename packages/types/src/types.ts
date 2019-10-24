@@ -34,7 +34,7 @@ export type ModulesWithCalls = Record<string, Calls>;
 export interface IKeyringPair {
   address: string;
   publicKey: Uint8Array;
-  sign: (data: Uint8Array) => Uint8Array;
+  sign: (data: Uint8Array, typeIndicator: boolean) => Uint8Array;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

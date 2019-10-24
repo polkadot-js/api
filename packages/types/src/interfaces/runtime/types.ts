@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec, ITuple } from '@polkadot/types/types';
-import { Compact, Struct } from '@polkadot/types/codec';
+import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '@polkadot/types/primitive';
 
 /** GenericAccountId */
@@ -46,6 +46,9 @@ export interface Digest extends GenericDigest {}
 
 /** GenericDigestItem */
 export interface DigestItem extends GenericDigestItem {}
+
+/** Signature */
+export interface EcdsaSignature extends Signature {}
 
 /** Signature */
 export interface Ed25519Signature extends Signature {}
@@ -129,6 +132,22 @@ export interface Moment extends u64 {}
 
 /** GenericMortalEra */
 export interface MortalEra extends GenericMortalEra {}
+
+/** Enum */
+export interface MultiSignature extends Enum {
+  /** 0:: Ed25519(Ed25519Signature) */
+  readonly isEd25519: boolean;
+  /** Ed25519Signature */
+  readonly asEd25519: Ed25519Signature;
+  /** 1:: Sr25519(Sr25519Signature) */
+  readonly isSr25519: boolean;
+  /** Sr25519Signature */
+  readonly asSr25519: Sr25519Signature;
+  /** 2:: Ecdsa(EcdsaSignature) */
+  readonly isEcdsa: boolean;
+  /** EcdsaSignature */
+  readonly asEcdsa: EcdsaSignature;
+}
 
 /** GenericOrigin */
 export interface Origin extends GenericOrigin {}

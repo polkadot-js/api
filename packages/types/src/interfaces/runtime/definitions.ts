@@ -62,12 +62,20 @@ export default {
     // signatures (used in block & extrinsics)
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
+    EcdsaSignature: 'Signature',
+    MultiSignature: {
+      _enum: {
+        Ed25519: 'Ed25519Signature',
+        Sr25519: 'Sr25519Signature',
+        Ecdsa: 'EcdsaSignature'
+      }
+    },
 
     // extrinsic definition
     ImmortalEra: 'GenericImmortalEra',
     MortalEra: 'GenericMortalEra',
 
-    // :: digest
+    // digest
     PreRuntime: '(ConsensusEngineId, Bytes)',
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',
