@@ -18,15 +18,15 @@ import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
-// We use this type internally to cast the raw value since ExtrinsicUnknown does not actually properly
-// implement an Extrinsic - by design, it just throws on construction, allowing for overrides
-type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
-
-type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
-
 interface CreateOptions {
   version?: number;
 }
+
+// NOTE The following 2 types, as well as the VERSION structure and the latest export is to be changed
+// with the addition of a new extrinsic version
+
+type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
 
 const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicUnknown', // v0 is unknown
@@ -35,6 +35,8 @@ const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicV3',
   'ExtrinsicV4'
 ];
+
+export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
  * @name Extrinsic
