@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock } from '@polkadot/types/interfaces';
+import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
-import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
+import { GenericCall, GenericEvent, Metadata, Text, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
@@ -38,20 +38,50 @@ const TYPES_SUBSTRATE_1 = {
 };
 
 // Type overrides based on specific nodes
-const TYPES_CHAIN: Record<string, Record<string, string>> = {
+const TYPES_CHAIN: Record<string, Record<number, Record<string, string>>> = {
   // TODO Remove this once it is not needed, i.e. upgraded
   'Kusama CC1': {
-    RawBabePreDigest: 'RawBabePreDigest0to159'
+    0: {
+      RawBabePreDigest: 'RawBabePreDigest0to159'
+    }
   }
 };
 
-// Type overrides for specific spec types as given in runtimeVersion
-const TYPES_SPEC: Record<string, Record<string, string>> = {
-  kusama: TYPES_FOR_POLKADOT,
-  polkadot: TYPES_FOR_POLKADOT
+// Type overrides for specific spec types & versions as given in runtimeVersion
+const TYPES_SPEC: Record<string, Record<number, Record<string, string>>> = {
+  kusama: {
+    0: TYPES_FOR_POLKADOT
+  },
+  polkadot: {
+    0: TYPES_FOR_POLKADOT
+  }
 };
 
 const l = logger('api/decorator');
+
+function extractVersionedTypes (specVersion: U32, chainTypes: Record<number, Record<string, string>> = {}): Record<string, string> {
+  return Object
+    .keys(chainTypes)
+    .map((version): number => parseInt(`${version}`, 10))
+    .filter((version): boolean => specVersion.gten(version))
+    .map((version): Record<string, string> => chainTypes[version])
+    .reduce((result: Record<string, string>, input: Record<string, string>): Record<string, string>  => ({
+      ...result,
+      ...input
+    }), {});
+}
+
+function detectTypes (chain: Text, version: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+  const chainName = chain.toString();
+  const specName = version.specName.toString();
+
+  return {
+    ...extractVersionedTypes(version.specVersion, TYPES_SPEC[specName]),
+    ...extractVersionedTypes(version.specVersion, TYPES_CHAIN[chainName]),
+    ...(typesSpec[specName] || {}),
+    ...(typesChain[chainName] || {})
+  };
+}
 
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
@@ -119,23 +149,16 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const { typesChain = {}, typesSpec = {} } = this._options;
+    const { typesChain, typesSpec } = this._options;
     const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise()
     ]);
-    const specName = runtimeVersion.specName.toString();
-    const chainName = chain.toString();
 
     // based on the node spec & chain, inject specific type overrides
-    this.registerTypes({
-      ...(TYPES_SPEC[specName] || {}),
-      ...(TYPES_CHAIN[chainName] || {}),
-      ...(typesSpec[specName] || {}),
-      ...(typesChain[chainName] || {})
-    });
+    this.registerTypes(detectTypes(chain, runtimeVersion, typesChain, typesSpec));
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
