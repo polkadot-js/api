@@ -30,7 +30,7 @@
     "@polkadot/jsonrpc": "^0.95.0-beta.25",
     "@polkadot/rpc-provider": "^0.95.0-beta.25",
     "@polkadot/types": "^0.95.0-beta.25",
-    "@polkadot/util": "^1.6.0-beta.12",
+    "@polkadot/util": "^1.6.0-beta.13",
     "rxjs": "^6.5.3"
   }
 }

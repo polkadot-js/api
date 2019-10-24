@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
 import { Balance, Index } from './interfaces/runtime';
 
@@ -34,7 +35,7 @@ export type ModulesWithCalls = Record<string, Calls>;
 export interface IKeyringPair {
   address: string;
   publicKey: Uint8Array;
-  sign: (data: Uint8Array, typeIndicator: boolean) => Uint8Array;
+  sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

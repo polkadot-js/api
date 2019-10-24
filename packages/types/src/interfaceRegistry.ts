@@ -670,9 +670,6 @@ export interface InterfaceRegistry {
   MoreAttestations: MoreAttestations;
   'Option<MoreAttestations>': Option<MoreAttestations>;
   'Vec<MoreAttestations>': Vec<MoreAttestations>;
-  EcdsaSignature: EcdsaSignature;
-  'Option<EcdsaSignature>': Option<EcdsaSignature>;
-  'Vec<EcdsaSignature>': Vec<EcdsaSignature>;
   EthereumAddress: EthereumAddress;
   'Option<EthereumAddress>': Option<EthereumAddress>;
   'Vec<EthereumAddress>': Vec<EthereumAddress>;

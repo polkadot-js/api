@@ -62,7 +62,7 @@ export default {
     // signatures (used in block & extrinsics)
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
-    EcdsaSignature: 'Signature',
+    EcdsaSignature: '[u8; 65]',
     MultiSignature: {
       _enum: {
         Ed25519: 'Ed25519Signature',

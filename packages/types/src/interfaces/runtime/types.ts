@@ -47,8 +47,8 @@ export interface Digest extends GenericDigest {}
 /** GenericDigestItem */
 export interface DigestItem extends GenericDigestItem {}
 
-/** Signature */
-export interface EcdsaSignature extends Signature {}
+/** Uint8Array, Codec */
+export interface EcdsaSignature extends Uint8Array, Codec {}
 
 /** Signature */
 export interface Ed25519Signature extends Signature {}
