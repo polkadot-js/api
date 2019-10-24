@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
-import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../../interfaces/runtime';
+import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -197,9 +197,9 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description The [[ExtrinsicSignature]]
+   * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
-  public get signature (): IHash {
+  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
     return (this.raw as ExtrinsicVx).signature.signature;
   }
 

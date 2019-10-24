@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, Call, ExtrinsicEra, Index, MultiSignature, Signature } from '../../../interfaces/runtime';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Index, MultiSignature, Sr25519Signature } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
@@ -71,10 +71,10 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description The actual [[Signature]] hash
+   * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
-  public get signature (): Signature {
-    return this.multiSignature.value as Signature;
+  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
+    return this.multiSignature.value as Sr25519Signature;
   }
 
   /**

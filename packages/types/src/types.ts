@@ -4,7 +4,7 @@
 
 import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
-import { Balance, Index } from './interfaces/runtime';
+import { Balance, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
 
 import BN from 'bn.js';
 
@@ -175,7 +175,7 @@ interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
   readonly nonce: Compact<Index>;
-  readonly signature: IHash;
+  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
   readonly tip: Compact<Balance>;
 }
