@@ -33,11 +33,11 @@ type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer 
 type Push<T extends any[], V> = (
   (
     Cons<any, Required<T>> extends infer R
-    ? { [K in keyof R]: K extends keyof T ? T[K] : V }
-    : never
+      ? { [K in keyof R]: K extends keyof T ? T[K] : V }
+      : never
   ) extends infer P
-  ? P extends any[] ? P : never
-  : never
+    ? P extends any[] ? P : never
+    : never
 );
 
 // Returns the inner type of an Observable
@@ -84,8 +84,8 @@ export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs
 
 export type DecoratedRpcSection<ApiType, Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
-  ? MethodResult<ApiType, Section[Method]>
-  : never
+    ? MethodResult<ApiType, Section[Method]>
+    : never
 }
 
 export type DecoratedRpc<ApiType, AllSections> = {
@@ -125,8 +125,8 @@ type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg) => Observa
 
 export type QueryableStorageEntry<ApiType> =
   ApiType extends 'rxjs'
-  ? StorageEntryExact<'rxjs', GenericStorageEntryFunction>
-  : StorageEntryExact<'promise', GenericStorageEntryFunction> & StorageEntryPromiseOverloads;
+    ? StorageEntryExact<'rxjs', GenericStorageEntryFunction>
+    : StorageEntryExact<'promise', GenericStorageEntryFunction> & StorageEntryPromiseOverloads;
 
 export interface QueryableModuleStorage<ApiType> {
   [index: string]: QueryableStorageEntry<ApiType>;
@@ -146,8 +146,8 @@ export interface QueryableStorageMultiPromise<ApiType> {
 
 export type QueryableStorageMulti<ApiType> =
   ApiType extends 'rxjs'
-  ? QueryableStorageMultiBase<ApiType>
-  : QueryableStorageMultiPromise<ApiType>;
+    ? QueryableStorageMultiBase<ApiType>
+    : QueryableStorageMultiPromise<ApiType>;
 
 // QueryableStorageExact will hold the exact typed api.query.*.* generated from
 // metadata. For now it's empty, it's ready to be module augmented.
