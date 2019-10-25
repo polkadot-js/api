@@ -9,7 +9,7 @@ import { Text } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 interface VersionedType {
-  minmax: [number?, number?]; // MIN (ie. >= compare) and MAX (i.e. <= compare)
+  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
   types: Record<string, string>;
 }
 
