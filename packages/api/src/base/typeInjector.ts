@@ -53,7 +53,7 @@ const TYPES_SPEC: Record<string, VersionedType[]> = {
 };
 
 // flatten a VersionedType[] into a Record<string, string>
-function filterVersions (versions: VersionedType[], version: number): RegistryTypes {
+function filterVersions (versions: VersionedType[] = [], version: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }): boolean =>
       (isUndefined(min) || version >= min) &&
@@ -74,7 +74,7 @@ export function getMetadataTypes (version: number): RegistryTypes {
 export function getChainTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
-  const _specVersion = specVersion.toNumber()
+  const _specVersion = specVersion.toNumber();
 
   return {
     ...filterVersions(TYPES_SPEC[_specName], _specVersion),
