@@ -9,8 +9,8 @@ import { Text, u32 as U32 } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 interface VersionedType {
+  minmax: [number?, number?]; // MIN (ie. >= compare) and MAX (i.e. <= compare)
   types: Record<string, string>;
-  version: [number?, number?]; // MIN (ie. >= compare) and MAX (i.e. <= compare)
 }
 
 // these are override types for polkadot chains
@@ -19,7 +19,7 @@ interface VersionedType {
 // definition as applicable. (3 keys in substrate vs 4 in Polkadot).
 const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
   {
-    version: [0, undefined],
+    minmax: [0, undefined],
     types: {
       Keys: 'SessionKeysPolkadot'
     }
@@ -36,7 +36,7 @@ const TYPES_META: VersionedType[] = [
     // This is detected based on metadata version, since this is what we have up-front
     //   v3 = Alex
     //   v4 = v1.0 branch
-    version: [0, 4],
+    minmax: [0, 4],
     types: {
       BlockNumber: 'u64',
       Index: 'u64',
@@ -64,7 +64,7 @@ function flattenVersions (versions: VersionedType[]): Record<string, string> {
 // supplied specVersion. Newer types override older types.
 function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
   return flattenVersions(
-    chainTypes.filter(({ version: [min, max] }): boolean =>
+    chainTypes.filter(({ minmax: [min, max] }): boolean =>
       (isUndefined(min) || specVersion.gten(min)) &&
       (isUndefined(max) || specVersion.lten(max))
     )
@@ -74,7 +74,7 @@ function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []):
 // based on the metadata version, return the registry types
 export function getMetadataTypes (version: number): RegistryTypes {
   return flattenVersions(
-    TYPES_META.filter(({ version: [min, max] }): boolean =>
+    TYPES_META.filter(({ minmax: [min, max] }): boolean =>
       (isUndefined(min) || version >= min) &&
       (isUndefined(max) || version <= max)
     )
