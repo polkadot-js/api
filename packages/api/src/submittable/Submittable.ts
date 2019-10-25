@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { Bytes, Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableResultResult, SubmitableResultSubscription } from './types';
 
@@ -252,5 +252,9 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
           this._updateSigner(updateId, status);
         })
       );
+  }
+
+  private _signedObservable = (updateId = -1): Observable<Bytes> => {
+    return of(createType('Bytes', this.toU8a()));
   }
 }
