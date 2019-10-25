@@ -10,7 +10,7 @@ import { isUndefined } from '@polkadot/util';
 
 interface VersionedType {
   types: Record<string, string>;
-  version: [number?, number?];
+  version: [number?, number?]; // MIN (ie. >= compare) and MAX (i.e. <= compare)
 }
 
 // these are override types for polkadot chains
