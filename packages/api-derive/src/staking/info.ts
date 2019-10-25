@@ -133,7 +133,7 @@ function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: A
   ]) as Observable<MultiResult>;
 }
 
-function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function retrieveInfo (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
     eraLength(api)(),
     bestNumber(api)(),
@@ -144,7 +144,7 @@ function retrieveInfo (api: ApiInterfaceRx, stashId: AccountId, controllerId: Ac
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
       return {
-        accountId: stashId,
+        accountId,
         controllerId,
         nominators,
         offline: recentlyOffline[stashId.toString()],
@@ -179,9 +179,9 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
     ).pipe(
       switchMap(([controllerId, stakingLedger]): Observable<DerivedStaking> =>
         controllerId.isSome
-          ? retrieveInfo(api, accountId, controllerId.unwrap())
+          ? retrieveInfo(api, accountId, accountId, controllerId.unwrap())
           : stakingLedger.isSome
-            ? retrieveInfo(api, stakingLedger.unwrap().stash, accountId)
+            ? retrieveInfo(api, accountId, stakingLedger.unwrap().stash, accountId)
             : of({ accountId, nextSessionIds: [], sessionIds: [] })
       ),
       drr()

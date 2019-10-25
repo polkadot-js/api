@@ -3,45 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
+import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-
-// SignedExtra adds the following fields to the payload
-const SignedExtraV2: Record<string, InterfaceTypes> = {
-  // system::CheckEra<Runtime>
-  blockHash: 'Hash'
-  // system::CheckNonce<Runtime>
-  // system::CheckWeight<Runtime>
-  // balances::TakeFees<Runtime>
-};
-
-// the base definition (excluding extras)
-export const SignedPayloadBaseV2: Record<string, InterfaceTypes> = {
-  method: 'Bytes',
-  era: 'ExtrinsicEra',
-  nonce: 'Compact<Index>',
-  tip: 'Compact<Balance>'
-};
-
-// the full definition for the payload
-const SignedPayloadDefV2: Record<string, InterfaceTypes> = {
-  ...SignedPayloadBaseV2,
-  ...SignedExtraV2
-};
+import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload';
 
 /**
- * @name ExtrinsicPayloadV2
+ * @name ExtrinsicPayloadV4
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
-export default class ExtrinsicPayloadV2 extends Struct {
+export default class ExtrinsicPayloadV4 extends Struct {
   public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(SignedPayloadDefV2, value);
+    super(SignedPayloadDefV4, value);
   }
 
   /**
@@ -59,6 +38,13 @@ export default class ExtrinsicPayloadV2 extends Struct {
   }
 
   /**
+   * @description The genesis [[Hash]] the signature applies to (mortal/immortal)
+   */
+  public get genesisHash (): Hash {
+    return this.get('genesisHash') as Hash;
+  }
+
+  /**
    * @description The [[Bytes]] contained in the payload
    */
   public get method (): Bytes {
@@ -73,6 +59,13 @@ export default class ExtrinsicPayloadV2 extends Struct {
   }
 
   /**
+   * @description The specVersion for this signature
+   */
+  public get specVersion (): u32 {
+    return this.get('specVersion') as u32;
+  }
+
+  /**
    * @description The tip [[Balance]]
    */
   public get tip (): Compact<Balance> {
@@ -83,6 +76,10 @@ export default class ExtrinsicPayloadV2 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a(true));
+    // NOTE The `toU8a(true)` argument is absolutely critical - we don't want the method (Bytes)
+    // to have the length prefix included. This means that the data-as-signed is un-decodable,
+    // but is also doesn't need the extra information, only the pure data (and is not decoded)
+    // ... The same applies to V1..V3, if we have a V5, carry move this comment to latest
+    return sign(signerPair, this.toU8a(true), { withType: true });
   }
 }

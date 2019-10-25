@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
-import { Address, Balance, Call, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, Index } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../../interfaces/runtime';
+import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -14,25 +14,29 @@ import Compact from '../../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';
 import { ExtrinsicValueV2 } from './v2/Extrinsic';
 import { ExtrinsicValueV3 } from './v3/Extrinsic';
+import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
-
-// We use this type internally to cast the raw value since ExtrinsicUnknown does not actually properly
-// implement an Extrinsic - by design, it just throws on construction, allowing for overrides
-type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3;
-
-type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
 
 interface CreateOptions {
   version?: number;
 }
 
+// NOTE The following 2 types, as well as the VERSION structure and the latest export
+// is to be changed with the addition of a new extrinsic version
+
+type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
+
 const VERSIONS: InterfaceTypes[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicV1',
   'ExtrinsicV2',
-  'ExtrinsicV3'
+  'ExtrinsicV3',
+  'ExtrinsicV4'
 ];
+
+export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
  * @name Extrinsic
@@ -59,8 +63,8 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
     const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
-    // we cast here since the VERSION definition is incredibly broad - we don't have a slice for
-    // "only add extrinsic types", and more string definitions become unwieldy
+    // we cast here since the VERSION definition is incredibly broad - we don't have a
+    // slice for "only add extrinsic types", and more string definitions become unwieldy
     return createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
@@ -195,9 +199,9 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description The [[ExtrinsicSignature]]
+   * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
-  public get signature (): IHash {
+  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
     return (this.raw as ExtrinsicVx).signature.signature;
   }
 

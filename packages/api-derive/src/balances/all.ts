@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ClassOf, Option, createType } from '@polkadot/types';
+import { Option, Vec, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -16,33 +16,35 @@ import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 
-type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, BalanceLock[]?, Option<VestingSchedule>?, Index?]];
+type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
+type Result = [AccountId, BlockNumber, ResultBalance, Index];
 
-function calcBalances ([accountId = createType('AccountId'), bestNumber = createType('Balance'), [freeBalance = createType('Balance'), reservedBalance = createType('Balance'), locks = [], vesting = new Option<VestingSchedule>(ClassOf('VestingSchedule'), null), accountNonce = createType('Balance')]]: Result): DerivedBalances {
+function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
   let lockedBalance = createType('Balance');
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
     const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
+
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     lockedBalance = totals[0]
-      ? bnMax(...totals.map(({ amount }): Balance => amount)) as Balance
+      ? createType('Balance', bnMax(...totals.map(({ amount }): Balance => amount)))
       : createType('Balance');
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
   const { offset, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
-  const vestedNow: BN = perBlock.mul(bestNumber);
-  const vestedBalance: BN = vestedNow.gt(offset)
+  const vestedNow = createType('Balance', perBlock.mul(bestNumber));
+  const vestedBalance = vestedNow.gt(offset)
     ? freeBalance
-    : freeBalance.sub(offset).add(vestedNow);
+    : createType('Balance', freeBalance.sub(offset).add(vestedNow));
 
   // NOTE Workaround for this account on Alex (one of a couple reported) -
   //   5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N
   // The locked is > the vested and ended up with the locked > free,
   // i.e. related to https://github.com/paritytech/polkadot/issues/225
   // (most probably due to movements from stash -> controller -> free)
-  const availableBalance: BN = bnMax(createType('Balance'), vestedBalance.sub(lockedBalance));
+  const availableBalance = createType('Balance', bnMax(new BN(0), vestedBalance.sub(lockedBalance)));
 
   return {
     accountId,
@@ -52,22 +54,30 @@ function calcBalances ([accountId = createType('AccountId'), bestNumber = create
     lockedBalance,
     reservedBalance,
     vestedBalance,
-    votingBalance: freeBalance.add(reservedBalance)
-  } as DerivedBalances;
+    votingBalance: createType('Balance', freeBalance.add(reservedBalance))
+  };
+}
+
+function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
+  return api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>]>([
+    [api.query.balances.freeBalance, accountId],
+    [api.query.balances.reservedBalance, accountId],
+    [api.query.balances.locks, accountId],
+    [api.query.balances.vesting, accountId]
+  ]);
 }
 
 /**
  * @name all
  * @param {( AccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
- * @returns An object containing the combined results of the storage queries for
- * all relevant fees as declared in the substrate chain spec.
+ * @returns An object containing the results of various balance queries
  * @example
  * <BR>
  *
  * ```javascript
  * const ALICE = 'F7Hs';
  *
- * api.derive.balances.all(ALICE, ([accountId, lockedBalance]) => {
+ * api.derive.balances.all(ALICE, ({ accountId, lockedBalance }) => {
  *   console.log(`The account ${accountId} has a locked balance ${lockedBalance} units.`);
  * });
  * ```
@@ -80,16 +90,14 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           ? combineLatest([
             of(accountId),
             bestNumber(api)(),
-            api.queryMulti([
-              [api.query.balances.freeBalance, accountId],
-              [api.query.balances.reservedBalance, accountId],
-              [api.query.balances.locks, accountId],
-              [api.query.balances.vesting, accountId],
-              [api.query.system.accountNonce, accountId]
-            ])
+            queryBalances(api, accountId),
+            api.rpc.account && api.rpc.account.nextIndex
+              ? api.rpc.account.nextIndex(accountId)
+              // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
+              : api.query.system.accountNonce<Index>(accountId)
           ])
-          : of([undefined, undefined, [undefined, undefined, undefined, undefined, undefined]])
-        ) as Observable<Result>
+          : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
+        )
       ),
       map(calcBalances),
       drr()
