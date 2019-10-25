@@ -5,7 +5,7 @@
 import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 
-import { Text, u32 as U32 } from '@polkadot/types';
+import { Text } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 interface VersionedType {
