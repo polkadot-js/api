@@ -53,42 +53,32 @@ const TYPES_SPEC: Record<string, VersionedType[]> = {
 };
 
 // flatten a VersionedType[] into a Record<string, string>
-function flattenVersions (versions: VersionedType[]): Record<string, string> {
-  return versions.reduce((result: Record<string, string>, { types }): Record<string, string> => ({
-    ...result,
-    ...types
-  }), {});
-}
-
-// from an indexed Record<string, VersionedType[]>, determine the applicable types based on the
-// supplied specVersion. Newer types override older types.
-function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
-  return flattenVersions(
-    chainTypes.filter(({ minmax: [min, max] }): boolean =>
-      (isUndefined(min) || specVersion.gten(min)) &&
-      (isUndefined(max) || specVersion.lten(max))
+function filterVersions (versions: VersionedType[], version: number): Record<string, string> {
+  return versions
+    .filter(({ minmax: [min, max] }): boolean =>
+      (isUndefined(min) || version >= min) &&
+      (isUndefined(max) || version <= max)
     )
-  );
+    .reduce((result: Record<string, string>, { types }): Record<string, string> => ({
+      ...result,
+      ...types
+    }), {});
 }
 
 // based on the metadata version, return the registry types
 export function getMetadataTypes (version: number): RegistryTypes {
-  return flattenVersions(
-    TYPES_META.filter(({ minmax: [min, max] }): boolean =>
-      (isUndefined(min) || version >= min) &&
-      (isUndefined(max) || version <= max)
-    )
-  );
+  return filterVersions(TYPES_META, version);
 }
 
 // based on the chain and runtimeVersion, get the applicable types (ready for registration)
 export function getChainTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
+  const _specVersion = specVersion.toNumber()
 
   return {
-    ...getVersionedTypes(specVersion, TYPES_SPEC[_specName]),
-    ...getVersionedTypes(specVersion, TYPES_CHAIN[_chainName]),
+    ...filterVersions(TYPES_SPEC[_specName], _specVersion),
+    ...filterVersions(TYPES_CHAIN[_chainName], _specVersion),
     ...(typesSpec[_specName] || {}),
     ...(typesChain[_chainName] || {})
   };
