@@ -10,7 +10,7 @@ import { isUndefined } from '@polkadot/util';
 
 interface VersionedType {
   minmax: [number?, number?]; // min (v >= min) and max (v <= max)
-  types: Record<string, string>;
+  types: RegistryTypes;
 }
 
 // these are override types for polkadot chains
@@ -53,13 +53,13 @@ const TYPES_SPEC: Record<string, VersionedType[]> = {
 };
 
 // flatten a VersionedType[] into a Record<string, string>
-function filterVersions (versions: VersionedType[], version: number): Record<string, string> {
+function filterVersions (versions: VersionedType[], version: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }): boolean =>
       (isUndefined(min) || version >= min) &&
       (isUndefined(max) || version <= max)
     )
-    .reduce((result: Record<string, string>, { types }): Record<string, string> => ({
+    .reduce((result: RegistryTypes, { types }): RegistryTypes => ({
       ...result,
       ...types
     }), {});
