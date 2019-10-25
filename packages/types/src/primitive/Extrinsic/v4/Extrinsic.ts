@@ -12,7 +12,7 @@ import { createType, ClassOf } from '../../../codec/create';
 import Struct from '../../../codec/Struct';
 import ExtrinsicSignatureV4 from './ExtrinsicSignature';
 
-const TRANSACTION_VERSION = 4;
+export const TRANSACTION_VERSION = 4;
 
 export interface ExtrinsicValueV4 {
   method?: Call;

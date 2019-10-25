@@ -131,7 +131,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
     // pre-94 we had more info and needed to calculate (handle old/Alex first)
     // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
     return api.query.session.lastLengthChange
-      ? info94(api)
-      : infoLatest(api);
+      ? info94(api) // 1.x
+      : infoLatest(api); // 2.x
   };
 }

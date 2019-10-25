@@ -10,7 +10,7 @@ import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
-import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
@@ -180,7 +180,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
       const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
+      this._extrinsicType = firstTx ? firstTx.type : LATEST_EXTRINSIC_VERSION;
     }
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
