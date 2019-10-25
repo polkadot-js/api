@@ -1,10 +1,11 @@
-# 0.95.0-beta.x
+# 0.95.1
 
-- Support Extrinsic V4 with additional signature indicator (Latest Kusama)
+- Support Extrinsic V4 with additional signature indicator (Latest Polkadot/Substrate/Kusama)
 - Adjust subscription update checks to avoid duplicated data updates
 - Support Metadata V8 (exposes per-module `decl_error` definitions)
 - Support next generation contracts ABI (with additional type definitions)
 - Support for `BTreeMap<K, V>` types and definitions
+- All latest Polkadot & Substrate types (as per master branches)
 - **Breaking change** `Call.injectMethods` is moved to `Call.injectMetadata` to align with `Events` (This _should_ not be used externally, however mentioned as breaking here)
 
 # 0.94.1
