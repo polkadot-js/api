@@ -2,100 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
+import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
-import { GenericCall, GenericEvent, Metadata, Text, u32 as U32 } from '@polkadot/types';
+import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { isUndefined, logger } from '@polkadot/util';
+import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
-
-interface VersionedType {
-  types: Record<string, string>;
-  version: [number?, number?];
-}
+import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
 const DEFAULT_SS58 = new U32(addressDefaults.prefix);
 
-// these are override types for polkadot chains
-// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-// implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (3 keys in substrate vs 4 in Polkadot).
-const TYPES_FOR_POLKADOT: Record<string, string> = {
-  Keys: 'SessionKeysPolkadot'
-};
-
-// NOTE this is for support of old, e.g. Alex, old metadata and BlockNumber/Index
-// This is detected based on metadata version, since this is what we have up-front
-const TYPES_SUBSTRATE_1 = {
-  BlockNumber: 'u64',
-  Index: 'u64',
-  EventRecord: 'EventRecord0to76',
-  ValidatorPrefs: 'ValidatorPrefs0to145'
-};
-
-// Type overrides based on specific nodes
-const TYPES_CHAIN: Record<string, VersionedType[]> = {
-  // TODO Remove this once it is not needed, i.e. upgraded
-  'Kusama CC1': [
-    {
-      version: [0, undefined],
-      types: {
-        RawBabePreDigest: 'RawBabePreDigest0to159'
-      }
-    }
-  ]
-};
-
-const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
-  {
-    version: [0, undefined],
-    types: TYPES_FOR_POLKADOT
-  }
-];
-
-// Type overrides for specific spec types & versions as given in runtimeVersion
-const TYPES_SPEC: Record<string, VersionedType[]> = {
-  kusama: TYPES_POLKADOT_VERSIONED,
-  polkadot: TYPES_POLKADOT_VERSIONED
-};
-
 const l = logger('api/decorator');
-
-// from an indexed Record<string, VersionedType[]>, determine the applicable types based on the
-// supplied specVersion. Newere types override older types.
-function getVersionedTypes (specVersion: U32, chainTypes: VersionedType[] = []): Record<string, string> {
-  return chainTypes
-    .filter(({ version: [min, max] }): boolean =>
-      (isUndefined(min) || specVersion.gten(min)) &&
-      (isUndefined(max) || specVersion.lten(max))
-    )
-    .reduce((result: Record<string, string>, { types }): Record<string, string> => ({
-      ...result,
-      ...types
-    }), {});
-}
-
-// based on the chain and runtimeVersion, get the applicable types (ready for registration)
-function getTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
-  const _chainName = chainName.toString();
-  const _specName = specName.toString();
-
-  return {
-    ...getVersionedTypes(specVersion, TYPES_SPEC[_specName]),
-    ...getVersionedTypes(specVersion, TYPES_CHAIN[_chainName]),
-    ...(typesSpec[_specName] || {}),
-    ...(typesChain[_chainName] || {})
-  };
-}
 
 export default abstract class Init<ApiType> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
@@ -172,7 +98,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     ]);
 
     // based on the node spec & chain, inject specific type overrides
-    this.registerTypes(getTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.registerTypes(getChainTypes(chain, runtimeVersion, typesChain, typesSpec));
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
@@ -197,12 +123,8 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord, BlockNumber & Indexes for e.g. Alex, based on metadata version
-    //   v3 = Alex
-    //   v4 = v1.0 branch
-    if (metadata.version <= 4) {
-      this.registerTypes(TYPES_SUBSTRATE_1);
-    }
+    // inject types based on metadata, if applicable
+    this.registerTypes(getMetadataTypes(metadata.version));
 
     const extrinsics = extrinsicsFromMeta(metadata);
     const storage = storageFromMeta(metadata);
