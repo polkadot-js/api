@@ -34,14 +34,14 @@ export interface DerivedContractFees {
 }
 
 export interface DerivedElectionsInfo {
-  members: Record<string, BlockNumber>;
   candidates: AccountId[];
   candidateCount: u32;
   desiredSeats: u32;
-  nextVoterSet: SetIndex;
+  members: AccountId[];
+  nextVoterSet?: SetIndex;
   termDuration: BlockNumber;
-  voteCount: VoteIndex;
-  voterCount: SetIndex;
+  voteCount?: VoteIndex;
+  voterCount?: SetIndex;
 }
 
 export interface DerivedFees {

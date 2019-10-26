@@ -193,9 +193,12 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
     return combineLatest([
       // if we have a nonce already, don't retrieve the latest, use what is there
       isUndefined(options.nonce)
-        ? this._api.rpc.account.nextIndex
-          ? this._api.rpc.account.nextIndex(address)
-          : this._api.query.system.accountNonce(address)
+        // FIXME This apparently is having issues on latest Kusama for nonce retrieval,
+        // hence we are using the accountNonce only
+        // ? this._api.rpc.account.nextIndex
+        //   ? this._api.rpc.account.nextIndex(address)
+        //   : this._api.query.system.accountNonce(address)
+        ? this._api.query.system.accountNonce(address)
         : of(createType('Index', options.nonce)),
       // if we have an era provided already or eraLength is <= 0 (immortal)
       // don't get the latest block, just pass null, handle in mergeMap

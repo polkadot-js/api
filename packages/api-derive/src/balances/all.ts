@@ -91,10 +91,12 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
             of(accountId),
             bestNumber(api)(),
             queryBalances(api, accountId),
-            api.rpc.account && api.rpc.account.nextIndex
-              ? api.rpc.account.nextIndex(accountId)
-              // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
-              : api.query.system.accountNonce<Index>(accountId)
+            // FIXME This is having issues with Kusama, only use accountNonce atm
+            // api.rpc.account && api.rpc.account.nextIndex
+            //   ? api.rpc.account.nextIndex(accountId)
+            //   // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
+            //   : api.query.system.accountNonce<Index>(accountId)
+            api.query.system.accountNonce<Index>(accountId)
           ])
           : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
         )
