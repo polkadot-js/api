@@ -121,7 +121,8 @@ export interface ContractABIEvent {
 }
 
 export interface ContractABIRangeBase {
-  'range.offset': number[];
+  // can be number[] (old) or hex (new)
+  'range.offset': number[] | string;
   'range.len': number;
 }
 
