@@ -20,7 +20,7 @@
                     "type": "([u8;32])",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 13,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -65,7 +65,7 @@
                 "type": "([u8;32])",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -102,7 +102,7 @@
                             "type": "AccountId",
                             "sub": [
                               {
-                                "info": 12,
+                                "info": 13,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -165,7 +165,7 @@
                             "type": "AccountId",
                             "sub": [
                               {
-                                "info": 12,
+                                "info": 13,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
@@ -239,7 +239,7 @@
                     "type": "AccountId",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 13,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -306,7 +306,7 @@
             "type": "AccountId",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -379,7 +379,7 @@
                     "type": "([u8;32])",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 13,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -424,7 +424,7 @@
                 "type": "([u8;32])",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -481,7 +481,7 @@
                 "type": "([u8;32])",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -526,7 +526,7 @@
             "type": "([u8;32])",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -563,7 +563,7 @@
                         "type": "AccountId",
                         "sub": [
                           {
-                            "info": 12,
+                            "info": 13,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -626,7 +626,7 @@
                         "type": "AccountId",
                         "sub": [
                           {
-                            "info": 12,
+                            "info": 13,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
@@ -700,7 +700,7 @@
                 "type": "AccountId",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -767,7 +767,7 @@
         "type": "AccountId",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -828,7 +828,7 @@
     "type": "AccountId",
     "sub": [
       {
-        "info": 12,
+        "info": 13,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
@@ -845,7 +845,7 @@
     "namespace": "ink_core::env::srml::types"
   },
   {
-    "info": 12,
+    "info": 13,
     "type": "[u8;32]",
     "ext": {
       "length": 32,
@@ -930,7 +930,7 @@
             "type": "([u8;32])",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -975,7 +975,7 @@
         "type": "([u8;32])",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1006,7 +1006,7 @@
     "type": "([u8;32])",
     "sub": [
       {
-        "info": 12,
+        "info": 13,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
@@ -1031,7 +1031,7 @@
         "type": "([u8;32])",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1068,7 +1068,7 @@
                     "type": "AccountId",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 13,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1131,7 +1131,7 @@
                     "type": "AccountId",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 13,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
@@ -1205,7 +1205,7 @@
             "type": "AccountId",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1280,7 +1280,7 @@
                 "type": "AccountId",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1343,7 +1343,7 @@
                 "type": "AccountId",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1417,7 +1417,7 @@
         "type": "AccountId",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1482,7 +1482,7 @@
         "type": "AccountId",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1545,7 +1545,7 @@
         "type": "AccountId",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
@@ -1618,7 +1618,7 @@
                 "type": "([u8;32])",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
@@ -1663,7 +1663,7 @@
             "type": "([u8;32])",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
@@ -1712,7 +1712,7 @@
         "type": "([u8;32])",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,

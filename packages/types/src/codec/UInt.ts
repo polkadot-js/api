@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Constructor } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
@@ -32,6 +32,17 @@ export default class UInt extends AbstractInt {
   }
 
   /**
+   * @description Create a defined UInt class with the specified bitLength
+   */
+  public static with (bitLength: UIntBitLength): Constructor<UInt> {
+    return class extends UInt {
+      public constructor (value?: any) {
+        super(value, bitLength);
+      }
+    };
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (isLe = false): string {
@@ -52,7 +63,9 @@ export default class UInt extends AbstractInt {
     // underlying it always matches (no matter which length it actually is)
     return this instanceof ClassOf('Balance')
       ? 'Balance'
-      : `u${this._bitLength}`;
+      : this._bitLength <= 256
+        ? `u${this._bitLength}`
+        : `UInt<${this._bitLength}>`;
   }
 
   /**

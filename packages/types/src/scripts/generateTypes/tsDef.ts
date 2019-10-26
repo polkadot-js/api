@@ -203,6 +203,12 @@ function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): stri
   return exportType(tupleName, formatTuple(types));
 }
 
+function tsUInt ({ name: uintName }: TypeDef, imports: TypeImports): string {
+  setImports(imports, ['UInt']);
+
+  return exportType(uintName, 'Uint');
+}
+
 function tsVec ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
   const type = info === TypeDefInfo.VecFixed
     ? (ext as TypeDefExtVecFixed).type
@@ -238,6 +244,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
     [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
+    [TypeDefInfo.UInt]: tsUInt,
     [TypeDefInfo.Vec]: tsVec,
     [TypeDefInfo.VecFixed]: tsVec
   };

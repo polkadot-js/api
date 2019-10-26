@@ -56,6 +56,12 @@ describe('createType', (): void => {
     ).toEqual(['A', 'C', 'E', 'H']);
   });
 
+  it('allows creation of a UInt', (): void => {
+    expect(
+      createTypeUnsafe('UInt<2048>', []).toRawType()
+    ).toEqual('UInt<2048>');
+  });
+
   it('allows creation of a [u8; 8]', (): void => {
     expect(
       createTypeUnsafe('[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()

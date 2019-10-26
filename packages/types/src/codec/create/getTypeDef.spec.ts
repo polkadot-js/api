@@ -68,6 +68,18 @@ describe('getTypeDef', (): void => {
     });
   });
 
+  it('decodes a UInt<2048>', (): void => {
+    expect(
+      getTypeDef('UInt<2048>')
+    ).toEqual({
+      info: TypeDefInfo.UInt,
+      type: 'UInt<2048>',
+      ext: {
+        bitLength: 2048
+      }
+    });
+  });
+
   it('properly decodes a Result<Result<(), u32>, Text>', (): void => {
     expect(
       getTypeDef('Result<Result<Null,u32>,Text>')

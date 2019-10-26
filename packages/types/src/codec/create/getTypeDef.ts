@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -64,6 +64,18 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
   return value;
 }
 
+// decode a UInt of the form
+//   UInt<bitLength>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _decodeUInt (value: TypeDef, type: string, _: string): TypeDef {
+  const bitLength = parseInt(type.substr(5, type.length - 6), 10);
+
+  value.info = TypeDefInfo.UInt;
+  value.ext = { bitLength } as TypeDefExtUInt;
+
+  return value;
+}
+
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
@@ -104,7 +116,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
   // the inner for these are the same as tuple, multiple values
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
-  ['Result<', '>', TypeDefInfo.Result, _decodeTuple]
+  ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
+  ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt]
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [

@@ -6,7 +6,7 @@ import '../../injector';
 
 import { Codec, Constructor } from '../../types';
 
-import { getTypeClass } from '.';
+import { getTypeClass } from './getTypeClass';
 
 describe('getTypeClass', (): void => {
   it('does not allow invalid types', (): void => {

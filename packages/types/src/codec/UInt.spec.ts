@@ -52,6 +52,16 @@ describe('UInt', (): void => {
     expect(new UInt('0x1234567890abcdef', 64, false).toJSON()).toEqual('0x1234567890abcdef');
   });
 
+  describe('toRawType', (): void => {
+    it('displays a u64 as u64', (): void => {
+      expect(new (UInt.with(64))().toRawType()).toEqual('u64');
+    });
+
+    it('displays a u2048 as UInt<2048>', (): void => {
+      expect(new (UInt.with(2048 as any))().toRawType()).toEqual('UInt<2048>');
+    });
+  });
+
   describe('eq', (): void => {
     const test = new UInt(12345);
 

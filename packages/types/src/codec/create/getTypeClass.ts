@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes } from '../../types';
-import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -17,6 +17,7 @@ import CodecSet from '../Set';
 import Struct from '../Struct';
 import Tuple from '../Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from '../U8aFixed';
+import UInt from '../UInt';
 import Vec from '../Vec';
 import VecFixed from '../VecFixed';
 import { ClassOf } from './createClass';
@@ -104,14 +105,20 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
 
   [TypeDefInfo.Tuple]: (value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
 
+  [TypeDefInfo.UInt]: (value: TypeDef): Constructor => {
+    assert(value.ext, 'Expected length & type information for fixed vector');
+
+    const ext = value.ext as TypeDefExtUInt;
+
+    return UInt.with(ext.bitLength);
+  },
+
   [TypeDefInfo.Vec]: (value: TypeDef): Constructor => {
     const subType = getSubType(value);
 
-    return (
-      subType === 'u8'
-        ? ClassOf('Bytes')
-        : Vec.with(subType)
-    );
+    return subType === 'u8'
+      ? ClassOf('Bytes')
+      : Vec.with(subType);
   },
 
   [TypeDefInfo.VecFixed]: (value: TypeDef): Constructor => {
@@ -119,11 +126,9 @@ const infoMapping: Record<TypeDefInfo, (value: TypeDef) => Constructor> = {
 
     const ext = value.ext as TypeDefExtVecFixed;
 
-    return (
-      ext.type === 'u8'
-        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
-        : VecFixed.with(ext.type as InterfaceTypes, ext.length)
-    );
+    return ext.type === 'u8'
+      ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
+      : VecFixed.with(ext.type as InterfaceTypes, ext.length);
   }
 };
 
