@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyFunction } from '@polkadot/types/types';
-import { DecorateMethod, MethodResult } from '../types';
+import { ApiTypes, DecorateMethod, MethodResult } from '../types';
 
 // Most generic typings for `api.derive.*.*`
 type AnyDerive = Record<string, Record<string, AnyFunction>>;
 // Exact typings for a particular section `api.derive.section.*`
-type DeriveSection<ApiType, Section extends Record<string, AnyFunction>> = { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> };
+type DeriveSection<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> = { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> };
 // Exact typings for all sections `api.derive.*.*`
-export type DeriveAllSections<ApiType, AllSections extends AnyDerive> = { [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]> };
+export type DeriveAllSections<ApiType extends ApiTypes, AllSections extends AnyDerive> = { [SectionName in keyof AllSections]: DeriveSection<ApiType, AllSections[SectionName]> };
 
 // A technically unsafe version of Object.keys(obj) that assumes that
 // obj only has known properties of T
@@ -21,7 +21,7 @@ function keys<T extends object> (obj: T): (keyof T)[] {
 /**
  * This is a methods decorator which keeps all type information.
  */
-function decorateMethods<ApiType, Section extends Record<string, AnyFunction>> (
+function decorateMethods<ApiType extends ApiTypes, Section extends Record<string, AnyFunction>> (
   section: Section,
   decorateMethod: DecorateMethod<ApiType>
 ): DeriveSection<ApiType, Section> {
@@ -43,7 +43,7 @@ function decorateMethods<ApiType, Section extends Record<string, AnyFunction>> (
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateSections<ApiType, AllSections extends AnyDerive> (
+export function decorateSections<ApiType extends ApiTypes, AllSections extends AnyDerive> (
   allSections: AllSections,
   decorateMethod: DecorateMethod<ApiType>
 ): DeriveAllSections<ApiType, AllSections> {

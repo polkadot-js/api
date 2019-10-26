@@ -9,7 +9,7 @@ import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
-function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 

@@ -103,7 +103,7 @@ describeE2E({
     it('allows contract call', (done): Promise<() => void> => {
       return (
         api.tx.contracts
-          .call(address, CREATION_FEE, MAX_GAS, abi.messages.inc(3))
+          .call(address, CREATION_FEE, MAX_GAS, abi.messages[0](3))
           .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('call', JSON.stringify(result));
 

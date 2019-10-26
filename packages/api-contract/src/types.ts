@@ -2,16 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { Address } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
-export type ApiObject<ApiType> = ApiType extends 'rxjs'
+export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
+
+export interface ContractBase<ApiType extends ApiTypes> {
+  readonly abi: InterfaceAbi;
+  readonly api: ApiObject<ApiType>;
+  readonly decorateMethod: DecorateMethod<ApiType>
+}
 
 export interface ContractABITypePre {
   ty: TypeIndex;
@@ -166,13 +172,7 @@ export type AbiMessages = Record<string, ContractABIFn>;
 export interface InterfaceAbi {
   readonly abi: ContractABI;
   readonly constructors: ContractABIFn[];
-  readonly messages: AbiMessages;
-}
-
-export interface ContractBase<ApiType> {
-  readonly abi: InterfaceAbi;
-  readonly api: ApiObject<ApiType>;
-  readonly apiContracts: SubmittableModuleExtrinsics<ApiType>;
+  readonly messages: ContractABIFn[];
 }
 
 export interface InterfaceContractCalls {
