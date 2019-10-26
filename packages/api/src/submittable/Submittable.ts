@@ -11,7 +11,7 @@ import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableR
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
-import { hexToU8a, isBn, isFunction, isNumber, isUndefined, u8aConcat, u8aToHex, isHex } from '@polkadot/util';
+import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -142,11 +142,6 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
 
     if (this._api.signer.signPayload) {
       result = await this._api.signer.signPayload(payload.toPayload());
-
-      // HACK This makes the Parity signer to work (assuming sr, until updated)
-      if (payload.version.eq(4) && isHex(result.signature, 512)) {
-        result.signature = u8aToHex(u8aConcat(new Uint8Array([1]), hexToU8a(result.signature)));
-      }
     } else if (this._api.signer.signRaw) {
       result = await this._api.signer.signRaw(payload.toRaw());
     } else {
