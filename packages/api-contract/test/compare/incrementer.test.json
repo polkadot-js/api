@@ -1,0 +1,188 @@
+[
+  {
+    "info": 9,
+    "type": "{ \"value\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\"} }",
+    "sub": [
+      {
+        "info": 9,
+        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "sub": [
+          {
+            "info": 9,
+            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "sub": [
+              {
+                "info": 10,
+                "type": "([u8;32])",
+                "sub": [
+                  {
+                    "info": 12,
+                    "type": "[u8;32]",
+                    "ext": {
+                      "length": 32,
+                      "type": "u8"
+                    },
+                    "sub": {
+                      "info": 6,
+                      "type": "u8"
+                    },
+                    "index": 0
+                  }
+                ],
+                "name": "cell",
+                "namespace": "ink_core::storage::key"
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::cell::sync_cell",
+            "params": [
+              {
+                "info": 6,
+                "type": "u32"
+              }
+            ]
+          }
+        ],
+        "name": "value",
+        "namespace": "ink_core::storage::value",
+        "params": [
+          {
+            "info": 6,
+            "type": "u32"
+          }
+        ]
+      }
+    ],
+    "name": "Incrementer",
+    "namespace": "incrementer::normal"
+  },
+  {
+    "info": 9,
+    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+    "sub": [
+      {
+        "info": 9,
+        "type": "{ \"cell\": \"([u8;32])\"} }",
+        "sub": [
+          {
+            "info": 10,
+            "type": "([u8;32])",
+            "sub": [
+              {
+                "info": 12,
+                "type": "[u8;32]",
+                "ext": {
+                  "length": 32,
+                  "type": "u8"
+                },
+                "sub": {
+                  "info": 6,
+                  "type": "u8"
+                },
+                "index": 0
+              }
+            ],
+            "name": "cell",
+            "namespace": "ink_core::storage::key"
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::cell::sync_cell",
+        "params": [
+          {
+            "info": 6,
+            "type": "u32"
+          }
+        ]
+      }
+    ],
+    "name": "Value",
+    "namespace": "ink_core::storage::value",
+    "params": [
+      {
+        "info": 6,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 6,
+    "type": "u32"
+  },
+  {
+    "info": 9,
+    "type": "{ \"cell\": \"([u8;32])\"} }",
+    "sub": [
+      {
+        "info": 10,
+        "type": "([u8;32])",
+        "sub": [
+          {
+            "info": 12,
+            "type": "[u8;32]",
+            "ext": {
+              "length": 32,
+              "type": "u8"
+            },
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "index": 0
+          }
+        ],
+        "name": "cell",
+        "namespace": "ink_core::storage::key"
+      }
+    ],
+    "name": "SyncCell",
+    "namespace": "ink_core::storage::cell::sync_cell",
+    "params": [
+      {
+        "info": 6,
+        "type": "u32"
+      }
+    ]
+  },
+  {
+    "info": 10,
+    "type": "([u8;32])",
+    "sub": [
+      {
+        "info": 12,
+        "type": "[u8;32]",
+        "ext": {
+          "length": 32,
+          "type": "u8"
+        },
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "index": 0
+      }
+    ],
+    "name": "Key",
+    "namespace": "ink_core::storage::key"
+  },
+  {
+    "info": 12,
+    "type": "[u8;32]",
+    "ext": {
+      "length": 32,
+      "type": "u8"
+    },
+    "sub": {
+      "info": 6,
+      "type": "u8"
+    }
+  },
+  {
+    "info": 6,
+    "type": "u8"
+  },
+  {
+    "info": 6,
+    "type": "bool"
+  }
+]

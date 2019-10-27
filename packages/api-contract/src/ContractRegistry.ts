@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecArg, TypeDef } from '@polkadot/types/types';
-import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABIMethodPre, ContractABI, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
+import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABIMethodPre, ContractABI, ContractABIMethodCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
 import { Compact, u32, createType } from '@polkadot/types';
 
 import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
@@ -13,22 +13,28 @@ import { createArgClass } from './method';
 
 // parse a selector, this can be a number (older) or of [<hex>, <hex>, ...]. However,
 // just catch everything (since this is now non-standard for u32 anyway)
-function parseSelector (fnname: string, input: number | string | number[] | string[]): u32 {
+function parseSelector (fnname: string, input: ContractABIMethodCommon['selector']): u32 {
   if (isNumber(input)) {
     return createType('u32', input);
   } else if (isHex(input)) {
     return createType('u32', hexToU8a(input));
-  } else if (Array.isArray(input)) {
-    assert(input.length === 4, `${fnname}: Invalid selector length`);
+  } else if (typeof input === 'string') {
+    try {
+      const array = JSON.parse(input);
 
-    return createType('u32', Uint8Array.from(
-      // the as number[] is here to pacify TS, it doesn't quite know how to handle the cb
-      (input as number[]).map((value: string | number): number =>
-        isHex(value)
-          ? hexToNumber(value.toString())
-          : value
-      )
-    ));
+      assert(array.length === 4, `${fnname}: Invalid selector length`);
+
+      return createType('u32', Uint8Array.from(
+        // the as number[] is here to pacify TS, it doesn't quite know how to handle the cb
+        (array as number[]).map((value: string | number): number =>
+          isHex(value)
+            ? hexToNumber(value.toString())
+            : value
+        )
+      ));
+    } catch (e) {
+
+    }
   }
 
   throw new Error(`${fnname}: Unable to parse selector`);

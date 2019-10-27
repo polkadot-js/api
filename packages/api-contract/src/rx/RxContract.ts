@@ -9,7 +9,7 @@ import { ApiRx } from '@polkadot/api';
 import { decorateMethod } from '@polkadot/api/rx';
 
 import Abi from '../Abi';
-import Contract from '../base/Blueprint';
+import Contract from '../base/Contract';
 
 export default class RxContract extends Contract<'rxjs'> {
   public constructor (api: ApiRx, abi: ContractABIPre | Abi, address: string | AccountId) {

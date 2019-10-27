@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { Address } from '@polkadot/types/interfaces';
-import { CodecArg } from '@polkadot/types/types';
+import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
+import { CodecArg, IKeyringPair } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
-import { ApiPromise, ApiRx } from '@polkadot/api';
+import BN from 'bn.js';
+import { Observable } from 'rxjs';
+import { ApiPromise, ApiRx, SubmittableResult } from '@polkadot/api';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
@@ -49,7 +51,7 @@ export interface ContractABIMethodBasePre {
 export interface ContractABIMethodCommon {
   docs?: ContractABIDocs;
   mutates?: boolean;
-  selector: number;
+  selector: string | number;
 }
 
 export interface ContractABIMethodPre extends ContractABIMethodCommon, ContractABIMethodBasePre {
@@ -183,4 +185,29 @@ export interface InterfaceContractCalls {
 export interface InterfaceContract {
   readonly address: Address;
   readonly calls: InterfaceContractCalls;
+}
+
+export type ContractCallTypes = 'tx' | 'rpc';
+
+export type ContractCallResult<CallType extends ContractCallTypes> = CallType extends 'rpc'
+  ? Observable<ContractCallOutcome>
+  : Observable<SubmittableResult>;
+
+export type ContractCallFn<CallType extends ContractCallTypes> = CallType extends 'rpc'
+  ? (origin: IKeyringPair | string | AccountId | Address, messageIndex: number, value: BN | number, maxGas: BN | number, ...params: any[]) => ContractCallResult<CallType>
+  : (account: IKeyringPair | string | AccountId | Address) => ContractCallResult<CallType>;
+
+
+export interface ContractCall<CallType extends ContractCallTypes> {
+  send: ContractCallFn<CallType>
+}
+
+export interface ContractCallOutcome {
+  time: number;
+  result: ContractExecResult;
+  origin: AccountId,
+  output: string;
+  params: any[];
+  success: boolean;
+  message: ContractABIMethod;
 }
