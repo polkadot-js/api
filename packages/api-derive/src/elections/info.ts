@@ -5,7 +5,7 @@
 import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType, Vec, u32 } from '@polkadot/types';
@@ -13,11 +13,13 @@ import { createType, Vec, u32 } from '@polkadot/types';
 import { DerivedElectionsInfo } from '../types';
 import { drr } from '../util/drr';
 
-type ResultElections = [Vec<AccountId>, u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
+type ResultElectionsInner = [u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
+type ResultElections = [Vec<AccountId>, ResultElectionsInner];
 
-type ResultPhragmen = [Vec<AccountId>, u32, Vec<AccountId>, BlockNumber];
+type ResultPhragmenInner = [u32, Vec<AccountId>, BlockNumber];
+type ResultPhragmen = [Vec<AccountId>, ResultPhragmenInner];
 
-function deriveElections ([candidates, candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]: ResultElections): DerivedElectionsInfo {
+function deriveElections ([candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount,
@@ -31,19 +33,22 @@ function deriveElections ([candidates, candidateCount, desiredSeats, members, ne
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
-  return api.queryMulti<ResultElections>([
+  // NOTE We have an issue where candidates can return `null` for an empty array
+  return combineLatest([
     api.query.elections.candidates,
-    api.query.elections.candidateCount,
-    api.query.elections.desiredSeats,
-    api.query.elections.members,
-    api.query.elections.nextVoterSet,
-    api.query.elections.termDuration,
-    api.query.elections.voteCount,
-    api.query.elections.voterCount
+    api.queryMulti<ResultElectionsInner>([
+      api.query.elections.candidateCount,
+      api.query.elections.desiredSeats,
+      api.query.elections.members,
+      api.query.elections.nextVoterSet,
+      api.query.elections.termDuration,
+      api.query.elections.voteCount,
+      api.query.elections.voterCount
+    ])
   ]).pipe(map(deriveElections), drr());
 }
 
-function derivePhragmen ([candidates, desiredMembers, members, termDuration]: ResultPhragmen): DerivedElectionsInfo {
+function derivePhragmen ([candidates, [desiredMembers, members, termDuration]]: ResultPhragmen): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount: createType('u32', candidates.length),
@@ -54,11 +59,14 @@ function derivePhragmen ([candidates, desiredMembers, members, termDuration]: Re
 }
 
 function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
-  return api.queryMulti<ResultPhragmen>([
+  // NOTE We have an issue where candidates can return `null` for an empty array
+  return combineLatest([
     api.query.electionsPhragmen.candidates,
-    api.query.electionsPhragmen.desiredMembers,
-    api.query.electionsPhragmen.members,
-    api.query.electionsPhragmen.termDuration
+    api.queryMulti<ResultPhragmenInner>([
+      api.query.electionsPhragmen.desiredMembers,
+      api.query.electionsPhragmen.members,
+      api.query.electionsPhragmen.termDuration
+    ])
   ]).pipe(map(derivePhragmen), drr());
 }
 
