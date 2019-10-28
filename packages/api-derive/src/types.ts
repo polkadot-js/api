@@ -7,6 +7,10 @@ import { AccountId, Balance, BlockNumber, EraIndex, Exposure, Index, RewardDesti
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export interface DeriveAccountInfo {
+  nickname?: string;
+}
+
 export interface DerivedBalances {
   accountId: AccountId;
   accountNonce: Index;
