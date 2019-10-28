@@ -9,9 +9,10 @@ import { ApiObject, ContractABIPre, ContractCallOutcome, ContractCallResult, Con
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
-import { createType, displayType } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 import Abi from '../Abi';
+import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
 
 // NOTE Experimental, POC, bound to change
@@ -60,7 +61,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     if (result.isSuccess) {
       const { data } = result.asSuccess;
       output = message.returnType
-        ? createType(displayType(message.returnType) as any, data.toU8a()).toString()
+        ? formatData(data, message.returnType).toString()
         : data.toHex();
     } else {
       output = 'Error';
