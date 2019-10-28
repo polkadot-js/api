@@ -35,7 +35,7 @@ function deriveElections ([candidates, [candidateCount, desiredSeats, members, n
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // NOTE We have an issue where candidates can return `null` for an empty array
   return combineLatest([
-    api.query.elections.candidates,
+    api.query.elections.candidates<Vec<AccountId>>(),
     api.queryMulti<ResultElectionsInner>([
       api.query.elections.candidateCount,
       api.query.elections.desiredSeats,
@@ -61,7 +61,7 @@ function derivePhragmen ([candidates, [desiredMembers, members, termDuration]]: 
 function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // NOTE We have an issue where candidates can return `null` for an empty array
   return combineLatest([
-    api.query.electionsPhragmen.candidates,
+    api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
     api.queryMulti<ResultPhragmenInner>([
       api.query.electionsPhragmen.desiredMembers,
       api.query.electionsPhragmen.members,
