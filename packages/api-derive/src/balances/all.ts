@@ -27,9 +27,9 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-    lockedBalance = totals[0]
-      ? createType('Balance', bnMax(...totals.map(({ amount }): Balance => amount)))
-      : createType('Balance');
+    if (totals.length) {
+      lockedBalance = createType('Balance', bnMax(...totals.map(({ amount }): Balance => amount)));
+    }
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
