@@ -4,12 +4,35 @@
 
 import { CodecArg, TypeDef } from '@polkadot/types/types';
 import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABIMethodPre, ContractABI, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
-import { Compact } from '@polkadot/types';
+import { Compact, u32, createType } from '@polkadot/types';
 
-import { assert, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
 import { createArgClass } from './method';
+
+// parse a selector, this can be a number (older) or of [<hex>, <hex>, ...]. However,
+// just catch everything (since this is now non-standard for u32 anyway)
+function parseSelector (fnname: string, input: number | string | number[] | string[]): u32 {
+  if (isNumber(input)) {
+    return createType('u32', input);
+  } else if (isHex(input)) {
+    return createType('u32', hexToU8a(input));
+  } else if (Array.isArray(input)) {
+    assert(input.length === 4, `${fnname}: Invalid selector length`);
+
+    return createType('u32', Uint8Array.from(
+      // the as number[] is here to pacify TS, it doesn't quite know how to handle the cb
+      (input as number[]).map((value: string | number): number =>
+        isHex(value)
+          ? hexToNumber(value.toString())
+          : value
+      )
+    ));
+  }
+
+  throw new Error(`${fnname}: Unable to parse selector`);
+}
 
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
@@ -38,22 +61,27 @@ export default class ContractRegistry extends MetaRegistry {
   public validateMethods ({ contract: { messages } }: ContractABIPre): void {
     messages.forEach((method): void => {
       const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
+      const fnname = `messages.${method.name}`;
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
-      const { name, selector, return_type: returnType } = method;
-      assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for messages.${method.name}`);
-      assert(isNumber(selector), `Expected selector for messages.${method.name}`);
-      assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for messages.${method.name}`);
 
-      this.validateArgs(`messages.${method.name}`, method.args);
+      const { name, selector, return_type: returnType } = method;
+
+      assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for ${fnname}`);
+      assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
+
+      parseSelector(fnname, selector);
+      this.validateArgs(fnname, method.args);
     });
   }
 
   public validateAbi (abi: ContractABIPre): void {
     const unknownKeys = Object.keys(abi.contract).filter((key): boolean => !['constructors', 'docs', 'events', 'messages', 'name'].includes(key));
+
     assert(unknownKeys.length === 0, `Unknown fields ${unknownKeys.join(', ')} found in ABI`);
 
     const { contract: { constructors, messages, name } } = abi;
+
     assert(constructors && messages && isString(this.stringAt(name)), 'ABI should have constructors, messages & name sections');
 
     this.validateConstructors(abi);
@@ -69,7 +97,7 @@ export default class ContractRegistry extends MetaRegistry {
       };
     });
     const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
-    const baseStruct: { [index: string]: any } = { __selector: method.selector };
+    const baseStruct: { [index: string]: any } = { __selector: isUndefined(method.selector) ? undefined : parseSelector(name, method.selector) };
     const encoder = (...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 

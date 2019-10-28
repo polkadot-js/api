@@ -7,6 +7,10 @@ import { AccountId, Balance, BlockNumber, EraIndex, Exposure, Index, RewardDesti
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export interface DeriveAccountInfo {
+  nickname?: string;
+}
+
 export interface DerivedBalances {
   accountId: AccountId;
   accountNonce: Index;
@@ -34,14 +38,14 @@ export interface DerivedContractFees {
 }
 
 export interface DerivedElectionsInfo {
-  members: Record<string, BlockNumber>;
   candidates: AccountId[];
   candidateCount: u32;
   desiredSeats: u32;
-  nextVoterSet: SetIndex;
+  members: AccountId[];
+  nextVoterSet?: SetIndex;
   termDuration: BlockNumber;
-  voteCount: VoteIndex;
-  voterCount: SetIndex;
+  voteCount?: VoteIndex;
+  voterCount?: SetIndex;
 }
 
 export interface DerivedFees {
