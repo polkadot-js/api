@@ -61,7 +61,7 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // NOTE We have an issue where candidates can return `null` for an empty array
   return combineLatest([
     api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
-    api.query.electionsPhragmen.members<Vec<AccountId>>()
+    api.query.electionsPhragmen.members<Vec<[AccountId, Balance] & Codec>>()
   ]).pipe(
     map(([candidates, members]): DerivedElectionsInfo => derivePhragmen(
       candidates,
