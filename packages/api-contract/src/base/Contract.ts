@@ -5,12 +5,11 @@
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractABIPre, ContractCallOutcome, ContractCallResult, ContractCallTypes, } from '../types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome, ContractCallResult, ContractCallTypes, } from '../types';
 
 import BN from 'bn.js';
 import { map } from 'rxjs/operators';
 import { createType } from '@polkadot/types';
-import { assert } from '@polkadot/util';
 import Abi from '../Abi';
 import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
@@ -19,12 +18,8 @@ import { BaseWithTxAndRpcCall } from './util';
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  private assertMessageExists (messageIndex: number): void {
-    assert(!!this.abi.messages[messageIndex], `Specified message at index ${messageIndex} does not exist`);
-  }
-
-  public call (as: ContractCallTypes, messageIndex = 0, value: BN | number, gasLimit: BN | number, ...params: any[]) {
-    this.assertMessageExists(messageIndex);
+  public call (as: ContractCallTypes, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]) {
+    const { fn, def } = this.getMessage(message);
 
     return {
       send: this.decorateMethod(
@@ -36,27 +31,25 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 dest: this.address.toString(),
                 value,
                 gasLimit,
-                inputData: this.abi.messages[messageIndex](...params)
+                inputData: fn(...params)
               })
             )
               .pipe(
                 map((result: ContractExecResult): ContractCallOutcome =>
-                  this.createOutcome(result, createType('AccountId', account), messageIndex, params)
+                  this.createOutcome(result, createType('AccountId', account), def, params)
                 )
               );
           }
         : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> => {
           return this.apiContracts
-            .call(this.address, value, gasLimit, this.abi.messages[messageIndex](...params))
+            .call(this.address, value, gasLimit, fn(...params))
             .signAndSend(account)
         }
       )
     };
   }
 
-  private createOutcome (result: ContractExecResult, origin: AccountId, messageIndex: number, params: any[]): ContractCallOutcome {
-    const message = this.abi.abi.contract.messages[messageIndex];
-
+  private createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: any[]): ContractCallOutcome {
     let output: string;
     if (result.isSuccess) {
       const { data } = result.asSuccess;
@@ -74,7 +67,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       params,
       result: result,
       success: result.isSuccess,
-      output,
+      output: output && output.length ? output : '()'
     }
 
     return outcome;

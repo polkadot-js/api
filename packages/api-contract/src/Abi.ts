@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIPre, ContractABIFn, InterfaceAbi } from './types';
+import { AbiConstructors, AbiMessages, ContractABI, ContractABIPre, ContractABIFn, InterfaceAbi } from './types';
 import { stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
@@ -10,31 +10,35 @@ import ContractRegistry from './ContractRegistry';
 export default class ContractAbi extends ContractRegistry implements InterfaceAbi {
   public readonly abi: ContractABI;
 
-  public readonly constructors: ContractABIFn[];
+  public readonly constructors: AbiConstructors;
 
-  public readonly messages: ContractABIFn[];
+  public readonly messages: AbiMessages;
 
   public constructor (abi: ContractABIPre) {
     super(abi);
     [this.abi, this.constructors, this.messages] = this.decodeAbi(abi);
   }
 
-  private decodeAbi (abiPre: ContractABIPre): [ContractABI, ContractABIFn[], ContractABIFn[]] {
+  private decodeAbi (abiPre: ContractABIPre): [ContractABI, ContractABIFn[], AbiMessages] {
     this.validateAbi(abiPre);
 
     const abi = this.convertAbi(abiPre);
     const constructors = abi.contract.constructors.map(
       (constructor, index): ContractABIFn => {
-        return this.createMethod(`constructor ${index}`, constructor);
+        return this.createMessage(`constructor ${index}`, constructor);
       }
     );
 
-    const messages = abi.contract.messages.map(
-      (message): ContractABIFn => {
+    const messages: AbiMessages = abi.contract.messages.reduce(
+      (result: AbiMessages, message): AbiMessages => {
         const name = stringCamelCase(message.name);
 
-        return this.createMethod(`messages.${name}`, message);
-      }
+        return {
+          ...result,
+          [name]: this.createMessage(`messages.${name}`, message)
+        }
+      },
+      {}
     );
 
     return [abi, constructors, messages];

@@ -18,7 +18,8 @@ export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: InterfaceAbi;
   readonly api: ApiObject<ApiType>;
-  readonly decorateMethod: DecorateMethod<ApiType>
+  readonly decorateMethod: DecorateMethod<ApiType>;
+  getMessage: (name: string) => ContractMessage;
 }
 
 export interface ContractABITypePre {
@@ -36,31 +37,31 @@ export interface ContractABIArgBase {
   type: TypeDef;
 }
 
-export type ContractABIMethodArgPre = ContractABIArgBasePre;
+export type ContractABIMessageArgPre = ContractABIArgBasePre;
 
-export type ContractABIMethodArg = ContractABIArgBase;
+export type ContractABIMessageArg = ContractABIArgBase;
 
-export interface ContractABIMethodBase {
-  args: ContractABIMethodArg[];
+export interface ContractABIMessageBase {
+  args: ContractABIMessageArg[];
 }
 
-export interface ContractABIMethodBasePre {
-  args: ContractABIMethodArgPre[];
+export interface ContractABIMessageBasePre {
+  args: ContractABIMessageArgPre[];
 }
 
-export interface ContractABIMethodCommon {
+export interface ContractABIMessageCommon {
   docs?: ContractABIDocs;
   mutates?: boolean;
   selector: string | number;
 }
 
-export interface ContractABIMethodPre extends ContractABIMethodCommon, ContractABIMethodBasePre {
+export interface ContractABIMessagePre extends ContractABIMessageCommon, ContractABIMessageBasePre {
   name: StringIndex;
   return_type: ContractABITypePre | null;
 }
 
-export interface ContractABIMethod extends ContractABIMethodCommon {
-  args: ContractABIMethodArg[];
+export interface ContractABIMessage extends ContractABIMessageCommon {
+  args: ContractABIMessageArg[];
   name: string;
   returnType: TypeDef | null;
 }
@@ -70,16 +71,16 @@ export interface ContractABIContractCommon {
 }
 
 export interface ContractABIContractPre extends ContractABIContractCommon {
-  constructors: ContractABIMethodPre[];
-  messages: ContractABIMethodPre[];
+  constructors: ContractABIMessagePre[];
+  messages: ContractABIMessagePre[];
   name: StringIndex;
   events?: ContractABIEventPre[];
   docs?: ContractABIDocs;
 }
 
 export interface ContractABIContract extends ContractABIContractCommon {
-  constructors: ContractABIMethod[];
-  messages: ContractABIMethod[];
+  constructors: ContractABIMessage[];
+  messages: ContractABIMessage[];
   name: string;
   events?: ContractABIEvent[];
   docs?: ContractABIDocs;
@@ -170,12 +171,20 @@ export type ContractABIStoragePre = ContractABIStorageStructPre;
 
 export type ContractABIStorage = ContractABIStorageStruct;
 
+export interface ContractMessage {
+  index: number;
+  fn: ContractABIFn;
+  def: ContractABIMessage;
+}
+
+export type AbiConstructors = ContractABIFn[];
+
 export type AbiMessages = Record<string, ContractABIFn>;
 
 export interface InterfaceAbi {
   readonly abi: ContractABI;
-  readonly constructors: ContractABIFn[];
-  readonly messages: ContractABIFn[];
+  readonly constructors: AbiConstructors;
+  readonly messages: AbiMessages;
 }
 
 export interface InterfaceContractCalls {
@@ -209,5 +218,5 @@ export interface ContractCallOutcome {
   output: string;
   params: any[];
   success: boolean;
-  message: ContractABIMethod;
+  message: ContractABIMessage;
 }

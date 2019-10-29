@@ -2,18 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodecArg, TypeDef } from '@polkadot/types/types';
-import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMethod, ContractABIMethodBase, ContractABIMethodPre, ContractABI, ContractABIMethodCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
-import { Compact, u32, createType } from '@polkadot/types';
+import { CodecArg, Constructor, TypeDef } from '@polkadot/types/types';
+import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMessage, ContractABIMessageBase, ContractABIMessagePre, ContractABI, ContractABIMessageCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
+import { Compact, u32, createClass, createType, encodeType } from '@polkadot/types';
 
 import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
-import { createArgClass } from './method';
 
 // parse a selector, this can be a number (older) or of [<hex>, <hex>, ...]. However,
 // just catch everything (since this is now non-standard for u32 anyway)
-function parseSelector (fnname: string, input: ContractABIMethodCommon['selector']): u32 {
+function parseSelector (fnname: string, input: ContractABIMessageCommon['selector']): u32 {
   if (isNumber(input)) {
     return createType('u32', input);
   } else if (isHex(input)) {
@@ -40,6 +39,18 @@ function parseSelector (fnname: string, input: ContractABIMethodCommon['selector
   throw new Error(`${fnname}: Unable to parse selector`);
 }
 
+function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
+  return createClass(
+    JSON.stringify(
+      args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
+        base[name] = encodeType(type);
+
+        return base;
+      }, baseDef)
+    )
+  );
+}
+
 export default class ContractRegistry extends MetaRegistry {
   // Contract ABI helpers
   public validateArgs (name: string, args: ContractABIArgBasePre[]): void {
@@ -55,7 +66,7 @@ export default class ContractRegistry extends MetaRegistry {
   }
 
   public validateConstructors ({ contract: { constructors } }: ContractABIPre): void {
-    constructors.forEach((constructor: ContractABIMethodPre, index): void => {
+    constructors.forEach((constructor: ContractABIMessagePre, index): void => {
       const unknownKeys = Object.keys(constructor).filter((key): boolean => !['args', 'docs', 'name', 'selector'].includes(key));
 
       assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI constructor`);
@@ -64,20 +75,20 @@ export default class ContractRegistry extends MetaRegistry {
     });
   }
 
-  public validateMethods ({ contract: { messages } }: ContractABIPre): void {
-    messages.forEach((method): void => {
-      const unknownKeys = Object.keys(method).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
-      const fnname = `messages.${method.name}`;
+  public validateMessages ({ contract: { messages } }: ContractABIPre): void {
+    messages.forEach((message): void => {
+      const unknownKeys = Object.keys(message).filter((key): boolean => !['args', 'docs', 'mutates', 'name', 'selector', 'return_type'].includes(key));
+      const fnname = `messages.${message.name}`;
 
-      assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
+      assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${message.name}`);
 
-      const { name, selector, return_type: returnType } = method;
+      const { name, selector, return_type: returnType } = message;
 
       assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for ${fnname}`);
       assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
 
       parseSelector(fnname, selector);
-      this.validateArgs(fnname, method.args);
+      this.validateArgs(fnname, message.args);
     });
   }
 
@@ -91,19 +102,19 @@ export default class ContractRegistry extends MetaRegistry {
     assert(constructors && messages && isString(this.stringAt(name)), 'ABI should have constructors, messages & name sections');
 
     this.validateConstructors(abi);
-    this.validateMethods(abi);
+    this.validateMessages(abi);
   }
 
-  public createMethod (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-    const args = method.args.map(({ name, type }): ContractABIFnArg => {
+  public createMessage (name: string, message: Partial<ContractABIMessage> & ContractABIMessageBase): ContractABIFn {
+    const args = message.args.map(({ name, type }): ContractABIFnArg => {
       assert(isObject(type), `Invalid type at index ${type}`);
       return {
         name: stringCamelCase(name),
         type
       };
     });
-    const Clazz = createArgClass(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
-    const baseStruct: { [index: string]: any } = { __selector: isUndefined(method.selector) ? undefined : parseSelector(name, method.selector) };
+    const Clazz = createArgClass(args, isUndefined(message.selector) ? {} : { __selector: 'u32' });
+    const baseStruct: { [index: string]: any } = { __selector: isUndefined(message.selector) ? undefined : parseSelector(name, message.selector) };
     const encoder = (...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
@@ -121,8 +132,8 @@ export default class ContractRegistry extends MetaRegistry {
     const fn = (encoder as ContractABIFn);
 
     fn.args = args;
-    fn.isConstant = !(method.mutates || false);
-    fn.type = method.returnType || null;
+    fn.isConstant = !(message.mutates || false);
+    fn.type = message.returnType || null;
 
     return fn;
   }
@@ -146,7 +157,7 @@ export default class ContractRegistry extends MetaRegistry {
   public convertContract ({ constructors, messages, name, events, ...contract }: ContractABIContractPre): ContractABIContract {
     return {
       constructors: this.convertConstructors(constructors),
-      messages: messages.map(method => this.convertMethod(method)),
+      messages: messages.map(message => this.convertMessage(message)),
       name: this.stringAt(name),
       ...(events
         ? { events: events.map(event => this.convertEvent(event)) }
@@ -155,17 +166,17 @@ export default class ContractRegistry extends MetaRegistry {
     };
   }
 
-  public convertConstructors (constructors: ContractABIMethodPre[]): ContractABIMethod[] {
+  public convertConstructors (constructors: ContractABIMessagePre[]): ContractABIMessage[] {
     return constructors.map(
-      (constructor: ContractABIMethodPre): ContractABIMethod => {
-        return this.convertMethod(constructor);
+      (constructor: ContractABIMessagePre): ContractABIMessage => {
+        return this.convertMessage(constructor);
       }
     );
   }
 
-  public convertMethod ({ args, name, return_type: returnType, ...method }: ContractABIMethodPre): ContractABIMethod {
+  public convertMessage ({ args, name, return_type: returnType, ...message }: ContractABIMessagePre): ContractABIMessage {
     return {
-      ...method,
+      ...message,
       args: this.convertArgs(args),
       name: this.stringAt(name),
       returnType: returnType ? this.convertType(returnType) : null
