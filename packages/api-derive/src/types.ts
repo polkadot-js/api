@@ -56,6 +56,8 @@ export interface DerivedFees {
   transferFee: Balance;
 }
 
+export type DerivedHeartbeats = Record<string, boolean>;
+
 export interface RecentlyOffline {
   blockNumber: BlockNumber;
   count: BN;
