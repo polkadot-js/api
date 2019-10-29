@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
 import { Observable, combineLatest } from 'rxjs';
@@ -22,7 +22,7 @@ function deriveElections ([candidates, [candidateCount, desiredSeats, members, n
     candidateCount,
     desiredSeats,
     nextVoterSet,
-    members: members.map(([accountId]): AccountId => accountId),
+    members: members.map(([accountId]): [AccountId, Balance] => [accountId, createType('Balance')]),
     termDuration,
     voteCount,
     voterCount
@@ -45,13 +45,15 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
   ]).pipe(map(deriveElections), drr());
 }
 
-function derivePhragmen (candidates: Vec<AccountId>, members: Vec<AccountId>, desiredMembers: u32, termDuration: BlockNumber): DerivedElectionsInfo {
+function derivePhragmen (candidates: Vec<AccountId>, members: Vec<[AccountId, Balance] & Codec>, candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount: createType('u32', candidates.length),
-    desiredSeats: desiredMembers,
+    candidacyBond,
+    desiredSeats,
     members,
-    termDuration
+    termDuration,
+    votingBond
   };
 }
 
@@ -64,8 +66,10 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
     map(([candidates, members]): DerivedElectionsInfo => derivePhragmen(
       candidates,
       members,
+      api.consts.electionsPhragmen.candidacyBond as Balance,
       api.consts.electionsPhragmen.desiredMembers as u32,
-      api.consts.electionsPhragmen.termDuration as BlockNumber
+      api.consts.electionsPhragmen.termDuration as BlockNumber,
+      api.consts.electionsPhragmen.votingBond as Balance
     )),
     drr()
   );
