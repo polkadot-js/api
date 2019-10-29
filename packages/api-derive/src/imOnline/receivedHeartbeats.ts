@@ -19,21 +19,21 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
   return (): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats
       ? api.queryMulti<[Vec<AccountId>, SessionIndex]>([
-        api.query.session.validators,
+        api.query.imOnline.keys,
         api.query.session.currentIndex
       ]).pipe(
-        switchMap(([validators, currentIndex]): Observable<[AccountId[], Bytes[]]> =>
+        switchMap(([keys, currentIndex]): Observable<[AccountId[], Bytes[]]> =>
           combineLatest([
-            of(validators),
+            of(keys),
             api.query.imOnline.receivedHeartbeats.multi<Bytes>(
-              validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])
+              keys.map((_address, index): [SessionIndex, number] => [currentIndex, index])
             )
           ])
         ),
-        map(([validators, heartbeats]): DerivedHeartbeats =>
-          validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
+        map(([keys, heartbeats]): DerivedHeartbeats =>
+          keys.reduce((result: DerivedHeartbeats, key, index): DerivedHeartbeats => ({
             ...result,
-            [validator.toString()]: !!heartbeats[index] && !heartbeats[index].isEmpty
+            [key.toString()]: !!heartbeats[index] && !heartbeats[index].isEmpty
           }), {})
         ),
         drr()
