@@ -42,6 +42,8 @@ export interface Forcing extends Enum {
   readonly isForceNew: boolean;
   /** 2:: ForceNone */
   readonly isForceNone: boolean;
+  /** 3:: ForceAlways */
+  readonly isForceAlways: boolean;
 }
 
 /** Struct */
