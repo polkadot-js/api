@@ -40,12 +40,14 @@ export interface DerivedContractFees {
 export interface DerivedElectionsInfo {
   candidates: AccountId[];
   candidateCount: u32;
+  candidacyBond?: Balance;
   desiredSeats: u32;
-  members: AccountId[];
+  members: [AccountId, Balance][];
   nextVoterSet?: SetIndex;
   termDuration: BlockNumber;
   voteCount?: VoteIndex;
   voterCount?: SetIndex;
+  votingBond?: Balance;
 }
 
 export interface DerivedFees {
