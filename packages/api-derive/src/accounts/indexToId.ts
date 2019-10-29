@@ -32,7 +32,8 @@ export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | s
       ? _accountIndex
       : createType('AccountIndex', _accountIndex);
 
-    return (querySection.enumSet<Vec<AccountId>>(accountIndex.div(ENUMSET_SIZE)))
+    return querySection
+      .enumSet<Vec<AccountId>>(accountIndex.div(ENUMSET_SIZE))
       .pipe(
         startWith([]),
         map((accounts): AccountId | undefined =>
