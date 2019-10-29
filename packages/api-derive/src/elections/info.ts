@@ -16,9 +16,6 @@ import { drr } from '../util/drr';
 type ResultElectionsInner = [u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
 type ResultElections = [Vec<AccountId>, ResultElectionsInner];
 
-type ResultPhragmenInner = [u32, Vec<AccountId>, BlockNumber];
-type ResultPhragmen = [Vec<AccountId>, ResultPhragmenInner];
-
 function deriveElections ([candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
   return {
     candidates,
@@ -48,7 +45,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
   ]).pipe(map(deriveElections), drr());
 }
 
-function derivePhragmen ([candidates, [desiredMembers, members, termDuration]]: ResultPhragmen): DerivedElectionsInfo {
+function derivePhragmen (candidates: Vec<AccountId>, members: Vec<AccountId>, desiredMembers: u32, termDuration: BlockNumber): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount: createType('u32', candidates.length),
@@ -62,12 +59,16 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // NOTE We have an issue where candidates can return `null` for an empty array
   return combineLatest([
     api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
-    api.queryMulti<ResultPhragmenInner>([
-      api.query.electionsPhragmen.desiredMembers,
-      api.query.electionsPhragmen.members,
-      api.query.electionsPhragmen.termDuration
-    ])
-  ]).pipe(map(derivePhragmen), drr());
+    api.query.electionsPhragmen.members<Vec<AccountId>>()
+  ]).pipe(
+    map(([candidates, members]): DerivedElectionsInfo => derivePhragmen(
+      candidates,
+      members,
+      api.consts.electionsPhragmen.desiredMembers as u32,
+      api.consts.electionsPhragmen.termDuration as BlockNumber
+    )),
+    drr()
+  );
 }
 
 /**
