@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats } from '../types';
 
-import { of, Observable } from 'rxjs';
+import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Vec } from '@polkadot/types';
@@ -14,25 +15,29 @@ import { drr } from '../util/drr';
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): (addresses: (AccountId | string)[]) => Observable<boolean[]> {
-  return (addresses: (AccountId | string)[]): Observable<boolean[]> => {
+export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
+  return (): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats
-      ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
-        api.query.session.currentIndex,
-        api.query.imOnline.keys
+      ? api.queryMulti<[Vec<AccountId>, SessionIndex]>([
+        api.query.session.validators,
+        api.query.session.currentIndex
       ]).pipe(
-        switchMap(([currentIndex, keys]): Observable<Bytes[]> =>
-          api.query.imOnline.receivedHeartbeats.multi(
-            addresses.map((address): [SessionIndex, number] =>
-              [currentIndex, keys.indexOf(address)]
+        switchMap(([validators, currentIndex]): Observable<[AccountId[], Bytes[]]> =>
+          combineLatest([
+            of(validators),
+            api.query.imOnline.receivedHeartbeats.multi<Bytes>(
+              validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])
             )
-          )
+          ])
         ),
-        map((heartbeats): boolean[] =>
-          heartbeats.map((heartbeat): boolean => !heartbeat.isEmpty)
+        map(([validators, heartbeats]): DerivedHeartbeats =>
+          validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
+            ...result,
+            [validator.toString()]: !!heartbeats[index] && !heartbeats[index].isEmpty
+          }), {})
         ),
         drr()
       )
-      : of([...new Array(addresses.length).keys()].map((): boolean => false));
+      : of({});
   };
 }
