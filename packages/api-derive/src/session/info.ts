@@ -17,8 +17,8 @@ type Result94Session = [SessionIndex, Option<BlockNumber>, BlockNumber, BlockNum
 type Result94 = [BlockNumber, Result94Session];
 
 type ResultIndex = [SessionIndex, EraIndex];
-type ResultSlots = [u64, u64, u64, SessionIndex, EraIndex];
-type ResultType = [boolean, boolean, u64, SessionIndex];
+type ResultSlots = [u64, u64, u64, SessionIndex, EraIndex, SessionIndex];
+type ResultType = [boolean, u64, SessionIndex];
 type Result = [ResultType, ResultSlots];
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
@@ -49,17 +49,10 @@ function createDerived94 ([bestNumber, [currentIndex, _lastLengthChange, session
   };
 }
 
-function createDerivedLatest ([[hasBabe, isGenesisSlot, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochOrGenesisStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
-  const epochStartSlot = isGenesisSlot
-    ? epochIndex
-      .mul(epochDuration)
-      .add(epochOrGenesisStartSlot)
-    : epochOrGenesisStartSlot;
+function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochOrGenesisStartSlot, currentIndex, currentEra, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
+  const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = epochIndex
-    .mod(sessionsPerEra)
-    .mul(epochDuration)
-    .add(sessionProgress);
+  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).add(sessionProgress);
 
   return {
     currentEra,
@@ -98,8 +91,8 @@ function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   ]).pipe(
     map(([currentIndex, currentEra]): DerivedSessionInfo =>
       createDerivedLatest([
-        [false, false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
-        [createType('u64', 1), createType('u64', 1), createType('u64', 1), currentIndex, currentEra]
+        [false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
+        [createType('u64', 1), createType('u64', 1), createType('u64', 1), currentIndex, currentEra, createType('SessionIndex', 1)]
       ])
     ),
     drr()
@@ -110,15 +103,14 @@ function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return api.queryMulti<ResultSlots>([
     api.query.babe.currentSlot,
     api.query.babe.epochIndex,
-    api.query.babe.genesisSlot
-      ? api.query.babe.genesisSlot
-      : api.query.babe.epochStartSlot,
+    api.query.babe.genesisSlot,
     api.query.session.currentIndex,
-    api.query.staking.currentEra
+    api.query.staking.currentEra,
+    api.query.staking.currentEraStartSessionIndex
   ]).pipe(
     map((slots: ResultSlots): DerivedSessionInfo =>
       createDerivedLatest([
-        [true, !!api.query.babe.genesisSlot, api.consts.babe.epochDuration as u64, api.consts.staking.sessionsPerEra as SessionIndex],
+        [true, api.consts.babe.epochDuration as u64, api.consts.staking.sessionsPerEra as SessionIndex],
         slots
       ])
     ),
