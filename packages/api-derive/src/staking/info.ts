@@ -22,9 +22,7 @@ import { eraLength } from '../session/eraLength';
 import { recentlyOffline } from './recentlyOffline';
 import { drr } from '../util/drr';
 
-type MultiResult = [Option<Keys>, [
-  Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs]
-]];
+type MultiResult = [Option<AccountId> | Vec<[AccountId, Keys] & Codec>, Option<StakingLedger>, [AccountId[]], RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>?];
 
 // groups the supplied chunks by era, i.e. { [era]: BN(total of values) }
 function groupByEra (list: UnlockChunk[]): Record<string, BN> {
@@ -114,23 +112,25 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | V
 }
 
 function retrieveMulti (api: ApiInterfaceRx, stashId: AccountId, controllerId: AccountId): Observable<MultiResult> {
-  return combineLatest([
-    // TODO We really want this as part of the multi, however can only do that
-    // once we drop substrate 1.x support (nulti requires values for all)
-    api.query.session.nextKeys
-      ? api.query.session.nextKeys<Option<Keys>>(api.consts.session.dedupKeyPrefix, stashId)
-      : of(createType('Option<Keys>', null)),
-    api.queryMulti([
-      api.query.session.queuedKeys
-        ? [api.query.session.queuedKeys]
-        : [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.ledger, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ])
-  ]) as Observable<MultiResult>;
+  // A bit horrible, since we push below to forge everything into 1 query - we do this we we end up with one
+  // query to retrieve everything
+  const queries: Array<any> = [
+    api.query.session.queuedKeys
+      ? [api.query.session.queuedKeys]
+      : [api.query.session.nextKeyFor, controllerId],
+    [api.query.staking.ledger, controllerId],
+    [api.query.staking.nominators, stashId],
+    [api.query.staking.payee, stashId],
+    [api.query.staking.stakers, stashId],
+    [api.query.staking.validators, stashId]
+  ];
+
+  //
+  if (api.query.session.nextKeys) {
+    queries.push([api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]);
+  }
+
+  return api.queryMulti(queries) as Observable<MultiResult>;
 }
 
 function retrieveInfo (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
@@ -140,7 +140,7 @@ function retrieveInfo (api: ApiInterfaceRx, accountId: AccountId, stashId: Accou
     recentlyOffline(api)(),
     retrieveMulti(api, stashId, controllerId)
   ]).pipe(
-    map(([eraLength, bestNumber, recentlyOffline, [nextKeys, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]]): DerivedStaking => {
+    map(([eraLength, bestNumber, recentlyOffline, [queuedKeys, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs], nextKeys = createType('Option<Keys>', null)]]): DerivedStaking => {
       const stakingLedger = _stakingLedger.unwrapOr(undefined);
 
       return {

@@ -5,7 +5,7 @@
 import { BlockNumber, EraIndex, SessionIndex } from '@polkadot/types/interfaces';
 import { DerivedSessionInfo } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
@@ -17,9 +17,9 @@ type Result94Session = [SessionIndex, Option<BlockNumber>, BlockNumber, BlockNum
 type Result94 = [BlockNumber, Result94Session];
 
 type ResultIndex = [SessionIndex, EraIndex];
-type ResultSlots = [u64, u64, u64];
+type ResultSlots = [u64, u64, u64, SessionIndex, EraIndex];
 type ResultType = [boolean, boolean, u64, SessionIndex];
-type Result = [ResultType, ResultSlots, ResultIndex];
+type Result = [ResultType, ResultSlots];
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
 function createDerived94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result94): DerivedSessionInfo {
@@ -49,7 +49,7 @@ function createDerived94 ([bestNumber, [currentIndex, _lastLengthChange, session
   };
 }
 
-function createDerivedLatest ([[hasBabe, isGenesisSlot, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochOrGenesisStartSlot], [currentIndex, currentEra]]: Result): DerivedSessionInfo {
+function createDerivedLatest ([[hasBabe, isGenesisSlot, epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochOrGenesisStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
   const epochStartSlot = isGenesisSlot
     ? epochIndex
       .mul(epochDuration)
@@ -91,33 +91,37 @@ function info94 (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   );
 }
 
-function infoLatest (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
-  const hasBabe = !!api.consts.babe;
-
-  return combineLatest([
-    of([
-      hasBabe,
-      hasBabe && !!api.query.babe.genesisSlot,
-      hasBabe
-        ? api.consts.babe.epochDuration as u64
-        : createType('u64', 1),
-      api.consts.staking.sessionsPerEra as SessionIndex
-    ] as ResultType),
-    hasBabe
-      ? api.queryMulti<ResultSlots>([
-        api.query.babe.currentSlot,
-        api.query.babe.epochIndex,
-        api.query.babe.genesisSlot
-          ? api.query.babe.genesisSlot
-          : api.query.babe.epochStartSlot
-      ])
-      : of([createType('u64', 1), createType('u64', 1), createType('u64', 1)] as ResultSlots),
-    api.queryMulti<ResultIndex>([
-      api.query.session.currentIndex,
-      api.query.staking.currentEra
-    ])
+function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return api.queryMulti<ResultIndex>([
+    api.query.session.currentIndex,
+    api.query.staking.currentEra
   ]).pipe(
-    map(createDerivedLatest),
+    map(([currentIndex, currentEra]): DerivedSessionInfo =>
+      createDerivedLatest([
+        [false, false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
+        [createType('u64', 1), createType('u64', 1), createType('u64', 1), currentIndex, currentEra]
+      ])
+    ),
+    drr()
+  );
+}
+
+function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return api.queryMulti<ResultSlots>([
+    api.query.babe.currentSlot,
+    api.query.babe.epochIndex,
+    api.query.babe.genesisSlot
+      ? api.query.babe.genesisSlot
+      : api.query.babe.epochStartSlot,
+    api.query.session.currentIndex,
+    api.query.staking.currentEra
+  ]).pipe(
+    map((slots: ResultSlots): DerivedSessionInfo =>
+      createDerivedLatest([
+        [true, !!api.query.babe.genesisSlot, api.consts.babe.epochDuration as u64, api.consts.staking.sessionsPerEra as SessionIndex],
+        slots
+      ])
+    ),
     drr()
   );
 }
@@ -132,6 +136,8 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
     // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
     return api.query.session.lastLengthChange
       ? info94(api) // 1.x
-      : infoLatest(api); // 2.x
+      : api.consts.babe
+        ? infoLatestBabe(api) // 2.x with Babe
+        : infoLatestAura(api); // 2.x with Aura (not all info there)
   };
 }
