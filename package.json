@@ -31,7 +31,7 @@
     "@babel/core": "^7.6.4",
     "@babel/register": "^7.6.2",
     "@babel/runtime": "^7.6.3",
-    "@polkadot/dev": "^0.32.0-beta.11",
-    "@polkadot/ts": "^0.1.82"
+    "@polkadot/dev": "^0.32.0-beta.12",
+    "@polkadot/ts": "^0.1.83"
   }
 }
