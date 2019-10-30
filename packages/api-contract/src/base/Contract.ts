@@ -5,20 +5,31 @@
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome, ContractCallResult, ContractCallTypes, } from '../types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome, ContractCallResult, ContractCallTypes } from '../types';
 
 import BN from 'bn.js';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createType } from '@polkadot/types';
 import Abi from '../Abi';
 import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
 
-// NOTE Experimental, POC, bound to change
+type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends ContractCallTypes> = ApiType extends 'rxjs'
+  ? Observable<ContractCallResult<CallType>>
+  : Promise<ContractCallResult<CallType>>;
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface ContractCall<ApiType extends ApiTypes, CallType extends ContractCallTypes> {
+  send (account: IKeyringPair | string | AccountId | Address): ContractCallResultSubscription<ApiType, CallType>;
+}
+
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  public call (as: ContractCallTypes, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]) {
+  public call<ApiType extends ApiTypes>(as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
+  public call<ApiType extends ApiTypes>(as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
+  public call<ApiType extends ApiTypes, CallType extends ContractCallTypes>(as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
     const { fn, def } = this.getMessage(message);
 
     return {
@@ -40,11 +51,11 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
                 )
               );
           }
-        : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> => {
-          return this.apiContracts
-            .call(this.address, value, gasLimit, fn(...params))
-            .signAndSend(account)
-        }
+          : (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'tx'> => {
+            return this.apiContracts
+              .call(this.address, value, gasLimit, fn(...params))
+              .signAndSend(account);
+          }
       )
     };
   }
@@ -68,7 +79,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
       result: result,
       success: result.isSuccess,
       output: output && output.length ? output : '()'
-    }
+    };
 
     return outcome;
   }

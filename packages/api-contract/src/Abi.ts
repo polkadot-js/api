@@ -36,7 +36,7 @@ export default class ContractAbi extends ContractRegistry implements InterfaceAb
         return {
           ...result,
           [name]: this.createMessage(`messages.${name}`, message)
-        }
+        };
       },
       {}
     );

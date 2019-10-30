@@ -20,6 +20,7 @@ export interface ContractBase<ApiType extends ApiTypes> {
   readonly api: ApiObject<ApiType>;
   readonly decorateMethod: DecorateMethod<ApiType>;
   getMessage: (name: string) => ContractMessage;
+  messages: ContractMessage[];
 }
 
 export interface ContractABITypePre {
@@ -206,9 +207,8 @@ export type ContractCallFn<CallType extends ContractCallTypes> = CallType extend
   ? (origin: IKeyringPair | string | AccountId | Address, messageIndex: number, value: BN | number, maxGas: BN | number, ...params: any[]) => ContractCallResult<CallType>
   : (account: IKeyringPair | string | AccountId | Address) => ContractCallResult<CallType>;
 
-
 export interface ContractCall<CallType extends ContractCallTypes> {
-  send: ContractCallFn<CallType>
+  send: ContractCallFn<CallType>;
 }
 
 export interface ContractCallOutcome {

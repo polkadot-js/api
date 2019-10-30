@@ -32,7 +32,7 @@ function parseSelector (fnname: string, input: ContractABIMessageCommon['selecto
         )
       ));
     } catch (e) {
-
+      console.error(e);
     }
   }
 

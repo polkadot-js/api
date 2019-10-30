@@ -24,7 +24,7 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
     this.decorateMethod = decorateMethod;
   }
 
-  public get messages(): ContractMessage[] {
+  public get messages (): ContractMessage[] {
     return this.abi.abi.contract.messages
       .map(
         (def: ContractABIMessage, index): ContractMessage => ({
@@ -32,12 +32,10 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
           def,
           fn: this.abi.messages[def.name] || this.abi.messages[stringCamelCase(name)]
         })
-      )
+      );
   }
 
   public getMessage (nameOrIndex?: string | number): ContractMessage {
-    assert(!!this.abi.abi.contract.messages[0], 'Contract has no defined messages');
-
     const index = nameOrIndex
       ? typeof nameOrIndex === 'number'
         ? nameOrIndex
@@ -52,7 +50,7 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
 }
 
 export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType> {
-  protected get apiContracts(): SubmittableModuleExtrinsics<'rxjs'> {
+  protected get apiContracts (): SubmittableModuleExtrinsics<'rxjs'> {
     return this.api.rx.tx.contracts;
   }
 
@@ -64,7 +62,7 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
 }
 
 export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
-  protected get rpcContractsCall(): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
+  protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
     return this.api.rx.rpc.contracts.call;
   }
 
