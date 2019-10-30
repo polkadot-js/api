@@ -12,8 +12,10 @@ import { drr } from '../util/drr';
 import { info } from './info';
 
 export function sessionProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
+  const infoCall = info(api);
+
   return (): Observable<BlockNumber> =>
-    info(api)().pipe(
+    infoCall().pipe(
       map(({ sessionProgress }): BlockNumber => sessionProgress),
       drr()
     );

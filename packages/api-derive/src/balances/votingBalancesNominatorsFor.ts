@@ -15,8 +15,10 @@ import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
+  const idAndIndexCall = idAndIndex(api);
+
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> => {
-    return idAndIndex(api)(address).pipe(
+    return idAndIndexCall(address).pipe(
       switchMap(([accountId]): Observable<AccountId[]> =>
         accountId
           ? (api.query.staking.nominatorsFor<Vec<AccountId>>(accountId))

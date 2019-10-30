@@ -83,13 +83,16 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * ```
  */
 export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
+  const bestNumberCall = bestNumber(api);
+  const idAndIndexCall = idAndIndex(api);
+
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
-    return idAndIndex(api)(address).pipe(
+    return idAndIndexCall(address).pipe(
       switchMap(([accountId]): Observable<Result> =>
         (accountId
           ? combineLatest([
             of(accountId),
-            bestNumber(api)(),
+            bestNumberCall(),
             queryBalances(api, accountId),
             // FIXME This is having issues with Kusama, only use accountNonce atm
             // api.rpc.account && api.rpc.account.nextIndex

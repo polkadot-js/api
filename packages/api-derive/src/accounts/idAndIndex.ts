@@ -30,6 +30,9 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
  * ```
  */
 export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
+  const idToIndexCall = idToIndex(api);
+  const indexToIdCall = indexToId(api);
+
   return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
@@ -40,7 +43,7 @@ export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId
       if (decoded.length === 32) {
         const accountId = createType('AccountId', decoded);
 
-        return idToIndex(api)(accountId).pipe(
+        return idToIndexCall(accountId).pipe(
           startWith(undefined),
           map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
           drr()
@@ -49,7 +52,7 @@ export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId
 
       const accountIndex = createType('AccountIndex', decoded);
 
-      return indexToId(api)(accountIndex).pipe(
+      return indexToIdCall(accountIndex).pipe(
         startWith(undefined),
         map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
         drr()

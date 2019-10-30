@@ -12,8 +12,10 @@ import { drr } from '../util/drr';
 import { info } from './info';
 
 export function eraLength (api: ApiInterfaceRx): () => Observable<BlockNumber> {
+  const infoCall = info(api);
+
   return (): Observable<BlockNumber> =>
-    info(api)().pipe(
+    infoCall().pipe(
       map(({ eraLength }): BlockNumber => eraLength),
       drr()
     );
