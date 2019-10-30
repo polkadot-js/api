@@ -240,7 +240,7 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = createType('AccountId', _accountId);
 
-    return api.consts
+    return api.consts.session
       ? retrieveV2(api, calls, accountId)
       : retrieveV1(api, calls, accountId);
   };

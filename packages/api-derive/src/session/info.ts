@@ -13,8 +13,8 @@ import { Option, u64, createType } from '@polkadot/types';
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
-type Result94Session = [SessionIndex, Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];
-type Result94 = [BlockNumber, Result94Session];
+type ResultV1Session = [SessionIndex, Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];
+type ResultV1 = [BlockNumber, ResultV1Session];
 
 type ResultIndex = [SessionIndex, EraIndex];
 type ResultSlots = [u64, u64, u64, SessionIndex, EraIndex, SessionIndex];
@@ -22,7 +22,7 @@ type ResultType = [boolean, u64, SessionIndex];
 type Result = [ResultType, ResultSlots];
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerived94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result94): DerivedSessionInfo {
+function createDerivedV1 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
   const lastLengthChange = (_lastLengthChange && _lastLengthChange.unwrapOr(null)) || createType('BlockNumber');
   const sessionProgress = bestNumber
     .sub(lastLengthChange)
@@ -68,10 +68,10 @@ function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], [curren
   };
 }
 
-function info94 (api: ApiInterfaceRx, bestNumberCall: () => Observable<BlockNumber>): Observable<DerivedSessionInfo> {
+function infoV1 (api: ApiInterfaceRx, bestNumberCall: () => Observable<BlockNumber>): Observable<DerivedSessionInfo> {
   return combineLatest([
     bestNumberCall(),
-    api.queryMulti<Result94Session>([
+    api.queryMulti<ResultV1Session>([
       api.query.session.currentIndex,
       api.query.session.lastLengthChange,
       api.query.session.sessionLength,
@@ -79,7 +79,7 @@ function info94 (api: ApiInterfaceRx, bestNumberCall: () => Observable<BlockNumb
       api.query.staking.sessionsPerEra
     ])
   ]).pipe(
-    map(createDerived94),
+    map(createDerivedV1),
     drr()
   );
 }
@@ -125,13 +125,10 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
   const bestNumberCall = bestNumber(api);
 
   return (): Observable<DerivedSessionInfo> => {
-    // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
-    // pre-94 we had more info and needed to calculate (handle old/Alex first)
-    // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
-    return api.query.session.lastLengthChange
-      ? info94(api, bestNumberCall) // 1.x
-      : api.consts.babe
+    return api.consts.staking
+      ? api.consts.babe
         ? infoLatestBabe(api) // 2.x with Babe
-        : infoLatestAura(api); // 2.x with Aura (not all info there)
+        : infoLatestAura(api) // 2.x with Aura (not all info there)
+      : infoV1(api, bestNumberCall); // 1.x
   };
 }
