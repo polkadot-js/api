@@ -194,7 +194,7 @@ function retrieveInfoV2 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall }:
   ]).pipe(map(([
     bestNumber, eraLength, queuedKeys,
     [stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs], nextKeys]
-  ]: [BlockNumber, BlockNumber, Vec<[AccountId, Keys] & Codec>, MultiResultV2]): DerivedStaking =>
+  ]: [BlockNumber, BlockNumber, [AccountId, Keys][], MultiResultV2]): DerivedStaking =>
     parseResult({
       accountId, controllerId, stashId, eraLength, bestNumber, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
     })
