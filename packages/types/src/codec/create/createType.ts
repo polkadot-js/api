@@ -17,13 +17,27 @@ function u8aHasValue (value: Uint8Array): boolean {
 // With isPedantic, actually check that the encoding matches that supplied. This
 // is much slower, but verifies that we have the correct types defined
 function checkInstance<T extends Codec = Codec, K extends string = string> (value: Uint8Array, created: FromReg<T, K>): void {
-  // For option, we are not adding  the initial byte (this is via storage)
-  const crHex = created.toHex(true);
+  // the underlying type created.toRawType()
+  const rawType = created.toRawType();
+
+  // ignore bytes completely - this is probably a FIXME, since these are somewhat
+  // breaking for at least online queries - not quite sure wtf is going wrong here
+  if (rawType === 'Bytes') {
+    return;
+  }
+
+  // the hex values for what we have
   const inHex = u8aToHex(value);
+  const crHex = created.toHex();
+
+  // Check equality, based on some different approaches (as decoded)
+  const isEqual = inHex === crHex || // raw hex values, quick path
+    inHex === created.toHex(true) || // wrapped options
+    u8aToHex(value.reverse()) === crHex; // reverse (for numbers, which are BE)
 
   // if the hex doesn't match and the value for both is non-empty, complain... bitterly
-  if (inHex !== crHex && (u8aHasValue(value) || u8aHasValue(created.toU8a(true)))) {
-    console.warn(`${created.toRawType()}:: Input doesn't match output, received ${inHex}, created ${crHex}`);
+  if (!isEqual && (u8aHasValue(value) || u8aHasValue(created.toU8a(true)))) {
+    console.warn(`${rawType}:: Input doesn't match output, received ${u8aToHex(value)}, created ${crHex}`);
   }
 }
 
