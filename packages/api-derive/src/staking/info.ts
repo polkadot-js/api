@@ -182,7 +182,7 @@ function retrieveInfoV2 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall }:
   return combineLatest([
     bestNumberCall(),
     eraLengthCall(),
-    api.query.session.queuedKeys(),
+    api.query.session.queuedKeys<Vec<[AccountId, Keys] & Codec>>(),
     api.queryMulti([
       [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
