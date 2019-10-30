@@ -34,9 +34,9 @@ interface ParseInput {
   controllerId: AccountId;
   eraLength: BlockNumber;
   recentlyOffline?: DerivedRecentlyOffline;
-  nominators: Vec<AccountId>;
+  nominators: AccountId[];
   rewardDestination: RewardDestination;
-  queuedKeys?: Vec<[AccountId, Keys] & Codec>;
+  queuedKeys?: [AccountId, Keys][];
   stakers: Exposure;
   stakingLedger: Option<StakingLedger>;
   stashId: AccountId;
@@ -103,7 +103,7 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }, new BN(0)));
 }
 
-function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | Vec<[AccountId, Keys] & Codec>, nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
     const sessionIds = (queuedKeys.find(([currentId]): boolean =>
