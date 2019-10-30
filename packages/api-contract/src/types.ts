@@ -7,8 +7,8 @@ import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfac
 import { CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
-import { Observable } from 'rxjs';
-import { ApiPromise, ApiRx, SubmittableResult } from '@polkadot/api';
+// import { Observable } from 'rxjs';
+import { ApiPromise, ApiRx } from '@polkadot/api';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
@@ -195,12 +195,6 @@ export interface InterfaceContract {
   readonly address: Address;
   readonly calls: InterfaceContractCalls;
 }
-
-export type ContractCallTypes = 'tx' | 'rpc';
-
-export type ContractCallResult<CallType extends ContractCallTypes> = CallType extends 'rpc'
-  ? Observable<ContractCallOutcome>
-  : Observable<SubmittableResult>;
 
 export interface ContractCallOutcome {
   time: number;

@@ -2,34 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { IKeyringPair } from '@polkadot/types/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome, ContractCallResult, ContractCallTypes } from '../types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SubmittableResult } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import Abi from '../Abi';
 import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
 
+type ContractCallTypes = 'tx' | 'rpc';
+
 type ContractCallResultSubscription<ApiType extends ApiTypes, CallType extends ContractCallTypes> = ApiType extends 'rxjs'
   ? Observable<ContractCallResult<CallType>>
-  : Promise<ContractCallResult<CallType>>;
+  : Promise<ObsInnerType<ContractCallResult<CallType>>>;
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ContractCall<ApiType extends ApiTypes, CallType extends ContractCallTypes> {
   send (account: IKeyringPair | string | AccountId | Address): ContractCallResultSubscription<ApiType, CallType>;
 }
 
+export type ContractCallResult<CallType extends ContractCallTypes> = CallType extends 'rpc'
+  ? Observable<ContractCallOutcome>
+  : Observable<SubmittableResult>;
+
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  public call<ApiType extends ApiTypes> (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
-  public call<ApiType extends ApiTypes> (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
-  public call<ApiType extends ApiTypes, CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
+  public call (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
+  public call (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
+  public call<CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
     const { fn, def } = this.getMessage(message);
 
     return {
