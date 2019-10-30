@@ -27,9 +27,9 @@ export interface ContractCall<ApiType extends ApiTypes, CallType extends Contrac
 export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpcCall<ApiType> {
   public readonly address: Address;
 
-  public call<ApiType extends ApiTypes>(as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
-  public call<ApiType extends ApiTypes>(as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
-  public call<ApiType extends ApiTypes, CallType extends ContractCallTypes>(as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
+  public call<ApiType extends ApiTypes> (as: 'rpc', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'rpc'>;
+  public call<ApiType extends ApiTypes> (as: 'tx', message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, 'tx'>;
+  public call<ApiType extends ApiTypes, CallType extends ContractCallTypes> (as: CallType, message: string, value: BN | number, gasLimit: BN | number, ...params: any[]): ContractCall<ApiType, CallType> {
     const { fn, def } = this.getMessage(message);
 
     return {

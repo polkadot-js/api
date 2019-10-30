@@ -44,8 +44,8 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
     const def = this.abi.abi.contract.messages[index];
     assert(!!def, `Attempted to access a contract message that does not exist: ${name}`);
 
-    const fn = this.abi.messages[def!.name] || this.abi.messages[stringCamelCase(def!.name)];
-    return { index, def: def!, fn };
+    const fn = this.abi.messages[def.name] || this.abi.messages[stringCamelCase(def.name)];
+    return { index, def, fn };
   }
 }
 

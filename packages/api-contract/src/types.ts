@@ -4,10 +4,9 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { CodecArg, IKeyringPair } from '@polkadot/types/types';
+import { CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { ApiPromise, ApiRx, SubmittableResult } from '@polkadot/api';
 
@@ -203,18 +202,10 @@ export type ContractCallResult<CallType extends ContractCallTypes> = CallType ex
   ? Observable<ContractCallOutcome>
   : Observable<SubmittableResult>;
 
-export type ContractCallFn<CallType extends ContractCallTypes> = CallType extends 'rpc'
-  ? (origin: IKeyringPair | string | AccountId | Address, messageIndex: number, value: BN | number, maxGas: BN | number, ...params: any[]) => ContractCallResult<CallType>
-  : (account: IKeyringPair | string | AccountId | Address) => ContractCallResult<CallType>;
-
-export interface ContractCall<CallType extends ContractCallTypes> {
-  send: ContractCallFn<CallType>;
-}
-
 export interface ContractCallOutcome {
   time: number;
   result: ContractExecResult;
-  origin: AccountId,
+  origin: AccountId;
   output: string;
   params: any[];
   success: boolean;

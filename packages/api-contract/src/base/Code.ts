@@ -51,7 +51,7 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
           .putCode(maxGas, compactAddLength(this.code))
           .signAndSend(account)
           .pipe(map(this.createResult))
-        )
+      )
     };
   }
 
