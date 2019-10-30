@@ -26,8 +26,10 @@ import { drr } from '../util/drr';
  * ```
  */
 export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
+  const indexesCall = indexes(api);
+
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
-    indexes(api)().pipe(
+    indexesCall().pipe(
       startWith({}),
       map((indexes: AccountIndexes): AccountIndex | undefined =>
         (indexes || {})[accountId.toString()]

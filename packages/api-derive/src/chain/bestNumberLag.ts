@@ -27,10 +27,13 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  * ```
  */
 export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
+  const bestNumberCall = bestNumber(api);
+  const bestNumberFinalizedCall = bestNumberFinalized(api);
+
   return (): Observable<BlockNumber> =>
     combineLatest([
-      bestNumber(api)(),
-      bestNumberFinalized(api)()
+      bestNumberCall(),
+      bestNumberFinalizedCall()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
         createType('BlockNumber', bestNumber.sub(bestNumberFinalized))

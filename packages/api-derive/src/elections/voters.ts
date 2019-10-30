@@ -26,8 +26,10 @@ import { voterPositions } from './voterPositions';
  * ```
  */
 export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
+  const voterPositionsCall = voterPositions(api);
+
   return (): Observable<Vec<AccountId>> =>
-    voterPositions(api)().pipe(
+    voterPositionsCall().pipe(
       map(
         (voterPositions: DerivedVoterPositions): Vec<AccountId> =>
           createType(

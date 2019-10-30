@@ -11,8 +11,10 @@ import { drr } from '../util/drr';
 import { info } from './info';
 
 export function eraProgress (api: ApiInterfaceRx): () => Observable<BN> {
+  const infoCall = info(api);
+
   return (): Observable<BN> =>
-    info(api)().pipe(
+    infoCall().pipe(
       map(({ eraProgress }): BN => eraProgress),
       drr()
     );
