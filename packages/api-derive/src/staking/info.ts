@@ -151,21 +151,21 @@ function parseResult ({ accountId, controllerId, stashId, eraLength, bestNumber,
   };
 }
 
-type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>] & Codec, RewardDestination, Exposure, [ValidatorPrefs] & Codec];
+type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs] & Codec];
 
 function retrieveInfoV1 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall, recentlyOfflineCall }: Calls, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
     bestNumberCall(),
     eraLengthCall(),
     recentlyOfflineCall(),
-    api.queryMulti<MultiResultV1>([
+    api.queryMulti([
       [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId]
-    ])
+    ]) as Observable<MultiResultV1>
   ]).pipe(map(([
     bestNumber, eraLength, recentlyOffline,
     [nextKeyFor, stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]
@@ -176,21 +176,21 @@ function retrieveInfoV1 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall, r
   ));
 }
 
-type MultiResultV2 = [Option<StakingLedger>, [Vec<AccountId>] & Codec, RewardDestination, Exposure, [ValidatorPrefs] & Codec, Option<Keys>];
+type MultiResultV2 = [Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>];
 
 function retrieveInfoV2 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall }: Calls, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
     bestNumberCall(),
     eraLengthCall(),
     api.query.session.queuedKeys(),
-    api.queryMulti<MultiResultV2>([
+    api.queryMulti([
       [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId],
       [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
-    ])
+    ]) as Observable<MultiResultV2>
   ]).pipe(map(([
     bestNumber, eraLength, queuedKeys,
     [stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs], nextKeys]
