@@ -60,7 +60,13 @@ export interface DerivedFees {
   transferFee: Balance;
 }
 
-export type DerivedHeartbeats = Record<string, boolean>;
+export interface DerivedHeartbeatAuthor {
+  blockCount: u32;
+  hasMessage: boolean;
+  isOnline: boolean;
+}
+
+export type DerivedHeartbeats = Record<string, DerivedHeartbeatAuthor>;
 
 export interface RecentlyOffline {
   blockNumber: BlockNumber;
