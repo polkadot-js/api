@@ -6,7 +6,7 @@ import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
-import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { GenericCall, Metadata, createType, getTypeRegistry } from '@polkadot/types';
@@ -33,7 +33,7 @@ function assertResult<T> (value: T | undefined): T {
   return value as T;
 }
 
-export default abstract class ApiBase<ApiType> extends Init<ApiType> {
+export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description Create an instance of the class
    *
@@ -190,6 +190,13 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    */
   public get runtimeVersion (): RuntimeVersion {
     return assertResult(this._runtimeVersion);
+  }
+
+  /**
+   * @description The underlying Rx API interface
+   */
+  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc'> {
+    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc'>);
   }
 
   /**

@@ -2,16 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { Address } from '@polkadot/types/interfaces';
+import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
+// import { Observable } from 'rxjs';
 import { ApiPromise, ApiRx } from '@polkadot/api';
 
-export type ApiObject<ApiType> = ApiType extends 'rxjs'
+export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
+
+export interface ContractBase<ApiType extends ApiTypes> {
+  readonly abi: InterfaceAbi;
+  readonly api: ApiObject<ApiType>;
+  readonly decorateMethod: DecorateMethod<ApiType>;
+  getMessage: (name: string) => ContractMessage;
+  messages: ContractMessage[];
+}
 
 export interface ContractABITypePre {
   ty: TypeIndex;
@@ -28,31 +37,31 @@ export interface ContractABIArgBase {
   type: TypeDef;
 }
 
-export type ContractABIMethodArgPre = ContractABIArgBasePre;
+export type ContractABIMessageArgPre = ContractABIArgBasePre;
 
-export type ContractABIMethodArg = ContractABIArgBase;
+export type ContractABIMessageArg = ContractABIArgBase;
 
-export interface ContractABIMethodBase {
-  args: ContractABIMethodArg[];
+export interface ContractABIMessageBase {
+  args: ContractABIMessageArg[];
 }
 
-export interface ContractABIMethodBasePre {
-  args: ContractABIMethodArgPre[];
+export interface ContractABIMessageBasePre {
+  args: ContractABIMessageArgPre[];
 }
 
-export interface ContractABIMethodCommon {
+export interface ContractABIMessageCommon {
   docs?: ContractABIDocs;
   mutates?: boolean;
-  selector: number;
+  selector: string | number;
 }
 
-export interface ContractABIMethodPre extends ContractABIMethodCommon, ContractABIMethodBasePre {
+export interface ContractABIMessagePre extends ContractABIMessageCommon, ContractABIMessageBasePre {
   name: StringIndex;
   return_type: ContractABITypePre | null;
 }
 
-export interface ContractABIMethod extends ContractABIMethodCommon {
-  args: ContractABIMethodArg[];
+export interface ContractABIMessage extends ContractABIMessageCommon {
+  args: ContractABIMessageArg[];
   name: string;
   returnType: TypeDef | null;
 }
@@ -62,16 +71,16 @@ export interface ContractABIContractCommon {
 }
 
 export interface ContractABIContractPre extends ContractABIContractCommon {
-  constructors: ContractABIMethodPre[];
-  messages: ContractABIMethodPre[];
+  constructors: ContractABIMessagePre[];
+  messages: ContractABIMessagePre[];
   name: StringIndex;
   events?: ContractABIEventPre[];
   docs?: ContractABIDocs;
 }
 
 export interface ContractABIContract extends ContractABIContractCommon {
-  constructors: ContractABIMethod[];
-  messages: ContractABIMethod[];
+  constructors: ContractABIMessage[];
+  messages: ContractABIMessage[];
   name: string;
   events?: ContractABIEvent[];
   docs?: ContractABIDocs;
@@ -162,18 +171,20 @@ export type ContractABIStoragePre = ContractABIStorageStructPre;
 
 export type ContractABIStorage = ContractABIStorageStruct;
 
+export interface ContractMessage {
+  index: number;
+  fn: ContractABIFn;
+  def: ContractABIMessage;
+}
+
+export type AbiConstructors = ContractABIFn[];
+
 export type AbiMessages = Record<string, ContractABIFn>;
 
 export interface InterfaceAbi {
   readonly abi: ContractABI;
-  readonly constructors: ContractABIFn[];
+  readonly constructors: AbiConstructors;
   readonly messages: AbiMessages;
-}
-
-export interface ContractBase<ApiType> {
-  readonly abi: InterfaceAbi;
-  readonly api: ApiObject<ApiType>;
-  readonly apiContracts: SubmittableModuleExtrinsics<ApiType>;
 }
 
 export interface InterfaceContractCalls {
@@ -183,4 +194,14 @@ export interface InterfaceContractCalls {
 export interface InterfaceContract {
   readonly address: Address;
   readonly calls: InterfaceContractCalls;
+}
+
+export interface ContractCallOutcome {
+  time: number;
+  result: ContractExecResult;
+  origin: AccountId;
+  output: string;
+  params: any[];
+  success: boolean;
+  message: ContractABIMessage;
 }

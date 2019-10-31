@@ -6,7 +6,7 @@
 import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmitableResultResult, SubmitableResultSubscription } from './types';
+import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
 import SubmittableResult from './Result';
 
-interface SubmittableOptions<ApiType> {
+interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   decorateMethod: ApiBase<ApiType>['decorateMethod'];
   type: ApiTypes;
@@ -32,7 +32,7 @@ const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 const _Extrinsic: Constructor<Extrinsic> = ClassOf('Extrinsic');
 
-export default class Submittable<ApiType> extends _Extrinsic implements SubmittableExtrinsic<ApiType> {
+export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic implements SubmittableExtrinsic<ApiType> {
   private readonly _api: ApiInterfaceRx;
 
   private readonly _decorateMethod: ApiBase<ApiType>['decorateMethod'];
@@ -61,16 +61,16 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
   }
 
   // signAndSend with an immediate Hash result
-  public signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmitableResultResult<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
   // signAndSend with a subscription, i.e. callback provided
-  public signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
   // signAndSend with options and a callback
-  public signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
   // signAndSend implementation for all 3 cases above
-  public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
+  public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
     const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
     const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
     const address = isKeyringPair(account) ? account.address : account.toString();
@@ -95,17 +95,17 @@ export default class Submittable<ApiType> extends _Extrinsic implements Submitta
               : this._sendObservable(updateId);
           })
         ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
-    )(statusCb) as SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType>;
+    )(statusCb) as SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType>;
   }
 
   // send with an immediate Hash result
-  public send (): SubmitableResultResult<ApiType>;
+  public send (): SubmittableResultResult<ApiType>;
 
   // send with a status callback
-  public send (statusCb: Callback<SubmittableResultImpl>): SubmitableResultSubscription<ApiType>;
+  public send (statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
   // send implementation for both immediate Hash and statusCb variants
-  public send (statusCb?: Callback<SubmittableResultImpl>): SubmitableResultResult<ApiType> | SubmitableResultSubscription<ApiType> {
+  public send (statusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
     const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
 
     return this._decorateMethod(
