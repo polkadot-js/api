@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 import { DeriveAccountInfo } from '../types';
 
@@ -19,11 +19,11 @@ import { idAndIndex } from './idAndIndex';
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
  */
-export function info (api: ApiInterfaceRx): (address?: AccountId | string | null) => Observable<DeriveAccountInfo> {
+export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   const idAndIndexCall = idAndIndex(api);
 
   // TODO We would really like to pass in an Address or AccountIndex here as well
-  return (address?: AccountId | string | null): Observable<DeriveAccountInfo> =>
+  return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     idAndIndexCall(address).pipe(
       switchMap(([accountId, accountIndex]): Observable<DeriveAccountInfo> =>
         accountId && api.query.nicks
