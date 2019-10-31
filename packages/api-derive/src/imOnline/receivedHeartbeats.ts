@@ -8,7 +8,7 @@ import { DerivedHeartbeats } from '../types';
 import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Vec } from '@polkadot/types';
+import { Bytes, Vec, u32 } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -17,23 +17,26 @@ import { drr } from '../util/drr';
  */
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
   return (): Observable<DerivedHeartbeats> => {
-    return api.query.imOnline && api.query.imOnline.receivedHeartbeats
-      ? api.queryMulti<[Vec<AccountId>, SessionIndex]>([
-        api.query.imOnline.keys,
-        api.query.session.currentIndex
+    return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
+      ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
+        api.query.session.currentIndex,
+        api.query.session.validators
       ]).pipe(
-        switchMap(([keys, currentIndex]): Observable<[AccountId[], Bytes[]]> =>
+        switchMap(([currentIndex, validators]): Observable<[AccountId[], Bytes[], u32[]]> =>
           combineLatest([
-            of(keys),
-            api.query.imOnline.receivedHeartbeats.multi<Bytes>(
-              keys.map((_address, index): [SessionIndex, number] => [currentIndex, index])
-            )
+            of(validators),
+            api.query.imOnline.receivedHeartbeats.multi<Bytes>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
           ])
         ),
-        map(([keys, heartbeats]): DerivedHeartbeats =>
-          keys.reduce((result: DerivedHeartbeats, key, index): DerivedHeartbeats => ({
+        map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>
+          validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
             ...result,
-            [key.toString()]: !!heartbeats[index] && !heartbeats[index].isEmpty
+            [validator.toString()]: {
+              blockCount: numBlocks[index],
+              hasMessage: !heartbeats[index].isEmpty,
+              isOnline: !heartbeats[index].isEmpty || numBlocks[index].gtn(0)
+            }
           }), {})
         ),
         drr()
