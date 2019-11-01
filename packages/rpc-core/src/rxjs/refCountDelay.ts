@@ -12,7 +12,7 @@
 import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, NEVER, Observable, Subject, Subscription, timer, using } from 'rxjs';
 import { scan, switchMap, tap } from 'rxjs/operators';
 
-export function refCountDelay <T> (duration = 2000): MonoTypeOperatorFunction<T> {
+export function refCountDelay <T> (duration = 1500): MonoTypeOperatorFunction<T> {
   return (source: Observable<T>): Observable<T> => {
     // This implementation is based upon:
     // https://medium.com/@volkeron/rxjs-unsubscribe-delay-218a9ab2672e
