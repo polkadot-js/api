@@ -223,6 +223,19 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterfaceMethod;
   }
 
+  // create a subscriptor, it subscribes once and resolves with the id as subscribe
+  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: (error?: Error, result?: any) => void }, errorHandler: (error: Error) => void): Promise<number> {
+    return new Promise((resolve, reject): void => {
+      this.provider
+        .subscribe(subType, subName, paramsJson, update)
+        .then(resolve)
+        .catch((error): void => {
+          errorHandler(error);
+          reject(error);
+        });
+    });
+  }
+
   private createMethodSubscribe (method: RpcMethod): RpcInterfaceMethod {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
@@ -253,9 +266,7 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider
-            .subscribe(subType, subName, paramsJson, update)
-            .catch(errorHandler);
+          subscriptionPromise = this.createSubscriber({ subType, subName, paramsJson, update }, errorHandler);
         } catch (error) {
           errorHandler(error);
         }
