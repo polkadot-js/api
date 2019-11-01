@@ -245,6 +245,8 @@ export default class Rpc implements RpcInterface {
     const subType = `${method.section}_${updateType}`;
 
     const call = (...values: any[]): Observable<any> => {
+      console.log('createMethodSubscribe', 'sub');
+
       return new Observable((observer: Observer<any>): VoidCallback => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
@@ -275,6 +277,8 @@ export default class Rpc implements RpcInterface {
 
         // Teardown logic
         return (): void => {
+          console.error('createMethodSubscribe', 'unsub!');
+
           // Delete from cache
           // Reason:
           // ```
