@@ -21,15 +21,16 @@ type Result = [AccountId, BlockNumber, ResultBalance, Index];
 
 function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
   let lockedBalance = createType('Balance');
+  let lockedBreakdown: BalanceLock[] = [];
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
-    const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
+    lockedBreakdown = locks.filter(({ until }): boolean => bestNumber && until.gt(bestNumber));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-    lockedBalance = totals[0]
-      ? createType('Balance', bnMax(...totals.map(({ amount }): Balance => amount)))
-      : createType('Balance');
+    if (lockedBreakdown.length) {
+      lockedBalance = createType('Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
+    }
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
@@ -52,6 +53,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     availableBalance,
     freeBalance,
     lockedBalance,
+    lockedBreakdown,
     reservedBalance,
     vestedBalance,
     votingBalance: createType('Balance', freeBalance.add(reservedBalance))
