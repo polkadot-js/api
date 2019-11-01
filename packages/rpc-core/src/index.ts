@@ -294,9 +294,7 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void =>
-              l.error(this.createErrorMessage(method, error))
-            );
+            .catch((error: Error): void => l.error(this.createErrorMessage(method, error)));
         };
       }).pipe(drr());
     };
