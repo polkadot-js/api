@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { info } from './info';
 
 export function eraProgress (api: ApiInterfaceRx): () => Observable<BN> {

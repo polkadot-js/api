@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec, createType } from '@polkadot/types';
 
 import { DerivedBalances, DerivedReferendumVote } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { votes } from './votes';
 import { votingBalances } from '../balances/votingBalances';
 

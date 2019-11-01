@@ -9,7 +9,7 @@ import { DerivedFees } from '../types';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 type Result = [Balance, Balance, Balance, Balance, Balance];
 

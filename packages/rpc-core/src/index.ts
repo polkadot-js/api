@@ -10,13 +10,15 @@ import { RpcInterfaceMethod, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/jsonrpc';
 import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
 import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
+
+import { drr } from './rxjs';
 
 type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
 
@@ -296,14 +298,7 @@ export default class Rpc implements RpcInterface {
               l.error(this.createErrorMessage(method, error))
             );
         };
-      }).pipe(
-        // Duplicated in api-derive/util/drr
-        distinctUntilChanged((a: any, b: any): boolean =>
-          JSON.stringify({ value: a }) === JSON.stringify({ value: b })
-        ),
-        publishReplay(1),
-        refCount()
-      );
+      }).pipe(drr());
     };
 
     const memoized = memoizee(call, {

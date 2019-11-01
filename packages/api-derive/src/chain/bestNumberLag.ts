@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { bestNumber } from './bestNumber';
 import { bestNumberFinalized } from './bestNumberFinalized';
 

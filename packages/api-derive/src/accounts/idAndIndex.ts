@@ -12,7 +12,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 import { createType } from '@polkadot/types';
 import { idToIndex } from './idToIndex';
 import { indexToId } from './indexToId';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 interface Calls {
   idToIndexCall (accountId: string | AccountId): Observable<AccountIndex | undefined>;

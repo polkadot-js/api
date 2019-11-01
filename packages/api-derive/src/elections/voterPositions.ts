@@ -10,7 +10,7 @@ import { DerivedVoterPositions } from '../types';
 import BN from 'bn.js';
 import { of, combineLatest, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @name voterPositions

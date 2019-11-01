@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
   return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {

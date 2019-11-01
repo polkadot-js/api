@@ -20,7 +20,7 @@ import { isUndefined } from '@polkadot/util';
 import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { recentlyOffline } from './recentlyOffline';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 interface Calls {
   bestNumberCall (): Observable<BlockNumber>;

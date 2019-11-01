@@ -14,7 +14,7 @@ import { bnMax } from '@polkadot/util';
 import { info } from '../accounts/info';
 import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];

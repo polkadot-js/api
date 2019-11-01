@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { referendumInfos } from './referendumInfos';
 
 export function referendums (api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> {

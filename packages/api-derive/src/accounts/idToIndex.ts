@@ -9,7 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { indexes, AccountIndexes } from './indexes';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @name idToIndex

@@ -10,7 +10,7 @@ import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
