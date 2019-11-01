@@ -8,33 +8,45 @@
 import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, NEVER, Observable, Subject, Subscription, timer, using } from 'rxjs';
 import { scan, switchMap, tap } from 'rxjs/operators';
 
-export function refCountDelay <T> (delay = 1750): MonoTypeOperatorFunction<T> {
+const DELAY = 1750;
+
+// subscribe to a source, tracker and increment the counter
+function subscribe <T> (source: Observable<T>, counter: Subject<number>, tracker: Observable<number>): [Subscription, Subscription] {
+  const sourceConn = (source as ConnectableObservable<T>).connect();
+  const trackerConn = tracker.subscribe();
+
+  counter.next(1);
+
+  return [sourceConn, trackerConn];
+}
+
+// unsubscribe from both the tracker and the source
+function unsubscribe (sourceConn: Subscription | undefined, trackerConn: Subscription | undefined): void {
+  sourceConn && sourceConn.unsubscribe();
+  trackerConn && trackerConn.unsubscribe();
+}
+
+// keep track of references, but only unsubscribe after the configured delay
+export function refCountDelay <T> (): MonoTypeOperatorFunction<T> {
   return (source: Observable<T>): Observable<T> => {
-    let sourceConnection: Subscription | undefined;
-    let trackerConnection: Subscription | undefined;
-    const subscribeUpdates = new Subject<number>();
-    const subscriptionTracker = subscribeUpdates.pipe(
+    let sourceConn: Subscription | undefined;
+    let trackerConn: Subscription | undefined;
+    const counter = new Subject<number>();
+    const tracker = counter.pipe(
       scan((total, change) => change + total, 0),
       switchMap((count) =>
         count === 0 // when we have a zero count, schedule a unsubscribe
-          ? timer(delay, asapScheduler).pipe(
-            tap((): void => {
-              sourceConnection && sourceConnection.unsubscribe();
-              trackerConnection && trackerConnection.unsubscribe();
-            })
-          )
+          ? timer(DELAY, asapScheduler).pipe(tap((): void => unsubscribe(sourceConn, trackerConn)))
           : NEVER
       )
     );
 
     return using(
       () => {
-        sourceConnection = (source as ConnectableObservable<T>).connect();
-        trackerConnection = subscriptionTracker.subscribe();
-        subscribeUpdates.next(1);
+        [sourceConn, trackerConn] = subscribe(source, counter, tracker);
 
         return {
-          unsubscribe: (): void => subscribeUpdates.next(-1)
+          unsubscribe: (): void => counter.next(-1)
         };
       },
       (): Observable<T> => source
