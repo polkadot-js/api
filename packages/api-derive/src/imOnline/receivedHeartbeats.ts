@@ -3,36 +3,44 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats } from '../types';
 
-import { of, Observable } from 'rxjs';
+import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Vec } from '@polkadot/types';
+import { Bytes, Vec, u32 } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): (addresses: (AccountId | string)[]) => Observable<boolean[]> {
-  return (addresses: (AccountId | string)[]): Observable<boolean[]> => {
-    return api.query.imOnline && api.query.imOnline.receivedHeartbeats
+export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
+  return (): Observable<DerivedHeartbeats> => {
+    return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
       ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
         api.query.session.currentIndex,
-        api.query.imOnline.keys
+        api.query.session.validators
       ]).pipe(
-        switchMap(([currentIndex, keys]): Observable<Bytes[]> =>
-          api.query.imOnline.receivedHeartbeats.multi(
-            addresses.map((address): [SessionIndex, number] =>
-              [currentIndex, keys.indexOf(address)]
-            )
-          )
+        switchMap(([currentIndex, validators]): Observable<[AccountId[], Bytes[], u32[]]> =>
+          combineLatest([
+            of(validators),
+            api.query.imOnline.receivedHeartbeats.multi<Bytes>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
+          ])
         ),
-        map((heartbeats): boolean[] =>
-          heartbeats.map((heartbeat): boolean => !heartbeat.isEmpty)
+        map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>
+          validators.reduce((result: DerivedHeartbeats, validator, index): DerivedHeartbeats => ({
+            ...result,
+            [validator.toString()]: {
+              blockCount: numBlocks[index],
+              hasMessage: !heartbeats[index].isEmpty,
+              isOnline: !heartbeats[index].isEmpty || numBlocks[index].gtn(0)
+            }
+          }), {})
         ),
         drr()
       )
-      : of([...new Array(addresses.length).keys()].map((): boolean => false));
+      : of({});
   };
 }

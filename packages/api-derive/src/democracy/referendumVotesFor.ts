@@ -11,18 +11,21 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec, createType } from '@polkadot/types';
 
 import { DerivedBalances, DerivedReferendumVote } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { votes } from './votes';
 import { votingBalances } from '../balances/votingBalances';
 
 export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | number) => Observable<DerivedReferendumVote[]> {
+  const votesCall = votes(api);
+  const votingBalancesCall = votingBalances(api);
+
   return (referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
     (api.query.democracy.votersFor<Vec<AccountId>>(referendumId)).pipe(
       switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
-          votes(api)(referendumId as BN, votersFor),
-          votingBalances(api)(votersFor)
+          votesCall(referendumId as BN, votersFor),
+          votingBalancesCall(votersFor)
         ])
       ),
       map(([votersFor, votes, balances]): DerivedReferendumVote[] =>

@@ -1,10 +1,12 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { catchError, distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { catchError, distinctUntilChanged, publishReplay } from 'rxjs/operators';
 import { logger } from '@polkadot/util';
+
+import { refCountDelay } from './refCountDelay';
 
 type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
 
@@ -23,8 +25,8 @@ export const drr = (): DrrResult => <T> (source$: Observable<T>): Observable<T> 
       throw error;
     }),
     distinctUntilChanged((a: any, b: any): boolean =>
-      JSON.stringify({ value: a }) === JSON.stringify({ value: b })
+      JSON.stringify({ t: a }) === JSON.stringify({ t: b })
     ),
     publishReplay(1),
-    refCount()
+    refCountDelay()
   );

@@ -9,11 +9,11 @@ import { SubmittableExtrinsic } from './types';
 
 import ApiBase from '../base';
 
-type Creator<ApiType> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
+type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
 
 let Submittable: Constructor<SubmittableExtrinsic<any>>;
 
-export default function createSubmittable<ApiType> (type: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
+export default function createSubmittable<ApiType extends ApiTypes> (type: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
   return (extrinsic: Call | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
     // HACK This is not great, but basically what we do here is to lazily only require the class
     // right at the point it is actually needed - delaying initialization

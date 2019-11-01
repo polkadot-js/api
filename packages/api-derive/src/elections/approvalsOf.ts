@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @name approvalsOf

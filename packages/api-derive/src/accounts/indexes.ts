@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
@@ -33,7 +33,8 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  */
 export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return (): Observable<AccountIndexes> => {
-    return (api.query.indices.nextEnumSet<AccountIndex>())
+    return api.query.indices
+      .nextEnumSet<AccountIndex>()
       .pipe(
         // use the nextEnumSet (which is a counter of the number of sets) to construct
         // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the

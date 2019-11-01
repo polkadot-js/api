@@ -8,7 +8,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { all } from './all';
 
 export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> {

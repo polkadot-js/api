@@ -9,7 +9,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 export type HeaderAndValidators = [Header, AccountId[]];
 

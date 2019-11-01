@@ -1789,10 +1789,10 @@
   dependencies:
     "@types/node" "^12.11.1"
 
-"@polkadot/dev@^0.32.0-beta.11":
-  version "0.32.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.32.0-beta.11.tgz#930332443807db0c0f692d959ca18c7a84037be1"
-  integrity sha512-qowTLH6OI/ujmRki5N+QpCCYlyuwpI59IP/XNOw7IhpM/6CbxCdxsdGaoELCtxEIAeRMH2IksqD3eoU5YK8LxA==
+"@polkadot/dev@^0.32.0-beta.12":
+  version "0.32.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.32.0-beta.12.tgz#0c11d980c445c51ce6262d0a113ea4ca2d105d77"
+  integrity sha512-jHGH5y1yuZP1ZQMrqdWFtE8jFznrD6zkDPY2m209G6dL+jTlDw/NRWyBP+zHzhXMT3JSFyw7dcBNCdmecXUnMA==
   dependencies:
     "@babel/cli" "^7.6.4"
     "@babel/core" "^7.6.4"
@@ -1844,10 +1844,10 @@
     "@polkadot/util" "^1.6.1"
     "@polkadot/util-crypto" "^1.6.1"
 
-"@polkadot/ts@^0.1.82":
-  version "0.1.82"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.82.tgz#e9c9742dcb4096358d740d1476c307595f97c9f9"
-  integrity sha512-7rC56/fb/ubwZ3k+zn3yf+HTmjXGy+IobDbO8+P/0REXj+MkhQp4ns3tMuIfanWZEp4S/bqwU7BvgyvvodGfCA==
+"@polkadot/ts@^0.1.83":
+  version "0.1.83"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.83.tgz#9aa7cc96f66a79d6744d922707f52b62ab374143"
+  integrity sha512-cBIWE60GK/QtyEOpN+NmdKmBcMGdMzm5KgLjfiJaJBcSGFzI1Cd3+z1SPVwzy8Yk0bmdhxHij4lF9A9jEik9fQ==
   dependencies:
     "@types/chrome" "^0.0.91"
 

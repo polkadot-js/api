@@ -2,10 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BalanceLock, BlockNumber, EraIndex, Exposure, Index, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, Exposure, Index, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
+
+export interface DeriveAccountInfo {
+  accountId?: AccountId;
+  accountIndex?: AccountIndex;
+  nickname?: string;
+}
 
 export interface DerivedBalances {
   accountId: AccountId;
@@ -37,12 +43,14 @@ export interface DerivedContractFees {
 export interface DerivedElectionsInfo {
   candidates: AccountId[];
   candidateCount: u32;
+  candidacyBond?: Balance;
   desiredSeats: u32;
-  members: AccountId[];
+  members: [AccountId, Balance][];
   nextVoterSet?: SetIndex;
   termDuration: BlockNumber;
   voteCount?: VoteIndex;
   voterCount?: SetIndex;
+  votingBond?: Balance;
 }
 
 export interface DerivedFees {
@@ -52,6 +60,14 @@ export interface DerivedFees {
   transactionByteFee: Balance;
   transferFee: Balance;
 }
+
+export interface DerivedHeartbeatAuthor {
+  blockCount: u32;
+  hasMessage: boolean;
+  isOnline: boolean;
+}
+
+export type DerivedHeartbeats = Record<string, DerivedHeartbeatAuthor>;
 
 export interface RecentlyOffline {
   blockNumber: BlockNumber;

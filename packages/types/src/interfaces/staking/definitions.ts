@@ -22,7 +22,8 @@ export default {
       _enum: [
         'NotForcing',
         'ForceNew',
-        'ForceNone'
+        'ForceNone',
+        'ForceAlways'
       ]
     },
     IndividualExposure: {

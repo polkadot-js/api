@@ -9,15 +9,17 @@ import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
-import { idAndIndex } from '../accounts/idAndIndex';
+import { info } from '../accounts/info';
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
+  const infoCall = info(api);
+
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> => {
-    return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]): Observable<AccountId[]> =>
+    return infoCall(address).pipe(
+      switchMap(({ accountId }): Observable<AccountId[]> =>
         accountId
           ? (api.query.staking.nominatorsFor<Vec<AccountId>>(accountId))
           : of([] as AccountId[])

@@ -11,10 +11,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
-import { idAndIndex } from '../accounts/idAndIndex';
+import { info } from '../accounts/info';
 import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
@@ -85,13 +85,16 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * ```
  */
 export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
+  const bestNumberCall = bestNumber(api);
+  const infoCall = info(api);
+
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
-    return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]): Observable<Result> =>
+    return infoCall(address).pipe(
+      switchMap(({ accountId }): Observable<Result> =>
         (accountId
           ? combineLatest([
             of(accountId),
-            bestNumber(api)(),
+            bestNumberCall(),
             queryBalances(api, accountId),
             // FIXME This is having issues with Kusama, only use accountNonce atm
             // api.rpc.account && api.rpc.account.nextIndex

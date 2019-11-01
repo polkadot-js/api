@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedRecentlyOffline } from '../types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 type OfflineResult = [AccountId, BlockNumber, BN][] & Codec;
 

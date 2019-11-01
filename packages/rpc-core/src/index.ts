@@ -10,13 +10,15 @@ import { RpcInterfaceMethod, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/jsonrpc';
 import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
 import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
+
+import { drr } from './rxjs';
 
 type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
 
@@ -223,6 +225,19 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterfaceMethod;
   }
 
+  // create a subscriptor, it subscribes once and resolves with the id as subscribe
+  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: (error?: Error, result?: any) => void }, errorHandler: (error: Error) => void): Promise<number> {
+    return new Promise((resolve, reject): void => {
+      this.provider
+        .subscribe(subType, subName, paramsJson, update)
+        .then(resolve)
+        .catch((error): void => {
+          errorHandler(error);
+          reject(error);
+        });
+    });
+  }
+
   private createMethodSubscribe (method: RpcMethod): RpcInterfaceMethod {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
@@ -253,9 +268,7 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider
-            .subscribe(subType, subName, paramsJson, update)
-            .catch(errorHandler);
+          subscriptionPromise = this.createSubscriber({ subType, subName, paramsJson, update }, errorHandler);
         } catch (error) {
           errorHandler(error);
         }
@@ -281,18 +294,9 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void =>
-              l.error(this.createErrorMessage(method, error))
-            );
+            .catch((error: Error): void => l.error(this.createErrorMessage(method, error)));
         };
-      }).pipe(
-        // Duplicated in api-derive/util/drr
-        distinctUntilChanged((a: any, b: any): boolean =>
-          JSON.stringify({ value: a }) === JSON.stringify({ value: b })
-        ),
-        publishReplay(1),
-        refCount()
-      );
+      }).pipe(drr());
     };
 
     const memoized = memoizee(call, {
