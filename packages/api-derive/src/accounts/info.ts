@@ -22,7 +22,6 @@ import { idAndIndex } from './idAndIndex';
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   const idAndIndexCall = idAndIndex(api);
 
-  // TODO We would really like to pass in an Address or AccountIndex here as well
   return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     idAndIndexCall(address).pipe(
       switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, Option<[Bytes, Balance] & Codec>?]> =>

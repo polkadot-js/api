@@ -14,7 +14,39 @@ import { idToIndex } from './idToIndex';
 import { indexToId } from './indexToId';
 import { drr } from '../util/drr';
 
+interface Calls {
+  idToIndexCall (accountId: string | AccountId): Observable<AccountIndex | undefined>;
+  indexToIdCall (accountIndex: string | AccountIndex): Observable<AccountId | undefined>;
+}
+
 export type AccountIdAndIndex = [AccountId?, AccountIndex?];
+
+function retrieve (address: Address | AccountId | AccountIndex | string | null | undefined, { idToIndexCall, indexToIdCall }: Calls): Observable<AccountIdAndIndex> {
+  try {
+    // yes, this can fail, don't care too much, catch will catch it
+    const decoded = isU8a(address)
+      ? address
+      : decodeAddress((address || '').toString());
+
+    if (decoded.length === 32) {
+      const accountId = createType('AccountId', decoded);
+
+      return idToIndexCall(accountId).pipe(
+        startWith(undefined),
+        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
+      );
+    }
+
+    const accountIndex = createType('AccountIndex', decoded);
+
+    return indexToIdCall(accountIndex).pipe(
+      startWith(undefined),
+      map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
+    );
+  } catch (error) {
+    return of([undefined, undefined] as AccountIdAndIndex);
+  }
+}
 
 /**
  * @name idAndIndex
@@ -30,35 +62,11 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
  * ```
  */
 export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  const idToIndexCall = idToIndex(api);
-  const indexToIdCall = indexToId(api);
-
-  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
-    try {
-      // yes, this can fail, don't care too much, catch will catch it
-      const decoded = isU8a(address)
-        ? address
-        : decodeAddress((address || '').toString());
-
-      if (decoded.length === 32) {
-        const accountId = createType('AccountId', decoded);
-
-        return idToIndexCall(accountId).pipe(
-          startWith(undefined),
-          map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
-          drr()
-        );
-      }
-
-      const accountIndex = createType('AccountIndex', decoded);
-
-      return indexToIdCall(accountIndex).pipe(
-        startWith(undefined),
-        map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex),
-        drr()
-      );
-    } catch (error) {
-      return of([undefined, undefined] as AccountIdAndIndex).pipe(drr());
-    }
+  const calls = {
+    idToIndexCall: idToIndex(api),
+    indexToIdCall: indexToId(api)
   };
+
+  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+    retrieve(address, calls).pipe(drr());
 }
