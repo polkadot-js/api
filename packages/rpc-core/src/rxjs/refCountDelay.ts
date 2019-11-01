@@ -9,10 +9,10 @@
  * can be found in the LICENSE file at https://github.com/cartant/rxjs-etc
  */
 
-import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, NEVER, Observable, SchedulerLike, Subject, Subscription, timer, using } from 'rxjs';
+import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, NEVER, Observable, Subject, Subscription, timer, using } from 'rxjs';
 import { scan, switchMap, tap } from 'rxjs/operators';
 
-export function refCountDelay <T> (duration = 2000, scheduler: SchedulerLike = asapScheduler): MonoTypeOperatorFunction<T> {
+export function refCountDelay <T> (duration = 2000): MonoTypeOperatorFunction<T> {
   return (source: Observable<T>): Observable<T> => {
     // This implementation is based upon:
     // https://medium.com/@volkeron/rxjs-unsubscribe-delay-218a9ab2672e
@@ -30,7 +30,7 @@ export function refCountDelay <T> (duration = 2000, scheduler: SchedulerLike = a
       scan((count, step) => count + step, 0),
       switchMap((count) => {
         if (count === 0) {
-          return timer(duration, scheduler).pipe(
+          return timer(duration, asapScheduler).pipe(
             tap(() => {
               if (connectableSubscription) {
                 connectableSubscription.unsubscribe();
@@ -43,7 +43,7 @@ export function refCountDelay <T> (duration = 2000, scheduler: SchedulerLike = a
             })
           );
         } else if (!connectableSubscription && count > 0) {
-          return timer(0, scheduler).pipe(
+          return timer(0, asapScheduler).pipe(
             tap(() => {
               if (!connectableSubscription) {
                 connectableSubscription = connectable.connect();
