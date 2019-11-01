@@ -12,7 +12,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { idAndIndex } from './idAndIndex';
 
 function retrieveNick (api: ApiInterfaceRx): (accountId?: AccountId) => Observable<Option<[Bytes, Balance] & Codec> | undefined> {
@@ -28,7 +28,7 @@ function retrieveNick (api: ApiInterfaceRx): (accountId?: AccountId) => Observab
  */
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   const idAndIndexCall = idAndIndex(api);
-  const nickCall = memo(retrieveNick(api));
+  const nickCall = retrieveNick(api);
 
   return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     idAndIndexCall(address).pipe(

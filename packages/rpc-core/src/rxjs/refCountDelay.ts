@@ -8,7 +8,7 @@
 import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, NEVER, Observable, Subject, Subscription, timer, using } from 'rxjs';
 import { scan, switchMap, tap } from 'rxjs/operators';
 
-export function refCountDelay <T> (delay = 1500): MonoTypeOperatorFunction<T> {
+export function refCountDelay <T> (delay = 1750): MonoTypeOperatorFunction<T> {
   return (_source: Observable<T>): Observable<T> => {
     // We are using connect, cast it
     const source = _source as ConnectableObservable<T>;
