@@ -23,6 +23,7 @@ export interface DerivedBalances {
   reservedBalance: Balance;
   votingBalance: Balance;
   vestedBalance: Balance;
+  vestingTotal: Balance;
 }
 
 export type DerivedBalancesMap = Record<string, DerivedBalances>;

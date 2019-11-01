@@ -34,18 +34,10 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
   }
 
   // offset = balance locked at genesis, perBlock is the unlock amount
-  const { offset, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
+  const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
   const vestedNow = createType('Balance', perBlock.mul(bestNumber));
-  const vestedBalance = vestedNow.gt(offset)
-    ? freeBalance
-    : createType('Balance', freeBalance.sub(offset).add(vestedNow));
-
-  // NOTE Workaround for this account on Alex (one of a couple reported) -
-  //   5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N
-  // The locked is > the vested and ended up with the locked > free,
-  // i.e. related to https://github.com/paritytech/polkadot/issues/225
-  // (most probably due to movements from stash -> controller -> free)
-  const availableBalance = createType('Balance', bnMax(new BN(0), vestedBalance.sub(lockedBalance)));
+  const vestedBalance = createType('Balance', vestedNow.gt(vestingTotal) ? new BN(0) : bnMax(new BN(0), freeBalance.sub(vestingTotal).add(vestedNow)));
+  const availableBalance = createType('Balance', bnMax(new BN(0), (vestedBalance.gtn(0) ? vestedBalance : freeBalance).sub(lockedBalance)));
 
   return {
     accountId,
@@ -56,6 +48,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     lockedBreakdown,
     reservedBalance,
     vestedBalance,
+    vestingTotal,
     votingBalance: createType('Balance', freeBalance.add(reservedBalance))
   };
 }
