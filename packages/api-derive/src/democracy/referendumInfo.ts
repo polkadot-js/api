@@ -12,7 +12,7 @@ import { Option } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
   const info = optionInfo

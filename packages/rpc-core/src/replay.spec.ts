@@ -57,12 +57,12 @@ describe('replay', (): void => {
     const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
       subscription.unsubscribe();
 
-      // There's a promise inside .unsubscribe(), wait a bit
+      // There's a promise inside .unsubscribe(), wait a bit (> 2s)
       setTimeout((): void => {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(rpc.provider.unsubscribe).toHaveBeenCalled();
         done();
-      }, 200);
+      }, 3500);
     });
   });
 });

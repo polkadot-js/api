@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 

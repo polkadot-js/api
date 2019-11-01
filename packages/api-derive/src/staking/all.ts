@@ -8,7 +8,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { controllers } from './controllers';
 import { info } from './info';
 

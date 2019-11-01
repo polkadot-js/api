@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Vec, u32 } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session

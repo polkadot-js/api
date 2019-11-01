@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @name approvalsOfAt

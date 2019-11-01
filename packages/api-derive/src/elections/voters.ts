@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createType, Vec } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { voterPositions } from './voterPositions';
 
 /**

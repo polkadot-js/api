@@ -10,7 +10,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType, ClassOf, Vec } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 /**
  * @name indexToId

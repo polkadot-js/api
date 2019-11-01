@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 

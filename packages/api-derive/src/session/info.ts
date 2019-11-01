@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { bestNumber } from '../chain';
 
 type ResultV1Session = [SessionIndex, Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];

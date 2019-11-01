@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { HeaderAndValidators } from './subscribeNewHeads';
 
 /**

@@ -11,7 +11,7 @@ import { Vec } from '@polkadot/types';
 
 import { info } from '../accounts/info';
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { drr } from '../util';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
