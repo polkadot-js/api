@@ -5,7 +5,7 @@
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import { Observable, of } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
@@ -32,7 +32,6 @@ function retrieve (address: Address | AccountId | AccountIndex | string | null |
       const accountId = createType('AccountId', decoded);
 
       return idToIndexCall(accountId).pipe(
-        startWith(undefined),
         map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
       );
     }
@@ -40,7 +39,6 @@ function retrieve (address: Address | AccountId | AccountIndex | string | null |
     const accountIndex = createType('AccountIndex', decoded);
 
     return indexToIdCall(accountIndex).pipe(
-      startWith(undefined),
       map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
     );
   } catch (error) {

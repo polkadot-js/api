@@ -12,8 +12,15 @@ import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { drr } from '../util/drr';
+import { drr, memo } from '../util';
 import { idAndIndex } from './idAndIndex';
+
+function retrieveNick (api: ApiInterfaceRx): (accountId?: AccountId) => Observable<Option<[Bytes, Balance] & Codec> | undefined> {
+  return (accountId?: AccountId): Observable<Option<[Bytes, Balance] & Codec> | undefined> =>
+    accountId && api.query.nicks
+      ? api.query.nicks.nameOf<Option<[Bytes, Balance] & Codec>>(accountId)
+      : of(undefined);
+}
 
 /**
  * @name info
@@ -21,17 +28,16 @@ import { idAndIndex } from './idAndIndex';
  */
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   const idAndIndexCall = idAndIndex(api);
+  const nickCall = memo(retrieveNick(api));
 
   return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     idAndIndexCall(address).pipe(
-      switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, Option<[Bytes, Balance] & Codec>?]> =>
-        combineLatest([
+      switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, Option<[Bytes, Balance] & Codec>?]> => {
+        return combineLatest([
           of({ accountId, accountIndex }),
-          accountId && api.query.nicks
-            ? api.query.nicks.nameOf<Option<[Bytes, Balance] & Codec>>(accountId)
-            : of(undefined)
-        ])
-      ),
+          nickCall(accountId)
+        ]);
+      }),
       map(([{ accountId, accountIndex }, nameOf]): DeriveAccountInfo => ({
         accountId,
         accountIndex,
