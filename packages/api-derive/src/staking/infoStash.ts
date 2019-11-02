@@ -13,6 +13,8 @@ import { Option, Vec } from '@polkadot/types';
 
 import { drr } from '../util';
 
+// NOTE Unused ATM, preparing for V2-only
+
 type Result = [Option<AccountId>, [Vec<AccountId>], RewardDestination, Exposure, ValidatorPrefs, Option<Keys>?];
 type ResultV1 = [Option<AccountId>, ITuple<[Vec<AccountId>]>, RewardDestination, Exposure, ValidatorPrefs];
 type ResultV2 = [Option<AccountId>, ITuple<[Vec<AccountId>]>, RewardDestination, Exposure, ValidatorPrefs, Option<Keys>];

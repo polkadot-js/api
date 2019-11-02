@@ -27,7 +27,7 @@ interface Calls {
 }
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerivedV1 ([bestNumber, { currentIndex }, [_lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
+function createDerivedV1 ([bestNumber, { currentIndex, validatorCount }, [_lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
   const lastLengthChange = (_lastLengthChange && _lastLengthChange.unwrapOr(null)) || createType('BlockNumber');
   const sessionProgress = bestNumber
     .sub(lastLengthChange)
@@ -50,14 +50,17 @@ function createDerivedV1 ([bestNumber, { currentIndex }, [_lastLengthChange, ses
     lastLengthChange,
     sessionLength,
     sessionsPerEra,
-    sessionProgress: createType('BlockNumber', sessionProgress)
+    sessionProgress: createType('BlockNumber', sessionProgress),
+    validatorCount
   };
 }
 
-function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { currentIndex, currentEra }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
+function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { currentIndex, currentEra, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
   const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = currentIndex.sub(currentEraStartSessionIndex).add(sessionProgress);
+
+  // console.log(sessionProgress);
 
   return {
     currentEra,
@@ -69,7 +72,8 @@ function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { curre
     lastLengthChange: createType('BlockNumber', epochStartSlot),
     sessionLength: epochDuration,
     sessionsPerEra,
-    sessionProgress: createType('BlockNumber', sessionProgress)
+    sessionProgress: createType('BlockNumber', sessionProgress),
+    validatorCount
   };
 }
 

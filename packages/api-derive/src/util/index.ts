@@ -5,3 +5,4 @@
 export { drr } from '@polkadot/rpc-core/rxjs';
 
 export * from './approvalFlagsToBools';
+export * from './memo';

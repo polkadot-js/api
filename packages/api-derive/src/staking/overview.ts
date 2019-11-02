@@ -8,27 +8,26 @@ import { DerivedStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Vec, u32 } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
 import { drr } from '../util';
-import { info as sessionInfo } from '../session';
+import { indexes as sessionIndexes } from '../session';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
 export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
-  const sessionInfoCall = sessionInfo(api);
+  const sessionIndexesCall = sessionIndexes(api);
 
   return (): Observable<DerivedStakingOverview> =>
     combineLatest([
-      sessionInfoCall(),
-      api.queryMulti<[Vec<AccountId>, Vec<AccountId>, u32]>([
+      sessionIndexesCall(),
+      api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
         api.query.session.validators,
-        api.query.staking.currentElected,
-        api.query.staking.validatorCount
+        api.query.staking.currentElected
       ])
     ]).pipe(
-      switchMap(([{ currentEra, currentIndex }, [validators, currentElected, validatorCount]]) =>
+      switchMap(([{ currentEra, currentIndex, validatorCount }, [validators, currentElected]]) =>
         combineLatest([
           of({ currentElected, currentEra, currentIndex, validators, validatorCount }),
           // this will change on a per block basis, keep it innermost (and it needs eraIndex)

@@ -86,6 +86,7 @@ export interface DerivedReferendumVote {
 export interface DeriveSessionIndexes {
   currentEra: EraIndex;
   currentIndex: SessionIndex;
+  validatorCount: u32;
 }
 
 export interface DerivedSessionInfo extends DeriveSessionIndexes {
@@ -137,7 +138,6 @@ export interface DerivedStakingOverview extends DeriveSessionIndexes {
   currentElected: AccountId[];
   eraPoints: EraPoints;
   validators: AccountId[];
-  validatorCount: u32;
 }
 
 export type DerivedUnlocking = { remainingBlocks: BlockNumber; value: Balance };
