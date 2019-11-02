@@ -11,13 +11,13 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { referendumInfos } from './referendumInfos';
 
-export function referendums (api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> {
+export const referendums = memo((api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> => {
   const referendumInfosCall = referendumInfos(api);
 
-  return (): Observable<Option<ReferendumInfoExtended>[]> =>
+  return memo((): Observable<Option<ReferendumInfoExtended>[]> =>
     (api.queryMulti([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount
@@ -32,5 +32,6 @@ export function referendums (api: ApiInterfaceRx): () => Observable<Option<Refer
           : of([])
       ),
       drr()
-    );
-}
+    )
+  );
+}, true);

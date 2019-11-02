@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { bestNumber } from '../chain';
 import { indexes } from './indexes';
 
@@ -130,17 +130,17 @@ function infoLatestBabe (api: ApiInterfaceRx, { indexesCall }: Calls): Observabl
 /**
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
-export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
+export const info = memo((api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> => {
   const calls = {
     bestNumberCall: bestNumber(api),
     indexesCall: indexes(api)
   };
 
-  return (): Observable<DerivedSessionInfo> => {
+  return memo((): Observable<DerivedSessionInfo> => {
     return api.consts.staking
       ? api.consts.babe
         ? infoLatestBabe(api, calls) // 2.x with Babe
         : infoLatestAura(api, calls) // 2.x with Aura (not all info there)
       : infoV1(api, calls); // 1.x
-  };
-}
+  });
+}, true);

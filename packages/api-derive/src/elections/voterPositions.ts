@@ -10,7 +10,8 @@ import { DerivedVoterPositions } from '../types';
 import BN from 'bn.js';
 import { of, combineLatest, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { drr } from '../util';
+
+import { drr, memo } from '../util';
 
 /**
  * @name voterPositions
@@ -25,8 +26,8 @@ import { drr } from '../util';
  * });
  * ```
  */
-export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> {
-  return (): Observable<DerivedVoterPositions> =>
+export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> => {
+  return memo((): Observable<DerivedVoterPositions> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<[BN, Vec<Option<AccountId>>[]]> => combineLatest(
         of(api.consts.elections.voterSetSize) as any as Observable<BN>,
@@ -53,5 +54,6 @@ export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVo
         }, {});
       }),
       drr()
-    );
-}
+    )
+  );
+}, true);

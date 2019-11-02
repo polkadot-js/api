@@ -11,15 +11,15 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
 
 import { overview } from '../staking';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
+export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> => {
   const overviewCall = overview(api);
 
-  return (): Observable<DerivedHeartbeats> => {
+  return memo((): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
       ? overviewCall().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
@@ -42,5 +42,5 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
         drr()
       )
       : of({});
-  };
-}
+  });
+}, true);

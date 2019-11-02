@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Option, Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 // NOTE Unused ATM, preparing for V2-only
 
@@ -52,8 +52,8 @@ function retrieveV2 (api: ApiInterfaceRx, stashId: AccountId): Observable<Result
   ]);
 }
 
-export function infoStash (api: ApiInterfaceRx): (stashId: AccountId) => Observable<DerivedStakingStash> {
-  return (stashId: AccountId): Observable<DerivedStakingStash> => {
+export const infoStash = memo((api: ApiInterfaceRx): (stashId: AccountId) => Observable<DerivedStakingStash> => {
+  return memo((stashId: AccountId): Observable<DerivedStakingStash> => {
     return (
       api.consts.session
         ? retrieveV2(api, stashId)
@@ -62,5 +62,5 @@ export function infoStash (api: ApiInterfaceRx): (stashId: AccountId) => Observa
       map((result): DerivedStakingStash => parse(stashId, result)),
       drr()
     );
-  }
-}
+  });
+}, true);

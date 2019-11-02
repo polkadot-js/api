@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { HeaderAndValidators } from './subscribeNewHeads';
 
 /**
@@ -24,13 +24,11 @@ import { HeaderAndValidators } from './subscribeNewHeads';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> => {
+  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     (combineLatest([
       api.rpc.chain.getHeader(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
+      api.query.session.validators.at(hash)
     ]) as Observable<HeaderAndValidators>).pipe(
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
@@ -42,5 +40,6 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
         of()
       ),
       drr()
-    );
-}
+    )
+  );
+}, true);

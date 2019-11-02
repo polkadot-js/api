@@ -11,11 +11,11 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { constructInfo } from './referendumInfo';
 
-export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<Option<ReferendumInfoExtended>[]> {
-  return (ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
+export const referendumInfos = memo((api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<Option<ReferendumInfoExtended>[]> => {
+  return memo((ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
     return (
       !ids || !ids.length
         ? of([] as Option<ReferendumInfo>[])
@@ -28,5 +28,5 @@ export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) =
       ),
       drr()
     );
-  };
-}
+  });
+}, true);
