@@ -8,7 +8,7 @@ import { DerivedStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Vec } from '@polkadot/types';
+import { createType, Vec } from '@polkadot/types';
 
 import { drr, memo } from '../util';
 import { indexes as sessionIndexes } from '../session';
@@ -31,7 +31,9 @@ export const overview = memo((api: ApiInterfaceRx): () => Observable<DerivedStak
         combineLatest([
           of({ currentElected, currentEra, currentIndex, validators, validatorCount }),
           // this will change on a per block basis, keep it innermost (and it needs eraIndex)
-          api.query.staking.currentEraPointsEarned<EraPoints>(currentEra)
+          api.query.staking.currentEraPointsEarned
+            ? api.query.staking.currentEraPointsEarned<EraPoints>(currentEra)
+            : of(createType('EraPoints'))
         ])
       ),
       map(([{ currentElected, currentEra, currentIndex, validators, validatorCount }, eraPoints]): DerivedStakingOverview => ({
