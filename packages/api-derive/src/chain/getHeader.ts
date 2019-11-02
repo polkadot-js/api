@@ -8,7 +8,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { HeaderExtended } from '../type';
 import { drr, memo } from '../util';
-import { HeaderAndValidators } from './subscribeNewHeads';
 
 /**
  * @name bestNumberFinalized
@@ -26,10 +25,10 @@ import { HeaderAndValidators } from './subscribeNewHeads';
  */
 export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> => {
   return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    (combineLatest([
+    combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session.validators.at(hash)
-    ]) as Observable<HeaderAndValidators>).pipe(
+    ]).pipe(
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
       ),

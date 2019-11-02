@@ -3,15 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Header } from '@polkadot/types/interfaces';
 
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
 import { drr, memo } from '../util';
-
-export type HeaderAndValidators = [Header, AccountId[]];
 
 /**
  * @name subscribeNewHeads
