@@ -83,9 +83,12 @@ export interface DerivedReferendumVote {
   vote: Vote;
 }
 
-export interface DerivedSessionInfo {
+export interface DeriveSessionIndexes {
   currentEra: EraIndex;
   currentIndex: SessionIndex;
+}
+
+export interface DerivedSessionInfo extends DeriveSessionIndexes {
   eraLength: BlockNumber;
   eraProgress: BlockNumber;
   isEpoch: boolean;
@@ -130,10 +133,8 @@ export interface DerivedStaking extends DerivedStakingOnlineStatus {
   validatorPrefs?: ValidatorPrefs;
 }
 
-export interface DerivedStakingOverview {
+export interface DerivedStakingOverview extends DeriveSessionIndexes {
   currentElected: AccountId[];
-  currentEra: EraIndex;
-  currentSession: SessionIndex;
   eraPoints: EraPoints;
   validators: AccountId[];
   validatorCount: u32;
