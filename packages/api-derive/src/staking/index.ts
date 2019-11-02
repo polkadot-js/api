@@ -7,3 +7,4 @@ export * from './controllers';
 export * from './info';
 export * from './overview';
 export * from './recentlyOffline';
+export * from './validators';

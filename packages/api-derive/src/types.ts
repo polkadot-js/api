@@ -132,8 +132,10 @@ export interface DerivedStaking extends DerivedStakingOnlineStatus {
 
 export interface DerivedStakingOverview {
   currentElected: AccountId[];
-  currentEraIndex: EraIndex;
-  eraPointsEarned: EraPoints;
+  currentEra: EraIndex;
+  currentSession: SessionIndex;
+  eraPoints: EraPoints;
+  validators: AccountId[];
   validatorCount: u32;
 }
 

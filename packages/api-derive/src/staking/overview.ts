@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EraIndex, EraPoints } from '@polkadot/types/interfaces';
+import { AccountId, EraIndex, EraPoints, SessionIndex } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStakingOverview } from '../types';
 
@@ -18,22 +18,26 @@ import { drr } from '../util';
 export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
   return (): Observable<DerivedStakingOverview> =>
     // these will change with an Era or epoch, keep it outmost - least amount of changes
-    api.queryMulti<[Vec<AccountId>, EraIndex, u32]>([
+    api.queryMulti<[SessionIndex, Vec<AccountId>, Vec<AccountId>, EraIndex, u32]>([
+      api.query.session.currentIndex,
+      api.query.session.validators,
       api.query.staking.currentElected,
-      api.query.staking.eraIndex,
+      api.query.staking.currentEra,
       api.query.staking.validatorCount
     ]).pipe(
-      switchMap(([currentElected, currentEraIndex, validatorCount]) =>
+      switchMap(([currentSession, validators, currentElected, currentEra, validatorCount]) =>
         combineLatest([
-          of({ currentElected, currentEraIndex, validatorCount }),
+          of({ currentElected, currentEra, currentSession, validators, validatorCount }),
           // this will change on a per block basis, keep it innermost (and it needs eraIndex)
-          api.query.staking.currentEraPointsEarned<EraPoints>(currentEraIndex)
+          api.query.staking.currentEraPointsEarned<EraPoints>(currentEra)
         ])
       ),
-      map(([{ currentElected, currentEraIndex, validatorCount }, eraPointsEarned]): DerivedStakingOverview => ({
+      map(([{ currentElected, currentEra, currentSession, validators, validatorCount }, eraPoints]): DerivedStakingOverview => ({
         currentElected,
-        currentEraIndex,
-        eraPointsEarned,
+        currentEra,
+        currentSession,
+        eraPoints,
+        validators,
         validatorCount
       })),
       drr()

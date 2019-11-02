@@ -8,25 +8,25 @@ import { DerivedHeartbeats } from '../types';
 import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Vec, u32 } from '@polkadot/types';
+import { Bytes, Option, u32 } from '@polkadot/types';
 
+import { overview } from '../staking';
 import { drr } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
+  const overviewCall = overview(api);
+
   return (): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
-      ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
-        api.query.session.currentIndex,
-        api.query.session.validators
-      ]).pipe(
-        switchMap(([currentIndex, validators]): Observable<[AccountId[], Bytes[], u32[]]> =>
+      ? overviewCall().pipe(
+        switchMap(({ currentSession, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Bytes>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
-            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
+            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(validators.map((_address, index): [SessionIndex, number] => [currentSession, index])),
+            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentSession, address]))
           ])
         ),
         map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>
