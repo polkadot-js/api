@@ -8,24 +8,24 @@ import { DerivedHeartbeats } from '../types';
 import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Bytes, Vec, u32 } from '@polkadot/types';
+import { Bytes, Option, u32 } from '@polkadot/types';
 
-import { drr } from '../util';
+import { overview as stakingOverview } from '../staking';
+import { drr, memo } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
-  return (): Observable<DerivedHeartbeats> => {
+export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> => {
+  const stakingOverviewvCall = stakingOverview(api);
+
+  return memo((): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
-      ? api.queryMulti<[SessionIndex, Vec<AccountId>]>([
-        api.query.session.currentIndex,
-        api.query.session.validators
-      ]).pipe(
-        switchMap(([currentIndex, validators]): Observable<[AccountId[], Bytes[], u32[]]> =>
+      ? stakingOverviewvCall().pipe(
+        switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Bytes>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
             api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
           ])
         ),
@@ -42,5 +42,5 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
         drr()
       )
       : of({});
-  };
-}
+  });
+}, true);

@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Header } from '@polkadot/types/interfaces';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Vec } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
-
-export type HeaderAndValidators = [Header, AccountId[]];
+import { drr, memo } from '../util';
 
 /**
  * @name subscribeNewHeads
@@ -26,23 +25,16 @@ export type HeaderAndValidators = [Header, AccountId[]];
  * });
  * ```
  */
-export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
-  return (): Observable<HeaderExtended> =>
-    api.rpc.chain.subscribeNewHeads().pipe(
-      switchMap((header: Header): Observable<HeaderAndValidators> =>
-        (combineLatest([
-          of(header),
-          // theoretically we could combine at the first call with session.validators(), however
-          // we make 100% sure we actually get the validators at a specific block so when these
-          // change at an era boundary, we have the previous values to ensure our indexes are correct
-          api.query.session
-            ? api.query.session.validators.at(header.hash)
-            : of([])
-        ]) as Observable<HeaderAndValidators>)
-      ),
+export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<HeaderExtended> => {
+  return memo((): Observable<HeaderExtended> =>
+    combineLatest([
+      api.rpc.chain.subscribeNewHeads(),
+      api.query.session.validators<Vec<AccountId>>()
+    ]).pipe(
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
       ),
       drr()
-    );
-}
+    )
+  );
+}, true);

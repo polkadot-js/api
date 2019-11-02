@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
+import { Observable, combineLatest, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+import { Vec } from '@polkadot/types';
+
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
-import { HeaderAndValidators } from './subscribeNewHeads';
+import { drr, memo } from '../util';
 
 /**
  * @name bestNumberFinalized
@@ -24,14 +27,12 @@ import { HeaderAndValidators } from './subscribeNewHeads';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    (combineLatest([
+export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> => {
+  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+    combineLatest([
       api.rpc.chain.getHeader(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
-    ]) as Observable<HeaderAndValidators>).pipe(
+      api.query.session.validators.at(hash) as Observable<Vec<AccountId>>
+    ]).pipe(
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
       ),
@@ -42,5 +43,6 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
         of()
       ),
       drr()
-    );
-}
+    )
+  );
+}, true);
