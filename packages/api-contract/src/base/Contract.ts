@@ -71,6 +71,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     let output: string;
     if (result.isSuccess) {
       const { data } = result.asSuccess;
+      console.log(data.toHex());
       output = message.returnType
         ? formatData(data, message.returnType).toString()
         : data.toHex();
