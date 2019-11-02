@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Vec } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
 import { drr, memo } from '../util';
@@ -27,7 +29,7 @@ export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<He
   return memo((): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
-      api.query.session.validators()
+      api.query.session.validators<Vec<AccountId>>()
     ]).pipe(
       map(([header, validators]): HeaderExtended =>
         new HeaderExtended(header, validators)
