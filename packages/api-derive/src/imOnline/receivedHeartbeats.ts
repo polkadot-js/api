@@ -22,11 +22,11 @@ export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<Deriv
   return (): Observable<DerivedHeartbeats> => {
     return api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
       ? overviewCall().pipe(
-        switchMap(({ currentSession, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
+        switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(validators.map((_address, index): [SessionIndex, number] => [currentSession, index])),
-            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentSession, address]))
+            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
           ])
         ),
         map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>

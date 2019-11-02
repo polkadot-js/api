@@ -15,7 +15,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionInd
   return (): Observable<DeriveSessionIndexes> =>
     api.queryMulti<[SessionIndex, EraIndex]>([
       api.query.session.currentIndex,
-      api.query.staking.currentEra,
+      api.query.staking.currentEra
     ]).pipe(
       map(([currentIndex, currentEra]): DeriveSessionIndexes => ({
         currentIndex, currentEra

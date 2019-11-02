@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
-import { Keys } from '@polkadot/types/interfaces/session';
-import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { AccountId, Balance, BlockNumber, Exposure, Keys, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
@@ -103,7 +101,7 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }, new BN(0)));
 }
 
-function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
     const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -112,9 +110,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [
     const nextSessionIds = nextKeys.unwrapOr([] as AccountId[]);
 
     return {
-      nextSessionId: nextSessionIds[0],
       nextSessionIds,
-      sessionId: sessionIds[0],
       sessionIds
     };
   }
@@ -125,9 +121,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [
     : [];
 
   return {
-    nextSessionId: nextSessionIds[0],
     nextSessionIds,
-    sessionId: nextSessionIds[0],
     sessionIds: nextSessionIds
   };
 }
