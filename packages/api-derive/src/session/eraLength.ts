@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { info } from './info';
 
-export function eraLength (api: ApiInterfaceRx): () => Observable<BlockNumber> {
+export const eraLength = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
   const infoCall = info(api);
 
-  return (): Observable<BlockNumber> =>
+  return memo((): Observable<BlockNumber> =>
     infoCall().pipe(
       map(({ eraLength }): BlockNumber => eraLength),
       drr()
-    );
-}
+    ));
+}, true);

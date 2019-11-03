@@ -11,7 +11,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 /**
  * @name bestNumberFinalized
@@ -27,8 +27,8 @@ import { drr } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> => {
+  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session.validators.at(hash) as Observable<Vec<AccountId>>
@@ -43,5 +43,5 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
         of()
       ),
       drr()
-    );
-}
+    ));
+}, true);

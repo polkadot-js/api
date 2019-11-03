@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
@@ -31,8 +31,8 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * });
  * ```
  */
-export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
-  return (): Observable<AccountIndexes> =>
+export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndexes> => {
+  return memo((): Observable<AccountIndexes> =>
     api.query.indices.nextEnumSet<AccountIndex>().pipe(
       // use the nextEnumSet (which is a counter of the number of sets) to construct
       // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
@@ -54,5 +54,5 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
           return result;
         }, {} as AccountIndexes)),
       drr()
-    );
-}
+    ));
+}, true);

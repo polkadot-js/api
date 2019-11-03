@@ -8,17 +8,16 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { DerivedBalances } from '../types';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { all } from './all';
 
-export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> {
-  return (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> => {
-    return (
+export const votingBalances = memo((api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> => {
+  return memo((addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> =>
+    (
       !addresses || !addresses.length
         ? of([] as DerivedBalances[])
         : combineLatest(addresses.map(all(api)))
     ).pipe(
       drr()
-    );
-  };
-}
+    ));
+}, true);

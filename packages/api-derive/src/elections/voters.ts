@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createType, Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { voterPositions } from './voterPositions';
 
 /**
@@ -25,10 +25,10 @@ import { voterPositions } from './voterPositions';
  * });
  * ```
  */
-export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
+export const voters = memo((api: ApiInterfaceRx): () => Observable<Vec<AccountId>> => {
   const voterPositionsCall = voterPositions(api);
 
-  return (): Observable<Vec<AccountId>> =>
+  return memo((): Observable<Vec<AccountId>> =>
     voterPositionsCall().pipe(
       map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
         createType(
@@ -39,5 +39,5 @@ export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
         )
       ),
       drr()
-    );
-}
+    ));
+}, true);
