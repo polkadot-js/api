@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @name subscribeNewHeads
@@ -25,8 +25,8 @@ import { drr, memo } from '../util';
  * });
  * ```
  */
-export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<HeaderExtended> => {
-  return memo((): Observable<HeaderExtended> =>
+export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
+  return (): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
       api.query.session.validators<Vec<AccountId>>()
@@ -35,6 +35,5 @@ export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<He
         new HeaderExtended(header, validators)
       ),
       drr()
-    )
-  );
-}, true);
+    );
+}

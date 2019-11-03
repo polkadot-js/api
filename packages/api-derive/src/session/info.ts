@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { bestNumber } from '../chain';
 import { indexes } from './indexes';
 
@@ -88,8 +88,7 @@ function infoV1 (api: ApiInterfaceRx, { bestNumberCall, indexesCall }: Calls): O
       api.query.staking.sessionsPerEra
     ])
   ]).pipe(
-    map(createDerivedV1),
-    drr()
+    map(createDerivedV1)
   );
 }
 
@@ -101,8 +100,7 @@ function infoLatestAura (api: ApiInterfaceRx, { indexesCall }: Calls): Observabl
         indexes,
         [createType('u64', 1), createType('u64', 1), createType('u64', 1), createType('SessionIndex', 1)]
       ])
-    ),
-    drr()
+    )
   );
 }
 
@@ -122,25 +120,24 @@ function infoLatestBabe (api: ApiInterfaceRx, { indexesCall }: Calls): Observabl
         indexes,
         slots
       ])
-    ),
-    drr()
+    )
   );
 }
 
 /**
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
-export const info = memo((api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> => {
+export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
   const calls = {
     bestNumberCall: bestNumber(api),
     indexesCall: indexes(api)
   };
+  const query = api.consts.staking
+    ? api.consts.babe
+      ? infoLatestBabe // 2.x with Babe
+      : infoLatestAura // 2.x with Aura (not all info there)
+    : infoV1;
 
-  return memo((): Observable<DerivedSessionInfo> => {
-    return api.consts.staking
-      ? api.consts.babe
-        ? infoLatestBabe(api, calls) // 2.x with Babe
-        : infoLatestAura(api, calls) // 2.x with Aura (not all info there)
-      : infoV1(api, calls); // 1.x
-  });
-}, true);
+  return (): Observable<DerivedSessionInfo> =>
+    query(api, calls).pipe(drr());
+}
