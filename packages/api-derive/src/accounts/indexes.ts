@@ -32,7 +32,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * ```
  */
 export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndexes> => {
-  return memo((): Observable<AccountIndexes> =>
+  return (): Observable<AccountIndexes> =>
     api.query.indices.nextEnumSet<AccountIndex>().pipe(
       // use the nextEnumSet (which is a counter of the number of sets) to construct
       // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
@@ -54,5 +54,5 @@ export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndex
           return result;
         }, {} as AccountIndexes)),
       drr()
-    ));
+    );
 }, true);

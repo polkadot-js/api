@@ -19,7 +19,7 @@ import { drr, memo } from '../util';
 export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> => {
   const stakingOverviewvCall = stakingOverview(api);
 
-  return memo((): Observable<DerivedHeartbeats> =>
+  return (): Observable<DerivedHeartbeats> =>
     api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
       ? stakingOverviewvCall().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
@@ -41,5 +41,5 @@ export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<D
         ),
         drr()
       )
-      : of({}));
+      : of({});
 }, true);

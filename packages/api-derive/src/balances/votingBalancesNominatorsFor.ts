@@ -17,7 +17,7 @@ import { votingBalances } from './votingBalances';
 export const votingBalancesNominatorsFor = memo((api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> => {
   const infoCall = info(api);
 
-  return memo((address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> =>
+  return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> =>
     infoCall(address).pipe(
       switchMap(({ accountId }): Observable<AccountId[]> =>
         accountId
@@ -26,5 +26,5 @@ export const votingBalancesNominatorsFor = memo((api: ApiInterfaceRx): (address:
       ),
       switchMap(votingBalances(api)),
       drr()
-    ));
+    );
 }, true);

@@ -232,6 +232,6 @@ export const info = memo((api: ApiInterfaceRx): (_accountId: Uint8Array | string
     ? retrieveV2
     : retrieveV1;
 
-  return memo((accountId: Uint8Array | string): Observable<DerivedStaking> =>
-    query(api, calls, createType('AccountId', accountId)).pipe(drr()));
+  return (accountId: Uint8Array | string): Observable<DerivedStaking> =>
+    query(api, calls, createType('AccountId', accountId)).pipe(drr());
 }, true);

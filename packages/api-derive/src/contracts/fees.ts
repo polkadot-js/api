@@ -104,7 +104,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  * ```
  */
 export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedContractFees> => {
-  return memo((): Observable<DerivedContractFees> => {
+  return (): Observable<DerivedContractFees> => {
     if (api.query.contract && !api.query.contract.rentByteFee) {
       return queryV1(api);
     }
@@ -122,5 +122,5 @@ export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedContract
       ),
       drr()
     );
-  });
+  };
 }, true);

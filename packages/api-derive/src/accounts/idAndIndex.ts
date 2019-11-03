@@ -66,6 +66,6 @@ export const idAndIndex = memo((api: ApiInterfaceRx): (address?: Address | Accou
     indexToIdCall: indexToId(api)
   };
 
-  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
-    retrieve(address, calls).pipe(drr()));
+  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+    retrieve(address, calls).pipe(drr());
 }, true);

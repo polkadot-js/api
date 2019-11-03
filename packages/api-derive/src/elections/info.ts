@@ -93,6 +93,6 @@ export const info = memo((api: ApiInterfaceRx): () => Observable<DerivedElection
     ? queryPhragmen
     : queryElections;
 
-  return memo((): Observable<DerivedElectionsInfo> =>
-    query(api).pipe(drr()));
+  return (): Observable<DerivedElectionsInfo> =>
+    query(api).pipe(drr());
 }, true);
