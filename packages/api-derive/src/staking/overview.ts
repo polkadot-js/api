@@ -10,16 +10,16 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { createType, Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 import { indexes as sessionIndexes } from '../session';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
+export const overview = memo((api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> => {
   const sessionIndexesCall = sessionIndexes(api);
 
-  return (): Observable<DerivedStakingOverview> =>
+  return memo((): Observable<DerivedStakingOverview> =>
     combineLatest([
       sessionIndexesCall(),
       api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
@@ -40,5 +40,5 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
         currentElected, currentEra, currentIndex, eraPoints, validators, validatorCount
       })),
       drr()
-    );
-}
+    ));
+}, true);
