@@ -8,13 +8,13 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { overview } from './overview';
 
 /**
  * @description Retrieve latest list of validators
  */
-export const validators = memo((api: ApiInterfaceRx): () => Observable<AccountId[]> => {
+export function validators (api: ApiInterfaceRx): () => Observable<AccountId[]> {
   const overviewCall = overview(api);
 
   return (): Observable<AccountId[]> =>
@@ -22,4 +22,4 @@ export const validators = memo((api: ApiInterfaceRx): () => Observable<AccountId
       map(({ validators }): AccountId[] => validators),
       drr()
     );
-}, true);
+}

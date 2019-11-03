@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { bestNumber } from './bestNumber';
 import { bestNumberFinalized } from './bestNumberFinalized';
 
@@ -26,7 +26,7 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  * });
  * ```
  */
-export const bestNumberLag = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
+export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   const bestNumberCall = bestNumber(api);
   const bestNumberFinalizedCall = bestNumberFinalized(api);
 
@@ -40,4 +40,4 @@ export const bestNumberLag = memo((api: ApiInterfaceRx): () => Observable<BlockN
       ),
       drr()
     );
-}, true);
+}

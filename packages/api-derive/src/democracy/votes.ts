@@ -9,9 +9,9 @@ import { Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
-export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> => {
+export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
   return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
     return ((
       !accountIds || !accountIds.length
@@ -23,4 +23,4 @@ export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?:
         )
     ) as Observable<Vec<Vote>>).pipe(drr());
   };
-}, true);
+}

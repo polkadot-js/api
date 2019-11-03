@@ -9,7 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { indexes, AccountIndexes } from './indexes';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @name idToIndex
@@ -25,7 +25,7 @@ import { drr, memo } from '../util';
  * });
  * ```
  */
-export const idToIndex = memo((api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> => {
+export function idToIndex (api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
   const indexesCall = indexes(api);
 
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
@@ -36,4 +36,4 @@ export const idToIndex = memo((api: ApiInterfaceRx): (accountId: AccountId | str
       ),
       drr()
     );
-}, true);
+}

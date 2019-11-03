@@ -11,12 +11,12 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
 
 import { overview as stakingOverview } from '../staking';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> => {
+export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
   const stakingOverviewvCall = stakingOverview(api);
 
   return (): Observable<DerivedHeartbeats> => {
@@ -43,4 +43,4 @@ export const receivedHeartbeats = memo((api: ApiInterfaceRx): () => Observable<D
       )
       : of({});
   };
-}, true);
+}

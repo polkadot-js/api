@@ -11,10 +11,10 @@ import { Vec } from '@polkadot/types';
 
 import { info } from '../accounts/info';
 import { DerivedBalances } from '../types';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { votingBalances } from './votingBalances';
 
-export const votingBalancesNominatorsFor = memo((api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> => {
+export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
   const infoCall = info(api);
 
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> => {
@@ -28,4 +28,4 @@ export const votingBalancesNominatorsFor = memo((api: ApiInterfaceRx): (address:
       drr()
     );
   };
-}, true);
+}
