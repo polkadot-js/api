@@ -4,14 +4,10 @@
 
 import { Codec, TypeDefInfo, TypeDef } from '@polkadot/types/types';
 
-import { Bytes, Option, createClass } from '@polkadot/types';
-import { createType, createTypeUnsafe } from '@polkadot/types/codec';
-import { compactStripLength } from '@polkadot/util';
+import { Data, Option, createClass } from '@polkadot/types';
+import { createTypeUnsafe } from '@polkadot/types/codec';
 
-export function formatData (value: Bytes, { info, type }: TypeDef): Codec {
-  const input = compactStripLength(value.toU8a(true))[1];
-  const data = createType('Data', input);
-
+export function formatData (data: Data, { info, type }: TypeDef): Codec {
   if (info === TypeDefInfo.Option) {
     return new Option(
       createClass(type),

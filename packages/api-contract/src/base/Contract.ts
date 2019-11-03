@@ -69,8 +69,11 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
   private createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: any[]): ContractCallOutcome {
     let output: string;
+
     if (result.isSuccess) {
       const { data } = result.asSuccess;
+
+      // TODO We actually want to return the full Codec type here, not a string value
       output = message.returnType
         ? formatData(data, message.returnType).toString()
         : data.toHex();
