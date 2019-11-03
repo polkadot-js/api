@@ -10,9 +10,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 import { createType } from '@polkadot/types';
+
 import { idToIndex } from './idToIndex';
 import { indexToId } from './indexToId';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 interface Calls {
   idToIndexCall (accountId: string | AccountId): Observable<AccountIndex | undefined>;
@@ -59,12 +60,12 @@ function retrieve (address: Address | AccountId | AccountIndex | string | null |
  * });
  * ```
  */
-export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
+export const idAndIndex = memo((api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> => {
   const calls = {
     idToIndexCall: idToIndex(api),
     indexToIdCall: indexToId(api)
   };
 
-  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
-    retrieve(address, calls).pipe(drr());
-}
+  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+    retrieve(address, calls).pipe(drr()));
+}, true);

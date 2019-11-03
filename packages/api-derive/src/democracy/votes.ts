@@ -7,20 +7,18 @@ import { AccountId, Vote } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
-export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
-  return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
-    return ((
+export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> => {
+  return memo((referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
+    (
       !accountIds || !accountIds.length
-        ? of([])
-        : api.query.democracy.voteOf.multi(
+        ? of([] as Vote[])
+        : api.query.democracy.voteOf.multi<Vote>(
           accountIds.map((accountId): [BN, AccountId] =>
             [referendumId, accountId]
           )
         )
-    ) as Observable<Vec<Vote>>).pipe(drr());
-  };
-}
+    ).pipe(drr()));
+}, true);

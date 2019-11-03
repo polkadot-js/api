@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
-import { Keys } from '@polkadot/types/interfaces/session';
-import { Exposure, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
+import { AccountId, Balance, BlockNumber, Exposure, Keys, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
@@ -20,7 +18,7 @@ import { isUndefined } from '@polkadot/util';
 import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { recentlyOffline } from './recentlyOffline';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 interface Calls {
   bestNumberCall (): Observable<BlockNumber>;
@@ -103,7 +101,7 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
   }, new BN(0)));
 }
 
-function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; nextSessionId?: AccountId; sessionIds: AccountId[]; sessionId?: AccountId } {
+function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   // for 2.x we have a Vec<(ValidatorId,Keys)> of the keys
   if (Array.isArray(queuedKeys)) {
     const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -112,9 +110,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [
     const nextSessionIds = nextKeys.unwrapOr([] as AccountId[]);
 
     return {
-      nextSessionId: nextSessionIds[0],
       nextSessionIds,
-      sessionId: sessionIds[0],
       sessionIds
     };
   }
@@ -125,9 +121,7 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [
     : [];
 
   return {
-    nextSessionId: nextSessionIds[0],
     nextSessionIds,
-    sessionId: nextSessionIds[0],
     sessionIds: nextSessionIds
   };
 }
@@ -209,8 +203,7 @@ function retrieveV1 (api: ApiInterfaceRx, calls: Calls, controllerId: AccountId)
         stakingLedger.isSome
           ? retrieveInfoV1(api, calls, controllerId, stakingLedger.unwrap().stash, controllerId)
           : of({ accountId: controllerId, nextSessionIds: [], sessionIds: [] })
-      ),
-      drr()
+      )
     );
 }
 
@@ -222,26 +215,23 @@ function retrieveV2 (api: ApiInterfaceRx, calls: Calls, stashId: AccountId): Obs
         controllerId.isSome
           ? retrieveInfoV2(api, calls, stashId, stashId, controllerId.unwrap())
           : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] })
-      ),
-      drr()
+      )
     );
 }
 
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
+export const info = memo((api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> => {
   const calls = {
     eraLengthCall: eraLength(api),
     bestNumberCall: bestNumber(api),
     recentlyOfflineCall: recentlyOffline(api)
   };
+  const query = api.consts.session
+    ? retrieveV2
+    : retrieveV1;
 
-  return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
-    const accountId = createType('AccountId', _accountId);
-
-    return api.consts.session
-      ? retrieveV2(api, calls, accountId)
-      : retrieveV1(api, calls, accountId);
-  };
-}
+  return memo((accountId: Uint8Array | string): Observable<DerivedStaking> =>
+    query(api, calls, createType('AccountId', accountId)).pipe(drr()));
+}, true);

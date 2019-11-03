@@ -9,7 +9,7 @@ import { DerivedFees } from '../types';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 type Result = [Balance, Balance, Balance, Balance, Balance];
 
@@ -51,13 +51,13 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
  * });
  * ```
  */
-export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
-  return (): Observable<DerivedFees> => {
-    return (
-      api.consts.balances
-        ? queryV2(api)
-        : queryV1(api)
-    ).pipe(
+export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedFees> => {
+  const query = api.consts.balances
+    ? queryV2
+    : queryV1;
+
+  return memo((): Observable<DerivedFees> =>
+    query(api).pipe(
       map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
@@ -66,6 +66,5 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
         transferFee
       })),
       drr()
-    );
-  };
-}
+    ));
+}, true);

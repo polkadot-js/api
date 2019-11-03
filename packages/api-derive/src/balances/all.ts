@@ -14,7 +14,7 @@ import { bnMax } from '@polkadot/util';
 import { info } from '../accounts/info';
 import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
-import { drr } from '../util';
+import { drr, memo } from '../util';
 
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
@@ -77,12 +77,12 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * });
  * ```
  */
-export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
+export const all = memo((api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> => {
   const bestNumberCall = bestNumber(api);
   const infoCall = info(api);
 
-  return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
-    return infoCall(address).pipe(
+  return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> =>
+    infoCall(address).pipe(
       switchMap(({ accountId }): Observable<Result> =>
         (accountId
           ? combineLatest([
@@ -101,6 +101,5 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
       ),
       map(calcBalances),
       drr()
-    );
-  };
-}
+    ));
+}, true);
