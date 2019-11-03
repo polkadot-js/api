@@ -4,22 +4,26 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { DeriveStakingValidators } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Vec } from '@polkadot/types';
 
 import { drr, memo } from '../util';
-import { overview } from './overview';
 
 /**
  * @description Retrieve latest list of validators
  */
-export const validators = memo((api: ApiInterfaceRx): () => Observable<AccountId[]> => {
-  const overviewCall = overview(api);
-
-  return (): Observable<AccountId[]> =>
-    overviewCall().pipe(
-      map(({ validators }): AccountId[] => validators),
+export const validators = memo((api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> => {
+  return (): Observable<DeriveStakingValidators> =>
+    api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
+      api.query.session.validators,
+      api.query.staking.currentElected
+    ]).pipe(
+      map(([validators, currentElected]): DeriveStakingValidators => ({
+        currentElected, validators
+      })),
       drr()
     );
 }, true);

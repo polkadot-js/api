@@ -2,32 +2,31 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, EraPoints } from '@polkadot/types/interfaces';
+import { EraPoints } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedStakingOverview } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { createType, Vec } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import { drr, memo } from '../util';
 import { indexes as sessionIndexes } from '../session';
+import { validators } from './validators';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
 export const overview = memo((api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> => {
   const sessionIndexesCall = sessionIndexes(api);
+  const validatorsCall = validators(api);
 
   return (): Observable<DerivedStakingOverview> =>
     combineLatest([
       sessionIndexesCall(),
-      api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
-        api.query.session.validators,
-        api.query.staking.currentElected
-      ])
+      validatorsCall()
     ]).pipe(
-      switchMap(([{ currentEra, currentIndex, validatorCount }, [validators, currentElected]]) =>
+      switchMap(([{ currentEra, currentIndex, validatorCount }, { currentElected, validators }]) =>
         combineLatest([
           of({ currentElected, currentEra, currentIndex, validators, validatorCount }),
           // this will change on a per block basis, keep it innermost (and it needs eraIndex)
