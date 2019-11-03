@@ -12,7 +12,7 @@ import { Vec } from '@polkadot/types';
 import { drr, memo } from '../util';
 
 export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> => {
-  return memo((referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
+  return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> => {
     return ((
       !accountIds || !accountIds.length
         ? of([])
@@ -22,5 +22,5 @@ export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?:
           )
         )
     ) as Observable<Vec<Vote>>).pipe(drr());
-  });
+  };
 }, true);

@@ -81,7 +81,7 @@ export const all = memo((api: ApiInterfaceRx): (address: AccountIndex | AccountI
   const bestNumberCall = bestNumber(api);
   const infoCall = info(api);
 
-  return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
+  return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return infoCall(address).pipe(
       switchMap(({ accountId }): Observable<Result> =>
         (accountId
@@ -102,5 +102,5 @@ export const all = memo((api: ApiInterfaceRx): (address: AccountIndex | AccountI
       map(calcBalances),
       drr()
     );
-  });
+  };
 }, true);

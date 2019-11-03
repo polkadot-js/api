@@ -30,7 +30,7 @@ export const bestNumberLag = memo((api: ApiInterfaceRx): () => Observable<BlockN
   const bestNumberCall = bestNumber(api);
   const bestNumberFinalizedCall = bestNumberFinalized(api);
 
-  return memo((): Observable<BlockNumber> =>
+  return (): Observable<BlockNumber> =>
     combineLatest([
       bestNumberCall(),
       bestNumberFinalizedCall()
@@ -39,6 +39,5 @@ export const bestNumberLag = memo((api: ApiInterfaceRx): () => Observable<BlockN
         createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
       ),
       drr()
-    )
-  );
+    );
 }, true);

@@ -13,7 +13,7 @@ import { u32 } from '@polkadot/types';
 import { drr, memo } from '../util';
 
 export const indexes = memo((api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> => {
-  return memo((): Observable<DeriveSessionIndexes> =>
+  return (): Observable<DeriveSessionIndexes> =>
     api.queryMulti<[SessionIndex, EraIndex, u32]>([
       api.query.session.currentIndex,
       api.query.staking.currentEra,
@@ -23,6 +23,5 @@ export const indexes = memo((api: ApiInterfaceRx): () => Observable<DeriveSessio
         currentIndex, currentEra, validatorCount
       })),
       drr()
-    )
-  );
+    );
 }, true);

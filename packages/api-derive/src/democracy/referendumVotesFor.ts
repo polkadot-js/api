@@ -19,8 +19,8 @@ export const referendumVotesFor = memo((api: ApiInterfaceRx): (referendumId: BN 
   const votesCall = votes(api);
   const votingBalancesCall = votingBalances(api);
 
-  return memo((referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
-    (api.query.democracy.votersFor<Vec<AccountId>>(referendumId)).pipe(
+  return (referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
+    api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
       switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
@@ -36,6 +36,5 @@ export const referendumVotesFor = memo((api: ApiInterfaceRx): (referendumId: BN 
         } as unknown as DerivedReferendumVote))
       ),
       drr()
-    )
-  );
+    );
 }, true);

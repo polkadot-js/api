@@ -23,10 +23,9 @@ import { drr, memo } from '../util';
  * ```
  */
 export const bestNumber = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
-  return memo((): Observable<BlockNumber> =>
+  return (): Observable<BlockNumber> =>
     api.rpc.chain.subscribeNewHeads().pipe(
       map((header): BlockNumber => header.number.unwrap()),
       drr()
-    )
-  );
+    );
 }, true);

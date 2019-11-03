@@ -26,7 +26,7 @@ import { drr, memo } from '../util';
  * ```
  */
 export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<HeaderExtended> => {
-  return memo((): Observable<HeaderExtended> =>
+  return (): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
       api.query.session.validators<Vec<AccountId>>()
@@ -35,6 +35,5 @@ export const subscribeNewHeads = memo((api: ApiInterfaceRx): () => Observable<He
         new HeaderExtended(header, validators)
       ),
       drr()
-    )
-  );
+    );
 }, true);

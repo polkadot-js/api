@@ -28,15 +28,15 @@
   "dependencies": {
     "@babel/runtime": "^7.6.3",
     "@polkadot/api-metadata": "^0.96.0-beta.23",
-    "@polkadot/util": "^1.6.1",
-    "@polkadot/util-crypto": "^1.6.1",
+    "@polkadot/util": "^1.7.0-beta.1",
+    "@polkadot/util-crypto": "^1.7.0-beta.1",
     "@types/nock": "^11.1.0",
     "eventemitter3": "^4.0.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.30"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^1.6.1",
+    "@polkadot/keyring": "^1.7.0-beta.1",
     "mock-socket": "^9.0.2",
     "nock": "^11.4.0"
   }

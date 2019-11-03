@@ -15,7 +15,7 @@ import { drr, memo } from '../util';
 import { constructInfo } from './referendumInfo';
 
 export const referendumInfos = memo((api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<Option<ReferendumInfoExtended>[]> => {
-  return memo((ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
+  return (ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
     return (
       !ids || !ids.length
         ? of([] as Option<ReferendumInfo>[])
@@ -28,5 +28,5 @@ export const referendumInfos = memo((api: ApiInterfaceRx): (ids?: (BN | number)[
       ),
       drr()
     );
-  });
+  };
 }, true);

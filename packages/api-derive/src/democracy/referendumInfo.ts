@@ -28,7 +28,7 @@ export function constructInfo (index: BN | number, optionInfo?: Option<Referendu
 }
 
 export const referendumInfo = memo((api: ApiInterfaceRx): (index: BN | number) => Observable<Option<ReferendumInfoExtended>> => {
-  return memo((index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
+  return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
     return (api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index))
       .pipe(
         map((optionInfo): Option<ReferendumInfoExtended> =>
@@ -36,5 +36,5 @@ export const referendumInfo = memo((api: ApiInterfaceRx): (index: BN | number) =
         ),
         drr()
       );
-  });
+  };
 }, true);

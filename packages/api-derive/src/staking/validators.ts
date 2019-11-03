@@ -17,10 +17,9 @@ import { overview } from './overview';
 export const validators = memo((api: ApiInterfaceRx): () => Observable<AccountId[]> => {
   const overviewCall = overview(api);
 
-  return memo((): Observable<AccountId[]> =>
+  return (): Observable<AccountId[]> =>
     overviewCall().pipe(
       map(({ validators }): AccountId[] => validators),
       drr()
-    )
-  );
+    );
 }, true);

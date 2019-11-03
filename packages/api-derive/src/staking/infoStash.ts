@@ -53,14 +53,13 @@ function retrieveV2 (api: ApiInterfaceRx, stashId: AccountId): Observable<Result
 }
 
 export const infoStash = memo((api: ApiInterfaceRx): (stashId: AccountId) => Observable<DerivedStakingStash> => {
-  return memo((stashId: AccountId): Observable<DerivedStakingStash> => {
-    return (
-      api.consts.session
-        ? retrieveV2(api, stashId)
-        : retrieveV1(api, stashId)
-    ).pipe(
+  const query = api.consts.session
+    ? retrieveV2
+    : retrieveV1;
+
+  return (stashId: AccountId): Observable<DerivedStakingStash> =>
+    query(api, stashId).pipe(
       map((result): DerivedStakingStash => parse(stashId, result)),
       drr()
     );
-  });
 }, true);

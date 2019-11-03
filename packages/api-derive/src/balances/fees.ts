@@ -52,12 +52,12 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
  * ```
  */
 export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedFees> => {
-  return memo((): Observable<DerivedFees> => {
-    return (
-      api.consts.balances
-        ? queryV2(api)
-        : queryV1(api)
-    ).pipe(
+  const query = api.consts.balances
+    ? queryV2
+    : queryV1;
+
+  return (): Observable<DerivedFees> => {
+    return query(api).pipe(
       map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
@@ -67,5 +67,5 @@ export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedFees> =>
       })),
       drr()
     );
-  });
+  };
 }, true);

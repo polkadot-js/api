@@ -32,30 +32,27 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * ```
  */
 export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndexes> => {
-  return memo((): Observable<AccountIndexes> => {
-    return api.query.indices
-      .nextEnumSet<AccountIndex>()
-      .pipe(
-        // use the nextEnumSet (which is a counter of the number of sets) to construct
-        // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
-        // specific index - each query can return up to ENUMSET_SIZE (64) records, each
-        // containing an AccountId
-        switchMap((next: AccountIndex): Observable<any> =>
-          api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
-        ),
-        map((all: (AccountId[] | undefined)[]): AccountIndexes =>
-          (all || []).reduce((result, list, outerIndex): AccountIndexes => {
-            (list || []).forEach((accountId, innerIndex): void => {
-              // re-create the index based on position 0 is [0][0] and likewise
-              // 64 (0..63 in first) is [1][0] (the first index value in set 2)
-              const index = (outerIndex * enumsetSize) + innerIndex;
+  return (): Observable<AccountIndexes> =>
+    api.query.indices.nextEnumSet<AccountIndex>().pipe(
+      // use the nextEnumSet (which is a counter of the number of sets) to construct
+      // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
+      // specific index - each query can return up to ENUMSET_SIZE (64) records, each
+      // containing an AccountId
+      switchMap((next: AccountIndex): Observable<any> =>
+        api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
+      ),
+      map((all: (AccountId[] | undefined)[]): AccountIndexes =>
+        (all || []).reduce((result, list, outerIndex): AccountIndexes => {
+          (list || []).forEach((accountId, innerIndex): void => {
+            // re-create the index based on position 0 is [0][0] and likewise
+            // 64 (0..63 in first) is [1][0] (the first index value in set 2)
+            const index = (outerIndex * enumsetSize) + innerIndex;
 
-              result[accountId.toString()] = createType('AccountIndex', index);
-            });
+            result[accountId.toString()] = createType('AccountIndex', index);
+          });
 
-            return result;
-          }, {} as AccountIndexes)),
-        drr()
-      );
-  });
+          return result;
+        }, {} as AccountIndexes)),
+      drr()
+    );
 }, true);

@@ -28,13 +28,12 @@ import { drr, memo } from '../util';
 export const idToIndex = memo((api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> => {
   const indexesCall = indexes(api);
 
-  return memo((accountId: AccountId | string): Observable<AccountIndex | undefined> =>
+  return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexesCall().pipe(
       startWith({}),
       map((indexes: AccountIndexes): AccountIndex | undefined =>
         (indexes || {})[accountId.toString()]
       ),
       drr()
-    )
-  );
+    );
 }, true);

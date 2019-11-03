@@ -28,7 +28,7 @@ import { drr, memo } from '../util';
  * ```
  */
 export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> => {
-  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session.validators.at(hash) as Observable<Vec<AccountId>>
@@ -43,6 +43,5 @@ export const getHeader = memo((api: ApiInterfaceRx): (hash: Uint8Array | string)
         of()
       ),
       drr()
-    )
-  );
+    );
 }, true);
