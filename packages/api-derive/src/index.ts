@@ -56,7 +56,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
     }, {} as DeriveAllSections<AllSections>);
 }
 
-export function derive = { accounts, balances, chain, contracts, democracy, elections, imOnline, session, staking };
+export const derive = { accounts, balances, chain, contracts, democracy, elections, imOnline, session, staking };
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
