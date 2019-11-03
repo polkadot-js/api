@@ -8,12 +8,14 @@ import { Data, Option, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 
 export function formatData (data: Data, { info, type }: TypeDef): Codec {
+  const u8a = data.toU8a();
+
   if (info === TypeDefInfo.Option) {
     return new Option(
       createClass(type),
-      createTypeUnsafe(type, [data], true)
+      createTypeUnsafe(type, [u8a], true)
     );
   }
 
-  return createTypeUnsafe(type, [data], true);
+  return createTypeUnsafe(type, [u8a], true);
 }
