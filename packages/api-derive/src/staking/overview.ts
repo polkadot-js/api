@@ -19,7 +19,7 @@ import { indexes as sessionIndexes } from '../session';
 export const overview = memo((api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> => {
   const sessionIndexesCall = sessionIndexes(api);
 
-  return memo((): Observable<DerivedStakingOverview> =>
+  return (): Observable<DerivedStakingOverview> =>
     combineLatest([
       sessionIndexesCall(),
       api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
@@ -40,5 +40,5 @@ export const overview = memo((api: ApiInterfaceRx): () => Observable<DerivedStak
         currentElected, currentEra, currentIndex, eraPoints, validators, validatorCount
       })),
       drr()
-    ));
+    );
 }, true);

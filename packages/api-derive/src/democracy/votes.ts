@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { drr, memo } from '../util';
 
 export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> => {
-  return memo((referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
+  return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
     (
       !accountIds || !accountIds.length
         ? of([] as Vote[])
@@ -20,5 +20,5 @@ export const votes = memo((api: ApiInterfaceRx): (referendumId: BN, accountIds?:
             [referendumId, accountId]
           )
         )
-    ).pipe(drr()));
+    ).pipe(drr());
 }, true);
