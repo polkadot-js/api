@@ -18,7 +18,7 @@ import { isUndefined } from '@polkadot/util';
 import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { recentlyOffline } from './recentlyOffline';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 interface Calls {
   bestNumberCall (): Observable<BlockNumber>;
@@ -222,7 +222,7 @@ function retrieveV2 (api: ApiInterfaceRx, calls: Calls, stashId: AccountId): Obs
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export const info = memo((api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> => {
+export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   const calls = {
     eraLengthCall: eraLength(api),
     bestNumberCall: bestNumber(api),
@@ -234,4 +234,4 @@ export const info = memo((api: ApiInterfaceRx): (_accountId: Uint8Array | string
 
   return (accountId: Uint8Array | string): Observable<DerivedStaking> =>
     query(api, calls, createType('AccountId', accountId)).pipe(drr());
-}, true);
+}

@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { info } from './info';
 
-export const sessionProgress = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
+export function sessionProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   const infoCall = info(api);
 
   return (): Observable<BlockNumber> =>
@@ -19,4 +19,4 @@ export const sessionProgress = memo((api: ApiInterfaceRx): () => Observable<Bloc
       map(({ sessionProgress }): BlockNumber => sessionProgress),
       drr()
     );
-}, true);
+}

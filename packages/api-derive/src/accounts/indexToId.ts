@@ -10,7 +10,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType, ClassOf, Vec } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @name indexToId
@@ -25,7 +25,7 @@ import { drr, memo } from '../util';
  * });
  * ```
  */
-export const indexToId = memo((api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> => {
+export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
   const querySection = api.query.indices || api.query.balances;
 
   return (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
@@ -41,4 +41,4 @@ export const indexToId = memo((api: ApiInterfaceRx): (accountIndex: AccountIndex
       drr()
     );
   };
-}, true);
+}
