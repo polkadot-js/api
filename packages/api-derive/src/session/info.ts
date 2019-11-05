@@ -138,6 +138,6 @@ export const info = memo((api: ApiInterfaceRx): () => Observable<DerivedSessionI
       : infoLatestAura // 2.x with Aura (not all info there)
     : infoV1;
 
-  return memo((): Observable<DerivedSessionInfo> =>
-    query(api, calls).pipe(drr()));
+  return (): Observable<DerivedSessionInfo> =>
+    query(api, calls).pipe(drr());
 }, true);

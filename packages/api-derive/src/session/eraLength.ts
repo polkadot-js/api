@@ -14,9 +14,9 @@ import { info } from './info';
 export const eraLength = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
   const infoCall = info(api);
 
-  return memo((): Observable<BlockNumber> =>
+  return (): Observable<BlockNumber> =>
     infoCall().pipe(
       map(({ eraLength }): BlockNumber => eraLength),
       drr()
-    ));
+    );
 }, true);

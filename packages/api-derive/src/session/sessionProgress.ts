@@ -14,9 +14,9 @@ import { info } from './info';
 export const sessionProgress = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
   const infoCall = info(api);
 
-  return memo((): Observable<BlockNumber> =>
+  return (): Observable<BlockNumber> =>
     infoCall().pipe(
       map(({ sessionProgress }): BlockNumber => sessionProgress),
       drr()
-    ));
+    );
 }, true);

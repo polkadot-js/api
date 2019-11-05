@@ -27,7 +27,7 @@ import { drr, memo } from '../util';
  * ```
  */
 export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> => {
-  return memo((): Observable<DerivedVoterPositions> =>
+  return (): Observable<DerivedVoterPositions> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<[BN, Vec<Option<AccountId>>[]]> => combineLatest(
         of(api.consts.elections.voterSetSize) as any as Observable<BN>,
@@ -54,5 +54,5 @@ export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<Deriv
         }, {});
       }),
       drr()
-    ));
+    );
 }, true);

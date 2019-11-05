@@ -28,12 +28,11 @@ export function constructInfo (index: BN | number, optionInfo?: Option<Referendu
 }
 
 export const referendumInfo = memo((api: ApiInterfaceRx): (index: BN | number) => Observable<Option<ReferendumInfoExtended>> => {
-  return memo((index: BN | number): Observable<Option<ReferendumInfoExtended>> =>
-    (api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index))
-      .pipe(
-        map((optionInfo): Option<ReferendumInfoExtended> =>
-          constructInfo(index, optionInfo)
-        ),
-        drr()
-      ));
+  return (index: BN | number): Observable<Option<ReferendumInfoExtended>> =>
+    api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index).pipe(
+      map((optionInfo): Option<ReferendumInfoExtended> =>
+        constructInfo(index, optionInfo)
+      ),
+      drr()
+    );
 }, true);

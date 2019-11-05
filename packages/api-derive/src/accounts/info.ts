@@ -30,7 +30,7 @@ export const info = memo((api: ApiInterfaceRx): (address?: AccountIndex | Accoun
   const idAndIndexCall = idAndIndex(api);
   const nickCall = retrieveNick(api);
 
-  return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
+  return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     idAndIndexCall(address).pipe(
       switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, Option<[Bytes, Balance] & Codec>?]> =>
         combineLatest([
@@ -46,5 +46,5 @@ export const info = memo((api: ApiInterfaceRx): (address?: AccountIndex | Accoun
           : undefined
       })),
       drr()
-    ));
+    );
 }, true);
