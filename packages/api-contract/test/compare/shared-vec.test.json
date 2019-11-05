@@ -1,19 +1,19 @@
 [
   {
     "info": 9,
-    "type": "{ \"mutators\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>\", \"vec\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }<i32>\"} }",
+    "type": "{ \"mutators\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\" }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>>\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>\", \"vec\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\" }<i32>\" }<i32>\" }",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }",
+        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\" }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>>\" }",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }",
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "type": "{ \"cell\": \"([u8;32])\" }",
                 "sub": [
                   {
                     "info": 10,
@@ -58,7 +58,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "type": "{ \"cells_key\": \"([u8;32])\" }",
             "sub": [
               {
                 "info": 10,
@@ -87,7 +87,7 @@
             "params": [
               {
                 "info": 3,
-                "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+                "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }",
                 "sub": [
                   {
                     "info": 10,
@@ -95,7 +95,7 @@
                     "sub": [
                       {
                         "info": 9,
-                        "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                        "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }",
                         "sub": [
                           {
                             "info": 10,
@@ -120,7 +120,7 @@
                           },
                           {
                             "info": 9,
-                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                             "sub": [
                               {
                                 "info": 5,
@@ -183,7 +183,7 @@
                           },
                           {
                             "info": 9,
-                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                             "sub": [
                               {
                                 "info": 5,
@@ -223,7 +223,7 @@
                         "index": 0
                       }
                     ],
-                    "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+                    "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)"
                   },
                   {
                     "info": 6,
@@ -257,7 +257,7 @@
                   },
                   {
                     "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                     "sub": [
                       {
                         "info": 5,
@@ -324,7 +324,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
             "sub": [
               {
                 "info": 5,
@@ -364,15 +364,15 @@
       },
       {
         "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }",
+        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\" }<i32>\" }",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }",
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "type": "{ \"cell\": \"([u8;32])\" }",
                 "sub": [
                   {
                     "info": 10,
@@ -417,7 +417,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "type": "{ \"cells_key\": \"([u8;32])\" }",
             "sub": [
               {
                 "info": 10,
@@ -466,15 +466,15 @@
   },
   {
     "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }",
+    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\" }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>>\" }",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "type": "{ \"cell\": \"([u8;32])\" }",
             "sub": [
               {
                 "info": 10,
@@ -519,7 +519,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "type": "{ \"cells_key\": \"([u8;32])\" }",
         "sub": [
           {
             "info": 10,
@@ -548,7 +548,7 @@
         "params": [
           {
             "info": 3,
-            "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+            "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }",
             "sub": [
               {
                 "info": 10,
@@ -556,7 +556,7 @@
                 "sub": [
                   {
                     "info": 9,
-                    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }",
                     "sub": [
                       {
                         "info": 10,
@@ -581,7 +581,7 @@
                       },
                       {
                         "info": 9,
-                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                         "sub": [
                           {
                             "info": 5,
@@ -644,7 +644,7 @@
                       },
                       {
                         "info": 9,
-                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                         "sub": [
                           {
                             "info": 5,
@@ -684,7 +684,7 @@
                     "index": 0
                   }
                 ],
-                "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+                "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)"
               },
               {
                 "info": 6,
@@ -718,7 +718,7 @@
               },
               {
                 "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                 "sub": [
                   {
                     "info": 5,
@@ -785,7 +785,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
         "sub": [
           {
             "info": 5,
@@ -862,7 +862,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
     "sub": [
       {
         "info": 5,
@@ -919,11 +919,11 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"([u8;32])\"} }",
+        "type": "{ \"cell\": \"([u8;32])\" }",
         "sub": [
           {
             "info": 10,
@@ -968,7 +968,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"([u8;32])\"} }",
+    "type": "{ \"cell\": \"([u8;32])\" }",
     "sub": [
       {
         "info": 10,
@@ -1024,7 +1024,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "type": "{ \"cells_key\": \"([u8;32])\" }",
     "sub": [
       {
         "info": 10,
@@ -1053,7 +1053,7 @@
     "params": [
       {
         "info": 3,
-        "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+        "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }",
         "sub": [
           {
             "info": 10,
@@ -1061,7 +1061,7 @@
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }",
                 "sub": [
                   {
                     "info": 10,
@@ -1086,7 +1086,7 @@
                   },
                   {
                     "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                     "sub": [
                       {
                         "info": 5,
@@ -1149,7 +1149,7 @@
                   },
                   {
                     "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                     "sub": [
                       {
                         "info": 5,
@@ -1189,7 +1189,7 @@
                 "index": 0
               }
             ],
-            "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+            "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)"
           },
           {
             "info": 6,
@@ -1223,7 +1223,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
             "sub": [
               {
                 "info": 5,
@@ -1265,7 +1265,7 @@
   },
   {
     "info": 3,
-    "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+    "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)\", \"Removed\": \"Null\"\" }\" }",
     "sub": [
       {
         "info": 10,
@@ -1273,7 +1273,7 @@
         "sub": [
           {
             "info": 9,
-            "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+            "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }",
             "sub": [
               {
                 "info": 10,
@@ -1298,7 +1298,7 @@
               },
               {
                 "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                 "sub": [
                   {
                     "info": 5,
@@ -1361,7 +1361,7 @@
               },
               {
                 "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
                 "sub": [
                   {
                     "info": 5,
@@ -1401,7 +1401,7 @@
             "index": 0
           }
         ],
-        "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+        "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }>)"
       },
       {
         "info": 6,
@@ -1435,7 +1435,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
         "sub": [
           {
             "info": 5,
@@ -1475,7 +1475,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }\" }",
     "sub": [
       {
         "info": 10,
@@ -1500,7 +1500,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
         "sub": [
           {
             "info": 5,
@@ -1563,7 +1563,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\" }",
         "sub": [
           {
             "info": 5,
@@ -1603,15 +1603,15 @@
   },
   {
     "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }",
+    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\" }<i32>\" }",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\" }<u32>\" }",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "type": "{ \"cell\": \"([u8;32])\" }",
             "sub": [
               {
                 "info": 10,
@@ -1656,7 +1656,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "type": "{ \"cells_key\": \"([u8;32])\" }",
         "sub": [
           {
             "info": 10,
@@ -1705,7 +1705,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "type": "{ \"cells_key\": \"([u8;32])\" }",
     "sub": [
       {
         "info": 10,
