@@ -78,17 +78,15 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
         : createType('Data', data);
     }
 
-    const outcome = {
+    return {
       time: Date.now(),
       message,
       origin,
       params,
-      result: result,
+      result,
       isSuccess: result.isSuccess,
       output
     };
-
-    return outcome;
   }
 
   public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
