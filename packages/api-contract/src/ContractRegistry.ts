@@ -43,7 +43,7 @@ function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, strin
   return createClass(
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = encodeType(type);
+        base[name] = type.displayName || encodeType(type);
 
         return base;
       }, baseDef)
@@ -118,8 +118,15 @@ export default class ContractRegistry extends MetaRegistry {
     const encoder = (...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
-      const u8a = new Clazz(
+      console.log(
         args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
+          mapped[name] = params[index];
+
+          return mapped;
+        }, { ...baseStruct })
+      );
+
+      const u8a = new Clazz(args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
           mapped[name] = params[index];
 
           return mapped;
