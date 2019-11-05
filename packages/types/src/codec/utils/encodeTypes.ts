@@ -38,7 +38,7 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
     sub
       .map((type: TypeDef): string => `"${type.name}": "${encodeWithParams(type)}"`)
       .join(', ')
-  }} }`;
+  }${asEnum ? '" }"' : ''} }`;
 }
 
 function encodeEnum (typeDef: Pick<TypeDef, any>): string {
