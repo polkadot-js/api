@@ -4,7 +4,7 @@
 
 import { ApiTypes, DecorateMethod, ObsInnerType } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
+import { Codec, IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, ContractABIMessage, ContractABIPre, ContractCallOutcome } from '../types';
 
 import BN from 'bn.js';
@@ -68,30 +68,25 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   }
 
   private createOutcome (result: ContractExecResult, origin: AccountId, message: ContractABIMessage, params: any[]): ContractCallOutcome {
-    let output: string;
+    let output: Codec | null = null;
 
     if (result.isSuccess) {
       const { data } = result.asSuccess;
 
-      // TODO We actually want to return the full Codec type here, not a string value
       output = message.returnType
-        ? formatData(data, message.returnType).toString()
-        : data.toHex();
-    } else {
-      output = 'Error';
+        ? formatData(data, message.returnType)
+        : createType('Data', data);
     }
 
-    const outcome = {
+    return {
       time: Date.now(),
       message,
       origin,
       params,
-      result: result,
-      success: result.isSuccess,
-      output: output && output.length ? output : '()'
+      result,
+      isSuccess: result.isSuccess,
+      output
     };
-
-    return outcome;
   }
 
   public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
