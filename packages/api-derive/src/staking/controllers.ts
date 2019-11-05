@@ -10,12 +10,12 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
-export const controllers = memo((api: ApiInterfaceRx): () => Observable<[AccountId[], Option<AccountId>[]]> => {
+export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[], Option<AccountId>[]]> {
   return (): Observable<[AccountId[], Option<AccountId>[]]> =>
     api.query.staking.validators<[AccountId[]] & Codec>().pipe(
       switchMap(([stashIds]): Observable<[AccountId[], Option<AccountId>[]]> =>
@@ -29,4 +29,4 @@ export const controllers = memo((api: ApiInterfaceRx): () => Observable<[Account
       ),
       drr()
     );
-}, true);
+}

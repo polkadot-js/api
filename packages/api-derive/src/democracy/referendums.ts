@@ -11,10 +11,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 import { referendumInfos } from './referendumInfos';
 
-export const referendums = memo((api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> => {
+export function referendums (api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> {
   const referendumInfosCall = referendumInfos(api);
 
   return (): Observable<Option<ReferendumInfoExtended>[]> =>
@@ -33,4 +33,4 @@ export const referendums = memo((api: ApiInterfaceRx): () => Observable<Option<R
       ),
       drr()
     );
-}, true);
+}
