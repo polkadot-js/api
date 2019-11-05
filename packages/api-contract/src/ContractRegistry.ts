@@ -118,14 +118,6 @@ export default class ContractRegistry extends MetaRegistry {
     const encoder = (...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
-      console.log(
-        args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
-          mapped[name] = params[index];
-
-          return mapped;
-        }, { ...baseStruct })
-      );
-
       const u8a = new Clazz(args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
           mapped[name] = params[index];
 
