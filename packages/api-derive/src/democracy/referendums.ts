@@ -17,7 +17,7 @@ import { referendumInfos } from './referendumInfos';
 export const referendums = memo((api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> => {
   const referendumInfosCall = referendumInfos(api);
 
-  return memo((): Observable<Option<ReferendumInfoExtended>[]> =>
+  return (): Observable<Option<ReferendumInfoExtended>[]> =>
     api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount
@@ -32,5 +32,5 @@ export const referendums = memo((api: ApiInterfaceRx): () => Observable<Option<R
           : of([])
       ),
       drr()
-    ));
+    );
 }, true);

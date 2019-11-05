@@ -28,7 +28,7 @@ import { drr, memo } from '../util';
 export const indexToId = memo((api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> => {
   const querySection = api.query.indices || api.query.balances;
 
-  return memo((_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
+  return (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
     const accountIndex = _accountIndex instanceof ClassOf('AccountIndex')
       ? _accountIndex
       : createType('AccountIndex', _accountIndex);
@@ -40,5 +40,5 @@ export const indexToId = memo((api: ApiInterfaceRx): (accountIndex: AccountIndex
       ),
       drr()
     );
-  });
+  };
 }, true);

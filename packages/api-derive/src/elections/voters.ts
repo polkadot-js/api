@@ -28,7 +28,7 @@ import { voterPositions } from './voterPositions';
 export const voters = memo((api: ApiInterfaceRx): () => Observable<Vec<AccountId>> => {
   const voterPositionsCall = voterPositions(api);
 
-  return memo((): Observable<Vec<AccountId>> =>
+  return (): Observable<Vec<AccountId>> =>
     voterPositionsCall().pipe(
       map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
         createType(
@@ -39,5 +39,5 @@ export const voters = memo((api: ApiInterfaceRx): () => Observable<Vec<AccountId
         )
       ),
       drr()
-    ));
+    );
 }, true);

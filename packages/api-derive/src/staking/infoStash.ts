@@ -57,9 +57,9 @@ export const infoStash = memo((api: ApiInterfaceRx): (stashId: AccountId) => Obs
     ? retrieveV2
     : retrieveV1;
 
-  return memo((stashId: AccountId): Observable<DerivedStakingStash> =>
+  return (stashId: AccountId): Observable<DerivedStakingStash> =>
     query(api, stashId).pipe(
       map((result): DerivedStakingStash => parse(stashId, result)),
       drr()
-    ));
+    );
 }, true);

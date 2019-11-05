@@ -56,7 +56,7 @@ export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedFees> =>
     ? queryV2
     : queryV1;
 
-  return memo((): Observable<DerivedFees> =>
+  return (): Observable<DerivedFees> =>
     query(api).pipe(
       map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
@@ -66,5 +66,5 @@ export const fees = memo((api: ApiInterfaceRx): () => Observable<DerivedFees> =>
         transferFee
       })),
       drr()
-    ));
+    );
 }, true);

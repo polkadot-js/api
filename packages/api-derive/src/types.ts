@@ -115,6 +115,11 @@ export interface DerivedStakingOnlineStatus {
   }[];
 }
 
+export interface DeriveStakingValidators {
+  currentElected: AccountId[];
+  validators: AccountId[];
+}
+
 export interface DerivedStakingStash {
   controllerId?: AccountId;
   nominators?: AccountId[];

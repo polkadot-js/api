@@ -12,12 +12,12 @@ import { drr, memo } from '../util';
 import { all } from './all';
 
 export const votingBalances = memo((api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> => {
-  return memo((addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> =>
+  return (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> =>
     (
       !addresses || !addresses.length
         ? of([] as DerivedBalances[])
         : combineLatest(addresses.map(all(api)))
     ).pipe(
       drr()
-    ));
+    );
 }, true);
