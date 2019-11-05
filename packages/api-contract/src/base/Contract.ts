@@ -73,10 +73,9 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     if (result.isSuccess) {
       const { data } = result.asSuccess;
 
-      // TODO We actually want to return the full Codec type here, not a string value
       output = message.returnType
         ? formatData(data, message.returnType)
-        : data;
+        : createType('Data', data);
     }
 
     const outcome = {
