@@ -134,7 +134,6 @@ export default class ContractRegistry extends MetaRegistry {
     fn.args = args;
     fn.isConstant = !(message.mutates || false);
     fn.type = message.returnType || null;
-
     return fn;
   }
 
