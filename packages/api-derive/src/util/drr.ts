@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export * from './approvalFlagsToBools';
-export * from './drr';
-export * from './memo';
+import { drr as drrBase, DrrResult } from '@polkadot/rpc-core/rxjs';
+
+export const drr = (): DrrResult =>
+  drrBase({ skipTimeout: true });

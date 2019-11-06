@@ -3,12 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { catchError, distinctUntilChanged, publishReplay, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, publishReplay, tap, refCount } from 'rxjs/operators';
 import { logger } from '@polkadot/util';
 
 import { refCountDelay } from './refCountDelay';
 
-type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
+export type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
+
+interface Options {
+  skipChange?: boolean;
+  skipTimeout?: boolean;
+}
 
 const l = logger('drr');
 
@@ -28,12 +33,14 @@ const NOOP = (): void => {};
  *
  * @ignore
  */
-export const drr = (skipChange?: boolean): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
+export const drr = ({ skipChange, skipTimeout }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(
     catchError(ERR),
     skipChange
       ? tap(NOOP)
       : distinctUntilChanged(CMP),
     publishReplay(1),
-    refCountDelay()
+    skipTimeout
+      ? refCount()
+      : refCountDelay()
   );
