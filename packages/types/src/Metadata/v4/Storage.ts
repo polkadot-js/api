@@ -14,7 +14,7 @@ import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 
 export class StorageFunctionType extends Enum {
-  public constructor (value?: any, index?: number) {
+  constructor (value?: any, index?: number) {
     super({
       Type: 'PlainTypeV4',
       Map: 'MapTypeV4',
@@ -104,7 +104,7 @@ export interface StorageFunctionMetadataValue {
  * The definition of a storage function
  */
 export class StorageFunctionMetadata extends Struct {
-  public constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
+  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: 'Text',
       modifier: 'StorageFunctionModifierV4',

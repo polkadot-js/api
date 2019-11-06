@@ -15,7 +15,7 @@ import U8a from './U8a';
 export default abstract class Base<T extends Codec> implements Codec {
   protected raw: T;
 
-  public constructor (value?: any) {
+  constructor (value?: any) {
     this.raw = value;
   }
 

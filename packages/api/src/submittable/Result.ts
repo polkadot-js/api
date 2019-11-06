@@ -10,7 +10,7 @@ export default class SubmittableResult implements SubmittableResultImpl {
 
   public readonly status: ExtrinsicStatus;
 
-  public constructor ({ events, status }: SubmittableResultValue) {
+  constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
     this.status = status;
   }

@@ -27,7 +27,7 @@ export interface BlueprintCreate<ApiType extends ApiTypes> {
 class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
 
-  public constructor (result: SubmittableResultImpl, contract?: Contract<ApiType>) {
+  constructor (result: SubmittableResultImpl, contract?: Contract<ApiType>) {
     super(result);
 
     this.contract = contract;
@@ -38,7 +38,7 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly codeHash: Hash;
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
     this.codeHash = createType('Hash', codeHash);

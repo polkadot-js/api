@@ -20,7 +20,7 @@ const _ReferendumInfo: Constructor<ReferendumInfo> = Struct.with(democracyTypes.
 export default class ReferendumInfoExtended extends _ReferendumInfo {
   private _index: ReferendumIndex;
 
-  public constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
+  constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
     super(value);
 
     this._index = value instanceof ReferendumInfoExtended

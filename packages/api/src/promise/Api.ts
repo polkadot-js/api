@@ -213,7 +213,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
     this._isReadyPromise = new Promise((resolve): void => {

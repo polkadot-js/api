@@ -38,7 +38,7 @@ export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
  * on the contents included
  */
 export default class ExtrinsicPayloadV3 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
+  constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(SignedPayloadDefV3, value);
   }
 

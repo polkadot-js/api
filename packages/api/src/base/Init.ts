@@ -56,7 +56,7 @@ const l = logger('api/decorator');
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
     if (!this.hasSubscriptions) {

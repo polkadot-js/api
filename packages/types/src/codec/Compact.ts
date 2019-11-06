@@ -27,13 +27,13 @@ export interface CompactEncodable extends Codec {
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> {
-  public constructor (Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+  constructor (Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     super(Compact.decodeCompact<T>(typeToConstructor(Type), value));
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(Type, value);
       }
     };

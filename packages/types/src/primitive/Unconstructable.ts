@@ -12,7 +12,7 @@ import Null from './Null';
  * A type that should not be constructed
  */
 export default class Unconstructable extends Null {
-  public constructor () {
+  constructor () {
     super();
 
     throw new Error('Unconstructable should not be constructed, it is only a placeholder for compatibility');

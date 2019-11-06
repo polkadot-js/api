@@ -20,7 +20,7 @@ import { compareMap } from './utils';
  * @noInheritDoc
  */
 export default class StructAny extends Map<string, any> implements Codec {
-  public constructor (value?: { [index: string]: any } | null) {
+  constructor (value?: { [index: string]: any } | null) {
     const decoded = StructAny.decodeJson(value);
 
     super(decoded);

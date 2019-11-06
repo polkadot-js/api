@@ -20,7 +20,7 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
 export default class U8aFixed extends U8a {
-  public constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
+  constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(
       U8aFixed.decodeU8aFixed(value, bitLength)
     );
@@ -49,7 +49,7 @@ export default class U8aFixed extends U8a {
 
   public static with (bitLength: BitLength): Constructor<U8aFixed> {
     return class extends U8aFixed {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(value, bitLength);
       }
     };

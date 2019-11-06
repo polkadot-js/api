@@ -11,7 +11,7 @@ import Abi from '../Abi';
 import Code from '../base/Code';
 
 export default class RxCode extends Code<'rxjs'> {
-  public constructor (api: ApiRx, abi: ContractABIPre | Abi, wasm: string | Uint8Array) {
+  constructor (api: ApiRx, abi: ContractABIPre | Abi, wasm: string | Uint8Array) {
     super(api, abi, decorateMethod, wasm);
   }
 }

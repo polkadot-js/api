@@ -17,7 +17,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
  * @noInheritDoc
  */
 export default class U8a extends Uint8Array implements Codec {
-  public constructor (value?: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(
       U8a.decodeU8a(value)
     );

@@ -12,7 +12,7 @@ import Int from '../codec/Int';
  * A 256-bit signed integer
  */
 export default class I256 extends Int {
-  public constructor (value?: AnyNumber) {
+  constructor (value?: AnyNumber) {
     super(value, 256);
   }
 }

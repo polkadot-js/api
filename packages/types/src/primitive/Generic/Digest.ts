@@ -18,7 +18,7 @@ import Bytes from '../Bytes';
  * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends Enum {
-  public constructor (value: any) {
+  constructor (value: any) {
     super({
       Other: 'Bytes', // 0
       AuthoritiesChange: 'Vec<AuthorityId>', // 1
@@ -163,7 +163,7 @@ export class DigestItem extends Enum {
  * A [[Header]] Digest
  */
 export default class Digest extends Struct {
-  public constructor (value: any) {
+  constructor (value: any) {
     super({
       logs: Vec.with(DigestItem)
     }, value);
