@@ -17,7 +17,7 @@ import Vec from './Vec';
 export default class VecFixed<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  public constructor (Type: Constructor<T> | InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (Type: Constructor<T> | InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(Type);
 
     super(...VecFixed.decodeVecFixed(Clazz, length, value));
@@ -44,7 +44,7 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
 
   public static with<O extends Codec> (Type: Constructor<O> | InterfaceTypes, length: number): Constructor<VecFixed<O>> {
     return class extends VecFixed<O> {
-      public constructor (value?: any[]) {
+      constructor (value?: any[]) {
         super(Type, length, value);
       }
     };

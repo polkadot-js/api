@@ -35,7 +35,7 @@ interface ImmortalEnumDef {
  */
 export class ImmortalEra extends U8a {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public constructor (value?: AnyU8a) {
+  constructor (value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
     super(IMMORTAL_ERA);
@@ -48,7 +48,7 @@ export class ImmortalEra extends U8a {
  * The MortalEra for an extrinsic, indicating period and phase
  */
 export class MortalEra extends Tuple {
-  public constructor (value?: MortalMethod | Uint8Array | number[] | string) {
+  constructor (value?: MortalMethod | Uint8Array | number[] | string) {
     super({
       period: U64,
       phase: U64
@@ -191,7 +191,7 @@ export class MortalEra extends Tuple {
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  public constructor (value?: any) {
+  constructor (value?: any) {
     super({
       ImmortalEra,
       MortalEra

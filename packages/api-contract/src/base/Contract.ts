@@ -89,7 +89,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
     };
   }
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
     this.address = createType('Address', address);

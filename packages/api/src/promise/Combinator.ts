@@ -27,7 +27,7 @@ export default class Combinator {
 
   protected _subscriptions: UnsubscribePromise[] = [];
 
-  public constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
+  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
     this._callback = callback;
 
     // eslint-disable-next-line @typescript-eslint/require-await

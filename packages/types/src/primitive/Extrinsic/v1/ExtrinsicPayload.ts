@@ -22,7 +22,7 @@ import { sign } from '../util';
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class ExtrinsicPayloadV1 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
+  constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super({
       nonce: 'Compact<Index>',
       method: 'Bytes',

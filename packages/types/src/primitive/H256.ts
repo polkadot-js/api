@@ -13,7 +13,7 @@ import U8aFixed from '../codec/U8aFixed';
  * as a sane default for fixed-length hash representations.
  */
 export default class H256 extends U8aFixed implements IHash {
-  public constructor (value?: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(value, 256);
   }
 

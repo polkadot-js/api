@@ -12,7 +12,7 @@ import Abi from '../Abi';
 import Contract from '../base/Contract';
 
 export default class RxContract extends Contract<'rxjs'> {
-  public constructor (api: ApiRx, abi: ContractABIPre | Abi, address: string | AccountId) {
+  constructor (api: ApiRx, abi: ContractABIPre | Abi, address: string | AccountId) {
     super(api, abi, decorateMethod, address);
   }
 }

@@ -39,7 +39,7 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
 
   private readonly _ignoreStatusCb: boolean;
 
-  public constructor (extrinsic: Call | Uint8Array | string, { api, decorateMethod, type }: SubmittableOptions<ApiType>) {
+  constructor (extrinsic: Call | Uint8Array | string, { api, decorateMethod, type }: SubmittableOptions<ApiType>) {
     super(extrinsic, { version: api.extrinsicType });
 
     this._api = api;

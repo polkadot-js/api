@@ -19,7 +19,7 @@ import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload
  * on the contents included
  */
 export default class ExtrinsicPayloadV4 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
+  constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(SignedPayloadDefV4, value);
   }
 

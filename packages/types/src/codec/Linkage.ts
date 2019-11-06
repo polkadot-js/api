@@ -18,7 +18,7 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export default class Linkage<T extends Codec> extends Struct {
-  public constructor (Type: Constructor | InterfaceTypes, value?: any) {
+  constructor (Type: Constructor | InterfaceTypes, value?: any) {
     super({
       previous: Option.with(Type),
       next: Option.with(Type)
@@ -27,7 +27,7 @@ export default class Linkage<T extends Codec> extends Struct {
 
   public static withKey<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(Type, value);
       }
     };
@@ -65,7 +65,7 @@ export default class Linkage<T extends Codec> extends Struct {
  * @description A Linkage keys/Values tuple
  */
 export class LinkageResult extends Tuple {
-  public constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+  constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
     super({
       Keys: Vec.with(TypeKey),
       Values: Vec.with(TypeValue)

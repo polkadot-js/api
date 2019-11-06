@@ -16,7 +16,7 @@ export class SingleAccountSigner implements Signer {
 
   private signDelay: number;
 
-  public constructor (keyringPair: KeyringPair, signDelay = 0) {
+  constructor (keyringPair: KeyringPair, signDelay = 0) {
     this.keyringPair = keyringPair;
     this.signDelay = signDelay;
   }

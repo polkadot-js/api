@@ -27,7 +27,7 @@ export interface CodePutCode<ApiType extends ApiTypes> {
 class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
 
-  public constructor (result: SubmittableResultImpl, blueprint?: Blueprint<ApiType>) {
+  constructor (result: SubmittableResultImpl, blueprint?: Blueprint<ApiType>) {
     super(result);
 
     this.blueprint = blueprint;
@@ -38,7 +38,7 @@ class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
 export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   public readonly code: Uint8Array;
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, wasm: string | Uint8Array) {
     super(api, abi, decorateMethod);
 
     this.code = u8aToU8a(wasm);

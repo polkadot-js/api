@@ -111,7 +111,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
    * });
    * ```
    */
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
     const thisProvider = options.source

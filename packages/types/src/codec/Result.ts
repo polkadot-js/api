@@ -14,14 +14,14 @@ import Enum from './Enum';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export default class Result<O extends Codec, E extends Codec> extends Enum {
-  public constructor (Ok: Constructor<O> | InterfaceTypes, Error: Constructor<E> | InterfaceTypes, value?: any) {
+  constructor (Ok: Constructor<O> | InterfaceTypes, Error: Constructor<E> | InterfaceTypes, value?: any) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
     super({ Ok, Error }, value);
   }
 
   public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | InterfaceTypes; Error: Constructor<E> | InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(Types.Ok, Types.Error, value);
       }
     };

@@ -52,7 +52,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
   }
 

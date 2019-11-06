@@ -35,7 +35,7 @@ export default class Struct<
 
   protected _Types: ConstructorDef;
 
-  public constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(Types);
     const decoded: T = Struct.decodeStruct(Clazzes, value, jsonMap);
 
@@ -116,7 +116,7 @@ export default class Struct<
 
   public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      public constructor (value?: any, jsonMap?: Map<keyof S, string>) {
+      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {

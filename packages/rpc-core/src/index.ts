@@ -88,7 +88,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  public constructor (provider: ProviderInterface, userRpc: UserRpc = {}) {
+  constructor (provider: ProviderInterface, userRpc: UserRpc = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 

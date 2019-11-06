@@ -28,7 +28,7 @@ const MAX_4BYTE = new BN(1).shln(32);
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
 export default class AccountIndex extends U32 {
-  public constructor (value: AnyNumber = new BN(0)) {
+  constructor (value: AnyNumber = new BN(0)) {
     super(
       AccountIndex.decodeAccountIndex(value)
     );
