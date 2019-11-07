@@ -195,7 +195,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.consts = constants;
 
     // derive is last, since it uses the decorated rx
-    this._rx.derive = this.decorateDerive(this.rxDecorateMethod);
+    this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
     this._derive = this.decorateDerive(this.decorateMethod);
 
     return true;
