@@ -23,6 +23,7 @@ function deriveElections ([candidates, [candidateCount, desiredSeats, members, n
     desiredSeats,
     nextVoterSet,
     members: members.map(([accountId]): [AccountId, Balance] => [accountId, createType('Balance')]),
+    runnersUp: [],
     termDuration,
     voteCount,
     voterCount
@@ -45,13 +46,14 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
   ]).pipe(map(deriveElections));
 }
 
-function derivePhragmen (candidates: Vec<AccountId>, members: Vec<[AccountId, Balance] & Codec>, candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
+function derivePhragmen (candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount: createType('u32', candidates.length),
     candidacyBond,
     desiredSeats,
     members,
+    runnersUp,
     termDuration,
     votingBond
   };
@@ -62,11 +64,13 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // we are not using multi queries here, so empty array is empty (instead of space-filled)
   return combineLatest([
     api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
-    api.query.electionsPhragmen.members<Vec<[AccountId, Balance] & Codec>>()
+    api.query.electionsPhragmen.members<Vec<[AccountId, Balance] & Codec>>(),
+    api.query.electionsPhragmen.runnersUp<Vec<[AccountId, Balance] & Codec>>()
   ]).pipe(
-    map(([candidates, members]): DerivedElectionsInfo => derivePhragmen(
+    map(([candidates, members, runnersUp]): DerivedElectionsInfo => derivePhragmen(
       candidates,
       members,
+      runnersUp,
       api.consts.electionsPhragmen.candidacyBond as Balance,
       api.consts.electionsPhragmen.desiredMembers as u32,
       api.consts.electionsPhragmen.termDuration as BlockNumber,
