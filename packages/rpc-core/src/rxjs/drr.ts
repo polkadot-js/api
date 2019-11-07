@@ -33,7 +33,7 @@ const NOOP = (): void => {};
  *
  * @ignore
  */
-export const drr = ({ skipChange, skipTimeout }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
+export const drr = ({ skipChange = false, skipTimeout = false }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(
     catchError(ERR),
     skipChange
