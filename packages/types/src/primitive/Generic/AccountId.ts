@@ -17,7 +17,7 @@ import U8aFixed from '../../codec/U8aFixed';
  * just a Uint8Array wrapper with a fixed length.
  */
 export default class AccountId extends U8aFixed {
-  public constructor (value: AnyU8a = new Uint8Array()) {
+  constructor (value: AnyU8a = new Uint8Array()) {
     super(
       AccountId.decodeAccountId(value),
       256

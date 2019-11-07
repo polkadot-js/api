@@ -7,6 +7,8 @@ import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, E
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export type AccountIndexes = Record<string, AccountIndex>;
+
 export interface DeriveAccountInfo {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
@@ -48,6 +50,7 @@ export interface DerivedElectionsInfo {
   desiredSeats: u32;
   members: [AccountId, Balance][];
   nextVoterSet?: SetIndex;
+  runnersUp: [AccountId, Balance][];
   termDuration: BlockNumber;
   voteCount?: VoteIndex;
   voterCount?: SetIndex;

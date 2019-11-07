@@ -43,7 +43,7 @@ function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, strin
   return createClass(
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = encodeType(type);
+        base[name] = type.displayName || encodeType(type);
 
         return base;
       }, baseDef)
@@ -134,7 +134,6 @@ export default class ContractRegistry extends MetaRegistry {
     fn.args = args;
     fn.isConstant = !(message.mutates || false);
     fn.type = message.returnType || null;
-
     return fn;
   }
 

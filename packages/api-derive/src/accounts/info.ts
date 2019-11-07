@@ -7,44 +7,43 @@ import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/inter
 import { Codec } from '@polkadot/types/types';
 import { DeriveAccountInfo } from '../types';
 
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { drr, memo } from '../util';
-import { idAndIndex } from './idAndIndex';
+import { drr } from '../util';
 
-function retrieveNick (api: ApiInterfaceRx): (accountId?: AccountId) => Observable<Option<[Bytes, Balance] & Codec> | undefined> {
-  return (accountId?: AccountId): Observable<Option<[Bytes, Balance] & Codec> | undefined> =>
-    accountId && api.query.nicks
-      ? api.query.nicks.nameOf<Option<[Bytes, Balance] & Codec>>(accountId)
-      : of(undefined);
+function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
+  return accountId && api.query.nicks
+    ? api.query.nicks
+      .nameOf<Option<[Bytes, Balance] & Codec>>(accountId)
+      .pipe(
+        map((nameOf): string | undefined =>
+          nameOf?.isSome
+            ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
+            : undefined
+        )
+      )
+    : of(undefined);
 }
 
 /**
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
  */
-export const info = memo((api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> => {
-  const idAndIndexCall = idAndIndex(api);
-  const nickCall = retrieveNick(api);
-
+export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
   return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
-    idAndIndexCall(address).pipe(
-      switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, Option<[Bytes, Balance] & Codec>?]> =>
+    api.derive.accounts.idAndIndex(address).pipe(
+      switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, string?]> =>
         combineLatest([
           of({ accountId, accountIndex }),
-          nickCall(accountId)
+          retrieveNick(api, accountId)
         ])
       ),
-      map(([{ accountId, accountIndex }, nameOf]): DeriveAccountInfo => ({
-        accountId,
-        accountIndex,
-        nickname: nameOf && nameOf.isSome
-          ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
-          : undefined
+      map(([{ accountId, accountIndex }, nickname]): DeriveAccountInfo => ({
+        accountId, accountIndex, nickname
       })),
       drr()
     );
-}, true);
+}

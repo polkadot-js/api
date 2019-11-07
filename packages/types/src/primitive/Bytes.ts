@@ -17,7 +17,7 @@ import U8a from '../codec/U8a';
  * as what is found in [[Text]] and [[Vec]])
  */
 export default class Bytes extends U8a {
-  public constructor (value?: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(Bytes.decodeBytes(value));
   }
 

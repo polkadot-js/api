@@ -12,7 +12,7 @@ import Abi from '../Abi';
 import Blueprint from '../base/Blueprint';
 
 export default class RxBlueprint extends Blueprint<'rxjs'> {
-  public constructor (api: ApiRx, abi: ContractABIPre | Abi, codeHash: string | Hash) {
+  constructor (api: ApiRx, abi: ContractABIPre | Abi, codeHash: string | Hash) {
     super(api, abi, decorateMethod, codeHash);
   }
 }

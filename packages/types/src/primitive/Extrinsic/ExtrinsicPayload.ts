@@ -37,7 +37,7 @@ const VERSIONS: InterfaceTypes[] = [
  * on the contents included
  */
 export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+  constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
     super(
       ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
     );

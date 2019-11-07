@@ -18,7 +18,7 @@ import ExtrinsicPayloadV4 from './ExtrinsicPayload';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+  constructor (value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: 'Address',
       signature: 'MultiSignature',

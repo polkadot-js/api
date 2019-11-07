@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { u32 } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
-export const indexes = memo((api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> => {
+export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return (): Observable<DeriveSessionIndexes> =>
     api.queryMulti<[SessionIndex, EraIndex, u32]>([
       api.query.session.currentIndex,
@@ -24,4 +24,4 @@ export const indexes = memo((api: ApiInterfaceRx): () => Observable<DeriveSessio
       })),
       drr()
     );
-}, true);
+}

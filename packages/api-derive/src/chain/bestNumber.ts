@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber, Header } from '@polkadot/types/interfaces';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @name bestNumber
@@ -22,10 +22,10 @@ import { drr, memo } from '../util';
  * });
  * ```
  */
-export const bestNumber = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
+export function bestNumber (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
-    api.rpc.chain.subscribeNewHeads().pipe(
-      map((header): BlockNumber => header.number.unwrap()),
+    api.derive.chain.subscribeNewHeads().pipe(
+      map((header: Header): BlockNumber => header.number.unwrap()),
       drr()
     );
-}, true);
+}

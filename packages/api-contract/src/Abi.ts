@@ -14,7 +14,7 @@ export default class ContractAbi extends ContractRegistry implements InterfaceAb
 
   public readonly messages: AbiMessages;
 
-  public constructor (abi: ContractABIPre) {
+  constructor (abi: ContractABIPre) {
     super(abi);
     [this.abi, this.constructors, this.messages] = this.decodeAbi(abi);
   }

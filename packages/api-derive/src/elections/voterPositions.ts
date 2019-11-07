@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import { of, combineLatest, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @name voterPositions
@@ -26,7 +26,7 @@ import { drr, memo } from '../util';
  * });
  * ```
  */
-export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> => {
+export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVoterPositions> {
   return (): Observable<DerivedVoterPositions> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<[BN, Vec<Option<AccountId>>[]]> => combineLatest(
@@ -35,6 +35,7 @@ export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<Deriv
       )),
       map((result: [BN, Vec<Option<AccountId>>[]]): DerivedVoterPositions => {
         const [setSize, voters] = result;
+
         return voters.reduce((result: DerivedVoterPositions, vec, setIndex): DerivedVoterPositions => {
           vec.forEach((e, index): void => {
             // re-create the index based on position 0 is [0][0] and likewise
@@ -55,4 +56,4 @@ export const voterPositions = memo((api: ApiInterfaceRx): () => Observable<Deriv
       }),
       drr()
     );
-}, true);
+}

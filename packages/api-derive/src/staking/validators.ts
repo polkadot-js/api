@@ -10,12 +10,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 /**
  * @description Retrieve latest list of validators
  */
-export const validators = memo((api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> => {
+export function validators (api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
   return (): Observable<DeriveStakingValidators> =>
     api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
       api.query.session.validators,
@@ -26,4 +26,4 @@ export const validators = memo((api: ApiInterfaceRx): () => Observable<DeriveSta
       })),
       drr()
     );
-}, true);
+}

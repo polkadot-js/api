@@ -109,7 +109,7 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  public constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
+  constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
@@ -136,7 +136,7 @@ export default class Enum extends Base<Codec> {
 
   public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
-      public constructor (value?: any, index?: number) {
+      constructor (value?: any, index?: number) {
         super(Types, value, index);
 
         Object.keys(this._def).forEach((_key): void => {

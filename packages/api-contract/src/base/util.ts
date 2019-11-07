@@ -16,7 +16,7 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
 
   public readonly decorateMethod: DecorateMethod<ApiType>;
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
       : new Abi(abi);
@@ -42,7 +42,7 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
         : this.abi.abi.contract.messages.findIndex((message): boolean => nameOrIndex === message.name || nameOrIndex === stringCamelCase(message.name))
       : 0;
     const def = this.abi.abi.contract.messages[index];
-    assert(!!def, `Attempted to access a contract message that does not exist: ${name}`);
+    assert(!!def, `Attempted to access a contract message that does not exist: ${typeof nameOrIndex === 'number' ? `index ${nameOrIndex}` : nameOrIndex}`);
 
     const fn = this.abi.messages[def.name] || this.abi.messages[stringCamelCase(def.name)];
     return { index, def, fn };
@@ -54,7 +54,7 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
     return this.api.rx.tx.contracts;
   }
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     assert(this.api.rx.tx.contracts && this.api.rx.tx.contracts.putCode, 'You need to connect to a node with the contracts module, the metadata does not enable api.tx.contracts on this instance');
@@ -66,7 +66,7 @@ export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends Bas
     return this.api.rx.rpc.contracts.call;
   }
 
-  public constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
     assert(this.api.rx.rpc.contracts && this.api.rx.tx.contracts.call, 'You need to connect to a node with the contracts module, the metadata does not enable api.rpc.contracts.call on this instance');

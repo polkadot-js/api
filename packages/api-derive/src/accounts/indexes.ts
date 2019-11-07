@@ -4,15 +4,14 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import { AccountIndexes } from '../types';
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType } from '@polkadot/types';
 
-import { drr, memo } from '../util';
-
-export type AccountIndexes = Record<string, AccountIndex>;
+import { drr } from '../util';
 
 const enumsetSize = ENUMSET_SIZE.toNumber();
 
@@ -31,7 +30,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * });
  * ```
  */
-export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndexes> => {
+export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return (): Observable<AccountIndexes> =>
     api.query.indices.nextEnumSet<AccountIndex>().pipe(
       // use the nextEnumSet (which is a counter of the number of sets) to construct
@@ -55,4 +54,4 @@ export const indexes = memo((api: ApiInterfaceRx): () => Observable<AccountIndex
         }, {} as AccountIndexes)),
       drr()
     );
-}, true);
+}

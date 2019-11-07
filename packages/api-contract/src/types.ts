@@ -4,7 +4,7 @@
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-import { CodecArg } from '@polkadot/types/types';
+import { Codec, CodecArg } from '@polkadot/types/types';
 import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
 
 // import { Observable } from 'rxjs';
@@ -200,8 +200,8 @@ export interface ContractCallOutcome {
   time: number;
   result: ContractExecResult;
   origin: AccountId;
-  output: string;
+  output: Codec | null;
   params: any[];
-  success: boolean;
+  isSuccess: boolean;
   message: ContractABIMessage;
 }

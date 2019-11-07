@@ -13,7 +13,7 @@ import { UNMASK_VERSION } from './constants';
  * A default handler for extrinsics where the version is not known (default throw)
  */
 export default class ExtrinsicUnknown extends Struct {
-  public constructor (value?: any, { isSigned = false, version = 0 }: Partial<ExtrinsicOptions> = {}) {
+  constructor (value?: any, { isSigned = false, version = 0 }: Partial<ExtrinsicOptions> = {}) {
     super({});
 
     throw new Error(`Unsupported ${isSigned ? '' : 'un'}signed extrinsic version ${version & UNMASK_VERSION}`);

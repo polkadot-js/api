@@ -26,7 +26,7 @@ const BITLENGTH: UIntBitLength = 64;
 export default class CodecDate extends Date implements Codec {
   protected raw: Date; // FIXME Remove this once we convert all types out of Base
 
-  public constructor (value: CodecDate | Date | AnyNumber = 0) {
+  constructor (value: CodecDate | Date | AnyNumber = 0) {
     super(
       CodecDate.decodeDate(value)
     );

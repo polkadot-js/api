@@ -40,7 +40,7 @@ class MetadataRegistryLookup {
 
   public typeDefs: TypeDef[] = [];
 
-  public constructor ({ registry: { strings, types } }: MetaRegistryJson) {
+  constructor ({ registry: { strings, types } }: MetaRegistryJson) {
     this._strings = strings;
     this._types = types;
   }
@@ -102,7 +102,7 @@ class MetadataRegistryLookup {
 }
 
 export default class MetaRegistry extends MetadataRegistryLookup {
-  public constructor (json: MetaRegistryJson) {
+  constructor (json: MetaRegistryJson) {
     super(json);
 
     // Generate TypeDefs for each provided registry type

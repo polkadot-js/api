@@ -3,20 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types/interfaces';
+import { DerivedSessionInfo } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr, memo } from '../util';
-import { info } from './info';
+import { drr } from '../util';
 
-export const sessionProgress = memo((api: ApiInterfaceRx): () => Observable<BlockNumber> => {
-  const infoCall = info(api);
-
+export function sessionProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
-    infoCall().pipe(
-      map(({ sessionProgress }): BlockNumber => sessionProgress),
+    api.derive.session.info().pipe(
+      map(({ sessionProgress }: DerivedSessionInfo): BlockNumber => sessionProgress),
       drr()
     );
-}, true);
+}

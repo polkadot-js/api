@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, VestingSchedule } from '@polkadot/types/interfaces';
+import { DerivedBalances } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
@@ -11,10 +12,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
-import { info } from '../accounts/info';
-import { bestNumber } from '../chain/bestNumber';
-import { DerivedBalances } from '../types';
-import { drr, memo } from '../util';
+import { drr } from '../util';
 
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
@@ -77,17 +75,14 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * });
  * ```
  */
-export const all = memo((api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> => {
-  const bestNumberCall = bestNumber(api);
-  const infoCall = info(api);
-
+export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> =>
-    infoCall(address).pipe(
+    api.derive.accounts.info(address).pipe(
       switchMap(({ accountId }): Observable<Result> =>
         (accountId
           ? combineLatest([
             of(accountId),
-            bestNumberCall(),
+            api.derive.chain.bestNumber(),
             queryBalances(api, accountId),
             // FIXME This is having issues with Kusama, only use accountNonce atm
             // api.rpc.account && api.rpc.account.nextIndex
@@ -102,4 +97,4 @@ export const all = memo((api: ApiInterfaceRx): (address: AccountIndex | AccountI
       map(calcBalances),
       drr()
     );
-}, true);
+}

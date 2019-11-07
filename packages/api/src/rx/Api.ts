@@ -160,7 +160,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(

@@ -15,16 +15,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
-import { bestNumber } from '../chain/bestNumber';
-import { eraLength } from '../session/eraLength';
-import { recentlyOffline } from './recentlyOffline';
-import { drr, memo } from '../util';
-
-interface Calls {
-  bestNumberCall (): Observable<BlockNumber>;
-  eraLengthCall (): Observable<BlockNumber>;
-  recentlyOfflineCall (): Observable<DerivedRecentlyOffline>;
-}
+import { drr } from '../util';
 
 interface ParseInput {
   accountId: AccountId;
@@ -147,11 +138,11 @@ function parseResult ({ accountId, controllerId, stashId, eraLength, bestNumber,
 
 type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs] & Codec];
 
-function retrieveInfoV1 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall, recentlyOfflineCall }: Calls, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function retrieveInfoV1 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
-    bestNumberCall(),
-    eraLengthCall(),
-    recentlyOfflineCall(),
+    api.derive.chain.bestNumber(),
+    api.derive.session.eraLength(),
+    api.derive.staking.recentlyOffline(),
     api.queryMulti([
       [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.ledger, controllerId],
@@ -172,10 +163,10 @@ function retrieveInfoV1 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall, r
 
 type MultiResultV2 = [Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>];
 
-function retrieveInfoV2 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall }: Calls, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
-    bestNumberCall(),
-    eraLengthCall(),
+    api.derive.chain.bestNumber(),
+    api.derive.session.eraLength(),
     api.query.session.queuedKeys<Vec<[AccountId, Keys] & Codec>>(),
     api.queryMulti([
       [api.query.staking.ledger, controllerId],
@@ -195,25 +186,25 @@ function retrieveInfoV2 (api: ApiInterfaceRx, { bestNumberCall, eraLengthCall }:
   ));
 }
 
-function retrieveV1 (api: ApiInterfaceRx, calls: Calls, controllerId: AccountId): Observable<DerivedStaking> {
+function retrieveV1 (api: ApiInterfaceRx, controllerId: AccountId): Observable<DerivedStaking> {
   return api.query.staking
     .ledger<Option<StakingLedger>>(controllerId)
     .pipe(
       switchMap((stakingLedger): Observable<DerivedStaking> =>
         stakingLedger.isSome
-          ? retrieveInfoV1(api, calls, controllerId, stakingLedger.unwrap().stash, controllerId)
+          ? retrieveInfoV1(api, controllerId, stakingLedger.unwrap().stash, controllerId)
           : of({ accountId: controllerId, nextSessionIds: [], sessionIds: [] })
       )
     );
 }
 
-function retrieveV2 (api: ApiInterfaceRx, calls: Calls, stashId: AccountId): Observable<DerivedStaking> {
+function retrieveV2 (api: ApiInterfaceRx, stashId: AccountId): Observable<DerivedStaking> {
   return api.query.staking
     .bonded<Option<AccountId>>(stashId)
     .pipe(
       switchMap((controllerId): Observable<DerivedStaking> =>
         controllerId.isSome
-          ? retrieveInfoV2(api, calls, stashId, stashId, controllerId.unwrap())
+          ? retrieveInfoV2(api, stashId, stashId, controllerId.unwrap())
           : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] })
       )
     );
@@ -222,16 +213,11 @@ function retrieveV2 (api: ApiInterfaceRx, calls: Calls, stashId: AccountId): Obs
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export const info = memo((api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> => {
-  const calls = {
-    eraLengthCall: eraLength(api),
-    bestNumberCall: bestNumber(api),
-    recentlyOfflineCall: recentlyOffline(api)
-  };
+export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStaking> {
   const query = api.consts.session
     ? retrieveV2
     : retrieveV1;
 
   return (accountId: Uint8Array | string): Observable<DerivedStaking> =>
-    query(api, calls, createType('AccountId', accountId)).pipe(drr());
-}, true);
+    query(api, createType('AccountId', accountId)).pipe(drr());
+}
