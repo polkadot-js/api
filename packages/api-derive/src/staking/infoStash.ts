@@ -22,7 +22,7 @@ type ResultV2 = [Option<AccountId>, ITuple<[Vec<AccountId>]>, RewardDestination,
 function parse (stashId: AccountId, [_controllerId, [nominators], rewardDestination, stakers, validatorPrefs, _nextKeys]: Result): DerivedStakingStash {
   return {
     controllerId: _controllerId.unwrapOr(undefined),
-    nextKeys: _nextKeys && _nextKeys.unwrapOr(undefined),
+    nextKeys: _nextKeys?.unwrapOr(undefined),
     nominators,
     rewardDestination,
     stakers,

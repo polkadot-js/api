@@ -21,7 +21,7 @@ type Result = [ResultType, DeriveSessionIndexes, ResultSlots];
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
 function createDerivedV1 ([bestNumber, { currentIndex, validatorCount }, [_lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
-  const lastLengthChange = (_lastLengthChange && _lastLengthChange.unwrapOr(null)) || createType('BlockNumber');
+  const lastLengthChange = _lastLengthChange?.unwrapOr(null) || createType('BlockNumber');
   const sessionProgress = bestNumber
     .sub(lastLengthChange)
     .add(sessionLength)

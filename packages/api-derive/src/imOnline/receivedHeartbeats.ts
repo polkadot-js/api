@@ -17,7 +17,7 @@ import { drr } from '../util';
  */
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
   return (): Observable<DerivedHeartbeats> =>
-    api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
+    api.query.imOnline?.receivedHeartbeats && api.query.imOnline.authoredBlocks
       ? (api.derive.staking.overview() as Observable<DerivedStakingOverview>).pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
