@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, SessionIndex } from '@polkadot/types/interfaces';
-import { DerivedHeartbeats, DerivedStakingOverview } from '../types';
+import { DerivedHeartbeats } from '../types';
 
 import { of, Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { drr } from '../util';
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
   return (): Observable<DerivedHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats && api.query.imOnline.authoredBlocks
-      ? (api.derive.staking.overview() as Observable<DerivedStakingOverview>).pipe(
+      ? api.derive.staking.overview().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),

@@ -18,8 +18,8 @@ import { drr } from '../util';
 export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
   return (): Observable<DerivedStakingOverview> =>
     combineLatest([
-      api.derive.session.indexes() as Observable<any>,
-      api.derive.staking.validators() as Observable<any>
+      api.derive.session.indexes(),
+      api.derive.staking.validators()
     ]).pipe(
       switchMap(([{ currentEra, currentIndex, validatorCount }, { currentElected, validators }]) =>
         combineLatest([

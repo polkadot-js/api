@@ -140,9 +140,9 @@ type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>]
 
 function retrieveInfoV1 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
-    api.derive.chain.bestNumber() as Observable<any>,
-    api.derive.session.eraLength() as Observable<any>,
-    api.derive.staking.recentlyOffline() as Observable<any>,
+    api.derive.chain.bestNumber(),
+    api.derive.session.eraLength(),
+    api.derive.staking.recentlyOffline(),
     api.queryMulti([
       [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.ledger, controllerId],
@@ -165,8 +165,8 @@ type MultiResultV2 = [Option<StakingLedger>, [Vec<AccountId>], RewardDestination
 
 function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
-    api.derive.chain.bestNumber() as Observable<any>,
-    api.derive.session.eraLength() as Observable<any>,
+    api.derive.chain.bestNumber(),
+    api.derive.session.eraLength(),
     api.query.session.queuedKeys<Vec<[AccountId, Keys] & Codec>>(),
     api.queryMulti([
       [api.query.staking.ledger, controllerId],

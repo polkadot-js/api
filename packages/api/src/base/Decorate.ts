@@ -356,11 +356,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
+  protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     // Pull in derive from api-derive
     const derive = decorateDerive(this._rx as ApiInterfaceRx, this._options.derives);
 
-    return decorateSections<ApiType, ExactDerive>(derive, decorateMethod);
+    return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }
 
   protected decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {

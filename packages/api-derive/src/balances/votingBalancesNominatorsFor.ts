@@ -20,7 +20,7 @@ export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: Acc
           ? api.query.staking.nominatorsFor<Vec<AccountId>>(accountId)
           : of([] as AccountId[])
       ),
-      switchMap((accounts): DerivedBalances[] =>
+      switchMap((accounts): Observable<DerivedBalances[]> =>
         api.derive.balances.votingBalances(accounts)
       ),
       drr()

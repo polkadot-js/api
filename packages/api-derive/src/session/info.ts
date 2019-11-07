@@ -72,8 +72,8 @@ function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { curre
 
 function infoV1 (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return combineLatest([
-    api.derive.chain.bestNumber() as Observable<any>,
-    api.derive.session.indexes() as Observable<any>,
+    api.derive.chain.bestNumber(),
+    api.derive.session.indexes(),
     api.queryMulti<ResultV1Session>([
       api.query.session.lastLengthChange,
       api.query.session.sessionLength,
@@ -86,7 +86,7 @@ function infoV1 (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
 }
 
 function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
-  return (api.derive.session.indexes() as Observable<any>).pipe(
+  return api.derive.session.indexes().pipe(
     map((indexes): DerivedSessionInfo =>
       createDerivedLatest([
         [false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
@@ -99,7 +99,7 @@ function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
 
 function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return combineLatest([
-    api.derive.session.indexes() as Observable<any>,
+    api.derive.session.indexes(),
     api.queryMulti<ResultSlots>([
       api.query.babe.currentSlot,
       api.query.babe.epochIndex,

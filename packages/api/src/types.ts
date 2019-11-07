@@ -6,10 +6,11 @@ import { UserRpc } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
+import { DeriveAllSections } from './util/decorate';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
-import { DeriveCustom } from '@polkadot/api-derive';
+import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/api-metadata/consts/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
@@ -217,7 +218,7 @@ export interface ApiOptions {
 export interface ApiInterfaceRx {
   consts: Constants;
   // TODO This needs to be typed correctly
-  derive: Record<string, Record<string, any>>;
+  derive: DeriveAllSections<'rxjs', ExactDerive>;
   extrinsicType: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;

@@ -27,8 +27,8 @@ import { drr } from '../util';
 export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return (): Observable<BlockNumber> =>
     combineLatest([
-      api.derive.chain.bestNumber() as Observable<any>,
-      api.derive.chain.bestNumberFinalized() as Observable<any>
+      api.derive.chain.bestNumber(),
+      api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
         createType('BlockNumber', bestNumber.sub(bestNumberFinalized))

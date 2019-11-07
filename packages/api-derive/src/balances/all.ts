@@ -82,8 +82,7 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
         (accountId
           ? combineLatest([
             of(accountId),
-            // FIXME Typing
-            api.derive.chain.bestNumber() as Observable<any>,
+            api.derive.chain.bestNumber(),
             queryBalances(api, accountId),
             // FIXME This is having issues with Kusama, only use accountNonce atm
             // api.rpc.account && api.rpc.account.nextIndex

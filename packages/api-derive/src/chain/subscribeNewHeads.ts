@@ -27,12 +27,8 @@ export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<Header
   return (): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
-      api.derive.staking.validators() as Observable<any>
-      // api.query.session
-      //   ? api.query.session.validators<Vec<AccountId>>()
-      //   : of([])
+      api.derive.staking.validators()
     ]).pipe(
-      // map(([header, validators]): HeaderExtended =>
       map(([header, { validators }]): HeaderExtended =>
         new HeaderExtended(header, validators)
       ),
