@@ -11,7 +11,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
 import { drr } from '../util';
-import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> =>
@@ -21,7 +20,9 @@ export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: Acc
           ? api.query.staking.nominatorsFor<Vec<AccountId>>(accountId)
           : of([] as AccountId[])
       ),
-      switchMap(votingBalances(api)),
+      switchMap((accounts): DerivedBalances[] =>
+        api.derive.balances.votingBalances(accounts)
+      ),
       drr()
     );
 }

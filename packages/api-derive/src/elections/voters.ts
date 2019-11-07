@@ -11,7 +11,6 @@ import { map } from 'rxjs/operators';
 import { createType, Vec } from '@polkadot/types';
 
 import { drr } from '../util';
-import { voterPositions } from './voterPositions';
 
 /**
  * @name voters
@@ -26,10 +25,8 @@ import { voterPositions } from './voterPositions';
  * ```
  */
 export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
-  const voterPositionsCall = voterPositions(api);
-
   return (): Observable<Vec<AccountId>> =>
-    voterPositionsCall().pipe(
+    api.derive.elections.voterPositions().pipe(
       map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
         createType(
           'Vec<AccountId>',

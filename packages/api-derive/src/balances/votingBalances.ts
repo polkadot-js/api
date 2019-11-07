@@ -9,14 +9,16 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util';
-import { all } from './all';
 
 export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> {
   return (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> =>
     (
       !addresses || !addresses.length
         ? of([] as DerivedBalances[])
-        : combineLatest(addresses.map(all(api)))
+        : combineLatest(
+          addresses.map((accountId): Observable<DerivedBalances> =>
+            api.derive.balances.all(accountId))
+        )
     ).pipe(
       drr()
     );
