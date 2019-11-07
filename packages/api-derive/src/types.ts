@@ -7,6 +7,8 @@ import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, E
 import BN from 'bn.js';
 import { u32 } from '@polkadot/types';
 
+export type AccountIndexes = Record<string, AccountIndex>;
+
 export interface DeriveAccountInfo {
   accountId?: AccountId;
   accountIndex?: AccountIndex;

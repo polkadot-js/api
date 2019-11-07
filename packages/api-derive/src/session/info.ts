@@ -11,8 +11,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
 
 import { drr } from '../util';
-import { bestNumber } from '../chain';
-import { indexes } from './indexes';
 
 type ResultV1Session = [Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];
 type ResultV1 = [BlockNumber, DeriveSessionIndexes, ResultV1Session];
@@ -21,14 +19,9 @@ type ResultSlots = [u64, u64, u64, SessionIndex];
 type ResultType = [boolean, u64, SessionIndex];
 type Result = [ResultType, DeriveSessionIndexes, ResultSlots];
 
-interface Calls {
-  bestNumberCall (): Observable<BlockNumber>;
-  indexesCall (): Observable<DeriveSessionIndexes>;
-}
-
 // internal helper to just split the logic - take all inputs, do the calculations and combine
 function createDerivedV1 ([bestNumber, { currentIndex, validatorCount }, [_lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
-  const lastLengthChange = (_lastLengthChange && _lastLengthChange.unwrapOr(null)) || createType('BlockNumber');
+  const lastLengthChange = _lastLengthChange?.unwrapOr(null) || createType('BlockNumber');
   const sessionProgress = bestNumber
     .sub(lastLengthChange)
     .add(sessionLength)
@@ -77,10 +70,10 @@ function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { curre
   };
 }
 
-function infoV1 (api: ApiInterfaceRx, { bestNumberCall, indexesCall }: Calls): Observable<DerivedSessionInfo> {
+function infoV1 (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return combineLatest([
-    bestNumberCall(),
-    indexesCall(),
+    api.derive.chain.bestNumber(),
+    api.derive.session.indexes(),
     api.queryMulti<ResultV1Session>([
       api.query.session.lastLengthChange,
       api.query.session.sessionLength,
@@ -92,8 +85,8 @@ function infoV1 (api: ApiInterfaceRx, { bestNumberCall, indexesCall }: Calls): O
   );
 }
 
-function infoLatestAura (api: ApiInterfaceRx, { indexesCall }: Calls): Observable<DerivedSessionInfo> {
-  return indexesCall().pipe(
+function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return api.derive.session.indexes().pipe(
     map((indexes): DerivedSessionInfo =>
       createDerivedLatest([
         [false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
@@ -104,9 +97,9 @@ function infoLatestAura (api: ApiInterfaceRx, { indexesCall }: Calls): Observabl
   );
 }
 
-function infoLatestBabe (api: ApiInterfaceRx, { indexesCall }: Calls): Observable<DerivedSessionInfo> {
+function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return combineLatest([
-    indexesCall(),
+    api.derive.session.indexes(),
     api.queryMulti<ResultSlots>([
       api.query.babe.currentSlot,
       api.query.babe.epochIndex,
@@ -128,10 +121,6 @@ function infoLatestBabe (api: ApiInterfaceRx, { indexesCall }: Calls): Observabl
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
-  const calls = {
-    bestNumberCall: bestNumber(api),
-    indexesCall: indexes(api)
-  };
   const query = api.consts.staking
     ? api.consts.babe
       ? infoLatestBabe // 2.x with Babe
@@ -139,5 +128,5 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
     : infoV1;
 
   return (): Observable<DerivedSessionInfo> =>
-    query(api, calls).pipe(drr());
+    query(api).pipe(drr());
 }

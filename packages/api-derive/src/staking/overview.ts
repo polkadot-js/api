@@ -11,20 +11,15 @@ import { map, switchMap } from 'rxjs/operators';
 import { createType } from '@polkadot/types';
 
 import { drr } from '../util';
-import { indexes as sessionIndexes } from '../session';
-import { validators } from './validators';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
 export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
-  const sessionIndexesCall = sessionIndexes(api);
-  const validatorsCall = validators(api);
-
   return (): Observable<DerivedStakingOverview> =>
     combineLatest([
-      sessionIndexesCall(),
-      validatorsCall()
+      api.derive.session.indexes(),
+      api.derive.staking.validators()
     ]).pipe(
       switchMap(([{ currentEra, currentIndex, validatorCount }, { currentElected, validators }]) =>
         combineLatest([

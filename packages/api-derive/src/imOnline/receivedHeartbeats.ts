@@ -10,18 +10,15 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Bytes, Option, u32 } from '@polkadot/types';
 
-import { overview as stakingOverview } from '../staking';
 import { drr } from '../util';
 
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
-  const stakingOverviewCall = stakingOverview(api);
-
   return (): Observable<DerivedHeartbeats> =>
-    api.query.imOnline && api.query.imOnline.receivedHeartbeats && api.query.imOnline.authoredBlocks
-      ? stakingOverviewCall().pipe(
+    api.query.imOnline?.receivedHeartbeats && api.query.imOnline.authoredBlocks
+      ? api.derive.staking.overview().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),

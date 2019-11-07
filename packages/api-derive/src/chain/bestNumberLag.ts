@@ -10,8 +10,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 
 import { drr } from '../util';
-import { bestNumber } from './bestNumber';
-import { bestNumberFinalized } from './bestNumberFinalized';
 
 /**
  * @name bestNumberLag
@@ -27,13 +25,10 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  * ```
  */
 export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  const bestNumberCall = bestNumber(api);
-  const bestNumberFinalizedCall = bestNumberFinalized(api);
-
   return (): Observable<BlockNumber> =>
     combineLatest([
-      bestNumberCall(),
-      bestNumberFinalizedCall()
+      api.derive.chain.bestNumber(),
+      api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
         createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
