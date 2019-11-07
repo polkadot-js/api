@@ -50,6 +50,7 @@ export interface DerivedElectionsInfo {
   desiredSeats: u32;
   members: [AccountId, Balance][];
   nextVoterSet?: SetIndex;
+  runnersUp: [AccountId, Balance][];
   termDuration: BlockNumber;
   voteCount?: VoteIndex;
   voterCount?: SetIndex;
