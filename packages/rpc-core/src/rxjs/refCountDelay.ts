@@ -6,46 +6,43 @@ import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observa
 
 const DELAY = 1750;
 
-export function refCountDelay <T> (): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>): Observable<T> => {
-    let connected = 0; // 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
-    let refCount = 0;
-    let con = Subscription.EMPTY;
-    let sched = Subscription.EMPTY;
+function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
+  let connected = 0; // 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
+  let refCount = 0;
+  let con = Subscription.EMPTY;
+  let sched = Subscription.EMPTY;
 
-    return new Observable((ob) => {
-      source.subscribe(ob);
+  return new Observable((ob) => {
+    source.subscribe(ob);
 
-      if (refCount++ === 0) {
-        if (connected === 1) {
-          connected = 3;
+    if (refCount++ === 0) {
+      if (connected === 1) {
+        connected = 3;
+        sched.unsubscribe();
+      } else {
+        con = (source as ConnectableObservable<T>).connect();
+        connected = 3;
+      }
+    }
+
+    return (): void => {
+      if (--refCount === 0) {
+        if (connected === 2) {
+          connected = 0;
           sched.unsubscribe();
         } else {
-          // connected = 2;
-          // sched = asapScheduler.schedule(() => {
-          //   con = (source as ConnectableObservable<T>).connect();
-          //   connected = 3;
-          // }, attachTime);
-          con = (source as ConnectableObservable<T>).connect();
-          connected = 3;
+          // connected === 3
+          connected = 1;
+          sched = asapScheduler.schedule((): void => {
+            con.unsubscribe();
+            connected = 0;
+          }, DELAY);
         }
       }
+    };
+  });
+}
 
-      return (): void => {
-        if (--refCount === 0) {
-          if (connected === 2) {
-            connected = 0;
-            sched.unsubscribe();
-          } else {
-            // connected === 3
-            connected = 1;
-            sched = asapScheduler.schedule((): void => {
-              con.unsubscribe();
-              connected = 0;
-            }, DELAY);
-          }
-        }
-      };
-    });
-  };
+export function refCountDelay <T> (): MonoTypeOperatorFunction<T> {
+  return refCountDelayInner;
 }
