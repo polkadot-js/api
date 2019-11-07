@@ -216,6 +216,8 @@ export interface ApiOptions {
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx {
   consts: Constants;
+  // TODO This needs to be typed correctly
+  derive: Record<string, Record<string, any>>;
   extrinsicType: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;

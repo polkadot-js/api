@@ -35,6 +35,7 @@ export function voterPositions (api: ApiInterfaceRx): () => Observable<DerivedVo
       )),
       map((result: [BN, Vec<Option<AccountId>>[]]): DerivedVoterPositions => {
         const [setSize, voters] = result;
+
         return voters.reduce((result: DerivedVoterPositions, vec, setIndex): DerivedVoterPositions => {
           vec.forEach((e, index): void => {
             // re-create the index based on position 0 is [0][0] and likewise

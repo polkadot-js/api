@@ -4,6 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import { AccountIndexes } from '../types';
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -11,8 +12,6 @@ import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { createType } from '@polkadot/types';
 
 import { drr } from '../util';
-
-export type AccountIndexes = Record<string, AccountIndex>;
 
 const enumsetSize = ENUMSET_SIZE.toNumber();
 
