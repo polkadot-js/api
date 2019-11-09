@@ -15,7 +15,7 @@ import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from '@polkadot/types/interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
-import { AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
+import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeysPolkadot, SessionKeysSubstrate } from '@polkadot/types/interfaces/session';
@@ -498,6 +498,13 @@ export interface InterfaceRegistry {
   PermissionLatest: PermissionLatest;
   'Option<PermissionLatest>': Option<PermissionLatest>;
   'Vec<PermissionLatest>': Vec<PermissionLatest>;
+  AuthorityIndex: AuthorityIndex;
+  'Compact<AuthorityIndex>': Compact<AuthorityIndex>;
+  'Option<AuthorityIndex>': Option<AuthorityIndex>;
+  'Vec<AuthorityIndex>': Vec<AuthorityIndex>;
+  AuthorityList: AuthorityList;
+  'Option<AuthorityList>': Option<AuthorityList>;
+  'Vec<AuthorityList>': Vec<AuthorityList>;
   AuthorityWeight: AuthorityWeight;
   'Compact<AuthorityWeight>': Compact<AuthorityWeight>;
   'Option<AuthorityWeight>': Option<AuthorityWeight>;

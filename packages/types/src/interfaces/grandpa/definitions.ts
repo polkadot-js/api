@@ -4,8 +4,10 @@
 
 export default {
   types: {
+    AuthorityIndex: 'u64',
+    AuthorityList: 'Vec<NextAuthority>',
     AuthorityWeight: 'u64',
-    NextAuthority: '(AuthorityId, u64)',
+    NextAuthority: '(AuthorityId, AuthorityWeight)',
     PendingPause: {
       /// Block at which the intention to pause was scheduled.
       scheduledAt: 'BlockNumber',
@@ -22,7 +24,7 @@ export default {
     StoredPendingChange: {
       scheduledAt: 'BlockNumber',
       delay: 'BlockNumber',
-      nextAuthorities: 'Vec<NextAuthority>'
+      nextAuthorities: 'AuthorityList'
     },
     StoredState: {
       _enum: {
