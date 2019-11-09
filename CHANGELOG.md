@@ -1,4 +1,4 @@
-# 0.96.0-beta.x
+# 0.96.1
 
 - Updated types for latest Kusama
 - Add `filterRecords` (in addition to `findRecord`) on submittable results
