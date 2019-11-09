@@ -10,7 +10,7 @@ export default class SubmittableResult implements SubmittableResultImpl {
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ events, status }: SubmittableResultValue) {
+  public constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
     this.status = status;
   }
@@ -30,8 +30,8 @@ export default class SubmittableResult implements SubmittableResultImpl {
   /**
    * @description Finds an EventRecord for the specified method & section
    */
-  public findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }): boolean =>
+  public findRecord (section: string, method: string, newest?: boolean): EventRecord | undefined {
+    return (newest ? this.events.reverse() : this.events).find(({ event }): boolean =>
       event.section === section && event.method === method
     );
   }
