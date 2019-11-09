@@ -15,7 +15,8 @@ export interface SubmittableResultImpl {
   readonly isError: boolean;
   readonly isFinalized: boolean;
 
-  findRecord(section: string, method: string): EventRecord | undefined;
+  filterRecords (section: string, method: string): EventRecord[];
+  findRecord (section: string, method: string): EventRecord | undefined;
 }
 
 export interface SubmittableResultValue {
