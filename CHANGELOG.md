@@ -1,3 +1,17 @@
+# 0.96.0-beta.x
+
+- Updated types for latest Kusama
+- Add `filterRecords` (in addition to `findRecord`) on submittable results
+- Various ABI v2 contract fixes
+- Update derive for elections (incl. RunnersUp) and heartbeat derives (with blocks & messages)
+- Add vesting totals & locked breakdowns to derive balances
+- Update council derives for the latest Substrate master support (with constants)
+- Derive cleanups, including sharing of instances between the API and internal to derives
+
+# 0.95.2
+
+- Temporary removal of `account_nextIndex` use, will be re-added in a future release
+
 # 0.95.1
 
 - Support Extrinsic V4 with additional signature indicator (Latest Polkadot/Substrate/Kusama)
