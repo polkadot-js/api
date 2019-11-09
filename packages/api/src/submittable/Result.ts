@@ -28,10 +28,19 @@ export default class SubmittableResult implements SubmittableResultImpl {
   }
 
   /**
+   * @description Filters EventRecords for the specified method & section (there could be multiple)
+   */
+  public filterRecords (section: string, method: string): EventRecord[] {
+    return this.events.filter(({ event }): boolean =>
+      event.section === section && event.method === method
+    );
+  }
+
+  /**
    * @description Finds an EventRecord for the specified method & section
    */
-  public findRecord (section: string, method: string, newest?: boolean): EventRecord | undefined {
-    return (newest ? this.events.reverse() : this.events).find(({ event }): boolean =>
+  public findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }): boolean =>
       event.section === section && event.method === method
     );
   }
