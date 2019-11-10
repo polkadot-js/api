@@ -18,6 +18,8 @@ import { drr } from '../util';
 export function validators (api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
   return (): Observable<DeriveStakingValidators> =>
     (
+      // Sadly the node-template is (for some obscure reason) not comprehensive, so while the derive works
+      // in all actual real-world deployed chains, it does create some confusion for limited template chains
       api.query.session && api.query.staking
         ? api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
           api.query.session.validators,
