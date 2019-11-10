@@ -6,19 +6,24 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { EraIndex, SessionIndex } from '@polkadot/types/interfaces';
 import { DeriveSessionIndexes } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { u32 } from '@polkadot/types';
+import { createType, u32 as U32 } from '@polkadot/types';
 
 import { drr } from '../util';
 
 export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return (): Observable<DeriveSessionIndexes> =>
-    api.queryMulti<[SessionIndex, EraIndex, u32]>([
-      api.query.session.currentIndex,
-      api.query.staking.currentEra,
-      api.query.staking.validatorCount
-    ]).pipe(
+    (
+      // Some chains (eg. very limited node-template), does not have session
+      api.query.session && api.query.staking
+        ? api.queryMulti<[SessionIndex, EraIndex, U32]>([
+          api.query.session.currentIndex,
+          api.query.staking.currentEra,
+          api.query.staking.validatorCount
+        ])
+        : of([createType('SessionIndex', 1), createType('EraIndex', 1), new U32()])
+    ).pipe(
       map(([currentIndex, currentEra, validatorCount]): DeriveSessionIndexes => ({
         currentIndex, currentEra, validatorCount
       })),
