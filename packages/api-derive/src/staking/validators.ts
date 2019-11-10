@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DeriveStakingValidators } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
@@ -17,10 +17,14 @@ import { drr } from '../util';
  */
 export function validators (api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
   return (): Observable<DeriveStakingValidators> =>
-    api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
-      api.query.session.validators,
-      api.query.staking.currentElected
-    ]).pipe(
+    (
+      api.query.session && api.query.staking
+        ? api.queryMulti<[Vec<AccountId>, Vec<AccountId>]>([
+          api.query.session.validators,
+          api.query.staking.currentElected
+        ])
+        : of([[], []] as [AccountId[], AccountId[]])
+    ).pipe(
       map(([validators, currentElected]): DeriveStakingValidators => ({
         currentElected, validators
       })),
