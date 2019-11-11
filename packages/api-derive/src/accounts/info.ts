@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { ITuple } from '@polkadot/types/types';
 import { DeriveAccountInfo } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -15,17 +15,17 @@ import { u8aToString } from '@polkadot/util';
 import { drr } from '../util';
 
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
-  return accountId && api.query.nicks
-    ? api.query.nicks
-      .nameOf<Option<[Bytes, Balance] & Codec>>(accountId)
-      .pipe(
-        map((nameOf): string | undefined =>
-          nameOf?.isSome
-            ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
-            : undefined
-        )
-      )
-    : of(undefined);
+  return ((
+    accountId && api.query.nicks
+      ? api.query.nicks.nameOf<Option<ITuple<[Bytes, Balance]>>>(accountId)
+      : of(undefined)
+  ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
+    map((nameOf): string | undefined =>
+      nameOf?.isSome
+        ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
+        : undefined
+    )
+  );
 }
 
 /**

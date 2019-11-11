@@ -30,7 +30,7 @@ try {
 function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');
 
-  return value as T;
+  return value;
 }
 
 export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<ApiType> {
@@ -265,9 +265,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
     // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
     if (isString(signer)) {
-      if (!this._rx.signer || !this._rx.signer.signRaw) {
-        throw new Error('No signer exists with a signRaw interface');
-      }
+      assert(this._rx.signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
         await this._rx.signer.signRaw({

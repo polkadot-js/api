@@ -27,12 +27,12 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
     "@babel/runtime": "^7.7.1",
-    "@polkadot/util": "^1.7.0-beta.5",
-    "@polkadot/util-crypto": "^1.7.0-beta.5",
+    "@polkadot/util": "^1.7.0-beta.6",
+    "@polkadot/util-crypto": "^1.7.0-beta.6",
     "@types/memoizee": "^0.4.3",
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^1.7.0-beta.5"
+    "@polkadot/keyring": "^1.7.0-beta.6"
   }
 }

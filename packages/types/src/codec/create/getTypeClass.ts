@@ -25,13 +25,13 @@ import { getTypeRegistry } from './registry';
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), `Expected subtype as TypeDef[] in ${JSON.stringify(value)}`);
 
-  return value.sub as TypeDef[];
+  return value.sub;
 }
 
 function getSubDef (value: TypeDef): TypeDef {
   assert(value.sub && !Array.isArray(value.sub), `Expected subtype as TypeDef in ${JSON.stringify(value)}`);
 
-  return value.sub as TypeDef;
+  return value.sub;
 }
 
 function getSubType (value: TypeDef): InterfaceTypes {
