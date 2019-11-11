@@ -41,7 +41,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
         api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
       ),
       map((all: (AccountId[] | undefined)[]): AccountIndexes =>
-        (all || []).reduce((result, list, outerIndex): AccountIndexes => {
+        (all || []).reduce((result: AccountIndexes, list, outerIndex): AccountIndexes => {
           (list || []).forEach((accountId, innerIndex): void => {
             // re-create the index based on position 0 is [0][0] and likewise
             // 64 (0..63 in first) is [1][0] (the first index value in set 2)
@@ -51,7 +51,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> 
           });
 
           return result;
-        }, {} as AccountIndexes)),
+        }, {})),
       drr()
     );
 }
