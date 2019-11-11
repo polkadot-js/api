@@ -18,7 +18,7 @@ import { StorageFunctionMetadata } from './Storage';
  * The definition of a module in the system
  */
 export class ModuleMetadataV3 extends Struct {
-  public constructor (value?: any) {
+  constructor (value?: any) {
     super({
       name: 'Text',
       prefix: 'Text',
@@ -70,7 +70,7 @@ export class ModuleMetadataV3 extends Struct {
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV3 extends Struct implements MetadataInterface<ModuleMetadataV3> {
-  public constructor (value?: any) {
+  constructor (value?: any) {
     super({
       modules: Vec.with(ModuleMetadataV3)
     }, value);

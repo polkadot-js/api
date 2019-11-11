@@ -81,7 +81,7 @@ export default class Mock implements ProviderInterface {
 
   private subscriptionMap: Record<number, string> = {};
 
-  public constructor () {
+  constructor () {
     this.init();
   }
 

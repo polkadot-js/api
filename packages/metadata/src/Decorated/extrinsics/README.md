@@ -1,3 +1,3 @@
-# @polkadot/api-metadata/extrinsics
+# @polkadot/metadata/extrinsics
 
 Base extrinsic definitions & codecs

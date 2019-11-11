@@ -24,7 +24,7 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export default class Address extends Base<AccountId | AccountIndex> {
-  public constructor (value: AnyAddress = new Uint8Array()) {
+  constructor (value: AnyAddress = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
     );

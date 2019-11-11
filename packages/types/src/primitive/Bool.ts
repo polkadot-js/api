@@ -17,7 +17,7 @@ import { createType } from '../codec/create';
  */
 export default class Bool extends Boolean implements Codec {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  public constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
+  constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
     super(
       Bool.decodeBool(value)
     );

@@ -23,7 +23,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
   //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
-  public constructor (value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
+  constructor (value?: ExtrinsicSignatureV1 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: 'Address',
       signature: 'Signature',

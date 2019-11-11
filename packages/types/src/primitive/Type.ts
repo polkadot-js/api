@@ -15,7 +15,7 @@ import Text from './Text';
 export default class Type extends Text {
   private _originalLength: number;
 
-  public constructor (value: Text | Uint8Array | string = '') {
+  constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value);
 

@@ -21,7 +21,7 @@ import Base from './Base';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  public constructor (Type: Constructor | InterfaceTypes, value?: any) {
+  constructor (Type: Constructor | InterfaceTypes, value?: any) {
     const Clazz = typeToConstructor(Type);
 
     super(Option.decodeOption(Clazz, value));
@@ -54,7 +54,7 @@ export default class Option<T extends Codec> extends Base<T> {
 
   public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(Type, value);
       }
     };

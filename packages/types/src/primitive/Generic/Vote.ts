@@ -32,7 +32,7 @@ export default class Vote extends U8aFixed {
 
   private _conviction: Conviction;
 
-  public constructor (value?: InputTypes) {
+  constructor (value?: InputTypes) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101

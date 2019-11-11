@@ -4,7 +4,7 @@
 
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
-import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata';
 import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
@@ -51,10 +51,10 @@ const TYPES_SPEC: Record<string, Record<string, string>> = {
 
 const l = logger('api/decorator');
 
-export default abstract class Init<ApiType> extends Decorate<ApiType> {
+export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
     if (!this.hasSubscriptions) {
@@ -191,7 +191,8 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._rx.consts = decoratedMeta.consts;
 
     // derive is last, since it uses the decorated rx
-    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
+    this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
+    this._derive = this.decorateDerive(this.decorateMethod);
 
     return true;
   }

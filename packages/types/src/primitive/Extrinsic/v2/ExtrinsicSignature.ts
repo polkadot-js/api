@@ -18,7 +18,7 @@ import ExtrinsicPayloadV2 from './ExtrinsicPayload';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+  constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
     super({
       signer: 'Address',
       signature: 'Signature',

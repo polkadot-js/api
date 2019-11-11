@@ -31,7 +31,7 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  public constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
+  constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -78,7 +78,7 @@ export class EventData extends Tuple {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  public constructor (_value?: Uint8Array) {
+  constructor (_value?: Uint8Array) {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
@@ -126,7 +126,7 @@ export default class Event extends Struct {
           const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
-            public constructor (value: Uint8Array) {
+            constructor (value: Uint8Array) {
               super(Types, value, typeDef, meta, sectionName, methodName);
             }
           };

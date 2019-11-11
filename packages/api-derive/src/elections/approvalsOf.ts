@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { Vec } from '@polkadot/types';
 import { switchMap, map } from 'rxjs/operators';
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
 /**
  * @name approvalsOf
@@ -24,7 +24,7 @@ import { drr } from '../util/drr';
  * ```
  */
 export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observable<boolean[][]> {
-  return (who: AccountId | string): Observable<boolean[][]> =>
+  return memo((who: AccountId | string): Observable<boolean[][]> =>
     api.query.elections.nextVoterSet<SetIndex>().pipe(
       switchMap((nextVoterSet: SetIndex): Observable<Vec<ApprovalFlag>[]> =>
         api.query.elections.approvalsOf.multi(
@@ -37,7 +37,6 @@ export function approvalsOf (api: ApiInterfaceRx): (who: AccountId) => Observabl
         votes.map((flags: Vec<ApprovalFlag>): boolean[] =>
           approvalFlagsToBools(flags)
         )
-      ),
-      drr()
-    );
+      )
+    ));
 }

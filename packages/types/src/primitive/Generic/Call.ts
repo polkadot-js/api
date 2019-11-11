@@ -38,7 +38,7 @@ const injected: Record<string, CallFunction> = {};
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
 export class CallIndex extends U8aFixed {
-  public constructor (value?: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(value, 16);
   }
 }
@@ -52,7 +52,7 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
-  public constructor (value: any, meta?: FunctionMetadataLatest) {
+  constructor (value: any, meta?: FunctionMetadataLatest) {
     const decoded = Call.decodeCall(value, meta);
 
     super({

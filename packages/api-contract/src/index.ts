@@ -3,6 +3,5 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as Abi } from './Abi';
-export { default as RxBlueprint } from './RxBlueprint';
-export { default as RxCode } from './RxCode';
-export { default as RxContract } from './RxContract';
+export * from './rx';
+export * from './promise';

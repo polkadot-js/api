@@ -21,7 +21,7 @@ import Compact from '../codec/Compact';
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
-  public constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
+  constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(
       Text.decodeText(value)
     );

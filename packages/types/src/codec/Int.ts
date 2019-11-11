@@ -19,7 +19,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class Int extends AbstractInt {
-  public constructor (
+  constructor (
     value: AnyNumber = 0,
     bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
     super(

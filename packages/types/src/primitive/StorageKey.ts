@@ -44,7 +44,7 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
     super(key);

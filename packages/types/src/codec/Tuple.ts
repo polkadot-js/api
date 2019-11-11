@@ -26,7 +26,7 @@ type TupleTypes = (Constructor | InterfaceTypes)[] | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  public constructor (Types: TupleTypes, value?: any) {
+  constructor (Types: TupleTypes, value?: any) {
     const Clazzes = Array.isArray(Types)
       ? Types.map((type): Constructor => typeToConstructor(type))
       : mapToTypeMap(Types);
@@ -58,7 +58,7 @@ export default class Tuple extends AbstractArray<Codec> {
 
   public static with (Types: TupleTypes): Constructor<Tuple> {
     return class extends Tuple {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(Types, value);
       }
     };

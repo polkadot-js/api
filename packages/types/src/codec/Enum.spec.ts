@@ -89,7 +89,7 @@ describe('Enum', (): void => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        public constructor (value?: string, index?: number) {
+        constructor (value?: string, index?: number) {
           super({
             a: A,
             b: B,

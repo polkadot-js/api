@@ -32,7 +32,7 @@ type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7';
 
 class MetadataEnum extends Enum {
-  public constructor (value?: any, index?: number) {
+  constructor (value?: any, index?: number) {
     super({
       V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
       V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
@@ -206,7 +206,7 @@ class MetadataEnum extends Enum {
 export default class MetadataVersioned extends Struct {
   private _converted: Map<number, MetaMapped> = new Map();
 
-  public constructor (value?: any) {
+  constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
       metadata: MetadataEnum

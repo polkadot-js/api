@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedRecentlyOffline } from '../types';
 
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
 type OfflineResult = [AccountId, BlockNumber, BN][] & Codec;
 
@@ -36,7 +36,7 @@ function expandDerived (recentlyOffline: OfflineResult): DerivedRecentlyOffline 
  * @description Retrieve a keyed record of accounts recently reported to be offline
  */
 export function recentlyOffline (api: ApiInterfaceRx): () => Observable<DerivedRecentlyOffline> {
-  return (): Observable<DerivedRecentlyOffline> =>
+  return memo((): Observable<DerivedRecentlyOffline> =>
     (
       // TODO recentlyOffline  has been dropped for 2.x and replaced, figure out the
       // replacement as actually use and implement it
@@ -44,7 +44,6 @@ export function recentlyOffline (api: ApiInterfaceRx): () => Observable<DerivedR
         ? api.query.staking.recentlyOffline<OfflineResult>()
         : of([] as unknown as OfflineResult)
     ).pipe(
-      map(expandDerived),
-      drr()
-    );
+      map(expandDerived)
+    ));
 }

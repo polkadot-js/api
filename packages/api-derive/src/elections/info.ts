@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
 import { Observable, combineLatest } from 'rxjs';
@@ -11,13 +11,10 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType, Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
 type ResultElectionsInner = [u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
 type ResultElections = [Vec<AccountId>, ResultElectionsInner];
-
-type ResultPhragmenInner = [u32, Vec<AccountId>, BlockNumber];
-type ResultPhragmen = [Vec<AccountId>, ResultPhragmenInner];
 
 function deriveElections ([candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
   return {
@@ -25,7 +22,8 @@ function deriveElections ([candidates, [candidateCount, desiredSeats, members, n
     candidateCount,
     desiredSeats,
     nextVoterSet,
-    members: members.map(([accountId]): AccountId => accountId),
+    members: members.map(([accountId]): [AccountId, Balance] => [accountId, createType('Balance')]),
+    runnersUp: [],
     termDuration,
     voteCount,
     voterCount
@@ -45,29 +43,40 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
       api.query.elections.voteCount,
       api.query.elections.voterCount
     ])
-  ]).pipe(map(deriveElections), drr());
+  ]).pipe(map(deriveElections));
 }
 
-function derivePhragmen ([candidates, [desiredMembers, members, termDuration]]: ResultPhragmen): DerivedElectionsInfo {
+function derivePhragmen (candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount: createType('u32', candidates.length),
-    desiredSeats: desiredMembers,
+    candidacyBond,
+    desiredSeats,
     members,
-    termDuration
+    runnersUp,
+    termDuration,
+    votingBond
   };
 }
 
 function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
-  // NOTE We have an issue where candidates can return `null` for an empty array
+  // NOTE We have an issue where candidates can return `null` for an empty array, hence
+  // we are not using multi queries here, so empty array is empty (instead of space-filled)
   return combineLatest([
     api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
-    api.queryMulti<ResultPhragmenInner>([
-      api.query.electionsPhragmen.desiredMembers,
-      api.query.electionsPhragmen.members,
-      api.query.electionsPhragmen.termDuration
-    ])
-  ]).pipe(map(derivePhragmen), drr());
+    api.query.electionsPhragmen.members<Vec<[AccountId, Balance] & Codec>>(),
+    api.query.electionsPhragmen.runnersUp<Vec<[AccountId, Balance] & Codec>>()
+  ]).pipe(
+    map(([candidates, members, runnersUp]): DerivedElectionsInfo => derivePhragmen(
+      candidates,
+      members,
+      runnersUp,
+      api.consts.electionsPhragmen.candidacyBond as Balance,
+      api.consts.electionsPhragmen.desiredMembers as u32,
+      api.consts.electionsPhragmen.termDuration as BlockNumber,
+      api.consts.electionsPhragmen.votingBond as Balance
+    ))
+  );
 }
 
 /**
@@ -84,9 +93,10 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
  * ```
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
-  return (): Observable<DerivedElectionsInfo> => {
-    return api.query.electionsPhragmen
-      ? queryPhragmen(api)
-      : queryElections(api);
-  };
+  const query = api.query.electionsPhragmen
+    ? queryPhragmen
+    : queryElections;
+
+  return memo((): Observable<DerivedElectionsInfo> =>
+    query(api));
 }

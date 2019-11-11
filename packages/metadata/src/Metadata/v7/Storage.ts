@@ -15,7 +15,7 @@ export {
 };
 
 export class StorageMetadata extends Struct {
-  public constructor (value?: any) {
+  constructor (value?: any) {
     super({
       prefix: 'Text',
       // NOTE renamed to items from entries (since Struct already has entries from Map)

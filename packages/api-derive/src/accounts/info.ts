@@ -3,39 +3,46 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DeriveAccountInfo } from '../types';
 
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
-type Result = Option<[Bytes, Balance] & Codec>;
-
-function formatNickname (api: ApiInterfaceRx, result: Result): string | undefined {
-  return result.isSome
-    ? u8aToString(result.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
-    : undefined;
+function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
+  return ((
+    accountId && api.query.nicks
+      ? api.query.nicks.nameOf<Option<ITuple<[Bytes, Balance]>>>(accountId)
+      : of(undefined)
+  ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
+    map((nameOf): string | undefined =>
+      nameOf?.isSome
+        ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
+        : undefined
+    )
+  );
 }
 
 /**
  * @name info
- * @description Returns aux. info with regards to an  account, current that includes the nickname
+ * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
  */
-export function info (api: ApiInterfaceRx): (address?: AccountId | string | null) => Observable<DeriveAccountInfo> {
-  // TODO We would really like to pass in an Address or AccountIndex here as well
-  return (address?: AccountId | string | null): Observable<DeriveAccountInfo> => {
-    return address && api.query.nicks
-      ? api.query.nicks.nameOf<Result>(address).pipe(
-        map((result): DeriveAccountInfo => ({
-          nickname: formatNickname(api, result)
-        })),
-        drr()
-      )
-      : of({} as DeriveAccountInfo);
-  };
+export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
+  return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
+    api.derive.accounts.idAndIndex(address).pipe(
+      switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, string?]> =>
+        combineLatest([
+          of({ accountId, accountIndex }),
+          retrieveNick(api, accountId)
+        ])
+      ),
+      map(([{ accountId, accountIndex }, nickname]): DeriveAccountInfo => ({
+        accountId, accountIndex, nickname
+      }))
+    ));
 }

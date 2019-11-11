@@ -51,7 +51,7 @@ export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic'
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+  constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
     super(Extrinsic.decodeExtrinsic(value, version));
   }
 

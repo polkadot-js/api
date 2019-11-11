@@ -11,7 +11,7 @@ import Null from '../Null';
  * never actually be constructed
  */
 export default class Origin extends Null {
-  public constructor () {
+  constructor () {
     super();
 
     throw new Error('Origin should not be constructed, it is only a placeholder for compatibility');

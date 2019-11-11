@@ -22,7 +22,7 @@ type SetValues = Record<string, number>;
 export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
-  public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
+  constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
     super(CodecSet.decodeSet(setValues, value));
 
     this._setValues = setValues;
@@ -76,7 +76,7 @@ export default class CodecSet extends Set<string> implements Codec {
 
   public static with (values: SetValues): Constructor<CodecSet> {
     return class extends CodecSet {
-      public constructor (value?: any) {
+      constructor (value?: any) {
         super(values, value);
 
         Object.keys(values).forEach((_key): void => {

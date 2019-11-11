@@ -19,7 +19,7 @@ const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header as an
 export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
-  public constructor (header?: Header, sessionValidators?: AccountId[]) {
+  constructor (header?: Header, sessionValidators?: AccountId[]) {
     super(header);
 
     this._author = this.extractAuthor(sessionValidators);

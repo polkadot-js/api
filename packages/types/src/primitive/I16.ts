@@ -12,7 +12,7 @@ import Int from '../codec/Int';
  * A 16-bit signed integer
  */
 export default class I16 extends Int {
-  public constructor (value?: AnyNumber) {
+  constructor (value?: AnyNumber) {
     super(value, 16);
   }
 }
