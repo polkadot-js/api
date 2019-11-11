@@ -11,7 +11,7 @@ import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 
@@ -54,6 +54,6 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * ```
  */
 export function idAndIndex (api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountIdAndIndex> {
-  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
-    retrieve(api, address).pipe(drr());
+  return memo((address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> =>
+    retrieve(api, address));
 }

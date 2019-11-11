@@ -10,13 +10,13 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @description Retrieve latest list of validators
  */
 export function validators (api: ApiInterfaceRx): () => Observable<DeriveStakingValidators> {
-  return (): Observable<DeriveStakingValidators> =>
+  return memo((): Observable<DeriveStakingValidators> =>
     (
       // Sadly the node-template is (for some obscure reason) not comprehensive, so while the derive works
       // in all actual real-world deployed chains, it does create some confusion for limited template chains
@@ -29,7 +29,6 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
     ).pipe(
       map(([validators, currentElected]): DeriveStakingValidators => ({
         currentElected, validators
-      })),
-      drr()
-    );
+      }))
+    ));
 }

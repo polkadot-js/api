@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
 import { approvalFlagsToBools } from '../util/approvalFlagsToBools';
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @name approvalsOfAt
@@ -26,9 +26,8 @@ import { drr } from '../util';
  * ```
  */
 export function approvalsOfAt (api: ApiInterfaceRx): (who: AccountId, at: SetIndex) => Observable<boolean[]> {
-  return (who: AccountId | string, at: SetIndex | BN | number): Observable<boolean[]> =>
+  return memo((who: AccountId | string, at: SetIndex | BN | number): Observable<boolean[]> =>
     api.query.elections.approvalsOf<Vec<ApprovalFlag>>([who.toString(), at]).pipe(
-      map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags)),
-      drr()
-    );
+      map((flags: Vec<ApprovalFlag>): boolean[] => approvalFlagsToBools(flags))
+    ));
 }

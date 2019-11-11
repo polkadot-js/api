@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, u64, createType } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 type ResultV1Session = [Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];
 type ResultV1 = [BlockNumber, DeriveSessionIndexes, ResultV1Session];
@@ -127,6 +127,6 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo>
       : infoLatestAura // 2.x with Aura (not all info there)
     : infoV1;
 
-  return (): Observable<DerivedSessionInfo> =>
-    query(api).pipe(drr());
+  return memo((): Observable<DerivedSessionInfo> =>
+    query(api));
 }

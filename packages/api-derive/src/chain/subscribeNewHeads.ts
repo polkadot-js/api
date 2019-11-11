@@ -8,7 +8,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @name subscribeNewHeads
@@ -24,14 +24,13 @@ import { drr } from '../util';
  * ```
  */
 export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<HeaderExtended> {
-  return (): Observable<HeaderExtended> =>
+  return memo((): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
       api.derive.staking.validators()
     ]).pipe(
       map(([header, { validators }]): HeaderExtended =>
         new HeaderExtended(header, validators)
-      ),
-      drr()
-    );
+      )
+    ));
 }

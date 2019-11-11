@@ -10,13 +10,13 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
 export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[], Option<AccountId>[]]> {
-  return (): Observable<[AccountId[], Option<AccountId>[]]> =>
+  return memo((): Observable<[AccountId[], Option<AccountId>[]]> =>
     api.query.staking.validators<[AccountId[]] & Codec>().pipe(
       switchMap(([stashIds]): Observable<[AccountId[], Option<AccountId>[]]> =>
         combineLatest([
@@ -26,7 +26,6 @@ export function controllers (api: ApiInterfaceRx): () => Observable<[AccountId[]
             ? of([])
             : api.query.staking.bonded.multi<Option<AccountId>>(stashIds)
         ])
-      ),
-      drr()
-    );
+      )
+    ));
 }

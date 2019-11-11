@@ -9,12 +9,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 export function sessionProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return (): Observable<BlockNumber> =>
+  return memo((): Observable<BlockNumber> =>
     api.derive.session.info().pipe(
-      map(({ sessionProgress }: DerivedSessionInfo): BlockNumber => sessionProgress),
-      drr()
-    );
+      map(({ sessionProgress }: DerivedSessionInfo): BlockNumber => sessionProgress)
+    ));
 }

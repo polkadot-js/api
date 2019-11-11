@@ -8,17 +8,16 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
-  return (referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
-    (
-      !accountIds || !accountIds.length
-        ? of([] as Vote[])
-        : api.query.democracy.voteOf.multi<Vote>(
-          accountIds.map((accountId): [BN, AccountId] =>
-            [referendumId, accountId]
-          )
+  return memo((referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
+    !accountIds || !accountIds.length
+      ? of([] as Vote[])
+      : api.query.democracy.voteOf.multi<Vote>(
+        accountIds.map((accountId): [BN, AccountId] =>
+          [referendumId, accountId]
         )
-    ).pipe(drr());
+      )
+  );
 }

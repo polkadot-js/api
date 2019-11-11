@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @name bestNumber
@@ -23,9 +23,8 @@ import { drr } from '../util';
  * ```
  */
 export function bestNumber (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return (): Observable<BlockNumber> =>
+  return memo((): Observable<BlockNumber> =>
     api.derive.chain.subscribeNewHeads().pipe(
-      map((header: Header): BlockNumber => header.number.unwrap()),
-      drr()
-    );
+      map((header: Header): BlockNumber => header.number.unwrap())
+    ));
 }
