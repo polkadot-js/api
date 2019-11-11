@@ -10,10 +10,10 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createType, u32 as U32 } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
-  return (): Observable<DeriveSessionIndexes> =>
+  return memo((): Observable<DeriveSessionIndexes> =>
     (
       // Some chains (eg. very limited node-template), does not have session
       api.query.session && api.query.staking
@@ -26,7 +26,6 @@ export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionInd
     ).pipe(
       map(([currentIndex, currentEra, validatorCount]): DeriveSessionIndexes => ({
         currentIndex, currentEra, validatorCount
-      })),
-      drr()
-    );
+      }))
+    ));
 }

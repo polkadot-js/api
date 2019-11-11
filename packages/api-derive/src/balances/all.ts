@@ -12,7 +12,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
@@ -76,7 +76,7 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * ```
  */
 export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
-  return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> =>
+  return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> =>
     api.derive.accounts.info(address).pipe(
       switchMap(({ accountId }): Observable<Result> =>
         (accountId
@@ -94,7 +94,6 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
         )
       ),
-      map(calcBalances),
-      drr()
-    );
+      map(calcBalances)
+    ));
 }

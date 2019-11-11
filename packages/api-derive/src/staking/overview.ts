@@ -10,13 +10,13 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
 export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingOverview> {
-  return (): Observable<DerivedStakingOverview> =>
+  return memo((): Observable<DerivedStakingOverview> =>
     combineLatest([
       api.derive.session.indexes(),
       api.derive.staking.validators()
@@ -32,7 +32,6 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
       ),
       map(([{ currentElected, currentEra, currentIndex, validators, validatorCount }, eraPoints]): DerivedStakingOverview => ({
         currentElected, currentEra, currentIndex, eraPoints, validators, validatorCount
-      })),
-      drr()
-    );
+      }))
+    ));
 }

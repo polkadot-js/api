@@ -10,10 +10,10 @@ import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec } from '@polkadot/types';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: AccountId | AccountIndex | Address | string) => Observable<DerivedBalances[]> {
-  return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> =>
+  return memo((address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances[]> =>
     api.derive.accounts.info(address).pipe(
       switchMap(({ accountId }): Observable<AccountId[]> =>
         accountId
@@ -22,7 +22,6 @@ export function votingBalancesNominatorsFor (api: ApiInterfaceRx): (address: Acc
       ),
       switchMap((accounts): Observable<DerivedBalances[]> =>
         api.derive.balances.votingBalances(accounts)
-      ),
-      drr()
-    );
+      )
+    ));
 }

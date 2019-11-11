@@ -11,7 +11,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Vec } from '@polkadot/types';
 
 import { HeaderExtended } from '../type';
-import { drr } from '../util';
+import { memo } from '../util';
 
 /**
  * @name bestNumberFinalized
@@ -28,7 +28,7 @@ import { drr } from '../util';
  * ```
  */
 export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session
@@ -43,7 +43,6 @@ export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => 
         // we supplied an invalid hash. (Due to defaults, storeage will have an
         // empty value, so only the RPC is affected). So return undefined
         of()
-      ),
-      drr()
-    );
+      )
+    ));
 }

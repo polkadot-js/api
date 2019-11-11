@@ -11,7 +11,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType, Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
-import { drr } from '../util';
+import { memo } from '../util';
 
 type ResultElectionsInner = [u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
 type ResultElections = [Vec<AccountId>, ResultElectionsInner];
@@ -97,6 +97,6 @@ export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInf
     ? queryPhragmen
     : queryElections;
 
-  return (): Observable<DerivedElectionsInfo> =>
-    query(api).pipe(drr());
+  return memo((): Observable<DerivedElectionsInfo> =>
+    query(api));
 }

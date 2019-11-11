@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, BlockNumber, Exposure, Keys, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { ITuple } from '@polkadot/types/types';
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { DerivedRecentlyOffline, DerivedStaking, DerivedUnlocking } from '../types';
@@ -15,7 +15,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 interface ParseInput {
   accountId: AccountId;
@@ -136,7 +136,7 @@ function parseResult ({ accountId, controllerId, stashId, eraLength, bestNumber,
   };
 }
 
-type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs] & Codec];
+type MultiResultV1 = [Option<AccountId>, Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, ITuple<[ValidatorPrefs]>];
 
 function retrieveInfoV1 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
@@ -167,7 +167,7 @@ function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
   return combineLatest([
     api.derive.chain.bestNumber(),
     api.derive.session.eraLength(),
-    api.query.session.queuedKeys<Vec<[AccountId, Keys] & Codec>>(),
+    api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
     api.queryMulti([
       [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
@@ -218,6 +218,6 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
     ? retrieveV2
     : retrieveV1;
 
-  return (accountId: Uint8Array | string): Observable<DerivedStaking> =>
-    query(api, createType('AccountId', accountId)).pipe(drr());
+  return memo((accountId: Uint8Array | string): Observable<DerivedStaking> =>
+    query(api, createType('AccountId', accountId)));
 }

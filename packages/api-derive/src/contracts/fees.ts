@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
@@ -51,8 +51,7 @@ function queryV1 (api: ApiInterfaceRx): Observable<DerivedContractFees> {
       parseResult([
         callBaseFee, contractFee, createBaseFee, creationFee, ZERO, ZERO, ZERO, transactionBaseFee, transactionByteFee, transferFee
       ])
-    ),
-    drr()
+    )
   );
 }
 
@@ -104,7 +103,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  * ```
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
-  return (): Observable<DerivedContractFees> => {
+  return memo((): Observable<DerivedContractFees> => {
     if (api.query.contract && !api.query.contract.rentByteFee) {
       return queryV1(api);
     }
@@ -119,8 +118,7 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees
         parseResult([
           callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
         ])
-      ),
-      drr()
+      )
     );
-  };
+  });
 }

@@ -12,7 +12,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Bytes, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { drr } from '../util';
+import { memo } from '../util';
 
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
   return ((
@@ -33,7 +33,7 @@ function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<s
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
  */
 export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId | Address | string | null) => Observable<DeriveAccountInfo> {
-  return (address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
+  return memo((address?: AccountIndex | AccountId | Address | string | null): Observable<DeriveAccountInfo> =>
     api.derive.accounts.idAndIndex(address).pipe(
       switchMap(([accountId, accountIndex]): Observable<[DeriveAccountInfo, string?]> =>
         combineLatest([
@@ -43,7 +43,6 @@ export function info (api: ApiInterfaceRx): (address?: AccountIndex | AccountId 
       ),
       map(([{ accountId, accountIndex }, nickname]): DeriveAccountInfo => ({
         accountId, accountIndex, nickname
-      })),
-      drr()
-    );
+      }))
+    ));
 }
