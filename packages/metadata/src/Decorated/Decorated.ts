@@ -24,7 +24,7 @@ export default class Decorated {
 
   public readonly tx: ModulesWithCalls;
 
-  public constructor (value?: Uint8Array | string | Metadata) {
+  constructor (value?: Uint8Array | string | Metadata) {
     this.metadata = value instanceof Metadata ? value : new Metadata(value);
     this.tx = extrinsicsFromMeta(this.metadata);
     this.query = storageFromMeta(this.metadata);
