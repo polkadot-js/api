@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import fs from 'fs';
+import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
+import { StorageEntryMetadata } from '@polkadot/metadata/Metadata/v8/Storage';
+import staticData from '@polkadot/metadata/Metadata/static';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
-import { ModuleMetadataV8 } from '../../Metadata/v8/Metadata';
-import { StorageEntryMetadata } from '../../Metadata/v8/Storage';
-import staticData from '../../Metadata/static';
 import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
 
 // From a storage entry metadata, we return [args, returnType]

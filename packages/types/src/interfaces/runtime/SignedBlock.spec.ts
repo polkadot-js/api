@@ -4,8 +4,9 @@
 
 import '../../injector';
 
-import Metadata from '../../Metadata';
-import metadataStatic from '../../Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import metadataStatic from '@polkadot/metadata/Metadata/static';
+
 import { createType } from '../../codec/create';
 import Call from '../../primitive/Generic/Call';
 import events from '../../json/SignedBlock.002.json';

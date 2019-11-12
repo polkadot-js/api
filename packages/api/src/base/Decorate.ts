@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
@@ -17,8 +18,6 @@ import BN from 'bn.js';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
-import { Constants } from '@polkadot/api-metadata/consts/types';
-import { Storage } from '@polkadot/api-metadata/storage/types';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, u64 } from '@polkadot/types';
@@ -164,7 +163,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this.filterRpcMethods(methods);
   }
 
-  protected filterRpcMethods (methods: string[]): void{
+  protected filterRpcMethods (methods: string[]): void {
     // this is true when the RPC has entries
     const hasResults = methods.length !== 0;
 

@@ -5,13 +5,13 @@
 import '../injector';
 
 import fs from 'fs';
+import Metadata from '@polkadot/metadata';
+import rpcdata from '@polkadot/metadata/Metadata/static';
+import MetadataV8, { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Call from '../primitive/Generic/Call';
-import Metadata from '../Metadata';
-import rpcdata from '../Metadata/static';
-import MetadataV8, { ModuleMetadataV8 } from '../Metadata/v8';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -237,7 +237,7 @@ function writeToEventsMd (metadata: MetadataV8): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asLatest;
+const metadata = new Metadata(rpcdata).metadata.asLatest;
 
 writeToRpcMd();
 writeToConstantsMd(metadata);

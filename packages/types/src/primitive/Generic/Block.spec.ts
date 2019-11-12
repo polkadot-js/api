@@ -4,15 +4,16 @@
 
 import '../../injector';
 
-import Metadata from '../../Metadata';
-import metadataStatic from '../../Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
+
 import block00300 from '../../json/SignedBlock.003.00.json';
 import Call from './Call';
 import Block from './Block';
 
 describe('Block', (): void => {
   beforeEach((): void => {
-    Call.injectMetadata(new Metadata(metadataStatic));
+    Call.injectMetadata(new Metadata(rpcMetadata));
   });
 
   it('has a valid toRawType', (): void => {

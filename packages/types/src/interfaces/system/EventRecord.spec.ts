@@ -6,20 +6,21 @@ import '../../injector';
 
 import { EventRecord } from './types';
 
+import Metadata from '@polkadot/metadata/Metadata';
+import rpcMetadataV0 from '@polkadot/metadata/Metadata/v0/static';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
+
 import { createType } from '../../codec/create';
 import Vec from '../../codec/Vec';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
 import GenericEvent from '../../primitive/Generic/Event';
-import Metadata from '../../Metadata';
-import metadataV0 from '../../Metadata/v0/static';
-import metadata from '../../Metadata/static';
 
 describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(metadataV0)
+        new Metadata(rpcMetadataV0)
       );
     });
 
@@ -34,7 +35,7 @@ describe('EventRecord', (): void => {
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(metadata)
+        new Metadata(rpcMetadata)
       );
     });
 

@@ -3,6 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import '@polkadot/types/injector';
+
 import { Header } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
@@ -10,10 +12,10 @@ import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } fr
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
+import Metadata from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
-import storage from '@polkadot/api-metadata/storage/static';
-import rpcMetadata from '@polkadot/types/Metadata/static';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -155,6 +157,8 @@ export default class Mock implements ProviderInterface {
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;
 
+    const metadata = new Metadata(rpcMetadata);
+
     // Do something every 1 seconds
     setInterval((): void => {
       if (!this.isUpdating) {
@@ -166,12 +170,12 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(metadata.query.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
+        this.setStateBn(metadata.query.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(storage.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(metadata.query.timestamp.now(), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals

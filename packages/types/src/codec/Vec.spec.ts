@@ -7,8 +7,9 @@ import '../injector';
 import { PropIndex } from '../interfaces/democracy';
 import { Codec, CodecTo } from '../types';
 
-import Metadata from '../Metadata';
-import metadataStatic from '../Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
+
 import AccountId from '../primitive/Generic/AccountId';
 import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
@@ -22,7 +23,7 @@ describe('Vec', (): void => {
   beforeEach((): void => {
     vector = new Vec(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
-    Call.injectMetadata(new Metadata(metadataStatic));
+    Call.injectMetadata(new Metadata(rpcMetadata));
   });
 
   it('wraps a sequence of values', (): void => {

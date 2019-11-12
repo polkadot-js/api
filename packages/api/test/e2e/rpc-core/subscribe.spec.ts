@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Metadata from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import storage from '@polkadot/api-metadata/storage/static';
 import Rpc from '@polkadot/rpc-core';
 import { Index, Moment, SessionIndex } from '@polkadot/types/interfaces';
 import { ClassOf } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
+
+const metadata = new Metadata(rpcMetadata);
 
 describeE2E({
   except: [
@@ -28,8 +31,8 @@ describeE2E({
   it('subscribes to storage', (done): void => {
     rpc.state
       .subscribeStorage<[Index, SessionIndex]>([
-      [storage.system.accountNonce, keyring.eve.address],
-      [storage.session.currentIndex]
+      [metadata.query.system.accountNonce, keyring.eve.address],
+      [metadata.query.session.currentIndex]
     ])
       .subscribe((data): void => {
         expect(data).toHaveLength(2);
@@ -48,7 +51,7 @@ describeE2E({
     let count = 0;
 
     rpc.state
-      .subscribeStorage<Moment>([[storage.timestamp.now]])
+      .subscribeStorage<Moment>([[metadata.query.timestamp.now]])
       .subscribe((data): void => {
         expect(data).toBeDefined();
 
