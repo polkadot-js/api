@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { ITuple } from '@polkadot/types/types';
+import { DerivedRecentlyOffline } from '../types';
 
-import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterfaceRx } from '@polkadot/api/types';
-import { DerivedRecentlyOffline } from '../types';
+import { Vec, u32 } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type OfflineResult = [AccountId, BlockNumber, BN][] & Codec;
+type OfflineResult = Vec<ITuple<[AccountId, BlockNumber, u32]>>;
 
 function expandDerived (recentlyOffline: OfflineResult): DerivedRecentlyOffline {
   return recentlyOffline.reduce((result: DerivedRecentlyOffline, [accountId, blockNumber, count]): DerivedRecentlyOffline => {

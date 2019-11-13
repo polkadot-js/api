@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { ITuple } from '@polkadot/types/types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { createType, Vec, u32 } from '@polkadot/types';
 import { DerivedElectionsInfo } from '../types';
 import { memo } from '../util';
 
-type ResultElectionsInner = [u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
+type ResultElectionsInner = [u32, u32, Vec<ITuple<[AccountId, BlockNumber]>>, SetIndex, BlockNumber, VoteIndex, SetIndex];
 type ResultElections = [Vec<AccountId>, ResultElectionsInner];
 
 function deriveElections ([candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
@@ -53,7 +53,8 @@ function derivePhragmen (candidates: AccountId[], members: [AccountId, Balance][
     candidacyBond,
     desiredSeats,
     members,
-    runnersUp,
+    // place in most-likely-to-be-in order
+    runnersUp: runnersUp.reverse(),
     termDuration,
     votingBond
   };
@@ -64,8 +65,8 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   // we are not using multi queries here, so empty array is empty (instead of space-filled)
   return combineLatest([
     api.query.electionsPhragmen.candidates<Vec<AccountId>>(),
-    api.query.electionsPhragmen.members<Vec<[AccountId, Balance] & Codec>>(),
-    api.query.electionsPhragmen.runnersUp<Vec<[AccountId, Balance] & Codec>>()
+    api.query.electionsPhragmen.members<Vec<ITuple<[AccountId, Balance]>>>(),
+    api.query.electionsPhragmen.runnersUp<Vec<ITuple<[AccountId, Balance]>>>()
   ]).pipe(
     map(([candidates, members, runnersUp]): DerivedElectionsInfo => derivePhragmen(
       candidates,
