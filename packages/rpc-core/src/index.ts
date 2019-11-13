@@ -39,7 +39,7 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
 
-  return `${method} (${inputs}): ${type}:: ${error.message}`;
+  return `${method}(${inputs}): ${type}:: ${error.message}`;
 }
 
 /**
