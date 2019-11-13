@@ -28,10 +28,10 @@
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.0",
+    "@babel/core": "^7.7.2",
     "@babel/register": "^7.7.0",
-    "@babel/runtime": "^7.6.3",
-    "@polkadot/dev": "^0.32.0-beta.13",
-    "@polkadot/ts": "^0.1.84"
+    "@babel/runtime": "^7.7.2",
+    "@polkadot/dev": "^0.32.0-beta.14",
+    "@polkadot/ts": "^0.1.85"
   }
 }
