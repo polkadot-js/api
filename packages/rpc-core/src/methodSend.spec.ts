@@ -43,7 +43,7 @@ describe('methodSend', (): void => {
     method().subscribe(
       (): void => {},
       (error: Error): void => {
-        expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
+        expect(error.message).toMatch(/blah\(foo: Bytes\): Bytes/);
         done();
       }
     );
