@@ -33,13 +33,13 @@ const EMPTY_META = {
   }
 };
 
-// utility method to create an RPC signature
-function createSignature ({ method, params, type }: RpcMethod): string {
+// utility method to create a nicely-formatted error
+function createErrorMessage ({ method, params, type }: RpcMethod, error: Error): string {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
   ).join(', ');
 
-  return `${method} (${inputs}): ${type}`;
+  return `${method} (${inputs}): ${type}:: ${error.message}`;
 }
 
 /**
@@ -111,10 +111,6 @@ export default class Rpc implements RpcInterface {
    */
   public disconnect (): void {
     this.provider.disconnect();
-  }
-
-  private createErrorMessage (method: RpcMethod, error: Error): string {
-    return `${createSignature(method)}:: ${error.message}`;
   }
 
   private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
@@ -195,7 +191,7 @@ export default class Rpc implements RpcInterface {
         ),
         map(([params, result]): any => this.formatOutput(method, params, result)),
         catchError((error): any => {
-          const message = this.createErrorMessage(method, error);
+          const message = createErrorMessage(method, error);
 
           // don't scare with old nodes, this is handled transparently
           rpcName !== 'rpc_methods' && l.error(message);
@@ -237,7 +233,7 @@ export default class Rpc implements RpcInterface {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
         const errorHandler = (error: Error): void => {
-          const message = this.createErrorMessage(method, error);
+          const message = createErrorMessage(method, error);
 
           l.error(message);
 
@@ -249,7 +245,7 @@ export default class Rpc implements RpcInterface {
           const paramsJson = params.map((param): AnyJson => param.toJSON());
           const update = (error?: Error, result?: any): void => {
             if (error) {
-              l.error(this.createErrorMessage(method, error));
+              l.error(createErrorMessage(method, error));
               return;
             }
 
@@ -282,7 +278,7 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void => l.error(this.createErrorMessage(method, error)));
+            .catch((error: Error): void => l.error(createErrorMessage(method, error)));
         };
       }).pipe(drr());
     };
