@@ -33,6 +33,15 @@ const EMPTY_META = {
   }
 };
 
+// utility method to create an RPC signature
+function createSignature ({ method, params, type }: RpcMethod): string {
+  const inputs = params.map(({ isOptional, name, type }): string =>
+    `${name}${isOptional ? '?' : ''}: ${type}`
+  ).join(', ');
+
+  return `${method} (${inputs}): ${type}`;
+}
+
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
@@ -98,27 +107,6 @@ export default class Rpc implements RpcInterface {
   }
 
   /**
-   * @name signature
-   * @summary Returns a string representation of the method with inputs and outputs.
-   * @description
-   * Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import Api from '@polkadot/rpc-core';
-   *
-   * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
-   * ```
-   */
-  public static signature ({ method, params, type }: RpcMethod): string {
-    const inputs = params.map(({ name, type }): string => `${name}: ${type}`).join(', ');
-
-    return `${method} (${inputs}): ${type}`;
-  }
-
-  /**
    * @description Manually disconnect from the attached provider
    */
   public disconnect (): void {
@@ -126,7 +114,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private createErrorMessage (method: RpcMethod, error: Error): string {
-    return `${Rpc.signature(method)}:: ${error.message}`;
+    return `${createSignature(method)}:: ${error.message}`;
   }
 
   private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
