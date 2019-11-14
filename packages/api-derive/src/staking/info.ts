@@ -49,9 +49,9 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
 function remainingBlocks (era: BN, sessionInfo: DerivedSessionInfo): BlockNumber {
   const remaining = era.sub(sessionInfo.currentEra);
 
-  // on the Rust side the current era > era for unlock, so >= 0 means still to go
-  return createType('BlockNumber', remaining.gten(0)
-    ? remaining.mul(sessionInfo.eraLength).add(sessionInfo.eraProgress)
+  // on the Rust side the current-era >= era-for-unlock (removal done on >)
+  return createType('BlockNumber', remaining.gtn(0)
+    ? remaining.subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress)
     : 0
   );
 }
