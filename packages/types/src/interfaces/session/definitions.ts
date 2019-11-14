@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// The runtime definition of SessionKeys are passes as a Trait to session
+// The runtime definition of SessionKeys are passed as a Trait to session
 // Defined in `node/runtime/src/lib.rs` as follow
 //   impl_opaque_keys! {
 //     pub struct SessionKeys {
