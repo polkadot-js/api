@@ -53,8 +53,6 @@ function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { curre
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = currentIndex.sub(currentEraStartSessionIndex).add(sessionProgress);
 
-  // console.log(sessionProgress);
-
   return {
     currentEra,
     currentIndex,
