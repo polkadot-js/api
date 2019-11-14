@@ -94,10 +94,9 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
  * ```
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
-  const query = api.query.electionsPhragmen
-    ? queryPhragmen
-    : queryElections;
-
   return memo((): Observable<DerivedElectionsInfo> =>
-    query(api));
+    api.query.electionsPhragmen
+      ? queryPhragmen(api)
+      : queryElections(api)
+  );
 }

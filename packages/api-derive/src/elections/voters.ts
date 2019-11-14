@@ -6,12 +6,24 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedVoterPositions } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createType, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
+function queryElections (api: ApiInterfaceRx): Observable<AccountId[]> {
+  return api.derive.elections.voterPositions().pipe(
+    map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
+      createType(
+        'Vec<AccountId>',
+        Object.entries(voterPositions)
+          .sort((a, b): number => a[1].globalIndex.cmp(b[1].globalIndex))
+          .map(([accountId]): AccountId => createType('AccountId', accountId))
+      )
+    )
+  );
+}
 /**
  * @name voters
  * @returns An array of all current voters from all sets.
@@ -24,16 +36,10 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function voters (api: ApiInterfaceRx): () => Observable<Vec<AccountId>> {
-  return memo((): Observable<Vec<AccountId>> =>
-    api.derive.elections.voterPositions().pipe(
-      map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
-        createType(
-          'Vec<AccountId>',
-          Object.entries(voterPositions)
-            .sort((a, b): number => a[1].globalIndex.cmp(b[1].globalIndex))
-            .map(([accountId]): AccountId => createType('AccountId', accountId))
-        )
-      )
-    ));
+export function voters (api: ApiInterfaceRx): () => Observable<AccountId[]> {
+  return memo((): Observable<AccountId[]> =>
+    api.query.elections
+      ? queryElections(api)
+      : of([])
+  );
 }
