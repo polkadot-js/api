@@ -19,6 +19,7 @@ export interface DerivedBalances {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
+  isVesting: boolean;
   lockedBalance: Balance;
   lockedBreakdown: BalanceLock[];
   availableBalance: Balance;

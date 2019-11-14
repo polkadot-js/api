@@ -31,17 +31,23 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     }
   }
 
-  // offset = balance locked at genesis, perBlock is the unlock amount
+  // Calculate the vesting balances,
+  //  - offset = balance locked at genesis,
+  //  - perBlock is the unlock amount
   const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
-  const vestedNow = createType('Balance', perBlock.mul(bestNumber));
-  const vestedBalance = createType('Balance', vestedNow.gt(vestingTotal) ? new BN(0) : bnMax(new BN(0), freeBalance.sub(vestingTotal).add(vestedNow)));
-  const availableBalance = createType('Balance', bnMax(new BN(0), (vestedBalance.gtn(0) ? vestedBalance : freeBalance).sub(lockedBalance)));
+  const vestedBalance = createType('Balance', perBlock.mul(bestNumber));
+  const isVesting = vestedBalance.lt(vestingTotal);
+
+  // see what is availble with the current vested amount taken into account
+  const freeWithVesting = freeBalance.sub(vestingTotal).add(vestedBalance);
+  const availableBalance = createType('Balance', bnMax(new BN(0), (isVesting ? freeWithVesting : freeBalance).sub(lockedBalance)));
 
   return {
     accountId,
     accountNonce,
     availableBalance,
     freeBalance,
+    isVesting,
     lockedBalance,
     lockedBreakdown,
     reservedBalance,
