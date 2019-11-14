@@ -45,7 +45,7 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
   }, {});
 }
 
-// calculate the remining blocks in a specific unlock era
+// calculate the remaining blocks in a specific unlock era
 function remainingBlocks (era: BN, sessionInfo: DerivedSessionInfo): BlockNumber {
   const remaining = era.sub(sessionInfo.currentEra);
 
@@ -68,7 +68,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, sessionIn
     return undefined;
   }
 
-  // group the Unlockchunks that have the same era and sum their values
+  // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): DerivedUnlocking => ({
     value: createType('Balance', value),
