@@ -18,8 +18,17 @@ export interface Keys extends SessionKeysSubstrate {}
 /** u32 */
 export interface SessionIndex extends u32 {}
 
-/** ITuple<[AccountId, AccountId, AccountId, AccountId]> */
-export interface SessionKeysPolkadot extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
-
 /** ITuple<[AccountId, AccountId, AccountId]> */
-export interface SessionKeysSubstrate extends ITuple<[AccountId, AccountId, AccountId]> {}
+export interface SessionKeys3 extends ITuple<[AccountId, AccountId, AccountId]> {}
+
+/** ITuple<[AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeys4 extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
+
+/** ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+
+/** SessionKeys4 */
+export interface SessionKeysPolkadot extends SessionKeys4 {}
+
+/** SessionKeys4 */
+export interface SessionKeysSubstrate extends SessionKeys4 {}
