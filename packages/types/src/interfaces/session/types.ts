@@ -27,8 +27,8 @@ export interface SessionKeys4 extends ITuple<[AccountId, AccountId, AccountId, A
 /** ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> */
 export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
-/** SessionKeys4 */
-export interface SessionKeysPolkadot extends SessionKeys4 {}
+/** SessionKeys5 */
+export interface SessionKeysPolkadot extends SessionKeys5 {}
 
 /** SessionKeys4 */
 export interface SessionKeysSubstrate extends SessionKeys4 {}

@@ -19,8 +19,8 @@ const keyTypes = {
   // For substrate: Grandpa, Babe, ImOnline, AuthorityDiscovery
   SessionKeysSubstrate: 'SessionKeys4',
 
-  // For polkadot: Grandpa, Babe, ImOnline, Parachains
-  SessionKeysPolkadot: 'SessionKeys4'
+  // For polkadot: Grandpa, Babe, ImOnline, Parachains, AuthorityDiscovery
+  SessionKeysPolkadot: 'SessionKeys5'
 };
 
 export default {
