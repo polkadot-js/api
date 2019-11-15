@@ -51,7 +51,10 @@ function remainingBlocks (era: BN, sessionInfo: DerivedSessionInfo): BlockNumber
 
   // on the Rust side the current-era >= era-for-unlock (removal done on >)
   return createType('BlockNumber', remaining.gtn(0)
-    ? remaining.subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress)
+    ? remaining
+      .subn(1)
+      .mul(sessionInfo.eraLength)
+      .add(sessionInfo.eraLength.sub(sessionInfo.eraProgress))
     : 0
   );
 }
