@@ -25,7 +25,7 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
         .map((constant): string => {
           setImports(imports, [constant.type.toString()]);
 
-          return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
+          return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type};`);
         })
     )
     .concat([indent(4)('};')]);

@@ -87,7 +87,7 @@ function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes): DerivedSessionInfo =>
       createDerivedLatest([
-        [false, createType('u64', 1), api.consts.staking.sessionsPerEra as SessionIndex],
+        [false, createType('u64', 1), api.consts.staking.sessionsPerEra],
         indexes,
         [createType('u64', 1), createType('u64', 1), createType('u64', 1), createType('SessionIndex', 1)]
       ])
@@ -107,7 +107,7 @@ function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   ]).pipe(
     map(([indexes, slots]: [DeriveSessionIndexes, ResultSlots]): DerivedSessionInfo =>
       createDerivedLatest([
-        [true, api.consts.babe.epochDuration as u64, api.consts.staking.sessionsPerEra as SessionIndex],
+        [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],
         indexes,
         slots
       ])

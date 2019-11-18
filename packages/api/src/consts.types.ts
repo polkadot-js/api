@@ -13,83 +13,83 @@ declare module '@polkadot/metadata/Decorated/types' {
   export interface Constants {
     babe: {
       [index: string]: Codec;
-      epochDuration: u64 & ConstantCodec;
-      expectedBlockTime: Moment & ConstantCodec;
+      epochDuration: u64;
+      expectedBlockTime: Moment;
     };
     timestamp: {
       [index: string]: Codec;
-      minimumPeriod: Moment & ConstantCodec;
+      minimumPeriod: Moment;
     };
     balances: {
       [index: string]: Codec;
-      existentialDeposit: Balance & ConstantCodec;
-      transferFee: Balance & ConstantCodec;
-      creationFee: Balance & ConstantCodec;
-      transactionBaseFee: Balance & ConstantCodec;
-      transactionByteFee: Balance & ConstantCodec;
+      existentialDeposit: Balance;
+      transferFee: Balance;
+      creationFee: Balance;
+      transactionBaseFee: Balance;
+      transactionByteFee: Balance;
     };
     staking: {
       [index: string]: Codec;
-      sessionsPerEra: SessionIndex & ConstantCodec;
-      bondingDuration: EraIndex & ConstantCodec;
+      sessionsPerEra: SessionIndex;
+      bondingDuration: EraIndex;
     };
     session: {
       [index: string]: Codec;
-      dedupKeyPrefix: Bytes & ConstantCodec;
+      dedupKeyPrefix: Bytes;
     };
     democracy: {
       [index: string]: Codec;
-      enactmentPeriod: BlockNumber & ConstantCodec;
-      launchPeriod: BlockNumber & ConstantCodec;
-      votingPeriod: BlockNumber & ConstantCodec;
-      minimumDeposit: BalanceOf & ConstantCodec;
-      emergencyVotingPeriod: BlockNumber & ConstantCodec;
-      cooloffPeriod: BlockNumber & ConstantCodec;
+      enactmentPeriod: BlockNumber;
+      launchPeriod: BlockNumber;
+      votingPeriod: BlockNumber;
+      minimumDeposit: BalanceOf;
+      emergencyVotingPeriod: BlockNumber;
+      cooloffPeriod: BlockNumber;
     };
     elections: {
       [index: string]: Codec;
-      candidacyBond: BalanceOf & ConstantCodec;
-      votingBond: BalanceOf & ConstantCodec;
-      votingFee: BalanceOf & ConstantCodec;
-      presentSlashPerVoter: BalanceOf & ConstantCodec;
-      carryCount: u32 & ConstantCodec;
-      inactiveGracePeriod: VoteIndex & ConstantCodec;
-      votingPeriod: BlockNumber & ConstantCodec;
-      minimumVotingLock: BalanceOf & ConstantCodec;
-      decayRatio: u32 & ConstantCodec;
-      voterSetSize: u32 & ConstantCodec;
-      approvalSetSize: u32 & ConstantCodec;
+      candidacyBond: BalanceOf;
+      votingBond: BalanceOf;
+      votingFee: BalanceOf;
+      presentSlashPerVoter: BalanceOf;
+      carryCount: u32;
+      inactiveGracePeriod: VoteIndex;
+      votingPeriod: BlockNumber;
+      minimumVotingLock: BalanceOf;
+      decayRatio: u32;
+      voterSetSize: u32;
+      approvalSetSize: u32;
     };
     finalityTracker: {
       [index: string]: Codec;
-      windowSize: BlockNumber & ConstantCodec;
-      reportLatency: BlockNumber & ConstantCodec;
+      windowSize: BlockNumber;
+      reportLatency: BlockNumber;
     };
     treasury: {
       [index: string]: Codec;
-      proposalBond: Permill & ConstantCodec;
-      proposalBondMinimum: BalanceOf & ConstantCodec;
-      spendPeriod: BlockNumber & ConstantCodec;
-      burn: Permill & ConstantCodec;
+      proposalBond: Permill;
+      proposalBondMinimum: BalanceOf;
+      spendPeriod: BlockNumber;
+      burn: Permill;
     };
     contracts: {
       [index: string]: Codec;
-      signedClaimHandicap: BlockNumber & ConstantCodec;
-      tombstoneDeposit: BalanceOf & ConstantCodec;
-      storageSizeOffset: u32 & ConstantCodec;
-      rentByteFee: BalanceOf & ConstantCodec;
-      rentDepositOffset: BalanceOf & ConstantCodec;
-      surchargeReward: BalanceOf & ConstantCodec;
-      transferFee: BalanceOf & ConstantCodec;
-      creationFee: BalanceOf & ConstantCodec;
-      transactionBaseFee: BalanceOf & ConstantCodec;
-      transactionByteFee: BalanceOf & ConstantCodec;
-      contractFee: BalanceOf & ConstantCodec;
-      callBaseFee: Gas & ConstantCodec;
-      instantiateBaseFee: Gas & ConstantCodec;
-      maxDepth: u32 & ConstantCodec;
-      maxValueSize: u32 & ConstantCodec;
-      blockGasLimit: Gas & ConstantCodec;
+      signedClaimHandicap: BlockNumber;
+      tombstoneDeposit: BalanceOf;
+      storageSizeOffset: u32;
+      rentByteFee: BalanceOf;
+      rentDepositOffset: BalanceOf;
+      surchargeReward: BalanceOf;
+      transferFee: BalanceOf;
+      creationFee: BalanceOf;
+      transactionBaseFee: BalanceOf;
+      transactionByteFee: BalanceOf;
+      contractFee: BalanceOf;
+      callBaseFee: Gas;
+      instantiateBaseFee: Gas;
+      maxDepth: u32;
+      maxValueSize: u32;
+      blockGasLimit: Gas;
     };
   }
 }
