@@ -47,6 +47,11 @@ export default {
       version: 'u32',
       methods: 'Vec<Text>'
     },
+    RuntimeDispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
+    },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {
       specName: 'Text',

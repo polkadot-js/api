@@ -47,6 +47,14 @@ export interface Digest extends GenericDigest {}
 /** GenericDigestItem */
 export interface DigestItem extends GenericDigestItem {}
 
+/** Enum */
+export interface DispatchClass extends Enum {
+  /** 0:: Normal */
+  readonly isNormal: boolean;
+  /** 1:: Operational */
+  readonly isOperational: boolean;
+}
+
 /** Uint8Array, Codec */
 export interface EcdsaSignature extends Uint8Array, Codec {}
 
