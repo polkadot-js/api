@@ -3,7 +3,7 @@
 
 import { Compact, Option, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
@@ -28,7 +28,7 @@ import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/t
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorId, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParaInfo, ParaScheduling, ParachainDispatchOrigin, Retriable, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
 import { CallMetadataV0, DoubleMapTypeV3, DoubleMapTypeV4, DoubleMapTypeV5, DoubleMapTypeV6, DoubleMapTypeV7, DoubleMapTypeV8, ErrorMetadataV8, EventMetadataLatest, EventMetadataV0, EventMetadataV1, EventMetadataV2, EventMetadataV3, EventMetadataV4, EventMetadataV5, EventMetadataV6, EventMetadataV7, EventMetadataV8, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV0, FunctionArgumentMetadataV1, FunctionArgumentMetadataV2, FunctionArgumentMetadataV3, FunctionArgumentMetadataV4, FunctionArgumentMetadataV5, FunctionArgumentMetadataV6, FunctionArgumentMetadataV7, FunctionArgumentMetadataV8, FunctionMetadataLatest, FunctionMetadataV0, FunctionMetadataV1, FunctionMetadataV2, FunctionMetadataV3, FunctionMetadataV4, FunctionMetadataV5, FunctionMetadataV6, FunctionMetadataV7, FunctionMetadataV8, MapTypeV0, MapTypeV2, MapTypeV3, MapTypeV4, MapTypeV5, MapTypeV6, MapTypeV7, MapTypeV8, MetadataV0, MetadataV1, ModuleConstantMetadataLatest, ModuleConstantMetadataV6, ModuleConstantMetadataV7, ModuleConstantMetadataV8, ModuleMetadataV0, ModuleMetadataV1, OuterDispatchCallV0, OuterDispatchMetadataV0, OuterEventEventMetadataEventsV0, OuterEventEventMetadataV0, OuterEventMetadataV0, PlainTypeLatest, PlainTypeV0, PlainTypeV2, PlainTypeV3, PlainTypeV4, PlainTypeV5, PlainTypeV6, PlainTypeV7, PlainTypeV8, RuntimeModuleMetadataV0, StorageEntryModifierLatest, StorageEntryModifierV6, StorageEntryModifierV7, StorageEntryModifierV8, StorageFunctionMetadataV0, StorageFunctionMetadataV1, StorageFunctionModifierV0, StorageFunctionModifierV1, StorageFunctionModifierV2, StorageFunctionModifierV3, StorageFunctionModifierV4, StorageFunctionModifierV5, StorageFunctionTypeV0, StorageFunctionTypeV1, StorageMetadataV0 } from '@polkadot/types/interfaces/metadata';
-import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RpcMethods, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { ApiId, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 
 export interface InterfaceRegistry {
   bool: bool;
@@ -164,6 +164,9 @@ export interface InterfaceRegistry {
   DigestItem: DigestItem;
   'Option<DigestItem>': Option<DigestItem>;
   'Vec<DigestItem>': Vec<DigestItem>;
+  DispatchClass: DispatchClass;
+  'Option<DispatchClass>': Option<DispatchClass>;
+  'Vec<DispatchClass>': Vec<DispatchClass>;
   Extrinsic: Extrinsic;
   'Option<Extrinsic>': Option<Extrinsic>;
   'Vec<Extrinsic>': Vec<Extrinsic>;
@@ -1059,6 +1062,9 @@ export interface InterfaceRegistry {
   RpcMethods: RpcMethods;
   'Option<RpcMethods>': Option<RpcMethods>;
   'Vec<RpcMethods>': Vec<RpcMethods>;
+  RuntimeDispatchInfo: RuntimeDispatchInfo;
+  'Option<RuntimeDispatchInfo>': Option<RuntimeDispatchInfo>;
+  'Vec<RuntimeDispatchInfo>': Vec<RuntimeDispatchInfo>;
   RuntimeVersionApi: RuntimeVersionApi;
   'Option<RuntimeVersionApi>': Option<RuntimeVersionApi>;
   'Vec<RuntimeVersionApi>': Vec<RuntimeVersionApi>;

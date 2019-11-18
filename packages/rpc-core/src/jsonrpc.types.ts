@@ -6,7 +6,7 @@ import { Vec } from '@polkadot/types/codec';
 import { Bytes, Metadata, StorageData, StorageKey, Text, u64 } from '@polkadot/types';
 import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
-import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 import { Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
@@ -31,6 +31,9 @@ export interface RpcInterface {
   };
   contracts: {
     call(callRequest: ContractCallRequest, at?: Hash | Uint8Array | string): Observable<ContractExecResult>;
+  };
+  payment: {
+    queryInfo(extrinsic: Bytes | Uint8Array | string, hash?: Hash | Uint8Array | string): Observable<RuntimeDispatchInfo>;
   };
   rpc: {
     methods(): Observable<RpcMethods>;

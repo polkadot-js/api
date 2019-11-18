@@ -17,6 +17,9 @@ export default {
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
     DigestItem: 'GenericDigestItem',
+    DispatchClass: {
+      _enum: ['Normal', 'Operational']
+    },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',

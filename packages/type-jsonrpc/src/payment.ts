@@ -9,26 +9,26 @@ import createParam from './create/param';
 
 // NOTE order here is the same as in Rust, alphabetical below
 
-const nextIndex: RpcMethodOpt = {
-  description: 'Retrieves the next accountIndex as available on the node',
-  isOptional: true,
+const queryInfo: RpcMethodOpt = {
+  description: 'Retrieves the fee information for an encoded extrinsic',
   params: [
-    createParam('accountId', 'AccountId')
+    createParam('extrinsic', 'Bytes'),
+    createParam('hash', 'Hash', { isOptional: true })
   ],
-  type: 'Index'
+  type: 'RuntimeDispatchInfo'
 };
 
-const section = 'account';
+const section = 'payment';
 
 /**
- * @summary Calls to account-specific information.
+ * @summary Calls to retrieve payment information.
  */
 export default {
   isDeprecated: false,
   isHidden: false,
-  description: '(Optional) Methods that retrieves account-specific information',
+  description: 'Methods that retrieves payment information, e.g. fee calculations',
   section,
   methods: {
-    nextIndex: createMethod(section, 'nextIndex', nextIndex)
+    queryInfo: createMethod(section, 'queryInfo', queryInfo)
   }
 };
