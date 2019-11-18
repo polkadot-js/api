@@ -64,10 +64,10 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
             // add a fake signature to the extrinsic
             this.signFake(address, signOptions);
 
-            return this._api.rpc.payment.queryInfo(this.toHex(true));
+            return this._api.rpc.payment.queryInfo(this.toHex());
           })
         )
-    );
+    )();
   }
 
   // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()

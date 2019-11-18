@@ -47,6 +47,8 @@ export interface SignerOptions {
 }
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrinsic {
+  paymentInfo (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
+
   send(): SubmittableResultResult<ApiType>;
 
   send(statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
