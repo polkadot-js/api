@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// `query.types` adds module augmentation so that `api.query.*.*` gets typed.
-// Import that file to make these types effective.
+// These two files add module augmentation so that `api.{query,consts}.*.*`
+// get typed. Import them to make these types effective.
+import './consts.types';
 import './query.types';
 
 import { Constants } from '@polkadot/metadata/Decorated/types';
