@@ -20,7 +20,7 @@ function consts (api: ApiPromise): void {
   console.log(
     api.consts.foo.bar,
     api.consts.balances.creationFee.toNumber(),
-    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
+    (api.consts.balances.creationFee as any as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 
