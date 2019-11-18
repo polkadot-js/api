@@ -252,10 +252,19 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
+   * @describe Adds a fake signature to the extrinsic
+   */
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): Extrinsic {
+    (this.raw as ExtrinsicVx).signFake(signer, options);
+
+    return this;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
-    return u8aToHex(this.toU8a());
+  public toHex (isBare?: boolean): string {
+    return u8aToHex(this.toU8a(isBare));
   }
 
   /**
@@ -274,10 +283,12 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   * @param isBare true when the value is not length-prefixed
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a(isBare));
+    // we do not apply bare to the internal values, rather this only determines out length addition,
+    // where we strip all lengths this creates an un-decodable extrinsic
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
 
     return isBare
       ? encoded

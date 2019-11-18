@@ -3,10 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
+import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
+import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -47,10 +47,33 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
     this._ignoreStatusCb = type === 'rxjs';
   }
 
-  // sign a transaction, returning the this to allow cianing, i.e. .sign(...).send()
+  // calculate the payment info for this transaction (if signed and submitted)
+  public paymentInfo (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType> {
+    const [allOptions] = this._makeSignAndSendOptions(options);
+    const address = isKeyringPair(account) ? account.address : account.toString();
+
+    return this._decorateMethod(
+      (): Observable<RuntimeDispatchInfo> =>
+        this._getPrelimState(address, allOptions).pipe(
+          first(),
+          switchMap(([nonce, header]): Observable<RuntimeDispatchInfo> => {
+            // setup our options (same way as in signAndSend)
+            const eraOptions = this._makeEraOptions(allOptions, { header, nonce });
+            const signOptions = this._makeSignOptions(eraOptions, {});
+
+            // add a fake signature to the extrinsic
+            this.signFake(address, signOptions);
+
+            return this._api.rpc.payment.queryInfo(this.toHex(true));
+          })
+        )
+    );
+  }
+
+  // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()
   public sign (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): this {
     // NOTE here we actually override nonce if it was specified (backwards compat for
-    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    // the previous signature - don't let user-space break, but allow then time to upgrade)
     const options: Partial<SignerOptions> = isBn(optionsOrNonce) || isNumber(optionsOrNonce)
       ? { nonce: optionsOrNonce }
       : optionsOrNonce;
