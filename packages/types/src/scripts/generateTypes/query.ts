@@ -59,7 +59,6 @@ function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports
 
   return [
     `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
-    // `${stringLowerFirst(storageEntry.name.toString())}: QueryableStorageEntry<ApiType>;`
   ];
 }
 

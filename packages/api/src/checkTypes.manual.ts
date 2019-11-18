@@ -4,7 +4,6 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
@@ -18,8 +17,8 @@ import { SubmittableResult } from './';
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
-    api.consts.balances.creationFee.toHex(),
-    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.creationFee.toNumber(),
+    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 
