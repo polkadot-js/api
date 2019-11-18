@@ -34,8 +34,8 @@ export default function fromMetadata (metadata: Metadata): Constants {
       newModule[stringCamelCase(meta.name.toString())] = codec;
 
       return newModule;
-    }, {});
+    }, {} as ModuleConstants);
 
     return result;
-  }, {});
+  }, {} as Constants);
 }

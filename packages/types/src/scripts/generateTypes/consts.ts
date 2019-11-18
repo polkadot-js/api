@@ -16,17 +16,17 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
     return [];
   }
 
+  setImports(imports, ['Codec']);
+
   return [indent(4)(`${stringCamelCase(modul.name.toString())}: {`)]
+    .concat(indent(6)('[index: string]: Codec;'))
     .concat(
       modul.constants
-        .reduce((acc, constant): string[] => {
+        .map((constant): string => {
           setImports(imports, [constant.type.toString()]);
 
-          return acc.concat(
-            indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`)
-          );
-        }, [] as string[])
-        .join('\n')
+          return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
+        })
     )
     .concat([indent(4)('};')]);
 }

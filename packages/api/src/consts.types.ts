@@ -7,17 +7,21 @@ import { Gas } from '@polkadot/types/interfaces/contracts';
 import { VoteIndex } from '@polkadot/types/interfaces/elections';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
+import { Codec } from '@polkadot/types/types';
 
 declare module '@polkadot/metadata/Decorated/types' {
   export interface Constants {
     babe: {
+      [index: string]: Codec;
       epochDuration: u64 & ConstantCodec;
       expectedBlockTime: Moment & ConstantCodec;
     };
     timestamp: {
+      [index: string]: Codec;
       minimumPeriod: Moment & ConstantCodec;
     };
     balances: {
+      [index: string]: Codec;
       existentialDeposit: Balance & ConstantCodec;
       transferFee: Balance & ConstantCodec;
       creationFee: Balance & ConstantCodec;
@@ -25,13 +29,16 @@ declare module '@polkadot/metadata/Decorated/types' {
       transactionByteFee: Balance & ConstantCodec;
     };
     staking: {
+      [index: string]: Codec;
       sessionsPerEra: SessionIndex & ConstantCodec;
       bondingDuration: EraIndex & ConstantCodec;
     };
     session: {
+      [index: string]: Codec;
       dedupKeyPrefix: Bytes & ConstantCodec;
     };
     democracy: {
+      [index: string]: Codec;
       enactmentPeriod: BlockNumber & ConstantCodec;
       launchPeriod: BlockNumber & ConstantCodec;
       votingPeriod: BlockNumber & ConstantCodec;
@@ -40,6 +47,7 @@ declare module '@polkadot/metadata/Decorated/types' {
       cooloffPeriod: BlockNumber & ConstantCodec;
     };
     elections: {
+      [index: string]: Codec;
       candidacyBond: BalanceOf & ConstantCodec;
       votingBond: BalanceOf & ConstantCodec;
       votingFee: BalanceOf & ConstantCodec;
@@ -53,16 +61,19 @@ declare module '@polkadot/metadata/Decorated/types' {
       approvalSetSize: u32 & ConstantCodec;
     };
     finalityTracker: {
+      [index: string]: Codec;
       windowSize: BlockNumber & ConstantCodec;
       reportLatency: BlockNumber & ConstantCodec;
     };
     treasury: {
+      [index: string]: Codec;
       proposalBond: Permill & ConstantCodec;
       proposalBondMinimum: BalanceOf & ConstantCodec;
       spendPeriod: BlockNumber & ConstantCodec;
       burn: Permill & ConstantCodec;
     };
     contracts: {
+      [index: string]: Codec;
       signedClaimHandicap: BlockNumber & ConstantCodec;
       tombstoneDeposit: BalanceOf & ConstantCodec;
       storageSizeOffset: u32 & ConstantCodec;
