@@ -38,9 +38,15 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
   const vestedBalance = createType('Balance', perBlock.mul(bestNumber));
   const isVesting = vestedBalance.lt(vestingTotal);
 
-  // see what is availble with the current vested amount taken into account
-  const freeWithVesting = freeBalance.sub(vestingTotal).add(vestedBalance);
-  const availableBalance = createType('Balance', bnMax(new BN(0), (isVesting ? freeWithVesting : freeBalance).sub(lockedBalance)));
+  // The available balance & vested has an interplay here
+  // "
+  // vesting is a guarantee that the account's balance will never go below a certain amount. so it functions in the opposite way, a bit like a lock that is monotonically decreasing rather than a liquid amount that is monotonically increasing.
+  // locks function as the same guarantee - that a balance will not be lower than a particular amount.
+  // because of this you can see that if there is a "vesting lock" that guarantees the balance cannot go below 200, and a "staking lock" that guarantees the balance cannot drop below 300, then we just have two guarantees of which the first is irrelevant.
+  // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
+  // ""
+  const floating = freeBalance.sub(lockedBalance);
+  const availableBalance = createType('Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance : floating));
 
   return {
     accountId,
