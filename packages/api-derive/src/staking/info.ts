@@ -188,14 +188,18 @@ function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
   }));
 }
 
-function retrieveV1 (api: ApiInterfaceRx, controllerId: AccountId): Observable<DerivedStaking> {
-  return api.query.staking
-    .ledger<Option<StakingLedger>>(controllerId)
-    .pipe(switchMap((stakingLedger): Observable<DerivedStaking> =>
-      stakingLedger.isSome
-        ? retrieveInfoV1(api, controllerId, stakingLedger.unwrap().stash, controllerId)
-        : of({ accountId: controllerId, nextSessionIds: [], sessionIds: [] })
-    ));
+function retrieveV1 (api: ApiInterfaceRx, accountId: AccountId): Observable<DerivedStaking> {
+  // depending on where we come from, this may be a controller or stash
+  return combineLatest([
+    api.query.staking.bonded<Option<AccountId>>(accountId),
+    api.query.staking.ledger<Option<StakingLedger>>(accountId)
+  ]).pipe(switchMap(([bonded, stakingLedger]): Observable<DerivedStaking> =>
+    stakingLedger.isSome
+      ? retrieveInfoV1(api, accountId, stakingLedger.unwrap().stash, accountId)
+      : bonded.isSome
+        ? retrieveInfoV1(api, accountId, accountId, bonded.unwrap())
+        : of({ accountId: accountId, nextSessionIds: [], sessionIds: [] })
+  ));
 }
 
 function retrieveV2 (api: ApiInterfaceRx, stashId: AccountId): Observable<DerivedStaking> {
