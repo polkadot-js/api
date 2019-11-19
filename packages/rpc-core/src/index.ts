@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
-import { AnyJson, Codec } from '@polkadot/types/types';
+import { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import { RpcInterface } from './jsonrpc.types';
 import { RpcInterfaceMethod, UserRpc } from './types';
 
@@ -68,9 +68,11 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
 export default class Rpc implements RpcInterface {
   private _storageCache = new Map<string, string | null>();
 
+  public readonly mapping: Map<string, RpcMethod> = new Map();
+
   public readonly provider: ProviderInterface;
 
-  public readonly mapping: Map<string, RpcMethod> = new Map();
+  public readonly registry: Registry;
 
   public readonly sections: string[] = [];
 
@@ -99,10 +101,11 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface, userRpc: UserRpc = {}) {
+  constructor (registry: Registry, provider: ProviderInterface, userRpc: UserRpc = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+    this.registry = registry;
     this.provider = provider;
 
     this.createInterfaces(jsonrpc, userRpc);
@@ -307,7 +310,7 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createTypeUnsafe(method.params[index].type, [input])
+      createTypeUnsafe(this.registry, method.params[index].type, [input])
     );
   }
 
@@ -351,7 +354,7 @@ export default class Rpc implements RpcInterface {
       }, [] as Codec[]);
     }
 
-    return createTypeUnsafe(method.type, [result]);
+    return createTypeUnsafe(this.registry, method.type, [result]);
   }
 
   private formatStorageData (key: StorageKey, value: string | null): Codec {
@@ -371,14 +374,15 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        createClass(type),
+        this.registry,
+        createClass(this.registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(type, [input], true)
+          : createTypeUnsafe(this.registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
   }
 
   private formatStorageSet (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
@@ -412,13 +416,14 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        createClass(type),
+        this.registry,
+        createClass(this.registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(type, [input], true)
+          : createTypeUnsafe(this.registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
   }
 }

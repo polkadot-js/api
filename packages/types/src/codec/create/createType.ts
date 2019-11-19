@@ -43,8 +43,8 @@ function checkInstance<T extends Codec = Codec, K extends string = string> (valu
 
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
-function initType<T extends Codec = Codec, K extends string = string> (Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
-  const created = new Type(...params);
+function initType<T extends Codec = Codec, K extends string = string> (registry: Registry, Type: Constructor<FromReg<T, K>>, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
+  const created = new Type(registry, ...params);
   const [value] = params;
 
   if (isPedantic && isU8a(value)) {
@@ -59,7 +59,7 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 // runtime error.
 export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
-    return initType(createClass<T, K>(registry, type), params, isPedantic);
+    return initType(registry, createClass<T, K>(registry, type), params, isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }

@@ -5,7 +5,7 @@
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls, Registry } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import {
   ApiInterfaceRx, ApiOptions, ApiTypes,
@@ -20,7 +20,7 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, u64 } from '@polkadot/types';
+import { Metadata, Null, u64, TypeRegistry } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -39,6 +39,8 @@ interface MetaDecoration {
 }
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
+  public readonly registry: Registry;
+
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
@@ -113,6 +115,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
+    this.registry = new TypeRegistry();
+
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()
       : (options.provider || new WsProvider());
@@ -120,7 +124,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this.decorateMethod = decorateMethod;
     this._options = options;
     this._type = type;
-    this._rpcCore = new RpcCore(thisProvider, this._options.rpc);
+    this._rpcCore = new RpcCore(this.registry, thisProvider, this._options.rpc);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
@@ -328,8 +332,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           }
 
           const nextResult = vals.length
-            ? new LinkageResult([keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
-            : new LinkageResult([Null, []], [Null, []]);
+            ? new LinkageResult(this.registry, [keys[0].constructor as any, keys], [vals[0].constructor as any, vals])
+            : new LinkageResult(this.registry, [Null, []], [Null, []]);
 
           // we set our result into a subject so we have a single observable for
           // which the value changes over time. Initially create, follow-up next
