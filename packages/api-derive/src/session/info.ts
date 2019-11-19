@@ -51,7 +51,7 @@ function createDerivedV1 ([bestNumber, { currentIndex, validatorCount }, [_lastL
 function createDerivedLatest ([[hasBabe, epochDuration, sessionsPerEra], { currentIndex, currentEra, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
   const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).add(sessionProgress);
+  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
 
   return {
     currentEra,
