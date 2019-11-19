@@ -4,7 +4,6 @@
 import { Bytes, u32, u64 } from '@polkadot/types';
 import { Balance, BalanceOf, BlockNumber, Moment, Permill } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
-import { VoteIndex } from '@polkadot/types/interfaces/elections';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 import { Codec } from '@polkadot/types/types';
@@ -25,8 +24,11 @@ declare module '@polkadot/metadata/Decorated/types' {
       existentialDeposit: Balance & ConstantCodec;
       transferFee: Balance & ConstantCodec;
       creationFee: Balance & ConstantCodec;
-      transactionBaseFee: Balance & ConstantCodec;
-      transactionByteFee: Balance & ConstantCodec;
+    };
+    transactionPayment: {
+      [index: string]: Codec;
+      transactionBaseFee: BalanceOf & ConstantCodec;
+      transactionByteFee: BalanceOf & ConstantCodec;
     };
     staking: {
       [index: string]: Codec;
@@ -50,15 +52,9 @@ declare module '@polkadot/metadata/Decorated/types' {
       [index: string]: Codec;
       candidacyBond: BalanceOf & ConstantCodec;
       votingBond: BalanceOf & ConstantCodec;
-      votingFee: BalanceOf & ConstantCodec;
-      presentSlashPerVoter: BalanceOf & ConstantCodec;
-      carryCount: u32 & ConstantCodec;
-      inactiveGracePeriod: VoteIndex & ConstantCodec;
-      votingPeriod: BlockNumber & ConstantCodec;
-      minimumVotingLock: BalanceOf & ConstantCodec;
-      decayRatio: u32 & ConstantCodec;
-      voterSetSize: u32 & ConstantCodec;
-      approvalSetSize: u32 & ConstantCodec;
+      desiredMembers: u32 & ConstantCodec;
+      desiredRunnersUp: u32 & ConstantCodec;
+      termDuration: BlockNumber & ConstantCodec;
     };
     finalityTracker: {
       [index: string]: Codec;
@@ -90,6 +86,12 @@ declare module '@polkadot/metadata/Decorated/types' {
       maxDepth: u32 & ConstantCodec;
       maxValueSize: u32 & ConstantCodec;
       blockGasLimit: Gas & ConstantCodec;
+    };
+    nicks: {
+      [index: string]: Codec;
+      reservationFee: BalanceOf & ConstantCodec;
+      minLength: u32 & ConstantCodec;
+      maxLength: u32 & ConstantCodec;
     };
   }
 }
