@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance, BlockNumber, Exposure, Keys, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Exposure, Keys, Nominations, RewardDestination, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DerivedRecentlyOffline, DerivedSessionInfo, DerivedStaking, DerivedUnlocking } from '../types';
 
@@ -176,14 +176,22 @@ function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
       [api.query.staking.validators, stashId],
       [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
     ]) as Observable<MultiResultV2>
-  ]).pipe(map(([
-    sessionInfo, queuedKeys,
-    [stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs], nextKeys]
-  ]: [DerivedSessionInfo, [AccountId, Keys][], MultiResultV2]): DerivedStaking =>
-    parseResult({
-      accountId, controllerId, stashId, sessionInfo, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
+  ]).pipe(
+    map(([
+      sessionInfo, queuedKeys,
+      [stakingLedger, [_nominators], rewardDestination, stakers, [validatorPrefs], nextKeys]
+    ]: [DerivedSessionInfo, [AccountId, Keys][], MultiResultV2]): DerivedStaking => {
+      // if we have staking.storageVersion it indicates the new structure, unwrap as needed
+      // FIXME We really want to be pulling all the new (valuable) info along
+      const nominators: AccountId[] = api.query.staking.storageVersion
+        ? (_nominators as unknown as Option<Nominations>).unwrapOr({ targets: [] }).targets
+        : _nominators;
+
+      return parseResult({
+        accountId, controllerId, stashId, sessionInfo, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
+      });
     })
-  ));
+  );
 }
 
 function retrieveV1 (api: ApiInterfaceRx, controllerId: AccountId): Observable<DerivedStaking> {
