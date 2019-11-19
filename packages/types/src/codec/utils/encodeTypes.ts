@@ -48,7 +48,7 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
     asEnum
       ? { _enum: inner }
       : inner
-  ); 
+  );
 }
 
 function encodeEnum (typeDef: Pick<TypeDef, any>): string {
