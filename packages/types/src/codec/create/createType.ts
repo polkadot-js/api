@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes } from '../../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../../types';
 import { FromReg } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
@@ -57,9 +57,9 @@ function initType<T extends Codec = Codec, K extends string = string> (Type: Con
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if not parseable, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
   try {
-    return initType(createClass<T, K>(type), params, isPedantic);
+    return initType(createClass<T, K>(registry, type), params, isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }
@@ -71,8 +71,8 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
+export function createType<K extends InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceRegistry[K] {
   // error TS2589: Type instantiation is excessively deep and possibly infinite.
   // The above happens with as Constructor<InterfaceRegistry[K]>;
-  return createTypeUnsafe<Codec, K>(type, params) as any;
+  return createTypeUnsafe<Codec, K>(registry, type, params) as any;
 }

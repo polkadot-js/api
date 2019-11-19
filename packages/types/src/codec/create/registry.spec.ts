@@ -6,7 +6,7 @@ import '../../injector';
 
 import { Constructor } from '../../types';
 
-import { TypeRegistry, getTypeRegistry } from './registry';
+import { TypeRegistry } from './registry';
 import Struct from '../Struct';
 import Text from '../../primitive/Text';
 import U32 from '../../primitive/U32';
@@ -23,7 +23,7 @@ describe('TypeRegistry', (): void => {
   let registry: TypeRegistry;
 
   beforeEach((): void => {
-    registry = getTypeRegistry();
+    registry = new TypeRegistry();
   });
 
   it('handles non exist type', (): void => {

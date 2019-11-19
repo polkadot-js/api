@@ -4,7 +4,7 @@
 
 import { isString, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a, Constructor } from '../types';
+import { AnyU8a, Constructor, Registry } from '../types';
 
 import U8a from './U8a';
 
@@ -20,10 +20,8 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
 export default class U8aFixed extends U8a {
-  constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
-    super(
-      U8aFixed.decodeU8aFixed(value, bitLength)
-    );
+  constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
+    super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
   }
 
   private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
@@ -49,8 +47,8 @@ export default class U8aFixed extends U8a {
 
   public static with (bitLength: BitLength): Constructor<U8aFixed> {
     return class extends U8aFixed {
-      constructor (value?: any) {
-        super(value, bitLength);
+      constructor (registry: Registry, value?: any) {
+        super(registry, value, bitLength);
       }
     };
   }

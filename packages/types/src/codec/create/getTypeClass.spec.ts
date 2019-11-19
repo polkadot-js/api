@@ -6,12 +6,14 @@ import '../../injector';
 
 import { Codec, Constructor } from '../../types';
 
-import { getTypeClass } from '.';
+import { getTypeClass, TypeRegistry } from '.';
 
 describe('getTypeClass', (): void => {
+  const registry = new TypeRegistry();
+
   it('does not allow invalid types', (): void => {
     expect(
-      (): Constructor<Codec> => getTypeClass('SomethingInvalid' as any)
+      (): Constructor<Codec> => getTypeClass(registry, 'SomethingInvalid' as any)
     ).toThrow(/determine type/);
   });
 });

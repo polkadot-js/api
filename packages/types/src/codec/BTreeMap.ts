@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Constructor, Codec, IHash, InterfaceTypes } from '../types';
+import { AnyJson, Constructor, Codec, IHash, InterfaceTypes, Registry } from '../types';
 
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -12,16 +12,19 @@ import U8a from './U8a';
 import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
 export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
+  public readonly registry: Registry;
+
   protected _KeyClass: Constructor<K>;
 
   protected _ValClass: Constructor<V>;
 
-  constructor (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
     const KeyClass = typeToConstructor(keyType);
     const ValClass = typeToConstructor(valType);
 
     super(BTreeMap.decodeBTreeMap(KeyClass, ValClass, rawValue));
 
+    this.registry = registry;
     this._KeyClass = KeyClass;
     this._ValClass = ValClass;
   }
@@ -93,8 +96,8 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes): Constructor<BTreeMap<K, V>> {
     return class extends BTreeMap<K, V> {
-      constructor (value?: any) {
-        super(keyType, valType, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, keyType, valType, value);
       }
     };
   }
@@ -116,7 +119,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns a hash of the value
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

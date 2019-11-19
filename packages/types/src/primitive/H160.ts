@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AnyU8a, Registry } from '../types';
 
 import U8aFixed from '../codec/U8aFixed';
 
@@ -13,8 +13,8 @@ import U8aFixed from '../codec/U8aFixed';
  * as a sane default for fixed-length hash representations.
  */
 export default class H160 extends U8aFixed {
-  constructor (value?: AnyU8a) {
-    super(value, 160);
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, value, 160);
   }
 
   /**

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes } from '../types';
+import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isU8a, u8aConcat, isHex, hexToU8a } from '@polkadot/util';
 
@@ -26,12 +26,12 @@ type TupleTypes = (Constructor | InterfaceTypes)[] | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (Types: TupleTypes, value?: any) {
+  constructor (registry: Registry, Types: TupleTypes, value?: any) {
     const Clazzes = Array.isArray(Types)
       ? Types.map((type): Constructor => typeToConstructor(type))
       : mapToTypeMap(Types);
 
-    super(...Tuple.decodeTuple(Clazzes, value));
+    super(registry, ...Tuple.decodeTuple(Clazzes, value));
 
     this._Types = Clazzes;
   }
@@ -58,8 +58,8 @@ export default class Tuple extends AbstractArray<Codec> {
 
   public static with (Types: TupleTypes): Constructor<Tuple> {
     return class extends Tuple {
-      constructor (value?: any) {
-        super(Types, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, Types, value);
       }
     };
   }

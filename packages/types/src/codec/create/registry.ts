@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, RegistryTypes } from '../../types';
+import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
 
-import { isFunction, isString, isUndefined } from '@polkadot/util';
+import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
 
 import { createClass } from './createClass';
 
-export class TypeRegistry {
-  public static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
-
+export class TypeRegistry implements Registry {
   private _classes: Map<string, Constructor> = new Map();
 
   private _definitions: Map<string, string> = new Map();
@@ -22,16 +20,13 @@ export class TypeRegistry {
 
   // eslint-disable-next-line no-dupe-class-members
   public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
-    if (isString(arg1)) {
-      const name = arg1;
-      const type = arg2!;
+    // NOTE Constructors appear as functions here
+    if (isFunction(arg1)) {
+      this._classes.set(arg1.name, arg1);
+    } else if (isString(arg1)) {
+      assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
 
-      this._classes.set(name, type);
-    } else if (isFunction(arg1)) {
-      const name = arg1.name;
-      const type = arg1;
-
-      this._classes.set(name, type);
+      this._classes.set(arg1, arg2);
     } else {
       this.registerObject(arg1);
     }
@@ -66,10 +61,13 @@ export class TypeRegistry {
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        const BaseType = createClass(definition);
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const registry = this;
+        const BaseType = createClass(registry, definition);
 
         // NOTE If we didn't extend here, we would have strange artifacts. An example is
         // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
+        // Additionally, we now pass through the registry, which is a link to ourselves
         Type = class extends BaseType {};
 
         this._classes.set(name, Type);
@@ -104,8 +102,4 @@ export class TypeRegistry {
   public hasType (name: string): boolean {
     return this.hasClass(name) || this.hasDef(name);
   }
-}
-
-export function getTypeRegistry (): TypeRegistry {
-  return TypeRegistry.defaultRegistry;
 }

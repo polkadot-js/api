@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes } from '../types';
+import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -31,16 +31,19 @@ export default class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements Codec {
+  public readonly registry: Registry;
+
   protected _jsonMap: Map<keyof S, string>;
 
   protected _Types: ConstructorDef;
 
-  constructor (Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(Types);
     const decoded: T = Struct.decodeStruct(Clazzes, value, jsonMap);
 
     super(Object.entries(decoded));
 
+    this.registry = registry;
     this._jsonMap = jsonMap;
     this._Types = Clazzes;
   }
@@ -116,8 +119,8 @@ export default class Struct<
 
   public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
-        super(Types, value, jsonMap);
+      constructor (registry: Registry, value?: any, jsonMap?: Map<keyof S, string>) {
+        super(registry, Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
           // do not clobber existing properties on the object
@@ -177,7 +180,7 @@ export default class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

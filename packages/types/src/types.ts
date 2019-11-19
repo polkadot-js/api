@@ -87,6 +87,11 @@ export interface Codec {
   isEmpty: boolean;
 
   /**
+   * @description The registry associated with this object
+   */
+  readonly registry: Registry;
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean;
@@ -303,4 +308,15 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;
+}
+
+export interface Registry {
+  get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
+  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  hasClass (name: string): boolean;
+  hasDef (name: string): boolean;
+  hasType (name: string): boolean;
+  register (type: Constructor | RegistryTypes): void;
+  register (name: string, type: Constructor): void;
+  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
 }

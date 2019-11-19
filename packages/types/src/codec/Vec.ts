@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes } from '../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { u8aToU8a, assert } from '@polkadot/util';
 
@@ -22,10 +22,10 @@ const MAX_LENGTH = 32768;
 export default class Vec<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T> | InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
+  constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(Type);
 
-    super(...Vec.decodeVec(Clazz, value));
+    super(registry, ...Vec.decodeVec(Clazz, value));
 
     this._Type = Clazz;
   }
@@ -55,8 +55,8 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
 
   public static with<O extends Codec> (Type: Constructor<O> | InterfaceTypes): Constructor<Vec<O>> {
     return class extends Vec<O> {
-      constructor (value?: any[]) {
-        super(Type, value);
+      constructor (registry: Registry, value?: any[]) {
+        super(registry, Type, value);
       }
     };
   }

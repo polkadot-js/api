@@ -4,6 +4,7 @@
 
 import { Constructor } from '../types';
 
+import { TypeRegistry } from '../codec/create/registry';
 import Null from './Null';
 
 /**
@@ -13,7 +14,7 @@ import Null from './Null';
  */
 export default class Unconstructable extends Null {
   constructor () {
-    super();
+    super(new TypeRegistry());
 
     throw new Error('Unconstructable should not be constructed, it is only a placeholder for compatibility');
   }

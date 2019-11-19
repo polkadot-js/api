@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec, Constructor, InterfaceTypes } from '../types';
+import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -109,11 +109,11 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  constructor (def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
+  constructor (registry: Registry, def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(def);
     const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
-    super(decoded.value);
+    super(registry, decoded.value);
 
     this._def = defInfo.def;
     this._isBasic = defInfo.isBasic;
@@ -136,8 +136,8 @@ export default class Enum extends Base<Codec> {
 
   public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
-      constructor (value?: any, index?: number) {
-        super(Types, value, index);
+      constructor (registry: Registry, value?: any, index?: number) {
+        super(registry, Types, value, index);
 
         Object.keys(this._def).forEach((_key): void => {
           const name = stringUpperFirst(stringCamelCase(_key.replace(' ', '_')));
