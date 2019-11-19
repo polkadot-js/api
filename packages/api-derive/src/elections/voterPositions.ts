@@ -8,20 +8,17 @@ import { Vec, Option, createType, u32 } from '@polkadot/types';
 import { DerivedVoterPositions } from '../types';
 
 import BN from 'bn.js';
-import { of, combineLatest, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedVoterPositions> {
   return api.query.elections.nextVoterSet<SetIndex>().pipe(
-    switchMap((nextVoterSet: SetIndex): Observable<[u32, Vec<Option<AccountId>>[]]> => combineLatest(
-      of(api.consts.elections.voterSetSize),
+    switchMap((nextVoterSet: SetIndex): Observable<Vec<Option<AccountId>>[]> =>
       api.query.elections.voters.multi<Vec<Option<AccountId>>>([...Array(+nextVoterSet + 1).keys()].map((_, i): [number] => [i]))
-    )),
-    map((result: [u32, Vec<Option<AccountId>>[]]): DerivedVoterPositions => {
-      const [setSize, voters] = result;
-
+    ),
+    map((voters: Vec<Option<AccountId>>[]): DerivedVoterPositions => {
       return voters.reduce((result: DerivedVoterPositions, vec, setIndex): DerivedVoterPositions => {
         vec.forEach((e, index): void => {
           // re-create the index based on position 0 is [0][0] and likewise
@@ -30,7 +27,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedVoterPositions>
 
           if (accountId) {
             result[accountId.toString()] = {
-              globalIndex: setSize.muln(setIndex).addn(index),
+              globalIndex: (api.consts.elections.voterSetSize as u32).muln(setIndex).addn(index),
               index: new BN(index),
               setIndex: createType('SetIndex', setIndex)
             };
