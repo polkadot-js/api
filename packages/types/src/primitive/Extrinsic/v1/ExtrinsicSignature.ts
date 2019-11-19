@@ -6,8 +6,6 @@ import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../..
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
-import { randomAsU8a } from '@polkadot/util-crypto';
-
 import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -149,7 +147,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', address);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', randomAsU8a());
+    const signature = createType('Signature', new Uint8Array(64).fill(0x42));
 
     return this.injectSignature(signer, signature, payload);
   }

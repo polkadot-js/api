@@ -5,8 +5,6 @@
 import { Address, Call } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
-import { randomAsU8a } from '@polkadot/util-crypto';
-
 import { createType } from '../../../codec/create';
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
@@ -61,7 +59,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
     const signer = createType('Address', address);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', randomAsU8a());
+    const signature = createType('Signature', new Uint8Array(64).fill(0x42));
 
     return this.injectSignature(signer, signature, payload);
   }
