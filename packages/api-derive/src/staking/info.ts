@@ -162,30 +162,32 @@ function retrieveInfoV1 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
   ));
 }
 
-type MultiResultV2 = [Option<StakingLedger>, [Vec<AccountId>], RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>];
+type MultiResultV2 = [[Vec<AccountId>] | Option<ITuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
 
 function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   return combineLatest([
     api.derive.session.info(),
     api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
     api.queryMulti([
-      [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
       [api.query.staking.payee, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId],
-      [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
+      [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]],
+      [api.query.staking.ledger, controllerId]
     ]) as Observable<MultiResultV2>
   ]).pipe(
     map(([
       sessionInfo, queuedKeys,
-      [stakingLedger, [_nominators], rewardDestination, stakers, [validatorPrefs], nextKeys]
+      [_nominators, rewardDestination, stakers, [validatorPrefs], nextKeys, stakingLedger]
     ]: [DerivedSessionInfo, [AccountId, Keys][], MultiResultV2]): DerivedStaking => {
       // if we have staking.storageVersion it indicates the new structure, unwrap as needed
       // FIXME We really want to be pulling all the new (valuable) info along
       const nominators: AccountId[] = api.query.staking.storageVersion
-        ? (_nominators as unknown as Option<Nominations>).unwrapOr({ targets: [] }).targets
-        : _nominators;
+        ? (_nominators as Option<ITuple<[Nominations]>>).isSome
+          ? (_nominators as Option<ITuple<[Nominations]>>).unwrap()[0].targets
+          : []
+        : (_nominators as [Vec<AccountId>])[0];
 
       return parseResult({
         accountId, controllerId, stashId, sessionInfo, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
