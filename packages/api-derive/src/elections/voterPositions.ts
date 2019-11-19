@@ -4,7 +4,7 @@
 
 import { AccountId, SetIndex } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec, Option, createType } from '@polkadot/types';
+import { Vec, Option, createType, u32 } from '@polkadot/types';
 import { DerivedVoterPositions } from '../types';
 
 import BN from 'bn.js';
@@ -27,7 +27,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedVoterPositions>
 
           if (accountId) {
             result[accountId.toString()] = {
-              globalIndex: api.consts.elections.voterSetSize.muln(setIndex).addn(index),
+              globalIndex: (api.consts.elections.voterSetSize as u32).muln(setIndex).addn(index),
               index: new BN(index),
               setIndex: createType('SetIndex', setIndex)
             };
