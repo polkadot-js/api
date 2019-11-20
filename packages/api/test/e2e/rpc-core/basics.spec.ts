@@ -4,7 +4,7 @@
 
 import { ChainProperties, Extrinsic } from '@polkadot/types/interfaces';
 
-import { ClassOf, Vec } from '@polkadot/types';
+import { ClassOf, TypeRegistry, Vec } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core';
 
@@ -16,11 +16,12 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('RPC-core e2e basics', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
   it('retrieves the pending extrinsics', (done): void => {
@@ -36,7 +37,7 @@ describeE2E({
     rpc.system
       .properties()
       .subscribe((properties: ChainProperties): void => {
-        expect(properties).toBeInstanceOf(ClassOf('ChainProperties'));
+        expect(properties).toBeInstanceOf(ClassOf(registry, 'ChainProperties'));
         done();
       });
   });

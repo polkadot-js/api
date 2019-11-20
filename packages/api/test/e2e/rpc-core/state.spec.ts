@@ -8,13 +8,15 @@ import DecorateMeta from '@polkadot/metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Bytes, ClassOf, Metadata, StorageKey } from '@polkadot/types';
+import { Bytes, ClassOf, Metadata, StorageKey, TypeRegistry } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
 
 const BOB_STASH = '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc';
 const CODE = '0x3a636f6465'; // :code
-const metadata = new DecorateMeta(rpcMetadata);
+
+const registry = new TypeRegistry();
+const metadata = new DecorateMeta(registry, rpcMetadata);
 
 describeE2E({
   except: [
@@ -26,7 +28,7 @@ describeE2E({
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
   it('getMetadata(): retrieves the wasm metadata', (done): void => {
@@ -52,7 +54,7 @@ describeE2E({
     rpc.state
       .getRuntimeVersion()
       .subscribe((version: RuntimeVersion): void => {
-        expect(version).toBeInstanceOf(ClassOf('RuntimeVersion'));
+        expect(version).toBeInstanceOf(ClassOf(registry, 'RuntimeVersion'));
         done();
       });
   });

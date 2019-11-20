@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import fs from 'fs';
 import path from 'path';
-import { Hash } from '@polkadot/types/interfaces';
-import { H256, StorageData, StorageKey } from '@polkadot/types';
 
 import { ApiPromise, SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
@@ -14,6 +14,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { H256, StorageData, StorageKey, TypeRegistry } from '@polkadot/types';
 import { hexToBn, isInstanceOf } from '@polkadot/util';
 
 import { describeE2E } from '../../util';
@@ -37,6 +38,7 @@ describeE2E({
   ]
 })('RPC-core e2e child-storage', (wsUrl: string): void => {
   const MAX_GAS = 50000;
+  const registry = new TypeRegistry();
   const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
   const randomStart = Math.floor(Date.now() / 1000);
   let abi: Abi;
@@ -64,7 +66,7 @@ describeE2E({
   });
 
   beforeEach((done): void => {
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
     done();
   });
 

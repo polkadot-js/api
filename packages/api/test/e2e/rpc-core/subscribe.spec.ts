@@ -8,11 +8,12 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core';
 import { Index, Moment, SessionIndex } from '@polkadot/types/interfaces';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf, TypeRegistry } from '@polkadot/types';
 
 import { describeE2E } from '../../util';
 
-const metadata = new Metadata(rpcMetadata);
+const registry = new TypeRegistry();
+const metadata = new Metadata(registry, rpcMetadata);
 
 describeE2E({
   except: [
@@ -25,7 +26,7 @@ describeE2E({
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
   it('subscribes to storage', (done): void => {
@@ -38,8 +39,8 @@ describeE2E({
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(ClassOf('Index')),
-            expect.any(ClassOf('Index'))
+            expect.any(ClassOf(registry, 'Index')),
+            expect.any(ClassOf(registry, 'Index'))
           ])
         );
 
