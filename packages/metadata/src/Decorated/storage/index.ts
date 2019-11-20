@@ -2,6 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { storage } from './fromMetadata/storage';
+import getStorage from './fromMetadata/storage';
 
-export default storage;
+export default getStorage;

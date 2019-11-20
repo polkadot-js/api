@@ -8,7 +8,7 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import Metadata from '../../../Metadata';
 import createFunction from './createFunction';
-import { storage } from './storage';
+import getStorage from './storage';
 
 /**
  * Return an object with the modules and the functions to access their storage.
@@ -41,5 +41,5 @@ export default function fromMetadata (metadata: Metadata): Storage {
     }, {} as unknown as ModuleStorage);
 
     return result;
-  }, { ...storage });
+  }, { ...getStorage(metadata.registry) });
 }
