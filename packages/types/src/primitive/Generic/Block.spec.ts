@@ -2,23 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
+import { TypeRegistry } from '../../codec';
 import block00300 from '../../json/SignedBlock.003.00.json';
 import Call from './Call';
 import Block from './Block';
 
 describe('Block', (): void => {
+  const registry = new TypeRegistry();
+
   beforeEach((): void => {
-    Call.injectMetadata(new Metadata(rpcMetadata));
+    Call.injectMetadata(new Metadata(registry, rpcMetadata));
   });
 
   it('has a valid toRawType', (): void => {
     expect(
-      new Block().toRawType()
+      new Block(registry).toRawType()
     ).toEqual(
       // each of the containing structures have been stringified on their own
       JSON.stringify({

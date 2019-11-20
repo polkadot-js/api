@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/types/injector';
-
-import { ClassOf, createType } from '@polkadot/types/codec/create';
+import { ClassOf, createType, TypeRegistry } from '@polkadot/types/codec/create';
 
 import Decorated from './Decorated';
 import json from '../Metadata/static';
@@ -12,6 +10,8 @@ import json from '../Metadata/static';
 const decorated = new Decorated(json);
 
 describe('Decorated', () => {
+  const registry = new TypeRegistry();
+
   it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
     expect(
       decorated.query
@@ -27,7 +27,7 @@ describe('Decorated', () => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      createType('Extrinsic', decorated.tx.timestamp.set([10101])).toU8a()
+      createType(registry, 'Extrinsic', decorated.tx.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)
@@ -43,7 +43,7 @@ describe('Decorated', () => {
   });
 
   it('should return constants with the correct type and value', (): void => {
-    expect(decorated.consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf('BlockNumber'));
+    expect(decorated.consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf(registry, 'BlockNumber'));
     expect(decorated.consts.democracy.cooloffPeriod.toHex()).toEqual('0x000c4e00');
   });
 });

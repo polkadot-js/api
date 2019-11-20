@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataV0, MetadataV1 } from '@polkadot/types/interfaces/metadata';
+import { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
@@ -32,8 +33,8 @@ type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7';
 
 class MetadataEnum extends Enum {
-  constructor (value?: any, index?: number) {
-    super({
+  constructor (registry: Registry, value?: any, index?: number) {
+    super(registry, {
       V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
       V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
       V2: MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
@@ -206,8 +207,8 @@ class MetadataEnum extends Enum {
 export default class MetadataVersioned extends Struct {
   private _converted: Map<number, MetaMapped> = new Map();
 
-  constructor (value?: any) {
-    super({
+  constructor (registry: Registry, value?: any) {
+    super(registry, {
       magicNumber: MagicNumber,
       metadata: MetadataEnum
     }, value);
@@ -238,7 +239,7 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped metadata as a limited calls-only (latest) version
    */
   public get asCallsOnly (): MetadataVersioned {
-    return new MetadataVersioned({
+    return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
       metadata: new MetadataEnum(toCallsOnly(this.asLatest), this.version)
     });

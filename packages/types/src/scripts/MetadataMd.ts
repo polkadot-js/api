@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
-
 import fs from 'fs';
 import Metadata from '@polkadot/metadata';
 import rpcdata from '@polkadot/metadata/Metadata/static';
@@ -12,6 +10,7 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Call from '../primitive/Generic/Call';
+import { TypeRegistry } from '../codec';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -237,7 +236,8 @@ function writeToEventsMd (metadata: MetadataV8): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).metadata.asLatest;
+const registry = new TypeRegistry();
+const metadata = new Metadata(registry, rpcdata).metadata.asLatest;
 
 writeToRpcMd();
 writeToConstantsMd(metadata);

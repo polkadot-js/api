@@ -67,24 +67,24 @@ export type AnyJson = string | number | boolean | null | undefined | AnyJsonObje
  * @name Codec
  * @description
  * The base Codec interface. All types implement the interface provided here. Additionally
- * implementors can add their own specific interfaces and helpres with getters and functions.
+ * implementors can add their own specific interfaces and helpers with getters and functions.
  * The Codec Base is however required for operating as an encoding/decoding layer
  */
 export interface Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  encodedLength: number;
+  readonly encodedLength: number;
 
   /**
    * @description Returns a hash of the value
    */
-  hash: IHash;
+  readonly hash: IHash;
 
   /**
    * @description Checks if the value is an empty value
    */
-  isEmpty: boolean;
+  readonly isEmpty: boolean;
 
   /**
    * @description The registry associated with this object

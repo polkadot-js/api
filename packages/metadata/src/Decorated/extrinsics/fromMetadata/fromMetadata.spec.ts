@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/types/injector';
-
-import { createType, Metadata } from '@polkadot/types';
+import { createType, Metadata, TypeRegistry } from '@polkadot/types';
 
 import json from '../../../Metadata/static';
 import fromMetadata from '.';
@@ -14,6 +12,8 @@ const metadata = new Metadata(json);
 const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
+  const registry  = new TypeRegistry();
+
   it('should throw if an incorrect number of args is supplied', (): void => {
     expect((): any => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
   });
@@ -24,7 +24,7 @@ describe('fromMetadata', (): void => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      createType('Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
+      createType(registry, 'Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

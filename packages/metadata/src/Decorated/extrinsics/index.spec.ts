@@ -4,11 +4,9 @@
 
 import { ModulesWithCalls } from '@polkadot/types/types';
 
-import '@polkadot/types/injector';
-
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { createType, Metadata } from '@polkadot/types';
+import { createType, Metadata, TypeRegistry } from '@polkadot/types';
 
 import metadataStatic from '../../Metadata/static';
 import fromMetadata from './fromMetadata';
@@ -16,6 +14,7 @@ import fromMetadata from './fromMetadata';
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('extrinsics', (): void => {
+  const registry = new TypeRegistry();
   let extrinsics: ModulesWithCalls;
 
   beforeEach((): void => {
@@ -24,7 +23,7 @@ describe('extrinsics', (): void => {
 
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
-      createType('Extrinsic',
+      createType(registry, 'Extrinsic',
         extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',

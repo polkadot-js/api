@@ -2,21 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
+import { TypeRegistry } from '../../codec';
 import Call from './Call';
 
 describe('Call', (): void => {
+  const registry = new TypeRegistry();
+
   beforeEach((): void => {
-    Call.injectMetadata(new Metadata(metadataStatic));
+    Call.injectMetadata(new Metadata(registry, metadataStatic));
   });
 
   it('handles decoding correctly (bare)', (): void => {
     expect(
-      new Call({
+      new Call(registry, {
         args: [],
         callIndex: [6, 1] // balances.setBalance
       }).toU8a()
@@ -25,7 +26,7 @@ describe('Call', (): void => {
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call('0x0601').toU8a()
+      new Call(registry, '0x0601').toU8a()
     ).toEqual(new Uint8Array([6, 1, 0, 0, 0])); // balances.setBalance
   });
 
@@ -37,19 +38,19 @@ describe('Call', (): void => {
 
     it('is false with no arguments', (): void => {
       expect(
-        new Call(test, { args: [] } as any).hasOrigin
+        new Call(registry, test, { args: [] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', (): void => {
       expect(
-        new Call(test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
+        new Call(registry, test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', (): void => {
       expect(
-        new Call(test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
+        new Call(registry, test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
       ).toEqual(true);
     });
   });

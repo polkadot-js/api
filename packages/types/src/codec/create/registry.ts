@@ -6,12 +6,17 @@ import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
 
 import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
 
+import injectTypes from '../../injector';
 import { createClass } from './createClass';
 
 export class TypeRegistry implements Registry {
   private _classes: Map<string, Constructor> = new Map();
 
   private _definitions: Map<string, string> = new Map();
+
+  constructor () {
+    injectTypes(this);
+  }
 
   public register (type: Constructor | RegistryTypes): void;
 
