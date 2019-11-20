@@ -88,7 +88,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
    *
    * We could easily imagine other user-facing interfaces, which are simply
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
-   * via `deocrateMethod`.
+   * via `decorateMethod`.
    */
   protected decorateMethod: DecorateMethod<ApiType>;
 
