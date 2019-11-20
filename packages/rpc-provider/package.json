@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-provider",
-  "version": "0.97.0-beta.16",
+  "version": "0.97.0-beta.17",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
     "@babel/runtime": "^7.7.2",
-    "@polkadot/metadata": "^0.97.0-beta.16",
+    "@polkadot/metadata": "^0.97.0-beta.17",
     "@polkadot/util": "^1.7.0-beta.7",
     "@polkadot/util-crypto": "^1.7.0-beta.7",
     "eventemitter3": "^4.0.0",
