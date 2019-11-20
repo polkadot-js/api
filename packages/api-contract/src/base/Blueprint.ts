@@ -4,7 +4,7 @@
 
 import { ApiTypes, DecorateMethod, SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair, Registry } from '@polkadot/types/types';
+import { IKeyringPair } from '@polkadot/types/types';
 import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';

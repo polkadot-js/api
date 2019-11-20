@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
+import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../../types';
 
 // FIXME Here we unfortunately cannot use Decorated, because that already calls
 // fromMetadata for storage, and we have then a type import ordering problem
@@ -38,8 +38,8 @@ const injected: Record<string, CallFunction> = {};
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
 export class CallIndex extends U8aFixed {
-  constructor (value?: AnyU8a) {
-    super(value, 16);
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, value, 16);
   }
 }
 
@@ -52,10 +52,10 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
-  constructor (value: any, meta?: FunctionMetadataLatest) {
+  constructor (registry: Registry, value: any, meta?: FunctionMetadataLatest) {
     const decoded = Call.decodeCall(value, meta);
 
-    super({
+    super(registry, {
       callIndex: CallIndex,
       args: Struct.with(decoded.argsDef)
     }, decoded);
@@ -149,9 +149,7 @@ export default class Call extends Struct implements IMethod {
    */
   private static getArgsDef (meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-      const Type = getTypeClass(
-        getTypeDef(type.toString())
-      );
+      const Type = getTypeClass(this.registry, getTypeDef(type.toString()));
       result[name.toString()] = Type;
 
       return result;

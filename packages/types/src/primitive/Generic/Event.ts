@@ -5,7 +5,7 @@
 import { TypeDef } from '../../codec/types';
 import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
-import { Constructor, Codec } from '../../types';
+import { Constructor, Codec, Registry } from '../../types';
 
 import Metadata from '@polkadot/metadata/Metadata';
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -31,8 +31,8 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  constructor (Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
-    super(Types, value);
+  constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
+    super(registry, Types, value);
 
     this._meta = meta;
     this._method = method;
@@ -78,10 +78,10 @@ export class EventData extends Tuple {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value?: Uint8Array) {
+  constructor (registry: Registry, _value?: Uint8Array) {
     const { DataType, value } = Event.decodeEvent(_value);
 
-    super({
+    super(registry, {
       index: 'EventId',
       data: DataType
     }, value);
@@ -113,7 +113,7 @@ export default class Event extends Struct {
   // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/metadata'`)
   // instead of the Codec Metadata
   // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
-  public static injectMetadata (metadata: Metadata): void {
+  public static injectMetadata (registry: Registry, metadata: Metadata): void {
     metadata.asLatest.modules
       .filter(({ events }): boolean => events.isSome)
       .forEach((section, sectionIndex): void => {
@@ -123,11 +123,11 @@ export default class Event extends Struct {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
           const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
-          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(typeDef));
+          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(registry, typeDef));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
-            constructor (value: Uint8Array) {
-              super(Types, value, typeDef, meta, sectionName, methodName);
+            constructor (registry: Registry, value: Uint8Array) {
+              super(registry, Types, value, typeDef, meta, sectionName, methodName);
             }
           };
         });

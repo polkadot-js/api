@@ -41,7 +41,7 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignatureV4(value, { isSigned });
+      const signature = new ExtrinsicSignatureV4(registry, value, { isSigned });
       const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
 
       return {
