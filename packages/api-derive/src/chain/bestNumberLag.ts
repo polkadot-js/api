@@ -31,7 +31,7 @@ export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumbe
       api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
-        createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
+        createType(api.registry, 'BlockNumber', bestNumber.sub(bestNumberFinalized))
       )
     ));
 }

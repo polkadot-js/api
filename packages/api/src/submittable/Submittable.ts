@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
@@ -20,6 +20,7 @@ import SubmittableResult from './Result';
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   decorateMethod: ApiBase<ApiType>['decorateMethod'];
+  registry: Registry;
   type: ApiTypes;
 }
 
@@ -39,8 +40,8 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
 
   private readonly _ignoreStatusCb: boolean;
 
-  constructor (extrinsic: Call | Uint8Array | string, { api, decorateMethod, type }: SubmittableOptions<ApiType>) {
-    super(extrinsic, { version: api.extrinsicType });
+  constructor (extrinsic: Call | Uint8Array | string, { api, decorateMethod, registry, type }: SubmittableOptions<ApiType>) {
+    super(registry, extrinsic, { version: api.extrinsicType });
 
     this._api = api;
     this._decorateMethod = decorateMethod;
@@ -132,7 +133,7 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
       throw new Error('no signer attached');
     }
 
-    const payload = createType('SignerPayload', {
+    const payload = createType(this.registry, 'SignerPayload', {
       ...optionsWithEra,
       address,
       method: this.method,
@@ -181,7 +182,7 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
 
     return this._makeSignOptions(options, {
       blockHash: header.hash,
-      era: createType('ExtrinsicEra', {
+      era: createType(this.registry, 'ExtrinsicEra', {
         current: header.number,
         period: options.era || DEFAULT_MORTAL_LENGTH
       }),
@@ -199,7 +200,7 @@ export default class Submittable<ApiType extends ApiTypes> extends _Extrinsic im
         //   ? this._api.rpc.account.nextIndex(address)
         //   : this._api.query.system.accountNonce(address)
         ? this._api.query.system.accountNonce(address)
-        : of(createType('Index', options.nonce)),
+        : of(createType(this.registry, 'Index', options.nonce)),
       // if we have an era provided already or eraLength is <= 0 (immortal)
       // don't get the latest block, just pass null, handle in mergeMap
       (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))

@@ -44,7 +44,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
         as === 'rpc'
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> => {
             return this.rpcContractsCall(
-              createType('ContractCallRequest', {
+              createType(this.registry, 'ContractCallRequest', {
                 origin: account,
                 dest: this.address.toString(),
                 value,
@@ -54,7 +54,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
             )
               .pipe(
                 map((result: ContractExecResult): ContractCallOutcome =>
-                  this.createOutcome(result, createType('AccountId', account), def, params)
+                  this.createOutcome(result, createType(this.registry, 'AccountId', account), def, params)
                 )
               );
           }
@@ -75,7 +75,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
       output = message.returnType
         ? formatData(data, message.returnType)
-        : createType('Data', data);
+        : createType(this.registry, 'Data', data);
     }
 
     return {
@@ -92,6 +92,6 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
-    this.address = createType('Address', address);
+    this.address = createType(this.registry, 'Address', address);
   }
 }

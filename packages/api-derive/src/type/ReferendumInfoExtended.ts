@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import { AnyJsonObject, Constructor } from '@polkadot/types/types';
+import { AnyJsonObject, Constructor, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import democracyTypes from '@polkadot/types/interfaces/democracy/definitions';
@@ -20,12 +20,12 @@ const _ReferendumInfo: Constructor<ReferendumInfo> = Struct.with(democracyTypes.
 export default class ReferendumInfoExtended extends _ReferendumInfo {
   private _index: ReferendumIndex;
 
-  constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
-    super(value);
+  constructor (registry: Registry, value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
+    super(registry, value);
 
     this._index = value instanceof ReferendumInfoExtended
       ? value.index
-      : createType('ReferendumIndex', index);
+      : createType(registry, 'ReferendumIndex', index);
   }
 
   /**

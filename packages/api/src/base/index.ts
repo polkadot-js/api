@@ -227,7 +227,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
+  public createType = <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] => {
     return createType(this.registry, type, ...params);
   }
 

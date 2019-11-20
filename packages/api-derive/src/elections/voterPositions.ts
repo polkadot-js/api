@@ -29,7 +29,7 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedVoterPositions>
             result[accountId.toString()] = {
               globalIndex: (api.consts.elections.voterSetSize as u32).muln(setIndex).addn(index),
               index: new BN(index),
-              setIndex: createType('SetIndex', setIndex)
+              setIndex: createType(api.registry, 'SetIndex', setIndex)
             };
           }
         });

@@ -130,7 +130,7 @@ export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(...value: any[]): T;
+  new(registry: Registry, ...value: any[]): T;
 }
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;

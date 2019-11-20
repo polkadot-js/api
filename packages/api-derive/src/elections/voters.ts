@@ -16,10 +16,11 @@ function queryElections (api: ApiInterfaceRx): Observable<AccountId[]> {
   return api.derive.elections.voterPositions().pipe(
     map((voterPositions: DerivedVoterPositions): Vec<AccountId> =>
       createType(
+        api.registry,
         'Vec<AccountId>',
         Object.entries(voterPositions)
           .sort((a, b): number => a[1].globalIndex.cmp(b[1].globalIndex))
-          .map(([accountId]): AccountId => createType('AccountId', accountId))
+          .map(([accountId]): AccountId => createType(api.registry, 'AccountId', accountId))
       )
     )
   );
