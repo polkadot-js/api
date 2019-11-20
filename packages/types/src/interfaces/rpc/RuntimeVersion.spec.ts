@@ -2,18 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import { RuntimeVersion } from './types';
 
-import { createType } from '../../codec/create';
+import { createType, TypeRegistry } from '../../codec/create';
 import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {
+  const registry = new TypeRegistry();
   let version: RuntimeVersion;
 
   beforeEach((): void => {
-    version = createType('RuntimeVersion', rpc.result);
+    version = createType(registry, 'RuntimeVersion', rpc.result);
   });
 
   it('has the correct authoring', (): void => {

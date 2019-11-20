@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import { createClass, TypeRegistry } from '.';
 
 describe('createClass', (): void => {
@@ -20,6 +18,6 @@ describe('createClass', (): void => {
     const A = createClass(registry, 'Vec<u8>');
     const B = createClass(registry, 'Bytes');
 
-    expect(new A() instanceof B).toBe(true);
+    expect(new A(registry) instanceof B).toBe(true);
   });
 });

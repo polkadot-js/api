@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadataV0 from '@polkadot/metadata/Metadata/v0/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
@@ -19,7 +17,8 @@ describe('EventRecord', (): void => {
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(rpcMetadataV0)
+        registry,
+        new Metadata(registry, rpcMetadataV0)
       );
     });
 
@@ -34,7 +33,8 @@ describe('EventRecord', (): void => {
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
       GenericEvent.injectMetadata(
-        new Metadata(rpcMetadata)
+        registry,
+        new Metadata(registry, rpcMetadata)
       );
     });
 
