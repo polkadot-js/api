@@ -2,9 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
+
 import { Storage } from '../../types';
 import * as substrate from './substrate';
 
-export const storage: Storage = {
-  substrate // Prefill storage with well known keys, as not returned by state_getMetadata
-};
+export function getStorage (registry: Registry): Storage {
+  return Object
+    .entries(substrate)
+    .reduce((storage: Storage, [key, fn]): Storage => {
+      (storage as any)[key] = fn(registry);
+
+      return storage;
+    }, {} as any as Storage);
+}

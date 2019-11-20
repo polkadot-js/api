@@ -38,7 +38,7 @@ describe('Block', (): void => {
   });
 
   it('re-encodes digest items correctly', (): void => {
-    const digest = new Block(block00300.result.block).header.digest;
+    const digest = new Block(registry, block00300.result.block).header.digest;
 
     expect(digest.logs[0].toHex()).toEqual(block00300.result.block.header.digest.logs[0]);
     expect(digest.logs[1].toHex()).toEqual(block00300.result.block.header.digest.logs[1]);
