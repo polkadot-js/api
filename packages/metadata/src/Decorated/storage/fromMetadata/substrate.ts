@@ -16,26 +16,20 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry =>
-  (registry: Registry): StorageEntry =>
-    createFunction(
-      registry,
-      {
-        meta: {
-          documentation: createType(registry, 'Vec<Text>', [documentation]),
-          modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-          type: new StorageEntryType(registry, type, 0),
-          toJSON: (): any => key
-        } as unknown as StorageEntryMetadata,
-        method,
-        prefix: 'Substrate',
-        section: 'substrate'
-      },
-      {
-        key,
-        skipHashing: true
-      }
-    );
+function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
+  return (registry: Registry): StorageEntry =>
+    createFunction(registry, {
+      meta: {
+        documentation: createType(registry, 'Vec<Text>', [documentation]),
+        modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
+        type: new StorageEntryType(registry, type, 0),
+        toJSON: (): any => key
+      } as unknown as StorageEntryMetadata,
+      method,
+      prefix: 'Substrate',
+      section: 'substrate'
+    }, { key, skipHashing: true });
+}
 
 // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
 // have been removed in https://github.com/paritytech/substrate/pull/2802

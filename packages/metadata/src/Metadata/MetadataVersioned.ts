@@ -241,7 +241,7 @@ export default class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: new MetadataEnum(toCallsOnly(this.registry, this.asLatest), this.version)
+      metadata: new MetadataEnum(this.registry, toCallsOnly(this.registry, this.asLatest), this.version)
     });
   }
 
