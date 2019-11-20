@@ -17,14 +17,14 @@ export function typeToConstructor <T = Codec> (registry: Registry, type: Interfa
 }
 
 /**
- * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Conbstructor }`
+ * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Constructor }`
  */
 export function mapToTypeMap (registry: Registry, input: Record<string, InterfaceTypes | Constructor>): Record<string, Constructor> {
-  const output: Record<string, Constructor> = {};
+  return Object
+    .entries(input)
+    .reduce((output: Record<string, Constructor>, [key, type]): Record<string, Constructor> => {
+      output[key] = typeToConstructor(registry, type);
 
-  Object.entries(input).forEach(([key, type]): void => {
-    output[key] = typeToConstructor(registry, type);
-  });
-
-  return output;
+      return output;
+    }, {});
 }

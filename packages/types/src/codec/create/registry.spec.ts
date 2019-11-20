@@ -18,11 +18,7 @@ function isChildClass (Parent: Constructor<any>, Child?: Constructor<any>): bool
 }
 
 describe('TypeRegistry', (): void => {
-  let registry: TypeRegistry;
-
-  beforeEach((): void => {
-    registry = new TypeRegistry();
-  });
+  const registry = new TypeRegistry();
 
   it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
@@ -111,8 +107,8 @@ describe('TypeRegistry', (): void => {
         }
       });
 
-      const SomeStruct: any = registry.get('SomeStruct');
-      const struct: any = new SomeStruct({
+      const SomeStruct = registry.getOrThrow('SomeStruct');
+      const struct: any = new SomeStruct(registry, {
         foo: 42,
         bar: 'testing'
       });

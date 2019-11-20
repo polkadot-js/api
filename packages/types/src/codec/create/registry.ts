@@ -7,8 +7,6 @@ import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
 
 import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
 
-// import * as definitions from '../../interfaces/definitions';
-// import * as baseTypes from '../../index.types';
 import { createClass } from './createClass';
 
 export class TypeRegistry implements Registry {
@@ -17,9 +15,9 @@ export class TypeRegistry implements Registry {
   private _definitions: Map<string, string> = new Map();
 
   constructor () {
-    // we only want  to import these on creation, i.e. we want to avoid types
-    // self-referencing themselves completely. (Since registry is injected into
-    // types, this can  be a real concern now)
+    // we only want to import these on creation, i.e. we want to avoid types
+    // weird side-effects from circular references. (Since registry is injected
+    // into types, this can  be a real concern now)
     const baseTypes: RegistryTypes = require('../../index.types');
     const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
 
@@ -80,9 +78,7 @@ export class TypeRegistry implements Registry {
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const registry = this;
-        const BaseType = createClass(registry, definition);
+        const BaseType = createClass(this, definition);
 
         // NOTE If we didn't extend here, we would have strange artifacts. An example is
         // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
