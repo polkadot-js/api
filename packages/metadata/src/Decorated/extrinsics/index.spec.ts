@@ -18,7 +18,7 @@ describe('extrinsics', (): void => {
   let extrinsics: ModulesWithCalls;
 
   beforeEach((): void => {
-    extrinsics = fromMetadata(new Metadata(metadataStatic));
+    extrinsics = fromMetadata(new Metadata(registry, metadataStatic));
   });
 
   it('encodes an actual transfer (actual data)', (): void => {

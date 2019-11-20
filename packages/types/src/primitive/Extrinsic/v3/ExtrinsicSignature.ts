@@ -23,7 +23,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
     return this.injectSignature(
       createType(this.registry, 'Address', signer),
       createType(this.registry, 'Signature', signature),
-      new ExtrinsicPayloadV3(payload)
+      new ExtrinsicPayloadV3(this.registry, payload)
     );
   }
 
@@ -32,7 +32,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): IExtrinsicSignature {
     const signer = createType(this.registry, 'Address', account.publicKey);
-    const payload = new ExtrinsicPayloadV3({
+    const payload = new ExtrinsicPayloadV3(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,

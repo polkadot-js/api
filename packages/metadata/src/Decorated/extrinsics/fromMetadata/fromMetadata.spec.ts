@@ -8,12 +8,11 @@ import json from '../../../Metadata/static';
 import fromMetadata from '.';
 
 // Use the pre-generated metadata
-const metadata = new Metadata(json);
+const registry = new TypeRegistry();
+const metadata = new Metadata(registry, json);
 const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
-  const registry  = new TypeRegistry();
-
   it('should throw if an incorrect number of args is supplied', (): void => {
     expect((): any => newExtrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
   });

@@ -8,9 +8,9 @@ import rpcMetadata from '../../../Metadata/static';
 import fromMetadata from '../fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata(rpcMetadata);
-const consts = fromMetadata(metadata);
 const registry = new TypeRegistry();
+const metadata = new Metadata(registry, rpcMetadata);
+const consts = fromMetadata(metadata);
 
 describe('fromMetadata', (): void => {
   it('should return constants with the correct type and value', (): void => {

@@ -6,7 +6,8 @@ import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
 
 import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
 
-import injectTypes from '../../injector';
+import * as definitions from '../../interfaces/definitions';
+import * as baseTypes from '../../index.types';
 import { createClass } from './createClass';
 
 export class TypeRegistry implements Registry {
@@ -15,7 +16,15 @@ export class TypeRegistry implements Registry {
   private _definitions: Map<string, string> = new Map();
 
   constructor () {
-    injectTypes(this);
+    // since these are classes, they are active immediately
+    // FIXME Really not sure why I need to cast to unknown here, this used to work before it
+    // became and actual Registry interface
+    this.register({ ...baseTypes } as unknown as RegistryTypes);
+
+    // since these are definitions, they would only get created when needed
+    Object.values(definitions).forEach(({ types }): void =>
+      this.register(types)
+    );
   }
 
   public register (type: Constructor | RegistryTypes): void;

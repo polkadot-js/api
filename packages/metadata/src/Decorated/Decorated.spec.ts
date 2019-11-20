@@ -7,7 +7,8 @@ import { ClassOf, createType, TypeRegistry } from '@polkadot/types/codec/create'
 import Decorated from './Decorated';
 import json from '../Metadata/static';
 
-const decorated = new Decorated(json);
+const registry = new TypeRegistry();
+const decorated = new Decorated(registry, json);
 
 describe('Decorated', () => {
   const registry = new TypeRegistry();

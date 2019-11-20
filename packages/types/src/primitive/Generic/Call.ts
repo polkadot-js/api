@@ -8,9 +8,9 @@ import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../../t
 // FIXME Here we unfortunately cannot use Decorated, because that already calls
 // fromMetadata for storage, and we have then a type import ordering problem
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
+import Metadata from '@polkadot/metadata/Metadata';
 import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
-import Metadata from '@polkadot/metadata/Metadata';
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
@@ -53,7 +53,7 @@ export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: any, meta?: FunctionMetadataLatest) {
-    const decoded = Call.decodeCall(value, meta);
+    const decoded = Call.decodeCall(registry, value, meta);
 
     super(registry, {
       callIndex: CallIndex,
@@ -73,17 +73,17 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
-      return Call.decodeCallViaU8a(u8aToU8a(value), _meta);
+      return Call.decodeCallViaU8a(registry, u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
-      return Call.decodeCallViaObject(value, _meta);
+      return Call.decodeCallViaObject(registry, value, _meta);
     }
 
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
-  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
     // we only pass args/methodsIndex out
     const { args, callIndex } = value;
 
@@ -97,13 +97,13 @@ export default class Call extends Struct implements IMethod {
 
     return {
       args,
-      argsDef: Call.getArgsDef(meta),
+      argsDef: Call.getArgsDef(registry, meta),
       meta,
       callIndex
     };
   }
 
-  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
     // The first 2 bytes are the callIndex
     const callIndex = value.subarray(0, 2);
 
@@ -112,7 +112,7 @@ export default class Call extends Struct implements IMethod {
 
     return {
       args: value.subarray(2),
-      argsDef: Call.getArgsDef(meta),
+      argsDef: Call.getArgsDef(registry, meta),
       callIndex,
       meta
     };
@@ -147,9 +147,9 @@ export default class Call extends Struct implements IMethod {
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: FunctionMetadataLatest): ArgsDef {
+  private static getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-      const Type = getTypeClass(this.registry, getTypeDef(type.toString()));
+      const Type = getTypeClass(registry, getTypeDef(type.toString()));
       result[name.toString()] = Type;
 
       return result;
@@ -181,7 +181,7 @@ export default class Call extends Struct implements IMethod {
    * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
-    return Call.getArgsDef(this.meta);
+    return Call.getArgsDef(this.registry, this.meta);
   }
 
   /**

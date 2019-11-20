@@ -111,7 +111,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
     return this.injectSignature(
       createType(this.registry, 'Address', signer),
       createType(this.registry, 'Signature', signature),
-      new ExtrinsicPayloadV1(payload)
+      new ExtrinsicPayloadV1(this.registry, payload)
     );
   }
 
@@ -120,7 +120,7 @@ export default class ExtrinsicSignatureV1 extends Struct implements IExtrinsicSi
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce }: SignatureOptions): IExtrinsicSignature {
     const signer = createType(this.registry, 'Address', account.publicKey);
-    const payload = new ExtrinsicPayloadV1({
+    const payload = new ExtrinsicPayloadV1(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,

@@ -36,6 +36,7 @@ export default class Metadata extends MetadataVersioned {
     }
 
     return new MetadataVersioned(
+      registry,
       u8aConcat(
         MAGIC_NUMBER.toU8a(), // manually add the magic number
         Uint8Array.from([0]), // add the version for the original
