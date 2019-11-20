@@ -20,13 +20,14 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
   constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, length: number, value: VecFixed<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(Type);
 
-    super(registry, ...VecFixed.decodeVecFixed(Clazz, length, value));
+    super(registry, ...VecFixed.decodeVecFixed(registry, Clazz, length, value));
 
     this._Type = Clazz;
   }
 
-  public static decodeVecFixed<T extends Codec> (Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
+  public static decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
     const values = Vec.decodeVec(
+      registry,
       Type,
       isU8a(value)
         ? u8aConcat(compactToU8a(allocLength), value)
@@ -34,7 +35,7 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
     );
 
     while (values.length < allocLength) {
-      values.push(new Type());
+      values.push(new Type(registry));
     }
 
     assert(values.length === allocLength, `Expected a length of exactly ${allocLength} entries`);
@@ -54,7 +55,7 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this._Type().toRawType();
+    return new this._Type(this.registry).toRawType();
   }
 
   public toU8a (): Uint8Array {

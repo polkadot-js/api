@@ -13,7 +13,7 @@ import Struct from './Struct';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumConstructor<T = Codec> {
-  new(value?: any, index?: number): T;
+  new(registry: Registry, value?: any, index?: number): T;
 }
 
 type TypesDef = Record<string, Constructor>;
@@ -261,7 +261,7 @@ export default class Enum extends Base<Codec> {
   protected toRawStruct (): string[] | Record<string, string> {
     return this._isBasic
       ? Object.keys(this._def)
-      : Struct.typesToMap(this._def);
+      : Struct.typesToMap(this.registry, this._def);
   }
 
   /**

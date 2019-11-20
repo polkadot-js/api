@@ -15,7 +15,7 @@ import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { createType } from '@polkadot/types';
+import { createType, TypeRegistry } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
@@ -34,6 +34,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   )
 );
 
+const registry = new TypeRegistry();
 const keyring = testKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
 
@@ -50,10 +51,10 @@ export default class Mock implements ProviderInterface {
 
   private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: (hash: string): any => createType(registry, 'SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    state_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
+    state_getRuntimeVersion: (): string => createType(registry, 'RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]
@@ -155,7 +156,7 @@ export default class Mock implements ProviderInterface {
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;
 
-    const metadata = new Metadata(rpcMetadata);
+    const metadata = new Metadata(registry, rpcMetadata);
 
     // Do something every 1 seconds
     setInterval((): void => {
@@ -190,7 +191,7 @@ export default class Mock implements ProviderInterface {
   private makeBlockHeader (prevNumber: BN): Header {
     const blockNumber = prevNumber.addn(1);
 
-    return createType('Header', {
+    return createType(registry, 'Header', {
       digest: {
         logs: []
       },

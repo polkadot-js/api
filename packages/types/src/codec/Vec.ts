@@ -25,18 +25,18 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
   constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Vec<any> | Uint8Array | string | any[] = [] as any[]) {
     const Clazz = typeToConstructor<T>(Type);
 
-    super(registry, ...Vec.decodeVec(Clazz, value));
+    super(registry, ...Vec.decodeVec(registry, Clazz, value));
 
     this._Type = Clazz;
   }
 
-  public static decodeVec<T extends Codec> (Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
+  public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
       return value.map((entry, index): T => {
         try {
           return entry instanceof Type
             ? entry
-            : new Type(entry);
+            : new Type(registry, entry);
         } catch (error) {
           console.error(`Unable to decode Vec on index ${index}`, error.message);
 
@@ -90,6 +90,6 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<${new this._Type().toRawType()}>`;
+    return `Vec<${new this._Type(this.registry).toRawType()}>`;
   }
 }

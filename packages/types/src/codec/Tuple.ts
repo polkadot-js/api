@@ -31,16 +31,16 @@ export default class Tuple extends AbstractArray<Codec> {
       ? Types.map((type): Constructor => typeToConstructor(type))
       : mapToTypeMap(Types);
 
-    super(registry, ...Tuple.decodeTuple(Clazzes, value));
+    super(registry, ...Tuple.decodeTuple(registry, Clazzes, value));
 
     this._Types = Clazzes;
   }
 
-  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
+  private static decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
     if (isU8a(value)) {
       return decodeU8a(value, _Types);
     } else if (isHex(value)) {
-      return Tuple.decodeTuple(_Types, hexToU8a(value));
+      return Tuple.decodeTuple(registry, _Types, hexToU8a(value));
     }
 
     const Types: Constructor[] = Array.isArray(_Types)
@@ -49,7 +49,7 @@ export default class Tuple extends AbstractArray<Codec> {
 
     return Types.map((Type, index): Codec => {
       try {
-        return new Type(value && value[index]);
+        return new Type(registry, value && value[index]);
       } catch (error) {
         throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
       }
@@ -80,7 +80,7 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type): string => new Type().toRawType())
+      ? this._Types.map((Type): string => new Type(this.registry).toRawType())
       : Object.keys(this._Types);
   }
 
@@ -92,7 +92,7 @@ export default class Tuple extends AbstractArray<Codec> {
       Array.isArray(this._Types)
         ? this._Types
         : Object.values(this._Types)
-    ).map((Type): string => new Type().toRawType());
+    ).map((Type): string => new Type(this.registry).toRawType());
 
     return `(${types.join(',')})`;
   }

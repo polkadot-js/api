@@ -159,7 +159,7 @@ export default class Struct<
     return (Object
       .entries(this._Types) as [keyof S, Constructor][])
       .reduce((result: E, [key, Type]): E => {
-        (result as any)[key] = new Type().toRawType();
+        (result as any)[key] = new Type(this.registry).toRawType();
 
         return result;
       }, {} as unknown as E);
@@ -235,9 +235,9 @@ export default class Struct<
     }, {} as any);
   }
 
-  public static typesToMap (Types: Record<string, Constructor>): Record<string, string> {
+  public static typesToMap (registry: Registry, Types: Record<string, Constructor>): Record<string, string> {
     return Object.entries(Types).reduce((result, [key, Type]): Record<string, string> => {
-      result[key] = new Type().toRawType();
+      result[key] = new Type(registry).toRawType();
 
       return result;
     }, {} as unknown as Record<string, string>);
@@ -248,7 +248,7 @@ export default class Struct<
    */
   public toRawType (): string {
     return JSON.stringify(
-      Struct.typesToMap(this._Types)
+      Struct.typesToMap(this.registry, this._Types)
     );
   }
 

@@ -62,8 +62,8 @@ describe('TypeRegistry', (): void => {
 
       expect(registry.hasClass('Recursive')).toBe(true);
 
-      const last = new Recursive({ next: null });
-      const first = new Recursive({ next: last });
+      const last = new Recursive(registry, { next: null });
+      const first = new Recursive(registry, { next: last });
 
       expect((first as any).next.isSome).toBe(true);
       expect((first as any).next.unwrap().next.isSome).toBe(false);
@@ -87,8 +87,8 @@ describe('TypeRegistry', (): void => {
 
       expect(registry.hasClass('Recursive')).toBe(true);
 
-      const last = new B({ End: null });
-      const first = new B({ Other: new A({ next: last }) });
+      const last = new B(registry, { End: null });
+      const first = new B(registry, { Other: new A(registry, { next: last }) });
 
       expect((first as any).isOther).toBe(true);
     });
@@ -100,7 +100,7 @@ describe('TypeRegistry', (): void => {
 
       const Type = registry.getOrThrow('U32Renamed');
 
-      expect(new Type() instanceof U32).toBe(true);
+      expect(new Type(registry) instanceof U32).toBe(true);
     });
 
     it('can create structs via definition', (): void => {
