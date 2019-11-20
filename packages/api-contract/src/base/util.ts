@@ -22,8 +22,7 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi(abi);
-
+      : new Abi(api.registry, abi);
     this.registry = api.registry;
     this.api = api;
     this.decorateMethod = decorateMethod;

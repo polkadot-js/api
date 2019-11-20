@@ -115,7 +115,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
-    this.registry = new TypeRegistry();
+    this.registry = options.registry || new TypeRegistry();
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.clone()

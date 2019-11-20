@@ -16,7 +16,6 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 import Decorate from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
-const DEFAULT_SS58 = new U32(addressDefaults.prefix);
 
 // these are override types for polkadot chains
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
@@ -141,7 +140,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
-      ? new Metadata(optMetadata[metadataKey])
+      ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
 
     // set our chain version & genesisHash as returned
@@ -149,7 +148,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._runtimeVersion = runtimeVersion;
 
     // set the global ss58Format as detected by the chain
-    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber());
+    setSS58Format(chainProps.ss58Format.unwrapOr(new U32(this.registry, addressDefaults.prefix)).toNumber());
 
     // get unique types & validate
     metadata.getUniqTypes(false);
@@ -165,11 +164,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this.registerTypes(TYPES_SUBSTRATE_1);
     }
 
-    const decoratedMeta = new DecoratedMeta(metadata);
+    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      GenericEvent.injectMetadata(metadata);
+      GenericEvent.injectMetadata(this.registry, metadata);
       GenericCall.injectMetadata(metadata);
 
       // detect the extrinsic version in-use based on the last block

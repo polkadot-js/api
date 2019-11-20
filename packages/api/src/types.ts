@@ -193,6 +193,10 @@ export interface ApiOptions {
    */
   provider?: ProviderInterface;
   /**
+   * @description A type registry to use along with this instance
+   */
+  registry?: Registry;
+  /**
    * @description User-defined RPC methods
    */
   rpc?: UserRpc;

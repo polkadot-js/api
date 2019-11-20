@@ -21,6 +21,6 @@ export default function createSubmittable<ApiType extends ApiTypes> (type: ApiTy
       Submittable = require('./Submittable').default;
     }
 
-    return new Submittable(extrinsic, { api, decorateMethod, type });
+    return new Submittable(api.registry, extrinsic, { api, decorateMethod, type });
   };
 }

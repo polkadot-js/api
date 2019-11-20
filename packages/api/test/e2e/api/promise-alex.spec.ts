@@ -5,7 +5,7 @@
 import { AccountId, EventRecord } from '@polkadot/types/interfaces';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ClassOf, Option, Vec } from '@polkadot/types';
+import { ClassOf, Option, TypeRegistry, Vec } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -13,6 +13,7 @@ import { describeE2E } from '../../util';
 describeE2E({
   only: ['docker-polkadot-alexander', 'remote-polkadot-alexander']
 })('Promise e2e alex queries', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
@@ -46,7 +47,7 @@ describeE2E({
     it('Gets the hash of the last finalized header', async (done): Promise<() => void> => {
       return (
         api.rpc.chain.getFinalizedHead((head): void => {
-          expect(head instanceof ClassOf('Hash')).toBe(true);
+          expect(head instanceof ClassOf(registry, 'Hash')).toBe(true);
           done();
         })
       );
@@ -55,7 +56,7 @@ describeE2E({
     it('Subscribes to the best finalized header on ALEX', async (done): Promise<() => void> => {
       return (
         api.rpc.chain.subscribeFinalizedHeads((head): void => {
-          expect(head instanceof ClassOf('Header')).toBe(true);
+          expect(head instanceof ClassOf(registry, 'Header')).toBe(true);
           done();
         })
       );
