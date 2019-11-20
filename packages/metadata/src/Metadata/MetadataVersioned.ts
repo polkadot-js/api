@@ -220,7 +220,7 @@ export default class MetadataVersioned extends Struct {
     return this.version === version;
   }
 
-  private getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (input: F) => T): T {
+  private getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
     const asCurr: MetaAsX = `asV${version}` as any;
     const asPrev: MetaAsX = `asV${version - 1}` as any;
 
@@ -229,7 +229,7 @@ export default class MetadataVersioned extends Struct {
     }
 
     if (!this._converted.has(version)) {
-      this._converted.set(version, fromPrev(this[asPrev] as F));
+      this._converted.set(version, fromPrev(this.registry, this[asPrev] as F));
     }
 
     return this._converted.get(version) as T;
@@ -241,7 +241,7 @@ export default class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: new MetadataEnum(toCallsOnly(this.asLatest), this.version)
+      metadata: new MetadataEnum(toCallsOnly(this.registry, this.asLatest), this.version)
     });
   }
 
@@ -339,6 +339,6 @@ export default class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return getUniqTypes(this.asLatest, throwError);
+    return getUniqTypes(this.registry, this.asLatest, throwError);
   }
 }

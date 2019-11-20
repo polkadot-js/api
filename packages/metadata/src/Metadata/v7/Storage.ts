@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
+
 import Struct from '@polkadot/types/codec/Struct';
 import Vec from '@polkadot/types/codec/Vec';
 import Text from '@polkadot/types/primitive/Text';
@@ -15,8 +17,8 @@ export {
 };
 
 export class StorageMetadata extends Struct {
-  constructor (value?: any) {
-    super({
+  constructor (registry: Registry, value?: any) {
+    super(registry, {
       prefix: 'Text',
       // NOTE renamed to items from entries (since Struct already has entries from Map)
       items: Vec.with(StorageEntryMetadata)

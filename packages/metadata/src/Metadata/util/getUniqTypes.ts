@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { Codec, Registry } from '@polkadot/types/types';
 
 import { Option, Vec } from '@polkadot/types/codec';
 import { Text, Type } from '@polkadot/types/primitive';
@@ -159,7 +159,7 @@ function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
   );
 }
 
-export default function getUniqTypes (meta: ExtractionMetadata, throwError: boolean): string[] {
+export default function getUniqTypes (registry: Registry, meta: ExtractionMetadata, throwError: boolean): string[] {
   const types = flattenUniq([
     getCallNames(meta),
     getConstantNames(meta),
@@ -167,7 +167,7 @@ export default function getUniqTypes (meta: ExtractionMetadata, throwError: bool
     getStorageNames(meta)
   ]);
 
-  validateTypes(types, throwError);
+  validateTypes(registry, types, throwError);
 
   return types;
 }

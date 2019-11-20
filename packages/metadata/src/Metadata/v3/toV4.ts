@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
+
 import StorageHasher from '@polkadot/types/primitive/StorageHasher';
 import { createType, Option, Vec } from '@polkadot/types/codec';
 
@@ -14,7 +16,7 @@ import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from './Storage'
 /**
  * Convert V3 StorageFunction to V4 StorageFunction
  */
-function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunctionMetadata {
+function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV3): StorageFunctionMetadata {
   const { documentation, fallback, modifier, name, type } = storageFn;
 
   // Convert the old type to the new type: there is one new field
@@ -23,26 +25,26 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
   const [newType, index] = type.isPlainType
     ? [type, 0]
     : type.isMap
-      ? [createType('MapTypeV4', {
-        hasher: new StorageHasher('Twox128'),
+      ? [createType(registry, 'MapTypeV4', {
+        hasher: new StorageHasher(registry, 'Twox128'),
         key: type.asMap.key,
         value: type.asMap.value,
         linked: type.asMap.linked
       }), 1]
-      : [createType('DoubleMapTypeV4', {
-        hasher: new StorageHasher('Twox128'),
+      : [createType(registry, 'DoubleMapTypeV4', {
+        hasher: new StorageHasher(registry, 'Twox128'),
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
         value: type.asDoubleMap.value,
         key2Hasher: type.asDoubleMap.key2Hasher
       }), 2];
 
-  return new StorageFunctionMetadata({
+  return new StorageFunctionMetadata(registry, {
     documentation,
     fallback,
     name,
     modifier,
-    type: new StorageFunctionType(newType, index)
+    type: new StorageFunctionType(registry, newType, index)
   });
 }
 
@@ -50,16 +52,20 @@ function toV4StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
  * Convert from MetadataV3 to MetadataV4
  * See https://github.com/paritytech/substrate/pull/2268 for details
  */
-export default function toV4 ({ modules }: MetadataV3): MetadataV4 {
-  return new MetadataV4({
+export default function toV4 (registry: Registry, { modules }: MetadataV3): MetadataV4 {
+  return new MetadataV4(registry, {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
-      new ModuleMetadataV4({
+      new ModuleMetadataV4(registry, {
         calls,
         events,
         name,
         prefix,
         storage: storage.isSome
-          ? new Option(Vec.with(StorageFunctionMetadata), storage.unwrap().map(toV4StorageFunction))
+          ? new Option(
+            registry,
+            Vec.with(StorageFunctionMetadata),
+            storage.unwrap().map((v): StorageFunctionMetadata => toV4StorageFunction(registry, v))
+          )
           : undefined
       })
     )

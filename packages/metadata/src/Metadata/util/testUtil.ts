@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
 import { createTypeUnsafe } from '@polkadot/types/codec/create';
@@ -15,13 +15,9 @@ import Metadata from '../Metadata';
  * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
  * should decode `rpcData` and output `staticSubstrate`.
  */
-export function decodeLatestSubstrate<Modules extends Codec> (
-  version: number,
-  rpcData: string,
-  staticSubstrate: object
-): void {
+export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: object): void {
   it('decodes latest substrate properly', (): void => {
-    const metadata = new Metadata(rpcData);
+    const metadata = new Metadata(registry, rpcData);
 
     console.error(JSON.stringify(metadata.toJSON()));
 
@@ -35,15 +31,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (
  * Given a `version`, MetadataLatest and MetadataV{version} should output the same
  * unique types.
  */
-export function toLatest<Modules extends Codec> (version: number, rpcData: string): void {
+export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
   it(`converts v${version} to v8`, (): void => {
-    const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV8 = new Metadata(rpcData).asLatest;
+    const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
+    const metadataV8 = new Metadata(registry, rpcData).asLatest;
 
     expect(
-      getUniqTypes(metadata as unknown as MetadataInterface<Modules>, true)
+      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, true)
     ).toEqual(
-      getUniqTypes(metadataV8, true)
+      getUniqTypes(registry, metadataV8, true)
     );
   });
 }
@@ -51,9 +47,9 @@ export function toLatest<Modules extends Codec> (version: number, rpcData: strin
 /**
  * Given a Metadata, no type should throw when given its fallback value.
  */
-export function defaultValues (rpcData: string): void {
+export function defaultValues (registry: Registry, rpcData: string): void {
   describe('storage with default values', (): void => {
-    const metadata = new Metadata(rpcData);
+    const metadata = new Metadata(registry, rpcData);
 
     Call.injectMetadata(metadata);
 
@@ -63,7 +59,7 @@ export function defaultValues (rpcData: string): void {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
             expect(
-              (): Codec => createTypeUnsafe(type.toString(), [fallback])
+              (): Codec => createTypeUnsafe(registry, type.toString(), [fallback])
             ).not.toThrow();
           });
         });

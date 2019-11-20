@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MapTypeV2, PlainTypeV2, StorageFunctionModifierV2 } from '@polkadot/types/interfaces/metadata';
-import { AnyNumber } from '@polkadot/types/types';
+import { AnyNumber, Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
@@ -14,8 +14,8 @@ import Bytes from '@polkadot/types/primitive/Bytes';
 import Text from '@polkadot/types/primitive/Text';
 
 export class StorageFunctionType extends Enum {
-  constructor (value?: any, index?: number) {
-    super({
+  constructor (registry: Registry, value?: any, index?: number) {
+    super(registry, {
       Type: 'PlainTypeV2',
       Map: 'MapTypeV2'
     }, value, index);
@@ -83,8 +83,8 @@ export interface StorageFunctionMetadataValue {
  * The definition of a storage function
  */
 export class StorageFunctionMetadata extends Struct {
-  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
-    super({
+  constructor (registry: Registry, value?: StorageFunctionMetadataValue | Uint8Array) {
+    super(registry, {
       name: 'Text',
       modifier: 'StorageFunctionModifierV2',
       type: StorageFunctionType,

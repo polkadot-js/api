@@ -4,7 +4,7 @@
 
 import { Registry } from '@polkadot/types/types';
 
-import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
+import { bnToU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 
 import { MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
@@ -38,7 +38,7 @@ export default class Metadata extends MetadataVersioned {
     return new MetadataVersioned(
       registry,
       u8aConcat(
-        MAGIC_NUMBER.toU8a(), // manually add the magic number
+        bnToU8a(MAGIC_NUMBER), // manually add the magic number
         Uint8Array.from([0]), // add the version for the original
         value // the actual data as retrieved
       )
