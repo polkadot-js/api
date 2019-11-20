@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '../../types';
 import { Conviction } from '../../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
@@ -32,31 +33,31 @@ export default class Vote extends U8aFixed {
 
   private _conviction: Conviction;
 
-  constructor (value?: InputTypes) {
+  constructor (registry: Registry, value?: InputTypes) {
     // decoded is just 1 byte
     // Aye: Most Significant Bit
     // Conviction: 0000 - 0101
     const decoded = Vote.decodeVote(value);
 
-    super(decoded, 8);
+    super(registry, decoded, 8);
 
     this._aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this._conviction = createType('Conviction', decoded[0] & CON_MASK);
+    this._conviction = createType(this.registry, 'Conviction', decoded[0] & CON_MASK);
   }
 
   private static decodeVote (value?: InputTypes): Uint8Array {
     if (isUndefined(value)) {
       return Vote.decodeVoteBool(false);
     } else if (value instanceof Boolean || isBoolean(value)) {
-      return Vote.decodeVoteBool(new Bool(value).isTrue);
+      return Vote.decodeVoteBool(new Bool(this.registry, value).isTrue);
     } else if (isNumber(value)) {
       return Vote.decodeVoteBool(value < 0);
     } else if (isU8a(value)) {
       return Vote.decodeVoteU8a(value);
     }
 
-    const vote = new Bool(value.aye).isTrue ? AYE_BITS : NAY_BITS;
-    const conviction = createType('Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
+    const vote = new Bool(this.registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
+    const conviction = createType(this.registry, 'Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
 
     return new Uint8Array([vote | conviction.index]);
   }

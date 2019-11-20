@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Index, MultiSignature, Sr25519Signature } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { createType } from '../../../codec/create';
@@ -18,8 +18,8 @@ import ExtrinsicPayloadV4 from './ExtrinsicPayload';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  constructor (value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super({
+  constructor (registry: Registry, value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
       signer: 'Address',
       signature: 'MultiSignature',
       era: 'ExtrinsicEra',
@@ -113,8 +113,8 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('MultiSignature', signature),
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'MultiSignature', signature),
       new ExtrinsicPayloadV4(payload)
     );
   }
@@ -123,7 +123,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
+    const signer = createType(this.registry, 'Address', account.publicKey);
     const payload = new ExtrinsicPayloadV4({
       blockHash,
       era: era || IMMORTAL_ERA,
@@ -133,7 +133,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
       specVersion,
       tip: tip || 0
     });
-    const signature = createType('MultiSignature', payload.sign(account));
+    const signature = createType(this.registry, 'MultiSignature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }
