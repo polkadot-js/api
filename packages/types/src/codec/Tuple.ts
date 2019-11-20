@@ -28,8 +28,8 @@ export default class Tuple extends AbstractArray<Codec> {
 
   constructor (registry: Registry, Types: TupleTypes, value?: any) {
     const Clazzes = Array.isArray(Types)
-      ? Types.map((type): Constructor => typeToConstructor(type))
-      : mapToTypeMap(Types);
+      ? Types.map((type): Constructor => typeToConstructor(registry, type))
+      : mapToTypeMap(registry, Types);
 
     super(registry, ...Tuple.decodeTuple(registry, Clazzes, value));
 
@@ -38,7 +38,7 @@ export default class Tuple extends AbstractArray<Codec> {
 
   private static decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
     if (isU8a(value)) {
-      return decodeU8a(value, _Types);
+      return decodeU8a(registry, value, _Types);
     } else if (isHex(value)) {
       return Tuple.decodeTuple(registry, _Types, hexToU8a(value));
     }

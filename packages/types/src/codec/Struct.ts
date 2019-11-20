@@ -38,8 +38,8 @@ export default class Struct<
   protected _Types: ConstructorDef;
 
   constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
-    const Clazzes = mapToTypeMap(Types);
-    const decoded: T = Struct.decodeStruct(Clazzes, value, jsonMap);
+    const Clazzes = mapToTypeMap(registry, Types);
+    const decoded: T = Struct.decodeStruct(registry, Clazzes, value, jsonMap);
 
     super(Object.entries(decoded));
 
@@ -63,11 +63,11 @@ export default class Struct<
    * `Object.keys(Types)`
    * @param jsonMap
    */
-  private static decodeStruct <T> (Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  private static decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     if (isHex(value)) {
-      return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
+      return Struct.decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
     } else if (isU8a(value)) {
-      const values = decodeU8a(value, Object.values(Types));
+      const values = decodeU8a(registry, value, Object.values(Types));
 
       // Transform array of values to {key: value} mapping
       return Object.keys(Types).reduce((raw, key, index): T => {

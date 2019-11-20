@@ -28,7 +28,7 @@ export interface CompactEncodable extends Codec {
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> {
   constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
-    super(registry, Compact.decodeCompact<T>(typeToConstructor(Type), value));
+    super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | InterfaceTypes): Constructor<Compact<T>> {
@@ -56,16 +56,16 @@ export default class Compact<T extends CompactEncodable> extends Base<T> {
     return value;
   }
 
-  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
+  public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
-      return new Type(value.raw);
+      return new Type(registry, value.raw);
     } else if (isString(value) || isNumber(value) || isBn(value)) {
-      return new Type(value);
+      return new Type(registry, value);
     }
 
-    const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());
+    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength());
 
-    return new Type(_value);
+    return new Type(registry, _value);
   }
 
   /**

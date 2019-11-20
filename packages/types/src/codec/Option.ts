@@ -22,7 +22,7 @@ export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
   constructor (registry: Registry, Type: Constructor | InterfaceTypes, value?: any) {
-    const Clazz = typeToConstructor(Type);
+    const Clazz = typeToConstructor(registry, Type);
 
     super(registry, Option.decodeOption(registry, Clazz, value));
 
@@ -49,7 +49,7 @@ export default class Option<T extends Codec> extends Base<T> {
   private static decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
     return !value.length || value[0] === 0
       ? new Null(registry)
-      : new Type(value.subarray(1));
+      : new Type(registry, value.subarray(1));
   }
 
   public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
@@ -122,7 +122,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = new this._Type().toRawType();
+    const wrapped = new this._Type(this.registry).toRawType();
 
     return isBare
       ? wrapped

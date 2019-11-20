@@ -23,9 +23,9 @@ interface Decoded {
   value: Codec;
 }
 
-function extractDef (_def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
+function extractDef (registry: Registry, _def: Record<string, InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
   if (!Array.isArray(_def)) {
-    const def = mapToTypeMap(_def);
+    const def = mapToTypeMap(registry, _def);
     const isBasic = !Object.values(def).some((type): boolean => type !== Null);
 
     return {
@@ -44,18 +44,18 @@ function extractDef (_def: Record<string, InterfaceTypes | Constructor> | string
   };
 }
 
-function createFromValue (def: TypesDef, index = 0, value?: any): Decoded {
+function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: any): Decoded {
   const Clazz = Object.values(def)[index];
 
   assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
 
   return {
     index,
-    value: new Clazz(value)
+    value: new Clazz(registry, value)
   };
 }
 
-function decodeFromJSON (def: TypesDef, key: string, value?: any): Decoded {
+function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?: any): Decoded {
   // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
   // additionally force to lower to ensure forward compat
   const keys = Object.keys(def).map((k): string => k.toLowerCase());
@@ -64,31 +64,31 @@ function decodeFromJSON (def: TypesDef, key: string, value?: any): Decoded {
 
   assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
-  return createFromValue(def, index, value);
+  return createFromValue(registry, def, index, value);
 }
 
-function decodeFromString (def: TypesDef, value: string): Decoded {
+function decodeFromString (registry: Registry, def: TypesDef, value: string): Decoded {
   return isHex(value)
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    ? decodeFromValue(def, hexToU8a(value))
-    : decodeFromJSON(def, value);
+    ? decodeFromValue(registry, def, hexToU8a(value))
+    : decodeFromJSON(registry, def, value);
 }
 
-function decodeFromValue (def: TypesDef, value?: any): Decoded {
+function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decoded {
   if (isU8a(value)) {
-    return createFromValue(def, value[0], value.subarray(1));
+    return createFromValue(registry, def, value[0], value.subarray(1));
   } else if (isNumber(value)) {
-    return createFromValue(def, value);
+    return createFromValue(registry, def, value);
   } else if (isString(value)) {
-    return decodeFromString(def, value.toString());
+    return decodeFromString(registry, def, value.toString());
   } else if (isObject(value)) {
     const key = Object.keys(value)[0];
 
-    return decodeFromJSON(def, key, value[key]);
+    return decodeFromJSON(registry, def, key, value[key]);
   }
 
   // Worst-case scenario, return the first with default
-  return createFromValue(def, 0);
+  return createFromValue(registry, def, 0);
 }
 
 /**
@@ -110,8 +110,8 @@ export default class Enum extends Base<Codec> {
   private _isBasic: boolean;
 
   constructor (registry: Registry, def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
-    const defInfo = extractDef(def);
-    const decoded = Enum.decodeEnum(defInfo.def, value, index);
+    const defInfo = extractDef(registry, def);
+    const decoded = Enum.decodeEnum(registry, defInfo.def, value, index);
 
     super(registry, decoded.value);
 
@@ -121,17 +121,17 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static decodeEnum (def: TypesDef, value?: any, index?: number): Decoded {
+  private static decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
     // NOTE We check the index path first, before looking at values - this allows treating
     // the optional indexes before anything else, more-specific > less-specific
     if (isNumber(index)) {
-      return createFromValue(def, index, value);
+      return createFromValue(registry, def, index, value);
     } else if (value instanceof Enum) {
-      return createFromValue(def, value._index, value.raw);
+      return createFromValue(registry, def, value._index, value.raw);
     }
 
     // Or else, we just look at `value`
-    return decodeFromValue(def, value);
+    return decodeFromValue(registry, def, value);
   }
 
   public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
