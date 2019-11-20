@@ -25,7 +25,7 @@ export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
         const method = stringCamelCase(callMetadata.name.toString());
 
-        newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
+        newModule[method] = createUnchecked(metadata.registry, section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
       }, {});

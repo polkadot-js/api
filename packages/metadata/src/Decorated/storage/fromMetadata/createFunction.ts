@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Compact, U8a, createType, createTypeUnsafe } from '@polkadot/types/codec';
@@ -56,7 +56,7 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
 }
 
 // create a key for a DoubleMap type
-function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
+function createKeyDoubleMap (registry: Registry, { meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, args: [CreateArgType, CreateArgType], [hasher, key2Hasher]: [HasherFunction, HasherFunction?]): Uint8Array {
   // since we are passing an almost-unknown through, trust, but verify
   assert(
     Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
@@ -66,25 +66,25 @@ function createKeyDoubleMap ({ meta: { name, type } }: CreateItemFn, rawKey: Uin
   const [key1, key2] = args;
   const type1 = type.asDoubleMap.key1.toString();
   const type2 = type.asDoubleMap.key2.toString();
-  const param1Encoded = u8aConcat(rawKey, createTypeUnsafe(type1, [key1]).toU8a(true));
+  const param1Encoded = u8aConcat(rawKey, createTypeUnsafe(registry, type1, [key1]).toU8a(true));
   const param1Hashed = hasher(param1Encoded);
 
   // If this fails it means the getHashers function failed - and we have much bigger issues
-  const param2Hashed = (key2Hasher as HasherFunction)(createTypeUnsafe(type2, [key2]).toU8a(true));
+  const param2Hashed = (key2Hasher as HasherFunction)(createTypeUnsafe(registry, type2, [key2]).toU8a(true));
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
 }
 
 // create a key for either a map or a plain value
-function createKey ({ meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey (registry: Registry, { meta: { name, type } }: CreateItemFn, rawKey: Uint8Array, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
   let key = rawKey;
 
   if (type.isMap) {
     assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
 
     const mapType = type.asMap.key.toString();
-    const param = createTypeUnsafe(mapType, [arg]).toU8a();
+    const param = createTypeUnsafe(registry, mapType, [arg]).toU8a();
 
     key = u8aConcat(key, param);
   }
@@ -111,24 +111,24 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 }
 
 // attch the head key hashing for linked maps
-function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
-  const headHash = new U8a(hasher(`head of ${stringKey}`));
+function extendLinkedMap (registry: Registry, { meta: { documentation, name, type } }: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
+  const headHash = new U8a(registry, hasher(`head of ${stringKey}`));
   const headFn: any = (): U8a =>
     headHash;
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  headFn.meta = new StorageEntryMetadata({
+  headFn.meta = new StorageEntryMetadata(registry, {
     name,
-    modifier: createType('StorageEntryModifierLatest', 1), // required
-    type: new StorageEntryType(createType('PlainTypeLatest', type.asMap.key), 0),
-    fallback: createType('Bytes', createTypeUnsafe(type.asMap.key.toString()).toHex()),
+    modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
+    type: new StorageEntryType(registry, createType(registry, 'PlainTypeLatest', type.asMap.key), 0),
+    fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, type.asMap.key.toString()).toHex()),
     documentation
   });
 
   // here we pass the section/method through as well - these are not on
   // the function itself, so specify these explicitly to the constructor
-  storageFn.headKey = createType('StorageKey', headFn, {
+  storageFn.headKey = createType(registry, 'StorageKey', headFn, {
     method: storageFn.method,
     section: `head of ${storageFn.section}`
   });
@@ -146,7 +146,7 @@ function extendLinkedMap ({ meta: { documentation, name, type } }: CreateItemFn,
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
+export default function createFunction (registry: Registry, item: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
   const { meta: { type } } = item;
   const [stringKey, rawKey] = createKeys(item, options);
   const [hasher, key2Hasher] = getHashers(item);
@@ -157,13 +157,13 @@ export default function createFunction (item: CreateItemFn, options: CreateItemO
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
-      ? createKeyDoubleMap(item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : createKey(item, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
+      ? createKeyDoubleMap(registry, item, rawKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
+      : createKey(registry, item, rawKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
 
   const storageFn = expandWithMeta(item, _storageFn as StorageEntry);
 
   if (type.isMap && type.asMap.linked.isTrue) {
-    extendLinkedMap(item, storageFn, stringKey, hasher);
+    extendLinkedMap(registry, item, storageFn, stringKey, hasher);
   }
 
   return storageFn;

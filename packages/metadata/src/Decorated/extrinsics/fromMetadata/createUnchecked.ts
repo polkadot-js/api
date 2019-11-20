@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call, FunctionMetadataLatest } from '@polkadot/types/interfaces';
-import { CallFunction } from '@polkadot/types/types';
+import { CallFunction, Registry } from '@polkadot/types/types';
 
 import { createType } from '@polkadot/types/codec';
 import { assert, stringCamelCase } from '@polkadot/util';
@@ -17,12 +17,7 @@ import { assert, stringCamelCase } from '@polkadot/util';
  * @param methodIndex - Index of the method inside the section.
  * @param callMetadata - Metadata of the call function.
  */
-export default function createDescriptor (
-  section: string,
-  sectionIndex: number,
-  methodIndex: number,
-  callMetadata: FunctionMetadataLatest
-): CallFunction {
+export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: FunctionMetadataLatest): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name.toString());
@@ -32,7 +27,7 @@ export default function createDescriptor (
       `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
     );
 
-    return createType('Call', {
+    return createType(registry, 'Call', {
       args,
       callIndex
     }, callMetadata);

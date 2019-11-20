@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageHasher, Text } from '@polkadot/types';
+import { StorageHasher, Text, TypeRegistry } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import createFunction from './createFunction';
 
 describe('createFunction', (): void => {
+  const registry = new TypeRegistry();
+
   it('should create timestamp.now correctly', (): void => {
     expect(
-      createFunction({
+      createFunction(registry, {
         prefix: 'Timestamp',
         section: 'timestamp',
         method: 'Now',
@@ -25,6 +27,7 @@ describe('createFunction', (): void => {
   it('allows overrides on key (keeping name)', (): void => {
     expect(
       createFunction(
+        registry,
         {
           prefix: 'Substrate',
           section: 'substrate',
@@ -44,6 +47,7 @@ describe('createFunction', (): void => {
 
     expect(
       createFunction(
+        registry,
         {
           prefix: 'Substrate',
           section: 'substrate',
@@ -67,7 +71,7 @@ describe('createFunction', (): void => {
     let storageFn: StorageEntry;
 
     beforeAll((): void => {
-      storageFn = createFunction({
+      storageFn = createFunction(registry, {
         prefix: 'GenericAsset',
         section: 'genericAsset',
         method: 'FreeBalance',
@@ -76,11 +80,11 @@ describe('createFunction', (): void => {
           type: {
             isDoubleMap: true,
             asDoubleMap: {
-              hasher: new StorageHasher('Blake2_256'),
-              key1: new Text('AccountId'),
-              key2: new Text('AccountId'),
-              value: new Text('Balance'),
-              key2Hasher: new Text('twox_128')
+              hasher: new StorageHasher(registry, 'Blake2_256'),
+              key1: new Text(registry, 'AccountId'),
+              key2: new Text(registry, 'AccountId'),
+              value: new Text(registry, 'Balance'),
+              key2Hasher: new Text(registry, 'twox_128')
             }
           }
         } as any
@@ -100,7 +104,7 @@ describe('createFunction', (): void => {
   });
 
   it('allows creates double map function with a Null type key', (): void => {
-    const storageFn = createFunction({
+    const storageFn = createFunction(registry, {
       prefix: 'System',
       section: 'system',
       method: 'EventTopics',
@@ -108,11 +112,11 @@ describe('createFunction', (): void => {
         type: {
           isDoubleMap: true,
           asDoubleMap: {
-            hasher: new StorageHasher('Blake2_256'),
-            key1: new Text('Null'),
-            key2: new Text('Hash'),
-            value: new Text('Vec<(BlockNumber,EventIndex)>'),
-            key2Hasher: new Text('blake2_256')
+            hasher: new StorageHasher(registry, 'Blake2_256'),
+            key1: new Text(registry, 'Null'),
+            key2: new Text(registry, 'Hash'),
+            value: new Text(registry, 'Vec<(BlockNumber,EventIndex)>'),
+            key2Hasher: new Text(registry, 'blake2_256')
           }
         }
       } as any
