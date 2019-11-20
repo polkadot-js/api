@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Copyright 2017-2019 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -6,8 +7,8 @@ import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
 
 import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
 
-import * as definitions from '../../interfaces/definitions';
-import * as baseTypes from '../../index.types';
+// import * as definitions from '../../interfaces/definitions';
+// import * as baseTypes from '../../index.types';
 import { createClass } from './createClass';
 
 export class TypeRegistry implements Registry {
@@ -16,10 +17,14 @@ export class TypeRegistry implements Registry {
   private _definitions: Map<string, string> = new Map();
 
   constructor () {
-    // since these are classes, they are active immediately
-    // FIXME Really not sure why I need to cast to unknown here, this used to work before it
-    // became and actual Registry interface
-    this.register({ ...baseTypes } as unknown as RegistryTypes);
+    // we only want  to import these on creation, i.e. we want to avoid types
+    // self-referencing themselves completely. (Since registry is injected into
+    // types, this can  be a real concern now)
+    const baseTypes: RegistryTypes = require('../../index.types');
+    const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
+
+    // since these are classes, they are injected first
+    this.register({ ...baseTypes });
 
     // since these are definitions, they would only get created when needed
     Object.values(definitions).forEach(({ types }): void =>

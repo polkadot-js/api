@@ -11,7 +11,7 @@ const registry = new TypeRegistry();
 
 const testDecode = (type: string, input: any, expected: string): void =>
   it(`can decode from ${type}`, (): void => {
-    const e = new U8a(input);
+    const e = new U8a(registry, input);
 
     expect(e.toString()).toBe(expected);
   });

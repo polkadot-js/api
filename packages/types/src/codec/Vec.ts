@@ -75,7 +75,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     // convert type first, this removes overhead from the eq
     const other = _other instanceof this._Type
       ? _other
-      : new this._Type(_other);
+      : new this._Type(this.registry, _other);
 
     for (let i = 0; i < this.length; i++) {
       if (other.eq(this[i])) {

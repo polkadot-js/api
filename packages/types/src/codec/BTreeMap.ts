@@ -51,7 +51,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     } else if (isU8a(value)) {
       return BTreeMap.decodeBTreeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
     } else if (value instanceof Map) {
-      return BTreeMap.decodeBTreeMapFromMap<K, V>(KeyClass, ValClass, value);
+      return BTreeMap.decodeBTreeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
     }
 
     throw new Error('BTreeMap: cannot decode type');
@@ -75,14 +75,14 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     return output;
   }
 
-  private static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+  private static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
     const output = new Map<K, V>();
 
     value.forEach((v: any, k: any) => {
       let key, val;
       try {
-        key = (k instanceof KeyClass) ? k : new KeyClass(k);
-        val = (v instanceof ValClass) ? v : new ValClass(v);
+        key = (k instanceof KeyClass) ? k : new KeyClass(registry, k);
+        val = (v instanceof ValClass) ? v : new ValClass(registry, v);
       } catch (error) {
         console.error('Failed to decode BTreeMap key or value:', error.message);
         throw error;

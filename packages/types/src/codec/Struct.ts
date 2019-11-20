@@ -81,10 +81,10 @@ export default class Struct<
     }
 
     // We assume from here that value is a JS object (Array, Map, Object)
-    return Struct.decodeStructFromObject(Types, value, jsonMap);
+    return Struct.decodeStructFromObject(registry, Types, value, jsonMap);
   }
 
-  private static decodeStructFromObject <T> (Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  private static decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     return Object.keys(Types).reduce((raw, key, index): T => {
       // The key in the JSON can be snake_case (or other cases), but in our
       // Types, result or any other maps, it's camelCase
@@ -95,17 +95,17 @@ export default class Struct<
           // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
           (raw as any)[key] = value[index] instanceof Types[key]
             ? value[index]
-            : new Types[key](value[index]);
+            : new Types[key](registry, value[index]);
         } else if (value instanceof Map) {
           const mapped = value.get(jsonKey);
 
           (raw as any)[key] = mapped instanceof Types[key]
             ? mapped
-            : new Types[key](mapped);
+            : new Types[key](registry, mapped);
         } else if (isObject(value)) {
           (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
             ? value[jsonKey as string]
-            : new Types[key](value[jsonKey as string]);
+            : new Types[key](registry, value[jsonKey as string]);
         } else {
           throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
         }

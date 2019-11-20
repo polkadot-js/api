@@ -13,7 +13,7 @@ describe('MagicNumber', (): void => {
     expect((): MagicNumber => new MagicNumber(registry, MAGIC_NUMBER)).not.toThrow();
   });
 
-  it('fails when the magic number missmatches', (): void => {
+  it('fails when the magic number mismatches', (): void => {
     expect((): MagicNumber => new MagicNumber(registry, 0x12345)).toThrow(/MagicNumber/);
   });
 });

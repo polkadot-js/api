@@ -43,7 +43,7 @@ export default class Option<T extends Codec> extends Base<T> {
       return Option.decodeOptionU8a(registry, Type, value);
     }
 
-    return new Type(value);
+    return new Type(registry, value);
   }
 
   private static decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
