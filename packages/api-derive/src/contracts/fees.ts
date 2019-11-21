@@ -64,8 +64,8 @@ export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees
   return memo((): Observable<DerivedContractFees> => {
     return (
       api.consts.contracts
-        ?  queryConstants(api)
-        :  of([ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO])
+        ? queryConstants(api)
+        : of([ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO])
     ).pipe(
       map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
         // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and see gaps
