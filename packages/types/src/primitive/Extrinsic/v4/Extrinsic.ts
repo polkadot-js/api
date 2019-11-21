@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Call } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
@@ -25,24 +25,24 @@ export interface ExtrinsicValueV4 {
  * The third generation of compact extrinsics
  */
 export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
-  constructor (value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
-    super({
+  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV4 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+    super(registry, {
       signature: ExtrinsicSignatureV4,
       method: 'Call'
-    }, ExtrinsicV4.decodeExtrinsic(value, isSigned));
+    }, ExtrinsicV4.decodeExtrinsic(registry, value, isSigned));
   }
 
-  public static decodeExtrinsic (value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
+  public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (!value) {
       return {};
     } else if (value instanceof ExtrinsicV4) {
       return value;
-    } else if (value instanceof ClassOf('Call')) {
+    } else if (value instanceof ClassOf(registry, 'Call')) {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignatureV4(value, { isSigned });
-      const method = createType('Call', value.subarray(signature.encodedLength));
+      const signature = new ExtrinsicSignatureV4(registry, value, { isSigned });
+      const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
 
       return {
         method,

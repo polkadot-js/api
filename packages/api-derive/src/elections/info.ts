@@ -16,13 +16,13 @@ import { memo } from '../util';
 type ResultElectionsInner = [u32, u32, Vec<ITuple<[AccountId, BlockNumber]>>, SetIndex, BlockNumber, VoteIndex, SetIndex];
 type ResultElections = [Vec<AccountId>, ResultElectionsInner];
 
-function deriveElections ([candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
+function deriveElections (api: ApiInterfaceRx, [candidates, [candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]]: ResultElections): DerivedElectionsInfo {
   return {
     candidates,
     candidateCount,
     desiredSeats,
     nextVoterSet,
-    members: members.map(([accountId]): [AccountId, Balance] => [accountId, createType('Balance')]),
+    members: members.map(([accountId]): [AccountId, Balance] => [accountId, createType(api.registry, 'Balance')]),
     runnersUp: [],
     termDuration,
     voteCount,
@@ -43,13 +43,13 @@ function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> 
       api.query.elections.voteCount,
       api.query.elections.voterCount
     ])
-  ]).pipe(map(deriveElections));
+  ]).pipe(map((result): DerivedElectionsInfo => deriveElections(api, result)));
 }
 
-function derivePhragmen (candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
+function derivePhragmen (api: ApiInterfaceRx, candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
   return {
     candidates,
-    candidateCount: createType('u32', candidates.length),
+    candidateCount: createType(api.registry, 'u32', candidates.length),
     candidacyBond,
     desiredSeats,
     members,
@@ -69,6 +69,7 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
     api.query.electionsPhragmen.runnersUp<Vec<ITuple<[AccountId, Balance]>>>()
   ]).pipe(
     map(([candidates, members, runnersUp]): DerivedElectionsInfo => derivePhragmen(
+      api,
       candidates,
       members,
       runnersUp,

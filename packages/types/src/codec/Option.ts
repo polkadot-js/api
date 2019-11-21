@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes } from '../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -21,41 +21,41 @@ import Base from './Base';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  constructor (Type: Constructor | InterfaceTypes, value?: any) {
-    const Clazz = typeToConstructor(Type);
+  constructor (registry: Registry, Type: Constructor | InterfaceTypes, value?: any) {
+    const Clazz = typeToConstructor(registry, Type);
 
-    super(Option.decodeOption(Clazz, value));
+    super(registry, Option.decodeOption(registry, Clazz, value));
 
     this._Type = Clazz;
   }
 
-  public static decodeOption (Type: Constructor, value?: any): Codec {
+  public static decodeOption (registry: Registry, Type: Constructor, value?: any): Codec {
     if (isNull(value) || isUndefined(value) || value instanceof Null) {
-      return new Null();
+      return new Null(registry);
     } else if (value instanceof Option) {
-      return Option.decodeOption(Type, value.value);
+      return Option.decodeOption(registry, Type, value.value);
     } else if (value instanceof Type) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
     } else if (isU8a(value)) {
       // the isU8a check happens last in the if-tree - since the wrapped value
       // may be an instance of it, so Type and Option checks go in first
-      return Option.decodeOptionU8a(Type, value);
+      return Option.decodeOptionU8a(registry, Type, value);
     }
 
-    return new Type(value);
+    return new Type(registry, value);
   }
 
-  private static decodeOptionU8a (Type: Constructor, value: Uint8Array): Codec {
+  private static decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
     return !value.length || value[0] === 0
-      ? new Null()
-      : new Type(value.subarray(1));
+      ? new Null(registry)
+      : new Type(registry, value.subarray(1));
   }
 
   public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
-      constructor (value?: any) {
-        super(Type, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, Type, value);
       }
     };
   }
@@ -122,7 +122,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = new this._Type().toRawType();
+    const wrapped = new this._Type(this.registry).toRawType();
 
     return isBare
       ? wrapped

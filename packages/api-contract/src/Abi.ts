@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
 import { AbiConstructors, AbiMessages, ContractABI, ContractABIPre, ContractABIFn, InterfaceAbi } from './types';
+
 import { stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
@@ -14,8 +16,8 @@ export default class ContractAbi extends ContractRegistry implements InterfaceAb
 
   public readonly messages: AbiMessages;
 
-  constructor (abi: ContractABIPre) {
-    super(abi);
+  constructor (registry: Registry, abi: ContractABIPre) {
+    super(registry, abi);
     [this.abi, this.constructors, this.messages] = this.decodeAbi(abi);
   }
 

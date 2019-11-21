@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, IExtrinsicEra } from '../../types';
+import { AnyU8a, IExtrinsicEra, Registry } from '../../types';
 
 import BN from 'bn.js';
 import { assert, bnToBn, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
@@ -35,10 +35,10 @@ interface ImmortalEnumDef {
  */
 export class ImmortalEra extends U8a {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor (value?: AnyU8a) {
+  constructor (registry: Registry, value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
-    super(IMMORTAL_ERA);
+    super(registry, IMMORTAL_ERA);
   }
 }
 
@@ -48,30 +48,30 @@ export class ImmortalEra extends U8a {
  * The MortalEra for an extrinsic, indicating period and phase
  */
 export class MortalEra extends Tuple {
-  constructor (value?: MortalMethod | Uint8Array | number[] | string) {
-    super({
+  constructor (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string) {
+    super(registry, {
       period: U64,
       phase: U64
-    }, MortalEra.decodeMortalEra(value));
+    }, MortalEra.decodeMortalEra(registry, value));
   }
 
-  private static decodeMortalEra (value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
+  private static decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
     if (isHex(value)) {
-      return MortalEra.decodeMortalU8a(hexToU8a(value));
+      return MortalEra.decodeMortalU8a(registry, hexToU8a(value));
     } else if (Array.isArray(value)) {
-      return MortalEra.decodeMortalU8a(new Uint8Array(value));
+      return MortalEra.decodeMortalU8a(registry, new Uint8Array(value));
     } else if (isU8a(value)) {
-      return MortalEra.decodeMortalU8a(value);
+      return MortalEra.decodeMortalU8a(registry, value);
     } else if (isObject(value)) {
-      return MortalEra.decodeMortalObject(value);
+      return MortalEra.decodeMortalObject(registry, value);
     } else if (!value) {
-      return [new U64(), new U64()];
+      return [new U64(registry), new U64(registry)];
     }
 
     throw new Error('Invalid data passed to Mortal era');
   }
 
-  private static decodeMortalObject (value: MortalMethod): MortalEraValue {
+  private static decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
     const { current, period } = value;
     let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
     calPeriod = Math.min(Math.max(calPeriod, 4), 1 << 16);
@@ -79,12 +79,12 @@ export class MortalEra extends Tuple {
     const quantizeFactor = Math.max(calPeriod >> 12, 1);
     const quantizedPhase = phase / quantizeFactor * quantizeFactor;
 
-    return [new U64(calPeriod), new U64(quantizedPhase)];
+    return [new U64(registry, calPeriod), new U64(registry, quantizedPhase)];
   }
 
-  private static decodeMortalU8a (value: Uint8Array): MortalEraValue {
+  private static decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue {
     if (value.length === 0) {
-      return [new U64(), new U64()];
+      return [new U64(registry), new U64(registry)];
     }
 
     const first = u8aToBn(value.subarray(0, 1)).toNumber();
@@ -96,7 +96,7 @@ export class MortalEra extends Tuple {
 
     assert(period >= 4 && phase < period, 'Invalid data passed to Mortal era');
 
-    return [new U64(period), new U64(phase)];
+    return [new U64(registry, period), new U64(registry, phase)];
   }
 
   /**
@@ -191,8 +191,8 @@ export class MortalEra extends Tuple {
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
 export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
-  constructor (value?: any) {
-    super({
+  constructor (registry: Registry, value?: any) {
+    super(registry, {
       ImmortalEra,
       MortalEra
     }, ExtrinsicEra.decodeExtrinsicEra(value));

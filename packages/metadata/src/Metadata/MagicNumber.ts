@@ -2,16 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
+
 import { assert } from '@polkadot/util';
 
 import U32 from '@polkadot/types/primitive/U32';
 
-export const MAGIC_NUMBER = new U32(0x6174656d); // `meta`, reversed for Little Endian encoding
+export const MAGIC_NUMBER = 0x6174656d; // `meta`, reversed for Little Endian encoding
 
 export default class MagicNumber extends U32 {
-  constructor (value?: any) {
-    super(value);
+  constructor (registry: Registry, value?: any) {
+    super(registry, value);
 
-    assert(this.eq(MAGIC_NUMBER), `MagicNumber mismatch: expected ${MAGIC_NUMBER.toHex()}, found ${this.toHex()}`);
+    const magic = new U32(registry, MAGIC_NUMBER);
+
+    assert(this.eq(magic), `MagicNumber mismatch: expected ${magic.toHex()}, found ${this.toHex()}`);
   }
 }

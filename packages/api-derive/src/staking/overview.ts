@@ -27,7 +27,7 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
           // this will change on a per block basis, keep it innermost (and it needs eraIndex)
           api.query.staking?.currentEraPointsEarned
             ? api.query.staking.currentEraPointsEarned<EraPoints>(currentEra)
-            : of(createType('EraPoints'))
+            : of(createType(api.registry, 'EraPoints'))
         ])
       ),
       map(([{ currentElected, currentEra, currentIndex, validators, validatorCount }, eraPoints]): DerivedStakingOverview => ({

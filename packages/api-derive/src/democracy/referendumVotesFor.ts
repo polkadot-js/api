@@ -26,8 +26,8 @@ export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | nu
       map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
           accountId,
-          balance: balances[index].votingBalance || createType('Balance'),
-          vote: votes[index] || createType('Vote')
+          balance: balances[index].votingBalance || createType(api.registry, 'Balance'),
+          vote: votes[index] || createType(api.registry, 'Vote')
         } as unknown as DerivedReferendumVote))
       )
     ));

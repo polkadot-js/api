@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventMetadataV6, FunctionMetadataV6, ModuleConstantMetadataV6 } from '@polkadot/types/interfaces/metadata';
+import { Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
 import Option from '@polkadot/types/codec/Option';
@@ -17,8 +18,8 @@ import { StorageEntryMetadata } from './Storage';
  * The definition of a module in the system
  */
 export class ModuleMetadataV6 extends Struct {
-  constructor (value?: any) {
-    super({
+  constructor (registry: Registry, value?: any) {
+    super(registry, {
       name: 'Text',
       prefix: 'Text',
       storage: Option.with(Vec.with(StorageEntryMetadata)),
@@ -77,8 +78,8 @@ export class ModuleMetadataV6 extends Struct {
  * The runtime metadata as a decoded structure
  */
 export default class MetadataV6 extends Struct implements MetadataInterface<ModuleMetadataV6> {
-  constructor (value?: any) {
-    super({
+  constructor (registry: Registry, value?: any) {
+    super(registry, {
       modules: Vec.with(ModuleMetadataV6)
     }, value);
   }

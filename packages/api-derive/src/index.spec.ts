@@ -5,6 +5,7 @@
 import { Observable, from } from 'rxjs';
 import ApiRx from '@polkadot/api/rx/Api';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 
 import { ExactDerive } from '.';
 
@@ -26,8 +27,10 @@ const testFunction = (api: ApiRx): any => {
 };
 
 describe('derive', (): void => {
+  const registry = new TypeRegistry();
+
   describe('builtin', (): void => {
-    const api = new ApiRx({ provider: new MockProvider() });
+    const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
     beforeAll((done): void => {
       api.isReady.subscribe((): void => done());
@@ -77,7 +80,8 @@ describe('derive', (): void => {
           test: (): any => (): Observable<any> => from([1, 2, 3])
         }
       },
-      provider: new MockProvider()
+      provider: new MockProvider(registry),
+      registry
     });
 
     beforeAll((done): void => {

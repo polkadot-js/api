@@ -30,7 +30,7 @@ export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<Header
       api.derive.staking.validators()
     ]).pipe(
       map(([header, { validators }]): HeaderExtended =>
-        new HeaderExtended(header, validators)
+        new HeaderExtended(api.registry, header, validators)
       )
     ));
 }

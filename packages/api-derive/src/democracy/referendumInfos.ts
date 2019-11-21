@@ -23,7 +23,7 @@ export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) =
     ).pipe(
       map((infos): Option<ReferendumInfoExtended>[] =>
         ids.map((id, index): Option<ReferendumInfoExtended> =>
-          constructInfo(id, infos[index])
+          constructInfo(api, id, infos[index])
         )
       )
     ));

@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
+import { TypeRegistry } from '../../codec';
 import ExtrinsicPayload from './ExtrinsicPayload';
 
 describe('ExtrinsicPayload', (): void => {
+  const registry = new TypeRegistry();
   const TEST = {
     address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
     blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
@@ -19,15 +19,15 @@ describe('ExtrinsicPayload', (): void => {
   };
 
   it('creates and can re-create from itself (U8a)', (): void => {
-    const a = new ExtrinsicPayload(TEST, { version: 3 });
-    const b = new ExtrinsicPayload(a.toU8a(), { version: 3 });
+    const a = new ExtrinsicPayload(registry, TEST, { version: 3 });
+    const b = new ExtrinsicPayload(registry, a.toU8a(), { version: 3 });
 
     expect(a).toEqual(b);
   });
 
   it('creates and can re-create from itself (hex)', (): void => {
-    const a = new ExtrinsicPayload(TEST, { version: 3 });
-    const b = new ExtrinsicPayload(a.toHex(), { version: 3 });
+    const a = new ExtrinsicPayload(registry, TEST, { version: 3 });
+    const b = new ExtrinsicPayload(registry, a.toHex(), { version: 3 });
 
     expect(a).toEqual(b);
   });

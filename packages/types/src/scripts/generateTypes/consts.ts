@@ -7,7 +7,7 @@ import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
 import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
-import { Metadata } from '../..';
+import { Metadata, TypeRegistry } from '../..';
 import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
 // Generate types for one module
@@ -35,9 +35,6 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
 // metadata
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');
-
-  // Inject all types so that metadata can use them
-  require('../../injector');
 
   const imports = createImports(); // Will hold all needed imports
 
@@ -86,5 +83,7 @@ function generateForMeta (meta: Metadata): void {
 
 // Call `generateForMeta()` with current static metadata
 export default function generateConsts (): void {
-  return generateForMeta(new Metadata(staticData));
+  const registry = new TypeRegistry();
+
+  return generateForMeta(new Metadata(registry, staticData));
 }

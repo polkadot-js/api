@@ -46,11 +46,11 @@ function groupByEra (list: UnlockChunk[]): Record<string, BN> {
 }
 
 // calculate the remaining blocks in a specific unlock era
-function remainingBlocks (era: BN, sessionInfo: DerivedSessionInfo): BlockNumber {
+function remainingBlocks (api: ApiInterfaceRx, era: BN, sessionInfo: DerivedSessionInfo): BlockNumber {
   const remaining = era.sub(sessionInfo.currentEra);
 
   // on the Rust side the current-era >= era-for-unlock (removal done on >)
-  return createType('BlockNumber', remaining.gtn(0)
+  return createType(api.registry, 'BlockNumber', remaining.gtn(0)
     ? remaining
       .subn(1)
       .mul(sessionInfo.eraLength)
@@ -59,13 +59,13 @@ function remainingBlocks (era: BN, sessionInfo: DerivedSessionInfo): BlockNumber
   );
 }
 
-function calculateUnlocking (stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): DerivedUnlocking[] | undefined {
+function calculateUnlocking (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): DerivedUnlocking[] | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
 
   const unlockingChunks = stakingLedger.unlocking.filter(({ era }): boolean =>
-    remainingBlocks(era.unwrap(), sessionInfo).gtn(0)
+    remainingBlocks(api, era.unwrap(), sessionInfo).gtn(0)
   );
 
   if (!unlockingChunks.length) {
@@ -75,20 +75,20 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, sessionIn
   // group the unlock chunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
   const results = Object.entries(groupedResult).map(([eraString, value]): DerivedUnlocking => ({
-    value: createType('Balance', value),
-    remainingBlocks: remainingBlocks(new BN(eraString), sessionInfo)
+    value: createType(api.registry, 'Balance', value),
+    remainingBlocks: remainingBlocks(api, new BN(eraString), sessionInfo)
   }));
 
   return results.length ? results : undefined;
 }
 
-function redeemableSum (stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): Balance {
+function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | undefined, sessionInfo: DerivedSessionInfo): Balance {
   if (isUndefined(stakingLedger)) {
-    return createType('Balance');
+    return createType(api.registry, 'Balance');
   }
 
-  return createType('Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
-    return remainingBlocks(era.unwrap(), sessionInfo).eqn(0)
+  return createType(api.registry, 'Balance', stakingLedger.unlocking.reduce((total, { era, value }): BN => {
+    return remainingBlocks(api, era.unwrap(), sessionInfo).eqn(0)
       ? total.add(value.unwrap())
       : total;
   }, new BN(0)));
@@ -119,22 +119,24 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: Option<AccountId> | [
   };
 }
 
-function parseResult ({ accountId, controllerId, stashId, sessionInfo, recentlyOffline = {}, nextKeyFor = createType('Option<AccountId>', null), queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys = createType('Option<Keys>', null) }: ParseInput): DerivedStaking {
+function parseResult (api: ApiInterfaceRx, { accountId, controllerId, stashId, sessionInfo, recentlyOffline = {}, nextKeyFor, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys }: ParseInput): DerivedStaking {
   const _stakingLedger = stakingLedger.unwrapOr(undefined);
+  const _nextKeyFor = nextKeyFor || createType(api.registry, 'Option<AccountId>', null);
+  const _nextKeys = nextKeys || createType(api.registry, 'Option<Keys>', null);
 
   return {
     accountId,
     controllerId,
     nominators,
     offline: recentlyOffline[stashId.toString()],
-    redeemable: redeemableSum(_stakingLedger, sessionInfo),
+    redeemable: redeemableSum(api, _stakingLedger, sessionInfo),
     rewardDestination,
     stakers,
     stakingLedger: _stakingLedger,
     stashId,
-    unlocking: calculateUnlocking(_stakingLedger, sessionInfo),
+    unlocking: calculateUnlocking(api, _stakingLedger, sessionInfo),
     validatorPrefs,
-    ...unwrapSessionIds(stashId, queuedKeys || nextKeyFor, nextKeys)
+    ...unwrapSessionIds(stashId, queuedKeys || _nextKeyFor, _nextKeys)
   };
 }
 
@@ -153,7 +155,7 @@ function retrieveInfoV1 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
       [api.query.staking.validators, stashId]
     ]) as Observable<MultiResultV1>
   ]).pipe(map(([sessionInfo, recentlyOffline, [nextKeyFor, stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]: [DerivedSessionInfo, DerivedRecentlyOffline, MultiResultV1]): DerivedStaking =>
-    parseResult({
+    parseResult(api, {
       accountId, controllerId, stashId, sessionInfo, recentlyOffline, nextKeyFor, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs
     })
   ));
@@ -182,7 +184,7 @@ function retrieveInfoV2 (api: ApiInterfaceRx, accountId: AccountId, stashId: Acc
         : []
       : (_nominators as [Vec<AccountId>])[0];
 
-    return parseResult({
+    return parseResult(api, {
       accountId, controllerId, stashId, sessionInfo, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
     });
   }));
@@ -221,5 +223,5 @@ export function info (api: ApiInterfaceRx): (_accountId: Uint8Array | string) =>
     : retrieveV1;
 
   return memo((accountId: Uint8Array | string): Observable<DerivedStaking> =>
-    query(api, createType('AccountId', accountId)));
+    query(api, createType(api.registry, 'AccountId', accountId)));
 }

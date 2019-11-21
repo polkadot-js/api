@@ -17,8 +17,8 @@ import { memo } from '../util';
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
 
-function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
-  let lockedBalance = createType('Balance');
+function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
+  let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: BalanceLock[] = [];
 
   if (Array.isArray(locks)) {
@@ -27,15 +27,15 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     if (lockedBreakdown.length) {
-      lockedBalance = createType('Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
+      lockedBalance = createType(api.registry, 'Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
     }
   }
 
   // Calculate the vesting balances,
   //  - offset = balance locked at genesis,
   //  - perBlock is the unlock amount
-  const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
-  const vestedBalance = createType('Balance', perBlock.mul(bestNumber));
+  const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType(api.registry, 'VestingSchedule'));
+  const vestedBalance = createType(api.registry, 'Balance', perBlock.mul(bestNumber));
   const isVesting = vestedBalance.lt(vestingTotal);
 
   // The available balance & vested has an interplay here
@@ -46,7 +46,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
   // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
   // ""
   const floating = freeBalance.sub(lockedBalance);
-  const availableBalance = createType('Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance : floating));
+  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance : floating));
 
   return {
     accountId,
@@ -59,7 +59,7 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
     reservedBalance,
     vestedBalance,
     vestingTotal,
-    votingBalance: createType('Balance', freeBalance.add(reservedBalance))
+    votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))
   };
 }
 
@@ -103,9 +103,9 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
             //   : api.query.system.accountNonce<Index>(accountId)
             api.query.system.accountNonce<Index>(accountId)
           ])
-          : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
+          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null)], createType(api.registry, 'Index')])
         )
       ),
-      map(calcBalances)
+      map((result): DerivedBalances => calcBalances(api, result))
     ));
 }

@@ -5,6 +5,7 @@
 import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
 import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { Registry } from '@polkadot/types/types';
 
 import { assert, stringCamelCase } from '@polkadot/util';
 import Abi from '../Abi';
@@ -16,10 +17,13 @@ export abstract class Base<ApiType extends ApiTypes> implements ContractBase<Api
 
   public readonly decorateMethod: DecorateMethod<ApiType>;
 
+  public readonly registry: Registry;
+
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi(abi);
+      : new Abi(api.registry, abi);
+    this.registry = api.registry;
     this.api = api;
     this.decorateMethod = decorateMethod;
   }

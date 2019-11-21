@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
+import { TypeRegistry } from '../../codec';
 import json3 from '../../json/Header.003.json';
 import block1 from '../../json/SignedBlock.003.00.json';
 import Digest from './Digest';
 
 describe('Digest', (): void => {
+  const registry = new TypeRegistry();
+
   it('decodes logs with consensus', (): void => {
-    const digest = new Digest(json3.result.digest);
+    const digest = new Digest(registry, json3.result.digest);
 
     expect(digest.logs.length).toEqual(1);
 
@@ -24,14 +25,14 @@ describe('Digest', (): void => {
   });
 
   it('filters logs, excluding items', (): void => {
-    const logs = new Digest(block1.result.block.header.digest).logsWith('PreRuntime');
+    const logs = new Digest(registry, block1.result.block.header.digest).logsWith('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('PreRuntime');
   });
 
   it('filters logs, including items', (): void => {
-    const logs = new Digest(block1.result.block.header.digest).logsWithout('PreRuntime');
+    const logs = new Digest(registry, block1.result.block.header.digest).logsWithout('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('Seal');

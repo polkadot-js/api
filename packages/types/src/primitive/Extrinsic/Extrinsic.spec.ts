@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import { hexToU8a } from '@polkadot/util';
 
-import Call from '../Generic/Call';
+import { TypeRegistry } from '../../codec';
 import Extrinsic from './Extrinsic';
 
-describe('Extrinsic', (): void => {
-  beforeAll((): void => {
-    Call.injectMetadata(new Metadata(rpcMetadata));
-  });
+const registry = new TypeRegistry();
 
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
+
+describe('Extrinsic', (): void => {
   describe('V1', (): void => {
     it('decodes an actual transaction (length prefix)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '2502' +
         '81' +
@@ -46,6 +46,7 @@ describe('Extrinsic', (): void => {
 
     it('decodes an actual transaction (no length prefix, old version)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '81' +
         'ff' +
@@ -74,6 +75,7 @@ describe('Extrinsic', (): void => {
   describe('V2', (): void => {
     it('decodes an actual transaction (length prefix)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '2902' + // yes, longer than in v1, 1 byte for the tip
         '82' +
@@ -118,7 +120,7 @@ describe('Extrinsic', (): void => {
         'e5c0';
 
       expect(
-        new Extrinsic(new Extrinsic(input)).toU8a()
+        new Extrinsic(registry, new Extrinsic(registry, input)).toU8a()
       ).toEqual(hexToU8a(input));
     });
   });

@@ -4,7 +4,7 @@
 
 import { Header } from '@polkadot/types/interfaces';
 
-import { ClassOf } from '@polkadot/types';
+import { ClassOf, TypeRegistry } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core';
 
@@ -16,11 +16,12 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('RPC-core e2e chain', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
   it('subscribes via subscribeNewHeads', (done): void => {
@@ -29,7 +30,7 @@ describeE2E({
     rpc.chain
       .subscribeNewHeads()
       .subscribe((header: Header): void => {
-        expect(header).toBeInstanceOf(ClassOf('Header'));
+        expect(header).toBeInstanceOf(ClassOf(registry, 'Header'));
 
         if (++count === 3) {
           done();
