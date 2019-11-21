@@ -5,9 +5,6 @@
 
 import { CallFunction, Codec, Constructor, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
-// FIXME Here we unfortunately cannot use Decorated, because that already calls
-// fromMetadata for storage, and we have then a type import ordering problem
-// import Metadata from '@polkadot/metadata/Metadata';
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
@@ -28,7 +25,7 @@ export class TypeRegistry implements Registry {
 
   private _metadataCalls: Record<string, CallFunction> = {};
 
-  private _metadataEvents: Record<string, Constructor<Codec>> = {};
+  private _metadataEvents: Record<string, Constructor<EventData>> = {};
 
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
@@ -52,12 +49,12 @@ export class TypeRegistry implements Registry {
     return this._metadataCalls[callIndex.toString()] || FN_UNKNOWN;
   }
 
-  public findMetaEvent <T extends Codec> (eventIndex: Uint8Array): Constructor<T> {
+  public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
     const Event = this._metadataEvents[eventIndex.toString()];
 
     assert(!isUndefined(Event), `Unable to find Event with index ${u8aToHex(eventIndex)}`);
 
-    return Event as Constructor<T>;
+    return Event;
   }
 
   public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {

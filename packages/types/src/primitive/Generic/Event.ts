@@ -91,7 +91,7 @@ export default class Event extends Struct {
     const index = value.subarray(0, 2);
 
     return {
-      DataType: registry.findMetaEvent<EventData>(index),
+      DataType: registry.findMetaEvent(index),
       value: {
         index,
         data: value.subarray(2)

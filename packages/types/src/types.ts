@@ -352,8 +352,9 @@ export interface RegistryMetadata {
 export interface Registry {
   findMetaCall (callIndex: Uint8Array): CallFunction;
 
-  // due to same circular imports as below, keep this as a generic Codec
-  findMetaEvent <T extends Codec> (eventIndex: Uint8Array): Constructor<T>;
+  // due to same circular imports where types don't really want to import from EventData,
+  // keep this as a generic Codec, however the actual impl. returns the correct
+  findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
@@ -363,8 +364,5 @@ export interface Registry {
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
-
-  // this is not correct, but really don't want to pull in circular deps, here
-  // from types to make this work. So assume we know wtf we are doing... for now.
   setMetadata (metadata: RegistryMetadata): void;
 }
