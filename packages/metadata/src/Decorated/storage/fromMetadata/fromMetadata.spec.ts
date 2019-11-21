@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/types/injector';
-
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { TypeRegistry } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
 import rpcMetadata from '../../../Metadata/static';
 import Decorated from '../../Decorated';
 
+const registry = new TypeRegistry();
 const keyring = testingPairs({ type: 'ed25519' });
-const decorated = new Decorated(rpcMetadata);
+const decorated = new Decorated(registry, rpcMetadata);
 
 describe('fromMetadata', (): void => {
   it('should throw if the storage function expects an argument', (): void => {

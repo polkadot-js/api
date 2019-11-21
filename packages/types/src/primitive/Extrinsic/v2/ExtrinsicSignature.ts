@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { createType } from '../../../codec/create';
@@ -18,8 +18,8 @@ import ExtrinsicPayloadV2 from './ExtrinsicPayload';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super({
+  constructor (registry: Registry, value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
       signer: 'Address',
       signature: 'Signature',
       era: 'ExtrinsicEra',
@@ -106,9 +106,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('Signature', signature),
-      new ExtrinsicPayloadV2(payload)
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'Signature', signature),
+      new ExtrinsicPayloadV2(this.registry, payload)
     );
   }
 
@@ -116,7 +116,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description Creates a payload from the supplied options
    */
   public createPayload (method: Call, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): ExtrinsicPayloadV2 {
-    return new ExtrinsicPayloadV2({
+    return new ExtrinsicPayloadV2(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
@@ -131,9 +131,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
+    const signer = createType(this.registry, 'Address', account.publicKey);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', payload.sign(account));
+    const signature = createType(this.registry, 'Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }
@@ -142,9 +142,9 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', address);
+    const signer = createType(this.registry, 'Address', address);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', new Uint8Array(64).fill(0x42));
+    const signature = createType(this.registry, 'Signature', new Uint8Array(64).fill(0x42));
 
     return this.injectSignature(signer, signature, payload);
   }

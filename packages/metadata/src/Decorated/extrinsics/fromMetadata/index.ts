@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Calls, ModulesWithCalls } from '@polkadot/types/types';
+import { Calls, ModulesWithCalls, Registry, RegistryMetadata, RegistryMetadataModule } from '@polkadot/types/types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { ModuleMetadataV8 } from '../../../Metadata/v8/Metadata';
-import Metadata from '../../../Metadata';
 import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 
@@ -16,16 +14,16 @@ import createUnchecked from './createUnchecked';
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata (metadata: Metadata): ModulesWithCalls {
+export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)
-    .reduce((result, { calls, name }: ModuleMetadataV8, sectionIndex): ModulesWithCalls => {
+    .reduce((result, { calls, name }: RegistryMetadataModule, sectionIndex): ModulesWithCalls => {
       const section = stringCamelCase(name.toString());
 
       result[section] = calls.unwrap().reduce((newModule: Calls, callMetadata, methodIndex): Calls => {
         const method = stringCamelCase(callMetadata.name.toString());
 
-        newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
+        newModule[method] = createUnchecked(registry, section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
       }, {});

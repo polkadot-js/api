@@ -4,16 +4,17 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { createType } from '@polkadot/types';
+import { createType, TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
 
 describe('Cached Observables', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
   const keyring = testingPairs();
 
   beforeEach((): void => {
-    rpc = new Rpc(new MockProvider());
+    rpc = new Rpc(registry, new MockProvider(registry));
   });
 
   it('creates a single observable for subscriptions (multiple calls)', (): void => {
@@ -32,7 +33,7 @@ describe('Cached Observables', (): void => {
 
   it('creates a single observable (multiple calls, different arguments that should be cached together)', (): void => {
     const observable1 = rpc.state.subscribeStorage([keyring.alice.address]);
-    const observable2 = rpc.state.subscribeStorage([createType('AccountId', keyring.alice.address)]);
+    const observable2 = rpc.state.subscribeStorage([createType(registry, 'AccountId', keyring.alice.address)]);
 
     expect(observable2).toBe(observable1);
   });

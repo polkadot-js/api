@@ -12,7 +12,9 @@ export interface ConstantCodec extends Codec {
 
 export type ModuleConstants = Record<string, Codec>;
 
-export type Constants = Record<string, ModuleConstants>;
+export interface Constants {
+  [index: string]: ModuleConstants;
+}
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;

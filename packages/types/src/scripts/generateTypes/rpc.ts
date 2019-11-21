@@ -5,15 +5,14 @@
 import fs from 'fs';
 
 import interfaces from '../../../../type-jsonrpc/src';
+import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
 // Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
 export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
-  // Inject all types so that types-jsonrpc can use them
-  require('../../injector');
-
+  const registry = new TypeRegistry();
   const imports = createImports();
 
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
@@ -31,7 +30,7 @@ export default function generateRpcTypes (): void {
       }
 
       const args = method.params.map((param): string => {
-        const similarTypes = getSimilarTypes(param.type, imports);
+        const similarTypes = getSimilarTypes(registry, param.type, imports);
         setImports(imports, [param.type, ...similarTypes]);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;

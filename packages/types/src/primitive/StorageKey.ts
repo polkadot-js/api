@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a, Registry } from '../types';
+
 import { StorageEntryMetadata as MetaV8 } from '@polkadot/metadata/Metadata/v8/Storage';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
@@ -44,10 +45,10 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
-    super(key);
+    super(registry, key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
     this._method = override.method || method;

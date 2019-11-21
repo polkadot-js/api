@@ -21,9 +21,9 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('Signature', signature),
-      new ExtrinsicPayloadV3(payload)
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'Signature', signature),
+      new ExtrinsicPayloadV3(this.registry, payload)
     );
   }
 
@@ -31,7 +31,7 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Creates a payload from the supplied options
    */
   public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): ExtrinsicPayloadV3 {
-    return new ExtrinsicPayloadV3({
+    return new ExtrinsicPayloadV3(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
@@ -46,9 +46,9 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
+    const signer = createType(this.registry, 'Address', account.publicKey);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', payload.sign(account));
+    const signature = createType(this.registry, 'Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }
@@ -57,9 +57,9 @@ export default class ExtrinsicSignatureV3 extends ExtrinsicSignatureV2 {
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', address);
+    const signer = createType(this.registry, 'Address', address);
     const payload = this.createPayload(method, options);
-    const signature = createType('Signature', new Uint8Array(64).fill(0x42));
+    const signature = createType(this.registry, 'Signature', new Uint8Array(64).fill(0x42));
 
     return this.injectSignature(signer, signature, payload);
   }

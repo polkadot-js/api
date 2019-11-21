@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdCustom, MetaTypeIdVec, MetaTypeIdVecFixed, MetaTypeInfo, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
+import { MetaRegistryItem, MetaRegistryJson, MetaTypeDefClikeEnum, MetaType, MetaTypeDefEnum, MetaTypeDefEnumVariant, MetaTypeDefEnumVariantStruct, MetaTypeDefEnumVariantTupleStruct, MetaTypeDefEnumVariantUnit, MetaTypeDefStruct, MetaTypeDefStructField, MetaTypeDefTupleStruct, MetaTypeDefUnion, MetaTypeIdCustom, MetaTypeIdVec, MetaTypeIdVecFixed, MetaTypeInfo, Registry, StringIndex, TypeDef, TypeDefInfo, TypeIndex } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 import { displayType, withTypeString } from '@polkadot/types';
@@ -34,13 +34,16 @@ function detectedType ({ def, id }: MetaType): MetaTypeInfo {
 }
 
 class MetadataRegistryLookup {
+  public readonly registry: Registry;
+
   protected _strings: string[] = [];
 
   protected _types: MetaType[] = [];
 
   public typeDefs: TypeDef[] = [];
 
-  constructor ({ registry: { strings, types } }: MetaRegistryJson) {
+  constructor (registry: Registry, { registry: { strings, types } }: MetaRegistryJson) {
+    this.registry = registry;
     this._strings = strings;
     this._types = types;
   }
@@ -102,8 +105,8 @@ class MetadataRegistryLookup {
 }
 
 export default class MetaRegistry extends MetadataRegistryLookup {
-  constructor (json: MetaRegistryJson) {
-    super(json);
+  constructor (registry: Registry, json: MetaRegistryJson) {
+    super(registry, json);
 
     // Generate TypeDefs for each provided registry type
     this._types.forEach((_, index: number): void => this.setTypeDefAtIndex(index + 1));

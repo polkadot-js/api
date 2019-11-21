@@ -41,7 +41,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = createType('Hash', codeHash);
+    this.codeHash = createType(this.registry, 'Hash', codeHash);
   }
 
   public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {

@@ -19,9 +19,9 @@ function queryV2 (api: ApiInterfaceRx): Observable<Result> {
   return of([
     // get values from api.const for substrate versions post spec_version: 101
     // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
-    api.consts.balances.creationFee as Balance,
-    api.consts.balances.existentialDeposit as Balance,
-    api.consts.balances.transferFee as Balance,
+    api.consts.balances.creationFee,
+    api.consts.balances.existentialDeposit,
+    api.consts.balances.transferFee,
     paymentBase.transactionBaseFee as Balance,
     paymentBase.transactionByteFee as Balance
   ]);

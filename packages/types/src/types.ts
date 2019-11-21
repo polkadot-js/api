@@ -67,24 +67,29 @@ export type AnyJson = string | number | boolean | null | undefined | AnyJsonObje
  * @name Codec
  * @description
  * The base Codec interface. All types implement the interface provided here. Additionally
- * implementors can add their own specific interfaces and helpres with getters and functions.
+ * implementors can add their own specific interfaces and helpers with getters and functions.
  * The Codec Base is however required for operating as an encoding/decoding layer
  */
 export interface Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  encodedLength: number;
+  readonly encodedLength: number;
 
   /**
    * @description Returns a hash of the value
    */
-  hash: IHash;
+  readonly hash: IHash;
 
   /**
    * @description Checks if the value is an empty value
    */
-  isEmpty: boolean;
+  readonly isEmpty: boolean;
+
+  /**
+   * @description The registry associated with this object
+   */
+  readonly registry: Registry;
 
   /**
    * @description Compares the value of the input to see if there is a match
@@ -125,7 +130,7 @@ export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(...value: any[]): T;
+  new(registry: Registry, ...value: any[]): T;
 }
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
@@ -303,4 +308,61 @@ export interface SignerPayloadRaw extends SignerPayloadRawBase {
 export interface ISignerPayload {
   toPayload (): SignerPayloadJSON;
   toRaw (): SignerPayloadRaw;
+}
+
+export interface RegistryMetadataCall {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+
+  toJSON (): string | AnyJsonObject;
+}
+
+export interface RegistryMetadataCalls {
+  isSome: boolean;
+  unwrap (): RegistryMetadataCall[];
+}
+
+export interface RegistryMetadataEvent {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataEvents {
+  isSome: boolean;
+  unwrap (): RegistryMetadataEvent[];
+}
+
+export interface RegistryMetadataModule {
+  calls: RegistryMetadataCalls;
+  events: RegistryMetadataEvents;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataLatest {
+  modules: RegistryMetadataModule[];
+}
+
+export interface RegistryMetadata {
+  asLatest: RegistryMetadataLatest;
+}
+
+export interface Registry {
+  findMetaCall (callIndex: Uint8Array): CallFunction;
+
+  // due to same circular imports where types don't really want to import from EventData,
+  // keep this as a generic Codec, however the actual impl. returns the correct
+  findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
+
+  get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
+  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  hasClass (name: string): boolean;
+  hasDef (name: string): boolean;
+  hasType (name: string): boolean;
+  register (type: Constructor | RegistryTypes): void;
+  register (name: string, type: Constructor): void;
+  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+  setMetadata (metadata: RegistryMetadata): void;
 }

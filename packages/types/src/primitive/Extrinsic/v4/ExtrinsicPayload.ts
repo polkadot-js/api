@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -19,8 +19,8 @@ import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload
  * on the contents included
  */
 export default class ExtrinsicPayloadV4 extends Struct {
-  constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(SignedPayloadDefV4, value);
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    super(registry, SignedPayloadDefV4, value);
   }
 
   /**

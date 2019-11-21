@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AnyU8a, Registry } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
@@ -17,8 +17,8 @@ import U8a from '../codec/U8a';
  * as what is found in [[Text]] and [[Vec]])
  */
 export default class Bytes extends U8a {
-  constructor (value?: AnyU8a) {
-    super(Bytes.decodeBytes(value));
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, Bytes.decodeBytes(value));
   }
 
   private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {

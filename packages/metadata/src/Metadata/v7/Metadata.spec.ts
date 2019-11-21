@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '@polkadot/types';
+
 import polkadotJson from './static-polkadot.json';
 import substrateJson from './static-substrate.json';
 import polkadotData from './static.polkadot';
@@ -9,17 +11,21 @@ import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
 
 describe('MetadataV7 (substrate)', (): void => {
-  decodeLatestSubstrate(7, substrateData, substrateJson);
+  const registry = new TypeRegistry();
 
-  toLatest(7, substrateData);
+  decodeLatestSubstrate(registry, 7, substrateData, substrateJson);
 
-  defaultValues(substrateData);
+  toLatest(registry, 7, substrateData);
+
+  defaultValues(registry, substrateData);
 });
 
 describe('MetadataV7 (polkadot)', (): void => {
-  decodeLatestSubstrate(7, polkadotData, polkadotJson);
+  const registry = new TypeRegistry();
 
-  toLatest(7, polkadotData);
+  decodeLatestSubstrate(registry, 7, polkadotData, polkadotJson);
 
-  defaultValues(polkadotData);
+  toLatest(registry, 7, polkadotData);
+
+  defaultValues(registry, polkadotData);
 });

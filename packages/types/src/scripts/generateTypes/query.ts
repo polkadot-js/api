@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
+
 import fs from 'fs';
 import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
 import { StorageEntryMetadata } from '@polkadot/metadata/Metadata/v8/Storage';
@@ -10,16 +12,17 @@ import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
 import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
+import { TypeRegistry } from '@polkadot/types/codec';
 
 // From a storage entry metadata, we return [args, returnType]
-function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
+function entrySignature (registry: Registry, storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
   if (storageEntry.type.isPlainType) {
     setImports(imports, [storageEntry.type.asType.toString()]);
 
     return ['', formatType(storageEntry.type.asType.toString(), imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(registry, storageEntry.type.asMap.key.toString(), imports);
 
     setImports(imports, [
       ...similarTypes,
@@ -32,8 +35,8 @@ function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImport
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similartypes of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
     setImports(imports, [
       ...similarTypes1,
@@ -54,17 +57,16 @@ function entrySignature (storageEntry: StorageEntryMetadata, imports: TypeImport
 }
 
 // Generate types for one storage entry in a module
-function generateEntry (storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
-  const [args, returnType] = entrySignature(storageEntry, imports);
+function generateEntry (registry: Registry, storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
+  const [args, returnType] = entrySignature(registry, storageEntry, imports);
 
   return [
     `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
-    // `${stringLowerFirst(storageEntry.name.toString())}: QueryableStorageEntry<ApiType>;`
   ];
 }
 
 // Generate types for one module
-function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[] {
+function generateModule (registry: Registry, modul: ModuleMetadataV8, imports: TypeImports): string[] {
   if (modul.storage.isNone) {
     return [];
   }
@@ -74,7 +76,7 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
     .concat(
       modul.storage.unwrap().items
         .reduce((acc, storageEntry): string[] => {
-          return acc.concat(generateEntry(storageEntry, imports).map(indent(6)));
+          return acc.concat(generateEntry(registry, storageEntry, imports).map(indent(6)));
         }, [] as string[])
         .join('\n')
     )
@@ -83,16 +85,13 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
 
 // Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
 // metadata
-function generateForMeta (meta: Metadata): void {
+function generateForMeta (registry: Registry, meta: Metadata): void {
   console.log('Writing packages/api/src/query.types.ts');
-
-  // Inject all types so that metadata can use them
-  require('../../injector');
 
   const imports = createImports(); // Will hold all needed imports
 
   const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
-    const storageEntries = generateModule(modul, imports);
+    const storageEntries = generateModule(registry, modul, imports);
 
     return acc.concat(storageEntries);
   }, [] as string[]);
@@ -140,5 +139,7 @@ function generateForMeta (meta: Metadata): void {
 
 // Call `generateForMeta()` with current static metadata
 export default function generateQuery (): void {
-  return generateForMeta(new Metadata(staticData));
+  const registry = new TypeRegistry();
+
+  return generateForMeta(registry, new Metadata(registry, staticData));
 }

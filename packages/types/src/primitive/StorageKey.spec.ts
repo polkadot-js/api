@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
-
 import Metadata from '@polkadot/metadata';
 import rpcDataV3 from '@polkadot/metadata/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/metadata/Metadata/v4/static';
@@ -13,15 +11,19 @@ import rpcDataV7 from '@polkadot/metadata/Metadata/v7/static';
 import rpcDataV8 from '@polkadot/metadata/Metadata/v8/static';
 import { hexToU8a } from '@polkadot/util';
 
+import { TypeRegistry } from '../codec';
 import StorageKey from './StorageKey';
 
 describe('StorageKey', (): void => {
+  const registry = new TypeRegistry();
+
   describe('with MetadataV3 (uses xxHash by default)', (): void => {
-    const metadata = new Metadata(rpcDataV3);
+    const metadata = new Metadata(registry, rpcDataV3);
 
     it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
+          registry,
           metadata
             .query
             .balances
@@ -34,6 +36,7 @@ describe('StorageKey', (): void => {
     it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
+          registry,
           metadata
             .query
             .balances
@@ -48,11 +51,12 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV4 (uses xxHash by default)', (): void => {
-    const metadata = new Metadata(rpcDataV4);
+    const metadata = new Metadata(registry, rpcDataV4);
 
     it('should correctly get Alice\'s freeBalance storage key (hex)', (): void => {
       expect(
         new StorageKey(
+          registry,
           metadata
             .query
             .balances
@@ -65,6 +69,7 @@ describe('StorageKey', (): void => {
     it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
       expect(
         new StorageKey(
+          registry,
           metadata
             .query
             .balances
@@ -81,7 +86,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -94,7 +99,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -107,11 +112,11 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV5', (): void => {
-    const metadata = new Metadata(rpcDataV5);
+    const metadata = new Metadata(registry, rpcDataV5);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -124,7 +129,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -137,11 +142,11 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV6', (): void => {
-    const metadata = new Metadata(rpcDataV6);
+    const metadata = new Metadata(registry, rpcDataV6);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -154,7 +159,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -167,11 +172,11 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV7', (): void => {
-    const metadata = new Metadata(rpcDataV7);
+    const metadata = new Metadata(registry, rpcDataV7);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -184,7 +189,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -197,11 +202,11 @@ describe('StorageKey', (): void => {
   });
 
   describe('with MetadataV8', (): void => {
-    const metadata = new Metadata(rpcDataV8);
+    const metadata = new Metadata(registry, rpcDataV8);
 
     it('should correctly get the EventTopics double map storage key (hex)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system
@@ -214,7 +219,7 @@ describe('StorageKey', (): void => {
 
     it('should correctly get the EventTopics double map storage key (u8a)', (): void => {
       expect(
-        new StorageKey([
+        new StorageKey(registry, [
           metadata
             .query
             .system

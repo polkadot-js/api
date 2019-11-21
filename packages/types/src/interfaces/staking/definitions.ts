@@ -31,6 +31,11 @@ export default {
       value: 'Compact<Balance>'
     },
     MomentOf: 'Moment',
+    Nominations: {
+      targets: 'Vec<AccountId>',
+      submittedIn: 'EraIndex',
+      suppressed: 'bool'
+    },
     Points: 'u32',
     RewardDestination: {
       _enum: [
@@ -44,11 +49,29 @@ export default {
       amount: 'Balance',
       ownSlash: 'Balance'
     },
+    SlashingSpans: {
+      spanIndex: 'SpanIndex',
+      lastStart: 'EraIndex',
+      prior: 'Vec<EraIndex>'
+    },
+    SpanIndex: 'u32',
+    SpanRecord: {
+      slashed: 'Balance',
+      paidOut: 'Balance'
+    },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
+    },
+    UnappliedSlashOther: '(AccountId, Balance)',
+    UnappliedSlash: {
+      validator: 'AccountId',
+      own: 'Balance',
+      others: 'Vec<UnappliedSlashOther>',
+      reporters: 'Vec<AccountId>',
+      payout: 'Balance'
     },
     UnlockChunk: {
       value: 'Compact<Balance>',

@@ -2,20 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
 import { ModuleStorage, Storage } from '../../types';
 
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import Metadata from '../../../Metadata';
 import createFunction from './createFunction';
-import { storage } from './storage';
+import getStorage from './storage';
 
 /**
  * Return an object with the modules and the functions to access their storage.
  *
  * @param metadata - The metadata
  */
-export default function fromMetadata (metadata: Metadata): Storage {
+export default function fromMetadata (registry: Registry, metadata: Metadata): Storage {
   return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {
       return result;
@@ -30,7 +31,7 @@ export default function fromMetadata (metadata: Metadata): Storage {
     result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 
-      newModule[stringLowerFirst(method)] = createFunction({
+      newModule[stringLowerFirst(method)] = createFunction(metadata.registry, {
         meta,
         method,
         prefix,
@@ -41,5 +42,5 @@ export default function fromMetadata (metadata: Metadata): Storage {
     }, {} as unknown as ModuleStorage);
 
     return result;
-  }, { ...storage });
+  }, { ...getStorage(registry) });
 }
