@@ -23,7 +23,7 @@ describe('Api', (): void => {
     expect(
       Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
-      'provider', 'mapping', 'sections',
+      'mapping', 'provider', 'registry', 'sections',
       'account', 'author', 'chain', 'contracts', 'payment', 'rpc', 'state', 'system'
     ]);
   });
