@@ -2,7 +2,91 @@
 
 This is an upgrade guide for users of the API. It does not attempt to detail each version (the [CHANGELOG](CHANGELOG.md) has all the changes between versions), but rather tries to explain the rationale behind major breaking changes and how users of the API should handle this.
 
-While we try to keep the user-facing interfaces as stable as possible, sometimes you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dogfood - and as such, feel any pains introduced first.
+While we try to keep the user-facing interfaces as stable as possible, sometimes you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dog food - and as such, feel any pains introduced first.
+
+
+## 0.97.1 (and newer), from 0.90.1 (and older)
+
+The 0.97 series lays the groundwork to allow type registration  to be ties to a specific chain and a specific Api instance. In the past, 2 Api instances in the same process would share types, which mean that you could not connect to 2 independent chains with different types. This is very problematic for Polkadot chains, where the ide is to connect to multiple chains.
+
+When using the Api, a new `Registry` will be created on using `new Api(...)` or `Api.create(...)` and this will be transparently passed when creating types. In the cases where you create type instances explicitly or create type classes for injection, you would need to make adjustments.
+
+### Type classes
+
+In a number of instances, developers are creating classes and making these available for interacting with their chains. For instance, an example of a custom type could be -
+
+```js
+import { Struct, Text, u32 } from '@polkadot/types';
+
+export class Preferences extends Struct {
+  constructor (value?: ahy) {
+    super({
+      name: Text,
+      id: u32
+    }, value);
+  }
+
+  ...
+}
+```
+
+In the current iteration, the underlying `@polkadot/types` bases structures now require a `Registry` to be passed as the first parameter. This means that the above signature would be adjusted to -
+
+```js
+// the next import is only required for TypeScript
+import { Registry } from '@polkadot/types/types';
+import { Struct, Text, u32 } from '@polkadot/types';
+
+export class Preferences extends Struct {
+  constructor (registry: Registry, value?: ahy) {
+    super(registry, {
+      name: Text,
+      id: u32
+    }, value);
+  }
+
+  ...
+}
+```
+
+Where the type is used or returned from the API, the `Registry` will be automatically passed to class creation.
+
+### createType
+
+Previously, when creating a type instance such as `BlockNumber`, you would do `api.createType('BlockNumber', <initValue>)`, this is unchanged. In the cases where you directly import from `@polkadot/types`, the following pattern is required -
+
+```js
+import { createType } from '@polkadot/types';
+
+...
+const blockNumber = createType(api.registry, 'BlockNumber', 12345);
+```
+
+In some cases, you would want to explicitly pass a `Registry` interface to the API, instead of relying on it explicitly. This is generally applicable in the cases where you want to use the `createType` independently from the API -
+
+```js
+import { ApiPromise } from '@polkadot/api';
+import { TypeRegistry, createType } from '@polkadot/types';
+
+...
+const registry = new TypeRegistry();
+const blockNumber = createType(registry, 'BlockNumber', 12345);
+const api = await ApiPromise.create({ registry });
+```
+
+### Extrinsic metadata
+
+In some applications, the undocumented `findFunction` has been used to determine the Api has the metadata for a specific extrinsic. The has been exposed on to of `GenericCall`, and it typically used in applications such as signers. Along with the compulsory registry, the above functions have been moved to the `Registry` itself, so if you previously had -
+
+```js
+const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+```
+
+You need to change it to -
+
+```js
+const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+```
 
 ## 0.90.1 (and newer), from 0.81.1 (and older)
 
@@ -29,10 +113,10 @@ To better align with the actual types from the metadata, and avoid (too much) co
 
 The [@polkadot/api](packages/api) has always handled the conversion of types for parameters when making calls or queries. For example, when making a transfer to `BOB` (address), any of the following is valid -
 
-- `api.tx.balances.transfer(BOB, 12345)` - value specied as a number
-- `api.tx.balances.transfer(BOB, '12345')` - value specied as a string
-- `api.tx.balances.transfer(BOB, '0x3039')` - value specied as a hex
-- `api.tx.balances.transfer(BOB, new BN(12345))` - value specied as a [BN](https://github.com/indutny/bn.js/)
+- `api.tx.balances.transfer(BOB, 12345)` - value specified as a number
+- `api.tx.balances.transfer(BOB, '12345')` - value specified as a string
+- `api.tx.balances.transfer(BOB, '0x3039')` - value specified as a hex
+- `api.tx.balances.transfer(BOB, new BN(12345))` - value specified as a [BN](https://github.com/indutny/bn.js/)
 
 Internally the API will take the input and convert the value into a `Balance`, serialize it using the SCALE codec and transfer it to the node. In some cases users would construct the `Balance` type manually, by importing the class and calling `new` on it. This last approach has now been removed, and where classes are still available (limited reach), discouraged.
 
@@ -108,7 +192,7 @@ export class MyStruct extends Struct {
 }
 ```
 
-Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type definitions are not needed, this functionality will be useful to allow TS devs to auto-generate type definitions based on what the node defines.)
+Internally the [@polkadot/types](packages/types) package now only defines classes where there are specific encoding logic applied. For all other types, the definitions are done via a JSON-like format and then the TypeScript definitions are generated from these. (In a world where nodes inject types and the type definitions are not needed, this functionality will be useful to allow TS developers to auto-generate type definitions based on what the node defines.)
 
 ### Signing transactions (Signer interface)
 
