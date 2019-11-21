@@ -7,7 +7,7 @@ While we try to keep the user-facing interfaces as stable as possible, sometimes
 
 ## 0.97.1 (and newer), from 0.90.1 (and older)
 
-The 0.97 series lays the groundwork to allow type registration  to be ties to a specific chain and a specific Api instance. In the past, 2 Api instances in the same process would share types, which mean that you could not connect to 2 independent chains with different types. This is very problematic for Polkadot chains, where the ide is to connect to multiple chains.
+The 0.97 series lays the groundwork to allow type registration  to be ties to a specific chain and a specific Api instance. In the past, 2 Api instances in the same process would share types, which mean that you could not connect to 2 independent chains with different types. This is very problematic for Polkadot chains, where the idea is to connect to multiple chains.
 
 When using the Api, a new `Registry` will be created on using `new Api(...)` or `Api.create(...)` and this will be transparently passed when creating types. In the cases where you create type instances explicitly or create type classes for injection, you would need to make adjustments.
 
@@ -76,7 +76,7 @@ const api = await ApiPromise.create({ registry });
 
 ### Extrinsic metadata
 
-In some applications, the undocumented `findFunction` has been used to determine the Api has the metadata for a specific extrinsic. The has been exposed on to of `GenericCall`, and it typically used in applications such as signers. Along with the compulsory registry, the above functions have been moved to the `Registry` itself, so if you previously had -
+In some applications, the undocumented `findFunction` has been used to determine the Api has the metadata for a specific extrinsic. The has been exposed on top of `GenericCall`, and it typically used in applications such as signers. Along with the compulsory registry, the above functions have been moved to the `Registry` itself, so if you previously had -
 
 ```js
 const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
