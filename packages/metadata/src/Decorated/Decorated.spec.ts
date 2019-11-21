@@ -11,8 +11,6 @@ const registry = new TypeRegistry();
 const decorated = new Decorated(registry, json);
 
 describe('Decorated', () => {
-  const registry = new TypeRegistry();
-
   it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
     expect(
       decorated.query

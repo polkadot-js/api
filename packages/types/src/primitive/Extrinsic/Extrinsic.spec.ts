@@ -7,16 +7,14 @@ import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import { hexToU8a } from '@polkadot/util';
 
 import { TypeRegistry } from '../../codec';
-import Call from '../Generic/Call';
 import Extrinsic from './Extrinsic';
 
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
+
 describe('Extrinsic', (): void => {
-  const registry = new TypeRegistry();
-
-  beforeAll((): void => {
-    Call.injectMetadata(new Metadata(registry, rpcMetadata));
-  });
-
   describe('V1', (): void => {
     it('decodes an actual transaction (length prefix)', (): void => {
       const extrinsic = new Extrinsic(

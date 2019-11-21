@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call, FunctionMetadataLatest } from '@polkadot/types/interfaces';
-import { CallFunction, Registry } from '@polkadot/types/types';
+import { Call } from '@polkadot/types/interfaces';
+import { AnyJsonObject, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/codec';
+// we do a direct import here to remove all circular dependencies (importing from
+// /types, /types/codec or /types/codec/create makes all hell break loose)
+import { createType } from '@polkadot/types/codec/create/createType';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
@@ -17,7 +19,7 @@ import { assert, stringCamelCase } from '@polkadot/util';
  * @param methodIndex - Index of the method inside the section.
  * @param callMetadata - Metadata of the call function.
  */
-export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: FunctionMetadataLatest): CallFunction {
+export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: RegistryMetadataCall): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;
   const funcName = stringCamelCase(callMetadata.name.toString());
@@ -37,7 +39,7 @@ export default function createDescriptor (registry: Registry, section: string, s
   extrinsicFn.meta = callMetadata;
   extrinsicFn.method = funcName;
   extrinsicFn.section = section;
-  extrinsicFn.toJSON = (): any =>
+  extrinsicFn.toJSON = (): string | AnyJsonObject =>
     callMetadata.toJSON();
 
   return extrinsicFn as CallFunction;

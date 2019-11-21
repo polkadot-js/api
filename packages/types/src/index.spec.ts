@@ -6,7 +6,6 @@ import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
 import { createTypeUnsafe, TypeRegistry } from './codec/create';
-import GenericCall from './primitive/Generic/Call';
 import { Codec } from './types';
 import * as exported from './index.types';
 import * as definitions from './interfaces/definitions';
@@ -42,7 +41,8 @@ function testTypes (type: string, typeNames: string[]): void {
     });
 
     describe(`${type}:: default creation (empty bytes)`, (): void => {
-      GenericCall.injectMetadata(new Metadata(registry, metadataStatic));
+      // eslint-disable-next-line no-new
+      new Metadata(registry, metadataStatic);
 
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {

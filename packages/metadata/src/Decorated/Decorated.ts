@@ -29,8 +29,10 @@ export default class Decorated {
   constructor (registry: Registry, value?: Uint8Array | string | Metadata) {
     this.registry = registry;
     this.metadata = value instanceof Metadata ? value : new Metadata(registry, value);
-    this.tx = extrinsicsFromMeta(this.metadata);
-    this.query = storageFromMeta(this.metadata);
-    this.consts = constantsFromMeta(this.metadata);
+
+    // decoration
+    this.tx = extrinsicsFromMeta(registry, this.metadata);
+    this.query = storageFromMeta(registry, this.metadata);
+    this.consts = constantsFromMeta(registry, this.metadata);
   }
 }

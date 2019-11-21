@@ -6,19 +6,17 @@ import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
 import { createType, TypeRegistry } from '../../codec/create';
-import Call from '../../primitive/Generic/Call';
 import events from '../../json/SignedBlock.002.json';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
 import knownMehods from '../../json/SignedBlock.005.json';
 
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
+
 describe('SignedBlock', (): void => {
-  const registry = new TypeRegistry();
-
-  beforeEach((): void => {
-    Call.injectMetadata(new Metadata(registry, metadataStatic));
-  });
-
   it('decodes a full block', (): void => {
     const s = createType(registry, 'SignedBlock', events.result);
 

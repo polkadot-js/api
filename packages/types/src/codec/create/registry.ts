@@ -3,16 +3,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, RegistryTypes, Registry } from '../../types';
+import { CallFunction, Codec, Constructor, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
-import { assert, isFunction, isString, isUndefined } from '@polkadot/util';
+// FIXME Here we unfortunately cannot use Decorated, because that already calls
+// fromMetadata for storage, and we have then a type import ordering problem
+// import Metadata from '@polkadot/metadata/Metadata';
+import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
+import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import { EventData } from '../../primitive/Generic/Event';
 import { createClass } from './createClass';
+import { getTypeClass } from './getTypeClass';
+import { getTypeDef } from './getTypeDef';
+
+const FN_UNKNOWN: Partial<CallFunction> = {
+  method: 'unknown',
+  section: 'unknown'
+};
 
 export class TypeRegistry implements Registry {
   private _classes: Map<string, Constructor> = new Map();
 
   private _definitions: Map<string, string> = new Map();
+
+  private _metadataCalls: Record<string, CallFunction> = {};
+
+  private _metadataEvents: Record<string, Constructor<Codec>> = {};
 
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
@@ -30,43 +46,18 @@ export class TypeRegistry implements Registry {
     );
   }
 
-  public register (type: Constructor | RegistryTypes): void;
+  public findMetaCall (callIndex: Uint8Array): CallFunction {
+    assert(Object.keys(this._metadataCalls).length > 0, 'Calling registry.findMetaCall before metadata has been attached.');
 
-  // eslint-disable-next-line no-dupe-class-members
-  public register (name: string, type: Constructor): void;
-
-  // eslint-disable-next-line no-dupe-class-members
-  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
-    // NOTE Constructors appear as functions here
-    if (isFunction(arg1)) {
-      this._classes.set(arg1.name, arg1);
-    } else if (isString(arg1)) {
-      assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
-
-      this._classes.set(arg1, arg2);
-    } else {
-      this.registerObject(arg1);
-    }
+    return this._metadataCalls[callIndex.toString()] || FN_UNKNOWN;
   }
 
-  private registerObject (obj: RegistryTypes): void {
-    Object.entries(obj).forEach(([name, type]): void => {
-      if (isFunction(type)) {
-        // This _looks_ a bit funny, but `typeof Clazz === 'function'
-        this._classes.set(name, type);
-      } else {
-        const def = isString(type)
-          ? type
-          : JSON.stringify(type);
+  public findMetaEvent <T extends Codec> (eventIndex: Uint8Array): Constructor<T> {
+    const Event = this._metadataEvents[eventIndex.toString()];
 
-        // we already have this type, remove the classes registered for it
-        if (this._classes.has(name)) {
-          this._classes.delete(name);
-        }
+    assert(!isUndefined(Event), `Unable to find Event with index ${u8aToHex(eventIndex)}`);
 
-        this._definitions.set(name, def);
-      }
-    });
+    return Event as Constructor<T>;
   }
 
   public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
@@ -116,5 +107,76 @@ export class TypeRegistry implements Registry {
 
   public hasType (name: string): boolean {
     return this.hasClass(name) || this.hasDef(name);
+  }
+
+  public register (type: Constructor | RegistryTypes): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (name: string, type: Constructor): void;
+
+  // eslint-disable-next-line no-dupe-class-members
+  public register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
+    // NOTE Constructors appear as functions here
+    if (isFunction(arg1)) {
+      this._classes.set(arg1.name, arg1);
+    } else if (isString(arg1)) {
+      assert(isFunction(arg2), `Expected class definition passed to '${arg1}' registration`);
+
+      this._classes.set(arg1, arg2);
+    } else {
+      this.registerObject(arg1);
+    }
+  }
+
+  private registerObject (obj: RegistryTypes): void {
+    Object.entries(obj).forEach(([name, type]): void => {
+      if (isFunction(type)) {
+        // This _looks_ a bit funny, but `typeof Clazz === 'function'
+        this._classes.set(name, type);
+      } else {
+        const def = isString(type)
+          ? type
+          : JSON.stringify(type);
+
+        // we already have this type, remove the classes registered for it
+        if (this._classes.has(name)) {
+          this._classes.delete(name);
+        }
+
+        this._definitions.set(name, def);
+      }
+    });
+  }
+
+  // sets the metadata
+  public setMetadata (metadata: RegistryMetadata): void {
+    const extrinsics = extrinsicsFromMeta(this, metadata);
+
+    // decorate the extrinsics
+    Object.values(extrinsics).forEach((methods): void =>
+      Object.values(methods).forEach((method): void => {
+        this._metadataCalls[method.callIndex.toString()] = method;
+      })
+    );
+
+    // decorate the events
+    metadata.asLatest.modules
+      .filter(({ events }): boolean => events.isSome)
+      .forEach((section, sectionIndex): void => {
+        const sectionName = stringCamelCase(section.name.toString());
+
+        section.events.unwrap().forEach((meta, methodIndex): void => {
+          const methodName = meta.name.toString();
+          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
+          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(this, typeDef));
+
+          this._metadataEvents[eventIndex.toString()] = class extends EventData {
+            constructor (registry: Registry, value: Uint8Array) {
+              super(registry, Types, value, typeDef, meta, sectionName, methodName);
+            }
+          };
+        });
+      });
   }
 }

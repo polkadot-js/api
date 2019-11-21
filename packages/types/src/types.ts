@@ -310,7 +310,51 @@ export interface ISignerPayload {
   toRaw (): SignerPayloadRaw;
 }
 
+export interface RegistryMetadataCall {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+
+  toJSON (): string | AnyJsonObject;
+}
+
+export interface RegistryMetadataCalls {
+  isSome: boolean;
+  unwrap (): RegistryMetadataCall[];
+}
+
+export interface RegistryMetadataEvent {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataEvents {
+  isSome: boolean;
+  unwrap (): RegistryMetadataEvent[];
+}
+
+export interface RegistryMetadataModule {
+  calls: RegistryMetadataCalls;
+  events: RegistryMetadataEvents;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataLatest {
+  modules: RegistryMetadataModule[];
+}
+
+export interface RegistryMetadata {
+  asLatest: RegistryMetadataLatest;
+}
+
 export interface Registry {
+  findMetaCall (callIndex: Uint8Array): CallFunction;
+
+  // due to same circular imports as below, keep this as a generic Codec
+  findMetaEvent <T extends Codec> (eventIndex: Uint8Array): Constructor<T>;
+
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   hasClass (name: string): boolean;
@@ -319,4 +363,8 @@ export interface Registry {
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+
+  // this is not correct, but really don't want to pull in circular deps, here
+  // from types to make this work. So assume we know wtf we are doing... for now.
+  setMetadata (metadata: RegistryMetadata): void;
 }

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModulesWithCalls } from '@polkadot/types/types';
-
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { createType, Metadata, TypeRegistry } from '@polkadot/types';
@@ -12,15 +10,11 @@ import metadataStatic from '../../Metadata/static';
 import fromMetadata from './fromMetadata';
 
 const keyring = testingPairs({ type: 'ed25519' }, false);
+const registry = new TypeRegistry();
+const metadata = new Metadata(registry, metadataStatic);
+const extrinsics = fromMetadata(registry, metadata);
 
 describe('extrinsics', (): void => {
-  const registry = new TypeRegistry();
-  let extrinsics: ModulesWithCalls;
-
-  beforeEach((): void => {
-    extrinsics = fromMetadata(new Metadata(registry, metadataStatic));
-  });
-
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
       createType(registry, 'Extrinsic',

@@ -10,7 +10,6 @@ import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { ClassOf, TypeRegistry } from './create';
-import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import U128 from '../primitive/U128';
@@ -68,7 +67,8 @@ describe('Tuple', (): void => {
   });
 
   it('creates properly via actual hex string', (): void => {
-    Call.injectMetadata(new Metadata(registry, rpcMetadata));
+    // eslint-disable-next-line no-new
+    new Metadata(registry, rpcMetadata);
 
     const test = new (Tuple.with([
       ClassOf(registry, 'BlockNumber'), ClassOf(registry, 'VoteThreshold')

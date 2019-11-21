@@ -7,7 +7,7 @@ import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata';
-import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
+import { Metadata, u32 as U32 } from '@polkadot/types';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
@@ -168,9 +168,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      GenericEvent.injectMetadata(this.registry, metadata);
-      GenericCall.injectMetadata(metadata);
-
       // detect the extrinsic version in-use based on the last block
       const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 

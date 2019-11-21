@@ -5,17 +5,11 @@
 import { TypeDef } from '../../codec/types';
 import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
-import { Constructor, Codec, Registry } from '../../types';
+import { Constructor, Registry, RegistryMetadataEvent } from '../../types';
 
-import Metadata from '@polkadot/metadata/Metadata';
-import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
-
-import { getTypeClass, getTypeDef } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
 import Null from '../Null';
-
-const EventTypes: Record<string, Constructor<EventData>> = {};
 
 /**
  * @name EventData
@@ -31,10 +25,10 @@ export class EventData extends Tuple {
 
   private _typeDef: TypeDef[];
 
-  constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: EventMetadataLatest, section: string, method: string) {
+  constructor (registry: Registry, Types: Constructor[], value: Uint8Array, typeDef: TypeDef[], meta: RegistryMetadataEvent, section: string, method: string) {
     super(registry, Types, value);
 
-    this._meta = meta;
+    this._meta = meta as EventMetadataLatest;
     this._method = method;
     this._section = section;
     this._typeDef = typeDef;
@@ -79,7 +73,7 @@ export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
   constructor (registry: Registry, _value?: Uint8Array) {
-    const { DataType, value } = Event.decodeEvent(_value);
+    const { DataType, value } = Event.decodeEvent(registry, _value);
 
     super(registry, {
       index: 'EventId',
@@ -87,7 +81,7 @@ export default class Event extends Struct {
     }, value);
   }
 
-  public static decodeEvent (value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
+  public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
       return {
         DataType: Null
@@ -95,43 +89,14 @@ export default class Event extends Struct {
     }
 
     const index = value.subarray(0, 2);
-    const DataType = EventTypes[index.toString()];
-
-    assert(!isUndefined(DataType), `Unable to decode ${u8aToHex(index)}`);
 
     return {
-      DataType,
+      DataType: registry.findMetaEvent<EventData>(index),
       value: {
         index,
         data: value.subarray(2)
       }
     };
-  }
-
-  // This is called/injected by the API on init, allowing a snapshot of
-  // the available system events to be used in lookups
-  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/metadata'`)
-  // instead of the Codec Metadata
-  // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
-  public static injectMetadata (registry: Registry, metadata: Metadata): void {
-    metadata.asLatest.modules
-      .filter(({ events }): boolean => events.isSome)
-      .forEach((section, sectionIndex): void => {
-        const sectionName = stringCamelCase(section.name.toString());
-
-        section.events.unwrap().forEach((meta, methodIndex): void => {
-          const methodName = meta.name.toString();
-          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
-          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(registry, typeDef));
-
-          EventTypes[eventIndex.toString()] = class extends EventData {
-            constructor (registry: Registry, value: Uint8Array) {
-              super(registry, Types, value, typeDef, meta, sectionName, methodName);
-            }
-          };
-        });
-      });
   }
 
   /**

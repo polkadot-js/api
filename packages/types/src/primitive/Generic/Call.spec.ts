@@ -8,13 +8,12 @@ import metadataStatic from '@polkadot/metadata/Metadata/static';
 import { TypeRegistry } from '../../codec';
 import Call from './Call';
 
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
+
 describe('Call', (): void => {
-  const registry = new TypeRegistry();
-
-  beforeEach((): void => {
-    Call.injectMetadata(new Metadata(registry, metadataStatic));
-  });
-
   it('handles decoding correctly (bare)', (): void => {
     expect(
       new Call(registry, {

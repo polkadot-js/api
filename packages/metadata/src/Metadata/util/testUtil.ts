@@ -6,7 +6,6 @@ import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
 import { createTypeUnsafe } from '@polkadot/types/codec/create';
-import Call from '@polkadot/types/primitive/Generic/Call';
 
 import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
@@ -50,8 +49,6 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
 export function defaultValues (registry: Registry, rpcData: string): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
-
-    Call.injectMetadata(metadata);
 
     metadata.asLatest.modules
       .filter(({ storage }): boolean => storage.isSome)

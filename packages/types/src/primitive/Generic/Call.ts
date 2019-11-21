@@ -3,13 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../../types';
+import { AnyU8a, ArgsDef, Codec, IMethod, Registry } from '../../types';
 
-// FIXME Here we unfortunately cannot use Decorated, because that already calls
-// fromMetadata for storage, and we have then a type import ordering problem
-import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
-import Metadata from '@polkadot/metadata/Metadata';
-import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
@@ -24,13 +20,6 @@ interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadataLatest;
 }
-
-const FN_UNKNOWN: Partial<CallFunction> = {
-  method: 'unknown',
-  section: 'unknown'
-};
-
-const injected: Record<string, CallFunction> = {};
 
 /**
  * @name CallIndex
@@ -93,7 +82,7 @@ export default class Call extends Struct implements IMethod {
       : callIndex;
 
     // Find metadata with callIndex
-    const meta = _meta || Call.findFunction(lookupIndex).meta;
+    const meta = _meta || registry.findMetaCall(lookupIndex).meta;
 
     return {
       args,
@@ -108,7 +97,7 @@ export default class Call extends Struct implements IMethod {
     const callIndex = value.subarray(0, 2);
 
     // Find metadata with callIndex
-    const meta = _meta || Call.findFunction(callIndex).meta;
+    const meta = _meta || registry.findMetaCall(callIndex).meta;
 
     return {
       args: value.subarray(2),
@@ -128,19 +117,6 @@ export default class Call extends Struct implements IMethod {
       : [];
   }
 
-  // We could only inject the meta (see injectMethods below) and then do a
-  // meta-only lookup via
-  //
-  //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
-  //
-  // As a convenience helper though, we return the full constructor function,
-  // which includes the meta, name, section & actual interface for calling
-  public static findFunction (callIndex: Uint8Array): CallFunction {
-    assert(Object.keys(injected).length > 0, 'Calling Call.findFunction before extrinsics have been injected.');
-
-    return injected[callIndex.toString()] || FN_UNKNOWN;
-  }
-
   /**
    * Get a mapping of `argument name -> argument type` for the function, from
    * its metadata.
@@ -154,19 +130,6 @@ export default class Call extends Struct implements IMethod {
 
       return result;
     }, {} as unknown as ArgsDef);
-  }
-
-  // FIXME Should take the Decorated metadata (`import Metadata from '@polkadot/metadata'`)
-  // instead of the Codec Metadata
-  // https://github.com/polkadot-js/api/pull/1463#pullrequestreview-300618425
-  public static injectMetadata (metadata: Metadata): void {
-    const extrinsics = extrinsicsFromMeta(metadata);
-
-    Object.values(extrinsics).forEach((methods): void =>
-      Object.values(methods).forEach((method): void => {
-        injected[method.callIndex.toString()] = method;
-      })
-    );
   }
 
   /**
@@ -218,14 +181,14 @@ export default class Call extends Struct implements IMethod {
    * @description Returns the name of the method
    */
   public get methodName (): string {
-    return Call.findFunction(this.callIndex).method;
+    return this.registry.findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get sectionName (): string {
-    return Call.findFunction(this.callIndex).section;
+    return this.registry.findMetaCall(this.callIndex).section;
   }
 
   /**

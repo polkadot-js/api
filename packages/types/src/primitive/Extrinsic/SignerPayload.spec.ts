@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, GenericCall } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
@@ -10,8 +10,12 @@ import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import { TypeRegistry } from '../../codec';
 import SignerPayload from './SignerPayload';
 
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
+
 describe('SignerPayload', (): void => {
-  const registry = new TypeRegistry();
   const TEST = {
     address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
     blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
@@ -24,10 +28,6 @@ describe('SignerPayload', (): void => {
     tip: '0x00000000000000000000000000005678',
     version: 3
   };
-
-  beforeEach((): void => {
-    GenericCall.injectMetadata(new Metadata(registry, rpcMetadata));
-  });
 
   it('creates a valid JSON output', (): void => {
     expect(

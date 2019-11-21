@@ -9,7 +9,7 @@ import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { GenericCall, Metadata, createType } from '@polkadot/types';
+import { Metadata, createType } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -242,7 +242,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    * @description Finds the definition for a specific [[Call]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
-    return GenericCall.findFunction(u8aToU8a(callIndex));
+    return this.registry.findMetaCall(u8aToU8a(callIndex));
   }
 
   /**

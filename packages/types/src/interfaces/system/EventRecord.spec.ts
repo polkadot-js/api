@@ -9,17 +9,14 @@ import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import { createType, TypeRegistry } from '../../codec/create';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
-import GenericEvent from '../../primitive/Generic/Event';
 
 describe('EventRecord', (): void => {
   const registry = new TypeRegistry();
 
   describe('EventRecord_0_76', (): void => {
     beforeEach((): void => {
-      GenericEvent.injectMetadata(
-        registry,
-        new Metadata(registry, rpcMetadataV0)
-      );
+      // eslint-disable-next-line no-new
+      new Metadata(registry, rpcMetadataV0);
     });
 
     it('decodes correctly', (): void => {
@@ -32,10 +29,8 @@ describe('EventRecord', (): void => {
 
   describe('EventRecord (current)', (): void => {
     beforeEach((): void => {
-      GenericEvent.injectMetadata(
-        registry,
-        new Metadata(registry, rpcMetadata)
-      );
+      // eslint-disable-next-line no-new
+      new Metadata(registry, rpcMetadata);
     });
 
     it('decodes older eventrecord correctly', (): void => {

@@ -9,18 +9,16 @@ import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
 import { TypeRegistry } from '../../../codec/create';
-import Call from '../../Generic/Call';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();
 const decorated = new Decorated(registry, metadataStatic);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-describe('ExtrinsicV4', (): void => {
-  beforeEach((): void => {
-    Call.injectMetadata(new Metadata(registry, metadataStatic));
-  });
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
 
+describe('ExtrinsicV4', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
     expect(
       new Extrinsic(registry).toU8a()

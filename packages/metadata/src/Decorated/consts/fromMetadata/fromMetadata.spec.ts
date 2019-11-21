@@ -10,7 +10,7 @@ import fromMetadata from '../fromMetadata';
 // Use the pre-generated metadata
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
-const consts = fromMetadata(metadata);
+const consts = fromMetadata(registry, metadata);
 
 describe('fromMetadata', (): void => {
   it('should return constants with the correct type and value', (): void => {

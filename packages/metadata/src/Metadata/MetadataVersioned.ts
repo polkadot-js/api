@@ -212,6 +212,8 @@ export default class MetadataVersioned extends Struct {
       magicNumber: MagicNumber,
       metadata: MetadataEnum
     }, value);
+
+    registry.setMetadata(this);
   }
 
   private assertVersion (version: number): boolean {

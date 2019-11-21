@@ -9,20 +9,21 @@ import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import AccountId from '../primitive/Generic/AccountId';
-import Call from '../primitive/Generic/Call';
 import Text from '../primitive/Text';
 import { createTypeUnsafe, TypeRegistry } from './create';
 import Vec from './Vec';
 import Tuple from './Tuple';
 
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
+
 describe('Vec', (): void => {
-  const registry = new TypeRegistry();
   let vector: Vec<Codec>;
 
   beforeEach((): void => {
     vector = new Vec(registry, Text, ['1', '23', '345', '4567', new Text(registry, '56789')]);
-
-    Call.injectMetadata(new Metadata(registry, rpcMetadata));
   });
 
   it('wraps a sequence of values', (): void => {
