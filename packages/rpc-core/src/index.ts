@@ -310,9 +310,6 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      // error TS2589: Type instantiation is excessively deep and possibly infinite.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
       createTypeUnsafe(this.registry, method.params[index].type, [input])
     );
   }
@@ -357,9 +354,6 @@ export default class Rpc implements RpcInterface {
       }, [] as Codec[]);
     }
 
-    // error TS2589: Type instantiation is excessively deep and possibly infinite.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     return createTypeUnsafe(this.registry, method.type, [result]);
   }
 
