@@ -379,7 +379,7 @@ export default {
       _enum: {
         Plain: 'PlainTypeV9',
         Map: 'MapTypeV9',
-        DoubleMap: 'DoubleMapTypeV5'
+        DoubleMap: 'DoubleMapTypeV9'
       }
     },
     StorageMapTypeV9: {

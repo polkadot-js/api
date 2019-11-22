@@ -811,10 +811,10 @@ export interface StorageFunctionTypeV9 extends Enum {
   readonly isMap: boolean;
   /** MapTypeV9 */
   readonly asMap: MapTypeV9;
-  /** 2:: DoubleMap(DoubleMapTypeV5) */
+  /** 2:: DoubleMap(DoubleMapTypeV9) */
   readonly isDoubleMap: boolean;
-  /** DoubleMapTypeV5 */
-  readonly asDoubleMap: DoubleMapTypeV5;
+  /** DoubleMapTypeV9 */
+  readonly asDoubleMap: DoubleMapTypeV9;
 }
 
 /** Enum */
