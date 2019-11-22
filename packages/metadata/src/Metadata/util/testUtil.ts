@@ -38,12 +38,12 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
 export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
   it(`converts v${version} to v8`, (): void => {
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV8 = new Metadata(registry, rpcData).asLatest;
+    const metadataLatest = new Metadata(registry, rpcData).asLatest;
 
     expect(
       getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, true)
     ).toEqual(
-      getUniqTypes(registry, metadataV8, true)
+      getUniqTypes(registry, metadataLatest, true)
     );
   });
 }
