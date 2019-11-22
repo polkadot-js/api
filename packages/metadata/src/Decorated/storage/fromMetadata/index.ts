@@ -31,7 +31,7 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
     result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 
-      newModule[stringLowerFirst(method)] = createFunction(metadata.registry, {
+      newModule[stringLowerFirst(method)] = createFunction(registry, {
         meta,
         method,
         prefix,

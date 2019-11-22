@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8 } from '@polkadot/types/interfaces/metadata';
+import { MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
@@ -308,7 +308,7 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description Returns the wrapped values as a latest version object
    */
-  public get asLatest (): MetadataV8 {
+  public get asLatest (): MetadataLatest {
     return this.asV8;
   }
 

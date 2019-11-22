@@ -121,7 +121,7 @@ function extendLinkedMap (registry: Registry, { meta: { documentation, name, typ
   headFn.meta = createType(registry, 'StorageEntryMetadataLatest', {
     name,
     modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: createType(registry, 'StorageEntryTypeLatest', registry, createType(registry, 'PlainTypeLatest', type.asMap.key), 0),
+    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', type.asMap.key), 0),
     fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, type.asMap.key.toString()).toHex()),
     documentation
   });

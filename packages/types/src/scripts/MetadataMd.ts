@@ -5,7 +5,7 @@
 import { MetadataLatest, ModuleMetadataLatest } from '../interfaces/metadata';
 
 import fs from 'fs';
-import Metadata from '@polkadot/metadata';
+import Decorated from '@polkadot/metadata';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
@@ -235,10 +235,11 @@ function writeToEventsMd (metadata: MetadataLatest): void {
 }
 
 const registry = new TypeRegistry();
-const metadata = new Metadata(registry, rpcdata).metadata.asLatest;
+const decorated = new Decorated(registry, rpcdata);
+const latest = decorated.metadata.asLatest;
 
 writeToRpcMd();
-writeToConstantsMd(metadata);
-writeToStorageMd(metadata);
-writeToExtrinsicsMd(metadata);
-writeToEventsMd(metadata);
+writeToConstantsMd(latest);
+writeToStorageMd(latest);
+writeToExtrinsicsMd(latest);
+writeToEventsMd(latest);
