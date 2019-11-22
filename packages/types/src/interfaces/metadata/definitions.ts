@@ -339,16 +339,67 @@ export default {
     StorageEntryTypeV8: 'StorageEntryTypeV7',
     StorageMetadataV8: 'StorageMetadataV7',
 
+    // v9
+    DoubleMapTypeV9: 'DoubleMapTypeV8',
+    ErrorMetadataV9: 'ErrorMetadataV8',
+    EventMetadataV9: 'EventMetadataV8',
+    FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
+    FunctionMetadataV9: 'FunctionMetadataV8',
+    MapTypeV9: {
+      hasher: 'StorageHasher',
+      key: 'Type',
+      value: 'Type',
+      kind: 'StorageMapTypeV9'
+    },
+    MetadataV9: {
+      modules: 'Vec<ModuleMetadataV9>'
+    },
+    ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
+    ModuleMetadataV9: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV9>',
+      calls: 'Option<Vec<FunctionMetadataV9>>',
+      events: 'Option<Vec<EventMetadataV9>>',
+      constants: 'Vec<ModuleConstantMetadataV9>',
+      errors: 'Vec<ErrorMetadataV9>'
+    },
+    PlanTypeV9: 'Type',
+    StorageEntryMetadataV9: 'StorageEntryMetadataV8',
+    StorageEntryModifierV9: 'StorageEntryModifierV8',
+    StorageEntryTypeV9: 'StorageEntryTypeV9',
+    StorageFunctionMetadataV9: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV9',
+      type: 'StorageFunctionTypeV9',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
+    StorageFunctionModifierV9: 'StorageFunctionModifierV8',
+    StorageFunctionTypeV9: {
+      _enum: {
+        Plain: 'PlainTypeV9',
+        Map: 'MapTypeV9',
+        DoubleMap: 'DoubleMapTypeV5'
+      }
+    },
+    StorageMapTypeV9: {
+      _enum: ['Map', 'LinkedMap', 'PrefixedMap']
+    },
+    StorageMetadataV9: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV9>'
+    },
+
     // This always maps to the latest
-    EventMetadataLatest: 'EventMetadataV8',
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV8',
-    FunctionMetadataLatest: 'FunctionMetadataV8',
-    MetadataLatest: 'MetadataV8',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV8',
-    ModuleMetadataLatest: 'ModuleMetadataV8',
-    PlainTypeLatest: 'PlainTypeV8',
-    StorageEntryMetadataLatest: 'StorageEntryMetadataV8',
-    StorageEntryModifierLatest: 'StorageEntryModifierV8',
-    StorageEntryTypeLatest: 'StorageEntryTypeV8'
+    EventMetadataLatest: 'EventMetadataV9',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV9',
+    FunctionMetadataLatest: 'FunctionMetadataV9',
+    MetadataLatest: 'MetadataV9',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV9',
+    ModuleMetadataLatest: 'ModuleMetadataV9',
+    PlainTypeLatest: 'PlainTypeV9',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV9',
+    StorageEntryModifierLatest: 'StorageEntryModifierV9',
+    StorageEntryTypeLatest: 'StorageEntryTypeV9'
   }
 };
