@@ -16,10 +16,10 @@ import { TypeRegistry } from '@polkadot/types/codec';
 
 // From a storage entry metadata, we return [args, returnType]
 function entrySignature (registry: Registry, storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
-  if (storageEntry.type.isPlainType) {
-    setImports(imports, [storageEntry.type.asType.toString()]);
+  if (storageEntry.type.isPlain) {
+    setImports(imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(storageEntry.type.asType.toString(), imports)];
+    return ['', formatType(storageEntry.type.asPlain.toString(), imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
     const similarTypes = getSimilarTypes(registry, storageEntry.type.asMap.key.toString(), imports);

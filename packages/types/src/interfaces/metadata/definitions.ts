@@ -70,7 +70,7 @@ export default {
     },
     StorageFunctionTypeV0: {
       _enum: {
-        Type: 'PlainTypeV0',
+        Plain: 'PlainTypeV0',
         Map: 'MapTypeV0'
       }
     },

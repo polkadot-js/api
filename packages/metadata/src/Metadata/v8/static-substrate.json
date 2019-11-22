@@ -28,7 +28,7 @@
                 "name": "ExtrinsicCount",
                 "modifier": 0,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -39,7 +39,7 @@
                 "name": "AllExtrinsicsWeight",
                 "modifier": 0,
                 "type": {
-                  "Type": "Weight"
+                  "Plain": "Weight"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -50,7 +50,7 @@
                 "name": "AllExtrinsicsLen",
                 "modifier": 0,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -93,7 +93,7 @@
                 "name": "Number",
                 "modifier": 1,
                 "type": {
-                  "Type": "BlockNumber"
+                  "Plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -104,7 +104,7 @@
                 "name": "ParentHash",
                 "modifier": 1,
                 "type": {
-                  "Type": "Hash"
+                  "Plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -115,7 +115,7 @@
                 "name": "ExtrinsicsRoot",
                 "modifier": 1,
                 "type": {
-                  "Type": "Hash"
+                  "Plain": "Hash"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -126,7 +126,7 @@
                 "name": "Digest",
                 "modifier": 1,
                 "type": {
-                  "Type": "DigestOf"
+                  "Plain": "DigestOf"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -137,7 +137,7 @@
                 "name": "Events",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<EventRecord>"
+                  "Plain": "Vec<EventRecord>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -148,7 +148,7 @@
                 "name": "EventCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "EventIndex"
+                  "Plain": "EventIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -347,7 +347,7 @@
                 "name": "EpochIndex",
                 "modifier": 1,
                 "type": {
-                  "Type": "u64"
+                  "Plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -358,7 +358,7 @@
                 "name": "Authorities",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(AuthorityId,BabeAuthorityWeight)>"
+                  "Plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -369,7 +369,7 @@
                 "name": "GenesisSlot",
                 "modifier": 1,
                 "type": {
-                  "Type": "u64"
+                  "Plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -381,7 +381,7 @@
                 "name": "CurrentSlot",
                 "modifier": 1,
                 "type": {
-                  "Type": "u64"
+                  "Plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -392,7 +392,7 @@
                 "name": "Randomness",
                 "modifier": 1,
                 "type": {
-                  "Type": "[u8;32]"
+                  "Plain": "[u8;32]"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -412,7 +412,7 @@
                 "name": "NextRandomness",
                 "modifier": 1,
                 "type": {
-                  "Type": "[u8;32]"
+                  "Plain": "[u8;32]"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -423,7 +423,7 @@
                 "name": "SegmentIndex",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -456,7 +456,7 @@
                 "name": "Initialized",
                 "modifier": 0,
                 "type": {
-                  "Type": "MaybeVrf"
+                  "Plain": "MaybeVrf"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -502,7 +502,7 @@
                 "name": "Now",
                 "modifier": 1,
                 "type": {
-                  "Type": "Moment"
+                  "Plain": "Moment"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -513,7 +513,7 @@
                 "name": "DidUpdate",
                 "modifier": 1,
                 "type": {
-                  "Type": "bool"
+                  "Plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -569,7 +569,7 @@
                 "name": "Uncles",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<UncleEntryItem>"
+                  "Plain": "Vec<UncleEntryItem>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -580,7 +580,7 @@
                 "name": "Author",
                 "modifier": 0,
                 "type": {
-                  "Type": "AccountId"
+                  "Plain": "AccountId"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -591,7 +591,7 @@
                 "name": "DidSetUncles",
                 "modifier": 1,
                 "type": {
-                  "Type": "bool"
+                  "Plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -627,7 +627,7 @@
                 "name": "NextEnumSet",
                 "modifier": 1,
                 "type": {
-                  "Type": "AccountIndex"
+                  "Plain": "AccountIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -680,7 +680,7 @@
                 "name": "TotalIssuance",
                 "modifier": 1,
                 "type": {
-                  "Type": "Balance"
+                  "Plain": "Balance"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -959,7 +959,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": 1,
                 "type": {
-                  "Type": "Multiplier"
+                  "Plain": "Multiplier"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": []
@@ -997,7 +997,7 @@
                 "name": "ValidatorCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1008,7 +1008,7 @@
                 "name": "MinimumValidatorCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x04000000",
                 "documentation": [
@@ -1019,7 +1019,7 @@
                 "name": "Invulnerables",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1134,7 +1134,7 @@
                 "name": "CurrentElected",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1145,7 +1145,7 @@
                 "name": "CurrentEra",
                 "modifier": 1,
                 "type": {
-                  "Type": "EraIndex"
+                  "Plain": "EraIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1156,7 +1156,7 @@
                 "name": "CurrentEraStart",
                 "modifier": 1,
                 "type": {
-                  "Type": "MomentOf"
+                  "Plain": "MomentOf"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -1167,7 +1167,7 @@
                 "name": "CurrentEraStartSessionIndex",
                 "modifier": 1,
                 "type": {
-                  "Type": "SessionIndex"
+                  "Plain": "SessionIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1178,7 +1178,7 @@
                 "name": "CurrentEraPointsEarned",
                 "modifier": 1,
                 "type": {
-                  "Type": "EraPoints"
+                  "Plain": "EraPoints"
                 },
                 "fallback": "0x0000000000",
                 "documentation": [
@@ -1189,7 +1189,7 @@
                 "name": "SlotStake",
                 "modifier": 1,
                 "type": {
-                  "Type": "BalanceOf"
+                  "Plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -1202,7 +1202,7 @@
                 "name": "ForceEra",
                 "modifier": 1,
                 "type": {
-                  "Type": "Forcing"
+                  "Plain": "Forcing"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1213,7 +1213,7 @@
                 "name": "SlashRewardFraction",
                 "modifier": 1,
                 "type": {
-                  "Type": "Perbill"
+                  "Plain": "Perbill"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1226,7 +1226,7 @@
                 "name": "CanceledSlashPayout",
                 "modifier": 1,
                 "type": {
-                  "Type": "BalanceOf"
+                  "Plain": "BalanceOf"
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "documentation": [
@@ -1254,7 +1254,7 @@
                 "name": "BondedEras",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(EraIndex,SessionIndex)>"
+                  "Plain": "Vec<(EraIndex,SessionIndex)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1333,7 +1333,7 @@
                 "name": "EarliestUnappliedSlash",
                 "modifier": 0,
                 "type": {
-                  "Type": "EraIndex"
+                  "Plain": "EraIndex"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1344,7 +1344,7 @@
                 "name": "StorageVersion",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1728,7 +1728,7 @@
                 "name": "Validators",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<ValidatorId>"
+                  "Plain": "Vec<ValidatorId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1739,7 +1739,7 @@
                 "name": "CurrentIndex",
                 "modifier": 1,
                 "type": {
-                  "Type": "SessionIndex"
+                  "Plain": "SessionIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1750,7 +1750,7 @@
                 "name": "QueuedChanged",
                 "modifier": 1,
                 "type": {
-                  "Type": "bool"
+                  "Plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1762,7 +1762,7 @@
                 "name": "QueuedKeys",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(ValidatorId,Keys)>"
+                  "Plain": "Vec<(ValidatorId,Keys)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1774,7 +1774,7 @@
                 "name": "DisabledValidators",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<u32>"
+                  "Plain": "Vec<u32>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1886,7 +1886,7 @@
                 "name": "PublicPropCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "PropIndex"
+                  "Plain": "PropIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1897,7 +1897,7 @@
                 "name": "PublicProps",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(PropIndex,Proposal,AccountId)>"
+                  "Plain": "Vec<(PropIndex,Proposal,AccountId)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1924,7 +1924,7 @@
                 "name": "ReferendumCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "ReferendumIndex"
+                  "Plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -1935,7 +1935,7 @@
                 "name": "NextTally",
                 "modifier": 1,
                 "type": {
-                  "Type": "ReferendumIndex"
+                  "Plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -2046,7 +2046,7 @@
                 "name": "LastTabledWasExternal",
                 "modifier": 1,
                 "type": {
-                  "Type": "bool"
+                  "Plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2058,7 +2058,7 @@
                 "name": "NextExternal",
                 "modifier": 0,
                 "type": {
-                  "Type": "(Proposal,VoteThreshold)"
+                  "Plain": "(Proposal,VoteThreshold)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2541,7 +2541,7 @@
                 "name": "Proposals",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<Hash>"
+                  "Plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2584,7 +2584,7 @@
                 "name": "ProposalCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -2595,7 +2595,7 @@
                 "name": "Members",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2756,7 +2756,7 @@
                 "name": "Proposals",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<Hash>"
+                  "Plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2799,7 +2799,7 @@
                 "name": "ProposalCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -2810,7 +2810,7 @@
                 "name": "Members",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2971,7 +2971,7 @@
                 "name": "Members",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(AccountId,BalanceOf)>"
+                  "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2982,7 +2982,7 @@
                 "name": "RunnersUp",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<(AccountId,BalanceOf)>"
+                  "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -2993,7 +2993,7 @@
                 "name": "ElectionRounds",
                 "modifier": 1,
                 "type": {
-                  "Type": "u32"
+                  "Plain": "u32"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3036,7 +3036,7 @@
                 "name": "Candidates",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3048,7 +3048,7 @@
                 "name": "DidMigrate",
                 "modifier": 1,
                 "type": {
-                  "Type": "bool"
+                  "Plain": "bool"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3254,7 +3254,7 @@
                 "name": "Members",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AccountId>"
+                  "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3416,7 +3416,7 @@
                 "name": "Authorities",
                 "modifier": 1,
                 "type": {
-                  "Type": "AuthorityList"
+                  "Plain": "AuthorityList"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3430,7 +3430,7 @@
                 "name": "State",
                 "modifier": 1,
                 "type": {
-                  "Type": "StoredState"
+                  "Plain": "StoredState"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3441,7 +3441,7 @@
                 "name": "PendingChange",
                 "modifier": 0,
                 "type": {
-                  "Type": "StoredPendingChange"
+                  "Plain": "StoredPendingChange"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3452,7 +3452,7 @@
                 "name": "NextForced",
                 "modifier": 0,
                 "type": {
-                  "Type": "BlockNumber"
+                  "Plain": "BlockNumber"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3463,7 +3463,7 @@
                 "name": "Stalled",
                 "modifier": 0,
                 "type": {
-                  "Type": "(BlockNumber,BlockNumber)"
+                  "Plain": "(BlockNumber,BlockNumber)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3474,7 +3474,7 @@
                 "name": "CurrentSetId",
                 "modifier": 1,
                 "type": {
-                  "Type": "SetId"
+                  "Plain": "SetId"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -3551,7 +3551,7 @@
                 "name": "ProposalCount",
                 "modifier": 1,
                 "type": {
-                  "Type": "ProposalIndex"
+                  "Plain": "ProposalIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -3578,7 +3578,7 @@
                 "name": "Approvals",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<ProposalIndex>"
+                  "Plain": "Vec<ProposalIndex>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -3754,7 +3754,7 @@
                 "name": "GasSpent",
                 "modifier": 1,
                 "type": {
-                  "Type": "Gas"
+                  "Plain": "Gas"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -3765,7 +3765,7 @@
                 "name": "CurrentSchedule",
                 "modifier": 1,
                 "type": {
-                  "Type": "Schedule"
+                  "Plain": "Schedule"
                 },
                 "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000008700000000000000af0000000000000001000000000000000100000000000000040000000000010010000000004000000020000000",
                 "documentation": [
@@ -3808,7 +3808,7 @@
                 "name": "AccountCounter",
                 "modifier": 1,
                 "type": {
-                  "Type": "u64"
+                  "Plain": "u64"
                 },
                 "fallback": "0x0000000000000000",
                 "documentation": [
@@ -3835,7 +3835,7 @@
                 "name": "GasPrice",
                 "modifier": 1,
                 "type": {
-                  "Type": "BalanceOf"
+                  "Plain": "BalanceOf"
                 },
                 "fallback": "0x01000000000000000000000000000000",
                 "documentation": [
@@ -4179,7 +4179,7 @@
                 "name": "Key",
                 "modifier": 1,
                 "type": {
-                  "Type": "AccountId"
+                  "Plain": "AccountId"
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "documentation": [
@@ -4298,7 +4298,7 @@
                 "name": "GossipAt",
                 "modifier": 1,
                 "type": {
-                  "Type": "BlockNumber"
+                  "Plain": "BlockNumber"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
@@ -4309,7 +4309,7 @@
                 "name": "Keys",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<AuthorityId>"
+                  "Plain": "Vec<AuthorityId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -4495,7 +4495,7 @@
                 "name": "RandomMaterial",
                 "modifier": 1,
                 "type": {
-                  "Type": "Vec<Hash>"
+                  "Plain": "Vec<Hash>"
                 },
                 "fallback": "0x00",
                 "documentation": [

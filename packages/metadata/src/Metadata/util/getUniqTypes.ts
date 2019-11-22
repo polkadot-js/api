@@ -25,7 +25,7 @@ type Item = {
       key: Text;
       value: Text;
     };
-    asType: Text;
+    asPlain: Text;
   };
 } & Codec;
 
@@ -152,7 +152,7 @@ function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
         ];
       } else {
         return [
-          type.asType.toString()
+          type.asPlain.toString()
         ];
       }
     })
