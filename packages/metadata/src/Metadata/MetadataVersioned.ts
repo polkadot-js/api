@@ -21,9 +21,9 @@ import v7ToV8 from './v7/toV8';
 import v8ToV9 from './v8/toV9';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7 | MetadataV8;
-type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7' | 'asV8';
+type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7 | MetadataV8 | MetadataV9;
+type MetaVersions = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7' | 'asV8' | 'asV9';
 
 /**
  * @name MetadataVersioned
@@ -49,8 +49,8 @@ export default class MetadataVersioned extends Struct {
   }
 
   private getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
-    const asCurr: MetaAsX = `asV${version}` as any;
-    const asPrev: MetaAsX = `asV${version - 1}` as any;
+    const asCurr = `asV${version}` as MetaAsX;
+    const asPrev = `asV${version - 1}` as MetaAsX;
 
     if (this.assertVersion(version)) {
       return this.metadata[asCurr] as T;
