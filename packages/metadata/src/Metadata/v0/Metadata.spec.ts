@@ -23,11 +23,15 @@ describe('Metadata', (): void => {
     const metadata = new Metadata(registry, rpcData);
     const json = metadata.asV0.toJSON();
 
-    console.error(JSON.stringify(json));
+    try {
+      expect(metadata.version).toBe(0);
+      expect(metadata.asV0.modules.length).not.toBe(0);
+      expect(json).toEqual(latestSubstrateV0);
+    } catch (error) {
+      console.error(JSON.stringify(json));
 
-    expect(metadata.version).toBe(0);
-    expect(metadata.asV0.modules.length).not.toBe(0);
-    expect(json).toEqual(latestSubstrateV0);
+      throw error;
+    }
   });
 
   toLatest(registry, 0, rpcData);

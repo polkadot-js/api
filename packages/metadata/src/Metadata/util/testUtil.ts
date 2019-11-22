@@ -9,6 +9,7 @@ import { createTypeUnsafe } from '@polkadot/types/codec/create';
 
 import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
+import { StorageFunctionType } from '../v5/Storage';
 
 /**
  * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
@@ -18,11 +19,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
-    console.error(JSON.stringify(metadata.toJSON()));
+    try {
+      expect(metadata.version).toBe(version);
+      expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
+      expect(metadata.toJSON()).toEqual(staticSubstrate);
+    } catch (error) {
+      console.error(JSON.stringify(metadata.toJSON()));
 
-    expect(metadata.version).toBe(version);
-    expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-    expect(metadata.toJSON()).toEqual(staticSubstrate);
+      throw error;
+    }
   });
 }
 
@@ -43,6 +48,23 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
   });
 }
 
+// we unwrap the type here, turning into an output usable for createType
+function unwrapType (type: StorageFunctionType): string {
+  if (type.isDoubleMap) {
+    return `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+  }
+
+  if (type.isMap) {
+    if (type.asMap.linked.isTrue) {
+      return `(${type.asMap.value.toString()}, Linkage<${type.asMap.key.toString()}>)`;
+    }
+
+    return type.asMap.value.toString();
+  }
+
+  return type.asPlain.toString();
+}
+
 /**
  * Given a Metadata, no type should throw when given its fallback value.
  */
@@ -54,9 +76,18 @@ export function defaultValues (registry: Registry, rpcData: string): void {
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
-          it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
+          const inner = unwrapType(type);
+          const location = `${mod.name}.${name}: type ${inner}`;
+
+          it(`creates default types for ${location}`, (): void => {
             expect(
-              (): Codec => createTypeUnsafe(registry, type.toString(), [fallback])
+              (): Codec => {
+                try {
+                  return createTypeUnsafe(registry, inner, [fallback]);
+                } catch (error) {
+                  throw new Error(`${location}:: ${error.message}`);
+                }
+              }
             ).not.toThrow();
           });
         });

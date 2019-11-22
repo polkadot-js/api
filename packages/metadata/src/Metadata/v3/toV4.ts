@@ -23,7 +23,7 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
   // called `hasher`, which we initialize to xxHash (the default in
   // v3).
   const [newType, index] = type.isPlain
-    ? [type, 0]
+    ? [type.asPlain, 0]
     : type.isMap
       ? [createType(registry, 'MapTypeV4', {
         hasher: new StorageHasher(registry, 'Twox128'),

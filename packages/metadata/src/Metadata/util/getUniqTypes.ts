@@ -16,6 +16,7 @@ type Item = {
   type: {
     isDoubleMap?: boolean;
     isMap: boolean;
+    isPlain: boolean;
     asDoubleMap?: {
       key1: Text;
       key2: Text;
