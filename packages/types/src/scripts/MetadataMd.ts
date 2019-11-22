@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataLatest, ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
+
 import fs from 'fs';
 import Metadata from '@polkadot/metadata';
 import rpcdata from '@polkadot/metadata/Metadata/static';
-import MetadataV8, { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
@@ -66,7 +67,7 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
   return nameA.localeCompare(nameB);
 }
 
-function addConstants (metadata: MetadataV8): string {
+function addConstants (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Constants${DESC_CONSTANTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -94,7 +95,7 @@ function addConstants (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addEvents (metadata: MetadataV8): string {
+function addEvents (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -124,9 +125,9 @@ function addEvents (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addExtrinsics (metadata: MetadataV8): string {
+function addExtrinsics (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.map((i): ModuleMetadataV8 => i).sort(sortByName);
+  const orderedSections = metadata.modules.map((i): ModuleMetadataLatest => i).sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, meta): string => {
     if (meta.calls.isNone || !meta.calls.unwrap().length) {
@@ -154,7 +155,7 @@ function addExtrinsics (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addStorage (metadata: MetadataV8): string {
+function addStorage (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -217,22 +218,22 @@ function writeToRpcMd (): void {
   writeFile('docs/substrate/rpc.md', addRpc());
 }
 
-function writeToConstantsMd (metadata: MetadataV8): void {
+function writeToConstantsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/constants.md', addConstants(metadata));
 }
 
-function writeToStorageMd (metadata: MetadataV8): void {
+function writeToStorageMd (metadata: MetadataLatest): void {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('docs/substrate/storage-known.md', options);
 
   writeFile('docs/substrate/storage.md', addStorage(metadata), data);
 }
 
-function writeToExtrinsicsMd (metadata: MetadataV8): void {
+function writeToExtrinsicsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(metadata));
 }
 
-function writeToEventsMd (metadata: MetadataV8): void {
+function writeToEventsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 

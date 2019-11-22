@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryMetadataLatest } from '../interfaces/metadata';
 import { AnyU8a, Codec, Registry } from '../types';
 
-import { StorageEntryMetadata as MetaV8 } from '@polkadot/metadata/Metadata/v8/Storage';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import Bytes from './Bytes';
@@ -12,7 +12,7 @@ import Bytes from './Bytes';
 export interface StorageEntry {
   (arg?: any): Uint8Array;
   headKey?: Uint8Array;
-  meta: MetaV8;
+  meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
   section: string;
@@ -72,7 +72,7 @@ export function unwrapStorageType (type: StorageType): string {
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta?: MetaV8;
+  private _meta?: StorageEntryMetadataLatest;
 
   private _method?: string;
 
@@ -122,7 +122,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV8 | undefined {
+  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -153,7 +153,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  public get meta (): MetaV8 | undefined {
+  public get meta (): StorageEntryMetadataLatest | undefined {
     return this._meta;
   }
 

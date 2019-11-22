@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -9,7 +10,6 @@ import { Compact, U8a, createType, createTypeUnsafe } from '@polkadot/types/code
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
-import { StorageEntryMetadata, StorageEntryType } from '../../../Metadata/v8/Storage';
 import getHasher, { HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
@@ -18,7 +18,7 @@ export interface CreateItemOptions {
 }
 
 export interface CreateItemFn {
-  meta: StorageEntryMetadata;
+  meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
   section: string;
@@ -118,10 +118,10 @@ function extendLinkedMap (registry: Registry, { meta: { documentation, name, typ
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  headFn.meta = new StorageEntryMetadata(registry, {
+  headFn.meta = createType(registry, 'StorageEntryMetadataLatest', {
     name,
     modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: new StorageEntryType(registry, createType(registry, 'PlainTypeLatest', type.asMap.key), 0),
+    type: createType(registry, 'StorageEntryTypeLatest', registry, createType(registry, 'PlainTypeLatest', type.asMap.key), 0),
     fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, type.asMap.key.toString()).toHex()),
     documentation
   });

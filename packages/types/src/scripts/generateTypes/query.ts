@@ -2,20 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry } from '@polkadot/types/types';
+import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '../../interfaces/metadata';
+import { Registry } from '../../types';
 
 import fs from 'fs';
-import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
-import { StorageEntryMetadata } from '@polkadot/metadata/Metadata/v8/Storage';
 import staticData from '@polkadot/metadata/Metadata/static';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
+import { TypeRegistry } from '../../codec';
 import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
-import { TypeRegistry } from '@polkadot/types/codec';
 
 // From a storage entry metadata, we return [args, returnType]
-function entrySignature (registry: Registry, storageEntry: StorageEntryMetadata, imports: TypeImports): [string, string] {
+function entrySignature (registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   if (storageEntry.type.isPlain) {
     setImports(imports, [storageEntry.type.asPlain.toString()]);
 
@@ -57,7 +56,7 @@ function entrySignature (registry: Registry, storageEntry: StorageEntryMetadata,
 }
 
 // Generate types for one storage entry in a module
-function generateEntry (registry: Registry, storageEntry: StorageEntryMetadata, imports: TypeImports): string[] {
+function generateEntry (registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): string[] {
   const [args, returnType] = entrySignature(registry, storageEntry, imports);
 
   return [
@@ -66,7 +65,7 @@ function generateEntry (registry: Registry, storageEntry: StorageEntryMetadata, 
 }
 
 // Generate types for one module
-function generateModule (registry: Registry, modul: ModuleMetadataV8, imports: TypeImports): string[] {
+function generateModule (registry: Registry, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (modul.storage.isNone) {
     return [];
   }

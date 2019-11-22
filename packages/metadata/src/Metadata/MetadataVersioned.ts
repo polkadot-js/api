@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV0, MetadataV1 } from '@polkadot/types/interfaces/metadata';
+import { MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
@@ -11,13 +11,6 @@ import Enum from '@polkadot/types/codec/Enum';
 import Struct from '@polkadot/types/codec/Struct';
 
 import MagicNumber from './MagicNumber';
-import MetadataV2 from './v2';
-import MetadataV3 from './v3';
-import MetadataV4 from './v4';
-import MetadataV5 from './v5';
-import MetadataV6 from './v6';
-import MetadataV7 from './v7';
-import MetadataV8 from './v8';
 import v0ToV1 from './v0/toV1';
 import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
@@ -37,13 +30,13 @@ class MetadataEnum extends Enum {
     super(registry, {
       V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
       V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
-      V2: MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
-      V3: MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
-      V4: MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
-      V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
-      V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
-      V7: MetadataV7, // once rolled-out, can replace this with MetadataDeprecated
-      V8: MetadataV8
+      V2: 'MetadataV2', // once rolled-out, can replace this with MetadataDeprecated
+      V3: 'MetadataV3', // once rolled-out, can replace this with MetadataDeprecated
+      V4: 'MetadataV4', // once rolled-out, can replace this with MetadataDeprecated
+      V5: 'MetadataV5', // once rolled-out, can replace this with MetadataDeprecated
+      V6: 'MetadataV6', // once rolled-out, can replace this with MetadataDeprecated
+      V7: 'MetadataV7', // once rolled-out, can replace this with MetadataDeprecated
+      V8: 'MetadataV8'
     }, value, index);
   }
 
