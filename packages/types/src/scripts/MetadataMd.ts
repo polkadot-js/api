@@ -10,6 +10,7 @@ import rpcdata from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
+import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
 import { TypeRegistry } from '../codec';
 
@@ -180,11 +181,7 @@ function addStorage (metadata: MetadataLatest): string {
             : '';
       const doc = func.documentation.reduce((md, doc): string =>
         `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-      let result = (
-        func.type.isDoubleMap
-          ? func.type.asDoubleMap.value
-          : func.type
-      ).toString();
+      let result = unwrapStorageType(func.type);
 
       if (func.modifier.isOptional) {
         result = `Option<${result}>`;
