@@ -363,19 +363,16 @@ export default {
       constants: 'Vec<ModuleConstantMetadataV9>',
       errors: 'Vec<ErrorMetadataV9>'
     },
-    PlanTypeV9: 'Type',
-    StorageEntryMetadataV9: 'StorageEntryMetadataV8',
+    PlainTypeV9: 'Type',
     StorageEntryModifierV9: 'StorageEntryModifierV8',
-    StorageEntryTypeV9: 'StorageEntryTypeV9',
-    StorageFunctionMetadataV9: {
+    StorageEntryMetadataV9: {
       name: 'Text',
-      modifier: 'StorageFunctionModifierV9',
-      type: 'StorageFunctionTypeV9',
+      modifier: 'StorageEntryModifierV9',
+      type: 'StorageEntryTypeV9',
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
     },
-    StorageFunctionModifierV9: 'StorageFunctionModifierV8',
-    StorageFunctionTypeV9: {
+    StorageEntryTypeV9: {
       _enum: {
         Plain: 'PlainTypeV9',
         Map: 'MapTypeV9',
@@ -400,6 +397,22 @@ export default {
     PlainTypeLatest: 'PlainTypeV9',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV9',
     StorageEntryModifierLatest: 'StorageEntryModifierV9',
-    StorageEntryTypeLatest: 'StorageEntryTypeV9'
+    StorageEntryTypeLatest: 'StorageEntryTypeV9',
+
+    // the enum containing all the mappings
+    MetadataAll: {
+      _enum: {
+        V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
+        V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
+        V2: 'MetadataV2', // once rolled-out, can replace this with MetadataDeprecated
+        V3: 'MetadataV3', // once rolled-out, can replace this with MetadataDeprecated
+        V4: 'MetadataV4', // once rolled-out, can replace this with MetadataDeprecated
+        V5: 'MetadataV5', // once rolled-out, can replace this with MetadataDeprecated
+        V6: 'MetadataV6', // once rolled-out, can replace this with MetadataDeprecated
+        V7: 'MetadataV7', // once rolled-out, can replace this with MetadataDeprecated
+        V8: 'MetadataV8', // once rolled-out, can replace this with MetadataDeprecated
+        V9: 'MetadataV9'
+      }
+    }
   }
 };

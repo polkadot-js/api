@@ -260,6 +260,50 @@ export interface MapTypeV9 extends Struct {
   readonly kind: StorageMapTypeV9;
 }
 
+/** Enum */
+export interface MetadataAll extends Enum {
+  /** 0:: V0(MetadataV0) */
+  readonly isV0: boolean;
+  /** MetadataV0 */
+  readonly asV0: MetadataV0;
+  /** 1:: V1(MetadataV1) */
+  readonly isV1: boolean;
+  /** MetadataV1 */
+  readonly asV1: MetadataV1;
+  /** 2:: V2(MetadataV2) */
+  readonly isV2: boolean;
+  /** MetadataV2 */
+  readonly asV2: MetadataV2;
+  /** 3:: V3(MetadataV3) */
+  readonly isV3: boolean;
+  /** MetadataV3 */
+  readonly asV3: MetadataV3;
+  /** 4:: V4(MetadataV4) */
+  readonly isV4: boolean;
+  /** MetadataV4 */
+  readonly asV4: MetadataV4;
+  /** 5:: V5(MetadataV5) */
+  readonly isV5: boolean;
+  /** MetadataV5 */
+  readonly asV5: MetadataV5;
+  /** 6:: V6(MetadataV6) */
+  readonly isV6: boolean;
+  /** MetadataV6 */
+  readonly asV6: MetadataV6;
+  /** 7:: V7(MetadataV7) */
+  readonly isV7: boolean;
+  /** MetadataV7 */
+  readonly asV7: MetadataV7;
+  /** 8:: V8(MetadataV8) */
+  readonly isV8: boolean;
+  /** MetadataV8 */
+  readonly asV8: MetadataV8;
+  /** 9:: V9(MetadataV9) */
+  readonly isV9: boolean;
+  /** MetadataV9 */
+  readonly asV9: MetadataV9;
+}
+
 /** MetadataV9 */
 export interface MetadataLatest extends MetadataV9 {}
 
@@ -554,7 +598,7 @@ export interface PlainTypeV7 extends Type {}
 export interface PlainTypeV8 extends Type {}
 
 /** Type */
-export interface PlanTypeV9 extends Type {}
+export interface PlainTypeV9 extends Type {}
 
 /** Struct */
 export interface RuntimeModuleMetadataV0 extends Struct {
@@ -578,8 +622,19 @@ export interface StorageEntryMetadataV7 extends StorageEntryMetadataV6 {}
 /** StorageEntryMetadataV7 */
 export interface StorageEntryMetadataV8 extends StorageEntryMetadataV7 {}
 
-/** StorageEntryMetadataV8 */
-export interface StorageEntryMetadataV9 extends StorageEntryMetadataV8 {}
+/** Struct */
+export interface StorageEntryMetadataV9 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** StorageEntryModifierV9 */
+  readonly modifier: StorageEntryModifierV9;
+  /** StorageEntryTypeV9 */
+  readonly type: StorageEntryTypeV9;
+  /** Bytes */
+  readonly fallback: Bytes;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
 
 /** StorageEntryModifierV9 */
 export interface StorageEntryModifierLatest extends StorageEntryModifierV9 {}
@@ -608,8 +663,21 @@ export interface StorageEntryTypeV7 extends StorageEntryTypeV6 {}
 /** StorageEntryTypeV7 */
 export interface StorageEntryTypeV8 extends StorageEntryTypeV7 {}
 
-/** StorageEntryTypeV9 */
-export interface StorageEntryTypeV9 extends StorageEntryTypeV9 {}
+/** Enum */
+export interface StorageEntryTypeV9 extends Enum {
+  /** 0:: Plain(PlainTypeV9) */
+  readonly isPlain: boolean;
+  /** PlainTypeV9 */
+  readonly asPlain: PlainTypeV9;
+  /** 1:: Map(MapTypeV9) */
+  readonly isMap: boolean;
+  /** MapTypeV9 */
+  readonly asMap: MapTypeV9;
+  /** 2:: DoubleMap(DoubleMapTypeV9) */
+  readonly isDoubleMap: boolean;
+  /** DoubleMapTypeV9 */
+  readonly asDoubleMap: DoubleMapTypeV9;
+}
 
 /** Struct */
 export interface StorageFunctionMetadataV0 extends Struct {
@@ -684,20 +752,6 @@ export interface StorageFunctionMetadataV5 extends Struct {
   readonly documentation: Vec<Text>;
 }
 
-/** Struct */
-export interface StorageFunctionMetadataV9 extends Struct {
-  /** Text */
-  readonly name: Text;
-  /** StorageFunctionModifierV9 */
-  readonly modifier: StorageFunctionModifierV9;
-  /** StorageFunctionTypeV9 */
-  readonly type: StorageFunctionTypeV9;
-  /** Bytes */
-  readonly fallback: Bytes;
-  /** Vec<Text> */
-  readonly documentation: Vec<Text>;
-}
-
 /** Enum */
 export interface StorageFunctionModifierV0 extends Enum {
   /** 0:: Optional */
@@ -722,9 +776,6 @@ export interface StorageFunctionModifierV4 extends StorageFunctionModifierV3 {}
 
 /** StorageFunctionModifierV4 */
 export interface StorageFunctionModifierV5 extends StorageFunctionModifierV4 {}
-
-/** StorageFunctionModifierV8 */
-export interface StorageFunctionModifierV9 extends StorageFunctionModifierV8 {}
 
 /** Enum */
 export interface StorageFunctionTypeV0 extends Enum {
@@ -799,22 +850,6 @@ export interface StorageFunctionTypeV5 extends Enum {
   readonly isDoubleMap: boolean;
   /** DoubleMapTypeV5 */
   readonly asDoubleMap: DoubleMapTypeV5;
-}
-
-/** Enum */
-export interface StorageFunctionTypeV9 extends Enum {
-  /** 0:: Plain(PlainTypeV9) */
-  readonly isPlain: boolean;
-  /** PlainTypeV9 */
-  readonly asPlain: PlainTypeV9;
-  /** 1:: Map(MapTypeV9) */
-  readonly isMap: boolean;
-  /** MapTypeV9 */
-  readonly asMap: MapTypeV9;
-  /** 2:: DoubleMap(DoubleMapTypeV9) */
-  readonly isDoubleMap: boolean;
-  /** DoubleMapTypeV9 */
-  readonly asDoubleMap: DoubleMapTypeV9;
 }
 
 /** Enum */
