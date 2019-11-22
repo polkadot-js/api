@@ -6,6 +6,7 @@ import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
 import { createTypeUnsafe } from '@polkadot/types/codec/create';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
@@ -18,11 +19,15 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
-    console.error(JSON.stringify(metadata.toJSON()));
+    try {
+      expect(metadata.version).toBe(version);
+      expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
+      expect(metadata.toJSON()).toEqual(staticSubstrate);
+    } catch (error) {
+      console.error(JSON.stringify(metadata.toJSON()));
 
-    expect(metadata.version).toBe(version);
-    expect((metadata[`asV${version}` as keyof Metadata] as unknown as MetadataInterface<Modules>).modules.length).not.toBe(0);
-    expect(metadata.toJSON()).toEqual(staticSubstrate);
+      throw error;
+    }
   });
 }
 
@@ -54,9 +59,18 @@ export function defaultValues (registry: Registry, rpcData: string): void {
       .filter(({ storage }): boolean => storage.isSome)
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
-          it(`creates default types for ${mod.name}.${name}, type ${type}`, (): void => {
+          const inner = unwrapStorageType(type);
+          const location = `${mod.name}.${name}: type ${inner}`;
+
+          it(`creates default types for ${location}`, (): void => {
             expect(
-              (): Codec => createTypeUnsafe(registry, type.toString(), [fallback])
+              (): Codec => {
+                try {
+                  return createTypeUnsafe(registry, inner, [fallback]);
+                } catch (error) {
+                  throw new Error(`${location}:: ${error.message}`);
+                }
+              }
             ).not.toThrow();
           });
         });

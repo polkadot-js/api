@@ -417,10 +417,10 @@ export interface StorageFunctionModifierV5 extends StorageFunctionModifierV4 {}
 
 /** Enum */
 export interface StorageFunctionTypeV0 extends Enum {
-  /** 0:: Type(PlainTypeV0) */
-  readonly isType: boolean;
+  /** 0:: Plain(PlainTypeV0) */
+  readonly isPlain: boolean;
   /** PlainTypeV0 */
-  readonly asType: PlainTypeV0;
+  readonly asPlain: PlainTypeV0;
   /** 1:: Map(MapTypeV0) */
   readonly isMap: boolean;
   /** MapTypeV0 */

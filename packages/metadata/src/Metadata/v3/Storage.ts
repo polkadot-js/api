@@ -16,7 +16,7 @@ import Text from '@polkadot/types/primitive/Text';
 export class StorageFunctionType extends Enum {
   constructor (registry: Registry, value?: any, index?: number) {
     super(registry, {
-      Type: 'PlainTypeV3',
+      Plain: 'PlainTypeV3',
       Map: 'MapTypeV3',
       DoubleMap: 'DoubleMapTypeV3'
     }, value, index);
@@ -43,8 +43,8 @@ export class StorageFunctionType extends Enum {
   /**
    * @description The value as a [[Type]] value
    */
-  public get asType (): PlainTypeV3 {
-    assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
+  public get asPlain (): PlainTypeV3 {
+    assert(this.isPlain, `Cannot convert '${this.type}' via asPlain`);
 
     return this.value as PlainTypeV3;
   }
@@ -66,27 +66,8 @@ export class StorageFunctionType extends Enum {
   /**
    * @description `true` if the storage entry is a plain type
    */
-  public get isPlainType (): boolean {
+  public get isPlain (): boolean {
     return this.toNumber() === 0;
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  public toString (): string {
-    if (this.isDoubleMap) {
-      return `DoubleMap<${this.asDoubleMap.toString()}>`;
-    }
-
-    if (this.isMap) {
-      if (this.asMap.linked.isTrue) {
-        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
-      }
-
-      return this.asMap.value.toString();
-    }
-
-    return this.asType.toString();
   }
 }
 

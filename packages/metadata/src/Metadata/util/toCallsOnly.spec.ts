@@ -13,9 +13,13 @@ describe('toCallsOnly', (): void => {
   it('creates a calls-only version of the  metadata', (): void => {
     const stripped = new Metadata(registry, staticData).asCallsOnly;
 
-    console.error(JSON.stringify(stripped));
+    try {
+      expect(stripped).toBeDefined();
+    } catch (error) {
+      console.error(JSON.stringify(stripped));
 
-    expect(stripped).toBeDefined();
+      throw error;
+    }
   });
 
   it('can serialize from the input', (): void => {

@@ -36,8 +36,8 @@ function toStorageHasher (registry: Registry, text: Text): StorageHasher {
  */
 function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV4): StorageFunctionMetadata {
   const { documentation, fallback, modifier, name, type } = storageFn;
-  const [newType, index] = type.isPlainType
-    ? [type, 0]
+  const [newType, index] = type.isPlain
+    ? [type.asPlain, 0]
     : type.isMap
       ? [type.asMap, 1]
       : [createType(registry, 'DoubleMapTypeV5', {

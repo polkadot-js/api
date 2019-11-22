@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Registry } from '../types';
+import { AnyU8a, Codec, Registry } from '../types';
 
 import { StorageEntryMetadata as MetaV8 } from '@polkadot/metadata/Metadata/v8/Storage';
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
@@ -28,6 +28,41 @@ interface Decoded {
 interface StorageKeyExtra {
   method: string;
   section: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Text = String & Codec;
+
+interface StorageType {
+  asDoubleMap: {
+    value: Text;
+  };
+  asMap: {
+    linked: { isTrue: boolean };
+    key: Text;
+    value: Text;
+  };
+  asPlain: Text;
+  isDoubleMap: boolean;
+  isMap: boolean;
+  isPlain: boolean;
+}
+
+// we unwrap the type here, turning into an output usable for createType
+export function unwrapStorageType (type: StorageType): string {
+  if (type.isDoubleMap) {
+    return `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+  }
+
+  if (type.isMap) {
+    if (type.asMap.linked.isTrue) {
+      return `(${type.asMap.value.toString()}, Linkage<${type.asMap.key.toString()}>)`;
+    }
+
+    return type.asMap.value.toString();
+  }
+
+  return type.asPlain.toString();
 }
 
 /**
@@ -105,11 +140,11 @@ export default class StorageKey extends Bytes {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
-      return value.meta.type.toString();
+      return unwrapStorageType(value.meta.type);
     } else if (Array.isArray(value)) {
       const [fn] = value;
 
-      return fn.meta.type.toString();
+      return unwrapStorageType(fn.meta.type);
     }
 
     return undefined;
