@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ModuleMetadataLatest } from '../../interfaces/metadata';
+
 import fs from 'fs';
-import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
 import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -11,7 +12,7 @@ import { Metadata, TypeRegistry } from '../..';
 import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
 // Generate types for one module
-function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[] {
+function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (!modul.constants.length) {
     return [];
   }
