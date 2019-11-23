@@ -60,7 +60,7 @@ export function defaultValues (registry: Registry, rpcData: string): void {
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           const inner = unwrapStorageType(type);
-          const location = `${mod.name}.${name}: type ${inner}`;
+          const location = `${mod.name}.${name}: ${inner}`;
 
           it(`creates default types for ${location}`, (): void => {
             expect(
