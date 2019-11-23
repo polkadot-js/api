@@ -7,8 +7,20 @@ import { Registry } from '@polkadot/types/types';
 
 import { createType } from '@polkadot/types';
 
-function createStorageEntry (registry: Registry, entry: StorageEntryTypeV8): StorageEntryTypeV9 {
-  return createType(registry, 'StorageEntryTypeV9');
+// migrate a storage entry - only map types are different, with a kind enum
+function createStorageEntry (registry: Registry, type: StorageEntryTypeV8): StorageEntryTypeV9 {
+  return createType(registry, 'StorageEntryTypeV9',
+    type.isPlain
+      ? createType(registry, 'PlainTypeV9', type.asPlain)
+      : type.isDoubleMap
+        ? createType(registry, 'DoubleMapTypeV9', type.asDoubleMap)
+        : createType(registry, 'MapTypeV9', {
+          hasher: type.asMap.hasher,
+          key: type.asMap.key,
+          value: type.asMap.value,
+          kind: createType(registry, 'StorageMapTypeV9', type.asMap.linked.isTrue ? 'LinkedMap' : 'Map')
+        })
+  );
 }
 
 /**
