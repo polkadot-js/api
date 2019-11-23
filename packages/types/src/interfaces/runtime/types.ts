@@ -55,6 +55,14 @@ export interface DispatchClass extends Enum {
   readonly isOperational: boolean;
 }
 
+/** Struct */
+export interface DispatchInfo extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+}
+
 /** Uint8Array, Codec */
 export interface EcdsaSignature extends Uint8Array, Codec {}
 

@@ -20,6 +20,10 @@ export default {
     DispatchClass: {
       _enum: ['Normal', 'Operational']
     },
+    DispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass'
+    },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
