@@ -98,6 +98,8 @@ export class TypeRegistry implements Registry {
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
+    assert(Object.keys(this._metadataEvents).length > 0, 'Calling registry.findMetaEvent before metadata has been attached.');
+
     const Event = this._metadataEvents[eventIndex.toString()];
 
     assert(!isUndefined(Event), `Unable to find Event with index ${u8aToHex(eventIndex)}`);
