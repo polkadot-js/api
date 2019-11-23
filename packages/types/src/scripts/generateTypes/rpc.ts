@@ -22,11 +22,13 @@ export default function generateRpcTypes (): void {
       setImports(imports, [method.type]);
 
       // FIXME These 2 are too hard to type, I give up
-      if (method.method === 'getStorage') {
-        setImports(imports, ['Codec']);
-        return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
-      } else if (method.method === 'subscribeStorage') {
-        return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+      if (section === 'state') {
+        if (method.method === 'getStorage') {
+          setImports(imports, ['Codec']);
+          return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
+        } else if (method.method === 'subscribeStorage') {
+          return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+        }
       }
 
       const args = method.params.map((param): string => {

@@ -9,6 +9,9 @@ import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/typ
 /** Uint8Array, Codec */
 export interface ApiId extends Uint8Array, Codec {}
 
+/** Hash */
+export interface BlockHash extends Hash {}
+
 /** Struct */
 export interface ChainProperties extends Struct {
   /** Option<u8> */
