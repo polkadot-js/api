@@ -32,7 +32,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV8): ModuleMetada
     ...mod,
     storage: storage
       ? {
-        prefix: storage.prefix,
+        ...storage,
         items: storage.items.map((item): any => ({
           ...item,
           type: createType(registry, 'StorageEntryTypeV9', ...createStorageType(registry, item.type))
