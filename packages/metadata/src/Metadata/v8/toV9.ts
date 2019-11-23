@@ -20,7 +20,7 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV8): 
 
   // map needs a migration, removing linked and adding an explicit kind
   return [{
-    ...map
+    ...map,
     kind: createType(registry, 'MapKindV9', null, map.linked.isTrue ? 1 : 0)
   }, 1];
 }
