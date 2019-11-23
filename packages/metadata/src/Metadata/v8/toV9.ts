@@ -16,14 +16,12 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV8): 
     return [entryType.asDoubleMap, 2];
   }
 
-  const { hasher, key, linked, value } = entryType.asMap;
+  const map = entryType.asMap;
 
-  // map needs a migration, explicitly the linked -> type enum
+  // map needs a migration, removing linked and adding an explicit kind
   return [{
-    hasher,
-    key,
-    value,
-    kind: createType(registry, 'MapKindV9', null, linked.isTrue ? 1 : 0)
+    ...map
+    kind: createType(registry, 'MapKindV9', null, map.linked.isTrue ? 1 : 0)
   }, 1];
 }
 
