@@ -162,8 +162,12 @@ export default function createFunction (registry: Registry, item: CreateItemFn, 
 
   const storageFn = expandWithMeta(item, _storageFn as StorageEntry);
 
-  if (type.isMap && type.asMap.linked.isTrue) {
-    extendLinkedMap(registry, item, storageFn, stringKey, hasher);
+  if (type.isMap) {
+    const map = type.asMap;
+
+    if (map.kind.isLinkedMap) {
+      extendLinkedMap(registry, item, storageFn, stringKey, hasher);
+    }
   }
 
   return storageFn;

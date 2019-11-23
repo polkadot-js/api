@@ -345,11 +345,14 @@ export default {
     EventMetadataV9: 'EventMetadataV8',
     FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
     FunctionMetadataV9: 'FunctionMetadataV8',
+    MapKindV9: {
+      _enum: ['Map', 'LinkedMap', 'PrefixedMap']
+    },
     MapTypeV9: {
       hasher: 'StorageHasher',
       key: 'Type',
       value: 'Type',
-      kind: 'StorageMapTypeV9'
+      kind: 'MapKindV9'
     },
     MetadataV9: {
       modules: 'Vec<ModuleMetadataV9>'
@@ -378,9 +381,6 @@ export default {
         Map: 'MapTypeV9',
         DoubleMap: 'DoubleMapTypeV9'
       }
-    },
-    StorageMapTypeV9: {
-      _enum: ['Map', 'LinkedMap', 'PrefixedMap']
     },
     StorageMetadataV9: {
       prefix: 'Text',

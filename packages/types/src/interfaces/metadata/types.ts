@@ -203,6 +203,16 @@ export interface FunctionMetadataV8 extends FunctionMetadataV7 {}
 /** FunctionMetadataV8 */
 export interface FunctionMetadataV9 extends FunctionMetadataV8 {}
 
+/** Enum */
+export interface MapKindV9 extends Enum {
+  /** 0:: Map */
+  readonly isMap: boolean;
+  /** 1:: LinkedMap */
+  readonly isLinkedMap: boolean;
+  /** 2:: PrefixedMap */
+  readonly isPrefixedMap: boolean;
+}
+
 /** Struct */
 export interface MapTypeV0 extends Struct {
   /** Type */
@@ -256,8 +266,8 @@ export interface MapTypeV9 extends Struct {
   readonly key: Type;
   /** Type */
   readonly value: Type;
-  /** StorageMapTypeV9 */
-  readonly kind: StorageMapTypeV9;
+  /** MapKindV9 */
+  readonly kind: MapKindV9;
 }
 
 /** Enum */
@@ -850,16 +860,6 @@ export interface StorageFunctionTypeV5 extends Enum {
   readonly isDoubleMap: boolean;
   /** DoubleMapTypeV5 */
   readonly asDoubleMap: DoubleMapTypeV5;
-}
-
-/** Enum */
-export interface StorageMapTypeV9 extends Enum {
-  /** 0:: Map */
-  readonly isMap: boolean;
-  /** 1:: LinkedMap */
-  readonly isLinkedMap: boolean;
-  /** 2:: PrefixedMap */
-  readonly isPrefixedMap: boolean;
 }
 
 /** Struct */
