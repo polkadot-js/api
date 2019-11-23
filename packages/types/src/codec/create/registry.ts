@@ -166,7 +166,13 @@ export class TypeRegistry implements Registry {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
           const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
-          const Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(this, typeDef));
+          let Types: Constructor<Codec>[] = [];
+
+          try {
+            Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(this, typeDef));
+          } catch (error) {
+            console.error(error);
+          }
 
           this._metadataEvents[eventIndex.toString()] = class extends EventData {
             constructor (registry: Registry, value: Uint8Array) {
