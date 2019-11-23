@@ -23,6 +23,9 @@ const UNCONSTRUCTABLE = [
 
 const registry = new TypeRegistry();
 
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
+
 function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {
     describe(`${type}:: default creation`, (): void => {
@@ -41,9 +44,6 @@ function testTypes (type: string, typeNames: string[]): void {
     });
 
     describe(`${type}:: default creation (empty bytes)`, (): void => {
-      // eslint-disable-next-line no-new
-      new Metadata(registry, metadataStatic);
-
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {
           const constructFn = (): Codec =>
