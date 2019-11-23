@@ -18,6 +18,54 @@ const FN_UNKNOWN: Partial<CallFunction> = {
   section: 'unknown'
 };
 
+// create event classes from metadata
+function decorateEvents (registry: Registry, metadata: RegistryMetadata): Record<string, Constructor<EventData>> {
+  const metadataEvents: Record<string, Constructor<EventData>> = {};
+
+  // decorate the events
+  metadata.asLatest.modules
+    .filter(({ events }): boolean => events.isSome)
+    .forEach((section, sectionIndex): void => {
+      const sectionName = stringCamelCase(section.name.toString());
+
+      section.events.unwrap().forEach((meta, methodIndex): void => {
+        const methodName = meta.name.toString();
+        const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+        const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
+        let Types: Constructor<Codec>[] = [];
+
+        try {
+          Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(registry, typeDef));
+        } catch (error) {
+          console.error(error);
+        }
+
+        metadataEvents[eventIndex.toString()] = class extends EventData {
+          constructor (registry: Registry, value: Uint8Array) {
+            super(registry, Types, value, typeDef, meta, sectionName, methodName);
+          }
+        };
+      });
+    });
+
+  return metadataEvents;
+}
+
+// create extrinsic mapping from metadata
+function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata): Record<string, CallFunction> {
+  const metadataCalls: Record<string, CallFunction> = {};
+  const extrinsics = extrinsicsFromMeta(registry, metadata);
+
+  // decorate the extrinsics
+  Object.values(extrinsics).forEach((methods): void =>
+    Object.values(methods).forEach((method): void => {
+      metadataCalls[method.callIndex.toString()] = method;
+    })
+  );
+
+  return metadataCalls;
+}
+
 export class TypeRegistry implements Registry {
   private _classes: Map<string, Constructor> = new Map();
 
@@ -147,39 +195,7 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: RegistryMetadata): void {
-    const extrinsics = extrinsicsFromMeta(this, metadata);
-
-    // decorate the extrinsics
-    Object.values(extrinsics).forEach((methods): void =>
-      Object.values(methods).forEach((method): void => {
-        this._metadataCalls[method.callIndex.toString()] = method;
-      })
-    );
-
-    // decorate the events
-    metadata.asLatest.modules
-      .filter(({ events }): boolean => events.isSome)
-      .forEach((section, sectionIndex): void => {
-        const sectionName = stringCamelCase(section.name.toString());
-
-        section.events.unwrap().forEach((meta, methodIndex): void => {
-          const methodName = meta.name.toString();
-          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-          const typeDef = meta.args.map((arg): TypeDef => getTypeDef(arg.toString()));
-          let Types: Constructor<Codec>[] = [];
-
-          try {
-            Types = typeDef.map((typeDef): Constructor<Codec> => getTypeClass(this, typeDef));
-          } catch (error) {
-            console.error(error);
-          }
-
-          this._metadataEvents[eventIndex.toString()] = class extends EventData {
-            constructor (registry: Registry, value: Uint8Array) {
-              super(registry, Types, value, typeDef, meta, sectionName, methodName);
-            }
-          };
-        });
-      });
+    this._metadataCalls = decorateExtrinsics(this, metadata);
+    this._metadataEvents = decorateEvents(this, metadata);
   }
 }
