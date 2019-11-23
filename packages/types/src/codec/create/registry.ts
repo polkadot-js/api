@@ -19,9 +19,7 @@ const FN_UNKNOWN: Partial<CallFunction> = {
 };
 
 // create event classes from metadata
-function decorateEvents (registry: Registry, metadata: RegistryMetadata): Record<string, Constructor<EventData>> {
-  const metadataEvents: Record<string, Constructor<EventData>> = {};
-
+function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
   // decorate the events
   metadata.asLatest.modules
     .filter(({ events }): boolean => events.isSome)
@@ -47,13 +45,10 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata): Record
         };
       });
     });
-
-  return metadataEvents;
 }
 
 // create extrinsic mapping from metadata
-function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata): Record<string, CallFunction> {
-  const metadataCalls: Record<string, CallFunction> = {};
+function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, metadataCalls: Record<string, CallFunction>): void {
   const extrinsics = extrinsicsFromMeta(registry, metadata);
 
   // decorate the extrinsics
@@ -62,8 +57,6 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata): Re
       metadataCalls[method.callIndex.toString()] = method;
     })
   );
-
-  return metadataCalls;
 }
 
 export class TypeRegistry implements Registry {
@@ -197,7 +190,7 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: RegistryMetadata): void {
-    this._metadataCalls = decorateExtrinsics(this, metadata);
-    this._metadataEvents = decorateEvents(this, metadata);
+    decorateExtrinsics(this, metadata, this._metadataCalls);
+    decorateEvents(this, metadata, this._metadataEvents);
   }
 }
