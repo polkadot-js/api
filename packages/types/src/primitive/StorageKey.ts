@@ -35,7 +35,7 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): string {
   if (type.isPlain) {
     return type.asPlain.toString();
   } else if (type.isDoubleMap) {
-    return `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+    return type.asDoubleMap.value.toString();
   }
 
   const map = type.asMap;
@@ -43,7 +43,7 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): string {
   if (map.kind.isLinkedMap) {
     return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
   } else if (map.kind.isPrefixedMap) {
-    throw new Error('Prefixed map is currently not handled');
+    // We are not 100% sure here yet if we are doing something specific or not
   }
 
   return map.value.toString();
