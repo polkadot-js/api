@@ -109,7 +109,6 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
-  [TypeDefInfo.DoubleMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'DoubleMap'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

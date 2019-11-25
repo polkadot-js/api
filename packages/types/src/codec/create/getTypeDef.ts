@@ -109,7 +109,6 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['Compact<', '>', TypeDefInfo.Compact],
-  ['DoubleMap<', '>', TypeDefInfo.DoubleMap],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
   ['Vec<', '>', TypeDefInfo.Vec]
