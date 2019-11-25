@@ -23,7 +23,7 @@ export default {
     DispatchInfo: {
       weight: 'Weight',
       class: 'DispatchClass',
-      paysFee: 'Bool'
+      paysFee: 'bool'
     },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
