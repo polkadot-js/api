@@ -11,9 +11,10 @@ import createParam from './create/param';
 
 const queryInfo: RpcMethodOpt = {
   description: 'Retrieves the fee information for an encoded extrinsic',
+  isOptional: true,
   params: [
     createParam('extrinsic', 'Bytes'),
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'RuntimeDispatchInfo'
 };
