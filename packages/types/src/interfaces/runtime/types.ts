@@ -61,6 +61,8 @@ export interface DispatchInfo extends Struct {
   readonly weight: Weight;
   /** DispatchClass */
   readonly class: DispatchClass;
+  /** Bool */
+  readonly paysFee: Bool;
 }
 
 /** Uint8Array, Codec */
