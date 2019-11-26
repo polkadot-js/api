@@ -9,10 +9,9 @@ import { Balance, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } fr
 import BN from 'bn.js';
 
 import Compact from './codec/Compact';
-import U8a from './codec/U8a';
-import { InterfaceRegistry } from './interfaceRegistry';
 import Call from './primitive/Generic/Call';
 import Address from './primitive/Generic/Address';
+import { InterfaceRegistry } from './interfaceRegistry';
 
 export * from './codec/types';
 
@@ -53,7 +52,8 @@ export type AnyFunction = (...args: any[]) => any;
 
 export type AnyNumber = BN | Uint8Array | number | string;
 
-export type AnyString = string | string;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AnyString = string | String;
 
 export type AnyU8a = Uint8Array | number[] | string;
 
@@ -123,8 +123,10 @@ export interface Codec {
   toU8a (isBare?: boolean): Uint8Array;
 }
 
+export type U8aCodec = Uint8Array & Codec;
+
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IHash extends U8a { }
+export interface IHash extends U8aCodec { }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
