@@ -124,7 +124,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   return storageFn;
 }
 
-function extendHeadMeta (registry: Registry, { meta: { documentation, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => U8a): StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => U8a): StorageKey {
   const map = type.asMap;
   const outputType = map.key.toString();
 
