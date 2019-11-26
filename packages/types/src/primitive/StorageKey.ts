@@ -11,7 +11,7 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  headKey?: Uint8Array;
+  iterKey?: Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -160,5 +160,23 @@ export default class StorageKey extends Bytes {
    */
   public get section (): string | undefined {
     return this._section;
+  }
+
+  /**
+   * @description Sets the meta for this key
+   */
+  public setMeta (meta?: StorageEntryMetadataLatest): this {
+    this._meta = meta;
+
+    return this;
+  }
+
+  /**
+   * @description Sets the output type for this storage key
+   */
+  public setOutputType (outputType?: string): this {
+    this._outputType = outputType;
+
+    return this;
   }
 }

@@ -20,7 +20,7 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, u64, TypeRegistry } from '@polkadot/types';
+import { Metadata, Null, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -255,8 +255,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.headKey
-      ? this.decorateStorageEntryLinked(creator, decorateMethod)
+    const decorated = this.hasSubscriptions && creator.iterKey
+      ? creator.meta.type.asMap.kind.isLinkedMap
+        ? this.decorateStorageLinked(creator, decorateMethod)
+        : this.decorateStoragePrefixed(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
         this.hasSubscriptions
           ? this._rpcCore.state
@@ -292,7 +294,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
+  private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -355,8 +357,27 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           .subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, ...args]])
           .pipe(map(([data]): [Codec, Linkage<Codec>] => data))
         : this._rpcCore.state
-          .subscribeStorage<[LinkageResult]>([creator.headKey])
+          .subscribeStorage<[LinkageResult]>([creator.iterKey])
           .pipe(switchMap(([key]): Observable<LinkageResult> => getNext(head = key)))
+    );
+  }
+
+  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
+    const outputType = creator.meta.type.asMap.value.toString();
+
+    return decorateMethod((...args: any[]): Observable<Codec> =>
+      args.length
+        ? this._rpcCore.state
+          .subscribeStorage<[Codec]>([[creator, ...args]])
+          .pipe(map(([data]): Codec => data))
+        : this._rpcCore.state
+          // FIXME This should really be some sort of subscription, so we can get stuff as
+          // it changes (as of now it is a one-shot query)
+          .getKeys(creator.iterKey)
+          .pipe(switchMap((keys): Observable<Vec<Codec>> =>
+            this._rpcCore.state.subscribeStorage(
+              keys.map((key) => key.setOutputType(outputType)))
+          ))
     );
   }
 
