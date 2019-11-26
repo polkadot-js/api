@@ -83,7 +83,7 @@ function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes): DerivedSessionInfo =>
       createDerivedLatest(api, [
-        [false, createType(api.registry, 'u64', 1), api.consts.staking.sessionsPerEra],
+        [false, createType(api.registry, 'u64', 1), api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)],
         indexes,
         [createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'SessionIndex', 1)]
       ])
@@ -115,7 +115,7 @@ function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
-  const query = api.consts.staking
+  const query = api.consts.timestamp || api.consts.babe || api.consts.aura
     ? api.consts.babe
       ? infoLatestBabe // 2.x with Babe
       : infoLatestAura // 2.x with Aura (not all info there)
