@@ -372,11 +372,12 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
           .pipe(map(([data]): Codec => data))
         : this._rpcCore.state
           // FIXME This should really be some sort of subscription, so we can get stuff as
-          // it changes (as of now it is a one-shot query)
+          // it changes (as of now it is a one-shot query). Not sure how to do this though...
           .getKeys(creator.iterKey)
           .pipe(switchMap((keys): Observable<Vec<Codec>> =>
             this._rpcCore.state.subscribeStorage(
-              keys.map((key) => key.setOutputType(outputType)))
+              keys.map((key) => key.setOutputType(outputType))
+            )
           ))
     );
   }
