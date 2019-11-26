@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header, Keys } from '@polkadot/types/interfaces';
+import { Keys } from '@polkadot/types/interfaces';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -41,7 +41,7 @@ describeE2E({
     });
 
     it('queries correct value at a specified block', async (): Promise<void> => {
-      const header = await api.rpc.chain.getHeader() as Header;
+      const header = await api.rpc.chain.getHeader();
 
       // TODO check & fix: this will throw the error: Encoding for input doesn't match output, created 0x00 from 0x
       const eventTopicsAt = await api.query.system.eventTopics.at(header.hash, KEY1, KEY2);
@@ -98,7 +98,7 @@ describeE2E({
   });
 
   describe('session Keys', (): void => {
-    it('sets a session key, retrieves the value', async (done): Promise<void> => {
+    it('sets a session key, retrieves the value', (done): void => {
       const babe = encodeAddress(randomAsU8a());
       const grandpa = encodeAddress(randomAsU8a());
       const imOnline = encodeAddress(randomAsU8a());

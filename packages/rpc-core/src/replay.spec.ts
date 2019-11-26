@@ -4,23 +4,24 @@
 
 import { Observable, of } from 'rxjs';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
 
 describe('replay', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
-    rpc = new Rpc(new MockProvider());
+    rpc = new Rpc(registry, new MockProvider(registry));
   });
 
   it('subscribes via the rpc section', (done): void => {
-    // @ts-ignore
-    rpc.chain.getBlockHash = jest.fn((): Observable<number> => of(1));
-
-    // @ts-ignore
-    rpc.chain.getBlockHash(123, false).subscribe((): void => {
+    // we don't honor types or number of params here
+    (rpc.chain as any).getBlockHash = jest.fn((): Observable<number> => of(1));
+    (rpc.chain as any).getBlockHash(123, false).subscribe((): void => {
       expect(
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         rpc.chain.getBlockHash
       ).toHaveBeenCalledWith(123, false);
 
@@ -52,16 +53,18 @@ describe('replay', (): void => {
   });
 
   it('unsubscribes as required', (done): void => {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     rpc.provider.unsubscribe = jest.fn();
 
-    const subscription = rpc.chain.subscribeNewHead().subscribe((): void => {
+    const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
       subscription.unsubscribe();
 
-      // There's a promise inside .unsubscribe(), wait a bit
+      // There's a promise inside .unsubscribe(), wait a bit (> 2s)
       setTimeout((): void => {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(rpc.provider.unsubscribe).toHaveBeenCalled();
         done();
-      }, 200);
+      }, 3500);
     });
   });
 });

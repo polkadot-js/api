@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import fs from 'fs';
 import path from 'path';
-import { Hash } from '@polkadot/types/interfaces';
-import { H256, StorageData, StorageKey } from '@polkadot/types';
 
 import { ApiPromise, SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
@@ -14,6 +14,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import { H256, StorageData, StorageKey, TypeRegistry } from '@polkadot/types';
 import { hexToBn, isInstanceOf } from '@polkadot/util';
 
 import { describeE2E } from '../../util';
@@ -37,6 +38,7 @@ describeE2E({
   ]
 })('RPC-core e2e child-storage', (wsUrl: string): void => {
   const MAX_GAS = 50000;
+  const registry = new TypeRegistry();
   const keyring: Record<string, KeyringPair> = testingPairs({ type: 'sr25519' });
   const randomStart = Math.floor(Date.now() / 1000);
   let abi: Abi;
@@ -45,8 +47,9 @@ describeE2E({
   let rpc: Rpc;
 
   beforeAll(async (done): Promise<() => void> => {
-    abi = new Abi(incrementerAbi);
+    abi = new Abi(registry, incrementerAbi);
     api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
+
     return (
       api.tx.contracts
         .putCode(MAX_GAS, `0x${incrementerCode}`)
@@ -62,8 +65,8 @@ describeE2E({
     );
   });
 
-  beforeEach(async (done): Promise<void> => {
-    rpc = new Rpc(new WsProvider(wsUrl));
+  beforeEach((done): void => {
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
     done();
   });
 
@@ -72,7 +75,7 @@ describeE2E({
   // @TODO Add tests for Polkadot once child storage is being used there.
   describe('e2e state child methods', (): void => {
     beforeAll(async (done): Promise<() => void> => {
-      abi = new Abi(incrementerAbi);
+      abi = new Abi(registry, incrementerAbi);
       api = await ApiPromise.create({ provider: new WsProvider(wsUrl) });
       // An instance of a contract can only be deployed once by one specific account.
       // That's why we need a random starting point for our incrementer contract to be
@@ -83,7 +86,7 @@ describeE2E({
 
       return (
         api.tx.contracts
-          .create(CREATION_FEE, MAX_GAS, codeHash, abi.deploy(randomStart))
+          .create(CREATION_FEE, MAX_GAS, codeHash, abi.constructors[0](randomStart))
           .signAndSend(keyring.dave, (result: SubmittableResult): void => {
             if (result.status.isFinalized) {
               const record = result.findRecord('contracts', 'Instantiated');

@@ -4,7 +4,6 @@
 
 export default {
   types: {
-    EcdsaSignature: '(H256, H256, i8)',
     EthereumAddress: 'H160'
   }
 };

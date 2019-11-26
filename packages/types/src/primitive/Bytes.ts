@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AnyU8a, Registry } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { ClassOf } from '../codec/createType';
 import Compact from '../codec/Compact';
 import U8a from '../codec/U8a';
 
@@ -18,45 +17,34 @@ import U8a from '../codec/U8a';
  * as what is found in [[Text]] and [[Vec]])
  */
 export default class Bytes extends U8a {
-  public constructor (value?: AnyU8a) {
-    super(Bytes.decodeBytes(value));
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, Bytes.decodeBytes(value));
   }
 
   private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
     if (Array.isArray(value) || isString(value)) {
-      const u8a = u8aToU8a(value);
-
-      return Bytes.decodeBytes(
-        Compact.addLengthPrefix(u8a)
-      );
-    } else if (value instanceof ClassOf('StorageData')) {
-      // Here we cater for the actual StorageData that _could_ have a length prefix. In the
-      // case of `:code` it is not added, for others it is
-      const u8a = value as Uint8Array;
-      const [offset, length] = Compact.decodeU8a(u8a);
-
-      return u8a.length === length.addn(offset).toNumber()
-        ? u8a.subarray(offset)
-        : u8a;
-    } else if (value instanceof U8a) {
-      // This is required. In the case of a U8a we already have gotten rid of the length,
-      // i.e. new Bytes(new Bytes(...)) will work as expected
-      return value;
-    } else if (isU8a(value)) {
-      if (!value.length) {
-        return new Uint8Array();
-      }
-
-      // handle all other Uint8Array inputs, these do have a length prefix
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return value.subarray(offset, total);
+      return u8aToU8a(value);
+    } else if (!(value instanceof U8a) && isU8a(value)) {
+      // We are ensuring we are not a U8a instance. In the case of a U8a we already have gotten
+      // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
+      return Bytes.decodeBytesU8a(value);
     }
 
     return value;
+  }
+
+  private static decodeBytesU8a (value: Uint8Array): Uint8Array {
+    if (!value.length) {
+      return new Uint8Array();
+    }
+
+    // handle all other Uint8Array inputs, these do have a length prefix
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    return value.subarray(offset, total);
   }
 
   /**

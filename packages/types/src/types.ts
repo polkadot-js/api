@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index } from './interfaces/runtime';
+import { SignOptions } from '@polkadot/keyring/types';
+import { FunctionMetadataLatest } from './interfaces/metadata';
+import { Balance, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
 
 import BN from 'bn.js';
 
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import { InterfaceRegistry } from './interfaceRegistry';
-import { FunctionMetadata } from './Metadata/v7/Calls';
 import Call from './primitive/Generic/Call';
 import Address from './primitive/Generic/Address';
 
@@ -20,7 +21,7 @@ export type InterfaceTypes = keyof InterfaceRegistry;
 export interface CallFunction {
   (...args: any[]): Call;
   callIndex: Uint8Array;
-  meta: FunctionMetadata;
+  meta: FunctionMetadataLatest;
   method: string;
   section: string;
   toJSON: () => any;
@@ -34,7 +35,7 @@ export type ModulesWithCalls = Record<string, Calls>;
 export interface IKeyringPair {
   address: string;
   publicKey: Uint8Array;
-  sign: (data: Uint8Array) => Uint8Array;
+  sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -66,24 +67,29 @@ export type AnyJson = string | number | boolean | null | undefined | AnyJsonObje
  * @name Codec
  * @description
  * The base Codec interface. All types implement the interface provided here. Additionally
- * implementors can add their own specific interfaces and helpres with getters and functions.
+ * implementors can add their own specific interfaces and helpers with getters and functions.
  * The Codec Base is however required for operating as an encoding/decoding layer
  */
 export interface Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  encodedLength: number;
+  readonly encodedLength: number;
 
   /**
    * @description Returns a hash of the value
    */
-  hash: IHash;
+  readonly hash: IHash;
 
   /**
    * @description Checks if the value is an empty value
    */
-  isEmpty: boolean;
+  readonly isEmpty: boolean;
+
+  /**
+   * @description The registry associated with this object
+   */
+  readonly registry: Registry;
 
   /**
    * @description Compares the value of the input to see if there is a match
@@ -124,12 +130,12 @@ export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(...value: any[]): T;
+  new(registry: Registry, ...value: any[]): T;
 }
 
 export type ConstructorDef<T = Codec> = Record<string, Constructor<T>>;
 
-export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string> } | { _set: Record<string, number> }>;
+export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
 export interface RuntimeVersionInterface {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -148,11 +154,16 @@ export interface SignatureOptions {
   era?: IExtrinsicEra;
   genesisHash: AnyU8a;
   nonce: AnyNumber;
+  runtimeVersion: RuntimeVersionInterface;
   tip?: AnyNumber;
-  version?: RuntimeVersionInterface;
 }
 
 export type ArgsDef = Record<string, Constructor>;
+
+// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
+// FIXME Implement this generic <Sub> on Tuple.ts itself.
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export type ITuple<Sub extends Codec[]> = Sub & Codec
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
@@ -162,14 +173,14 @@ export interface IMethod extends Codec {
   readonly data: Uint8Array;
   readonly hash: IHash;
   readonly hasOrigin: boolean;
-  readonly meta: FunctionMetadata;
+  readonly meta: FunctionMetadataLatest;
 }
 
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
   readonly nonce: Compact<Index>;
-  readonly signature: IHash;
+  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
   readonly tip: Compact<Balance>;
 }
@@ -180,6 +191,7 @@ export interface ExtrinsicPayloadValue {
   genesisHash: AnyU8a;
   method: AnyU8a | IMethod;
   nonce: AnyNumber;
+  specVersion: AnyNumber;
   tip: AnyNumber;
 }
 
@@ -196,22 +208,161 @@ export interface IExtrinsicEra extends Codec {
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsicImpl extends Codec {
-  readonly method: Call;
-  readonly signature: IExtrinsicSignature;
-  readonly version: number;
-
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicImpl;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsicImpl;
+interface IExtrinsicSignable<T> {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+  sign (account: IKeyringPair, options: SignatureOptions): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface IExtrinsic extends ExtrinsicSignatureBase, IMethod {
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IExtrinsic extends IExtrinsicSignable<IExtrinsic>, ExtrinsicSignatureBase, IMethod {
   readonly length: number;
   readonly method: Call;
   readonly type: number;
   readonly version: number;
+}
 
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsic;
-  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
+export interface SignerPayloadJSON {
+  /**
+   * @description The ss-58 encoded address
+   */
+  address: string;
+
+  /**
+   * @description The checkpoint hash of the block, in hex
+   */
+  blockHash: string;
+
+  /**
+   * @description The checkpoint block number, in hex
+   */
+  blockNumber: string;
+
+  /**
+   * @description The era for this transaction, in hex
+   */
+  era: string;
+
+  /**
+   * @description The genesis hash of the chain, in hex
+   */
+  genesisHash: string;
+
+  /**
+   * @description The encoded method (with arguments) in hex
+   */
+  method: string;
+
+  /**
+   * @description The nonce for this transaction, in hex
+   */
+  nonce: string;
+
+  /**
+   * @description The current spec version for  the runtime
+   */
+  specVersion: string;
+
+  /**
+   * @description The tip for this transaction, in hex
+   */
+  tip: string;
+
+  /**
+   * @description The version of the extrinsic we are dealing with
+   */
+  version: number;
+}
+
+export interface SignerPayloadRawBase {
+  /**
+   * @description The hex-encoded data for this request
+   */
+  data: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type?: 'bytes' | 'payload';
+}
+
+export interface SignerPayloadRaw extends SignerPayloadRawBase {
+  /**
+   * @description The ss-58 encoded address
+   */
+  address: string;
+
+  /**
+   * @description The type of the contained data
+   */
+  type: 'bytes' | 'payload';
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface ISignerPayload {
+  toPayload (): SignerPayloadJSON;
+  toRaw (): SignerPayloadRaw;
+}
+
+export interface RegistryMetadataCall {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+
+  toJSON (): string | AnyJsonObject;
+}
+
+export interface RegistryMetadataCalls {
+  isSome: boolean;
+  unwrap (): RegistryMetadataCall[];
+}
+
+export interface RegistryMetadataEvent {
+  args: any[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataEvents {
+  isSome: boolean;
+  unwrap (): RegistryMetadataEvent[];
+}
+
+export interface RegistryMetadataModule {
+  calls: RegistryMetadataCalls;
+  events: RegistryMetadataEvents;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String & Codec;
+}
+
+export interface RegistryMetadataLatest {
+  modules: RegistryMetadataModule[];
+}
+
+export interface RegistryMetadata {
+  asLatest: RegistryMetadataLatest;
+}
+
+export interface Registry {
+  findMetaCall (callIndex: Uint8Array): CallFunction;
+
+  // due to same circular imports where types don't really want to import from EventData,
+  // keep this as a generic Codec, however the actual impl. returns the correct
+  findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
+
+  get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
+  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  hasClass (name: string): boolean;
+  hasDef (name: string): boolean;
+  hasType (name: string): boolean;
+  register (type: Constructor | RegistryTypes): void;
+  register (name: string, type: Constructor): void;
+  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+  setMetadata (metadata: RegistryMetadata): void;
 }

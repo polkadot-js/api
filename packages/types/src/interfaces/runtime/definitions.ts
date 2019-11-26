@@ -17,9 +17,27 @@ export default {
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
     DigestItem: 'GenericDigestItem',
+    DispatchClass: {
+      _enum: ['Normal', 'Operational']
+    },
+    DispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'bool'
+    },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
+    ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown',
+    ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
+    ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
+    ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
+    ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
+    ExtrinsicUnknown: 'GenericExtrinsicUnknown',
+    ExtrinsicV1: 'GenericExtrinsicV1',
+    ExtrinsicV2: 'GenericExtrinsicV2',
+    ExtrinsicV3: 'GenericExtrinsicV3',
+    ExtrinsicV4: 'GenericExtrinsicV4',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
@@ -44,6 +62,7 @@ export default {
       block: 'Block',
       justification: 'Justification'
     },
+    SignerPayload: 'GenericSignerPayload',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',
@@ -51,12 +70,20 @@ export default {
     // signatures (used in block & extrinsics)
     Ed25519Signature: 'Signature',
     Sr25519Signature: 'Signature',
+    EcdsaSignature: '[u8; 65]',
+    MultiSignature: {
+      _enum: {
+        Ed25519: 'Ed25519Signature',
+        Sr25519: 'Sr25519Signature',
+        Ecdsa: 'EcdsaSignature'
+      }
+    },
 
     // extrinsic definition
     ImmortalEra: 'GenericImmortalEra',
     MortalEra: 'GenericMortalEra',
 
-    // :: digest
+    // digest
     PreRuntime: '(ConsensusEngineId, Bytes)',
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',

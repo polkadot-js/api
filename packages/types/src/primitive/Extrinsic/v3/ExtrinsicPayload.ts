@@ -2,14 +2,34 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
+import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import U8a from '../../../codec/U8a';
-import ExtrinsicEra from '../ExtrinsicEra';
+import Bytes from '../../../primitive/Bytes';
+import u32 from '../../../primitive/U32';
 import { sign } from '../util';
+import { SignedPayloadBaseV2 as SignedPayloadBaseV3 } from '../v2/ExtrinsicPayload';
+
+// SignedExtra adds the following fields to the payload
+const SignedExtraV3: Record<string, InterfaceTypes> = {
+  // system::CheckVersion<Runtime>
+  specVersion: 'u32',
+  // system::CheckGenesis<Runtime>
+  genesisHash: 'Hash',
+  // system::CheckEra<Runtime>
+  blockHash: 'Hash'
+  // system::CheckNonce<Runtime>
+  // system::CheckWeight<Runtime>
+  // balances::TakeFees<Runtime>
+};
+
+// the full definition for the payload
+export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
+  ...SignedPayloadBaseV3,
+  ...SignedExtraV3
+};
 
 /**
  * @name ExtrinsicPayloadV3
@@ -18,15 +38,8 @@ import { sign } from '../util';
  * on the contents included
  */
 export default class ExtrinsicPayloadV3 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super({
-      method: U8a,
-      era: ExtrinsicEra,
-      nonce: 'Compact<Index>',
-      tip: 'Compact<Balance>',
-      genesisHash: 'Hash',
-      blockHash: 'Hash'
-    }, value);
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    super(registry, SignedPayloadDefV3, value);
   }
 
   /**
@@ -51,10 +64,10 @@ export default class ExtrinsicPayloadV3 extends Struct {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
+   * @description The [[Bytes]] contained in the payload
    */
-  public get method (): U8a {
-    return this.get('method') as U8a;
+  public get method (): Bytes {
+    return this.get('method') as Bytes;
   }
 
   /**
@@ -62,6 +75,13 @@ export default class ExtrinsicPayloadV3 extends Struct {
    */
   public get nonce (): Compact<Index> {
     return this.get('nonce') as Compact<Index>;
+  }
+
+  /**
+   * @description The specVersion for this signature
+   */
+  public get specVersion (): u32 {
+    return this.get('specVersion') as u32;
   }
 
   /**
@@ -74,8 +94,7 @@ export default class ExtrinsicPayloadV3 extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a());
+    return sign(signerPair, this.toU8a(true));
   }
 }

@@ -20,8 +20,8 @@ footer: Apache-2 Licensed | Copyright © 2017-2019 polkadot-js authors and contr
 
 The API provides application developers the ability to query a node and interact with the Polkadot or Substrate chains using Javascript. Here you will find documentation and examples to get you started.
 
-::: tip Examples
-In a rush and just want examples? [Jump right in](/examples/promise/) and get a handle on using the API in your projects.
+::: tip Getting started & Examples
+[Jump right in](/start/) and get an overview on using the API in your projects, from installation all the way through to making it do magic.  Already understand how things work and just want the examples? [The ApiPromise examples](/examples/promise/) provide some basic recipies.
 :::
 
 ## Available packages

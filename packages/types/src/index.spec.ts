@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import './injector';
+import Metadata from '@polkadot/metadata/Metadata';
+import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
-import { createTypeUnsafe } from './codec/createType';
-import GenericCall from './primitive/Generic/Call';
+import { createTypeUnsafe, TypeRegistry } from './codec/create';
 import { Codec } from './types';
 import * as exported from './index.types';
 import * as definitions from './interfaces/definitions';
@@ -16,7 +14,17 @@ import * as definitions from './interfaces/definitions';
 // specifically for the types that _should_ throw in the constrtuctor, i.e
 // `usize` is not allowed (runtime incompat) and `origin` is not passed through
 // to any calls. All other types _must_ pass and allow for empty defaults
-const UNCONSTRUCTABLE = ['genericorigin', 'origin', 'usize'];
+const UNCONSTRUCTABLE = [
+  'ExtrinsicPayloadUnknown', 'GenericExtrinsicPayloadUnknown',
+  'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
+  'GenericOrigin', 'Origin',
+  'usize'
+].map((v): string => v.toLowerCase());
+
+const registry = new TypeRegistry();
+
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
 
 function testTypes (type: string, typeNames: string[]): void {
   describe(type, (): void => {
@@ -24,7 +32,7 @@ function testTypes (type: string, typeNames: string[]): void {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name}`, (): void => {
           const constructFn = (): Codec =>
-            createTypeUnsafe(name);
+            createTypeUnsafe(registry, name);
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();
@@ -36,12 +44,10 @@ function testTypes (type: string, typeNames: string[]): void {
     });
 
     describe(`${type}:: default creation (empty bytes)`, (): void => {
-      GenericCall.injectMethods(extrinsics);
-
       typeNames.forEach((name): void => {
         it(`creates an empty ${name} (from empty bytes)`, (): void => {
           const constructFn = (): Codec =>
-            createTypeUnsafe(name, [createTypeUnsafe('Bytes')]);
+            createTypeUnsafe(registry, name, [createTypeUnsafe(registry, 'Bytes')]);
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
             expect(constructFn).toThrow();

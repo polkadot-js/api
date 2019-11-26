@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, u32, u64 } from '../../primitive';
-import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '../runtime';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
+import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AttestedCandidate extends Struct {
@@ -15,10 +15,10 @@ export interface AttestedCandidate extends Struct {
 }
 
 /** u32 */
-export type AuctionIndex = u32;
+export interface AuctionIndex extends u32 {}
 
-/** [AccountId, u64] & Codec */
-export type BalanceUpload = [AccountId, u64] & Codec;
+/** ITuple<[AccountId, u64]> */
+export interface BalanceUpload extends ITuple<[AccountId, u64]> {}
 
 /** Enum */
 export interface Bidder extends Enum {
@@ -52,14 +52,17 @@ export interface CandidateReceipt extends Struct {
   readonly blockDataHash: Hash;
 }
 
-/** Signature */
-export type CollatorSignature = Signature;
+/** H256 */
+export interface CollatorId extends H256 {}
 
-/** [ParaId, Hash] & Codec */
-export type EgressQueueRoot = [ParaId, Hash] & Codec;
+/** Signature */
+export interface CollatorSignature extends Signature {}
+
+/** ITuple<[ParaId, Hash]> */
+export interface EgressQueueRoot extends ITuple<[ParaId, Hash]> {}
 
 /** Bytes */
-export type HeadData = Bytes;
+export interface HeadData extends Bytes {}
 
 /** Enum */
 export interface IncomingParachain extends Enum {
@@ -94,10 +97,10 @@ export interface IncomingParachainFixed extends Struct {
 }
 
 /** BlockNumber */
-export type LeasePeriod = BlockNumber;
+export interface LeasePeriod extends BlockNumber {}
 
 /** LeasePeriod */
-export type LeasePeriodOf = LeasePeriod;
+export interface LeasePeriodOf extends LeasePeriod {}
 
 /** Struct */
 export interface NewBidder extends Struct {
@@ -116,10 +119,34 @@ export interface ParachainDispatchOrigin extends Enum {
 }
 
 /** u32 */
-export type ParaId = u32;
+export interface ParaId extends u32 {}
 
 /** ParaId */
-export type ParaIdOf = ParaId;
+export interface ParaIdOf extends ParaId {}
+
+/** Struct */
+export interface ParaInfo extends Struct {
+  /** ParaScheduling */
+  readonly scheduling: ParaScheduling;
+}
+
+/** Enum */
+export interface ParaScheduling extends Enum {
+  /** 0:: Always */
+  readonly isAlways: boolean;
+  /** 1:: Dynamic */
+  readonly isDynamic: boolean;
+}
+
+/** Enum */
+export interface Retriable extends Enum {
+  /** 0:: Never */
+  readonly isNever: boolean;
+  /** 1:: WithRetries(u32) */
+  readonly isWithRetries: boolean;
+  /** u32 */
+  readonly asWithRetries: u32;
+}
 
 /** Enum */
 export interface SlotRange extends Enum {
@@ -146,7 +173,7 @@ export interface SlotRange extends Enum {
 }
 
 /** u32 */
-export type SubId = u32;
+export interface SubId extends u32 {}
 
 /** Struct */
 export interface UpwardMessage extends Struct {
@@ -157,7 +184,7 @@ export interface UpwardMessage extends Struct {
 }
 
 /** u32 */
-export type ValidatorIndex = u32;
+export interface ValidatorIndex extends u32 {}
 
 /** Enum */
 export interface ValidityAttestation extends Enum {
@@ -173,11 +200,11 @@ export interface ValidityAttestation extends Enum {
   readonly asExplicit: CollatorSignature;
 }
 
-/** [ValidatorIndex, ValidityAttestation] & Codec */
-export type ValidityVote = [ValidatorIndex, ValidityAttestation] & Codec;
+/** ITuple<[ValidatorIndex, ValidityAttestation]> */
+export interface ValidityVote extends ITuple<[ValidatorIndex, ValidityAttestation]> {}
 
 /** Vec<WinningDataEntry> */
-export type WinningData = Vec<WinningDataEntry>;
+export interface WinningData extends Vec<WinningDataEntry> {}
 
-/** [AccountId, ParaIdOf, BalanceOf] & Codec */
-export type WinningDataEntry = [AccountId, ParaIdOf, BalanceOf] & Codec;
+/** ITuple<[AccountId, ParaIdOf, BalanceOf]> */
+export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}

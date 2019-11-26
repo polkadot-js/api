@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
-import createType from '../../codec/createType';
+import { createType, TypeRegistry } from '../../codec/create';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 import Address from './Address';
 
 describe('Address', (): void => {
+  const registry = new TypeRegistry();
+
   const testDecode = (type: string, input: Address | AccountId | AccountIndex | number[] | Uint8Array, expected: string): void =>
     it(`can decode from ${type}`, (): void => {
-      const a = createType('Address', input);
+      const a = createType(registry, 'Address', input);
       expect(a.toString()).toBe(expected);
     });
 
@@ -20,35 +20,35 @@ describe('Address', (): void => {
     it('equals on AccountId', (): void => {
       const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
-      expect(createType('Address', addr).eq(addr)).toBe(true);
+      expect(createType(registry, 'Address', addr).eq(addr)).toBe(true);
     });
 
     it('equals on AccountIndex', (): void => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(createType('Address', '2jpAFn').eq('25GUyv')).toBe(true);
+      expect(createType(registry, 'Address', '2jpAFn').eq('25GUyv')).toBe(true);
     });
   });
 
   describe('decoding', (): void => {
     testDecode(
       'Address',
-      createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      createType(registry, 'Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'AccountId',
-      createType('AccountId', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      createType(registry, 'AccountId', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      createType('Address', '2jpAFn'),
+      createType(registry, 'Address', '2jpAFn'),
       // NOTE Expected adress here is encoded with prefix 42, input above with 68
       '25GUyv'
     );
     testDecode(
       'AccountIndex (hex)',
-      createType('AccountIndex', '0x0100'),
+      createType(registry, 'AccountIndex', '0x0100'),
       '25GUyv'
     );
     testDecode(
@@ -97,7 +97,7 @@ describe('Address', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
-        const a = createType('Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
+        const a = createType(registry, 'Address', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
         expect(a[to]()).toEqual(expected);
       });
 

@@ -1,17 +1,23 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { u64 } from '../../primitive';
-import { BlockNumber } from '../runtime';
-import { AuthorityId } from '../consensus';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { u64 } from '@polkadot/types/primitive';
+import { BlockNumber } from '@polkadot/types/interfaces/runtime';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** u64 */
-export type AuthorityWeight = u64;
+export interface AuthorityIndex extends u64 {}
 
-/** [AuthorityId, u64] & Codec */
-export type NextAuthority = [AuthorityId, u64] & Codec;
+/** Vec<NextAuthority> */
+export interface AuthorityList extends Vec<NextAuthority> {}
+
+/** u64 */
+export interface AuthorityWeight extends u64 {}
+
+/** ITuple<[AuthorityId, AuthorityWeight]> */
+export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
 
 /** Struct */
 export interface PendingPause extends Struct {
@@ -29,14 +35,17 @@ export interface PendingResume extends Struct {
   readonly delay: BlockNumber;
 }
 
+/** u64 */
+export interface SetId extends u64 {}
+
 /** Struct */
 export interface StoredPendingChange extends Struct {
   /** BlockNumber */
   readonly scheduledAt: BlockNumber;
   /** BlockNumber */
   readonly delay: BlockNumber;
-  /** Vec<NextAuthority> */
-  readonly nextAuthorities: Vec<NextAuthority>;
+  /** AuthorityList */
+  readonly nextAuthorities: AuthorityList;
 }
 
 /** Enum */

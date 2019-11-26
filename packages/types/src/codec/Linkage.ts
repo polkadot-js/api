@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor, Codec, InterfaceTypes } from '../types';
+import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import Option from './Option';
 import Struct from './Struct';
@@ -18,8 +18,8 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export default class Linkage<T extends Codec> extends Struct {
-  public constructor (Type: Constructor | InterfaceTypes, value?: any) {
-    super({
+  constructor (registry: Registry, Type: Constructor | InterfaceTypes, value?: any) {
+    super(registry, {
       previous: Option.with(Type),
       next: Option.with(Type)
     }, value);
@@ -27,8 +27,8 @@ export default class Linkage<T extends Codec> extends Struct {
 
   public static withKey<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
-      public constructor (value?: any) {
-        super(Type, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, Type, value);
       }
     };
   }
@@ -51,8 +51,10 @@ export default class Linkage<T extends Codec> extends Struct {
   /**
    * @description Custom toU8a which with bare mode does not return the linkage if empty
    */
-  public toU8a (isBare?: boolean): Uint8Array {
-    return isBare && this.isEmpty
+  public toU8a (): Uint8Array {
+    // As part of a storage query (where these appear), in the case of empty, the values
+    // are NOT populated by the node - follow the same logic, leaving it empty
+    return this.isEmpty
       ? EMPTY
       : super.toU8a();
   }
@@ -63,8 +65,8 @@ export default class Linkage<T extends Codec> extends Struct {
  * @description A Linkage keys/Values tuple
  */
 export class LinkageResult extends Tuple {
-  public constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
-    super({
+  constructor (registry: Registry, [TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+    super(registry, {
       Keys: Vec.with(TypeKey),
       Values: Vec.with(TypeValue)
     }, [keys, values]);

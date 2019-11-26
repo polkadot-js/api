@@ -1,22 +1,30 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Struct, Vec } from '../../codec';
-import { Bytes, GenericEvent, u32 } from '../../primitive';
-import { Digest, Hash } from '../runtime';
+import { Codec } from '@polkadot/types/types';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, GenericEvent, u32, u8 } from '@polkadot/types/primitive';
+import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
-export type DigestOf = Digest;
+export interface DigestOf extends Digest {}
+
+/** Struct */
+export interface DispatchError extends Struct {
+  /** Option<u8> */
+  readonly module: Option<u8>;
+  /** u8 */
+  readonly error: u8;
+}
 
 /** GenericEvent */
-export type Event = GenericEvent;
+export interface Event extends GenericEvent {}
 
-/** Uint8Array & Codec */
-export type EventId = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface EventId extends Uint8Array, Codec {}
 
 /** u32 */
-export type EventIndex = u32;
+export interface EventIndex extends u32 {}
 
 /** Struct */
 export interface EventRecord extends Struct {
@@ -37,7 +45,7 @@ export interface EventRecord0to76 extends Struct {
 }
 
 /** Bytes */
-export type Key = Bytes;
+export interface Key extends Bytes {}
 
 /** Enum */
 export interface Phase extends Enum {

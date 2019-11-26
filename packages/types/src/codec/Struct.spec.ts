@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
-
-import { ClassOf } from '../codec/createType';
+import { ClassOf, TypeRegistry } from './create';
 import AccountId from '../primitive/Generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -13,10 +11,12 @@ import Struct from './Struct';
 import Vec from './Vec';
 
 describe('Struct', (): void => {
+  const registry = new TypeRegistry();
+
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new Struct({
+        const s = new Struct(registry, {
           foo: Text,
           bar: U32
         }, input);
@@ -37,7 +37,7 @@ describe('Struct', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new Struct({
+        const s = new Struct(registry, {
           foo: Text,
           bar: U32
         }, { foo: 'bazzing', bar: 69 });
@@ -57,12 +57,12 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )(null).toString()
+      )(registry, null).toString()
     ).toEqual('{}');
   });
 
   it('decodes a more complicated type', (): void => {
-    const s = new Struct({
+    const s = new Struct(registry, {
       foo: Vec.with(Struct.with({
         bar: Text
       }))
@@ -71,11 +71,11 @@ describe('Struct', (): void => {
   });
 
   it('decodes from a Map input', (): void => {
-    const input = new Struct({
+    const input = new Struct(registry, {
       a: U32,
       txt: Text
     }, { a: 42, txt: 'fubar' });
-    const s = new Struct({
+    const s = new Struct(registry, {
       txt: Text,
       foo: U32,
       bar: U32
@@ -90,7 +90,7 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )('ABC')
+      )(registry, 'ABC')
     ).toThrowError(/Struct: cannot decode type/);
   });
 
@@ -101,7 +101,7 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )({ txt: 'foo', u32: 0x123456 }).toString()
+      )(registry, { txt: 'foo', u32: 0x123456 }).toString()
     ).toEqual('{"txt":"foo","u32":1193046}');
   });
 
@@ -113,7 +113,7 @@ describe('Struct', (): void => {
           num: 'u32',
           cls: U32
         })
-      )({ txt: 'foo', num: 0x123456, cls: 123 }).toString()
+      )(registry, { txt: 'foo', num: 0x123456, cls: 123 }).toString()
     ).toEqual('{"txt":"foo","num":1193046,"cls":123}');
   });
 
@@ -123,7 +123,7 @@ describe('Struct', (): void => {
         txt: Text,
         u32: U32
       })
-    )({ txt: 'foo', u32: 0x123456 });
+    )(registry, { txt: 'foo', u32: 0x123456 });
 
     expect((struct as any).txt.toString()).toEqual('foo');
     expect((struct as any).u32.toNumber()).toEqual(0x123456);
@@ -136,13 +136,13 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )({ foo: 'bazzing', bar: 69 }).encodedLength
+      )(registry, { foo: 'bazzing', bar: 69 }).encodedLength
     ).toEqual(5);
   });
 
   it('exposes the types', (): void => {
     expect(
-      new Struct({
+      new Struct(registry, {
         foo: Text,
         bar: Text,
         baz: U32
@@ -154,7 +154,7 @@ describe('Struct', (): void => {
     ).toEqual({
       foo: 'Text',
       bar: 'Text',
-      baz: 'U32'
+      baz: 'u32'
     });
   });
 
@@ -165,7 +165,7 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )({ txt: 'foo', u32: 1234 })
+      )(registry, { txt: 'foo', u32: 1234 })
         .getAtIndex(1)
         .toString()
     ).toEqual('1234');
@@ -180,7 +180,7 @@ describe('Struct', (): void => {
       };
 
       expect(
-        new Struct({
+        new Struct(registry, {
           foo: Text,
           bar: Text,
           baz: U32
@@ -192,20 +192,20 @@ describe('Struct', (): void => {
   it('allows toString with large numbers', (): void => {
     // replicate https://github.com/polkadot-js/api/issues/640
     expect(
-      new Struct({
-        blockNumber: ClassOf('Option<BlockNumber>')
+      new Struct(registry, {
+        blockNumber: ClassOf(registry, 'Option<BlockNumber>')
       }, { blockNumber: '0x0000000010abcdef' }).toString()
     ).toEqual('{"blockNumber":279694831}');
   });
 
   it('generates sane toRawType', (): void => {
     expect(
-      new Struct({
+      new Struct(registry, {
         accountId: AccountId,
-        balanceCompact: ClassOf('Compact<Balance>'),
-        blockNumber: ClassOf('BlockNumber'),
-        compactNumber: ClassOf('Compact<BlockNumber>'),
-        optionNumber: ClassOf('Option<BlockNumber>'),
+        balanceCompact: ClassOf(registry, 'Compact<Balance>'),
+        blockNumber: ClassOf(registry, 'BlockNumber'),
+        compactNumber: ClassOf(registry, 'Compact<BlockNumber>'),
+        optionNumber: ClassOf(registry, 'Option<BlockNumber>'),
         counter: U32,
         vector: Vec.with(AccountId)
       }).toRawType()
@@ -223,11 +223,11 @@ describe('Struct', (): void => {
   it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
       accountId: AccountId,
-      balance: ClassOf('Balance')
+      balance: ClassOf(registry, 'Balance')
     });
 
     expect(
-      new Type().toRawType()
+      new Type(registry).toRawType()
     ).toEqual(JSON.stringify({
       accountId: 'AccountId',
       balance: 'Balance' // Override in Uint

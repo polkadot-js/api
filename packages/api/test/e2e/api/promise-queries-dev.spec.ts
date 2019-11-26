@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Header, Index } from '@polkadot/types/interfaces';
+import { Balance, Index } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Option, u32, createType } from '@polkadot/types';
+import { Option, u32, createType, TypeRegistry } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -23,6 +23,7 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('Promise e2e development queries', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
@@ -40,7 +41,7 @@ describeE2E({
   });
 
   it('allows retrieval of fallback when at query is made', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
+    const header = await api.rpc.chain.getHeader();
     const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
 
     expect(nonce.toHex()).toEqual('0x0000000000000000');
@@ -123,7 +124,7 @@ describeE2E({
 
   describe('with map type', (): void => {
     it('queries correct value', async (): Promise<void> => {
-      const balance = await api.query.balances.freeBalance(keyring.bob_stash.address) as Balance;
+      const balance = await api.query.balances.freeBalance(keyring.bob_stash.address);
 
       expect(balance.isZero()).toBe(false);
     });
@@ -131,8 +132,8 @@ describeE2E({
     it('queries correct value at a specified block', async (): Promise<void> => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
-      const header = await api.rpc.chain.getHeader() as Header;
-      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address) as Balance;
+      const header = await api.rpc.chain.getHeader();
+      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice_stash.address);
 
       expect(balanceAt.isZero()).toBe(false);
       expect(balanceAt.toString()).toEqual(balance.toString());
@@ -159,7 +160,7 @@ describeE2E({
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const key = api.query.balances.freeBalance.key(keyring.alice_stash.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
-      const balanceRPC = createType('Balance', balanceData.unwrapOr(undefined));
+      const balanceRPC = createType(registry, 'Balance', balanceData.unwrapOr(undefined));
 
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 

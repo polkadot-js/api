@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Header, RuntimeVersion } from '@polkadot/types/interfaces';
+import { Header } from '@polkadot/types/interfaces';
 
-import { ClassOf } from '@polkadot/types';
+import { ClassOf, TypeRegistry } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core';
 
@@ -16,33 +16,25 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('RPC-core e2e chain', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
     jest.setTimeout(30000);
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
-  it('subscribes via subscribeNewHead', (done): void => {
+  it('subscribes via subscribeNewHeads', (done): void => {
     let count = 0;
 
     rpc.chain
-      .subscribeNewHead()
+      .subscribeNewHeads()
       .subscribe((header: Header): void => {
-        expect(header).toBeInstanceOf(ClassOf('Header'));
+        expect(header).toBeInstanceOf(ClassOf(registry, 'Header'));
 
         if (++count === 3) {
           done();
         }
-      });
-  });
-
-  it('retrieves the runtime version', (done): void => {
-    rpc.chain
-      .getRuntimeVersion()
-      .subscribe((version: RuntimeVersion): void => {
-        expect(version).toBeInstanceOf(ClassOf('RuntimeVersion'));
-        done();
       });
   });
 });

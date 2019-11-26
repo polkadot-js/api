@@ -4,10 +4,10 @@
 
 import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
 
-import { assert, isUndefined, isNumber } from '@polkadot/util';
+import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 
 export default class RpcCoder {
-  private id: number = 0;
+  private id = 0;
 
   public decodeResponse (response: JsonRpcResponse): any {
     assert(response, 'Empty response object received');
@@ -52,11 +52,12 @@ export default class RpcCoder {
   private checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
+
+      // We need some sort of cut-off here since these can be very large and
+      // very nested, pick a number and trim the result display to it
       const _data = isUndefined(data)
         ? ''
-        : ' (' + `${data}`.substr(0, 10) + ')';
-
-      console.error(`${code}: ${message}${_data}`);
+        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 35);
 
       throw new Error(`${code}: ${message}${_data}`);
     }

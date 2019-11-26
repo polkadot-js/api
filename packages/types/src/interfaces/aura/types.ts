@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Struct } from '../../codec';
-import { u64 } from '../../primitive';
+import { Struct } from '@polkadot/types/codec';
+import { u64 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface RawAuraPreDigest extends Struct {

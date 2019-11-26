@@ -2,34 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, Index, Signature } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../../interfaces/runtime';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
-import createType from '../../../codec/createType';
+import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
-import Call from '../../Generic/Call';
-import ExtrinsicEra from '../ExtrinsicEra';
-import ExtrinsicPayload from './ExtrinsicPayload';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import ExtrinsicExtra from '../v2/ExtrinsicExtra';
+import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignature
+ * @name ExtrinsicSignatureV2
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super({
+  constructor (registry: Registry, value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
       signer: 'Address',
       signature: 'Signature',
-      extra: ExtrinsicExtra
+      era: 'ExtrinsicEra',
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>'
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
-  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned: boolean = false): ExtrinsicSignatureV2 | Uint8Array {
+  public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV2 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof ExtrinsicSignatureV2) {
@@ -58,28 +57,21 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description Returns the extra extrinsic info
-   */
-  public get extra (): ExtrinsicExtra {
-    return this.get('extra') as ExtrinsicExtra;
-  }
-
-  /**
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
   public get era (): ExtrinsicEra {
-    return this.extra.era;
+    return this.get('era') as ExtrinsicEra;
   }
 
   /**
    * @description The [[Index]] for the signature
    */
   public get nonce (): Compact<Index> {
-    return this.extra.nonce;
+    return this.get('nonce') as Compact<Index>;
   }
 
   /**
-   * @description The actuall [[Signature]] hash
+   * @description The actual [[Signature]] hash
    */
   public get signature (): Signature {
     return this.get('signature') as Signature;
@@ -96,16 +88,15 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    * @description The [[Balance]] tip
    */
   public get tip (): Compact<Balance> {
-    return this.extra.tip;
+    return this.get('tip') as Compact<Balance>;
   }
 
-  private injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayload): IExtrinsicSignature {
-    this.extra.set('era', era);
-    this.extra.set('nonce', nonce);
-    this.extra.set('tip', tip);
-
+  protected injectSignature (signer: Address, signature: Signature, { era, nonce, tip }: ExtrinsicPayloadV2): IExtrinsicSignature {
+    this.set('era', era);
+    this.set('nonce', nonce);
     this.set('signer', signer);
     this.set('signature', signature);
+    this.set('tip', tip);
 
     return this;
   }
@@ -115,26 +106,27 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('Signature', signature),
-      new ExtrinsicPayload(payload)
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'Signature', signature),
+      new ExtrinsicPayloadV2(this.registry, payload)
     );
   }
 
   /**
-   * @description Generate a payload and pplies the signature from a keypair
+   * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayload({
+    const signer = createType(this.registry, 'Address', account.publicKey);
+    const payload = new ExtrinsicPayloadV2(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
-      method: method.toU8a(),
+      method: method.toHex(),
       nonce,
+      specVersion: 0, // unused for v2
       tip: tip || 0
     });
-    const signature = createType('Signature', payload.sign(account));
+    const signature = createType(this.registry, 'Signature', payload.sign(account));
 
     return this.injectSignature(signer, signature, payload);
   }

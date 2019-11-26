@@ -1,7 +1,7 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AccountId } from '../runtime';
+import { AccountId } from '@polkadot/types/interfaces/runtime';
 
 /** AccountId */
-export type AuthorityId = AccountId;
+export interface AuthorityId extends AccountId {}

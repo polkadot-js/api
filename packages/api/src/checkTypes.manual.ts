@@ -5,37 +5,49 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
+import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import createType, { createTypeUnsafe } from '@polkadot/types/codec/createType';
+import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types/codec';
 
 import { SubmittableResult } from './';
 
-async function consts (api: ApiPromise): Promise<void> {
+const registry = new TypeRegistry();
+
+function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
-    api.consts.balances.creationFee.toHex(),
-    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.foo.bar,
+    api.consts.balances.creationFee.toNumber(),
+    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 
 async function derive (api: ApiPromise): Promise<void> {
-  await api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+  await api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
     console.log('current author:', header.author);
   });
 
-  await api.query.staking.intentions((intentions): void => {
-    console.log('intentions:', intentions);
-  });
+  const fees = await api.derive.balances.fees();
+  console.log('fees', fees);
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
+
+  // api.query.*.* is well-typed
+  const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
+  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is Balance
+  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
+  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
+  // In the meantime, we can case with `<Balance>`
+  const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
+  console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
@@ -49,7 +61,7 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
-  await api.rpc.chain.subscribeNewHead((header: Header): void => {
+  await api.rpc.chain.subscribeNewHeads((header: Header): void => {
     console.log('current header:', header);
   });
 
@@ -60,13 +72,13 @@ async function rpc (api: ApiPromise): Promise<void> {
 
 function types (): void {
   // check correct types with `createType`
-  const balance = createType('Balance', 2);
-  const gas = createType('Gas', 2);
-  const compact = createType('Compact<u32>', 2);
-  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
+  const balance = createType(registry, 'Balance', 2);
+  const gas = createType(registry, 'Gas', 2);
+  const compact = createType(registry, 'Compact<u32>', 2);
+  // const random = createType(registry, 'RandomType', 2); // This one should deliberately show a TS error
 
-  const gasUnsafe = createTypeUnsafe('Gas', [2]);
-  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
+  const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
+  const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }
@@ -96,7 +108,7 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
     });
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce<Index>(keyring.alice.address);
+  const nonce2 = await api.query.system.accountNonce(keyring.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
@@ -118,4 +130,5 @@ async function main (): Promise<void> {
   tx(api, keyring);
 }
 
+// eslint-disable-next-line @typescript-eslint/unbound-method
 main().catch(console.error);

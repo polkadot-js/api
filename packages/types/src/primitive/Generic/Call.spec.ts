@@ -1,29 +1,32 @@
-// Copyright 2017-2019 @polkadot/api-metadata authors & contributors
+// Copyright 2017-2019 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
+import Metadata from '@polkadot/metadata/Metadata';
+import metadataStatic from '@polkadot/metadata/Metadata/static';
 
+import { TypeRegistry } from '../../codec';
 import Call from './Call';
 
-describe('Call', (): void => {
-  beforeEach((): void => {
-    Call.injectMethods(extrinsics);
-  });
+const registry = new TypeRegistry();
 
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
+
+describe('Call', (): void => {
   it('handles decoding correctly (bare)', (): void => {
     expect(
-      new Call({
+      new Call(registry, {
         args: [],
-        callIndex: [5, 1] // balances.setBalance
+        callIndex: [6, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([5, 1, 0, 0, 0]));
+    ).toEqual(new Uint8Array([6, 1, 0, 0, 0]));
   });
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call('0x0501').toU8a()
-    ).toEqual(new Uint8Array([5, 1, 0, 0, 0])); // balances.setBalance
+      new Call(registry, '0x0601').toU8a()
+    ).toEqual(new Uint8Array([6, 1, 0, 0, 0])); // balances.setBalance
   });
 
   describe('hasOrigin', (): void => {
@@ -34,19 +37,19 @@ describe('Call', (): void => {
 
     it('is false with no arguments', (): void => {
       expect(
-        new Call(test, { args: [] } as any).hasOrigin
+        new Call(registry, test, { args: [] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', (): void => {
       expect(
-        new Call(test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
+        new Call(registry, test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', (): void => {
       expect(
-        new Call(test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
+        new Call(registry, test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
       ).toEqual(true);
     });
   });

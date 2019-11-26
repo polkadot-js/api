@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API
 const { ApiRx } = require('@polkadot/api');
@@ -10,7 +12,7 @@ async function main () {
   new ApiRx().isReady
     .pipe(
       switchMap((api) =>
-        api.rpc.chain.subscribeNewHead()
+        api.rpc.chain.subscribeNewHeads()
       ))
     .subscribe((header) => {
       console.log(`Chain is at block: #${header.number}`);

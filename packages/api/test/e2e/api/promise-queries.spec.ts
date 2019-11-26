@@ -7,7 +7,7 @@ import { EventRecord, Hash, Header, SessionIndex } from '@polkadot/types/interfa
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Option, Vec, createType } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -33,7 +33,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
 
   it('subscribes to rpc', (done): Promise<() => void> => {
     return (
-      api.rpc.chain.subscribeNewHead((header: Header): void => {
+      api.rpc.chain.subscribeNewHeads((header: Header): void => {
         expect(header.number.isEmpty).toBe(false);
 
         done();
@@ -53,7 +53,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
 
   it('subscribes to derive', (done): Promise<() => void> => {
     return (
-      api.derive.chain.subscribeNewHead((header: HeaderExtended): void => {
+      api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
         expect(header.number.isEmpty).toBe(false);
 
         done();
@@ -72,15 +72,15 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
   });
 
   it('can retrive header by hash', async (): Promise<void> => {
-    const latest = await api.rpc.chain.getHeader() as Header;
-    const specific = await api.rpc.chain.getHeader(latest.hash) as Header;
+    const latest = await api.rpc.chain.getHeader();
+    const specific = await api.rpc.chain.getHeader(latest.hash);
 
     expect(latest.hash).toEqual(specific.hash);
   });
 
   it('makes a query at a latest block (specified)', async (): Promise<void> => {
-    const header = await api.rpc.chain.getHeader() as Header;
-    const events = await api.query.system.events.at(header.hash) as Vec<EventRecord>;
+    const header = await api.rpc.chain.getHeader();
+    const events = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
 
@@ -100,14 +100,14 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
 
   describe('with plain type', (): void => {
     it('queries a correct value', async (): Promise<void> => {
-      const sessionIndex = await api.query.session.currentIndex() as SessionIndex;
+      const sessionIndex = await api.query.session.currentIndex();
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
     it('queries correct value at a specified block', async (): Promise<void> => {
-      const header = await api.rpc.chain.getHeader() as Header;
-      const sessionIndex = await api.query.session.currentIndex.at(header.hash) as SessionIndex;
+      const header = await api.rpc.chain.getHeader();
+      const sessionIndex = await api.query.session.currentIndex.at(header.hash);
 
       expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
@@ -128,7 +128,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
     it('gets correct key', async (): Promise<void> => {
       const key = api.query.session.currentIndex.key();
       const sessionIndexData = await api.rpc.state.getStorage<Option<any>>(key);
-      const sessionIndexRPC = createType('SessionIndex', sessionIndexData.unwrapOr(undefined));
+      const sessionIndexRPC = api.createType('SessionIndex', sessionIndexData.unwrapOr(undefined));
 
       expect(sessionIndexRPC.toNumber()).toBeGreaterThanOrEqual(0);
     });

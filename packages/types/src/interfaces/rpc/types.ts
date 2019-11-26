@@ -1,20 +1,25 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Enum, Option, Struct, Vec } from '../../codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '../../primitive';
-import { BlockNumber, Hash } from '../runtime';
+import { Codec, ITuple } from '@polkadot/types/types';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
-/** Uint8Array & Codec */
-export type ApiId = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface ApiId extends Uint8Array, Codec {}
+
+/** Hash */
+export interface BlockHash extends Hash {}
 
 /** Struct */
 export interface ChainProperties extends Struct {
-  /** u32 */
-  readonly tokenDecimals: u32;
-  /** Text */
-  readonly tokenSymbol: Text;
+  /** Option<u8> */
+  readonly ss58Format: Option<u8>;
+  /** Option<u32> */
+  readonly tokenDecimals: Option<u32>;
+  /** Option<Text> */
+  readonly tokenSymbol: Option<Text>;
 }
 
 /** Enum */
@@ -63,8 +68,8 @@ export interface Health extends Struct {
   readonly shouldHavePeers: bool;
 }
 
-/** [StorageKey, Option<StorageData>] & Codec */
-export type KeyValueOption = [StorageKey, Option<StorageData>] & Codec;
+/** ITuple<[StorageKey, Option<StorageData>]> */
+export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
 
 /** Struct */
 export interface NetworkState extends Struct {
@@ -87,6 +92,24 @@ export interface PeerInfo extends Struct {
 }
 
 /** Struct */
+export interface RpcMethods extends Struct {
+  /** u32 */
+  readonly version: u32;
+  /** Vec<Text> */
+  readonly methods: Vec<Text>;
+}
+
+/** Struct */
+export interface RuntimeDispatchInfo extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+  /** Balance */
+  readonly partialFee: Balance;
+}
+
+/** Struct */
 export interface RuntimeVersion extends Struct {
   /** Text */
   readonly specName: Text;
@@ -102,8 +125,8 @@ export interface RuntimeVersion extends Struct {
   readonly apis: Vec<RuntimeVersionApi>;
 }
 
-/** [ApiId, u32] & Codec */
-export type RuntimeVersionApi = [ApiId, u32] & Codec;
+/** ITuple<[ApiId, u32]> */
+export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 
 /** Struct */
 export interface StorageChangeSet extends Struct {

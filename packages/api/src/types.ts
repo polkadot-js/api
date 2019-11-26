@@ -2,20 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// These two files add module augmentation so that `api.{query,consts}.*.*`
+// get typed. Import them to make these types effective.
+import './consts.types';
+import './query.types';
+
+import { Constants } from '@polkadot/metadata/Decorated/types';
+import { UserRpc } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, CallFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw, Registry } from '@polkadot/types/types';
+import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
+import { DeriveAllSections } from './util/decorate';
 
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
-import { DeriveCustom } from '@polkadot/api-derive';
-import { Constants } from '@polkadot/api-metadata/consts/types';
+import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { Metadata, u64 } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
-import ApiBase from './Base';
-import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import ApiBase from './base';
+
+export * from './submittable/types';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
@@ -48,47 +57,63 @@ export interface DecorateMethodOptions {
   methodName?: string;
 }
 
+export type DecorateMethod<ApiType extends ApiTypes> = <Method extends (...args: any[]) => Observable<any>>(method: Method, options?: DecorateMethodOptions) => any;
+
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
-// - api.tx.*.*: SubmittableExtrinsic<ApiType>
+// - api.tx.*.*: SubmittableExtrinsic<ApiType extends ApiTypes>
 // - api.derive.*.*: MethodResult<ApiType, F>
 // - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<ApiType, F>, like in derive)
 
 // These are the types that don't lose type information (used for api.derive.*)
 // Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
-export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
-
+export interface RxResult<F extends AnyFunction> {
+  (...args: Parameters<F>): Observable<ObsInnerType<ReturnType<F>>>;
+  <T>(...args: Parameters<F>): Observable<T>;
+}
 export interface PromiseResult<F extends AnyFunction> {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>;
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise;
-  <T>(...args: Parameters<F>): Promise<T>;
-  <T>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
+  <T extends Codec | Codec[]>(...args: Parameters<F>): Promise<T>;
+  <T extends Codec | Codec[]>(...args: Push<Parameters<F>, Callback<T>>): UnsubscribePromise;
 }
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs'
+export type PromiseOrObs<ApiType extends ApiTypes, T> = ApiType extends 'rxjs'
+  ? Observable<T>
+  : Promise<T>
+
+// FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
+export type MethodResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiType extends 'rxjs'
   ? RxResult<F>
   : PromiseResult<F>;
 
-export type DecoratedRpcSection<ApiType, Section> = {
+export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
     ? MethodResult<ApiType, Section[Method]>
     : never
 }
 
-export type DecoratedRpc<ApiType, AllSections> = {
+export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [Section in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[Section]>
 }
 
-export interface StorageEntryObservable {
-  (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
-  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
+interface StorageEntryObservableMulti {
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Observable<T[]>;
+}
+
+interface StorageEntryPromiseMulti {
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
+  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
+}
+
+export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction> {
+  at: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
   creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: <T extends Codec>(args: (CodecArg[] | CodecArg)[]) => Observable<T[]>;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<u64>;
+  hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
+  key: (...args: Parameters<F>) => string;
+  size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
+  multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -99,61 +124,55 @@ export interface StorageEntryPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
-export interface StorageEntryPromiseMulti {
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[]): Promise<T[]>;
-  <T extends Codec>(args: (CodecArg[] | CodecArg)[], callback: Callback<T[]>): UnsubscribePromise;
-}
+export type StorageEntryExact<ApiType extends ApiTypes, F extends AnyFunction> = MethodResult<ApiType, F> & StorageEntryBase<ApiType, F>
 
-export interface StorageEntryPromise extends StorageEntryPromiseOverloads {
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
-  creator: StorageEntry;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
-  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: StorageEntryPromiseMulti;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<u64>;
-}
+// This is the most generic typings we can have for a storage entry function
+type GenericStorageEntryFunction = (arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>
 
-export type QueryableStorageEntry<ApiType> =
+export type QueryableStorageEntry<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
-    ? StorageEntryObservable
-    : StorageEntryPromise;
+    ? StorageEntryExact<'rxjs', GenericStorageEntryFunction>
+    : StorageEntryExact<'promise', GenericStorageEntryFunction> & StorageEntryPromiseOverloads;
 
-export interface QueryableModuleStorage<ApiType> {
+export interface QueryableModuleStorage<ApiType extends ApiTypes> {
   [index: string]: QueryableStorageEntry<ApiType>;
 }
 
-export type QueryableStorageMultiArg<ApiType> =
+export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
   QueryableStorageEntry<ApiType> |
   [QueryableStorageEntry<ApiType>, ...CodecArg[]];
 
-export type QueryableStorageMultiArgs<ApiType> = QueryableStorageMultiArg<ApiType>[];
-
-export interface QueryableStorageMultiBase<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>): Observable<T[]>;
+export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;
 }
 
-export interface QueryableStorageMultiPromise<ApiType> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<T[]>): UnsubscribePromise;
+export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
+  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
 }
 
-export type QueryableStorageMulti<ApiType> =
+export type QueryableStorageMulti<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
     ? QueryableStorageMultiBase<ApiType>
     : QueryableStorageMultiPromise<ApiType>;
 
-export interface QueryableStorage<ApiType> {
+// QueryableStorageExact will hold the exact typed api.query.*.* generated from
+// metadata. For now it's empty, it's ready to be module augmented.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface QueryableStorageExact<ApiType extends ApiTypes> { }
+
+export interface QueryableStorage<ApiType extends ApiTypes> extends QueryableStorageExact<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
 }
 
-export interface SubmittableExtrinsicFunction<ApiType> extends CallFunction {
+export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes> extends CallFunction {
   (...params: CodecArg[]): SubmittableExtrinsic<ApiType>;
 }
 
-export interface SubmittableModuleExtrinsics<ApiType> {
+export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
   [index: string]: SubmittableExtrinsicFunction<ApiType>;
 }
 
-export interface SubmittableExtrinsics<ApiType> {
+export interface SubmittableExtrinsics<ApiType extends ApiTypes> {
   (extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;
   [index: string]: SubmittableModuleExtrinsics<ApiType>;
 }
@@ -174,6 +193,14 @@ export interface ApiOptions {
    */
   provider?: ProviderInterface;
   /**
+   * @description A type registry to use along with this instance
+   */
+  registry?: Registry;
+  /**
+   * @description User-defined RPC methods
+   */
+  rpc?: UserRpc;
+  /**
    * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
   signer?: Signer;
@@ -186,14 +213,25 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
+  /**
+   * @description Additional types that are injected based on the chain we are connecting to. There are keyed by the chain, i.e. `{ 'Kusama CC1': { ... } }`
+   */
+  typesChain?: Record<string, RegistryTypes>;
+  /**
+   * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
+   */
+  typesSpec?: Record<string, RegistryTypes>;
 }
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx {
   consts: Constants;
+  // TODO This needs to be typed correctly
+  derive: DeriveAllSections<'rxjs', ExactDerive>;
   extrinsicType: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;
+  registry: Registry;
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
@@ -212,77 +250,6 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
-export interface SignerPayload {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The checkpoint hash of the block, in hex
-   */
-  blockHash: string;
-
-  /**
-   * @description The checkpoint block number, in hex
-   */
-  blockNumber: string;
-
-  /**
-   * @description The era for this transaction, in hex
-   */
-  era: string;
-
-  /**
-   * @description The genesis hash of the chain, in hex
-   */
-  genesisHash: string;
-
-  /**
-   * @description The encoded method (with arguments) in hex
-   */
-  method: string;
-
-  /**
-   * @description The nonce for this transaction, in hex
-   */
-  nonce: string;
-
-  /**
-   * @description The tip for this transaction, in hex
-   */
-  tip: string;
-
-  /**
-   * @description The version of the extrinsic we are dealing with
-   */
-  version: number;
-}
-
-export interface SignerPayloadRawBase {
-  /**
-   * @description The hex-encoded data for this request
-   */
-  data: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type?: 'bytes' | 'payload';
-}
-
-export interface SignerPayloadRaw extends SignerPayloadRawBase {
-  /**
-   * @description The ss-58 encoded address
-   */
-  address: string;
-
-  /**
-   * @description The type of the contained data
-   */
-  type: 'bytes' | 'payload';
-}
-
 export interface SignerResult {
   /**
    * @description The id for this request
@@ -297,15 +264,9 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @deprecated Implement and use signPayload and/or signRaw instead
-   * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
-   */
-  sign?: (extrinsic: IExtrinsic, address: string, options: SignerOptions) => Promise<number>;
-
-  /**
    * @description signs an extrinsic payload from a serialized form
    */
-  signPayload?: (payload: SignerPayload) => Promise<SignerResult>;
+  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
 
   /**
    * @description signs a raw payload, only the bytes data as supplied
@@ -315,5 +276,7 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: Hash | ISubmittableResult) => void;
+  update?: (id: number, status: Hash | SubmittableResultImpl) => void;
 }
+
+export { ApiBase };

@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { createType, ClassOf } from '@polkadot/types';
+import { createType, ClassOf, TypeRegistry } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { describeE2E } from '../../util';
@@ -24,6 +24,7 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('Api-RX derive e2e', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiRx;
 
   beforeAll((): void => {
@@ -44,8 +45,7 @@ describeE2E({
   // (and it is assuming it sent at least 1 tx)
   describe('derive.accounts', (): void => {
     describe('idAndIndex', (): void => {
-      it('looks up AccountId & AccountIndex from AccountId', async (done): Promise<void> => {
-        // @ts-ignore silence warning until we have static types here
+      it('looks up AccountId & AccountIndex from AccountId', (done): void => {
         api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]): void => {
           expect(accountId!.toString()).toEqual(ID);
           // The first emitted value for ix is undefined when passing the ID
@@ -58,8 +58,7 @@ describeE2E({
         });
       });
 
-      it('looks up AccountId & AccountIndex from AccountIndex', async (done): Promise<void> => {
-        // @ts-ignore silence warning until we have static types here
+      it('looks up AccountId & AccountIndex from AccountIndex', (done): void => {
         api.derive.accounts.idAndIndex(IX).subscribe(([accountId, accountIndex]): void => {
           // The first emitted value for id is undefined when passing the IX
           if (accountId) {
@@ -74,12 +73,11 @@ describeE2E({
     });
 
     describe('indexToId', (): void => {
-      it('looks up AccountId from AccountIndex', async (done): Promise<void> => {
-        // @ts-ignore silence warning until we have static types here
+      it('looks up AccountId from AccountIndex', (done): void => {
         api.derive.accounts.indexToId(IX).subscribe((accountId): void => {
           // The first emitted value for accountId is undefined when passing the IX
           if (accountId) {
-            expect(accountId instanceof ClassOf('AccountId')).toBe(true);
+            expect(accountId instanceof ClassOf(registry, 'AccountId')).toBe(true);
             expect(accountId.toString()).toEqual(ID);
           } else {
             expect(accountId).toEqual(undefined);
@@ -90,12 +88,11 @@ describeE2E({
     });
 
     describe('idToIndex', (): void => {
-      it('looks up AccountIndex from AccountId', async (done): Promise<void> => {
-        // @ts-ignore silence warning until we have static types here
+      it('looks up AccountIndex from AccountId', (done): void => {
         api.derive.accounts.idToIndex(ID).subscribe((accountIndex): void => {
           // The first emitted value for AccountIndex is undefined when passing the ID
           if (accountIndex) {
-            expect(accountIndex instanceof ClassOf('AccountIndex')).toBe(true);
+            expect(accountIndex instanceof ClassOf(registry, 'AccountIndex')).toBe(true);
             expect(accountIndex.toString()).toEqual(IX);
           } else {
             expect(accountIndex).toEqual(undefined);
@@ -106,13 +103,12 @@ describeE2E({
     });
 
     describe('indexes', (): void => {
-      it('looks up all AccountIndexes', async (done): Promise<void> => {
-        // @ts-ignore silence warning until we have static types here
+      it('looks up all AccountIndexes', (done): void => {
         api.derive.accounts.indexes().subscribe((accountIndexes): void => {
           // A local dev chain should have the AccountIndex of Alice
           expect(accountIndexes).toHaveProperty(
             ID,
-            createType('AccountIndex', IX)
+            createType(registry, 'AccountIndex', IX)
           );
           done();
         });
@@ -124,11 +120,11 @@ describeE2E({
   // (and it is assuming it sent at least 1 tx)
   describe('derive.balances', (): void => {
     describe('all', (): void => {
-      it('It returns an object with all relevant balance information of an account', async (done): Promise<void> => {
+      it('It returns an object with all relevant balance information of an account', (done): void => {
         api.derive.balances.all(ID).subscribe((balances: DerivedBalances): void => {
           expect(balances).toEqual(expect.objectContaining({
-            accountId: expect.any(ClassOf('AccountId')),
-            accountNonce: expect.any(ClassOf('Index')),
+            accountId: expect.any(ClassOf(registry, 'AccountId')),
+            accountNonce: expect.any(ClassOf(registry, 'Index')),
             availableBalance: expect.any(BN),
             freeBalance: expect.any(BN),
             lockedBalance: expect.any(BN),
@@ -142,7 +138,7 @@ describeE2E({
     });
 
     describe('fees', (): void => {
-      it('fees: It returns an object with all relevant fees of type BN', async (done): Promise<void> => {
+      it('fees: It returns an object with all relevant fees of type BN', (done): void => {
         api.derive.balances.fees().subscribe((fees: DerivedFees): void => {
           expect(fees).toEqual(expect.objectContaining({
             creationFee: expect.any(BN),
@@ -159,9 +155,9 @@ describeE2E({
 
   describe('derive.chain', (): void => {
     describe('bestNumber', (): void => {
-      it('Get the latest block number', async (done): Promise<void> => {
+      it('Get the latest block number', (done): void => {
         api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(blockNumber instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -169,9 +165,9 @@ describeE2E({
     });
 
     describe('bestNumberFinalized', (): void => {
-      it('Get the latest finalised block number', async (done): Promise<void> => {
+      it('Get the latest finalised block number', (done): void => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(blockNumber instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -179,9 +175,9 @@ describeE2E({
     });
 
     describe('bestNumberLag', (): void => {
-      it('lag between finalised head and best head', async (done): Promise<void> => {
+      it('lag between finalised head and best head', (done): void => {
         api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber): void => {
-          expect(numberLag instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(numberLag instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(numberLag.gten(0)).toBe(true);
           done();
         });
@@ -190,7 +186,7 @@ describeE2E({
 
     // FIXME https://github.com/polkadot-js/api/issues/868
     describe('getHeader', (): void => {
-      it('gets a specific block header and extended with it`s author', async (done): Promise<void> => {
+      it('gets a specific block header and extended with it`s author', (done): void => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined): void => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));
@@ -199,10 +195,10 @@ describeE2E({
       });
     });
 
-    describe('subscribeNewHead', (): void => {
-      it('gets an observable of the current block header and it\'s author', async (done): Promise<void> => {
+    describe('subscribeNewHeads', (): void => {
+      it('gets an observable of the current block header and it\'s author', (done): void => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended): void => {
+        api.derive.chain.subscribeNewHeads().subscribe((headerExtended: HeaderExtended): void => {
           // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });
@@ -212,7 +208,7 @@ describeE2E({
 
   describe('derive.contracts', (): void => {
     describe('fees', (): void => {
-      it('fees: It returns an object with all relevant constract fees of type Balance', async (done): Promise<void> => {
+      it('fees: It returns an object with all relevant constract fees of type Balance', (done): void => {
         api.derive.contracts.fees().subscribe((fees: DerivedContractFees): void => {
           expect(fees).toEqual(expect.objectContaining({
             callBaseFee: expect.any(BN),
@@ -234,7 +230,7 @@ describeE2E({
 
   describe('derive.elections', (): void => {
     describe('info', (): void => {
-      it('It returns an object with all relevant elections properties', async (done): Promise<void> => {
+      it('It returns an object with all relevant elections properties', (done): void => {
         api.derive.elections.info().subscribe((info: DerivedElectionsInfo): void => {
           expect(info).toEqual(expect.objectContaining({
             members: expect.anything(),
@@ -252,7 +248,7 @@ describeE2E({
 
   describe('derive.session', (): void => {
     describe('sessionProgress', (): void => {
-      it('derive.session.sessionProgress', async (done): Promise<void> => {
+      it('derive.session.sessionProgress', (done): void => {
         api.derive.session.sessionProgress().subscribe((progress: BN): void => {
           expect(progress instanceof BN).toBe(true);
           done();
@@ -261,7 +257,7 @@ describeE2E({
     });
 
     describe('session.info', (): void => {
-      it('retrieves all session info', async (done): Promise<void> => {
+      it('retrieves all session info', (done): void => {
         api.derive.session.info().subscribe((info: DerivedSessionInfo): void => {
           expect(info).toEqual(expect.objectContaining({
             currentEra: expect.anything(),
@@ -280,7 +276,7 @@ describeE2E({
     });
 
     describe('session.eraLength', (): void => {
-      it('derive.session.eraLength', async (done): Promise<void> => {
+      it('derive.session.eraLength', (done): void => {
         api.derive.session.eraLength().subscribe((length: BN): void => {
           expect(length instanceof BN).toBe(true);
           done();
@@ -289,7 +285,7 @@ describeE2E({
     });
 
     describe('session.eraProgress', (): void => {
-      it('derive.session.eraProgress', async (done): Promise<void> => {
+      it('derive.session.eraProgress', (done): void => {
         api.derive.session.eraProgress().subscribe((progress: BN): void => {
           expect(progress instanceof BN).toBe(true);
           done();

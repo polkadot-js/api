@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '@polkadot/types';
+
 import Mock from './';
 
 describe('subscribe', (): void => {
+  const registry = new TypeRegistry();
   let mock: Mock;
 
   beforeEach((): void => {
-    mock = new Mock();
+    mock = new Mock(registry);
   });
 
   it('fails on unknown methods', (): Promise<number | void> => {
@@ -21,7 +24,7 @@ describe('subscribe', (): void => {
 
   it('returns a subscription id', (): Promise<void> => {
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => void 0)
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})
       .then((id): void => {
         expect(id).toEqual(1);
       });
@@ -29,7 +32,7 @@ describe('subscribe', (): void => {
 
   it('calls back with the last known value', (done): Promise<number> => {
     mock.isUpdating = false;
-    mock.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
+    mock.subscriptions.chain_subscribeNewHead.lastValue = 'testValue';
 
     return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
       expect(value).toEqual('testValue');

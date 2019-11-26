@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '../../codec';
-import { AccountId, Balance } from '../runtime';
+import { Enum, Struct } from '@polkadot/types/codec';
+import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AssetOptions extends Struct {
@@ -23,7 +23,7 @@ export interface Owner extends Enum {
 }
 
 /** PermissionsV1 */
-export type PermissionLatest = PermissionsV1;
+export interface PermissionLatest extends PermissionsV1 {}
 
 /** Struct */
 export interface PermissionsV1 extends Struct {

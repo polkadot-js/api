@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '../create';
 import U32 from '../../primitive/U32';
 import compareArray from './compareArray';
 
 describe('compareArray', (): void => {
-  const a = [new U32(123), new U32(456), new U32(789)];
+  const registry = new TypeRegistry();
+  const a = [new U32(registry, 123), new U32(registry, 456), new U32(registry, 789)];
 
   it('returns false when second param is a non-array', (): void => {
     expect(
@@ -22,7 +24,7 @@ describe('compareArray', (): void => {
 
   it('compares array of codec agains codec', (): void => {
     expect(
-      compareArray(a, [new U32(123), new U32(456), new U32(789)])
+      compareArray(a, [new U32(registry, 123), new U32(registry, 456), new U32(registry, 789)])
     ).toBe(true);
   });
 

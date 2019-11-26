@@ -1,10 +1,10 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '../../types';
-import { Compact, Enum, Option, Struct } from '../../codec';
-import { Bytes, Null, bool, u32, u64 } from '../../primitive';
-import { Balance, BlockNumber, Hash } from '../runtime';
+import { Codec } from '@polkadot/types/types';
+import { Compact, Enum, Option, Struct } from '@polkadot/types/codec';
+import { Bytes, Data, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AliveContractInfo extends Struct {
@@ -23,7 +23,39 @@ export interface AliveContractInfo extends Struct {
 }
 
 /** Hash */
-export type CodeHash = Hash;
+export interface CodeHash extends Hash {}
+
+/** Struct */
+export interface ContractCallRequest extends Struct {
+  /** AccountId */
+  readonly origin: AccountId;
+  /** AccountId */
+  readonly dest: AccountId;
+  /** Balance */
+  readonly value: Balance;
+  /** u64 */
+  readonly gasLimit: u64;
+  /** Bytes */
+  readonly inputData: Bytes;
+}
+
+/** Enum */
+export interface ContractExecResult extends Enum {
+  /** 0:: Success(ContractExecResultSuccess) */
+  readonly isSuccess: boolean;
+  /** ContractExecResultSuccess */
+  readonly asSuccess: ContractExecResultSuccess;
+  /** 1:: Error */
+  readonly isError: boolean;
+}
+
+/** Struct */
+export interface ContractExecResultSuccess extends Struct {
+  /** u8 */
+  readonly status: u8;
+  /** Data */
+  readonly data: Data;
+}
 
 /** Enum */
 export interface ContractInfo extends Enum {
@@ -37,11 +69,11 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
-/** Uint8Array & Codec */
-export type ContractStorageKey = Uint8Array & Codec;
+/** Uint8Array, Codec */
+export interface ContractStorageKey extends Uint8Array, Codec {}
 
 /** u64 */
-export type Gas = u64;
+export interface Gas extends u64 {}
 
 /** Struct */
 export interface PrefabWasmModule extends Struct {
@@ -58,7 +90,7 @@ export interface PrefabWasmModule extends Struct {
 }
 
 /** Option<Null> */
-export type PrefabWasmModuleReserved = Option<Null>;
+export interface PrefabWasmModuleReserved extends Option<Null> {}
 
 /** Struct */
 export interface Schedule extends Struct {
@@ -95,10 +127,10 @@ export interface Schedule extends Struct {
 }
 
 /** Hash */
-export type SeedOf = Hash;
+export interface SeedOf extends Hash {}
 
 /** Hash */
-export type TombstoneContractInfo = Hash;
+export interface TombstoneContractInfo extends Hash {}
 
 /** Bytes */
-export type TrieId = Bytes;
+export interface TrieId extends Bytes {}

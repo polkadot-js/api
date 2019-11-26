@@ -12,8 +12,7 @@ import createParam from './create/param';
 const getHeader: RpcMethodOpt = {
   description: 'Retrieves the header for a specific block',
   params: [
-    // @ts-ignore srml types
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('hash', 'BlockHash', { isOptional: true })
   ],
   type: 'Header'
 };
@@ -21,8 +20,7 @@ const getHeader: RpcMethodOpt = {
 const getBlock: RpcMethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
-    // @ts-ignore srml types
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('hash', 'BlockHash', { isOptional: true })
   ],
   type: 'SignedBlock'
 };
@@ -30,32 +28,21 @@ const getBlock: RpcMethodOpt = {
 const getBlockHash: RpcMethodOpt = {
   description: 'Get the block hash for a specific block',
   params: [
-    // @ts-ignore This whould be fixed if we can get types from srml strings
     createParam('blockNumber', 'BlockNumber', { isOptional: true })
   ],
-  // @ts-ignore srml types
-  type: 'Hash'
+  type: 'BlockHash'
 };
 
 const getFinalizedHead: RpcMethodOpt = {
   description: 'Get hash of the last finalized block in the canon chain',
   params: [],
-  // @ts-ignore srml types
-  type: 'Hash'
+  type: 'BlockHash'
 };
 
-const getRuntimeVersion: RpcMethodOpt = {
-  description: 'Get the runtime version (alias of state_getRuntimeVersion)',
-  params: [
-    // @ts-ignore srml types
-    createParam('hash', 'Hash', { isOptional: true })
-  ],
-  type: 'RuntimeVersion'
-};
-
-const subscribeNewHead: RpcMethodOpt = {
+const subscribeNewHeads: RpcMethodOpt = {
   description: 'Retrieves the best header via subscription',
   params: [],
+  // NOTE These still has the aliassed version, compatible with 1.x
   pubsub: [
     'newHead',
     'subscribeNewHead',
@@ -75,17 +62,6 @@ const subscribeFinalizedHeads: RpcMethodOpt = {
   type: 'Header'
 };
 
-const subscribeRuntimeVersion: RpcMethodOpt = {
-  description: 'Retrieves the runtime version via subscription',
-  params: [],
-  pubsub: [
-    'runtimeVersion',
-    'subscribeRuntimeVersion',
-    'unsubscribeRuntimeVersion'
-  ],
-  type: 'RuntimeVersion'
-};
-
 const section = 'chain';
 
 /**
@@ -99,13 +75,9 @@ export default {
   methods: {
     getBlock: createMethod(section, 'getBlock', getBlock),
     getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
-    // TODO US spelling
     getFinalizedHead: createMethod(section, 'getFinalizedHead', getFinalizedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
-    getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
-    // TODO US spelling
     subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
-    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
-    subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
+    subscribeNewHeads: createMethod(section, 'subscribeNewHeads', subscribeNewHeads)
   }
 };

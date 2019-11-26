@@ -2,21 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
-
+import Metadata from '@polkadot/metadata/Metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import { hexToU8a } from '@polkadot/util';
 
-import Call from '../Generic/Call';
+import { TypeRegistry } from '../../codec';
 import Extrinsic from './Extrinsic';
 
-describe('Extrinsic', (): void => {
-  beforeAll((): void => {
-    Call.injectMethods(extrinsics);
-  });
+const registry = new TypeRegistry();
 
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
+
+describe('Extrinsic', (): void => {
   describe('V1', (): void => {
     it('decodes an actual transaction (length prefix)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '2502' +
         '81' +
@@ -26,7 +28,7 @@ describe('Extrinsic', (): void => {
         'b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e' +
         '0c' + // nonce
         '00' + // era
-        '0500' + // balances.transfer
+        '0600' + // balances.transfer
         'ff' +
         '4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8' +
         'e5c0'
@@ -37,13 +39,14 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
       expect(extrinsic.nonce.toNumber()).toEqual(3);
       expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
-      expect(extrinsic.callIndex).toEqual(new Uint8Array([5, 0]));
+      expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
       expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
     });
 
     it('decodes an actual transaction (no length prefix, old version)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '81' +
         'ff' +
@@ -52,7 +55,7 @@ describe('Extrinsic', (): void => {
         'b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e' +
         '0c' +
         '00' +
-        '0500' + // balances.transfer
+        '0600' + // balances.transfer
         'ff' +
         '4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8' +
         'e5c0'
@@ -63,7 +66,7 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
       expect(extrinsic.nonce.toNumber()).toEqual(3);
       expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
-      expect(extrinsic.callIndex).toEqual(new Uint8Array([5, 0]));
+      expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
       expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
     });
@@ -72,6 +75,7 @@ describe('Extrinsic', (): void => {
   describe('V2', (): void => {
     it('decodes an actual transaction (length prefix)', (): void => {
       const extrinsic = new Extrinsic(
+        registry,
         '0x' +
         '2902' + // yes, longer than in v1, 1 byte for the tip
         '82' +
@@ -82,7 +86,7 @@ describe('Extrinsic', (): void => {
         '00' + // era
         '0c' + // nonce
         '08' + // tip
-        '0500' + // balances.transfer
+        '0600' + // balances.transfer
         'ff' +
         '4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8' +
         'e5c0'
@@ -94,7 +98,7 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
       expect(extrinsic.nonce.toNumber()).toEqual(3);
       expect(extrinsic.tip.toNumber()).toEqual(2);
-      expect(extrinsic.callIndex).toEqual(new Uint8Array([5, 0]));
+      expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
       expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
     });
@@ -110,13 +114,13 @@ describe('Extrinsic', (): void => {
         '00' + // era
         '00' + // nonce
         '00' + // tip
-        '0500' + // balances.transfer
+        '0600' + // balances.transfer
         'ff' +
         '4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8' +
         'e5c0';
 
       expect(
-        new Extrinsic(new Extrinsic(input)).toU8a()
+        new Extrinsic(registry, new Extrinsic(registry, input)).toU8a()
       ).toEqual(hexToU8a(input));
     });
   });

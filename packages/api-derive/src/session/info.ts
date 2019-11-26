@@ -2,119 +2,125 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, EraIndex, SessionIndex } from '@polkadot/types/interfaces';
-import { DerivedSessionInfo } from '../types';
+import { BlockNumber, SessionIndex } from '@polkadot/types/interfaces';
+import { DerivedSessionInfo, DeriveSessionIndexes } from '../types';
 
-import BN from 'bn.js';
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, u64 } from '@polkadot/types';
+import { Option, u64, createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
-import { bestNumber } from '../chain';
+import { memo } from '../util';
 
-type Result0to94 = [BlockNumber, [SessionIndex, Option<BlockNumber>, BN, BN, SessionIndex]];
-type Result = [[u64, SessionIndex], [u64, u64, u64, SessionIndex, EraIndex]];
+type ResultV1Session = [Option<BlockNumber>, BlockNumber, BlockNumber, SessionIndex];
+type ResultV1 = [BlockNumber, DeriveSessionIndexes, ResultV1Session];
 
-const ZERO = new BN(0);
+type ResultSlots = [u64, u64, u64, SessionIndex];
+type ResultType = [boolean, u64, SessionIndex];
+type Result = [ResultType, DeriveSessionIndexes, ResultSlots];
 
 // internal helper to just split the logic - take all inputs, do the calculations and combine
-function createDerived0to94 ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result0to94): DerivedSessionInfo {
-  const lastLengthChange = _lastLengthChange
-    ? _lastLengthChange.unwrapOr(ZERO)
-    : ZERO;
+function createDerivedV1 (api: ApiInterfaceRx, [bestNumber, { currentIndex, validatorCount }, [_lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: ResultV1): DerivedSessionInfo {
+  const lastLengthChange = _lastLengthChange?.unwrapOr(null) || createType(api.registry, 'BlockNumber');
   const sessionProgress = bestNumber
     .sub(lastLengthChange)
     .add(sessionLength)
     .mod(sessionLength);
-  const currentEra = (currentIndex)
+  const currentEra = currentIndex
     .sub(lastEraLengthChange)
     .mod(sessionsPerEra);
-
-  return {
-    currentEra,
-    currentIndex,
-    eraLength: sessionLength.mul(sessionsPerEra),
-    eraProgress: currentEra
-      .mul(sessionLength)
-      .add(sessionProgress),
-    isEpoch: false,
-    lastEraLengthChange,
-    lastLengthChange,
-    sessionLength,
-    sessionsPerEra,
-    sessionProgress
-  } as unknown as DerivedSessionInfo;
-}
-
-function createDerived ([[epochDuration, sessionsPerEra], [currentSlot, epochIndex, epochStartSlot, currentIndex, currentEra]]: Result): DerivedSessionInfo {
-  const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = epochIndex
-    .mod(sessionsPerEra)
-    .mul(epochDuration)
+  const eraProgress = currentEra
+    .mul(sessionLength)
     .add(sessionProgress);
 
-  // FIXME This alwasy assumes Babe, as per the substrate defaults - at least for
-  // aura the `isEpoch` should be false
+  return {
+    currentEra: createType(api.registry, 'EraIndex', currentEra),
+    currentIndex,
+    eraLength: createType(api.registry, 'BlockNumber', sessionLength.mul(sessionsPerEra)),
+    eraProgress: createType(api.registry, 'BlockNumber', eraProgress),
+    isEpoch: false,
+    sessionLength,
+    sessionsPerEra,
+    sessionProgress: createType(api.registry, 'BlockNumber', sessionProgress),
+    validatorCount
+  };
+}
+
+function createDerivedLatest (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPerEra], { currentIndex, currentEra, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
+  const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
+  const sessionProgress = currentSlot.sub(epochStartSlot);
+  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
+
   return {
     currentEra,
     currentIndex,
-    eraLength: sessionsPerEra.mul(epochDuration),
-    eraProgress,
-    isEpoch: true,
-    lastEraLengthChange: ZERO,
-    lastLengthChange: epochStartSlot,
+    eraLength: createType(api.registry, 'BlockNumber', sessionsPerEra.mul(epochDuration)),
+    eraProgress: createType(api.registry, 'BlockNumber', eraProgress),
+    isEpoch: hasBabe,
     sessionLength: epochDuration,
     sessionsPerEra,
-    sessionProgress: sessionProgress
-  } as unknown as DerivedSessionInfo;
+    sessionProgress: createType(api.registry, 'BlockNumber', sessionProgress),
+    validatorCount
+  };
+}
+
+function infoV1 (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return combineLatest([
+    api.derive.chain.bestNumber(),
+    api.derive.session.indexes(),
+    api.queryMulti<ResultV1Session>([
+      api.query.session.lastLengthChange,
+      api.query.session.sessionLength,
+      api.query.staking.lastEraLengthChange,
+      api.query.staking.sessionsPerEra
+    ])
+  ]).pipe(
+    map((result): DerivedSessionInfo => createDerivedV1(api, result))
+  );
+}
+
+function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return api.derive.session.indexes().pipe(
+    map((indexes): DerivedSessionInfo =>
+      createDerivedLatest(api, [
+        [false, createType(api.registry, 'u64', 1), api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)],
+        indexes,
+        [createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'SessionIndex', 1)]
+      ])
+    )
+  );
+}
+
+function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+  return combineLatest([
+    api.derive.session.indexes(),
+    api.queryMulti<ResultSlots>([
+      api.query.babe.currentSlot,
+      api.query.babe.epochIndex,
+      api.query.babe.genesisSlot,
+      api.query.staking.currentEraStartSessionIndex
+    ])
+  ]).pipe(
+    map(([indexes, slots]: [DeriveSessionIndexes, ResultSlots]): DerivedSessionInfo =>
+      createDerivedLatest(api, [
+        [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],
+        indexes,
+        slots
+      ])
+    )
+  );
 }
 
 /**
  * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
-  return (): Observable<DerivedSessionInfo> => {
-    // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
-    // pre-94 we had more info and needed to calculate (handle old/Alex first)
-    // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
-    return api.query.session.lastLengthChange
-      ? (
-        combineLatest([
-          bestNumber(api)(),
-          api.queryMulti([
-            api.query.session.currentIndex,
-            api.query.session.lastLengthChange,
-            api.query.session.sessionLength,
-            api.query.staking.lastEraLengthChange,
-            api.query.staking.sessionsPerEra
-          ])
-        ]) as any as Observable<Result0to94>
-      ).pipe(
-        map(createDerived0to94),
-        drr()
-      )
-      : (
-        combineLatest([
-          // sessionsPerEra:
-          // substrate spec_version >= 94 : get from parameter_types exposed as api.consts
-          // https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
-          of([
-            api.consts.babe.epochDuration,
-            api.consts.staking.sessionsPerEra
-          ]),
-          api.queryMulti([
-            api.query.babe.currentSlot,
-            api.query.babe.epochIndex,
-            api.query.babe.epochStartSlot,
-            api.query.session.currentIndex,
-            api.query.staking.currentEra
-          ])
-        ]) as unknown as Observable<Result>
-      ).pipe(
-        map(createDerived),
-        drr()
-      );
-  };
+  const query = api.consts.timestamp || api.consts.babe || api.consts.aura
+    ? api.consts.babe
+      ? infoLatestBabe // 2.x with Babe
+      : infoLatestAura // 2.x with Aura (not all info there)
+    : infoV1;
+
+  return memo((): Observable<DerivedSessionInfo> =>
+    query(api));
 }

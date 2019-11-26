@@ -5,10 +5,10 @@
 import { BlockNumber, Header } from '@polkadot/types/interfaces';
 
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
 /**
  * @name bestNumber
@@ -23,11 +23,8 @@ import { drr } from '../util/drr';
  * ```
  */
 export function bestNumber (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return (): Observable<BlockNumber> =>
-    api.rpc.chain.subscribeNewHead()
-      .pipe(
-        filter((header: Header): boolean => !!header && !!header.number),
-        map((header: Header): BlockNumber => header.number.unwrap()),
-        drr()
-      );
+  return memo((): Observable<BlockNumber> =>
+    api.derive.chain.subscribeNewHeads().pipe(
+      map((header: Header): BlockNumber => header.number.unwrap())
+    ));
 }

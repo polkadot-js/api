@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Import the API and operators from RxJs
 const { ApiRx } = require('@polkadot/api');

@@ -4,7 +4,7 @@
 
 import { QueryableStorageEntry as QueryableStorageEntryBase, SubmittableExtrinsicFunction as SubmittableExtrinsicFunctionBase } from '../types';
 
-import { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../SubmittableExtrinsic';
+import { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../submittable/types';
 
 export type QueryableStorageEntry = QueryableStorageEntryBase<'promise'>;
 export type SubmittableExtrinsic = SubmittableExtrinsicBase<'promise'>;

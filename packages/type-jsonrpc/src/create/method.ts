@@ -6,11 +6,12 @@ import { RpcMethodOpt, RpcMethod } from '../types';
 
 import { isUndefined } from '@polkadot/util';
 
-export default function createMethod (section: string, method: string, { description, isDeprecated = false, isHidden = false, isSigned = false, params, pubsub, type }: RpcMethodOpt): RpcMethod {
+export default function createMethod (section: string, method: string, { description, isDeprecated = false, isHidden = false, isOptional = false, isSigned = false, params, pubsub, type }: RpcMethodOpt): RpcMethod {
   return {
     description,
     isDeprecated,
     isHidden,
+    isOptional,
     isSigned,
     isSubscription: !isUndefined(pubsub),
     method,

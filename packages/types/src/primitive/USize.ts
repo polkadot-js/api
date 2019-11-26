@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '../types';
+
 import U32 from './U32';
 
 /**
@@ -12,8 +14,8 @@ import U32 from './U32';
  * It is not to be used, since it created consensus mismatches.
  */
 export default class USize extends U32 {
-  public constructor (value?: any) {
-    super(value);
+  constructor (registry: Registry, value?: any) {
+    super(registry, value);
 
     throw new Error('The `usize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.');
   }

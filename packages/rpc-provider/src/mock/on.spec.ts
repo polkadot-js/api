@@ -4,13 +4,16 @@
 
 import { ProviderInterfaceEmitted } from '../types';
 
+import { TypeRegistry } from '@polkadot/types';
+
 import Mock from './';
 
 describe('on', (): void => {
+  const registry = new TypeRegistry();
   let mock: Mock;
 
   beforeEach((): void => {
-    mock = new Mock();
+    mock = new Mock(registry);
   });
 
   it('it emits both connected and disconnected events', (done): void => {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, IHash } from '../types';
+import { AnyU8a, Codec, IHash, Registry } from '../types';
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -17,10 +17,12 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
  * @noInheritDoc
  */
 export default class U8a extends Uint8Array implements Codec {
-  public constructor (value?: AnyU8a) {
-    super(
-      U8a.decodeU8a(value)
-    );
+  public readonly registry: Registry;
+
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(U8a.decodeU8a(value));
+
+    this.registry = registry;
   }
 
   private static decodeU8a (value?: any): Uint8Array {
@@ -42,7 +44,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -72,9 +74,8 @@ export default class U8a extends Uint8Array implements Codec {
    */
   public eq (other?: any): boolean {
     if (other instanceof Uint8Array) {
-      return (this.length === other.length) && isUndefined(
-        this.find((value, index): boolean => value !== other[index])
-      );
+      return (this.length === other.length) &&
+        !this.some((value, index): boolean => value !== other[index]);
     }
 
     return this.eq(U8a.decodeU8a(other));
@@ -107,7 +108,7 @@ export default class U8a extends Uint8Array implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `&[u8]`;
+    return '&[u8]';
   }
 
   /**

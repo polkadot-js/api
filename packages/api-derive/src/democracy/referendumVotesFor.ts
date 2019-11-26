@@ -11,27 +11,24 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Vec, createType } from '@polkadot/types';
 
 import { DerivedBalances, DerivedReferendumVote } from '../types';
-import { drr } from '../util/drr';
-import { votes } from './votes';
-import { votingBalances } from '../balances/votingBalances';
+import { memo } from '../util';
 
 export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | number) => Observable<DerivedReferendumVote[]> {
-  return (referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
-    (api.query.democracy.votersFor<Vec<AccountId>>(referendumId)).pipe(
+  return memo((referendumId: BN | number): Observable<DerivedReferendumVote[]> =>
+    api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
       switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
-          votes(api)(referendumId as BN, votersFor),
-          votingBalances(api)(votersFor)
+          api.derive.democracy.votes(referendumId as BN, votersFor),
+          api.derive.balances.votingBalances(votersFor)
         ])
       ),
       map(([votersFor, votes, balances]): DerivedReferendumVote[] =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
           accountId,
-          balance: balances[index].votingBalance || createType('Balance'),
-          vote: votes[index] || createType('Vote')
+          balance: balances[index].votingBalance || createType(api.registry, 'Balance'),
+          vote: votes[index] || createType(api.registry, 'Vote')
         } as unknown as DerivedReferendumVote))
-      ),
-      drr()
-    );
+      )
+    ));
 }

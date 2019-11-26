@@ -2,30 +2,47 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIFn, InterfaceAbi, AbiMessages } from './types';
+import { Registry } from '@polkadot/types/types';
+import { AbiConstructors, AbiMessages, ContractABI, ContractABIPre, ContractABIFn, InterfaceAbi } from './types';
 
 import { stringCamelCase } from '@polkadot/util';
 
-import { createMethod } from './method';
-import { validateAbi } from './validation';
+import ContractRegistry from './ContractRegistry';
 
-export default class ContractAbi implements InterfaceAbi {
+export default class ContractAbi extends ContractRegistry implements InterfaceAbi {
   public readonly abi: ContractABI;
 
-  public readonly deploy: ContractABIFn;
+  public readonly constructors: AbiConstructors;
 
-  public readonly messages: AbiMessages = {};
+  public readonly messages: AbiMessages;
 
-  public constructor (abi: ContractABI) {
-    validateAbi(abi);
+  constructor (registry: Registry, abi: ContractABIPre) {
+    super(registry, abi);
+    [this.abi, this.constructors, this.messages] = this.decodeAbi(abi);
+  }
 
-    this.abi = abi;
-    this.deploy = createMethod('deploy', abi.deploy);
+  private decodeAbi (abiPre: ContractABIPre): [ContractABI, ContractABIFn[], AbiMessages] {
+    this.validateAbi(abiPre);
 
-    abi.messages.forEach((method): void => {
-      const name = stringCamelCase(method.name);
+    const abi = this.convertAbi(abiPre);
+    const constructors = abi.contract.constructors.map(
+      (constructor, index): ContractABIFn => {
+        return this.createMessage(`constructor ${index}`, constructor);
+      }
+    );
 
-      this.messages[name] = createMethod(`messages.${name}`, method);
-    });
+    const messages: AbiMessages = abi.contract.messages.reduce(
+      (result: AbiMessages, message): AbiMessages => {
+        const name = stringCamelCase(message.name);
+
+        return {
+          ...result,
+          [name]: this.createMessage(`messages.${name}`, message)
+        };
+      },
+      {}
+    );
+
+    return [abi, constructors, messages];
   }
 }

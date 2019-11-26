@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, IHash } from '../types';
+import { Codec, Constructor, IHash, Registry } from '../types';
 
 import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -20,11 +20,14 @@ type SetValues = Record<string, number>;
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
 export default class CodecSet extends Set<string> implements Codec {
+  public readonly registry: Registry;
+
   private _setValues: SetValues;
 
-  public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
+  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
     super(CodecSet.decodeSet(setValues, value));
 
+    this.registry = registry;
     this._setValues = setValues;
   }
 
@@ -32,19 +35,27 @@ export default class CodecSet extends Set<string> implements Codec {
     if (isU8a(value)) {
       return value.length === 0
         ? []
-        : CodecSet.decodeSet(setValues, value[0]);
+        : CodecSet.decodeSetNumber(setValues, value[0]);
     } else if (value instanceof Set) {
-      return CodecSet.decodeSet(setValues, [...value.values()]);
+      return CodecSet.decodeSetArray(setValues, [...value.values()]);
     } else if (Array.isArray(value)) {
-      return value.reduce((result, key): string[] => {
-        assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
-
-        result.push(key);
-
-        return result;
-      }, [] as string[]);
+      return CodecSet.decodeSetArray(setValues, value);
     }
 
+    return CodecSet.decodeSetNumber(setValues, value);
+  }
+
+  private static decodeSetArray (setValues: SetValues, value: string[]): string[] {
+    return value.reduce((result, key): string[] => {
+      assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
+
+      result.push(key);
+
+      return result;
+    }, [] as string[]);
+  }
+
+  private static decodeSetNumber (setValues: SetValues, value: number): string[] {
     const result = Object.keys(setValues).reduce((result, key): string[] => {
       if ((value & setValues[key]) === setValues[key]) {
         result.push(key);
@@ -68,8 +79,8 @@ export default class CodecSet extends Set<string> implements Codec {
 
   public static with (values: SetValues): Constructor<CodecSet> {
     return class extends CodecSet {
-      public constructor (value?: any) {
-        super(values, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, values, value);
 
         Object.keys(values).forEach((_key): void => {
           const name = stringUpperFirst(stringCamelCase(_key));
@@ -98,7 +109,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

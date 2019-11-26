@@ -4,16 +4,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { Codec, Registry } from '@polkadot/types/types';
 import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
+import Metadata from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
-import storage from '@polkadot/api-metadata/storage/static';
-import rpcMetadata from '@polkadot/types/Metadata/static';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -30,6 +30,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
       .map(({ method, section }): string =>
         `${section}_${method}`
       )
+      .concat('chain_subscribeNewHead')
   )
 );
 
@@ -45,14 +46,16 @@ export default class Mock implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
-  public isUpdating: boolean = true;
+  public isUpdating = true;
 
-  private requests: Record<string, (...params: any[]) => string> = {
+  private registry: Registry;
+
+  private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: (hash: string): any => createType(this.registry, 'SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    chain_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
+    state_getRuntimeVersion: (): string => createType(this.registry, 'RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, params: any[]): string => {
       return u8aToHex(
         storage[(params[0] as string)]
@@ -61,6 +64,7 @@ export default class Mock implements ProviderInterface {
     system_chain: (): string => 'mockChain',
     state_getMetadata: (): string => rpcMetadata,
     system_name: (): string => 'mockClient',
+    system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
     system_version: (): string => '9.8.7'
   };
 
@@ -73,11 +77,13 @@ export default class Mock implements ProviderInterface {
     return subs;
   }, ({} as unknown as MockStateSubscriptions));
 
-  private subscriptionId: number = 0;
+  private subscriptionId = 0;
 
   private subscriptionMap: Record<number, string> = {};
 
-  public constructor () {
+  constructor (registry: Registry) {
+    this.registry = registry;
+
     this.init();
   }
 
@@ -101,6 +107,7 @@ export default class Mock implements ProviderInterface {
     this.emitter.on(type, sub);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async send (method: string, params: any[]): Promise<any> {
     if (!this.requests[method]) {
       throw new Error(`provider.send: Invalid method '${method}'`);
@@ -109,6 +116,7 @@ export default class Mock implements ProviderInterface {
     return this.requests[method](this.db, params);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async subscribe (type: string, method: string, ...params: any[]): Promise<number> {
     l.debug((): any => ['subscribe', method, params]);
 
@@ -129,6 +137,7 @@ export default class Mock implements ProviderInterface {
     throw new Error(`provider.subscribe: Invalid method '${method}'`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 
@@ -150,6 +159,8 @@ export default class Mock implements ProviderInterface {
     let newHead = this.makeBlockHeader(new BN(-1));
     let counter = -1;
 
+    const metadata = new Metadata(this.registry, rpcMetadata);
+
     // Do something every 1 seconds
     setInterval((): void => {
       if (!this.isUpdating) {
@@ -161,12 +172,12 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(metadata.query.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
+        this.setStateBn(metadata.query.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(storage.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(metadata.query.timestamp.now(), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals
@@ -183,7 +194,7 @@ export default class Mock implements ProviderInterface {
   private makeBlockHeader (prevNumber: BN): Header {
     const blockNumber = prevNumber.addn(1);
 
-    return createType('Header', {
+    return createType(this.registry, 'Header', {
       digest: {
         logs: []
       },

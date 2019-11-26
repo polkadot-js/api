@@ -1,16 +1,95 @@
-# 0.90.0-beta.x
+# 0.97.0-beta.x
+
+- **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
+- **Breaking change** The metadata classes have been moved from `@polkadot/types` into `@polkadot/metadata`. If you explicitly create `Metadata` classes, you now would need to do so with the `import Metadata from '@polkadot/metadata';` This is a decorated class, where the previous metadata is now available on `Metadata.metadata`, alongside decorated `consts.*`', `tx.*` and `query.*`.
+- `api.derive.*` now has built-in memomization
+- Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
+- Aligned all types with the latest Polkadot & Substrate
+
+# 0.96.1
+
+- Updated types for latest Kusama
+- Add `filterRecords` (in addition to `findRecord`) on submittable results
+- Various ABI v2 contract fixes
+- Update derive for elections (incl. RunnersUp) and heartbeat derives (with blocks & messages)
+- Add vesting totals & locked breakdowns to derive balances
+- Update council derives for the latest Substrate master support (with constants)
+- Derive cleanups, including sharing of instances between the API and internal to derives
+
+# 0.95.2
+
+- Temporary removal of `account_nextIndex` use, will be re-added in a future release
+
+# 0.95.1
+
+- Support Extrinsic V4 with additional signature indicator (Latest Polkadot/Substrate/Kusama)
+- Adjust subscription update checks to avoid duplicated data updates
+- Support Metadata V8 (exposes per-module `decl_error` definitions)
+- Support next generation contracts ABI (with additional type definitions)
+- Support for `BTreeMap<K, V>` types and definitions
+- All latest Polkadot & Substrate types (as per master branches)
+- **Breaking change** `Call.injectMethods` is moved to `Call.injectMetadata` to align with `Events` (This _should_ not be used externally, however mentioned as breaking here)
+
+# 0.94.1
+
+- Add handling of `Result<Ok, Error>` definitions
+- Adjust API cloning now takes RPC filters from source into account
+- Simplification of isPedantic checks and less overhead on StorageData types
+- Cleanups and fixes around RPC and derive type definitions
+- Fix `derive.imOnline.receivedHeatbeats` to query via indexes
+- Adjustment of `api.derive.elections.{approvalsOf|approvalsOfAt}` to allow ss58 address input
+- Cleanup `Enum` `.eq` handling to be more exhaustive
+- Add documentation for custom extrinsic formats (advanced chains)
+- Update to latest substrate master metadata
+
+# 0.93.1
+
+- Support for Kusama CC2
+- In extrinsic submission, use `rpc.account.nextIndex` to retrieve the nonce when available
+- For TypeScript users `api.query.*.*` is now properly typed for default Substrate calls, i.e. `api.query.balances.freeBalance(...)` will return a `Balance` type. Additionally the `api.queryMulti` and `.multi` on queries not allow generic type params.
+- Add `api.rpc.accounts.nextIndex`, `api.rpc.contracts.call` and `api.rpc.rpc.methods` calls. Optional calls (such as account/contracts) is decorated based on the results from `rpc.methods`, so they don't show up on nodes where they are not active.
+- Updated types to support the latest Polkadot/Substrate master changes
+- Support recursive type registration (self-referencing via `Box`) in addition to better sanitation of user-defined-types
+- Documentation and example updates (thanks mostly to contributions)
+
+# 0.92.1
+
+- The API now correctly sets the ss58 prefix as retrieved from the chain properties via `ss58Format`
+- Bump to `@polkadot/util` 1.4.1, removing use of `ExtError`
+- The `Keyring` from `@polkadot/keyring` is now exposed on the API as well. You can do `import { Keyring } from '@polkadot/api'` - this alleviates the need for extra dependencies (apart from `@polkadot/api`), and since the keyring is critical for signing operations, aligns everything in one bundle
+- Support the latest Polkadot & Substrate master branches (incl. metadata updates)
+- Getting started documentation has been made available
+
+# 0.91.1
+
+- This release was focussed on stability, with a number of cleanups and bug-fixes
+- Adjustments for Substrate 1.x chain detection (with auto-types) and Substrate 2.x support has been extended with all latest types
+- The `getRuntimeVersion` and `subscribeRuntimeVersion` RPCs are now only available on the `rpc.state.*` endpoints. This aligns with the Substrate implementation.
+- The `author_insertKey` RPC's last argument `publicKey` is now required, as to reflect Substrate implementation.
+- Support for extrinsics with versions that is not in the base Substrate implementation (V1-V3) can now be done by providing an implementation for `ExtrinsicUnknown`
+- Redeemed balance calculation if `api.derive` now returns the correct  values again (bug fix)
+- added the `yarn chain:info [--ws URL]` utility to extract a calls-only metadata version
+- Missing types are now logged via a `console.warn`, not via `.error`
+- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overriden now
+  - **Breaking change** `SignerPayload` is renamed to `SignerPayloadJSON`
+  - **Breaking change** `SignerPayloadJSON`, `SignerPayloadRawBase` and `SignerPayloadRaw` are all moved to `@polkadot/types`
+
+# 0.90.1
 
 If you are upgrading form an older version, use the CHANGELOG hand-in-hand with the [migration guide](UPGRADING.md).
 
+- **Breaking change** `api.rpc.chain.subscribeNewHeads` is now available as opposed to the old `subscribeNewHead`. This aligns with the Substrate implementation.
+- **Breaking change** Substrate 2.x & Polkadot master has moved both `BlockNumber` & `Index` to `u32`. The API tracks these closely. If you are running a chain with `u64` values (for either), pass the type override to the API on creation, e.g. `ApiPromise.create({ types: { BlockNumber: 'u64', Index: 'u64' } })` to avoid getting warnings about mismatched types.
 - **Breaking change** `Api.create(...)` and `new Api(...)` now only takes an options Object, so if you passed the provider directly previously, you need to swap the use to `Api.create({ provider: ... })`
+- **Breaking change** Runtime types have been extended and moved to definitions instead of classes
+  - Primitive types for `i*` and `u*` (e.g. `u32`) are now only available in their lowercase versions. Additionally `Vector` is now only available as `Vec`, and `Method` has been renamed to `Call`, in both cases aligning with Rust.
+  - `Moment` now implements as `u64` as per the Substrate codebase. (It it up to the user to interpret, for substrate 2.x it is not ms resolution)
+  - For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods/queries, construction should not be needed, the raw value can be passed.
+  - For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkadot/types`, now just the interfaces (TypeScript) are available via `import { SetIndex } from '@polkadot/types/interfaces`
+  - `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally `u64`) and WASM (always `u32`) code. Use one of the `u32` or `u64` types explicitly.
 - Support substrate v7 metadata
 - The `Method.findFunction(callIndex)` (allowing decoding of raw data), is now available on `api.findCall(callIndex)`. To keep backwards compatibility, it is still available on `GenericCall.findMethod` but the `api.findCall` is recommended and suggested.
-- Runtime types have been extended and moved to definitions instead of classes
-  - **Breaking Change** Primitive types for `i*` and `u*` (e.g. `u32`) are now only available in their lowercase versions. Additionally `Vector` is now only available as `Vec`, and `Method` has been renamed to `Call`, in both cases aligning with Rust.
-  - **Breaking Change** `Moment` now implements as `u64` as per the Substrate codebase. (It it up to the user to interpret, for substrate 2.x it is not mili-second resolution)
-  - **Breaking Change** For creation of types, it is recommended to use `createType(<TypeName>, <value>)` instead of e.g. `new Proposal(...)`. When passing these to methods/queries, construction should not be needed, the raw value can be passed.
-  - **Breaking Change** For moved types, a previous import would have been from `@polkadot/types`, i.e. `import { SetIndex } from '@polkadot/types`, now just the interfaces (TypeScript) are available via `import { SetIndex } from '@polkadot/types/interfaces`
-  - `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally `u64`) and WASM (always `u32`) code. Use one of the `u32` or `u64` types explicitly.
+- The `types/codec/createType` has been moved to `types/codec/create` with the same exports. If you explicitly imported from here (and not doing the suggested `import { createType } from '@polkadot/types`), the reference needs to be updated
 
 
 # 0.82.0-beta.x
@@ -88,7 +167,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 # 0.77.1
 
 - Support Metadata v4, which introduces the use of a custom hasher to hash storage map keys.
-- Add TresuryProposal (not the same as democracy, type aliassed)
+- Add TreasuryProposal (not the same as democracy, type aliased)
 
 
 # 0.76.1
@@ -110,7 +189,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
   - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised'` now check on the status for `result.status.isFinalized` or `result.status.isBroadcast`, ... (the `type` property is now accessible only on `result.status.type`)
   - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
 
-- The underlying ss58 addess checksums have changed
+- The underlying ss58 address checksums have changed
   - The updated keyring with support for this has been made available
   - All examples have been updated with sr25519 addresses (with the new checksums)
 
@@ -128,12 +207,12 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 # 0.51.1
 
 - Support metadata V2 as per latest substrate master
-- Update metadata with new types as per lastest substrate master
+- Update metadata with new types as per latest substrate master
 
 
 # 0.50.1
 
-- Lastest util-crypto (usage of WASM with JS fallbacks if not available)
+- Latest util-crypto (usage of WASM with JS fallbacks if not available)
 - Update upstream @polkadot dependencies (for new crypto)
 
 
@@ -156,7 +235,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 # 0.46.1
 
 - Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version.
-- Where `Extrinsic` and `Method` is used as types, considder importing `{ IMethod, IExtrinsic }` from `@polkadot/types/types`, especially in the cases where this is uased from a `SubmittableExtrinsic`
+- Where `Extrinsic` and `Method` is used as types, consider importing `{ IMethod, IExtrinsic }` from `@polkadot/types/types`, especially in the cases where this is used from a `SubmittableExtrinsic`
 - The `typeRegistry` constant is now `getTypeRegistry()` as a function
 
 
@@ -179,7 +258,7 @@ console.log('llo', llo.unwrapOr('not set') /* Option<BlockNumber> */)
 
 # 0.44.1
 
-- Split primitives and types into seperate folders. This should not affect external use since the exports remain the same, however does have an impact where classes are referenced directly. e.g.
+- Split primitives and types into separate folders. This should not affect external use since the exports remain the same, however does have an impact where classes are referenced directly. e.g.
 
 ```js
 // old (affected)
@@ -197,7 +276,7 @@ import { Method, Signature } from '@polkadot/types';
 
 # 0.43.1
 
-- Intrduces support for the new keyring with sr25519 support in addition to ed25519. While this does not change the exposed API, it is considerred breaking since @polkadot/keyring has interface changes. (Unless needed, don't rush the upgrade)
+- Introduces support for the new keyring with sr25519 support in addition to ed25519. While this does not change the exposed API, it is considered breaking since @polkadot/keyring has interface changes. (Unless needed, don't rush the upgrade)
 
 
 # 0.42.1
@@ -208,7 +287,7 @@ import { Method, Signature } from '@polkadot/types';
 
 # 0.41.1
 
-- Support the V1 metadata specification from Substrate in addition to the currently testnet-active V0 version
+- Support the V1 metadata specification from Substrate in addition to the currently testnet active V0 version
 
 
 # 0.40.1
@@ -228,7 +307,7 @@ Substrate has been updated with a breaking new transaction format where the Inde
 
 # 0.37.1
 
-api-observable has been removed. This was only used in /apps and inconsistent with the api/rx and api/promise APIs. Future work will include derivates like was included in api-observable into the base.
+api-observable has been removed. This was only used in /apps and inconsistent with the api/rx and api/promise APIs. Future work will include derives like was included in api-observable into the base.
 
 Tuples now return single types when only one type is available, i.e. `(AccountId)` would now resolve as `AccountId`. The extra type wrapper adds no benefit to users here.
 

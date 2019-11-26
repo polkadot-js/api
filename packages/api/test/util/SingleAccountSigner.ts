@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer, SignerPayload, SignerResult, SignerPayloadRaw } from '@polkadot/api/types';
+import { Signer, SignerResult } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 
 import { createType } from '@polkadot/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
@@ -13,21 +14,24 @@ let id = 0;
 export class SingleAccountSigner implements Signer {
   private keyringPair: KeyringPair;
 
+  private registry: Registry;
+
   private signDelay: number;
 
-  public constructor (keyringPair: KeyringPair, signDelay: number = 0) {
+  constructor (registry: Registry, keyringPair: KeyringPair, signDelay = 0) {
     this.keyringPair = keyringPair;
+    this.registry = registry;
     this.signDelay = signDelay;
   }
 
-  public async signPayload (payload: SignerPayload): Promise<SignerResult> {
+  public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     if (payload.address !== this.keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
-        const signed = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
+        const signed = createType(this.registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(this.keyringPair);
 
         resolve({
           id: ++id,

@@ -14,114 +14,83 @@ const call: RpcMethodOpt = {
   params: [
     createParam('method', 'Text'),
     createParam('data', 'Bytes'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'Bytes'
 };
 
+const KEY_QUERY_PARAMS = [
+  createParam('key', 'StorageKey'),
+  createParam('at', 'BlockHash', { isOptional: true })
+];
+
 const getKeys: RpcMethodOpt = {
   description: 'Retrieves the keys with a certain prefix',
-  params: [
-    createParam('prefix', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  // @ts-ignore The Vec<> wrap is fine
+  params: KEY_QUERY_PARAMS,
   type: 'Vec<StorageKey>'
 };
 
 const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
-  params: [
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
+  params: KEY_QUERY_PARAMS,
   type: 'StorageData'
 };
 
 const getStorageHash: RpcMethodOpt = {
   description: 'Retrieves the storage hash',
-  params: [
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  // @ts-ignore srml types
+  params: KEY_QUERY_PARAMS,
   type: 'Hash'
 };
 
 const getStorageSize: RpcMethodOpt = {
   description: 'Retrieves the storage size',
-  params: [
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
+  params: KEY_QUERY_PARAMS,
   type: 'u64'
 };
 
+const CHILD_QUERY_PARAMS = [
+  createParam('childStorageKey', 'StorageKey'),
+  createParam('key', 'StorageKey'),
+  createParam('at', 'BlockHash', { isOptional: true })
+];
+
 const getChildKeys: RpcMethodOpt = {
   description: 'Retrieves the keys with prefix of a specific child storage',
-  params: [
-    createParam('childStorageKey', 'StorageKey'),
-    createParam('prefix', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  // @ts-ignore The Vec<> wrap is fine
+  params: CHILD_QUERY_PARAMS,
   type: 'Vec<StorageKey>'
 };
 
 const getChildStorage: RpcMethodOpt = {
   description: 'Retrieves the child storage for a key',
-  params: [
-    createParam('childStorageKey', 'StorageKey'),
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
+  params: CHILD_QUERY_PARAMS,
   type: 'StorageData'
 };
 
 const getChildStorageHash: RpcMethodOpt = {
   description: 'Retrieves the child storage hash',
-  params: [
-    createParam('childStorageKey', 'StorageKey'),
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  // @ts-ignore srml types
+  params: CHILD_QUERY_PARAMS,
   type: 'Hash'
 };
 
 const getChildStorageSize: RpcMethodOpt = {
   description: 'Retrieves the child storage size',
-  params: [
-    createParam('childStorageKey', 'StorageKey'),
-    createParam('key', 'StorageKey'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
-  ],
+  params: CHILD_QUERY_PARAMS,
   type: 'u64'
 };
 
 const getMetadata: RpcMethodOpt = {
   description: 'Returns the runtime metadata',
   params: [
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
-  type: 'Metadata'
+  // This is not part of InterfaceTypes
+  type: 'Metadata' as any
 };
 
 const getRuntimeVersion: RpcMethodOpt = {
   description: 'Get the runtime version',
   params: [
-    // @ts-ignore srml types
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'RuntimeVersion'
 };
@@ -129,21 +98,27 @@ const getRuntimeVersion: RpcMethodOpt = {
 const queryStorage: RpcMethodOpt = {
   description: 'Query historical storage entries (by key) starting from a start block',
   params: [
-    // @ts-ignore The Vec<> wrap is fine
     createParam('keys', 'Vec<StorageKey>'),
-    // @ts-ignore srml types
     createParam('startBlock', 'Hash'),
-    // @ts-ignore srml types
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
-  // @ts-ignore The Vec<> wrap is fine
   type: 'Vec<StorageChangeSet>'
+};
+
+const subscribeRuntimeVersion: RpcMethodOpt = {
+  description: 'Retrieves the runtime version via subscription',
+  params: [],
+  pubsub: [
+    'runtimeVersion',
+    'subscribeRuntimeVersion',
+    'unsubscribeRuntimeVersion'
+  ],
+  type: 'RuntimeVersion'
 };
 
 const subscribeStorage: RpcMethodOpt = {
   description: 'Subscribes to storage changes for the provided keys',
   params: [
-    // @ts-ignore The Vec<> wrap is fine
     createParam('keys', 'Vec<StorageKey>')
   ],
   pubsub: [
@@ -177,6 +152,7 @@ export default {
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
+    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
 };

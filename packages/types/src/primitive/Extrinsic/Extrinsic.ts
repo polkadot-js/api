@@ -2,27 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IHash, IKeyringPair, SignatureOptions } from '../../types';
+import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../../interfaces/runtime';
+import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
+import { createType, ClassOf } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import { FunctionMetadata } from '../../Metadata/v7/Calls';
-import Address from '../Generic/Address';
-import Call from '../Generic/Call';
-import ExtrinsicV1, { ExtrinsicValueV1 } from './v1/Extrinsic';
-import ExtrinsicV2, { ExtrinsicValueV2 } from './v2/Extrinsic';
-import ExtrinsicV3, { ExtrinsicValueV3 } from './v3/Extrinsic';
+import { ExtrinsicValueV1 } from './v1/Extrinsic';
+import { ExtrinsicValueV2 } from './v2/Extrinsic';
+import { ExtrinsicValueV3 } from './v3/Extrinsic';
+import { ExtrinsicValueV4 } from './v4/Extrinsic';
 import ExtrinsicEra from './ExtrinsicEra';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
-type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3;
-
-interface ExtrinsicOptions {
+interface CreateOptions {
   version?: number;
 }
+
+// NOTE The following 2 types, as well as the VERSION structure and the latest export
+// is to be changed with the addition of a new extrinsic version
+
+type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
+type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
+
+const VERSIONS: InterfaceTypes[] = [
+  'ExtrinsicUnknown', // v0 is unknown
+  'ExtrinsicV1',
+  'ExtrinsicV2',
+  'ExtrinsicV3',
+  'ExtrinsicV4'
+];
+
+export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
  * @name Extrinsic
@@ -36,64 +50,69 @@ interface ExtrinsicOptions {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3> implements IExtrinsic {
-  public constructor (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: ExtrinsicOptions = {}) {
-    super(Extrinsic.decodeExtrinsic(value, version));
+export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
+  constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
   }
 
-  private static newFromValue (value: any, version: number): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
       return value.raw;
     }
 
     const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = version & UNMASK_VERSION;
+    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
-    switch (type) {
-      case 1: return new ExtrinsicV1(value, { isSigned });
-      case 2: return new ExtrinsicV2(value, { isSigned });
-      case 3: return new ExtrinsicV3(value, { isSigned });
-      default: throw new Error(`Unsupported extrinsic version ${type}`);
-    }
+    // we cast here since the VERSION definition is incredibly broad - we don't have a
+    // slice for "only add extrinsic types", and more string definitions become unwieldy
+    return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
-  public static decodeExtrinsic (value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
+  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (Array.isArray(value) || isHex(value)) {
-      // Instead of the block below, it should simply be:
-      // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-      const u8a = u8aToU8a(value);
-
-      // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
-      // extrinsics didn't have the length, cater for both approaches
-      const [offset, length] = Compact.decodeU8a(u8a);
-      const withPrefix = u8a.length === (offset + length.toNumber());
-
-      return Extrinsic.decodeExtrinsic(
-        withPrefix
-          ? u8a
-          : Compact.addLengthPrefix(u8a),
-        version
-      );
+      return Extrinsic.decodeU8aLike(registry, value, version);
     } else if (isU8a(value)) {
-      if (!value.length) {
-        return Extrinsic.newFromValue(new Uint8Array(), version);
-      }
-
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return Extrinsic.decodeU8a(value.subarray(offset, total));
-    } else if (value instanceof Call) {
-      return Extrinsic.newFromValue({ method: value }, version);
+      return Extrinsic.decodeU8a(registry, value, version);
+    } else if (value instanceof ClassOf(registry, 'Call')) {
+      return Extrinsic.newFromValue(registry, { method: value }, version);
     }
 
-    return Extrinsic.newFromValue(value, version);
+    return Extrinsic.newFromValue(registry, value, version);
   }
 
-  private static decodeU8a (value: Uint8Array): ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 {
-    return Extrinsic.newFromValue(value.subarray(1), value[0]);
+  private static decodeU8aLike (registry: Registry, value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
+    // Instead of the block below, it should simply be:
+    // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
+    const u8a = u8aToU8a(value);
+
+    // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
+    // extrinsics didn't have the length, cater for both approaches. This is very
+    // inconsistent with any other `Vec<u8>` implementation
+    const [offset, length] = Compact.decodeU8a(u8a);
+    const withPrefix = u8a.length === (offset + length.toNumber());
+
+    return Extrinsic.decodeU8a(
+      registry,
+      withPrefix
+        ? u8a
+        : Compact.addLengthPrefix(u8a),
+      version
+    );
+  }
+
+  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (!value.length) {
+      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    const data = value.subarray(offset, total);
+
+    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
   }
 
   /**
@@ -104,7 +123,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description Thge argument defintions, compatible with [[Call]]
+   * @description The argument definitions, compatible with [[Call]]
    */
   public get argsDef (): ArgsDef {
     return this.method.argsDef;
@@ -125,10 +144,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description The era for thios extrinsic
+   * @description The era for this extrinsic
    */
   public get era (): ExtrinsicEra {
-    return this.raw.signature.era;
+    return (this.raw as ExtrinsicVx).signature.era;
   }
 
   /**
@@ -149,7 +168,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return this.raw.signature.isSigned;
+    return (this.raw as ExtrinsicVx).signature.isSigned;
   }
 
   /**
@@ -160,9 +179,9 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description The [[FunctionMetadata]] that describes the extrinsic
+   * @description The [[FunctionMetadataLatest]] that describes the extrinsic
    */
-  public get meta (): FunctionMetadata {
+  public get meta (): FunctionMetadataLatest {
     return this.method.meta;
   }
 
@@ -170,42 +189,42 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
-    return this.raw.method;
+    return (this.raw as ExtrinsicVx).method;
   }
 
   /**
    * @description The nonce for this extrinsic
    */
   public get nonce (): Compact<Index> {
-    return this.raw.signature.nonce;
+    return (this.raw as ExtrinsicVx).signature.nonce;
   }
 
   /**
-   * @description The [[ExtrinsicSignature]]
+   * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
-  public get signature (): IHash {
-    return this.raw.signature.signature;
+  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
+    return (this.raw as ExtrinsicVx).signature.signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.raw.signature.signer;
+    return (this.raw as ExtrinsicVx).signature.signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): Compact<Balance> {
-    return this.raw.signature.tip;
+    return (this.raw as ExtrinsicVx).signature.tip;
   }
 
   /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
-    return this.raw.version;
+    return (this.raw as ExtrinsicVx).version;
   }
 
   /**
@@ -216,29 +235,10 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
   }
 
   /**
-   * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
+   * @description Injects an already-generated signature into the extrinsic
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, ...args: [ExtrinsicPayloadValue | Uint8Array | string]): Extrinsic {
-    // FIXME Support for current extensions where 2 values are being passed in here, i.e.
-    //   addSignature(signer, signature, nonce, era);
-    // The above signature should be changed to the correct format in the next cycle, i.e.
-    //   payload: ExtrinsicPayloadValue | Uint8Array | string
-    let payload = args[0];
-
-    // @ts-ignore
-    if (args.length === 2) {
-      payload = {
-        blockHash: new Uint8Array(),
-        // @ts-ignore
-        era: args[1] as string,
-        genesisHash: new Uint8Array(),
-        method: this.method.toHex(),
-        nonce: args[0] as string,
-        tip: 0
-      };
-    }
-
-    this.raw.addSignature(signer, signature, payload);
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
+    (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
 
     return this;
   }
@@ -247,7 +247,7 @@ export default class Extrinsic extends Base<ExtrinsicV1 | ExtrinsicV2 | Extrinsi
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
-    this.raw.sign(account, options);
+    (this.raw as ExtrinsicVx).sign(account, options);
 
     return this;
   }

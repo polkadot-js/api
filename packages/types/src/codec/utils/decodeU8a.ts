@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor } from '../../types';
+import { Codec, Constructor, Registry } from '../../types';
 
 /**
  * Given an u8a, and an array of Type constructors, decode the u8a against the
@@ -11,7 +11,7 @@ import { Codec, Constructor } from '../../types';
  * @param u8a - The u8a to decode.
  * @param types - The array of Constructor to decode the U8a against.
  */
-export default function decodeU8a (u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }): Codec[] {
+export default function decodeU8a (registry: Registry, u8a: Uint8Array, _types: Constructor[] | { [index: string]: Constructor }): Codec[] {
   const types = Array.isArray(_types)
     ? _types
     : Object.values(_types);
@@ -21,12 +21,7 @@ export default function decodeU8a (u8a: Uint8Array, _types: Constructor[] | { [i
   }
 
   const Type = types[0];
+  const value = new Type(registry, u8a);
 
-  try {
-    const value = new Type(u8a);
-
-    return [value].concat(decodeU8a(u8a.subarray(value.encodedLength), types.slice(1)));
-  } catch (error) {
-    throw new Error(`U8a: failed on '${Type.name}':: ${error.message}`);
-  }
+  return [value].concat(decodeU8a(registry, u8a.subarray(value.encodedLength), types.slice(1)));
 }

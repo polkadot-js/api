@@ -7,13 +7,13 @@ The API wrappers provide a standard interface for use -
 - A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
 - The above is just a wrapper for `new Api(<optional ApiOptions>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-  - [RPC (node interface)](../METHODS_RPC.md)
+  - [RPC (node interface)](../substrate/rpc.md)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-  - [Storage chain state (runtime node interface)](../METHODS_STORAGE.md)
+  - [Storage chain state (runtime node interface)](../substrate/storage.md)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
-  - [Extrinsics (runtime node interface)](../METHODS_EXTRINSICS.md)
+  - [Extrinsics (runtime node interface)](../substrate/extrinsics.md)
 - `api.consts.<section>.<constant>` provides access to the module constants (parameter types).
-  - [Constants (runtime node interface)](../METHODS_CONSTANTS.md)
+  - [Constants (runtime node interface)](../substrate/constants.md)
 
 ## API Selection
 
@@ -45,8 +45,8 @@ import { ApiPromise } from '@polkadot/api';
 const api = await ApiPromise.create();
 
 // make a call to retrieve the current network head
-api.rpc.chain.subscribeNewHead((header) => {
-  console.log(`Chain is at #${header.blockNumber}`);
+api.rpc.chain.subscribeNewHeads((header) => {
+  console.log(`Chain is at #${header.number}`);
 });
 ```
 
@@ -59,8 +59,8 @@ import { ApiRx } from '@polkadot/api';
 const api = await ApiRx.create().toPromise();
 
 // make a call to retrieve the current network head
-api.rpc.chain.subscribeNewHead().subscribe((header) => {
-  console.log(`Chain is at #${header.blockNumber}`);
+api.rpc.chain.subscribeNewHeads().subscribe((header) => {
+  console.log(`Chain is at #${header.number}`);
 });
 ```
 
@@ -94,6 +94,7 @@ Some of the users of the API (let us know if you are missing from the list), inc
 - [Polkadot-JS UI](https://github.com/polkadot-js/apps) A user-interface that allows you to make transactions, query the network or participate in actions on the network such as referendums and staking
 - [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in https://matrix.to/#/#polkadot-network-status:matrix.org
 - [Polkawallet.io](https://polkawallet.io) and [Polkawallet (Github)](https://github.com/polkawallet-io/polkawallet-RN/) A mobile wallet for the Polkadot network to manage funds and make transactions, available on both Androind and iOS
+- [PolkaStats.io](https://polkastats.io), [PolkaStats frontend GitHub repository](https://github.com/Colm3na/polkastats-v2) and [PolkaStats backend GitHub repository](https://github.com/Colm3na/polkastats-backend-v2) Polkadot network statistics (currently Kusama and Alexander). Shows network information and staking details from validators and intentions.
 
 ## Classes
 

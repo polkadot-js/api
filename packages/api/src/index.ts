@@ -6,8 +6,9 @@ import { assertSingletonPackage } from '@polkadot/util';
 
 assertSingletonPackage('@polkadot/api');
 
+export { Keyring } from '@polkadot/keyring';
 export { WsProvider } from '@polkadot/rpc-provider';
 
 export { default as ApiPromise } from './promise';
 export { default as ApiRx } from './rx';
-export { default as SubmittableExtrinsic, SubmittableResult } from './SubmittableExtrinsic';
+export * from './submittable';

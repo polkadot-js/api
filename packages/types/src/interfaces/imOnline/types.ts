@@ -1,17 +1,17 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Struct, Vec } from '../../codec';
-import { Bytes, u32 } from '../../primitive';
-import { BlockNumber, Signature } from '../runtime';
-import { AuthorityId } from '../consensus';
-import { SessionIndex } from '../session';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, u32 } from '@polkadot/types/primitive';
+import { BlockNumber, Signature } from '@polkadot/types/interfaces/runtime';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** u32 */
-export type AuthIndex = u32;
+export interface AuthIndex extends u32 {}
 
 /** Signature */
-export type AuthoritySignature = Signature;
+export interface AuthoritySignature extends Signature {}
 
 /** Struct */
 export interface Heartbeat extends Struct {
@@ -26,7 +26,7 @@ export interface Heartbeat extends Struct {
 }
 
 /** Bytes */
-export type OpaqueMultiaddr = Bytes;
+export interface OpaqueMultiaddr extends Bytes {}
 
 /** Struct */
 export interface OpaqueNetworkState extends Struct {
@@ -37,4 +37,4 @@ export interface OpaqueNetworkState extends Struct {
 }
 
 /** Bytes */
-export type OpaquePeerId = Bytes;
+export interface OpaquePeerId extends Bytes {}

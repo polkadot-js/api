@@ -7,7 +7,11 @@ import { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 
-import ApiBase from '../Base';
+import ApiBase from '../base';
+
+export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+  return method;
+}
 
 /**
  * # @polkadot/api/rx
@@ -35,7 +39,7 @@ import ApiBase from '../Base';
  * const api = await ApiRx.create().toPromise();
  *
  * // make a call to retrieve the current network head
- * api.rpc.chain.subscribeNewHead().subscribe((header) => {
+ * api.rpc.chain.subscribeNewHeads().subscribe((header) => {
  *   console.log(`Chain is at #${header.number}`);
  * });
  * ```
@@ -114,9 +118,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   *
    * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
-   *
    * @example
    * <BR>
    *
@@ -127,7 +129,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * Api.create()
    *   .pipe(
    *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHead()
+   *       api.rpc.chain.subscribeNewHeads()
    *   ))
    *   .subscribe((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);
@@ -140,9 +142,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
 
   /**
    * @description Create an instance of the ApiRx class
-   *
    * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
-   *
    * @example
    * <BR>
    *
@@ -153,18 +153,18 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    * new Api().isReady
    *   .pipe(
    *     switchMap((api) =>
-   *       api.rpc.chain.subscribeNewHead()
+   *       api.rpc.chain.subscribeNewHeads()
    *   ))
    *   .subscribe((header) => {
    *     console.log(`new block #${header.number.toNumber()}`);
    *   });
    * ```
    */
-  public constructor (options?: ApiOptions) {
-    super(options, 'rxjs');
+  constructor (options?: ApiOptions) {
+    super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(
-      // convinced you can observable from an event, however my mind groks this form better
+      // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {
           resolve(this);
@@ -195,9 +195,5 @@ export default class ApiRx extends ApiBase<'rxjs'> {
       ...this._options,
       source: this
     });
-  }
-
-  protected decorateMethod<Method extends AnyFunction> (method: Method): Method {
-    return method;
   }
 }

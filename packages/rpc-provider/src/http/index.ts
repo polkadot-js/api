@@ -43,7 +43,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  public constructor (endpoint: string = defaults.HTTP_URL) {
+  constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.coder = new Coder();
@@ -85,7 +85,7 @@ export default class HttpProvider implements ProviderInterface {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
-    l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
+    l.error('HTTP Provider does not have \'on\' emitters, use WebSockets instead');
   }
 
   /**
@@ -113,7 +113,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
   public async subscribe (types: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
@@ -123,7 +123,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
   public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     l.error(ERROR_SUBSCRIBE);
 

@@ -5,6 +5,10 @@
 export default {
   types: {
     EraIndex: 'u32',
+    EraPoints: {
+      total: 'Points',
+      individual: 'Vec<Points>'
+    },
     EraRewards: {
       total: 'u32',
       rewards: 'Vec<u32>'
@@ -14,11 +18,25 @@ export default {
       own: 'Compact<Balance>',
       others: 'Vec<IndividualExposure>'
     },
+    Forcing: {
+      _enum: [
+        'NotForcing',
+        'ForceNew',
+        'ForceNone',
+        'ForceAlways'
+      ]
+    },
     IndividualExposure: {
       who: 'AccountId',
       value: 'Compact<Balance>'
     },
     MomentOf: 'Moment',
+    Nominations: {
+      targets: 'Vec<AccountId>',
+      submittedIn: 'EraIndex',
+      suppressed: 'bool'
+    },
+    Points: 'u32',
     RewardDestination: {
       _enum: [
         'Staked',
@@ -26,17 +44,43 @@ export default {
         'Controller'
       ]
     },
+    SlashJournalEntry: {
+      who: 'AccountId',
+      amount: 'Balance',
+      ownSlash: 'Balance'
+    },
+    SlashingSpans: {
+      spanIndex: 'SpanIndex',
+      lastStart: 'EraIndex',
+      prior: 'Vec<EraIndex>'
+    },
+    SpanIndex: 'u32',
+    SpanRecord: {
+      slashed: 'Balance',
+      paidOut: 'Balance'
+    },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
     },
+    UnappliedSlashOther: '(AccountId, Balance)',
+    UnappliedSlash: {
+      validator: 'AccountId',
+      own: 'Balance',
+      others: 'Vec<UnappliedSlashOther>',
+      reporters: 'Vec<AccountId>',
+      payout: 'Balance'
+    },
     UnlockChunk: {
       value: 'Compact<Balance>',
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      validatorPayment: 'Compact<Balance>'
+    },
+    ValidatorPrefs0to145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }

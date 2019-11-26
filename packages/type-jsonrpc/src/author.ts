@@ -20,7 +20,7 @@ const insertKey: RpcMethodOpt = {
   params: [
     createParam('keyType', 'Text'),
     createParam('suri', 'Text'),
-    createParam('maybePublic', 'Bytes', { isOptional: true })
+    createParam('publicKey', 'Bytes')
   ],
   type: 'Bytes'
 };

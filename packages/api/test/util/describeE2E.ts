@@ -10,6 +10,7 @@ const WS_ENDPOINTS = {
   'docker-polkadot-master': 'ws://127.0.0.1:9948/',
   'docker-polkadot-alexander': 'ws://127.0.0.1:9949/',
   'remote-polkadot-alexander': 'wss://poc3-rpc.polkadot.io/',
+  'remote-polkadot-kusama': 'wss://kusama-rpc.polkadot.io/',
   'remote-substrate-1.0': 'wss://substrate-rpc.parity.io/'
 };
 
@@ -50,7 +51,7 @@ export function describeE2E (options?: Options): (message: string, inner: (wsUrl
   return function (message: string, inner: (wsUrl: string) => void): void {
     const wsEndpoints = getWsEndpoints(options);
     if (!wsEndpoints.length) {
-      describe(`Empty test Suite:`, (): void => {
+      describe('Empty test Suite', (): void => {
         it('No tests found for passed endpoints', (): void => {});
       });
     } else {

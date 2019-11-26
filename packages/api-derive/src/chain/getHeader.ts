@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { AccountId } from '@polkadot/types/interfaces';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
+import { Observable, combineLatest, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+import { Vec } from '@polkadot/types';
+
 import { HeaderExtended } from '../type';
-import { drr } from '../util/drr';
-import { HeaderAndValidators } from './subscribeNewHead';
+import { memo } from '../util';
 
 /**
  * @name bestNumberFinalized
@@ -25,22 +28,21 @@ import { HeaderAndValidators } from './subscribeNewHead';
  * ```
  */
 export function getHeader (api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    (combineLatest([
+  return memo((hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+    combineLatest([
       api.rpc.chain.getHeader(hash),
       api.query.session
-        ? api.query.session.validators.at(hash)
+        ? api.query.session.validators.at(hash) as Observable<Vec<AccountId>>
         : of([])
-    ]) as Observable<HeaderAndValidators>).pipe(
+    ]).pipe(
       map(([header, validators]): HeaderExtended =>
-        new HeaderExtended(header, validators)
+        new HeaderExtended(api.registry, header, validators)
       ),
       catchError((): Observable<undefined> =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that
         // we supplied an invalid hash. (Due to defaults, storeage will have an
         // empty value, so only the RPC is affected). So return undefined
-        of() as Observable<undefined>
-      ),
-      drr()
-    );
+        of()
+      )
+    ));
 }

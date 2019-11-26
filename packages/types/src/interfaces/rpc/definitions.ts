@@ -5,9 +5,11 @@
 export default {
   types: {
     ApiId: '[u8; 8]',
+    BlockHash: 'Hash',
     ChainProperties: {
-      tokenDecimals: 'u32',
-      tokenSymbol: 'Text'
+      ss58Format: 'Option<u8>',
+      tokenDecimals: 'Option<u32>',
+      tokenSymbol: 'Option<Text>'
     },
     ExtrinsicOrHash: {
       _enum: {
@@ -41,6 +43,15 @@ export default {
       protocolVersion: 'u32',
       bestHash: 'Hash',
       bestNumber: 'BlockNumber'
+    },
+    RpcMethods: {
+      version: 'u32',
+      methods: 'Vec<Text>'
+    },
+    RuntimeDispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
     },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {

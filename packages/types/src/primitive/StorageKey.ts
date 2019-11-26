@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryMetadataLatest } from '../interfaces/metadata';
+import { AnyU8a, Codec, Registry } from '../types';
+
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { StorageEntryMetadata as MetaV7 } from '../Metadata/v7/Storage';
-import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
   headKey?: Uint8Array;
-  meta: MetaV7;
+  meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
   section: string;
@@ -29,6 +30,41 @@ interface StorageKeyExtra {
   section: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Text = String & Codec;
+
+interface StorageType {
+  asDoubleMap: {
+    value: Text;
+  };
+  asMap: {
+    linked: { isTrue: boolean };
+    key: Text;
+    value: Text;
+  };
+  asPlain: Text;
+  isDoubleMap: boolean;
+  isMap: boolean;
+  isPlain: boolean;
+}
+
+// we unwrap the type here, turning into an output usable for createType
+export function unwrapStorageType (type: StorageType): string {
+  if (type.isDoubleMap) {
+    return `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+  }
+
+  if (type.isMap) {
+    if (type.asMap.linked.isTrue) {
+      return `(${type.asMap.value.toString()}, Linkage<${type.asMap.key.toString()}>)`;
+    }
+
+    return type.asMap.value.toString();
+  }
+
+  return type.asPlain.toString();
+}
+
 /**
  * @name StorageKey
  * @description
@@ -36,7 +72,7 @@ interface StorageKeyExtra {
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta?: MetaV7;
+  private _meta?: StorageEntryMetadataLatest;
 
   private _method?: string;
 
@@ -44,10 +80,10 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
-    super(key);
+    super(registry, key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
     this._method = override.method || method;
@@ -86,7 +122,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV7 | undefined {
+  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -104,11 +140,11 @@ export default class StorageKey extends Bytes {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
-      return value.meta.type.toString();
+      return unwrapStorageType(value.meta.type);
     } else if (Array.isArray(value)) {
       const [fn] = value;
 
-      return fn.meta.type.toString();
+      return unwrapStorageType(fn.meta.type);
     }
 
     return undefined;
@@ -117,7 +153,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  public get meta (): MetaV7 | undefined {
+  public get meta (): StorageEntryMetadataLatest | undefined {
     return this._meta;
   }
 

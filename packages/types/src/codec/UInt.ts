@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Constructor, Registry } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
-import { ClassOf } from './createType';
+import { ClassOf } from './create/createClass';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -20,21 +20,22 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class UInt extends AbstractInt {
-  public constructor (
-    value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = false) {
-    super(
-      false,
-      value,
-      bitLength,
-      isHexJson
-    );
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false) {
+    super(registry, false, value, bitLength, isHexJson);
+  }
+
+  public static with (bitLength?: UIntBitLength): Constructor<UInt> {
+    return class extends UInt {
+      constructor (registry: Registry, value?: any) {
+        super(registry, value, bitLength);
+      }
+    };
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (isLe: boolean = false): string {
+  public toHex (isLe = false): string {
     // For display/JSON, this is BE, for compare, use isLe
     return bnToHex(this, {
       bitLength: this._bitLength,
@@ -48,9 +49,9 @@ export default class UInt extends AbstractInt {
    */
   public toRawType (): string {
     // NOTE In the case of balances, which have a special meaning on the UI
-    // and can be interpreted differently, return a specifc value for it so
+    // and can be interpreted differently, return a specific value for it so
     // underlying it always matches (no matter which length it actually is)
-    return this instanceof ClassOf('Balance')
+    return this instanceof ClassOf(this.registry, 'Balance')
       ? 'Balance'
       : `u${this._bitLength}`;
   }

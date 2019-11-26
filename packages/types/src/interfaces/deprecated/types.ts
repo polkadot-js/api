@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '../../codec';
-import { Bytes, Null, i8, u32, u64 } from '../../primitive';
-import { AccountId, Balance } from '../runtime';
+import { Enum, Struct } from '@polkadot/types/codec';
+import { Bytes, Null, i8, u32, u64 } from '@polkadot/types/primitive';
+import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AccountInfo extends Struct {
@@ -14,16 +14,16 @@ export interface AccountInfo extends Struct {
 }
 
 /** Balance */
-export type Amount = Balance;
+export interface Amount extends Balance {}
 
 /** u32 */
-export type AssetOf = u32;
+export interface AssetOf extends u32 {}
 
 /** Null */
-export type InherentOfflineReport = Null;
+export interface InherentOfflineReport extends Null {}
 
 /** i8 */
-export type LockPeriods = i8;
+export interface LockPeriods extends i8 {}
 
 /** Enum */
 export interface NewAccountOutcome extends Enum {
@@ -36,7 +36,7 @@ export interface NewAccountOutcome extends Enum {
 }
 
 /** Bytes */
-export type OpaqueKey = Bytes;
+export interface OpaqueKey extends Bytes {}
 
 /** AccountId */
-export type SessionKey = AccountId;
+export interface SessionKey extends AccountId {}

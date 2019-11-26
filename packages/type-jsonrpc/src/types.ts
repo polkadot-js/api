@@ -2,25 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// import { CodecTypes } from '@polkadot/types/classes';
+import { InterfaceTypes } from '@polkadot/types/types';
 
 type PubSub = [string, string, string];
 
 export interface RpcParam {
   isOptional: boolean;
   name: string;
-  type: string; // CodecTypes;
+  type: InterfaceTypes;
 }
 
 export interface RpcMethodOpt {
   description: string;
   isDeprecated?: boolean;
   isHidden?: boolean;
+  isOptional?: boolean;
   isSigned?: boolean;
   isSubscription?: boolean;
   params: RpcParam[];
   pubsub?: PubSub;
-  type: string; // CodecTypes;
+  type: InterfaceTypes;
 }
 
 export interface RpcMethod {
@@ -28,13 +29,14 @@ export interface RpcMethod {
   description: string;
   isDeprecated: boolean;
   isHidden: boolean;
+  isOptional: boolean;
   isSigned: boolean;
   isSubscription: boolean;
   method: string;
   params: RpcParam[];
   pubsub: PubSub;
   section: string;
-  type: string; // CodecTypes;
+  type: InterfaceTypes;
 }
 
 export interface RpcSection {
