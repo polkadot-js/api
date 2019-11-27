@@ -65,9 +65,6 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  [TypeDefInfo.DoubleMap]: (registry: Registry, value: TypeDef): Constructor => getTypeClass(registry, getSubDef(value)),
-
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
 
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => Linkage.withKey(getSubType(value)),

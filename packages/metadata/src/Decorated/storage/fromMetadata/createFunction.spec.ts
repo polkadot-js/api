@@ -18,7 +18,7 @@ describe('createFunction', (): void => {
         section: 'timestamp',
         method: 'Now',
         meta: { type: {} } as any
-      })()
+      }, { metaVersion: 8 })()
     ).toEqual(
       Uint8Array.from([64, 14, 73, 68, 207, 217, 141, 111, 76, 195, 116, 209, 111, 90, 78, 63, 156]) // Length-prefixed
     );
@@ -36,7 +36,8 @@ describe('createFunction', (): void => {
         },
         {
           key: ':auth:len',
-          skipHashing: true
+          skipHashing: true,
+          metaVersion: 8
         }
       ).method
     ).toEqual('authorityCount');
@@ -56,7 +57,8 @@ describe('createFunction', (): void => {
         },
         {
           key,
-          skipHashing: true
+          skipHashing: true,
+          metaVersion: 8
         }
       )()
     ).toEqual(
@@ -88,7 +90,7 @@ describe('createFunction', (): void => {
             }
           }
         } as any
-      });
+      }, { metaVersion: 8 });
     });
 
     it('should return correct key', (): void => {
@@ -120,7 +122,7 @@ describe('createFunction', (): void => {
           }
         }
       } as any
-    });
+    }, { metaVersion: 8 });
 
     // the value of the Null type key does not effect the result
     expect(u8aToHex(storageFn(['any', [1, 2, 3]]))).toEqual(u8aToHex(storageFn([[1, 2, 3], [1, 2, 3]])));

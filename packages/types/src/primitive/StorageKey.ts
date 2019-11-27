@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadataLatest } from '../interfaces/metadata';
-import { AnyU8a, Codec, Registry } from '../types';
+import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
+import { AnyU8a, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  headKey?: Uint8Array;
+  iterKey?: Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -30,39 +30,23 @@ interface StorageKeyExtra {
   section: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Text = String & Codec;
-
-interface StorageType {
-  asDoubleMap: {
-    value: Text;
-  };
-  asMap: {
-    linked: { isTrue: boolean };
-    key: Text;
-    value: Text;
-  };
-  asPlain: Text;
-  isDoubleMap: boolean;
-  isMap: boolean;
-  isPlain: boolean;
-}
-
 // we unwrap the type here, turning into an output usable for createType
-export function unwrapStorageType (type: StorageType): string {
-  if (type.isDoubleMap) {
-    return `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+export function unwrapStorageType (type: StorageEntryTypeLatest): string {
+  if (type.isPlain) {
+    return type.asPlain.toString();
+  } else if (type.isDoubleMap) {
+    return type.asDoubleMap.value.toString();
   }
 
-  if (type.isMap) {
-    if (type.asMap.linked.isTrue) {
-      return `(${type.asMap.value.toString()}, Linkage<${type.asMap.key.toString()}>)`;
-    }
+  const map = type.asMap;
 
-    return type.asMap.value.toString();
+  if (map.kind.isLinkedMap) {
+    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
+  } else if (map.kind.isPrefixedMap) {
+    // We are not 100% sure here yet if we are doing something specific or not
   }
 
-  return type.asPlain.toString();
+  return map.value.toString();
 }
 
 /**
@@ -176,5 +160,23 @@ export default class StorageKey extends Bytes {
    */
   public get section (): string | undefined {
     return this._section;
+  }
+
+  /**
+   * @description Sets the meta for this key
+   */
+  public setMeta (meta?: StorageEntryMetadataLatest): this {
+    this._meta = meta;
+
+    return this;
+  }
+
+  /**
+   * @description Sets the output type for this storage key
+   */
+  public setOutputType (outputType?: string): this {
+    this._outputType = outputType;
+
+    return this;
   }
 }

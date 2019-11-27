@@ -36,11 +36,11 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
         method,
         prefix,
         section
-      });
+      }, { metaVersion: metadata.version });
 
       return newModule;
     }, {} as unknown as ModuleStorage);
 
     return result;
-  }, { ...getStorage(registry) });
+  }, { ...getStorage(registry, metadata.version) });
 }

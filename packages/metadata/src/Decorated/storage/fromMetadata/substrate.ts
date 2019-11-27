@@ -16,8 +16,8 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry) => StorageEntry {
-  return (registry: Registry): StorageEntry =>
+function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
+  return (registry: Registry, metaVersion: number): StorageEntry =>
     createFunction(registry, {
       meta: {
         documentation: createType(registry, 'Vec<Text>', [documentation]),
@@ -28,7 +28,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       method,
       prefix: 'Substrate',
       section: 'substrate'
-    }, { key, skipHashing: true });
+    }, { key, metaVersion, skipHashing: true });
 }
 
 // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys

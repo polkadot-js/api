@@ -36,7 +36,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
  * unique types.
  */
 export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
-  it(`converts v${version} to v8`, (): void => {
+  it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
     const metadataLatest = new Metadata(registry, rpcData).asLatest;
 
@@ -60,7 +60,7 @@ export function defaultValues (registry: Registry, rpcData: string): void {
       .forEach((mod): void => {
         mod.storage.unwrap().items.forEach(({ fallback, name, type }): void => {
           const inner = unwrapStorageType(type);
-          const location = `${mod.name}.${name}: type ${inner}`;
+          const location = `${mod.name}.${name}: ${inner}`;
 
           it(`creates default types for ${location}`, (): void => {
             expect(
