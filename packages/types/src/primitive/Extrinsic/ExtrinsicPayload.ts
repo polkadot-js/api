@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
+import { BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -135,5 +135,12 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public toString (): string {
     return this.toHex();
+  }
+
+  /**
+   * @description Returns a serialized u8a form
+   */
+  public toU8a (isBare?: BareOpts): Uint8Array {
+    return this.toU8a(isBare ? { method: true } : false);
   }
 }
