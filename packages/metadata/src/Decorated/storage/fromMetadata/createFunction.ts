@@ -160,9 +160,13 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 }
 
 // attach the head key hashing for linked maps
-function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction): StorageEntry {
+function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction, metaVersion: number): StorageEntry {
+  const key = metaVersion <= 8
+    ? hasher(`head of ${stringKey}`)
+    : u8aConcat(xxhashAsU8a(itemFn.prefix, 128), xxhashAsU8a(`HeadOf${itemFn.method}`, 128));
+
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): U8a =>
-    new U8a(registry, hasher(`head of ${stringKey}`))
+    new U8a(registry, key)
   );
 
   return storageFn;
@@ -207,7 +211,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     const map = type.asMap;
 
     if (map.kind.isLinkedMap) {
-      extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher);
+      extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher, options.metaVersion);
     } else if (map.kind.isPrefixedMap) {
       extendPrefixedMap(registry, itemFn, storageFn);
     }
