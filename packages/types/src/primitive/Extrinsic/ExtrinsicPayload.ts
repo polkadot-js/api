@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../types';
+import { BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -37,18 +37,16 @@ const VERSIONS: InterfaceTypes[] = [
  * on the contents included
  */
 export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
-    super(
-      ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
-    );
+  constructor (registry: Registry, value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+    super(registry, ExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
-  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+  public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
 
-    return createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
+    return createType(registry, VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
   }
 
   /**
@@ -70,7 +68,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType(this.registry, 'Hash');
   }
 
   /**
@@ -92,7 +90,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
+    return (this.raw as ExtrinsicPayloadV3).specVersion || createType(this.registry, 'u32');
   }
 
   /**
@@ -100,7 +98,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
+    return (this.raw as ExtrinsicPayloadV2).tip || createType(this.registry, 'Compact<Balance>');
   }
 
   /**
@@ -137,5 +135,13 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public toString (): string {
     return this.toHex();
+  }
+
+  /**
+   * @description Returns a serialized u8a form
+   */
+  public toU8a (isBare?: BareOpts): Uint8Array {
+    // call our parent, with only the method stripped
+    return super.toU8a(isBare ? { method: true } : false);
   }
 }

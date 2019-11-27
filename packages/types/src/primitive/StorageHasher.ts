@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '../types';
+
 import Enum from '../codec/Enum';
 
 export default class StorageHasher extends Enum {
-  public constructor (value?: any) {
-    super([
+  constructor (registry: Registry, value?: any) {
+    super(registry, [
       'Blake2_128',
       'Blake2_256',
       'Twox128',

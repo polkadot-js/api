@@ -12,7 +12,7 @@ import createParam from './create/param';
 const getHeader: RpcMethodOpt = {
   description: 'Retrieves the header for a specific block',
   params: [
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('hash', 'BlockHash', { isOptional: true })
   ],
   type: 'Header'
 };
@@ -20,7 +20,7 @@ const getHeader: RpcMethodOpt = {
 const getBlock: RpcMethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('hash', 'BlockHash', { isOptional: true })
   ],
   type: 'SignedBlock'
 };
@@ -30,13 +30,13 @@ const getBlockHash: RpcMethodOpt = {
   params: [
     createParam('blockNumber', 'BlockNumber', { isOptional: true })
   ],
-  type: 'Hash'
+  type: 'BlockHash'
 };
 
 const getFinalizedHead: RpcMethodOpt = {
   description: 'Get hash of the last finalized block in the canon chain',
   params: [],
-  type: 'Hash'
+  type: 'BlockHash'
 };
 
 const subscribeNewHeads: RpcMethodOpt = {

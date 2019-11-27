@@ -228,7 +228,6 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
   const generators = {
     [TypeDefInfo.BTreeMap]: tsBTreeMap,
     [TypeDefInfo.Compact]: tsCompact,
-    [TypeDefInfo.DoubleMap]: errorUnhandled,
     [TypeDefInfo.Enum]: tsEnum,
     [TypeDefInfo.Linkage]: errorUnhandled,
     [TypeDefInfo.Null]: errorUnhandled,

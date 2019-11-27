@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
-import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Constants } from '@polkadot/api-metadata/consts/types';
-import { GenericCall, Metadata, createType, getTypeRegistry } from '@polkadot/types';
+import { Metadata, createType } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -30,10 +30,10 @@ try {
 function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');
 
-  return value as T;
+  return value;
 }
 
-export default abstract class ApiBase<ApiType> extends Init<ApiType> {
+export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description Create an instance of the class
    *
@@ -52,7 +52,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
   }
 
@@ -193,6 +193,13 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   }
 
   /**
+   * @description The underlying Rx API interface
+   */
+  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc'> {
+    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc'>);
+  }
+
+  /**
    * @description The type of this API instance, either 'rxjs' or 'promise'
    */
   public get type (): ApiTypes {
@@ -220,8 +227,8 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
-    return createType(type, ...params);
+  public createType = <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] => {
+    return createType(this.registry, type, ...params);
   }
 
   /**
@@ -235,14 +242,14 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * @description Finds the definition for a specific [[Call]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
-    return GenericCall.findFunction(u8aToU8a(callIndex));
+    return this.registry.findMetaCall(u8aToU8a(callIndex));
   }
 
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
-    types && getTypeRegistry().register(types);
+    types && this.registry.register(types);
   }
 
   /**
@@ -258,9 +265,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
     // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
     if (isString(signer)) {
-      if (!this._rx.signer || !this._rx.signer.signRaw) {
-        throw new Error('No signer exists with a signRaw interface');
-      }
+      assert(this._rx.signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
         await this._rx.signer.signRaw({

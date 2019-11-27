@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '../../codec/types';
-import { Constructor } from '../../types';
+import { Constructor, Registry } from '../../types';
 
 import { isChildClass, isCompactEncodable } from './class';
 import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
@@ -34,7 +34,7 @@ export function getDerivedTypes (type: string, primitiveName: string, imports: T
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
 // etc
-export function getSimilarTypes (type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (registry: Registry, type: string, imports: TypeImports): string[] {
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
@@ -42,8 +42,8 @@ export function getSimilarTypes (type: string, imports: TypeImports): string[] {
     return ['IExtrinsic'];
   }
 
-  if (isChildClass(Vec, ClassOfUnsafe(type))) {
-    return [`(${getSimilarTypes(((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
+  if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
+    return [`(${getSimilarTypes(registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
   }
 
   // FIXME This is a hack, it's hard to correctly type StorageKeys in the
@@ -53,11 +53,11 @@ export function getSimilarTypes (type: string, imports: TypeImports): string[] {
   }
 
   // Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(type))) {
+  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(registry, type))) {
     possibleTypes.push('Uint8Array', 'number', 'string');
-  } else if (isChildClass(Uint8Array, ClassOfUnsafe(type))) {
+  } else if (isChildClass(Uint8Array, ClassOfUnsafe(registry, type))) {
     possibleTypes.push('Uint8Array', 'string');
-  } else if (isChildClass(String, ClassOfUnsafe(type))) {
+  } else if (isChildClass(String, ClassOfUnsafe(registry, type))) {
     possibleTypes.push('string');
   }
 

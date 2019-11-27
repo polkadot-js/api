@@ -4,9 +4,10 @@
 
 import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
-import storage from '@polkadot/api-metadata/storage/static';
+import Metadata from '@polkadot/metadata';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf, TypeRegistry } from '@polkadot/types';
 
 import Rpc from '@polkadot/rpc-core';
 
@@ -20,24 +21,26 @@ describeE2E({
     'docker-polkadot-alexander'
   ]
 })('e2e Alexander - Polkadot', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
+  const metadata = new Metadata(registry, rpcMetadata);
   let rpc: Rpc;
 
   beforeEach((): void => {
-    rpc = new Rpc(new WsProvider(wsUrl));
+    rpc = new Rpc(registry, new WsProvider(wsUrl));
   });
 
   it('subscribes to storage', (done): void => {
     rpc.state
       .subscribeStorage<[BlockNumber, Index]>([
-      [storage.system.accountNonce, randomAccount],
-      [storage.session.currentIndex]
+      [metadata.query.system.accountNonce, randomAccount],
+      [metadata.query.session.currentIndex]
     ])
       .subscribe((data): void => {
         expect(data).toHaveLength(2);
         expect(data).toEqual(
           expect.arrayContaining([
-            expect.any(ClassOf('Index')),
-            expect.any(ClassOf('Index'))
+            expect.any(ClassOf(registry, 'Index')),
+            expect.any(ClassOf(registry, 'Index'))
           ])
         );
 
@@ -50,7 +53,7 @@ describeE2E({
       .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
       .subscribe((block: SignedBlock): void => {
         expect(block).toBeDefined();
-        expect(block).toBeInstanceOf(ClassOf('SignedBlock'));
+        expect(block).toBeInstanceOf(ClassOf(registry, 'SignedBlock'));
         done();
       });
   });
@@ -60,7 +63,7 @@ describeE2E({
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
       .subscribe((block: SignedBlock): void => {
         expect(block).toBeDefined();
-        expect(block).toBeInstanceOf(ClassOf('SignedBlock'));
+        expect(block).toBeInstanceOf(ClassOf(registry, 'SignedBlock'));
         done();
       });
   });

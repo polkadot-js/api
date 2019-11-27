@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '@polkadot/types';
+
 import Mock from './';
 
 describe('unsubscribe', (): void => {
+  const registry = new TypeRegistry();
   let mock: Mock;
   let id: number;
 
   beforeEach((): Promise<void> => {
-    mock = new Mock();
+    mock = new Mock(registry);
 
     return mock
       .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})

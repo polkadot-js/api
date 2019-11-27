@@ -1,10 +1,33 @@
-# 0.95.0-beta.x
+# 0.97.0-beta.x
 
-- Support Extrinsic V4 with additional signature indicator (Latest Kusama)
+- **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
+- **Breaking change** The metadata classes have been moved from `@polkadot/types` into `@polkadot/metadata`. If you explicitly create `Metadata` classes, you now would need to do so with the `import Metadata from '@polkadot/metadata';` This is a decorated class, where the previous metadata is now available on `Metadata.metadata`, alongside decorated `consts.*`', `tx.*` and `query.*`.
+- `api.derive.*` now has built-in memomization
+- Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
+- Aligned all types with the latest Polkadot & Substrate
+
+# 0.96.1
+
+- Updated types for latest Kusama
+- Add `filterRecords` (in addition to `findRecord`) on submittable results
+- Various ABI v2 contract fixes
+- Update derive for elections (incl. RunnersUp) and heartbeat derives (with blocks & messages)
+- Add vesting totals & locked breakdowns to derive balances
+- Update council derives for the latest Substrate master support (with constants)
+- Derive cleanups, including sharing of instances between the API and internal to derives
+
+# 0.95.2
+
+- Temporary removal of `account_nextIndex` use, will be re-added in a future release
+
+# 0.95.1
+
+- Support Extrinsic V4 with additional signature indicator (Latest Polkadot/Substrate/Kusama)
 - Adjust subscription update checks to avoid duplicated data updates
 - Support Metadata V8 (exposes per-module `decl_error` definitions)
 - Support next generation contracts ABI (with additional type definitions)
 - Support for `BTreeMap<K, V>` types and definitions
+- All latest Polkadot & Substrate types (as per master branches)
 - **Breaking change** `Call.injectMethods` is moved to `Call.injectMetadata` to align with `Events` (This _should_ not be used externally, however mentioned as breaking here)
 
 # 0.94.1

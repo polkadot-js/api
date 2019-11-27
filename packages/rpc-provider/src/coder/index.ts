@@ -52,9 +52,12 @@ export default class RpcCoder {
   private checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
+
+      // We need some sort of cut-off here since these can be very large and
+      // very nested, pick a number and trim the result display to it
       const _data = isUndefined(data)
         ? ''
-        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 22);
+        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 35);
 
       throw new Error(`${code}: ${message}${_data}`);
     }

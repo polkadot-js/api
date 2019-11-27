@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IHash } from '../types';
+import { Codec, IHash, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -16,11 +16,13 @@ import { createType } from '../codec/create';
  * @noInheritDoc
  */
 export default class Bool extends Boolean implements Codec {
+  public readonly registry: Registry;
+
   // eslint-disable-next-line @typescript-eslint/ban-types
-  public constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
-    super(
-      Bool.decodeBool(value)
-    );
+  constructor (registry: Registry, value: Bool | Boolean | Uint8Array | boolean | number = false) {
+    super(Bool.decodeBool(value));
+
+    this.registry = registry;
   }
 
   private static decodeBool (value: any): boolean {
@@ -44,7 +46,7 @@ export default class Bool extends Boolean implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

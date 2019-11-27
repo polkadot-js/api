@@ -8,19 +8,20 @@ import { ApiInterfaceRx, ApiTypes } from '../types';
 import { SubmittableExtrinsic } from './types';
 
 import ApiBase from '../base';
+import createClass from './createClass';
 
-type Creator<ApiType> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
+type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
 
 let Submittable: Constructor<SubmittableExtrinsic<any>>;
 
-export default function createSubmittable<ApiType> (type: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
+export default function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, api: ApiInterfaceRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): Creator<ApiType> {
   return (extrinsic: Call | Uint8Array | string): SubmittableExtrinsic<ApiType> => {
-    // HACK This is not great, but basically what we do here is to lazily only require the class
-    // right at the point it is actually needed - delaying initialization
+    // This is not great, but basically what we do here is to only require the
+    // class right at the point it is actually needed - delaying initialization
     if (!Submittable) {
-      Submittable = require('./Submittable').default;
+      Submittable = createClass<ApiType>({ api, apiType, decorateMethod });
     }
 
-    return new Submittable(extrinsic, { api, decorateMethod, type });
+    return new Submittable(api.registry, extrinsic);
   };
 }

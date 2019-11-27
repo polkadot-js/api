@@ -12,29 +12,27 @@ import { Option } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
 import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
-export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
+export function constructInfo (api: ApiInterfaceRx, index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
   const info = optionInfo
     ? optionInfo.unwrapOr(null)
     : null;
 
   return new Option<ReferendumInfoExtended>(
+    api.registry,
     ReferendumInfoExtended,
     isNull(info)
       ? null
-      : new ReferendumInfoExtended(info, index)
+      : new ReferendumInfoExtended(api.registry, info, index)
   );
 }
 
 export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<Option<ReferendumInfoExtended>> {
-  return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
-    return (api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index))
-      .pipe(
-        map((optionInfo): Option<ReferendumInfoExtended> =>
-          constructInfo(index, optionInfo)
-        ),
-        drr()
-      );
-  };
+  return memo((index: BN | number): Observable<Option<ReferendumInfoExtended>> =>
+    api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index).pipe(
+      map((optionInfo): Option<ReferendumInfoExtended> =>
+        constructInfo(api, index, optionInfo)
+      )
+    ));
 }

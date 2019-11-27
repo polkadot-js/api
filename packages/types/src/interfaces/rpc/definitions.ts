@@ -5,6 +5,7 @@
 export default {
   types: {
     ApiId: '[u8; 8]',
+    BlockHash: 'Hash',
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
@@ -46,6 +47,11 @@ export default {
     RpcMethods: {
       version: 'u32',
       methods: 'Vec<Text>'
+    },
+    RuntimeDispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
     },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {

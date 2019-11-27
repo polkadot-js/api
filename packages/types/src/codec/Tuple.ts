@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes } from '../types';
+import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isU8a, u8aConcat, isHex, hexToU8a } from '@polkadot/util';
 
@@ -26,21 +26,21 @@ type TupleTypes = (Constructor | InterfaceTypes)[] | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  public constructor (Types: TupleTypes, value?: any) {
+  constructor (registry: Registry, Types: TupleTypes, value?: any) {
     const Clazzes = Array.isArray(Types)
-      ? Types.map((type): Constructor => typeToConstructor(type))
-      : mapToTypeMap(Types);
+      ? Types.map((type): Constructor => typeToConstructor(registry, type))
+      : mapToTypeMap(registry, Types);
 
-    super(...Tuple.decodeTuple(Clazzes, value));
+    super(registry, ...Tuple.decodeTuple(registry, Clazzes, value));
 
     this._Types = Clazzes;
   }
 
-  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
+  private static decodeTuple (registry: Registry, _Types: TupleConstructors, value: AnyU8a | string | (AnyU8a | AnyNumber | AnyString | undefined | null)[]): Codec[] {
     if (isU8a(value)) {
-      return decodeU8a(value, _Types);
+      return decodeU8a(registry, value, _Types);
     } else if (isHex(value)) {
-      return Tuple.decodeTuple(_Types, hexToU8a(value));
+      return Tuple.decodeTuple(registry, _Types, hexToU8a(value));
     }
 
     const Types: Constructor[] = Array.isArray(_Types)
@@ -49,7 +49,7 @@ export default class Tuple extends AbstractArray<Codec> {
 
     return Types.map((Type, index): Codec => {
       try {
-        return new Type(value && value[index]);
+        return new Type(registry, value && value[index]);
       } catch (error) {
         throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
       }
@@ -58,8 +58,8 @@ export default class Tuple extends AbstractArray<Codec> {
 
   public static with (Types: TupleTypes): Constructor<Tuple> {
     return class extends Tuple {
-      public constructor (value?: any) {
-        super(Types, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, Types, value);
       }
     };
   }
@@ -80,7 +80,7 @@ export default class Tuple extends AbstractArray<Codec> {
    */
   public get Types (): string[] {
     return Array.isArray(this._Types)
-      ? this._Types.map((Type): string => new Type().toRawType())
+      ? this._Types.map((Type): string => new Type(this.registry).toRawType())
       : Object.keys(this._Types);
   }
 
@@ -92,7 +92,7 @@ export default class Tuple extends AbstractArray<Codec> {
       Array.isArray(this._Types)
         ? this._Types
         : Object.values(this._Types)
-    ).map((Type): string => new Type().toRawType());
+    ).map((Type): string => new Type(this.registry).toRawType());
 
     return `(${types.join(',')})`;
   }

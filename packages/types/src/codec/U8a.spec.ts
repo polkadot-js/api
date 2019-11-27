@@ -3,18 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecTo } from '../types';
+
+import { TypeRegistry } from './create';
 import U8a from './U8a';
+
+const registry = new TypeRegistry();
 
 const testDecode = (type: string, input: any, expected: string): void =>
   it(`can decode from ${type}`, (): void => {
-    const e = new U8a(input);
+    const e = new U8a(registry, input);
 
     expect(e.toString()).toBe(expected);
   });
 
 const testEncode = (to: CodecTo, expected: any): void =>
   it(`can encode ${to}`, (): void => {
-    const e = new U8a([1, 2, 3, 4, 5]);
+    const e = new U8a(registry, [1, 2, 3, 4, 5]);
 
     expect(e[to]()).toEqual(expected);
   });
@@ -23,7 +27,7 @@ describe('U8a', (): void => {
   let u8a: U8a;
 
   beforeEach((): void => {
-    u8a = new U8a([1, 2, 3, 4, 5]);
+    u8a = new U8a(registry, [1, 2, 3, 4, 5]);
   });
 
   testDecode('Array', [1, 2, 3, 4, 5], '0x0102030405');
@@ -46,7 +50,7 @@ describe('U8a', (): void => {
 
   it('allows wrapping of a pre-existing instance', (): void => {
     expect(
-      new U8a(u8a).length
+      new U8a(registry, u8a).length
     ).toEqual(5);
   });
 

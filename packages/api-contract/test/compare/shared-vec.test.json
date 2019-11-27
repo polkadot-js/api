@@ -1,33 +1,33 @@
 [
   {
-    "info": 9,
-    "type": "{ \"mutators\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>\", \"vec\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }<i32>\"} }",
+    "info": 8,
+    "type": "{\"mutators\":\"{\\\"len\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"cell\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\\\\\\\\\"}<u32>\\\\\\\"}<u32>\\\",\\\"entries\\\":\\\"{\\\\\\\"cells_key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<{\\\\\\\"_enum\\\\\\\":{\\\\\\\"Occupied\\\\\\\":\\\\\\\"({\\\\\\\\\\\\\\\"key\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"val\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"{\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\\\\\\\\\"}<([u8;32]<u8>), {\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>>)<{\\\\\\\\\\\\\\\"key\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"val\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"{\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\\\\\\\\\"}<([u8;32]<u8>), {\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>>>\\\\\\\",\\\\\\\"Removed\\\\\\\":\\\\\\\"Null\\\\\\\"}}<([u8;32]<u8>), {\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>\",\"vec\":\"{\\\"len\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"cell\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\\\\\\\\\"}<u32>\\\\\\\"}<u32>\\\",\\\"cells\\\":\\\"{\\\\\\\"cells_key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<i32>\\\"}<i32>\"}",
     "sub": [
       {
-        "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }",
+        "info": 8,
+        "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<u32>\\\"}<u32>\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<{\\\"_enum\\\":{\\\"Occupied\\\":\\\"({\\\\\\\"key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\",\\\\\\\"val\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\"}<([u8;32]<u8>), {\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>>)<{\\\\\\\"key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\",\\\\\\\"val\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\"}<([u8;32]<u8>), {\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>>>\\\",\\\"Removed\\\":\\\"Null\\\"}}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\"}",
         "sub": [
           {
-            "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "info": 8,
+            "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<u32>\"}",
             "sub": [
               {
-                "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "info": 8,
+                "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
                 "sub": [
                   {
-                    "info": 10,
-                    "type": "([u8;32])",
+                    "info": 9,
+                    "type": "([u8;32]<u8>)",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 11,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
                           "type": "u8"
                         },
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u8"
                         },
                         "index": 0
@@ -41,7 +41,7 @@
                 "namespace": "ink_core::storage::cell::sync_cell",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
@@ -51,28 +51,28 @@
             "namespace": "ink_core::storage::value",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "info": 8,
+            "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
             "sub": [
               {
-                "info": 10,
-                "type": "([u8;32])",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -86,30 +86,30 @@
             "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
             "params": [
               {
-                "info": 3,
-                "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+                "info": 2,
+                "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>)<{\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\",\"Removed\":\"Null\"}}",
                 "sub": [
                   {
-                    "info": 10,
+                    "info": 9,
                     "name": "Occupied",
                     "sub": [
                       {
-                        "info": 9,
-                        "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                        "info": 8,
+                        "type": "{\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}",
                         "sub": [
                           {
-                            "info": 10,
-                            "type": "AccountId",
+                            "info": 9,
+                            "type": "([u8;32]<u8>)",
                             "sub": [
                               {
-                                "info": 12,
+                                "info": 11,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
                                   "type": "u8"
                                 },
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u8"
                                 },
                                 "index": 0
@@ -119,35 +119,35 @@
                             "namespace": "ink_core::env::srml::types"
                           },
                           {
-                            "info": 9,
-                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                            "info": 8,
+                            "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                             "sub": [
                               {
-                                "info": 5,
+                                "info": 4,
                                 "type": "Option<u32>",
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u32"
                                 },
                                 "name": "begin",
                                 "params": [
                                   {
-                                    "info": 6,
+                                    "info": 5,
                                     "type": "u32"
                                   }
                                 ]
                               },
                               {
-                                "info": 5,
+                                "info": 4,
                                 "type": "Option<u32>",
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u32"
                                 },
                                 "name": "end",
                                 "params": [
                                   {
-                                    "info": 6,
+                                    "info": 5,
                                     "type": "u32"
                                   }
                                 ]
@@ -161,18 +161,18 @@
                         "namespace": "ink_core::storage::collections::hash_map::impls",
                         "params": [
                           {
-                            "info": 10,
-                            "type": "AccountId",
+                            "info": 9,
+                            "type": "([u8;32]<u8>)",
                             "sub": [
                               {
-                                "info": 12,
+                                "info": 11,
                                 "type": "[u8;32]",
                                 "ext": {
                                   "length": 32,
                                   "type": "u8"
                                 },
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u8"
                                 },
                                 "index": 0
@@ -182,35 +182,35 @@
                             "namespace": "ink_core::env::srml::types"
                           },
                           {
-                            "info": 9,
-                            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                            "info": 8,
+                            "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                             "sub": [
                               {
-                                "info": 5,
+                                "info": 4,
                                 "type": "Option<u32>",
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u32"
                                 },
                                 "name": "begin",
                                 "params": [
                                   {
-                                    "info": 6,
+                                    "info": 5,
                                     "type": "u32"
                                   }
                                 ]
                               },
                               {
-                                "info": 5,
+                                "info": 4,
                                 "type": "Option<u32>",
                                 "sub": {
-                                  "info": 6,
+                                  "info": 5,
                                   "type": "u32"
                                 },
                                 "name": "end",
                                 "params": [
                                   {
-                                    "info": 6,
+                                    "info": 5,
                                     "type": "u32"
                                   }
                                 ]
@@ -223,10 +223,10 @@
                         "index": 0
                       }
                     ],
-                    "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+                    "type": "({\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}<([u8;32]<u8>), {\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}<Option<u32>, Option<u32>>>)"
                   },
                   {
-                    "info": 6,
+                    "info": 5,
                     "name": "Removed",
                     "type": "Null"
                   }
@@ -235,18 +235,18 @@
                 "namespace": "ink_core::storage::collections::hash_map::impls",
                 "params": [
                   {
-                    "info": 10,
-                    "type": "AccountId",
+                    "info": 9,
+                    "type": "([u8;32]<u8>)",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 11,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
                           "type": "u8"
                         },
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u8"
                         },
                         "index": 0
@@ -256,35 +256,35 @@
                     "namespace": "ink_core::env::srml::types"
                   },
                   {
-                    "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "info": 8,
+                    "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                     "sub": [
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "begin",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
                       },
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "end",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
@@ -302,18 +302,18 @@
         "namespace": "ink_core::storage::collections::hash_map::impls",
         "params": [
           {
-            "info": 10,
-            "type": "AccountId",
+            "info": 9,
+            "type": "([u8;32]<u8>)",
             "sub": [
               {
-                "info": 12,
+                "info": 11,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u8"
                 },
                 "index": 0
@@ -323,35 +323,35 @@
             "namespace": "ink_core::env::srml::types"
           },
           {
-            "info": 9,
-            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+            "info": 8,
+            "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
             "sub": [
               {
-                "info": 5,
+                "info": 4,
                 "type": "Option<u32>",
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u32"
                 },
                 "name": "begin",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
               },
               {
-                "info": 5,
+                "info": 4,
                 "type": "Option<u32>",
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u32"
                 },
                 "name": "end",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
@@ -363,30 +363,30 @@
         ]
       },
       {
-        "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }",
+        "info": 8,
+        "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<u32>\\\"}<u32>\",\"cells\":\"{\\\"cells_key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<i32>\"}",
         "sub": [
           {
-            "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "info": 8,
+            "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<u32>\"}",
             "sub": [
               {
-                "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "info": 8,
+                "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
                 "sub": [
                   {
-                    "info": 10,
-                    "type": "([u8;32])",
+                    "info": 9,
+                    "type": "([u8;32]<u8>)",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 11,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
                           "type": "u8"
                         },
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u8"
                         },
                         "index": 0
@@ -400,7 +400,7 @@
                 "namespace": "ink_core::storage::cell::sync_cell",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
@@ -410,28 +410,28 @@
             "namespace": "ink_core::storage::value",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "info": 8,
+            "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
             "sub": [
               {
-                "info": 10,
-                "type": "([u8;32])",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -445,7 +445,7 @@
             "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "i32"
               }
             ]
@@ -455,7 +455,7 @@
         "namespace": "ink_core::storage::collections::vec::impls",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "i32"
           }
         ]
@@ -465,30 +465,30 @@
     "namespace": "shared_vec::normal"
   },
   {
-    "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>>\"} }",
+    "info": 8,
+    "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<u32>\\\"}<u32>\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<{\\\"_enum\\\":{\\\"Occupied\\\":\\\"({\\\\\\\"key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\",\\\\\\\"val\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\"}<([u8;32]<u8>), {\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>>)<{\\\\\\\"key\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\",\\\\\\\"val\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"begin\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"end\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Option<u32><u32>\\\\\\\\\\\\\\\"}<Option<u32>, Option<u32>>\\\\\\\"}<([u8;32]<u8>), {\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>>>\\\",\\\"Removed\\\":\\\"Null\\\"}}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\"}",
     "sub": [
       {
-        "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "info": 8,
+        "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<u32>\"}",
         "sub": [
           {
-            "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "info": 8,
+            "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
             "sub": [
               {
-                "info": 10,
-                "type": "([u8;32])",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -502,7 +502,7 @@
             "namespace": "ink_core::storage::cell::sync_cell",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -512,28 +512,28 @@
         "namespace": "ink_core::storage::value",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "u32"
           }
         ]
       },
       {
-        "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "info": 8,
+        "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
         "sub": [
           {
-            "info": 10,
-            "type": "([u8;32])",
+            "info": 9,
+            "type": "([u8;32]<u8>)",
             "sub": [
               {
-                "info": 12,
+                "info": 11,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u8"
                 },
                 "index": 0
@@ -547,30 +547,30 @@
         "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
         "params": [
           {
-            "info": 3,
-            "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+            "info": 2,
+            "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>)<{\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\",\"Removed\":\"Null\"}}",
             "sub": [
               {
-                "info": 10,
+                "info": 9,
                 "name": "Occupied",
                 "sub": [
                   {
-                    "info": 9,
-                    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                    "info": 8,
+                    "type": "{\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}",
                     "sub": [
                       {
-                        "info": 10,
-                        "type": "AccountId",
+                        "info": 9,
+                        "type": "([u8;32]<u8>)",
                         "sub": [
                           {
-                            "info": 12,
+                            "info": 11,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
                               "type": "u8"
                             },
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u8"
                             },
                             "index": 0
@@ -580,35 +580,35 @@
                         "namespace": "ink_core::env::srml::types"
                       },
                       {
-                        "info": 9,
-                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                        "info": 8,
+                        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                         "sub": [
                           {
-                            "info": 5,
+                            "info": 4,
                             "type": "Option<u32>",
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u32"
                             },
                             "name": "begin",
                             "params": [
                               {
-                                "info": 6,
+                                "info": 5,
                                 "type": "u32"
                               }
                             ]
                           },
                           {
-                            "info": 5,
+                            "info": 4,
                             "type": "Option<u32>",
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u32"
                             },
                             "name": "end",
                             "params": [
                               {
-                                "info": 6,
+                                "info": 5,
                                 "type": "u32"
                               }
                             ]
@@ -622,18 +622,18 @@
                     "namespace": "ink_core::storage::collections::hash_map::impls",
                     "params": [
                       {
-                        "info": 10,
-                        "type": "AccountId",
+                        "info": 9,
+                        "type": "([u8;32]<u8>)",
                         "sub": [
                           {
-                            "info": 12,
+                            "info": 11,
                             "type": "[u8;32]",
                             "ext": {
                               "length": 32,
                               "type": "u8"
                             },
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u8"
                             },
                             "index": 0
@@ -643,35 +643,35 @@
                         "namespace": "ink_core::env::srml::types"
                       },
                       {
-                        "info": 9,
-                        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                        "info": 8,
+                        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                         "sub": [
                           {
-                            "info": 5,
+                            "info": 4,
                             "type": "Option<u32>",
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u32"
                             },
                             "name": "begin",
                             "params": [
                               {
-                                "info": 6,
+                                "info": 5,
                                 "type": "u32"
                               }
                             ]
                           },
                           {
-                            "info": 5,
+                            "info": 4,
                             "type": "Option<u32>",
                             "sub": {
-                              "info": 6,
+                              "info": 5,
                               "type": "u32"
                             },
                             "name": "end",
                             "params": [
                               {
-                                "info": 6,
+                                "info": 5,
                                 "type": "u32"
                               }
                             ]
@@ -684,10 +684,10 @@
                     "index": 0
                   }
                 ],
-                "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+                "type": "({\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}<([u8;32]<u8>), {\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}<Option<u32>, Option<u32>>>)"
               },
               {
-                "info": 6,
+                "info": 5,
                 "name": "Removed",
                 "type": "Null"
               }
@@ -696,18 +696,18 @@
             "namespace": "ink_core::storage::collections::hash_map::impls",
             "params": [
               {
-                "info": 10,
-                "type": "AccountId",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -717,35 +717,35 @@
                 "namespace": "ink_core::env::srml::types"
               },
               {
-                "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "info": 8,
+                "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                 "sub": [
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "begin",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
                   },
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "end",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
@@ -763,18 +763,18 @@
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
-        "info": 10,
-        "type": "AccountId",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -784,35 +784,35 @@
         "namespace": "ink_core::env::srml::types"
       },
       {
-        "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "info": 8,
+        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
         "sub": [
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "begin",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "end",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -824,18 +824,18 @@
     ]
   },
   {
-    "info": 10,
-    "type": "AccountId",
+    "info": 9,
+    "type": "([u8;32]<u8>)",
     "sub": [
       {
-        "info": 12,
+        "info": 11,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
           "type": "u8"
         },
         "sub": {
-          "info": 6,
+          "info": 5,
           "type": "u8"
         },
         "index": 0
@@ -845,51 +845,51 @@
     "namespace": "ink_core::env::srml::types"
   },
   {
-    "info": 12,
+    "info": 11,
     "type": "[u8;32]",
     "ext": {
       "length": 32,
       "type": "u8"
     },
     "sub": {
-      "info": 6,
+      "info": 5,
       "type": "u8"
     }
   },
   {
-    "info": 6,
+    "info": 5,
     "type": "u8"
   },
   {
-    "info": 9,
-    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+    "info": 8,
+    "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
     "sub": [
       {
-        "info": 5,
+        "info": 4,
         "type": "Option<u32>",
         "sub": {
-          "info": 6,
+          "info": 5,
           "type": "u32"
         },
         "name": "begin",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "u32"
           }
         ]
       },
       {
-        "info": 5,
+        "info": 4,
         "type": "Option<u32>",
         "sub": {
-          "info": 6,
+          "info": 5,
           "type": "u32"
         },
         "name": "end",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "u32"
           }
         ]
@@ -899,45 +899,45 @@
     "namespace": "shared_vec"
   },
   {
-    "info": 5,
+    "info": 4,
     "type": "Option<u32>",
     "sub": {
-      "info": 6,
+      "info": 5,
       "type": "u32"
     },
     "name": "Option",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 6,
+    "info": 5,
     "type": "u32"
   },
   {
-    "info": 9,
-    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+    "info": 8,
+    "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<u32>\"}",
     "sub": [
       {
-        "info": 9,
-        "type": "{ \"cell\": \"([u8;32])\"} }",
+        "info": 8,
+        "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
         "sub": [
           {
-            "info": 10,
-            "type": "([u8;32])",
+            "info": 9,
+            "type": "([u8;32]<u8>)",
             "sub": [
               {
-                "info": 12,
+                "info": 11,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u8"
                 },
                 "index": 0
@@ -951,7 +951,7 @@
         "namespace": "ink_core::storage::cell::sync_cell",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "u32"
           }
         ]
@@ -961,28 +961,28 @@
     "namespace": "ink_core::storage::value",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 9,
-    "type": "{ \"cell\": \"([u8;32])\"} }",
+    "info": 8,
+    "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
     "sub": [
       {
-        "info": 10,
-        "type": "([u8;32])",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -996,24 +996,24 @@
     "namespace": "ink_core::storage::cell::sync_cell",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 10,
-    "type": "([u8;32])",
+    "info": 9,
+    "type": "([u8;32]<u8>)",
     "sub": [
       {
-        "info": 12,
+        "info": 11,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
           "type": "u8"
         },
         "sub": {
-          "info": 6,
+          "info": 5,
           "type": "u8"
         },
         "index": 0
@@ -1023,22 +1023,22 @@
     "namespace": "ink_core::storage::key"
   },
   {
-    "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "info": 8,
+    "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
     "sub": [
       {
-        "info": 10,
-        "type": "([u8;32])",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -1052,30 +1052,30 @@
     "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
     "params": [
       {
-        "info": 3,
-        "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+        "info": 2,
+        "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>)<{\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\",\"Removed\":\"Null\"}}",
         "sub": [
           {
-            "info": 10,
+            "info": 9,
             "name": "Occupied",
             "sub": [
               {
-                "info": 9,
-                "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+                "info": 8,
+                "type": "{\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}",
                 "sub": [
                   {
-                    "info": 10,
-                    "type": "AccountId",
+                    "info": 9,
+                    "type": "([u8;32]<u8>)",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 11,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
                           "type": "u8"
                         },
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u8"
                         },
                         "index": 0
@@ -1085,35 +1085,35 @@
                     "namespace": "ink_core::env::srml::types"
                   },
                   {
-                    "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "info": 8,
+                    "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                     "sub": [
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "begin",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
                       },
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "end",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
@@ -1127,18 +1127,18 @@
                 "namespace": "ink_core::storage::collections::hash_map::impls",
                 "params": [
                   {
-                    "info": 10,
-                    "type": "AccountId",
+                    "info": 9,
+                    "type": "([u8;32]<u8>)",
                     "sub": [
                       {
-                        "info": 12,
+                        "info": 11,
                         "type": "[u8;32]",
                         "ext": {
                           "length": 32,
                           "type": "u8"
                         },
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u8"
                         },
                         "index": 0
@@ -1148,35 +1148,35 @@
                     "namespace": "ink_core::env::srml::types"
                   },
                   {
-                    "info": 9,
-                    "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                    "info": 8,
+                    "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                     "sub": [
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "begin",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
                       },
                       {
-                        "info": 5,
+                        "info": 4,
                         "type": "Option<u32>",
                         "sub": {
-                          "info": 6,
+                          "info": 5,
                           "type": "u32"
                         },
                         "name": "end",
                         "params": [
                           {
-                            "info": 6,
+                            "info": 5,
                             "type": "u32"
                           }
                         ]
@@ -1189,10 +1189,10 @@
                 "index": 0
               }
             ],
-            "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+            "type": "({\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}<([u8;32]<u8>), {\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}<Option<u32>, Option<u32>>>)"
           },
           {
-            "info": 6,
+            "info": 5,
             "name": "Removed",
             "type": "Null"
           }
@@ -1201,18 +1201,18 @@
         "namespace": "ink_core::storage::collections::hash_map::impls",
         "params": [
           {
-            "info": 10,
-            "type": "AccountId",
+            "info": 9,
+            "type": "([u8;32]<u8>)",
             "sub": [
               {
-                "info": 12,
+                "info": 11,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u8"
                 },
                 "index": 0
@@ -1222,35 +1222,35 @@
             "namespace": "ink_core::env::srml::types"
           },
           {
-            "info": 9,
-            "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+            "info": 8,
+            "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
             "sub": [
               {
-                "info": 5,
+                "info": 4,
                 "type": "Option<u32>",
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u32"
                 },
                 "name": "begin",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
               },
               {
-                "info": 5,
+                "info": 4,
                 "type": "Option<u32>",
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u32"
                 },
                 "name": "end",
                 "params": [
                   {
-                    "info": 6,
+                    "info": 5,
                     "type": "u32"
                   }
                 ]
@@ -1264,30 +1264,30 @@
     ]
   },
   {
-    "info": 3,
-    "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)\", \"Removed\": \"Null\"} }",
+    "info": 2,
+    "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>)<{\\\"key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\",\\\"val\\\":\\\"{\\\\\\\"begin\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\",\\\\\\\"end\\\\\\\":\\\\\\\"Option<u32><u32>\\\\\\\"}<Option<u32>, Option<u32>>\\\"}<([u8;32]<u8>), {\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>>>\",\"Removed\":\"Null\"}}",
     "sub": [
       {
-        "info": 10,
+        "info": 9,
         "name": "Occupied",
         "sub": [
           {
-            "info": 9,
-            "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+            "info": 8,
+            "type": "{\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}",
             "sub": [
               {
-                "info": 10,
-                "type": "AccountId",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -1297,35 +1297,35 @@
                 "namespace": "ink_core::env::srml::types"
               },
               {
-                "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "info": 8,
+                "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                 "sub": [
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "begin",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
                   },
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "end",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
@@ -1339,18 +1339,18 @@
             "namespace": "ink_core::storage::collections::hash_map::impls",
             "params": [
               {
-                "info": 10,
-                "type": "AccountId",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -1360,35 +1360,35 @@
                 "namespace": "ink_core::env::srml::types"
               },
               {
-                "info": 9,
-                "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+                "info": 8,
+                "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
                 "sub": [
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "begin",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
                   },
                   {
-                    "info": 5,
+                    "info": 4,
                     "type": "Option<u32>",
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u32"
                     },
                     "name": "end",
                     "params": [
                       {
-                        "info": 6,
+                        "info": 5,
                         "type": "u32"
                       }
                     ]
@@ -1401,10 +1401,10 @@
             "index": 0
           }
         ],
-        "type": "({ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }<([u8;32]), { \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }>)"
+        "type": "({\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}<([u8;32]<u8>), {\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}<Option<u32>, Option<u32>>>)"
       },
       {
-        "info": 6,
+        "info": 5,
         "name": "Removed",
         "type": "Null"
       }
@@ -1413,18 +1413,18 @@
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
-        "info": 10,
-        "type": "AccountId",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -1434,35 +1434,35 @@
         "namespace": "ink_core::env::srml::types"
       },
       {
-        "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "info": 8,
+        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
         "sub": [
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "begin",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "end",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -1474,22 +1474,22 @@
     ]
   },
   {
-    "info": 9,
-    "type": "{ \"key\": \"AccountId\", \"val\": \"{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }\"} }",
+    "info": 8,
+    "type": "{\"key\":\"([u8;32]<u8>)<[u8;32]>\",\"val\":\"{\\\"begin\\\":\\\"Option<u32><u32>\\\",\\\"end\\\":\\\"Option<u32><u32>\\\"}<Option<u32>, Option<u32>>\"}",
     "sub": [
       {
-        "info": 10,
-        "type": "AccountId",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -1499,35 +1499,35 @@
         "namespace": "ink_core::env::srml::types"
       },
       {
-        "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "info": 8,
+        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
         "sub": [
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "begin",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "end",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -1541,18 +1541,18 @@
     "namespace": "ink_core::storage::collections::hash_map::impls",
     "params": [
       {
-        "info": 10,
-        "type": "AccountId",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -1562,35 +1562,35 @@
         "namespace": "ink_core::env::srml::types"
       },
       {
-        "info": 9,
-        "type": "{ \"begin\": \"Option<u32><u32>\", \"end\": \"Option<u32><u32>\"} }",
+        "info": 8,
+        "type": "{\"begin\":\"Option<u32><u32>\",\"end\":\"Option<u32><u32>\"}",
         "sub": [
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "begin",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
           },
           {
-            "info": 5,
+            "info": 4,
             "type": "Option<u32>",
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u32"
             },
             "name": "end",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -1602,30 +1602,30 @@
     ]
   },
   {
-    "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"cells\": \"{ \"cells_key\": \"([u8;32])\"} }<i32>\"} }",
+    "info": 8,
+    "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32]<u8>)<[u8;32]>\\\\\\\"}<u32>\\\"}<u32>\",\"cells\":\"{\\\"cells_key\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<i32>\"}",
     "sub": [
       {
-        "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "info": 8,
+        "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32]<u8>)<[u8;32]>\\\"}<u32>\"}",
         "sub": [
           {
-            "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "info": 8,
+            "type": "{\"cell\":\"([u8;32]<u8>)<[u8;32]>\"}",
             "sub": [
               {
-                "info": 10,
-                "type": "([u8;32])",
+                "info": 9,
+                "type": "([u8;32]<u8>)",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 11,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 5,
                       "type": "u8"
                     },
                     "index": 0
@@ -1639,7 +1639,7 @@
             "namespace": "ink_core::storage::cell::sync_cell",
             "params": [
               {
-                "info": 6,
+                "info": 5,
                 "type": "u32"
               }
             ]
@@ -1649,28 +1649,28 @@
         "namespace": "ink_core::storage::value",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "u32"
           }
         ]
       },
       {
-        "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "info": 8,
+        "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
         "sub": [
           {
-            "info": 10,
-            "type": "([u8;32])",
+            "info": 9,
+            "type": "([u8;32]<u8>)",
             "sub": [
               {
-                "info": 12,
+                "info": 11,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 5,
                   "type": "u8"
                 },
                 "index": 0
@@ -1684,7 +1684,7 @@
         "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
         "params": [
           {
-            "info": 6,
+            "info": 5,
             "type": "i32"
           }
         ]
@@ -1694,32 +1694,32 @@
     "namespace": "ink_core::storage::collections::vec::impls",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "i32"
       }
     ]
   },
   {
-    "info": 6,
+    "info": 5,
     "type": "i32"
   },
   {
-    "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "info": 8,
+    "type": "{\"cells_key\":\"([u8;32]<u8>)<[u8;32]>\"}",
     "sub": [
       {
-        "info": 10,
-        "type": "([u8;32])",
+        "info": 9,
+        "type": "([u8;32]<u8>)",
         "sub": [
           {
-            "info": 12,
+            "info": 11,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 5,
               "type": "u8"
             },
             "index": 0
@@ -1733,79 +1733,79 @@
     "namespace": "ink_core::storage::chunk::sync_chunk::chunk",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "i32"
       }
     ]
   },
   {
-    "info": 7,
+    "info": 6,
     "type": "Result<(), u32>",
     "sub": [
       {
-        "info": 10,
+        "info": 9,
         "type": "()",
         "sub": []
       },
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ],
     "name": "Result",
     "params": [
       {
-        "info": 10,
+        "info": 9,
         "type": "()",
         "sub": []
       },
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 10,
+    "info": 9,
     "type": "()",
     "sub": []
   },
   {
-    "info": 7,
+    "info": 6,
     "type": "Result<i32, u32>",
     "sub": [
       {
-        "info": 6,
+        "info": 5,
         "type": "i32"
       },
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ],
     "name": "Result",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "i32"
       },
       {
-        "info": 6,
+        "info": 5,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 5,
+    "info": 4,
     "type": "Option<i32>",
     "sub": {
-      "info": 6,
+      "info": 5,
       "type": "i32"
     },
     "name": "Option",
     "params": [
       {
-        "info": 6,
+        "info": 5,
         "type": "i32"
       }
     ]

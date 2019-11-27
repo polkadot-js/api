@@ -1,8 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
+import { bool, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
 
 /** u32 */
@@ -42,6 +43,8 @@ export interface Forcing extends Enum {
   readonly isForceNew: boolean;
   /** 2:: ForceNone */
   readonly isForceNone: boolean;
+  /** 3:: ForceAlways */
+  readonly isForceAlways: boolean;
 }
 
 /** Struct */
@@ -54,6 +57,16 @@ export interface IndividualExposure extends Struct {
 
 /** Moment */
 export interface MomentOf extends Moment {}
+
+/** Struct */
+export interface Nominations extends Struct {
+  /** Vec<AccountId> */
+  readonly targets: Vec<AccountId>;
+  /** EraIndex */
+  readonly submittedIn: EraIndex;
+  /** bool */
+  readonly suppressed: bool;
+}
 
 /** u32 */
 export interface Points extends u32 {}
@@ -69,6 +82,16 @@ export interface RewardDestination extends Enum {
 }
 
 /** Struct */
+export interface SlashingSpans extends Struct {
+  /** SpanIndex */
+  readonly spanIndex: SpanIndex;
+  /** EraIndex */
+  readonly lastStart: EraIndex;
+  /** Vec<EraIndex> */
+  readonly prior: Vec<EraIndex>;
+}
+
+/** Struct */
 export interface SlashJournalEntry extends Struct {
   /** AccountId */
   readonly who: AccountId;
@@ -76,6 +99,17 @@ export interface SlashJournalEntry extends Struct {
   readonly amount: Balance;
   /** Balance */
   readonly ownSlash: Balance;
+}
+
+/** u32 */
+export interface SpanIndex extends u32 {}
+
+/** Struct */
+export interface SpanRecord extends Struct {
+  /** Balance */
+  readonly slashed: Balance;
+  /** Balance */
+  readonly paidOut: Balance;
 }
 
 /** Struct */
@@ -89,6 +123,23 @@ export interface StakingLedger extends Struct {
   /** Vec<UnlockChunk> */
   readonly unlocking: Vec<UnlockChunk>;
 }
+
+/** Struct */
+export interface UnappliedSlash extends Struct {
+  /** AccountId */
+  readonly validator: AccountId;
+  /** Balance */
+  readonly own: Balance;
+  /** Vec<UnappliedSlashOther> */
+  readonly others: Vec<UnappliedSlashOther>;
+  /** Vec<AccountId> */
+  readonly reporters: Vec<AccountId>;
+  /** Balance */
+  readonly payout: Balance;
+}
+
+/** ITuple<[AccountId, Balance]> */
+export interface UnappliedSlashOther extends ITuple<[AccountId, Balance]> {}
 
 /** Struct */
 export interface UnlockChunk extends Struct {

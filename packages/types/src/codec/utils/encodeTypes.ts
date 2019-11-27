@@ -8,7 +8,7 @@ import { assert } from '@polkadot/util';
 
 import { getTypeDef } from '../create';
 
-const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const identity = (value: string): string => value;
 
@@ -23,22 +23,32 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
 }
 
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-  const { params } = typeDef;
+  const { sub, params } = typeDef;
 
   return paramsNotation(
     outer,
-    params,
+    params || sub,
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     (param: TypeDef) => displayType(param)
   );
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
-  return `{ ${asEnum ? '"_enum": { ' : ''}${
-    sub
-      .map((type: TypeDef): string => `"${type.name}": "${encodeWithParams(type)}"`)
-      .join(', ')
-  }} }`;
+  const inner = sub.reduce(
+    (result: Record<string, string>, type: TypeDef): Record<string, string> => {
+      return {
+        ...result,
+        [type.name as string]: encodeWithParams(type)
+      };
+    },
+    {}
+  );
+
+  return JSON.stringify(
+    asEnum
+      ? { _enum: inner }
+      : inner
+  );
 }
 
 function encodeEnum (typeDef: Pick<TypeDef, any>): string {
@@ -99,7 +109,6 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
-  [TypeDefInfo.DoubleMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'DoubleMap'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -138,10 +147,12 @@ export function displayType (typeDef: Pick<TypeDef, any>): string {
 }
 
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
+  const type = SPECIAL_TYPES.includes(typeDef.displayName)
+    ? typeDef.displayName
+    : encodeType(typeDef);
+
   return {
     ...typeDef,
-    type: SPECIAL_TYPES.includes(typeDef.name)
-      ? typeDef.name
-      : encodeType(typeDef)
+    type
   };
 }

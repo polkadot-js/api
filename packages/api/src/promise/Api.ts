@@ -60,7 +60,7 @@ function promiseTracker (resolve: (value: () => void) => void, reject: (value: E
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
   return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
@@ -213,7 +213,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
     this._isReadyPromise = new Promise((resolve): void => {

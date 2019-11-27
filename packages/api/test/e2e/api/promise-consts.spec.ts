@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf, TypeRegistry } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -16,6 +16,7 @@ describeE2E({
     'docker-substrate-2.0'
   ]
 })('Promise e2e consts', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
@@ -25,7 +26,7 @@ describeE2E({
   });
 
   it('democracy.cooloffPeriod parameter type', (): void => {
-    expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf('BlockNumber'));
+    expect(api.consts.democracy.cooloffPeriod).toBeInstanceOf(ClassOf(registry, 'BlockNumber'));
     expect(
       api.consts.democracy.cooloffPeriod.eq(432000) || // Substrate
       api.consts.democracy.cooloffPeriod.eq(259200) // Polkadot

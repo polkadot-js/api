@@ -2,34 +2,34 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../../injector';
-
 import BN from 'bn.js';
-import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import Decorated from '@polkadot/metadata';
+import Metadata from '@polkadot/metadata/Metadata';
+import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import Metadata from '../../../Metadata';
-import metadataStatic from '../../../Metadata/static';
-import Call from '../../Generic/Call';
+import { TypeRegistry } from '../../../codec/create';
 import Extrinsic from './Extrinsic';
 
+const registry = new TypeRegistry();
+const decorated = new Decorated(registry, metadataStatic);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-describe('ExtrinsicV4', (): void => {
-  beforeEach((): void => {
-    Call.injectMetadata(new Metadata(metadataStatic));
-  });
+// eslint-disable-next-line no-new
+new Metadata(registry, metadataStatic);
 
+describe('ExtrinsicV4', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
     expect(
-      new Extrinsic().toU8a()
+      new Extrinsic(registry).toU8a()
     ).toEqual(new Uint8Array([0, 0]));
   });
 
   it('creates a unsigned extrinsic', (): void => {
     expect(
       new Extrinsic(
-        extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
+        registry,
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
       ).toHex()
     ).toEqual(
       '0x' +
@@ -43,7 +43,8 @@ describe('ExtrinsicV4', (): void => {
   it('creates a signed extrinsic', (): void => {
     expect(
       new Extrinsic(
-        extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
+        registry,
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',

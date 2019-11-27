@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, IHash } from '../types';
+import { AnyU8a, Codec, IHash, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -21,10 +21,12 @@ import Compact from '../codec/Compact';
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
-  public constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
-    super(
-      Text.decodeText(value)
-    );
+  public readonly registry: Registry;
+
+  constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
+    super(Text.decodeText(value));
+
+    this.registry = registry;
   }
 
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
@@ -57,7 +59,7 @@ export default class Text extends String implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

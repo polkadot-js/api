@@ -4,19 +4,21 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
-import { AnyJson, Codec } from '@polkadot/types/types';
+import { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import { RpcInterface } from './jsonrpc.types';
 import { RpcInterfaceMethod, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import jsonrpc from '@polkadot/jsonrpc';
 import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
 import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
+
+import { drr } from './rxjs';
 
 type UserRpcConverted = Record<string, Record<string, RpcMethod>>;
 
@@ -30,6 +32,15 @@ const EMPTY_META = {
     isMap: false
   }
 };
+
+// utility method to create a nicely-formatted error
+function createErrorMessage ({ method, params, type }: RpcMethod, error: Error): string {
+  const inputs = params.map(({ isOptional, name, type }): string =>
+    `${name}${isOptional ? '?' : ''}: ${type}`
+  ).join(', ');
+
+  return `${method}(${inputs}): ${type}:: ${error.message}`;
+}
 
 /**
  * @name Rpc
@@ -57,9 +68,11 @@ const EMPTY_META = {
 export default class Rpc implements RpcInterface {
   private _storageCache = new Map<string, string | null>();
 
+  public readonly mapping: Map<string, RpcMethod> = new Map();
+
   public readonly provider: ProviderInterface;
 
-  public readonly mapping: Map<string, RpcMethod> = new Map();
+  public readonly registry: Registry;
 
   public readonly sections: string[] = [];
 
@@ -75,6 +88,8 @@ export default class Rpc implements RpcInterface {
 
   public readonly contracts!: RpcInterface['contracts'];
 
+  public readonly payment!: RpcInterface['payment'];
+
   public readonly rpc!: RpcInterface['rpc'];
 
   public readonly state!: RpcInterface['state'];
@@ -86,34 +101,14 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  public constructor (provider: ProviderInterface, userRpc: UserRpc = {}) {
+  constructor (registry: Registry, provider: ProviderInterface, userRpc: UserRpc = {}) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+    this.registry = registry;
     this.provider = provider;
 
     this.createInterfaces(jsonrpc, userRpc);
-  }
-
-  /**
-   * @name signature
-   * @summary Returns a string representation of the method with inputs and outputs.
-   * @description
-   * Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import Api from '@polkadot/rpc-core';
-   *
-   * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
-   * ```
-   */
-  public static signature ({ method, params, type }: RpcMethod): string {
-    const inputs = params.map(({ name, type }): string => `${name}: ${type}`).join(', ');
-
-    return `${method} (${inputs}): ${type}`;
   }
 
   /**
@@ -121,10 +116,6 @@ export default class Rpc implements RpcInterface {
    */
   public disconnect (): void {
     this.provider.disconnect();
-  }
-
-  private createErrorMessage (method: RpcMethod, error: Error): string {
-    return `${Rpc.signature(method)}:: ${error.message}`;
   }
 
   private createInterfaces<Section extends keyof RpcInterface> (interfaces: Record<string, RpcSection>, userBare: UserRpc): void {
@@ -205,7 +196,7 @@ export default class Rpc implements RpcInterface {
         ),
         map(([params, result]): any => this.formatOutput(method, params, result)),
         catchError((error): any => {
-          const message = this.createErrorMessage(method, error);
+          const message = createErrorMessage(method, error);
 
           // don't scare with old nodes, this is handled transparently
           rpcName !== 'rpc_methods' && l.error(message);
@@ -223,6 +214,19 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterfaceMethod;
   }
 
+  // create a subscriptor, it subscribes once and resolves with the id as subscribe
+  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: (error?: Error, result?: any) => void }, errorHandler: (error: Error) => void): Promise<number> {
+    return new Promise((resolve, reject): void => {
+      this.provider
+        .subscribe(subType, subName, paramsJson, update)
+        .then(resolve)
+        .catch((error): void => {
+          errorHandler(error);
+          reject(error);
+        });
+    });
+  }
+
   private createMethodSubscribe (method: RpcMethod): RpcInterfaceMethod {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
@@ -234,7 +238,7 @@ export default class Rpc implements RpcInterface {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | void> = Promise.resolve();
         const errorHandler = (error: Error): void => {
-          const message = this.createErrorMessage(method, error);
+          const message = createErrorMessage(method, error);
 
           l.error(message);
 
@@ -246,16 +250,14 @@ export default class Rpc implements RpcInterface {
           const paramsJson = params.map((param): AnyJson => param.toJSON());
           const update = (error?: Error, result?: any): void => {
             if (error) {
-              l.error(this.createErrorMessage(method, error));
+              l.error(createErrorMessage(method, error));
               return;
             }
 
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this.provider
-            .subscribe(subType, subName, paramsJson, update)
-            .catch(errorHandler);
+          subscriptionPromise = this.createSubscriber({ subType, subName, paramsJson, update }, errorHandler);
         } catch (error) {
           errorHandler(error);
         }
@@ -281,18 +283,9 @@ export default class Rpc implements RpcInterface {
                 ? this.provider.unsubscribe(subType, unsubName, subscriptionId)
                 : Promise.resolve(false)
             )
-            .catch((error: Error): void =>
-              l.error(this.createErrorMessage(method, error))
-            );
+            .catch((error: Error): void => l.error(createErrorMessage(method, error)));
         };
-      }).pipe(
-        // Duplicated in api-derive/util/drr
-        distinctUntilChanged((a: any, b: any): boolean =>
-          JSON.stringify({ value: a }) === JSON.stringify({ value: b })
-        ),
-        publishReplay(1),
-        refCount()
-      );
+      }).pipe(drr());
     };
 
     const memoized = memoizee(call, {
@@ -317,7 +310,7 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index): Codec =>
-      createTypeUnsafe(method.params[index].type, [input])
+      createTypeUnsafe(this.registry, method.params[index].type, [input])
     );
   }
 
@@ -361,7 +354,7 @@ export default class Rpc implements RpcInterface {
       }, [] as Codec[]);
     }
 
-    return createTypeUnsafe(method.type, [result]);
+    return createTypeUnsafe(this.registry, method.type, [result]);
   }
 
   private formatStorageData (key: StorageKey, value: string | null): Codec {
@@ -381,14 +374,15 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        createClass(type),
+        this.registry,
+        createClass(this.registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(type, [input], true)
+          : createTypeUnsafe(this.registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
   }
 
   private formatStorageSet (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
@@ -422,13 +416,14 @@ export default class Rpc implements RpcInterface {
 
     if (meta.modifier.isOptional) {
       return new Option(
-        createClass(type),
+        this.registry,
+        createClass(this.registry, type),
         isEmpty
           ? null
-          : createTypeUnsafe(type, [input], true)
+          : createTypeUnsafe(this.registry, type, [input], true)
       );
     }
 
-    return createTypeUnsafe(type, [isEmpty ? meta.fallback : input], true);
+    return createTypeUnsafe(this.registry, type, [isEmpty ? meta.fallback : input], true);
   }
 }

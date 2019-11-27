@@ -7,7 +7,7 @@ import { EventRecord, Hash, Header, SessionIndex } from '@polkadot/types/interfa
 import { HeaderExtended } from '@polkadot/api-derive';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Option, createType } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -128,7 +128,7 @@ describeE2E()('Promise e2e queries', (wsUrl: string): void => {
     it('gets correct key', async (): Promise<void> => {
       const key = api.query.session.currentIndex.key();
       const sessionIndexData = await api.rpc.state.getStorage<Option<any>>(key);
-      const sessionIndexRPC = createType('SessionIndex', sessionIndexData.unwrapOr(undefined));
+      const sessionIndexRPC = api.createType('SessionIndex', sessionIndexData.unwrapOr(undefined));
 
       expect(sessionIndexRPC.toNumber()).toBeGreaterThanOrEqual(0);
     });

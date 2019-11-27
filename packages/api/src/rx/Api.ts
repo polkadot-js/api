@@ -9,7 +9,7 @@ import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
-function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
@@ -160,7 +160,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(
