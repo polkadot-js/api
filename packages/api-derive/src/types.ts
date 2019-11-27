@@ -106,6 +106,11 @@ export type DerivedStakingAccount = [AccountId, DerivedStakingOnlineStatus];
 
 export type DerivedStakingAccounts = DerivedStakingAccount[];
 
+export interface DerivedStakingElected {
+  currentElected: AccountId[];
+  info: DerivedStaking[];
+}
+
 export interface DerivedStakingOnlineStatus {
   online?: {
     isOnline: boolean;
