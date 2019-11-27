@@ -18,7 +18,7 @@ import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
-import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeysPolkadot, SessionKeysSubstrate } from '@polkadot/types/interfaces/session';
+import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -574,6 +574,12 @@ export interface InterfaceRegistry {
   Keys: Keys;
   'Option<Keys>': Option<Keys>;
   'Vec<Keys>': Vec<Keys>;
+  SessionKeys1: SessionKeys1;
+  'Option<SessionKeys1>': Option<SessionKeys1>;
+  'Vec<SessionKeys1>': Vec<SessionKeys1>;
+  SessionKeys2: SessionKeys2;
+  'Option<SessionKeys2>': Option<SessionKeys2>;
+  'Vec<SessionKeys2>': Vec<SessionKeys2>;
   SessionKeys3: SessionKeys3;
   'Option<SessionKeys3>': Option<SessionKeys3>;
   'Vec<SessionKeys3>': Vec<SessionKeys3>;
@@ -583,12 +589,9 @@ export interface InterfaceRegistry {
   SessionKeys5: SessionKeys5;
   'Option<SessionKeys5>': Option<SessionKeys5>;
   'Vec<SessionKeys5>': Vec<SessionKeys5>;
-  SessionKeysSubstrate: SessionKeysSubstrate;
-  'Option<SessionKeysSubstrate>': Option<SessionKeysSubstrate>;
-  'Vec<SessionKeysSubstrate>': Vec<SessionKeysSubstrate>;
-  SessionKeysPolkadot: SessionKeysPolkadot;
-  'Option<SessionKeysPolkadot>': Option<SessionKeysPolkadot>;
-  'Vec<SessionKeysPolkadot>': Vec<SessionKeysPolkadot>;
+  SessionKeys6: SessionKeys6;
+  'Option<SessionKeys6>': Option<SessionKeys6>;
+  'Vec<SessionKeys6>': Vec<SessionKeys6>;
   FullIdentification: FullIdentification;
   'Option<FullIdentification>': Option<FullIdentification>;
   'Vec<FullIdentification>': Vec<FullIdentification>;

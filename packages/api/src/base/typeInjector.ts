@@ -19,9 +19,15 @@ interface VersionedType {
 // definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
 const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
   {
-    minmax: [0, undefined],
+    minmax: [0, 1018], // CC2
     types: {
-      Keys: 'SessionKeysPolkadot'
+      Keys: 'SessionKeys4'
+    }
+  },
+  {
+    minmax: [1019, undefined], // CC3
+    types: {
+      Keys: 'SessionKeys5'
     }
   }
 ];
