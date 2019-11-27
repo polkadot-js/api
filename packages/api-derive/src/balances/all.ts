@@ -17,8 +17,8 @@ import { memo } from '../util';
 type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
 type Result = [AccountId, BlockNumber, ResultBalance, Index];
 
-function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
-  let lockedBalance = createType('Balance');
+function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
+  let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: BalanceLock[] = [];
 
   if (Array.isArray(locks)) {
@@ -27,27 +27,39 @@ function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, lo
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     if (lockedBreakdown.length) {
-      lockedBalance = createType('Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
+      lockedBalance = createType(api.registry, 'Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
     }
   }
 
-  // offset = balance locked at genesis, perBlock is the unlock amount
-  const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
-  const vestedNow = createType('Balance', perBlock.mul(bestNumber));
-  const vestedBalance = createType('Balance', vestedNow.gt(vestingTotal) ? new BN(0) : bnMax(new BN(0), freeBalance.sub(vestingTotal).add(vestedNow)));
-  const availableBalance = createType('Balance', bnMax(new BN(0), (vestedBalance.gtn(0) ? vestedBalance : freeBalance).sub(lockedBalance)));
+  // Calculate the vesting balances,
+  //  - offset = balance locked at genesis,
+  //  - perBlock is the unlock amount
+  const { offset: vestingTotal, perBlock } = vesting.unwrapOr(createType(api.registry, 'VestingSchedule'));
+  const vestedBalance = createType(api.registry, 'Balance', perBlock.mul(bestNumber));
+  const isVesting = vestedBalance.lt(vestingTotal);
+
+  // The available balance & vested has an interplay here
+  // "
+  // vesting is a guarantee that the account's balance will never go below a certain amount. so it functions in the opposite way, a bit like a lock that is monotonically decreasing rather than a liquid amount that is monotonically increasing.
+  // locks function as the same guarantee - that a balance will not be lower than a particular amount.
+  // because of this you can see that if there is a "vesting lock" that guarantees the balance cannot go below 200, and a "staking lock" that guarantees the balance cannot drop below 300, then we just have two guarantees of which the first is irrelevant.
+  // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
+  // ""
+  const floating = freeBalance.sub(lockedBalance);
+  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance : floating));
 
   return {
     accountId,
     accountNonce,
     availableBalance,
     freeBalance,
+    isVesting,
     lockedBalance,
     lockedBreakdown,
     reservedBalance,
     vestedBalance,
     vestingTotal,
-    votingBalance: createType('Balance', freeBalance.add(reservedBalance))
+    votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))
   };
 }
 
@@ -91,9 +103,9 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
             //   : api.query.system.accountNonce<Index>(accountId)
             api.query.system.accountNonce<Index>(accountId)
           ])
-          : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
+          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null)], createType(api.registry, 'Index')])
         )
       ),
-      map(calcBalances)
+      map((result): DerivedBalances => calcBalances(api, result))
     ));
 }

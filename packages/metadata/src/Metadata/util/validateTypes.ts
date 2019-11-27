@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Registry } from '@polkadot/types/types';
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/codec/types';
 
-import { getTypeDef, getTypeRegistry } from '@polkadot/types/codec/create';
+import { getTypeDef } from '@polkadot/types/codec/create';
 
 import flattenUniq from './flattenUniq';
 
@@ -36,10 +37,9 @@ function extractTypes (types: string[]): any[] {
   });
 }
 
-export default function validateTypes (types: string[], throwError: boolean): void {
-  const typeRegistry = getTypeRegistry();
+export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
-    !typeRegistry.hasType(type)
+    !registry.hasType(type)
   );
 
   if (missing.length !== 0) {

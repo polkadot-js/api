@@ -2,34 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../../injector';
-
 import BN from 'bn.js';
 import Decorated from '@polkadot/metadata/Decorated';
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Call from '../../Generic/Call';
+import { TypeRegistry } from '../../../codec';
 import Extrinsic from './Extrinsic';
 
-const decorated = new Decorated(rpcMetadata);
+const registry = new TypeRegistry();
+const decorated = new Decorated(registry, rpcMetadata);
 const keyring = testingPairs({ type: 'ed25519' }, false);
 
-describe('ExtrinsicV3', (): void => {
-  beforeEach((): void => {
-    Call.injectMetadata(new Metadata(rpcMetadata));
-  });
+// eslint-disable-next-line no-new
+new Metadata(registry, rpcMetadata);
 
+describe('ExtrinsicV3', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
     expect(
-      new Extrinsic().toU8a()
+      new Extrinsic(registry).toU8a()
     ).toEqual(new Uint8Array([0, 0]));
   });
 
   it('creates a unsigned extrinsic', (): void => {
     expect(
       new Extrinsic(
+        registry,
         decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
       ).toHex()
     ).toEqual(
@@ -44,6 +43,7 @@ describe('ExtrinsicV3', (): void => {
   it('creates a signed extrinsic', (): void => {
     expect(
       new Extrinsic(
+        registry,
         decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',

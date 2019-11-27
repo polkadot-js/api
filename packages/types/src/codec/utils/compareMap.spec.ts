@@ -3,14 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '../../types';
+import { TypeRegistry } from '../create';
 import U32 from '../../primitive/U32';
 import compareMap from './compareMap';
 
 describe('compareMap', (): void => {
+  const registry = new TypeRegistry();
   const a = new Map<string, Codec>([
-    ['decimals', new U32(15)],
-    ['missing', new U32(10)],
-    ['foobar', new U32(5)]
+    ['decimals', new U32(registry, 15)],
+    ['missing', new U32(registry, 10)],
+    ['foobar', new U32(registry, 5)]
   ]);
   const b = new Map<string, any>([
     ['decimals', 15],
@@ -18,9 +20,9 @@ describe('compareMap', (): void => {
     ['foobar', 5]
   ]);
   const c = new Map<string, Codec>([
-    ['decimals', new U32(15)],
-    ['missing', new U32(10)],
-    ['foobar', new U32(5)]
+    ['decimals', new U32(registry, 15)],
+    ['missing', new U32(registry, 10)],
+    ['foobar', new U32(registry, 5)]
   ]);
 
   it('compares Map<string, Codec> against Object', (): void => {

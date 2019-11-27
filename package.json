@@ -1,5 +1,5 @@
 {
-  "version": "0.97.0-beta.7",
+  "version": "0.97.0-beta.36",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -28,10 +28,10 @@
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/register": "^7.7.0",
-    "@babel/runtime": "^7.7.2",
-    "@polkadot/dev": "^0.32.0-beta.14",
-    "@polkadot/ts": "^0.1.85"
+    "@babel/core": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "@babel/runtime": "^7.7.4",
+    "@polkadot/dev": "^0.32.0-beta.15",
+    "@polkadot/ts": "^0.1.86"
   }
 }

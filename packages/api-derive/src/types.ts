@@ -19,6 +19,7 @@ export interface DerivedBalances {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
+  isVesting: boolean;
   lockedBalance: Balance;
   lockedBreakdown: BalanceLock[];
   availableBalance: Balance;
@@ -96,8 +97,6 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
   eraLength: BlockNumber;
   eraProgress: BlockNumber;
   isEpoch: boolean;
-  lastEraLengthChange: BlockNumber;
-  lastLengthChange: BlockNumber;
   sessionLength: BlockNumber;
   sessionsPerEra: SessionIndex;
   sessionProgress: BlockNumber;
@@ -106,6 +105,11 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
 export type DerivedStakingAccount = [AccountId, DerivedStakingOnlineStatus];
 
 export type DerivedStakingAccounts = DerivedStakingAccount[];
+
+export interface DerivedStakingElected {
+  currentElected: AccountId[];
+  info: DerivedStaking[];
+}
 
 export interface DerivedStakingOnlineStatus {
   online?: {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, IHash } from '../types';
+import { Codec, Constructor, IHash, Registry } from '../types';
 
 import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -20,11 +20,14 @@ type SetValues = Record<string, number>;
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
 export default class CodecSet extends Set<string> implements Codec {
+  public readonly registry: Registry;
+
   private _setValues: SetValues;
 
-  constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
+  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
     super(CodecSet.decodeSet(setValues, value));
 
+    this.registry = registry;
     this._setValues = setValues;
   }
 
@@ -76,8 +79,8 @@ export default class CodecSet extends Set<string> implements Codec {
 
   public static with (values: SetValues): Constructor<CodecSet> {
     return class extends CodecSet {
-      constructor (value?: any) {
-        super(values, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, values, value);
 
         Object.keys(values).forEach((_key): void => {
           const name = stringUpperFirst(stringCamelCase(_key));
@@ -106,7 +109,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

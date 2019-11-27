@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModulesWithCalls } from '@polkadot/types/types';
+import { ModulesWithCalls, Registry } from '@polkadot/types/types';
 import { Constants, Storage } from './types';
 
 import Metadata from '../Metadata';
@@ -20,14 +20,19 @@ export default class Decorated {
 
   public readonly metadata: Metadata;
 
+  public readonly registry: Registry;
+
   public readonly query: Storage;
 
   public readonly tx: ModulesWithCalls;
 
-  constructor (value?: Uint8Array | string | Metadata) {
-    this.metadata = value instanceof Metadata ? value : new Metadata(value);
-    this.tx = extrinsicsFromMeta(this.metadata);
-    this.query = storageFromMeta(this.metadata);
-    this.consts = constantsFromMeta(this.metadata);
+  constructor (registry: Registry, value?: Uint8Array | string | Metadata) {
+    this.registry = registry;
+    this.metadata = value instanceof Metadata ? value : new Metadata(registry, value);
+
+    // decoration
+    this.tx = extrinsicsFromMeta(registry, this.metadata);
+    this.query = storageFromMeta(registry, this.metadata);
+    this.consts = constantsFromMeta(registry, this.metadata);
   }
 }

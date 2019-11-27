@@ -5,7 +5,7 @@
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['BTreeMap', 'Compact', 'DoubleMap', 'Linkage', 'Result', 'Option', 'Vec'];
+const ALLOWED_BOXES = ['BTreeMap', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
@@ -36,10 +36,12 @@ const mappings: Mapper[] = [
   _alias('Lookup::Source', 'Address'),
   // alias Lookup::Target to AccountId (always the case)
   _alias('Lookup::Target', 'AccountId'),
-  // alias for grandpa, as used in polkadot
-  _alias('grandpa::AuthorityId', 'AuthorityId'),
-  // specific for SessionIndex (could make this session::, but be conservative)
-  _alias('session::SessionIndex', 'SessionIndex'),
+  // alias for grandpa internal, as used in polkadot
+  _alias('grandpa::', ''),
+  // specific for session internal
+  _alias('session::', ''),
+  // specific for staking/slashing.rs internal
+  _alias('slashing::', ''),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
   _alias('exec::StorageKey', 'ContractStorageKey'),
   // Phantom

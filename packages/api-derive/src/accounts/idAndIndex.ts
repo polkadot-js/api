@@ -7,9 +7,9 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
+import { createType } from '@polkadot/types';
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -23,14 +23,14 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
       : decodeAddress((address || '').toString());
 
     if (decoded.length === 32) {
-      const accountId = createType('AccountId', decoded);
+      const accountId = createType(api.registry, 'AccountId', decoded);
 
       return api.derive.accounts.idToIndex(accountId).pipe(
         map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
       );
     }
 
-    const accountIndex = createType('AccountIndex', decoded);
+    const accountIndex = createType(api.registry, 'AccountIndex', decoded);
 
     return api.derive.accounts.indexToId(accountIndex).pipe(
       map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)

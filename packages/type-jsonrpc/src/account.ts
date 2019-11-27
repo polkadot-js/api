@@ -21,7 +21,7 @@ const nextIndex: RpcMethodOpt = {
 const section = 'account';
 
 /**
- * @summary Calls to retrieve system info.
+ * @summary Calls to account-specific information.
  */
 export default {
   isDeprecated: false,

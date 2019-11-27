@@ -2,10 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// These two files add module augmentation so that `api.{query,consts}.*.*`
+// get typed. Import them to make these types effective.
+import './consts.types';
+import './query.types';
+
 import { Constants } from '@polkadot/metadata/Decorated/types';
 import { UserRpc } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
+import { AnyFunction, Callback, CallFunction, Codec, CodecArg, RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw, Registry } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableExtrinsic } from './submittable/types';
 import { DeriveAllSections } from './util/decorate';
 
@@ -188,6 +193,10 @@ export interface ApiOptions {
    */
   provider?: ProviderInterface;
   /**
+   * @description A type registry to use along with this instance
+   */
+  registry?: Registry;
+  /**
    * @description User-defined RPC methods
    */
   rpc?: UserRpc;
@@ -222,6 +231,7 @@ export interface ApiInterfaceRx {
   extrinsicType: number;
   genesisHash: Hash;
   hasSubscriptions: boolean;
+  registry: Registry;
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;

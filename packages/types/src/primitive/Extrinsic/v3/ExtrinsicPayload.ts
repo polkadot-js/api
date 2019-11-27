@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -38,8 +38,8 @@ export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
  * on the contents included
  */
 export default class ExtrinsicPayloadV3 extends Struct {
-  constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(SignedPayloadDefV3, value);
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    super(registry, SignedPayloadDefV3, value);
   }
 
   /**
@@ -95,6 +95,6 @@ export default class ExtrinsicPayloadV3 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a(true));
+    return sign(signerPair, this.toU8a({ method: true }));
   }
 }

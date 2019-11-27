@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header } from '@polkadot/types/interfaces';
-import { AnyJsonObject, Constructor } from '@polkadot/types/types';
+import { AnyJsonObject, Constructor, Registry } from '@polkadot/types/types';
 
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
@@ -19,8 +19,8 @@ const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header as an
 export default class HeaderExtended extends _Header {
   private _author?: AccountId;
 
-  constructor (header?: Header, sessionValidators?: AccountId[]) {
-    super(header);
+  constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
+    super(registry, header);
 
     this._author = this.extractAuthor(sessionValidators);
   }

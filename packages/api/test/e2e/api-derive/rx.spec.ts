@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances, DerivedContractFees, DerivedElectionsInfo, DerivedFees, DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { createType, ClassOf } from '@polkadot/types';
+import { createType, ClassOf, TypeRegistry } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { describeE2E } from '../../util';
@@ -24,6 +24,7 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('Api-RX derive e2e', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiRx;
 
   beforeAll((): void => {
@@ -76,7 +77,7 @@ describeE2E({
         api.derive.accounts.indexToId(IX).subscribe((accountId): void => {
           // The first emitted value for accountId is undefined when passing the IX
           if (accountId) {
-            expect(accountId instanceof ClassOf('AccountId')).toBe(true);
+            expect(accountId instanceof ClassOf(registry, 'AccountId')).toBe(true);
             expect(accountId.toString()).toEqual(ID);
           } else {
             expect(accountId).toEqual(undefined);
@@ -91,7 +92,7 @@ describeE2E({
         api.derive.accounts.idToIndex(ID).subscribe((accountIndex): void => {
           // The first emitted value for AccountIndex is undefined when passing the ID
           if (accountIndex) {
-            expect(accountIndex instanceof ClassOf('AccountIndex')).toBe(true);
+            expect(accountIndex instanceof ClassOf(registry, 'AccountIndex')).toBe(true);
             expect(accountIndex.toString()).toEqual(IX);
           } else {
             expect(accountIndex).toEqual(undefined);
@@ -107,7 +108,7 @@ describeE2E({
           // A local dev chain should have the AccountIndex of Alice
           expect(accountIndexes).toHaveProperty(
             ID,
-            createType('AccountIndex', IX)
+            createType(registry, 'AccountIndex', IX)
           );
           done();
         });
@@ -122,8 +123,8 @@ describeE2E({
       it('It returns an object with all relevant balance information of an account', (done): void => {
         api.derive.balances.all(ID).subscribe((balances: DerivedBalances): void => {
           expect(balances).toEqual(expect.objectContaining({
-            accountId: expect.any(ClassOf('AccountId')),
-            accountNonce: expect.any(ClassOf('Index')),
+            accountId: expect.any(ClassOf(registry, 'AccountId')),
+            accountNonce: expect.any(ClassOf(registry, 'Index')),
             availableBalance: expect.any(BN),
             freeBalance: expect.any(BN),
             lockedBalance: expect.any(BN),
@@ -156,7 +157,7 @@ describeE2E({
     describe('bestNumber', (): void => {
       it('Get the latest block number', (done): void => {
         api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(blockNumber instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -166,7 +167,7 @@ describeE2E({
     describe('bestNumberFinalized', (): void => {
       it('Get the latest finalised block number', (done): void => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber): void => {
-          expect(blockNumber instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(blockNumber instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
         });
@@ -176,7 +177,7 @@ describeE2E({
     describe('bestNumberLag', (): void => {
       it('lag between finalised head and best head', (done): void => {
         api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber): void => {
-          expect(numberLag instanceof ClassOf('BlockNumber')).toBe(true);
+          expect(numberLag instanceof ClassOf(registry, 'BlockNumber')).toBe(true);
           expect(numberLag.gten(0)).toBe(true);
           done();
         });

@@ -2,11 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/types/injector';
+import { TypeRegistry } from '@polkadot/types';
 
-import { storage } from './storage';
+import getStorage from './storage';
 
 describe('storage', (): void => {
+  const registry = new TypeRegistry();
+  const storage = getStorage(registry, 8);
+
   it('should return well known keys', (): void => {
     expect(typeof storage.substrate).toBe('object');
 

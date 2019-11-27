@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '@polkadot/types';
+
 import Rpc from '.';
 
 describe('methodSend', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
   let methods: any;
   let provider: any;
@@ -33,7 +36,7 @@ describe('methodSend', (): void => {
       })
     };
 
-    rpc = new Rpc(provider);
+    rpc = new Rpc(registry, provider);
   });
 
   it('wraps errors with the call signature', (done): void => {

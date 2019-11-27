@@ -3,30 +3,33 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import Rpc from '.';
 
 describe('Api', (): void => {
+  const registry = new TypeRegistry();
+
   it('requires a provider with a send method', (): void => {
     expect(
-      (): Rpc => new Rpc({} as any)
+      (): Rpc => new Rpc(registry, {} as any)
     ).toThrow(/Expected Provider/);
   });
 
   it('creates an instance with all sections', (): void => {
-    const rpc = new Rpc(new MockProvider());
+    const rpc = new Rpc(registry, new MockProvider(registry));
 
     expect(
       Object.keys(rpc).filter((key): boolean => !key.startsWith('_'))
     ).toEqual([
-      'provider', 'mapping', 'sections',
-      'account', 'author', 'chain', 'contracts', 'rpc', 'state', 'system'
+      'mapping', 'provider', 'registry', 'sections',
+      'account', 'author', 'chain', 'contracts', 'payment', 'rpc', 'state', 'system'
     ]);
   });
 
   it('allows for the definition of user RPCs', (): void => {
-    const rpc = new Rpc(new MockProvider(), {
+    const rpc = new Rpc(registry, new MockProvider(registry), {
       testing: [
         {
           name: 'foo',

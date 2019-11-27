@@ -4,14 +4,16 @@
 
 import { Observable, of } from 'rxjs';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
 
 describe('replay', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
-    rpc = new Rpc(new MockProvider());
+    rpc = new Rpc(registry, new MockProvider(registry));
   });
 
   it('subscribes via the rpc section', (done): void => {

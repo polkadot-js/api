@@ -14,16 +14,17 @@ import { isNull } from '@polkadot/util';
 import { ReferendumInfoExtended } from '../type';
 import { memo } from '../util';
 
-export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
+export function constructInfo (api: ApiInterfaceRx, index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
   const info = optionInfo
     ? optionInfo.unwrapOr(null)
     : null;
 
   return new Option<ReferendumInfoExtended>(
+    api.registry,
     ReferendumInfoExtended,
     isNull(info)
       ? null
-      : new ReferendumInfoExtended(info, index)
+      : new ReferendumInfoExtended(api.registry, info, index)
   );
 }
 
@@ -31,7 +32,7 @@ export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Ob
   return memo((index: BN | number): Observable<Option<ReferendumInfoExtended>> =>
     api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index).pipe(
       map((optionInfo): Option<ReferendumInfoExtended> =>
-        constructInfo(index, optionInfo)
+        constructInfo(api, index, optionInfo)
       )
     ));
 }

@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { Registry } from '@polkadot/types/types';
+
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { createType } from '@polkadot/types/codec';
-import { StorageEntryMetadata, StorageEntryType } from '../../../Metadata/v8/Storage';
 
 import createFunction from './createFunction';
 
@@ -14,24 +16,20 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageEntry =>
-  createFunction(
-    {
+function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
+  return (registry: Registry, metaVersion: number): StorageEntry =>
+    createFunction(registry, {
       meta: {
-        documentation: createType('Vec<Text>', [documentation]),
-        modifier: createType('StorageEntryModifierLatest', 1), // required
-        type: new StorageEntryType(type, 0),
+        documentation: createType(registry, 'Vec<Text>', [documentation]),
+        modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
+        type: createType(registry, 'StorageEntryTypeLatest', type, 0),
         toJSON: (): any => key
-      } as unknown as StorageEntryMetadata,
+      } as unknown as StorageEntryMetadataLatest,
       method,
       prefix: 'Substrate',
       section: 'substrate'
-    },
-    {
-      key,
-      skipHashing: true
-    }
-  );
+    }, { key, metaVersion, skipHashing: true });
+}
 
 // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
 // have been removed in https://github.com/paritytech/substrate/pull/2802

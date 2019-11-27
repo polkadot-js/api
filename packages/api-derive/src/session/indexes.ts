@@ -22,7 +22,7 @@ export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionInd
           api.query.staking.currentEra,
           api.query.staking.validatorCount
         ])
-        : of([createType('SessionIndex', 1), createType('EraIndex', 1), new U32()])
+        : of([createType(api.registry, 'SessionIndex', 1), createType(api.registry, 'EraIndex', 1), createType(api.registry, 'u32')])
     ).pipe(
       map(([currentIndex, currentEra, validatorCount]): DeriveSessionIndexes => ({
         currentIndex, currentEra, validatorCount

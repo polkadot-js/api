@@ -2,28 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodecArg, Constructor, TypeDef } from '@polkadot/types/types';
+import { CodecArg, Constructor, Registry, TypeDef } from '@polkadot/types/types';
 import { ContractABIArgBasePre, ContractABIContract, ContractABIContractPre, ContractABIEvent, ContractABIEventPre, ContractABIFn, ContractABIFnArg, ContractABIMessage, ContractABIMessageBase, ContractABIMessagePre, ContractABI, ContractABIMessageCommon, ContractABIPre, ContractABIRange, ContractABIRangePre, ContractABIStorage, ContractABIStorageLayout, ContractABIStorageLayoutPre, ContractABIStoragePre, ContractABIStorageStruct, ContractABIStorageStructPre, ContractABITypePre } from './types';
-import { Compact, u32, createClass, createType, encodeType } from '@polkadot/types';
 
+import { Compact, u32, createClass, createType, encodeType } from '@polkadot/types';
 import { assert, hexToU8a, isNumber, isString, isNull, isObject, isUndefined, stringCamelCase, isHex, hexToNumber } from '@polkadot/util';
 
 import MetaRegistry from './MetaRegistry';
 
 // parse a selector, this can be a number (older) or of [<hex>, <hex>, ...]. However,
 // just catch everything (since this is now non-standard for u32 anyway)
-function parseSelector (fnname: string, input: ContractABIMessageCommon['selector']): u32 {
+function parseSelector (registry: Registry, fnname: string, input: ContractABIMessageCommon['selector']): u32 {
   if (isNumber(input)) {
-    return createType('u32', input);
+    return createType(registry, 'u32', input);
   } else if (isHex(input)) {
-    return createType('u32', hexToU8a(input));
+    return createType(registry, 'u32', hexToU8a(input));
   } else if (typeof input === 'string') {
     try {
       const array = JSON.parse(input);
 
       assert(array.length === 4, `${fnname}: Invalid selector length`);
 
-      return createType('u32', Uint8Array.from(
+      return createType(registry, 'u32', Uint8Array.from(
         // the as number[] is here to pacify TS, it doesn't quite know how to handle the cb
         (array as number[]).map((value: string | number): number =>
           isHex(value)
@@ -39,8 +39,9 @@ function parseSelector (fnname: string, input: ContractABIMessageCommon['selecto
   throw new Error(`${fnname}: Unable to parse selector`);
 }
 
-function createArgClass (args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
+function createArgClass (registry: Registry, args: ContractABIFnArg[], baseDef: Record<string, string>): Constructor {
   return createClass(
+    registry,
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
         base[name] = type.displayName || encodeType(type);
@@ -87,7 +88,7 @@ export default class ContractRegistry extends MetaRegistry {
       assert(isNumber(name) && isString(this.stringAt(name)), `Expected name for ${fnname}`);
       assert(isNull(returnType) || (isNumber(returnType.ty) && isObject(this.typeDefAt(returnType.ty))), `Expected return_type for ${fnname}`);
 
-      parseSelector(fnname, selector);
+      parseSelector(this.registry, fnname, selector);
       this.validateArgs(fnname, message.args);
     });
   }
@@ -113,12 +114,13 @@ export default class ContractRegistry extends MetaRegistry {
         type
       };
     });
-    const Clazz = createArgClass(args, isUndefined(message.selector) ? {} : { __selector: 'u32' });
-    const baseStruct: { [index: string]: any } = { __selector: isUndefined(message.selector) ? undefined : parseSelector(name, message.selector) };
+    const Clazz = createArgClass(this.registry, args, isUndefined(message.selector) ? {} : { __selector: 'u32' });
+    const baseStruct: { [index: string]: any } = { __selector: isUndefined(message.selector) ? undefined : parseSelector(this.registry, name, message.selector) };
     const encoder = (...params: CodecArg[]): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
       const u8a = new Clazz(
+        this.registry,
         args.reduce((mapped, { name }, index): Record<string, CodecArg> => {
           mapped[name] = params[index];
 
