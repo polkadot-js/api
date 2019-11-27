@@ -233,4 +233,37 @@ describe('Struct', (): void => {
       balance: 'Balance' // Override in Uint
     }));
   });
+
+  describe('toU8a', (): void => {
+    const def: Record<string, any> = {
+      foo: 'Bytes',
+      method: 'Bytes',
+      bar: 'Option<u32>',
+      baz: 'bool'
+    };
+    const val = {
+      foo: '0x4269',
+      method: '0x99',
+      bar: 1,
+      baz: true
+    };
+
+    it('generates toU8a with undefined', (): void => {
+      expect(
+        new Struct(registry, def, val).toU8a()
+      ).toEqual(new Uint8Array([2 << 2, 0x42, 0x69, 1 << 2, 0x99, 1, 1, 0, 0, 0, 1]));
+    });
+
+    it('generates toU8a with true', (): void => {
+      expect(
+        new Struct(registry, def, val).toU8a(true)
+      ).toEqual(new Uint8Array([0x42, 0x69, 0x99, 1, 0, 0, 0, 1]));
+    });
+
+    it('generates toU8a with { method: true }', (): void => {
+      expect(
+        new Struct(registry, def, val).toU8a({ method: true })
+      ).toEqual(new Uint8Array([2 << 2, 0x42, 0x69, 0x99, 1, 1, 0, 0, 0, 1]));
+    });
+  });
 });
