@@ -5,6 +5,7 @@
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
 
 import fs from 'fs';
+import path from 'path';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef } from '../../codec/create';
@@ -249,7 +250,7 @@ function generateInterfaces ({ types }: { types: Record<string, any> }, imports:
   });
 }
 
-function generateTsDefFor (defName: string, { types }: { types: Record<string, any> }): void {
+function generateTsDefFor (defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports({ types }), interfaces: [] } as Imports;
   const interfaces = generateInterfaces({ types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
@@ -281,19 +282,23 @@ function generateTsDefFor (defName: string, { types }: { types: Record<string, a
     }
   });
 
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/types.ts`, header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(`packages/types/src/interfaces/${defName}/index.ts`, HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
-export default function generateTsDef (): void {
-  Object.entries(definitions).forEach(([defName, obj]): void => {
+export function generateTsDef (def: object, outputDir: string): void {
+  Object.entries(def).forEach(([defName, obj]): void => {
     console.log(`Extracting interfaces for ${defName}`);
 
-    generateTsDefFor(defName, obj);
+    generateTsDefFor(defName, obj, outputDir);
   });
 
-  console.log('Writing interfaces/types.ts');
+  console.log(`Writing ${outputDir}`);
 
-  fs.writeFileSync('packages/types/src/interfaces/types.ts', HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync('packages/types/src/interfaces/index.ts', HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, 'types.ts'), HEADER.concat(Object.keys(def).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+}
+
+export default function generateTsDefDefault (): void {
+  generateTsDef(definitions, 'packages/types/src/interfaces');
 }

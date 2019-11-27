@@ -32,7 +32,7 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
+// Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');

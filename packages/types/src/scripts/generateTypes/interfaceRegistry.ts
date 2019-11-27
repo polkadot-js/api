@@ -15,9 +15,8 @@ import {
   setImports
 } from '../util';
 
-// Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
-export default function generateInterfaceRegistry (): void {
-  console.log('Writing interfaceRegistry.ts');
+export function generateInterfaceRegistry (def: object, output: string): void {
+  console.log(`Writing ${output}`);
 
   const imports = createImports();
 
@@ -34,13 +33,13 @@ export default function generateInterfaceRegistry (): void {
     }, '');
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
+  const srml = Object.entries(def).reduce((accumulator, [_defName, { types }]): string => {
     setImports(imports, Object.keys(types));
 
     return [
       accumulator,
       ...Object.keys(types).map((type): string =>
-        getDerivedTypes(type, (types as any)[type], imports).map(indent(2)).join('\n')
+        getDerivedTypes(type, types[type], imports).map(indent(2)).join('\n')
       )
     ].join('\n');
   }, '');
@@ -64,8 +63,13 @@ export default function generateInterfaceRegistry (): void {
   const interfaceEnd = '\n}';
 
   fs.writeFileSync(
-    'packages/types/src/interfaceRegistry.ts',
+    output,
     header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
+}
+
+// Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
+export default function generateDefaultInterfaceRegistry (): void {
+  generateInterfaceRegistry(definitions, 'packages/types/src/interfaceRegistry.ts');
 }

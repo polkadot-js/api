@@ -82,7 +82,7 @@ function generateModule (registry: Registry, modul: ModuleMetadataLatest, import
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
+// Generate `packages/api/src/query.types.ts` for a particular
 // metadata
 function generateForMeta (registry: Registry, meta: Metadata): void {
   console.log('Writing packages/api/src/query.types.ts');

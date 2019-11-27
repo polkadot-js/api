@@ -8,7 +8,7 @@ import interfaces from '../../../../type-jsonrpc/src';
 import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
+// Generate `packages/rpc-core/jsonrpc.types.ts`
 export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
