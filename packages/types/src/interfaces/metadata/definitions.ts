@@ -345,73 +345,90 @@ export default {
     EventMetadataV9: 'EventMetadataV8',
     FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
     FunctionMetadataV9: 'FunctionMetadataV8',
-    MapKindV9: {
+    MapTypeV9: 'MapTypeV8',
+    MetadataV9: 'MetadataV8',
+    ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
+    ModuleMetadataV9: 'ModuleMetadataV8',
+    PlainTypeV9: 'Type',
+    StorageEntryModifierV9: 'StorageEntryModifierV8',
+    StorageEntryMetadataV9: 'StorageEntryMetadataV8',
+    StorageEntryTypeV9: 'StorageEntryTypeV8',
+    StorageMetadataV9: 'StorageMetadataV8',
+
+    // v10
+    DoubleMapTypeV10: 'DoubleMapTypeV9',
+    ErrorMetadataV10: 'ErrorMetadataV9',
+    EventMetadataV10: 'EventMetadataV9',
+    FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
+    FunctionMetadataV10: 'FunctionMetadataV9',
+    MapKindV10: {
       _enum: ['Map', 'LinkedMap', 'PrefixedMap']
     },
-    MapTypeV9: {
+    MapTypeV10: {
       hasher: 'StorageHasher',
       key: 'Type',
       value: 'Type',
-      kind: 'MapKindV9'
+      kind: 'MapKindV10'
     },
-    MetadataV9: {
-      modules: 'Vec<ModuleMetadataV9>'
+    MetadataV10: {
+      modules: 'Vec<ModuleMetadataV10>'
     },
-    ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
-    ModuleMetadataV9: {
+    ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
+    ModuleMetadataV10: {
       name: 'Text',
-      storage: 'Option<StorageMetadataV9>',
-      calls: 'Option<Vec<FunctionMetadataV9>>',
-      events: 'Option<Vec<EventMetadataV9>>',
-      constants: 'Vec<ModuleConstantMetadataV9>',
-      errors: 'Vec<ErrorMetadataV9>'
+      storage: 'Option<StorageMetadataV10>',
+      calls: 'Option<Vec<FunctionMetadataV10>>',
+      events: 'Option<Vec<EventMetadataV10>>',
+      constants: 'Vec<ModuleConstantMetadataV10>',
+      errors: 'Vec<ErrorMetadataV10>'
     },
-    PlainTypeV9: 'Type',
-    StorageEntryModifierV9: 'StorageEntryModifierV8',
-    StorageEntryMetadataV9: {
+    PlainTypeV10: 'Type',
+    StorageEntryModifierV10: 'StorageEntryModifierV9',
+    StorageEntryMetadataV10: {
       name: 'Text',
-      modifier: 'StorageEntryModifierV9',
-      type: 'StorageEntryTypeV9',
+      modifier: 'StorageEntryModifierV10',
+      type: 'StorageEntryTypeV10',
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
     },
-    StorageEntryTypeV9: {
+    StorageEntryTypeV10: {
       _enum: {
-        Plain: 'PlainTypeV9',
-        Map: 'MapTypeV9',
-        DoubleMap: 'DoubleMapTypeV9'
+        Plain: 'PlainTypeV10',
+        Map: 'MapTypeV10',
+        DoubleMap: 'DoubleMapTypeV10'
       }
     },
-    StorageMetadataV9: {
+    StorageMetadataV10: {
       prefix: 'Text',
-      items: 'Vec<StorageEntryMetadataV9>'
+      items: 'Vec<StorageEntryMetadataV10>'
     },
 
     // This always maps to the latest
-    EventMetadataLatest: 'EventMetadataV9',
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV9',
-    FunctionMetadataLatest: 'FunctionMetadataV9',
-    MetadataLatest: 'MetadataV9',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV9',
-    ModuleMetadataLatest: 'ModuleMetadataV9',
-    PlainTypeLatest: 'PlainTypeV9',
-    StorageEntryMetadataLatest: 'StorageEntryMetadataV9',
-    StorageEntryModifierLatest: 'StorageEntryModifierV9',
-    StorageEntryTypeLatest: 'StorageEntryTypeV9',
+    EventMetadataLatest: 'EventMetadataV10',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV10',
+    FunctionMetadataLatest: 'FunctionMetadataV10',
+    MetadataLatest: 'MetadataV10',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV10',
+    ModuleMetadataLatest: 'ModuleMetadataV10',
+    PlainTypeLatest: 'PlainTypeV10',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV10',
+    StorageEntryModifierLatest: 'StorageEntryModifierV10',
+    StorageEntryTypeLatest: 'StorageEntryTypeV10',
 
     // the enum containing all the mappings
     MetadataAll: {
       _enum: {
-        V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
-        V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
-        V2: 'MetadataV2', // once rolled-out, can replace this with MetadataDeprecated
-        V3: 'MetadataV3', // once rolled-out, can replace this with MetadataDeprecated
-        V4: 'MetadataV4', // once rolled-out, can replace this with MetadataDeprecated
-        V5: 'MetadataV5', // once rolled-out, can replace this with MetadataDeprecated
-        V6: 'MetadataV6', // once rolled-out, can replace this with MetadataDeprecated
-        V7: 'MetadataV7', // once rolled-out, can replace this with MetadataDeprecated
-        V8: 'MetadataV8', // once rolled-out, can replace this with MetadataDeprecated
-        V9: 'MetadataV9'
+        V0: 'MetadataV0',
+        V1: 'MetadataV1',
+        V2: 'MetadataV2',
+        V3: 'MetadataV3',
+        V4: 'MetadataV4',
+        V5: 'MetadataV5',
+        V6: 'MetadataV6',
+        V7: 'MetadataV7',
+        V8: 'MetadataV8',
+        V9: 'MetadataV9',
+        V10: 'MetadataV10'
       }
     }
   }

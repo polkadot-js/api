@@ -13,6 +13,9 @@ export interface CallMetadataV0 extends Struct {
   readonly functions: Vec<FunctionMetadataV0>;
 }
 
+/** DoubleMapTypeV9 */
+export interface DoubleMapTypeV10 extends DoubleMapTypeV9 {}
+
 /** Struct */
 export interface DoubleMapTypeV3 extends Struct {
   /** Type */
@@ -65,6 +68,9 @@ export interface DoubleMapTypeV8 extends DoubleMapTypeV7 {}
 /** DoubleMapTypeV8 */
 export interface DoubleMapTypeV9 extends DoubleMapTypeV8 {}
 
+/** ErrorMetadataV9 */
+export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
+
 /** Struct */
 export interface ErrorMetadataV8 extends Struct {
   /** Text */
@@ -76,8 +82,8 @@ export interface ErrorMetadataV8 extends Struct {
 /** ErrorMetadataV8 */
 export interface ErrorMetadataV9 extends ErrorMetadataV8 {}
 
-/** EventMetadataV9 */
-export interface EventMetadataLatest extends EventMetadataV9 {}
+/** EventMetadataV10 */
+export interface EventMetadataLatest extends EventMetadataV10 {}
 
 /** Struct */
 export interface EventMetadataV0 extends Struct {
@@ -91,6 +97,9 @@ export interface EventMetadataV0 extends Struct {
 
 /** EventMetadataV0 */
 export interface EventMetadataV1 extends EventMetadataV0 {}
+
+/** EventMetadataV9 */
+export interface EventMetadataV10 extends EventMetadataV9 {}
 
 /** EventMetadataV1 */
 export interface EventMetadataV2 extends EventMetadataV1 {}
@@ -116,8 +125,8 @@ export interface EventMetadataV8 extends EventMetadataV7 {}
 /** EventMetadataV8 */
 export interface EventMetadataV9 extends EventMetadataV8 {}
 
-/** FunctionArgumentMetadataV9 */
-export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV9 {}
+/** FunctionArgumentMetadataV10 */
+export interface FunctionArgumentMetadataLatest extends FunctionArgumentMetadataV10 {}
 
 /** Struct */
 export interface FunctionArgumentMetadataV0 extends Struct {
@@ -129,6 +138,9 @@ export interface FunctionArgumentMetadataV0 extends Struct {
 
 /** FunctionArgumentMetadataV0 */
 export interface FunctionArgumentMetadataV1 extends FunctionArgumentMetadataV0 {}
+
+/** FunctionArgumentMetadataV9 */
+export interface FunctionArgumentMetadataV10 extends FunctionArgumentMetadataV9 {}
 
 /** FunctionArgumentMetadataV1 */
 export interface FunctionArgumentMetadataV2 extends FunctionArgumentMetadataV1 {}
@@ -154,8 +166,8 @@ export interface FunctionArgumentMetadataV8 extends FunctionArgumentMetadataV7 {
 /** FunctionArgumentMetadataV8 */
 export interface FunctionArgumentMetadataV9 extends FunctionArgumentMetadataV8 {}
 
-/** FunctionMetadataV9 */
-export interface FunctionMetadataLatest extends FunctionMetadataV9 {}
+/** FunctionMetadataV10 */
+export interface FunctionMetadataLatest extends FunctionMetadataV10 {}
 
 /** Struct */
 export interface FunctionMetadataV0 extends Struct {
@@ -178,6 +190,9 @@ export interface FunctionMetadataV1 extends Struct {
   /** Vec<Text> */
   readonly documentation: Vec<Text>;
 }
+
+/** FunctionMetadataV9 */
+export interface FunctionMetadataV10 extends FunctionMetadataV9 {}
 
 /** FunctionMetadataV1 */
 export interface FunctionMetadataV2 extends FunctionMetadataV1 {}
@@ -204,7 +219,7 @@ export interface FunctionMetadataV8 extends FunctionMetadataV7 {}
 export interface FunctionMetadataV9 extends FunctionMetadataV8 {}
 
 /** Enum */
-export interface MapKindV9 extends Enum {
+export interface MapKindV10 extends Enum {
   /** 0:: Map */
   readonly isMap: boolean;
   /** 1:: LinkedMap */
@@ -219,6 +234,18 @@ export interface MapTypeV0 extends Struct {
   readonly key: Type;
   /** Type */
   readonly value: Type;
+}
+
+/** Struct */
+export interface MapTypeV10 extends Struct {
+  /** StorageHasher */
+  readonly hasher: StorageHasher;
+  /** Type */
+  readonly key: Type;
+  /** Type */
+  readonly value: Type;
+  /** MapKindV10 */
+  readonly kind: MapKindV10;
 }
 
 /** Struct */
@@ -258,17 +285,8 @@ export interface MapTypeV7 extends MapTypeV6 {}
 /** MapTypeV7 */
 export interface MapTypeV8 extends MapTypeV7 {}
 
-/** Struct */
-export interface MapTypeV9 extends Struct {
-  /** StorageHasher */
-  readonly hasher: StorageHasher;
-  /** Type */
-  readonly key: Type;
-  /** Type */
-  readonly value: Type;
-  /** MapKindV9 */
-  readonly kind: MapKindV9;
-}
+/** MapTypeV8 */
+export interface MapTypeV9 extends MapTypeV8 {}
 
 /** Enum */
 export interface MetadataAll extends Enum {
@@ -312,10 +330,14 @@ export interface MetadataAll extends Enum {
   readonly isV9: boolean;
   /** MetadataV9 */
   readonly asV9: MetadataV9;
+  /** 10:: V10(MetadataV10) */
+  readonly isV10: boolean;
+  /** MetadataV10 */
+  readonly asV10: MetadataV10;
 }
 
-/** MetadataV9 */
-export interface MetadataLatest extends MetadataV9 {}
+/** MetadataV10 */
+export interface MetadataLatest extends MetadataV10 {}
 
 /** Struct */
 export interface MetadataV0 extends Struct {
@@ -331,6 +353,12 @@ export interface MetadataV0 extends Struct {
 export interface MetadataV1 extends Struct {
   /** Vec<ModuleMetadataV1> */
   readonly modules: Vec<ModuleMetadataV1>;
+}
+
+/** Struct */
+export interface MetadataV10 extends Struct {
+  /** Vec<ModuleMetadataV10> */
+  readonly modules: Vec<ModuleMetadataV10>;
 }
 
 /** Struct */
@@ -375,14 +403,14 @@ export interface MetadataV8 extends Struct {
   readonly modules: Vec<ModuleMetadataV8>;
 }
 
-/** Struct */
-export interface MetadataV9 extends Struct {
-  /** Vec<ModuleMetadataV9> */
-  readonly modules: Vec<ModuleMetadataV9>;
-}
+/** MetadataV8 */
+export interface MetadataV9 extends MetadataV8 {}
+
+/** ModuleConstantMetadataV10 */
+export interface ModuleConstantMetadataLatest extends ModuleConstantMetadataV10 {}
 
 /** ModuleConstantMetadataV9 */
-export interface ModuleConstantMetadataLatest extends ModuleConstantMetadataV9 {}
+export interface ModuleConstantMetadataV10 extends ModuleConstantMetadataV9 {}
 
 /** Struct */
 export interface ModuleConstantMetadataV6 extends Struct {
@@ -405,8 +433,8 @@ export interface ModuleConstantMetadataV8 extends ModuleConstantMetadataV7 {}
 /** ModuleConstantMetadataV8 */
 export interface ModuleConstantMetadataV9 extends ModuleConstantMetadataV8 {}
 
-/** ModuleMetadataV9 */
-export interface ModuleMetadataLatest extends ModuleMetadataV9 {}
+/** ModuleMetadataV10 */
+export interface ModuleMetadataLatest extends ModuleMetadataV10 {}
 
 /** Struct */
 export interface ModuleMetadataV0 extends Struct {
@@ -428,6 +456,22 @@ export interface ModuleMetadataV1 extends Struct {
   readonly calls: Option<Vec<FunctionMetadataV1>>;
   /** Option<Vec<EventMetadataV1>> */
   readonly events: Option<Vec<EventMetadataV1>>;
+}
+
+/** Struct */
+export interface ModuleMetadataV10 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Option<StorageMetadataV10> */
+  readonly storage: Option<StorageMetadataV10>;
+  /** Option<Vec<FunctionMetadataV10>> */
+  readonly calls: Option<Vec<FunctionMetadataV10>>;
+  /** Option<Vec<EventMetadataV10>> */
+  readonly events: Option<Vec<EventMetadataV10>>;
+  /** Vec<ModuleConstantMetadataV10> */
+  readonly constants: Vec<ModuleConstantMetadataV10>;
+  /** Vec<ErrorMetadataV10> */
+  readonly errors: Vec<ErrorMetadataV10>;
 }
 
 /** Struct */
@@ -532,21 +576,8 @@ export interface ModuleMetadataV8 extends Struct {
   readonly errors: Vec<ErrorMetadataV8>;
 }
 
-/** Struct */
-export interface ModuleMetadataV9 extends Struct {
-  /** Text */
-  readonly name: Text;
-  /** Option<StorageMetadataV9> */
-  readonly storage: Option<StorageMetadataV9>;
-  /** Option<Vec<FunctionMetadataV9>> */
-  readonly calls: Option<Vec<FunctionMetadataV9>>;
-  /** Option<Vec<EventMetadataV9>> */
-  readonly events: Option<Vec<EventMetadataV9>>;
-  /** Vec<ModuleConstantMetadataV9> */
-  readonly constants: Vec<ModuleConstantMetadataV9>;
-  /** Vec<ErrorMetadataV9> */
-  readonly errors: Vec<ErrorMetadataV9>;
-}
+/** ModuleMetadataV8 */
+export interface ModuleMetadataV9 extends ModuleMetadataV8 {}
 
 /** Struct */
 export interface OuterDispatchCallV0 extends Struct {
@@ -580,11 +611,14 @@ export interface OuterEventMetadataV0 extends Struct {
   readonly events: Vec<OuterEventEventMetadataV0>;
 }
 
-/** PlainTypeV9 */
-export interface PlainTypeLatest extends PlainTypeV9 {}
+/** PlainTypeV10 */
+export interface PlainTypeLatest extends PlainTypeV10 {}
 
 /** Type */
 export interface PlainTypeV0 extends Type {}
+
+/** Type */
+export interface PlainTypeV10 extends Type {}
 
 /** Type */
 export interface PlainTypeV2 extends Type {}
@@ -620,8 +654,22 @@ export interface RuntimeModuleMetadataV0 extends Struct {
   readonly storage: Option<StorageMetadataV0>;
 }
 
-/** StorageEntryMetadataV9 */
-export interface StorageEntryMetadataLatest extends StorageEntryMetadataV9 {}
+/** StorageEntryMetadataV10 */
+export interface StorageEntryMetadataLatest extends StorageEntryMetadataV10 {}
+
+/** Struct */
+export interface StorageEntryMetadataV10 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** StorageEntryModifierV10 */
+  readonly modifier: StorageEntryModifierV10;
+  /** StorageEntryTypeV10 */
+  readonly type: StorageEntryTypeV10;
+  /** Bytes */
+  readonly fallback: Bytes;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
 
 /** StorageFunctionMetadataV5 */
 export interface StorageEntryMetadataV6 extends StorageFunctionMetadataV5 {}
@@ -632,22 +680,14 @@ export interface StorageEntryMetadataV7 extends StorageEntryMetadataV6 {}
 /** StorageEntryMetadataV7 */
 export interface StorageEntryMetadataV8 extends StorageEntryMetadataV7 {}
 
-/** Struct */
-export interface StorageEntryMetadataV9 extends Struct {
-  /** Text */
-  readonly name: Text;
-  /** StorageEntryModifierV9 */
-  readonly modifier: StorageEntryModifierV9;
-  /** StorageEntryTypeV9 */
-  readonly type: StorageEntryTypeV9;
-  /** Bytes */
-  readonly fallback: Bytes;
-  /** Vec<Text> */
-  readonly documentation: Vec<Text>;
-}
+/** StorageEntryMetadataV8 */
+export interface StorageEntryMetadataV9 extends StorageEntryMetadataV8 {}
+
+/** StorageEntryModifierV10 */
+export interface StorageEntryModifierLatest extends StorageEntryModifierV10 {}
 
 /** StorageEntryModifierV9 */
-export interface StorageEntryModifierLatest extends StorageEntryModifierV9 {}
+export interface StorageEntryModifierV10 extends StorageEntryModifierV9 {}
 
 /** StorageFunctionModifierV5 */
 export interface StorageEntryModifierV6 extends StorageFunctionModifierV5 {}
@@ -661,8 +701,24 @@ export interface StorageEntryModifierV8 extends StorageEntryModifierV7 {}
 /** StorageEntryModifierV8 */
 export interface StorageEntryModifierV9 extends StorageEntryModifierV8 {}
 
-/** StorageEntryTypeV9 */
-export interface StorageEntryTypeLatest extends StorageEntryTypeV9 {}
+/** StorageEntryTypeV10 */
+export interface StorageEntryTypeLatest extends StorageEntryTypeV10 {}
+
+/** Enum */
+export interface StorageEntryTypeV10 extends Enum {
+  /** 0:: Plain(PlainTypeV10) */
+  readonly isPlain: boolean;
+  /** PlainTypeV10 */
+  readonly asPlain: PlainTypeV10;
+  /** 1:: Map(MapTypeV10) */
+  readonly isMap: boolean;
+  /** MapTypeV10 */
+  readonly asMap: MapTypeV10;
+  /** 2:: DoubleMap(DoubleMapTypeV10) */
+  readonly isDoubleMap: boolean;
+  /** DoubleMapTypeV10 */
+  readonly asDoubleMap: DoubleMapTypeV10;
+}
 
 /** StorageFunctionTypeV5 */
 export interface StorageEntryTypeV6 extends StorageFunctionTypeV5 {}
@@ -673,21 +729,8 @@ export interface StorageEntryTypeV7 extends StorageEntryTypeV6 {}
 /** StorageEntryTypeV7 */
 export interface StorageEntryTypeV8 extends StorageEntryTypeV7 {}
 
-/** Enum */
-export interface StorageEntryTypeV9 extends Enum {
-  /** 0:: Plain(PlainTypeV9) */
-  readonly isPlain: boolean;
-  /** PlainTypeV9 */
-  readonly asPlain: PlainTypeV9;
-  /** 1:: Map(MapTypeV9) */
-  readonly isMap: boolean;
-  /** MapTypeV9 */
-  readonly asMap: MapTypeV9;
-  /** 2:: DoubleMap(DoubleMapTypeV9) */
-  readonly isDoubleMap: boolean;
-  /** DoubleMapTypeV9 */
-  readonly asDoubleMap: DoubleMapTypeV9;
-}
+/** StorageEntryTypeV8 */
+export interface StorageEntryTypeV9 extends StorageEntryTypeV8 {}
 
 /** Struct */
 export interface StorageFunctionMetadataV0 extends Struct {
@@ -871,6 +914,14 @@ export interface StorageMetadataV0 extends Struct {
 }
 
 /** Struct */
+export interface StorageMetadataV10 extends Struct {
+  /** Text */
+  readonly prefix: Text;
+  /** Vec<StorageEntryMetadataV10> */
+  readonly items: Vec<StorageEntryMetadataV10>;
+}
+
+/** Struct */
 export interface StorageMetadataV7 extends Struct {
   /** Text */
   readonly prefix: Text;
@@ -881,10 +932,5 @@ export interface StorageMetadataV7 extends Struct {
 /** StorageMetadataV7 */
 export interface StorageMetadataV8 extends StorageMetadataV7 {}
 
-/** Struct */
-export interface StorageMetadataV9 extends Struct {
-  /** Text */
-  readonly prefix: Text;
-  /** Vec<StorageEntryMetadataV9> */
-  readonly items: Vec<StorageEntryMetadataV9>;
-}
+/** StorageMetadataV8 */
+export interface StorageMetadataV9 extends StorageMetadataV8 {}
