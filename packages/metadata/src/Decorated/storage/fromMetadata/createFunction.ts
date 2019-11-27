@@ -15,6 +15,7 @@ import getHasher, { HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
+  metaVersion: number;
   skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 
@@ -57,33 +58,46 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
   return [getHasher()];
 }
 
+// create a base prefixed key
+function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
+  return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
+}
+
 // create a key for a DoubleMap type
-function createKeyDoubleMap (registry: Registry, { meta: { name, type } }: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?]): Uint8Array {
+function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?], metaVersion: number): Uint8Array {
+  const { meta: { name, type } } = itemFn;
+
   // since we are passing an almost-unknown through, trust, but verify
   assert(
     Array.isArray(args) && !isUndefined(args[0]) && !isNull(args[0]) && !isUndefined(args[1]) && !isNull(args[1]),
     `${name} is a DoubleMap and requires two arguments`
   );
 
+  // if this fails, we have bigger issues
+  assert(!isUndefined(hasher2), '2 hashing functions should be defined for DoubleMaps');
+
   const [key1, key2] = args;
-  const type1 = type.asDoubleMap.key1.toString();
-  const type2 = type.asDoubleMap.key2.toString();
-  const param1Encoded = u8aConcat(stringToU8a(stringKey), createTypeUnsafe(registry, type1, [key1]).toU8a(true));
+  const map = type.asDoubleMap;
+  const val1 = createTypeUnsafe(registry, map.key1.toString(), [key1]).toU8a(true);
+  const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a(true);
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
-  return Compact.addLengthPrefix(u8aConcat(
-    hasher1(param1Encoded),
-    (hasher2 as HasherFunction)(createTypeUnsafe(registry, type2, [key2]).toU8a(true))
-  ));
-}
-
-// create a base key for prefixed maps
-function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
-  return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
+  return Compact.addLengthPrefix(
+    metaVersion <= 8
+      ? u8aConcat(
+        hasher1(u8aConcat(stringToU8a(stringKey), val1)),
+        hasher2(val2)
+      )
+      : u8aConcat(
+        createPrefixedKey(itemFn),
+        hasher1(val1),
+        hasher2(val2)
+      )
+  );
 }
 
 // create a key for either a map or a plain value
-function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array): Uint8Array {
+function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array, metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
   let key: Uint8Array | undefined;
   let param: Uint8Array = EMPTY_U8A;
@@ -104,7 +118,11 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
   }
 
   // StorageKey is a Bytes, so is length-prefixed
-  return Compact.addLengthPrefix(key || hasher(u8aConcat(stringToU8a(stringKey), param)));
+  return Compact.addLengthPrefix(key || (
+    metaVersion <= 8
+      ? hasher(u8aConcat(stringToU8a(stringKey), param))
+      : u8aConcat(createPrefixedKey(itemFn), param.length ? hasher(param) : EMPTY_U8A)
+  ));
 }
 
 // attach the metadata to expand to a StorageFunction
@@ -169,7 +187,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions = {}): StorageEntry {
+export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const stringKey = expandKey(itemFn, options);
   const [hasher, key2Hasher] = getHashers(itemFn);
@@ -180,8 +198,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>
     type.isDoubleMap
-      ? createKeyDoubleMap(registry, itemFn, stringKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher])
-      : createKey(registry, itemFn, stringKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher);
+      ? createKeyDoubleMap(registry, itemFn, stringKey, arg as [CreateArgType, CreateArgType], [hasher, key2Hasher], options.metaVersion)
+      : createKey(registry, itemFn, stringKey, arg as CreateArgType, options.skipHashing ? NULL_HASHER : hasher, options.metaVersion);
 
   const storageFn = expandWithMeta(itemFn, _storageFn as StorageEntry);
 
