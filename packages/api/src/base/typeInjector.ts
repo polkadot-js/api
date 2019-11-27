@@ -16,7 +16,7 @@ interface VersionedType {
 // these are override types for polkadot chains
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
 // implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (3 keys in substrate vs 4 in Polkadot).
+// definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
 const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
   {
     minmax: [0, undefined],
