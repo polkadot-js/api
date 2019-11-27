@@ -141,6 +141,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    * @description Returns a serialized u8a form
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return this.toU8a(isBare ? { method: true } : false);
+    // call our parent, with only the method stripped
+    return super.toU8a(isBare ? { method: true } : false);
   }
 }
