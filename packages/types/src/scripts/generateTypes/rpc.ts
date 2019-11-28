@@ -5,6 +5,7 @@
 import fs from 'fs';
 
 import interfaces from '../../../../type-jsonrpc/src';
+import * as definitions from '../../interfaces/definitions';
 import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
@@ -13,18 +14,18 @@ export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
   const registry = new TypeRegistry();
-  const imports = createImports();
+  const imports = createImports(definitions);
 
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
       const method = interfaces[section].methods[key];
 
-      setImports(imports, [method.type]);
+      setImports(definitions, imports, [method.type]);
 
       // FIXME These 2 are too hard to type, I give up
       if (section === 'state') {
         if (method.method === 'getStorage') {
-          setImports(imports, ['Codec']);
+          setImports(definitions, imports, ['Codec']);
           return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
         } else if (method.method === 'subscribeStorage') {
           return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
@@ -32,8 +33,8 @@ export default function generateRpcTypes (): void {
       }
 
       const args = method.params.map((param): string => {
-        const similarTypes = getSimilarTypes(registry, param.type, imports);
-        setImports(imports, [param.type, ...similarTypes]);
+        const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
+        setImports(definitions, imports, [param.type, ...similarTypes]);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
       });

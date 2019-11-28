@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 
-import * as definitions from '../../interfaces/definitions';
+import * as defaultDefinitions from '../../interfaces/definitions';
 import * as primitiveClasses from '../../primitive';
 import {
   createImportCode, createImports,
@@ -15,31 +15,31 @@ import {
   setImports
 } from '../util';
 
-export function generateInterfaceRegistry (def: object, output: string): void {
+export function generateInterfaceRegistry (definitions: object, output: string): void {
   console.log(`Writing ${output}`);
 
-  const imports = createImports();
+  const imports = createImports(definitions);
 
   const primitives = Object
     .keys(primitiveClasses)
     .filter((name): boolean => !!name.indexOf('Generic'))
     .reduce((accumulator, primitiveName): string => {
-      setImports(imports, [primitiveName]);
+      setImports(definitions, imports, [primitiveName]);
 
       return [
         accumulator,
-        getDerivedTypes(primitiveName, primitiveName, imports).map(indent(2)).join('\n')
+        getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(2)).join('\n')
       ].join('\n');
     }, '');
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const srml = Object.entries(def).reduce((accumulator, [_defName, { types }]): string => {
-    setImports(imports, Object.keys(types));
+  const srml = Object.entries(definitions).reduce((accumulator, [_defName, { types }]): string => {
+    setImports(definitions, imports, Object.keys(types));
 
     return [
       accumulator,
       ...Object.keys(types).map((type): string =>
-        getDerivedTypes(type, types[type], imports).map(indent(2)).join('\n')
+        getDerivedTypes(definitions, type, types[type], imports).map(indent(2)).join('\n')
       )
     ].join('\n');
   }, '');
@@ -71,5 +71,5 @@ export function generateInterfaceRegistry (def: object, output: string): void {
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
 export default function generateDefaultInterfaceRegistry (): void {
-  generateInterfaceRegistry(definitions, 'packages/types/src/interfaceRegistry.ts');
+  generateInterfaceRegistry(defaultDefinitions, 'packages/types/src/interfaceRegistry.ts');
 }

@@ -14,11 +14,11 @@ import { setImports, TypeImports } from './imports';
 import * as primitiveClasses from '../../primitive';
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-export function getDerivedTypes (type: string, primitiveName: string, imports: TypeImports): string[] {
+export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
 
-  setImports(imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
+  setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
 
   return [
     `${type}: ${type};`,
@@ -34,16 +34,16 @@ export function getDerivedTypes (type: string, primitiveName: string, imports: T
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
 // etc
-export function getSimilarTypes (registry: Registry, type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
-    setImports(imports, ['IExtrinsic']);
+    setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
   }
 
   if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
-    return [`(${getSimilarTypes(registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
+    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
   }
 
   // FIXME This is a hack, it's hard to correctly type StorageKeys in the

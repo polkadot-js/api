@@ -5,7 +5,6 @@
 import * as codecClasses from '../../codec';
 import { getTypeDef } from '../../codec/create';
 import { TypeDefInfo } from '../../codec/types';
-import * as definitions from '../../interfaces/definitions';
 import * as primitiveClasses from '../../primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
@@ -26,7 +25,7 @@ export interface TypeImports {
 
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
-export function setImports (imports: TypeImports, types: string[]): void {
+export function setImports (definitions: object, imports: TypeImports, types: string[]): void {
   const { codecTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes } = imports;
 
   types.forEach((type): void => {
@@ -42,14 +41,14 @@ export function setImports (imports: TypeImports, types: string[]): void {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
       // need to parse it with `getTypeDef`.
       const typeDef = getTypeDef(type);
-      setImports(imports, [TypeDefInfo[typeDef.info]]);
+      setImports(definitions, imports, [TypeDefInfo[typeDef.info]]);
 
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
-        typeDef.sub.forEach((subType): void => setImports(imports, [subType.type]));
+        typeDef.sub.forEach((subType): void => setImports(definitions, imports, [subType.type]));
       } else if (typeDef.sub) {
         // typeDef.sub is a TypeDef in this case
-        setImports(imports, [typeDef.sub.type]);
+        setImports(definitions, imports, [typeDef.sub.type]);
       }
     } else {
       // find this module inside the exports from the rest
@@ -65,7 +64,7 @@ export function setImports (imports: TypeImports, types: string[]): void {
 }
 
 // Create an Imports object, can be prefilled with `ignoredTypes`
-export function createImports ({ types }: { types: Record<string, any> } = { types: {} }): TypeImports {
+export function createImports (definitions: object, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
   const codecTypes: TypeExist = {};
   const localTypes: TypeExistMap = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
     localTypes[moduleName] = {};

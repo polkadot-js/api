@@ -79,7 +79,7 @@ export function formatVec (inner: string): string {
 /**
  * Correctly format a given type
  */
-export function formatType (type: string | TypeDef, imports: TypeImports): string {
+export function formatType (definitions: object, type: string | TypeDef, imports: TypeImports): string {
   let typeDef;
   if (typeof type === 'string') {
     typeDef = getTypeDef(type);
@@ -89,28 +89,28 @@ export function formatType (type: string | TypeDef, imports: TypeImports): strin
 
   switch (typeDef.info) {
     case TypeDefInfo.Compact: {
-      return formatCompact(formatType((typeDef.sub as TypeDef).type, imports));
+      return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Option: {
-      return formatOption(formatType((typeDef.sub as TypeDef).type, imports));
+      return formatOption(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Plain: {
       return typeDef.type;
     }
     case TypeDefInfo.Vec: {
-      return formatVec(formatType((typeDef.sub as TypeDef).type, imports));
+      return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
-      setImports(imports, ['ITuple']);
+      setImports(definitions, imports, ['ITuple']);
 
       // `(a,b)` gets transformed into `ITuple<[a, b]>`
       return formatTuple(
         ((typeDef.sub as TypeDef[])
-          .map((sub): string => formatType(sub.type, imports)))
+          .map((sub): string => formatType(definitions, sub.type, imports)))
       );
     }
     case TypeDefInfo.VecFixed: {
-      setImports(imports, ['U8a']);
+      setImports(definitions, imports, ['U8a']);
 
       // `[u8, 32]` gets transformed into U8a
       return 'U8a';
