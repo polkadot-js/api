@@ -251,7 +251,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
 }
 
 function generateTsDefFor (definitions: object, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
-  const imports = { ...createImports({ types }), interfaces: [] } as Imports;
+  const imports = { ...createImports(definitions, { types }), interfaces: [] } as Imports;
   const interfaces = generateInterfaces(definitions, { types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
