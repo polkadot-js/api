@@ -6,8 +6,6 @@ import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../types';
 
 import { assert } from '@polkadot/util';
 
-import { getTypeDef } from '../create';
-
 export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const identity = (value: string): string => value;
@@ -38,7 +36,8 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
     (result: Record<string, string>, type: TypeDef): Record<string, string> => {
       return {
         ...result,
-        [type.name as string]: encodeWithParams(type)
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        [type.name as string]: encodeType(type)
       };
     },
     {}
@@ -87,7 +86,8 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
 
   return `(${
     sub
-      .map((type: TypeDef): string => encodeWithParams(type))
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      .map((type: TypeDef): string => encodeType(type))
       .join(', ')
   })`;
 }
@@ -97,11 +97,7 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 
   const { type, length } = typeDef.ext as TypeDefExtVecFixed;
 
-  return `[${
-    encodeWithParams(getTypeDef(type))
-  };${
-    length
-  }]`;
+  return `[${type};${length}]`;
 }
 
 // We setup a record here to ensure we have comprehensive coverage (any item not covered will result
