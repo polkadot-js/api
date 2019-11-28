@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '../../codec/types';
+import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
 import { isChildClass, isCompactEncodable } from './class';
 import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
 import Vec from '../../codec/Vec';
-import { formatCompact, formatOption, formatVec } from './formatting';
+import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 import * as primitiveClasses from '../../primitive';
 
@@ -17,18 +17,34 @@ import * as primitiveClasses from '../../primitive';
 export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
+  const def = getTypeDef(type);
 
   setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
 
-  return [
-    `${type}: ${type};`,
-    isCompact
-      ? `'${formatCompact(type)}': ${formatCompact(type)};`
-      : '',
-    `'${formatOption(type)}': ${formatOption(type)};`,
-    `'${formatVec(type)}': ${formatVec(type)};`
-  ]
-    .filter((x): boolean => !!x);
+  const types = [
+    {
+      info: TypeDefInfo.Option,
+      type,
+      sub: def
+    },
+    {
+      info: TypeDefInfo.Vec,
+      type,
+      sub: def
+    }
+  ];
+  if (isCompact) {
+    types.unshift({
+      info: TypeDefInfo.Compact,
+      type,
+      sub: def
+    });
+  }
+
+  const result = types.map(t => formatType(definitions, t, imports)).map(t => `'${t}': ${t};`);
+  result.unshift(`${type}: ${type};`);
+
+  return result;
 }
 
 // Make types a little bit more flexible

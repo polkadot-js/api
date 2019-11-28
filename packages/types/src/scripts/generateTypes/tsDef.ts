@@ -10,7 +10,7 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef } from '../../codec/create';
 import * as defaultDefinitions from '../../interfaces/definitions';
-import { createImportCode, createImports, exportInterface, exportType, formatBTreeMap, formatCompact, formatOption, formatResult, formatTuple, formatVec, FOOTER, HEADER, setImports, TypeImports } from '../util';
+import { createImportCode, createImports, exportInterface, exportType, formatType, FOOTER, HEADER, setImports, TypeImports } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -27,28 +27,15 @@ function errorUnhandled (definitions: object, def: TypeDef, imports: TypeImports
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
-function tsBTreeMap (definitions: object, { name: resultName, sub, type }: TypeDef, imports: TypeImports): string {
-  const [keyDef, valDef] = (sub as TypeDef[]);
-
-  setImports(definitions, imports, [type]);
-
-  return exportInterface(resultName, formatBTreeMap(keyDef.type, valDef.type));
+function tsExport (definitions: object, def: TypeDef, imports: TypeImports): string {
+  return exportInterface(def.name, formatType(definitions, def, imports));
 }
 
-function tsCompact (definitions: object, { name: compactName, sub }: TypeDef, imports: TypeImports): string {
-  const def = (sub as TypeDef);
-
-  setImports(definitions, imports, ['Compact']);
-
-  switch (def.info) {
-    case TypeDefInfo.Plain:
-      setImports(definitions, imports, [def.type]);
-      return exportType(compactName, formatCompact(def.type));
-
-    default:
-      throw new Error(`Enum: ${compactName}: Unhandled type ${TypeDefInfo[def.info]}`);
-  }
-}
+const tsBTreeMap = tsExport;
+const tsCompact = tsExport;
+const tsOption = tsExport;
+const tsPlain = tsExport;
+const tsTuple = tsExport;
 
 function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
@@ -73,27 +60,6 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
   return exportInterface(enumName, 'Enum', keys.join(''));
 }
 
-function tsOption (definitions: object, { name: optionName, sub }: TypeDef, imports: TypeImports): string {
-  const def = (sub as TypeDef);
-
-  setImports(definitions, imports, ['Option']);
-
-  switch (def.info) {
-    case TypeDefInfo.Plain:
-      setImports(definitions, imports, [def.type]);
-      return exportType(optionName, formatOption(def.type));
-
-    default:
-      throw new Error(`Enum: ${optionName}: Unhandled type ${TypeDefInfo[def.info]}`);
-  }
-}
-
-function tsPlain (definitions: object, { name: plainName, type }: TypeDef, imports: TypeImports): string {
-  setImports(definitions, imports, [type]);
-
-  return exportType(plainName, type);
-}
-
 function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', { info, name = '', type }: TypeDef, imports: TypeImports): string {
   const [resultType, asGetter] = type === 'Null'
     ? ['', '']
@@ -110,49 +76,16 @@ function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'E
   }
 }
 
-function tsResult (definitions: object, { name: resultName, sub, type }: TypeDef, imports: TypeImports): string {
-  const [okDef, errorDef] = (sub as TypeDef[]);
+function tsResult (definitions: object, def: TypeDef, imports: TypeImports): string {
+  const [okDef, errorDef] = (def.sub as TypeDef[]);
   const inner = [
-    tsResultGetter(definitions, resultName, 'Error', errorDef, imports),
-    tsResultGetter(definitions, resultName, 'Ok', okDef, imports)
+    tsResultGetter(definitions, def.name, 'Error', errorDef, imports),
+    tsResultGetter(definitions, def.name, 'Ok', okDef, imports)
   ].join('');
 
-  setImports(definitions, imports, [type]);
+  setImports(definitions, imports, [def.type]);
 
-  return exportInterface(resultName, formatResult(okDef.type, errorDef.type), inner);
-}
-
-function _tsStructGetterType (definitions: object, structName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): [string, string] {
-  let _type;
-
-  switch (info) {
-    case TypeDefInfo.Compact:
-      _type = (sub as TypeDef).type;
-
-      setImports(definitions, imports, ['Compact']);
-
-      return [_type, formatCompact(_type)];
-
-    case TypeDefInfo.Option:
-      _type = (sub as TypeDef).type;
-
-      setImports(definitions, imports, ['Option']);
-
-      return [_type, formatOption(_type)];
-
-    case TypeDefInfo.Plain:
-      return [type, type];
-
-    case TypeDefInfo.Vec:
-      _type = (sub as TypeDef).type;
-
-      setImports(definitions, imports, ['Vec']);
-
-      return [_type, formatVec(_type)];
-
-    default:
-      throw new Error(`Struct: ${structName}: Unhandled type ${TypeDefInfo[info]}`);
-  }
+  return exportInterface(def.name, formatType(definitions, def, imports), inner);
 }
 
 function tsSet (definitions: object, { name: setName, sub }: TypeDef, imports: TypeImports): string {
@@ -166,10 +99,10 @@ function tsSet (definitions: object, { name: setName, sub }: TypeDef, imports: T
 }
 
 function tsStruct (definitions: object, { name: structName, sub }: TypeDef, imports: TypeImports): string {
-  const keys = (sub as TypeDef[]).map((typedef): string => {
-    const [embedType, returnType] = _tsStructGetterType(definitions, structName, typedef, imports);
+  setImports(definitions, imports, ['Struct']);
 
-    setImports(definitions, imports, ['Struct', embedType]);
+  const keys = (sub as TypeDef[]).map((typedef): string => {
+    const returnType = formatType(definitions, typedef, imports);
 
     return createGetter(definitions, typedef.name, returnType, imports);
   });
@@ -177,49 +110,20 @@ function tsStruct (definitions: object, { name: structName, sub }: TypeDef, impo
   return exportInterface(structName, 'Struct', keys.join(''));
 }
 
-function _tsTupleGetterType (definitions: object, tupleName: string | undefined, { info, sub, type }: TypeDef, imports: TypeImports): string {
-  switch (info) {
-    case TypeDefInfo.Option:
-      setImports(definitions, imports, ['Option', (sub as TypeDef).type]);
-
-      return type;
-
-    case TypeDefInfo.Plain:
-      setImports(definitions, imports, [type]);
-
-      return type;
-
-    default:
-      throw new Error(`Struct: ${tupleName}: Unhandled type ${TypeDefInfo[info]}`);
-  }
-}
-
-function tsTuple (definitions: object, { name: tupleName, sub }: TypeDef, imports: TypeImports): string {
-  setImports(definitions, imports, ['ITuple']);
-
-  const types = (sub as TypeDef[]).map((typedef): string =>
-    _tsTupleGetterType(definitions, tupleName, typedef, imports)
-  );
-
-  return exportType(tupleName, formatTuple(types));
-}
-
-function tsVec (definitions: object, { ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
-  const type = info === TypeDefInfo.VecFixed
-    ? (ext as TypeDefExtVecFixed).type
-    : (sub as TypeDef).type;
+function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
+  const type = def.info === TypeDefInfo.VecFixed
+    ? (def.ext as TypeDefExtVecFixed).type
+    : (def.sub as TypeDef).type;
 
   // FIXME This should be a VecFixed
   // FIXME Technically Vec has length prefix, so for others this is not 100%
-  if (info === TypeDefInfo.VecFixed && type === 'u8') {
+  if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
     setImports(definitions, imports, ['Codec']);
 
-    return exportType(vectorName, 'Uint8Array, Codec');
+    return exportType(def.name, 'Uint8Array, Codec');
   }
 
-  setImports(definitions, imports, ['Vec', type]);
-
-  return exportType(vectorName, formatVec(type));
+  return exportInterface(def.name, formatType(definitions, def, imports));
 }
 
 function generateInterfaces (definitions: object, { types }: { types: Record<string, any> }, imports: Imports): [string, string][] {
