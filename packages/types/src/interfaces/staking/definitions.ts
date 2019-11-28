@@ -78,6 +78,9 @@ export default {
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      commission: 'Perbill'
+    },
+    ValidatorPrefs146to196: {
       validatorPayment: 'Compact<Balance>'
     },
     ValidatorPrefs0to145: {

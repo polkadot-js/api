@@ -19,7 +19,7 @@ import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingP
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
-import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces/staking';
+import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefs0to145, ValidatorPrefs146to196 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, Event, EventId, EventIndex, EventRecord, EventRecord0to76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -662,6 +662,9 @@ export interface InterfaceRegistry {
   ValidatorPrefs: ValidatorPrefs;
   'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
   'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
+  ValidatorPrefs146to196: ValidatorPrefs146to196;
+  'Option<ValidatorPrefs146to196>': Option<ValidatorPrefs146to196>;
+  'Vec<ValidatorPrefs146to196>': Vec<ValidatorPrefs146to196>;
   ValidatorPrefs0to145: ValidatorPrefs0to145;
   'Option<ValidatorPrefs0to145>': Option<ValidatorPrefs0to145>;
   'Vec<ValidatorPrefs0to145>': Vec<ValidatorPrefs0to145>;
