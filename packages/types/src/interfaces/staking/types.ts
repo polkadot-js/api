@@ -151,8 +151,8 @@ export interface UnlockChunk extends Struct {
 
 /** Struct */
 export interface ValidatorPrefs extends Struct {
-  /** Perbill */
-  readonly commission: Perbill;
+  /** Compact<Perbill> */
+  readonly commission: Compact<Perbill>;
 }
 
 /** Struct */
