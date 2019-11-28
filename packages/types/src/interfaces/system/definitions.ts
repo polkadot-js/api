@@ -17,7 +17,7 @@ export default {
       event: 'Event',
       topics: 'Vec<Hash>'
     },
-    EventRecord0to76: {
+    EventRecordTo76: {
       phase: 'Phase',
       event: 'Event'
     },
