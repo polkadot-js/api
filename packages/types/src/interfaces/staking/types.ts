@@ -156,7 +156,7 @@ export interface ValidatorPrefs extends Struct {
 }
 
 /** Struct */
-export interface ValidatorPrefs0to145 extends Struct {
+export interface ValidatorPrefsTo145 extends Struct {
   /** Compact<u32> */
   readonly unstakeThreshold: Compact<u32>;
   /** Compact<Balance> */
@@ -164,7 +164,7 @@ export interface ValidatorPrefs0to145 extends Struct {
 }
 
 /** Struct */
-export interface ValidatorPrefs146to196 extends Struct {
+export interface ValidatorPrefsTo196 extends Struct {
   /** Compact<Balance> */
   readonly validatorPayment: Compact<Balance>;
 }

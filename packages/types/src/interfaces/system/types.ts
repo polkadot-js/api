@@ -37,7 +37,7 @@ export interface EventRecord extends Struct {
 }
 
 /** Struct */
-export interface EventRecord0to76 extends Struct {
+export interface EventRecordTo76 extends Struct {
   /** Phase */
   readonly phase: Phase;
   /** Event */

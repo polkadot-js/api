@@ -80,10 +80,10 @@ export default {
     ValidatorPrefs: {
       commission: 'Perbill'
     },
-    ValidatorPrefs146to196: {
+    ValidatorPrefsTo196: {
       validatorPayment: 'Compact<Balance>'
     },
-    ValidatorPrefs0to145: {
+    ValidatorPrefsTo145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }
