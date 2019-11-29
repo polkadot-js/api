@@ -3,8 +3,8 @@
 
 import { Observable } from 'rxjs';
 import { Option, U8a, Vec } from '@polkadot/types/codec';
-import { Bytes, Null, bool, u32, u64 } from '@polkadot/types';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import { Bytes, Null, Perbill, bool, u32, u64 } from '@polkadot/types';
+import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
 import { BalanceLock, VestingSchedule } from '@polkadot/types/interfaces/balances';

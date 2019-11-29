@@ -3,8 +3,8 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { bool, u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
+import { Perbill, bool, u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
 
 /** u32 */
 export interface EraIndex extends u32 {}

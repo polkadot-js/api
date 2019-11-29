@@ -170,12 +170,6 @@ export interface MultiSignature extends Enum {
 /** GenericOrigin */
 export interface Origin extends GenericOrigin {}
 
-/** u32 */
-export interface Perbill extends u32 {}
-
-/** u32 */
-export interface Permill extends u32 {}
-
 /** Null */
 export interface Phantom extends Null {}
 

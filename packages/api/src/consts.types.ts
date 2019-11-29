@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Bytes, u32, u64 } from '@polkadot/types';
-import { Balance, BalanceOf, BlockNumber, Moment, Permill } from '@polkadot/types/interfaces/runtime';
+import { Bytes, Permill, u32, u64 } from '@polkadot/types';
+import { Balance, BalanceOf, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';

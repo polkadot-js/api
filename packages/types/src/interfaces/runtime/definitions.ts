@@ -53,8 +53,6 @@ export default {
     LockIdentifier: '[u8; 8]',
     Moment: 'u64',
     Origin: 'GenericOrigin',
-    Perbill: 'u32',
-    Permill: 'u32',
     Phantom: 'Null',
     PhantomData: 'Null',
     Signature: 'H512',
