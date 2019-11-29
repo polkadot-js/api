@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeRegistry } from './create/registry';
-import PerX, { MAX_BILL, MAX_MILL} from './PerX';
+import PerX, { MAX_BILL, MAX_MILL } from './PerX';
 
 describe('PerX', (): void => {
   const registry = new TypeRegistry();
