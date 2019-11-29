@@ -1,10 +1,14 @@
-# 0.97.0-beta.x
+# 0.97.1
 
 - **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
 - **Breaking change** The metadata classes have been moved from `@polkadot/types` into `@polkadot/metadata`. If you explicitly create `Metadata` classes, you now would need to do so with the `import Metadata from '@polkadot/metadata';` This is a decorated class, where the previous metadata is now available on `Metadata.metadata`, alongside decorated `consts.*`', `tx.*` and `query.*`.
+- **Breaking change** Session `Keys` defaults to 4 keys now (Substrate master), depending on your node config, you would want to override with e.g. `Keys: 'SessionKeys3'` (1, 2, 3, 4, 5 & 6)
+- **Breaking change** `ValidatorPrefs` now default to the new percentage commission model, to use the previous `validatorPayment`, you can override with `ValidatorPrefs: 'ValidatorPrefsTo196'`
 - `api.derive.*` now has built-in memomization
 - Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
-- Aligned all types with the latest Polkadot & Substrate
+- Aligned all types with the latest Polkadot & Substrate, including Kusama CC3
+- Support for Metadata V9, which adjusts the hashing methods of storage entries
+- Support for Metadata V10 (still un-released), which includes prefixed map support
 
 # 0.96.1
 
