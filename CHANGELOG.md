@@ -7,6 +7,8 @@
 - `api.derive.*` now has built-in memomization
 - Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
 - Aligned all types with the latest Polkadot & Substrate, including Kusama CC3
+- Support for Metadata V9, which adjusts the hashing methods of storage entries
+- Support for Metadata V10 (still un-released), which includes prefixed map support
 
 # 0.96.1
 
