@@ -1,3 +1,7 @@
+# 0.98.0-beta.x
+
+- Added PerBill & Permill with `toPercentage` and `fromPercentage` helpers
+
 # 0.97.1
 
 - **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
