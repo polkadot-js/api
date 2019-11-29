@@ -46,7 +46,8 @@ function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance
   // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
   // ""
   const floating = freeBalance.sub(lockedBalance);
-  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance : floating));
+  const extraReceived = isVesting ? freeBalance.sub(vestingTotal) : new BN(0);
+  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance.add(extraReceived) : floating));
 
   return {
     accountId,
