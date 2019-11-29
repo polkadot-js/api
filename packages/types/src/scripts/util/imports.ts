@@ -21,6 +21,9 @@ export interface TypeImports {
   ignoredTypes: string[]; // No need to import these types
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
+  definitions: object; // all definitions
+  typeToModule: Record<string, string>;
+  moduleToPackage: Record<string, string>;
 }
 
 // Maps the types as found to the source location. This is used to generate the
@@ -64,7 +67,26 @@ export function setImports (definitions: object, imports: TypeImports, types: st
 }
 
 // Create an Imports object, can be prefilled with `ignoredTypes`
-export function createImports (definitions: object, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
+export function createImports (importDefinitions: { [importPath: string]: object }, { types }: { types: Record<string, any> } = { types: {} }): TypeImports {
+  const definitions = {} as Record<string, object>;
+  const typeToModule = {} as Record<string, string>;
+  const moduleToPackage = {} as Record<string, string>;
+  for (const [packagePath, packageDef] of Object.entries(importDefinitions)) {
+    for (const [name, moduleDef] of Object.entries(packageDef)) {
+      if (definitions[name]) {
+        throw new Error(`Duplicated module: ${name}. Packages: ${packagePath}, ${moduleToPackage[name]}`);
+      }
+      definitions[name] = moduleDef;
+      moduleToPackage[name] = packagePath;
+      for (const type of Object.keys(moduleDef.types)) {
+        if (typeToModule[type]) {
+          throw new Error(`Duplicated type: ${type}. Modules: ${name}, ${typeToModule[type]}`);
+        }
+        typeToModule[type] = name;
+      }
+    }
+  }
+
   const codecTypes: TypeExist = {};
   const localTypes: TypeExistMap = Object.keys(definitions).reduce((localTypes: Record<string, TypeExist>, moduleName): Record<string, TypeExist> => {
     localTypes[moduleName] = {};
@@ -75,7 +97,7 @@ export function createImports (definitions: object, { types }: { types: Record<s
   const primitiveTypes: TypeExist = {};
   const typesTypes: TypeExist = {};
 
-  const imports = { codecTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes };
+  const imports = { codecTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes, definitions, typeToModule, moduleToPackage };
 
   return imports;
 }

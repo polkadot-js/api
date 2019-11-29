@@ -38,7 +38,7 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');
 
-  const imports = createImports(definitions); // Will hold all needed imports
+  const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
 
   const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
     const storageEntries = generateModule(modul, imports);

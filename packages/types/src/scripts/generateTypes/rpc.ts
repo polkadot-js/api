@@ -14,7 +14,7 @@ export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
   const registry = new TypeRegistry();
-  const imports = createImports(definitions);
+  const imports = createImports({ '@polkadot/types/interfaces': definitions });
 
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {

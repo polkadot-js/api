@@ -154,8 +154,9 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
   });
 }
 
-function generateTsDefFor (definitions: object, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
-  const imports = { ...createImports(definitions, { types }), interfaces: [] } as Imports;
+function generateTsDefFor (importDefinitions: { [importPath: string]: object }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
+  const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
+  const definitions = imports.definitions;
   const interfaces = generateInterfaces(definitions, { types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
@@ -173,7 +174,7 @@ function generateTsDefFor (definitions: object, defName: string, { types }: { ty
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `@polkadot/types/interfaces/${moduleName}`,
+      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
     }))
   ]);
@@ -190,11 +191,12 @@ function generateTsDefFor (definitions: object, defName: string, { types }: { ty
   fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
-export function generateTsDef (definitions: object, outputDir: string): void {
+export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
+  const definitions = importDefinitions[generatingPackage];
   Object.entries(definitions).forEach(([defName, obj]): void => {
     console.log(`Extracting interfaces for ${defName}`);
 
-    generateTsDefFor(definitions, defName, obj, outputDir);
+    generateTsDefFor(importDefinitions, defName, obj, outputDir);
   });
 
   console.log(`Writing ${outputDir}`);
@@ -204,5 +206,11 @@ export function generateTsDef (definitions: object, outputDir: string): void {
 }
 
 export default function generateTsDefDefault (): void {
-  generateTsDef(defaultDefinitions, 'packages/types/src/interfaces');
+  generateTsDef(
+    {
+      '@polkadot/types/interfaces': defaultDefinitions
+    },
+    'packages/types/src/interfaces',
+    '@polkadot/types/interfaces'
+  );
 }
