@@ -21,7 +21,8 @@ const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
   {
     minmax: [0, 1018], // CC2
     types: {
-      Keys: 'SessionKeys4'
+      Keys: 'SessionKeys4',
+      ValidatorPrefs: 'ValidatorPrefsTo196'
     }
   },
   {
@@ -46,8 +47,8 @@ const TYPES_META: VersionedType[] = [
     types: {
       BlockNumber: 'u64',
       Index: 'u64',
-      EventRecord: 'EventRecord0to76',
-      ValidatorPrefs: 'ValidatorPrefs0to145'
+      EventRecord: 'EventRecordTo76',
+      ValidatorPrefs: 'ValidatorPrefsTo145'
     }
   }
 ];

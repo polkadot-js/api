@@ -4,7 +4,7 @@
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
 import { bool, u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
+import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
 /** u32 */
 export interface EraIndex extends u32 {}
@@ -151,14 +151,20 @@ export interface UnlockChunk extends Struct {
 
 /** Struct */
 export interface ValidatorPrefs extends Struct {
+  /** Compact<Perbill> */
+  readonly commission: Compact<Perbill>;
+}
+
+/** Struct */
+export interface ValidatorPrefsTo145 extends Struct {
+  /** Compact<u32> */
+  readonly unstakeThreshold: Compact<u32>;
   /** Compact<Balance> */
   readonly validatorPayment: Compact<Balance>;
 }
 
 /** Struct */
-export interface ValidatorPrefs0to145 extends Struct {
-  /** Compact<u32> */
-  readonly unstakeThreshold: Compact<u32>;
+export interface ValidatorPrefsTo196 extends Struct {
   /** Compact<Balance> */
   readonly validatorPayment: Compact<Balance>;
 }

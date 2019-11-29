@@ -78,9 +78,12 @@ export default {
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      commission: 'Compact<Perbill>'
+    },
+    ValidatorPrefsTo196: {
       validatorPayment: 'Compact<Balance>'
     },
-    ValidatorPrefs0to145: {
+    ValidatorPrefsTo145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }
