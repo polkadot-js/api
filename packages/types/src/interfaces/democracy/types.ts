@@ -20,6 +20,8 @@ export interface Conviction extends Enum {
   readonly isLocked4X: boolean;
   /** 5:: Locked5x */
   readonly isLocked5X: boolean;
+  /** 6:: Locked6x */
+  readonly isLocked6X: boolean;
 }
 
 /** u32 */
