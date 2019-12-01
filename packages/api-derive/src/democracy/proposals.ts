@@ -64,7 +64,7 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
                       balance: preImage[2],
                       proposer: preImage[1]
                     },
-                    proposal: createType(api.registry, 'Proposal', preImage[0])
+                    proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true))
                   }
                   : {}
               ),
