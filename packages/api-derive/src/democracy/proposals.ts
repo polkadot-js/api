@@ -43,36 +43,28 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
           ])
         ),
         map(([proposals, _preImages, _depositors]): DeriveProposal[] =>
-          proposals.map(([propIndex, hash, proposer], index): DeriveProposal => {
-            const preImage = _preImages[index]?.isSome ? _preImages[index].unwrap() : null;
-            const depositors = _depositors[index]?.isSome ? _depositors[index].unwrap() : null;
+          proposals
+            .filter(([, , proposer], index): boolean =>
+              !!(_preImages[index]?.isSome) && !!(_depositors[index]?.isSome) && !proposer.isEmpty
+            )
+            .map(([propIndex, hash, proposer], index): DeriveProposal => {
+              const preImage = _preImages[index].unwrap();
+              const depositors = _depositors[index].unwrap();
 
-            return {
-              ...(
-                depositors
-                  ? {
-                    balance: depositors[0],
-                    seconds: depositors[1]
-                  }
-                  : {}
-              ),
-              ...(
-                preImage
-                  ? {
-                    preimage: {
-                      at: preImage[3],
-                      balance: preImage[2],
-                      proposer: preImage[1]
-                    },
-                    proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true))
-                  }
-                  : {}
-              ),
-              hash,
-              index: propIndex,
-              proposer
-            };
-          })
+              return {
+                balance: depositors[0],
+                hash,
+                index: propIndex,
+                preimage: {
+                  at: preImage[3],
+                  balance: preImage[2],
+                  proposer: preImage[1]
+                },
+                proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true)),
+                proposer,
+                seconds: depositors[1]
+              };
+            })
         )
       )
   );
