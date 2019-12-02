@@ -13,7 +13,7 @@ import { Bytes, Option, Vec, createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
+export type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {

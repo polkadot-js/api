@@ -3,23 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumIndex } from '@polkadot/types/interfaces/democracy';
+import { DeriveReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option } from '@polkadot/types';
 
-import { ReferendumInfoExtended } from '../type';
 import { memo } from '../util';
 
-export function referendums (api: ApiInterfaceRx): () => Observable<Option<ReferendumInfoExtended>[]> {
-  return memo((): Observable<Option<ReferendumInfoExtended>[]> =>
+export function referendums (api: ApiInterfaceRx): () => Observable<DeriveReferendum[]> {
+  return memo((): Observable<DeriveReferendum[]> =>
     api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
       api.query.democracy.nextTally,
       api.query.democracy.referendumCount
     ]).pipe(
-      switchMap(([nextTally, referendumCount]): Observable<Option<ReferendumInfoExtended>[]> =>
+      switchMap(([nextTally, referendumCount]): Observable<DeriveReferendum[]> =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? api.derive.democracy.referendumInfos(
             [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i): BN =>

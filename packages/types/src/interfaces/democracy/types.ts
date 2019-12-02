@@ -3,7 +3,7 @@
 
 import { Enum, Struct } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
-import { BlockNumber, Call } from '@polkadot/types/interfaces/runtime';
+import { BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 
 /** Enum */
@@ -37,8 +37,8 @@ export interface ReferendumIndex extends u32 {}
 export interface ReferendumInfo extends Struct {
   /** BlockNumber */
   readonly end: BlockNumber;
-  /** Proposal */
-  readonly proposal: Proposal;
+  /** Hash */
+  readonly proposalHash: Hash;
   /** VoteThreshold */
   readonly threshold: VoteThreshold;
   /** BlockNumber */
