@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Index, Keys, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ReferendumInfo, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { u32 } from '@polkadot/types';
+import { u32, Vec } from '@polkadot/types';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
@@ -77,6 +77,30 @@ export type DerivedHeartbeats = Record<string, DerivedHeartbeatAuthor>;
 export interface RecentlyOffline {
   blockNumber: BlockNumber;
   count: BN;
+}
+
+export interface DeriveProposalPreImage {
+  at: BlockNumber;
+  balance: Balance;
+  proposer: AccountId;
+}
+
+export interface DeriveProposal {
+  balance?: Balance;
+  hash: Hash;
+  index: PropIndex;
+  preimage: DeriveProposalPreImage;
+  proposal: Proposal;
+  proposer: AccountId;
+  seconds: Vec<AccountId>;
+}
+
+export interface DerivedReferendum {
+  hash: Hash;
+  index: PropIndex;
+  info: ReferendumInfo;
+  preimage: DeriveProposalPreImage;
+  proposal: Proposal;
 }
 
 export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;

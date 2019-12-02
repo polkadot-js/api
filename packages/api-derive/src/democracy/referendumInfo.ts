@@ -3,36 +3,58 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { DerivedReferendum } from '../types';
+import { PreImage } from './proposals';
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option } from '@polkadot/types';
-import { isNull } from '@polkadot/util';
+import { Option, createType } from '@polkadot/types';
 
-import { ReferendumInfoExtended } from '../type';
 import { memo } from '../util';
 
-export function constructInfo (api: ApiInterfaceRx, index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
-  const info = optionInfo
-    ? optionInfo.unwrapOr(null)
+function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<ReferendumInfo>, _preimage?: PreImage): DerivedReferendum | null {
+  const preImage = _preimage?.isSome
+    ? _preimage.unwrap()
     : null;
+  const info = (_preimage && _info.unwrapOr(null)) || null;
 
-  return new Option<ReferendumInfoExtended>(
-    api.registry,
-    ReferendumInfoExtended,
-    isNull(info)
-      ? null
-      : new ReferendumInfoExtended(api.registry, info, index)
+  if (!info || !preImage) {
+    return null;
+  }
+
+  return {
+    index: createType(api.registry, 'PropIndex', index),
+    info,
+    hash: info.proposalHash,
+    proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true)),
+    preimage: {
+      at: preImage[3],
+      balance: preImage[2],
+      proposer: preImage[1]
+    }
+  };
+}
+
+export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DerivedReferendum | null> {
+  return ((
+    info?.isSome
+      ? api.query.democracy.preimages<PreImage>(info.unwrap().proposalHash)
+      : of(undefined)
+  ) as Observable<PreImage | undefined>).pipe(
+    map((preimage?: PreImage): DerivedReferendum | null =>
+      constructInfo(api, index, info, preimage)
+    )
   );
 }
 
-export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<Option<ReferendumInfoExtended>> {
-  return memo((index: BN | number): Observable<Option<ReferendumInfoExtended>> =>
+export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<DerivedReferendum | null> {
+  return memo((index: BN | number): Observable<DerivedReferendum | null> =>
     api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index).pipe(
-      map((optionInfo): Option<ReferendumInfoExtended> =>
-        constructInfo(api, index, optionInfo)
+      switchMap((info): Observable<DerivedReferendum | null> =>
+        retrieveInfo(api, index, info)
       )
-    ));
+    )
+  );
 }
