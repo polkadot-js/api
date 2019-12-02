@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Metadata from '@polkadot/metadata';
+import Metadata from '@polkadot/metadata/Decorated';
 import rpcDataV3 from '@polkadot/metadata/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/metadata/Metadata/v4/static';
 import rpcDataV5 from '@polkadot/metadata/Metadata/v5/static';
