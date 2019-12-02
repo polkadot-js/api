@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import { DeriveReferendum } from '../types';
+import { DerivedReferendum } from '../types';
 import { PreImage } from './proposals';
 
 import BN from 'bn.js';
@@ -14,7 +14,7 @@ import { Option, createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<ReferendumInfo>, _preimage?: PreImage): DeriveReferendum | null {
+function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<ReferendumInfo>, _preimage?: PreImage): DerivedReferendum | null {
   const preImage = _preimage?.isSome
     ? _preimage.unwrap()
     : null;
@@ -37,22 +37,22 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<R
   };
 }
 
-export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DeriveReferendum | null> {
+export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DerivedReferendum | null> {
   return ((
     info?.isSome
       ? api.query.democracy.preimages<PreImage>(info.unwrap().proposalHash)
       : of(undefined)
   ) as Observable<PreImage | undefined>).pipe(
-    map((preimage?: PreImage): DeriveReferendum | null =>
+    map((preimage?: PreImage): DerivedReferendum | null =>
       constructInfo(api, index, info, preimage)
     )
   );
 }
 
-export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<DeriveReferendum | null> {
-  return memo((index: BN | number): Observable<DeriveReferendum | null> =>
+export function referendumInfo (api: ApiInterfaceRx): (index: BN | number) => Observable<DerivedReferendum | null> {
+  return memo((index: BN | number): Observable<DerivedReferendum | null> =>
     api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index).pipe(
-      switchMap((info): Observable<DeriveReferendum | null> =>
+      switchMap((info): Observable<DerivedReferendum | null> =>
         retrieveInfo(api, index, info)
       )
     )

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import { DeriveReferendum } from '../types';
+import { DerivedReferendum } from '../types';
 
 import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -14,22 +14,22 @@ import { Option, Vec } from '@polkadot/types';
 import { memo } from '../util';
 import { retrieveInfo } from './referendumInfo';
 
-export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<DeriveReferendum[]> {
-  return memo((ids: (BN | number)[] = []): Observable<DeriveReferendum[]> =>
+export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<DerivedReferendum[]> {
+  return memo((ids: (BN | number)[] = []): Observable<DerivedReferendum[]> =>
     (
       !ids || !ids.length
         ? of([] as Option<ReferendumInfo>[])
         : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vec<Option<ReferendumInfo>>>
     ).pipe(
-      switchMap((infos): Observable<(DeriveReferendum | null)[]> =>
+      switchMap((infos): Observable<(DerivedReferendum | null)[]> =>
         combineLatest(
-          ...ids.map((id, index): Observable<DeriveReferendum | null> =>
+          ...ids.map((id, index): Observable<DerivedReferendum | null> =>
             retrieveInfo(api, id, infos[index])
           )
         )
       ),
-      map((infos): DeriveReferendum[] =>
-        infos.filter((referendum): boolean => !!referendum) as DeriveReferendum[]
+      map((infos): DerivedReferendum[] =>
+        infos.filter((referendum): boolean => !!referendum) as DerivedReferendum[]
       )
     ));
 }

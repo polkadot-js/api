@@ -95,7 +95,7 @@ export interface DeriveProposal {
   seconds: Vec<AccountId>;
 }
 
-export interface DeriveReferendum {
+export interface DerivedReferendum {
   hash: Hash;
   index: PropIndex;
   info: ReferendumInfo;
