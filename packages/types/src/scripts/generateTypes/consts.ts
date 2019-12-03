@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ModuleMetadataLatest } from '../../interfaces/metadata';
+import * as definitions from '../../interfaces/definitions';
 
 import fs from 'fs';
 import staticData from '@polkadot/metadata/Metadata/static';
@@ -17,14 +18,14 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
     return [];
   }
 
-  setImports(imports, ['Codec']);
+  setImports(definitions, imports, ['Codec']);
 
   return [indent(4)(`${stringCamelCase(modul.name.toString())}: {`)]
     .concat(indent(6)('[index: string]: Codec;'))
     .concat(
       modul.constants
         .map((constant): string => {
-          setImports(imports, [constant.type.toString()]);
+          setImports(definitions, imports, [constant.type.toString()]);
 
           return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
         })
@@ -32,12 +33,12 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
+// Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');
 
-  const imports = createImports(); // Will hold all needed imports
+  const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
 
   const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
     const storageEntries = generateModule(modul, imports);
