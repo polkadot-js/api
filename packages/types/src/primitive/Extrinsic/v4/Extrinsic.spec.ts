@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import Decorated from '@polkadot/metadata';
+import Decorated from '@polkadot/metadata/Decorated';
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
