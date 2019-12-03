@@ -15,7 +15,7 @@ import {
 } from '../types';
 
 import BN from 'bn.js';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import RpcCore from '@polkadot/rpc-core';
@@ -23,8 +23,8 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { compactStripLength, u8aToHex } from '@polkadot/util';
+import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
@@ -255,7 +255,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey
+    const decorated = this.hasSubscriptions && creator.iterKey && (creator.meta.type.asMap.kind.isLinkedMap || creator.meta.type.asMap.kind.isPrefixedMap)
       ? creator.meta.type.asMap.kind.isLinkedMap
         ? this.decorateStorageLinked(creator, decorateMethod)
         : this.decorateStoragePrefixed(creator, decorateMethod)
@@ -274,6 +274,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
+
+    decorated.entries = decorateMethod((): Observable<[StorageKey, Codec][]> =>
+      this.retrieveMapEntries(creator));
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
@@ -362,23 +365,43 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
+  private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
+    assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
+
     const outputType = creator.meta.type.asMap.value.toString();
 
+    return this._rpcCore.state
+      // FIXME This should really be some sort of subscription, so we can get stuff as
+      // it changes (as of now it is a one-shot query). Not sure how to do this though...
+      .getKeys(creator.iterKey)
+      .pipe(
+        switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
+          combineLatest([
+            of(keys),
+            // Not 100% sure about this, surely this is just a vec?
+            this._rpcCore.state.subscribeStorage<Vec<Codec>>(
+              keys.map((key) => key.setOutputType(outputType))
+            )
+          ])
+        )
+      );
+  }
+
+  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
+    return this.retrieveMapData(creator).pipe(
+      map(([keys, values]): [StorageKey, Codec][] =>
+        keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
+      )
+    );
+  }
+
+  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
     return decorateMethod((...args: any[]): Observable<Codec> =>
       args.length
         ? this._rpcCore.state
           .subscribeStorage<[Codec]>([[creator, ...args]])
           .pipe(map(([data]): Codec => data))
-        : this._rpcCore.state
-          // FIXME This should really be some sort of subscription, so we can get stuff as
-          // it changes (as of now it is a one-shot query). Not sure how to do this though...
-          .getKeys(creator.iterKey)
-          .pipe(switchMap((keys): Observable<Vec<Codec>> =>
-            this._rpcCore.state.subscribeStorage(
-              keys.map((key) => key.setOutputType(outputType))
-            )
-          ))
+        : this.retrieveMapData(creator).pipe(map(([, values]): Vec<Codec> => values))
     );
   }
 
