@@ -121,8 +121,11 @@ export interface Codec {
   toU8a (isBare?: BareOpts): Uint8Array;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IU8a extends Codec {}
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IU8a extends Uint8Array, Codec {
+  bitLength (): number;
+  toJSON (): any;
+}
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
 export interface IHash extends IU8a { }
