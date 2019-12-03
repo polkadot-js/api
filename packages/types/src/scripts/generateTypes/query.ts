@@ -14,12 +14,21 @@ import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
 import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
 
+// If the StorageEntry returns T, output `Option<T>` if the modifier is optional
+function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: string): string {
+  if (storageEntry.modifier.isOptional) {
+    return `Option<${returnType}>`;
+  }
+
+  return returnType;
+}
+
 // From a storage entry metadata, we return [args, returnType]
 function entrySignature (definitions: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   if (storageEntry.type.isPlain) {
     setImports(definitions, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(definitions, storageEntry.type.asPlain.toString(), imports)];
+    return ['', formatType(definitions, addModifier(storageEntry, storageEntry.type.asPlain.toString()), imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
     const similarTypes = getSimilarTypes(definitions, registry, storageEntry.type.asMap.key.toString(), imports);
@@ -31,7 +40,7 @@ function entrySignature (definitions: object, registry: Registry, storageEntry: 
 
     return [
       `arg: ${similarTypes.map((type) => formatType(definitions, type, imports)).join(' | ')}`,
-      formatType(definitions, storageEntry.type.asMap.value.toString(), imports)
+      formatType(definitions, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similartypes of `key1` and `key2` types
@@ -49,7 +58,7 @@ function entrySignature (definitions: object, registry: Registry, storageEntry: 
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
-      formatType(definitions, storageEntry.type.asDoubleMap.value.toString(), imports)
+      formatType(definitions, addModifier(storageEntry, storageEntry.type.asDoubleMap.value.toString()), imports)
     ];
   }
 
