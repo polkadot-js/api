@@ -48,6 +48,8 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrins
 
   sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
+  signAsync(account: IKeyringPair, _options: Partial<SignatureOptions>): Promise<this>;
+
   signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
   signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;

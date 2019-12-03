@@ -49,15 +49,23 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       this._ignoreStatusCb = apiType === 'rxjs';
     }
 
-    // sign a transaction, returning the this to allow cianing, i.e. .sign(...).send()
+    // sign a transaction, returning the this to allow chaining, i.e. .sign(...).send()
     public sign (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): this {
-      // NOTE here we actually override nonce if it was specified (backwards compat for
-      // the previous signature - don't let userspace break, but allow then time to upgrade)
-      const options: Partial<SignerOptions> = isBn(optionsOrNonce) || isNumber(optionsOrNonce)
-        ? { nonce: optionsOrNonce }
-        : optionsOrNonce;
+      super.sign(account, this._makeSignOptions(this._optionsOrNonce(optionsOrNonce), {}));
 
-      super.sign(account, this._makeSignOptions(options, {}));
+      return this;
+    }
+
+    // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
+    //
+    // also supports signing through external signers
+    public async signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): Promise<this> {
+      if (this._api.signer) {
+        const options = this._makeSignOptions(this._optionsOrNonce(optionsOrNonce), {});
+        await this._signViaSigner(account.address, options, null);
+      } else {
+        this.sign(account, optionsOrNonce);
+      }
 
       return this;
     }
@@ -129,13 +137,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return [options, statusCb];
     }
 
-    private async _signViaSigner (address: string, optionsWithEra: SignatureOptions, header: Header | null): Promise<number> {
+    private async _signViaSigner (address: string, options: SignatureOptions, header: Header | null): Promise<number> {
       if (!this._api.signer) {
         throw new Error('no signer attached');
       }
 
       const payload = createType(this.registry, 'SignerPayload', {
-        ...optionsWithEra,
+        ...options,
         address,
         method: this.method,
         blockNumber: header ? header.number : 0
@@ -257,6 +265,14 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
             this._updateSigner(updateId, status);
           })
         );
+    }
+
+    // NOTE here we actually override nonce if it was specified (backwards compat for
+    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    private _optionsOrNonce = (optionsOrNonce: Partial<SignerOptions>): Partial<SignerOptions> => {
+      return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
+        ? { nonce: optionsOrNonce }
+        : optionsOrNonce;
     }
   };
 }
