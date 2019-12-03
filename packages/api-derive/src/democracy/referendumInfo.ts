@@ -15,12 +15,14 @@ import { Option, createType } from '@polkadot/types';
 import { memo } from '../util';
 
 function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<ReferendumInfo>, _preimage?: PreImage): DerivedReferendum | null {
+  console.log(JSON.stringify(_info), JSON.stringify(_preimage));
+
   const preImage = _preimage?.isSome
     ? _preimage.unwrap()
     : null;
-  const info = (_preimage && _info.unwrapOr(null)) || null;
+  const info = _info.unwrapOr(null);
 
-  if (!info || !preImage) {
+  if (!info) {
     return null;
   }
 
@@ -28,16 +30,22 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<R
     index: createType(api.registry, 'PropIndex', index),
     info,
     hash: info.proposalHash,
-    proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true)),
-    preimage: {
-      at: preImage[3],
-      balance: preImage[2],
-      proposer: preImage[1]
-    }
+    proposal: preImage
+      ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
+      : undefined,
+    preimage: preImage
+      ? {
+        at: preImage[3],
+        balance: preImage[2],
+        proposer: preImage[1]
+      }
+      : undefined
   };
 }
 
 export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DerivedReferendum | null> {
+  console.log(JSON.stringify(info));
+
   return ((
     info?.isSome
       ? api.query.democracy.preimages<PreImage>(info.unwrap().proposalHash)

@@ -89,8 +89,8 @@ export interface DeriveProposal {
   balance?: Balance;
   hash: Hash;
   index: PropIndex;
-  preimage: DeriveProposalPreImage;
-  proposal: Proposal;
+  preimage?: DeriveProposalPreImage;
+  proposal?: Proposal;
   proposer: AccountId;
   seconds: Vec<AccountId>;
 }
@@ -99,8 +99,8 @@ export interface DerivedReferendum {
   hash: Hash;
   index: PropIndex;
   info: ReferendumInfo;
-  preimage: DeriveProposalPreImage;
-  proposal: Proposal;
+  preimage?: DeriveProposalPreImage;
+  proposal?: Proposal;
 }
 
 export type DerivedRecentlyOffline = Record<string, RecentlyOffline[]>;

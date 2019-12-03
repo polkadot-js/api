@@ -48,19 +48,23 @@ export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal
               !!(_preImages[index]?.isSome) && !!(_depositors[index]?.isSome) && !proposer.isEmpty
             )
             .map(([propIndex, hash, proposer], index): DeriveProposal => {
-              const preImage = _preImages[index].unwrap();
+              const preImage = _preImages[index].unwrapOr(null);
               const depositors = _depositors[index].unwrap();
 
               return {
                 balance: depositors[0],
                 hash,
                 index: propIndex,
-                preimage: {
-                  at: preImage[3],
-                  balance: preImage[2],
-                  proposer: preImage[1]
-                },
-                proposal: createType(api.registry, 'Proposal', preImage[0].toU8a(true)),
+                preimage: preImage
+                  ? {
+                    at: preImage[3],
+                    balance: preImage[2],
+                    proposer: preImage[1]
+                  }
+                  : undefined,
+                proposal: preImage
+                  ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
+                  : undefined,
                 proposer,
                 seconds: depositors[1]
               };
