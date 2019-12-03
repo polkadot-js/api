@@ -78,4 +78,16 @@ describe('ApiPromise', (): void => {
       ).toEqual(SIG);
     });
   });
+
+  describe('decorator.signAsync', (): void => {
+    it('signs a transfer using an external signer', async (): Promise<void> => {
+      const api = await ApiPromise.create({ provider, registry });
+      api.setSigner(new SingleAccountSigner(registry, keyring.alice_session));
+      const transfer = api.tx.balances.transfer(keyring.eve.address, 12345);
+      const dummySignature = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+      expect(transfer.signature.toHex()).toEqual(dummySignature);
+      await transfer.signAsync(keyring.alice_session, {});
+      expect(transfer.signature.toHex()).not.toEqual(dummySignature);
+    });
+  });
 });
