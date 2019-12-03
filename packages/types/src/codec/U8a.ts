@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, IHash, Registry } from '../types';
+import { AnyU8a, IHash, IU8a, Registry } from '../types';
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -16,7 +16,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
  * actual lengths instead of used directly.
  * @noInheritDoc
  */
-export default class U8a extends Uint8Array implements Codec {
+export default class U8a extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {
