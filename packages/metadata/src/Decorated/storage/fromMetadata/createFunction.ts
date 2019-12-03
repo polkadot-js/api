@@ -212,7 +212,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
 
     if (map.kind.isLinkedMap) {
       extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher, options.metaVersion);
-    } else if (map.kind.isPrefixedMap) {
+    } else {
       extendPrefixedMap(registry, itemFn, storageFn);
     }
   }
