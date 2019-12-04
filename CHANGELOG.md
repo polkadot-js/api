@@ -1,3 +1,12 @@
+# 0.98.1
+
+- Make the TypeScript generation script mor re-usable (Thanks to @xlc)
+- Add `.entries()` for all map-types, returning storage keys and values
+- Add `.signAsync` to submittable extrinsics (Thanks to @c410-f3r)
+- Cleanup circular references between internal dependencies
+- Support for new Substrate democracy with preimages in derive
+- Alignment of types with Substrate/Polkadot master branches
+
 # 0.97.1
 
 - **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
