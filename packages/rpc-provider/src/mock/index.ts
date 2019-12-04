@@ -75,7 +75,7 @@ export default class Mock implements ProviderInterface {
     };
 
     return subs;
-  }, ({} as unknown as MockStateSubscriptions));
+  }, ({} as MockStateSubscriptions));
 
   private subscriptionId = 0;
 

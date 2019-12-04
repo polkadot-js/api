@@ -199,10 +199,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         }
 
         return section;
-      }, {} as unknown as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
+      }, {} as DecoratedRpcSection<ApiType, RpcInterface[typeof sectionName]>);
 
       return out;
-    }, {} as unknown as DecoratedRpc<ApiType, RpcInterface>);
+    }, {} as DecoratedRpc<ApiType, RpcInterface>);
   }
 
   protected decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
@@ -223,10 +223,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         out[name] = this.decorateExtrinsicEntry(method, creator);
 
         return out;
-      }, {} as unknown as SubmittableModuleExtrinsics<ApiType>);
+      }, {} as SubmittableModuleExtrinsics<ApiType>);
 
       return out;
-    }, creator as unknown as SubmittableExtrinsics<ApiType>);
+    }, creator as SubmittableExtrinsics<ApiType>);
   }
 
   private decorateExtrinsicEntry<ApiType extends ApiTypes> (method: CallFunction, creator: (value: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>): SubmittableExtrinsicFunction<ApiType> {
@@ -242,10 +242,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
         out[name] = this.decorateStorageEntry(method, decorateMethod);
 
         return out;
-      }, {} as unknown as QueryableModuleStorage<ApiType>);
+      }, {} as QueryableModuleStorage<ApiType>);
 
       return out;
-    }, {} as unknown as QueryableStorage<ApiType>);
+    }, {} as QueryableStorage<ApiType>);
   }
 
   private decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {

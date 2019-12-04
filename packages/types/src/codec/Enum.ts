@@ -39,7 +39,7 @@ function extractDef (registry: Registry, _def: Record<string, InterfaceTypes | C
       def[key] = Null;
 
       return def;
-    }, {} as unknown as TypesDef),
+    }, {} as TypesDef),
     isBasic: true
   };
 }
