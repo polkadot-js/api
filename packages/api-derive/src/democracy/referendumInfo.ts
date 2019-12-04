@@ -15,8 +15,6 @@ import { Option, createType } from '@polkadot/types';
 import { memo } from '../util';
 
 function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<ReferendumInfo>, _preimage?: PreImage): DerivedReferendum | null {
-  console.log(JSON.stringify(_info), JSON.stringify(_preimage));
-
   const preImage = _preimage?.isSome
     ? _preimage.unwrap()
     : null;
@@ -44,8 +42,6 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<R
 }
 
 export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DerivedReferendum | null> {
-  console.log(JSON.stringify(info));
-
   return ((
     info?.isSome
       ? api.query.democracy.preimages<PreImage>(info.unwrap().proposalHash)
