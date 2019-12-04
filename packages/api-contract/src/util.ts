@@ -5,10 +5,11 @@
 import { Codec, Registry, TypeDefInfo, TypeDef } from '@polkadot/types/types';
 
 import { Data, Option, createClass } from '@polkadot/types';
+import { compactStripLength } from '@polkadot/util';
 import { createTypeUnsafe } from '@polkadot/types/codec';
 
 export function formatData (registry: Registry, data: Data, { info, type }: TypeDef): Codec {
-  const u8a = data.toU8a();
+  const [, u8a] = compactStripLength(data.toU8a());
 
   if (info === TypeDefInfo.Option) {
     return new Option(
