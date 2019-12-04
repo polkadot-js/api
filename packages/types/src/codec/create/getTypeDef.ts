@@ -73,7 +73,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
   // as a first round, only u8 via u8aFixed, we can add more support
   assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-  value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
+  value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
 
   return value;
 }

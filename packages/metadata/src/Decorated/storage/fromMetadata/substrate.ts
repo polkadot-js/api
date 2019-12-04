@@ -24,7 +24,7 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
         modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
         type: createType(registry, 'StorageEntryTypeLatest', type, 0),
         toJSON: (): any => key
-      } as unknown as StorageEntryMetadataLatest,
+      } as StorageEntryMetadataLatest,
       method,
       prefix: 'Substrate',
       section: 'substrate'

@@ -39,7 +39,7 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
       }, { metaVersion: metadata.version });
 
       return newModule;
-    }, {} as unknown as ModuleStorage);
+    }, {} as ModuleStorage);
 
     return result;
   }, { ...getStorage(registry, metadata.version) });

@@ -28,7 +28,7 @@ export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | nu
           accountId,
           balance: balances[index].votingBalance || createType(api.registry, 'Balance'),
           vote: votes[index] || createType(api.registry, 'Vote')
-        } as unknown as DerivedReferendumVote))
+        } as DerivedReferendumVote))
       )
     ));
 }

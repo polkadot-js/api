@@ -37,7 +37,7 @@ export default class Struct<
 
   protected _Types: ConstructorDef;
 
-  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(registry, Types);
     const decoded: T = Struct.decodeStruct(registry, Clazzes, value, jsonMap);
 
@@ -75,9 +75,9 @@ export default class Struct<
         (raw as any)[key] = values[index];
 
         return raw;
-      }, {} as unknown as T);
+      }, {} as T);
     } else if (!value) {
-      return {} as unknown as T;
+      return {} as T;
     }
 
     // We assume from here that value is a JS object (Array, Map, Object)
@@ -114,7 +114,7 @@ export default class Struct<
       }
 
       return raw;
-    }, {} as unknown as T);
+    }, {} as T);
   }
 
   public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
@@ -162,7 +162,7 @@ export default class Struct<
         (result as any)[key] = new Type(this.registry).toRawType();
 
         return result;
-      }, {} as unknown as E);
+      }, {} as E);
   }
 
   /**
@@ -240,7 +240,7 @@ export default class Struct<
       result[key] = new Type(registry).toRawType();
 
       return result;
-    }, {} as unknown as Record<string, string>);
+    }, {} as Record<string, string>);
   }
 
   /**

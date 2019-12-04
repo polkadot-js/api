@@ -129,7 +129,7 @@ export default class Call extends Struct implements IMethod {
       result[name.toString()] = Type;
 
       return result;
-    }, {} as unknown as ArgsDef);
+    }, {} as ArgsDef);
   }
 
   /**

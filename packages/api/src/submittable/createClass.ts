@@ -174,7 +174,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         genesisHash: this._api.genesisHash,
         runtimeVersion: this._api.runtimeVersion,
         version: this._api.extrinsicType
-      } as unknown as SignatureOptions;
+      } as SignatureOptions;
     }
 
     private _makeEraOptions (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions {
