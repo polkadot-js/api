@@ -24,7 +24,7 @@ describe('subscribe', (): void => {
 
   it('returns a subscription id', (): Promise<void> => {
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => undefined)
       .then((id): void => {
         expect(id).toEqual(1);
       });
