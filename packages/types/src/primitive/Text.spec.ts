@@ -19,7 +19,7 @@ describe('Text', (): void => {
     testDecode('string', 'foo', 'foo');
     testDecode('Text', new Text(registry, 'foo'), 'foo');
     testDecode('Uint8Array', Uint8Array.from([12, 102, 111, 111]), 'foo');
-    testDecode('U8a', new U8a(registry, Uint8Array.from([12, 102, 111, 111])), 'foo');
+    testDecode('U8a', new U8a(registry, Uint8Array.from([102, 111, 111])), 'foo'); // no length
     testDecode('object with `toString()`', { toString (): string { return 'foo'; } }, 'foo');
     testDecode('hex input value', new Text(registry, '0x12345678'), '0x12345678', 'toHex');
   });
