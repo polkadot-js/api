@@ -44,7 +44,7 @@ describe('methodSend', (): void => {
     const method = (rpc as any).createMethodSend(methods.blah);
 
     method().subscribe(
-      (): void => {},
+      (): void => undefined,
       (error: Error): void => {
         expect(error.message).toMatch(/blah\(foo: Bytes\): Bytes/);
         done();
@@ -57,7 +57,7 @@ describe('methodSend', (): void => {
     const method = (rpc as any).createMethodSend(methods.bleh);
 
     method(1).subscribe(
-      (): void => {},
+      (): void => undefined,
       (error: Error): void => {
         expect(error.message).toMatch(/parameters, 1 found instead/);
         done();

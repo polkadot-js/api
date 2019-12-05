@@ -52,7 +52,7 @@ export function describeE2E (options?: Options): (message: string, inner: (wsUrl
     const wsEndpoints = getWsEndpoints(options);
     if (!wsEndpoints.length) {
       describe('Empty test Suite', (): void => {
-        it('No tests found for passed endpoints', (): void => {});
+        it('No tests found for passed endpoints', (): void => undefined);
       });
     } else {
       wsEndpoints.map((wsName): [string, string] => [wsName, WS_ENDPOINTS[wsName]])
