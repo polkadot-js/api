@@ -9,6 +9,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { createType } from '../codec/create';
 import Compact from '../codec/Compact';
+import U8a from '../codec/U8a';
 
 /**
  * @name Text
@@ -35,6 +36,12 @@ export default class Text extends String implements Codec {
     } else if (value instanceof Uint8Array) {
       if (!value.length) {
         return '';
+      }
+
+      // for U8a, the internal buffer does not have an internal length
+      // (the same applies in e.g. Bytes, where length is added at encoding-time)
+      if (value instanceof U8a) {
+        return u8aToString(value);
       }
 
       const [offset, length] = Compact.decodeU8a(value);
