@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJsonObject, Registry } from '@polkadot/types/types';
 
-import MetadataV8 from '../v8';
+import { createType } from '@polkadot/types';
 
 /**
- * @description Convert from MetadataV8 to a stripped representation of MetadataV8
+ * @description Convert from MetadataLatest to a stripped representation of MetadataLatest
  */
-export default function toCallsOnly (registry: Registry, { modules }: MetadataV8): AnyJsonObject | string {
-  return new MetadataV8(registry, {
+export default function toCallsOnly (registry: Registry, { modules }: MetadataLatest): AnyJsonObject | string {
+  return createType(registry, 'MetadataLatest', {
     // FIXME, this needs typing, not any
     modules: modules.map(({ calls, name }): any => ({
       name,

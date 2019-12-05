@@ -20,7 +20,7 @@ import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import { Metadata, u64 } from '@polkadot/types';
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './base';
 
@@ -110,6 +110,7 @@ interface StorageEntryPromiseMulti {
 export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunction> {
   at: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
   creator: StorageEntry;
+  entries: () => PromiseOrObs<ApiType, [StorageKey, ObsInnerType<ReturnType<F>>][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   key: (...args: Parameters<F>) => string;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;

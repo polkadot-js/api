@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec, IHash, Registry } from '../types';
+import { AnyJson, BareOpts, Codec, IHash, Registry } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -75,7 +75,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: BareOpts): Uint8Array {
     return this.raw.toU8a(isBare);
   }
 

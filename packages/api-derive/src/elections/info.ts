@@ -52,9 +52,8 @@ function derivePhragmen (api: ApiInterfaceRx, candidates: AccountId[], members: 
     candidateCount: createType(api.registry, 'u32', candidates.length),
     candidacyBond,
     desiredSeats,
-    members,
-    // place in most-likely-to-be-in order
-    runnersUp: runnersUp.reverse(),
+    members: members.sort((a, b): number => b[1].cmp(a[1])),
+    runnersUp: runnersUp.sort((a, b): number => b[1].cmp(a[1])),
     termDuration,
     votingBond
   };

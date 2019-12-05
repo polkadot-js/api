@@ -4,17 +4,15 @@
 
 import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
-import { Balance, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
 
 import BN from 'bn.js';
 
-import Compact from './codec/Compact';
-import U8a from './codec/U8a';
 import { InterfaceRegistry } from './interfaceRegistry';
-import Call from './primitive/Generic/Call';
-import Address from './primitive/Generic/Address';
 
 export * from './codec/types';
+
+export type BareOpts = boolean | Record<string, boolean>;
 
 export type InterfaceTypes = keyof InterfaceRegistry;
 
@@ -120,11 +118,24 @@ export interface Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array;
+  toU8a (isBare?: BareOpts): Uint8Array;
+}
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface IU8a extends Uint8Array, Codec {
+  bitLength (): number;
+  toJSON (): any;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix,@typescript-eslint/no-empty-interface
-export interface IHash extends U8a { }
+export interface IHash extends IU8a { }
+
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface ICompact<T> extends Codec {
+  toBn (): BN;
+  toNumber (): number;
+  unwrap (): T;
+}
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
@@ -179,10 +190,10 @@ export interface IMethod extends Codec {
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
-  readonly nonce: Compact<Index>;
+  readonly nonce: ICompact<Index>;
   readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
-  readonly tip: Compact<Balance>;
+  readonly tip: ICompact<Balance>;
 }
 
 export interface ExtrinsicPayloadValue {

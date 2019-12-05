@@ -171,7 +171,7 @@ export default class Rpc implements RpcInterface {
           : this.createMethodSend(def);
 
         return exposed;
-      }, {} as unknown as RpcInterface[Section]);
+      }, {} as RpcInterface[Section]);
   }
 
   private createMethodSend (method: RpcMethod): RpcInterfaceMethod {

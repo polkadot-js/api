@@ -10,7 +10,6 @@ import { assert } from '@polkadot/util';
 import BTreeMap from '../BTreeMap';
 import Compact from '../Compact';
 import Enum from '../Enum';
-import Linkage from '../Linkage';
 import Option from '../Option';
 import Result from '../Result';
 import CodecSet from '../Set';
@@ -65,12 +64,19 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  [TypeDefInfo.DoubleMap]: (registry: Registry, value: TypeDef): Constructor => getTypeClass(registry, getSubDef(value)),
-
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
 
-  [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => Linkage.withKey(getSubType(value)),
+  // We have circular deps between Linkage & Struct
+  [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
+    const type = `Option<${getSubType(value)}>`;
+    const Clazz = Struct.with({ previous: type, next: type } as any);
+
+    ClassOf.prototype.toRawType = function (): string {
+      return `Linkage<${this.next.toRawType(true)}>`;
+    };
+
+    return Clazz;
+  },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => ClassOf(registry, 'Null'),

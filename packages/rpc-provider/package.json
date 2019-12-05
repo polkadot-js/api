@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-provider",
-  "version": "0.97.0-beta.18",
+  "version": "0.99.0-beta.0",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -26,16 +26,16 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
-    "@polkadot/metadata": "^0.97.0-beta.18",
-    "@polkadot/util": "^1.7.0-beta.7",
-    "@polkadot/util-crypto": "^1.7.0-beta.7",
+    "@babel/runtime": "^7.7.4",
+    "@polkadot/metadata": "^0.99.0-beta.0",
+    "@polkadot/util": "^1.7.1",
+    "@polkadot/util-crypto": "^1.7.1",
     "eventemitter3": "^4.0.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.30"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^1.7.0-beta.7",
+    "@polkadot/keyring": "^1.7.1",
     "mock-socket": "^9.0.2",
     "nock": "^11.4.0"
   }

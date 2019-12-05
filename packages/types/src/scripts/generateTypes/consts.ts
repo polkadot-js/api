@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ModuleMetadataLatest } from '../../interfaces/metadata';
+import * as definitions from '../../interfaces/definitions';
+
 import fs from 'fs';
-import { ModuleMetadataV8 } from '@polkadot/metadata/Metadata/v8/Metadata';
 import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -11,19 +13,19 @@ import { Metadata, TypeRegistry } from '../..';
 import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
 // Generate types for one module
-function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[] {
+function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (!modul.constants.length) {
     return [];
   }
 
-  setImports(imports, ['Codec']);
+  setImports(definitions, imports, ['Codec']);
 
   return [indent(4)(`${stringCamelCase(modul.name.toString())}: {`)]
     .concat(indent(6)('[index: string]: Codec;'))
     .concat(
       modul.constants
         .map((constant): string => {
-          setImports(imports, [constant.type.toString()]);
+          setImports(definitions, imports, [constant.type.toString()]);
 
           return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
         })
@@ -31,12 +33,12 @@ function generateModule (modul: ModuleMetadataV8, imports: TypeImports): string[
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts` for a particular
+// Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');
 
-  const imports = createImports(); // Will hold all needed imports
+  const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
 
   const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
     const storageEntries = generateModule(modul, imports);

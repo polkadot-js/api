@@ -17,7 +17,9 @@ export default {
         // 4x votes, locked for 8x...
         'Locked4x',
         // 5x votes, locked for 16x...
-        'Locked5x'
+        'Locked5x',
+        /// 6x votes, locked for 32x...
+        'Locked6x'
       ]
     },
     PropIndex: 'u32',
@@ -25,7 +27,7 @@ export default {
     ReferendumIndex: 'u32',
     ReferendumInfo: {
       end: 'BlockNumber',
-      proposal: 'Proposal',
+      proposalHash: 'Hash',
       threshold: 'VoteThreshold',
       delay: 'BlockNumber'
     }

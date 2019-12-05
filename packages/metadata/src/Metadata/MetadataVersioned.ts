@@ -2,22 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV0, MetadataV1 } from '@polkadot/types/interfaces/metadata';
+import { MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, MetadataV10 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
+import { createType } from '@polkadot/types/codec/create/createType';
+import Struct from '@polkadot/types/codec/Struct';
 import { assert } from '@polkadot/util';
 
-import Enum from '@polkadot/types/codec/Enum';
-import Struct from '@polkadot/types/codec/Struct';
-
 import MagicNumber from './MagicNumber';
-import MetadataV2 from './v2';
-import MetadataV3 from './v3';
-import MetadataV4 from './v4';
-import MetadataV5 from './v5';
-import MetadataV6 from './v6';
-import MetadataV7 from './v7';
-import MetadataV8 from './v8';
 import v0ToV1 from './v0/toV1';
 import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
@@ -26,178 +18,13 @@ import v4ToV5 from './v4/toV5';
 import v5ToV6 from './v5/toV6';
 import v6ToV7 from './v6/toV7';
 import v7ToV8 from './v7/toV8';
+import v8ToV9 from './v8/toV9';
+import v9ToV10 from './v9/toV10';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7;
-type MetaVersions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7';
-
-class MetadataEnum extends Enum {
-  constructor (registry: Registry, value?: any, index?: number) {
-    super(registry, {
-      V0: 'MetadataV0', // once rolled-out, can replace this with MetadataDeprecated
-      V1: 'MetadataV1', // once rolled-out, can replace this with MetadataDeprecated
-      V2: MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
-      V3: MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
-      V4: MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
-      V5: MetadataV5, // once rolled-out, can replace this with MetadataDeprecated
-      V6: MetadataV6, // once rolled-out, can replace this with MetadataDeprecated
-      V7: MetadataV7, // once rolled-out, can replace this with MetadataDeprecated
-      V8: MetadataV8
-    }, value, index);
-  }
-
-  /**
-   * @description Returns the wrapped values as a V0 object
-   */
-  public get asV0 (): MetadataV0 {
-    assert(this.isV0, `Cannot convert '${this.type}' via asV0`);
-
-    return this.value as MetadataV0;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V1 object
-   */
-  public get asV1 (): MetadataV1 {
-    assert(this.isV1, `Cannot convert '${this.type}' via asV1`);
-
-    return this.value as MetadataV1;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V2 object
-   */
-  public get asV2 (): MetadataV2 {
-    assert(this.isV2, `Cannot convert '${this.type}' via asV2`);
-
-    return this.value as MetadataV2;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V3 object
-   */
-  public get asV3 (): MetadataV3 {
-    assert(this.isV3, `Cannot convert '${this.type}' via asV3`);
-
-    return this.value as MetadataV3;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V4 object
-   */
-  public get asV4 (): MetadataV4 {
-    assert(this.isV4, `Cannot convert '${this.type}' via asV4`);
-
-    return this.value as MetadataV4;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V5 object
-   */
-  public get asV5 (): MetadataV5 {
-    assert(this.isV5, `Cannot convert '${this.type}' via asV5`);
-
-    return this.value as MetadataV5;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V6 object
-   */
-  public get asV6 (): MetadataV6 {
-    assert(this.isV6, `Cannot convert '${this.type}' via asV6`);
-
-    return this.value as MetadataV6;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V7 object
-   */
-  public get asV7 (): MetadataV7 {
-    assert(this.isV7, `Cannot convert '${this.type}' via asV7`);
-
-    return this.value as MetadataV7;
-  }
-
-  /**
-   * @description Returns the wrapped values as a V8 object
-   */
-  public get asV8 (): MetadataV8 {
-    assert(this.isV8, `Cannot convert '${this.type}' via asV8`);
-
-    return this.value as MetadataV8;
-  }
-
-  /**
-   * @description `true` if Deprecated
-   */
-  public get isDeprecated (): boolean {
-    return this.type === 'MetadataDeprectated';
-  }
-
-  /**
-   * @description `true` if V0
-   */
-  public get isV0 (): boolean {
-    return this.type === 'V0';
-  }
-
-  /**
-   * @description `true` if V1
-   */
-  public get isV1 (): boolean {
-    return this.type === 'V1';
-  }
-
-  /**
-   * @description `true` if V2
-   */
-  public get isV2 (): boolean {
-    return this.type === 'V2';
-  }
-
-  /**
-   * @description `true` if V3
-   */
-  public get isV3 (): boolean {
-    return this.type === 'V3';
-  }
-
-  /**
-   * @description `true` if V4
-   */
-  public get isV4 (): boolean {
-    return this.type === 'V4';
-  }
-
-  /**
-   * @description `true` if V5
-   */
-  public get isV5 (): boolean {
-    return this.type === 'V5';
-  }
-
-  /**
-   * @description `true` if V6
-   */
-  public get isV6 (): boolean {
-    return this.type === 'V6';
-  }
-
-  /**
-   * @description `true` if V7
-   */
-  public get isV7 (): boolean {
-    return this.type === 'V7';
-  }
-
-  /**
-   * @description `true` if V8
-   */
-  public get isV8 (): boolean {
-    return this.type === 'V8';
-  }
-}
+type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7 | MetadataV8 | MetadataV9 | MetadataV10;
+type MetaVersions = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7' | 'asV8' | 'asV9' | 'asV10';
 
 /**
  * @name MetadataVersioned
@@ -210,7 +37,7 @@ export default class MetadataVersioned extends Struct {
   constructor (registry: Registry, value?: any) {
     super(registry, {
       magicNumber: MagicNumber,
-      metadata: MetadataEnum
+      metadata: 'MetadataAll'
     }, value);
 
     registry.setMetadata(this);
@@ -223,8 +50,8 @@ export default class MetadataVersioned extends Struct {
   }
 
   private getVersion<T extends MetaMapped, F extends MetaMapped> (version: MetaVersions, fromPrev: (registry: Registry, input: F) => T): T {
-    const asCurr: MetaAsX = `asV${version}` as any;
-    const asPrev: MetaAsX = `asV${version - 1}` as any;
+    const asCurr = `asV${version}` as MetaAsX;
+    const asPrev = `asV${version - 1}` as MetaAsX;
 
     if (this.assertVersion(version)) {
       return this.metadata[asCurr] as T;
@@ -243,7 +70,7 @@ export default class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: new MetadataEnum(this.registry, toCallsOnly(this.registry, this.asLatest), this.version)
+      metadata: createType(this.registry, 'MetadataAll', toCallsOnly(this.registry, this.asLatest), this.version)
     });
   }
 
@@ -313,10 +140,24 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped values as a V9 object
+   */
+  public get asV9 (): MetadataV9 {
+    return this.getVersion(9, v8ToV9);
+  }
+
+  /**
+   * @description Returns the wrapped values as a V10 object
+   */
+  public get asV10 (): MetadataV10 {
+    return this.getVersion(10, v9ToV10);
+  }
+
+  /**
    * @description Returns the wrapped values as a latest version object
    */
-  public get asLatest (): MetadataV8 {
-    return this.asV8;
+  public get asLatest (): MetadataLatest {
+    return this.asV10;
   }
 
   /**
@@ -329,8 +170,8 @@ export default class MetadataVersioned extends Struct {
   /**
    * @description the metadata wrapped
    */
-  private get metadata (): MetadataEnum {
-    return this.get('metadata') as MetadataEnum;
+  private get metadata (): MetadataAll {
+    return this.get('metadata') as MetadataAll;
   }
 
   /**

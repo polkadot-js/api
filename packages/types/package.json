@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "0.97.0-beta.18",
+  "version": "0.99.0-beta.0",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "keywords": [
@@ -26,13 +26,14 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
-    "@polkadot/util": "^1.7.0-beta.7",
-    "@polkadot/util-crypto": "^1.7.0-beta.7",
+    "@babel/runtime": "^7.7.4",
+    "@polkadot/metadata": "^0.99.0-beta.0",
+    "@polkadot/util": "^1.7.1",
+    "@polkadot/util-crypto": "^1.7.1",
     "@types/memoizee": "^0.4.3",
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^1.7.0-beta.7"
+    "@polkadot/keyring": "^1.7.1"
   }
 }

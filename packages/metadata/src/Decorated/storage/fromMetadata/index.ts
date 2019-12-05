@@ -31,16 +31,16 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
     result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 
-      newModule[stringLowerFirst(method)] = createFunction(metadata.registry, {
+      newModule[stringLowerFirst(method)] = createFunction(registry, {
         meta,
         method,
         prefix,
         section
-      });
+      }, { metaVersion: metadata.version });
 
       return newModule;
-    }, {} as unknown as ModuleStorage);
+    }, {} as ModuleStorage);
 
     return result;
-  }, { ...getStorage(registry) });
+  }, { ...getStorage(registry, metadata.version) });
 }

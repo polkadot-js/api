@@ -57,9 +57,12 @@ function initType<T extends Codec = Codec, K extends string = string> (registry:
 // An unsafe version of the `createType` below. It's unsafe because the `type`
 // argument here can be any string, which, if not parseable, will yield a
 // runtime error.
-export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): FromReg<T, K> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function createTypeUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K, params: any[] = [], isPedantic?: boolean): T {
   try {
-    return initType(registry, createClass<T, K>(registry, type), params, isPedantic);
+    // Circle back to isPedenatic when it handles all cases 100% - as of now,
+    // it provides false wraning which is more hinderance than help
+    return initType(registry, createClass<T, K>(registry, type), params); // , isPedantic);
   } catch (error) {
     throw new Error(`createType(${type}):: ${error.message}`);
   }
@@ -72,7 +75,5 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * @param params - The value to instantiate the type with
  */
 export function createType<K extends InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceRegistry[K] {
-  // error TS2589: Type instantiation is excessively deep and possibly infinite.
-  // The above happens with as Constructor<InterfaceRegistry[K]>;
-  return createTypeUnsafe<Codec, K>(registry, type, params) as any;
+  return createTypeUnsafe<InterfaceRegistry[K], K>(registry, type, params);
 }

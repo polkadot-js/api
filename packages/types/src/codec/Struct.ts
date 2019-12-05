@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes, Registry } from '../types';
+import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import U8a from './U8a';
@@ -37,7 +37,7 @@ export default class Struct<
 
   protected _Types: ConstructorDef;
 
-  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as unknown as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(registry, Types);
     const decoded: T = Struct.decodeStruct(registry, Clazzes, value, jsonMap);
 
@@ -75,9 +75,9 @@ export default class Struct<
         (raw as any)[key] = values[index];
 
         return raw;
-      }, {} as unknown as T);
+      }, {} as T);
     } else if (!value) {
-      return {} as unknown as T;
+      return {} as T;
     }
 
     // We assume from here that value is a JS object (Array, Map, Object)
@@ -114,7 +114,7 @@ export default class Struct<
       }
 
       return raw;
-    }, {} as unknown as T);
+    }, {} as T);
   }
 
   public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
@@ -162,7 +162,7 @@ export default class Struct<
         (result as any)[key] = new Type(this.registry).toRawType();
 
         return result;
-      }, {} as unknown as E);
+      }, {} as E);
   }
 
   /**
@@ -240,7 +240,7 @@ export default class Struct<
       result[key] = new Type(registry).toRawType();
 
       return result;
-    }, {} as unknown as Record<string, string>);
+    }, {} as Record<string, string>);
   }
 
   /**
@@ -263,10 +263,17 @@ export default class Struct<
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: BareOpts): Uint8Array {
+    // we have keyof S here, cast to string to make it compatible with isBare
+    const entries = [...this.entries()] as [string, Codec][];
+
     return u8aConcat(
-      ...this.toArray().map((entry): Uint8Array =>
-        entry.toU8a(isBare)
+      ...entries.map(([key, value]): Uint8Array =>
+        value.toU8a(
+          !isBare || isBoolean(isBare)
+            ? isBare
+            : isBare[key]
+        )
       )
     );
   }

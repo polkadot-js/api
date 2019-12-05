@@ -16,6 +16,7 @@ type Item = {
   type: {
     isDoubleMap?: boolean;
     isMap: boolean;
+    isPlain: boolean;
     asDoubleMap?: {
       key1: Text;
       key2: Text;
@@ -25,7 +26,7 @@ type Item = {
       key: Text;
       value: Text;
     };
-    asType: Text;
+    asPlain: Text;
   };
 } & Codec;
 
@@ -152,7 +153,7 @@ function getStorageNames ({ modules }: ExtractionMetadata): string[][][] {
         ];
       } else {
         return [
-          type.asType.toString()
+          type.asPlain.toString()
         ];
       }
     })

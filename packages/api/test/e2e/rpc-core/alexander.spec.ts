@@ -4,7 +4,7 @@
 
 import { BlockNumber, Index, SignedBlock } from '@polkadot/types/interfaces';
 
-import Metadata from '@polkadot/metadata';
+import Metadata from '@polkadot/metadata/Decorated';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { ClassOf, TypeRegistry } from '@polkadot/types';

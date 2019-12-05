@@ -5,7 +5,7 @@
 import { Balance } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-import Metadata from '@polkadot/metadata';
+import Metadata from '@polkadot/metadata/Decorated';
 import rpcMetadataV3 from '@polkadot/metadata/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/metadata/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/metadata/Metadata/v5/static';
@@ -145,15 +145,15 @@ function formattingTests (version: string, decorated: Metadata, encodedValues: [
     });
 
     it('handles fallbacks for linked heads (new metadata only)', (done): void => {
-      const headKey = decorated.query.staking.validators && decorated.query.staking.validators.headKey;
+      const iterKey = decorated.query.staking.validators && decorated.query.staking.validators.iterKey;
 
       // skip for old
-      if (!headKey) {
+      if (!iterKey) {
         return done();
       }
 
       api.state
-        .subscribeStorage([headKey])
+        .subscribeStorage([iterKey])
         .subscribe((value: Codec[]): void => {
           expect(value).toHaveLength(1);
           // console.error('head fallback', value);
@@ -163,10 +163,10 @@ function formattingTests (version: string, decorated: Metadata, encodedValues: [
     });
 
     it('handles fallbacks for linked maps (new metadata only)', (done): void => {
-      const headKey = decorated.query.staking.validators && decorated.query.staking.validators.headKey;
+      const iterKey = decorated.query.staking.validators && decorated.query.staking.validators.iterKey;
 
       // skip for old
-      if (!headKey) {
+      if (!iterKey) {
         return done();
       }
 

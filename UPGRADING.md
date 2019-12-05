@@ -5,7 +5,7 @@ This is an upgrade guide for users of the API. It does not attempt to detail eac
 While we try to keep the user-facing interfaces as stable as possible, sometimes you just need to make additions to move forward and improve things down the road, as painful as they may be. Like you, we are also users of the API, and eat our own dog food - and as such, feel any pains introduced first.
 
 
-## 0.97.1 (and newer), from 0.90.1 (and older)
+## 0.97.1 (and newer)
 
 The 0.97 series lays the groundwork to allow type registration  to be ties to a specific chain and a specific Api instance. In the past, 2 Api instances in the same process would share types, which mean that you could not connect to 2 independent chains with different types. This is very problematic for Polkadot chains, where the idea is to connect to multiple chains.
 

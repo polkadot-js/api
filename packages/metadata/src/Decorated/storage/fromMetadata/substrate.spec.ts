@@ -12,32 +12,32 @@ describe('substrate', (): void => {
   // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
   // have been removed in https://github.com/paritytech/substrate/pull/2802
   it('authorityCount should return the correct storage key', (): void => {
-    expect(authorityCount(registry)()).toEqual(Uint8Array.from([36, 58, 97, 117, 116, 104, 58, 108, 101, 110])); // Length-prefixed
+    expect(authorityCount(registry, 8)()).toEqual(Uint8Array.from([36, 58, 97, 117, 116, 104, 58, 108, 101, 110])); // Length-prefixed
   });
 
   it('authorityPrefix should return the correct storage key', (): void => {
-    expect(authorityPrefix(registry)()).toEqual(Uint8Array.from([24, 58, 97, 117, 116, 104, 58])); // Length-prefixed
+    expect(authorityPrefix(registry, 8)()).toEqual(Uint8Array.from([24, 58, 97, 117, 116, 104, 58])); // Length-prefixed
   });
 
   it('changesTrieConfig should return the correct storage key', (): void => {
-    expect(changesTrieConfig(registry)()).toEqual(Uint8Array.from([52, 58, 99, 104, 97, 110, 103, 101, 115, 95, 116, 114, 105, 101])); // Length-prefixed
+    expect(changesTrieConfig(registry, 8)()).toEqual(Uint8Array.from([52, 58, 99, 104, 97, 110, 103, 101, 115, 95, 116, 114, 105, 101])); // Length-prefixed
   });
 
   it('childStorageKeyPrefix should return the correct storage key', (): void => {
-    expect(childStorageKeyPrefix(registry)()).toEqual(Uint8Array.from([60, 58, 99, 104, 105, 108, 100, 95, 115, 116, 111, 114, 97, 103, 101, 58])); // Length-prefixed
+    expect(childStorageKeyPrefix(registry, 8)()).toEqual(Uint8Array.from([60, 58, 99, 104, 105, 108, 100, 95, 115, 116, 111, 114, 97, 103, 101, 58])); // Length-prefixed
   });
 
   it('code should return the correct storage key', (): void => {
-    expect(code(registry)()).toEqual(Uint8Array.from([20, 58, 99, 111, 100, 101])); // Length-prefixed
+    expect(code(registry, 8)()).toEqual(Uint8Array.from([20, 58, 99, 111, 100, 101])); // Length-prefixed
   });
 
   it('extrinsicIndex should return the correct storage key', (): void => {
-    expect(extrinsicIndex(registry)()).toEqual(
+    expect(extrinsicIndex(registry, 8)()).toEqual(
       Uint8Array.from([64, 58, 101, 120, 116, 114, 105, 110, 115, 105, 99, 95, 105, 110, 100, 101, 120]) // Length-prefixed
     );
   });
 
   it('heapPages should return the correct storage key', (): void => {
-    expect(heapPages(registry)()).toEqual(Uint8Array.from([40, 58, 104, 101, 97, 112, 112, 97, 103, 101, 115])); // Length-prefixed
+    expect(heapPages(registry, 8)()).toEqual(Uint8Array.from([40, 58, 104, 101, 97, 112, 112, 97, 103, 101, 115])); // Length-prefixed
   });
 });

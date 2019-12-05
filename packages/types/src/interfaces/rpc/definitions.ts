@@ -5,6 +5,7 @@
 export default {
   types: {
     ApiId: '[u8; 8]',
+    BlockHash: 'Hash',
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
