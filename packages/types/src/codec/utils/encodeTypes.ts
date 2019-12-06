@@ -53,33 +53,33 @@ function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
 function encodeEnum (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Enum type');
 
-  const isClikeEnum = sub.reduce(
+  const isClikeEnum = typeDef.sub.reduce(
     (bool: boolean, { type }: TypeDef): boolean => bool && type === 'Null',
     true
   );
 
   if (isClikeEnum) {
     return `[${
-      sub
+      typeDef.sub
         .map(({ name }: TypeDef): string => `"${name}"`)
         .join(', ')
     }]`;
   }
 
-  return encodeSubTypes(sub, true);
+  return encodeSubTypes(typeDef.sub, true);
 }
 
 function encodeStruct (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Struct type');
 
-  return encodeSubTypes(sub);
+  return encodeSubTypes(typeDef.sub);
 }
 
 function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.sub && Array.isArray(typeDef.sub), 'Unable to encode Tuple type');
 
   return `(${
-    sub
+    typeDef.sub
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       .map((type: TypeDef): string => encodeType(type))
       .join(', ')
