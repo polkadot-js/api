@@ -92,18 +92,18 @@ export function formatType (definitions: object, type: string | TypeDef, imports
   switch (typeDef.info) {
     case TypeDefInfo.Compact: {
       setImports(definitions, imports, ['Compact']);
-      return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatCompact(formatType(definitions, (typeDef.sub as TypeDef[])[0].type, imports));
     }
     case TypeDefInfo.Option: {
       setImports(definitions, imports, ['Option']);
-      return formatOption(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatOption(formatType(definitions, (typeDef.sub as TypeDef[])[0].type, imports));
     }
     case TypeDefInfo.Plain: {
       return typeDef.type;
     }
     case TypeDefInfo.Vec: {
       setImports(definitions, imports, ['Vec']);
-      return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
+      return formatVec(formatType(definitions, (typeDef.sub as TypeDef[])[0].type, imports));
     }
     case TypeDefInfo.Tuple: {
       setImports(definitions, imports, ['ITuple']);

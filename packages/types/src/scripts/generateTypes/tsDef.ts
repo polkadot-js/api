@@ -113,7 +113,7 @@ function tsStruct (definitions: object, { name: structName, sub }: TypeDef, impo
 function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
   const type = def.info === TypeDefInfo.VecFixed
     ? (def.ext as TypeDefExtVecFixed).type
-    : (def.sub as TypeDef).type;
+    : (def.sub as TypeDef[])[0].type;
 
   // FIXME This should be a VecFixed
   // FIXME Technically Vec has length prefix, so for others this is not 100%

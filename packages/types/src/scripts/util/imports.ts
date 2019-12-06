@@ -4,7 +4,7 @@
 
 import * as codecClasses from '../../codec';
 import { getTypeDef } from '../../codec/create';
-import { TypeDefInfo } from '../../codec/types';
+import { TypeDef, TypeDefInfo } from '../../codec/types';
 import * as primitiveClasses from '../../primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
@@ -51,7 +51,7 @@ export function setImports (definitions: object, imports: TypeImports, types: st
         typeDef.sub.forEach((subType): void => setImports(definitions, imports, [subType.type]));
       } else if (typeDef.sub) {
         // typeDef.sub is a TypeDef in this case
-        setImports(definitions, imports, [typeDef.sub.type]);
+        setImports(definitions, imports, [(typeDef.sub as TypeDef[])[0].type]);
       }
     } else {
       // find this module inside the exports from the rest

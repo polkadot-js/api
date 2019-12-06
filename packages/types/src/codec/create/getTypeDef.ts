@@ -144,7 +144,7 @@ export function getTypeDef (_type: string, { name, displayName }: TypeDefOptions
 
   if (wrapped) {
     value.info = wrapped[2];
-    value.sub = getTypeDef(extractSubType(type, wrapped));
+    value.sub = [getTypeDef(extractSubType(type, wrapped))];
   }
 
   return value;

@@ -20,7 +20,7 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.Compact:
       case TypeDefInfo.Option:
       case TypeDefInfo.Vec:
-        return extractTypes([(decoded.sub as TypeDef).type]);
+        return extractTypes([(decoded.sub as TypeDef[])[0].type]);
 
       case TypeDefInfo.VecFixed:
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);

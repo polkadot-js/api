@@ -245,7 +245,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
     return {
       info: TypeDefInfo.Vec,
       type: `Vec<${type}>`,
-      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+      sub: [this.typeDefFromMetaTypeAt(vecTypeIndex)]
     };
   }
 
@@ -262,7 +262,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
       info: TypeDefInfo.VecFixed,
       ext: { length: vecLength, type },
       type: `[${type};${vecLength}]`,
-      sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
+      sub: [this.typeDefFromMetaTypeAt(vecTypeIndex)]
     };
   }
 
@@ -302,7 +302,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
 
     return {
       info: TypeDefInfo.Option,
-      sub: this.typeDefFromMetaTypeAt(id['custom.params']![0])
+      sub: [this.typeDefFromMetaTypeAt(id['custom.params']![0])]
     };
   }
 

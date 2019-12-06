@@ -25,19 +25,19 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
     {
       info: TypeDefInfo.Option,
       type,
-      sub: def
+      sub: [def]
     },
     {
       info: TypeDefInfo.Vec,
       type,
-      sub: def
+      sub: [def]
     }
   ];
   if (isCompact) {
     types.unshift({
       info: TypeDefInfo.Compact,
       type,
-      sub: def
+      sub: [def]
     });
   }
 
@@ -59,7 +59,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   }
 
   if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
-    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
+    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef[])[0].type, imports).join(' | ')})[]`];
   }
 
   // FIXME This is a hack, it's hard to correctly type StorageKeys in the
