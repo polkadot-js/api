@@ -22,10 +22,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -75,10 +75,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -120,10 +120,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -157,10 +157,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -187,10 +187,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -227,10 +227,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -260,10 +260,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -299,10 +299,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -344,10 +344,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -385,10 +385,10 @@
                                       "length": 32,
                                       "type": "u8"
                                     },
-                                    "sub": {
+                                    "sub": [{
                                       "info": 5,
                                       "type": "u8"
-                                    },
+                                    }],
                                     "index": 0
                                   }
                                 ],
@@ -406,10 +406,10 @@
                                       "length": 32,
                                       "type": "u8"
                                     },
-                                    "sub": {
+                                    "sub": [{
                                       "info": 5,
                                       "type": "u8"
-                                    },
+                                    }],
                                     "index": 0
                                   }
                                 ],
@@ -443,10 +443,10 @@
                                       "length": 32,
                                       "type": "u8"
                                     },
-                                    "sub": {
+                                    "sub": [{
                                       "info": 5,
                                       "type": "u8"
-                                    },
+                                    }],
                                     "index": 0
                                   }
                                 ],
@@ -464,10 +464,10 @@
                                       "length": 32,
                                       "type": "u8"
                                     },
-                                    "sub": {
+                                    "sub": [{
                                       "info": 5,
                                       "type": "u8"
-                                    },
+                                    }],
                                     "index": 0
                                   }
                                 ],
@@ -510,10 +510,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -531,10 +531,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -570,10 +570,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -591,10 +591,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -632,10 +632,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -681,10 +681,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -712,10 +712,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -729,10 +729,10 @@
       "length": 32,
       "type": "u8"
     },
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "u8"
-    }
+    }]
   },
   {
     "info": 5,
@@ -761,10 +761,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -806,10 +806,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -843,10 +843,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -873,10 +873,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -913,10 +913,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -946,10 +946,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -973,10 +973,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -1002,10 +1002,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1051,10 +1051,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1086,10 +1086,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1123,10 +1123,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1153,10 +1153,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1193,10 +1193,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1234,10 +1234,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1264,10 +1264,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1304,10 +1304,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1335,10 +1335,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1365,10 +1365,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1404,10 +1404,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1449,10 +1449,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1490,10 +1490,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -1511,10 +1511,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -1548,10 +1548,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -1569,10 +1569,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -1615,10 +1615,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1636,10 +1636,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1675,10 +1675,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1696,10 +1696,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1729,10 +1729,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1750,10 +1750,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1777,10 +1777,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1818,10 +1818,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -1839,10 +1839,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -1876,10 +1876,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -1897,10 +1897,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -1943,10 +1943,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1964,10 +1964,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -2011,10 +2011,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -2032,10 +2032,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -2069,10 +2069,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -2090,10 +2090,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -2136,10 +2136,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2157,10 +2157,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2194,10 +2194,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2215,10 +2215,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2252,10 +2252,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2273,10 +2273,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -2298,7 +2298,7 @@
   {
     "info": 4,
     "type": "Option<([u8;32])>",
-    "sub": {
+    "sub": [{
       "info": 9,
       "type": "([u8;32])",
       "sub": [
@@ -2309,16 +2309,16 @@
             "length": 32,
             "type": "u8"
           },
-          "sub": {
+          "sub": [{
             "info": 5,
             "type": "u8"
-          },
+          }],
           "index": 0
         }
       ],
       "name": "AccountId",
       "namespace": "ink_core::env::srml::types"
-    },
+    }],
     "name": "Option",
     "params": [
       {
@@ -2332,10 +2332,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],

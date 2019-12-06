@@ -22,10 +22,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 6,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -75,10 +75,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 6,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -124,10 +124,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 6,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -155,10 +155,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 6,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -172,10 +172,10 @@
       "length": 32,
       "type": "u8"
     },
-    "sub": {
+    "sub": [{
       "info": 6,
       "type": "u8"
-    }
+    }]
   },
   {
     "info": 6,

@@ -26,10 +26,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -75,10 +75,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -100,10 +100,10 @@
                           {
                             "info": 10,
                             "type": "Vec<u8>",
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "name": "elems"
                           }
                         ],
@@ -134,10 +134,10 @@
                       {
                         "info": 10,
                         "type": "Vec<u8>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "name": "elems"
                       }
                     ],
@@ -196,10 +196,10 @@
                   {
                     "info": 10,
                     "type": "Vec<u8>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "name": "elems"
                   }
                 ],
@@ -292,10 +292,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -341,10 +341,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -366,10 +366,10 @@
                       {
                         "info": 10,
                         "type": "Vec<u8>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "name": "elems"
                       }
                     ],
@@ -400,10 +400,10 @@
                   {
                     "info": 10,
                     "type": "Vec<u8>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "name": "elems"
                   }
                 ],
@@ -442,10 +442,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -491,10 +491,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -522,10 +522,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -539,10 +539,10 @@
       "length": 32,
       "type": "u8"
     },
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "u8"
-    }
+    }]
   },
   {
     "info": 5,
@@ -567,10 +567,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -592,10 +592,10 @@
                   {
                     "info": 10,
                     "type": "Vec<u8>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "name": "elems"
                   }
                 ],
@@ -626,10 +626,10 @@
               {
                 "info": 10,
                 "type": "Vec<u8>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "name": "elems"
               }
             ],
@@ -656,10 +656,10 @@
           {
             "info": 10,
             "type": "Vec<u8>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "name": "elems"
           }
         ],
@@ -680,10 +680,10 @@
       {
         "info": 10,
         "type": "Vec<u8>",
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "name": "elems"
       }
     ],
@@ -698,10 +698,10 @@
   {
     "info": 10,
     "type": "Vec<u8>",
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "u8"
-    }
+    }]
   },
   {
     "info": 8,
@@ -718,10 +718,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -743,10 +743,10 @@
               {
                 "info": 10,
                 "type": "Vec<u8>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "name": "elems"
               }
             ],
@@ -801,10 +801,10 @@
               {
                 "info": 10,
                 "type": "Vec<u8>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "name": "elems"
               }
             ],
@@ -928,10 +928,10 @@
           {
             "info": 10,
             "type": "Vec<u8>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "name": "elems"
           }
         ],

@@ -26,10 +26,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -71,10 +71,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -108,10 +108,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -125,10 +125,10 @@
                               {
                                 "info": 4,
                                 "type": "Option<u32>",
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u32"
-                                },
+                                }],
                                 "name": "begin",
                                 "params": [
                                   {
@@ -140,10 +140,10 @@
                               {
                                 "info": 4,
                                 "type": "Option<u32>",
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u32"
-                                },
+                                }],
                                 "name": "end",
                                 "params": [
                                   {
@@ -171,10 +171,10 @@
                                   "length": 32,
                                   "type": "u8"
                                 },
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u8"
-                                },
+                                }],
                                 "index": 0
                               }
                             ],
@@ -188,10 +188,10 @@
                               {
                                 "info": 4,
                                 "type": "Option<u32>",
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u32"
-                                },
+                                }],
                                 "name": "begin",
                                 "params": [
                                   {
@@ -203,10 +203,10 @@
                               {
                                 "info": 4,
                                 "type": "Option<u32>",
-                                "sub": {
+                                "sub": [{
                                   "info": 5,
                                   "type": "u32"
-                                },
+                                }],
                                 "name": "end",
                                 "params": [
                                   {
@@ -245,10 +245,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -262,10 +262,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "begin",
                         "params": [
                           {
@@ -277,10 +277,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "end",
                         "params": [
                           {
@@ -312,10 +312,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -329,10 +329,10 @@
               {
                 "info": 4,
                 "type": "Option<u32>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u32"
-                },
+                }],
                 "name": "begin",
                 "params": [
                   {
@@ -344,10 +344,10 @@
               {
                 "info": 4,
                 "type": "Option<u32>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u32"
-                },
+                }],
                 "name": "end",
                 "params": [
                   {
@@ -385,10 +385,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -430,10 +430,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -487,10 +487,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -532,10 +532,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -569,10 +569,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -586,10 +586,10 @@
                           {
                             "info": 4,
                             "type": "Option<u32>",
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u32"
-                            },
+                            }],
                             "name": "begin",
                             "params": [
                               {
@@ -601,10 +601,10 @@
                           {
                             "info": 4,
                             "type": "Option<u32>",
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u32"
-                            },
+                            }],
                             "name": "end",
                             "params": [
                               {
@@ -632,10 +632,10 @@
                               "length": 32,
                               "type": "u8"
                             },
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u8"
-                            },
+                            }],
                             "index": 0
                           }
                         ],
@@ -649,10 +649,10 @@
                           {
                             "info": 4,
                             "type": "Option<u32>",
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u32"
-                            },
+                            }],
                             "name": "begin",
                             "params": [
                               {
@@ -664,10 +664,10 @@
                           {
                             "info": 4,
                             "type": "Option<u32>",
-                            "sub": {
+                            "sub": [{
                               "info": 5,
                               "type": "u32"
-                            },
+                            }],
                             "name": "end",
                             "params": [
                               {
@@ -706,10 +706,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -723,10 +723,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "begin",
                     "params": [
                       {
@@ -738,10 +738,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "end",
                     "params": [
                       {
@@ -773,10 +773,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -790,10 +790,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "begin",
             "params": [
               {
@@ -805,10 +805,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "end",
             "params": [
               {
@@ -834,10 +834,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -851,10 +851,10 @@
       "length": 32,
       "type": "u8"
     },
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "u8"
-    }
+    }]
   },
   {
     "info": 5,
@@ -867,10 +867,10 @@
       {
         "info": 4,
         "type": "Option<u32>",
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u32"
-        },
+        }],
         "name": "begin",
         "params": [
           {
@@ -882,10 +882,10 @@
       {
         "info": 4,
         "type": "Option<u32>",
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u32"
-        },
+        }],
         "name": "end",
         "params": [
           {
@@ -901,10 +901,10 @@
   {
     "info": 4,
     "type": "Option<u32>",
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "u32"
-    },
+    }],
     "name": "Option",
     "params": [
       {
@@ -936,10 +936,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -981,10 +981,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1012,10 +1012,10 @@
           "length": 32,
           "type": "u8"
         },
-        "sub": {
+        "sub": [{
           "info": 5,
           "type": "u8"
-        },
+        }],
         "index": 0
       }
     ],
@@ -1037,10 +1037,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1074,10 +1074,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1091,10 +1091,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "begin",
                         "params": [
                           {
@@ -1106,10 +1106,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "end",
                         "params": [
                           {
@@ -1137,10 +1137,10 @@
                           "length": 32,
                           "type": "u8"
                         },
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u8"
-                        },
+                        }],
                         "index": 0
                       }
                     ],
@@ -1154,10 +1154,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "begin",
                         "params": [
                           {
@@ -1169,10 +1169,10 @@
                       {
                         "info": 4,
                         "type": "Option<u32>",
-                        "sub": {
+                        "sub": [{
                           "info": 5,
                           "type": "u32"
-                        },
+                        }],
                         "name": "end",
                         "params": [
                           {
@@ -1211,10 +1211,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1228,10 +1228,10 @@
               {
                 "info": 4,
                 "type": "Option<u32>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u32"
-                },
+                }],
                 "name": "begin",
                 "params": [
                   {
@@ -1243,10 +1243,10 @@
               {
                 "info": 4,
                 "type": "Option<u32>",
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u32"
-                },
+                }],
                 "name": "end",
                 "params": [
                   {
@@ -1286,10 +1286,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1303,10 +1303,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "begin",
                     "params": [
                       {
@@ -1318,10 +1318,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "end",
                     "params": [
                       {
@@ -1349,10 +1349,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1366,10 +1366,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "begin",
                     "params": [
                       {
@@ -1381,10 +1381,10 @@
                   {
                     "info": 4,
                     "type": "Option<u32>",
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u32"
-                    },
+                    }],
                     "name": "end",
                     "params": [
                       {
@@ -1423,10 +1423,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1440,10 +1440,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "begin",
             "params": [
               {
@@ -1455,10 +1455,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "end",
             "params": [
               {
@@ -1488,10 +1488,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1505,10 +1505,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "begin",
             "params": [
               {
@@ -1520,10 +1520,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "end",
             "params": [
               {
@@ -1551,10 +1551,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1568,10 +1568,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "begin",
             "params": [
               {
@@ -1583,10 +1583,10 @@
           {
             "info": 4,
             "type": "Option<u32>",
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u32"
-            },
+            }],
             "name": "end",
             "params": [
               {
@@ -1624,10 +1624,10 @@
                       "length": 32,
                       "type": "u8"
                     },
-                    "sub": {
+                    "sub": [{
                       "info": 5,
                       "type": "u8"
-                    },
+                    }],
                     "index": 0
                   }
                 ],
@@ -1669,10 +1669,10 @@
                   "length": 32,
                   "type": "u8"
                 },
-                "sub": {
+                "sub": [{
                   "info": 5,
                   "type": "u8"
-                },
+                }],
                 "index": 0
               }
             ],
@@ -1718,10 +1718,10 @@
               "length": 32,
               "type": "u8"
             },
-            "sub": {
+            "sub": [{
               "info": 5,
               "type": "u8"
-            },
+            }],
             "index": 0
           }
         ],
@@ -1798,10 +1798,10 @@
   {
     "info": 4,
     "type": "Option<i32>",
-    "sub": {
+    "sub": [{
       "info": 5,
       "type": "i32"
-    },
+    }],
     "name": "Option",
     "params": [
       {
