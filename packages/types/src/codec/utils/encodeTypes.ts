@@ -21,14 +21,24 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
 }
 
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-  const { sub, params } = typeDef;
+  const { info, sub, params } = typeDef;
 
-  return paramsNotation(
-    outer,
-    params || sub,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    (param: TypeDef) => displayType(param)
-  );
+  switch (info) {
+    case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.Compact:
+    case TypeDefInfo.Linkage:
+    case TypeDefInfo.Option:
+    case TypeDefInfo.Result:
+    case TypeDefInfo.Vec:
+      return paramsNotation(
+        outer,
+        params || sub,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        (param: TypeDef) => displayType(param)
+      );
+    default:
+      return outer;
+  }   
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
