@@ -8,6 +8,7 @@ import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
 import { assert } from '@polkadot/util';
 
 import BTreeMap from '../BTreeMap';
+import BTreeSet from '../BTreeSet';
 import Compact from '../Compact';
 import Enum from '../Enum';
 import Option from '../Option';
@@ -61,6 +62,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return BTreeMap.with(keyType, valueType);
   },
+
+  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor => BTreeSet.with(getSubType(value)),
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 

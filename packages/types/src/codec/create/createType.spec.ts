@@ -26,6 +26,12 @@ describe('createType', (): void => {
     ).toEqual('{"bazzing":69}');
   });
 
+  it('allows creation of a BTreeSet', (): void => {
+    expect(
+      createTypeUnsafe(registry, 'BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
+    ).toEqual('[2,24,30,80]');
+  });
+
   it('allows creation of a Result', (): void => {
     expect(
       createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
