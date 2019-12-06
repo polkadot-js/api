@@ -26,14 +26,14 @@ function getSubDefArray (value: TypeDef): TypeDef[] {
   return value.sub;
 }
 
-function getSubDef (value: TypeDef): TypeDef {
-  assert(value.sub && !Array.isArray(value.sub), `Expected subtype as TypeDef in ${JSON.stringify(value)}`);
+function getSubDef (value: TypeDef): TypeDef[] {
+  assert(value.sub && Array.isArray(value.sub) && value.sub.length === 1, `Expected subtype as TypeDef in ${JSON.stringify(value)}`);
 
   return value.sub;
 }
 
 function getSubType (value: TypeDef): InterfaceTypes {
-  return getSubDef(value).type as InterfaceTypes;
+  return getSubDef(value)[0].type as InterfaceTypes;
 }
 
 // create a maps of type string constructors from the input

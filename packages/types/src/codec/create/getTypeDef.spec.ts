@@ -109,26 +109,26 @@ describe('getTypeDef', (): void => {
         {
           info: TypeDefInfo.Compact,
           type: 'Compact<u32>',
-          sub: {
+          sub: [{
             info: TypeDefInfo.Plain,
             type: 'u32'
-          }
+          }]
         },
         {
           info: TypeDefInfo.Vec,
           type: 'Vec<u64>',
-          sub: {
+          sub: [{
             info: TypeDefInfo.Plain,
             type: 'u64'
-          }
+          }]
         },
         {
           info: TypeDefInfo.Option,
           type: 'Option<u128>',
-          sub: {
+          sub: [{
             info: TypeDefInfo.Plain,
             type: 'u128'
-          }
+          }]
         },
         {
           info: TypeDefInfo.Tuple,
@@ -141,7 +141,7 @@ describe('getTypeDef', (): void => {
             {
               info: TypeDefInfo.Vec,
               type: 'Vec<(Bool,u128)>',
-              sub: {
+              sub: [{
                 info: TypeDefInfo.Tuple,
                 type: '(Bool,u128)',
                 sub: [
@@ -154,7 +154,7 @@ describe('getTypeDef', (): void => {
                     type: 'u128'
                   }
                 ]
-              }
+              }]
             }
           ]
         }
@@ -168,7 +168,7 @@ describe('getTypeDef', (): void => {
     ).toEqual({
       info: TypeDefInfo.Vec,
       type: 'Vec<(PropIndex,Proposal,AccountId)>',
-      sub: {
+      sub: [{
         info: TypeDefInfo.Tuple,
         type: '(PropIndex,Proposal,AccountId)',
         sub: [
@@ -185,7 +185,7 @@ describe('getTypeDef', (): void => {
             type: 'AccountId'
           }
         ]
-      }
+      }]
     });
   });
 
@@ -195,7 +195,7 @@ describe('getTypeDef', (): void => {
     ).toEqual({
       info: TypeDefInfo.Vec,
       type: 'Vec<(PropIndex,Proposal,AccountId)>',
-      sub: {
+      sub: [{
         info: TypeDefInfo.Tuple,
         type: '(PropIndex,Proposal,AccountId)',
         sub: [
@@ -212,7 +212,7 @@ describe('getTypeDef', (): void => {
             type: 'AccountId'
           }
         ]
-      }
+      }]
     });
   });
 
