@@ -123,18 +123,19 @@ declare module './types' {
     democracy: {
       [index: string]: QueryableStorageEntry<ApiType>;
       publicPropCount: StorageEntryExact<ApiType, () => Observable<PropIndex>> & QueryableStorageEntry<ApiType>;
-      publicProps: StorageEntryExact<ApiType, () => Observable<Vec<ITuple<[PropIndex, Proposal, AccountId]>>>> & QueryableStorageEntry<ApiType>;
+      publicProps: StorageEntryExact<ApiType, () => Observable<Vec<ITuple<[PropIndex, Hash, AccountId]>>>> & QueryableStorageEntry<ApiType>;
+      preimages: StorageEntryExact<ApiType, (arg: Hash | Uint8Array | string) => Observable<Option<ITuple<[Bytes, AccountId, BalanceOf, BlockNumber]>>>> & QueryableStorageEntry<ApiType>;
       depositOf: StorageEntryExact<ApiType, (arg: PropIndex | Uint8Array | number | string) => Observable<Option<ITuple<[BalanceOf, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
       referendumCount: StorageEntryExact<ApiType, () => Observable<ReferendumIndex>> & QueryableStorageEntry<ApiType>;
       nextTally: StorageEntryExact<ApiType, () => Observable<ReferendumIndex>> & QueryableStorageEntry<ApiType>;
       referendumInfoOf: StorageEntryExact<ApiType, (arg: ReferendumIndex | Uint8Array | number | string) => Observable<Option<ReferendumInfo>>> & QueryableStorageEntry<ApiType>;
-      dispatchQueue: StorageEntryExact<ApiType, (arg: BlockNumber | Uint8Array | number | string) => Observable<Vec<Option<ITuple<[Proposal, ReferendumIndex]>>>>> & QueryableStorageEntry<ApiType>;
+      dispatchQueue: StorageEntryExact<ApiType, (arg: BlockNumber | Uint8Array | number | string) => Observable<Vec<Option<ITuple<[Hash, ReferendumIndex]>>>>> & QueryableStorageEntry<ApiType>;
       votersFor: StorageEntryExact<ApiType, (arg: ReferendumIndex | Uint8Array | number | string) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
       voteOf: StorageEntryExact<ApiType, (arg: ITuple<[ReferendumIndex, AccountId]>) => Observable<Vote>> & QueryableStorageEntry<ApiType>;
       proxy: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
       delegations: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<ITuple<[AccountId, Conviction]>>> & QueryableStorageEntry<ApiType>;
       lastTabledWasExternal: StorageEntryExact<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
-      nextExternal: StorageEntryExact<ApiType, () => Observable<Option<ITuple<[Proposal, VoteThreshold]>>>> & QueryableStorageEntry<ApiType>;
+      nextExternal: StorageEntryExact<ApiType, () => Observable<Option<ITuple<[Hash, VoteThreshold]>>>> & QueryableStorageEntry<ApiType>;
       blacklist: StorageEntryExact<ApiType, (arg: Hash | Uint8Array | string) => Observable<Option<ITuple<[BlockNumber, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
       cancellations: StorageEntryExact<ApiType, (arg: Hash | Uint8Array | string) => Observable<bool>> & QueryableStorageEntry<ApiType>;
     };
@@ -162,7 +163,6 @@ declare module './types' {
       votesOf: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
       stakeOf: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
       candidates: StorageEntryExact<ApiType, () => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
-      didMigrate: StorageEntryExact<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
     };
     technicalMembership: {
       [index: string]: QueryableStorageEntry<ApiType>;
