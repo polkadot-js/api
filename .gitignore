@@ -12,6 +12,7 @@ tmp/
 .env.production.local
 .npmrc
 .rpt2_cache
+.vscode/
 cc-test-reporter
 lerna-debug.log*
 npm-debug.log*
