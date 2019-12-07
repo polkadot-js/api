@@ -1890,10 +1890,10 @@
     "@polkadot/util" "^1.7.1"
     "@polkadot/util-crypto" "^1.7.1"
 
-"@polkadot/ts@^0.1.87":
-  version "0.1.87"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.87.tgz#8d479964baa0652b98b885bf27178059a964927e"
-  integrity sha512-866wuYfq4RUm4NBnx5dIoTF1SqMPFnbVv0ptyD8B7kpZ+Do3zDQO1/op6Ft5v1UbwPBJIbnV1ufkPkswIryYdw==
+"@polkadot/ts@^0.1.88":
+  version "0.1.88"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.88.tgz#3e42d9c1981a50ece37184555a5a4aef46d160ab"
+  integrity sha512-FFrG7834uhVXFlXDhLwiMDvawSrgbymGEtXndgGKQClHLuzm9t2Zt7GKdMQQmLSwxtcquabyHg1AbI1NLCm7rg==
   dependencies:
     "@types/chrome" "^0.0.91"
 
