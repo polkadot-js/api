@@ -38,7 +38,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
       );
     default:
       return outer;
-  }   
+  }
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
