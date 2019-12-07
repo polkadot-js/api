@@ -17,6 +17,8 @@ function compare (meta: MetaRegistry, other: any): void {
   try {
     expect(meta.typeDefs).toEqual(other);
   } catch (error) {
+    console.error(JSON.stringify(meta.typeDefs));
+
     throw error;
   }
 }
