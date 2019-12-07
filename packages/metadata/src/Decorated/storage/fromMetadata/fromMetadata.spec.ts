@@ -7,7 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
 import rpcMetadata from '../../../Metadata/static';
-import rpcMetadataV8 from '../../../Metadata/V8/static';
+import rpcMetadataV8 from '../../../Metadata/v8/static';
 import Decorated from '../../Decorated';
 
 const keyring = testingPairs({ type: 'ed25519' });
