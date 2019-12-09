@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Observable } from 'rxjs';
-import { Option, U8a, Vec } from '@polkadot/types/codec';
+import { Option, Raw, Vec } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64 } from '@polkadot/types';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
@@ -47,10 +47,10 @@ declare module './types' {
       authorities: StorageEntryExact<ApiType, () => Observable<Vec<ITuple<[AuthorityId, BabeAuthorityWeight]>>>> & QueryableStorageEntry<ApiType>;
       genesisSlot: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
       currentSlot: StorageEntryExact<ApiType, () => Observable<u64>> & QueryableStorageEntry<ApiType>;
-      randomness: StorageEntryExact<ApiType, () => Observable<U8a>> & QueryableStorageEntry<ApiType>;
-      nextRandomness: StorageEntryExact<ApiType, () => Observable<U8a>> & QueryableStorageEntry<ApiType>;
+      randomness: StorageEntryExact<ApiType, () => Observable<Raw>> & QueryableStorageEntry<ApiType>;
+      nextRandomness: StorageEntryExact<ApiType, () => Observable<Raw>> & QueryableStorageEntry<ApiType>;
       segmentIndex: StorageEntryExact<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
-      underConstruction: StorageEntryExact<ApiType, (arg: u32 | Uint8Array | number | string) => Observable<Vec<U8a>>> & QueryableStorageEntry<ApiType>;
+      underConstruction: StorageEntryExact<ApiType, (arg: u32 | Uint8Array | number | string) => Observable<Vec<Raw>>> & QueryableStorageEntry<ApiType>;
       initialized: StorageEntryExact<ApiType, () => Observable<Option<MaybeVrf>>> & QueryableStorageEntry<ApiType>;
     };
     timestamp: {

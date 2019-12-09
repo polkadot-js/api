@@ -131,7 +131,7 @@ describe('Compact', (): void => {
       ).toEqual(4);
     });
 
-    it('constructs properly via U8a as U32', (): void => {
+    it('constructs properly via Uint8Array as U32', (): void => {
       expect(
         new (Compact.with(U32))(registry, new Uint8Array([254, 255, 3, 0])).toNumber()
       ).toEqual(new BN(0xffff).toNumber());

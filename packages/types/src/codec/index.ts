@@ -21,7 +21,7 @@ export { default as Tuple } from './Tuple';
 export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases
-export { default as U8a } from './U8a';
+export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
 
 // Type management helper functions

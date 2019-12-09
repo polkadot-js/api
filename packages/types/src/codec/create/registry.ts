@@ -8,6 +8,7 @@ import { CallFunction, Codec, Constructor, RegistryTypes, Registry, RegistryMeta
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
@@ -76,7 +77,7 @@ export class TypeRegistry implements Registry {
     const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
 
     // since these are classes, they are injected first
-    this.register({ ...baseTypes });
+    this.register({ Raw, ...baseTypes });
 
     // since these are definitions, they would only get created when needed
     Object.values(definitions).forEach(({ types }): void =>

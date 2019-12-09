@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Compact, Option, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
+import { Bytes, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -37,9 +37,6 @@ export interface InterfaceRegistry {
   Bytes: Bytes;
   'Option<Bytes>': Option<Bytes>;
   'Vec<Bytes>': Vec<Bytes>;
-  Data: Data;
-  'Option<Data>': Option<Data>;
-  'Vec<Data>': Vec<Data>;
   H160: H160;
   'Option<H160>': Option<H160>;
   'Vec<H160>': Vec<H160>;
@@ -120,6 +117,9 @@ export interface InterfaceRegistry {
   'Compact<usize>': Compact<usize>;
   'Option<usize>': Option<usize>;
   'Vec<usize>': Vec<usize>;
+  Raw: Raw;
+  'Option<Raw>': Option<Raw>;
+  'Vec<Raw>': Vec<Raw>;
   AccountId: AccountId;
   'Option<AccountId>': Option<AccountId>;
   'Vec<AccountId>': Vec<AccountId>;

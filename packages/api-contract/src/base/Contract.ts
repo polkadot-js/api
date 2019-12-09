@@ -75,7 +75,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
       output = message.returnType
         ? formatData(this.registry, data, message.returnType)
-        : createType(this.registry, 'Data', data);
+        : createType(this.registry, 'Raw', data);
     }
 
     return {

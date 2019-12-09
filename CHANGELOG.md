@@ -1,3 +1,11 @@
+# 0.99.1
+
+- **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
+- **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (mor effective) and `staking.account` that enhances query for all the information previously found `.info`
+- Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
+- Add additional derives for both council & treasury
+- Alignment with latest Polkadot/Substrate master branches
+
 # 0.98.1
 
 - Make the TypeScript generation script mor re-usable (Thanks to @xlc)
