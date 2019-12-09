@@ -6,7 +6,7 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Compact, U8a, createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { Compact, Raw, createType, createTypeUnsafe } from '@polkadot/types/codec';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
@@ -27,7 +27,7 @@ export interface CreateItemFn {
 }
 
 interface IterFn {
-  (): U8a;
+  (): Raw;
   meta: StorageEntryMetadataLatest;
 }
 
@@ -142,7 +142,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   return storageFn;
 }
 
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => U8a): StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => Raw): StorageKey {
   const map = type.asMap;
   const outputType = map.key.toString();
 
@@ -165,8 +165,8 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
     ? hasher(`head of ${stringKey}`)
     : u8aConcat(xxhashAsU8a(itemFn.prefix, 128), xxhashAsU8a(`HeadOf${itemFn.method}`, 128));
 
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): U8a =>
-    new U8a(registry, key)
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
+    new Raw(registry, key)
   );
 
   return storageFn;
@@ -174,8 +174,8 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 
 // attach the full list hashing for prefixed maps
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): U8a =>
-    new U8a(registry, createPrefixedKey(itemFn))
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
+    new Raw(registry, createPrefixedKey(itemFn))
   );
 
   return storageFn;

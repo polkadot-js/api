@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 
-import U8a from '../../codec/U8a';
+import Raw from '../../codec/Raw';
 import * as defaultDefinitions from '../../interfaces/definitions';
 import * as defaultPrimitives from '../../primitive';
 import {
@@ -18,7 +18,7 @@ import {
 
 const primitiveClasses = {
   ...defaultPrimitives,
-  U8a
+  Raw
 };
 
 export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, output: string): void {

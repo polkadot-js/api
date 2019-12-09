@@ -208,7 +208,7 @@ describe('Enum', (): void => {
       ).toEqual(1);
     });
 
-    it('converts to and from U8a', (): void => {
+    it('converts to and from Uint8Array', (): void => {
       expect(
         new Enum(registry, ['foo', 'bar'], new Uint8Array([1])).toU8a()
       ).toEqual(new Uint8Array([1]));

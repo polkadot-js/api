@@ -22,7 +22,7 @@ export default {
     },
     ContractExecResultSuccess: {
       status: 'u8',
-      data: 'U8a'
+      data: 'Raw'
     },
     ContractExecResult: {
       _enum: {
