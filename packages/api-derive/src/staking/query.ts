@@ -145,10 +145,10 @@ function retrieveV2 (api: ApiInterfaceRx, stashId: AccountId): Observable<Derive
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export function query (api: ApiInterfaceRx): (_accountId: Uint8Array | string) => Observable<DerivedStakingQuery> {
-  const query = api.consts.session
+  const retrieve = api.consts.session
     ? retrieveV2
     : retrieveV1;
 
   return memo((accountId: Uint8Array | string): Observable<DerivedStakingQuery> =>
-    query(api, createType(api.registry, 'AccountId', accountId)));
+    retrieve(api, createType(api.registry, 'AccountId', accountId)));
 }
