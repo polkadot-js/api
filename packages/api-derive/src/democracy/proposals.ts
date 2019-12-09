@@ -18,58 +18,60 @@ type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo((): Observable<DeriveProposal[]> =>
-    api.query.democracy
-      .publicProps<Vec<ITuple<[PropIndex, Hash, AccountId]>>>()
-      .pipe(
-        switchMap((proposals) =>
-          combineLatest([
-            of(proposals),
-            combineLatest(
-              ...proposals.map(([, hash]) =>
-                api.query.democracy.preimages<PreImage>(hash)
+    api.query.democracy?.publicProps
+      ? api.query.democracy
+        .publicProps<Vec<ITuple<[PropIndex, Hash, AccountId]>>>()
+        .pipe(
+          switchMap((proposals) =>
+            combineLatest([
+              of(proposals),
+              combineLatest(
+                ...proposals.map(([, hash]) =>
+                  api.query.democracy.preimages<PreImage>(hash)
+                )
               )
-            )
-          ])
-        ),
-        switchMap(([proposals, preimages]) =>
-          combineLatest([
-            of(proposals),
-            of(preimages),
-            combineLatest(
-              ...proposals.map(([index]) =>
-                api.query.democracy.depositOf<Depositors>(index)
+            ])
+          ),
+          switchMap(([proposals, preimages]) =>
+            combineLatest([
+              of(proposals),
+              of(preimages),
+              combineLatest(
+                ...proposals.map(([index]) =>
+                  api.query.democracy.depositOf<Depositors>(index)
+                )
               )
-            )
-          ])
-        ),
-        map(([proposals, _preImages, _depositors]): DeriveProposal[] =>
-          proposals
-            .filter(([, , proposer], index): boolean =>
-              !!(_preImages[index]?.isSome) && !!(_depositors[index]?.isSome) && !proposer.isEmpty
-            )
-            .map(([propIndex, hash, proposer], index): DeriveProposal => {
-              const preImage = _preImages[index].unwrapOr(null);
-              const depositors = _depositors[index].unwrap();
+            ])
+          ),
+          map(([proposals, _preImages, _depositors]): DeriveProposal[] =>
+            proposals
+              .filter(([, , proposer], index): boolean =>
+                !!(_preImages[index]?.isSome) && !!(_depositors[index]?.isSome) && !proposer.isEmpty
+              )
+              .map(([propIndex, hash, proposer], index): DeriveProposal => {
+                const preImage = _preImages[index].unwrapOr(null);
+                const depositors = _depositors[index].unwrap();
 
-              return {
-                balance: depositors[0],
-                hash,
-                index: propIndex,
-                preimage: preImage
-                  ? {
-                    at: preImage[3],
-                    balance: preImage[2],
-                    proposer: preImage[1]
-                  }
-                  : undefined,
-                proposal: preImage
-                  ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
-                  : undefined,
-                proposer,
-                seconds: depositors[1]
-              };
-            })
+                return {
+                  balance: depositors[0],
+                  hash,
+                  index: propIndex,
+                  preimage: preImage
+                    ? {
+                      at: preImage[3],
+                      balance: preImage[2],
+                      proposer: preImage[1]
+                    }
+                    : undefined,
+                  proposal: preImage
+                    ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
+                    : undefined,
+                  proposer,
+                  seconds: depositors[1]
+                };
+              })
+          )
         )
-      )
+      : of([] as DeriveProposal[])
   );
 }
