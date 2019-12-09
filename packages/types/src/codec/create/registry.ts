@@ -39,7 +39,7 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
           console.error(error);
         }
 
-        metadataEvents[eventIndex.toString()] = class extends EventData {
+        metadataEvents[u8aToHex(eventIndex)] = class extends EventData {
           constructor (registry: Registry, value: Uint8Array) {
             super(registry, Types, value, typeDef, meta, sectionName, methodName);
           }
@@ -55,7 +55,7 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>
     Object.values(methods).forEach((method): void => {
-      metadataCalls[method.callIndex.toString()] = method;
+      metadataCalls[u8aToHex(method.callIndex)] = method;
     })
   );
 }
@@ -88,15 +88,18 @@ export class TypeRegistry implements Registry {
   public findMetaCall (callIndex: Uint8Array): CallFunction {
     assert(Object.keys(this._metadataCalls).length > 0, 'Calling registry.findMetaCall before metadata has been attached.');
 
-    return this._metadataCalls[callIndex.toString()] || FN_UNKNOWN;
+    const hexIndex = u8aToHex(callIndex);
+
+    return this._metadataCalls[hexIndex] || FN_UNKNOWN;
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
     assert(Object.keys(this._metadataEvents).length > 0, 'Calling registry.findMetaEvent before metadata has been attached.');
 
-    const Event = this._metadataEvents[eventIndex.toString()];
+    const hexIndex = u8aToHex(eventIndex);
+    const Event = this._metadataEvents[hexIndex];
 
-    assert(!isUndefined(Event), `Unable to find Event with index ${u8aToHex(eventIndex)}`);
+    assert(!isUndefined(Event), `Unable to find Event with index ${hexIndex}`);
 
     return Event;
   }
