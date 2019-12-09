@@ -6,7 +6,7 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { SubmittableResult } from '@polkadot/api';
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
 
 import { describeE2E } from '../../util';
 
@@ -49,7 +49,7 @@ describeE2E({
     it('retrieves all staking info (for controller)', (done): Promise<() => void> => {
       const accountId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
-      return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
+      return api.derive.staking.account(accountId, (info: DerivedStakingAccount): void => {
         console.error(JSON.stringify(info));
 
         expect(info.accountId.eq(accountId)).toBe(true);
@@ -64,7 +64,7 @@ describeE2E({
     it('retrieves all staking info (for stash)', (done): Promise<() => void> => {
       const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
-      return api.derive.staking.info(accountId, (info: DerivedStaking): void => {
+      return api.derive.staking.account(accountId, (info: DerivedStakingAccount): void => {
         console.error(JSON.stringify(info));
 
         if (!info.stashId || !info.controllerId || !info.stakingLedger) {
@@ -95,7 +95,7 @@ describeE2E({
       });
 
       it('verifies that derive.staking.unlocking isn\'t empty/undefined', (): Promise<() => void> => {
-        return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking): void => {
+        return api.derive.staking.account(ALICE_STASH, (info: DerivedStakingAccount): void => {
           expect(info.unlocking).toBeDefined();
         });
       });
@@ -116,7 +116,7 @@ describeE2E({
       });
 
       it('verifies payee for ALICE_STASH', (done): Promise<() => void> => {
-        return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking): void => {
+        return api.derive.staking.account(ALICE_STASH, (info: DerivedStakingAccount): void => {
           if (!info.rewardDestination) {
             return done.fail(new Error('rewardDestination is undefined.'));
           } else {
@@ -127,7 +127,7 @@ describeE2E({
         });
       });
 
-      it('staking.info updates itself after changing reward destination', async (done): Promise<void> => {
+      it('staking.account updates itself after changing reward destination', async (done): Promise<void> => {
         const stashId = testingPairs().alice_stash.address;
 
         // start by setting the reqred to Staked, so we have a common starting point
@@ -139,19 +139,18 @@ describeE2E({
             }
           });
 
-        let count = 0; // The # of times we got a callback response from api.derive.staking.info
+        let count = 0; // The # of times we got a callback response from api.derive.staking.account
 
-        // Subscribe to staking.info
-        api.derive.staking
-          .info(stashId, (result): void => {
-            ++count;
+        // Subscribe to staking.account
+        api.derive.staking.account(stashId, (result): void => {
+          ++count;
 
-            console.error('***', count, JSON.stringify(result));
+          console.error('***', count, JSON.stringify(result));
 
-            if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
-              done();
-            }
-          });
+          if (count >= 2 && result.rewardDestination!.toString() === 'Stash') {
+            done();
+          }
+        });
 
         // Wait a bit, and change reward destination
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
