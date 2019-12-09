@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
-import { Compact, Enum, Option, Struct } from '@polkadot/types/codec';
-import { Bytes, Data, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Compact, Enum, Option, Struct, U8a } from '@polkadot/types/codec';
+import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
@@ -53,8 +53,8 @@ export interface ContractExecResult extends Enum {
 export interface ContractExecResultSuccess extends Struct {
   /** u8 */
   readonly status: u8;
-  /** Data */
-  readonly data: Data;
+  /** U8a */
+  readonly data: U8a;
 }
 
 /** Enum */

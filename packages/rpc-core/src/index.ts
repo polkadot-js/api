@@ -359,8 +359,8 @@ export default class Rpc implements RpcInterface {
 
   private formatStorageData (key: StorageKey, value: string | null): Codec {
     // single return value (via state.getStorage), decode the value based on the
-    // outputType that we have specified. Fallback to Data on nothing
-    const type = key.outputType || 'Data';
+    // outputType that we have specified. Fallback to U8a on nothing
+    const type = key.outputType || 'U8a';
     const meta = key.meta || EMPTY_META;
     const isEmpty = isNull(value);
 
@@ -386,8 +386,8 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatStorageSet (key: StorageKey, changes: [string, string | null][], witCache: boolean): Codec {
-    // Fallback to Data (i.e. just the encoding) if we don't have a specific type
-    const type = key.outputType || 'Data';
+    // Fallback to U8a (i.e. just the encoding) if we don't have a specific type
+    const type = key.outputType || 'U8a';
     const hexKey = key.toHex();
     const meta = key.meta || EMPTY_META;
 

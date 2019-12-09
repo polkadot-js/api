@@ -36,7 +36,6 @@ These primitive types are available:
 | [[bool]] | Representation for a boolean value in the system |
 | [[Bytes]] | A Bytes wrapper for `Vec<u8>` |
 | [[Call]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
-| [[Data]] | A raw data structure. It is an encoding of a U8a without any length encoding |
 | [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
 | [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
 | [[Extrinsic]] | Representation of an Extrinsic in the system |

@@ -27,8 +27,8 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): C
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule: ModuleConstants, meta): ModuleConstants => {
-      // we convert to Data for the raw data-only bytes - in the case of Bytes, the data has
-      // a length prefix encoded when received, leading to double-encoding unless removed
+      // in the case of Bytes, the data has a length prefix encoded when received,
+      // leading to double-encoding unless removed
       const type = meta.type.toString();
       const codec: ConstantCodec = createTypeUnsafe(registry, type, [
         AS_STRIPPED.includes(type)
