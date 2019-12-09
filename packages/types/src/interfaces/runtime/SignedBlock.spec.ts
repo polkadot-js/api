@@ -42,7 +42,7 @@ describe('SignedBlock', (): void => {
     const indexes = s.block.extrinsics.map(({ method: { callIndex } }): Uint8Array => callIndex);
 
     expect(indexes).toEqual([
-      new Uint8Array([0x02, 0x00]),
+      new Uint8Array([0x03, 0x00]),
       new Uint8Array([0x0c, 0x00])
     ]);
   });

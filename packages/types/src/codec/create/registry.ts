@@ -14,11 +14,6 @@ import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
 
-const FN_UNKNOWN: Partial<CallFunction> = {
-  method: 'unknown',
-  section: 'unknown'
-};
-
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
   // decorate the events
@@ -86,20 +81,19 @@ export class TypeRegistry implements Registry {
   }
 
   public findMetaCall (callIndex: Uint8Array): CallFunction {
-    assert(Object.keys(this._metadataCalls).length > 0, 'Calling registry.findMetaCall before metadata has been attached.');
-
     const hexIndex = u8aToHex(callIndex);
+    const fn = this._metadataCalls[hexIndex];
 
-    return this._metadataCalls[hexIndex] || FN_UNKNOWN;
+    assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex}]`);
+
+    return fn;
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
-    assert(Object.keys(this._metadataEvents).length > 0, 'Calling registry.findMetaEvent before metadata has been attached.');
-
     const hexIndex = u8aToHex(eventIndex);
     const Event = this._metadataEvents[hexIndex];
 
-    assert(!isUndefined(Event), `Unable to find Event with index ${hexIndex}`);
+    assert(!isUndefined(Event), `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex}]`);
 
     return Event;
   }
