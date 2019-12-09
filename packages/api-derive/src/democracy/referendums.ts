@@ -20,7 +20,7 @@ export function referendums (api: ApiInterfaceRx): () => Observable<DerivedRefer
         api.query.democracy.referendumCount
       ]).pipe(
         switchMap(([nextTally, referendumCount]): Observable<DerivedReferendum[]> =>
-          referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
+          referendumCount?.gt(nextTally) && referendumCount?.gtn(0)
             ? api.derive.democracy.referendumInfos(
               [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i): BN =>
                 nextTally.addn(i)
