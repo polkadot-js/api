@@ -22,6 +22,12 @@ describe('Bytes', (): void => {
       ).toEqual(CODE);
     });
 
+    it('decodes from UInt8Array', (): void => {
+      expect(
+        new Bytes(registry, CODE).toU8a()
+      ).toEqual(CODE);
+    });
+
     it('decodes from number[]', (): void => {
       expect(
         new Bytes(registry, [0x3a, 0x63, 0x6f, 0x64, 0x65]).toU8a()
@@ -34,6 +40,12 @@ describe('Bytes', (): void => {
           registry,
           createType(registry, 'StorageData', '0x3a636f6465')
         ).toU8a()
+      ).toEqual(CODE);
+    });
+
+    it('encodes from itself', (): void => {
+      expect(
+        new Bytes(registry, new Bytes(registry, '0x3a636f6465')).toU8a()
       ).toEqual(CODE);
     });
   });
