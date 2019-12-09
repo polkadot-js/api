@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Balance, BlockNumber, StakingLedger, UnlockChunk } from '@polkadot/types/interfaces';
-import { DerivedSessionInfo, DerivedStaking, DerivedStakingQuery, DerivedUnlocking } from '../types';
+import { DerivedSessionInfo, DerivedStakingAccount, DerivedStakingQuery, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
@@ -77,7 +77,7 @@ function redeemableSum (api: ApiInterfaceRx, stakingLedger: StakingLedger | unde
   }, new BN(0)));
 }
 
-function parseResult (api: ApiInterfaceRx, sessionInfo: DerivedSessionInfo, query: DerivedStakingQuery): DerivedStaking {
+function parseResult (api: ApiInterfaceRx, sessionInfo: DerivedSessionInfo, query: DerivedStakingQuery): DerivedStakingAccount {
   return {
     ...query,
     redeemable: redeemableSum(api, query.stakingLedger, sessionInfo),
@@ -88,8 +88,8 @@ function parseResult (api: ApiInterfaceRx, sessionInfo: DerivedSessionInfo, quer
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export function info (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DerivedStaking> {
-  return memo((accountId: Uint8Array | string): Observable<DerivedStaking> =>
+export function account (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DerivedStakingAccount> {
+  return memo((accountId: Uint8Array | string): Observable<DerivedStakingAccount> =>
     combineLatest([
       api.derive.session.info(),
       api.derive.staking.query(accountId)

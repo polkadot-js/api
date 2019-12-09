@@ -153,7 +153,7 @@ export interface DerivedStakingQuery extends DerivedStakingStash {
   stakingLedger?: StakingLedger;
 }
 
-export interface DerivedStaking extends DerivedStakingQuery {
+export interface DerivedStakingAccount extends DerivedStakingQuery {
   redeemable?: Balance;
   unlocking?: DerivedUnlocking[];
 }
