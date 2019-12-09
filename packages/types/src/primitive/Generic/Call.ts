@@ -62,7 +62,7 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array([0, 0]), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
       return Call.decodeCallViaU8a(registry, u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
@@ -93,8 +93,10 @@ export default class Call extends Struct implements IMethod {
   }
 
   private static decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
-    // The first 2 bytes are the callIndex
-    const callIndex = value.subarray(0, 2);
+    // We need 2 bytes for the callIndex
+    const callIndex = new Uint8Array(2);
+
+    callIndex.set(value.subarray(0, 2), 0);
 
     // Find metadata with callIndex
     const meta = _meta || registry.findMetaCall(callIndex).meta;
