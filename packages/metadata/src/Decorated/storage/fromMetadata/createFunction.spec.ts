@@ -86,7 +86,7 @@ describe('createFunction', (): void => {
               key1: new Text(registry, 'AccountId'),
               key2: new Text(registry, 'AccountId'),
               value: new Text(registry, 'Balance'),
-              key2Hasher: new Text(registry, 'twox_128')
+              key2Hasher: new StorageHasher(registry, 'Twox128')
             }
           }
         } as any
@@ -118,7 +118,7 @@ describe('createFunction', (): void => {
             key1: new Text(registry, 'Null'),
             key2: new Text(registry, 'Hash'),
             value: new Text(registry, 'Vec<(BlockNumber,EventIndex)>'),
-            key2Hasher: new Text(registry, 'blake2_256')
+            key2Hasher: new StorageHasher(registry, 'Blake2_256')
           }
         }
       } as any
@@ -128,5 +128,42 @@ describe('createFunction', (): void => {
     expect(u8aToHex(storageFn(['any', [1, 2, 3]]))).toEqual(u8aToHex(storageFn([[1, 2, 3], [1, 2, 3]])));
     // the value of the not Null type key does effect the result
     expect(u8aToHex(storageFn(['any', [1, 2, 3]]))).not.toEqual(u8aToHex(storageFn(['any', [1, 2, 3, 4]])));
+  });
+
+  it('allows creating of known DoubleMap keys (with Bytes)', (): void => {
+    const storageFn = createFunction(registry, {
+      prefix: 'Session',
+      section: 'session',
+      method: 'NextKeys',
+      meta: {
+        type: {
+          isDoubleMap: true,
+          asDoubleMap: {
+            hasher: new StorageHasher(registry, 'Twox64Concat'),
+            key1: new Text(registry, 'Bytes'),
+            key2: new Text(registry, 'AccountId'),
+            value: new Text(registry, 'SessionKeys5'),
+            key2Hasher: new StorageHasher(registry, 'Blake2_256')
+          }
+        }
+      } as any
+    }, { metaVersion: 9 });
+
+    expect(
+      u8aToHex(
+        storageFn([
+          '0x3a73657373696f6e3a6b657973',
+          'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
+        ])
+      )
+    ).toEqual(
+      '0x' +
+      '5901' + // length
+      'cec5070d609dd3497f72bde07fc96ba0' + // twox 128
+      '4c014e6bf8b8c2c011e7290b85696bb3' + // twox 128
+      '9fe6329cc0b39e09' + // twox 64
+      '343a73657373696f6e3a6b657973' + // twox 64 (concat)
+      '5eb36b60f0fc4b9177116eba3e5cd57fea6289a57f5f5b9ffeb0475c66e7a521' // blake2
+    );
   });
 });
