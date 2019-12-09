@@ -78,8 +78,8 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
 
   const [key1, key2] = args;
   const map = type.asDoubleMap;
-  const val1 = createTypeUnsafe(registry, map.key1.toString(), [key1]).toU8a(true);
-  const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a(true);
+  const val1 = createTypeUnsafe(registry, map.key1.toString(), [key1]).toU8a();
+  const val2 = createTypeUnsafe(registry, map.key2.toString(), [key2]).toU8a();
 
   // as per createKey, always add the length prefix (underlying it is Bytes)
   return Compact.addLengthPrefix(
