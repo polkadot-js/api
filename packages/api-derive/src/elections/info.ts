@@ -27,10 +27,10 @@ function deriveElections (api: ApiInterfaceRx, candidates: AccountId[], members:
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
+  const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+
   // NOTE We have an issue where candidates can return `null` for an empty array, hence
   // we are not using multi queries here, so empty array is empty (instead of space-filled)
-  const section = api.query.electionPhragmen ? 'electionPhragmen' : 'elections';
-
   return combineLatest([
     api.query[section].candidates<Vec<AccountId>>(),
     api.query[section].members<Vec<ITuple<[AccountId, Balance]>>>(),
