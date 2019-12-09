@@ -126,24 +126,9 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
   sessionProgress: BlockNumber;
 }
 
-export type DerivedStakingAccount = [AccountId, DerivedStakingOnlineStatus];
-
-export type DerivedStakingAccounts = DerivedStakingAccount[];
-
 export interface DerivedStakingElected {
   currentElected: AccountId[];
-  info: DerivedStaking[];
-}
-
-export interface DerivedStakingOnlineStatus {
-  online?: {
-    isOnline: boolean;
-    blockNumber?: BlockNumber;
-  };
-  offline?: {
-    blockNumber: BlockNumber;
-    count: BN;
-  }[];
+  info: DerivedStakingQuery[];
 }
 
 export interface DeriveStakingValidators {
@@ -161,12 +146,15 @@ export interface DerivedStakingStash {
   validatorPrefs?: ValidatorPrefs;
 }
 
-export interface DerivedStaking extends DerivedStakingOnlineStatus, DerivedStakingStash {
+export interface DerivedStakingQuery extends DerivedStakingStash {
   accountId: AccountId;
   nextSessionIds: AccountId[];
-  redeemable?: Balance;
   sessionIds: AccountId[];
   stakingLedger?: StakingLedger;
+}
+
+export interface DerivedStaking extends DerivedStakingQuery {
+  redeemable?: Balance;
   unlocking?: DerivedUnlocking[];
 }
 
@@ -176,7 +164,10 @@ export interface DerivedStakingOverview extends DeriveSessionIndexes {
   validators: AccountId[];
 }
 
-export type DerivedUnlocking = { remainingBlocks: BlockNumber; value: Balance };
+export type DerivedUnlocking = {
+  remainingBlocks: BlockNumber;
+  value: Balance;
+};
 
 export interface VoterPosition {
   globalIndex: BN;
