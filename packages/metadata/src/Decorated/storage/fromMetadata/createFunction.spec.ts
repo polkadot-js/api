@@ -152,7 +152,9 @@ describe('createFunction', (): void => {
     expect(
       u8aToHex(
         storageFn([
+          // hex, without length prefix
           '0x3a73657373696f6e3a6b657973',
+          // address
           'DB2mp5nNhbFN86J9hxoAog8JALMhDXgwvWMxrRMLNUFMEY4'
         ])
       )
@@ -162,7 +164,7 @@ describe('createFunction', (): void => {
       'cec5070d609dd3497f72bde07fc96ba0' + // twox 128
       '4c014e6bf8b8c2c011e7290b85696bb3' + // twox 128
       '9fe6329cc0b39e09' + // twox 64
-      '343a73657373696f6e3a6b657973' + // twox 64 (concat)
+      '343a73657373696f6e3a6b657973' + // twox 64 (concat, with length)
       '5eb36b60f0fc4b9177116eba3e5cd57fea6289a57f5f5b9ffeb0475c66e7a521' // blake2
     );
   });
