@@ -14,62 +14,60 @@ import { Bytes, Option, Vec, createType } from '@polkadot/types';
 import { memo } from '../util';
 
 export type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
+
 type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
+type Proposals = Vec<ITuple<[PropIndex, Hash, AccountId]>>;
+
+interface Result {
+  depositors: Depositors[];
+  preimages: PreImage[];
+  proposals: Proposals;
+}
+
+function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Result): DeriveProposal[] {
+  return proposals
+    .filter(([, , proposer], index): boolean =>
+      !!(preimages[index]?.isSome) && !!(depositors[index]?.isSome) && !proposer.isEmpty
+    )
+    .map(([propIndex, hash, proposer], index): DeriveProposal => {
+      const preimage = preimages[index].unwrapOr(null);
+      const depositor = depositors[index].unwrap();
+
+      return {
+        balance: depositor[0],
+        hash,
+        index: propIndex,
+        preimage: preimage
+          ? {
+            at: preimage[3],
+            balance: preimage[2],
+            proposer: preimage[1]
+          }
+          : undefined,
+        proposal: preimage
+          ? createType(api.registry, 'Proposal', preimage[0].toU8a(true))
+          : undefined,
+        proposer,
+        seconds: depositor[1]
+      };
+    });
+}
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo((): Observable<DeriveProposal[]> =>
     api.query.democracy?.publicProps
       ? api.query.democracy
-        .publicProps<Vec<ITuple<[PropIndex, Hash, AccountId]>>>()
+        .publicProps<Proposals>()
         .pipe(
           switchMap((proposals) =>
             combineLatest([
               of(proposals),
-              combineLatest(
-                ...proposals.map(([, hash]) =>
-                  api.query.democracy.preimages<PreImage>(hash)
-                )
-              )
+              api.query.democracy.preimages.multi<PreImage>(proposals.map(([, hash]): Hash => hash)),
+              api.query.democracy.depositOf.multi<Depositors>(proposals.map(([index]): PropIndex => index))
             ])
           ),
-          switchMap(([proposals, preimages]) =>
-            combineLatest([
-              of(proposals),
-              of(preimages),
-              combineLatest(
-                ...proposals.map(([index]) =>
-                  api.query.democracy.depositOf<Depositors>(index)
-                )
-              )
-            ])
-          ),
-          map(([proposals, _preImages, _depositors]): DeriveProposal[] =>
-            proposals
-              .filter(([, , proposer], index): boolean =>
-                !!(_preImages[index]?.isSome) && !!(_depositors[index]?.isSome) && !proposer.isEmpty
-              )
-              .map(([propIndex, hash, proposer], index): DeriveProposal => {
-                const preImage = _preImages[index].unwrapOr(null);
-                const depositors = _depositors[index].unwrap();
-
-                return {
-                  balance: depositors[0],
-                  hash,
-                  index: propIndex,
-                  preimage: preImage
-                    ? {
-                      at: preImage[3],
-                      balance: preImage[2],
-                      proposer: preImage[1]
-                    }
-                    : undefined,
-                  proposal: preImage
-                    ? createType(api.registry, 'Proposal', preImage[0].toU8a(true))
-                    : undefined,
-                  proposer,
-                  seconds: depositors[1]
-                };
-              })
+          map(([proposals, preimages, depositors]): DeriveProposal[] =>
+            parse(api, { depositors, proposals, preimages })
           )
         )
       : of([] as DeriveProposal[])
