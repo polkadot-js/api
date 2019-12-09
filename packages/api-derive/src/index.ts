@@ -11,11 +11,13 @@ import * as accounts from './accounts';
 import * as balances from './balances';
 import * as chain from './chain';
 import * as contracts from './contracts';
+import * as council from './council';
 import * as democracy from './democracy';
 import * as elections from './elections';
 import * as imOnline from './imOnline';
 import * as session from './session';
 import * as staking from './staking';
+import * as treasury from './treasury';
 
 export * from './type';
 
@@ -56,7 +58,7 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
     }, {} as DeriveAllSections<AllSections>);
 }
 
-export const derive = { accounts, balances, chain, contracts, democracy, elections, imOnline, session, staking };
+export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, session, staking, treasury };
 export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}

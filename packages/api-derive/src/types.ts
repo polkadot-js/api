@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ReferendumInfo, RewardDestination, SessionIndex, SetIndex, StakingLedger, ValidatorPrefs, Vote, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RewardDestination, SessionIndex, SetIndex, StakingLedger, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
@@ -43,6 +43,14 @@ export interface DerivedContractFees {
   transactionByteFee: BN;
   transferFee: BN;
 }
+
+export interface DerivedCouncilProposal {
+  hash: Hash;
+  proposal: Proposal;
+  votes: Votes | null;
+}
+
+export type DerivedCouncilProposals = DerivedCouncilProposal[];
 
 export interface DerivedElectionsInfo {
   candidates: AccountId[];
@@ -162,6 +170,18 @@ export interface DerivedStakingOverview extends DeriveSessionIndexes {
   currentElected: AccountId[];
   eraPoints: EraPoints;
   validators: AccountId[];
+}
+
+export interface DerivedTreasuryProposal {
+  council: DerivedCouncilProposal[];
+  id: ProposalIndex;
+  proposal: TreasuryProposal;
+}
+
+export interface DerivedTreasuryProposals {
+  approvals: DerivedTreasuryProposal[];
+  proposalCount: ProposalIndex;
+  proposals: DerivedTreasuryProposal[];
 }
 
 export type DerivedUnlocking = {
