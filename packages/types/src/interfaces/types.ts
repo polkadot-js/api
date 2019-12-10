@@ -9,6 +9,7 @@ export * from './balances/types';
 export * from './collective/types';
 export * from './consensus/types';
 export * from './contracts/types';
+export * from './contractsAbi/types';
 export * from './democracy/types';
 export * from './deprecated/types';
 export * from './elections/types';
