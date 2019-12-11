@@ -56,10 +56,16 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
     return _decodeSet(value, parsed[keys[0]]);
   }
 
-  value.sub = keys.map((name): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(parsed[name], { name })
-  );
+  if (parsed._alias) {
+    value.ext = parsed._alias;
+  }
+
+  value.sub = keys
+    .filter((name): boolean => !['_alias'].includes(name))
+    .map((name): TypeDef =>
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getTypeDef(parsed[name], { name })
+    );
 
   return value;
 }

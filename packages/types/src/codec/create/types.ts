@@ -37,16 +37,20 @@ export interface TypeDefExtEnumDiscriminant {
   discriminant: number;
 }
 
+export interface TypeDefExtStructAlias {
+  [key: string]: string;
+}
+
 export interface TypeDef {
+  displayName?: string;
+  ext?: TypeDefExtVecFixed | TypeDefExtEnumDiscriminant | TypeDefExtStructAlias; // add additional here as required
   info: TypeDefInfo;
   index?: number;
-  displayName?: string;
-  ext?: TypeDefExtVecFixed | TypeDefExtEnumDiscriminant; // add additional here as required
   name?: string;
   namespace?: string;
   params?: TypeDef[];
-  type: string;
   sub?: TypeDef | TypeDef[];
+  type: string;
 }
 
 export type TypeIndex = number;

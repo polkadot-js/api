@@ -167,7 +167,10 @@ export default {
     ...registry,
     ...spec,
     InkProject: {
-      registry: 'MtRegistry',
+      _alias: {
+        types: 'registry'
+      },
+      types: 'MtRegistry',
       layout: 'InkStorageLayout',
       contract: 'InkContractSpec'
     }

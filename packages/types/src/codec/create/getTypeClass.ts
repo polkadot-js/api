@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../../types';
-import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { TypeDef, TypeDefExtStructAlias, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -62,9 +62,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return BTreeMap.with(keyType, valueType);
   },
 
-  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
+  [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor =>
+    Compact.with(getSubType(value)),
 
-  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
+  [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor =>
+    Enum.with(getTypeClassMap(value)),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
@@ -79,9 +81,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => ClassOf(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor =>
+    ClassOf(registry, 'Null'),
 
-  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
+  [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor =>
+    Option.with(getSubType(value)),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor =>
     registry.getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
@@ -105,9 +109,11 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor => Struct.with(getTypeClassMap(value)),
+  [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
+    Struct.with(getTypeClassMap(value), new Map(Object.entries(value.ext as TypeDefExtStructAlias || {}))),
 
-  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
+  [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor =>
+    Tuple.with(getTypeClassArray(value)),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);

@@ -117,9 +117,9 @@ export default class Struct<
     }, {} as T);
   }
 
-  public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
+  public static with<S extends TypesDef> (Types: S, jsonMap?: Map<keyof S, string>): Constructor<Struct<S>> {
     return class extends Struct<S> {
-      constructor (registry: Registry, value?: any, jsonMap?: Map<keyof S, string>) {
+      constructor (registry: Registry, value?: any) {
         super(registry, Types, value, jsonMap);
 
         (Object.keys(Types) as (keyof S)[]).forEach((key): void => {
