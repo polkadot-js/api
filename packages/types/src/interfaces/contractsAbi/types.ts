@@ -210,18 +210,18 @@ export interface MtTypeDef extends Enum {
   readonly isTupleStruct: boolean;
   /** MtTypeDefTupleStruct */
   readonly asTupleStruct: MtTypeDefTupleStruct;
-  /** 3:: ClikeEnum(MyTypeDefClikeEnum) */
+  /** 3:: ClikeEnum(MtTypeDefClikeEnum) */
   readonly isClikeEnum: boolean;
-  /** MyTypeDefClikeEnum */
-  readonly asClikeEnum: MyTypeDefClikeEnum;
+  /** MtTypeDefClikeEnum */
+  readonly asClikeEnum: MtTypeDefClikeEnum;
   /** 4:: Enum(MtTypeDefEnum) */
   readonly isEnum: boolean;
   /** MtTypeDefEnum */
   readonly asEnum: MtTypeDefEnum;
-  /** 5:: Union(TypeDefUnion) */
+  /** 5:: Union(MtTypeDefUnion) */
   readonly isUnion: boolean;
-  /** TypeDefUnion */
-  readonly asUnion: TypeDefUnion;
+  /** MtTypeDefUnion */
+  readonly asUnion: MtTypeDefUnion;
 }
 
 /** Struct */

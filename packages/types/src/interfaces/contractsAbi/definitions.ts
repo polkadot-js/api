@@ -107,9 +107,9 @@ const registry = {
       // #[serde(rename = "tupleStruct")]
       TupleStruct: 'MtTypeDefTupleStruct',
       // #[serde(rename = "clikeEnum")]
-      ClikeEnum: 'MyTypeDefClikeEnum',
+      ClikeEnum: 'MtTypeDefClikeEnum',
       Enum: 'MtTypeDefEnum',
-      Union: 'TypeDefUnion'
+      Union: 'MtTypeDefUnion'
     }
   },
   MtTypeDefClikeEnum: {
