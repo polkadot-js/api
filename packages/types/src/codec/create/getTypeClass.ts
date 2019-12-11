@@ -110,7 +110,10 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor =>
-    Struct.with(getTypeClassMap(value), new Map(Object.entries(value.ext as TypeDefExtStructAlias || {}))),
+    Struct.with(
+      getTypeClassMap(value),
+      new Map(value.ext ? Object.entries(value.ext as TypeDefExtStructAlias) : undefined)
+    ),
 
   [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor =>
     Tuple.with(getTypeClassArray(value)),
