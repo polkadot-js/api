@@ -168,9 +168,9 @@ export default {
     ...spec,
     InkProject: {
       _alias: {
-        types: 'registry'
+        lookup: 'registry'
       },
-      types: 'MtRegistry',
+      lookup: 'MtRegistry',
       layout: 'InkStorageLayout',
       contract: 'InkContractSpec'
     }

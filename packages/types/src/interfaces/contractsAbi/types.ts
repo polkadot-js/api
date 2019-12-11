@@ -109,7 +109,7 @@ export interface InkMessageSpec extends Struct {
 /** Struct */
 export interface InkProject extends Struct {
   /** MtRegistry */
-  readonly types: MtRegistry;
+  readonly lookup: MtRegistry;
   /** InkStorageLayout */
   readonly layout: InkStorageLayout;
   /** InkContractSpec */
