@@ -7,14 +7,14 @@ import { MtTypeIdDef } from '@polkadot/types/interfaces';
 import { TypeRegistry, createType } from '@polkadot/types';
 
 import incrementer from '../test/abi/v2-296-incrementer.json';
-import { getInkString, getInkStrings, getInkType, getInkTypes } from './inkRegistry';
+import { getInkPrimitive, getInkString, getInkStrings, getInkType, getInkTypes } from './inkRegistry';
 
 const registry = new TypeRegistry();
 
-describe('util', (): void => {
-  describe('getInkStrings', (): void => {
-    const project = createType(registry, 'InkProject', incrementer);
+describe('inkRegistry', (): void => {
+  const project = createType(registry, 'InkProject', incrementer);
 
+  describe('getInkStrings', (): void => {
     it('fails with invalid indexes', (): void => {
       expect(
         // this is a 0, indexes start at 1, so should fail
@@ -36,8 +36,6 @@ describe('util', (): void => {
   });
 
   describe('getInkTypes', (): void => {
-    const project = createType(registry, 'InkProject', incrementer);
-
     it('fails with invalid indexes', (): void => {
       expect(
         // this is a 0, indexes start at 1, so should fail
@@ -55,6 +53,16 @@ describe('util', (): void => {
       expect(
         JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().ty]))
       ).toEqual('[{"id":{"Primitive":10},"def":{"Builtin":null}}]');
+    });
+  });
+
+  describe('getInkPrimitive', (): void => {
+    it('allows for primitive lookups', (): void => {
+      const def = getInkType(project, project.contract.messages[0].args[0].type.ty);
+
+      expect(
+        getInkPrimitive(project, def.id)
+      ).toEqual('i32');
     });
   });
 });
