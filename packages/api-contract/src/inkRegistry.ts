@@ -2,26 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InkProject, MtLookupTextId, MtLookupTypeId, MtTypeIdDef, MtTypeId } from '@polkadot/types/interfaces';
-import { InterfaceTypes } from '@polkadot/types/types';
+import { InkProject, MtLookupTextId, MtLookupTypeId, MtTypeIdDef } from '@polkadot/types/interfaces';
 
 import { assert, isUndefined } from '@polkadot/util';
 
-// this maps through the the enum defintion in types/interfaces/contractsAbi/defintions.ts
-const PRIMITIVES: InterfaceTypes[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
-
-function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number {
+// convert the offset into project-specific, index-1
+export function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number {
   return id.toNumber() - 1;
 }
 
-export function getInkPrimitive (_project: InkProject, typeId: MtTypeId): InterfaceTypes {
-  const primitive = PRIMITIVES[typeId.asPrimitive.index];
-
-  assert(!isUndefined(primitive), `getInkPrimitive:: Unable to convert ${typeId} to primitive`);
-
-  return primitive;
-}
-
+// extract a single string from the project
 export function getInkString (project: InkProject, id: MtLookupTextId): string {
   const offset = getRegistryOffset(id);
   const value = project.lookup.strings[offset];
@@ -31,10 +21,12 @@ export function getInkString (project: InkProject, id: MtLookupTextId): string {
   return value.toString();
 }
 
+// extract and array of strings from the project
 export function getInkStrings (project: InkProject, ids: MtLookupTextId[]): string[] {
   return ids.map((id): string => getInkString(project, id));
 }
 
+// extract a single ink type defintion from the project
 export function getInkType (project: InkProject, id: MtLookupTypeId): MtTypeIdDef {
   const offset = getRegistryOffset(id);
   const type = project.lookup.types[offset];
@@ -44,6 +36,7 @@ export function getInkType (project: InkProject, id: MtLookupTypeId): MtTypeIdDe
   return type;
 }
 
+// extract and array of ink type defs from the project
 export function getInkTypes (project: InkProject, ids: MtLookupTypeId[]): MtTypeIdDef[] {
   return ids.map((id): MtTypeIdDef => getInkType(project, id));
 }

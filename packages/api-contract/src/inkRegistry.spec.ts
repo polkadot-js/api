@@ -7,7 +7,7 @@ import { MtTypeIdDef } from '@polkadot/types/interfaces';
 import { TypeRegistry, createType } from '@polkadot/types';
 
 import incrementer from '../test/abi/v2-296-incrementer.json';
-import { getInkPrimitive, getInkString, getInkStrings, getInkType, getInkTypes } from './inkRegistry';
+import { getInkString, getInkStrings, getInkType, getInkTypes } from './inkRegistry';
 
 const registry = new TypeRegistry();
 
@@ -53,16 +53,6 @@ describe('inkRegistry', (): void => {
       expect(
         JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().id]))
       ).toEqual('[{"id":{"Primitive":10},"def":{"Builtin":null}}]');
-    });
-  });
-
-  describe('getInkPrimitive', (): void => {
-    it('allows for primitive lookups', (): void => {
-      const def = getInkType(project, project.contract.messages[0].args[0].type.id);
-
-      expect(
-        getInkPrimitive(project, def.id)
-      ).toEqual('i32');
     });
   });
 });
