@@ -138,6 +138,7 @@ function convertIdDefs (project: InkProject, types: MtTypeIdDef[]): [string | nu
   );
 }
 
-export function getProjectTypes (project: InkProject): [string | null, string | null][] {
-  return convertIdDefs(project, project.lookup.types);
+export function getProjectTypes (project: InkProject): [number, string | null, string | null][] {
+  return convertIdDefs(project, project.lookup.types)
+    .map(([id, type], index): [number, string | null, string | null] => [index + 1, id, type]);
 }
