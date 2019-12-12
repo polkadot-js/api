@@ -65,11 +65,11 @@ describe('inkTypes', (): void => {
       ],
       [
         'ink_core::env2::test::accessor::TestEnv',
-        null
+        'Null'
       ],
       [
         'ink_core::env2::types::DefaultSrmlTypes',
-        null
+        'Null'
       ],
       [
         'ink_core::env2::env_access::mutable::EnvAccessMut',
@@ -77,7 +77,7 @@ describe('inkTypes', (): void => {
       ],
       [
         'PhantomData',
-        null
+        'Null'
       ],
       [
         'Bytes',

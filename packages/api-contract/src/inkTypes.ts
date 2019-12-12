@@ -25,34 +25,34 @@ function getTypeName (project: InkProject, lookup: MtLookupTypeId): string | nul
   return id || type;
 }
 
-export function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string | null {
+export function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string {
   // FIXME We are currently ignoring the discriminant
   const entries = defCE.variants.map(({ name }): string => getInkString(project, name));
 
   return entries.length
     ? `{_enum:[${entries.join(', ')}]}`
-    : null;
+    : 'Null';
 }
 
-export function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruct): string | null {
+export function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruct): string {
   const fields = defStruct.fields.map((field): string => {
     const name = getInkString(project, field.name);
     const type = getTypeName(project, field.type);
 
-    return `"${name}": "${type}"`;
+    return `"${name}": ${JSON.stringify(type)}`;
   });
 
   return fields.length
     ? `{${fields.join(',')}}`
-    : null;
+    : 'Null';
 }
 
-export function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupleStruct): string | null {
+export function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupleStruct): string {
   const types = defTs.types.map((type): string | null => getTypeName(project, type));
 
   return types.length
     ? `(${types.join(', ')})`
-    : null;
+    : 'Null';
 }
 
 export function getTypeDef (project: InkProject, def: MtTypeDef): string | null {
@@ -121,10 +121,10 @@ export function getTypeId (project: InkProject, id: MtTypeId): string {
   throw new Error(`convertLookupIdDef:: Unable to create type from ${id}`);
 }
 
-export function convertLookupIdDef (project: InkProject, mt: MtTypeIdDef): [string | null, string | null] {
+export function convertLookupIdDef (project: InkProject, { id, def }: MtTypeIdDef): [string | null, string | null] {
   return [
-    sanitizeOrNull(getTypeId(project, mt.id)),
-    sanitizeOrNull(getTypeDef(project, mt.def))
+    sanitizeOrNull(getTypeId(project, id)),
+    sanitizeOrNull(getTypeDef(project, def))
   ];
 }
 
