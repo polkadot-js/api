@@ -5,16 +5,16 @@
 const layout = {
   InkLayoutKey: '[u8; 32]',
   InkLayoutField: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     layout: 'InkStorageLayout'
   },
   InkLayoutRange: {
     offset: 'InkLayoutKey',
     len: 'u32',
-    elemType: 'u32'
+    elemType: 'MtRegistryIndex'
   },
   InkLayoutStruct: {
-    type: 'u32',
+    type: 'MtRegistryIndex',
     fields: 'Vec<InkLayoutField>'
   },
   InkStorageLayout: {
@@ -27,35 +27,35 @@ const layout = {
 
 const spec = {
   InkConstructorSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     selector: 'InkSelector',
     args: 'Vec<InkMessageParamSpec>',
     docs: 'Vec<Text>'
   },
   InkContractSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     constructors: 'Vec<InkConstructorSpec>',
     messages: 'Vec<InkMessageSpec>',
     events: 'Vec<InkEventSpec>',
     docs: 'Vec<Text>'
   },
   InkEventParamSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     indexed: 'bool',
     type: 'InkTypeSpec',
     docs: 'Vec<Text>'
   },
   InkEventSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     args: 'Vec<InkEventParamSpec>',
     docs: 'Vec<Text>'
   },
   InkMessageParamSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     type: 'InkTypeSpec'
   },
   InkMessageSpec: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     selector: 'InkSelector',
     mutates: 'bool',
     args: 'Vec<InkMessageParamSpec>',
@@ -64,14 +64,14 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    ty: 'u32',
-    displayName: 'u32'
+    ty: 'MtRegistryIndex',
+    displayName: 'MtRegistryIndex'
   }
 };
 
 const registry = {
   MtClikeEnumVariant: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     discriminant: 'u64'
   },
   MtEnumVariant: {
@@ -83,24 +83,25 @@ const registry = {
     }
   },
   MtEnumVariantTupleStruct: {
-    name: 'u32',
-    types: 'Vec<MtUnnamedField>'
+    name: 'MtRegistryIndex',
+    types: 'Vec<MtRegistryIndex>'
   },
   MtEnumVariantStruct: {
-    name: 'u32',
+    name: 'MtRegistryIndex',
     fields: 'Vec<MtNamedField>'
   },
   MtEnumVariantUnit: {
-    name: 'u32'
+    name: 'MtRegistryIndex'
   },
   MtNamedField: {
-    name: 'u32',
-    type: 'u32'
+    name: 'MtRegistryIndex',
+    type: 'MtRegistryIndex'
   },
   MtRegistry: {
     strings: 'Vec<Text>',
     types: 'Vec<MtTypeIdDef>'
   },
+  MtRegistryIndex: 'u32',
   MtTypeDef: {
     _enum: {
       Builtin: 'Null',
@@ -123,7 +124,7 @@ const registry = {
     fields: 'Vec<MtNamedField>'
   },
   MtTypeDefTupleStruct: {
-    types: 'Vec<u32>'
+    types: 'Vec<MtRegistryIndex>'
   },
   MtTypeDefUnion: {
     fields: 'Vec<MtNamedField>'
@@ -139,12 +140,12 @@ const registry = {
   },
   MtTypeIdArray: {
     len: 'u16',
-    type: 'u32'
+    type: 'MtRegistryIndex'
   },
   MtTypeIdCustom: {
-    name: 'u32',
-    namespace: 'Vec<u32>',
-    params: 'Vec<u32>'
+    name: 'MtRegistryIndex',
+    namespace: 'Vec<MtRegistryIndex>',
+    params: 'Vec<MtRegistryIndex>'
   },
   MtTypeIdDef: {
     id: 'MtTypeId',
@@ -154,7 +155,7 @@ const registry = {
     _enum: ['Bool', 'Char', 'Str', 'U8', 'U16', 'U32', 'U64', 'U128', 'I8', 'I16', 'I32', 'I64', 'I128']
   },
   MtTypeIdSlice: {
-    type: 'u32'
+    type: 'MtRegistryIndex'
   },
   MtTypeIdTuple: 'Vec<MtTypeId>'
 };

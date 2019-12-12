@@ -7,8 +7,8 @@ import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface InkConstructorSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** InkSelector */
   readonly selector: InkSelector;
   /** Vec<InkMessageParamSpec> */
@@ -19,8 +19,8 @@ export interface InkConstructorSpec extends Struct {
 
 /** Struct */
 export interface InkContractSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** Vec<InkConstructorSpec> */
   readonly constructors: Vec<InkConstructorSpec>;
   /** Vec<InkMessageSpec> */
@@ -33,8 +33,8 @@ export interface InkContractSpec extends Struct {
 
 /** Struct */
 export interface InkEventParamSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** bool */
   readonly indexed: bool;
   /** InkTypeSpec */
@@ -45,8 +45,8 @@ export interface InkEventParamSpec extends Struct {
 
 /** Struct */
 export interface InkEventSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** Vec<InkEventParamSpec> */
   readonly args: Vec<InkEventParamSpec>;
   /** Vec<Text> */
@@ -55,8 +55,8 @@ export interface InkEventSpec extends Struct {
 
 /** Struct */
 export interface InkLayoutField extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** InkStorageLayout */
   readonly layout: InkStorageLayout;
 }
@@ -70,30 +70,30 @@ export interface InkLayoutRange extends Struct {
   readonly offset: InkLayoutKey;
   /** u32 */
   readonly len: u32;
-  /** u32 */
-  readonly elemType: u32;
+  /** MtRegistryIndex */
+  readonly elemType: MtRegistryIndex;
 }
 
 /** Struct */
 export interface InkLayoutStruct extends Struct {
-  /** u32 */
-  readonly type: u32;
+  /** MtRegistryIndex */
+  readonly type: MtRegistryIndex;
   /** Vec<InkLayoutField> */
   readonly fields: Vec<InkLayoutField>;
 }
 
 /** Struct */
 export interface InkMessageParamSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** InkTypeSpec */
   readonly type: InkTypeSpec;
 }
 
 /** Struct */
 export interface InkMessageSpec extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** InkSelector */
   readonly selector: InkSelector;
   /** bool */
@@ -133,16 +133,16 @@ export interface InkStorageLayout extends Enum {
 
 /** Struct */
 export interface InkTypeSpec extends Struct {
-  /** u32 */
-  readonly ty: u32;
-  /** u32 */
-  readonly displayName: u32;
+  /** MtRegistryIndex */
+  readonly ty: MtRegistryIndex;
+  /** MtRegistryIndex */
+  readonly displayName: MtRegistryIndex;
 }
 
 /** Struct */
 export interface MtClikeEnumVariant extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** u64 */
   readonly discriminant: u64;
 }
@@ -165,32 +165,32 @@ export interface MtEnumVariant extends Enum {
 
 /** Struct */
 export interface MtEnumVariantStruct extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
   /** Vec<MtNamedField> */
   readonly fields: Vec<MtNamedField>;
 }
 
 /** Struct */
 export interface MtEnumVariantTupleStruct extends Struct {
-  /** u32 */
-  readonly name: u32;
-  /** Vec<MtUnnamedField> */
-  readonly types: Vec<MtUnnamedField>;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
+  /** Vec<MtRegistryIndex> */
+  readonly types: Vec<MtRegistryIndex>;
 }
 
 /** Struct */
 export interface MtEnumVariantUnit extends Struct {
-  /** u32 */
-  readonly name: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
 }
 
 /** Struct */
 export interface MtNamedField extends Struct {
-  /** u32 */
-  readonly name: u32;
-  /** u32 */
-  readonly type: u32;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
+  /** MtRegistryIndex */
+  readonly type: MtRegistryIndex;
 }
 
 /** Struct */
@@ -200,6 +200,9 @@ export interface MtRegistry extends Struct {
   /** Vec<MtTypeIdDef> */
   readonly types: Vec<MtTypeIdDef>;
 }
+
+/** u32 */
+export interface MtRegistryIndex extends u32 {}
 
 /** Enum */
 export interface MtTypeDef extends Enum {
@@ -247,8 +250,8 @@ export interface MtTypeDefStruct extends Struct {
 
 /** Struct */
 export interface MtTypeDefTupleStruct extends Struct {
-  /** Vec<u32> */
-  readonly types: Vec<u32>;
+  /** Vec<MtRegistryIndex> */
+  readonly types: Vec<MtRegistryIndex>;
 }
 
 /** Struct */
@@ -285,18 +288,18 @@ export interface MtTypeId extends Enum {
 export interface MtTypeIdArray extends Struct {
   /** u16 */
   readonly len: u16;
-  /** u32 */
-  readonly type: u32;
+  /** MtRegistryIndex */
+  readonly type: MtRegistryIndex;
 }
 
 /** Struct */
 export interface MtTypeIdCustom extends Struct {
-  /** u32 */
-  readonly name: u32;
-  /** Vec<u32> */
-  readonly namespace: Vec<u32>;
-  /** Vec<u32> */
-  readonly params: Vec<u32>;
+  /** MtRegistryIndex */
+  readonly name: MtRegistryIndex;
+  /** Vec<MtRegistryIndex> */
+  readonly namespace: Vec<MtRegistryIndex>;
+  /** Vec<MtRegistryIndex> */
+  readonly params: Vec<MtRegistryIndex>;
 }
 
 /** Struct */
@@ -339,8 +342,8 @@ export interface MtTypeIdPrimitive extends Enum {
 
 /** Struct */
 export interface MtTypeIdSlice extends Struct {
-  /** u32 */
-  readonly type: u32;
+  /** MtRegistryIndex */
+  readonly type: MtRegistryIndex;
 }
 
 /** Vec<MtTypeId> */
