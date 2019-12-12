@@ -19,7 +19,7 @@ describe('inkTypes', (): void => {
 
       expect(
         getTypeIdPrimitive(project, def.id.asPrimitive)
-      ).toEqual([null, 'i32']);
+      ).toEqual('i32');
     });
   });
 
@@ -27,22 +27,70 @@ describe('inkTypes', (): void => {
     expect(
       convertLookupProject(project)
     ).toEqual([
-      ['incrementer::incrementer::__ink_private::__ink_storage::StorageAndEnv'],
-      ['incrementer::incrementer::__ink_private::__ink_storage::Storage'],
-      ['ink_core::storage::value::Value'],
-      [null, 'i32'],
-      ['ink_core::storage::cell::sync_cell::SyncCell', '{"cell":"[u8;32]"}'],
-      ['ink_core::storage::key::Key', '[u8;32]'],
-      [null, '[u8;32]'],
-      [null, 'u8'],
-      ['ink_core::env2::env_access::immutable::EnvAccess', '{"env":"Null","buffer":"{\"elems\":\"Bytes\"}","has_interacted":"bool","has_returned_value":"bool"}'],
-      ['ink_core::env2::test::accessor::TestEnv', '{}'],
-      ['ink_core::env2::types::DefaultSrmlTypes', '{_enum:[]}'],
-      ['ink_core::env2::env_access::mutable::EnvAccessMut', '{"env":"Null","buffer":"{\"elems\":\"Bytes\"}","has_interacted":"bool","has_returned_value":"bool"}'],
-      ['PhantomData', 'Null'],
-      ['Bytes', '{"elems":"Bytes"}'],
-      [null, 'Bytes'],
-      [null, 'bool']
+      [
+        'incrementer::incrementer::__ink_private::__ink_storage::StorageAndEnv',
+        '{"__storage":"incrementer::incrementer::__ink_private::__ink_storage::Storage","__env":"ink_core::env2::env_access::immutable::EnvAccess"}'
+      ],
+      [
+        'incrementer::incrementer::__ink_private::__ink_storage::Storage',
+        '{"value":"ink_core::storage::value::Value"}'
+      ],
+      [
+        'ink_core::storage::value::Value',
+        '{"cell":"ink_core::storage::cell::sync_cell::SyncCell"}'
+      ],
+      [
+        'i32',
+        null
+      ],
+      [
+        'ink_core::storage::cell::sync_cell::SyncCell',
+        '{"cell":"ink_core::storage::key::Key"}'
+      ],
+      [
+        'ink_core::storage::key::Key',
+        '[u8;32]'
+      ],
+      [
+        '[u8;32]',
+        null
+      ],
+      [
+        'u8',
+        null
+      ],
+      [
+        'ink_core::env2::env_access::immutable::EnvAccess',
+        '{"access":"ink_core::env2::env_access::mutable::EnvAccessMut"}'
+      ],
+      [
+        'ink_core::env2::test::accessor::TestEnv',
+        null
+      ],
+      [
+        'ink_core::env2::types::DefaultSrmlTypes',
+        null
+      ],
+      [
+        'ink_core::env2::env_access::mutable::EnvAccessMut',
+        '{"env":"PhantomData","buffer":"Bytes","has_interacted":"bool","has_returned_value":"bool"}'
+      ],
+      [
+        'PhantomData',
+        null
+      ],
+      [
+        'Bytes',
+        '{"elems":"Bytes"}'
+      ],
+      [
+        'Bytes',
+        null
+      ],
+      [
+        'bool',
+        null
+      ]
     ]);
   });
 });
