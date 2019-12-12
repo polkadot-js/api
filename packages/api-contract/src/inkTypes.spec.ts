@@ -5,27 +5,16 @@
 import { TypeRegistry, createType } from '@polkadot/types';
 
 import incrementer from '../test/abi/v2-296-incrementer.json';
-import { getInkType } from './inkRegistry';
-import { convertLookupProject, getTypeIdPrimitive } from './inkTypes';
+import { getProjectTypes } from './inkTypes';
 
 const registry = new TypeRegistry();
 
 describe('inkTypes', (): void => {
   const project = createType(registry, 'InkProject', incrementer);
 
-  describe('getTypeIdPrimitive', (): void => {
-    it('allows for primitive lookups', (): void => {
-      const def = getInkType(project, project.contract.messages[0].args[0].type.id);
-
-      expect(
-        getTypeIdPrimitive(project, def.id.asPrimitive)
-      ).toEqual('i32');
-    });
-  });
-
-  describe('convertLookupProject', (): void => {
+  it('converts using getProjectTypes', (): void => {
     expect(
-      convertLookupProject(project)
+      getProjectTypes(project)
     ).toEqual([
       [
         'incrementer::incrementer::__ink_private::__ink_storage::StorageAndEnv',

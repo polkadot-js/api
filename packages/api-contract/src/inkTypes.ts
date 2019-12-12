@@ -20,12 +20,13 @@ function sanitizeOrNull (type: string | null): string | null {
 }
 
 function getTypeName (project: InkProject, lookup: MtLookupTypeId): string | null {
-  const [id, type] = convertLookupIdDef(project, getInkType(project, lookup));
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const [id, type] = convertIdDef(project, getInkType(project, lookup));
 
   return id || type;
 }
 
-export function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string {
+function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string {
   // FIXME We are currently ignoring the discriminant
   const entries = defCE.variants.map(({ name }): string => getInkString(project, name));
 
@@ -34,7 +35,7 @@ export function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum)
     : 'Null';
 }
 
-export function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruct): string {
+function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruct): string {
   const fields = defStruct.fields.map((field): string => {
     const name = getInkString(project, field.name);
     const type = getTypeName(project, field.type);
@@ -47,7 +48,7 @@ export function getTypeDefStruct (project: InkProject, defStruct: MtTypeDefStruc
     : 'Null';
 }
 
-export function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupleStruct): string {
+function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupleStruct): string {
   const types = defTs.types.map((type): string | null => getTypeName(project, type));
 
   return types.length
@@ -55,7 +56,7 @@ export function getTypeDefTupleStruct (project: InkProject, defTs: MtTypeDefTupl
     : 'Null';
 }
 
-export function getTypeDef (project: InkProject, def: MtTypeDef): string | null {
+function getTypeDef (project: InkProject, def: MtTypeDef): string | null {
   if (def.isBuiltin) {
     return null;
   } else if (def.isClikeEnum) {
@@ -73,25 +74,28 @@ export function getTypeDef (project: InkProject, def: MtTypeDef): string | null 
 }
 
 // convert a typeid into a VecFixed
-export function getTypeIdArray (project: InkProject, idArray: MtTypeIdArray): string {
+function getTypeIdArray (project: InkProject, idArray: MtTypeIdArray): string {
   const type = getTypeName(project, idArray.type);
 
   return `[${type};${idArray.len}]`;
 }
 
 // convert a typeid into the custom
-export function getTypeIdCustom (project: InkProject, idCustom: MtTypeIdCustom): string {
+function getTypeIdCustom (project: InkProject, idCustom: MtTypeIdCustom): string {
   const name = getInkString(project, idCustom.name);
-  const namespace = getInkStrings(project, idCustom.namespace);
+  const namespaces = getInkStrings(project, idCustom.namespace);
   const params = idCustom.params.length
     ? `<${idCustom.params.map((type): string | null => getTypeName(project, type)).join(', ')}>`
     : '';
+  const namespace = namespaces.length
+    ? `${namespaces.join('::')}::`
+    : '';
 
-  return `${namespace.join('::')}${namespace.length ? '::' : ''}${name}${params}`;
+  return `${namespace}${name}${params}`;
 }
 
 // convert a typeid into a primitive
-export function getTypeIdPrimitive (_project: InkProject, idPrim: MtTypeIdPrimitive): InterfaceTypes {
+function getTypeIdPrimitive (_project: InkProject, idPrim: MtTypeIdPrimitive): InterfaceTypes {
   const primitive = PRIMITIVES[idPrim.index];
 
   assert(!isUndefined(primitive), `getInkPrimitive:: Unable to convert ${idPrim} to primitive`);
@@ -100,14 +104,14 @@ export function getTypeIdPrimitive (_project: InkProject, idPrim: MtTypeIdPrimit
 }
 
 // convert a typeid into the underlying Vec
-export function getTypeIdSlice (project: InkProject,isSlice: MtTypeIdSlice): string {
-  const type = getTypeName(project, isSlice.type);
+function getTypeIdSlice (project: InkProject, idSlice: MtTypeIdSlice): string {
+  const type = getTypeName(project, idSlice.type);
 
   return `Vec<${type}>`;
 }
 
 // convert a typeid into the underlying id string
-export function getTypeId (project: InkProject, id: MtTypeId): string {
+function getTypeId (project: InkProject, id: MtTypeId): string {
   if (id.isArray) {
     return getTypeIdArray(project, id.asArray);
   } else if (id.isCustom) {
@@ -118,22 +122,22 @@ export function getTypeId (project: InkProject, id: MtTypeId): string {
     return getTypeIdSlice(project, id.asSlice);
   }
 
-  throw new Error(`convertLookupIdDef:: Unable to create type from ${id}`);
+  throw new Error(`convertIdDef:: Unable to create type from ${id}`);
 }
 
-export function convertLookupIdDef (project: InkProject, { id, def }: MtTypeIdDef): [string | null, string | null] {
+function convertIdDef (project: InkProject, { id, def }: MtTypeIdDef): [string | null, string | null] {
   return [
     sanitizeOrNull(getTypeId(project, id)),
     sanitizeOrNull(getTypeDef(project, def))
   ];
 }
 
-export function convertLookupIdDefs (project: InkProject, types: MtTypeIdDef[]): [string | null, string | null][] {
+function convertIdDefs (project: InkProject, types: MtTypeIdDef[]): [string | null, string | null][] {
   return types.map((type): [string | null, string | null] =>
-    convertLookupIdDef(project, type)
+    convertIdDef(project, type)
   );
 }
 
-export function convertLookupProject (project: InkProject): [string | null, string | null][] {
-  return convertLookupIdDefs(project, project.lookup.types);
+export function getProjectTypes (project: InkProject): [string | null, string | null][] {
+  return convertIdDefs(project, project.lookup.types);
 }
