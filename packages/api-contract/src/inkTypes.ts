@@ -19,11 +19,11 @@ function sanitizeOrNull (type: string | null): string | null {
     : null;
 }
 
-function getTypeName (project: InkProject, lookup: MtLookupTypeId): string | null {
+function getTypeName (project: InkProject, lookup: MtLookupTypeId): string {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const [id, type] = convertIdDef(project, getInkType(project, lookup));
+  const [, id] = convertIdDef(project, getInkType(project, lookup), lookup.toNumber());
 
-  return id || type;
+  return id;
 }
 
 function getTypeDefCEnum (project: InkProject, defCE: MtTypeDefClikeEnum): string {
@@ -125,20 +125,19 @@ function getTypeId (project: InkProject, id: MtTypeId): string {
   throw new Error(`convertIdDef:: Unable to create type from ${id}`);
 }
 
-function convertIdDef (project: InkProject, { id, def }: MtTypeIdDef): [string | null, string | null] {
-  return [
-    sanitizeOrNull(getTypeId(project, id)),
-    sanitizeOrNull(getTypeDef(project, def))
-  ];
+function convertIdDef (project: InkProject, { id, def }: MtTypeIdDef, index: number): [number, string, string | null] {
+  const name = sanitize(getTypeId(project, id));
+  const type = sanitizeOrNull(getTypeDef(project, def));
+
+  return [index, type ? `${index}::${name}` : name, type];
 }
 
-function convertIdDefs (project: InkProject, types: MtTypeIdDef[]): [string | null, string | null][] {
-  return types.map((type): [string | null, string | null] =>
-    convertIdDef(project, type)
+function convertIdDefs (project: InkProject, types: MtTypeIdDef[]): [number, string, string | null][] {
+  return types.map((type, index): [number, string, string | null] =>
+    convertIdDef(project, type, index + 1)
   );
 }
 
-export function getProjectTypes (project: InkProject): [number, string | null, string | null][] {
-  return convertIdDefs(project, project.lookup.types)
-    .map(([id, type], index): [number, string | null, string | null] => [index + 1, id, type]);
+export function getProjectTypes (project: InkProject): [number, string, string | null][] {
+  return convertIdDefs(project, project.lookup.types);
 }

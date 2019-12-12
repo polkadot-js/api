@@ -18,18 +18,18 @@ describe('inkTypes', (): void => {
     ).toEqual([
       [
         1,
-        'incrementer::incrementer::__ink_private::__ink_storage::StorageAndEnv',
-        '{"__storage":"incrementer::incrementer::__ink_private::__ink_storage::Storage","__env":"ink_core::env2::env_access::immutable::EnvAccess"}'
+        '1::incrementer::incrementer::__ink_private::__ink_storage::StorageAndEnv',
+        '{"__storage":"2::incrementer::incrementer::__ink_private::__ink_storage::Storage","__env":"9::ink_core::env2::env_access::immutable::EnvAccess"}'
       ],
       [
         2,
-        'incrementer::incrementer::__ink_private::__ink_storage::Storage',
-        '{"value":"ink_core::storage::value::Value"}'
+        '2::incrementer::incrementer::__ink_private::__ink_storage::Storage',
+        '{"value":"3::ink_core::storage::value::Value"}'
       ],
       [
         3,
-        'ink_core::storage::value::Value',
-        '{"cell":"ink_core::storage::cell::sync_cell::SyncCell"}'
+        '3::ink_core::storage::value::Value',
+        '{"cell":"5::ink_core::storage::cell::sync_cell::SyncCell"}'
       ],
       [
         4,
@@ -38,12 +38,12 @@ describe('inkTypes', (): void => {
       ],
       [
         5,
-        'ink_core::storage::cell::sync_cell::SyncCell',
-        '{"cell":"ink_core::storage::key::Key"}'
+        '5::ink_core::storage::cell::sync_cell::SyncCell',
+        '{"cell":"6::ink_core::storage::key::Key"}'
       ],
       [
         6,
-        'ink_core::storage::key::Key',
+        '6::ink_core::storage::key::Key',
         '[u8;32]'
       ],
       [
@@ -58,32 +58,32 @@ describe('inkTypes', (): void => {
       ],
       [
         9,
-        'ink_core::env2::env_access::immutable::EnvAccess',
-        '{"access":"ink_core::env2::env_access::mutable::EnvAccessMut"}'
+        '9::ink_core::env2::env_access::immutable::EnvAccess',
+        '{"access":"12::ink_core::env2::env_access::mutable::EnvAccessMut"}'
       ],
       [
         10,
-        'ink_core::env2::test::accessor::TestEnv',
+        '10::ink_core::env2::test::accessor::TestEnv',
         'Null'
       ],
       [
         11,
-        'ink_core::env2::types::DefaultSrmlTypes',
+        '11::ink_core::env2::types::DefaultSrmlTypes',
         'Null'
       ],
       [
         12,
-        'ink_core::env2::env_access::mutable::EnvAccessMut',
-        '{"env":"PhantomData","buffer":"Bytes","has_interacted":"bool","has_returned_value":"bool"}'
+        '12::ink_core::env2::env_access::mutable::EnvAccessMut',
+        '{"env":"13::PhantomData","buffer":"14::Bytes","has_interacted":"bool","has_returned_value":"bool"}'
       ],
       [
         13,
-        'PhantomData',
+        '13::PhantomData',
         'Null'
       ],
       [
         14,
-        'Bytes',
+        '14::Bytes',
         '{"elems":"Bytes"}'
       ],
       [
