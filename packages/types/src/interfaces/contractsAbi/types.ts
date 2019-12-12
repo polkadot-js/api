@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
-import { Enum, Option, Raw, Struct, Vec } from '@polkadot/types/codec';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Text, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface InkConstructorSpec extends Struct {
   /** u32 */
   readonly name: u32;
-  /** Raw */
-  readonly selector: Raw;
+  /** InkSelector */
+  readonly selector: InkSelector;
   /** Vec<InkMessageParamSpec> */
   readonly args: Vec<InkMessageParamSpec>;
   /** Vec<Text> */
@@ -94,8 +94,8 @@ export interface InkMessageParamSpec extends Struct {
 export interface InkMessageSpec extends Struct {
   /** u32 */
   readonly name: u32;
-  /** Raw */
-  readonly selector: Raw;
+  /** InkSelector */
+  readonly selector: InkSelector;
   /** bool */
   readonly mutates: bool;
   /** Vec<InkMessageParamSpec> */
@@ -116,6 +116,9 @@ export interface InkProject extends Struct {
   readonly contract: InkContractSpec;
 }
 
+/** Uint8Array, Codec */
+export interface InkSelector extends Uint8Array, Codec {}
+
 /** Enum */
 export interface InkStorageLayout extends Enum {
   /** 0:: Range(InkLayoutRange) */
@@ -131,7 +134,7 @@ export interface InkStorageLayout extends Enum {
 /** Struct */
 export interface InkTypeSpec extends Struct {
   /** u32 */
-  readonly type: u32;
+  readonly ty: u32;
   /** u32 */
   readonly displayName: u32;
 }

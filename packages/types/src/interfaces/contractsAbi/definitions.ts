@@ -28,7 +28,7 @@ const layout = {
 const spec = {
   InkConstructorSpec: {
     name: 'u32',
-    selector: '[u8; 4]',
+    selector: 'InkSelector',
     args: 'Vec<InkMessageParamSpec>',
     docs: 'Vec<Text>'
   },
@@ -56,12 +56,13 @@ const spec = {
   },
   InkMessageSpec: {
     name: 'u32',
-    selector: '[u8; 4]',
+    selector: 'InkSelector',
     mutates: 'bool',
     args: 'Vec<InkMessageParamSpec>',
     returnType: 'Option<InkTypeSpec>',
     docs: 'Vec<Text>'
   },
+  InkSelector: '[u8; 4]',
   InkTypeSpec: {
     ty: 'u32',
     displayName: 'u32'

@@ -11,7 +11,7 @@ import { BalanceLock, VestingSchedule, WithdrawReasons } from '@polkadot/types/i
 import { MemberCount, ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { InkConstructorSpec, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkStorageLayout, InkTypeSpec, MtClikeEnumVariant, MtEnumVariant, MtEnumVariantStruct, MtEnumVariantTupleStruct, MtEnumVariantUnit, MtNamedField, MtRegistry, MtTypeDef, MtTypeDefClikeEnum, MtTypeDefEnum, MtTypeDefStruct, MtTypeDefTupleStruct, MtTypeDefUnion, MtTypeId, MtTypeIdArray, MtTypeIdCustom, MtTypeIdDef, MtTypeIdPrimitive, MtTypeIdSlice, MtTypeIdTuple } from '@polkadot/types/interfaces/contractsAbi';
+import { InkConstructorSpec, InkContractSpec, InkEventParamSpec, InkEventSpec, InkLayoutField, InkLayoutKey, InkLayoutRange, InkLayoutStruct, InkMessageParamSpec, InkMessageSpec, InkProject, InkSelector, InkStorageLayout, InkTypeSpec, MtClikeEnumVariant, MtEnumVariant, MtEnumVariantStruct, MtEnumVariantTupleStruct, MtEnumVariantUnit, MtNamedField, MtRegistry, MtTypeDef, MtTypeDefClikeEnum, MtTypeDefEnum, MtTypeDefStruct, MtTypeDefTupleStruct, MtTypeDefUnion, MtTypeId, MtTypeIdArray, MtTypeIdCustom, MtTypeIdDef, MtTypeIdPrimitive, MtTypeIdSlice, MtTypeIdTuple } from '@polkadot/types/interfaces/contractsAbi';
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from '@polkadot/types/interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
@@ -521,6 +521,9 @@ export interface InterfaceRegistry {
   InkMessageSpec: InkMessageSpec;
   'Option<InkMessageSpec>': Option<InkMessageSpec>;
   'Vec<InkMessageSpec>': Vec<InkMessageSpec>;
+  InkSelector: InkSelector;
+  'Option<InkSelector>': Option<InkSelector>;
+  'Vec<InkSelector>': Vec<InkSelector>;
   InkTypeSpec: InkTypeSpec;
   'Option<InkTypeSpec>': Option<InkTypeSpec>;
   'Vec<InkTypeSpec>': Vec<InkTypeSpec>;
