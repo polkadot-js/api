@@ -78,7 +78,6 @@ const registry = {
     _enum: {
       Unit: 'MtEnumVariantUnit',
       Struct: 'MtEnumVariantStruct',
-      // #[serde(rename = "tupleStruct")]
       TupleStruct: 'MtEnumVariantTupleStruct'
     }
   },
@@ -106,9 +105,7 @@ const registry = {
     _enum: {
       Builtin: 'Null',
       Struct: 'MtTypeDefStruct',
-      // #[serde(rename = "tupleStruct")]
       TupleStruct: 'MtTypeDefTupleStruct',
-      // #[serde(rename = "clikeEnum")]
       ClikeEnum: 'MtTypeDefClikeEnum',
       Enum: 'MtTypeDefEnum',
       Union: 'MtTypeDefUnion'
