@@ -10,16 +10,16 @@ import { assert, isUndefined } from '@polkadot/util';
 // this maps through the the enum defintion in types/interfaces/contractsAbi/defintions.ts
 const PRIMITIVES: InterfaceTypes[] = ['bool', 'u8', 'Text', 'u8', 'u16', 'u32', 'u64', 'u128', 'i8', 'i16', 'i32', 'i64', 'i128'];
 
+function getRegistryOffset (id: MtLookupTextId | MtLookupTypeId): number {
+  return id.toNumber() - 1;
+}
+
 export function getInkPrimitive (_project: InkProject, typeId: MtTypeId): InterfaceTypes {
   const primitive = PRIMITIVES[typeId.asPrimitive.index];
 
   assert(!isUndefined(primitive), `getInkPrimitive:: Unable to convert ${typeId} to primitive`);
 
   return primitive;
-}
-
-function getRegistryOffset (index: MtLookupTextId | MtLookupTypeId): number {
-  return index.toNumber() - 1;
 }
 
 export function getInkString (project: InkProject, id: MtLookupTextId): string {

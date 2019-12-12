@@ -64,7 +64,7 @@ const spec = {
   },
   InkSelector: '[u8; 4]',
   InkTypeSpec: {
-    ty: 'MtLookupTypeId',
+    id: 'MtLookupTypeId',
     displayName: 'MtLookupTextId'
   }
 };

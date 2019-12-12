@@ -45,20 +45,20 @@ describe('inkRegistry', (): void => {
 
     it('does single lookups via getInkType', (): void => {
       expect(
-        JSON.stringify(getInkType(project, project.contract.messages[0].args[0].type.ty))
+        JSON.stringify(getInkType(project, project.contract.messages[0].args[0].type.id))
       ).toEqual('{"id":{"Primitive":10},"def":{"Builtin":null}}');
     });
 
     it('does multiple lookups via getInkTypes', (): void => {
       expect(
-        JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().ty]))
+        JSON.stringify(getInkTypes(project, [project.contract.messages[1].returnType.unwrap().id]))
       ).toEqual('[{"id":{"Primitive":10},"def":{"Builtin":null}}]');
     });
   });
 
   describe('getInkPrimitive', (): void => {
     it('allows for primitive lookups', (): void => {
-      const def = getInkType(project, project.contract.messages[0].args[0].type.ty);
+      const def = getInkType(project, project.contract.messages[0].args[0].type.id);
 
       expect(
         getInkPrimitive(project, def.id)

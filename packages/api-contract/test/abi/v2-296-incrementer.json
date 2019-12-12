@@ -392,7 +392,7 @@
           {
             "name": 37,
             "type": {
-              "ty": 4,
+              "id": 4,
               "displayName": [
                 38
               ]
@@ -417,7 +417,7 @@
           {
             "name": 41,
             "type": {
-              "ty": 4,
+              "id": 4,
               "displayName": [
                 38
               ]
@@ -433,7 +433,7 @@
         "mutates": false,
         "args": [],
         "returnType": {
-          "ty": 4,
+          "id": 4,
           "displayName": [
             38
           ]
