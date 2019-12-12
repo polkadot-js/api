@@ -111,7 +111,7 @@ export interface InkProject extends Struct {
   /** MtRegistry */
   readonly lookup: MtRegistry;
   /** InkStorageLayout */
-  readonly layout: InkStorageLayout;
+  readonly storage: InkStorageLayout;
   /** InkContractSpec */
   readonly contract: InkContractSpec;
 }
@@ -244,8 +244,8 @@ export interface MtTypeDefStruct extends Struct {
 
 /** Struct */
 export interface MtTypeDefTupleStruct extends Struct {
-  /** Vec<MtUnnamedField> */
-  readonly types: Vec<MtUnnamedField>;
+  /** Vec<u32> */
+  readonly types: Vec<u32>;
 }
 
 /** Struct */
@@ -292,8 +292,8 @@ export interface MtTypeIdCustom extends Struct {
   readonly name: u32;
   /** Vec<u32> */
   readonly namespace: Vec<u32>;
-  /** Vec<MtTypeId> */
-  readonly params: Vec<MtTypeId>;
+  /** Vec<u32> */
+  readonly params: Vec<u32>;
 }
 
 /** Struct */
@@ -342,9 +342,3 @@ export interface MtTypeIdSlice extends Struct {
 
 /** Vec<MtTypeId> */
 export interface MtTypeIdTuple extends Vec<MtTypeId> {}
-
-/** Struct */
-export interface MtUnnamedField extends Struct {
-  /** u32 */
-  readonly type: u32;
-}

@@ -4,7 +4,7 @@
 
 import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes, Registry } from '../types';
 
-import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -85,10 +85,21 @@ export default class Struct<
   }
 
   private static decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+    // The key in the JSON can be snake_case (or other cases), but in our
+    // Types, result or any other maps, it's camelCase
+    const getKey = (key: any): any =>
+      (jsonMap.get(key) && !value[key]) ? jsonMap.get(key) : key;
+
+    if (!Array.isArray(value) && isObject(value) && !isFunction(value.registry?.get)) {
+      const expected: string[] = Object.keys(Types).map((key): string => getKey(key));
+      const available: string[] = Object.keys(value);
+      const missing: string[] = available.filter((key): boolean => !expected.includes(key));
+
+      assert(!missing.length, `Struct: Unknown '${missing.join(', ')}' found, expected only '${expected.join(', ')}', found '${available.join(', ')}'`);
+    }
+
     return Object.keys(Types).reduce((raw, key, index): T => {
-      // The key in the JSON can be snake_case (or other cases), but in our
-      // Types, result or any other maps, it's camelCase
-      const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+      const jsonKey = getKey(key);
 
       try {
         if (Array.isArray(value)) {
@@ -110,7 +121,7 @@ export default class Struct<
           throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
         }
       } catch (error) {
-        throw new Error(`Struct: failed on '${jsonKey}':: ${error.message}`);
+        throw new Error(`Struct(${jsonKey}):: ${error.message}`);
       }
 
       return raw;

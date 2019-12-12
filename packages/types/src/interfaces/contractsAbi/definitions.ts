@@ -63,7 +63,7 @@ const spec = {
     docs: 'Vec<Text>'
   },
   InkTypeSpec: {
-    type: 'u32',
+    ty: 'u32',
     displayName: 'u32'
   }
 };
@@ -122,7 +122,7 @@ const registry = {
     fields: 'Vec<MtNamedField>'
   },
   MtTypeDefTupleStruct: {
-    types: 'Vec<MtUnnamedField>'
+    types: 'Vec<u32>'
   },
   MtTypeDefUnion: {
     fields: 'Vec<MtNamedField>'
@@ -143,7 +143,7 @@ const registry = {
   MtTypeIdCustom: {
     name: 'u32',
     namespace: 'Vec<u32>',
-    params: 'Vec<MtTypeId>'
+    params: 'Vec<u32>'
   },
   MtTypeIdDef: {
     id: 'MtTypeId',
@@ -155,10 +155,7 @@ const registry = {
   MtTypeIdSlice: {
     type: 'u32'
   },
-  MtTypeIdTuple: 'Vec<MtTypeId>',
-  MtUnnamedField: {
-    type: 'u32'
-  }
+  MtTypeIdTuple: 'Vec<MtTypeId>'
 };
 
 export default {
@@ -171,7 +168,7 @@ export default {
         lookup: 'registry'
       },
       lookup: 'MtRegistry',
-      layout: 'InkStorageLayout',
+      storage: 'InkStorageLayout',
       contract: 'InkContractSpec'
     }
   }

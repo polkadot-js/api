@@ -64,7 +64,11 @@ function decodeFromJSON (registry: Registry, def: TypesDef, key: string, value?:
 
   assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
-  return createFromValue(registry, def, index, value);
+  try {
+    return createFromValue(registry, def, index, value);
+  } catch (error) {
+    throw new Error(`Enum(${key}):: ${error.message}`);
+  }
 }
 
 function decodeFromString (registry: Registry, def: TypesDef, value: string): Decoded {

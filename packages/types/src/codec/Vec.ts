@@ -38,9 +38,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
             ? entry
             : new Type(registry, entry);
         } catch (error) {
-          console.error(`Unable to decode Vec on index ${index}`, error.message);
-
-          throw error;
+          throw new Error(`Vec(${index}):: ${error.message}`);
         }
       });
     }
