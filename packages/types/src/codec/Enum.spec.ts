@@ -331,16 +331,23 @@ describe('Enum', (): void => {
         const Test = Enum.with({ A: 'u32' });
         const test = new Test(registry, 0x44332211, 0);
 
-        // u32 encoded in LE format
-        expect(test.toHex()).toEqual('0x0011223344');
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          '11223344' // u32 LE encoded
+        );
       });
 
       it('encodes a single entry correctly (with embedded encoding)', (): void => {
         const Test = Enum.with({ A: 'Address' });
         const test = new Test(registry, createType(registry, 'AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
 
-        // address has a 0xff to indicate an AccountId being embedded
-        expect(test.toHex()).toEqual('0x00ff0001020304050607080910111213141516171819202122232425262728293031');
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          'ff' + // Address indicating an embedded AccountId
+          '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
+        );
       });
     });
   });
