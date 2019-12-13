@@ -44,13 +44,13 @@ export interface DerivedContractFees {
   transferFee: BN;
 }
 
-export interface DerivedCouncilProposal {
+export interface DerivedCollectiveProposal {
   hash: Hash;
   proposal: Proposal;
   votes: Votes | null;
 }
 
-export type DerivedCouncilProposals = DerivedCouncilProposal[];
+export type DerivedCollectiveProposals = DerivedCollectiveProposal[];
 
 export interface DerivedElectionsInfo {
   candidates: AccountId[];
@@ -173,7 +173,7 @@ export interface DerivedStakingOverview extends DeriveSessionIndexes {
 }
 
 export interface DerivedTreasuryProposal {
-  council: DerivedCouncilProposal[];
+  council: DerivedCollectiveProposal[];
   id: ProposalIndex;
   proposal: TreasuryProposal;
 }
