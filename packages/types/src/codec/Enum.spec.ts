@@ -6,7 +6,7 @@ import { Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry, createType } from './create';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -325,6 +325,29 @@ describe('Enum', (): void => {
 
         expect(test.toHex()).toEqual('0x017b000000');
         expect(test.encodedLength).toEqual(1 + 4);
+      });
+
+      it('encodes a single entry correctly', (): void => {
+        const Test = Enum.with({ A: 'u32' });
+        const test = new Test(registry, 0x44332211, 0);
+
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          '11223344' // u32 LE encoded
+        );
+      });
+
+      it('encodes a single entry correctly (with embedded encoding)', (): void => {
+        const Test = Enum.with({ A: 'Address' });
+        const test = new Test(registry, createType(registry, 'AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
+
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          'ff' + // Address indicating an embedded AccountId
+          '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
+        );
       });
     });
   });
