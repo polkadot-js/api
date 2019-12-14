@@ -3,34 +3,8 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Set, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, H160, H256, u32 } from '@polkadot/types/primitive';
+import { Data, H160, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
-
-/** Enum */
-export interface Data extends Enum {
-  /** 0:: None */
-  readonly isNone: boolean;
-  /** 1:: Raw(Bytes) */
-  readonly isRaw: boolean;
-  /** Bytes */
-  readonly asRaw: Bytes;
-  /** 2:: BlakeTwo256(H256) */
-  readonly isBlakeTwo256: boolean;
-  /** H256 */
-  readonly asBlakeTwo256: H256;
-  /** 3:: Sha256(H256) */
-  readonly isSha256: boolean;
-  /** H256 */
-  readonly asSha256: H256;
-  /** 4:: Keccak256(H256) */
-  readonly isKeccak256: boolean;
-  /** H256 */
-  readonly asKeccak256: H256;
-  /** 5:: ShaThree256(H256) */
-  readonly isShaThree256: boolean;
-  /** H256 */
-  readonly asShaThree256: H256;
-}
 
 /** Set */
 export interface IdentityFields extends Set {
