@@ -37,7 +37,7 @@ export default class IdentityFields extends Set {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return 4;
+    return 8;
   }
 
   /**
