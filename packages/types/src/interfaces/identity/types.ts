@@ -2,27 +2,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { Enum, Option, Set, Struct, Vec } from '@polkadot/types/codec';
-import { Data, H160, u32 } from '@polkadot/types/primitive';
+import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
+import { Data, H160, IdentityFields, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
-
-/** Set */
-export interface IdentityFields extends Set {
-  /** boolean */
-  readonly isDisplay: boolean;
-  /** boolean */
-  readonly isLegal: boolean;
-  /** boolean */
-  readonly isWeb: boolean;
-  /** boolean */
-  readonly isRiot: boolean;
-  /** boolean */
-  readonly isEmail: boolean;
-  /** boolean */
-  readonly isPgpFingerprint: boolean;
-  /** boolean */
-  readonly isImage: boolean;
-}
 
 /** Struct */
 export interface IdentityInfo extends Struct {
