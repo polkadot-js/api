@@ -9,7 +9,11 @@ import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Enum from '../codec/Enum';
 import { createType } from '../codec/create/createType';
 
-function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number] {
+function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {
+  if (!value.length) {
+    return [undefined, undefined];
+  }
+
   const indicator = value[0];
 
   if (indicator === 0) {
