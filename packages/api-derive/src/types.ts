@@ -2,16 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RewardDestination, SessionIndex, SetIndex, StakingLedger, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, StakingLedger, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
+export interface DeriveAccountRegistration {
+  displayName?: string;
+  judgements: RegistrationJudgement[];
+}
+
 export interface DeriveAccountInfo {
   accountId?: AccountId;
   accountIndex?: AccountIndex;
+  identity: DeriveAccountRegistration;
   nickname?: string;
 }
 
