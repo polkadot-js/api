@@ -62,6 +62,13 @@ export default class Data extends Enum {
   }
 
   /**
+   * @description The encoded length
+   */
+  public get encodedLength (): number {
+    return this.toU8a().length;
+  }
+
+  /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    */
   public toU8a (): Uint8Array {
