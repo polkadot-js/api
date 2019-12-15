@@ -9,5 +9,5 @@ import { Observable } from 'rxjs';
 import { proposals as collectiveProposals } from '../collective';
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DerivedCollectiveProposals> {
-  return collectiveProposals(api, 'council');
+  return collectiveProposals(api, 'technicalCommittee');
 }
