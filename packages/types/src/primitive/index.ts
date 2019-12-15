@@ -10,9 +10,11 @@
  */
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
+export { default as Data } from './Data';
 export { default as H160 } from './H160';
 export { default as H256 } from './H256';
 export { default as H512 } from './H512';
+export { default as IdentityFields } from './IdentityFields';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';
