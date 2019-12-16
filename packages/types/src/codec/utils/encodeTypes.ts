@@ -25,6 +25,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
 
   switch (info) {
     case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.BTreeSet:
     case TypeDefInfo.Compact:
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Option:
