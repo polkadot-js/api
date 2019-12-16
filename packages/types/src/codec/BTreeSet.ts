@@ -143,7 +143,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   public toJSON (): AnyJsonArray {
     const json: any = [];
     this.forEach((v: V) => {
-      json.push(v.toJSON())
+      json.push(v.toJSON());
     });
     return json;
   }

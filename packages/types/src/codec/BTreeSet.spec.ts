@@ -18,7 +18,7 @@ mockU32Set.add(new U32(registry, 24));
 mockU32Set.add(new U32(registry, 30));
 mockU32Set.add(new U32(registry, 80));
 const mockU32SetString = '[2,24,30,80]';
-const mockU32SetObject = [ 2, 24, 30, 80 ];
+const mockU32SetObject = [2, 24, 30, 80];
 const mockU32SetHexString = '0x1002000000180000001e00000050000000';
 const mockU32SetUint8Array = Uint8Array.from([16, 2, 0, 0, 0, 24, 0, 0, 0, 30, 0, 0, 0, 80, 0, 0, 0]);
 

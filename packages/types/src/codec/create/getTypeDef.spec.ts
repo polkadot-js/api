@@ -54,8 +54,8 @@ describe('getTypeDef', (): void => {
       info: TypeDefInfo.BTreeSet,
       type: 'BTreeSet<Text>',
       sub: {
-          info: TypeDefInfo.Plain,
-          type: 'Text'
+        info: TypeDefInfo.Plain,
+        type: 'Text'
       }
     });
   });

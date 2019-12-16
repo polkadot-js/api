@@ -12,7 +12,7 @@ function notEntry (value: any): boolean {
 export default function compareSet (a: Set<any>, b?: any): boolean {
   if (Array.isArray(b)) {
     // equal number of entries and each entry in the array should match
-    return (a.size === b.length) && !b.some((entry): boolean => 
+    return (a.size === b.length) && !b.some((entry): boolean =>
       notEntry(entry) || a.has(entry)
     );
   } else if (b instanceof Set) {
@@ -23,4 +23,3 @@ export default function compareSet (a: Set<any>, b?: any): boolean {
 
   return false;
 }
-  
