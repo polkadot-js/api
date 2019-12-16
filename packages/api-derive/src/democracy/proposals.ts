@@ -27,7 +27,7 @@ interface Result {
 function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Result): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
-      !!(preimages[index]?.isSome) && !!(depositors[index]?.isSome) && !proposer.isEmpty
+      !!(depositors[index]?.isSome) && !proposer.isEmpty
     )
     .map(([propIndex, hash, proposer], index): DeriveProposal => {
       const preimage = preimages[index].unwrapOr(null);
