@@ -9,7 +9,7 @@ import { assert, bnToBn, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polk
 
 import Enum from '../../codec/Enum';
 import Tuple from '../../codec/Tuple';
-import U8a from '../../codec/U8a';
+import Raw from '../../codec/Raw';
 import U64 from '../U64';
 import { IMMORTAL_ERA } from './constants';
 
@@ -33,7 +33,7 @@ interface ImmortalEnumDef {
  * @description
  * The ImmortalEra for an extrinsic
  */
-export class ImmortalEra extends U8a {
+export class ImmortalEra extends Raw {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor (registry: Registry, value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a

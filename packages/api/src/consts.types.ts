@@ -47,6 +47,7 @@ declare module '@polkadot/metadata/Decorated/types' {
       minimumDeposit: BalanceOf & ConstantCodec;
       emergencyVotingPeriod: BlockNumber & ConstantCodec;
       cooloffPeriod: BlockNumber & ConstantCodec;
+      preimageByteDeposit: BalanceOf & ConstantCodec;
     };
     elections: {
       [index: string]: Codec;

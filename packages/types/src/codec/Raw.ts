@@ -8,7 +8,7 @@ import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 /**
- * @name U8a
+ * @name Raw
  * @description
  * A basic wrapper around Uint8Array, with no frills and no fuss. It does differ
  * from other implementations where it will consume the full Uint8Array as passed to it.
@@ -16,11 +16,11 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
  * actual lengths instead of used directly.
  * @noInheritDoc
  */
-export default class U8a extends Uint8Array implements IU8a {
+export default class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {
-    super(U8a.decodeU8a(value));
+    super(Raw.decodeU8a(value));
 
     this.registry = registry;
   }
@@ -44,7 +44,7 @@ export default class U8a extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -78,7 +78,7 @@ export default class U8a extends Uint8Array implements IU8a {
         !this.some((value, index): boolean => value !== other[index]);
     }
 
-    return this.eq(U8a.decodeU8a(other));
+    return this.eq(Raw.decodeU8a(other));
   }
 
   /**

@@ -7,7 +7,7 @@ import { AnyJsonObject, Codec, IHash, Registry } from '../types';
 import { isUndefined } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 import { compareMap } from './utils';
 
@@ -58,7 +58,7 @@ export default class StructAny extends Map<string, any> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

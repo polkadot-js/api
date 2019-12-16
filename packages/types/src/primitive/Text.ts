@@ -9,7 +9,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { createType } from '../codec/create';
 import Compact from '../codec/Compact';
-import U8a from '../codec/U8a';
+import Raw from '../codec/Raw';
 
 /**
  * @name Text
@@ -38,9 +38,9 @@ export default class Text extends String implements Codec {
         return '';
       }
 
-      // for U8a, the internal buffer does not have an internal length
+      // for Raw, the internal buffer does not have an internal length
       // (the same applies in e.g. Bytes, where length is added at encoding-time)
-      if (value instanceof U8a) {
+      if (value instanceof Raw) {
         return u8aToString(value);
       }
 
