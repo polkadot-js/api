@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ClassOf, createType, TypeRegistry } from '@polkadot/types/codec/create';
+import { hexToU8a } from '@polkadot/util';
 
 import Decorated from './Decorated';
 import json from '../Metadata/static';
@@ -17,10 +18,9 @@ describe('Decorated', () => {
         .balances
         .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
     ).toEqual(
-      // length prefix attached
-      Uint8Array.from([
-        128, 127, 134, 78, 24, 227, 221, 139, 88, 56, 99, 16, 210, 254, 9, 25, 238, 242, 124, 110, 85, 133, 100, 183, 246, 127, 34, 217, 157, 32, 245, 135, 187
-      ])
+      hexToU8a(
+        '0x0101c2261276cc9d1f8598ea4b6a74b15c2f6482b9ade7bc6657aaca787ba1add3b42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
+      )
     );
   });
 

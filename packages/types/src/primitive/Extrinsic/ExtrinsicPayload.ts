@@ -10,7 +10,7 @@ import { u8aToHex } from '@polkadot/util';
 import { createType } from '../../codec/create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import U8a from '../../codec/U8a';
+import Raw from '../../codec/Raw';
 import u32 from '../../primitive/U32';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
@@ -72,9 +72,9 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
+   * @description The [[Raw]] contained in the payload
    */
-  public get method (): U8a {
+  public get method (): Raw {
     return this.raw.method;
   }
 

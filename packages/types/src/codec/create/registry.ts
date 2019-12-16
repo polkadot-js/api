@@ -8,15 +8,11 @@ import { CallFunction, Codec, Constructor, RegistryTypes, Registry, RegistryMeta
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
-
-const FN_UNKNOWN: Partial<CallFunction> = {
-  method: 'unknown',
-  section: 'unknown'
-};
 
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
@@ -38,7 +34,7 @@ function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadat
           console.error(error);
         }
 
-        metadataEvents[eventIndex.toString()] = class extends EventData {
+        metadataEvents[u8aToHex(eventIndex)] = class extends EventData {
           constructor (registry: Registry, value: Uint8Array) {
             super(registry, Types, value, typeDef, meta, sectionName, methodName);
           }
@@ -54,7 +50,7 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
   // decorate the extrinsics
   Object.values(extrinsics).forEach((methods): void =>
     Object.values(methods).forEach((method): void => {
-      metadataCalls[method.callIndex.toString()] = method;
+      metadataCalls[u8aToHex(method.callIndex)] = method;
     })
   );
 }
@@ -76,7 +72,7 @@ export class TypeRegistry implements Registry {
     const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
 
     // since these are classes, they are injected first
-    this.register({ ...baseTypes });
+    this.register({ Raw, ...baseTypes });
 
     // since these are definitions, they would only get created when needed
     Object.values(definitions).forEach(({ types }): void =>
@@ -85,17 +81,19 @@ export class TypeRegistry implements Registry {
   }
 
   public findMetaCall (callIndex: Uint8Array): CallFunction {
-    assert(Object.keys(this._metadataCalls).length > 0, 'Calling registry.findMetaCall before metadata has been attached.');
+    const hexIndex = u8aToHex(callIndex);
+    const fn = this._metadataCalls[hexIndex];
 
-    return this._metadataCalls[callIndex.toString()] || FN_UNKNOWN;
+    assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex}]`);
+
+    return fn;
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
-    assert(Object.keys(this._metadataEvents).length > 0, 'Calling registry.findMetaEvent before metadata has been attached.');
+    const hexIndex = u8aToHex(eventIndex);
+    const Event = this._metadataEvents[hexIndex];
 
-    const Event = this._metadataEvents[eventIndex.toString()];
-
-    assert(!isUndefined(Event), `Unable to find Event with index ${u8aToHex(eventIndex)}`);
+    assert(!isUndefined(Event), `findMetaEvent: Unable to find Event with index ${hexIndex}/[${eventIndex}]`);
 
     return Event;
   }

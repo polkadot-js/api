@@ -26,7 +26,7 @@ const ERR = (error: Error): Observable<never> => {
   throw error;
 };
 
-const NOOP = (): void => {};
+const NOOP = (): void => undefined;
 
 /**
  * Shorthand for distinctUntilChanged(), publishReplay(1) and refCount().

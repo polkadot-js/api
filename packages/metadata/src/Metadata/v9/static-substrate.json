@@ -1089,18 +1089,21 @@
               },
               {
                 "name": "Nominators",
-                "modifier": 1,
+                "modifier": 0,
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "Vec<AccountId>",
+                    "value": "Nominations",
                     "linked": true
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The map from nominator stash key to the set of stash keys of all validators to nominate."
+                  " The map from nominator stash key to the set of stash keys of all validators to nominate.",
+                  "",
+                  " NOTE: is private so that we can ensure upgraded before all typical accesses.",
+                  " Direct storage APIs can still bypass this protection."
                 ]
               },
               {
@@ -1215,6 +1218,34 @@
                 ]
               },
               {
+                "name": "CanceledSlashPayout",
+                "modifier": 1,
+                "type": {
+                  "Plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": [
+                  " The amount of currency given to reporters of a slash event which was",
+                  " canceled by extraordinary circumstances (e.g. governance)."
+                ]
+              },
+              {
+                "name": "UnappliedSlashes",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "Vec<UnappliedSlash>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All unapplied slashes that are queued for later."
+                ]
+              },
+              {
                 "name": "BondedEras",
                 "modifier": 1,
                 "type": {
@@ -1226,19 +1257,93 @@
                 ]
               },
               {
-                "name": "EraSlashJournal",
-                "modifier": 1,
+                "name": "ValidatorSlashInEra",
+                "modifier": 0,
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Blake2_256",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "(Perbill,BalanceOf)",
+                    "key2Hasher": "Twox128"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All slashing events on validators, mapped by era to the highest slash proportion",
+                  " and slash value of the era."
+                ]
+              },
+              {
+                "name": "NominatorSlashInEra",
+                "modifier": 0,
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Blake2_256",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "BalanceOf",
+                    "key2Hasher": "Twox128"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All slashing events on nominators, mapped by era to the highest slash value of the era."
+                ]
+              },
+              {
+                "name": "SlashingSpans",
+                "modifier": 0,
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
-                    "key": "EraIndex",
-                    "value": "Vec<SlashJournalEntry>",
+                    "key": "AccountId",
+                    "value": "SlashingSpans",
                     "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " All slashes that have occurred in a given era."
+                  " Slashing spans for stash accounts."
+                ]
+              },
+              {
+                "name": "SpanSlash",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "(AccountId,SpanIndex)",
+                    "value": "SpanRecord",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " Records information about the maximum slash of a stash within a slashing span,",
+                  " as well as how much reward has been paid out."
+                ]
+              },
+              {
+                "name": "EarliestUnappliedSlash",
+                "modifier": 0,
+                "type": {
+                  "Plain": "EraIndex"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The earliest era for which we have a pending, unapplied slash."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": 1,
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The version of storage for upgrade."
                 ]
               }
             ]
@@ -1533,6 +1638,28 @@
                 " - One storage write",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "cancel_deferred_slash",
+              "args": [
+                {
+                  "name": "era",
+                  "type": "EraIndex"
+                },
+                {
+                  "name": "slash_indices",
+                  "type": "Vec<u32>"
+                }
+              ],
+              "documentation": [
+                " Cancel enactment of a deferred slash. Can be called by either the root origin or",
+                " the `T::SlashCancelOrigin`.",
+                " passing the era and indices of the slashes for that era to kill.",
+                "",
+                " # <weight>",
+                " - One storage write.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -1766,11 +1893,28 @@
                 "name": "PublicProps",
                 "modifier": 1,
                 "type": {
-                  "Plain": "Vec<(PropIndex,Proposal,AccountId)>"
+                  "Plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The public proposals. Unsorted."
+                  " The public proposals. Unsorted. The second item is the proposal's hash."
+                ]
+              },
+              {
+                "name": "Preimages",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "Hash",
+                    "value": "(Bytes,AccountId,BalanceOf,BlockNumber)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Map of hashes to the proposal preimage, along with who registered it and their deposit.",
+                  " The block number is the block at which it was deposited."
                 ]
               },
               {
@@ -1832,9 +1976,9 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Twox64Concat",
                     "key": "BlockNumber",
-                    "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
+                    "value": "Vec<Option<(Hash,ReferendumIndex)>>",
                     "linked": false
                   }
                 },
@@ -1927,7 +2071,7 @@
                 "name": "NextExternal",
                 "modifier": 0,
                 "type": {
-                  "Plain": "(Proposal,VoteThreshold)"
+                  "Plain": "(Hash,VoteThreshold)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1977,8 +2121,8 @@
               "name": "propose",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 },
                 {
                   "name": "value",
@@ -2072,8 +2216,8 @@
               "name": "external_propose",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2085,8 +2229,8 @@
               "name": "external_propose_majority",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2101,8 +2245,8 @@
               "name": "external_propose_default",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2258,6 +2402,59 @@
                 " - O(1).",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "clear_public_proposals",
+              "args": [],
+              "documentation": [
+                " Veto and blacklist the proposal hash. Must be from Root origin."
+              ]
+            },
+            {
+              "name": "note_preimage",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Register the preimage for an upcoming proposal. This doesn't require the proposal to be",
+                " in the dispatch queue but does require a deposit, returned once enacted."
+              ]
+            },
+            {
+              "name": "note_imminent_preimage",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "when",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "which",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Register the preimage for an upcoming proposal. This requires the proposal to be",
+                " in the dispatch queue. No deposit is needed."
+              ]
+            },
+            {
+              "name": "reap_preimage",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Remove an expired proposal preimage and collect the deposit."
+              ]
             }
           ],
           "events": [
@@ -2267,7 +2464,9 @@
                 "PropIndex",
                 "Balance"
               ],
-              "documentation": []
+              "documentation": [
+                " A motion has been proposed by a public account."
+              ]
             },
             {
               "name": "Tabled",
@@ -2276,12 +2475,16 @@
                 "Balance",
                 "Vec<AccountId>"
               ],
-              "documentation": []
+              "documentation": [
+                " A public proposal has been tabled for referendum vote."
+              ]
             },
             {
               "name": "ExternalTabled",
               "args": [],
-              "documentation": []
+              "documentation": [
+                " An external proposal has been tabled."
+              ]
             },
             {
               "name": "Started",
@@ -2289,28 +2492,36 @@
                 "ReferendumIndex",
                 "VoteThreshold"
               ],
-              "documentation": []
+              "documentation": [
+                " A referendum has begun."
+              ]
             },
             {
               "name": "Passed",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been approved by referendum."
+              ]
             },
             {
               "name": "NotPassed",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been rejected by referendum."
+              ]
             },
             {
               "name": "Cancelled",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A referendum has been cancelled."
+              ]
             },
             {
               "name": "Executed",
@@ -2318,7 +2529,9 @@
                 "ReferendumIndex",
                 "bool"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been enacted."
+              ]
             },
             {
               "name": "Delegated",
@@ -2326,14 +2539,18 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": []
+              "documentation": [
+                " An account has delegated their vote to another account."
+              ]
             },
             {
               "name": "Undelegated",
               "args": [
                 "AccountId"
               ],
-              "documentation": []
+              "documentation": [
+                " An account has cancelled a previous delegation operation."
+              ]
             },
             {
               "name": "Vetoed",
@@ -2342,7 +2559,63 @@
                 "Hash",
                 "BlockNumber"
               ],
-              "documentation": []
+              "documentation": [
+                " An external proposal has been vetoed."
+              ]
+            },
+            {
+              "name": "PreimageNoted",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A proposal's preimage was noted, and the deposit taken."
+              ]
+            },
+            {
+              "name": "PreimageUsed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A proposal preimage was removed and used (the deposit was returned)."
+              ]
+            },
+            {
+              "name": "PreimageInvalid",
+              "args": [
+                "Hash",
+                "ReferendumIndex"
+              ],
+              "documentation": [
+                " A proposal could not be executed because its preimage was invalid."
+              ]
+            },
+            {
+              "name": "PreimageMissing",
+              "args": [
+                "Hash",
+                "ReferendumIndex"
+              ],
+              "documentation": [
+                " A proposal could not be executed because its preimage was missing."
+              ]
+            },
+            {
+              "name": "PreimageReaped",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance",
+                "AccountId"
+              ],
+              "documentation": [
+                " A registered preimage was removed and the deposit collected by the reaper (last item)."
+              ]
             }
           ],
           "constants": [
@@ -2396,6 +2669,14 @@
               "value": "0x004e0c00",
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
+              ]
+            },
+            {
+              "name": "PreimageByteDeposit",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount of balance that must be deposited per byte of preimage stored."
               ]
             }
           ],
@@ -3205,6 +3486,20 @@
                 "",
                 " May only be called from `ResetOrigin` or root."
               ]
+            },
+            {
+              "name": "change_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Swap out the sending member for some other key `new`.",
+                "",
+                " May only be called from `Signed` origin of a current member."
+              ]
             }
           ],
           "events": [
@@ -3234,6 +3529,13 @@
               "args": [],
               "documentation": [
                 " The membership was reset; see the transaction for who the new set is."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [],
+              "documentation": [
+                " One of the members' keys changed."
               ]
             },
             {

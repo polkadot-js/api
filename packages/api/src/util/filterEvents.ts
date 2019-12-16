@@ -4,11 +4,11 @@
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
-import { U8a } from '@polkadot/types';
+import { Raw } from '@polkadot/types';
 
 import l from './logging';
 
-export default function filterEvents (extHash: U8a, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[]): EventRecord[] | undefined {
+export default function filterEvents (extHash: Raw, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[]): EventRecord[] | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
   const allHashes = extrinsics.map((ext): string => ext.hash.toHex());

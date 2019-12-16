@@ -1,8 +1,8 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Compact, Option, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, Fixed64, H160, H256, H512, Null, StorageData, StorageHasher, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
+import { Bytes, Data, Fixed64, H160, H256, H512, IdentityFields, Null, StorageData, StorageHasher, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -16,6 +16,7 @@ import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAc
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
+import { IdentityInfo, IdentityInfoAdditional, Judgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
@@ -49,6 +50,9 @@ export interface InterfaceRegistry {
   H512: H512;
   'Option<H512>': Option<H512>;
   'Vec<H512>': Vec<H512>;
+  IdentityFields: IdentityFields;
+  'Option<IdentityFields>': Option<IdentityFields>;
+  'Vec<IdentityFields>': Vec<IdentityFields>;
   i8: i8;
   'Option<i8>': Option<i8>;
   'Vec<i8>': Vec<i8>;
@@ -120,6 +124,9 @@ export interface InterfaceRegistry {
   'Compact<usize>': Compact<usize>;
   'Option<usize>': Option<usize>;
   'Vec<usize>': Vec<usize>;
+  Raw: Raw;
+  'Option<Raw>': Option<Raw>;
+  'Vec<Raw>': Vec<Raw>;
   AccountId: AccountId;
   'Option<AccountId>': Option<AccountId>;
   'Vec<AccountId>': Vec<AccountId>;
@@ -534,6 +541,28 @@ export interface InterfaceRegistry {
   StoredState: StoredState;
   'Option<StoredState>': Option<StoredState>;
   'Vec<StoredState>': Vec<StoredState>;
+  IdentityInfoAdditional: IdentityInfoAdditional;
+  'Option<IdentityInfoAdditional>': Option<IdentityInfoAdditional>;
+  'Vec<IdentityInfoAdditional>': Vec<IdentityInfoAdditional>;
+  IdentityInfo: IdentityInfo;
+  'Option<IdentityInfo>': Option<IdentityInfo>;
+  'Vec<IdentityInfo>': Vec<IdentityInfo>;
+  Judgement: Judgement;
+  'Option<Judgement>': Option<Judgement>;
+  'Vec<Judgement>': Vec<Judgement>;
+  RegistrationJudgement: RegistrationJudgement;
+  'Option<RegistrationJudgement>': Option<RegistrationJudgement>;
+  'Vec<RegistrationJudgement>': Vec<RegistrationJudgement>;
+  Registration: Registration;
+  'Option<Registration>': Option<Registration>;
+  'Vec<Registration>': Vec<Registration>;
+  RegistrarIndex: RegistrarIndex;
+  'Compact<RegistrarIndex>': Compact<RegistrarIndex>;
+  'Option<RegistrarIndex>': Option<RegistrarIndex>;
+  'Vec<RegistrarIndex>': Vec<RegistrarIndex>;
+  RegistrarInfo: RegistrarInfo;
+  'Option<RegistrarInfo>': Option<RegistrarInfo>;
+  'Vec<RegistrarInfo>': Vec<RegistrarInfo>;
   AuthIndex: AuthIndex;
   'Compact<AuthIndex>': Compact<AuthIndex>;
   'Option<AuthIndex>': Option<AuthIndex>;

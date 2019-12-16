@@ -55,17 +55,13 @@ describe('derive', (): void => {
     testFunction(api)('democracy', 'referendumVotesFor', []);
     testFunction(api)('democracy', 'votes', []);
 
-    testFunction(api)('elections', 'approvalsOf', []);
-    // FIXME This one has an additional check which mock doesnt (yet) cater for
-    // testFunction(api)('elections', 'approvalsOfAt', []);
     testFunction(api)('elections', 'info', []);
-    testFunction(api)('elections', 'voters', []);
 
     testFunction(api)('session', 'eraLength', []);
     testFunction(api)('session', 'eraProgress', []);
     testFunction(api)('session', 'sessionProgress', []);
 
-    testFunction(api)('staking', 'info', []);
+    testFunction(api)('staking', 'account', []);
     testFunction(api)('staking', 'recentlyOffline', []);
     testFunction(api)('staking', 'controllers', []);
   });

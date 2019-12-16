@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
@@ -78,7 +78,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

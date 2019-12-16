@@ -14,6 +14,7 @@ export * from './deprecated/types';
 export * from './elections/types';
 export * from './genericAsset/types';
 export * from './grandpa/types';
+export * from './identity/types';
 export * from './imOnline/types';
 export * from './offences/types';
 export * from './session/types';

@@ -4,8 +4,9 @@
 
 import fs from 'fs';
 
+import Raw from '../../codec/Raw';
 import * as defaultDefinitions from '../../interfaces/definitions';
-import * as primitiveClasses from '../../primitive';
+import * as defaultPrimitives from '../../primitive';
 import {
   createImportCode, createImports,
   FOOTER,
@@ -14,6 +15,11 @@ import {
   indent,
   setImports
 } from '../util';
+
+const primitiveClasses = {
+  ...defaultPrimitives,
+  Raw
+};
 
 export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, output: string): void {
   console.log(`Writing ${output}`);

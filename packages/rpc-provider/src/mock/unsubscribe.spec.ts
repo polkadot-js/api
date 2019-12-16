@@ -15,7 +15,7 @@ describe('unsubscribe', (): void => {
     mock = new Mock(registry);
 
     return mock
-      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => {})
+      .subscribe('chain_newHead', 'chain_subscribeNewHead', (): void => undefined)
       .then((_id): void => {
         id = _id;
       });

@@ -6,7 +6,7 @@ import { isString, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a, Constructor, Registry } from '../types';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 // The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature
 // Likewise 160 is for [u8; 20], which is also a H160, i.e. an Ethereum address. Both these are
@@ -19,7 +19,7 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 
  * A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
-export default class U8aFixed extends U8a {
+export default class U8aFixed extends Raw {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
   }

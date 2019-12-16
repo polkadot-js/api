@@ -18,6 +18,7 @@ export { default as deprecated } from './deprecated/definitions';
 export { default as elections } from './elections/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
 export { default as grandpa } from './grandpa/definitions';
+export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as offences } from './offences/definitions';
 export { default as session } from './session/definitions';
