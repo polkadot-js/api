@@ -8,7 +8,7 @@ import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
-import U8a from './U8a';
+import U8a from './U8aFixed';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
 export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
