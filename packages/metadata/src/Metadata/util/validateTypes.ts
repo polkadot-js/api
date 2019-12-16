@@ -17,17 +17,15 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.Plain:
         return decoded.type;
 
-      case TypeDefInfo.Compact:
-      case TypeDefInfo.Option:
-      case TypeDefInfo.Vec:
-        return extractTypes([(decoded.sub as TypeDef[])[0].type]);
-
       case TypeDefInfo.VecFixed:
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
       case TypeDefInfo.BTreeMap:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
+      case TypeDefInfo.Compact:
+      case TypeDefInfo.Option:
+      case TypeDefInfo.Vec:
         return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
 
       default:
