@@ -23,7 +23,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, Option, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
-import StorageKey, { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
@@ -374,7 +374,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
     assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
 
-    const outputType = unwrapStorageType(creator.meta.type);
+    const outputType = creator.meta.type.asMap.value.toString();
 
     return this._rpcCore.state
       // FIXME This should really be some sort of subscription, so we can get stuff as
