@@ -7,7 +7,7 @@ import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMe
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Registry } from '@polkadot/types/types';
 
-import { assert, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, isFunction, stringCamelCase } from '@polkadot/util';
 import Abi from '../Abi';
 
 export abstract class Base<ApiType extends ApiTypes> implements ContractBase<ApiType> {
@@ -67,7 +67,7 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
 
 export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
   protected get hasRpcContractsCall (): boolean {
-    return !isUndefined(this.api.rx.rpc.contracts?.call);
+    return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
   protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
