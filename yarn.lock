@@ -1832,10 +1832,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@polkadot/dev@^0.32.0-beta.19":
-  version "0.32.0-beta.19"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.32.0-beta.19.tgz#9f4e9a78a559f4e050842a6a06365d16d7003188"
-  integrity sha512-Ozftw1CLtu/K4c8039/b2qBvvrLDSA8GsZi9MdwN0t17AuGmkWruiZ8apd3M4Cqfc7q7NbiwGfOvCdk/7tpTfw==
+"@polkadot/dev@^0.32.13":
+  version "0.32.13"
+  resolved "https://registry.npmjs.org/@polkadot/dev/-/dev-0.32.13.tgz#b6f60f48539bd533e84cec7949d340fb66b6f183"
+  integrity sha512-huHQmHiPxi735lVdnjrNggVnX6FpGz2sikoQzw80HwMN90/nX3QiQeE44CQA4IhHMxQtFAQWfKBDfExFTHJjVQ==
   dependencies:
     "@babel/cli" "^7.7.5"
     "@babel/core" "^7.7.5"
