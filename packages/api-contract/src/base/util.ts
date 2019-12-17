@@ -66,7 +66,7 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
 }
 
 export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
-  protected get hasRpcContractsCall (): boolean {
+  public get hasRpcContractsCall (): boolean {
     return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
