@@ -1,29 +1,29 @@
 [
   {
-    "info": 9,
+    "info": 10,
     "type": "{ \"value\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\"} }",
     "sub": [
       {
-        "info": 9,
+        "info": 10,
         "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
         "sub": [
           {
-            "info": 9,
+            "info": 10,
             "type": "{ \"cell\": \"([u8;32])\"} }",
             "sub": [
               {
-                "info": 10,
+                "info": 11,
                 "type": "([u8;32])",
                 "sub": [
                   {
-                    "info": 12,
+                    "info": 13,
                     "type": "[u8;32]",
                     "ext": {
                       "length": 32,
                       "type": "u8"
                     },
                     "sub": {
-                      "info": 6,
+                      "info": 7,
                       "type": "u8"
                     },
                     "index": 0
@@ -37,7 +37,7 @@
             "namespace": "ink_core::storage::cell::sync_cell",
             "params": [
               {
-                "info": 6,
+                "info": 7,
                 "type": "u32"
               }
             ]
@@ -47,7 +47,7 @@
         "namespace": "ink_core::storage::value",
         "params": [
           {
-            "info": 6,
+            "info": 7,
             "type": "u32"
           }
         ]
@@ -57,26 +57,26 @@
     "namespace": "incrementer::normal"
   },
   {
-    "info": 9,
+    "info": 10,
     "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
     "sub": [
       {
-        "info": 9,
+        "info": 10,
         "type": "{ \"cell\": \"([u8;32])\"} }",
         "sub": [
           {
-            "info": 10,
+            "info": 11,
             "type": "([u8;32])",
             "sub": [
               {
-                "info": 12,
+                "info": 13,
                 "type": "[u8;32]",
                 "ext": {
                   "length": 32,
                   "type": "u8"
                 },
                 "sub": {
-                  "info": 6,
+                  "info": 7,
                   "type": "u8"
                 },
                 "index": 0
@@ -90,7 +90,7 @@
         "namespace": "ink_core::storage::cell::sync_cell",
         "params": [
           {
-            "info": 6,
+            "info": 7,
             "type": "u32"
           }
         ]
@@ -100,32 +100,32 @@
     "namespace": "ink_core::storage::value",
     "params": [
       {
-        "info": 6,
+        "info": 7,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 6,
+    "info": 7,
     "type": "u32"
   },
   {
-    "info": 9,
+    "info": 10,
     "type": "{ \"cell\": \"([u8;32])\"} }",
     "sub": [
       {
-        "info": 10,
+        "info": 11,
         "type": "([u8;32])",
         "sub": [
           {
-            "info": 12,
+            "info": 13,
             "type": "[u8;32]",
             "ext": {
               "length": 32,
               "type": "u8"
             },
             "sub": {
-              "info": 6,
+              "info": 7,
               "type": "u8"
             },
             "index": 0
@@ -139,24 +139,24 @@
     "namespace": "ink_core::storage::cell::sync_cell",
     "params": [
       {
-        "info": 6,
+        "info": 7,
         "type": "u32"
       }
     ]
   },
   {
-    "info": 10,
+    "info": 11,
     "type": "([u8;32])",
     "sub": [
       {
-        "info": 12,
+        "info": 13,
         "type": "[u8;32]",
         "ext": {
           "length": 32,
           "type": "u8"
         },
         "sub": {
-          "info": 6,
+          "info": 7,
           "type": "u8"
         },
         "index": 0
@@ -166,23 +166,23 @@
     "namespace": "ink_core::storage::key"
   },
   {
-    "info": 12,
+    "info": 13,
     "type": "[u8;32]",
     "ext": {
       "length": 32,
       "type": "u8"
     },
     "sub": {
-      "info": 6,
+      "info": 7,
       "type": "u8"
     }
   },
   {
-    "info": 6,
+    "info": 7,
     "type": "u8"
   },
   {
-    "info": 6,
+    "info": 7,
     "type": "bool"
   }
 ]

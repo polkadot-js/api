@@ -25,6 +25,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
 
   switch (info) {
     case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.BTreeSet:
     case TypeDefInfo.Compact:
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Option:
@@ -114,6 +115,7 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 // in a compile-time error with the missing index)
 const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
+  [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),

@@ -42,6 +42,13 @@ function formatBTreeMap (key: string, val: string): string {
 }
 
 /**
+ * Given the inner `V`, return a `BTreeSet<V>`  string
+ */
+function formatBTreeSet (val: string): string {
+  return `BTreeSet<${val}>`;
+}
+
+/**
  * Given the inner `T`, return a `Compact<T>` string
  */
 function formatCompact (inner: string): string {
@@ -128,6 +135,11 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       setImports(definitions, imports, ['BTreeMap']);
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
       return formatBTreeMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.BTreeSet: {
+      setImports(definitions, imports, ['BTreeSet']);
+      const valDef = typeDef.sub as TypeDef;
+      return formatBTreeSet(formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);

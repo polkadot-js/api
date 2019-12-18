@@ -26,6 +26,7 @@ function extractTypes (types: string[]): any[] {
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
       case TypeDefInfo.BTreeMap:
+      case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
         return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));

@@ -32,6 +32,7 @@ function tsExport (definitions: object, def: TypeDef, imports: TypeImports): str
 }
 
 const tsBTreeMap = tsExport;
+const tsBTreeSet = tsExport;
 const tsCompact = tsExport;
 const tsOption = tsExport;
 const tsPlain = tsExport;
@@ -132,6 +133,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
   // we are being explicit in having no handlers where we do not support (yet)
   const generators = {
     [TypeDefInfo.BTreeMap]: tsBTreeMap,
+    [TypeDefInfo.BTreeSet]: tsBTreeSet,
     [TypeDefInfo.Compact]: tsCompact,
     [TypeDefInfo.Enum]: tsEnum,
     [TypeDefInfo.Linkage]: errorUnhandled,
