@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Enum, Option, Result, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, Null, u32, u8 } from '@polkadot/types/primitive';
+import { Bytes, GenericEvent, Null, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
@@ -51,6 +51,16 @@ export interface DispatchResult extends Result<Null, DispatchError> {
 
 /** DispatchResult */
 export interface DispatchResultOf extends DispatchResult {}
+
+/** Result<Null, Text> */
+export interface DispatchResultTo198 extends Result<Null, Text> {
+  /** Error:: (Text) */
+  readonly isError: boolean;
+  /** Text */
+  readonly asError: Text;
+  /** Ok::  */
+  readonly isOk: boolean;
+}
 
 /** GenericEvent */
 export interface Event extends GenericEvent {}
