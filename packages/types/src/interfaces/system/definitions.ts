@@ -6,9 +6,24 @@ export default {
   types: {
     DigestOf: 'Digest',
     DispatchError: {
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModule'
+      }
+    },
+    DispatchErrorModule: {
+      index: 'u8',
+      error: 'u8'
+    },
+    DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
     },
+    DispatchResult: 'Result<(), DispatchError>',
+    DispatchResultOf: 'DispatchResult',
+    DispatchResultTo198: 'Result<(), Text>',
     Event: 'GenericEvent',
     EventId: '[u8; 2]',
     EventIndex: 'u32',
