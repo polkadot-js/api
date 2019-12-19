@@ -699,12 +699,12 @@ export interface InterfaceRegistry {
   DigestOf: DigestOf;
   'Option<DigestOf>': Option<DigestOf>;
   'Vec<DigestOf>': Vec<DigestOf>;
-  DispatchErrorModule: DispatchErrorModule;
-  'Option<DispatchErrorModule>': Option<DispatchErrorModule>;
-  'Vec<DispatchErrorModule>': Vec<DispatchErrorModule>;
   DispatchError: DispatchError;
   'Option<DispatchError>': Option<DispatchError>;
   'Vec<DispatchError>': Vec<DispatchError>;
+  DispatchErrorModule: DispatchErrorModule;
+  'Option<DispatchErrorModule>': Option<DispatchErrorModule>;
+  'Vec<DispatchErrorModule>': Vec<DispatchErrorModule>;
   DispatchErrorTo198: DispatchErrorTo198;
   'Option<DispatchErrorTo198>': Option<DispatchErrorTo198>;
   'Vec<DispatchErrorTo198>': Vec<DispatchErrorTo198>;
