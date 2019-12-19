@@ -14,7 +14,10 @@ import { memo } from '../util';
 
 function retrieveProposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee', hashes: Hash[]): Observable<DerivedCollectiveProposals> {
   return combineLatest([
-    api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+    // We are doing single subscriptions on all these, multi may yield old results
+    combineLatest(
+      hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf(hash))
+    ),
     api.query[section].voting.multi<Option<Votes>>(hashes)
   ]).pipe(
     map(([proposals, votes]: [Option<Proposal>[], Option<Votes>[]]): DerivedCollectiveProposals => {
