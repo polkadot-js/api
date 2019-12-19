@@ -9,8 +9,30 @@ import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 /** Digest */
 export interface DigestOf extends Digest {}
 
+/** Enum */
+export interface DispatchError extends Enum {
+  /** 0:: Other */
+  readonly isOther: boolean;
+  /** 1:: CannotLookup */
+  readonly isCannotLookup: boolean;
+  /** 2:: BadOrigin */
+  readonly isBadOrigin: boolean;
+  /** 3:: Module(DispatchErrorModule) */
+  readonly isModule: boolean;
+  /** DispatchErrorModule */
+  readonly asModule: DispatchErrorModule;
+}
+
 /** Struct */
-export interface DispatchError extends Struct {
+export interface DispatchErrorModule extends Struct {
+  /** u8 */
+  readonly index: u8;
+  /** u8 */
+  readonly error: u8;
+}
+
+/** Struct */
+export interface DispatchErrorTo198 extends Struct {
   /** Option<u8> */
   readonly module: Option<u8>;
   /** u8 */

@@ -5,9 +5,21 @@
 export default {
   types: {
     DigestOf: 'Digest',
-    DispatchError: {
+    DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
+    },
+    DispatchErrorModule: {
+      index: 'u8',
+      error: 'u8'
+    },
+    DispatchError: {
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModule'
+      }
     },
     Event: 'GenericEvent',
     EventId: '[u8; 2]',
