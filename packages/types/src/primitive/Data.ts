@@ -9,6 +9,7 @@ import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Enum from '../codec/Enum';
 import { createType } from '../codec/create/createType';
 import Bytes from './Bytes';
+import H256 from './H256';
 
 function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {
   if (!value.length) {
@@ -66,8 +67,16 @@ export default class Data extends Enum {
     return this.raw as Bytes;
   }
 
+  get asSha256 (): H256 {
+    return this.raw as H256;
+  }
+
   get isRaw (): boolean {
     return this.index === 1;
+  }
+
+  get isSha256 (): boolean {
+    return this.index === 3;
   }
 
   /**

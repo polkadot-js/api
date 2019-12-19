@@ -10,7 +10,13 @@ import { u32, Vec } from '@polkadot/types';
 export type AccountIndexes = Record<string, AccountIndex>;
 
 export interface DeriveAccountRegistration {
-  displayName?: string;
+  display?: string;
+  email?: string;
+  image?: string;
+  legal?: string;
+  pgp?: string;
+  riot?: string;
+  web?: string;
   judgements: RegistrationJudgement[];
 }
 
