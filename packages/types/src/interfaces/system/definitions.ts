@@ -21,6 +21,8 @@ export default {
         Module: 'DispatchErrorModule'
       }
     },
+    DispatchResult: 'Result<(), DispatchError>',
+    DispatchResultOf: 'DispatchResult',
     Event: 'GenericEvent',
     EventId: '[u8; 2]',
     EventIndex: 'u32',

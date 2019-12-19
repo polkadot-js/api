@@ -21,10 +21,9 @@ import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetwor
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
-import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
+import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
-import { DispatchResult, DispatchResultOf } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorId, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParaInfo, ParaScheduling, ParachainDispatchOrigin, Retriable, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
@@ -709,6 +708,12 @@ export interface InterfaceRegistry {
   DispatchError: DispatchError;
   'Option<DispatchError>': Option<DispatchError>;
   'Vec<DispatchError>': Vec<DispatchError>;
+  DispatchResult: DispatchResult;
+  'Option<DispatchResult>': Option<DispatchResult>;
+  'Vec<DispatchResult>': Vec<DispatchResult>;
+  DispatchResultOf: DispatchResultOf;
+  'Option<DispatchResultOf>': Option<DispatchResultOf>;
+  'Vec<DispatchResultOf>': Vec<DispatchResultOf>;
   Event: Event;
   'Option<Event>': Option<Event>;
   'Vec<Event>': Vec<Event>;
@@ -737,12 +742,6 @@ export interface InterfaceRegistry {
   Multiplier: Multiplier;
   'Option<Multiplier>': Option<Multiplier>;
   'Vec<Multiplier>': Vec<Multiplier>;
-  DispatchResult: DispatchResult;
-  'Option<DispatchResult>': Option<DispatchResult>;
-  'Vec<DispatchResult>': Vec<DispatchResult>;
-  DispatchResultOf: DispatchResultOf;
-  'Option<DispatchResultOf>': Option<DispatchResultOf>;
-  'Vec<DispatchResultOf>': Vec<DispatchResultOf>;
   BlockAttestations: BlockAttestations;
   'Option<BlockAttestations>': Option<BlockAttestations>;
   'Vec<BlockAttestations>': Vec<BlockAttestations>;

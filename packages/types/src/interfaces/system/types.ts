@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, u32, u8 } from '@polkadot/types/primitive';
+import { Enum, Option, Result, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, GenericEvent, Null, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
@@ -38,6 +38,19 @@ export interface DispatchErrorTo198 extends Struct {
   /** u8 */
   readonly error: u8;
 }
+
+/** Result<Null, DispatchError> */
+export interface DispatchResult extends Result<Null, DispatchError> {
+  /** Error:: (DispatchError) */
+  readonly isError: boolean;
+  /** DispatchError */
+  readonly asError: DispatchError;
+  /** Ok::  */
+  readonly isOk: boolean;
+}
+
+/** DispatchResult */
+export interface DispatchResultOf extends DispatchResult {}
 
 /** GenericEvent */
 export interface Event extends GenericEvent {}
