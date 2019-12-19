@@ -9,10 +9,18 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Bytes, Option, u32 } from '@polkadot/types';
+import { Bytes, Data, Option, u32 } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
 import { memo } from '../util';
+
+function dataAsString (data: Data): string | undefined {
+  return data.isRaw
+    ? u8aToString(data.asRaw.toU8a(true))
+    : data.isSha256
+      ? data.asSha256.toHex()
+      : undefined;
+}
 
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
   return ((
@@ -42,9 +50,15 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
       const { info, judgements } = identityOfOpt.unwrap();
 
       return {
-        displayName: info.display.isRaw
-          ? u8aToString(info.display.asRaw.toU8a(true))
+        display: dataAsString(info.display),
+        email: dataAsString(info.email),
+        image: dataAsString(info.image),
+        legal: dataAsString(info.legal),
+        pgp: info.pgpFingerprint.isSome
+          ? info.pgpFingerprint.unwrap().toHex()
           : undefined,
+        riot: dataAsString(info.riot),
+        web: dataAsString(info.web),
         judgements
       };
     })
