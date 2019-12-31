@@ -352,6 +352,10 @@ export interface MetadataAll extends Enum {
   readonly isV10: boolean;
   /** MetadataV10 */
   readonly asV10: MetadataV10;
+  /** 11:: V11(MetadataV11) */
+  readonly isV11: boolean;
+  /** MetadataV11 */
+  readonly asV11: MetadataV11;
 }
 
 /** MetadataV11 */

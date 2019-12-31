@@ -444,7 +444,8 @@ export default {
         V7: 'MetadataV7',
         V8: 'MetadataV8',
         V9: 'MetadataV9',
-        V10: 'MetadataV10'
+        V10: 'MetadataV10',
+        V11: 'MetadataV11'
       }
     }
   }
