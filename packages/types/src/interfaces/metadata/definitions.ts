@@ -361,59 +361,75 @@ export default {
     EventMetadataV10: 'EventMetadataV9',
     FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
     FunctionMetadataV10: 'FunctionMetadataV9',
-    MapKindV10: {
+    MapTypeV10: 'MapTypeV9',
+    MetadataV10: 'MetadataV9',
+    ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
+    ModuleMetadataV10: 'ModuleMetadataV9',
+    PlainTypeV10: 'Type',
+    StorageEntryModifierV10: 'StorageEntryModifierV9',
+    StorageEntryMetadataV10: 'StorageEntryMetadataV9',
+    StorageEntryTypeV10: 'StorageEntryTypeV9',
+    StorageMetadataV10: 'StorageMetadataV9',
+
+    // v11
+    DoubleMapTypeV11: 'DoubleMapTypeV10',
+    ErrorMetadataV11: 'ErrorMetadataV10',
+    EventMetadataV11: 'EventMetadataV10',
+    FunctionArgumentMetadataV11: 'FunctionArgumentMetadataV10',
+    FunctionMetadataV11: 'FunctionMetadataV10',
+    MapKindV11: {
       _enum: ['Map', 'LinkedMap', 'PrefixedMap']
     },
-    MapTypeV10: {
+    MapTypeV11: {
       hasher: 'StorageHasher',
       key: 'Type',
       value: 'Type',
-      kind: 'MapKindV10'
+      kind: 'MapKindV11'
     },
-    MetadataV10: {
-      modules: 'Vec<ModuleMetadataV10>'
+    MetadataV11: {
+      modules: 'Vec<ModuleMetadataV11>'
     },
-    ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
-    ModuleMetadataV10: {
+    ModuleConstantMetadataV11: 'ModuleConstantMetadataV10',
+    ModuleMetadataV11: {
       name: 'Text',
-      storage: 'Option<StorageMetadataV10>',
-      calls: 'Option<Vec<FunctionMetadataV10>>',
-      events: 'Option<Vec<EventMetadataV10>>',
-      constants: 'Vec<ModuleConstantMetadataV10>',
-      errors: 'Vec<ErrorMetadataV10>'
+      storage: 'Option<StorageMetadataV11>',
+      calls: 'Option<Vec<FunctionMetadataV11>>',
+      events: 'Option<Vec<EventMetadataV11>>',
+      constants: 'Vec<ModuleConstantMetadataV11>',
+      errors: 'Vec<ErrorMetadataV11>'
     },
-    PlainTypeV10: 'Type',
-    StorageEntryModifierV10: 'StorageEntryModifierV9',
-    StorageEntryMetadataV10: {
+    PlainTypeV11: 'Type',
+    StorageEntryModifierV11: 'StorageEntryModifierV10',
+    StorageEntryMetadataV11: {
       name: 'Text',
-      modifier: 'StorageEntryModifierV10',
-      type: 'StorageEntryTypeV10',
+      modifier: 'StorageEntryModifierV11',
+      type: 'StorageEntryTypeV11',
       fallback: 'Bytes',
       documentation: 'Vec<Text>'
     },
-    StorageEntryTypeV10: {
+    StorageEntryTypeV11: {
       _enum: {
-        Plain: 'PlainTypeV10',
-        Map: 'MapTypeV10',
-        DoubleMap: 'DoubleMapTypeV10'
+        Plain: 'PlainTypeV11',
+        Map: 'MapTypeV11',
+        DoubleMap: 'DoubleMapTypeV11'
       }
     },
-    StorageMetadataV10: {
+    StorageMetadataV11: {
       prefix: 'Text',
-      items: 'Vec<StorageEntryMetadataV10>'
+      items: 'Vec<StorageEntryMetadataV11>'
     },
 
     // This always maps to the latest
-    EventMetadataLatest: 'EventMetadataV10',
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV10',
-    FunctionMetadataLatest: 'FunctionMetadataV10',
-    MetadataLatest: 'MetadataV10',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV10',
-    ModuleMetadataLatest: 'ModuleMetadataV10',
-    PlainTypeLatest: 'PlainTypeV10',
-    StorageEntryMetadataLatest: 'StorageEntryMetadataV10',
-    StorageEntryModifierLatest: 'StorageEntryModifierV10',
-    StorageEntryTypeLatest: 'StorageEntryTypeV10',
+    EventMetadataLatest: 'EventMetadataV11',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV11',
+    FunctionMetadataLatest: 'FunctionMetadataV11',
+    MetadataLatest: 'MetadataV11',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV11',
+    ModuleMetadataLatest: 'ModuleMetadataV11',
+    PlainTypeLatest: 'PlainTypeV11',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV11',
+    StorageEntryModifierLatest: 'StorageEntryModifierV11',
+    StorageEntryTypeLatest: 'StorageEntryTypeV11',
 
     // the enum containing all the mappings
     MetadataAll: {
