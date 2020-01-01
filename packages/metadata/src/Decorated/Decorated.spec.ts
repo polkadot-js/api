@@ -19,7 +19,7 @@ describe('Decorated', () => {
         .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
     ).toEqual(
       hexToU8a(
-        '0x0101c2261276cc9d1f8598ea4b6a74b15c2f6482b9ade7bc6657aaca787ba1add3b42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
+        '0x4101c2261276cc9d1f8598ea4b6a74b15c2f6482b9ade7bc6657aaca787ba1add3b4518366b5b1bc7c99bae0ba710af1ac66d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d'
       )
     );
   });

@@ -13,7 +13,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Index",
                     "kind": 0
@@ -62,7 +62,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "BlockNumber",
                     "value": "Hash",
                     "kind": 0
@@ -78,7 +78,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "u32",
                     "value": "Bytes",
                     "kind": 0
@@ -160,11 +160,11 @@
                 "modifier": 1,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key1": "Null",
                     "key2": "Hash",
                     "value": "Vec<(BlockNumber,EventIndex)>",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -443,7 +443,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "u32",
                     "value": "Vec<[u8;32]>",
                     "kind": 0
@@ -639,7 +639,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountIndex",
                     "value": "Vec<AccountId>",
                     "kind": 0
@@ -692,7 +692,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "VestingSchedule",
                     "kind": 0
@@ -708,7 +708,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Balance",
                     "kind": 0
@@ -734,7 +734,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Balance",
                     "kind": 0
@@ -760,7 +760,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Vec<BalanceLock>",
                     "kind": 0
@@ -1033,7 +1033,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountId",
                     "kind": 0
@@ -1049,7 +1049,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "StakingLedger",
                     "kind": 0
@@ -1065,7 +1065,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "RewardDestination",
                     "kind": 0
@@ -1081,7 +1081,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "ValidatorPrefs",
                     "kind": 1
@@ -1097,7 +1097,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Vec<AccountId>",
                     "kind": 1
@@ -1113,7 +1113,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Exposure",
                     "kind": 0
@@ -1235,7 +1235,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "EraIndex",
                     "value": "Vec<SlashJournalEntry>",
                     "kind": 0
@@ -1662,11 +1662,11 @@
                 "modifier": 0,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Twox64Concat",
+                    "hasher": "Twox256",
                     "key1": "Bytes",
                     "key2": "ValidatorId",
                     "value": "Keys",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -1682,11 +1682,11 @@
                 "modifier": 0,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Twox64Concat",
+                    "hasher": "Twox256",
                     "key1": "Bytes",
                     "key2": "(KeyTypeId,Bytes)",
                     "value": "ValidatorId",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -1783,7 +1783,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "PropIndex",
                     "value": "(BalanceOf,Vec<AccountId>)",
                     "kind": 0
@@ -1821,7 +1821,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "ReferendumIndex",
                     "value": "ReferendumInfo",
                     "kind": 0
@@ -1837,7 +1837,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "BlockNumber",
                     "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
                     "kind": 0
@@ -1853,7 +1853,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "ReferendumIndex",
                     "value": "Vec<AccountId>",
                     "kind": 0
@@ -1869,7 +1869,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "(ReferendumIndex,AccountId)",
                     "value": "Vote",
                     "kind": 0
@@ -1888,7 +1888,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "AccountId",
                     "kind": 0
@@ -1905,7 +1905,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "(AccountId,Conviction)",
                     "kind": 1
@@ -1947,7 +1947,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "(BlockNumber,Vec<AccountId>)",
                     "kind": 0
@@ -1964,7 +1964,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "bool",
                     "kind": 0
@@ -2427,7 +2427,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Proposal",
                     "kind": 0
@@ -2443,7 +2443,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Votes",
                     "kind": 0
@@ -2642,7 +2642,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Proposal",
                     "kind": 0
@@ -2658,7 +2658,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Hash",
                     "value": "Votes",
                     "kind": 0
@@ -2879,7 +2879,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "Vec<AccountId>",
                     "kind": 1
@@ -2895,7 +2895,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "BalanceOf",
                     "kind": 0
@@ -3361,7 +3361,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "SetId",
                     "value": "SessionIndex",
                     "kind": 0
@@ -3437,7 +3437,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "ProposalIndex",
                     "value": "TreasuryProposal",
                     "kind": 0
@@ -3651,7 +3651,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "CodeHash",
                     "value": "Bytes",
                     "kind": 0
@@ -3667,7 +3667,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "CodeHash",
                     "value": "PrefabWasmModule",
                     "kind": 0
@@ -3694,7 +3694,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "ContractInfo",
                     "kind": 0
@@ -4195,11 +4195,11 @@
                 "modifier": 0,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key1": "SessionIndex",
                     "key2": "AuthIndex",
                     "value": "Bytes",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -4213,11 +4213,11 @@
                 "modifier": 1,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key1": "SessionIndex",
                     "key2": "ValidatorId",
                     "value": "u32",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00000000",
@@ -4292,7 +4292,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "ReportIdOf",
                     "value": "OffenceDetails",
                     "kind": 0
@@ -4308,11 +4308,11 @@
                 "modifier": 1,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key1": "Kind",
                     "key2": "OpaqueTimeSlot",
                     "value": "Vec<ReportIdOf>",
-                    "key2Hasher": "Blake2_256"
+                    "key2Hasher": "Blake2_128Concat"
                   }
                 },
                 "fallback": "0x00",
@@ -4325,7 +4325,7 @@
                 "modifier": 1,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "Kind",
                     "value": "Bytes",
                     "kind": 0
@@ -4395,7 +4395,7 @@
                 "modifier": 0,
                 "type": {
                   "Map": {
-                    "hasher": "Blake2_256",
+                    "hasher": "Blake2_128Concat",
                     "key": "AccountId",
                     "value": "(Bytes,BalanceOf)",
                     "kind": 0
