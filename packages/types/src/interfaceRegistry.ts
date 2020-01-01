@@ -24,6 +24,7 @@ import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure,
 import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
+import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import { EthereumAddress } from '@polkadot/types/interfaces/claims';
 import { AttestedCandidate, AuctionIndex, BalanceUpload, Bidder, CandidateReceipt, CollatorId, CollatorSignature, EgressQueueRoot, HeadData, IncomingParachain, IncomingParachainDeploy, IncomingParachainFixed, LeasePeriod, LeasePeriodOf, NewBidder, ParaId, ParaIdOf, ParaInfo, ParaScheduling, ParachainDispatchOrigin, Retriable, SlotRange, SubId, UpwardMessage, ValidatorIndex, ValidityAttestation, ValidityVote, WinningData, WinningDataEntry } from '@polkadot/types/interfaces/parachains';
@@ -745,6 +746,12 @@ export interface InterfaceRegistry {
   Multiplier: Multiplier;
   'Option<Multiplier>': Option<Multiplier>;
   'Vec<Multiplier>': Vec<Multiplier>;
+  Timepoint: Timepoint;
+  'Option<Timepoint>': Option<Timepoint>;
+  'Vec<Timepoint>': Vec<Timepoint>;
+  Multisig: Multisig;
+  'Option<Multisig>': Option<Multisig>;
+  'Vec<Multisig>': Vec<Multisig>;
   BlockAttestations: BlockAttestations;
   'Option<BlockAttestations>': Option<BlockAttestations>;
   'Vec<BlockAttestations>': Vec<BlockAttestations>;
