@@ -2,27 +2,40 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryTypeV9 } from '@polkadot/types/interfaces/metadata';
+import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
+import { createType, StorageHasherV10 } from '@polkadot/types';
 
-// migrate a storage entry type - only map types are different (with a kind enum)
-// all return the actual value for the enum, followed by the numeric index
-function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
-  if (entryType.isPlain) {
-    return [entryType.asPlain, 0];
-  } else if (entryType.isDoubleMap) {
-    return [entryType.asDoubleMap, 2];
+// migrate a storage hasher type
+// see https://github.com/paritytech/substrate/pull/4462
+function createStorageHasher (registry: Registry, hasher: StorageHasherV9): StorageHasherV10 {
+  // Blake2_128_Concat has been added at index 2, so we increment all the
+  // indexes greater than 2
+  if (hasher.toNumber() >= 2) {
+    return createType(registry, 'StorageHasherV10', hasher.toNumber() + 1);
   }
 
-  const map = entryType.asMap;
+  return createType(registry, 'StorageHasherV10', hasher);
+}
 
-  // map needs a migration, removing linked and adding an explicit kind
-  return [{
-    ...map,
-    kind: createType(registry, 'MapKindV10', null, map.linked.isTrue ? 1 : 0)
-  }, 1];
+function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
+  if (entryType.isMap) {
+    return [{
+      ...entryType.asMap,
+      hasher: createStorageHasher(registry, entryType.asMap.hasher)
+    }, 1];
+  }
+
+  if (entryType.isDoubleMap) {
+    return [{
+      ...entryType.asDoubleMap,
+      hasher: createStorageHasher(registry, entryType.asDoubleMap.hasher),
+      key2Hasher: createStorageHasher(registry, entryType.asDoubleMap.key2Hasher)
+    }, 2];
+  }
+
+  return [entryType.asPlain, 0];
 }
 
 function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
@@ -33,7 +46,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
     storage: storage
       ? {
         ...storage,
-        items: storage.items.map((item): any => ({
+        items: storage.items.map((item: StorageEntryMetadataV9): any => ({
           ...item,
           type: createType(registry, 'StorageEntryTypeV10', ...createStorageType(registry, item.type))
         }))
