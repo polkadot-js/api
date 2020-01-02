@@ -1662,7 +1662,7 @@
                 "modifier": 0,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Twox64Concat",
+                    "hasher": "Twox256",
                     "key1": "Bytes",
                     "key2": "ValidatorId",
                     "value": "Keys",
@@ -1682,7 +1682,7 @@
                 "modifier": 0,
                 "type": {
                   "DoubleMap": {
-                    "hasher": "Twox64Concat",
+                    "hasher": "Twox256",
                     "key1": "Bytes",
                     "key2": "(KeyTypeId,Bytes)",
                     "value": "ValidatorId",
