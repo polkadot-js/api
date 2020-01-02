@@ -9,7 +9,7 @@ export default {
       index: 'u32'
     },
     Multisig: {
-      when: 'Timepoint<BlockNumber>',
+      when: 'Timepoint',
       deposit: 'Balance',
       depositor: 'AccountId',
       approvals: 'Vec<AccountId>'
