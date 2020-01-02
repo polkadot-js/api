@@ -361,7 +361,13 @@ export default {
     StorageMetadataV9: 'StorageMetadataV8',
 
     // v10
-    DoubleMapTypeV10: 'DoubleMapTypeV9',
+    DoubleMapTypeV10: {
+      hasher: 'StorageHasherV10',
+      key1: 'Type',
+      key2: 'Type',
+      value: 'Type',
+      key2Hasher: 'StorageHasherV10'
+    },
     ErrorMetadataV10: 'ErrorMetadataV9',
     EventMetadataV10: 'EventMetadataV9',
     FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
