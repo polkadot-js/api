@@ -47,16 +47,16 @@ export interface DoubleMapTypeV4 extends Struct {
 
 /** Struct */
 export interface DoubleMapTypeV5 extends Struct {
-  /** StorageHasherV4 */
-  readonly hasher: StorageHasherV4;
+  /** StorageHasherV5 */
+  readonly hasher: StorageHasherV5;
   /** Type */
   readonly key1: Type;
   /** Type */
   readonly key2: Type;
   /** Type */
   readonly value: Type;
-  /** StorageHasherV4 */
-  readonly key2Hasher: StorageHasherV4;
+  /** StorageHasherV5 */
+  readonly key2Hasher: StorageHasherV5;
 }
 
 /** DoubleMapTypeV5 */
@@ -962,6 +962,9 @@ export interface StorageHasher extends StorageHasherV11 {}
 
 /** StorageHasherV10 */
 export interface StorageHasherV11 extends StorageHasherV10 {}
+
+/** StorageHasherV4 */
+export interface StorageHasherV5 extends StorageHasherV4 {}
 
 /** Struct */
 export interface StorageMetadataV0 extends Struct {

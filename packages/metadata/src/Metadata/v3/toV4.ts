@@ -5,7 +5,6 @@
 import { MetadataV3, MetadataV4, ModuleMetadataV4, StorageFunctionMetadataV3, StorageFunctionMetadataV4 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import StorageHasher from '@polkadot/types/primitive/StorageHasher';
 import { createType, Option } from '@polkadot/types/codec';
 
 /**
@@ -21,13 +20,13 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
     ? [type.asPlain, 0]
     : type.isMap
       ? [createType(registry, 'MapTypeV4', {
-        hasher: new StorageHasher(registry, 'Twox128'),
+        hasher: createType(registry, 'StorageHasherV4', 'Twox128'),
         key: type.asMap.key,
         value: type.asMap.value,
         linked: type.asMap.linked
       }), 1]
       : [createType(registry, 'DoubleMapTypeV4', {
-        hasher: new StorageHasher(registry, 'Twox128'),
+        hasher: createType(registry, 'StorageHasherV4', 'Twox128'),
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
         value: type.asDoubleMap.value,
