@@ -966,6 +966,18 @@ export interface StorageHasherV11 extends StorageHasherV10 {}
 /** StorageHasherV4 */
 export interface StorageHasherV5 extends StorageHasherV4 {}
 
+/** StorageHasherV5 */
+export interface StorageHasherV6 extends StorageHasherV5 {}
+
+/** StorageHasherV6 */
+export interface StorageHasherV7 extends StorageHasherV6 {}
+
+/** StorageHasherV7 */
+export interface StorageHasherV8 extends StorageHasherV7 {}
+
+/** StorageHasherV8 */
+export interface StorageHasherV9 extends StorageHasherV8 {}
+
 /** Struct */
 export interface StorageMetadataV0 extends Struct {
   /** Text */

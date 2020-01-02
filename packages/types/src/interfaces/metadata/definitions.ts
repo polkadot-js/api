@@ -285,6 +285,7 @@ export default {
     StorageEntryModifierV6: 'StorageFunctionModifierV5',
     StorageEntryMetadataV6: 'StorageFunctionMetadataV5',
     StorageEntryTypeV6: 'StorageFunctionTypeV5',
+    StorageHasherV6: 'StorageHasherV5',
 
     // v7
     DoubleMapTypeV7: 'DoubleMapTypeV6',
@@ -307,6 +308,7 @@ export default {
     StorageEntryModifierV7: 'StorageEntryModifierV6',
     StorageEntryMetadataV7: 'StorageEntryMetadataV6',
     StorageEntryTypeV7: 'StorageEntryTypeV6',
+    StorageHasherV7: 'StorageHasherV6',
     StorageMetadataV7: {
       prefix: 'Text',
       items: 'Vec<StorageEntryMetadataV7>'
@@ -338,6 +340,7 @@ export default {
     StorageEntryModifierV8: 'StorageEntryModifierV7',
     StorageEntryMetadataV8: 'StorageEntryMetadataV7',
     StorageEntryTypeV8: 'StorageEntryTypeV7',
+    StorageHasherV8: 'StorageHasherV7',
     StorageMetadataV8: 'StorageMetadataV7',
 
     // v9
@@ -354,6 +357,7 @@ export default {
     StorageEntryModifierV9: 'StorageEntryModifierV8',
     StorageEntryMetadataV9: 'StorageEntryMetadataV8',
     StorageEntryTypeV9: 'StorageEntryTypeV8',
+    StorageHasherV9: 'StorageHasherV8',
     StorageMetadataV9: 'StorageMetadataV8',
 
     // v10
