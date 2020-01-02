@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageEntryTypeV10, StorageHasherV9 } from '@polkadot/types/interfaces/metadata';
+import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { createType, StorageHasherV10 } from '@polkadot/types';

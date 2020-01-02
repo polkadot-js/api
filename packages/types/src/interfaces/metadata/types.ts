@@ -397,8 +397,11 @@ export interface MetadataV1 extends Struct {
   readonly modules: Vec<ModuleMetadataV1>;
 }
 
-/** MetadataV9 */
-export interface MetadataV10 extends MetadataV9 {}
+/** Struct */
+export interface MetadataV10 extends Struct {
+  /** Vec<ModuleMetadataV10> */
+  readonly modules: Vec<ModuleMetadataV10>;
+}
 
 /** Struct */
 export interface MetadataV11 extends Struct {
@@ -506,8 +509,21 @@ export interface ModuleMetadataV1 extends Struct {
   readonly events: Option<Vec<EventMetadataV1>>;
 }
 
-/** ModuleMetadataV9 */
-export interface ModuleMetadataV10 extends ModuleMetadataV9 {}
+/** Struct */
+export interface ModuleMetadataV10 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** Option<StorageMetadataV10> */
+  readonly storage: Option<StorageMetadataV10>;
+  /** Option<Vec<FunctionMetadataV10>> */
+  readonly calls: Option<Vec<FunctionMetadataV10>>;
+  /** Option<Vec<EventMetadataV10>> */
+  readonly events: Option<Vec<EventMetadataV10>>;
+  /** Vec<ModuleConstantMetadataV10> */
+  readonly constants: Vec<ModuleConstantMetadataV10>;
+  /** Vec<ErrorMetadataV10> */
+  readonly errors: Vec<ErrorMetadataV10>;
+}
 
 /** Struct */
 export interface ModuleMetadataV11 extends Struct {
@@ -711,8 +727,19 @@ export interface RuntimeModuleMetadataV0 extends Struct {
 /** StorageEntryMetadataV11 */
 export interface StorageEntryMetadataLatest extends StorageEntryMetadataV11 {}
 
-/** StorageEntryMetadataV9 */
-export interface StorageEntryMetadataV10 extends StorageEntryMetadataV9 {}
+/** Struct */
+export interface StorageEntryMetadataV10 extends Struct {
+  /** Text */
+  readonly name: Text;
+  /** StorageEntryModifierV10 */
+  readonly modifier: StorageEntryModifierV10;
+  /** StorageEntryTypeV10 */
+  readonly type: StorageEntryTypeV10;
+  /** Bytes */
+  readonly fallback: Bytes;
+  /** Vec<Text> */
+  readonly documentation: Vec<Text>;
+}
 
 /** Struct */
 export interface StorageEntryMetadataV11 extends Struct {
@@ -764,8 +791,21 @@ export interface StorageEntryModifierV9 extends StorageEntryModifierV8 {}
 /** StorageEntryTypeV11 */
 export interface StorageEntryTypeLatest extends StorageEntryTypeV11 {}
 
-/** StorageEntryTypeV9 */
-export interface StorageEntryTypeV10 extends StorageEntryTypeV9 {}
+/** Enum */
+export interface StorageEntryTypeV10 extends Enum {
+  /** 0:: Plain(PlainTypeV10) */
+  readonly isPlain: boolean;
+  /** PlainTypeV10 */
+  readonly asPlain: PlainTypeV10;
+  /** 1:: Map(MapTypeV10) */
+  readonly isMap: boolean;
+  /** MapTypeV10 */
+  readonly asMap: MapTypeV10;
+  /** 2:: DoubleMap(DoubleMapTypeV10) */
+  readonly isDoubleMap: boolean;
+  /** DoubleMapTypeV10 */
+  readonly asDoubleMap: DoubleMapTypeV10;
+}
 
 /** Enum */
 export interface StorageEntryTypeV11 extends Enum {
@@ -997,8 +1037,13 @@ export interface StorageMetadataV0 extends Struct {
   readonly functions: Vec<StorageFunctionMetadataV0>;
 }
 
-/** StorageMetadataV9 */
-export interface StorageMetadataV10 extends StorageMetadataV9 {}
+/** Struct */
+export interface StorageMetadataV10 extends Struct {
+  /** Text */
+  readonly prefix: Text;
+  /** Vec<StorageEntryMetadataV10> */
+  readonly items: Vec<StorageEntryMetadataV10>;
+}
 
 /** Struct */
 export interface StorageMetadataV11 extends Struct {

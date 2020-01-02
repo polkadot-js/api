@@ -378,14 +378,38 @@ export default {
       value: 'Type',
       linked: 'bool'
     },
-    MetadataV10: 'MetadataV9',
+    MetadataV10: {
+      modules: 'Vec<ModuleMetadataV10>'
+    },
     ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
-    ModuleMetadataV10: 'ModuleMetadataV9',
+    ModuleMetadataV10: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV10>',
+      calls: 'Option<Vec<FunctionMetadataV10>>',
+      events: 'Option<Vec<EventMetadataV10>>',
+      constants: 'Vec<ModuleConstantMetadataV10>',
+      errors: 'Vec<ErrorMetadataV10>'
+    },
     PlainTypeV10: 'Type',
     StorageEntryModifierV10: 'StorageEntryModifierV9',
-    StorageEntryMetadataV10: 'StorageEntryMetadataV9',
-    StorageEntryTypeV10: 'StorageEntryTypeV9',
-    StorageMetadataV10: 'StorageMetadataV9',
+    StorageEntryMetadataV10: {
+      name: 'Text',
+      modifier: 'StorageEntryModifierV10',
+      type: 'StorageEntryTypeV10',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
+    StorageEntryTypeV10: {
+      _enum: {
+        Plain: 'PlainTypeV10',
+        Map: 'MapTypeV10',
+        DoubleMap: 'DoubleMapTypeV10'
+      }
+    },
+    StorageMetadataV10: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV10>'
+    },
 
     // v11
     DoubleMapTypeV11: 'DoubleMapTypeV10',
