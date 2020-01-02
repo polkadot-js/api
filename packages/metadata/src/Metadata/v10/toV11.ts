@@ -43,9 +43,9 @@ function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetad
 }
 
 /**
- * Convert from MetadataV9 to MetadataV10
+ * Convert from MetadataV10 to MetadataV11
  */
-export default function toV10 (registry: Registry, { modules }: MetadataV10): MetadataV11 {
+export default function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {
   return createType(registry, 'MetadataV11', {
     modules: modules.map((mod): ModuleMetadataV11 => convertModule(registry, mod))
   });

@@ -56,7 +56,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
 }
 
 /**
- * Convert from MetadataV9 to MetadataV9
+ * Convert from MetadataV9 to MetadataV10
  */
 export default function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
   return createType(registry, 'MetadataV10', {
