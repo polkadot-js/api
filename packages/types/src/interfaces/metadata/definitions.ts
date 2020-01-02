@@ -176,7 +176,7 @@ export default {
 
     // v4
     DoubleMapTypeV4: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV4',
       key1: 'Type',
       key2: 'Type',
       value: 'Type',
@@ -186,7 +186,7 @@ export default {
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
     FunctionMetadataV4: 'FunctionMetadataV3',
     MapTypeV4: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV4',
       key: 'Type',
       value: 'Type',
       linked: 'bool'
@@ -220,11 +220,11 @@ export default {
 
     // v5
     DoubleMapTypeV5: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV5',
       key1: 'Type',
       key2: 'Type',
       value: 'Type',
-      key2Hasher: 'StorageHasher'
+      key2Hasher: 'StorageHasherV5'
     },
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
@@ -256,6 +256,7 @@ export default {
         DoubleMap: 'DoubleMapTypeV5'
       }
     },
+    StorageHasherV5: 'StorageHasherV4',
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
@@ -361,7 +362,12 @@ export default {
     EventMetadataV10: 'EventMetadataV9',
     FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
     FunctionMetadataV10: 'FunctionMetadataV9',
-    MapTypeV10: 'MapTypeV9',
+    MapTypeV10: {
+      hasher: 'StorageHasherV10',
+      key: 'Type',
+      value: 'Type',
+      linked: 'bool'
+    },
     MetadataV10: 'MetadataV9',
     ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
     ModuleMetadataV10: 'ModuleMetadataV9',
@@ -381,7 +387,7 @@ export default {
       _enum: ['Map', 'LinkedMap', 'PrefixedMap']
     },
     MapTypeV11: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV11',
       key: 'Type',
       value: 'Type',
       kind: 'MapKindV11'
@@ -414,6 +420,7 @@ export default {
         DoubleMap: 'DoubleMapTypeV11'
       }
     },
+    StorageHasherV11: 'StorageHasherV10',
     StorageMetadataV11: {
       prefix: 'Text',
       items: 'Vec<StorageEntryMetadataV11>'
@@ -430,6 +437,7 @@ export default {
     StorageEntryMetadataLatest: 'StorageEntryMetadataV11',
     StorageEntryModifierLatest: 'StorageEntryModifierV11',
     StorageEntryTypeLatest: 'StorageEntryTypeV11',
+    StorageHasher: 'StorageHasherV11',
 
     // the enum containing all the mappings
     MetadataAll: {

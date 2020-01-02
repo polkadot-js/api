@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageHasher, Text, Type, bool, u16 } from '@polkadot/types/primitive';
+import { Bytes, StorageHasherV10, StorageHasherV4, Text, Type, bool, u16 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {
@@ -33,8 +33,8 @@ export interface DoubleMapTypeV3 extends Struct {
 
 /** Struct */
 export interface DoubleMapTypeV4 extends Struct {
-  /** StorageHasher */
-  readonly hasher: StorageHasher;
+  /** StorageHasherV4 */
+  readonly hasher: StorageHasherV4;
   /** Type */
   readonly key1: Type;
   /** Type */
@@ -47,16 +47,16 @@ export interface DoubleMapTypeV4 extends Struct {
 
 /** Struct */
 export interface DoubleMapTypeV5 extends Struct {
-  /** StorageHasher */
-  readonly hasher: StorageHasher;
+  /** StorageHasherV4 */
+  readonly hasher: StorageHasherV4;
   /** Type */
   readonly key1: Type;
   /** Type */
   readonly key2: Type;
   /** Type */
   readonly value: Type;
-  /** StorageHasher */
-  readonly key2Hasher: StorageHasher;
+  /** StorageHasherV4 */
+  readonly key2Hasher: StorageHasherV4;
 }
 
 /** DoubleMapTypeV5 */
@@ -251,13 +251,22 @@ export interface MapTypeV0 extends Struct {
   readonly value: Type;
 }
 
-/** MapTypeV9 */
-export interface MapTypeV10 extends MapTypeV9 {}
+/** Struct */
+export interface MapTypeV10 extends Struct {
+  /** StorageHasherV10 */
+  readonly hasher: StorageHasherV10;
+  /** Type */
+  readonly key: Type;
+  /** Type */
+  readonly value: Type;
+  /** bool */
+  readonly linked: bool;
+}
 
 /** Struct */
 export interface MapTypeV11 extends Struct {
-  /** StorageHasher */
-  readonly hasher: StorageHasher;
+  /** StorageHasherV11 */
+  readonly hasher: StorageHasherV11;
   /** Type */
   readonly key: Type;
   /** Type */
@@ -281,8 +290,8 @@ export interface MapTypeV3 extends MapTypeV2 {}
 
 /** Struct */
 export interface MapTypeV4 extends Struct {
-  /** StorageHasher */
-  readonly hasher: StorageHasher;
+  /** StorageHasherV4 */
+  readonly hasher: StorageHasherV4;
   /** Type */
   readonly key: Type;
   /** Type */
@@ -947,6 +956,12 @@ export interface StorageFunctionTypeV5 extends Enum {
   /** DoubleMapTypeV5 */
   readonly asDoubleMap: DoubleMapTypeV5;
 }
+
+/** StorageHasherV11 */
+export interface StorageHasher extends StorageHasherV11 {}
+
+/** StorageHasherV10 */
+export interface StorageHasherV11 extends StorageHasherV10 {}
 
 /** Struct */
 export interface StorageMetadataV0 extends Struct {
