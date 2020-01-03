@@ -244,7 +244,7 @@ export default class Enum extends Base<Codec> {
    */
   public toJSON (): AnyJson {
     return this._isBasic
-      ? this._index
+      ? this.toString()
       : { [this.type]: this.raw.toJSON() };
   }
 

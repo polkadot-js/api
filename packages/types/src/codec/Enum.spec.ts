@@ -191,7 +191,7 @@ describe('Enum', (): void => {
     testDecode('Uint8Array', Uint8Array.from([0]), 'foo');
     testDecode('Uint8Array', Uint8Array.from([1]), 'bar');
 
-    testEncode('toJSON', 1);
+    testEncode('toJSON', 'bar');
     testEncode('toNumber', 1);
     testEncode('toString', 'bar');
     testEncode('toU8a', Uint8Array.from([1]));

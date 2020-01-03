@@ -217,6 +217,15 @@ export default {
         DoubleMap: 'DoubleMapTypeV4'
       }
     },
+    StorageHasherV4: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null
+      }
+    },
 
     // v5
     DoubleMapTypeV5: {
@@ -409,6 +418,16 @@ export default {
     StorageMetadataV10: {
       prefix: 'Text',
       items: 'Vec<StorageEntryMetadataV10>'
+    },
+    StorageHasherV10: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_128Concat: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null
+      }
     },
 
     // v11
