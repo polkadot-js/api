@@ -6,6 +6,7 @@ import { Registry } from '@polkadot/types/types';
 
 import { bnToU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 
+import hackKusama1032 from './v10/static.polkadot';
 import { MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
 
@@ -28,9 +29,9 @@ export default class Metadata extends MetadataVersioned {
      * There was a fk-up in the metadata upgrade process: Kusama's metadata got
      * updated to a non-backward-compatible way, but the metadata version
      * stayed at v9. Then v10 was merged in Substrate but not Kusama. Here,
-     * we're just saying that if it's a v9 metadata, decode as v10.
+     * we're just saying that if it's Kusama's metadata, decode as v10.
      */
-    if (isHex(_value) && _value.startsWith('0x6d65746109')) {
+    if (isHex(_value) && _value === hackKusama1032) {
       return Metadata.decodeMetadata(registry, _value.replace('0x6d65746109', '0x6d6574610a'));
     }
 
