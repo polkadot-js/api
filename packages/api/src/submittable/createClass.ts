@@ -6,9 +6,9 @@
 import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
+import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest, from, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
@@ -59,15 +59,24 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public async signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): Promise<this> {
-      if (this._api.signer) {
-        const options = this._makeSignOptions(this._optionsOrNonce(optionsOrNonce), {});
-        await this._signViaSigner(account.address, options, null);
-      } else {
-        this.sign(account, optionsOrNonce);
-      }
+    public signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+      return this._decorateMethod(
+        (): Observable<this> => {
+          const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
 
-      return this;
+          if (this._api.signer) {
+            const options = this._makeSignOptions(optionsWithNonce, {});
+
+            return from(this._signViaSigner(account.address, options, null)).pipe(
+              switchMap((): Observable<this> => from(Promise.resolve(this)))
+            );
+          }
+
+          this.sign(account, optionsWithNonce);
+
+          return from(Promise.resolve(this));
+        }
+      )();
     }
 
     // signAndSend with an immediate Hash result
@@ -105,7 +114,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
                 : this._sendObservable(updateId);
             })
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
-      )(statusCb) as SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType>;
+      )(statusCb);
     }
 
     // send with an immediate Hash result
