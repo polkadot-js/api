@@ -13,6 +13,7 @@ export interface SubmittableResultImpl {
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;
+  readonly isInBlock: boolean;
   readonly isFinalized: boolean;
 
   filterRecords (section: string, method: string): EventRecord[];

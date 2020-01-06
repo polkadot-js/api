@@ -45,7 +45,7 @@ async function main () {
 
       // Log system events once the transfer is finalised
       if (status.isFinalized) {
-        console.log('Completed at block hash', status.asFinalized.toHex());
+        console.log('Completed at block hash', status.asInBlock.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

@@ -40,22 +40,26 @@ export interface ExtrinsicStatus extends Enum {
   readonly isFuture: boolean;
   /** 1:: Ready */
   readonly isReady: boolean;
-  /** 2:: Finalized(Hash) */
-  readonly isFinalized: boolean;
-  /** Hash */
-  readonly asFinalized: Hash;
-  /** 3:: Usurped(Hash) */
-  readonly isUsurped: boolean;
-  /** Hash */
-  readonly asUsurped: Hash;
-  /** 4:: Broadcast(Vec<Text>) */
+  /** 2:: Broadcast(Vec<Text>) */
   readonly isBroadcast: boolean;
   /** Vec<Text> */
   readonly asBroadcast: Vec<Text>;
+  /** 3:: InBlock(Hash) */
+  readonly isInBlock: boolean;
+  /** Hash */
+  readonly asInBlock: Hash;
+  /** 4:: Usurped(Hash) */
+  readonly isUsurped: boolean;
+  /** Hash */
+  readonly asUsurped: Hash;
   /** 5:: Dropped */
   readonly isDropped: boolean;
   /** 6:: Invalid */
   readonly isInvalid: boolean;
+  /** 7:: Finalized(Hash) */
+  readonly isFinalized: boolean;
+  /** Hash */
+  readonly asFinalized: Hash;
 }
 
 /** Struct */

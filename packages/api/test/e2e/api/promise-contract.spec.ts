@@ -56,7 +56,7 @@ describeE2E({
         api.tx.contracts
           .putCode(MAX_GAS, `0x${incrementerCode}`)
           .signAndSend(keyring.eve, (result: SubmittableResult): void => {
-            if (result.status.isFinalized) {
+            if (result.status.isInBlock) {
               const record = result.findRecord('contracts', 'CodeStored');
               if (record) {
                 codeHash = record.event.data[0] as Hash;
@@ -83,7 +83,7 @@ describeE2E({
           .signAndSend(keyring.dave, (result: SubmittableResult): void => {
             // console.error('create', JSON.stringify(result));
 
-            if (result.status.isFinalized) {
+            if (result.status.isInBlock) {
               const record = result.findRecord('contracts', 'Instantiated');
 
               if (record) {
@@ -107,7 +107,7 @@ describeE2E({
           .signAndSend(keyring.bob, (result: SubmittableResult): void => {
             console.error('call', JSON.stringify(result));
 
-            if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
+            if (result.status.isInBlock && result.findRecord('system', 'ExtrinsicSuccess')) {
               done();
             }
           })

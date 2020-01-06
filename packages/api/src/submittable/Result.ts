@@ -16,14 +16,19 @@ export default class SubmittableResult implements SubmittableResultImpl {
   }
 
   public get isCompleted (): boolean {
-    return this.isError || this.isFinalized;
+    return this.isError || this.isInBlock || this.isFinalized;
   }
 
   public get isError (): boolean {
     return this.status.isDropped || this.status.isInvalid || this.status.isUsurped;
   }
 
+  public get isInBlock (): boolean {
+    return this.status.isInBlock;
+  }
+
   public get isFinalized (): boolean {
+    console.warn('SubmittableResult: isFinalized is deprecated; use isInBlock instead');
     return this.status.isFinalized;
   }
 

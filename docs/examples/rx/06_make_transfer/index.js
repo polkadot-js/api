@@ -25,8 +25,8 @@ async function main () {
     .signAndSend(alice)
     // Subscribe to the status updates of the transfer
     .subscribe(({ status }) => {
-      if (status.isFinalized) {
-        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalized.toHex()}`);
+      if (status.isInBlock) {
+        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asInBlock.toHex()}`);
         subscription.unsubscribe();
       } else {
         console.log(`Status of transfer: ${status.type}`);

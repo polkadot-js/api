@@ -18,8 +18,8 @@ const unsub = await api.tx.balances
   .signAndSend(alice, (result) => {
     console.log(`Current status is ${result.status}`);
 
-    if (result.status.isFinalized) {
-      console.log(`Transaction included at blockHash ${result.status.asFinalized}`);
+    if (result.status.isInBlock) {
+      console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
       unsub();
     }
   });
@@ -45,8 +45,8 @@ const unsub = await api.tx.balances
   .signAndSend(alice, ({ events = [], status }) => {
     console.log(`Current status is ${status.type}`);
 
-    if (status.isFinalized) {
-      console.log(`Transaction included at blockHash ${status.asFinalized}`);
+    if (status.isInBlock) {
+      console.log(`Transaction included at blockHash ${status.asInBlock}`);
 
       // Loop through Vec<EventRecord> to display all events
       events.forEach(({ phase, event: { data, method, section } }) => {

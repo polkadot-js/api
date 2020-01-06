@@ -12,20 +12,28 @@ import { typeSplit } from './typeSplit';
 // decode an enum of either of the following forms
 //  { _enum: ['A', 'B', 'C'] }
 //  { _enum: { A: AccountId, B: Balance, C: u32 } }
-function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>): TypeDef {
+function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>, alias?: Record<string, string>): TypeDef {
   value.info = TypeDefInfo.Enum;
 
   // not as pretty, but remain compatible with oo7 for both struct and Array types
-  value.sub = Array.isArray(details)
-    ? details.map((name): TypeDef => ({
+  if (Array.isArray(details)) {
+    value.sub = details.map((name): TypeDef => ({
       info: TypeDefInfo.Plain,
       name,
       type: 'Null'
-    }))
-    : Object.entries(details).map(([name, type]): TypeDef =>
+    }));
+  } else {
+    const sub: TypeDef[] = [];
+    Object.entries(details).forEach(([name, type]): void => {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      getTypeDef(type || 'Null', { name })
-    );
+      sub.push(getTypeDef(type || 'Null', { name }));
+    });
+    Object.entries(alias || {}).forEach(([alias, name]): void => {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      sub.push(getTypeDef(details[name] || 'Null', { name: alias }));
+    });
+    value.sub = sub;
+  }
 
   return value;
 }
@@ -50,8 +58,8 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
   const parsed = JSON.parse(type);
   const keys = Object.keys(parsed);
 
-  if (keys.length === 1 && keys[0] === '_enum') {
-    return _decodeEnum(value, parsed[keys[0]]);
+  if (keys[0] === '_enum') {
+    return _decodeEnum(value, parsed[keys[0]], keys.includes('_alias') ? parsed._alias : undefined);
   } else if (keys.length === 1 && keys[0] === '_set') {
     return _decodeSet(value, parsed[keys[0]]);
   }

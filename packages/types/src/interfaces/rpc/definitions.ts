@@ -21,11 +21,14 @@ export default {
       _enum: {
         Future: 'Null',
         Ready: 'Null',
-        Finalized: 'Hash',
-        Usurped: 'Hash',
         Broadcast: 'Vec<Text>',
+        InBlock: 'Hash',
+        Usurped: 'Hash',
         Dropped: 'Null',
         Invalid: 'Null'
+      },
+      _alias: {
+        Finalized: 'InBlock'
       }
     },
     Health: {

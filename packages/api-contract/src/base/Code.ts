@@ -58,7 +58,7 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
   private createResult = (result: SubmittableResultImpl): CodePutCodeResult<ApiType> => {
     let blueprint: Blueprint<ApiType> | undefined;
 
-    if (result.isFinalized) {
+    if (result.isInBlock) {
       const record = result.findRecord('contract', 'CodeStored');
 
       if (record) {

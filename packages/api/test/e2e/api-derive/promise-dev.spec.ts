@@ -88,7 +88,7 @@ describeE2E({
       it('unbonds dots for Alice (from Alice Stash)', (done): Promise<() => void> => {
         return api.tx.staking.unbond(UNBOND_VALUE)
           .signAndSend(alicePair, (result: SubmittableResult): void => {
-            if (result.status.isFinalized) {
+            if (result.status.isInBlock) {
               done();
             }
           });
@@ -109,7 +109,7 @@ describeE2E({
         return api.tx.staking
           .setPayee(PAYEE)
           .signAndSend(alicePair, (result: SubmittableResult): void => {
-            if (result.status.isFinalized) {
+            if (result.status.isInBlock) {
               done();
             }
           });
@@ -134,8 +134,8 @@ describeE2E({
         await api.tx.staking
           .setPayee('Staked')
           .signAndSend(testingPairs().alice, ({ status }): void => {
-            if (status.isFinalized) {
-              console.error('setPayee(Staked) isFinalized');
+            if (status.isInBlock) {
+              console.error('setPayee(Staked) isInBlock');
             }
           });
 
@@ -158,8 +158,8 @@ describeE2E({
           await api.tx.staking
             .setPayee('Stash')
             .signAndSend(testingPairs().alice, ({ status }): void => {
-              if (status.isFinalized) {
-                console.error('setPayee(Stash) isFinalized');
+              if (status.isInBlock) {
+                console.error('setPayee(Stash) isInBlock');
               }
             });
         }, 5000);

@@ -39,7 +39,7 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
         )
       )
       .subscribe(({ status }: SubmittableResult): void => {
-        if (status.isFinalized) {
+        if (status.isInBlock) {
           done();
         }
       });
@@ -63,7 +63,7 @@ describeE2E()('Rx e2e transactions', (wsUrl: string): void => {
         )
       )
       .subscribe(({ status }: SubmittableResult): void => {
-        if (status.isFinalized) {
+        if (status.isInBlock) {
           done();
         }
       });
