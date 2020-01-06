@@ -13,11 +13,20 @@ interface VersionedType {
   types: RegistryTypes;
 }
 
-// these are override types for polkadot chains
+// these are override types for Polkadot & Kusama chains
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
 // implementation) are different. Detect Polkadot and inject the `Keys`
 // definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
 const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
+  {
+    minmax: [1000, undefined], // from launch
+    types: {
+      Keys: 'SessionKeys5'
+    }
+  }
+];
+
+const TYPES_KUSAMA_VERSIONED: VersionedType[] = [
   {
     minmax: [1019, 1031], // CC3, from launch
     types: {
@@ -55,7 +64,7 @@ const TYPES_META: VersionedType[] = [
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 const TYPES_SPEC: Record<string, VersionedType[]> = {
-  kusama: TYPES_POLKADOT_VERSIONED,
+  kusama: TYPES_KUSAMA_VERSIONED,
   polkadot: TYPES_POLKADOT_VERSIONED
 };
 
