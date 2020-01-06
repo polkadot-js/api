@@ -4,8 +4,15 @@
 
 export default {
   types: {
-    // This is not deprecated, only there for a short while, replaced by Result<(), DispatchError>
-    DispatchResult: 'Result<(), Text>',
-    DispatchResultOf: 'DispatchResult'
+    Timepoint: {
+      height: 'BlockNumber',
+      index: 'u32'
+    },
+    Multisig: {
+      when: 'Timepoint',
+      deposit: 'Balance',
+      depositor: 'AccountId',
+      approvals: 'Vec<AccountId>'
+    }
   }
 };

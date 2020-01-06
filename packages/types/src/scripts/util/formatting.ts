@@ -42,6 +42,13 @@ function formatBTreeMap (key: string, val: string): string {
 }
 
 /**
+ * Given the inner `V`, return a `BTreeSet<V>`  string
+ */
+function formatBTreeSet (val: string): string {
+  return `BTreeSet<${val}>`;
+}
+
+/**
  * Given the inner `T`, return a `Compact<T>` string
  */
 function formatCompact (inner: string): string {
@@ -116,10 +123,10 @@ export function formatType (definitions: object, type: string | TypeDef, imports
     }
     case TypeDefInfo.VecFixed: {
       if ((typeDef.ext as TypeDefExtVecFixed).type === 'u8') {
-        setImports(definitions, imports, ['U8a']);
+        setImports(definitions, imports, ['Raw']);
 
-        // `[u8, 32]` gets transformed into U8a
-        return 'U8a';
+        // `[u8, 32]` gets transformed into Raw
+        return 'Raw';
       }
       setImports(definitions, imports, ['Vec']);
       return formatVec(formatType(definitions, (typeDef.ext as TypeDefExtVecFixed).type, imports));
@@ -128,6 +135,11 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       setImports(definitions, imports, ['BTreeMap']);
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
       return formatBTreeMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.BTreeSet: {
+      setImports(definitions, imports, ['BTreeSet']);
+      const valDef = typeDef.sub as TypeDef;
+      return formatBTreeSet(formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);

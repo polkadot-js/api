@@ -5,7 +5,7 @@
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls, Registry } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, ModulesWithCalls, Registry } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import {
   ApiInterfaceRx, ApiOptions, ApiTypes,
@@ -20,7 +20,7 @@ import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { Metadata, Null, Option, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -37,6 +37,8 @@ interface MetaDecoration {
   section: string;
   toJSON: () => any;
 }
+
+type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
   public readonly registry: Registry;
@@ -298,7 +300,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
+    const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
 
@@ -306,13 +308,17 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]]).pipe(
-        switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
+      this._rpcCore.state.subscribeStorage<[LinkageData | Option<LinkageData>]>([[creator, key]]).pipe(
+        switchMap(([_data]: [LinkageData | Option<LinkageData>]): Observable<LinkageResult> => {
+          const data = creator.meta.modifier.isOptional
+            ? (_data as Option<LinkageData>).unwrapOr(null)
+            : _data as LinkageData;
+
           result.set(key, data);
 
           // iterate from this key to the linkages, constructing entries for all
           // those found and available
-          if (data[1].next.isSome) {
+          if (data && data[1].next.isSome) {
             return getNext(data[1].next.unwrap());
           }
 
@@ -334,7 +340,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             keys.push(nextKey);
             vals.push(item);
 
-            nextKey = linkage.next && linkage.next.unwrapOr(null);
+            nextKey = linkage.next?.unwrapOr(null);
           }
 
           const nextResult = vals.length

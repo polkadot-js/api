@@ -14,18 +14,22 @@ import { memo } from '../util';
 
 export function referendums (api: ApiInterfaceRx): () => Observable<DerivedReferendum[]> {
   return memo((): Observable<DerivedReferendum[]> =>
-    api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
-      api.query.democracy.nextTally,
-      api.query.democracy.referendumCount
-    ]).pipe(
-      switchMap(([nextTally, referendumCount]): Observable<DerivedReferendum[]> =>
-        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
-          ? api.derive.democracy.referendumInfos(
-            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i): BN =>
-              nextTally.addn(i)
+    // V2 vs V1 (and early V2)
+    api.query.democracy?.lowestUnbaked || api.query.democracy?.nextTally
+      ? api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
+        api.query.democracy.lowestUnbaked || api.query.democracy.nextTally,
+        api.query.democracy.referendumCount
+      ]).pipe(
+        switchMap(([earliest, referendumCount]): Observable<DerivedReferendum[]> =>
+          referendumCount?.gt(earliest) && referendumCount?.gtn(0)
+            ? api.derive.democracy.referendumInfos(
+              [...Array(referendumCount.sub(earliest).toNumber())].map((_, i): BN =>
+                earliest.addn(i)
+              )
             )
-          )
-          : of([])
+            : of([])
+        )
       )
-    ));
+      : of([] as DerivedReferendum[])
+  );
 }

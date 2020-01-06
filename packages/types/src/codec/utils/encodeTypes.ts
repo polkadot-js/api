@@ -21,14 +21,25 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
 }
 
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-  const { sub, params } = typeDef;
+  const { info, sub, params } = typeDef;
 
-  return paramsNotation(
-    outer,
-    params || sub,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    (param: TypeDef) => displayType(param)
-  );
+  switch (info) {
+    case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.BTreeSet:
+    case TypeDefInfo.Compact:
+    case TypeDefInfo.Linkage:
+    case TypeDefInfo.Option:
+    case TypeDefInfo.Result:
+    case TypeDefInfo.Vec:
+      return paramsNotation(
+        outer,
+        params || sub,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        (param: TypeDef) => displayType(param)
+      );
+    default:
+      return outer;
+  }
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
@@ -104,6 +115,7 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 // in a compile-time error with the missing index)
 const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
+  [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),

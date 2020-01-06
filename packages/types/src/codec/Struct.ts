@@ -7,7 +7,7 @@ import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, IHash, Int
 import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
@@ -180,7 +180,7 @@ export default class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

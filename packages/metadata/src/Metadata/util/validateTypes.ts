@@ -25,11 +25,11 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.VecFixed:
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
+      case TypeDefInfo.BTreeMap:
+      case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
-        return extractTypes(
-          (decoded.sub as TypeDef[]).map((sub): string => sub.type)
-        );
+        return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
 
       default:
         throw new Error(`Unhandled: Unable to create and validate type from ${type}`);

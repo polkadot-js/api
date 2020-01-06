@@ -13,7 +13,7 @@ import json3 from '../../json/EventRecord.003.json';
 describe('EventRecord', (): void => {
   const registry = new TypeRegistry();
 
-  describe('EventRecord_0_76', (): void => {
+  describe('EventRecordTo76', (): void => {
     beforeEach((): void => {
       // eslint-disable-next-line no-new
       new Metadata(registry, rpcMetadataV0);
@@ -46,7 +46,8 @@ describe('EventRecord', (): void => {
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
-      expect(records.toHex()).toEqual(hex);
+      // additional payment info
+      expect(records.toHex()).toEqual(`${hex}000000000000`);
     });
   });
 });

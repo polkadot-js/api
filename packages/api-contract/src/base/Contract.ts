@@ -41,7 +41,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
     return {
       send: this.decorateMethod(
-        as === 'rpc'
+        as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> => {
             return this.rpcContractsCall(
               createType(this.registry, 'ContractCallRequest', {
@@ -75,7 +75,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
       output = message.returnType
         ? formatData(this.registry, data, message.returnType)
-        : createType(this.registry, 'Data', data);
+        : createType(this.registry, 'Raw', data);
     }
 
     return {

@@ -5,7 +5,7 @@
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['BTreeMap', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
+const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
@@ -46,6 +46,7 @@ const mappings: Mapper[] = [
   _alias('exec::StorageKey', 'ContractStorageKey'),
   // Phantom
   _alias('rstd::marker::PhantomData', 'PhantomData'),
+  _alias('sp_std::marker::PhantomData', 'PhantomData'),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   _flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal

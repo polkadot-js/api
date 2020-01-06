@@ -9,6 +9,7 @@
 
 // These are the base codec types, generally used for construction
 export { default as BTreeMap } from './BTreeMap';
+export { default as BTreeSet } from './BTreeSet';
 export { default as Compact } from './Compact';
 // export { default as Date } from './Date';
 export { default as Enum } from './Enum';
@@ -21,7 +22,7 @@ export { default as Tuple } from './Tuple';
 export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases
-export { default as U8a } from './U8a';
+export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
 
 // Type management helper functions

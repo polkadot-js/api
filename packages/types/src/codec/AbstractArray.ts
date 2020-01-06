@@ -8,7 +8,7 @@ import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
-import U8a from './U8a';
+import Raw from './Raw';
 import { compareArray } from './utils';
 
 /**
@@ -40,7 +40,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(this.registry, blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

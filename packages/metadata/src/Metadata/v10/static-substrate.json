@@ -16,7 +16,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Index",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00000000",
@@ -65,7 +65,7 @@
                     "hasher": "Blake2_256",
                     "key": "BlockNumber",
                     "value": "Hash",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -81,7 +81,7 @@
                     "hasher": "Blake2_256",
                     "key": "u32",
                     "value": "Bytes",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -270,7 +270,9 @@
           "events": [
             {
               "name": "ExtrinsicSuccess",
-              "args": [],
+              "args": [
+                "DispatchInfo"
+              ],
               "documentation": [
                 " An extrinsic completed successfully."
               ]
@@ -278,7 +280,8 @@
             {
               "name": "ExtrinsicFailed",
               "args": [
-                "DispatchError"
+                "DispatchError",
+                "DispatchInfo"
               ],
               "documentation": [
                 " An extrinsic failed."
@@ -286,32 +289,32 @@
             }
           ],
           "constants": [],
-          "errors": [
-            {
-              "name": "BadSignature",
-              "documentation": []
-            },
-            {
-              "name": "BlockFull",
-              "documentation": []
-            },
-            {
-              "name": "RequireSignedOrigin",
-              "documentation": []
-            },
-            {
-              "name": "RequireRootOrigin",
-              "documentation": []
-            },
-            {
-              "name": "RequireNoOrigin",
-              "documentation": []
-            }
-          ]
+          "errors": []
         },
         {
           "name": "Utility",
-          "storage": null,
+          "storage": {
+            "prefix": "Utility",
+            "items": [
+              {
+                "name": "Multisigs",
+                "modifier": 0,
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "AccountId",
+                    "key2": "[u8;32]",
+                    "value": "Multisig",
+                    "key2Hasher": "Blake2_128Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of open multisig operations."
+                ]
+              }
+            ]
+          },
           "calls": [
             {
               "name": "batch",
@@ -322,17 +325,279 @@
                 }
               ],
               "documentation": [
-                " Send a batch of dispatch calls (only root)."
+                " Send a batch of dispatch calls.",
+                "",
+                " This will execute until the first one fails and then stop.",
+                "",
+                " May be called from any origin.",
+                "",
+                " - `calls`: The calls to be dispatched from the same origin.",
+                "",
+                " # <weight>",
+                " - The sum of the weights of the `calls`.",
+                " - One event.",
+                " # </weight>",
+                "",
+                " This will return `Ok` in all circumstances. To determine the success of the batch, an",
+                " event is deposited. If a call failed and the batch was interrupted, then the",
+                " `BatchInterrupted` event is deposited, along with the number of successful calls made",
+                " and the error of the failed call. If all were successful, then the `BatchCompleted`",
+                " event is deposited."
+              ]
+            },
+            {
+              "name": "as_sub",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "u16"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Send a call through an indexed pseudonym of the sender.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " # <weight>",
+                " - The weight of the `call`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "as_multi",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "u16"
+                },
+                {
+                  "name": "other_signatories",
+                  "type": "Vec<AccountId>"
+                },
+                {
+                  "name": "maybe_timepoint",
+                  "type": "Option<Timepoint>"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Register approval for a dispatch to be made from a deterministic composite account if",
+                " approved by a total of `threshold - 1` of `other_signatories`.",
+                "",
+                " If there are enough, then dispatch the call.",
+                "",
+                " Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus",
+                " `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or",
+                " is cancelled.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `threshold`: The total number of approvals for this dispatch before it is executed.",
+                " - `other_signatories`: The accounts (other than the sender) who can approve this",
+                " dispatch. May not be empty.",
+                " - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is",
+                " not the first approval, then it must be `Some`, with the timepoint (block number and",
+                " transaction index) of the first approval transaction.",
+                " - `call`: The call to be executed.",
+                "",
+                " NOTE: Unless this is the final approval, you will generally want to use",
+                " `approve_as_multi` instead, since it only requires a hash of the call.",
+                "",
+                " Result is equivalent to the dispatched result if `threshold` is exactly `1`. Otherwise",
+                " on success, result is `Ok` and the result from the interior call, if it was executed,",
+                " may be found in the deposited `MultisigExecuted` event.",
+                "",
+                " # <weight>",
+                " - `O(S + Z + Call)`.",
+                " - Up to one balance-reserve or unreserve operation.",
+                " - One passthrough operation, one insert, both `O(S)` where `S` is the number of",
+                "   signatories. `S` is capped by `MaxSignatories`, with weight being proportional.",
+                " - One call encode & hash, both of complexity `O(Z)` where `Z` is tx-len.",
+                " - One encode & hash, both of complexity `O(S)`.",
+                " - Up to one binary search and insert (`O(logS + S)`).",
+                " - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
+                " - One event.",
+                " - The weight of the `call`.",
+                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
+                "   deposit taken for its lifetime of",
+                "   `MultisigDepositBase + threshold * MultisigDepositFactor`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "approve_as_multi",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "u16"
+                },
+                {
+                  "name": "other_signatories",
+                  "type": "Vec<AccountId>"
+                },
+                {
+                  "name": "maybe_timepoint",
+                  "type": "Option<Timepoint>"
+                },
+                {
+                  "name": "call_hash",
+                  "type": "[u8;32]"
+                }
+              ],
+              "documentation": [
+                " Register approval for a dispatch to be made from a deterministic composite account if",
+                " approved by a total of `threshold - 1` of `other_signatories`.",
+                "",
+                " Payment: `MultisigDepositBase` will be reserved if this is the first approval, plus",
+                " `threshold` times `MultisigDepositFactor`. It is returned once this dispatch happens or",
+                " is cancelled.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `threshold`: The total number of approvals for this dispatch before it is executed.",
+                " - `other_signatories`: The accounts (other than the sender) who can approve this",
+                " dispatch. May not be empty.",
+                " - `maybe_timepoint`: If this is the first approval, then this must be `None`. If it is",
+                " not the first approval, then it must be `Some`, with the timepoint (block number and",
+                " transaction index) of the first approval transaction.",
+                " - `call_hash`: The hash of the call to be executed.",
+                "",
+                " NOTE: If this is the final approval, you will want to use `as_multi` instead.",
+                "",
+                " # <weight>",
+                " - `O(S)`.",
+                " - Up to one balance-reserve or unreserve operation.",
+                " - One passthrough operation, one insert, both `O(S)` where `S` is the number of",
+                "   signatories. `S` is capped by `MaxSignatories`, with weight being proportional.",
+                " - One encode & hash, both of complexity `O(S)`.",
+                " - Up to one binary search and insert (`O(logS + S)`).",
+                " - I/O: 1 read `O(S)`, up to 1 mutate `O(S)`. Up to one remove.",
+                " - One event.",
+                " - Storage: inserts one item, value size bounded by `MaxSignatories`, with a",
+                "   deposit taken for its lifetime of",
+                "   `MultisigDepositBase + threshold * MultisigDepositFactor`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "cancel_as_multi",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "u16"
+                },
+                {
+                  "name": "other_signatories",
+                  "type": "Vec<AccountId>"
+                },
+                {
+                  "name": "timepoint",
+                  "type": "Timepoint"
+                },
+                {
+                  "name": "call_hash",
+                  "type": "[u8;32]"
+                }
+              ],
+              "documentation": [
+                " Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously",
+                " for this operation will be unreserved on success.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " - `threshold`: The total number of approvals for this dispatch before it is executed.",
+                " - `other_signatories`: The accounts (other than the sender) who can approve this",
+                " dispatch. May not be empty.",
+                " - `timepoint`: The timepoint (block number and transaction index) of the first approval",
+                " transaction for this dispatch.",
+                " - `call_hash`: The hash of the call to be executed.",
+                "",
+                " # <weight>",
+                " - `O(S)`.",
+                " - Up to one balance-reserve or unreserve operation.",
+                " - One passthrough operation, one insert, both `O(S)` where `S` is the number of",
+                "   signatories. `S` is capped by `MaxSignatories`, with weight being proportional.",
+                " - One encode & hash, both of complexity `O(S)`.",
+                " - One event.",
+                " - I/O: 1 read `O(S)`, one remove.",
+                " - Storage: removes one item.",
+                " # </weight>"
               ]
             }
           ],
           "events": [
             {
-              "name": "BatchExecuted",
+              "name": "BatchInterrupted",
               "args": [
-                "Vec<Result<Null,DispatchError>>"
+                "u32",
+                "DispatchError"
               ],
-              "documentation": []
+              "documentation": [
+                " Batch of dispatches did not complete fully. Index of first failing dispatch given, as",
+                " well as the error."
+              ]
+            },
+            {
+              "name": "BatchCompleted",
+              "args": [],
+              "documentation": [
+                " Batch of dispatches completed fully with no error."
+              ]
+            },
+            {
+              "name": "NewMultisig",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " A new multisig operation has begun. First param is the account that is approving,",
+                " second is the multisig account."
+              ]
+            },
+            {
+              "name": "MultisigApproval",
+              "args": [
+                "AccountId",
+                "Timepoint",
+                "AccountId"
+              ],
+              "documentation": [
+                " A multisig operation has been approved by someone. First param is the account that is",
+                " approving, third is the multisig account."
+              ]
+            },
+            {
+              "name": "MultisigExecuted",
+              "args": [
+                "AccountId",
+                "Timepoint",
+                "AccountId",
+                "DispatchResult"
+              ],
+              "documentation": [
+                " A multisig operation has been executed. First param is the account that is",
+                " approving, third is the multisig account."
+              ]
+            },
+            {
+              "name": "MultisigCancelled",
+              "args": [
+                "AccountId",
+                "Timepoint",
+                "AccountId"
+              ],
+              "documentation": [
+                " A multisig operation has been cancelled. First param is the account that is",
+                " cancelling, third is the multisig account."
+              ]
             }
           ],
           "constants": [],
@@ -446,7 +711,7 @@
                     "hasher": "Blake2_256",
                     "key": "u32",
                     "value": "Vec<[u8;32]>",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -616,7 +881,50 @@
           ],
           "events": null,
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidUncleParent",
+              "documentation": [
+                " The uncle parent not in the chain."
+              ]
+            },
+            {
+              "name": "UnclesAlreadySet",
+              "documentation": [
+                " Uncles already set in the block."
+              ]
+            },
+            {
+              "name": "TooManyUncles",
+              "documentation": [
+                " Too many uncles."
+              ]
+            },
+            {
+              "name": "GenesisUncle",
+              "documentation": [
+                " The uncle is genesis."
+              ]
+            },
+            {
+              "name": "TooHighUncle",
+              "documentation": [
+                " The uncle is too high in chain."
+              ]
+            },
+            {
+              "name": "UncleAlreadyIncluded",
+              "documentation": [
+                " The uncle is already included."
+              ]
+            },
+            {
+              "name": "OldUncle",
+              "documentation": [
+                " The uncle isn't recent enough to be included."
+              ]
+            }
+          ]
         },
         {
           "name": "Indices",
@@ -642,7 +950,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountIndex",
                     "value": "Vec<AccountId>",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -695,7 +1003,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "VestingSchedule",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -711,7 +1019,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Balance",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
@@ -725,7 +1033,7 @@
                   " is invoked, giving a chance to external modules to clean up data associated with",
                   " the deleted account.",
                   "",
-                  " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
+                  " `frame_system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
                   " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
                 ]
               },
@@ -737,7 +1045,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Balance",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
@@ -751,7 +1059,7 @@
                   " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
                   " is deleted: specifically, `ReservedBalance`.",
                   "",
-                  " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
+                  " `frame_system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
                   " collapsed to zero if it ever becomes less than `ExistentialDeposit`.)"
                 ]
               },
@@ -763,7 +1071,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Vec<BalanceLock>",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -836,7 +1144,7 @@
                 " This will alter `FreeBalance` and `ReservedBalance` in storage. it will",
                 " also decrease the total issuance of the system (`TotalIssuance`).",
                 " If the new free or reserved balance is below the existential deposit,",
-                " it will reset the account nonce (`system::AccountNonce`).",
+                " it will reset the account nonce (`frame_system::AccountNonce`).",
                 "",
                 " The dispatch origin for this call is `root`.",
                 "",
@@ -903,7 +1211,8 @@
             {
               "name": "ReapedAccount",
               "args": [
-                "AccountId"
+                "AccountId",
+                "Balance"
               ],
               "documentation": [
                 " An account was reaped."
@@ -919,6 +1228,27 @@
               ],
               "documentation": [
                 " Transfer succeeded (from, to, value, fees)."
+              ]
+            },
+            {
+              "name": "BalanceSet",
+              "args": [
+                "AccountId",
+                "Balance",
+                "Balance"
+              ],
+              "documentation": [
+                " A balance was set by root (who, free, reserved)."
+              ]
+            },
+            {
+              "name": "Deposit",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " Some amount was deposited (e.g. for transaction fees)."
               ]
             }
           ],
@@ -948,7 +1278,56 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "VestingBalance",
+              "documentation": [
+                " Vesting balance too high to send value"
+              ]
+            },
+            {
+              "name": "LiquidityRestrictions",
+              "documentation": [
+                " Account liquidity restrictions prevent withdrawal"
+              ]
+            },
+            {
+              "name": "Overflow",
+              "documentation": [
+                " Got an overflow after adding"
+              ]
+            },
+            {
+              "name": "InsufficientBalance",
+              "documentation": [
+                " Balance too low to send value"
+              ]
+            },
+            {
+              "name": "ExistentialDeposit",
+              "documentation": [
+                " Value too low to create account due to existential deposit"
+              ]
+            },
+            {
+              "name": "KeepAlive",
+              "documentation": [
+                " Transfer/payment would kill account"
+              ]
+            },
+            {
+              "name": "ExistingVestingSchedule",
+              "documentation": [
+                " A vesting schedule already exists for this account"
+              ]
+            },
+            {
+              "name": "DeadAccount",
+              "documentation": [
+                " Beneficiary account must pre-exist"
+              ]
+            }
+          ]
         },
         {
           "name": "TransactionPayment",
@@ -1036,7 +1415,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "AccountId",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1052,7 +1431,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "StakingLedger",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1068,7 +1447,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "RewardDestination",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1084,7 +1463,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "ValidatorPrefs",
-                    "kind": 1
+                    "linked": true
                   }
                 },
                 "fallback": "0x00",
@@ -1094,18 +1473,21 @@
               },
               {
                 "name": "Nominators",
-                "modifier": 1,
+                "modifier": 0,
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "Vec<AccountId>",
-                    "kind": 1
+                    "value": "Nominations",
+                    "linked": true
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The map from nominator stash key to the set of stash keys of all validators to nominate."
+                  " The map from nominator stash key to the set of stash keys of all validators to nominate.",
+                  "",
+                  " NOTE: is private so that we can ensure upgraded before all typical accesses.",
+                  " Direct storage APIs can still bypass this protection."
                 ]
               },
               {
@@ -1116,7 +1498,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Exposure",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x000000",
@@ -1220,6 +1602,34 @@
                 ]
               },
               {
+                "name": "CanceledSlashPayout",
+                "modifier": 1,
+                "type": {
+                  "Plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": [
+                  " The amount of currency given to reporters of a slash event which was",
+                  " canceled by extraordinary circumstances (e.g. governance)."
+                ]
+              },
+              {
+                "name": "UnappliedSlashes",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "EraIndex",
+                    "value": "Vec<UnappliedSlash>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All unapplied slashes that are queued for later."
+                ]
+              },
+              {
                 "name": "BondedEras",
                 "modifier": 1,
                 "type": {
@@ -1231,19 +1641,93 @@
                 ]
               },
               {
-                "name": "EraSlashJournal",
-                "modifier": 1,
+                "name": "ValidatorSlashInEra",
+                "modifier": 0,
                 "type": {
-                  "Map": {
+                  "DoubleMap": {
                     "hasher": "Blake2_256",
-                    "key": "EraIndex",
-                    "value": "Vec<SlashJournalEntry>",
-                    "kind": 0
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "(Perbill,BalanceOf)",
+                    "key2Hasher": "Twox128"
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " All slashes that have occurred in a given era."
+                  " All slashing events on validators, mapped by era to the highest slash proportion",
+                  " and slash value of the era."
+                ]
+              },
+              {
+                "name": "NominatorSlashInEra",
+                "modifier": 0,
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Blake2_256",
+                    "key1": "EraIndex",
+                    "key2": "AccountId",
+                    "value": "BalanceOf",
+                    "key2Hasher": "Twox128"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " All slashing events on nominators, mapped by era to the highest slash value of the era."
+                ]
+              },
+              {
+                "name": "SlashingSpans",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "SlashingSpans",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Slashing spans for stash accounts."
+                ]
+              },
+              {
+                "name": "SpanSlash",
+                "modifier": 1,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "(AccountId,SpanIndex)",
+                    "value": "SpanRecord",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "documentation": [
+                  " Records information about the maximum slash of a stash within a slashing span,",
+                  " as well as how much reward has been paid out."
+                ]
+              },
+              {
+                "name": "EarliestUnappliedSlash",
+                "modifier": 0,
+                "type": {
+                  "Plain": "EraIndex"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The earliest era for which we have a pending, unapplied slash."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": 1,
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The version of storage for upgrade."
                 ]
               }
             ]
@@ -1538,6 +2022,28 @@
                 " - One storage write",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "cancel_deferred_slash",
+              "args": [
+                {
+                  "name": "era",
+                  "type": "EraIndex"
+                },
+                {
+                  "name": "slash_indices",
+                  "type": "Vec<u32>"
+                }
+              ],
+              "documentation": [
+                " Cancel enactment of a deferred slash. Can be called by either the root origin or",
+                " the `T::SlashCancelOrigin`.",
+                " passing the era and indices of the slashes for that era to kill.",
+                "",
+                " # <weight>",
+                " - One storage write.",
+                " # </weight>"
+              ]
             }
           ],
           "events": [
@@ -1591,7 +2097,62 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "NotController",
+              "documentation": [
+                " Not a controller account."
+              ]
+            },
+            {
+              "name": "NotStash",
+              "documentation": [
+                " Not a stash account."
+              ]
+            },
+            {
+              "name": "AlreadyBonded",
+              "documentation": [
+                " Stash is already bonded."
+              ]
+            },
+            {
+              "name": "AlreadyPaired",
+              "documentation": [
+                " Controller is already paired."
+              ]
+            },
+            {
+              "name": "EmptyTargets",
+              "documentation": [
+                " Targets cannot be empty."
+              ]
+            },
+            {
+              "name": "DuplicateIndex",
+              "documentation": [
+                " Duplicate index."
+              ]
+            },
+            {
+              "name": "InvalidSlashIndex",
+              "documentation": [
+                " Slash record index out of bounds."
+              ]
+            },
+            {
+              "name": "InsufficientValue",
+              "documentation": [
+                " Can not bond with value less than minimum balance."
+              ]
+            },
+            {
+              "name": "NoMoreChunks",
+              "documentation": [
+                " Can not schedule more unlock chunks."
+              ]
+            }
+          ]
         },
         {
           "name": "Session",
@@ -1749,7 +2310,26 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidProof",
+              "documentation": [
+                " Invalid ownership proof."
+              ]
+            },
+            {
+              "name": "NoAssociatedValidatorId",
+              "documentation": [
+                " No associated validator ID for account."
+              ]
+            },
+            {
+              "name": "DuplicatedKey",
+              "documentation": [
+                " Registered duplicate key."
+              ]
+            }
+          ]
         },
         {
           "name": "Democracy",
@@ -1771,11 +2351,28 @@
                 "name": "PublicProps",
                 "modifier": 1,
                 "type": {
-                  "Plain": "Vec<(PropIndex,Proposal,AccountId)>"
+                  "Plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The public proposals. Unsorted."
+                  " The public proposals. Unsorted. The second item is the proposal's hash."
+                ]
+              },
+              {
+                "name": "Preimages",
+                "modifier": 0,
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "Hash",
+                    "value": "(Bytes,AccountId,BalanceOf,BlockNumber)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Map of hashes to the proposal preimage, along with who registered it and their deposit.",
+                  " The block number is the block at which it was deposited."
                 ]
               },
               {
@@ -1786,7 +2383,7 @@
                     "hasher": "Blake2_256",
                     "key": "PropIndex",
                     "value": "(BalanceOf,Vec<AccountId>)",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1806,14 +2403,15 @@
                 ]
               },
               {
-                "name": "NextTally",
+                "name": "LowestUnbaked",
                 "modifier": 1,
                 "type": {
                   "Plain": "ReferendumIndex"
                 },
                 "fallback": "0x00000000",
                 "documentation": [
-                  " The next referendum index that should be tallied."
+                  " The lowest referendum index representing an unbaked referendum. Equal to",
+                  " `ReferendumCount` if there isn't a unbaked referendum."
                 ]
               },
               {
@@ -1824,7 +2422,7 @@
                     "hasher": "Blake2_256",
                     "key": "ReferendumIndex",
                     "value": "ReferendumInfo",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1836,16 +2434,11 @@
                 "name": "DispatchQueue",
                 "modifier": 1,
                 "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "BlockNumber",
-                    "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
-                    "kind": 0
-                  }
+                  "Plain": "Vec<(BlockNumber,Hash,ReferendumIndex)>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " Queue of successful referenda to be dispatched."
+                  " Queue of successful referenda to be dispatched. Stored ordered by block number."
                 ]
               },
               {
@@ -1856,7 +2449,7 @@
                     "hasher": "Blake2_256",
                     "key": "ReferendumIndex",
                     "value": "Vec<AccountId>",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1872,7 +2465,7 @@
                     "hasher": "Blake2_256",
                     "key": "(ReferendumIndex,AccountId)",
                     "value": "Vote",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1891,7 +2484,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "AccountId",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1908,7 +2501,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "(AccountId,Conviction)",
-                    "kind": 1
+                    "linked": true
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
@@ -1932,7 +2525,7 @@
                 "name": "NextExternal",
                 "modifier": 0,
                 "type": {
-                  "Plain": "(Proposal,VoteThreshold)"
+                  "Plain": "(Hash,VoteThreshold)"
                 },
                 "fallback": "0x00",
                 "documentation": [
@@ -1950,7 +2543,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "(BlockNumber,Vec<AccountId>)",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1967,7 +2560,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "bool",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -1982,8 +2575,8 @@
               "name": "propose",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 },
                 {
                   "name": "value",
@@ -2077,8 +2670,8 @@
               "name": "external_propose",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2090,8 +2683,8 @@
               "name": "external_propose_majority",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2106,8 +2699,8 @@
               "name": "external_propose_default",
               "args": [
                 {
-                  "name": "proposal",
-                  "type": "Proposal"
+                  "name": "proposal_hash",
+                  "type": "Hash"
                 }
               ],
               "documentation": [
@@ -2174,16 +2767,8 @@
               "name": "cancel_queued",
               "args": [
                 {
-                  "name": "when",
-                  "type": "Compact<BlockNumber>"
-                },
-                {
                   "name": "which",
-                  "type": "Compact<u32>"
-                },
-                {
-                  "name": "what",
-                  "type": "Compact<ReferendumIndex>"
+                  "type": "ReferendumIndex"
                 }
               ],
               "documentation": [
@@ -2263,6 +2848,55 @@
                 " - O(1).",
                 " # </weight>"
               ]
+            },
+            {
+              "name": "clear_public_proposals",
+              "args": [],
+              "documentation": [
+                " Veto and blacklist the proposal hash. Must be from Root origin."
+              ]
+            },
+            {
+              "name": "note_preimage",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Register the preimage for an upcoming proposal. This doesn't require the proposal to be",
+                " in the dispatch queue but does require a deposit, returned once enacted."
+              ]
+            },
+            {
+              "name": "note_imminent_preimage",
+              "args": [
+                {
+                  "name": "encoded_proposal",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Register the preimage for an upcoming proposal. This requires the proposal to be",
+                " in the dispatch queue. No deposit is needed."
+              ]
+            },
+            {
+              "name": "reap_preimage",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Remove an expired proposal preimage and collect the deposit.",
+                "",
+                " This will only work after `VotingPeriod` blocks from the time that the preimage was",
+                " noted, if it's the same account doing it. If it's a different account, then it'll only",
+                " work an additional `EnactmentPeriod` later."
+              ]
             }
           ],
           "events": [
@@ -2272,7 +2906,9 @@
                 "PropIndex",
                 "Balance"
               ],
-              "documentation": []
+              "documentation": [
+                " A motion has been proposed by a public account."
+              ]
             },
             {
               "name": "Tabled",
@@ -2281,12 +2917,16 @@
                 "Balance",
                 "Vec<AccountId>"
               ],
-              "documentation": []
+              "documentation": [
+                " A public proposal has been tabled for referendum vote."
+              ]
             },
             {
               "name": "ExternalTabled",
               "args": [],
-              "documentation": []
+              "documentation": [
+                " An external proposal has been tabled."
+              ]
             },
             {
               "name": "Started",
@@ -2294,28 +2934,36 @@
                 "ReferendumIndex",
                 "VoteThreshold"
               ],
-              "documentation": []
+              "documentation": [
+                " A referendum has begun."
+              ]
             },
             {
               "name": "Passed",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been approved by referendum."
+              ]
             },
             {
               "name": "NotPassed",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been rejected by referendum."
+              ]
             },
             {
               "name": "Cancelled",
               "args": [
                 "ReferendumIndex"
               ],
-              "documentation": []
+              "documentation": [
+                " A referendum has been cancelled."
+              ]
             },
             {
               "name": "Executed",
@@ -2323,7 +2971,9 @@
                 "ReferendumIndex",
                 "bool"
               ],
-              "documentation": []
+              "documentation": [
+                " A proposal has been enacted."
+              ]
             },
             {
               "name": "Delegated",
@@ -2331,14 +2981,18 @@
                 "AccountId",
                 "AccountId"
               ],
-              "documentation": []
+              "documentation": [
+                " An account has delegated their vote to another account."
+              ]
             },
             {
               "name": "Undelegated",
               "args": [
                 "AccountId"
               ],
-              "documentation": []
+              "documentation": [
+                " An account has cancelled a previous delegation operation."
+              ]
             },
             {
               "name": "Vetoed",
@@ -2347,7 +3001,63 @@
                 "Hash",
                 "BlockNumber"
               ],
-              "documentation": []
+              "documentation": [
+                " An external proposal has been vetoed."
+              ]
+            },
+            {
+              "name": "PreimageNoted",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A proposal's preimage was noted, and the deposit taken."
+              ]
+            },
+            {
+              "name": "PreimageUsed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A proposal preimage was removed and used (the deposit was returned)."
+              ]
+            },
+            {
+              "name": "PreimageInvalid",
+              "args": [
+                "Hash",
+                "ReferendumIndex"
+              ],
+              "documentation": [
+                " A proposal could not be executed because its preimage was invalid."
+              ]
+            },
+            {
+              "name": "PreimageMissing",
+              "args": [
+                "Hash",
+                "ReferendumIndex"
+              ],
+              "documentation": [
+                " A proposal could not be executed because its preimage was missing."
+              ]
+            },
+            {
+              "name": "PreimageReaped",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance",
+                "AccountId"
+              ],
+              "documentation": [
+                " A registered preimage was removed and the deposit collected by the reaper (last item)."
+              ]
             }
           ],
           "constants": [
@@ -2402,9 +3112,150 @@
               "documentation": [
                 " Period in blocks where an external proposal may not be re-submitted after being vetoed."
               ]
+            },
+            {
+              "name": "PreimageByteDeposit",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount of balance that must be deposited per byte of preimage stored."
+              ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "ValueLow",
+              "documentation": [
+                " Value too low"
+              ]
+            },
+            {
+              "name": "ProposalMissing",
+              "documentation": [
+                " Proposal does not exist"
+              ]
+            },
+            {
+              "name": "NotProxy",
+              "documentation": [
+                " Not a proxy"
+              ]
+            },
+            {
+              "name": "BadIndex",
+              "documentation": [
+                " Unknown index"
+              ]
+            },
+            {
+              "name": "AlreadyCanceled",
+              "documentation": [
+                " Cannot cancel the same proposal twice"
+              ]
+            },
+            {
+              "name": "DuplicateProposal",
+              "documentation": [
+                " Proposal already made"
+              ]
+            },
+            {
+              "name": "ProposalBlacklisted",
+              "documentation": [
+                " Proposal still blacklisted"
+              ]
+            },
+            {
+              "name": "NotSimpleMajority",
+              "documentation": [
+                " Next external proposal not simple majority"
+              ]
+            },
+            {
+              "name": "InvalidHash",
+              "documentation": [
+                " Invalid hash"
+              ]
+            },
+            {
+              "name": "NoProposal",
+              "documentation": [
+                " No external proposal"
+              ]
+            },
+            {
+              "name": "AlreadyVetoed",
+              "documentation": [
+                " Identity may not veto a proposal twice"
+              ]
+            },
+            {
+              "name": "AlreadyProxy",
+              "documentation": [
+                " Already a proxy"
+              ]
+            },
+            {
+              "name": "WrongProxy",
+              "documentation": [
+                " Wrong proxy"
+              ]
+            },
+            {
+              "name": "NotDelegated",
+              "documentation": [
+                " Not delegated"
+              ]
+            },
+            {
+              "name": "DuplicatePreimage",
+              "documentation": [
+                " Preimage already noted"
+              ]
+            },
+            {
+              "name": "NotImminent",
+              "documentation": [
+                " Not imminent"
+              ]
+            },
+            {
+              "name": "Early",
+              "documentation": [
+                " Too early"
+              ]
+            },
+            {
+              "name": "Imminent",
+              "documentation": [
+                " Imminent"
+              ]
+            },
+            {
+              "name": "PreimageMissing",
+              "documentation": [
+                " Preimage not found"
+              ]
+            },
+            {
+              "name": "ReferendumInvalid",
+              "documentation": [
+                " Vote given for invalid referendum"
+              ]
+            },
+            {
+              "name": "PreimageInvalid",
+              "documentation": [
+                " Invalid preimage"
+              ]
+            },
+            {
+              "name": "NoneWaiting",
+              "documentation": [
+                " No proposals waiting"
+              ]
+            }
+          ]
         },
         {
           "name": "Council",
@@ -2430,7 +3281,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "Proposal",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -2446,7 +3297,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "Votes",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -2619,7 +3470,44 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "NotMember",
+              "documentation": [
+                " Account is not a member"
+              ]
+            },
+            {
+              "name": "DuplicateProposal",
+              "documentation": [
+                " Duplicate proposals not allowed"
+              ]
+            },
+            {
+              "name": "ProposalMissing",
+              "documentation": [
+                " Proposal must exist"
+              ]
+            },
+            {
+              "name": "WrongIndex",
+              "documentation": [
+                " Mismatched index"
+              ]
+            },
+            {
+              "name": "DuplicateVote",
+              "documentation": [
+                " Duplicate vote ignored"
+              ]
+            },
+            {
+              "name": "AlreadyInitialized",
+              "documentation": [
+                " Members are already initialized!"
+              ]
+            }
+          ]
         },
         {
           "name": "TechnicalCommittee",
@@ -2645,7 +3533,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "Proposal",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -2661,7 +3549,7 @@
                     "hasher": "Blake2_256",
                     "key": "Hash",
                     "value": "Votes",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -2834,7 +3722,44 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "NotMember",
+              "documentation": [
+                " Account is not a member"
+              ]
+            },
+            {
+              "name": "DuplicateProposal",
+              "documentation": [
+                " Duplicate proposals not allowed"
+              ]
+            },
+            {
+              "name": "ProposalMissing",
+              "documentation": [
+                " Proposal must exist"
+              ]
+            },
+            {
+              "name": "WrongIndex",
+              "documentation": [
+                " Mismatched index"
+              ]
+            },
+            {
+              "name": "DuplicateVote",
+              "documentation": [
+                " Duplicate vote ignored"
+              ]
+            },
+            {
+              "name": "AlreadyInitialized",
+              "documentation": [
+                " Members are already initialized!"
+              ]
+            }
+          ]
         },
         {
           "name": "Elections",
@@ -2882,7 +3807,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "Vec<AccountId>",
-                    "kind": 1
+                    "linked": true
                   }
                 },
                 "fallback": "0x00",
@@ -2898,7 +3823,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "BalanceOf",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00000000000000000000000000000000",
@@ -2916,19 +3841,6 @@
                 "documentation": [
                   " The present candidate list. Sorted based on account id. A current member can never enter",
                   " this vector and is always implicitly assumed to be a candidate."
-                ]
-              },
-              {
-                "name": "DidMigrate",
-                "modifier": 1,
-                "type": {
-                  "Plain": "bool"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Has the storage format been updated?",
-                  " NOTE: Only use and set to false if you have used an early version of this module. Should",
-                  " be set to true otherwise."
                 ]
               }
             ]
@@ -3021,6 +3933,21 @@
               ]
             },
             {
+              "name": "renounce_candidacy",
+              "args": [],
+              "documentation": [
+                " Renounce one's intention to be a candidate for the next election round. 3 potential",
+                " outcomes exist:",
+                " - `origin` is a candidate and not elected in any set. In this case, the bond is",
+                "   unreserved, returned and origin is removed as a candidate.",
+                " - `origin` is a current runner up. In this case, the bond is unreserved, returned and",
+                "   origin is removed as a runner.",
+                " - `origin` is a current member. In this case, the bond is unreserved and origin is",
+                "   removed as a member, consequently not being a candidate for the next round anymore.",
+                "   Similar to [`remove_voter`], if replacement runners exists, they are immediately used."
+              ]
+            },
+            {
               "name": "remove_member",
               "args": [
                 {
@@ -3029,7 +3956,8 @@
                 }
               ],
               "documentation": [
-                " Remove a particular member from the set. This is effective immediately.",
+                " Remove a particular member from the set. This is effective immediately and the bond of",
+                " the outgoing member is slashed.",
                 "",
                 " If a runner-up is available, then the best runner-up will be removed and replaces the",
                 " outgoing member. Otherwise, a new phragmen round is started.",
@@ -3070,6 +3998,15 @@
               "documentation": [
                 " A member has been removed. This should always be followed by either `NewTerm` ot",
                 " `EmptyTerm`."
+              ]
+            },
+            {
+              "name": "MemberRenounced",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A member has renounced their candidacy."
               ]
             },
             {
@@ -3117,7 +4054,92 @@
               "documentation": []
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "UnableToVote",
+              "documentation": [
+                " Cannot vote when no candidates or members exist."
+              ]
+            },
+            {
+              "name": "NoVotes",
+              "documentation": [
+                " Must vote for at least one candidate."
+              ]
+            },
+            {
+              "name": "TooManyVotes",
+              "documentation": [
+                " Cannot vote more than candidates."
+              ]
+            },
+            {
+              "name": "MaximumVotesExceeded",
+              "documentation": [
+                " Cannot vote more than maximum allowed."
+              ]
+            },
+            {
+              "name": "LowBalance",
+              "documentation": [
+                " Cannot vote with stake less than minimum balance."
+              ]
+            },
+            {
+              "name": "UnableToPayBond",
+              "documentation": [
+                " Voter can not pay voting bond."
+              ]
+            },
+            {
+              "name": "MustBeVoter",
+              "documentation": [
+                " Must be a voter."
+              ]
+            },
+            {
+              "name": "ReportSelf",
+              "documentation": [
+                " Cannot report self."
+              ]
+            },
+            {
+              "name": "DuplicatedCandidate",
+              "documentation": [
+                " Duplicated candidate submission."
+              ]
+            },
+            {
+              "name": "MemberSubmit",
+              "documentation": [
+                " Member cannot re-submit candidacy."
+              ]
+            },
+            {
+              "name": "RunnerSubmit",
+              "documentation": [
+                " Runner cannot re-submit candidacy."
+              ]
+            },
+            {
+              "name": "InsufficientCandidateFunds",
+              "documentation": [
+                " Candidate does not have enough funds."
+              ]
+            },
+            {
+              "name": "InvalidOrigin",
+              "documentation": [
+                " Origin is not a candidate, member or a runner up."
+              ]
+            },
+            {
+              "name": "NotMember",
+              "documentation": [
+                " Not a member."
+              ]
+            }
+          ]
         },
         {
           "name": "TechnicalMembership",
@@ -3198,6 +4220,20 @@
                 "",
                 " May only be called from `ResetOrigin` or root."
               ]
+            },
+            {
+              "name": "change_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Swap out the sending member for some other key `new`.",
+                "",
+                " May only be called from `Signed` origin of a current member."
+              ]
             }
           ],
           "events": [
@@ -3227,6 +4263,13 @@
               "args": [],
               "documentation": [
                 " The membership was reset; see the transaction for who the new set is."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [],
+              "documentation": [
+                " One of the members' keys changed."
               ]
             },
             {
@@ -3279,7 +4322,20 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "AlreadyUpdated",
+              "documentation": [
+                " Final hint must be updated only once in the block"
+              ]
+            },
+            {
+              "name": "BadHint",
+              "documentation": [
+                " Finalized height above block number"
+              ]
+            }
+          ]
         },
         {
           "name": "Grandpa",
@@ -3364,7 +4420,7 @@
                     "hasher": "Blake2_256",
                     "key": "SetId",
                     "value": "SessionIndex",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -3414,7 +4470,34 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "PauseFailed",
+              "documentation": [
+                " Attempt to signal GRANDPA pause when the authority set isn't live",
+                " (either paused or already pending pause)."
+              ]
+            },
+            {
+              "name": "ResumeFailed",
+              "documentation": [
+                " Attempt to signal GRANDPA resume when the authority set isn't paused",
+                " (either live or already pending resume)."
+              ]
+            },
+            {
+              "name": "ChangePending",
+              "documentation": [
+                " Attempt to signal GRANDPA change with one already pending."
+              ]
+            },
+            {
+              "name": "TooSoon",
+              "documentation": [
+                " Cannot signal forced change so soon after last."
+              ]
+            }
+          ]
         },
         {
           "name": "Treasury",
@@ -3440,7 +4523,7 @@
                     "hasher": "Blake2_256",
                     "key": "ProposalIndex",
                     "value": "TreasuryProposal",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -3555,6 +4638,16 @@
               ]
             },
             {
+              "name": "Rejected",
+              "args": [
+                "ProposalIndex",
+                "Balance"
+              ],
+              "documentation": [
+                " A proposal was rejected; funds were slashed."
+              ]
+            },
+            {
               "name": "Burnt",
               "args": [
                 "Balance"
@@ -3617,7 +4710,20 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "InsufficientProposersBalance",
+              "documentation": [
+                " Proposer's balance is too low."
+              ]
+            },
+            {
+              "name": "InvalidProposalIndex",
+              "documentation": [
+                " No proposal at that index."
+              ]
+            }
+          ]
         },
         {
           "name": "Contracts",
@@ -3654,7 +4760,7 @@
                     "hasher": "Blake2_256",
                     "key": "CodeHash",
                     "value": "Bytes",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -3670,7 +4776,7 @@
                     "hasher": "Blake2_256",
                     "key": "CodeHash",
                     "value": "PrefabWasmModule",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -3697,7 +4803,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "ContractInfo",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -4042,7 +5148,44 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidScheduleVersion",
+              "documentation": [
+                " A new schedule must have a greater version than the current one."
+              ]
+            },
+            {
+              "name": "InvalidSurchargeClaim",
+              "documentation": [
+                " An origin must be signed or inherent and auxiliary sender only provided on inherent."
+              ]
+            },
+            {
+              "name": "InvalidSourceContract",
+              "documentation": [
+                " Cannot restore from nonexisting or tombstone contract."
+              ]
+            },
+            {
+              "name": "InvalidDestinationContract",
+              "documentation": [
+                " Cannot restore to nonexisting or alive contract."
+              ]
+            },
+            {
+              "name": "InvalidTombstone",
+              "documentation": [
+                " Tombstones don't match."
+              ]
+            },
+            {
+              "name": "InvalidContractOrigin",
+              "documentation": [
+                " An origin TrieId written in the current block."
+              ]
+            }
+          ]
         },
         {
           "name": "Sudo",
@@ -4161,7 +5304,14 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "RequireSudo",
+              "documentation": [
+                " Sender must be the Sudo account"
+              ]
+            }
+          ]
         },
         {
           "name": "ImOnline",
@@ -4272,7 +5422,20 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidKey",
+              "documentation": [
+                " Non existent public key."
+              ]
+            },
+            {
+              "name": "DuplicatedHeartbeat",
+              "documentation": [
+                " Duplicated heartbeat."
+              ]
+            }
+          ]
         },
         {
           "name": "AuthorityDiscovery",
@@ -4295,7 +5458,7 @@
                     "hasher": "Blake2_256",
                     "key": "ReportIdOf",
                     "value": "OffenceDetails",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -4328,7 +5491,7 @@
                     "hasher": "Blake2_256",
                     "key": "Kind",
                     "value": "Bytes",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -4398,7 +5561,7 @@
                     "hasher": "Blake2_256",
                     "key": "AccountId",
                     "value": "(Bytes,BalanceOf)",
-                    "kind": 0
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
@@ -4579,7 +5742,26 @@
               ]
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "TooShort",
+              "documentation": [
+                " A name is too short."
+              ]
+            },
+            {
+              "name": "TooLong",
+              "documentation": [
+                " A name is too long."
+              ]
+            },
+            {
+              "name": "Unnamed",
+              "documentation": [
+                " An account in't named."
+              ]
+            }
+          ]
         }
       ]
     }
