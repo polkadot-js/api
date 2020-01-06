@@ -83,13 +83,12 @@ describe('ApiPromise', (): void => {
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
       const signer = new SingleAccountSigner(registry, keyring.alice_session);
-      const api = await ApiPromise.create({ provider, registry });
+      const api = await ApiPromise.create({ provider, registry, signer });
       const transfer = api.tx.balances.transfer(keyring.eve.address, 12345);
 
-      api.setSigner(signer);
-      const signature = (await transfer.signAsync(keyring.alice_session, {})).signature;
+      await transfer.signAsync(keyring.alice_session, {});
 
-      expect(signature.toHex()).toEqual(
+      expect(transfer.signature.toHex()).toEqual(
         '0x97f3cfe5088fcd575313e983f45d02b0f630e7b94ff9a3ac50e20cd096a8f554fda73d42ead891b5a1d3ce5607d83f20b0c6570b555e949cfb5763d0abcd590b'
       );
     });
