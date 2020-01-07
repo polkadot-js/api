@@ -1,15 +1,15 @@
 /* eslint-disable no-dupe-class-members */
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription } from './types';
+import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { Observable, combineLatest, from, of } from 'rxjs';
+import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
@@ -82,15 +82,18 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public async signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): Promise<this> {
-      if (this._api.signer) {
-        const options = this._makeSignOptions(this._optionsOrNonce(optionsOrNonce), {});
-        await this._signViaSigner(account.address, options, null);
-      } else {
-        this.sign(account, optionsOrNonce);
-      }
+    public signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+      return this._decorateMethod(
+        (): Observable<this> => {
+          const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
 
-      return this;
+          return from(
+            this._api.signer
+              ? this._signViaSigner(account.address, this._makeSignOptions(optionsWithNonce, {}), null)
+              : Promise.resolve(this.sign(account, optionsWithNonce))
+          ).pipe(mapTo(this));
+        }
+      )();
     }
 
     // signAndSend with an immediate Hash result
@@ -128,7 +131,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
                 : this._sendObservable(updateId);
             })
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
-      )(statusCb) as SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType>;
+      )(statusCb);
     }
 
     // send with an immediate Hash result
