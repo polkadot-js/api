@@ -9,7 +9,7 @@ import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
 import { Observable, combineLatest, from, of } from 'rxjs';
-import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
 import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
@@ -64,17 +64,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         (): Observable<this> => {
           const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
 
-          if (this._api.signer) {
-            const options = this._makeSignOptions(optionsWithNonce, {});
-
-            return from(this._signViaSigner(account.address, options, null)).pipe(
-              switchMap((): Observable<this> => from(Promise.resolve(this)))
-            );
-          }
-
-          this.sign(account, optionsWithNonce);
-
-          return from(Promise.resolve(this));
+          return from(
+            this._api.signer
+              ? this._signViaSigner(account.address, this._makeSignOptions(optionsWithNonce, {}), null)
+              : Promise.resolve(this.sign(account, optionsWithNonce))
+          ).pipe(mapTo(this));
         }
       )();
     }
