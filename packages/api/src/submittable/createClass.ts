@@ -225,21 +225,24 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     private _statusObservable (status: ExtrinsicStatus): Observable<SubmittableResultImpl> {
-      if (!status.isInBlock) {
-        return of(new SubmittableResult({ status }));
+      if (!status.isFinalized) {
+        return of(new SubmittableResult(this.registry, { status }));
       }
 
-      const blockHash = status.asInBlock;
+      const blockHash = status.asFinalized;
 
       return combineLatest([
         this._api.rpc.chain.getBlock(blockHash),
         this._api.query.system.events.at(blockHash)
       ]).pipe(
         map(([signedBlock, allEvents]): SubmittableResultImpl =>
-          new SubmittableResult({
-            events: filterEvents(this.hash, signedBlock, allEvents),
-            status
-          })
+          new SubmittableResult(
+            this.registry,
+            {
+              events: filterEvents(this.hash, signedBlock, allEvents),
+              status
+            }
+          )
         )
       );
     }

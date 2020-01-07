@@ -3,20 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
+import { Registry } from '@polkadot/types/types';
 import { SubmittableResultImpl, SubmittableResultValue } from './types';
+
+import { createType } from '@polkadot/types/codec';
 
 export default class SubmittableResult implements SubmittableResultImpl {
   public readonly events: EventRecord[];
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ events, status }: SubmittableResultValue) {
+  constructor (registry: Registry, { events, status }: SubmittableResultValue) {
     this.events = events || [];
-    this.status = status;
+    this.status = status.isFinalized
+      ? createType(registry, 'ExtrinsicStatus', { InBlock: status.asFinalized })
+      : status;
   }
 
   public get isCompleted (): boolean {
-    return this.isError || this.isInBlock || this.isFinalized;
+    return this.isError || this.isInBlock;
   }
 
   public get isError (): boolean {
