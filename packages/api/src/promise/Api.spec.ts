@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiOptions } from '../types';
+
 import testingPairs from '@polkadot/keyring/testingPairs';
 import Mock from '@polkadot/rpc-provider/mock/index';
 import { createType, TypeRegistry } from '@polkadot/types';
 
-import { ApiPromise } from '..';
 import { SingleAccountSigner } from '../../test/util';
-import { ApiOptions } from '../types';
+import ApiPromise from './Api';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
@@ -81,13 +82,15 @@ describe('ApiPromise', (): void => {
 
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
-      const api = await ApiPromise.create({ provider, registry });
-      api.setSigner(new SingleAccountSigner(registry, keyring.alice_session));
+      const signer = new SingleAccountSigner(registry, keyring.alice_session);
+      const api = await ApiPromise.create({ provider, registry, signer });
       const transfer = api.tx.balances.transfer(keyring.eve.address, 12345);
-      const dummySignature = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
-      expect(transfer.signature.toHex()).toEqual(dummySignature);
+
       await transfer.signAsync(keyring.alice_session, {});
-      expect(transfer.signature.toHex()).not.toEqual(dummySignature);
+
+      expect(transfer.signature.toHex()).toEqual(
+        '0x97f3cfe5088fcd575313e983f45d02b0f630e7b94ff9a3ac50e20cd096a8f554fda73d42ead891b5a1d3ce5607d83f20b0c6570b555e949cfb5763d0abcd590b'
+      );
     });
   });
 });

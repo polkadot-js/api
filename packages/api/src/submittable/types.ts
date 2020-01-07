@@ -34,6 +34,11 @@ export type SubmittableResultSubscription<ApiType extends ApiTypes> =
     ? Observable<SubmittableResultImpl>
     : Promise<() => void>;
 
+export type SubmittableThis<ApiType extends ApiTypes, THIS> =
+  ApiType extends 'rxjs'
+    ? Observable<THIS>
+    : Promise<THIS>;
+
 export interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
@@ -48,7 +53,7 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrins
 
   sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAsync(account: IKeyringPair, _options: Partial<SignatureOptions>): Promise<this>;
+  signAsync(account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableThis<ApiType, this>;
 
   signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
