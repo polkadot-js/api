@@ -4,7 +4,7 @@
 
 import { ApiTypes, DecorateMethod, SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
+import { IKeyringPair, Registry } from '@polkadot/types/types';
 import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
@@ -27,8 +27,8 @@ export interface CodePutCode<ApiType extends ApiTypes> {
 class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
 
-  constructor (result: SubmittableResultImpl, blueprint?: Blueprint<ApiType>) {
-    super(result);
+  constructor (registry: Registry, result: SubmittableResultImpl, blueprint?: Blueprint<ApiType>) {
+    super(registry, result);
 
     this.blueprint = blueprint;
   }
@@ -66,6 +66,6 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
       }
     }
 
-    return new CodePutCodeResult(result, blueprint);
+    return new CodePutCodeResult(this.registry, result, blueprint);
   }
 }

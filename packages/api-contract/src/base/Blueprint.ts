@@ -4,7 +4,7 @@
 
 import { ApiTypes, DecorateMethod, SubmittableResultImpl } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
+import { IKeyringPair, Registry } from '@polkadot/types/types';
 import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
@@ -27,8 +27,8 @@ export interface BlueprintCreate<ApiType extends ApiTypes> {
 class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly contract?: Contract<ApiType>;
 
-  constructor (result: SubmittableResultImpl, contract?: Contract<ApiType>) {
-    super(result);
+  constructor (registry: Registry, result: SubmittableResultImpl, contract?: Contract<ApiType>) {
+    super(registry, result);
 
     this.contract = contract;
   }
@@ -70,6 +70,6 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
       }
     }
 
-    return new BlueprintCreateResult(result, contract);
+    return new BlueprintCreateResult(this.registry, result, contract);
   }
 }
