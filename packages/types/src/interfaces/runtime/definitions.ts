@@ -25,6 +25,10 @@ export default {
       class: 'DispatchClass',
       paysFee: 'bool'
     },
+    DispatchInfoTo190: {
+      weight: 'Weight',
+      class: 'DispatchClass'
+    },
     Extrinsic: 'GenericExtrinsic',
     ExtrinsicEra: 'GenericExtrinsicEra',
     ExtrinsicPayload: 'GenericExtrinsicPayload',
