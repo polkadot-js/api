@@ -65,6 +65,14 @@ export interface DispatchInfo extends Struct {
   readonly paysFee: bool;
 }
 
+/** Struct */
+export interface DispatchInfoTo190 extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+}
+
 /** Uint8Array, Codec */
 export interface EcdsaSignature extends Uint8Array, Codec {}
 
