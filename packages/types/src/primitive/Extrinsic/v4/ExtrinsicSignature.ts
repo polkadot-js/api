@@ -6,6 +6,8 @@ import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra,
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
+import { u8aConcat } from '@polkadot/util';
+
 import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -120,11 +122,10 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
   }
 
   /**
-   * @description Generate a payload and applies the signature from a keypair
+   * @description Creates a payload from the supplied options
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = createType(this.registry, 'Address', account.publicKey);
-    const payload = new ExtrinsicPayloadV4(this.registry, {
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
+    return new ExtrinsicPayloadV4(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
@@ -133,7 +134,26 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
       specVersion,
       tip: tip || 0
     });
+  }
+
+  /**
+   * @description Generate a payload and applies the signature from a keypair
+   */
+  public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', account.publicKey);
+    const payload = this.createPayload(method, options);
     const signature = createType(this.registry, 'MultiSignature', payload.sign(account));
+
+    return this.injectSignature(signer, signature, payload);
+  }
+
+  /**
+   * @description Generate a payload and applies a fake signature
+   */
+  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', address);
+    const payload = this.createPayload(method, options);
+    const signature = createType(this.registry, 'MultiSignature', u8aConcat(new Uint8Array([1]), new Uint8Array(64).fill(0x42)));
 
     return this.injectSignature(signer, signature, payload);
   }
