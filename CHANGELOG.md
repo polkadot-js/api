@@ -7,6 +7,7 @@
 - Add support for `BTreeSet` (Thanks to https://github.com/satellitex)
 - Add support for Metadata v10
 - Add support for latest Polkadot/Substrate types
+- Add `paymentInfo` to submittables to calculate fees
 
 # 0.99.1
 
