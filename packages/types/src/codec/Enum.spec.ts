@@ -99,7 +99,7 @@ describe('Enum', (): void => {
       class B extends Null { }
       class C extends Null { }
       class Test extends Enum {
-        constructor (registry: Registry, value?: string, index?: number) {
+        constructor(registry: Registry, value?: string, index?: number) {
           super(registry, {
             a: A,
             b: B,
@@ -178,7 +178,7 @@ describe('Enum', (): void => {
 
     const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const e = new Enum(registry, ['foo', 'bar'], 1);
+        const e = new Enum(registry, ['Foo', 'Bar'], 1);
 
         expect(e[to]()).toEqual(expected);
       });
@@ -193,7 +193,7 @@ describe('Enum', (): void => {
 
     testEncode('toJSON', 'bar');
     testEncode('toNumber', 1);
-    testEncode('toString', 'bar');
+    testEncode('toString', 'Bar');
     testEncode('toU8a', Uint8Array.from([1]));
 
     it('provides a clean toString()', (): void => {
