@@ -1,3 +1,13 @@
+# 0.100.1
+
+- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
+- Add support for the Substrate identity module
+- Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
+- Fix for linked maps using `Option`
+- Add support for `BTreeSet` (Thanks to https://github.com/satellitex)
+- Add support for Metadata v10
+- Add support for latest Polkadot/Substrate types
+
 # 0.99.1
 
 - **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
@@ -9,9 +19,9 @@
 
 # 0.98.1
 
-- Make the TypeScript generation script mor re-usable (Thanks to @xlc)
+- Make the TypeScript generation script mor re-usable (Thanks to https://github.com/xlc)
 - Add `.entries()` for all map-types, returning storage keys and values
-- Add `.signAsync` to submittable extrinsics (Thanks to @c410-f3r)
+- Add `.signAsync` to submittable extrinsics (Thanks to https://github.com/c410-f3r)
 - Cleanup circular references between internal dependencies
 - Support for new Substrate democracy with preimages in derive
 - Alignment of types with Substrate/Polkadot master branches
