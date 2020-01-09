@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,11 +13,20 @@ interface VersionedType {
   types: RegistryTypes;
 }
 
-// these are override types for polkadot chains
+// these are override types for Polkadot & Kusama chains
 // NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
 // implementation) are different. Detect Polkadot and inject the `Keys`
 // definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
 const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
+  {
+    minmax: [1000, undefined], // from launch
+    types: {
+      Keys: 'SessionKeys5'
+    }
+  }
+];
+
+const TYPES_KUSAMA_VERSIONED: VersionedType[] = [
   {
     minmax: [1019, 1031], // CC3, from launch
     types: {
@@ -55,7 +64,7 @@ const TYPES_META: VersionedType[] = [
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 const TYPES_SPEC: Record<string, VersionedType[]> = {
-  kusama: TYPES_POLKADOT_VERSIONED,
+  kusama: TYPES_KUSAMA_VERSIONED,
   polkadot: TYPES_POLKADOT_VERSIONED
 };
 

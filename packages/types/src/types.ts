@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -210,6 +210,7 @@ export interface ExtrinsicPayloadValue {
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+  signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -222,6 +223,7 @@ export interface IExtrinsicEra extends Codec {
 interface IExtrinsicSignable<T> {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
+  signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix

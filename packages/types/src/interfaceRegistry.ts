@@ -2,8 +2,13 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
+<<<<<<< HEAD
 import { Bytes, Data, Fixed64, H160, H256, H512, IdentityFields, Null, StorageData, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+=======
+import { Bytes, Data, Fixed64, H160, H256, H512, IdentityFields, Null, StorageData, StorageHasherV10, StorageHasherV4, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+>>>>>>> master
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
@@ -174,6 +179,9 @@ export interface InterfaceRegistry {
   DispatchInfo: DispatchInfo;
   'Option<DispatchInfo>': Option<DispatchInfo>;
   'Vec<DispatchInfo>': Vec<DispatchInfo>;
+  DispatchInfoTo190: DispatchInfoTo190;
+  'Option<DispatchInfoTo190>': Option<DispatchInfoTo190>;
+  'Vec<DispatchInfoTo190>': Vec<DispatchInfoTo190>;
   Extrinsic: Extrinsic;
   'Option<Extrinsic>': Option<Extrinsic>;
   'Vec<Extrinsic>': Vec<Extrinsic>;
