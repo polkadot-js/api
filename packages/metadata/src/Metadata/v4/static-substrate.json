@@ -164,7 +164,7 @@
                   "key1": "Null",
                   "key2": "Hash",
                   "value": "Vec<(BlockNumber,EventIndex)>",
-                  "key2Hasher": "blake2256"
+                  "key2Hasher": "blake2_256"
                 }
               },
               "fallback": "0x00",

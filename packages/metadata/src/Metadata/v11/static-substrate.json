@@ -1666,7 +1666,7 @@
                     "key1": "Bytes",
                     "key2": "ValidatorId",
                     "value": "Keys",
-                    "key2Hasher": "blake2_256"
+                    "key2Hasher": "blake2256"
                   }
                 },
                 "fallback": "0x00",
