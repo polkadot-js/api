@@ -29,8 +29,10 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
-        return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
-
+        if (typeof (decoded.sub.map) === 'undefined') {
+          return extractTypes([decoded.sub.type]);
+        }
+        return extractTypes(decoded.sub.map(sub => sub.type));
       default:
         throw new Error(`Unhandled: Unable to create and validate type from ${type}`);
     }
