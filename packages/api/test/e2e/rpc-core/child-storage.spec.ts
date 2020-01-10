@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, AccountId } from '@polkadot/types/interfaces';
+import { Hash } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import fs from 'fs';
@@ -45,7 +45,6 @@ describeE2E({
   let api: ApiPromise;
   let codeHash: Hash;
   let rpc: Rpc;
-  let address: any;
 
   beforeAll(async (done): Promise<() => void> => {
     abi = new Abi(registry, incrementerAbi);
@@ -87,69 +86,66 @@ describeE2E({
 
       return (
         api.tx.contracts
-          .instantiate(CREATION_FEE, MAX_GAS, codeHash, abi.constructors[0](randomStart))
+          .create(CREATION_FEE, MAX_GAS, codeHash, abi.constructors[0](randomStart))
           .signAndSend(keyring.dave, (result: SubmittableResult): void => {
             if (result.status.isFinalized) {
               const record = result.findRecord('contracts', 'Instantiated');
               if (record) {
-                address = record.event.data[1];
-                console.log('contract address??',address)
                 done();
               }
             }
           })
       );
     });
-    expect(address).toBeDefined();
 
-    // it('getChildKeys(): retrieves :child_storage: keys for one deployed incrementer contract', async (done):
-    // Promise<void> => {
-    //   const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+    it('getChildKeys(): retrieves :child_storage: keys for one deployed incrementer contract', async (done):
+    Promise<void> => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
 
-    //   rpc.state
-    //     .getChildKeys(storageKeys[0], '0x')
-    //     .subscribe((keys: StorageKey[]): void => {
-    //       expect(keys.length).toBeGreaterThanOrEqual(1);
-    //       done();
-    //     });
-    // });
+      rpc.state
+        .getChildKeys(storageKeys[0], '0x')
+        .subscribe((keys: StorageKey[]): void => {
+          expect(keys.length).toBeGreaterThanOrEqual(1);
+          done();
+        });
+    });
 
-    // it('getChildStorage(): retrieves the default value of the incrementer smart contract', async (done): Promise<void> => {
-    //   const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-    //   const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
+    it('getChildStorage(): retrieves the default value of the incrementer smart contract', async (done): Promise<void> => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
-    //   rpc.state
-    //     .getChildStorage(storageKeys[0], childStorageKeys[0])
-    //     .subscribe((storage: StorageData): void => {
-    //       const storageValue = hexToBn(storage.toHex(), { isLe: true });
-    //       expect(storageValue).toBeInstanceOf(BN);
-    //       expect(storageValue.toNumber()).toBeGreaterThan(1500000000);
-    //       done();
-    //     });
-    // });
+      rpc.state
+        .getChildStorage(storageKeys[0], childStorageKeys[0])
+        .subscribe((storage: StorageData): void => {
+          const storageValue = hexToBn(storage.toHex(), { isLe: true });
+          expect(storageValue).toBeInstanceOf(BN);
+          expect(storageValue.toNumber()).toBeGreaterThan(1500000000);
+          done();
+        });
+    });
 
-    // it('getChildStorageHash(): retrieves the Hash of the incrementer smart contract', async (done): Promise<void> => {
-    //   const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-    //   const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0].toHex(), '0x').toPromise();
+    it('getChildStorageHash(): retrieves the Hash of the incrementer smart contract', async (done): Promise<void> => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0].toHex(), '0x').toPromise();
 
-    //   rpc.state
-    //     .getChildStorageHash(storageKeys[0], childStorageKeys[0])
-    //     .subscribe((storage: StorageData): void => {
-    //       expect(isInstanceOf(storage, H256)).toBeTruthy();
-    //       done();
-    //     });
-    // });
+      rpc.state
+        .getChildStorageHash(storageKeys[0], childStorageKeys[0])
+        .subscribe((storage: StorageData): void => {
+          expect(isInstanceOf(storage, H256)).toBeTruthy();
+          done();
+        });
+    });
 
-    // it('getChildStorageSize(): retrieves the size of the incrementer smart contract', async (done): Promise<void> => {
-    //   const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-    //   const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
+    it('getChildStorageSize(): retrieves the size of the incrementer smart contract', async (done): Promise<void> => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
-    //   rpc.state
-    //     .getChildStorageSize(storageKeys[0], childStorageKeys[0])
-    //     .subscribe((storage): void => {
-    //       expect(storage.toString()).toBe('4');
-    //       done();
-    //     });
-    // });
+      rpc.state
+        .getChildStorageSize(storageKeys[0], childStorageKeys[0])
+        .subscribe((storage): void => {
+          expect(storage.toString()).toBe('4');
+          done();
+        });
+    });
   });
 });
