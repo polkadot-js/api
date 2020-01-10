@@ -19,6 +19,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[indices](#indices)**
 
+- **[nicks](#nicks)**
+
 - **[offences](#offences)**
 
 - **[session](#session)**
@@ -41,258 +43,319 @@ Events are emitted for certain operations on the runtime. The following sections
 ___
 
 
-### balances
+## balances
 
-▸ **NewAccount**(`AccountId`, `Balance`)
+### NewAccount(`AccountId`, `Balance`)
 - **summary**: A new account was created.
 
-▸ **ReapedAccount**(`AccountId`)
+### ReapedAccount(`AccountId`)
 - **summary**: An account was reaped.
 
-▸ **Transfer**(`AccountId`, `AccountId`, `Balance`, `Balance`)
+### Transfer(`AccountId`, `AccountId`, `Balance`, `Balance`)
 - **summary**: Transfer succeeded (from, to, value, fees).
 
 ___
 
 
-### contracts
+## contracts
 
-▸ **CodeStored**(`Hash`)
+### CodeStored(`Hash`)
 - **summary**: Code with the specified hash has been stored.
 
-▸ **Contract**(`AccountId`, `Bytes`)
+### Contract(`AccountId`, `Bytes`)
 - **summary**: An event from contract of account.
 
-▸ **Dispatched**(`AccountId`, `bool`)
+### Dispatched(`AccountId`, `bool`)
 - **summary**: A call was dispatched from the given account. The bool signals whether it was successful execution or not.
 
-▸ **Instantiated**(`AccountId`, `AccountId`)
+### Instantiated(`AccountId`, `AccountId`)
 - **summary**: Contract deployed by address at the specified address.
 
-▸ **ScheduleUpdated**(`u32`)
+### ScheduleUpdated(`u32`)
 - **summary**: Triggered when the current schedule is updated.
 
-▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
+### Transfer(`AccountId`, `AccountId`, `Balance`)
 - **summary**: Transfer happened `from` to `to` with given `value` as part of a `call` or `instantiate`.
 
 ___
 
 
-### council
+## council
 
-▸ **Approved**(`Hash`)
+### Approved(`Hash`)
 - **summary**: A motion was approved by the required threshold.
 
-▸ **Disapproved**(`Hash`)
+### Disapproved(`Hash`)
 - **summary**: A motion was not approved by the required threshold.
 
-▸ **Executed**(`Hash`, `bool`)
+### Executed(`Hash`, `bool`)
 - **summary**: A motion was executed; `bool` is true if returned without error.
 
-▸ **MemberExecuted**(`Hash`, `bool`)
+### MemberExecuted(`Hash`, `bool`)
 - **summary**: A single member did some action; `bool` is true if returned without error.
 
-▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+### Proposed(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
 - **summary**: A motion (given hash) has been proposed (by given account) with a threshold (given `MemberCount`).
 
-▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+### Voted(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
 - **summary**: A motion (given hash) has been voted on by given account, leaving a tally (yes votes and no votes given respectively as `MemberCount`).
 
 ___
 
 
-### democracy
+## democracy
 
-▸ **Cancelled**(`ReferendumIndex`)
+### Cancelled(`ReferendumIndex`)
+- **summary**: A referendum has been cancelled.
 
-▸ **Delegated**(`AccountId`, `AccountId`)
+### Delegated(`AccountId`, `AccountId`)
+- **summary**: An account has delegated their vote to another account.
 
-▸ **Executed**(`ReferendumIndex`, `bool`)
+### Executed(`ReferendumIndex`, `bool`)
+- **summary**: A proposal has been enacted.
 
-▸ **ExternalTabled**()
+### ExternalTabled()
+- **summary**: An external proposal has been tabled.
 
-▸ **NotPassed**(`ReferendumIndex`)
+### NotPassed(`ReferendumIndex`)
+- **summary**: A proposal has been rejected by referendum.
 
-▸ **Passed**(`ReferendumIndex`)
+### Passed(`ReferendumIndex`)
+- **summary**: A proposal has been approved by referendum.
 
-▸ **Proposed**(`PropIndex`, `Balance`)
+### PreimageInvalid(`Hash`, `ReferendumIndex`)
+- **summary**: A proposal could not be executed because its preimage was invalid.
 
-▸ **Started**(`ReferendumIndex`, `VoteThreshold`)
+### PreimageMissing(`Hash`, `ReferendumIndex`)
+- **summary**: A proposal could not be executed because its preimage was missing.
 
-▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
+### PreimageNoted(`Hash`, `AccountId`, `Balance`)
+- **summary**: A proposal's preimage was noted, and the deposit taken.
 
-▸ **Undelegated**(`AccountId`)
+### PreimageReaped(`Hash`, `AccountId`, `Balance`, `AccountId`)
+- **summary**: A registered preimage was removed and the deposit collected by the reaper (last item).
 
-▸ **Vetoed**(`AccountId`, `Hash`, `BlockNumber`)
+### PreimageUsed(`Hash`, `AccountId`, `Balance`)
+- **summary**: A proposal preimage was removed and used (the deposit was returned).
+
+### Proposed(`PropIndex`, `Balance`)
+- **summary**: A motion has been proposed by a public account.
+
+### Started(`ReferendumIndex`, `VoteThreshold`)
+- **summary**: A referendum has begun.
+
+### Tabled(`PropIndex`, `Balance`, `Vec<AccountId>`)
+- **summary**: A public proposal has been tabled for referendum vote.
+
+### Undelegated(`AccountId`)
+- **summary**: An account has cancelled a previous delegation operation.
+
+### Vetoed(`AccountId`, `Hash`, `BlockNumber`)
+- **summary**: An external proposal has been vetoed.
 
 ___
 
 
-### elections
+## elections
 
-▸ **BadReaperSlashed**(`AccountId`)
-- **summary**: slashed reaper
+### EmptyTerm()
+- **summary**: No (or not enough) candidates existed for this round.
 
-▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
-- **summary**: A tally (for approval votes of seat(s)) has ended (with one or more new members).
+### MemberKicked(`AccountId`)
+- **summary**: A member has been removed. This should always be followed by either `NewTerm` ot `EmptyTerm`.
 
-▸ **TallyStarted**(`u32`)
-- **summary**: A tally (for approval votes of seat(s)) has started.
+### MemberRenounced(`AccountId`)
+- **summary**: A member has renounced their candidacy.
 
-▸ **VoterReaped**(`AccountId`, `AccountId`)
-- **summary**: reaped voter, reaper
+### NewTerm(`Vec<(AccountId,Balance)>`)
+- **summary**: A new term with new members. This indicates that enough candidates existed, not that enough have has been elected. The inner value must be examined for this purpose.
+
+### VoterReported(`AccountId`, `AccountId`, `bool`)
+- **summary**: A voter (first element) was reported (byt the second element) with the the report being successful or not (third element).
 
 ___
 
 
-### grandpa
+## grandpa
 
-▸ **NewAuthorities**(`Vec<(AuthorityId,AuthorityWeight)>`)
+### NewAuthorities(`AuthorityList`)
 - **summary**: New authority set has been applied.
 
-▸ **Paused**()
+### Paused()
 - **summary**: Current authority set has been paused.
 
-▸ **Resumed**()
+### Resumed()
 - **summary**: Current authority set has been resumed.
 
 ___
 
 
-### imOnline
+## imOnline
 
-▸ **HeartbeatReceived**(`AuthorityId`)
+### AllGood()
+- **summary**: At the end of the session, no offence was committed.
+
+### HeartbeatReceived(`AuthorityId`)
 - **summary**: A new heartbeat was received from `AuthorityId`
+
+### SomeOffline(`Vec<IdentificationTuple>`)
+- **summary**: At the end of the session, at least once validator was found to be offline.
 
 ___
 
 
-### indices
+## indices
 
-▸ **NewAccountIndex**(`AccountId`, `AccountIndex`)
+### NewAccountIndex(`AccountId`, `AccountIndex`)
 - **summary**: A new account index was assigned.  This event is not triggered when an existing index is reassigned to another `AccountId`.
 
 ___
 
 
-### offences
+## nicks
 
-▸ **Offence**(`Kind`, `OpaqueTimeSlot`)
+### NameChanged(`AccountId`)
+- **summary**: A name was changed.
+
+### NameCleared(`AccountId`, `Balance`)
+- **summary**: A name was cleared, and the given balance returned.
+
+### NameForced(`AccountId`)
+- **summary**: A name was forcibly set.
+
+### NameKilled(`AccountId`, `Balance`)
+- **summary**: A name was removed and the given balance slashed.
+
+### NameSet(`AccountId`)
+- **summary**: A name was set.
+
+___
+
+
+## offences
+
+### Offence(`Kind`, `OpaqueTimeSlot`)
 - **summary**: There is an offence reported of the given `kind` happened at the `session_index` and (kind-specific) time slot. This event is not deposited for duplicate slashes.
 
 ___
 
 
-### session
+## session
 
-▸ **NewSession**(`SessionIndex`)
+### NewSession(`SessionIndex`)
 - **summary**: New session has happened. Note that the argument is the session index, not the block number as the type might suggest.
 
 ___
 
 
-### staking
+## staking
 
-▸ **OldSlashingReportDiscarded**(`SessionIndex`)
+### OldSlashingReportDiscarded(`SessionIndex`)
 - **summary**: An old slashing report from a prior era was discarded because it could not be processed.
 
-▸ **Reward**(`Balance`)
-- **summary**: All validators have been rewarded by the given balance.
+### Reward(`Balance`, `Balance`)
+- **summary**: All validators have been rewarded by the first balance; the second is the remainder from the maximum amount of reward.
 
-▸ **Slash**(`AccountId`, `Balance`)
+### Slash(`AccountId`, `Balance`)
 - **summary**: One validator (and its nominators) has been slashed by the given amount.
 
 ___
 
 
-### sudo
+## sudo
 
-▸ **KeyChanged**(`AccountId`)
+### KeyChanged(`AccountId`)
 - **summary**: The sudoer just switched identity; the old key is supplied.
 
-▸ **Sudid**(`bool`)
+### Sudid(`bool`)
 - **summary**: A sudo just took place.
 
-▸ **SudoAsDone**(`bool`)
+### SudoAsDone(`bool`)
 - **summary**: A sudo just took place.
 
 ___
 
 
-### system
+## system
 
-▸ **ExtrinsicFailed**(`DispatchError`)
+### ExtrinsicFailed(`DispatchError`, `DispatchInfo`)
 - **summary**: An extrinsic failed.
 
-▸ **ExtrinsicSuccess**()
+### ExtrinsicSuccess(`DispatchInfo`)
 - **summary**: An extrinsic completed successfully.
 
 ___
 
 
-### technicalCommittee
+## technicalCommittee
 
-▸ **Approved**(`Hash`)
+### Approved(`Hash`)
 - **summary**: A motion was approved by the required threshold.
 
-▸ **Disapproved**(`Hash`)
+### Disapproved(`Hash`)
 - **summary**: A motion was not approved by the required threshold.
 
-▸ **Executed**(`Hash`, `bool`)
+### Executed(`Hash`, `bool`)
 - **summary**: A motion was executed; `bool` is true if returned without error.
 
-▸ **MemberExecuted**(`Hash`, `bool`)
+### MemberExecuted(`Hash`, `bool`)
 - **summary**: A single member did some action; `bool` is true if returned without error.
 
-▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+### Proposed(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
 - **summary**: A motion (given hash) has been proposed (by given account) with a threshold (given `MemberCount`).
 
-▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+### Voted(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
 - **summary**: A motion (given hash) has been voted on by given account, leaving a tally (yes votes and no votes given respectively as `MemberCount`).
 
 ___
 
 
-### technicalMembership
+## technicalMembership
 
-▸ **Dummy**(`PhantomData`)
+### Dummy(`PhantomData`)
 - **summary**: Phantom member, never used.
 
-▸ **MemberAdded**()
+### KeyChanged()
+- **summary**: One of the members' keys changed.
+
+### MemberAdded()
 - **summary**: The given member was added; see the transaction for who.
 
-▸ **MemberRemoved**()
+### MemberRemoved()
 - **summary**: The given member was removed; see the transaction for who.
 
-▸ **MembersReset**()
+### MembersReset()
 - **summary**: The membership was reset; see the transaction for who the new set is.
 
-▸ **MembersSwapped**()
+### MembersSwapped()
 - **summary**: Two members were swapped; see the transaction for who.
 
 ___
 
 
-### treasury
+## treasury
 
-▸ **Awarded**(`ProposalIndex`, `Balance`, `AccountId`)
+### Awarded(`ProposalIndex`, `Balance`, `AccountId`)
 - **summary**: Some funds have been allocated.
 
-▸ **Burnt**(`Balance`)
+### Burnt(`Balance`)
 - **summary**: Some of our funds have been burnt.
 
-▸ **Proposed**(`ProposalIndex`)
+### Deposit(`Balance`)
+- **summary**: Some funds have been deposited.
+
+### Proposed(`ProposalIndex`)
 - **summary**: New proposal.
 
-▸ **Rollover**(`Balance`)
+### Rollover(`Balance`)
 - **summary**: Spending has finished; this is the amount that rolls over until next spend.
 
-▸ **Spending**(`Balance`)
+### Spending(`Balance`)
 - **summary**: We have ended a spend period and will now allocate funds.
 
 ___
 
 
-### utility
+## utility
 
-▸ **BatchExecuted**(`Vec<DispatchResult>`)
+### BatchExecuted(`Vec<Result<Null,DispatchError>>`)
