@@ -21,8 +21,6 @@ The following sections contain Extrinsics methods are part of the default Substr
 
 - **[imOnline](#imOnline)**
 
-- **[nicks](#nicks)**
-
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -45,449 +43,328 @@ The following sections contain Extrinsics methods are part of the default Substr
 ___
 
 
-## authorship
+### authorship
 
-### setUncles(new_uncles: `Vec<Header>`)
-- **interface**: api.tx.authorship.setUncles
+▸ **setUncles**(new_uncles: `Vec<Header>`)
 - **summary**: Provide a set of uncles.
 
 ___
 
 
-## balances
+### balances
 
-### forceTransfer(source: `Address`, dest: `Address`, value: `Compact<Balance>`)
-- **interface**: api.tx.balances.forceTransfer
+▸ **forceTransfer**(source: `Address`, dest: `Address`, value: `Compact<Balance>`)
 - **summary**: Exactly as `transfer`, except the origin must be root and the source account may be specified.
 
-### setBalance(who: `Address`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
-- **interface**: api.tx.balances.setBalance
+▸ **setBalance**(who: `Address`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
 - **summary**: Set the balances of a given account.  This will alter `FreeBalance` and `ReservedBalance` in storage. it will also decrease the total issuance of the system (`TotalIssuance`). If the new free or reserved balance is below the existential deposit, it will reset the account nonce (`system::AccountNonce`).  The dispatch origin for this call is `root`.  # <weight> - Independent of the arguments. - Contains a limited number of reads and writes. # </weight>
 
-### transfer(dest: `Address`, value: `Compact<Balance>`)
-- **interface**: api.tx.balances.transfer
-- **summary**: Transfer some liquid free balance to another account.  `transfer` will set the `FreeBalance` of the sender and receiver. It will decrease the total issuance of the system by the `TransferFee`. If the sender's account is below the existential deposit as a result of the transfer, the account will be reaped.  The dispatch origin for this call must be `Signed` by the transactor.  # <weight> - Dependent on arguments but not critical, given proper implementations for input config types. See related functions below. - It contains a limited number of reads and writes internally and no complex computation.  Related functions:  - `ensure_can_withdraw` is always called internally but has a bounded complexity. - Transferring balances to accounts that did not exist before will cause `T::OnNewAccount::on_new_account` to be called. - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`. - `transfer_keep_alive` works the same way as `transfer`, but has an additional check that the transfer will not kill the origin account.  # </weight>
-
-### transferKeepAlive(dest: `Address`, value: `Compact<Balance>`)
-- **interface**: api.tx.balances.transferKeepAlive
-- **summary**: Same as the [`transfer`] call, but with a check that the transfer will not kill the origin account.  99% of the time you want [`transfer`] instead.  [`transfer`]: struct.Module.html#method.transfer
+▸ **transfer**(dest: `Address`, value: `Compact<Balance>`)
+- **summary**: Transfer some liquid free balance to another account.  `transfer` will set the `FreeBalance` of the sender and receiver. It will decrease the total issuance of the system by the `TransferFee`. If the sender's account is below the existential deposit as a result of the transfer, the account will be reaped.  The dispatch origin for this call must be `Signed` by the transactor.  # <weight> - Dependent on arguments but not critical, given proper implementations for input config types. See related functions below. - It contains a limited number of reads and writes internally and no complex computation.  Related functions:  - `ensure_can_withdraw` is always called internally but has a bounded complexity. - Transferring balances to accounts that did not exist before will cause `T::OnNewAccount::on_new_account` to be called. - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`.  # </weight>
 
 ___
 
 
-## contracts
+### contracts
 
-### call(dest: `Address`, value: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
-- **interface**: api.tx.contracts.call
+▸ **call**(dest: `Address`, value: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
 - **summary**: Makes a call to an account, optionally transferring some balance.  * If the account is a smart-contract account, the associated code will be executed and any value will be transferred. * If the account is a regular account, any value will be transferred. * If no account exists and the call value is not less than `existential_deposit`, a regular account will be created and any value will be transferred.
 
-### claimSurcharge(dest: `AccountId`, aux_sender: `Option<AccountId>`)
-- **interface**: api.tx.contracts.claimSurcharge
+▸ **claimSurcharge**(dest: `AccountId`, aux_sender: `Option<AccountId>`)
 - **summary**: Allows block producers to claim a small reward for evicting a contract. If a block producer fails to do so, a regular users will be allowed to claim the reward.  If contract is not evicted as a result of this call, no actions are taken and the sender is not eligible for the reward.
 
-### instantiate(endowment: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, code_hash: `CodeHash`, data: `Bytes`)
-- **interface**: api.tx.contracts.instantiate
+▸ **instantiate**(endowment: `Compact<BalanceOf>`, gas_limit: `Compact<Gas>`, code_hash: `CodeHash`, data: `Bytes`)
 - **summary**: Instantiates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.  Instantiation is executed as follows:  - The destination address is computed based on the sender and hash of the code. - The smart-contract account is created at the computed address. - The `ctor_code` is executed in the context of the newly-created account. Buffer returned after the execution is saved as the `code` of the account. That code will be invoked upon any call received by this account. - The contract is initialized.
 
-### putCode(gas_limit: `Compact<Gas>`, code: `Bytes`)
-- **interface**: api.tx.contracts.putCode
+▸ **putCode**(gas_limit: `Compact<Gas>`, code: `Bytes`)
 - **summary**: Stores the given binary Wasm code into the chain's storage and returns its `codehash`. You can instantiate contracts only with stored code.
 
-### updateSchedule(schedule: `Schedule`)
-- **interface**: api.tx.contracts.updateSchedule
+▸ **updateSchedule**(schedule: `Schedule`)
 - **summary**: Updates the schedule for metering contracts.  The schedule must have a greater version than the stored schedule.
 
 ___
 
 
-## council
+### council
 
-### execute(proposal: `Proposal`)
-- **interface**: api.tx.council.execute
+▸ **execute**(proposal: `Proposal`)
 - **summary**: Dispatch a proposal from a member using the `Member` origin.  Origin must be a member of the collective.
 
-### propose(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
-- **interface**: api.tx.council.propose
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
 - **summary**: # <weight> - Bounded storage reads and writes. - Argument `threshold` has bearing on weight. # </weight>
 
-### setMembers(new_members: `Vec<AccountId>`)
-- **interface**: api.tx.council.setMembers
+▸ **setMembers**(new_members: `Vec<AccountId>`)
 - **summary**: Set the collective's membership manually to `new_members`. Be nice to the chain and provide it pre-sorted.  Requires root origin.
 
-### vote(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
-- **interface**: api.tx.council.vote
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 - **summary**: # <weight> - Bounded storage read and writes. - Will be slightly heavier if the proposal is approved / disapproved after the vote. # </weight>
 
 ___
 
 
-## democracy
+### democracy
 
-### cancelQueued(when: `Compact<BlockNumber>`, which: `Compact<u32>`, what: `Compact<ReferendumIndex>`)
-- **interface**: api.tx.democracy.cancelQueued
+▸ **cancelQueued**(when: `Compact<BlockNumber>`, which: `Compact<u32>`, what: `Compact<ReferendumIndex>`)
 - **summary**: Cancel a proposal queued for enactment.
 
-### cancelReferendum(ref_index: `Compact<ReferendumIndex>`)
-- **interface**: api.tx.democracy.cancelReferendum
+▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
 - **summary**: Remove a referendum.
 
-### clearPublicProposals()
-- **interface**: api.tx.democracy.clearPublicProposals
-- **summary**: Veto and blacklist the proposal hash. Must be from Root origin.
-
-### delegate(to: `AccountId`, conviction: `Conviction`)
-- **interface**: api.tx.democracy.delegate
+▸ **delegate**(to: `AccountId`, conviction: `Conviction`)
 - **summary**: Delegate vote.  # <weight> - One extra DB entry. # </weight>
 
-### emergencyCancel(ref_index: `ReferendumIndex`)
-- **interface**: api.tx.democracy.emergencyCancel
+▸ **emergencyCancel**(ref_index: `ReferendumIndex`)
 - **summary**: Schedule an emergency cancellation of a referendum. Cannot happen twice to the same referendum.
 
-### externalPropose(proposal_hash: `Hash`)
-- **interface**: api.tx.democracy.externalPropose
+▸ **externalPropose**(proposal: `Proposal`)
 - **summary**: Schedule a referendum to be tabled once it is legal to schedule an external referendum.
 
-### externalProposeDefault(proposal_hash: `Hash`)
-- **interface**: api.tx.democracy.externalProposeDefault
+▸ **externalProposeDefault**(proposal: `Proposal`)
 - **summary**: Schedule a negative-turnout-bias referendum to be tabled next once it is legal to schedule an external referendum.  Unlike `external_propose`, blacklisting has no effect on this and it may replace a pre-scheduled `external_propose` call.
 
-### externalProposeMajority(proposal_hash: `Hash`)
-- **interface**: api.tx.democracy.externalProposeMajority
+▸ **externalProposeMajority**(proposal: `Proposal`)
 - **summary**: Schedule a majority-carries referendum to be tabled next once it is legal to schedule an external referendum.  Unlike `external_propose`, blacklisting has no effect on this and it may replace a pre-scheduled `external_propose` call.
 
-### fastTrack(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
-- **interface**: api.tx.democracy.fastTrack
-- **summary**: Schedule the currently externally-proposed majority-carries referendum to be tabled immediately. If there is no externally-proposed referendum currently, or if there is one but it is not a majority-carries referendum then it fails.  - `proposal_hash`: The hash of the current external proposal. - `voting_period`: The period that is allowed for voting on this proposal. Increased to `EmergencyVotingPeriod` if too low. - `delay`: The number of block after voting has ended in approval and this should be enacted. This doesn't have a minimum amount.
+▸ **fastTrack**(proposal_hash: `Hash`, voting_period: `BlockNumber`, delay: `BlockNumber`)
+- **summary**: Schedule the currently externally-proposed majority-carries referendum to be tabled immediately. If there is no externally-proposed referendum currently, or if there is one but it is not a majority-carries referendum then it fails.  - `proposal_hash`: The hash of the current external proposal. - `voting_period`: The period that is allowed for voting on this proposal. - `delay`: The number of block after voting has ended in approval and this should be enacted. Increased to `EmergencyVotingPeriod` if too low.
 
-### noteImminentPreimage(encoded_proposal: `Bytes`, when: `BlockNumber`, which: `u32`)
-- **interface**: api.tx.democracy.noteImminentPreimage
-- **summary**: Register the preimage for an upcoming proposal. This requires the proposal to be in the dispatch queue. No deposit is needed.
-
-### notePreimage(encoded_proposal: `Bytes`)
-- **interface**: api.tx.democracy.notePreimage
-- **summary**: Register the preimage for an upcoming proposal. This doesn't require the proposal to be in the dispatch queue but does require a deposit, returned once enacted.
-
-### propose(proposal_hash: `Hash`, value: `Compact<BalanceOf>`)
-- **interface**: api.tx.democracy.propose
+▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
 - **summary**: Propose a sensitive action to be taken.  # <weight> - O(1). - Two DB changes, one DB entry. # </weight>
 
-### proxyVote(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
-- **interface**: api.tx.democracy.proxyVote
+▸ **proxyVote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
 - **summary**: Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.  # <weight> - O(1). - One DB change, one DB entry. # </weight>
 
-### reapPreimage(proposal_hash: `Hash`)
-- **interface**: api.tx.democracy.reapPreimage
-- **summary**: Remove an expired proposal preimage and collect the deposit.
-
-### removeProxy(proxy: `AccountId`)
-- **interface**: api.tx.democracy.removeProxy
+▸ **removeProxy**(proxy: `AccountId`)
 - **summary**: Clear the proxy. Called by the stash.  # <weight> - One DB clear. # </weight>
 
-### resignProxy()
-- **interface**: api.tx.democracy.resignProxy
+▸ **resignProxy**()
 - **summary**: Clear the proxy. Called by the proxy.  # <weight> - One DB clear. # </weight>
 
-### second(proposal: `Compact<PropIndex>`)
-- **interface**: api.tx.democracy.second
+▸ **second**(proposal: `Compact<PropIndex>`)
 - **summary**: Propose a sensitive action to be taken.  # <weight> - O(1). - One DB entry. # </weight>
 
-### setProxy(proxy: `AccountId`)
-- **interface**: api.tx.democracy.setProxy
+▸ **setProxy**(proxy: `AccountId`)
 - **summary**: Specify a proxy. Called by the stash.  # <weight> - One extra DB entry. # </weight>
 
-### undelegate()
-- **interface**: api.tx.democracy.undelegate
+▸ **undelegate**()
 - **summary**: Undelegate vote.  # <weight> - O(1). # </weight>
 
-### vetoExternal(proposal_hash: `Hash`)
-- **interface**: api.tx.democracy.vetoExternal
+▸ **vetoExternal**(proposal_hash: `Hash`)
 - **summary**: Veto and blacklist the external proposal hash.
 
-### vote(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
-- **interface**: api.tx.democracy.vote
+▸ **vote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
 - **summary**: Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal; otherwise it is a vote to keep the status quo.  # <weight> - O(1). - One DB change, one DB entry. # </weight>
 
 ___
 
 
-## elections
+### elections
 
-### removeMember(who: `Address`)
-- **interface**: api.tx.elections.removeMember
-- **summary**: Remove a particular member from the set. This is effective immediately and the bond of the outgoing member is slashed.  If a runner-up is available, then the best runner-up will be removed and replaces the outgoing member. Otherwise, a new phragmen round is started.  Note that this does not affect the designated block number of the next election.  # <weight> #### State Reads: O(do_phragmen) Writes: O(do_phragmen) # </weight>
+▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
+- **summary**: Claim that `candidate` is one of the top `carry_count + desired_seats` candidates. Only works iff the presentation period is active. `candidate` should have at least collected some non-zero `total` votes and `origin` must have enough funds to pay for a potential slash.  # <weight> - O(voters) compute. - One DB change. # </weight>
 
-### removeVoter()
-- **interface**: api.tx.elections.removeVoter
-- **summary**: Remove `origin` as a voter. This removes the lock and returns the bond.  # <weight> #### State Reads: O(1) Writes: O(1) # </weight>
+▸ **proxySetApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `Compact<BalanceOf>`)
+- **summary**: Set candidate approvals from a proxy. Approval slots stay valid as long as candidates in those slots are registered.  # <weight> - Same as `set_approvals` with one additional storage read. # </weight>
 
-### renounceCandidacy()
-- **interface**: api.tx.elections.renounceCandidacy
-- **summary**: Renounce one's intention to be a candidate for the next election round. 3 potential outcomes exist: - `origin` is a candidate and not elected in any set. In this case, the bond is unreserved, returned and origin is removed as a candidate. - `origin` is a current runner up. In this case, the bond is unreserved, returned and origin is removed as a runner. - `origin` is a current member. In this case, the bond is unreserved and origin is removed as a member, consequently not being a candidate for the next round anymore. Similar to [`remove_voter`], if replacement runners exists, they are immediately used.
+▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
+- **summary**: Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices must now be either unregistered or registered to a candidate that registered the slot after the voter gave their last approval set.  Both indices must be provided as explained in [`voter_at`] function.  May be called by anyone. Returns the voter deposit to `signed`.  # <weight> - O(1). - Two fewer DB entries, one DB change. # </weight>
 
-### reportDefunctVoter(target: `Address`)
-- **interface**: api.tx.elections.reportDefunctVoter
-- **summary**: Report `target` for being an defunct voter. In case of a valid report, the reporter is rewarded by the bond amount of `target`. Otherwise, the reporter itself is removed and their bond is slashed.  A defunct voter is defined to be: - a voter whose current submitted votes are all invalid. i.e. all of them are no longer a candidate nor an active member.  # <weight> #### State Reads: O(NLogM) given M current candidates and N votes for `target`. Writes: O(1) # </weight>
+▸ **removeMember**(who: `Address`)
+- **summary**: Remove a particular member from the set. This is effective immediately.  Note: A tally should happen instantly (if not already in a presentation period) to fill the seat if removal means that the desired members are not met.
 
-### submitCandidacy()
-- **interface**: api.tx.elections.submitCandidacy
-- **summary**: Submit oneself for candidacy.  A candidate will either: - Lose at the end of the term and forfeit their deposit. - Win and become a member. Members will eventually get their stash back. - Become a runner-up. Runners-ups are reserved members in case one gets forcefully removed.  # <weight> #### State Reads: O(LogN) Given N candidates. Writes: O(1) # </weight>
+▸ **retractVoter**(index: `Compact<u32>`)
+- **summary**: Remove a voter. All votes are cancelled and the voter deposit is returned.  The index must be provided as explained in [`voter_at`] function.  Also removes the lock on the balance of the voter. See [`do_set_approvals()`].  # <weight> - O(1). - Two fewer DB entries, one DB change. # </weight>
 
-### vote(votes: `Vec<AccountId>`, value: `Compact<BalanceOf>`)
-- **interface**: api.tx.elections.vote
-- **summary**: Vote for a set of candidates for the upcoming round of election.  The `votes` should: - not be empty. - be less than the number of candidates.  Upon voting, `value` units of `who`'s balance is locked and a bond amount is reserved. It is the responsibility of the caller to not place all of their balance into the lock and keep some for further transactions.  # <weight> #### State Reads: O(1) Writes: O(V) given `V` votes. V is bounded by 16. # </weight>
+▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`, hint: `SetIndex`, value: `Compact<BalanceOf>`)
+- **summary**: Set candidate approvals. Approval slots stay valid as long as candidates in those slots are registered.  Locks `value` from the balance of `origin` indefinitely. Only [`retract_voter`] or [`reap_inactive_voter`] can unlock the balance.  `hint` argument is interpreted differently based on: - if `origin` is setting approvals for the first time: The index will be checked for being a valid _hole_ in the voter list. - if the hint is correctly pointing to a hole, no fee is deducted from `origin`. - Otherwise, the call will succeed but the index is ignored and simply a push to the last chunk with free space happens. If the new push causes a new chunk to be created, a fee indicated by [`VotingFee`] is deducted. - if `origin` is already a voter: the index __must__ be valid and point to the correct position of the `origin` in the current voters list.  Note that any trailing `false` votes in `votes` is ignored; In approval voting, not voting for a candidate and voting false, are equal.  # <weight> - O(1). - Two extra DB entries, one DB change. - Argument `votes` is limited in length to number of candidates. # </weight>
+
+▸ **setDesiredSeats**(count: `Compact<u32>`)
+- **summary**: Set the desired member count; if lower than the current count, then seats will not be up election when they expire. If more, then a new vote will be started if one is not already in progress.
+
+▸ **setPresentationDuration**(count: `Compact<BlockNumber>`)
+- **summary**: Set the presentation duration. If there is currently a vote being presented for, will invoke `finalize_vote`.
+
+▸ **setTermDuration**(count: `Compact<BlockNumber>`)
+- **summary**: Set the presentation duration. If there is current a vote being presented for, will invoke `finalize_vote`.
+
+▸ **submitCandidacy**(slot: `Compact<u32>`)
+- **summary**: Submit oneself for candidacy.  Account must have enough transferrable funds in it to pay the bond.  NOTE: if `origin` has already assigned approvals via [`set_approvals`], it will NOT have any usable funds to pass candidacy bond and must first retract. Note that setting approvals will lock the entire balance of the voter until retraction or being reported.  # <weight> - Independent of input. - Three DB changes. # </weight>
 
 ___
 
 
-## finalityTracker
+### finalityTracker
 
-### finalHint(hint: `Compact<BlockNumber>`)
-- **interface**: api.tx.finalityTracker.finalHint
+▸ **finalHint**(hint: `Compact<BlockNumber>`)
 - **summary**: Hint that the author of this block thinks the best finalized block is the given number.
 
 ___
 
 
-## grandpa
+### grandpa
 
-### reportMisbehavior(_report: `Bytes`)
-- **interface**: api.tx.grandpa.reportMisbehavior
+▸ **reportMisbehavior**(_report: `Bytes`)
 - **summary**: Report some misbehavior.
 
 ___
 
 
-## imOnline
+### imOnline
 
-### heartbeat(heartbeat: `Heartbeat`, _signature: `Signature`)
-- **interface**: api.tx.imOnline.heartbeat
-
-___
-
-
-## nicks
-
-### clearName()
-- **interface**: api.tx.nicks.clearName
-- **summary**: Clear an account's name and return the deposit. Fails if the account was not named.  The dispatch origin for this call must be _Signed_.  # <weight> - O(1). - One balance operation. - One storage read/write. - One event. # </weight>
-
-### forceName(target: `Address`, name: `Bytes`)
-- **interface**: api.tx.nicks.forceName
-- **summary**: Set a third-party account's name with no deposit.  No length checking is done on the name.  The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.  # <weight> - O(1). - At most one balance operation. - One storage read/write. - One event. # </weight>
-
-### killName(target: `Address`)
-- **interface**: api.tx.nicks.killName
-- **summary**: Remove an account's name and take charge of the deposit.  Fails if `who` has not been named. The deposit is dealt with through `T::Slashed` imbalance handler.  The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.  # <weight> - O(1). - One unbalanced handler (probably a balance transfer) - One storage read/write. - One event. # </weight>
-
-### setName(name: `Bytes`)
-- **interface**: api.tx.nicks.setName
-- **summary**: Set an account's name. The name should be a UTF-8-encoded string by convention, though we don't check it.  The name may not be more than `T::MaxLength` bytes, nor less than `T::MinLength` bytes.  If the account doesn't already have a name, then a fee of `ReservationFee` is reserved in the account.  The dispatch origin for this call must be _Signed_.  # <weight> - O(1). - At most one balance operation. - One storage read/write. - One event. # </weight>
+▸ **heartbeat**(heartbeat: `Heartbeat`, signature: `Signature`)
 
 ___
 
 
-## session
+### session
 
-### setKeys(keys: `Keys`, proof: `Bytes`)
-- **interface**: api.tx.session.setKeys
+▸ **setKeys**(keys: `Keys`, proof: `Bytes`)
 - **summary**: Sets the session key(s) of the function caller to `key`. Allows an account to set its session key prior to becoming a validator. This doesn't take effect until the next session.  The dispatch origin of this function must be signed.  # <weight> - O(log n) in number of accounts. - One extra DB entry. # </weight>
 
 ___
 
 
-## staking
+### staking
 
-### bond(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
-- **interface**: api.tx.staking.bond
+▸ **bond**(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
 - **summary**: Take the origin account as a stash and lock up `value` of its balance. `controller` will be the account that controls it.  `value` must be more than the `minimum_balance` specified by `T::Currency`.  The dispatch origin for this call must be _Signed_ by the stash account.  # <weight> - Independent of the arguments. Moderate complexity. - O(1). - Three extra DB entries.  NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless the `origin` falls below _existential deposit_ and gets removed as dust. # </weight>
 
-### bondExtra(max_additional: `Compact<BalanceOf>`)
-- **interface**: api.tx.staking.bondExtra
+▸ **bondExtra**(max_additional: `Compact<BalanceOf>`)
 - **summary**: Add some extra amount that have appeared in the stash `free_balance` into the balance up for staking.  Use this if there are additional funds in your stash account that you wish to bond. Unlike [`bond`] or [`unbond`] this function does not impose any limitation on the amount that can be added.  The dispatch origin for this call must be _Signed_ by the stash, not the controller.  # <weight> - Independent of the arguments. Insignificant complexity. - O(1). - One DB entry. # </weight>
 
-### cancelDeferredSlash(era: `EraIndex`, slash_indices: `Vec<u32>`)
-- **interface**: api.tx.staking.cancelDeferredSlash
-- **summary**: Cancel enactment of a deferred slash. Can be called by either the root origin or the `T::SlashCancelOrigin`. passing the era and indices of the slashes for that era to kill.  # <weight> - One storage write. # </weight>
-
-### chill()
-- **interface**: api.tx.staking.chill
+▸ **chill**()
 - **summary**: Declare no desire to either validate or nominate.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains one read. - Writes are limited to the `origin` account key. # </weight>
 
-### forceNewEra()
-- **interface**: api.tx.staking.forceNewEra
+▸ **forceNewEra**()
 - **summary**: Force there to be a new era at the end of the next session. After this, it will be reset to normal (non-forced) behaviour.  # <weight> - No arguments. # </weight>
 
-### forceNewEraAlways()
-- **interface**: api.tx.staking.forceNewEraAlways
-- **summary**: Force there to be a new era at the end of sessions indefinitely.  # <weight> - One storage write # </weight>
-
-### forceNoEras()
-- **interface**: api.tx.staking.forceNoEras
+▸ **forceNoEras**()
 - **summary**: Force there to be no new eras indefinitely.  # <weight> - No arguments. # </weight>
 
-### forceUnstake(stash: `AccountId`)
-- **interface**: api.tx.staking.forceUnstake
-- **summary**: Force a current staker to become completely unstaked, immediately.
-
-### nominate(targets: `Vec<Address>`)
-- **interface**: api.tx.staking.nominate
+▸ **nominate**(targets: `Vec<Address>`)
 - **summary**: Declare the desire to nominate `targets` for the origin controller.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  # <weight> - The transaction's complexity is proportional to the size of `targets`, which is capped at `MAX_NOMINATIONS`. - Both the reads and writes follow a similar pattern. # </weight>
 
-### setController(controller: `Address`)
-- **interface**: api.tx.staking.setController
+▸ **setController**(controller: `Address`)
 - **summary**: (Re-)set the controller of a stash.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the stash, not the controller.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains a limited number of reads. - Writes are limited to the `origin` account key. # </weight>
 
-### setInvulnerables(validators: `Vec<AccountId>`)
-- **interface**: api.tx.staking.setInvulnerables
+▸ **setInvulnerables**(validators: `Vec<AccountId>`)
 - **summary**: Set the validators who cannot be slashed (if any).
 
-### setPayee(payee: `RewardDestination`)
-- **interface**: api.tx.staking.setPayee
+▸ **setPayee**(payee: `RewardDestination`)
 - **summary**: (Re-)set the payment target for a controller.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains a limited number of reads. - Writes are limited to the `origin` account key. # </weight>
 
-### setValidatorCount(new: `Compact<u32>`)
-- **interface**: api.tx.staking.setValidatorCount
+▸ **setValidatorCount**(new: `Compact<u32>`)
 - **summary**: The ideal number of validators.
 
-### unbond(value: `Compact<BalanceOf>`)
-- **interface**: api.tx.staking.unbond
+▸ **unbond**(value: `Compact<BalanceOf>`)
 - **summary**: Schedule a portion of the stash to be unlocked ready for transfer out after the bond period ends. If this leaves an amount actively bonded less than T::Currency::minimum_balance(), then it is increased to the full amount.  Once the unlock period is done, you can call `withdraw_unbonded` to actually move the funds out of management ready for transfer.  No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`) can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need to be called first to remove some of the chunks (if possible).  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  See also [`Call::withdraw_unbonded`].  # <weight> - Independent of the arguments. Limited but potentially exploitable complexity. - Contains a limited number of reads. - Each call (requires the remainder of the bonded balance to be above `minimum_balance`) will cause a new entry to be inserted into a vector (`Ledger.unlocking`) kept in storage. The only way to clean the aforementioned storage item is also user-controlled via `withdraw_unbonded`. - One DB entry. </weight>
 
-### validate(prefs: `ValidatorPrefs`)
-- **interface**: api.tx.staking.validate
+▸ **validate**(prefs: `ValidatorPrefs`)
 - **summary**: Declare the desire to validate for the origin controller.  Effects will be felt at the beginning of the next era.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  # <weight> - Independent of the arguments. Insignificant complexity. - Contains a limited number of reads. - Writes are limited to the `origin` account key. # </weight>
 
-### withdrawUnbonded()
-- **interface**: api.tx.staking.withdrawUnbonded
+▸ **withdrawUnbonded**()
 - **summary**: Remove any unlocked chunks from the `unlocking` queue from our management.  This essentially frees up that balance to be used by the stash account to do whatever it wants.  The dispatch origin for this call must be _Signed_ by the controller, not the stash.  See also [`Call::unbond`].  # <weight> - Could be dependent on the `origin` argument and how much `unlocking` chunks exist. It implies `consolidate_unlocked` which loops over `Ledger.unlocking`, which is indirectly user-controlled. See [`unbond`] for more detail. - Contains a limited number of reads, yet the size of which could be large based on `ledger`. - Writes are limited to the `origin` account key. # </weight>
 
 ___
 
 
-## sudo
+### sudo
 
-### setKey(new: `Address`)
-- **interface**: api.tx.sudo.setKey
+▸ **setKey**(new: `Address`)
 - **summary**: Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.  The dispatch origin for this call must be _Signed_.  # <weight> - O(1). - Limited storage reads. - One DB change. # </weight>
 
-### sudo(proposal: `Proposal`)
-- **interface**: api.tx.sudo.sudo
+▸ **sudo**(proposal: `Proposal`)
 - **summary**: Authenticates the sudo key and dispatches a function call with `Root` origin.  The dispatch origin for this call must be _Signed_.  # <weight> - O(1). - Limited storage reads. - One DB write (event). - Unknown weight of derivative `proposal` execution. # </weight>
 
-### sudoAs(who: `Address`, proposal: `Proposal`)
-- **interface**: api.tx.sudo.sudoAs
+▸ **sudoAs**(who: `Address`, proposal: `Proposal`)
 - **summary**: Authenticates the sudo key and dispatches a function call with `Signed` origin from a given account.  The dispatch origin for this call must be _Signed_.  # <weight> - O(1). - Limited storage reads. - One DB write (event). - Unknown weight of derivative `proposal` execution. # </weight>
 
 ___
 
 
-## system
+### system
 
-### fillBlock()
-- **interface**: api.tx.system.fillBlock
+▸ **fillBlock**()
 - **summary**: A big dispatch that will disallow any other transaction to be included.
 
-### killPrefix(prefix: `Key`)
-- **interface**: api.tx.system.killPrefix
+▸ **killPrefix**(prefix: `Key`)
 - **summary**: Kill all storage items with a key that starts with the given prefix.
 
-### killStorage(keys: `Vec<Key>`)
-- **interface**: api.tx.system.killStorage
+▸ **killStorage**(keys: `Vec<Key>`)
 - **summary**: Kill some items from storage.
 
-### remark(_remark: `Bytes`)
-- **interface**: api.tx.system.remark
+▸ **remark**(_remark: `Bytes`)
 - **summary**: Make some on-chain remark.
 
-### setCode(new: `Bytes`)
-- **interface**: api.tx.system.setCode
+▸ **setCode**(new: `Bytes`)
 - **summary**: Set the new code.
 
-### setHeapPages(pages: `u64`)
-- **interface**: api.tx.system.setHeapPages
+▸ **setHeapPages**(pages: `u64`)
 - **summary**: Set the number of pages in the WebAssembly environment's heap.
 
-### setStorage(items: `Vec<KeyValue>`)
-- **interface**: api.tx.system.setStorage
+▸ **setStorage**(items: `Vec<KeyValue>`)
 - **summary**: Set some items of storage.
 
 ___
 
 
-## technicalCommittee
+### technicalCommittee
 
-### execute(proposal: `Proposal`)
-- **interface**: api.tx.technicalCommittee.execute
+▸ **execute**(proposal: `Proposal`)
 - **summary**: Dispatch a proposal from a member using the `Member` origin.  Origin must be a member of the collective.
 
-### propose(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
-- **interface**: api.tx.technicalCommittee.propose
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
 - **summary**: # <weight> - Bounded storage reads and writes. - Argument `threshold` has bearing on weight. # </weight>
 
-### setMembers(new_members: `Vec<AccountId>`)
-- **interface**: api.tx.technicalCommittee.setMembers
+▸ **setMembers**(new_members: `Vec<AccountId>`)
 - **summary**: Set the collective's membership manually to `new_members`. Be nice to the chain and provide it pre-sorted.  Requires root origin.
 
-### vote(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
-- **interface**: api.tx.technicalCommittee.vote
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 - **summary**: # <weight> - Bounded storage read and writes. - Will be slightly heavier if the proposal is approved / disapproved after the vote. # </weight>
 
 ___
 
 
-## technicalMembership
+### technicalMembership
 
-### addMember(who: `AccountId`)
-- **interface**: api.tx.technicalMembership.addMember
+▸ **addMember**(who: `AccountId`)
 - **summary**: Add a member `who` to the set.  May only be called from `AddOrigin` or root.
 
-### changeKey(new: `AccountId`)
-- **interface**: api.tx.technicalMembership.changeKey
-- **summary**: Swap out the sending member for some other key `new`.  May only be called from `Signed` origin of a current member.
-
-### removeMember(who: `AccountId`)
-- **interface**: api.tx.technicalMembership.removeMember
+▸ **removeMember**(who: `AccountId`)
 - **summary**: Remove a member `who` from the set.  May only be called from `RemoveOrigin` or root.
 
-### resetMembers(members: `Vec<AccountId>`)
-- **interface**: api.tx.technicalMembership.resetMembers
+▸ **resetMembers**(members: `Vec<AccountId>`)
 - **summary**: Change the membership to a new set, disregarding the existing membership. Be nice and pass `members` pre-sorted.  May only be called from `ResetOrigin` or root.
 
-### swapMember(remove: `AccountId`, add: `AccountId`)
-- **interface**: api.tx.technicalMembership.swapMember
+▸ **swapMember**(remove: `AccountId`, add: `AccountId`)
 - **summary**: Swap out one member `remove` for another `add`.  May only be called from `SwapOrigin` or root.
 
 ___
 
 
-## timestamp
+### timestamp
 
-### set(now: `Compact<Moment>`)
-- **interface**: api.tx.timestamp.set
+▸ **set**(now: `Compact<Moment>`)
 - **summary**: Set the current time.  This call should be invoked exactly once per block. It will panic at the finalization phase, if this call hasn't been invoked by that time.  The timestamp should be greater than the previous one by the amount specified by `MinimumPeriod`.  The dispatch origin for this call must be `Inherent`.
 
 ___
 
 
-## treasury
+### treasury
 
-### approveProposal(proposal_id: `Compact<ProposalIndex>`)
-- **interface**: api.tx.treasury.approveProposal
+▸ **approveProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**: Approve a proposal. At a later time, the proposal will be allocated to the beneficiary and the original deposit will be returned.  # <weight> - O(1). - Limited storage reads. - One DB change. # </weight>
 
-### proposeSpend(value: `Compact<BalanceOf>`, beneficiary: `Address`)
-- **interface**: api.tx.treasury.proposeSpend
+▸ **proposeSpend**(value: `Compact<BalanceOf>`, beneficiary: `Address`)
 - **summary**: Put forward a suggestion for spending. A deposit proportional to the value is reserved and slashed if the proposal is rejected. It is returned once the proposal is awarded.  # <weight> - O(1). - Limited storage reads. - One DB change, one extra DB entry. # </weight>
 
-### rejectProposal(proposal_id: `Compact<ProposalIndex>`)
-- **interface**: api.tx.treasury.rejectProposal
+▸ **rejectProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**: Reject a proposed spend. The original deposit will be slashed.  # <weight> - O(1). - Limited storage reads. - One DB clear. # </weight>
 
 ___
 
 
-## utility
+### utility
 
-### batch(calls: `Vec<Call>`)
-- **interface**: api.tx.utility.batch
+▸ **batch**(calls: `Vec<Call>`)
 - **summary**: Send a batch of dispatch calls (only root).
