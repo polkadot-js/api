@@ -98,4 +98,13 @@ export default class ExtrinsicV4 extends Struct implements IExtrinsicImpl {
 
     return this;
   }
+
+  /**
+   * @describe Adds a fake signature to the extrinsic
+   */
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): ExtrinsicV4 {
+    this.signature.signFake(this.method, signer, options);
+
+    return this;
+  }
 }
