@@ -4,6 +4,15 @@
 
 export default {
   types: {
+    OpenTipFinder: '(AccountId, Balance)',
+    OpenTipTip: '(AccountId, Balance)',
+    OpenTip: {
+      reason: 'Hash',
+      who: 'AccountId',
+      finder: 'Option<OpenTipFinder>',
+      closes: 'Option<BlockNumber>',
+      tips: 'Vec<OpenTipTip>'
+    },
     TreasuryProposal: {
       proposer: 'AccountId',
       value: 'Balance',

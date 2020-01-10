@@ -22,7 +22,7 @@ import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } 
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
-import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
@@ -754,6 +754,15 @@ export interface InterfaceRegistry {
   Phase: Phase;
   'Option<Phase>': Option<Phase>;
   'Vec<Phase>': Vec<Phase>;
+  OpenTipFinder: OpenTipFinder;
+  'Option<OpenTipFinder>': Option<OpenTipFinder>;
+  'Vec<OpenTipFinder>': Vec<OpenTipFinder>;
+  OpenTipTip: OpenTipTip;
+  'Option<OpenTipTip>': Option<OpenTipTip>;
+  'Vec<OpenTipTip>': Vec<OpenTipTip>;
+  OpenTip: OpenTip;
+  'Option<OpenTip>': Option<OpenTip>;
+  'Vec<OpenTip>': Vec<OpenTip>;
   TreasuryProposal: TreasuryProposal;
   'Option<TreasuryProposal>': Option<TreasuryProposal>;
   'Vec<TreasuryProposal>': Vec<TreasuryProposal>;
