@@ -29,7 +29,7 @@ function extractTypes (types: string[]): any[] {
       case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
-        if (typeof (decoded.sub.map) === 'undefined') {
+        if (decoded.sub.map === undefined) {
           return extractTypes([decoded.sub.type]);
         }
         return extractTypes(decoded.sub.map(sub => sub.type));
