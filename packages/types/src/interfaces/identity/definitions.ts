@@ -5,16 +5,6 @@
 export default {
   types: {
     IdentityInfoAdditional: '(Data, Data)',
-    IdentityInfoTo199: {
-      additional: 'Vec<IdentityInfoAdditional>',
-      display: 'Data',
-      legal: 'Data',
-      web: 'Data',
-      riot: 'Data',
-      email: 'Data',
-      pgpFingerprint: 'Option<H160>',
-      image: 'Data'
-    },
     IdentityInfo: {
       additional: 'Vec<IdentityInfoAdditional>',
       display: 'Data',

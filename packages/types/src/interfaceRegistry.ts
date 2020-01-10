@@ -16,7 +16,7 @@ import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAc
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
-import { IdentityInfo, IdentityInfoAdditional, IdentityInfoTo199, Judgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
+import { IdentityInfo, IdentityInfoAdditional, Judgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
@@ -550,9 +550,6 @@ export interface InterfaceRegistry {
   IdentityInfoAdditional: IdentityInfoAdditional;
   'Option<IdentityInfoAdditional>': Option<IdentityInfoAdditional>;
   'Vec<IdentityInfoAdditional>': Vec<IdentityInfoAdditional>;
-  IdentityInfoTo199: IdentityInfoTo199;
-  'Option<IdentityInfoTo199>': Option<IdentityInfoTo199>;
-  'Vec<IdentityInfoTo199>': Vec<IdentityInfoTo199>;
   IdentityInfo: IdentityInfo;
   'Option<IdentityInfo>': Option<IdentityInfo>;
   'Vec<IdentityInfo>': Vec<IdentityInfo>;
