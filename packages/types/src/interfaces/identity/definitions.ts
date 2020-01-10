@@ -13,7 +13,8 @@ export default {
       riot: 'Data',
       email: 'Data',
       pgpFingerprint: 'Option<H160>',
-      image: 'Data'
+      image: 'Data',
+      twitter: 'Data'
     },
     Judgement: {
       _enum: {

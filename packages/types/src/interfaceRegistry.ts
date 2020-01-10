@@ -3,7 +3,7 @@
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, Fixed64, H160, H256, H512, IdentityFields, Null, StorageData, StorageKey, Text, Type, U256, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Permill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, Moment, MortalEra, MultiSignature, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigest0to159, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimary0to159, RawBabePreDigestSecondary, RawBabePreDigestSecondary0to159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
@@ -22,7 +22,7 @@ import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } 
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
-import { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
+import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
@@ -250,10 +250,18 @@ export interface InterfaceRegistry {
   'Compact<Perbill>': Compact<Perbill>;
   'Option<Perbill>': Option<Perbill>;
   'Vec<Perbill>': Vec<Perbill>;
+  Percent: Percent;
+  'Compact<Percent>': Compact<Percent>;
+  'Option<Percent>': Option<Percent>;
+  'Vec<Percent>': Vec<Percent>;
   Permill: Permill;
   'Compact<Permill>': Compact<Permill>;
   'Option<Permill>': Option<Permill>;
   'Vec<Permill>': Vec<Permill>;
+  Perquintill: Perquintill;
+  'Compact<Perquintill>': Compact<Perquintill>;
+  'Option<Perquintill>': Option<Perquintill>;
+  'Vec<Perquintill>': Vec<Perquintill>;
   Phantom: Phantom;
   'Option<Phantom>': Option<Phantom>;
   'Vec<Phantom>': Vec<Phantom>;
@@ -740,6 +748,15 @@ export interface InterfaceRegistry {
   Phase: Phase;
   'Option<Phase>': Option<Phase>;
   'Vec<Phase>': Vec<Phase>;
+  OpenTipFinder: OpenTipFinder;
+  'Option<OpenTipFinder>': Option<OpenTipFinder>;
+  'Vec<OpenTipFinder>': Vec<OpenTipFinder>;
+  OpenTipTip: OpenTipTip;
+  'Option<OpenTipTip>': Option<OpenTipTip>;
+  'Vec<OpenTipTip>': Vec<OpenTipTip>;
+  OpenTip: OpenTip;
+  'Option<OpenTip>': Option<OpenTip>;
+  'Vec<OpenTip>': Vec<OpenTip>;
   TreasuryProposal: TreasuryProposal;
   'Option<TreasuryProposal>': Option<TreasuryProposal>;
   'Vec<TreasuryProposal>': Vec<TreasuryProposal>;

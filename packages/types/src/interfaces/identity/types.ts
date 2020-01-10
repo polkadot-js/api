@@ -24,6 +24,8 @@ export interface IdentityInfo extends Struct {
   readonly pgpFingerprint: Option<H160>;
   /** Data */
   readonly image: Data;
+  /** Data */
+  readonly twitter: Data;
 }
 
 /** ITuple<[Data, Data]> */
