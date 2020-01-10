@@ -1035,7 +1035,50 @@
           ],
           "events": null,
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidUncleParent",
+              "documentation": [
+                " The uncle parent not in the chain."
+              ]
+            },
+            {
+              "name": "UnclesAlreadySet",
+              "documentation": [
+                " Uncles already set in the block."
+              ]
+            },
+            {
+              "name": "TooManyUncles",
+              "documentation": [
+                " Too many uncles."
+              ]
+            },
+            {
+              "name": "GenesisUncle",
+              "documentation": [
+                " The uncle is genesis."
+              ]
+            },
+            {
+              "name": "TooHighUncle",
+              "documentation": [
+                " The uncle is too high in chain."
+              ]
+            },
+            {
+              "name": "UncleAlreadyIncluded",
+              "documentation": [
+                " The uncle is already included."
+              ]
+            },
+            {
+              "name": "OldUncle",
+              "documentation": [
+                " The uncle isn't recent enough to be included."
+              ]
+            }
+          ]
         },
         {
           "name": "Staking",
@@ -4148,7 +4191,92 @@
               "documentation": []
             }
           ],
-          "errors": []
+          "errors": [
+            {
+              "name": "UnableToVote",
+              "documentation": [
+                " Cannot vote when no candidates or members exist."
+              ]
+            },
+            {
+              "name": "NoVotes",
+              "documentation": [
+                " Must vote for at least one candidate."
+              ]
+            },
+            {
+              "name": "TooManyVotes",
+              "documentation": [
+                " Cannot vote more than candidates."
+              ]
+            },
+            {
+              "name": "MaximumVotesExceeded",
+              "documentation": [
+                " Cannot vote more than maximum allowed."
+              ]
+            },
+            {
+              "name": "LowBalance",
+              "documentation": [
+                " Cannot vote with stake less than minimum balance."
+              ]
+            },
+            {
+              "name": "UnableToPayBond",
+              "documentation": [
+                " Voter can not pay voting bond."
+              ]
+            },
+            {
+              "name": "MustBeVoter",
+              "documentation": [
+                " Must be a voter."
+              ]
+            },
+            {
+              "name": "ReportSelf",
+              "documentation": [
+                " Cannot report self."
+              ]
+            },
+            {
+              "name": "DuplicatedCandidate",
+              "documentation": [
+                " Duplicated candidate submission."
+              ]
+            },
+            {
+              "name": "MemberSubmit",
+              "documentation": [
+                " Member cannot re-submit candidacy."
+              ]
+            },
+            {
+              "name": "RunnerSubmit",
+              "documentation": [
+                " Runner cannot re-submit candidacy."
+              ]
+            },
+            {
+              "name": "InsufficientCandidateFunds",
+              "documentation": [
+                " Candidate does not have enough funds."
+              ]
+            },
+            {
+              "name": "InvalidOrigin",
+              "documentation": [
+                " Origin is not a candidate, member or a runner up."
+              ]
+            },
+            {
+              "name": "NotMember",
+              "documentation": [
+                " Not a member."
+              ]
+            }
+          ]
         },
         {
           "name": "TechnicalMembership",

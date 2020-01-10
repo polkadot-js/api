@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -95,6 +95,15 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
    */
   public sign (account: IKeyringPair, options: SignatureOptions): ExtrinsicV3 {
     this.signature.sign(this.method, account, options);
+
+    return this;
+  }
+
+  /**
+   * @describe Adds a fake signature to the extrinsic
+   */
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): ExtrinsicV3 {
+    this.signature.signFake(this.method, signer, options);
 
     return this;
   }

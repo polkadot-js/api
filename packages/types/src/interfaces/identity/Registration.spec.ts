@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ describe('Registration', (): void => {
         '00' + // no judgements
         '00a0724e180900000000000000000000' + // balance
         '00' + // no length
-        '0399110399220399440399550399330000'
+        '039911039922039944039955039933000003996600'
       ).toJSON()
     ).toEqual({
       deposit: 10000000000000,
@@ -27,6 +27,7 @@ describe('Registration', (): void => {
         legal: { Raw: '0x9922' },
         pgpFingerprint: null,
         riot: { Raw: '0x9955' },
+        twitter: { Raw: '0x9966' },
         web: { Raw: '0x9944' }
       },
       judgements: []

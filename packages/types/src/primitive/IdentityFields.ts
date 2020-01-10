@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -29,7 +29,8 @@ export default class IdentityFields extends Set {
       Riot: new BN(0b0000000000000000000000000000000000000000000000000000000000001000),
       Email: new BN(0b0000000000000000000000000000000000000000000000000000000000010000),
       PgpFingerprint: new BN(0b0000000000000000000000000000000000000000000000000000000000100000),
-      Image: new BN(0b0000000000000000000000000000000000000000000000000000000001000000)
+      Image: new BN(0b0000000000000000000000000000000000000000000000000000000001000000),
+      Twitter: new BN(0b0000000000000000000000000000000000000000000000000000000010000000)
     }, decodeFields(registry, value));
   }
 

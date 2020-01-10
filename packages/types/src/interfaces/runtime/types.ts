@@ -3,7 +3,7 @@
 
 import { Codec, ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 
 /** GenericAccountId */
 export interface AccountId extends GenericAccountId {}
@@ -63,6 +63,14 @@ export interface DispatchInfo extends Struct {
   readonly class: DispatchClass;
   /** bool */
   readonly paysFee: bool;
+}
+
+/** Struct */
+export interface DispatchInfoTo190 extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
 }
 
 /** Uint8Array, Codec */
@@ -173,8 +181,14 @@ export interface Origin extends GenericOrigin {}
 /** u32 */
 export interface Perbill extends u32 {}
 
+/** u8 */
+export interface Percent extends u8 {}
+
 /** u32 */
 export interface Permill extends u32 {}
+
+/** u64 */
+export interface Perquintill extends u64 {}
 
 /** Null */
 export interface Phantom extends Null {}
