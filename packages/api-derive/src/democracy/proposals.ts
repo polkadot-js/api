@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, Hash, PropIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveProposal } from '../types';
 
@@ -32,6 +32,16 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
     .map(([propIndex, hash, proposer], index): DeriveProposal => {
       const preimage = preimages[index].unwrapOr(null);
       const depositor = depositors[index].unwrap();
+      let proposal: undefined | Proposal;
+
+      // we could end up in a situation where the proposal is non-decodable, e.g. after an upgrade
+      if (preimage) {
+        try {
+          proposal = createType(api.registry, 'Proposal', preimage[0].toU8a(true));
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
       return {
         balance: depositor[0],
@@ -44,9 +54,7 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
             proposer: preimage[1]
           }
           : undefined,
-        proposal: preimage
-          ? createType(api.registry, 'Proposal', preimage[0].toU8a(true))
-          : undefined,
+        proposal,
         proposer,
         seconds: depositor[1]
       };
