@@ -36,28 +36,26 @@ function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<s
   );
 }
 
-function extractIdentity (identityOfOpt?: Option<Registration>, superOfOpt?: Option<ITuple<[AccountId, Data]>>): DeriveAccountRegistration {
+function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
   }
 
   const { info, judgements } = identityOfOpt.unwrap();
-  const superInfo = superOfOpt?.isSome
-    ? superOfOpt.unwrap()
-    : null;
+  const topDisplay = dataAsString(info.display);
 
   return {
-    display: superInfo
-      ? dataAsString(superInfo[1])
-      : dataAsString(info.display),
-    displayParent: superInfo
-      ? dataAsString(info.display)
+    display: superOf
+      ? dataAsString(superOf[1]) || topDisplay
+      : topDisplay,
+    displayParent: superOf
+      ? topDisplay
       : undefined,
     email: dataAsString(info.email),
     image: dataAsString(info.image),
     legal: dataAsString(info.legal),
-    parent: superInfo
-      ? superInfo[0]
+    parent: superOf
+      ? superOf[0]
       : undefined,
     pgp: info.pgpFingerprint.isSome
       ? info.pgpFingerprint.unwrap().toHex()
@@ -78,23 +76,25 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
       ])
       : of([undefined, undefined])
   ) as Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]>).pipe(
-    switchMap(([identityOfOpt, superOfOpt]): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> => {
+    switchMap(([identityOfOpt, superOfOpt]): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> => {
       if (identityOfOpt?.isSome) {
         // this identity has something set
         return of([identityOfOpt, undefined]);
       } else if (superOfOpt?.isSome) {
+        const superOf = superOfOpt.unwrap();
+
         // we have a super
         return combineLatest([
-          api.query.identity.identityOf<Option<Registration>>(accountId),
-          of(superOfOpt)
+          api.query.identity.identityOf<Option<Registration>>(superOf[0]),
+          of(superOf)
         ]);
       }
 
       // nothing of value returned
       return of([undefined, undefined]);
     }),
-    map(([identityOfOpt, superOfOpt]): DeriveAccountRegistration =>
-      extractIdentity(identityOfOpt, superOfOpt)
+    map(([identityOfOpt, superOf]): DeriveAccountRegistration =>
+      extractIdentity(identityOfOpt, superOf)
     )
   );
 }
