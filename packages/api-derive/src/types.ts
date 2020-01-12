@@ -11,11 +11,14 @@ export type AccountIndexes = Record<string, AccountIndex>;
 
 export interface DeriveAccountRegistration {
   display?: string;
+  displayParent?: string;
   email?: string;
   image?: string;
   legal?: string;
+  parent?: AccountId;
   pgp?: string;
   riot?: string;
+  twitter?: string;
   web?: string;
   judgements: RegistrationJudgement[];
 }
