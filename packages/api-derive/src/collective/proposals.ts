@@ -3,13 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option } from '@polkadot/types';
 import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposals } from '../types';
-// import { Hash } from '@polkadot/types/interfaces';
 
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Option } from '@polkadot/types';
 
 export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposals> {
   return (): Observable<DerivedCollectiveProposals> =>
