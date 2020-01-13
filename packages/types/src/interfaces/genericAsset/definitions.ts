@@ -5,7 +5,7 @@
 export default {
   types: {
     AssetOptions: {
-      initalIssuance: 'Balance',
+      initalIssuance: 'Compact<Balance>',
       permissions: 'PermissionLatest'
     },
     Owner: {
