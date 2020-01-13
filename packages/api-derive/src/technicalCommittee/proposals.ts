@@ -7,7 +7,8 @@ import { DerivedCollectiveProposals } from '../types';
 
 import { Observable } from 'rxjs';
 import { proposals as collectiveProposals } from '../collective';
+import { memo } from '../util';
 
 export function proposals (api: ApiInterfaceRx): () => Observable<DerivedCollectiveProposals> {
-  return collectiveProposals(api, 'technicalCommittee');
+  return memo(collectiveProposals(api, 'technicalCommittee'));
 }
