@@ -10,7 +10,7 @@ export default {
       friends: 'Vec<AccountId>'
     },
     RecoveryConfig: {
-      delay_period: 'BlockNumber',
+      delayPeriod: 'BlockNumber',
       deposit: 'Balance',
       friends: 'Vec<AccountId>',
       threshold: 'u16'

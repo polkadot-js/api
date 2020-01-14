@@ -18,7 +18,7 @@ export interface ActiveRecovery extends Struct {
 /** Struct */
 export interface RecoveryConfig extends Struct {
   /** BlockNumber */
-  readonly delay_period: BlockNumber;
+  readonly delayPeriod: BlockNumber;
   /** Balance */
   readonly deposit: Balance;
   /** Vec<AccountId> */
