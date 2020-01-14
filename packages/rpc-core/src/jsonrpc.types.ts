@@ -3,7 +3,7 @@
 
 import { Observable } from 'rxjs';
 import { Option, Vec } from '@polkadot/types/codec';
-import { Bytes, H256, Metadata, StorageData, StorageKey, Text, u64 } from '@polkadot/types';
+import { Bytes, H256, Metadata, StorageData, StorageKey, Text, u32, u64 } from '@polkadot/types';
 import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
@@ -41,10 +41,10 @@ export interface RpcInterface {
   };
   state: {
     call(method: Text | string, data: Bytes | Uint8Array | string, at?: BlockHash | Uint8Array | string): Observable<Bytes>;
-    getChildKeys(childStorageKey: any, key: any, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageKey>>;
-    getChildStorage(childStorageKey: any, key: any, at?: BlockHash | Uint8Array | string): Observable<StorageData>;
-    getChildStorageHash(childStorageKey: any, key: any, at?: BlockHash | Uint8Array | string): Observable<Hash>;
-    getChildStorageSize(childStorageKey: any, key: any, at?: BlockHash | Uint8Array | string): Observable<u64>;
+    getChildKeys(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageKey>>;
+    getChildStorage(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<StorageData>;
+    getChildStorageHash(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<Hash>;
+    getChildStorageSize(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<u64>;
     getKeys(key: any, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageKey>>;
     getMetadata(at?: BlockHash | Uint8Array | string): Observable<Metadata>;
     getRuntimeVersion(at?: BlockHash | Uint8Array | string): Observable<RuntimeVersion>;
