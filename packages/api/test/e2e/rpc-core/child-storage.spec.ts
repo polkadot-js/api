@@ -103,7 +103,7 @@ describeE2E({
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
 
       rpc.state
-        .getChildKeys(storageKeys[0], '0x')
+        .getChildKeys(storageKeys[0], '0x', '0x00', '0x')
         .subscribe((keys: StorageKey[]): void => {
           expect(keys.length).toBeGreaterThanOrEqual(1);
           done();
@@ -112,10 +112,10 @@ describeE2E({
 
     it('getChildStorage(): retrieves the default value of the incrementer smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x', '0x01', '0x').toPromise();
 
       rpc.state
-        .getChildStorage(storageKeys[0], childStorageKeys[0])
+        .getChildStorage(childStorageKeys[0], '0x', '0x01', storageKeys[0])
         .subscribe((storage: StorageData): void => {
           const storageValue = hexToBn(storage.toHex(), { isLe: true });
           expect(storageValue).toBeInstanceOf(BN);
@@ -126,10 +126,10 @@ describeE2E({
 
     it('getChildStorageHash(): retrieves the Hash of the incrementer smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0].toHex(), '0x').toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x', '0x01', '0x').toPromise();
 
       rpc.state
-        .getChildStorageHash(storageKeys[0], childStorageKeys[0])
+        .getChildStorageHash(childStorageKeys[0], '0x', '0x01', storageKeys[0])
         .subscribe((storage: StorageData): void => {
           expect(isInstanceOf(storage, H256)).toBeTruthy();
           done();
@@ -138,10 +138,10 @@ describeE2E({
 
     it('getChildStorageSize(): retrieves the size of the incrementer smart contract', async (done): Promise<void> => {
       const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
-      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x', '0x01', '0x').toPromise();
 
       rpc.state
-        .getChildStorageSize(storageKeys[0], childStorageKeys[0])
+        .getChildStorageSize(childStorageKeys[0], '0x', '0x01', storageKeys[0])
         .subscribe((storage): void => {
           expect(storage.toString()).toBe('4');
           done();
