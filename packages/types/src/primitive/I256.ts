@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Registry } from '../types';
 
 import Int from '../codec/Int';
 
@@ -12,7 +12,7 @@ import Int from '../codec/Int';
  * A 256-bit signed integer
  */
 export default class I256 extends Int {
-  public constructor (value?: AnyNumber) {
-    super(value, 256);
+  constructor (registry: Registry, value?: AnyNumber) {
+    super(registry, value, 256);
   }
 }

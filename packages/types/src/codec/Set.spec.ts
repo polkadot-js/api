@@ -1,7 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from './create';
 import Set from './Set';
 
 const SET_FIELDS = {
@@ -25,8 +26,10 @@ const SET_WITHDRAW = {
 };
 
 describe('Set', (): void => {
+  const registry = new TypeRegistry();
+
   it('constructs via an string[]', (): void => {
-    const set = new Set(SET_ROLES, ['full', 'authority']);
+    const set = new Set(registry, SET_ROLES, ['full', 'authority']);
 
     expect(set.isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
@@ -36,36 +39,36 @@ describe('Set', (): void => {
 
   it('throws with invalid values', (): void => {
     expect(
-      (): Set => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
+      (): Set => new Set(registry, SET_ROLES, ['full', 'authority', 'invalid'])
     ).toThrow(/Invalid key 'invalid'/);
   });
 
   it('throws with add on invalid', (): void => {
     expect(
-      (): Set => (new Set(SET_ROLES, [])).add('invalid')
+      (): Set => (new Set(registry, SET_ROLES, [])).add('invalid')
     ).toThrow(/Invalid key 'invalid'/);
   });
 
   it('allows construction via number', (): void => {
     expect(
-      (new Set(SET_WITHDRAW, 15)).eq(['TransactionPayment', 'Transfer', 'Reserve', 'Fee'])
+      (new Set(registry, SET_WITHDRAW, 15)).eq(['TransactionPayment', 'Transfer', 'Reserve', 'Fee'])
     ).toBe(true);
   });
 
   it('does not allow invalid number', (): void => {
     expect(
-      (): Set => new Set(SET_WITHDRAW, 31)
+      (): Set => new Set(registry, SET_WITHDRAW, 31)
     ).toThrow(/Mismatch decoding '31', computed as '15'/);
   });
 
   it('hash a valid encoding', (): void => {
-    const set = new Set(SET_FIELDS, ['header', 'body', 'justification']);
+    const set = new Set(registry, SET_FIELDS, ['header', 'body', 'justification']);
 
     expect(set.toU8a()).toEqual(new Uint8Array([19]));
   });
 
   describe('utils', (): void => {
-    const set = new Set(SET_ROLES, ['full', 'authority']);
+    const set = new Set(registry, SET_ROLES, ['full', 'authority']);
 
     it('compares against string array', (): void => {
       expect(
@@ -81,7 +84,7 @@ describe('Set', (): void => {
 
     it('compares against other sets', (): void => {
       expect(
-        set.eq(new Set(SET_ROLES, ['authority', 'full']))
+        set.eq(new Set(registry, SET_ROLES, ['authority', 'full']))
       ).toBe(true);
     });
 
@@ -94,7 +97,7 @@ describe('Set', (): void => {
 
   it('has a sane toRawType representation', (): void => {
     expect(
-      new Set({ a: 1, b: 2, c: 345 }).toRawType()
+      new Set(registry, { a: 1, b: 2, c: 345 }).toRawType()
     ).toEqual(JSON.stringify({
       _set: { a: 1, b: 2, c: 345 }
     }));

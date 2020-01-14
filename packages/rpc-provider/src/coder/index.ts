@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -52,9 +52,12 @@ export default class RpcCoder {
   private checkError (error?: JsonRpcResponseBaseError): void {
     if (error) {
       const { code, data, message } = error;
+
+      // We need some sort of cut-off here since these can be very large and
+      // very nested, pick a number and trim the result display to it
       const _data = isUndefined(data)
         ? ''
-        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 22);
+        : `: ${isString(data) ? data : JSON.stringify(data)}`.substr(0, 35);
 
       throw new Error(`${code}: ${message}${_data}`);
     }

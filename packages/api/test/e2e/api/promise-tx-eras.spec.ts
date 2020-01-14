@@ -1,11 +1,11 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Header } from '@polkadot/types/interfaces';
-import { createType } from '@polkadot/types';
+import { createType, TypeRegistry } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { Signer } from '../../../src/types';
@@ -19,6 +19,7 @@ describeE2E({
     'docker-substrate-1.0'
   ]
 })('Promise e2e transactions with specified eras', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromise;
 
@@ -32,7 +33,7 @@ describeE2E({
     it('makes a transfer (specified era)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
-      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
+      const exERA = createType(registry, 'ExtrinsicEra', { current: currentHeight, period: 4 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await ex.signAndSend(keyring.charlie, {
@@ -44,7 +45,7 @@ describeE2E({
     it('makes a transfer (specified era, previous block)', async (done): Promise<void> => {
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number.toBn().subn(1);
-      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 10 });
+      const exERA = createType(registry, 'ExtrinsicEra', { current: currentHeight, period: 10 });
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       await ex.signAndSend(keyring.charlie, {
@@ -57,7 +58,7 @@ describeE2E({
       const nonce = await api.query.system.accountNonce(keyring.alice.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
-      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
+      const exERA = createType(registry, 'ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
@@ -79,14 +80,14 @@ describeE2E({
     });
 
     it('fails on a transfer with invalid time (via Signer)', async (done): Promise<void> => {
-      const signer: Signer = new SingleAccountSigner(keyring.alice);
+      const signer: Signer = new SingleAccountSigner(registry, keyring.alice);
 
       api.setSigner(signer);
 
       const nonce = await api.query.system.accountNonce(keyring.bob_stash.address);
       const signedBlock = await api.rpc.chain.getBlock();
       const currentHeight = signedBlock.block.header.number;
-      const exERA = createType('ExtrinsicEra', { current: currentHeight, period: 4 });
+      const exERA = createType(registry, 'ExtrinsicEra', { current: currentHeight, period: 4 });
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
       const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12121);

@@ -1,31 +1,52 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Vec, u32 } from '@polkadot/types';
+import { createType, Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
-type Result = [Vec<[AccountId, BlockNumber] & Codec>, Vec<AccountId>, u32, u32, SetIndex, BlockNumber, VoteIndex, SetIndex];
+function deriveElections (api: ApiInterfaceRx, candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
+  return {
+    candidates,
+    candidateCount: createType(api.registry, 'u32', candidates.length),
+    candidacyBond,
+    desiredSeats,
+    members: members.sort((a, b): number => b[1].cmp(a[1])),
+    runnersUp: runnersUp.sort((a, b): number => b[1].cmp(a[1])),
+    termDuration,
+    votingBond
+  };
+}
 
-function query (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<Result>([
-    api.query.elections.members,
-    api.query.elections.candidates,
-    api.query.elections.candidateCount,
-    api.query.elections.desiredSeats,
-    api.query.elections.nextVoterSet,
-    api.query.elections.termDuration,
-    api.query.elections.voteCount,
-    api.query.elections.voterCount
-  ]);
+function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
+  const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+
+  // NOTE We have an issue where candidates can return `null` for an empty array, hence
+  // we are not using multi queries here, so empty array is empty (instead of space-filled)
+  return combineLatest([
+    api.query[section].candidates<Vec<AccountId>>(),
+    api.query[section].members<Vec<ITuple<[AccountId, Balance]>>>(),
+    api.query[section].runnersUp<Vec<ITuple<[AccountId, Balance]>>>()
+  ]).pipe(
+    map(([candidates, members, runnersUp]): DerivedElectionsInfo => deriveElections(
+      api,
+      candidates,
+      members,
+      runnersUp,
+      api.consts[section].candidacyBond as Balance,
+      api.consts[section].desiredMembers as u32,
+      api.consts[section].termDuration as BlockNumber,
+      api.consts[section].votingBond as Balance
+    ))
+  );
 }
 
 /**
@@ -42,25 +63,5 @@ function query (api: ApiInterfaceRx): Observable<Result> {
  * ```
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
-  return (): Observable<DerivedElectionsInfo> => {
-    return query(api).pipe(
-      map(([members, candidates, candidateCount, desiredSeats, nextVoterSet, termDuration, voteCount, voterCount]): DerivedElectionsInfo => ({
-        members: members.reduce(
-          (record: Record<string, BlockNumber>, [accountId, blockNumber]): Record<string, BlockNumber> => {
-            record[accountId.toString()] = blockNumber;
-            return record;
-          },
-          {}
-        ),
-        candidates,
-        candidateCount,
-        desiredSeats,
-        nextVoterSet,
-        termDuration,
-        voteCount,
-        voterCount
-      })),
-      drr()
-    );
-  };
+  return memo((): Observable<DerivedElectionsInfo> => queryElections(api));
 }

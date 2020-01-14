@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -14,6 +14,7 @@ export { default as Data } from './Data';
 export { default as H160 } from './H160';
 export { default as H256 } from './H256';
 export { default as H512 } from './H512';
+export { default as IdentityFields } from './IdentityFields';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';
@@ -23,7 +24,6 @@ export { default as i128 } from './I128';
 export { default as i256 } from './I256';
 export { default as Null } from './Null';
 export { default as StorageData } from './StorageData';
-export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
 export { default as Type } from './Type';

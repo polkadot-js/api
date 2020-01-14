@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -18,6 +18,7 @@ export { default as deprecated } from './deprecated/definitions';
 export { default as elections } from './elections/definitions';
 export { default as genericAsset } from './genericAsset/definitions';
 export { default as grandpa } from './grandpa/definitions';
+export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as offences } from './offences/definitions';
 export { default as session } from './session/definitions';

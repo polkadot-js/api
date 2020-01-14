@@ -1,15 +1,15 @@
 [
   {
     "info": 9,
-    "type": "{ \"total_supply\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u128>\"} }<u128>\", \"balances\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }<([u8;32]), u128>>\"} }<([u8;32]), u128>\", \"allowances\": \"{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }<(AccountId, AccountId), u128>>\"} }<(AccountId, AccountId), u128>\"} }",
+    "type": "{\"total_supply\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"balances\":\"{\\\"len\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"cell\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32])\\\\\\\\\\\\\\\"}\\\\\\\"}\\\",\\\"entries\\\":\\\"{\\\\\\\"cells_key\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"allowances\":\"{\\\"len\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"cell\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"([u8;32])\\\\\\\\\\\\\\\"}\\\\\\\"}\\\",\\\"entries\\\":\\\"{\\\\\\\"cells_key\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\"}",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u128>\"} }",
+        "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "type": "{\"cell\":\"([u8;32])\"}",
             "sub": [
               {
                 "info": 10,
@@ -54,15 +54,15 @@
       },
       {
         "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }<([u8;32]), u128>>\"} }",
+        "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32])\\\"}\"}",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "type": "{\"cell\":\"([u8;32])\"}",
                 "sub": [
                   {
                     "info": 10,
@@ -107,7 +107,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "type": "{\"cells_key\":\"([u8;32])\"}",
             "sub": [
               {
                 "info": 10,
@@ -136,7 +136,7 @@
             "params": [
               {
                 "info": 3,
-                "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }",
+                "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32])\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
                 "sub": [
                   {
                     "info": 10,
@@ -144,11 +144,11 @@
                     "sub": [
                       {
                         "info": 9,
-                        "type": "{ \"key\": \"AccountId\", \"val\": \"u128\"} }",
+                        "type": "{\"key\":\"([u8;32])\",\"val\":\"u128\"}",
                         "sub": [
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -178,7 +178,7 @@
                         "params": [
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -205,7 +205,7 @@
                         "index": 0
                       }
                     ],
-                    "type": "({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)"
+                    "type": "({\"key\":\"([u8;32])\",\"val\":\"u128\"})"
                   },
                   {
                     "info": 6,
@@ -218,7 +218,7 @@
                 "params": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -251,7 +251,7 @@
         "params": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -278,15 +278,15 @@
       },
       {
         "info": 9,
-        "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }<(AccountId, AccountId), u128>>\"} }",
+        "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32])\\\"}\"}",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+            "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"cell\": \"([u8;32])\"} }",
+                "type": "{\"cell\":\"([u8;32])\"}",
                 "sub": [
                   {
                     "info": 10,
@@ -331,7 +331,7 @@
           },
           {
             "info": 9,
-            "type": "{ \"cells_key\": \"([u8;32])\"} }",
+            "type": "{\"cells_key\":\"([u8;32])\"}",
             "sub": [
               {
                 "info": 10,
@@ -360,7 +360,7 @@
             "params": [
               {
                 "info": 3,
-                "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }",
+                "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"(([u8;32]), ([u8;32]))\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
                 "sub": [
                   {
                     "info": 10,
@@ -368,15 +368,15 @@
                     "sub": [
                       {
                         "info": 9,
-                        "type": "{ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+                        "type": "{\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"}",
                         "sub": [
                           {
                             "info": 10,
-                            "type": "(AccountId, AccountId)",
+                            "type": "(([u8;32]), ([u8;32]))",
                             "sub": [
                               {
                                 "info": 10,
-                                "type": "AccountId",
+                                "type": "([u8;32])",
                                 "sub": [
                                   {
                                     "info": 12,
@@ -397,7 +397,7 @@
                               },
                               {
                                 "info": 10,
-                                "type": "AccountId",
+                                "type": "([u8;32])",
                                 "sub": [
                                   {
                                     "info": 12,
@@ -430,11 +430,11 @@
                         "params": [
                           {
                             "info": 10,
-                            "type": "(AccountId, AccountId)",
+                            "type": "(([u8;32]), ([u8;32]))",
                             "sub": [
                               {
                                 "info": 10,
-                                "type": "AccountId",
+                                "type": "([u8;32])",
                                 "sub": [
                                   {
                                     "info": 12,
@@ -455,7 +455,7 @@
                               },
                               {
                                 "info": 10,
-                                "type": "AccountId",
+                                "type": "([u8;32])",
                                 "sub": [
                                   {
                                     "info": 12,
@@ -484,7 +484,7 @@
                         "index": 0
                       }
                     ],
-                    "type": "({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)"
+                    "type": "({\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"})"
                   },
                   {
                     "info": 6,
@@ -497,11 +497,11 @@
                 "params": [
                   {
                     "info": 10,
-                    "type": "(AccountId, AccountId)",
+                    "type": "(([u8;32]), ([u8;32]))",
                     "sub": [
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -522,7 +522,7 @@
                       },
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -557,11 +557,11 @@
         "params": [
           {
             "info": 10,
-            "type": "(AccountId, AccountId)",
+            "type": "(([u8;32]), ([u8;32]))",
             "sub": [
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -582,7 +582,7 @@
               },
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -615,11 +615,11 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u128>\"} }",
+    "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"([u8;32])\"} }",
+        "type": "{\"cell\":\"([u8;32])\"}",
         "sub": [
           {
             "info": 10,
@@ -668,7 +668,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"([u8;32])\"} }",
+    "type": "{\"cell\":\"([u8;32])\"}",
     "sub": [
       {
         "info": 10,
@@ -740,15 +740,15 @@
   },
   {
     "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }<([u8;32]), u128>>\"} }",
+    "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32])\\\"}\"}",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "type": "{\"cell\":\"([u8;32])\"}",
             "sub": [
               {
                 "info": 10,
@@ -793,7 +793,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "type": "{\"cells_key\":\"([u8;32])\"}",
         "sub": [
           {
             "info": 10,
@@ -822,7 +822,7 @@
         "params": [
           {
             "info": 3,
-            "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }",
+            "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32])\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
             "sub": [
               {
                 "info": 10,
@@ -830,11 +830,11 @@
                 "sub": [
                   {
                     "info": 9,
-                    "type": "{ \"key\": \"AccountId\", \"val\": \"u128\"} }",
+                    "type": "{\"key\":\"([u8;32])\",\"val\":\"u128\"}",
                     "sub": [
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -864,7 +864,7 @@
                     "params": [
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -891,7 +891,7 @@
                     "index": 0
                   }
                 ],
-                "type": "({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)"
+                "type": "({\"key\":\"([u8;32])\",\"val\":\"u128\"})"
               },
               {
                 "info": 6,
@@ -904,7 +904,7 @@
             "params": [
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -937,7 +937,7 @@
     "params": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -964,7 +964,7 @@
   },
   {
     "info": 10,
-    "type": "AccountId",
+    "type": "([u8;32])",
     "sub": [
       {
         "info": 12,
@@ -985,11 +985,11 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+    "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"([u8;32])\"} }",
+        "type": "{\"cell\":\"([u8;32])\"}",
         "sub": [
           {
             "info": 10,
@@ -1038,7 +1038,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cell\": \"([u8;32])\"} }",
+    "type": "{\"cell\":\"([u8;32])\"}",
     "sub": [
       {
         "info": 10,
@@ -1073,7 +1073,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "type": "{\"cells_key\":\"([u8;32])\"}",
     "sub": [
       {
         "info": 10,
@@ -1102,7 +1102,7 @@
     "params": [
       {
         "info": 3,
-        "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }",
+        "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32])\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
         "sub": [
           {
             "info": 10,
@@ -1110,11 +1110,11 @@
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"key\": \"AccountId\", \"val\": \"u128\"} }",
+                "type": "{\"key\":\"([u8;32])\",\"val\":\"u128\"}",
                 "sub": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -1144,7 +1144,7 @@
                 "params": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -1171,7 +1171,7 @@
                 "index": 0
               }
             ],
-            "type": "({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)"
+            "type": "({\"key\":\"([u8;32])\",\"val\":\"u128\"})"
           },
           {
             "info": 6,
@@ -1184,7 +1184,7 @@
         "params": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -1213,7 +1213,7 @@
   },
   {
     "info": 3,
-    "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)\", \"Removed\": \"Null\"} }",
+    "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"([u8;32])\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
     "sub": [
       {
         "info": 10,
@@ -1221,11 +1221,11 @@
         "sub": [
           {
             "info": 9,
-            "type": "{ \"key\": \"AccountId\", \"val\": \"u128\"} }",
+            "type": "{\"key\":\"([u8;32])\",\"val\":\"u128\"}",
             "sub": [
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -1255,7 +1255,7 @@
             "params": [
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -1282,7 +1282,7 @@
             "index": 0
           }
         ],
-        "type": "({ \"key\": \"AccountId\", \"val\": \"u128\"} }<([u8;32]), u128>)"
+        "type": "({\"key\":\"([u8;32])\",\"val\":\"u128\"})"
       },
       {
         "info": 6,
@@ -1295,7 +1295,7 @@
     "params": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -1322,11 +1322,11 @@
   },
   {
     "info": 9,
-    "type": "{ \"key\": \"AccountId\", \"val\": \"u128\"} }",
+    "type": "{\"key\":\"([u8;32])\",\"val\":\"u128\"}",
     "sub": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -1356,7 +1356,7 @@
     "params": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -1383,15 +1383,15 @@
   },
   {
     "info": 9,
-    "type": "{ \"len\": \"{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }<u32>\", \"entries\": \"{ \"cells_key\": \"([u8;32])\"} }<{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }<(AccountId, AccountId), u128>>\"} }",
+    "type": "{\"len\":\"{\\\"cell\\\":\\\"{\\\\\\\"cell\\\\\\\":\\\\\\\"([u8;32])\\\\\\\"}\\\"}\",\"entries\":\"{\\\"cells_key\\\":\\\"([u8;32])\\\"}\"}",
     "sub": [
       {
         "info": 9,
-        "type": "{ \"cell\": \"{ \"cell\": \"([u8;32])\"} }<u32>\"} }",
+        "type": "{\"cell\":\"{\\\"cell\\\":\\\"([u8;32])\\\"}\"}",
         "sub": [
           {
             "info": 9,
-            "type": "{ \"cell\": \"([u8;32])\"} }",
+            "type": "{\"cell\":\"([u8;32])\"}",
             "sub": [
               {
                 "info": 10,
@@ -1436,7 +1436,7 @@
       },
       {
         "info": 9,
-        "type": "{ \"cells_key\": \"([u8;32])\"} }",
+        "type": "{\"cells_key\":\"([u8;32])\"}",
         "sub": [
           {
             "info": 10,
@@ -1465,7 +1465,7 @@
         "params": [
           {
             "info": 3,
-            "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }",
+            "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"(([u8;32]), ([u8;32]))\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
             "sub": [
               {
                 "info": 10,
@@ -1473,15 +1473,15 @@
                 "sub": [
                   {
                     "info": 9,
-                    "type": "{ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+                    "type": "{\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"}",
                     "sub": [
                       {
                         "info": 10,
-                        "type": "(AccountId, AccountId)",
+                        "type": "(([u8;32]), ([u8;32]))",
                         "sub": [
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -1502,7 +1502,7 @@
                           },
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -1535,11 +1535,11 @@
                     "params": [
                       {
                         "info": 10,
-                        "type": "(AccountId, AccountId)",
+                        "type": "(([u8;32]), ([u8;32]))",
                         "sub": [
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -1560,7 +1560,7 @@
                           },
                           {
                             "info": 10,
-                            "type": "AccountId",
+                            "type": "([u8;32])",
                             "sub": [
                               {
                                 "info": 12,
@@ -1589,7 +1589,7 @@
                     "index": 0
                   }
                 ],
-                "type": "({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)"
+                "type": "({\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"})"
               },
               {
                 "info": 6,
@@ -1602,11 +1602,11 @@
             "params": [
               {
                 "info": 10,
-                "type": "(AccountId, AccountId)",
+                "type": "(([u8;32]), ([u8;32]))",
                 "sub": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -1627,7 +1627,7 @@
                   },
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -1662,11 +1662,11 @@
     "params": [
       {
         "info": 10,
-        "type": "(AccountId, AccountId)",
+        "type": "(([u8;32]), ([u8;32]))",
         "sub": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -1687,7 +1687,7 @@
           },
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -1716,11 +1716,11 @@
   },
   {
     "info": 10,
-    "type": "(AccountId, AccountId)",
+    "type": "(([u8;32]), ([u8;32]))",
     "sub": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -1741,7 +1741,7 @@
       },
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,
@@ -1764,7 +1764,7 @@
   },
   {
     "info": 9,
-    "type": "{ \"cells_key\": \"([u8;32])\"} }",
+    "type": "{\"cells_key\":\"([u8;32])\"}",
     "sub": [
       {
         "info": 10,
@@ -1793,7 +1793,7 @@
     "params": [
       {
         "info": 3,
-        "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }",
+        "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"(([u8;32]), ([u8;32]))\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
         "sub": [
           {
             "info": 10,
@@ -1801,15 +1801,15 @@
             "sub": [
               {
                 "info": 9,
-                "type": "{ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+                "type": "{\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"}",
                 "sub": [
                   {
                     "info": 10,
-                    "type": "(AccountId, AccountId)",
+                    "type": "(([u8;32]), ([u8;32]))",
                     "sub": [
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -1830,7 +1830,7 @@
                       },
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -1863,11 +1863,11 @@
                 "params": [
                   {
                     "info": 10,
-                    "type": "(AccountId, AccountId)",
+                    "type": "(([u8;32]), ([u8;32]))",
                     "sub": [
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -1888,7 +1888,7 @@
                       },
                       {
                         "info": 10,
-                        "type": "AccountId",
+                        "type": "([u8;32])",
                         "sub": [
                           {
                             "info": 12,
@@ -1917,7 +1917,7 @@
                 "index": 0
               }
             ],
-            "type": "({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)"
+            "type": "({\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"})"
           },
           {
             "info": 6,
@@ -1930,11 +1930,11 @@
         "params": [
           {
             "info": 10,
-            "type": "(AccountId, AccountId)",
+            "type": "(([u8;32]), ([u8;32]))",
             "sub": [
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -1955,7 +1955,7 @@
               },
               {
                 "info": 10,
-                "type": "AccountId",
+                "type": "([u8;32])",
                 "sub": [
                   {
                     "info": 12,
@@ -1986,7 +1986,7 @@
   },
   {
     "info": 3,
-    "type": "{ \"_enum\": { \"Occupied\": \"({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)\", \"Removed\": \"Null\"} }",
+    "type": "{\"_enum\":{\"Occupied\":\"({\\\"key\\\":\\\"(([u8;32]), ([u8;32]))\\\",\\\"val\\\":\\\"u128\\\"})\",\"Removed\":\"Null\"}}",
     "sub": [
       {
         "info": 10,
@@ -1994,15 +1994,15 @@
         "sub": [
           {
             "info": 9,
-            "type": "{ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+            "type": "{\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"}",
             "sub": [
               {
                 "info": 10,
-                "type": "(AccountId, AccountId)",
+                "type": "(([u8;32]), ([u8;32]))",
                 "sub": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -2023,7 +2023,7 @@
                   },
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -2056,11 +2056,11 @@
             "params": [
               {
                 "info": 10,
-                "type": "(AccountId, AccountId)",
+                "type": "(([u8;32]), ([u8;32]))",
                 "sub": [
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -2081,7 +2081,7 @@
                   },
                   {
                     "info": 10,
-                    "type": "AccountId",
+                    "type": "([u8;32])",
                     "sub": [
                       {
                         "info": 12,
@@ -2110,7 +2110,7 @@
             "index": 0
           }
         ],
-        "type": "({ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }<(AccountId, AccountId), u128>)"
+        "type": "({\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"})"
       },
       {
         "info": 6,
@@ -2123,11 +2123,11 @@
     "params": [
       {
         "info": 10,
-        "type": "(AccountId, AccountId)",
+        "type": "(([u8;32]), ([u8;32]))",
         "sub": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2148,7 +2148,7 @@
           },
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2177,15 +2177,15 @@
   },
   {
     "info": 9,
-    "type": "{ \"key\": \"(AccountId, AccountId)\", \"val\": \"u128\"} }",
+    "type": "{\"key\":\"(([u8;32]), ([u8;32]))\",\"val\":\"u128\"}",
     "sub": [
       {
         "info": 10,
-        "type": "(AccountId, AccountId)",
+        "type": "(([u8;32]), ([u8;32]))",
         "sub": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2206,7 +2206,7 @@
           },
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2239,11 +2239,11 @@
     "params": [
       {
         "info": 10,
-        "type": "(AccountId, AccountId)",
+        "type": "(([u8;32]), ([u8;32]))",
         "sub": [
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2264,7 +2264,7 @@
           },
           {
             "info": 10,
-            "type": "AccountId",
+            "type": "([u8;32])",
             "sub": [
               {
                 "info": 12,
@@ -2300,7 +2300,7 @@
     "type": "Option<([u8;32])>",
     "sub": {
       "info": 10,
-      "type": "AccountId",
+      "type": "([u8;32])",
       "sub": [
         {
           "info": 12,
@@ -2323,7 +2323,7 @@
     "params": [
       {
         "info": 10,
-        "type": "AccountId",
+        "type": "([u8;32])",
         "sub": [
           {
             "info": 12,

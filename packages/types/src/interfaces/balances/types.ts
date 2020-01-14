@@ -36,4 +36,6 @@ export interface WithdrawReasons extends Set {
   readonly isReserve: boolean;
   /** boolean */
   readonly isFee: boolean;
+  /** boolean */
+  readonly isTip: boolean;
 }

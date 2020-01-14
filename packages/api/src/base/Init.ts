@@ -1,62 +1,29 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
-import { ApiBase, ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
-import { GenericCall, GenericEvent, Metadata, u32 as U32 } from '@polkadot/types';
-import { LATEST_VERSION as EXTRINSIC_LATEST_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
+import DecoratedMeta from '@polkadot/metadata/Decorated';
+import { Metadata, u32 as U32 } from '@polkadot/types';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
+import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
-const DEFAULT_SS58 = new U32(addressDefaults.prefix);
-
-// these are override types for polkadot chains
-// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-// implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (3 keys in substrate vs 4 in Polkadot).
-const TYPES_FOR_POLKADOT: Record<string, string> = {
-  Keys: 'SessionKeysPolkadot'
-};
-
-// NOTE this is for support of old, e.g. Alex, old metadata and BlockNumber/Index
-// This is detected based on metadata version, since this is what we have up-front
-const TYPES_SUBSTRATE_1 = {
-  BlockNumber: 'u64',
-  Index: 'u64',
-  EventRecord: 'EventRecord0to76',
-  ValidatorPrefs: 'ValidatorPrefs0to145'
-};
-
-// Type overrides based on specific nodes
-const TYPES_CHAIN: Record<string, Record<string, string>> = {
-  // TODO Remove this once it is not needed, i.e. upgraded
-  'Kusama CC1': {
-    RawBabePreDigest: 'RawBabePreDigest0to159'
-  }
-};
-
-// Type overrides for specific spec types as given in runtimeVersion
-const TYPES_SPEC: Record<string, Record<string, string>> = {
-  kusama: TYPES_FOR_POLKADOT,
-  polkadot: TYPES_FOR_POLKADOT
-};
 
 const l = logger('api/decorator');
 
-export default abstract class Init<ApiType> extends Decorate<ApiType> {
+export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
 
-  public constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
     if (!this.hasSubscriptions) {
@@ -119,23 +86,16 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
-    const { typesChain = {}, typesSpec = {} } = this._options;
+    const { typesChain, typesSpec } = this._options;
     const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.chain.getBlockHash(0).toPromise(),
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise()
     ]);
-    const specName = runtimeVersion.specName.toString();
-    const chainName = chain.toString();
 
     // based on the node spec & chain, inject specific type overrides
-    this.registerTypes({
-      ...(TYPES_SPEC[specName] || {}),
-      ...(TYPES_CHAIN[chainName] || {}),
-      ...(typesSpec[specName] || {}),
-      ...(typesChain[chainName] || {})
-    });
+    this.registerTypes(getChainTypes(chain, runtimeVersion, typesChain, typesSpec));
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
@@ -143,7 +103,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
-      ? new Metadata(optMetadata[metadataKey])
+      ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
 
     // set our chain version & genesisHash as returned
@@ -151,7 +111,7 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
     this._runtimeVersion = runtimeVersion;
 
     // set the global ss58Format as detected by the chain
-    setSS58Format(chainProps.ss58Format.unwrapOr(DEFAULT_SS58).toNumber());
+    setSS58Format(chainProps.ss58Format.unwrapOr(new U32(this.registry, addressDefaults.prefix)).toNumber());
 
     // get unique types & validate
     metadata.getUniqTypes(false);
@@ -160,42 +120,34 @@ export default abstract class Init<ApiType> extends Decorate<ApiType> {
   }
 
   private async initFromMeta (metadata: Metadata): Promise<boolean> {
-    // HACK-ish Old EventRecord, BlockNumber & Indexes for e.g. Alex, based on metadata version
-    //   v3 = Alex
-    //   v4 = v1.0 branch
-    if (metadata.version <= 4) {
-      this.registerTypes(TYPES_SUBSTRATE_1);
-    }
+    // inject types based on metadata, if applicable
+    this.registerTypes(getMetadataTypes(metadata.version));
 
-    const extrinsics = extrinsicsFromMeta(metadata);
-    const storage = storageFromMeta(metadata);
-    const constants = constantsFromMeta(metadata);
+    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      GenericEvent.injectMetadata(metadata);
-      GenericCall.injectMetadata(metadata);
-
       // detect the extrinsic version in-use based on the last block
       const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 
       // If we haven't sync-ed to 1 yes, this won't have any values
-      this._extrinsicType = firstTx ? firstTx.type : EXTRINSIC_LATEST_VERSION;
+      this._extrinsicType = firstTx ? firstTx.type : LATEST_EXTRINSIC_VERSION;
     }
 
-    this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
-    this._query = this.decorateStorage(storage, this.decorateMethod);
-    this._consts = constants;
+    this._extrinsics = this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod);
+    this._query = this.decorateStorage(decoratedMeta.query, this.decorateMethod);
+    this._consts = decoratedMeta.consts;
 
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
-    this._rx.tx = this.decorateExtrinsics(extrinsics, this.rxDecorateMethod);
-    this._rx.query = this.decorateStorage(storage, this.rxDecorateMethod);
-    this._rx.consts = constants;
+    this._rx.tx = this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod);
+    this._rx.query = this.decorateStorage(decoratedMeta.query, this.rxDecorateMethod);
+    this._rx.consts = decoratedMeta.consts;
 
     // derive is last, since it uses the decorated rx
-    this._derive = this.decorateDerive(this._rx as ApiInterfaceRx, this.decorateMethod);
+    this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
+    this._derive = this.decorateDerive(this.decorateMethod);
 
     return true;
   }

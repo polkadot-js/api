@@ -1,38 +1,40 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import fs from 'fs';
 
 import interfaces from '../../../../type-jsonrpc/src';
+import * as definitions from '../../interfaces/definitions';
+import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
-// Generate `packages/types-jsonrpc/src/jsonrpc.types.ts`
+// Generate `packages/rpc-core/jsonrpc.types.ts`
 export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
-  // Inject all types so that types-jsonrpc can use them
-  require('../../injector');
-
-  const imports = createImports();
+  const registry = new TypeRegistry();
+  const imports = createImports({ '@polkadot/types/interfaces': definitions });
 
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
       const method = interfaces[section].methods[key];
 
-      setImports(imports, [method.type]);
+      setImports(definitions, imports, [method.type]);
 
       // FIXME These 2 are too hard to type, I give up
-      if (method.method === 'getStorage') {
-        setImports(imports, ['Codec']);
-        return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
-      } else if (method.method === 'subscribeStorage') {
-        return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+      if (section === 'state') {
+        if (method.method === 'getStorage') {
+          setImports(definitions, imports, ['Codec']);
+          return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
+        } else if (method.method === 'subscribeStorage') {
+          return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+        }
       }
 
       const args = method.params.map((param): string => {
-        const similarTypes = getSimilarTypes(param.type, imports);
-        setImports(imports, [param.type, ...similarTypes]);
+        const similarTypes = getSimilarTypes(definitions, registry, param.type, imports);
+        setImports(definitions, imports, [param.type, ...similarTypes]);
 
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
       });

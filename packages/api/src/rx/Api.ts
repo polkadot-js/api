@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
-function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
@@ -160,7 +160,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(

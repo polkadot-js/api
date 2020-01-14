@@ -1,19 +1,18 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import { ExtrinsicStatus } from './types';
 
-import { createType } from '../../codec/create';
+import { createType, TypeRegistry } from '../../codec/create';
 import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
+  const registry = new TypeRegistry();
   let status: ExtrinsicStatus;
 
   beforeEach((): void => {
-    status = createType('ExtrinsicStatus', rpc.params.result);
+    status = createType(registry, 'ExtrinsicStatus', rpc.params.result);
   });
 
   it('has the correct type', (): void => {

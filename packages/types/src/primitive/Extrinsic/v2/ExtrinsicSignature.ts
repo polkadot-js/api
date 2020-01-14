@@ -1,9 +1,9 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
 import { createType } from '../../../codec/create';
@@ -13,13 +13,13 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignature
+ * @name ExtrinsicSignatureV2
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super({
+  constructor (registry: Registry, value: ExtrinsicSignatureV2 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
       signer: 'Address',
       signature: 'Signature',
       era: 'ExtrinsicEra',
@@ -106,18 +106,17 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('Signature', signature),
-      new ExtrinsicPayloadV2(payload)
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'Signature', signature),
+      new ExtrinsicPayloadV2(this.registry, payload)
     );
   }
 
   /**
-   * @description Generate a payload and applies the signature from a keypair
+   * @description Creates a payload from the supplied options
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayloadV2({
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, tip }: SignatureOptions): ExtrinsicPayloadV2 {
+    return new ExtrinsicPayloadV2(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
@@ -126,7 +125,26 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
       specVersion: 0, // unused for v2
       tip: tip || 0
     });
-    const signature = createType('Signature', payload.sign(account));
+  }
+
+  /**
+   * @description Generate a payload and applies the signature from a keypair
+   */
+  public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', account.publicKey);
+    const payload = this.createPayload(method, options);
+    const signature = createType(this.registry, 'Signature', payload.sign(account));
+
+    return this.injectSignature(signer, signature, payload);
+  }
+
+  /**
+   * @description Generate a payload and applies a fake signature
+   */
+  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', address);
+    const payload = this.createPayload(method, options);
+    const signature = createType(this.registry, 'Signature', new Uint8Array(64).fill(0x42));
 
     return this.injectSignature(signer, signature, payload);
   }

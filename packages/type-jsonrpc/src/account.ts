@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/jsonrpc authors & contributors
+// Copyright 2017-2020 @polkadot/jsonrpc authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,7 +21,7 @@ const nextIndex: RpcMethodOpt = {
 const section = 'account';
 
 /**
- * @summary Calls to retrieve system info.
+ * @summary Calls to account-specific information.
  */
 export default {
   isDeprecated: false,

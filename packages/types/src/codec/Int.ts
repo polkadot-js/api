@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Registry } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
@@ -19,15 +19,8 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class Int extends AbstractInt {
-  public constructor (
-    value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(
-      true,
-      value,
-      bitLength,
-      isHexJson
-    );
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
+    super(registry, true, value, bitLength, isHexJson);
   }
 
   /**

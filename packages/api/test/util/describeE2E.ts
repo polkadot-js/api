@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -52,7 +52,7 @@ export function describeE2E (options?: Options): (message: string, inner: (wsUrl
     const wsEndpoints = getWsEndpoints(options);
     if (!wsEndpoints.length) {
       describe('Empty test Suite', (): void => {
-        it('No tests found for passed endpoints', (): void => {});
+        it('No tests found for passed endpoints', (): void => undefined);
       });
     } else {
       wsEndpoints.map((wsName): [string, string] => [wsName, WS_ENDPOINTS[wsName]])

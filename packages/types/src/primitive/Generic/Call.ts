@@ -1,17 +1,15 @@
-// Copyright 2017-2019 @polkadot/api-metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, CallFunction, Codec, IMethod } from '../../types';
+import { AnyU8a, ArgsDef, Codec, IMethod, Registry } from '../../types';
 
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import { assert, isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../../codec/create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
-import Metadata from '../../Metadata';
 
 interface DecodeMethodInput {
   args: any;
@@ -23,21 +21,14 @@ interface DecodedMethod extends DecodeMethodInput {
   meta: FunctionMetadataLatest;
 }
 
-const FN_UNKNOWN: Partial<CallFunction> = {
-  method: 'unknown',
-  section: 'unknown'
-};
-
-const injected: Record<string, CallFunction> = {};
-
 /**
  * @name CallIndex
  * @description
  * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
  */
 export class CallIndex extends U8aFixed {
-  public constructor (value?: AnyU8a) {
-    super(value, 16);
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, value, 16);
   }
 }
 
@@ -50,10 +41,10 @@ export class CallIndex extends U8aFixed {
 export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
-  public constructor (value: any, meta?: FunctionMetadataLatest) {
-    const decoded = Call.decodeCall(value, meta);
+  constructor (registry: Registry, value: any, meta?: FunctionMetadataLatest) {
+    const decoded = Call.decodeCall(registry, value, meta);
 
-    super({
+    super(registry, {
       callIndex: CallIndex,
       args: Struct.with(decoded.argsDef)
     }, decoded);
@@ -71,17 +62,17 @@ export default class Call extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeCall (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
-      return Call.decodeCallViaU8a(u8aToU8a(value), _meta);
+      return Call.decodeCallViaU8a(registry, u8aToU8a(value), _meta);
     } else if (isObject(value) && value.callIndex && value.args) {
-      return Call.decodeCallViaObject(value, _meta);
+      return Call.decodeCallViaObject(registry, value, _meta);
     }
 
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
-  private static decodeCallViaObject (value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+  private static decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
     // we only pass args/methodsIndex out
     const { args, callIndex } = value;
 
@@ -91,26 +82,28 @@ export default class Call extends Struct implements IMethod {
       : callIndex;
 
     // Find metadata with callIndex
-    const meta = _meta || Call.findFunction(lookupIndex).meta;
+    const meta = _meta || registry.findMetaCall(lookupIndex).meta;
 
     return {
       args,
-      argsDef: Call.getArgsDef(meta),
+      argsDef: Call.getArgsDef(registry, meta),
       meta,
       callIndex
     };
   }
 
-  private static decodeCallViaU8a (value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
-    // The first 2 bytes are the callIndex
-    const callIndex = value.subarray(0, 2);
+  private static decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+    // We need 2 bytes for the callIndex
+    const callIndex = new Uint8Array(2);
+
+    callIndex.set(value.subarray(0, 2), 0);
 
     // Find metadata with callIndex
-    const meta = _meta || Call.findFunction(callIndex).meta;
+    const meta = _meta || registry.findMetaCall(callIndex).meta;
 
     return {
       args: value.subarray(2),
-      argsDef: Call.getArgsDef(meta),
+      argsDef: Call.getArgsDef(registry, meta),
       callIndex,
       meta
     };
@@ -126,44 +119,19 @@ export default class Call extends Struct implements IMethod {
       : [];
   }
 
-  // We could only inject the meta (see injectMethods below) and then do a
-  // meta-only lookup via
-  //
-  //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
-  //
-  // As a convenience helper though, we return the full constructor function,
-  // which includes the meta, name, section & actual interface for calling
-  public static findFunction (callIndex: Uint8Array): CallFunction {
-    assert(Object.keys(injected).length > 0, 'Calling Call.findFunction before extrinsics have been injected.');
-
-    return injected[callIndex.toString()] || FN_UNKNOWN;
-  }
-
   /**
    * Get a mapping of `argument name -> argument type` for the function, from
    * its metadata.
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: FunctionMetadataLatest): ArgsDef {
+  private static getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-      const Type = getTypeClass(
-        getTypeDef(type.toString())
-      );
+      const Type = getTypeClass(registry, getTypeDef(type.toString()));
       result[name.toString()] = Type;
 
       return result;
-    }, {} as unknown as ArgsDef);
-  }
-
-  public static injectMetadata (metadata: Metadata): void {
-    const extrinsics = extrinsicsFromMeta(metadata);
-
-    Object.values(extrinsics).forEach((methods): void =>
-      Object.values(methods).forEach((method): void => {
-        injected[method.callIndex.toString()] = method;
-      })
-    );
+    }, {} as ArgsDef);
   }
 
   /**
@@ -178,7 +146,7 @@ export default class Call extends Struct implements IMethod {
    * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
-    return Call.getArgsDef(this.meta);
+    return Call.getArgsDef(this.registry, this.meta);
   }
 
   /**
@@ -215,14 +183,14 @@ export default class Call extends Struct implements IMethod {
    * @description Returns the name of the method
    */
   public get methodName (): string {
-    return Call.findFunction(this.callIndex).method;
+    return this.registry.findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get sectionName (): string {
-    return Call.findFunction(this.callIndex).section;
+    return this.registry.findMetaCall(this.callIndex).section;
   }
 
   /**

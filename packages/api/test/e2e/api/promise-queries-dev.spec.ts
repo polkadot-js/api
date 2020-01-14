@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { DerivedBalances } from '@polkadot/api-derive/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Option, u32, createType } from '@polkadot/types';
+import { Option, u32, createType, TypeRegistry } from '@polkadot/types';
 
 import ApiPromise from '../../../src/promise';
 import { describeE2E } from '../../util';
@@ -23,6 +23,7 @@ describeE2E({
     'remote-substrate-1.0'
   ]
 })('Promise e2e development queries', (wsUrl: string): void => {
+  const registry = new TypeRegistry();
   let api: ApiPromise;
 
   beforeEach(async (done): Promise<void> => {
@@ -159,7 +160,7 @@ describeE2E({
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const key = api.query.balances.freeBalance.key(keyring.alice_stash.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
-      const balanceRPC = createType('Balance', balanceData.unwrapOr(undefined));
+      const balanceRPC = createType(registry, 'Balance', balanceData.unwrapOr(undefined));
 
       const balance = await api.query.balances.freeBalance(keyring.alice_stash.address);
 

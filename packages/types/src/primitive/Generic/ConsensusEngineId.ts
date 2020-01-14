@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -60,14 +60,14 @@ export default class ConsensusEngineId extends U32 {
 
   private getAuraAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
     return sessionValidators[
-      createType('RawAuraPreDigest', bytes.toU8a(true))
+      createType(this.registry, 'RawAuraPreDigest', bytes.toU8a(true))
         .slotNumber
         .modn(sessionValidators.length)
     ];
   }
 
   private getBabeAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId {
-    const digest = createType('RawBabePreDigestCompat', bytes.toU8a(true));
+    const digest = createType(this.registry, 'RawBabePreDigestCompat', bytes.toU8a(true));
 
     return sessionValidators[
       (digest.value as U32).toNumber()

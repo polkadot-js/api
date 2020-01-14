@@ -1,12 +1,13 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../../injector';
-
+import { TypeRegistry } from '../../../codec';
 import ExtrinsicSignature from './ExtrinsicSignature';
 
 describe('ExtrinsicSignatureV3', (): void => {
+  const registry = new TypeRegistry();
+
   it('encodes to a sane Uint8Array', (): void => {
     const u8a = new Uint8Array([
       // signer as an AccountIndex
@@ -23,7 +24,7 @@ describe('ExtrinsicSignatureV3', (): void => {
     ]);
 
     expect(
-      new ExtrinsicSignature(u8a, { isSigned: true }).toU8a()
+      new ExtrinsicSignature(registry, u8a, { isSigned: true }).toU8a()
     ).toEqual(u8a);
   });
 });

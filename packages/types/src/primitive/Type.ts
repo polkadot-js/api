@@ -1,6 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+import { Registry } from '../types';
 
 import sanitize from '../codec/create/sanitize';
 import Text from './Text';
@@ -10,22 +12,18 @@ import Text from './Text';
  * @description
  * This is a extended version of String, specifically to handle types. Here we rely fully
  * on what string provides us, however we also adjust the types received from the runtime,
- * i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
+ * i.e. we remove the `T::` prefixes found in some types for consistency across implementation.
  */
 export default class Type extends Text {
   private _originalLength: number;
 
-  public constructor (value: Text | Uint8Array | string = '') {
+  constructor (registry: Registry, value: Text | Uint8Array | string = '') {
     // First decode it with Text
-    const textValue = new Text(value);
+    const textValue = new Text(registry, value);
 
     // Then cleanup the textValue to get the @polkadot/types type, and pass the
     // sanitized value to constructor
-    super(
-      sanitize(
-        textValue.toString()
-      )
-    );
+    super(registry, sanitize(textValue.toString()));
 
     this._originalLength = textValue.encodedLength;
   }

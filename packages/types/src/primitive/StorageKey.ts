@@ -1,17 +1,18 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
+import { AnyU8a, Registry } from '../types';
+
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { StorageEntryMetadata as MetaV8 } from '../Metadata/v8/Storage';
-import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  headKey?: Uint8Array;
-  meta: MetaV8;
+  iterKey?: Uint8Array;
+  meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
   section: string;
@@ -29,6 +30,25 @@ interface StorageKeyExtra {
   section: string;
 }
 
+// we unwrap the type here, turning into an output usable for createType
+export function unwrapStorageType (type: StorageEntryTypeLatest): string {
+  if (type.isPlain) {
+    return type.asPlain.toString();
+  } else if (type.isDoubleMap) {
+    return type.asDoubleMap.value.toString();
+  }
+
+  const map = type.asMap;
+
+  if (map.kind.isLinkedMap) {
+    return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
+  } else if (map.kind.isPrefixedMap) {
+    // We are not 100% sure here yet if we are doing something specific or not
+  }
+
+  return map.value.toString();
+}
+
 /**
  * @name StorageKey
  * @description
@@ -36,7 +56,7 @@ interface StorageKeyExtra {
  * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta?: MetaV8;
+  private _meta?: StorageEntryMetadataLatest;
 
   private _method?: string;
 
@@ -44,10 +64,10 @@ export default class StorageKey extends Bytes {
 
   private _section?: string;
 
-  public constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
-    super(key);
+    super(registry, key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
     this._method = override.method || method;
@@ -86,7 +106,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV8 | undefined {
+  public static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): StorageEntryMetadataLatest | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -104,11 +124,11 @@ export default class StorageKey extends Bytes {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
-      return value.meta.type.toString();
+      return unwrapStorageType(value.meta.type);
     } else if (Array.isArray(value)) {
       const [fn] = value;
 
-      return fn.meta.type.toString();
+      return unwrapStorageType(fn.meta.type);
     }
 
     return undefined;
@@ -117,7 +137,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `undefined` when not available
    */
-  public get meta (): MetaV8 | undefined {
+  public get meta (): StorageEntryMetadataLatest | undefined {
     return this._meta;
   }
 
@@ -140,5 +160,23 @@ export default class StorageKey extends Bytes {
    */
   public get section (): string | undefined {
     return this._section;
+  }
+
+  /**
+   * @description Sets the meta for this key
+   */
+  public setMeta (meta?: StorageEntryMetadataLatest): this {
+    this._meta = meta;
+
+    return this;
+  }
+
+  /**
+   * @description Sets the output type for this storage key
+   */
+  public setOutputType (outputType?: string): this {
+    this._outputType = outputType;
+
+    return this;
   }
 }

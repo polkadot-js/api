@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/jsonrpc authors & contributors
+// Copyright 2017-2020 @polkadot/jsonrpc authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -14,14 +14,14 @@ const call: RpcMethodOpt = {
   params: [
     createParam('method', 'Text'),
     createParam('data', 'Bytes'),
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'Bytes'
 };
 
 const KEY_QUERY_PARAMS = [
   createParam('key', 'StorageKey'),
-  createParam('block', 'Hash', { isOptional: true })
+  createParam('at', 'BlockHash', { isOptional: true })
 ];
 
 const getKeys: RpcMethodOpt = {
@@ -50,8 +50,10 @@ const getStorageSize: RpcMethodOpt = {
 
 const CHILD_QUERY_PARAMS = [
   createParam('childStorageKey', 'StorageKey'),
+  createParam('childDefinition', 'StorageKey'),
+  createParam('childType', 'u32'),
   createParam('key', 'StorageKey'),
-  createParam('block', 'Hash', { isOptional: true })
+  createParam('at', 'BlockHash', { isOptional: true })
 ];
 
 const getChildKeys: RpcMethodOpt = {
@@ -81,7 +83,7 @@ const getChildStorageSize: RpcMethodOpt = {
 const getMetadata: RpcMethodOpt = {
   description: 'Returns the runtime metadata',
   params: [
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   // This is not part of InterfaceTypes
   type: 'Metadata' as any
@@ -90,7 +92,7 @@ const getMetadata: RpcMethodOpt = {
 const getRuntimeVersion: RpcMethodOpt = {
   description: 'Get the runtime version',
   params: [
-    createParam('hash', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'RuntimeVersion'
 };
@@ -100,7 +102,7 @@ const queryStorage: RpcMethodOpt = {
   params: [
     createParam('keys', 'Vec<StorageKey>'),
     createParam('startBlock', 'Hash'),
-    createParam('block', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'Vec<StorageChangeSet>'
 };

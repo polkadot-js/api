@@ -1,9 +1,10 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AuthorityId } from '../../interfaces/consensus';
 import { Consensus, Hash, PreRuntime, Seal, SealV0 } from '../../interfaces/runtime';
+import { Registry } from '../../types';
 
 import { assert } from '@polkadot/util';
 
@@ -18,8 +19,8 @@ import Bytes from '../Bytes';
  * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends Enum {
-  public constructor (value: any) {
-    super({
+  constructor (registry: Registry, value: any) {
+    super(registry, {
       Other: 'Bytes', // 0
       AuthoritiesChange: 'Vec<AuthorityId>', // 1
       ChangesTrieRoot: 'Hash', // 2
@@ -163,8 +164,8 @@ export class DigestItem extends Enum {
  * A [[Header]] Digest
  */
 export default class Digest extends Struct {
-  public constructor (value: any) {
-    super({
+  constructor (registry: Registry, value: any) {
+    super(registry, {
       logs: Vec.with(DigestItem)
     }, value);
   }

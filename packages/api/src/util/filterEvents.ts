@@ -1,14 +1,14 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
-import { U8a } from '@polkadot/types';
+import { Raw } from '@polkadot/types';
 
 import l from './logging';
 
-export default function filterEvents (extHash: U8a, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[]): EventRecord[] | undefined {
+export default function filterEvents (extHash: Raw, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[]): EventRecord[] | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
   const allHashes = extrinsics.map((ext): string => ext.hash.toHex());

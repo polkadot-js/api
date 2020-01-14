@@ -94,6 +94,7 @@ Some of the users of the API (let us know if you are missing from the list), inc
 - [Polkadot-JS UI](https://github.com/polkadot-js/apps) A user-interface that allows you to make transactions, query the network or participate in actions on the network such as referendums and staking
 - [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in https://matrix.to/#/#polkadot-network-status:matrix.org
 - [Polkawallet.io](https://polkawallet.io) and [Polkawallet (Github)](https://github.com/polkawallet-io/polkawallet-RN/) A mobile wallet for the Polkadot network to manage funds and make transactions, available on both Androind and iOS
+- [PolkaStats.io](https://polkastats.io), [PolkaStats frontend GitHub repository](https://github.com/Colm3na/polkastats-v2) and [PolkaStats backend GitHub repository](https://github.com/Colm3na/polkastats-backend-v2) Polkadot network statistics (currently Kusama and Alexander). Shows network information and staking details from validators and intentions.
 
 ## Classes
 

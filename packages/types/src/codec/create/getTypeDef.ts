@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -73,7 +73,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
   // as a first round, only u8 via u8aFixed, we can add more support
   assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-  value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
+  value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
 
   return value;
 }
@@ -108,8 +108,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [
+  ['BTreeSet<', '>', TypeDefInfo.BTreeSet],
   ['Compact<', '>', TypeDefInfo.Compact],
-  ['DoubleMap<', '>', TypeDefInfo.DoubleMap],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
   ['Vec<', '>', TypeDefInfo.Vec]

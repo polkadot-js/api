@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/jsonrpc authors & contributors
+// Copyright 2017-2020 @polkadot/jsonrpc authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -14,9 +14,20 @@ const call: RpcMethodOpt = {
   isOptional: true,
   params: [
     createParam('callRequest', 'ContractCallRequest'),
-    createParam('at', 'Hash', { isOptional: true })
+    createParam('at', 'BlockHash', { isOptional: true })
   ],
   type: 'ContractExecResult'
+};
+
+const getStorage: RpcMethodOpt = {
+  description: 'Returns the value under a specified storage key in a contract',
+  isOptional: true,
+  params: [
+    createParam('address', 'AccountId'),
+    createParam('key', 'H256'),
+    createParam('at', 'BlockHash', { isOptional: true })
+  ],
+  type: 'Option<Bytes>'
 };
 
 const section = 'contracts';
@@ -30,6 +41,7 @@ export default {
   description: '(Optional) Methods that performs actions on contracts',
   section,
   methods: {
-    call: createMethod(section, 'call', call)
+    call: createMethod(section, 'call', call),
+    getStorage: createMethod(section, 'getStorage', getStorage)
   }
 };

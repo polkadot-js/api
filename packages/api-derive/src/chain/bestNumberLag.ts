@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,9 +9,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
-import { bestNumber } from './bestNumber';
-import { bestNumberFinalized } from './bestNumberFinalized';
+import { memo } from '../util';
 
 /**
  * @name bestNumberLag
@@ -27,14 +25,13 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  * ```
  */
 export function bestNumberLag (api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return (): Observable<BlockNumber> =>
+  return memo((): Observable<BlockNumber> =>
     combineLatest([
-      bestNumber(api)(),
-      bestNumberFinalized(api)()
+      api.derive.chain.bestNumber(),
+      api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
-        createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
-      ),
-      drr()
-    );
+        createType(api.registry, 'BlockNumber', bestNumber.sub(bestNumberFinalized))
+      )
+    ));
 }

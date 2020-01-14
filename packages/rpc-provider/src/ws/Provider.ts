@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -89,7 +89,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  public constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
+  constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._eventemitter = new EventEmitter();
