@@ -178,7 +178,7 @@ describe('Enum', (): void => {
 
     const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const e = new Enum(registry, ['foo', 'bar'], 1);
+        const e = new Enum(registry, ['Foo', 'Bar'], 1);
 
         expect(e[to]()).toEqual(expected);
       });
@@ -191,9 +191,9 @@ describe('Enum', (): void => {
     testDecode('Uint8Array', Uint8Array.from([0]), 'foo');
     testDecode('Uint8Array', Uint8Array.from([1]), 'bar');
 
-    testEncode('toJSON', 1);
+    testEncode('toJSON', 'bar');
     testEncode('toNumber', 1);
-    testEncode('toString', 'bar');
+    testEncode('toString', 'Bar');
     testEncode('toU8a', Uint8Array.from([1]));
 
     it('provides a clean toString()', (): void => {

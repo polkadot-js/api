@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageHasherV10, StorageHasherV4, Text, Type, bool, u16 } from '@polkadot/types/primitive';
+import { Bytes, Text, Type, bool, u16 } from '@polkadot/types/primitive';
 
 /** Struct */
 export interface CallMetadataV0 extends Struct {
@@ -1011,8 +1011,38 @@ export interface StorageFunctionTypeV5 extends Enum {
 /** StorageHasherV11 */
 export interface StorageHasher extends StorageHasherV11 {}
 
+/** Enum */
+export interface StorageHasherV10 extends Enum {
+  /** 0:: Blake2_128 */
+  readonly isBlake2128: boolean;
+  /** 1:: Blake2_256 */
+  readonly isBlake2256: boolean;
+  /** 2:: Blake2_128Concat */
+  readonly isBlake2128Concat: boolean;
+  /** 3:: Twox128 */
+  readonly isTwox128: boolean;
+  /** 4:: Twox256 */
+  readonly isTwox256: boolean;
+  /** 5:: Twox64Concat */
+  readonly isTwox64Concat: boolean;
+}
+
 /** StorageHasherV10 */
 export interface StorageHasherV11 extends StorageHasherV10 {}
+
+/** Enum */
+export interface StorageHasherV4 extends Enum {
+  /** 0:: Blake2_128 */
+  readonly isBlake2128: boolean;
+  /** 1:: Blake2_256 */
+  readonly isBlake2256: boolean;
+  /** 2:: Twox128 */
+  readonly isTwox128: boolean;
+  /** 3:: Twox256 */
+  readonly isTwox256: boolean;
+  /** 4:: Twox64Concat */
+  readonly isTwox64Concat: boolean;
+}
 
 /** StorageHasherV4 */
 export interface StorageHasherV5 extends StorageHasherV4 {}
