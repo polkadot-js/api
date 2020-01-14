@@ -13,7 +13,7 @@ import { memo } from '../util';
 
 type Result = [Balance, Balance, Balance, Balance, Balance];
 
-function queryV2 (api: ApiInterfaceRx): Observable<Result> {
+function query (api: ApiInterfaceRx): Observable<Result> {
   const paymentBase = api.consts.transactionPayment || api.consts.balances;
 
   return of([
@@ -24,17 +24,6 @@ function queryV2 (api: ApiInterfaceRx): Observable<Result> {
     api.consts.balances.transferFee,
     paymentBase.transactionBaseFee as Balance,
     paymentBase.transactionByteFee as Balance
-  ]);
-}
-
-function queryV1 (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<Result>([
-    // Support older versions and get values from storage
-    api.query.balances.creationFee,
-    api.query.balances.existentialDeposit,
-    api.query.balances.transferFee,
-    api.query.balances.transactionBaseFee,
-    api.query.balances.transactionByteFee
   ]);
 }
 
@@ -52,10 +41,6 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
  * ```
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
-  const query = api.consts.balances
-    ? queryV2
-    : queryV1;
-
   return memo((): Observable<DerivedFees> =>
     query(api).pipe(
       map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
