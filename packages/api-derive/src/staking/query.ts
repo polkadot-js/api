@@ -13,20 +13,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-interface ParseInput {
-  accountId: AccountId;
-  controllerId: AccountId;
-  nominators: AccountId[];
-  rewardDestination: RewardDestination;
-  queuedKeys: [AccountId, Keys][];
-  stakers: Exposure;
-  stakingLedger: Option<StakingLedger>;
-  stashId: AccountId;
-  validatorPrefs: ValidatorPrefs;
-  nextKeys: Option<Keys>;
-}
-
-type MultiResultV2 = [[Vec<AccountId>] | Option<ITuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
+type MultiResultV2 = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -40,59 +27,43 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], 
   };
 }
 
-function parseResult (api: ApiInterfaceRx, { accountId, controllerId, stashId, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys }: ParseInput): DerivedStakingQuery {
-  const _stakingLedger = stakingLedger.unwrapOr(undefined);
-
-  return {
-    accountId,
-    controllerId,
-    nominators,
-    rewardDestination,
-    stakers,
-    stakingLedger: _stakingLedger,
-    stashId,
-    validatorPrefs,
-    ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
-  };
-}
-
-function retrieveInfo (api: ApiInterfaceRx, accountId: AccountId, stashId: AccountId, controllerId: AccountId): Observable<DerivedStakingQuery> {
-  return combineLatest([
-    api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
-    api.queryMulti([
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId],
-      [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]],
-      [api.query.staking.ledger, controllerId]
-    ]) as Observable<MultiResultV2>
-  ]).pipe(map(([queuedKeys, [_nominators, rewardDestination, stakers, [validatorPrefs], nextKeys, stakingLedger]]: [[AccountId, Keys][], MultiResultV2]): DerivedStakingQuery => {
-    const nominators: AccountId[] = (_nominators as Option<ITuple<[Nominations]>>).isSome
-      ? (_nominators as Option<ITuple<[Nominations]>>).unwrap()[0].targets
-      : [];
-
-    return parseResult(api, {
-      accountId, controllerId, stashId, queuedKeys, stakingLedger, nominators, rewardDestination, stakers, validatorPrefs, nextKeys
-    });
-  }));
-}
-
 /**
- * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
+ * @description From a stash, retrieve the controllerId and all relevant details
  */
 export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) => Observable<DerivedStakingQuery> {
   return memo((accountId: Uint8Array | string): Observable<DerivedStakingQuery> => {
     const stashId = createType(api.registry, 'AccountId', accountId);
 
-    return api.query.staking
-      .bonded<Option<AccountId>>(stashId)
-      .pipe(
-        switchMap((controllerId): Observable<DerivedStakingQuery> =>
-          controllerId.isSome
-            ? retrieveInfo(api, stashId, stashId, controllerId.unwrap())
-            : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] })
-        )
-      );
+    return combineLatest([
+      api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
+      api.queryMulti([
+        [api.query.staking.bonded, stashId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId],
+        [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
+      ]) as Observable<MultiResultV2>
+    ]).pipe(
+      switchMap(([queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, stakers, [validatorPrefs], nextKeys]]): Observable<DerivedStakingQuery> => {
+        const controllerId = controllerIdOpt.unwrapOr(null);
+
+        return controllerId
+          ? api.query.staking.ledger(controllerId).pipe(
+            map((stakingLedgerOpt): DerivedStakingQuery => ({
+              accountId: stashId,
+              controllerId,
+              nominators: nominatorsOpt.unwrapOr([{ targets: [] }])[0].targets,
+              rewardDestination,
+              stakers,
+              stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
+              stashId,
+              validatorPrefs,
+              ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
+            }))
+          )
+          : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] });
+      })
+    );
   });
 }
