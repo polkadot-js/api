@@ -10,14 +10,12 @@ export default {
       blockNumber: 'BlockNumber',
       networkState: 'OpaqueNetworkState',
       sessionIndex: 'SessionIndex',
-      authorityId: 'AuthorityId'
+      authorityIndex: 'AuthIndex'
     },
     OpaqueMultiaddr: 'Bytes',
     OpaquePeerId: 'Bytes',
     OpaqueNetworkState: {
-      /// PeerId of the local node.
       peerId: 'OpaquePeerId',
-      /// List of addresses the node knows it can be reached as.
       externalAddresses: 'Vec<OpaqueMultiaddr>'
     }
   }
