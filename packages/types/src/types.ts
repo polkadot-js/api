@@ -336,6 +336,22 @@ export interface RegistryMetadataCalls {
   unwrap (): RegistryMetadataCall[];
 }
 
+export interface RegistryError {
+  documentation: string[];
+  index: number;
+  name: string;
+  section: string;
+}
+
+export interface RegistryMetadataError {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  documentation: String[];
+}
+
+export type RegistryMetadataErrors = RegistryMetadataError[];
+
 export interface RegistryMetadataEvent {
   args: any[];
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -349,6 +365,7 @@ export interface RegistryMetadataEvents {
 
 export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
+  errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
   // eslint-disable-next-line @typescript-eslint/ban-types
   name: String & Codec;
@@ -364,7 +381,7 @@ export interface RegistryMetadata {
 
 export interface Registry {
   findMetaCall (callIndex: Uint8Array): CallFunction;
-
+  findMetaError (errorIndex: Uint8Array): any;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
