@@ -80,10 +80,12 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
 
 // decode a tuple
 function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
-  value.sub = typeSplit(subType).map((inner): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(inner)
-  );
+  value.sub = subType.length === 0
+    ? []
+    : typeSplit(subType).map((inner): TypeDef =>
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getTypeDef(inner)
+    );
 
   return value;
 }
@@ -128,7 +130,6 @@ export function getTypeDef (_type: string, { name, displayName }: TypeDefOptions
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { info: TypeDefInfo.Plain, displayName, name, type };
-
   const nested = nestedExtraction.find((nested): boolean =>
     hasWrapper(type, nested)
   );

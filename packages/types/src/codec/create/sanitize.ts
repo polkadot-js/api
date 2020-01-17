@@ -24,8 +24,6 @@ const mappings: Mapper[] = [
   _removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
   _alias('String', 'Text'),
-  // alias () -> Null
-  _alias('\\(\\)', 'Null'),
   // alias Vec<u8> -> Bytes
   _alias('Vec<u8>', 'Bytes'),
   // alias &[u8] -> Bytes
@@ -100,7 +98,7 @@ function _cleanupCompact (): Mapper {
 
 function _flattenSingleTuple (): Mapper {
   return (value: string): string => {
-    return value.replace(/\(([^,]*)\)/, '$1');
+    return value.replace(/\(([^,]+)\)/, '$1');
   };
 }
 
@@ -203,7 +201,7 @@ function _removeWrap (_check: string): Mapper {
 }
 
 export default function sanitize (value: string): string {
-  return mappings.reduce((result, fn): string => {
+  return mappings.reduce((result, fn, index): string => {
     return fn(result);
   }, value).trim();
 }
