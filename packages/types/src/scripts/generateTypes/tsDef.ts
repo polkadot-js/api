@@ -19,6 +19,7 @@ interface Imports extends TypeImports {
 // helper to generate a `readonly <Name>: <Type>;` getter
 export function createGetter (definitions: object, name = '', type: string, imports: TypeImports, doc?: string): string {
   setImports(definitions, imports, [type]);
+
   return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
 }
 
@@ -61,10 +62,11 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
   return exportInterface(enumName, 'Enum', keys.join(''));
 }
 
-function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', { info, name = '', type }: TypeDef, imports: TypeImports): string {
+function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
+  const { info, name = '', type } = def;
   const [resultType, asGetter] = type === 'Null'
     ? ['', '']
-    : [`(${type})`, createGetter(definitions, `as${getter}`, type, imports)];
+    : [`(${type})`, createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports)];
   const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports, `${getter}:: ${name}${resultType}`);
 
   switch (info) {

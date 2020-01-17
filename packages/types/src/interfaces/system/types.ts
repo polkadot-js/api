@@ -47,8 +47,8 @@ export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
   readonly asError: DispatchError;
   /** Ok:: (()) */
   readonly isOk: boolean;
-  /** () */
-  readonly asOk: ();
+  /** ITuple<[]> */
+  readonly asOk: ITuple<[]>;
 }
 
 /** DispatchResult */
@@ -62,8 +62,8 @@ export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
   readonly asError: Text;
   /** Ok:: (()) */
   readonly isOk: boolean;
-  /** () */
-  readonly asOk: ();
+  /** ITuple<[]> */
+  readonly asOk: ITuple<[]>;
 }
 
 /** GenericEvent */
