@@ -201,7 +201,7 @@ function _removeWrap (_check: string): Mapper {
 }
 
 export default function sanitize (value: string): string {
-  return mappings.reduce((result, fn, index): string => {
+  return mappings.reduce((result, fn): string => {
     return fn(result);
   }, value).trim();
 }
