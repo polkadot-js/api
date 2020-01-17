@@ -1,9 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '@polkadot/types/types';
+import { Codec, ITuple } from '@polkadot/types/types';
 import { Enum, Option, Result, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, Null, Text, u32, u8 } from '@polkadot/types/primitive';
+import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** Digest */
@@ -39,27 +39,31 @@ export interface DispatchErrorTo198 extends Struct {
   readonly error: u8;
 }
 
-/** Result<Null, DispatchError> */
-export interface DispatchResult extends Result<Null, DispatchError> {
+/** Result<ITuple<[]>, DispatchError> */
+export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
   /** Error:: (DispatchError) */
   readonly isError: boolean;
   /** DispatchError */
   readonly asError: DispatchError;
-  /** Ok::  */
+  /** Ok:: (()) */
   readonly isOk: boolean;
+  /** () */
+  readonly asOk: ();
 }
 
 /** DispatchResult */
 export interface DispatchResultOf extends DispatchResult {}
 
-/** Result<Null, Text> */
-export interface DispatchResultTo198 extends Result<Null, Text> {
+/** Result<ITuple<[]>, Text> */
+export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
   /** Error:: (Text) */
   readonly isError: boolean;
   /** Text */
   readonly asError: Text;
-  /** Ok::  */
+  /** Ok:: (()) */
   readonly isOk: boolean;
+  /** () */
+  readonly asOk: ();
 }
 
 /** GenericEvent */

@@ -69,6 +69,7 @@ function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'E
 
   switch (info) {
     case TypeDefInfo.Plain:
+    case TypeDefInfo.Tuple:
     case TypeDefInfo.Vec:
       return `${isGetter}${asGetter}`;
 
