@@ -25,7 +25,7 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
               api.query[section].voting.multi<Option<Votes>>(hashes)
             ]);
           }),
-          map(([hashes = [], proposals, votes]): DerivedCollectiveProposals => {
+          map(([hashes = [], proposals = [], votes]): DerivedCollectiveProposals => {
             const result: DerivedCollectiveProposals = [];
 
             proposals.forEach((proposalOpt, index): void => {
