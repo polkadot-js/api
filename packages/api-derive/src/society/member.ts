@@ -7,27 +7,33 @@ import { AccountId, Balance, BlockNumber, StrikeCount, VouchingStatus, Vote } fr
 import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyMember } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { bool, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Option<Vote>, Vec<ITuple<[BlockNumber, Balance]>>, StrikeCount, bool, Option<VouchingStatus>];
+type ResultMulti = [Vec<ITuple<[BlockNumber, Balance]>>, StrikeCount];
+type ResultSingle = [Option<Vote>, bool, Option<VouchingStatus>];
+type Result = [ResultMulti, ResultSingle];
 
 /**
  * @description Get the member info for a society
  */
 export function member (api: ApiInterfaceRx): (accountId: AccountId) => Observable<DeriveSocietyMember> {
   return memo((accountId: AccountId): Observable<DeriveSocietyMember> =>
-    api.queryMulti<Result>([
-      [api.query.society.defenderVotes, accountId],
-      [api.query.society.payouts, accountId],
-      [api.query.society.strikes, accountId],
-      [api.query.society.suspendedMembers, accountId],
-      [api.query.society.vouching, accountId]
+    combineLatest([
+      api.queryMulti<ResultMulti>([
+        [api.query.society.payouts, accountId],
+        [api.query.society.strikes, accountId]
+      ]),
+      combineLatest([
+        api.query.society.defenderVotes<Option<Vote>>(accountId),
+        api.query.society.suspendedMembers<bool>(accountId),
+        api.query.society.vouching<Option<VouchingStatus>>(accountId)
+      ])
     ]).pipe(
-      map(([defenderVote, payouts, strikes, suspended, vouching]: Result): DeriveSocietyMember => ({
+      map(([[payouts, strikes], [defenderVote, suspended, vouching]]: Result): DeriveSocietyMember => ({
         accountId,
         payouts,
         isSuspended: !suspended.isEmpty,

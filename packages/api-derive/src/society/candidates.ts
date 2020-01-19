@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
+import { BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyCandidate } from '../types';
 
@@ -25,8 +25,10 @@ export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSociety
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi<ResultSuspend>(
-            candidates.map(({ who }: Bid): AccountId => who)
+          combineLatest(
+            candidates.map(({ who }: Bid): Observable<ResultSuspend> =>
+              api.query.society.suspendedCandidates<ResultSuspend>(who)
+            )
           )
         ])
       ),
