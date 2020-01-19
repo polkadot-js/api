@@ -18,7 +18,11 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
           switchMap((hashes: Hash[] = []): Observable<[Hash[], Option<Proposal>[], Option<Votes>[]]> => {
             return combineLatest([
               of(hashes),
-              api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+              hashes && hashes.length
+                ? combineLatest(
+                  hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf<Option<Proposal>>(hash))
+                )
+                : of([]),
               api.query[section].voting.multi<Option<Votes>>(hashes)
             ]);
           }),
