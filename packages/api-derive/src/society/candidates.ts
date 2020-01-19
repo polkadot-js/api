@@ -13,7 +13,8 @@ import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Bid[], Option<ITuple<[BalanceOf, BidKind]>>[]]
+type ResultSuspend = Option<ITuple<[BalanceOf, BidKind]>>;
+type Result = [Bid[], ResultSuspend[]]
 
 /**
  * @description Get the candidate info for a society
@@ -24,7 +25,7 @@ export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSociety
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi(
+          api.query.society.suspendedCandidates.multi<ResultSuspend>(
             candidates.map(({ who }: Bid): AccountId => who)
           )
         ])
