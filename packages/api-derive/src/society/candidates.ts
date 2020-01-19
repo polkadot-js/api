@@ -3,13 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyCandidate } from '../types';
 
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
+
+type Result = [Bid[], Option<ITuple<[BalanceOf, BidKind]>>[]]
 
 /**
  * @description Get the candidate info for a society
@@ -17,15 +21,15 @@ import { memo } from '../util';
 export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
   return memo((): Observable<DeriveSocietyCandidate[]> =>
     api.query.society.candidates().pipe(
-      switchMap((candidates) =>
+      switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.soeciety.suspendedCandidates.multi(
-            candidates.map(({ who }): AccountId => who)
+          api.query.society.suspendedCandidates.multi(
+            candidates.map(({ who }: Bid): AccountId => who)
           )
         ])
       ),
-      map(([candidates, suspended]) =>
+      map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>
         candidates.map(({ who, kind, value }, index) => ({
           accountId: who,
           isSuspended: suspended[index].isSome,
