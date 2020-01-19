@@ -6,7 +6,6 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option } from '@polkadot/types';
 import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposals } from '../types';
-// import { Hash } from '@polkadot/types/interfaces';
 
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -19,9 +18,7 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
           switchMap((hashes: Hash[] = []): Observable<[Hash[], Option<Proposal>[], Option<Votes>[]]> => {
             return combineLatest([
               of(hashes),
-              combineLatest(
-                hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf(hash))
-              ),
+              api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
               api.query[section].voting.multi<Option<Votes>>(hashes)
             ]);
           }),
