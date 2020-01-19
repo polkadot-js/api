@@ -16,14 +16,12 @@ import { memo } from '../util';
  */
 export function members (api: ApiInterfaceRx): () => Observable<DeriveSocietyMember[]> {
   return memo((): Observable<DeriveSocietyMember[]> =>
-    api.query.society
-      .members<AccountId[]>()
-      .pipe(
-        switchMap((members): Observable<DeriveSocietyMember[]> =>
-          combineLatest(members.map((accountId): Observable<DeriveSocietyMember> =>
-            api.derive.society.member(accountId)
-          ))
-        )
+    api.query.society.members<AccountId[]>().pipe(
+      switchMap((members): Observable<DeriveSocietyMember[]> =>
+        combineLatest(members.map((accountId): Observable<DeriveSocietyMember> =>
+          api.derive.society.member(accountId)
+        ))
       )
+    )
   );
 }
