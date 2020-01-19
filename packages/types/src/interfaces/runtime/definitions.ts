@@ -14,6 +14,10 @@ export default {
     Block: 'GenericBlock',
     BlockNumber: 'u32',
     Call: 'GenericCall',
+    ChangesTrieConfiguration: {
+      digestInterval: 'u32',
+      digestLevels: 'u32'
+    },
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
     DigestItem: 'GenericDigestItem',

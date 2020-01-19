@@ -35,6 +35,14 @@ export interface BlockNumber extends u32 {}
 /** GenericCall */
 export interface Call extends GenericCall {}
 
+/** Struct */
+export interface ChangesTrieConfiguration extends Struct {
+  /** u32 */
+  readonly digestInterval: u32;
+  /** u32 */
+  readonly digestLevels: u32;
+}
+
 /** ITuple<[ConsensusEngineId, Bytes]> */
 export interface Consensus extends ITuple<[ConsensusEngineId, Bytes]> {}
 
