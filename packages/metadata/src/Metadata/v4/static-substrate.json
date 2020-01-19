@@ -161,7 +161,7 @@
               "type": {
                 "DoubleMap": {
                   "hasher": "blake2256",
-                  "key1": "Null",
+                  "key1": "()",
                   "key2": "Hash",
                   "value": "Vec<(BlockNumber,EventIndex)>",
                   "key2Hasher": "blake2_256"
@@ -1121,7 +1121,7 @@
               "name": "ForcingNewEra",
               "modifier": "optional",
               "type": {
-                "Plain": "Null"
+                "Plain": "()"
               },
               "fallback": "0x00",
               "documentation": [

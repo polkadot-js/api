@@ -1004,7 +1004,7 @@
               "name": "ForcingNewEra",
               "modifier": "optional",
               "type": {
-                "Plain": "Null"
+                "Plain": "()"
               },
               "fallback": "0x00",
               "documentation": [

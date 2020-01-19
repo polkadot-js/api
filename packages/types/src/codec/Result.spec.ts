@@ -45,6 +45,6 @@ describe('Result', (): void => {
   });
 
   it('returns a proper raw typedef rom a built-in', (): void => {
-    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<Null,{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
+    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
   });
 });

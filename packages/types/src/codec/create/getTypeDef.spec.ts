@@ -19,12 +19,13 @@ describe('getTypeDef', (): void => {
     ).toThrow(/Unable to find closing matching/);
   });
 
-  it('maps empty tuples to Null', (): void => {
+  it('maps empty tuples to empty tuple', (): void => {
     expect(
       getTypeDef('()')
     ).toEqual({
-      info: TypeDefInfo.Plain,
-      type: 'Null'
+      info: TypeDefInfo.Tuple,
+      sub: [],
+      type: '()'
     });
   });
 

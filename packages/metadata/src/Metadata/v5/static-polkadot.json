@@ -161,7 +161,7 @@
               "type": {
                 "DoubleMap": {
                   "hasher": "blake2256",
-                  "key1": "Null",
+                  "key1": "()",
                   "key2": "Hash",
                   "value": "Vec<(BlockNumber,EventIndex)>",
                   "key2Hasher": "blake2256"

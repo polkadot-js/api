@@ -65,10 +65,10 @@ describe('Type', (): void => {
     ).toEqual('(Bytes,(Balance,Balance),Vec<AccountId>)');
   });
 
-  it('changes () -> Null', (): void => {
+  it('changes () -> ()', (): void => {
     expect(
       new Type(registry, '()').toString()
-    ).toEqual('Null');
+    ).toEqual('()');
   });
 
   it('has a length for the type', (): void => {

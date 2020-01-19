@@ -1,8 +1,9 @@
 // Auto-generated via `yarn build:interfaces`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Null, i8, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, i8, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
@@ -19,8 +20,8 @@ export interface Amount extends Balance {}
 /** u32 */
 export interface AssetOf extends u32 {}
 
-/** Null */
-export interface InherentOfflineReport extends Null {}
+/** ITuple<[]> */
+export interface InherentOfflineReport extends ITuple<[]> {}
 
 /** i8 */
 export interface LockPeriods extends i8 {}
