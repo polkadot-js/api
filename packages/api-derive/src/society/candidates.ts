@@ -21,7 +21,7 @@ type Result = [Bid[], ResultSuspend[]]
  */
 export function candidates (api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
   return memo((): Observable<DeriveSocietyCandidate[]> =>
-    api.query.society.candidates().pipe(
+    api.query.society.candidates<Vec<Bid>>().pipe(
       switchMap((candidates: Vec<Bid>): Observable<Result> =>
         combineLatest([
           of(candidates),
