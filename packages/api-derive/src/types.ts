@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BidKind, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
@@ -147,6 +147,13 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
   sessionLength: BlockNumber;
   sessionsPerEra: SessionIndex;
   sessionProgress: BlockNumber;
+}
+
+export interface DeriveSocietyCandidate {
+  accountId: AccountId;
+  kind: BidKind;
+  value: Balance;
+  isSuspended: boolean;
 }
 
 export interface DeriveSocietyMember {
