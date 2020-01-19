@@ -13,10 +13,6 @@ describe('storage', (): void => {
   it('should return well known keys', (): void => {
     expect(typeof storage.substrate).toBe('object');
 
-    // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
-    // have been removed in https://github.com/paritytech/substrate/pull/2802
-    expect(storage.substrate.authorityCount).toBeTruthy();
-    expect(storage.substrate.authorityPrefix).toBeTruthy();
     expect(storage.substrate.changesTrieConfig).toBeTruthy();
     expect(storage.substrate.childStorageKeyPrefix).toBeTruthy();
     expect(storage.substrate.code).toBeTruthy();

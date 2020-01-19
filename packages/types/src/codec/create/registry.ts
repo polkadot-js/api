@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallFunction, Codec, Constructor, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
+import { CallFunction, Codec, Constructor, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -13,6 +13,25 @@ import { EventData } from '../../primitive/Generic/Event';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
+
+// create error mapping from metadata
+function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors: Record<string, RegistryError>): void {
+  // decorate the errors
+  metadata.asLatest.modules.forEach((section, sectionIndex): void => {
+    const sectionName = stringCamelCase(section.name.toString());
+
+    section.errors.forEach(({ name, documentation }, index): void => {
+      const eventIndex = new Uint8Array([sectionIndex, index]);
+
+      metadataErrors[u8aToHex(eventIndex)] = {
+        documentation: documentation.map((doc): string => doc.toString()),
+        index,
+        name: name.toString(),
+        section: sectionName
+      };
+    });
+  });
+}
 
 // create event classes from metadata
 function decorateEvents (registry: Registry, metadata: RegistryMetadata, metadataEvents: Record<string, Constructor<EventData>>): void {
@@ -62,6 +81,8 @@ export class TypeRegistry implements Registry {
 
   private _metadataCalls: Record<string, CallFunction> = {};
 
+  private _metadataErrors: Record<string, RegistryError> = {};
+
   private _metadataEvents: Record<string, Constructor<EventData>> = {};
 
   constructor () {
@@ -87,6 +108,15 @@ export class TypeRegistry implements Registry {
     assert(!isUndefined(fn), `findMetaCall: Unable to find Call with index ${hexIndex}/[${callIndex}]`);
 
     return fn;
+  }
+
+  public findMetaError (errorIndex: Uint8Array): RegistryError {
+    const hexIndex = u8aToHex(errorIndex);
+    const error = this._metadataErrors[hexIndex];
+
+    assert(!isUndefined(error), `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex}]`);
+
+    return error;
   }
 
   public findMetaEvent (eventIndex: Uint8Array): Constructor<EventData> {
@@ -189,6 +219,7 @@ export class TypeRegistry implements Registry {
   // sets the metadata
   public setMetadata (metadata: RegistryMetadata): void {
     decorateExtrinsics(this, metadata, this._metadataCalls);
+    decorateErrors(this, metadata, this._metadataErrors);
     decorateEvents(this, metadata, this._metadataEvents);
   }
 }
