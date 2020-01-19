@@ -36,7 +36,7 @@ export function member (api: ApiInterfaceRx): (accountId: AccountId) => Observab
       map(([[payouts, strikes], [defenderVote, suspended, vouching]]: Result): DeriveSocietyMember => ({
         accountId,
         payouts,
-        isSuspended: !suspended.isEmpty,
+        isSuspended: suspended.isTrue,
         strikes,
         vote: defenderVote.unwrapOr(undefined),
         vouching: vouching.unwrapOr(undefined)
