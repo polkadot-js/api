@@ -22,7 +22,7 @@ export function info (api: ApiInterfaceRx): () => Observable<DeriveSociety> {
     api.queryMulti<Result>([
       api.query.society.bids,
       api.query.society.defender,
-      api.query.soeciety.founder,
+      api.query.society.founder,
       api.query.society.head,
       api.query.society.maxMembers,
       api.query.society.pot
