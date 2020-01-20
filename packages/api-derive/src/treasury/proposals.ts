@@ -62,10 +62,7 @@ function retrieveProposals (api: ApiInterfaceRx, proposalCount: ProposalIndex, a
   const allIds = [...proposalIds, ...approvalIds];
 
   return combineLatest([
-    // We are doing single subscriptions on all these, multi may yield old results
-    combineLatest(
-      allIds.map((id): Observable<Option<TreasuryProposal>> => api.query.treasury.proposals(id))
-    ),
+    api.query.treasury.proposals.multi<Option<TreasuryProposal>>(allIds),
     api.derive.council.proposals()
   ]).pipe(
     map(([allProposals, councilProposals]: [Option<TreasuryProposal>[], DerivedCollectiveProposals]): DerivedTreasuryProposals =>
