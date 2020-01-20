@@ -15,10 +15,10 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
     api.query[section]
       ? api.query[section].proposals()
         .pipe(
-          switchMap((hashes: Hash[] = []): Observable<[Hash[], Option<Proposal>[], Option<Votes>[]]> => {
+          switchMap((hashes: Hash[]): Observable<[Hash[], Option<Proposal>[], Option<Votes>[]]> => {
             return combineLatest([
               of(hashes),
-              hashes && hashes.length
+              hashes.length
                 ? combineLatest(
                   hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf<Option<Proposal>>(hash))
                 )
@@ -26,7 +26,7 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
               api.query[section].voting.multi<Option<Votes>>(hashes)
             ]);
           }),
-          map(([hashes = [], proposals = [], votes]): DerivedCollectiveProposals => {
+          map(([hashes, proposals, votes]): DerivedCollectiveProposals => {
             const result: DerivedCollectiveProposals = [];
 
             proposals.forEach((proposalOpt, index): void => {
