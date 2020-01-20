@@ -64,20 +64,20 @@ function parse (api: ApiInterfaceRx, { depositors, proposals, preimages }: Resul
 export function proposals (api: ApiInterfaceRx): () => Observable<DeriveProposal[]> {
   return memo((): Observable<DeriveProposal[]> =>
     api.query.democracy?.publicProps
-      ? api.query.democracy
-        .publicProps<Proposals>()
-        .pipe(
-          switchMap((proposals) =>
-            combineLatest([
-              of(proposals),
-              api.query.democracy.preimages.multi<PreImage>(proposals.map(([, hash]): Hash => hash)),
-              api.query.democracy.depositOf.multi<Depositors>(proposals.map(([index]): PropIndex => index))
-            ])
-          ),
-          map(([proposals, preimages, depositors]): DeriveProposal[] =>
-            parse(api, { depositors, proposals, preimages })
-          )
+      ? api.query.democracy.publicProps<Proposals>().pipe(
+        switchMap((proposals) =>
+          combineLatest([
+            of(proposals),
+            api.query.democracy.preimages.multi<PreImage>(
+              proposals.map(([, hash]): Hash => hash)),
+            api.query.democracy.depositOf.multi<Depositors>(
+              proposals.map(([index]): PropIndex => index))
+          ])
+        ),
+        map(([proposals, preimages, depositors]): DeriveProposal[] =>
+          parse(api, { depositors, proposals, preimages })
         )
+      )
       : of([] as DeriveProposal[])
   );
 }

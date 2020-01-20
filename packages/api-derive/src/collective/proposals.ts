@@ -4,41 +4,40 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposals } from '../types';
+import { DerivedCollectiveProposal } from '../types';
 
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
-export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposals> {
-  return (): Observable<DerivedCollectiveProposals> =>
-    api.query[section]
-      ? api.query[section].proposals()
-        .pipe(
-          switchMap((hashes: Hash[]): Observable<[Hash[], Option<Proposal>[], Option<Votes>[]]> => {
-            return combineLatest([
-              of(hashes),
-              combineLatest(
-                hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf(hash))
-              ),
-              api.query[section].voting.multi<Option<Votes>>(hashes)
-            ]);
-          }),
-          map(([hashes, proposals, votes]): DerivedCollectiveProposals => {
-            const result: DerivedCollectiveProposals = [];
+type Result = [Hash[], Option<Proposal>[], Option<Votes>[]];
 
-            proposals.forEach((proposalOpt, index): void => {
-              if (proposalOpt.isSome) {
-                result.push({
+export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposal[]> {
+  return (): Observable<DerivedCollectiveProposal[]> =>
+    api.query[section]
+      ? api.query[section].proposals().pipe(
+        switchMap((hashes: Hash[]): Observable<Result> =>
+          hashes.length
+            ? combineLatest([
+              of(hashes),
+              api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+              api.query[section].voting.multi<Option<Votes>>(hashes)
+            ])
+            : of([[], [], []])
+        ),
+        map(([hashes, proposals, votes]: Result): DerivedCollectiveProposal[] =>
+          proposals
+            .map((proposalOpt, index): DerivedCollectiveProposal | null =>
+              proposalOpt.isSome
+                ? {
                   hash: hashes[index],
                   proposal: proposalOpt.unwrap(),
                   votes: votes[index].unwrapOr(null)
-                });
-              }
-            });
-
-            return result;
-          })
+                }
+                : null
+            )
+            .filter((proposal): boolean => !!proposal) as DerivedCollectiveProposal[]
         )
-      : of([] as DerivedCollectiveProposals);
+      )
+      : of([] as DerivedCollectiveProposal[]);
 }
