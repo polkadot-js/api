@@ -16,8 +16,6 @@ import { memo } from '../util';
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-  // NOTE We have an issue where candidates can return `null` for an empty array, hence
-  // we are not using multi queries here, so empty array is empty (instead of space-filled)
   return api.queryMulti<[Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
     api.query[section].candidates,
     api.query[section].members,
