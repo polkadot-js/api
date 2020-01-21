@@ -18,6 +18,10 @@ interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
 }
 
+interface SignerRawOptions {
+  signer?: Signer;
+}
+
 let pkgJson: { name: string; version: string };
 
 try {
@@ -262,20 +266,21 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Signs a raw signer payload, string or Uint8Array
    */
-  public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
-    // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
-    if (isString(signer)) {
-      assert(this._rx.signer?.signRaw, 'No signer exists with a signRaw interface');
+  public async sign (address: KeyringSigner | string, data: SignerPayloadRawBase, { signer }: SignerRawOptions = {}): Promise<string> {
+    if (isString(address)) {
+      const _signer = signer || this._rx.signer;
+
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
-        await this._rx.signer.signRaw({
+        await _signer.signRaw({
           type: 'bytes',
           ...data,
-          address: signer
+          address
         })
       ).signature;
     }
 
-    return u8aToHex(signer.sign(u8aToU8a(data.data)));
+    return u8aToHex(address.sign(u8aToU8a(data.data)));
   }
 }

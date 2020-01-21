@@ -9,6 +9,7 @@ import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr2551
 import BN from 'bn.js';
 
 import { InterfaceRegistry } from './interfaceRegistry';
+import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
@@ -166,6 +167,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: RuntimeVersionInterface;
+  signer?: Signer;
   tip?: AnyNumber;
 }
 
