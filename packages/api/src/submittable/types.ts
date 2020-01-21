@@ -4,7 +4,7 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiTypes } from '../types';
+import { ApiTypes, Signer } from '../types';
 
 import { Observable } from 'rxjs';
 
@@ -48,6 +48,7 @@ export interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber;
+  signer?: Signer;
   tip?: AnyNumber;
 }
 

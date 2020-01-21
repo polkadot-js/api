@@ -11,7 +11,7 @@ import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, Submitta
 import { Observable, combineLatest, from, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
-import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -82,15 +82,15 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: IKeyringPair | string | AccountId | Address, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       return this._decorateMethod(
         (): Observable<this> => {
           const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
 
           return from(
-            this._api.signer
-              ? this._signViaSigner(account.address, this._makeSignOptions(optionsWithNonce, {}), null)
-              : Promise.resolve(this.sign(account, optionsWithNonce))
+            isKeyringPair(account)
+              ? Promise.resolve(this.sign(account, optionsWithNonce))
+              : this._signViaSigner(account, this._makeSignOptions(optionsWithNonce, {}), null)
           ).pipe(mapTo(this));
         }
       )();
@@ -163,10 +163,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return [options, statusCb];
     }
 
-    private async _signViaSigner (address: string, options: SignatureOptions, header: Header | null): Promise<number> {
-      if (!this._api.signer) {
-        throw new Error('no signer attached');
-      }
+    private async _signViaSigner (address: | string | AccountId | Address, options: SignatureOptions, header: Header | null): Promise<number> {
+      const signer = options.signer || this._api.signer;
+
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
 
       const payload = createType(this.registry, 'SignerPayload', {
         ...options,
@@ -176,10 +176,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       });
       let result: SignerResult;
 
-      if (this._api.signer.signPayload) {
-        result = await this._api.signer.signPayload(payload.toPayload());
-      } else if (this._api.signer.signRaw) {
-        result = await this._api.signer.signRaw(payload.toRaw());
+      if (signer.signPayload) {
+        result = await signer.signPayload(payload.toPayload());
+      } else if (signer.signRaw) {
+        result = await signer.signRaw(payload.toRaw());
       } else {
         throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
       }
