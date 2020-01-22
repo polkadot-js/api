@@ -32,18 +32,6 @@ export interface RawBabePreDigest extends Enum {
 }
 
 /** Enum */
-export interface RawBabePreDigest0to159 extends Enum {
-  /** 0:: Primary(RawBabePreDigestPrimary0to159) */
-  readonly isPrimary: boolean;
-  /** RawBabePreDigestPrimary0to159 */
-  readonly asPrimary: RawBabePreDigestPrimary0to159;
-  /** 1:: Secondary(RawBabePreDigestSecondary0to159) */
-  readonly isSecondary: boolean;
-  /** RawBabePreDigestSecondary0to159 */
-  readonly asSecondary: RawBabePreDigestSecondary0to159;
-}
-
-/** Enum */
 export interface RawBabePreDigestCompat extends Enum {
   /** 0:: Zero(u32) */
   readonly isZero: boolean;
@@ -72,7 +60,7 @@ export interface RawBabePreDigestPrimary extends Struct {
 }
 
 /** Struct */
-export interface RawBabePreDigestPrimary0to159 extends Struct {
+export interface RawBabePreDigestPrimaryTo159 extends Struct {
   /** u32 */
   readonly authorityIndex: u32;
   /** SlotNumber */
@@ -94,13 +82,25 @@ export interface RawBabePreDigestSecondary extends Struct {
 }
 
 /** Struct */
-export interface RawBabePreDigestSecondary0to159 extends Struct {
+export interface RawBabePreDigestSecondaryTo159 extends Struct {
   /** u32 */
   readonly authorityIndex: u32;
   /** SlotNumber */
   readonly slotNumber: SlotNumber;
   /** BabeBlockWeight */
   readonly weight: BabeBlockWeight;
+}
+
+/** Enum */
+export interface RawBabePreDigestTo159 extends Enum {
+  /** 0:: Primary(RawBabePreDigestPrimaryTo159) */
+  readonly isPrimary: boolean;
+  /** RawBabePreDigestPrimaryTo159 */
+  readonly asPrimary: RawBabePreDigestPrimaryTo159;
+  /** 1:: Secondary(RawBabePreDigestSecondaryTo159) */
+  readonly isSecondary: boolean;
+  /** RawBabePreDigestSecondaryTo159 */
+  readonly asSecondary: RawBabePreDigestSecondaryTo159;
 }
 
 /** u64 */

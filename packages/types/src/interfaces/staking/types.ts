@@ -87,6 +87,18 @@ export interface SlashingSpans extends Struct {
   readonly spanIndex: SpanIndex;
   /** EraIndex */
   readonly lastStart: EraIndex;
+  /** EraIndex */
+  readonly lastNonzeroSlash: EraIndex;
+  /** Vec<EraIndex> */
+  readonly prior: Vec<EraIndex>;
+}
+
+/** Struct */
+export interface SlashingSpansTo204 extends Struct {
+  /** SpanIndex */
+  readonly spanIndex: SpanIndex;
+  /** EraIndex */
+  readonly lastStart: EraIndex;
   /** Vec<EraIndex> */
   readonly prior: Vec<EraIndex>;
 }
