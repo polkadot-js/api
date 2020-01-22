@@ -325,10 +325,18 @@ export interface ISignerPayload {
   toRaw (): SignerPayloadRaw;
 }
 
+export interface RegistryMetadataText extends String, Codec {
+  setOverride (override: string): void;
+}
+
+export interface RegistryMetadataCallArg {
+  name: RegistryMetadataText;
+  type: RegistryMetadataText;
+}
+
 export interface RegistryMetadataCall {
-  args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  args: RegistryMetadataCallArg[];
+  name: RegistryMetadataText;
 
   toJSON (): string | AnyJsonObject;
 }
@@ -356,8 +364,7 @@ export type RegistryMetadataErrors = RegistryMetadataError[];
 
 export interface RegistryMetadataEvent {
   args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataEvents {
@@ -369,8 +376,7 @@ export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
   errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataLatest {

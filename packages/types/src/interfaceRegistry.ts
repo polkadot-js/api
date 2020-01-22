@@ -16,12 +16,12 @@ import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAc
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
-import { IdentityInfo, IdentityInfoAdditional, Judgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
+import { IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
-import { Bid, BidKind, BidKindVouch, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
+import { Bid, BidKind, BidKindVouch, SocietyJudgement, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -560,9 +560,9 @@ export interface InterfaceRegistry {
   IdentityInfo: IdentityInfo;
   'Option<IdentityInfo>': Option<IdentityInfo>;
   'Vec<IdentityInfo>': Vec<IdentityInfo>;
-  Judgement: Judgement;
-  'Option<Judgement>': Option<Judgement>;
-  'Vec<Judgement>': Vec<Judgement>;
+  IdentityJudgement: IdentityJudgement;
+  'Option<IdentityJudgement>': Option<IdentityJudgement>;
+  'Vec<IdentityJudgement>': Vec<IdentityJudgement>;
   RegistrationJudgement: RegistrationJudgement;
   'Option<RegistrationJudgement>': Option<RegistrationJudgement>;
   'Vec<RegistrationJudgement>': Vec<RegistrationJudgement>;
@@ -659,6 +659,9 @@ export interface InterfaceRegistry {
   BidKind: BidKind;
   'Option<BidKind>': Option<BidKind>;
   'Vec<BidKind>': Vec<BidKind>;
+  SocietyJudgement: SocietyJudgement;
+  'Option<SocietyJudgement>': Option<SocietyJudgement>;
+  'Vec<SocietyJudgement>': Vec<SocietyJudgement>;
   StrikeCount: StrikeCount;
   'Compact<StrikeCount>': Compact<StrikeCount>;
   'Option<StrikeCount>': Option<StrikeCount>;

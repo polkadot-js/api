@@ -16,6 +16,10 @@ export default {
         Vouch: 'BidKindVouch'
       }
     },
+    // a society-specific Judgement (not the same as identity Judgement)
+    SocietyJudgement: {
+      _enum: ['Rebid', 'Reject', 'Approve']
+    },
     StrikeCount: 'u32',
     VouchingStatus: {
       _enum: ['Vouching', 'Banned']

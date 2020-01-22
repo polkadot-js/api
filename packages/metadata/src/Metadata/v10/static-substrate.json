@@ -6264,7 +6264,7 @@
                 },
                 {
                   "name": "judgement",
-                  "type": "Judgement"
+                  "type": "IdentityJudgement"
                 }
               ],
               "documentation": [
@@ -7041,7 +7041,7 @@
                 },
                 {
                   "name": "judgement",
-                  "type": "Judgement"
+                  "type": "SocietyJudgement"
                 }
               ],
               "documentation": [

@@ -8,13 +8,13 @@ import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import { Metadata, u32 as U32 } from '@polkadot/types';
+import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
-import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
 
