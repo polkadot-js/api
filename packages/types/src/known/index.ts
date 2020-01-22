@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeVersion } from '@polkadot/types/interfaces';
-import { RegistryTypes } from '@polkadot/types/types';
+import { RuntimeVersion } from '../interfaces';
+import { RegistryTypes } from '../types';
 import { OverrideModuleType, OverrideVersionedType } from './types';
 
 import { Text } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
-import { TYPES_CHAIN, TYPES_META, TYPES_MODULES, TYPES_SPEC } from './typeOverrides';
+import { TYPES_CHAIN, TYPES_META, TYPES_MODULES, TYPES_SPEC } from './overrides';
 
 // flatten a VersionedType[] into a Record<string, string>
 function filterVersions (versions: OverrideVersionedType[] = [], version: number): RegistryTypes {

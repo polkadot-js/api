@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OverrideModuleType } from '@polkadot/api/base/types';
+import { OverrideModuleType } from '@polkadot/types/known/types';
 import { FunctionMetadataV10, FunctionMetadataV11, MetadataV10, MetadataV11, ModuleMetadataV10, ModuleMetadataV11, StorageEntryTypeV10 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { getModuleTypes } from '@polkadot/api/base/typeInjector';
+import { getModuleTypes } from '@polkadot/types/known';
 import { createType } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 

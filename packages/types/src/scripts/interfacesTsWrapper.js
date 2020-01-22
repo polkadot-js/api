@@ -9,7 +9,6 @@ require('@babel/register')({
   plugins: [
     ['module-resolver', {
       alias: {
-        '^@polkadot/api/(.*)': './packages/api/src/\\1',
         '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
         '^@polkadot/types(.*)': './packages/types/src\\1'
       }
