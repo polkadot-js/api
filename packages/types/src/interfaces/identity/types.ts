@@ -32,7 +32,7 @@ export interface IdentityInfo extends Struct {
 export interface IdentityInfoAdditional extends ITuple<[Data, Data]> {}
 
 /** Enum */
-export interface Judgement extends Enum {
+export interface IdentityJudgement extends Enum {
   /** 0:: Unknown */
   readonly isUnknown: boolean;
   /** 1:: FeePaid(Balance) */
@@ -74,5 +74,5 @@ export interface Registration extends Struct {
   readonly info: IdentityInfo;
 }
 
-/** ITuple<[RegistrarIndex, Judgement]> */
-export interface RegistrationJudgement extends ITuple<[RegistrarIndex, Judgement]> {}
+/** ITuple<[RegistrarIndex, IdentityJudgement]> */
+export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}

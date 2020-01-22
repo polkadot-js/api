@@ -23,6 +23,7 @@ import Raw from '../codec/Raw';
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
   public readonly registry: Registry;
+  private _override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(Text.decodeText(value));
@@ -94,6 +95,13 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Set an override value for this
+   */
+  public setOverride (override: string): void {
+    this._override = override;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
@@ -120,8 +128,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    // only included here since we do not inherit docs
-    return super.toString();
+    return this._override || super.toString();
   }
 
   /**

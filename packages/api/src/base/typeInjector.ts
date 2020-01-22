@@ -4,80 +4,15 @@
 
 import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { RegistryTypes } from '@polkadot/types/types';
+import { OverrideModuleType, OverrideVersionedType } from './types';
 
 import { Text } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
-interface VersionedType {
-  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
-  types: RegistryTypes;
-}
-
-// these are override types for Polkadot & Kusama chains
-// NOTE The SessionKeys definition for Polkadot and Substrate (OpaqueKeys
-// implementation) are different. Detect Polkadot and inject the `Keys`
-// definition as applicable. (4 keys in substrate vs 5 in Polkadot/CC3).
-const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
-  {
-    minmax: [1000, undefined], // from launch
-    types: {
-      Keys: 'SessionKeys5'
-    }
-  }
-];
-
-const TYPES_KUSAMA_VERSIONED: VersionedType[] = [
-  {
-    minmax: [1019, 1031],
-    types: {
-      DispatchError: 'DispatchErrorTo198',
-      Keys: 'SessionKeys5',
-      SlashingSpans: 'SlashingSpansTo204'
-    }
-  },
-  {
-    minmax: [1032, 1042],
-    types: {
-      Keys: 'SessionKeys5',
-      SlashingSpans: 'SlashingSpansTo204'
-    }
-  },
-  {
-    minmax: [1043, undefined],
-    types: {
-      Keys: 'SessionKeys5'
-    }
-  }
-];
-
-// Type overrides based on specific nodes
-const TYPES_CHAIN: Record<string, VersionedType[]> = {};
-
-// Type overrides based on  metadata versions
-const TYPES_META: VersionedType[] = [
-  {
-    // NOTE this is for support of old, e.g. Alex, old metadata and BlockNumber/Index
-    // This is detected based on metadata version, since this is what we have up-front
-    //   v3 = Alex
-    //   v4 = v1.0 branch
-    minmax: [0, 4],
-    types: {
-      BlockNumber: 'u64',
-      Index: 'u64',
-      EventRecord: 'EventRecordTo76',
-      ValidatorPrefs: 'ValidatorPrefsTo145'
-    }
-  }
-];
-
-// Type overrides for specific spec types & versions as given in runtimeVersion
-const TYPES_SPEC: Record<string, VersionedType[]> = {
-  kusama: TYPES_KUSAMA_VERSIONED,
-  polkadot: TYPES_POLKADOT_VERSIONED
-};
+import { TYPES_CHAIN, TYPES_META, TYPES_MODULES, TYPES_SPEC } from './typeOverrides';
 
 // flatten a VersionedType[] into a Record<string, string>
-function filterVersions (versions: VersionedType[] = [], version: number): RegistryTypes {
+function filterVersions (versions: OverrideVersionedType[] = [], version: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }): boolean =>
       (isUndefined(min) || version >= min) &&
@@ -106,4 +41,9 @@ export function getChainTypes (chainName: Text, { specName, specVersion }: Runti
     ...(typesSpec[_specName] || {}),
     ...(typesChain[_chainName] || {})
   };
+}
+
+// get types for specific modules (metadata override)
+export function getModuleTypes (section: string): OverrideModuleType[] {
+  return TYPES_MODULES[section] || [];
 }

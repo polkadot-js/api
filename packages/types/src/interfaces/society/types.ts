@@ -31,6 +31,16 @@ export interface BidKind extends Enum {
 /** ITuple<[AccountId, Balance]> */
 export interface BidKindVouch extends ITuple<[AccountId, Balance]> {}
 
+/** Enum */
+export interface SocietyJudgement extends Enum {
+  /** 0:: Rebid */
+  readonly isRebid: boolean;
+  /** 1:: Reject */
+  readonly isReject: boolean;
+  /** 2:: Approve */
+  readonly isApprove: boolean;
+}
+
 /** u32 */
 export interface StrikeCount extends u32 {}
 
