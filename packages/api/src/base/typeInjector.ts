@@ -28,14 +28,22 @@ const TYPES_POLKADOT_VERSIONED: VersionedType[] = [
 
 const TYPES_KUSAMA_VERSIONED: VersionedType[] = [
   {
-    minmax: [1019, 1031], // CC3, from launch
+    minmax: [1019, 1031],
     types: {
       DispatchError: 'DispatchErrorTo198',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      SlashingSpans: 'SlashingSpansTo204'
     }
   },
   {
-    minmax: [1032, undefined], // CC3, with DispatchError
+    minmax: [1032, 1042],
+    types: {
+      Keys: 'SessionKeys5',
+      SlashingSpans: 'SlashingSpansTo204'
+    }
+  },
+  {
+    minmax: [1043, undefined],
     types: {
       Keys: 'SessionKeys5'
     }

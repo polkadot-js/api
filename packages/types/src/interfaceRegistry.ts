@@ -22,7 +22,7 @@ import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } 
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, BidKindVouch, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import { EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, MomentOf, Nominations, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -701,6 +701,9 @@ export interface InterfaceRegistry {
   SlashJournalEntry: SlashJournalEntry;
   'Option<SlashJournalEntry>': Option<SlashJournalEntry>;
   'Vec<SlashJournalEntry>': Vec<SlashJournalEntry>;
+  SlashingSpansTo204: SlashingSpansTo204;
+  'Option<SlashingSpansTo204>': Option<SlashingSpansTo204>;
+  'Vec<SlashingSpansTo204>': Vec<SlashingSpansTo204>;
   SlashingSpans: SlashingSpans;
   'Option<SlashingSpans>': Option<SlashingSpans>;
   'Vec<SlashingSpans>': Vec<SlashingSpans>;
