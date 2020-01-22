@@ -26,20 +26,20 @@ export default {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber'
     },
-    RawBabePreDigest0to159: {
+    RawBabePreDigestTo159: {
       _enum: {
-        Primary: 'RawBabePreDigestPrimary0to159',
-        Secondary: 'RawBabePreDigestSecondary0to159'
+        Primary: 'RawBabePreDigestPrimaryTo159',
+        Secondary: 'RawBabePreDigestSecondaryTo159'
       }
     },
-    RawBabePreDigestPrimary0to159: {
+    RawBabePreDigestPrimaryTo159: {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight',
       vrfOutput: 'VrfData',
       vrfProof: 'VrfProof'
     },
-    RawBabePreDigestSecondary0to159: {
+    RawBabePreDigestSecondaryTo159: {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight'
