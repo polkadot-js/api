@@ -14,7 +14,7 @@ import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
-import { getChainTypes, getMetadataTypes, getModuleTypes } from './typeInjector';
+import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
 
@@ -123,7 +123,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // inject types based on metadata, if applicable
     this.registerTypes(getMetadataTypes(metadata.version));
 
-    const decoratedMeta = new DecoratedMeta(this.registry, metadata, getModuleTypes);
+    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
