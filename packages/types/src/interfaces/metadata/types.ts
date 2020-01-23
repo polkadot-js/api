@@ -1056,8 +1056,21 @@ export interface StorageHasherV7 extends StorageHasherV6 {}
 /** StorageHasherV7 */
 export interface StorageHasherV8 extends StorageHasherV7 {}
 
-/** StorageHasherV8 */
-export interface StorageHasherV9 extends StorageHasherV8 {}
+/** Enum */
+export interface StorageHasherV9 extends Enum {
+  /** 0:: Blake2_128 */
+  readonly isBlake2128: boolean;
+  /** 1:: Blake2_256 */
+  readonly isBlake2256: boolean;
+  /** 2:: Twox128 */
+  readonly isTwox128: boolean;
+  /** 3:: Twox256 */
+  readonly isTwox256: boolean;
+  /** 4:: Twox64Concat */
+  readonly isTwox64Concat: boolean;
+  /** 5:: InvalidEntry */
+  readonly isInvalidEntry: boolean;
+}
 
 /** Struct */
 export interface StorageMetadataV0 extends Struct {
