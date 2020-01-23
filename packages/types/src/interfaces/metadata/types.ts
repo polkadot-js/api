@@ -1042,6 +1042,8 @@ export interface StorageHasherV4 extends Enum {
   readonly isTwox256: boolean;
   /** 4:: Twox64Concat */
   readonly isTwox64Concat: boolean;
+  /** 5:: InvalidEntry */
+  readonly isInvalidEntry: boolean;
 }
 
 /** StorageHasherV4 */

@@ -1902,14 +1902,14 @@
     typescript "^3.7.4"
     vuepress "^1.2.0"
 
-"@polkadot/keyring@^2.0.0-beta.4":
-  version "2.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.0.0-beta.4.tgz#036b8c49a6ce34a17c2d070125c772f64356fc4f"
-  integrity sha512-Fz+LEIeJzV3uDrb/im2qkJORTO9037dDp4LZVtLvP7H63e401vYd0Q0RbWjKnDq47Um3nuPjog/HmxUUEEnNRw==
+"@polkadot/keyring@^2.0.0-beta.5":
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.0.0-beta.5.tgz#3cf257d3b55cc1cb3a6738f652223be6a08d6d2b"
+  integrity sha512-zAoKc+g0yBNFdFm2mqIYUv1oge0hfpxprM8xaQDVcs4nNMgHWh3FMEbWZ/+NdEu/++xOIF6T01rn17rzi6V51A==
   dependencies:
     "@babel/runtime" "^7.7.7"
-    "@polkadot/util" "^2.0.0-beta.4"
-    "@polkadot/util-crypto" "^2.0.0-beta.4"
+    "@polkadot/util" "^2.0.0-beta.5"
+    "@polkadot/util-crypto" "^2.0.0-beta.5"
 
 "@polkadot/ts@^0.1.90":
   version "0.1.90"
@@ -1918,13 +1918,13 @@
   dependencies:
     "@types/chrome" "^0.0.91"
 
-"@polkadot/util-crypto@^2.0.0-beta.4":
-  version "2.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.0.0-beta.4.tgz#1828ccf34a4f7246f74cd51de29977263296eaaf"
-  integrity sha512-gKbLx4bm3EyR/C/P0ckFTuB17JRK31CKgY6a7bYxiNzOXLLEVBlFm8IznJv54trYb1St2xb3JpijMdJ2cuBL6w==
+"@polkadot/util-crypto@^2.0.0-beta.5":
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.0.0-beta.5.tgz#66704126df168557a35036ba6cd95841749834ce"
+  integrity sha512-akIoLA4oz7EJTXrBsZagZGslDTA7Ysl6UwwfM7PzihCKy3ZdpRwpaUr96vPKXIc1E0kfLY0STV+cOejAqblQHA==
   dependencies:
     "@babel/runtime" "^7.7.7"
-    "@polkadot/util" "^2.0.0-beta.4"
+    "@polkadot/util" "^2.0.0-beta.5"
     "@polkadot/wasm-crypto" "^0.20.0-beta.1"
     "@types/bip39" "^2.4.2"
     "@types/bs58" "^4.0.0"
@@ -1940,10 +1940,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^2.0.0-beta.4":
-  version "2.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.0.0-beta.4.tgz#f7be2e17abe85596c6860d980ee3af686154467a"
-  integrity sha512-OsmCYd5Go0QQcYPNVcwv8brEGTDw25SLaWgaaU2YPJqLnHkJp/1vZW6VP6TSW15BpAxN0+GhZs84Ja+1gYHM/g==
+"@polkadot/util@^2.0.0-beta.5":
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.0.0-beta.5.tgz#42562a38749b8cf6bf44fa23aafae93d7dc9c3e9"
+  integrity sha512-X7pPJN0JkBO0zv3KM3PTFDmSAILUbyjshZWBx9AGgxGDT+iIykyZLEePHLX4HJVVP8ymMNPnTc2voLydIMcO2w==
   dependencies:
     "@babel/runtime" "^7.7.7"
     "@types/bn.js" "^4.11.6"
