@@ -257,10 +257,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey
-      ? creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
-        ? this.decorateStorageLinked(creator, decorateMethod)
-        : this.decorateStoragePrefixed(creator, decorateMethod)
+    const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
+      ? this.decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
         this.hasSubscriptions
           ? this._rpcCore.state
@@ -400,16 +398,6 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       map(([keys, values]): [StorageKey, Codec][] =>
         keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
       )
-    );
-  }
-
-  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    return decorateMethod((...args: any[]): Observable<Codec> =>
-      args.length
-        ? this._rpcCore.state
-          .subscribeStorage<[Codec]>([[creator, ...args]])
-          .pipe(map(([data]): Codec => data))
-        : this.retrieveMapData(creator).pipe(map(([, values]): Vec<Codec> => values))
     );
   }
 
