@@ -182,6 +182,12 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   return storageFn;
 }
 
+// attach the full list hashing for double maps
+/** @internal */
+function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+  return extendPrefixedMap(registry, itemFn, storageFn);
+}
+
 /** @internal */
 export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
@@ -207,6 +213,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     } else {
       extendPrefixedMap(registry, itemFn, storageFn);
     }
+  } else if (type.isDoubleMap) {
+    extendDoubleMap(registry, itemFn, storageFn);
   }
 
   return storageFn;

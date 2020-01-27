@@ -372,9 +372,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
-    assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
+    assert(creator.meta.type.isMap || creator.meta.type.isDoubleMap, 'entries can only be retrieved on maps');
 
-    const outputType = creator.meta.type.asMap.value.toString();
+    const outputType = creator.meta.type.isMap
+      ? creator.meta.type.asMap.value.toString()
+      : creator.meta.type.asDoubleMap.value.toString();
 
     return this._rpcCore.state
       // FIXME This should really be some sort of subscription, so we can get stuff as
