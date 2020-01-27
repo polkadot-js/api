@@ -46,6 +46,13 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
     this._rpcCore.provider.on('error', this._onProviderError);
     this._rpcCore.provider.on('connected', this._onProviderConnect);
+
+    // If the provider was instantiated earlier, and has already emitted a
+    // 'connected' event, then the `on('connected')` won't fire anymore. To
+    // cater for this case, we call manually `this._onProviderConnect`.
+    if (this._rpcCore.provider.isConnected()) {
+      this._onProviderConnect();
+    }
   }
 
   public abstract registerTypes (types?: RegistryTypes): void;
