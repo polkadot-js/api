@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Polkadot JS API',
-  exclude: '**/*+(index|e2e|spec).ts',
+  exclude: '**/*+(index|e2e|spec|types).ts',
   excludeExternals: true,
   excludeNotExported: true,
   excludeProtected: true,
