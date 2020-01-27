@@ -160,7 +160,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
             updateId = await this._signViaSigner(address, eraOptions, header);
           }
         }),
-        map((): number | undefined => updateId)
+        mapTo(updateId)
       );
     }
 
