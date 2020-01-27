@@ -55,7 +55,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
   }
 
-  public abstract registerTypes(types?: RegistryTypes): void;
+  public abstract registerTypes (types?: RegistryTypes): void;
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
