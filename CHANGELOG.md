@@ -1,3 +1,17 @@
+# 1.0.0-beta-x
+
+- **Breaking change** Drop support for Substrate v1 chain in all derives
+- Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
+- Remove un-deployed support for v11 metadata (this was decided against on Substrate)
+- Allow v9 metadata to parse even in cases where it was wrongly deployed pre-v10
+- Allow type-aliasses on a per-module basis (e.g. `Judgement` in identity as well as society)
+- Allow passing `{ signer }` to both `api.tx.*` and `api.sign` (in addition to `api.setSigner`)
+- Add derives for the society module
+- Don't map empy tuples, e.. `()` to `Null`, rather keep them empty
+- Add lookups to the metadata erros via `findMetaError`
+- Update metadata and types for the lastest Substrate & Polkadot versions
+- Remove old known types for Substrate V1
+
 # 0.100.1
 
 - **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
