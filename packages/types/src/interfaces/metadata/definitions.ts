@@ -435,9 +435,11 @@ export default {
     },
 
     // This always maps to the latest
+    DoubleMapTypeLatest: 'DoubleMapTypeV10',
     EventMetadataLatest: 'EventMetadataV10',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV10',
     FunctionMetadataLatest: 'FunctionMetadataV10',
+    MapTypeLatest: 'MapTypeV10',
     MetadataLatest: 'MetadataV10',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV10',
     ModuleMetadataLatest: 'ModuleMetadataV10',

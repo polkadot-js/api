@@ -13,6 +13,9 @@ export interface CallMetadataV0 extends Struct {
   readonly functions: Vec<FunctionMetadataV0>;
 }
 
+/** DoubleMapTypeV10 */
+export interface DoubleMapTypeLatest extends DoubleMapTypeV10 {}
+
 /** Struct */
 export interface DoubleMapTypeV10 extends Struct {
   /** StorageHasherV10 */
@@ -228,6 +231,9 @@ export interface FunctionMetadataV8 extends FunctionMetadataV7 {}
 
 /** FunctionMetadataV8 */
 export interface FunctionMetadataV9 extends FunctionMetadataV8 {}
+
+/** MapTypeV10 */
+export interface MapTypeLatest extends MapTypeV10 {}
 
 /** Struct */
 export interface MapTypeV0 extends Struct {

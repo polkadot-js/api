@@ -11,7 +11,7 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  iterKey?: Uint8Array;
+  iterKey?: (arg?: any) => Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -92,6 +92,10 @@ export default class StorageKey extends Bytes {
       };
     } else if (Array.isArray(value)) {
       const [fn, ...arg]: [StorageEntry, ...any[]] = value as any;
+
+      if (!isFunction(fn)) {
+        console.log(value);
+      }
 
       assert(isFunction(fn), 'Expected function input for key construction');
 

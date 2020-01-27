@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { DoubleMapTypeLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -141,7 +141,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => Raw): StorageKey {
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): (arg?: any) => StorageKey {
   const outputType = type.isMap
     ? type.asMap.key.toString()
     : type.asDoubleMap.key1.toString();
@@ -156,7 +156,8 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
     documentation
   });
 
-  return createType(registry, 'StorageKey', iterFn, { method, section });
+  return (arg?: any): StorageKey =>
+    createType(registry, 'StorageKey', iterFn(arg), { method, section });
 }
 
 // attach the head key hashing for linked maps
@@ -175,11 +176,11 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 
 // attach the full list hashing for prefixed maps
 /** @internal */
-function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, hasher?: HasherFunction): StorageEntry {
+function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, keyType = 'Bytes', hasher?: HasherFunction): StorageEntry {
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw =>
     new Raw(registry,
       hasher && !isNull(arg) && !isUndefined(arg)
-        ? u8aConcat(createPrefixedKey(itemFn), hasher(arg))
+        ? u8aConcat(createPrefixedKey(itemFn), hasher(createTypeUnsafe(registry, keyType, [arg]).toU8a()))
         : createPrefixedKey(itemFn)
     )
   );
@@ -189,8 +190,8 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 
 // attach the full list hashing for double maps
 /** @internal */
-function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, hasher1: HasherFunction): StorageEntry {
-  return extendPrefixedMap(registry, itemFn, storageFn, hasher1);
+function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, dm: DoubleMapTypeLatest): StorageEntry {
+  return extendPrefixedMap(registry, itemFn, storageFn, dm.key1.toString(), getHasher(dm.hasher));
 }
 
 /** @internal */
@@ -219,7 +220,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
       extendPrefixedMap(registry, itemFn, storageFn);
     }
   } else if (type.isDoubleMap) {
-    extendDoubleMap(registry, itemFn, storageFn, hasher);
+    extendDoubleMap(registry, itemFn, storageFn, type.asDoubleMap);
   }
 
   return storageFn;

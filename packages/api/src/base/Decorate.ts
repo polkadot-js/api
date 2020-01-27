@@ -367,7 +367,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   private retrieveMapEntries (creator: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
     const hasArg = creator.meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg);
 
-    assert(creator.meta.type.isMap || creator.meta.type.isDoubleMap, 'entries can only be retrieved on maps, linked maps and double maps');
+    assert(creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
     const outputType = creator.meta.type.isMap
       ? creator.meta.type.asMap.value.toString()
@@ -376,7 +376,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     return this._rpcCore.state
       // FIXME This should really be some sort of subscription, so we can get stuff as
       // it changes (as of now it is a one-shot query). Not sure how to do this though...
-      .getKeys(hasArg ? [creator.iterKey, arg] : creator.iterKey)
+      .getKeys(creator.iterKey(hasArg ? arg : undefined))
       .pipe(
         switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
           combineLatest([
