@@ -141,16 +141,17 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
 }
 
 /** @internal */
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => Raw): StorageKey {
-  const map = type.asMap;
-  const outputType = map.key.toString();
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): StorageKey {
+  const outputType = type.isMap
+    ? type.asMap.key.toString()
+    : type.asDoubleMap.key1.toString();
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = createType(registry, 'StorageEntryMetadataLatest', {
     name,
     modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', map.key), 0),
+    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
     fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, outputType).toHex()),
     documentation
   });
@@ -182,6 +183,12 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   return storageFn;
 }
 
+// attach the full list hashing for double maps
+/** @internal */
+function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+  return extendPrefixedMap(registry, itemFn, storageFn);
+}
+
 /** @internal */
 export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
@@ -207,6 +214,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     } else {
       extendPrefixedMap(registry, itemFn, storageFn);
     }
+  } else if (type.isDoubleMap) {
+    extendDoubleMap(registry, itemFn, storageFn);
   }
 
   return storageFn;

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
-import { AnyU8a, Registry } from '../types';
+import { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -11,7 +11,7 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  iterKey?: Uint8Array;
+  iterKey?: Uint8Array & Codec;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -127,7 +127,9 @@ export default class StorageKey extends Bytes {
     } else if (Array.isArray(value)) {
       const [fn] = value;
 
-      return unwrapStorageType(fn.meta.type);
+      if (fn.meta) {
+        return unwrapStorageType(fn.meta.type);
+      }
     }
 
     return undefined;

@@ -4,27 +4,24 @@
 
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, ModulesWithCalls, Registry } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import {
-  ApiInterfaceRx, ApiOptions, ApiTypes,
-  DecorateMethod, DecoratedRpc, DecoratedRpcSection,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg,
-  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
-} from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Metadata, Null, Option, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
@@ -131,6 +128,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
     this._rx.registry = this.registry;
   }
+
+  public abstract createType <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K];
 
   /**
    * @returns `true` if the API operates with subscriptions
@@ -275,8 +274,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.entries = decorateMethod((): Observable<[StorageKey, Codec][]> =>
-      this.retrieveMapEntries(creator));
+    decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+      this.retrieveMapEntries(creator, doubleMapArg));
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
@@ -369,15 +368,26 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
-    assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
+  private retrieveMapEntries (creator: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    assert(creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
-    const outputType = creator.meta.type.asMap.value.toString();
+    const outputType = creator.meta.type.isMap
+      ? creator.meta.type.asMap.value.toString()
+      : creator.meta.type.asDoubleMap.value.toString();
 
     return this._rpcCore.state
       // FIXME This should really be some sort of subscription, so we can get stuff as
       // it changes (as of now it is a one-shot query). Not sure how to do this though...
-      .getKeys(creator.iterKey)
+      .getKeys(
+        this.createType('Raw', u8aConcat(
+          creator.iterKey,
+          creator.meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+            ? getHasher(creator.meta.type.asDoubleMap.hasher)(
+              this.createType(creator.meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
+            )
+            : new Uint8Array([])
+        ))
+      )
       .pipe(
         switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
           combineLatest([
