@@ -11,10 +11,7 @@ import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import getUniqTypes from './getUniqTypes';
 import Metadata from '../Metadata';
 
-/**
- * Given the static `rpcData` and the `staticSubstrate` JSON file, Metadata
- * should decode `rpcData` and output `staticSubstrate`.
- */
+/** @internal */
 export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry, version: number, rpcData: string, staticSubstrate: object): void {
   it('decodes latest substrate properly', (): void => {
     const metadata = new Metadata(registry, rpcData);
@@ -31,10 +28,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
   });
 }
 
-/**
- * Given a `version`, MetadataLatest and MetadataV{version} should output the same
- * unique types.
- */
+/** @internal */
 export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
@@ -48,9 +42,7 @@ export function toLatest<Modules extends Codec> (registry: Registry, version: nu
   });
 }
 
-/**
- * Given a Metadata, no type should throw when given its fallback value.
- */
+/** @internal */
 export function defaultValues (registry: Registry, rpcData: string): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);

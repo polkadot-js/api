@@ -12,6 +12,7 @@ export const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edi
 export const FOOTER = '\n';
 
 // creates the import lines
+/** @internal */
 export function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
   return checks.reduce((result, { file, types }): string => {
     if (types.length) {
@@ -23,6 +24,7 @@ export function createImportCode (header: string, checks: { file: string; types:
 }
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
+/** @internal */
 export function exportInterface (name = '', base: string, body = ''): string {
   return `/** ${base} */\nexport interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
@@ -30,6 +32,7 @@ export function exportInterface (name = '', base: string, body = ''): string {
 // helper to create an `export type <Name> = <Base>`
 // but since we don't want type alias (TS doesn't preserve names) we use
 // interface here.
+/** @internal */
 export function exportType (name = '', base: string): string {
   return exportInterface(name, base);
 }
@@ -37,6 +40,7 @@ export function exportType (name = '', base: string): string {
 /**
  * Given the inner `K` & `V`, return a `BTreeMap<K, V>`  string
  */
+/** @internal */
 function formatBTreeMap (key: string, val: string): string {
   return `BTreeMap<${key}, ${val}>`;
 }
@@ -44,6 +48,7 @@ function formatBTreeMap (key: string, val: string): string {
 /**
  * Given the inner `V`, return a `BTreeSet<V>`  string
  */
+/** @internal */
 function formatBTreeSet (val: string): string {
   return `BTreeSet<${val}>`;
 }
@@ -51,6 +56,7 @@ function formatBTreeSet (val: string): string {
 /**
  * Given the inner `T`, return a `Compact<T>` string
  */
+/** @internal */
 function formatCompact (inner: string): string {
   return paramsNotation('Compact', inner);
 }
@@ -58,6 +64,7 @@ function formatCompact (inner: string): string {
 /**
  * Given the inner `O` & `E`, return a `Result<O, E>`  string
  */
+/** @internal */
 function formatResult (innerOk: string, innerError: string): string {
   return `Result<${innerOk}, ${innerError}>`;
 }
@@ -65,6 +72,7 @@ function formatResult (innerOk: string, innerError: string): string {
 /**
  * Given the inner `T`, return a `Option<T>` string
  */
+/** @internal */
 function formatOption (inner: string): string {
   return paramsNotation('Option', inner);
 }
@@ -72,6 +80,7 @@ function formatOption (inner: string): string {
 /**
  * Given the inners `T[]`, return a `ITuple<...T>` string
  */
+/** @internal */
 function formatTuple (inners: string[]): string {
   return paramsNotation('ITuple', `[${inners.join(', ')}]`);
 }
@@ -79,6 +88,7 @@ function formatTuple (inners: string[]): string {
 /**
  * Given the inner `T`, return a `Vec<T>` string
  */
+/** @internal */
 function formatVec (inner: string): string {
   return paramsNotation('Vec', inner);
 }
@@ -86,6 +96,7 @@ function formatVec (inner: string): string {
 /**
  * Correctly format a given type
  */
+/** @internal */
 export function formatType (definitions: object, type: string | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
   if (typeof type === 'string') {
@@ -155,6 +166,7 @@ export function formatType (definitions: object, type: string | TypeDef, imports
 /**
  * Indent a string with `n` spaces before.
  */
+/** @internal */
 export function indent (n: number, char = ' '): (str: string) => string {
   return function (str: string): string {
     return `${char.repeat(n)}${str}`;

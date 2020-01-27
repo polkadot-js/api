@@ -10,15 +10,7 @@ import { AnyJsonObject, CallFunction, Registry, RegistryMetadataCall } from '@po
 import { createType } from '@polkadot/types/codec/create/createType';
 import { assert, stringCamelCase } from '@polkadot/util';
 
-/**
- * From the metadata of a function in the module's storage, generate the function
- * that will return the an [[CallFunction]].
- *
- * @param section - Name of the module section.
- * @param sectionIndex - Index of the module section in the modules array.
- * @param methodIndex - Index of the method inside the section.
- * @param callMetadata - Metadata of the call function.
- */
+/** @internal */
 export default function createDescriptor (registry: Registry, section: string, sectionIndex: number, methodIndex: number, callMetadata: RegistryMetadataCall): CallFunction {
   const callIndex = new Uint8Array([sectionIndex, methodIndex]);
   const expectedArgs = callMetadata.args;

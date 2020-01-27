@@ -21,6 +21,7 @@ const primitiveClasses = {
   Raw
 };
 
+/** @internal */
 export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, output: string): void {
   console.log(`Writing ${output}`);
 

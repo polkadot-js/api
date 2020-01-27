@@ -9,6 +9,7 @@ import { getTypeDef } from '@polkadot/types/codec/create';
 
 import flattenUniq from './flattenUniq';
 
+/** @internal */
 function extractTypes (types: string[]): any[] {
   return types.map((type): any => {
     const decoded = getTypeDef(type);
@@ -37,6 +38,7 @@ function extractTypes (types: string[]): any[] {
   });
 }
 
+/** @internal */
 export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     !registry.hasType(type)

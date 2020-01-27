@@ -40,6 +40,7 @@ const l = logger('api-mock');
 /**
  * A mock provider mainly used for testing.
  * @return {ProviderInterface} The mock provider
+ * @internal
  */
 export default class Mock implements ProviderInterface {
   private db: MockStateDb = {};

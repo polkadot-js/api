@@ -38,6 +38,7 @@ export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) =
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
  */
+/** @internal */
 function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
   return Object
     .keys(allSections)
@@ -65,6 +66,7 @@ export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
+/** @internal */
 export default function decorateDerive (api: ApiInterfaceRx, custom: DeriveCustom = {}): ExactDerive {
   return {
     ...injectFunctions(api, derive),

@@ -7,10 +7,7 @@ import { Registry } from '@polkadot/types/types';
 
 import { createType } from '@polkadot/types';
 
-/**
- * Convert from MetadataV5 to MetadataV6
- * See https://github.com/polkadot-js/api/issues/1043 for details
- */
+/** @internal */
 export default function toV6 (registry: Registry, { modules }: MetadataV5): MetadataV6 {
   return createType(registry, 'MetadataV6', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV6 =>

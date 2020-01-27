@@ -11,11 +11,7 @@ import Metadata from '../../../Metadata';
 import createFunction from './createFunction';
 import getStorage from './storage';
 
-/**
- * Return an object with the modules and the functions to access their storage.
- *
- * @param metadata - The metadata
- */
+/** @internal */
 export default function fromMetadata (registry: Registry, metadata: Metadata): Storage {
   return metadata.asLatest.modules.reduce((result, moduleMetadata): Storage => {
     if (moduleMetadata.storage.isNone) {

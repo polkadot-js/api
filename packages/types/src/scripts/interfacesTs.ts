@@ -8,6 +8,7 @@ import generateQueryTypes from './generateTypes/query';
 import generateRpcTypes from './generateTypes/rpc';
 import generateTsDef from './generateTypes/tsDef';
 
+/** @internal */
 function main (): void {
   generateConstsTypes();
   generateInterfaceRegistry();

@@ -7,9 +7,7 @@ import { Registry } from '@polkadot/types/types';
 
 import { createType, Option } from '@polkadot/types/codec';
 
-/**
- * Convert V3 StorageFunction to V4 StorageFunction
- */
+/** @internal */
 function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV3): StorageFunctionMetadataV4 {
   const { documentation, fallback, modifier, name, type } = storageFn;
 
@@ -42,10 +40,7 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
   });
 }
 
-/**
- * Convert from MetadataV3 to MetadataV4
- * See https://github.com/paritytech/substrate/pull/2268 for details
- */
+/** @internal */
 export default function toV4 (registry: Registry, { modules }: MetadataV3): MetadataV4 {
   return createType(registry, 'MetadataV4', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>

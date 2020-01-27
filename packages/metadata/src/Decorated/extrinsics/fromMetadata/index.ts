@@ -9,11 +9,7 @@ import { stringCamelCase } from '@polkadot/util';
 import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 
-/**
- * Return an object with the modules and the functions to use extrinsics.
- *
- * @param metadata - The metadata
- */
+/** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)

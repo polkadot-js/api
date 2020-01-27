@@ -10,6 +10,7 @@ import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
 // Generate `packages/rpc-core/jsonrpc.types.ts`
+/** @internal */
 export default function generateRpcTypes (): void {
   console.log('Writing packages/rpc-core/jsonrpc.types.ts');
 
