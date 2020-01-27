@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Bytes, u32, u64 } from '@polkadot/types';
-import { Balance, BalanceOf, BlockNumber, Moment, Permill } from '@polkadot/types/interfaces/runtime';
+import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
@@ -68,6 +68,10 @@ declare module '@polkadot/metadata/Decorated/types' {
       proposalBondMinimum: BalanceOf & ConstantCodec;
       spendPeriod: BlockNumber & ConstantCodec;
       burn: Permill & ConstantCodec;
+      tipCountdown: BlockNumber & ConstantCodec;
+      tipFindersFee: Percent & ConstantCodec;
+      tipReportDepositBase: BalanceOf & ConstantCodec;
+      tipReportDepositPerByte: BalanceOf & ConstantCodec;
     };
     contracts: {
       [index: string]: Codec;
@@ -88,11 +92,14 @@ declare module '@polkadot/metadata/Decorated/types' {
       maxValueSize: u32 & ConstantCodec;
       blockGasLimit: Gas & ConstantCodec;
     };
-    nicks: {
+    society: {
       [index: string]: Codec;
-      reservationFee: BalanceOf & ConstantCodec;
-      minLength: u32 & ConstantCodec;
-      maxLength: u32 & ConstantCodec;
+      candidateDeposit: BalanceOf & ConstantCodec;
+      wrongSideDeduction: BalanceOf & ConstantCodec;
+      maxStrikes: u32 & ConstantCodec;
+      periodSpend: BalanceOf & ConstantCodec;
+      rotationPeriod: BlockNumber & ConstantCodec;
+      challengePeriod: BlockNumber & ConstantCodec;
     };
   }
 }
