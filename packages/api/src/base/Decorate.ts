@@ -369,7 +369,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
+  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
     assert(creator.meta.type.isMap || creator.meta.type.isDoubleMap, 'entries can only be retrieved on maps');
 
     const outputType = creator.meta.type.isMap
@@ -389,16 +389,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
               keys.map((key) => key.setOutputType(outputType))
             )
           ])
+        ),
+        map(([keys, values]): [StorageKey, Codec][] =>
+          keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
         )
       );
-  }
-
-  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
-    return this.retrieveMapData(creator).pipe(
-      map(([keys, values]): [StorageKey, Codec][] =>
-        keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
-      )
-    );
   }
 
   protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
