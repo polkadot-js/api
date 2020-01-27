@@ -35,7 +35,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetad
     ...mod,
     calls: calls
       ? convertCalls(registry, calls, sectionTypes)
-      : null,
+      : null
   });
 }
 
