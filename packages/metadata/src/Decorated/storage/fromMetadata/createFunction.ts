@@ -175,9 +175,13 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 
 // attach the full list hashing for prefixed maps
 /** @internal */
-function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
-    new Raw(registry, createPrefixedKey(itemFn))
+function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, hasher?: HasherFunction): StorageEntry {
+  storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (arg?: any): Raw =>
+    new Raw(registry,
+      hasher && !isNull(arg) && !isUndefined(arg)
+        ? u8aConcat(createPrefixedKey(itemFn), hasher(arg))
+        : createPrefixedKey(itemFn)
+    )
   );
 
   return storageFn;
@@ -185,8 +189,8 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
 
 // attach the full list hashing for double maps
 /** @internal */
-function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
-  return extendPrefixedMap(registry, itemFn, storageFn);
+function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, hasher1: HasherFunction): StorageEntry {
+  return extendPrefixedMap(registry, itemFn, storageFn, hasher1);
 }
 
 /** @internal */
@@ -215,7 +219,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
       extendPrefixedMap(registry, itemFn, storageFn);
     }
   } else if (type.isDoubleMap) {
-    extendDoubleMap(registry, itemFn, storageFn);
+    extendDoubleMap(registry, itemFn, storageFn, hasher);
   }
 
   return storageFn;
