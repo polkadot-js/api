@@ -9,6 +9,7 @@ import { createType } from '@polkadot/types';
 
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
+/** @internal */
 function createStorageHasher (registry: Registry, hasher: StorageHasherV9): StorageHasherV10 {
   // Blake2_128_Concat has been added at index 2, so we increment all the
   // indexes greater than 2
@@ -19,6 +20,7 @@ function createStorageHasher (registry: Registry, hasher: StorageHasherV9): Stor
   return createType(registry, 'StorageHasherV10', hasher);
 }
 
+/** @internal */
 function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
   if (entryType.isMap) {
     return [{
@@ -38,6 +40,7 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): 
   return [entryType.asPlain, 0];
 }
 
+/** @internal */
 function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
@@ -55,9 +58,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
   });
 }
 
-/**
- * Convert from MetadataV9 to MetadataV10
- */
+/** @internal */
 export default function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
   return createType(registry, 'MetadataV10', {
     modules: modules.map((mod): ModuleMetadataV10 => convertModule(registry, mod))

@@ -32,6 +32,7 @@ const NOOP = (): void => undefined;
  * Shorthand for distinctUntilChanged(), publishReplay(1) and refCount().
  *
  * @ignore
+ * @internal
  */
 export const drr = ({ skipChange = false, skipTimeout = false }: Options = {}): DrrResult => <T> (source$: Observable<T>): Observable<T> =>
   source$.pipe(

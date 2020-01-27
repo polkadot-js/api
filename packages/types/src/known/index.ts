@@ -12,6 +12,7 @@ import { isUndefined } from '@polkadot/util';
 import { TYPES_CHAIN, TYPES_META, TYPES_MODULES, TYPES_SPEC } from './overrides';
 
 // flatten a VersionedType[] into a Record<string, string>
+/** @internal */
 function filterVersions (versions: OverrideVersionedType[] = [], version: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }): boolean =>
@@ -25,11 +26,13 @@ function filterVersions (versions: OverrideVersionedType[] = [], version: number
 }
 
 // based on the metadata version, return the registry types
+/** @internal */
 export function getMetadataTypes (version: number): RegistryTypes {
   return filterVersions(TYPES_META, version);
 }
 
 // based on the chain and runtimeVersion, get the applicable types (ready for registration)
+/** @internal */
 export function getChainTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
@@ -44,6 +47,7 @@ export function getChainTypes (chainName: Text, { specName, specVersion }: Runti
 }
 
 // get types for specific modules (metadata override)
+/** @internal */
 export function getModuleTypes (section: string): OverrideModuleType[] {
   return TYPES_MODULES[section] || [];
 }

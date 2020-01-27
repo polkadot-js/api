@@ -12,11 +12,7 @@ import Metadata from '../../../Metadata';
 
 const AS_STRIPPED = ['Bytes'];
 
-/**
- * Retrieve the parameter types (module constants) from the runtime metadata.
- *
- * @param metadata - The metadata
- */
+/** @internal */
 export default function fromMetadata (registry: Registry, metadata: Metadata): Constants {
   return metadata.asLatest.modules.reduce((result: Constants, moduleMetadata): Constants => {
     if (moduleMetadata.constants.isEmpty) {

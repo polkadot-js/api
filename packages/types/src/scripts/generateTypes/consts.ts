@@ -13,6 +13,7 @@ import { Metadata, TypeRegistry } from '../..';
 import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
 // Generate types for one module
+/** @internal */
 function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (!modul.constants.length) {
     return [];
@@ -35,6 +36,7 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
 
 // Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
+/** @internal */
 function generateForMeta (meta: Metadata): void {
   console.log('Writing packages/api/src/consts.types.ts');
 
@@ -84,6 +86,7 @@ function generateForMeta (meta: Metadata): void {
 }
 
 // Call `generateForMeta()` with current static metadata
+/** @internal */
 export default function generateConsts (): void {
   const registry = new TypeRegistry();
 

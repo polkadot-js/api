@@ -12,6 +12,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 // migrate a storage entry type - only map types are different (with a kind enum)
 // all return the actual value for the enum, followed by the numeric index
+/** @internal */
 function createStorageType (registry: Registry, entryType: StorageEntryTypeV10): [any, number] {
   if (entryType.isPlain) {
     return [entryType.asPlain, 0];
@@ -29,6 +30,7 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV10):
 }
 
 // apply module-specific type overrides
+/** @internal */
 function convertCalls (registry: Registry, calls: FunctionMetadataV10[], sectionTypes: OverrideModuleType[]): FunctionMetadataV11[] {
   return calls.map(({ args, documentation, name }): FunctionMetadataV11 => {
     args.forEach(({ type }): void => {
@@ -43,6 +45,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV10[], section
   });
 }
 
+/** @internal */
 function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetadataV11 {
   const calls = mod.calls.unwrapOr(null);
   const storage = mod.storage.unwrapOr(null);
@@ -65,9 +68,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetad
   });
 }
 
-/**
- * Convert from MetadataV10 to MetadataV11
- */
+/** @internal */
 export default function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {
   return createType(registry, 'MetadataV11', {
     modules: modules.map((mod): ModuleMetadataV11 => convertModule(registry, mod))

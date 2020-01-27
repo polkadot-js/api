@@ -34,6 +34,7 @@ const EMPTY_META = {
 };
 
 // utility method to create a nicely-formatted error
+/** @internal */
 function createErrorMessage ({ method, params, type }: RpcMethod, error: Error): string {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`

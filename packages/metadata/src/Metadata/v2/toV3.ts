@@ -7,6 +7,7 @@ import { Registry } from '@polkadot/types/types';
 
 import { createType } from '@polkadot/types';
 
+/** @internal */
 export default function toV3 (registry: Registry, metadataV2: MetadataV2): MetadataV3 {
   return createType(registry, 'MetadataV3', metadataV2);
 }

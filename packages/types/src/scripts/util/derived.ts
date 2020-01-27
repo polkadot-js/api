@@ -14,6 +14,7 @@ import { setImports, TypeImports } from './imports';
 import * as primitiveClasses from '../../primitive';
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
+/** @internal */
 export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
@@ -50,6 +51,7 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
 // etc
+/** @internal */
 export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
   const possibleTypes = [type];
 

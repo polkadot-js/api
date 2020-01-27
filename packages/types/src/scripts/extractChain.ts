@@ -22,6 +22,7 @@ const { argv: { ws } } = yargs
     }
   });
 
+/** @internal */
 async function main (): Promise<void> {
   const provider = new WsProvider(ws);
   const api = await ApiPromise.create({ provider });

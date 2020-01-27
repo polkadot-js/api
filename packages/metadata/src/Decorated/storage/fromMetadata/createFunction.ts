@@ -37,6 +37,7 @@ const EMPTY_U8A = new Uint8Array([]);
 const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
 
 // with the prefix, method & options, create both the string & raw keys
+/** @internal */
 function expandKey ({ method, prefix }: CreateItemFn, options: CreateItemOptions): string {
   return options.key
     ? options.key
@@ -44,6 +45,7 @@ function expandKey ({ method, prefix }: CreateItemFn, options: CreateItemOptions
 }
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
+/** @internal */
 function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFunction?] {
   if (type.isDoubleMap) {
     return [
@@ -59,11 +61,13 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
 }
 
 // create a base prefixed key
+/** @internal */
 function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
   return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
 }
 
 // create a key for a DoubleMap type
+/** @internal */
 function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?], metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
 
@@ -97,6 +101,7 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
 }
 
 // create a key for either a map or a plain value
+/** @internal */
 function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array, metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
   let key: Uint8Array | undefined;
@@ -126,6 +131,7 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
 }
 
 // attach the metadata to expand to a StorageFunction
+/** @internal */
 function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
@@ -142,6 +148,7 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   return storageFn;
 }
 
+/** @internal */
 function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => Raw): StorageKey {
   const map = type.asMap;
   const outputType = map.key.toString();
@@ -160,6 +167,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 }
 
 // attach the head key hashing for linked maps
+/** @internal */
 function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction, metaVersion: number): StorageEntry {
   const key = metaVersion <= 8
     ? hasher(`head of ${stringKey}`)
@@ -173,6 +181,7 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 }
 
 // attach the full list hashing for prefixed maps
+/** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
     new Raw(registry, createPrefixedKey(itemFn))
@@ -181,16 +190,7 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   return storageFn;
 }
 
-/**
- * From the schema of a function in the module's storage, generate the function
- * that will return the correct storage key.
- *
- * @param item - The function's definition schema to create the function from.
- * The schema is taken from state_getMetadata.
- * @param options - Additional options when creating the function. These options
- * are not known at runtime (from state_getMetadata), they need to be supplied
- * by us manually at compile time.
- */
+/** @internal */
 export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const stringKey = expandKey(itemFn, options);
