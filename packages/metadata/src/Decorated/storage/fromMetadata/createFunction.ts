@@ -104,7 +104,6 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
 /** @internal */
 function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array, metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
-  let key: Uint8Array | undefined;
   let param: Uint8Array = EMPTY_U8A;
 
   if (type.isMap) {
@@ -113,21 +112,14 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
     assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
 
     param = createTypeUnsafe(registry, map.key.toString(), [arg]).toU8a();
-
-    // prefix maps are using prefixes to optimize the trie, so the key generation are
-    // done differently where the prefix/method are hashed separately with only the
-    // parameter for the key being attached via the hasher
-    if (map.kind.isPrefixedMap) {
-      key = u8aConcat(createPrefixedKey(itemFn), hasher(param));
-    }
   }
 
   // StorageKey is a Bytes, so is length-prefixed
-  return Compact.addLengthPrefix(key || (
+  return Compact.addLengthPrefix(
     metaVersion <= 8
       ? hasher(u8aConcat(stringToU8a(stringKey), param))
       : u8aConcat(createPrefixedKey(itemFn), param.length ? hasher(param) : EMPTY_U8A)
-  ));
+  );
 }
 
 // attach the metadata to expand to a StorageFunction
@@ -210,7 +202,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   if (type.isMap) {
     const map = type.asMap;
 
-    if (map.kind.isLinkedMap) {
+    if (map.linked.isTrue) {
       extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher, options.metaVersion);
     } else {
       extendPrefixedMap(registry, itemFn, storageFn);

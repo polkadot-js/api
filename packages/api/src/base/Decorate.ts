@@ -257,8 +257,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey && (creator.meta.type.asMap.kind.isLinkedMap || creator.meta.type.asMap.kind.isPrefixedMap)
-      ? creator.meta.type.asMap.kind.isLinkedMap
+    const decorated = this.hasSubscriptions && creator.iterKey
+      ? creator.meta.type.asMap.linked.isTrue
         ? this.decorateStorageLinked(creator, decorateMethod)
         : this.decorateStoragePrefixed(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (

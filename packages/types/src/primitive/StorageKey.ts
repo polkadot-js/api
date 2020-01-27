@@ -31,6 +31,7 @@ interface StorageKeyExtra {
 }
 
 // we unwrap the type here, turning into an output usable for createType
+/** @internal */
 export function unwrapStorageType (type: StorageEntryTypeLatest): string {
   if (type.isPlain) {
     return type.asPlain.toString();
@@ -40,10 +41,8 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): string {
 
   const map = type.asMap;
 
-  if (map.kind.isLinkedMap) {
+  if (map.linked.isTrue) {
     return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
-  } else if (map.kind.isPrefixedMap) {
-    // We are not 100% sure here yet if we are doing something specific or not
   }
 
   return map.value.toString();
