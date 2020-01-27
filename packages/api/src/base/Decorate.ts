@@ -257,10 +257,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey
-      ? creator.meta.type.asMap.linked.isTrue
-        ? this.decorateStorageLinked(creator, decorateMethod)
-        : this.decorateStoragePrefixed(creator, decorateMethod)
+    const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
+      ? this.decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
         this.hasSubscriptions
           ? this._rpcCore.state
@@ -371,7 +369,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
+  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
     assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
 
     const outputType = creator.meta.type.asMap.value.toString();
@@ -389,26 +387,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
               keys.map((key) => key.setOutputType(outputType))
             )
           ])
+        ),
+        map(([keys, values]): [StorageKey, Codec][] =>
+          keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
         )
       );
-  }
-
-  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
-    return this.retrieveMapData(creator).pipe(
-      map(([keys, values]): [StorageKey, Codec][] =>
-        keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
-      )
-    );
-  }
-
-  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    return decorateMethod((...args: any[]): Observable<Codec> =>
-      args.length
-        ? this._rpcCore.state
-          .subscribeStorage<[Codec]>([[creator, ...args]])
-          .pipe(map(([data]): Codec => data))
-        : this.retrieveMapData(creator).pipe(map(([, values]): Vec<Codec> => values))
-    );
   }
 
   protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
