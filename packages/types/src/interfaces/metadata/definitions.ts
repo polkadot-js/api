@@ -447,6 +447,7 @@ export default {
     StorageEntryMetadataLatest: 'StorageEntryMetadataV10',
     StorageEntryModifierLatest: 'StorageEntryModifierV10',
     StorageEntryTypeLatest: 'StorageEntryTypeV10',
+    StorageMetadataLatest: 'StorageMetadataV10',
     StorageHasher: 'StorageHasherV10',
 
     // the enum containing all the mappings

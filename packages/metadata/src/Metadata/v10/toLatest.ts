@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { OverrideModuleType } from '@polkadot/types/known/types';
-import { FunctionMetadataV10, FunctionMetadataLatest, MetadataV10, MetadataLatest, ModuleMetadataV10, ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { FunctionMetadataV10, FunctionMetadataLatest, MetadataV10, MetadataLatest, ModuleMetadataV10, ModuleMetadataLatest, StorageMetadataV10, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types/known';
-import { createType } from '@polkadot/types';
+import { Type, createType } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
-// apply module-specific type overrides - this should always be done as part of toLatest
+// apply module-specific type overrides (always be done as part of toLatest)
 /** @internal */
 function convertCalls (registry: Registry, calls: FunctionMetadataV10[], sectionTypes: OverrideModuleType[]): FunctionMetadataLatest[] {
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
@@ -26,15 +26,46 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV10[], section
   });
 }
 
+// apply module-specific storage type overrides (always part of toLatest)
+/** @internal */
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV10, sectionTypes: OverrideModuleType[]): StorageMetadataLatest {
+  return createType(registry, 'StorageMetadataLatest', {
+    items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataLatest => {
+      let resultType: Type;
+
+      if (type.isMap) {
+        resultType = type.asMap.value;
+      } else if (type.isDoubleMap) {
+        resultType = type.asDoubleMap.value;
+      } else {
+        resultType = type.asPlain;
+      }
+
+      const queued = sectionTypes.find(({ name }): boolean => resultType.eq(name));
+
+      if (queued) {
+        resultType.setOverride(queued.override);
+      }
+
+      return createType(registry, 'StorageEntryMetadataLatest', { documentation, fallback, modifier, name, type });
+    }),
+    prefix
+  });
+}
+
 /** @internal */
 function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetadataLatest {
   const calls = mod.calls.unwrapOr(null);
+  const storage = mod.storage.unwrapOr(null);
   const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString())) || [];
 
   return createType(registry, 'ModuleMetadataLatest', {
     ...mod,
     calls: calls
       ? convertCalls(registry, calls, sectionTypes)
+      : null,
+    storage: storage
+      ? convertStorage(registry, storage, sectionTypes)
       : null
   });
 }
