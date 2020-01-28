@@ -4,24 +4,21 @@
 
 import { OverrideModuleType, OverrideVersionedType } from './types';
 
-// type overrides for modules (where dupliacted between modules do exist)
-const TYPES_MODULES: Record<string, OverrideModuleType[]> = {
-  identity: [
-    {
-      name: 'Judgement',
-      override: 'IdentityJudgement'
-    }
-  ],
-  society: [
-    {
-      name: 'Judgement',
-      override: 'SocietyJudgement'
-    },
-    {
-      name: 'Vote',
-      override: 'SocietyVote'
-    }
-  ]
+// type overrides for modules (where duplication between modules exist)
+const TYPES_MODULES: Record<string, OverrideModuleType> = {
+  contracts: {
+    StorageKey: 'ContractStorageKey'
+  },
+  identity: {
+    Judgement: 'IdentityJudgement'
+  },
+  society: {
+    Judgement: 'SocietyJudgement',
+    Vote: 'SocietyVote'
+  },
+  treasury: {
+    Proposal: 'TreasuryProposal'
+  }
 };
 
 // these are override types for Polkadot & Kusama chains

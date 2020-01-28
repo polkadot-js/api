@@ -9,7 +9,4 @@ export interface OverrideVersionedType {
   types: RegistryTypes;
 }
 
-export interface OverrideModuleType {
-  name: string;
-  override: string;
-}
+export type OverrideModuleType = Record<string, string>;
