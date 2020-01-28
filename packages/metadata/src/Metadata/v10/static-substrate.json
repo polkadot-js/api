@@ -6631,7 +6631,7 @@
                     "hasher": "twox64Concat",
                     "key1": "AccountId",
                     "key2": "AccountId",
-                    "value": "Vote",
+                    "value": "SocietyVote",
                     "key2Hasher": "twox64Concat"
                   }
                 },
@@ -6658,7 +6658,7 @@
                   "Map": {
                     "hasher": "twox64Concat",
                     "key": "AccountId",
-                    "value": "Vote",
+                    "value": "SocietyVote",
                     "linked": false
                   }
                 },

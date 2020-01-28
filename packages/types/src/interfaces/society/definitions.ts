@@ -20,6 +20,10 @@ export default {
     SocietyJudgement: {
       _enum: ['Rebid', 'Reject', 'Approve']
     },
+    // a society-specific Vote
+    SocietyVote: {
+      _enum: ['Skeptic', 'Reject', 'Approve']
+    },
     StrikeCount: 'u32',
     VouchingStatus: {
       _enum: ['Vouching', 'Banned']
