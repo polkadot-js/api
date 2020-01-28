@@ -8,7 +8,7 @@ import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions 
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, combineLatest, from, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
@@ -84,15 +84,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // also supports signing through external signers
     public signAsync (account: IKeyringPair | string | AccountId | Address, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       return this._decorateMethod(
-        (): Observable<this> => {
-          const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
-
-          return from(
-            isKeyringPair(account)
-              ? Promise.resolve(this.sign(account, optionsWithNonce))
-              : this._signViaSigner(account, this._makeSignOptions(optionsWithNonce, {}), null)
-          ).pipe(mapTo(this));
-        }
+        (): Observable<this> =>
+          this._signObservable(account, optionsOrNonce).pipe(mapTo(this))
       )();
     }
 
@@ -109,27 +102,15 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
       const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
-      const address = isKeyringPair(account) ? account.address : account.toString();
-      let updateId: number | undefined;
 
       return this._decorateMethod(
         (): Observable<Codec> => (
-          this._getPrelimState(address, options).pipe(
-            first(),
-            mergeMap(async ([nonce, header]): Promise<void> => {
-              const eraOptions = this._makeEraOptions(options, { header, nonce });
-
-              if (isKeyringPair(account)) {
-                this.sign(account, eraOptions);
-              } else {
-                updateId = await this._signViaSigner(address, eraOptions, header);
-              }
-            }),
-            switchMap((): Observable<SubmittableResultImpl> | Observable<Hash> => {
-              return isSubscription
+          this._signObservable(account, options).pipe(
+            switchMap((updateId: number | undefined): Observable<SubmittableResultImpl> | Observable<Hash> =>
+              isSubscription
                 ? this._subscribeObservable(updateId)
-                : this._sendObservable(updateId);
-            })
+                : this._sendObservable(updateId)
+            )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
     }
@@ -161,6 +142,26 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       }
 
       return [options, statusCb];
+    }
+
+    private _signObservable (account: IKeyringPair | string | AccountId | Address, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> {
+      const address = isKeyringPair(account) ? account.address : account.toString();
+      const options = this._optionsOrNonce(optionsOrNonce);
+      let updateId: number | undefined;
+
+      return this._getPrelimState(address, options).pipe(
+        first(),
+        mergeMap(async ([nonce, header]): Promise<void> => {
+          const eraOptions = this._makeEraOptions(options, { header, nonce });
+
+          if (isKeyringPair(account)) {
+            this.sign(account, eraOptions);
+          } else {
+            updateId = await this._signViaSigner(address, eraOptions, header);
+          }
+        }),
+        mapTo(updateId)
+      );
     }
 
     private async _signViaSigner (address: | string | AccountId | Address, options: SignatureOptions, header: Header | null): Promise<number> {
