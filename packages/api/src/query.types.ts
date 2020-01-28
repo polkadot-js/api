@@ -19,7 +19,7 @@ import { AuthIndex } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, OpaqueTimeSlot, ReportIdOf } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
-import { Bid, BidKind, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
+import { Bid, BidKind, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { EraIndex, EraPoints, Exposure, Forcing, MomentOf, Nominations, RewardDestination, SlashingSpans, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/system';
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
@@ -246,9 +246,9 @@ declare module './types' {
       vouching: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<VouchingStatus>>> & QueryableStorageEntry<ApiType>;
       payouts: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Vec<ITuple<[BlockNumber, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
       strikes: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<StrikeCount>> & QueryableStorageEntry<ApiType>;
-      votes: StorageEntryExact<ApiType, (key1: AccountId | Uint8Array | string, key2: AccountId | Uint8Array | string) => Observable<Option<Vote>>> & QueryableStorageEntry<ApiType>;
+      votes: StorageEntryExact<ApiType, (key1: AccountId | Uint8Array | string, key2: AccountId | Uint8Array | string) => Observable<Option<SocietyVote>>> & QueryableStorageEntry<ApiType>;
       defender: StorageEntryExact<ApiType, () => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
-      defenderVotes: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<Vote>>> & QueryableStorageEntry<ApiType>;
+      defenderVotes: StorageEntryExact<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<SocietyVote>>> & QueryableStorageEntry<ApiType>;
       maxMembers: StorageEntryExact<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
     };
     recovery: {

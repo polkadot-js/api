@@ -41,6 +41,16 @@ export interface SocietyJudgement extends Enum {
   readonly isApprove: boolean;
 }
 
+/** Enum */
+export interface SocietyVote extends Enum {
+  /** 0:: Skeptic */
+  readonly isSkeptic: boolean;
+  /** 1:: Reject */
+  readonly isReject: boolean;
+  /** 2:: Approve */
+  readonly isApprove: boolean;
+}
+
 /** u32 */
 export interface StrikeCount extends u32 {}
 

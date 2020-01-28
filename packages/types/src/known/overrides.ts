@@ -16,6 +16,10 @@ const TYPES_MODULES: Record<string, OverrideModuleType[]> = {
     {
       name: 'Judgement',
       override: 'SocietyJudgement'
+    },
+    {
+      name: 'Vote',
+      override: 'SocietyVote'
     }
   ]
 };
