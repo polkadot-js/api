@@ -10,17 +10,19 @@ import { getModuleTypes } from '@polkadot/types/known';
 import { Type, createType } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
+function setTypeOverride (sectionTypes: OverrideModuleType, type: Type): void {
+  const override = Object.keys(sectionTypes).find((aliased): boolean => type.eq(aliased));
+
+  if (override) {
+    type.setOverride(sectionTypes[override]);
+  }
+}
+
 // apply module-specific type overrides (always be done as part of toLatest)
 /** @internal */
-function convertCalls (registry: Registry, calls: FunctionMetadataV10[], sectionTypes: OverrideModuleType[]): FunctionMetadataLatest[] {
+function convertCalls (registry: Registry, calls: FunctionMetadataV10[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
-    args.forEach(({ type }): void => {
-      const queued = sectionTypes.find(({ name }): boolean => type.eq(name));
-
-      if (queued) {
-        type.setOverride(queued.override);
-      }
-    });
+    args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
     return createType(registry, 'FunctionMetadataLatest', { args, name, documentation });
   });
@@ -28,7 +30,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV10[], section
 
 // apply module-specific storage type overrides (always part of toLatest)
 /** @internal */
-function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV10, sectionTypes: OverrideModuleType[]): StorageMetadataLatest {
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV10, sectionTypes: OverrideModuleType): StorageMetadataLatest {
   return createType(registry, 'StorageMetadataLatest', {
     items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataLatest => {
       let resultType: Type;
@@ -41,11 +43,7 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
         resultType = type.asPlain;
       }
 
-      const queued = sectionTypes.find(({ name }): boolean => resultType.eq(name));
-
-      if (queued) {
-        resultType.setOverride(queued.override);
-      }
+      setTypeOverride(sectionTypes, resultType);
 
       return createType(registry, 'StorageEntryMetadataLatest', { documentation, fallback, modifier, name, type });
     }),
@@ -57,7 +55,7 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
 function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetadataLatest {
   const calls = mod.calls.unwrapOr(null);
   const storage = mod.storage.unwrapOr(null);
-  const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString())) || [];
+  const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString()));
 
   return createType(registry, 'ModuleMetadataLatest', {
     ...mod,

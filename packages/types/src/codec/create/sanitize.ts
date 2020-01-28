@@ -10,8 +10,6 @@ const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', '
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   _alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
-  // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
-  _alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
   // <T::Balance as HasCompact>
   _cleanupCompact(),
   // Remove all the trait prefixes

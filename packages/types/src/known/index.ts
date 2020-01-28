@@ -48,6 +48,6 @@ export function getChainTypes (chainName: Text, { specName, specVersion }: Runti
 
 // get types for specific modules (metadata override)
 /** @internal */
-export function getModuleTypes (section: string): OverrideModuleType[] {
-  return TYPES_MODULES[section] || [];
+export function getModuleTypes (section: string): OverrideModuleType {
+  return TYPES_MODULES[section] || {};
 }
