@@ -88,7 +88,7 @@ describe('ApiPromise', (): void => {
     });
   });
 
-  describe.only('decorator.signAsync', (): void => {
+  describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
       provider.subscriptions.state_subscribeStorage.lastValue = {
         changes: [
