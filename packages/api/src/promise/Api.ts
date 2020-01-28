@@ -216,9 +216,12 @@ export default class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this._isReadyPromise = new Promise((resolve): void => {
+    this._isReadyPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
+      });
+      super.once('error', (e): void => {
+        reject(e);
       });
     });
   }
