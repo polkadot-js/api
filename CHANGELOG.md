@@ -1,6 +1,7 @@
 # 1.0.0-beta-x
 
 - **Breaking change** Drop support for Substrate v1 chain in all derives
+- Only decorate derives where relevant parent `api.query.*` is available
 - Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
 - Remove un-deployed support for v11 metadata (this was decided against on Substrate)
 - Allow v9 metadata to parse even in cases where it was wrongly deployed pre-v10
