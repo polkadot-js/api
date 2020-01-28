@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Balance, BlockNumber, StrikeCount, VouchingStatus, Vote } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DeriveSocietyMember } from '../types';
 
@@ -13,7 +13,7 @@ import { bool, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Vec<ITuple<[BlockNumber, Balance]>>, StrikeCount, Option<Vote>, bool, Option<VouchingStatus>];
+type Result = [Vec<ITuple<[BlockNumber, Balance]>>, StrikeCount, Option<SocietyVote>, bool, Option<VouchingStatus>];
 
 /**
  * @description Get the member info for a society
