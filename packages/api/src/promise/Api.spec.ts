@@ -62,24 +62,23 @@ describe('ApiPromise', (): void => {
     });
 
     it('Create API instance will error on failure to await ready', async (): Promise<void> => {
-
       class ErrorApiPromise extends ApiPromise {
-        constructor() {
-          super({ provider })
+        constructor () {
+          super({ provider });
         }
 
-        protected async loadMeta(): Promise<boolean> {
-          throw new Error("Simulate failure to load meta");
+        protected loadMeta (): Promise<boolean> {
+          throw new Error('Simulate failure to load meta');
         }
       }
 
       try {
         await new ErrorApiPromise().isReady;
-        fail("Expected an error but none occurred.");
+        fail('Expected an error but none occurred.');
       } catch {
         // Pass
       }
-    })
+    });
   });
 
   describe('api.sign', (): void => {
