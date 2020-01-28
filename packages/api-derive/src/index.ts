@@ -23,6 +23,8 @@ import * as treasury from './treasury';
 
 export * from './type';
 
+export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, session, society, staking, technicalCommittee, treasury };
+
 type DeriveSection<Section> = {
   [Method in keyof Section]: Section[Method] extends AnyFunction
     ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
@@ -34,14 +36,35 @@ type DeriveAllSections<AllSections> = {
 
 export type DeriveCustom = Record<string, Record<string, (api: ApiInterfaceRx) => (...args: any[]) => Observable<any>>>;
 
+export type ExactDerive = DeriveAllSections<typeof derive>;
+
+// Enable derive only if some of these modules are available
+const deriveAvail: Record<string, string[]> = {
+  contracts: ['contracts'],
+  council: ['council'],
+  democracy: ['democracy'],
+  elections: ['electionsPhragmen', 'elections'],
+  imOnline: ['imOnline'],
+  session: ['session'],
+  society: ['society'],
+  staking: ['staking'],
+  technicalCommittee: ['technicalCommittee'],
+  treasury: ['treasury']
+};
+
 /**
  * Returns an object that will inject `api` into all the functions inside
  * `allSections`, and keep the object architecture of `allSections`.
  */
 /** @internal */
 function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSections): DeriveAllSections<AllSections> {
+  const queryKeys = Object.keys(api.query);
+
   return Object
     .keys(allSections)
+    .filter((sectionName): boolean =>
+      !deriveAvail[sectionName] || deriveAvail[sectionName].some((query): boolean => queryKeys.includes(query))
+    )
     .reduce((deriveAcc, sectionName): DeriveAllSections<AllSections> => {
       const section = allSections[sectionName as keyof AllSections];
 
@@ -60,9 +83,6 @@ function injectFunctions<AllSections> (api: ApiInterfaceRx, allSections: AllSect
       return deriveAcc;
     }, {} as DeriveAllSections<AllSections>);
 }
-
-export const derive = { accounts, balances, chain, contracts, council, democracy, elections, imOnline, session, society, staking, technicalCommittee, treasury };
-export type ExactDerive = DeriveAllSections<typeof derive>;
 
 // FIXME The return type of this function should be {...ExactDerive, ...DeriveCustom}
 // For now we just drop the custom derive typings
