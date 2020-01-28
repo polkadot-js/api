@@ -152,6 +152,7 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
 export interface DeriveSociety {
   bids: Bid[];
   defender?: AccountId;
+  hasDefender: boolean;
   head?: AccountId;
   founder?: AccountId;
   maxMembers: u32;
