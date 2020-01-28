@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HeaderExtended } from '../type';
@@ -27,9 +27,11 @@ export function subscribeNewHeads (api: ApiInterfaceRx): () => Observable<Header
   return memo((): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.subscribeNewHeads(),
-      api.derive.staking.validators()
+      api.query.session
+        ? api.query.session.validators()
+        : of([])
     ]).pipe(
-      map(([header, { validators }]): HeaderExtended =>
+      map(([header, validators]): HeaderExtended =>
         new HeaderExtended(api.registry, header, validators)
       )
     ));
