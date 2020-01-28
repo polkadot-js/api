@@ -5,9 +5,17 @@
 // NOTE When adding any types here, we need to update the documentation links as
 // well - <root>/docs/SUMMARY.md as well as ../README.md
 
-import { assertSingletonPackage } from '@polkadot/util';
+import { detectPackage } from '@polkadot/util';
 
-assertSingletonPackage('@polkadot/types');
+let pkgJson;
+
+try {
+  pkgJson = require('./package.json');
+} catch (error) {
+  pkgJson = require('../package.json');
+}
+
+detectPackage(pkgJson);
 
 export * from './codec';
 export * from './index.types';
