@@ -962,6 +962,9 @@ export interface StorageHasherV8 extends StorageHasherV7 {}
 /** StorageHasherV8 */
 export interface StorageHasherV9 extends StorageHasherV8 {}
 
+/** StorageMetadataV10 */
+export interface StorageMetadataLatest extends StorageMetadataV10 {}
+
 /** Struct */
 export interface StorageMetadataV0 extends Struct {
   /** Text */
