@@ -14,6 +14,7 @@ import Metadata from '@polkadot/metadata/Decorated';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
+import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -51,19 +52,18 @@ export default class Mock implements ProviderInterface {
 
   private registry: Registry;
 
+  private prevNumber = new BN(-1);
+
   private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlock: (hash: string): any => createType(this.registry, 'SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
+    chain_getHeader: (): any => createType(this.registry, 'Header', rpcHeader.result).toJSON(),
     state_getRuntimeVersion: (): string => createType(this.registry, 'RuntimeVersion').toHex(),
-    state_getStorage: (storage: MockStateDb, params: any[]): string => {
-      return u8aToHex(
-        storage[(params[0] as string)]
-      );
-    },
-    system_chain: (): string => 'mockChain',
     state_getMetadata: (): string => rpcMetadata,
+    state_getStorage: (storage: MockStateDb, params: any[]): string => u8aToHex(storage[(params[0] as string)]),
+    system_chain: (): string => 'mockChain',
     system_name: (): string => 'mockClient',
     system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
     system_version: (): string => '9.8.7'
@@ -157,7 +157,7 @@ export default class Mock implements ProviderInterface {
   private init (): void {
     const emitEvents: ProviderInterfaceEmitted[] = ['connected', 'disconnected'];
     let emitIndex = 0;
-    let newHead = this.makeBlockHeader(new BN(-1));
+    let newHead = this.makeBlockHeader();
     let counter = -1;
 
     const metadata = new Metadata(this.registry, rpcMetadata);
@@ -169,7 +169,7 @@ export default class Mock implements ProviderInterface {
       }
 
       // create a new header (next block)
-      newHead = this.makeBlockHeader(newHead.number.toBn());
+      newHead = this.makeBlockHeader();
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
@@ -192,10 +192,9 @@ export default class Mock implements ProviderInterface {
     }, INTERVAL);
   }
 
-  private makeBlockHeader (prevNumber: BN): Header {
-    const blockNumber = prevNumber.addn(1);
-
-    return createType(this.registry, 'Header', {
+  private makeBlockHeader (): Header {
+    const blockNumber = this.prevNumber.addn(1);
+    const header = createType(this.registry, 'Header', {
       digest: {
         logs: []
       },
@@ -203,9 +202,13 @@ export default class Mock implements ProviderInterface {
       number: blockNumber,
       parentHash: blockNumber.isZero()
         ? new Uint8Array(32)
-        : bnToU8a(prevNumber, 256, false),
+        : bnToU8a(this.prevNumber, 256, false),
       stateRoot: bnToU8a(blockNumber, 256, false)
     });
+
+    this.prevNumber = blockNumber;
+
+    return header;
   }
 
   private setStateBn (key: Uint8Array, value: BN | number): void {
