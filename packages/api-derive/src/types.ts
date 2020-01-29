@@ -32,6 +32,7 @@ export interface DeriveAccountInfo {
 
 export interface DerivedBalances {
   accountId: AccountId;
+  accountNextIndex?: Index;
   accountNonce: Index;
   freeBalance: Balance;
   isVesting: boolean;
