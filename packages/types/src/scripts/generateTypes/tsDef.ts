@@ -209,6 +209,7 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
 /** @internal */
 export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
   const definitions = importDefinitions[generatingPackage];
+
   Object.entries(definitions).forEach(([defName, obj]): void => {
     console.log(`Extracting interfaces for ${defName}`);
 

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ModuleMetadataLatest } from '../../interfaces/metadata';
-import * as definitions from '../../interfaces/definitions';
+import * as defaultDefs from '../../interfaces/definitions';
 
 import fs from 'fs';
 import staticData from '@polkadot/metadata/Metadata/static';
@@ -14,19 +14,19 @@ import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, Ty
 
 // Generate types for one module
 /** @internal */
-function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): string[] {
+function generateModule (allDefs: object, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (!modul.constants.length) {
     return [];
   }
 
-  setImports(definitions, imports, ['Codec']);
+  setImports(allDefs, imports, ['Codec']);
 
   return [indent(4)(`${stringCamelCase(modul.name.toString())}: {`)]
     .concat(indent(6)('[index: string]: Codec;'))
     .concat(
       modul.constants
         .map((constant): string => {
-          setImports(definitions, imports, [constant.type.toString()]);
+          setImports(allDefs, imports, [constant.type.toString()]);
 
           return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
         })
@@ -37,17 +37,19 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
 // Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
   console.log(`Writing ${dest}`);
 
-  const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
-
+  const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+  const imports = createImports(allTypes);
+  const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
+    return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+  }, {});
   const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
-    const storageEntries = generateModule(modul, imports);
+    const storageEntries = generateModule(allDefs, modul, imports);
 
     return acc.concat(storageEntries);
   }, [] as string[]);
-
   const header = createImportCode(HEADER, [
     {
       file: '@polkadot/types/codec',
@@ -58,7 +60,7 @@ function generateForMeta (meta: Metadata, dest: string): void {
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `@polkadot/types/interfaces/${moduleName}`,
+      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
     })),
     {
@@ -66,12 +68,10 @@ function generateForMeta (meta: Metadata, dest: string): void {
       types: Object.keys(imports.typesTypes)
     }
   ]);
-
-  const interfaceStart =
-    [
-      "declare module '@polkadot/metadata/Decorated/types' {",
-      indent(2)('export interface Constants {\n')
-    ].join('\n');
+  const interfaceStart = [
+    "declare module '@polkadot/metadata/Decorated/types' {",
+    indent(2)('export interface Constants {\n')
+  ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
   fs.writeFileSync(
@@ -87,8 +87,8 @@ function generateForMeta (meta: Metadata, dest: string): void {
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (dest = 'packages/api/src/consts.types.ts', data = staticData): void {
+export default function generateConsts (dest = 'packages/api/src/consts.types.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(new Metadata(registry, data), dest);
+  return generateForMeta(new Metadata(registry, data), dest, extraTypes);
 }
