@@ -3,6 +3,10 @@
   "version": "1.0.0-beta.37",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
+  "bin": {
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.js"
+  },
   "keywords": [
     "Polkadot",
     "JsonRPC"
@@ -33,10 +37,12 @@
     "@polkadot/metadata": "^1.0.0-beta.37",
     "@polkadot/util": "^2.0.0-beta.10",
     "@polkadot/util-crypto": "^2.0.0-beta.10",
-    "@types/memoizee": "^0.4.3",
-    "memoizee": "^0.4.14"
+    "memoizee": "^0.4.14",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.0.0-beta.10"
+    "@polkadot/keyring": "^2.0.0-beta.10",
+    "@types/memoizee": "^0.4.3",
+    "@types/yargs": "^15.0.2"
   }
 }

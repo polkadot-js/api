@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
 import { ITuple } from '@polkadot/types/types';
 
-declare module './types' {
+declare module '@polkadot/api/types' {
   export interface QueryableStorageExact<ApiType> {
     system: {
       [index: string]: QueryableStorageEntry<ApiType>;

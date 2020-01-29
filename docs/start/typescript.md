@@ -46,11 +46,6 @@ As of this writing, there are still some gray areas to type detection, specifica
 - `.at` & `.multi` on `api.query` does not (yet) have a `<TypeOverride>` interface. This means `as <TypeOverride>` casts are presently needed for these results
 - `api.queryMulti` does not (yet) allow you to provide a hint to the types returned, this ties to the previous point
 
-In addition to expanding the type coverage, we wish to make the actual generation script for the types from `@polkadot/types/interfaces` available in 2 ways -
+## Adding user types
 
-- allowing you to point to a folder of types and auto-generate the TypeScript typings from those. (Which is akin to what we do internally). This would allow a reduction in type classes explicitly written and injected.
-- once the metadata itself supports full type definitions, the script can be used to generate interface definitions specifically tailored for a chain
-
-## And that's a wrap
-
-This brings us to the end of our overview and jump through the API. While the documentation is still very much and ever evolving item, we can encourage you to try out what you have learned with some [examples](../examples). As we [indicated right at the start of this journey](README.md#help-us-help-others), if there are areas for improvement, let us know.
+In addition to the generated and available interfaces, there is also the ability to [create TypeScript interfaces from your own definitions and well as your on-chain modules](typescript.user.md).
