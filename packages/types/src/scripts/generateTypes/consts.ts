@@ -37,8 +37,8 @@ function generateModule (modul: ModuleMetadataLatest, imports: TypeImports): str
 // Generate `packages/api/src/consts.types.ts` for a particular
 // metadata
 /** @internal */
-function generateForMeta (meta: Metadata): void {
-  console.log('Writing packages/api/src/consts.types.ts');
+function generateForMeta (meta: Metadata, dest: string): void {
+  console.log(`Writing ${dest}`);
 
   const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
 
@@ -75,7 +75,7 @@ function generateForMeta (meta: Metadata): void {
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
   fs.writeFileSync(
-    'packages/api/src/consts.types.ts',
+    dest,
     header
       .concat(interfaceStart)
       .concat(body.join('\n'))
@@ -87,8 +87,8 @@ function generateForMeta (meta: Metadata): void {
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (): void {
+export default function generateConsts (dest = 'packages/api/src/consts.types.ts', data = staticData): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(new Metadata(registry, staticData));
+  return generateForMeta(new Metadata(registry, data), dest);
 }

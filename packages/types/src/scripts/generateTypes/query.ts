@@ -99,8 +99,8 @@ function generateModule (definitions: object, registry: Registry, modul: ModuleM
 // Generate `packages/api/src/query.types.ts` for a particular
 // metadata
 /** @internal */
-function generateForMeta (definitions: object, registry: Registry, meta: Metadata): void {
-  console.log('Writing packages/api/src/query.types.ts');
+function generateForMeta (definitions: object, registry: Registry, meta: Metadata, dest: string): void {
+  console.log(`Writing ${dest}`);
 
   const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
 
@@ -135,13 +135,13 @@ function generateForMeta (definitions: object, registry: Registry, meta: Metadat
 
   const interfaceStart =
     [
-      "declare module './types' {",
+      "declare module '@polkadot/api/types' {",
       indent(2)('export interface QueryableStorageExact<ApiType> {\n')
     ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
   fs.writeFileSync(
-    'packages/api/src/query.types.ts',
+    dest,
     header
       .concat(interfaceStart)
       .concat(body.join('\n'))
@@ -153,8 +153,8 @@ function generateForMeta (definitions: object, registry: Registry, meta: Metadat
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (): void {
+export default function generateQuery (dest = 'packages/api/src/query.types.ts', data = staticData): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(defaultDefinitions, registry, new Metadata(registry, staticData));
+  return generateForMeta(defaultDefinitions, registry, new Metadata(registry, data), dest);
 }

@@ -27,7 +27,7 @@ import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
 import { ITuple } from '@polkadot/types/types';
 
-declare module './types' {
+declare module '@polkadot/api/types' {
   export interface QueryableStorageExact<ApiType> {
     system: {
       [index: string]: QueryableStorageEntry<ApiType>;
