@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock } from '@polkadot/types/interfaces';
-import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata/Decorated';
@@ -54,8 +53,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this._onProviderConnect();
     }
   }
-
-  public abstract registerTypes (types?: RegistryTypes): void;
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;

@@ -14,6 +14,7 @@ import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, C
 import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
 import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from '@polkadot/types/interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
+import { Account, Log } from '@polkadot/types/interfaces/evm';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
 import { IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
@@ -509,6 +510,12 @@ export interface InterfaceRegistry {
   VoteThreshold: VoteThreshold;
   'Option<VoteThreshold>': Option<VoteThreshold>;
   'Vec<VoteThreshold>': Vec<VoteThreshold>;
+  Account: Account;
+  'Option<Account>': Option<Account>;
+  'Vec<Account>': Vec<Account>;
+  Log: Log;
+  'Option<Log>': Option<Log>;
+  'Vec<Log>': Vec<Log>;
   AssetOptions: AssetOptions;
   'Option<AssetOptions>': Option<AssetOptions>;
   'Vec<AssetOptions>': Vec<AssetOptions>;
