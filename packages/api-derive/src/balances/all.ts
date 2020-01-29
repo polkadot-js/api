@@ -14,10 +14,10 @@ import { bnMax } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>, Index];
-type Result = [AccountId, BlockNumber, ResultBalance];
+type ResultBalance = [Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>];
+type Result = [AccountId, BlockNumber, Index, ResultBalance];
 
-function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting, accountNonce]]: Result): DerivedBalances {
+function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, accountNonce, [freeBalance, reservedBalance, locks, vesting]]: Result): DerivedBalances {
   let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: BalanceLock[] = [];
 
@@ -87,15 +87,17 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           ? combineLatest([
             of(accountId),
             api.derive.chain.bestNumber(),
-            api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>, Index]>([
+            (api.rpc.account && api.rpc.account.nextIndex)
+              ? api.rpc.account.nextIndex(accountId)
+              : api.query.system.accountNonce(accountId),
+            api.queryMulti<ResultBalance>([
               [api.query.balances.freeBalance, accountId],
               [api.query.balances.reservedBalance, accountId],
               [api.query.balances.locks, accountId],
-              [api.query.balances.vesting, accountId],
-              [(api.rpc.account && api.rpc.account.nextIndex) || api.query.system.accountNonce, accountId]
+              [api.query.balances.vesting, accountId]
             ])
           ])
-          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null), createType(api.registry, 'Index')]])
+          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), createType(api.registry, 'Index'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null)]])
       ),
       map((result): DerivedBalances => calcBalances(api, result))
     ));
