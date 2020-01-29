@@ -6,7 +6,7 @@ import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Metadata, createType } from '@polkadot/types';
@@ -243,10 +243,17 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
     return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
   }
 
   /**

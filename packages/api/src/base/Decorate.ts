@@ -6,7 +6,7 @@ import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -130,6 +130,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   public abstract createType <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K];
+
+  public abstract registerTypes (types?: RegistryTypes): void;
 
   /**
    * @returns `true` if the API operates with subscriptions
