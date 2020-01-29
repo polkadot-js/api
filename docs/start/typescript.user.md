@@ -14,7 +14,7 @@ In the root of your project (with the `@polkadot/api`), you can run `yarn polkad
 
 In the same way as the type library provides defaults from a substrate-base chain, you can also, directly from chain from metadata, generate a complete `api.{consts,query}.*` defintion for your specific chain. The command will create 2 files, `{consts, query}.types.ts` which you can either use to augment the TypeScript defintions, or replace those in `@polkadot/api/*` with your versions (copy, TypeScript replacement or browser/node aliassing).
 
-In the root of your project, you can run `yarn polkadot-types-from-chain.js --endpoint wss://<url> --output ./stuff` and it will create the required output.
+In the root of your project, you can run `yarn polkadot-types-from-chain.js --endpoint wss://<url> --output ./stuff` and it will create the required output. (Here you can specify an optional `--package @MeInc/stuff` to read definitions for the targetted output folder with the specified package name.)
 
 ## And that's a wrap
 
