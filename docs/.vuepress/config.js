@@ -45,6 +45,7 @@ module.exports = {
           ['start/types.extend.md', 'Extending types'],
           ['start/extrinsic.extend.md', 'Extending extrinsics'],
           ['start/typescript.md', 'TypeScript interfaces'],
+          ['start/typescript.user.md', 'TypeScript user generated'],
           ['start/FAQ.md', 'FAQ']
         ]
       },
