@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "1.0.0-beta.39",
+  "version": "1.0.0-beta.40",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "bin": {
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
-    "@polkadot/metadata": "^1.0.0-beta.39",
+    "@polkadot/metadata": "^1.0.0-beta.40",
     "@polkadot/util": "^2.0.0-beta.10",
     "@polkadot/util-crypto": "^2.0.0-beta.10",
     "memoizee": "^0.4.14",
