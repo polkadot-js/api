@@ -1,9 +1,9 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Digest, DigestItem, Hash, Header } from '../../interfaces/runtime';
-import { AnyNumber, AnyU8a } from '../../types';
+import { AnyNumber, AnyU8a, Registry } from '../../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -31,8 +31,8 @@ export interface BlockValue {
  * A block encoded with header and extrinsics
  */
 export default class Block extends Struct {
-  public constructor (value?: BlockValue | Uint8Array) {
-    super({
+  constructor (registry: Registry, value?: BlockValue | Uint8Array) {
+    super(registry, {
       header: 'Header',
       extrinsics: 'Vec<Extrinsic>'
     }, value);
@@ -42,7 +42,7 @@ export default class Block extends Struct {
    * @description Encodes a content [[Hash]] for the block
    */
   public get contentHash (): Hash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

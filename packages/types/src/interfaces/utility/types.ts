@@ -1,18 +1,26 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Result } from '@polkadot/types/codec';
-import { Null, Text } from '@polkadot/types/primitive';
+import { Struct, Vec } from '@polkadot/types/codec';
+import { u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
-/** Result<Null, Text> */
-export interface DispatchResult extends Result<Null, Text> {
-  /** Error:: (Text) */
-  readonly isError: boolean;
-  /** Text */
-  readonly asError: Text;
-  /** Ok::  */
-  readonly isOk: boolean;
+/** Struct */
+export interface Multisig extends Struct {
+  /** Timepoint */
+  readonly when: Timepoint;
+  /** Balance */
+  readonly deposit: Balance;
+  /** AccountId */
+  readonly depositor: AccountId;
+  /** Vec<AccountId> */
+  readonly approvals: Vec<AccountId>;
 }
 
-/** DispatchResult */
-export interface DispatchResultOf extends DispatchResult {}
+/** Struct */
+export interface Timepoint extends Struct {
+  /** BlockNumber */
+  readonly height: BlockNumber;
+  /** u32 */
+  readonly index: u32;
+}

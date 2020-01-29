@@ -1,13 +1,13 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Enum, Struct } from '@polkadot/types/codec';
+import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** Struct */
 export interface AssetOptions extends Struct {
-  /** Balance */
-  readonly initalIssuance: Balance;
+  /** Compact<Balance> */
+  readonly initalIssuance: Compact<Balance>;
   /** PermissionLatest */
   readonly permissions: PermissionLatest;
 }

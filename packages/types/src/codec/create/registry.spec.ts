@@ -1,12 +1,10 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
 import { Constructor } from '../../types';
 
-import { TypeRegistry, getTypeRegistry } from './registry';
+import { TypeRegistry } from './registry';
 import Struct from '../Struct';
 import Text from '../../primitive/Text';
 import U32 from '../../primitive/U32';
@@ -20,11 +18,7 @@ function isChildClass (Parent: Constructor<any>, Child?: Constructor<any>): bool
 }
 
 describe('TypeRegistry', (): void => {
-  let registry: TypeRegistry;
-
-  beforeEach((): void => {
-    registry = getTypeRegistry();
-  });
+  const registry = new TypeRegistry();
 
   it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
@@ -64,8 +58,8 @@ describe('TypeRegistry', (): void => {
 
       expect(registry.hasClass('Recursive')).toBe(true);
 
-      const last = new Recursive({ next: null });
-      const first = new Recursive({ next: last });
+      const last = new Recursive(registry, { next: null });
+      const first = new Recursive(registry, { next: last });
 
       expect((first as any).next.isSome).toBe(true);
       expect((first as any).next.unwrap().next.isSome).toBe(false);
@@ -89,8 +83,8 @@ describe('TypeRegistry', (): void => {
 
       expect(registry.hasClass('Recursive')).toBe(true);
 
-      const last = new B({ End: null });
-      const first = new B({ Other: new A({ next: last }) });
+      const last = new B(registry, { End: null });
+      const first = new B(registry, { Other: new A(registry, { next: last }) });
 
       expect((first as any).isOther).toBe(true);
     });
@@ -102,7 +96,7 @@ describe('TypeRegistry', (): void => {
 
       const Type = registry.getOrThrow('U32Renamed');
 
-      expect(new Type() instanceof U32).toBe(true);
+      expect(new Type(registry) instanceof U32).toBe(true);
     });
 
     it('can create structs via definition', (): void => {
@@ -113,8 +107,8 @@ describe('TypeRegistry', (): void => {
         }
       });
 
-      const SomeStruct: any = registry.get('SomeStruct');
-      const struct: any = new SomeStruct({
+      const SomeStruct = registry.getOrThrow('SomeStruct');
+      const struct: any = new SomeStruct(registry, {
         foo: 42,
         bar: 'testing'
       });

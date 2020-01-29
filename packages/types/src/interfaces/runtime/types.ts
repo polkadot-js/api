@@ -1,9 +1,9 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec, ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, u128, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 
 /** GenericAccountId */
 export interface AccountId extends GenericAccountId {}
@@ -35,6 +35,14 @@ export interface BlockNumber extends u32 {}
 /** GenericCall */
 export interface Call extends GenericCall {}
 
+/** Struct */
+export interface ChangesTrieConfiguration extends Struct {
+  /** u32 */
+  readonly digestInterval: u32;
+  /** u32 */
+  readonly digestLevels: u32;
+}
+
 /** ITuple<[ConsensusEngineId, Bytes]> */
 export interface Consensus extends ITuple<[ConsensusEngineId, Bytes]> {}
 
@@ -46,6 +54,32 @@ export interface Digest extends GenericDigest {}
 
 /** GenericDigestItem */
 export interface DigestItem extends GenericDigestItem {}
+
+/** Enum */
+export interface DispatchClass extends Enum {
+  /** 0:: Normal */
+  readonly isNormal: boolean;
+  /** 1:: Operational */
+  readonly isOperational: boolean;
+}
+
+/** Struct */
+export interface DispatchInfo extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+  /** bool */
+  readonly paysFee: bool;
+}
+
+/** Struct */
+export interface DispatchInfoTo190 extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+}
 
 /** Uint8Array, Codec */
 export interface EcdsaSignature extends Uint8Array, Codec {}
@@ -155,8 +189,14 @@ export interface Origin extends GenericOrigin {}
 /** u32 */
 export interface Perbill extends u32 {}
 
+/** u8 */
+export interface Percent extends u8 {}
+
 /** u32 */
 export interface Permill extends u32 {}
+
+/** u64 */
+export interface Perquintill extends u64 {}
 
 /** Null */
 export interface Phantom extends Null {}

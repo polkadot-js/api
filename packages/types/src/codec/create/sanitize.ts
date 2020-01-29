@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['BTreeMap', 'Compact', 'DoubleMap', 'Linkage', 'Result', 'Option', 'Vec'];
+const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   _alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
-  // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
-  _alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
   // <T::Balance as HasCompact>
   _cleanupCompact(),
   // Remove all the trait prefixes
@@ -24,8 +22,6 @@ const mappings: Mapper[] = [
   _removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
   _alias('String', 'Text'),
-  // alias () -> Null
-  _alias('\\(\\)', 'Null'),
   // alias Vec<u8> -> Bytes
   _alias('Vec<u8>', 'Bytes'),
   // alias &[u8] -> Bytes
@@ -36,14 +32,17 @@ const mappings: Mapper[] = [
   _alias('Lookup::Source', 'Address'),
   // alias Lookup::Target to AccountId (always the case)
   _alias('Lookup::Target', 'AccountId'),
-  // alias for grandpa, as used in polkadot
-  _alias('grandpa::AuthorityId', 'AuthorityId'),
-  // specific for SessionIndex (could make this session::, but be conservative)
-  _alias('session::SessionIndex', 'SessionIndex'),
+  // alias for grandpa internal, as used in polkadot
+  _alias('grandpa::', ''),
+  // specific for session internal
+  _alias('session::', ''),
+  // specific for staking/slashing.rs internal
+  _alias('slashing::', ''),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
   _alias('exec::StorageKey', 'ContractStorageKey'),
   // Phantom
   _alias('rstd::marker::PhantomData', 'PhantomData'),
+  _alias('sp_std::marker::PhantomData', 'PhantomData'),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   _flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
@@ -97,7 +96,7 @@ function _cleanupCompact (): Mapper {
 
 function _flattenSingleTuple (): Mapper {
   return (value: string): string => {
-    return value.replace(/\(([^,]*)\)/, '$1');
+    return value.replace(/\(([^,]+)\)/, '$1');
   };
 }
 
@@ -199,7 +198,7 @@ function _removeWrap (_check: string): Mapper {
   };
 }
 
-export default function santize (value: string): string {
+export default function sanitize (value: string): string {
   return mappings.reduce((result, fn): string => {
     return fn(result);
   }, value).trim();

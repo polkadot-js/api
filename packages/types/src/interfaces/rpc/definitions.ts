@@ -1,10 +1,11 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
   types: {
     ApiId: '[u8; 8]',
+    BlockHash: 'Hash',
     ChainProperties: {
       ss58Format: 'Option<u8>',
       tokenDecimals: 'Option<u32>',
@@ -46,6 +47,11 @@ export default {
     RpcMethods: {
       version: 'u32',
       methods: 'Vec<Text>'
+    },
+    RuntimeDispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
     },
     RuntimeVersionApi: '(ApiId, u32)',
     RuntimeVersion: {

@@ -1,10 +1,12 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Index, MultiSignature, Sr25519Signature } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
+import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
+
+import { u8aConcat } from '@polkadot/util';
 
 import { createType } from '../../../codec/create';
 import Compact from '../../../codec/Compact';
@@ -18,8 +20,8 @@ import ExtrinsicPayloadV4 from './ExtrinsicPayload';
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  public constructor (value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super({
+  constructor (registry: Registry, value: ExtrinsicSignatureV4 | Uint8Array | undefined, { isSigned }: ExtrinsicSignatureOptions = {}) {
+    super(registry, {
       signer: 'Address',
       signature: 'MultiSignature',
       era: 'ExtrinsicEra',
@@ -113,18 +115,17 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
     return this.injectSignature(
-      createType('Address', signer),
-      createType('MultiSignature', signature),
-      new ExtrinsicPayloadV4(payload)
+      createType(this.registry, 'Address', signer),
+      createType(this.registry, 'MultiSignature', signature),
+      new ExtrinsicPayloadV4(this.registry, payload)
     );
   }
 
   /**
-   * @description Generate a payload and applies the signature from a keypair
+   * @description Creates a payload from the supplied options
    */
-  public sign (method: Call, account: IKeyringPair, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): IExtrinsicSignature {
-    const signer = createType('Address', account.publicKey);
-    const payload = new ExtrinsicPayloadV4({
+  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion }, tip }: SignatureOptions): ExtrinsicPayloadV4 {
+    return new ExtrinsicPayloadV4(this.registry, {
       blockHash,
       era: era || IMMORTAL_ERA,
       genesisHash,
@@ -133,7 +134,26 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
       specVersion,
       tip: tip || 0
     });
-    const signature = createType('MultiSignature', payload.sign(account));
+  }
+
+  /**
+   * @description Generate a payload and applies the signature from a keypair
+   */
+  public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', account.publicKey);
+    const payload = this.createPayload(method, options);
+    const signature = createType(this.registry, 'MultiSignature', payload.sign(account));
+
+    return this.injectSignature(signer, signature, payload);
+  }
+
+  /**
+   * @description Generate a payload and applies a fake signature
+   */
+  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
+    const signer = createType(this.registry, 'Address', address);
+    const payload = this.createPayload(method, options);
+    const signature = createType(this.registry, 'MultiSignature', u8aConcat(new Uint8Array([1]), new Uint8Array(64).fill(0x42)));
 
     return this.injectSignature(signer, signature, payload);
   }

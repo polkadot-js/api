@@ -1,9 +1,9 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,55 +11,27 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType, Vec, u32 } from '@polkadot/types';
 
 import { DerivedElectionsInfo } from '../types';
-import { drr } from '../util/drr';
-
-type ResultElections = [Vec<AccountId>, u32, u32, Vec<[AccountId, BlockNumber] & Codec>, SetIndex, BlockNumber, VoteIndex, SetIndex];
-
-type ResultPhragmen = [Vec<AccountId>, u32, Vec<AccountId>, BlockNumber];
-
-function deriveElections ([candidates, candidateCount, desiredSeats, members, nextVoterSet, termDuration, voteCount, voterCount]: ResultElections): DerivedElectionsInfo {
-  return {
-    candidates,
-    candidateCount,
-    desiredSeats,
-    nextVoterSet,
-    members: members.map(([accountId]): AccountId => accountId),
-    termDuration,
-    voteCount,
-    voterCount
-  };
-}
+import { memo } from '../util';
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
-  return api.queryMulti<ResultElections>([
-    api.query.elections.candidates,
-    api.query.elections.candidateCount,
-    api.query.elections.desiredSeats,
-    api.query.elections.members,
-    api.query.elections.nextVoterSet,
-    api.query.elections.termDuration,
-    api.query.elections.voteCount,
-    api.query.elections.voterCount
-  ]).pipe(map(deriveElections), drr());
-}
+  const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-function derivePhragmen ([candidates, desiredMembers, members, termDuration]: ResultPhragmen): DerivedElectionsInfo {
-  return {
-    candidates,
-    candidateCount: createType('u32', candidates.length),
-    desiredSeats: desiredMembers,
-    members,
-    termDuration
-  };
-}
-
-function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
-  return api.queryMulti<ResultPhragmen>([
-    api.query.electionsPhragmen.candidates,
-    api.query.electionsPhragmen.desiredMembers,
-    api.query.electionsPhragmen.members,
-    api.query.electionsPhragmen.termDuration
-  ]).pipe(map(derivePhragmen), drr());
+  return api.queryMulti<[Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+    api.query[section].candidates,
+    api.query[section].members,
+    api.query[section].runnersUp
+  ]).pipe(
+    map(([candidates, members, runnersUp]): DerivedElectionsInfo => ({
+      candidates,
+      candidateCount: createType(api.registry, 'u32', candidates.length),
+      candidacyBond: api.consts[section].candidacyBond as Balance,
+      desiredSeats: api.consts[section].desiredMembers as u32,
+      members: members.sort((a, b): number => b[1].cmp(a[1])),
+      runnersUp: runnersUp.sort((a, b): number => b[1].cmp(a[1])),
+      termDuration: api.consts[section].termDuration as BlockNumber,
+      votingBond: api.consts[section].votingBond as Balance
+    }))
+  );
 }
 
 /**
@@ -76,9 +48,5 @@ function queryPhragmen (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
  * ```
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedElectionsInfo> {
-  return (): Observable<DerivedElectionsInfo> => {
-    return api.query.electionsPhragmen
-      ? queryPhragmen(api)
-      : queryElections(api);
-  };
+  return memo((): Observable<DerivedElectionsInfo> => queryElections(api));
 }

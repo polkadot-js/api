@@ -1,13 +1,16 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec, ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** Uint8Array, Codec */
 export interface ApiId extends Uint8Array, Codec {}
+
+/** Hash */
+export interface BlockHash extends Hash {}
 
 /** Struct */
 export interface ChainProperties extends Struct {
@@ -94,6 +97,16 @@ export interface RpcMethods extends Struct {
   readonly version: u32;
   /** Vec<Text> */
   readonly methods: Vec<Text>;
+}
+
+/** Struct */
+export interface RuntimeDispatchInfo extends Struct {
+  /** Weight */
+  readonly weight: Weight;
+  /** DispatchClass */
+  readonly class: DispatchClass;
+  /** Balance */
+  readonly partialFee: Balance;
 }
 
 /** Struct */

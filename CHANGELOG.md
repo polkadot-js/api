@@ -1,3 +1,74 @@
+# 1.0.0-beta-x
+
+- **Breaking change** Drop support for Substrate v1 chain in all derives
+- Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators (`@polkadot/types` bin)
+- Only decorate derives where relevant parent `api.query.*` is available
+- Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
+- Remove un-deployed support for v11 metadata (this was decided against on Substrate)
+- Allow v9 metadata to parse even in cases where it was wrongly deployed pre-v10
+- Allow type-aliasses on a per-module basis (e.g. `Judgement` in identity as well as society)
+- Allow passing `{ signer }` to both `api.tx.*` and `api.sign` (in addition to `api.setSigner`)
+- Add derives for the society module
+- Don't map empy tuples, e.. `()` to `Null`, rather keep them empty
+- Add lookups to the metadata erros via `findMetaError`
+- Update metadata and types for the lastest Substrate & Polkadot versions
+- Remove old known types for Substrate V1
+
+# 0.100.1
+
+- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
+- Add support for the Substrate identity module
+- Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
+- Fix for linked maps using `Option`
+- Add support for `BTreeSet` (Thanks to https://github.com/satellitex)
+- Add support for Metadata v10
+- Add support for latest Polkadot/Substrate types
+- Add `paymentInfo` to submittables to calculate fees
+
+# 0.99.1
+
+- **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
+- **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (more effective) and `staking.account` that enhances query for all the information previously found `.info`
+- Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
+- Update democracy derives to take care of nextTally and lowestU*nbaked
+- Add additional derives for both council & treasury
+- Alignment with latest Polkadot/Substrate master branch types
+
+# 0.98.1
+
+- Make the TypeScript generation script mor re-usable (Thanks to https://github.com/xlc)
+- Add `.entries()` for all map-types, returning storage keys and values
+- Add `.signAsync` to submittable extrinsics (Thanks to https://github.com/c410-f3r)
+- Cleanup circular references between internal dependencies
+- Support for new Substrate democracy with preimages in derive
+- Alignment of types with Substrate/Polkadot master branches
+
+# 0.97.1
+
+- **Breaking change** Add the passing on an explicit `Registry` to all calls to `createType` as well as all codec classes. If you are upgrading form an older version, use the [migration guide](UPGRADING.md) to walk through the changes required.
+- **Breaking change** The metadata classes have been moved from `@polkadot/types` into `@polkadot/metadata`. If you explicitly create `Metadata` classes, you now would need to do so with the `import Metadata from '@polkadot/metadata';` This is a decorated class, where the previous metadata is now available on `Metadata.metadata`, alongside decorated `consts.*`', `tx.*` and `query.*`.
+- **Breaking change** Session `Keys` defaults to 4 keys now (Substrate master), depending on your node config, you would want to override with e.g. `Keys: 'SessionKeys3'` (1, 2, 3, 4, 5 & 6)
+- **Breaking change** `ValidatorPrefs` now default to the new percentage commission model, to use the previous `validatorPayment`, you can override with `ValidatorPrefs: 'ValidatorPrefsTo196'`
+- `api.derive.*` now has built-in memomization
+- Various fixes and cleanups to `api.derive.*` including era length progress and vesting calculations
+- Aligned all types with the latest Polkadot & Substrate, including Kusama CC3
+- Support for Metadata V9, which adjusts the hashing methods of storage entries
+- Support for Metadata V10 (still un-released), which includes prefixed map support
+
+# 0.96.1
+
+- Updated types for latest Kusama
+- Add `filterRecords` (in addition to `findRecord`) on submittable results
+- Various ABI v2 contract fixes
+- Update derive for elections (incl. RunnersUp) and heartbeat derives (with blocks & messages)
+- Add vesting totals & locked breakdowns to derive balances
+- Update council derives for the latest Substrate master support (with constants)
+- Derive cleanups, including sharing of instances between the API and internal to derives
+
+# 0.95.2
+
+- Temporary removal of `account_nextIndex` use, will be re-added in a future release
+
 # 0.95.1
 
 - Support Extrinsic V4 with additional signature indicator (Latest Polkadot/Substrate/Kusama)

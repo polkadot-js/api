@@ -1,6 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+import { Registry } from '../../types';
 
 import BN from 'bn.js';
 import { isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
@@ -24,46 +26,44 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
 export default class Address extends Base<AccountId | AccountIndex> {
-  public constructor (value: AnyAddress = new Uint8Array()) {
-    super(
-      Address.decodeAddress(value)
-    );
+  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
+    super(registry, Address.decodeAddress(registry, value));
   }
 
-  public static decodeAddress (value: AnyAddress): AccountId | AccountIndex {
+  public static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {
       return value.raw;
     } else if (isBn(value) || isNumber(value)) {
-      return createType('AccountIndex', value);
+      return createType(registry, 'AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
-      return Address.decodeU8a(u8aToU8a(value));
+      return Address.decodeU8a(registry, u8aToU8a(value));
     }
 
-    return Address.decodeString(value);
+    return Address.decodeString(registry, value);
   }
 
-  private static decodeString (value: string): AccountId | AccountIndex {
+  private static decodeString (registry: Registry, value: string): AccountId | AccountIndex {
     const decoded = decodeAddress(value);
 
     return decoded.length === 32
-      ? createType('AccountId', decoded)
-      : createType('AccountIndex', u8aToBn(decoded, true));
+      ? createType(registry, 'AccountId', decoded)
+      : createType(registry, 'AccountIndex', u8aToBn(decoded, true));
   }
 
-  private static decodeU8a (value: Uint8Array): AccountId | AccountIndex {
+  private static decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
     // This allows us to instantiate an address with a raw publicKey. Do this first before
     // we checking the first byte, otherwise we may split an already-existent valid address
     if (value.length === 32) {
-      return createType('AccountId', value);
+      return createType(registry, 'AccountId', value);
     } else if (value[0] === 0xff) {
-      return createType('AccountId', value.subarray(1));
+      return createType(registry, 'AccountId', value.subarray(1));
     }
 
     const [offset, length] = AccountIndex.readLength(value);
 
-    return createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+    return createType(registry, 'AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
   }
 
   /**

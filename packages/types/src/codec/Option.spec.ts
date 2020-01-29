@@ -1,17 +1,18 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
-
-import Option from './Option';
+import { TypeRegistry } from './create';
 import Bytes from '../primitive/Bytes';
 import U32 from '../primitive/U32';
 import Text from '../primitive/Text';
+import Option from './Option';
+
+const registry = new TypeRegistry();
 
 const testDecode = (type: string, input: any, expected: any): void =>
   it(`can decode from ${type}`, (): void => {
-    const o = new Option(Text, input);
+    const o = new Option(registry, Text, input);
 
     expect(o.toString()).toBe(expected);
     expect(o.isNone).toBe(!expected.length);
@@ -19,27 +20,27 @@ const testDecode = (type: string, input: any, expected: any): void =>
 
 const testEncode = (to: string, expected: any): void =>
   it(`can encode ${to}`, (): void => {
-    const e = new Option(Text, 'foo');
+    const e = new Option(registry, Text, 'foo');
 
     expect((e as any)[to]()).toEqual(expected);
   });
 
 describe('Option', (): void => {
   it('converts undefined/null to empty', (): void => {
-    expect(new Option(Text, undefined).isNone).toBe(true);
-    expect(new Option(Text, null).isNone).toBe(true);
-    expect(new Option(Text, 'test').isNone).toBe(false);
+    expect(new Option(registry, Text, undefined).isNone).toBe(true);
+    expect(new Option(registry, Text, null).isNone).toBe(true);
+    expect(new Option(registry, Text, 'test').isNone).toBe(false);
   });
 
   it('converts an option to an option', (): void => {
     expect(
-      new Option(Text, new Option(Text, 'hello')).toString()
+      new Option(registry, Text, new Option(registry, Text, 'hello')).toString()
     ).toEqual('hello');
   });
 
   it('converts an option to an option (strings)', (): void => {
     expect(
-      new Option('Text', new Option('Text', 'hello')).toString()
+      new Option(registry, 'Text', new Option(registry, 'Text', 'hello')).toString()
     ).toEqual('hello');
   });
 
@@ -50,7 +51,7 @@ describe('Option', (): void => {
 
     // whatc the hex prefix and length
     expect(
-      new Option(Bytes, HEX).toHex().substr(6)
+      new Option(registry, Bytes, HEX).toHex().substr(6)
     ).toEqual(HEX.substr(2));
   });
 
@@ -58,7 +59,7 @@ describe('Option', (): void => {
     const HEX = '0x12345678';
 
     expect(
-      (new Option(U32, HEX).unwrap() as U32).toNumber()
+      (new Option(registry, U32, HEX).unwrap() as U32).toNumber()
     ).toEqual(0x12345678);
   });
 
@@ -73,33 +74,33 @@ describe('Option', (): void => {
 
   it('has empty toString() (undefined)', (): void => {
     expect(
-      new Option(Text).toString()
+      new Option(registry, Text).toString()
     ).toEqual('');
   });
 
   it('has value toString() (provided)', (): void => {
     expect(
-      new Option(Text, new Uint8Array([1, 4 << 2, 49, 50, 51, 52])).toString()
+      new Option(registry, Text, new Uint8Array([1, 4 << 2, 49, 50, 51, 52])).toString()
     ).toEqual('1234');
   });
 
   it('converts toU8a() with', (): void => {
     expect(
-      new Option(Text, '1234').toU8a()
+      new Option(registry, Text, '1234').toU8a()
     ).toEqual(new Uint8Array([1, 4 << 2, 49, 50, 51, 52]));
   });
 
   it('converts toU8a() without', (): void => {
     expect(
-      new Option(Text).toU8a()
+      new Option(registry, Text).toU8a()
     ).toEqual(new Uint8Array([0]));
   });
 
   describe('utils', (): void => {
-    const testeq = new Option(Text, '1234');
+    const testeq = new Option(registry, Text, '1234');
 
     it('compares against other option', (): void => {
-      expect(testeq.eq(new Option(Text, '1234'))).toBe(true);
+      expect(testeq.eq(new Option(registry, Text, '1234'))).toBe(true);
     });
 
     it('compares against raw value', (): void => {
@@ -107,11 +108,11 @@ describe('Option', (): void => {
     });
 
     it('unwraps to default if empty', (): void => {
-      expect(new Option(Text).unwrapOr('6789')).toBe('6789');
+      expect(new Option(registry, Text).unwrapOr('6789')).toBe('6789');
     });
 
     it('unwraps to value if non-empty', (): void => {
-      expect((new Option(Text, '1234').unwrapOr(null) as Text).toString()).toBe('1234');
+      expect((new Option(registry, Text, '1234').unwrapOr(null) as Text).toString()).toBe('1234');
     });
   });
 });

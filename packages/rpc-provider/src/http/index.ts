@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -43,7 +43,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  public constructor (endpoint: string = defaults.HTTP_URL) {
+  constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.coder = new Coder();

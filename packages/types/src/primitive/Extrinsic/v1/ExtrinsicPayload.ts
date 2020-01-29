@@ -1,9 +1,9 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, ExtrinsicEra, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -22,8 +22,8 @@ import { sign } from '../util';
  *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
  */
 export default class ExtrinsicPayloadV1 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super({
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    super(registry, {
       nonce: 'Compact<Index>',
       method: 'Bytes',
       era: 'ExtrinsicEra',
@@ -63,6 +63,6 @@ export default class ExtrinsicPayloadV1 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a(true));
+    return sign(signerPair, this.toU8a({ method: true }));
   }
 }

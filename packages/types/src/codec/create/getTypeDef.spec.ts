@@ -1,8 +1,6 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-
-import '../../injector';
 
 import { TypeDef, TypeDefInfo } from '../types';
 
@@ -21,12 +19,13 @@ describe('getTypeDef', (): void => {
     ).toThrow(/Unable to find closing matching/);
   });
 
-  it('maps empty tuples to Null', (): void => {
+  it('maps empty tuples to empty tuple', (): void => {
     expect(
       getTypeDef('()')
     ).toEqual({
-      info: TypeDefInfo.Plain,
-      type: 'Null'
+      info: TypeDefInfo.Tuple,
+      sub: [],
+      type: '()'
     });
   });
 
@@ -46,6 +45,19 @@ describe('getTypeDef', (): void => {
           type: 'Text'
         }
       ]
+    });
+  });
+
+  it('properly decodes a BTreeSet<Text>', (): void => {
+    expect(
+      getTypeDef('BTreeSet<Text>')
+    ).toEqual({
+      info: TypeDefInfo.BTreeSet,
+      type: 'BTreeSet<Text>',
+      sub: {
+        info: TypeDefInfo.Plain,
+        type: 'Text'
+      }
     });
   });
 
@@ -99,10 +111,10 @@ describe('getTypeDef', (): void => {
 
   it('returns a type structure', (): void => {
     expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text,Vec<(Bool,u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text,Vec<(Bool,u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32,Compact<u32>,Vec<u64>,Option<u128>,DoubleMap<u128>,(Text,Vec<(Bool,u128)>))',
+      type: '(u32,Compact<u32>,Vec<u64>,Option<u128>,(Text,Vec<(Bool,u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -127,14 +139,6 @@ describe('getTypeDef', (): void => {
         {
           info: TypeDefInfo.Option,
           type: 'Option<u128>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u128'
-          }
-        },
-        {
-          info: TypeDefInfo.DoubleMap,
-          type: 'DoubleMap<u128>',
           sub: {
             info: TypeDefInfo.Plain,
             type: 'u128'

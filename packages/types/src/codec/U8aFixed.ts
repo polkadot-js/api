@@ -1,12 +1,12 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { isString, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a, Constructor } from '../types';
+import { AnyU8a, Constructor, Registry } from '../types';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 // The 520 here is a weird one - it is explicitly for a [u8; 65] as found as a EcdsaSignature
 // Likewise 160 is for [u8; 20], which is also a H160, i.e. an Ethereum address. Both these are
@@ -19,11 +19,9 @@ export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 520 | 1024 | 
  * A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
  * to be used directly, rather is should be subclassed with the specific lengths.
  */
-export default class U8aFixed extends U8a {
-  public constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
-    super(
-      U8aFixed.decodeU8aFixed(value, bitLength)
-    );
+export default class U8aFixed extends Raw {
+  constructor (registry: Registry, value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
+    super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
   }
 
   private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
@@ -49,8 +47,8 @@ export default class U8aFixed extends U8a {
 
   public static with (bitLength: BitLength): Constructor<U8aFixed> {
     return class extends U8aFixed {
-      public constructor (value?: any) {
-        super(value, bitLength);
+      constructor (registry: Registry, value?: any) {
+        super(registry, value, bitLength);
       }
     };
   }

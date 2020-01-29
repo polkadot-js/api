@@ -1,17 +1,18 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
+import { MetadataLatest, ModuleMetadataLatest } from '../interfaces/metadata';
 
 import fs from 'fs';
+import Decorated from '@polkadot/metadata/Decorated';
+import rpcdata from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
+import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
-import Metadata from '../Metadata';
-import rpcdata from '../Metadata/static';
-import MetadataV8, { ModuleMetadataV8 } from '../Metadata/v8';
+import { TypeRegistry } from '../codec';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -24,14 +25,17 @@ const DESC_EVENTS = `\n\nEvents are emitted for certain operations on the runtim
 const DESC_RPC = '\n\nThe following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.\n';
 const DESC_STORAGE = `\n\nThe following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}\n`;
 
+/** @internal */
 function sectionLink (sectionName: string): string {
   return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
 }
 
+/** @internal */
 function generateSectionHeader (md: string, sectionName: string): string {
   return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n## ${sectionName}\n`;
 }
 
+/** @internal */
 function addRpc (): string {
   const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
   const orderedSections = Object.keys(interfaces).sort();
@@ -59,6 +63,7 @@ function addRpc (): string {
 /**
  * Sort object by their `.name`
  */
+/** @internal */
 function sortByName<T extends { name: any }> (a: T, b: T): number {
   // ignore upper and lowercase
   const nameA = a.name.toString().toUpperCase();
@@ -67,7 +72,8 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
   return nameA.localeCompare(nameB);
 }
 
-function addConstants (metadata: MetadataV8): string {
+/** @internal */
+function addConstants (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Constants${DESC_CONSTANTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -95,7 +101,8 @@ function addConstants (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addEvents (metadata: MetadataV8): string {
+/** @internal */
+function addEvents (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -125,9 +132,10 @@ function addEvents (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addExtrinsics (metadata: MetadataV8): string {
+/** @internal */
+function addExtrinsics (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.map((i): ModuleMetadataV8 => i).sort(sortByName);
+  const orderedSections = metadata.modules.map((i): ModuleMetadataLatest => i).sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, meta): string => {
     if (meta.calls.isNone || !meta.calls.unwrap().length) {
@@ -155,7 +163,8 @@ function addExtrinsics (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sections;
 }
 
-function addStorage (metadata: MetadataV8): string {
+/** @internal */
+function addStorage (metadata: MetadataLatest): string {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -180,11 +189,7 @@ function addStorage (metadata: MetadataV8): string {
             : '';
       const doc = func.documentation.reduce((md, doc): string =>
         `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-      let result = (
-        func.type.isDoubleMap
-          ? func.type.asDoubleMap.value
-          : func.type
-      ).toString();
+      let result = unwrapStorageType(func.type);
 
       if (func.modifier.isOptional) {
         result = `Option<${result}>`;
@@ -199,6 +204,7 @@ function addStorage (metadata: MetadataV8): string {
   return renderHeading + renderAnchors + sectionLink('substrate') + sections;
 }
 
+/** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
   const options = { flags: 'w', encoding: 'utf8' };
   const writeStream = fs.createWriteStream(name, options);
@@ -214,33 +220,40 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
+/** @internal */
 function writeToRpcMd (): void {
   writeFile('docs/substrate/rpc.md', addRpc());
 }
 
-function writeToConstantsMd (metadata: MetadataV8): void {
+/** @internal */
+function writeToConstantsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/constants.md', addConstants(metadata));
 }
 
-function writeToStorageMd (metadata: MetadataV8): void {
+/** @internal */
+function writeToStorageMd (metadata: MetadataLatest): void {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('docs/substrate/storage-known.md', options);
 
   writeFile('docs/substrate/storage.md', addStorage(metadata), data);
 }
 
-function writeToExtrinsicsMd (metadata: MetadataV8): void {
+/** @internal */
+function writeToExtrinsicsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(metadata));
 }
 
-function writeToEventsMd (metadata: MetadataV8): void {
+/** @internal */
+function writeToEventsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asLatest;
+const registry = new TypeRegistry();
+const decorated = new Decorated(registry, rpcdata);
+const latest = decorated.metadata.asLatest;
 
 writeToRpcMd();
-writeToConstantsMd(metadata);
-writeToStorageMd(metadata);
-writeToExtrinsicsMd(metadata);
-writeToEventsMd(metadata);
+writeToConstantsMd(latest);
+writeToStorageMd(latest);
+writeToExtrinsicsMd(latest);
+writeToEventsMd(latest);

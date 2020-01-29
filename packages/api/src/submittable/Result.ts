@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ export default class SubmittableResult implements SubmittableResultImpl {
 
   public readonly status: ExtrinsicStatus;
 
-  public constructor ({ events, status }: SubmittableResultValue) {
+  constructor ({ events, status }: SubmittableResultValue) {
     this.events = events || [];
     this.status = status;
   }
@@ -25,6 +25,15 @@ export default class SubmittableResult implements SubmittableResultImpl {
 
   public get isFinalized (): boolean {
     return this.status.isFinalized;
+  }
+
+  /**
+   * @description Filters EventRecords for the specified method & section (there could be multiple)
+   */
+  public filterRecords (section: string, method: string): EventRecord[] {
+    return this.events.filter(({ event }): boolean =>
+      event.section === section && event.method === method
+    );
   }
 
   /**

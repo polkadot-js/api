@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -73,17 +73,19 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
   // as a first round, only u8 via u8aFixed, we can add more support
   assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-  value.ext = { length: vecLen, type: vecType } as unknown as TypeDefExtVecFixed;
+  value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
 
   return value;
 }
 
 // decode a tuple
 function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
-  value.sub = typeSplit(subType).map((inner): TypeDef =>
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getTypeDef(inner)
-  );
+  value.sub = subType.length === 0
+    ? []
+    : typeSplit(subType).map((inner): TypeDef =>
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getTypeDef(inner)
+    );
 
   return value;
 }
@@ -108,8 +110,8 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
 ];
 
 const wrappedExtraction: [string, string, TypeDefInfo][] = [
+  ['BTreeSet<', '>', TypeDefInfo.BTreeSet],
   ['Compact<', '>', TypeDefInfo.Compact],
-  ['DoubleMap<', '>', TypeDefInfo.DoubleMap],
   ['Linkage<', '>', TypeDefInfo.Linkage],
   ['Option<', '>', TypeDefInfo.Option],
   ['Vec<', '>', TypeDefInfo.Vec]
@@ -128,7 +130,6 @@ export function getTypeDef (_type: string, { name, displayName }: TypeDefOptions
   // create the type via Type, allowing types to be sanitized
   const type = sanitize(_type);
   const value: TypeDef = { info: TypeDefInfo.Plain, displayName, name, type };
-
   const nested = nestedExtraction.find((nested): boolean =>
     hasWrapper(type, nested)
   );

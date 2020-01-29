@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Set, Struct } from '@polkadot/types/codec';
@@ -36,4 +36,6 @@ export interface WithdrawReasons extends Set {
   readonly isReserve: boolean;
   /** boolean */
   readonly isFee: boolean;
+  /** boolean */
+  readonly isTip: boolean;
 }

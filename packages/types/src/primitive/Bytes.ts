@@ -1,13 +1,13 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AnyU8a, Registry } from '../types';
 
 import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Compact from '../codec/Compact';
-import U8a from '../codec/U8a';
+import Raw from '../codec/Raw';
 
 /**
  * @name Bytes
@@ -16,16 +16,16 @@ import U8a from '../codec/U8a';
  * is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
  * as what is found in [[Text]] and [[Vec]])
  */
-export default class Bytes extends U8a {
-  public constructor (value?: AnyU8a) {
-    super(Bytes.decodeBytes(value));
+export default class Bytes extends Raw {
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, Bytes.decodeBytes(value));
   }
 
   private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
     if (Array.isArray(value) || isString(value)) {
       return u8aToU8a(value);
-    } else if (!(value instanceof U8a) && isU8a(value)) {
-      // We are ensuring we are not a U8a instance. In the case of a U8a we already have gotten
+    } else if (!(value instanceof Raw) && isU8a(value)) {
+      // We are ensuring we are not a Rawv instance. In the case of a Raw we already have gotten
       // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
       return Bytes.decodeBytesU8a(value);
     }

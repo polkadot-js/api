@@ -1,16 +1,17 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, IHash } from '../types';
+import { Codec, Constructor, IHash, Registry } from '../types';
 
-import { assert, isU8a, isNumber, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex } from '@polkadot/util';
+import BN from 'bn.js';
+import { assert, bnToBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, isBn, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 import { compareArray } from './utils';
 
-type SetValues = Record<string, number>;
+type SetValues = Record<string, number | BN>;
 
 /**
  * @name Set
@@ -20,16 +21,21 @@ type SetValues = Record<string, number>;
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
 export default class CodecSet extends Set<string> implements Codec {
-  private _setValues: SetValues;
+  public readonly registry: Registry;
 
-  public constructor (setValues: SetValues, value?: string[] | Set<string> | Uint8Array | number) {
+  protected _setValues: SetValues;
+
+  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
     super(CodecSet.decodeSet(setValues, value));
 
+    this.registry = registry;
     this._setValues = setValues;
   }
 
-  public static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | number = 0): string[] {
-    if (isU8a(value)) {
+  public static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0): string[] {
+    if (isString(value)) {
+      return CodecSet.decodeSet(setValues, u8aToU8a(value));
+    } else if (isU8a(value)) {
       return value.length === 0
         ? []
         : CodecSet.decodeSetNumber(setValues, value[0]);
@@ -52,9 +58,10 @@ export default class CodecSet extends Set<string> implements Codec {
     }, [] as string[]);
   }
 
-  private static decodeSetNumber (setValues: SetValues, value: number): string[] {
+  private static decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
+    const bn = bnToBn(_value);
     const result = Object.keys(setValues).reduce((result, key): string[] => {
-      if ((value & setValues[key]) === setValues[key]) {
+      if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
         result.push(key);
       }
 
@@ -63,21 +70,21 @@ export default class CodecSet extends Set<string> implements Codec {
 
     const computed = CodecSet.encodeSet(setValues, result);
 
-    assert(value === computed, `Set: Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
+    assert(bn.eq(computed), `Set: Mismatch decoding '${bn}', computed as '${computed}' with ${result}`);
 
     return result;
   }
 
-  public static encodeSet (setValues: SetValues, value: string[]): number {
-    return value.reduce((result, value): number => {
-      return result | (setValues[value] || 0);
-    }, 0);
+  public static encodeSet (setValues: SetValues, value: string[]): BN {
+    return value.reduce((result, value): BN => {
+      return result.or(bnToBn(setValues[value] || 0));
+    }, new BN(0));
   }
 
   public static with (values: SetValues): Constructor<CodecSet> {
     return class extends CodecSet {
-      public constructor (value?: any) {
-        super(values, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, values, value);
 
         Object.keys(values).forEach((_key): void => {
           const name = stringUpperFirst(stringCamelCase(_key));
@@ -106,7 +113,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -126,7 +133,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description The encoded value for the set members
    */
-  public get valueEncoded (): number {
+  public get valueEncoded (): BN {
     return CodecSet.encodeSet(this._setValues, this.strings);
   }
 
@@ -152,8 +159,8 @@ export default class CodecSet extends Set<string> implements Codec {
       return compareArray(this.strings.sort(), other.sort());
     } else if (other instanceof Set) {
       return this.eq([...other.values()]);
-    } else if (isNumber(other)) {
-      return this.valueEncoded === other;
+    } else if (isNumber(other) || isBn(other)) {
+      return this.valueEncoded.eq(bnToBn(other));
     }
 
     return false;
@@ -177,7 +184,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description The encoded value for the set members
    */
   public toNumber (): number {
-    return this.valueEncoded;
+    return this.valueEncoded.toNumber();
   }
 
   /**
@@ -201,6 +208,6 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this.valueEncoded]);
+    return new Uint8Array([this.valueEncoded.toNumber()]);
   }
 }

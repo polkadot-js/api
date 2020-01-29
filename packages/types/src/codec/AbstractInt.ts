@@ -1,14 +1,14 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, IHash } from '../types';
+import { AnyNumber, Codec, IHash, Registry } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
@@ -22,20 +22,18 @@ export const DEFAULT_UINT_BITS = 64;
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export default abstract class AbstractInt extends BN implements Codec {
+  public readonly registry: Registry;
+
   protected _bitLength: UIntBitLength;
 
   private _isHexJson: boolean;
 
   private _isNegative: boolean;
 
-  public constructor (
-    isNegative: boolean,
-    value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(
-      AbstractInt.decodeAbstracInt(value, bitLength, isNegative)
-    );
+  protected constructor (registry: Registry, isNegative: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
+    super(AbstractInt.decodeAbstracInt(value, bitLength, isNegative));
 
+    this.registry = registry;
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
     this._isNegative = isNegative;
@@ -80,7 +78,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -60,7 +60,7 @@ function promiseTracker (resolve: (value: () => void) => void, reject: (value: E
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
   return function (...args: any[]): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
@@ -213,12 +213,15 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this._isReadyPromise = new Promise((resolve): void => {
+    this._isReadyPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
+      });
+      super.once('error', (e): void => {
+        reject(e);
       });
     });
   }

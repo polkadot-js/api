@@ -1,10 +1,9 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, u32 } from '@polkadot/types/primitive';
 import { BlockNumber, Signature } from '@polkadot/types/interfaces/runtime';
-import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 
 /** u32 */
@@ -21,8 +20,8 @@ export interface Heartbeat extends Struct {
   readonly networkState: OpaqueNetworkState;
   /** SessionIndex */
   readonly sessionIndex: SessionIndex;
-  /** AuthorityId */
-  readonly authorityId: AuthorityId;
+  /** AuthIndex */
+  readonly authorityIndex: AuthIndex;
 }
 
 /** Bytes */

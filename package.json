@@ -1,5 +1,5 @@
 {
-  "version": "0.96.0-beta.6",
+  "version": "1.0.0-beta.41",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -9,11 +9,12 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
+    "circular": "madge --circular --extensions ts ./",
     "docs": "node packages/types/src/scripts/MetadataMdWrapper.js && polkadot-dev-build-docs",
     "chain:info": "node packages/types/src/scripts/extractChainWrapper.js",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
@@ -21,17 +22,14 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage --runInBand --testPathIgnorePatterns e2e",
     "test:all": "jest",
-    "test:e2e": "jest packages/api/test/e2e",
-    "test:e2e-docker": "TEST_DOCKER=1 jest packages/api/test/e2e",
-    "test:e2e-remote": "TEST_REMOTE=1 jest packages/api/test/e2e",
     "test:one": "jest",
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/register": "^7.6.2",
-    "@babel/runtime": "^7.6.3",
-    "@polkadot/dev": "^0.32.0-beta.11",
-    "@polkadot/ts": "^0.1.82"
+    "@babel/core": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "@babel/runtime": "^7.8.3",
+    "@polkadot/dev": "^0.33.1",
+    "@polkadot/ts": "^0.2.1"
   }
 }

@@ -1,32 +1,35 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { DerivedReferendum } from '../types';
 
 import BN from 'bn.js';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, Vec } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
-import { ReferendumInfoExtended } from '../type';
-import { drr } from '../util/drr';
-import { constructInfo } from './referendumInfo';
+import { memo } from '../util';
+import { retrieveInfo } from './referendumInfo';
 
-export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<Option<ReferendumInfoExtended>[]> {
-  return (ids: (BN | number)[] = []): Observable<Option<ReferendumInfoExtended>[]> => {
-    return (
-      !ids || !ids.length
+export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<DerivedReferendum[]> {
+  return memo((ids: (BN | number)[] = []): Observable<DerivedReferendum[]> =>
+    (
+      !ids?.length
         ? of([] as Option<ReferendumInfo>[])
-        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vec<Option<ReferendumInfo>>>
+        : api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids)
     ).pipe(
-      map((infos): Option<ReferendumInfoExtended>[] =>
-        ids.map((id, index): Option<ReferendumInfoExtended> =>
-          constructInfo(id, infos[index])
+      switchMap((infos): Observable<(DerivedReferendum | null)[]> =>
+        combineLatest(
+          ...ids.map((id, index): Observable<DerivedReferendum | null> =>
+            retrieveInfo(api, id, infos[index])
+          )
         )
       ),
-      drr()
-    );
-  };
+      map((infos): DerivedReferendum[] =>
+        infos.filter((referendum): boolean => !!referendum) as DerivedReferendum[]
+      )
+    ));
 }

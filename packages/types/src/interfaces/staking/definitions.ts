@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,7 +22,8 @@ export default {
       _enum: [
         'NotForcing',
         'ForceNew',
-        'ForceNone'
+        'ForceNone',
+        'ForceAlways'
       ]
     },
     IndividualExposure: {
@@ -30,6 +31,11 @@ export default {
       value: 'Compact<Balance>'
     },
     MomentOf: 'Moment',
+    Nominations: {
+      targets: 'Vec<AccountId>',
+      submittedIn: 'EraIndex',
+      suppressed: 'bool'
+    },
     Points: 'u32',
     RewardDestination: {
       _enum: [
@@ -43,20 +49,47 @@ export default {
       amount: 'Balance',
       ownSlash: 'Balance'
     },
+    SlashingSpansTo204: {
+      spanIndex: 'SpanIndex',
+      lastStart: 'EraIndex',
+      prior: 'Vec<EraIndex>'
+    },
+    SlashingSpans: {
+      spanIndex: 'SpanIndex',
+      lastStart: 'EraIndex',
+      lastNonzeroSlash: 'EraIndex',
+      prior: 'Vec<EraIndex>'
+    },
+    SpanIndex: 'u32',
+    SpanRecord: {
+      slashed: 'Balance',
+      paidOut: 'Balance'
+    },
     StakingLedger: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
     },
+    UnappliedSlashOther: '(AccountId, Balance)',
+    UnappliedSlash: {
+      validator: 'AccountId',
+      own: 'Balance',
+      others: 'Vec<UnappliedSlashOther>',
+      reporters: 'Vec<AccountId>',
+      payout: 'Balance'
+    },
     UnlockChunk: {
       value: 'Compact<Balance>',
       era: 'Compact<BlockNumber>'
     },
     ValidatorPrefs: {
+      commission: 'Compact<Perbill>'
+    },
+    ValidatorPrefsTo196: {
       validatorPayment: 'Compact<Balance>'
     },
-    ValidatorPrefs0to145: {
+    ValidatorPrefsTo145: {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }

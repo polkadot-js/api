@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
@@ -8,10 +8,16 @@ import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** u64 */
+export interface AuthorityIndex extends u64 {}
+
+/** Vec<NextAuthority> */
+export interface AuthorityList extends Vec<NextAuthority> {}
+
+/** u64 */
 export interface AuthorityWeight extends u64 {}
 
-/** ITuple<[AuthorityId, u64]> */
-export interface NextAuthority extends ITuple<[AuthorityId, u64]> {}
+/** ITuple<[AuthorityId, AuthorityWeight]> */
+export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
 
 /** Struct */
 export interface PendingPause extends Struct {
@@ -38,8 +44,8 @@ export interface StoredPendingChange extends Struct {
   readonly scheduledAt: BlockNumber;
   /** BlockNumber */
   readonly delay: BlockNumber;
-  /** Vec<NextAuthority> */
-  readonly nextAuthorities: Vec<NextAuthority>;
+  /** AuthorityList */
+  readonly nextAuthorities: AuthorityList;
 }
 
 /** Enum */

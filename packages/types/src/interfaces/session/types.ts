@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
@@ -12,14 +12,26 @@ export interface FullIdentification extends Exposure {}
 /** ITuple<[ValidatorId, FullIdentification]> */
 export interface IdentificationTuple extends ITuple<[ValidatorId, FullIdentification]> {}
 
-/** SessionKeysSubstrate */
-export interface Keys extends SessionKeysSubstrate {}
+/** SessionKeys4 */
+export interface Keys extends SessionKeys4 {}
 
 /** u32 */
 export interface SessionIndex extends u32 {}
 
-/** ITuple<[AccountId, AccountId, AccountId, AccountId]> */
-export interface SessionKeysPolkadot extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
+/** AccountId */
+export interface SessionKeys1 extends AccountId {}
+
+/** ITuple<[AccountId, AccountId]> */
+export interface SessionKeys2 extends ITuple<[AccountId, AccountId]> {}
 
 /** ITuple<[AccountId, AccountId, AccountId]> */
-export interface SessionKeysSubstrate extends ITuple<[AccountId, AccountId, AccountId]> {}
+export interface SessionKeys3 extends ITuple<[AccountId, AccountId, AccountId]> {}
+
+/** ITuple<[AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeys4 extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
+
+/** ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> {}
+
+/** ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> */
+export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}

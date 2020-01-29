@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 export * from './runtime/types';
@@ -12,11 +12,15 @@ export * from './contracts/types';
 export * from './democracy/types';
 export * from './deprecated/types';
 export * from './elections/types';
+export * from './evm/types';
 export * from './genericAsset/types';
 export * from './grandpa/types';
+export * from './identity/types';
 export * from './imOnline/types';
 export * from './offences/types';
+export * from './recovery/types';
 export * from './session/types';
+export * from './society/types';
 export * from './staking/types';
 export * from './system/types';
 export * from './treasury/types';

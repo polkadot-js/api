@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -70,7 +70,7 @@ export default {
     },
     StorageFunctionTypeV0: {
       _enum: {
-        Type: 'PlainTypeV0',
+        Plain: 'PlainTypeV0',
         Map: 'MapTypeV0'
       }
     },
@@ -110,8 +110,31 @@ export default {
       value: 'Type',
       linked: 'bool'
     },
+    MetadataV2: {
+      modules: 'Vec<ModuleMetadataV2>'
+    },
+    ModuleMetadataV2: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageFunctionMetadataV2>>',
+      calls: 'Option<Vec<FunctionMetadataV2>>',
+      events: 'Option<Vec<EventMetadataV2>>'
+    },
     PlainTypeV2: 'Type',
+    StorageFunctionMetadataV2: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV2',
+      type: 'StorageFunctionTypeV2',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
     StorageFunctionModifierV2: 'StorageFunctionModifierV1',
+    StorageFunctionTypeV2: {
+      _enum: {
+        Plain: 'PlainTypeV2',
+        Map: 'MapTypeV2'
+      }
+    },
 
     // v3
     DoubleMapTypeV3: {
@@ -124,12 +147,36 @@ export default {
     FunctionArgumentMetadataV3: 'FunctionArgumentMetadataV2',
     FunctionMetadataV3: 'FunctionMetadataV2',
     MapTypeV3: 'MapTypeV2',
+    MetadataV3: {
+      modules: 'Vec<ModuleMetadataV3>'
+    },
+    ModuleMetadataV3: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageFunctionMetadataV3>>',
+      calls: 'Option<Vec<FunctionMetadataV3>>',
+      events: 'Option<Vec<EventMetadataV3>>'
+    },
     PlainTypeV3: 'Type',
+    StorageFunctionMetadataV3: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV3',
+      type: 'StorageFunctionTypeV3',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
     StorageFunctionModifierV3: 'StorageFunctionModifierV2',
+    StorageFunctionTypeV3: {
+      _enum: {
+        Plain: 'PlainTypeV3',
+        Map: 'MapTypeV3',
+        DoubleMap: 'DoubleMapTypeV3'
+      }
+    },
 
     // v4
     DoubleMapTypeV4: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV4',
       key1: 'Type',
       key2: 'Type',
       value: 'Type',
@@ -139,28 +186,90 @@ export default {
     FunctionArgumentMetadataV4: 'FunctionArgumentMetadataV3',
     FunctionMetadataV4: 'FunctionMetadataV3',
     MapTypeV4: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV4',
       key: 'Type',
       value: 'Type',
       linked: 'bool'
     },
+    MetadataV4: {
+      modules: 'Vec<ModuleMetadataV4>'
+    },
+    ModuleMetadataV4: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageFunctionMetadataV4>>',
+      calls: 'Option<Vec<FunctionMetadataV4>>',
+      events: 'Option<Vec<EventMetadataV4>>'
+    },
     PlainTypeV4: 'Type',
+    StorageFunctionMetadataV4: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV4',
+      type: 'StorageFunctionTypeV4',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
     StorageFunctionModifierV4: 'StorageFunctionModifierV3',
+    StorageFunctionTypeV4: {
+      _enum: {
+        Plain: 'PlainTypeV4',
+        Map: 'MapTypeV4',
+        DoubleMap: 'DoubleMapTypeV4'
+      }
+    },
+    StorageHasherV4: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null,
+        // We had a bug in some versions of V9, where it was not bumped - V10 fixed (add invalid for this range)
+        // At this point, things won't work anyway (indexes mismatched, but at least allow for parsing)
+        // (Technically this should be on V9, however then we need code as well...)
+        InvalidEntry: null
+      }
+    },
 
     // v5
     DoubleMapTypeV5: {
-      hasher: 'StorageHasher',
+      hasher: 'StorageHasherV5',
       key1: 'Type',
       key2: 'Type',
       value: 'Type',
-      key2Hasher: 'StorageHasher'
+      key2Hasher: 'StorageHasherV5'
     },
     EventMetadataV5: 'EventMetadataV4',
     FunctionArgumentMetadataV5: 'FunctionArgumentMetadataV4',
     FunctionMetadataV5: 'FunctionMetadataV4',
     MapTypeV5: 'MapTypeV4',
+    MetadataV5: {
+      modules: 'Vec<ModuleMetadataV5>'
+    },
+    ModuleMetadataV5: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageFunctionMetadataV5>>',
+      calls: 'Option<Vec<FunctionMetadataV5>>',
+      events: 'Option<Vec<EventMetadataV5>>'
+    },
     PlainTypeV5: 'Type',
+    StorageFunctionMetadataV5: {
+      name: 'Text',
+      modifier: 'StorageFunctionModifierV5',
+      type: 'StorageFunctionTypeV5',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
     StorageFunctionModifierV5: 'StorageFunctionModifierV4',
+    StorageFunctionTypeV5: {
+      _enum: {
+        Plain: 'PlainTypeV5',
+        Map: 'MapTypeV5',
+        DoubleMap: 'DoubleMapTypeV5'
+      }
+    },
+    StorageHasherV5: 'StorageHasherV4',
 
     // v6
     DoubleMapTypeV6: 'DoubleMapTypeV5',
@@ -168,14 +277,28 @@ export default {
     FunctionArgumentMetadataV6: 'FunctionArgumentMetadataV5',
     FunctionMetadataV6: 'FunctionMetadataV5',
     MapTypeV6: 'MapTypeV5',
+    MetadataV6: {
+      modules: 'Vec<ModuleMetadataV6>'
+    },
     ModuleConstantMetadataV6: {
       name: 'Text',
       type: 'Type',
       value: 'Bytes',
       documentation: 'Vec<Text>'
     },
+    ModuleMetadataV6: {
+      name: 'Text',
+      prefix: 'Text',
+      storage: 'Option<Vec<StorageEntryMetadataV6>>',
+      calls: 'Option<Vec<FunctionMetadataV6>>',
+      events: 'Option<Vec<EventMetadataV6>>',
+      constants: 'Vec<ModuleConstantMetadataV6>'
+    },
     PlainTypeV6: 'Type',
     StorageEntryModifierV6: 'StorageFunctionModifierV5',
+    StorageEntryMetadataV6: 'StorageFunctionMetadataV5',
+    StorageEntryTypeV6: 'StorageFunctionTypeV5',
+    StorageHasherV6: 'StorageHasherV5',
 
     // v7
     DoubleMapTypeV7: 'DoubleMapTypeV6',
@@ -183,9 +306,26 @@ export default {
     FunctionArgumentMetadataV7: 'FunctionArgumentMetadataV6',
     FunctionMetadataV7: 'FunctionMetadataV6',
     MapTypeV7: 'MapTypeV6',
+    MetadataV7: {
+      modules: 'Vec<ModuleMetadataV7>'
+    },
     ModuleConstantMetadataV7: 'ModuleConstantMetadataV6',
+    ModuleMetadataV7: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV7>',
+      calls: 'Option<Vec<FunctionMetadataV7>>',
+      events: 'Option<Vec<EventMetadataV7>>',
+      constants: 'Vec<ModuleConstantMetadataV7>'
+    },
     PlainTypeV7: 'Type',
     StorageEntryModifierV7: 'StorageEntryModifierV6',
+    StorageEntryMetadataV7: 'StorageEntryMetadataV6',
+    StorageEntryTypeV7: 'StorageEntryTypeV6',
+    StorageHasherV7: 'StorageHasherV6',
+    StorageMetadataV7: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV7>'
+    },
 
     // v8
     DoubleMapTypeV8: 'DoubleMapTypeV7',
@@ -197,16 +337,134 @@ export default {
     FunctionArgumentMetadataV8: 'FunctionArgumentMetadataV7',
     FunctionMetadataV8: 'FunctionMetadataV7',
     MapTypeV8: 'MapTypeV7',
+    MetadataV8: {
+      modules: 'Vec<ModuleMetadataV8>'
+    },
     ModuleConstantMetadataV8: 'ModuleConstantMetadataV7',
+    ModuleMetadataV8: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV8>',
+      calls: 'Option<Vec<FunctionMetadataV8>>',
+      events: 'Option<Vec<EventMetadataV8>>',
+      constants: 'Vec<ModuleConstantMetadataV8>',
+      errors: 'Vec<ErrorMetadataV8>'
+    },
     PlainTypeV8: 'Type',
     StorageEntryModifierV8: 'StorageEntryModifierV7',
+    StorageEntryMetadataV8: 'StorageEntryMetadataV7',
+    StorageEntryTypeV8: 'StorageEntryTypeV7',
+    StorageHasherV8: 'StorageHasherV7',
+    StorageMetadataV8: 'StorageMetadataV7',
+
+    // v9
+    DoubleMapTypeV9: 'DoubleMapTypeV8',
+    ErrorMetadataV9: 'ErrorMetadataV8',
+    EventMetadataV9: 'EventMetadataV8',
+    FunctionArgumentMetadataV9: 'FunctionArgumentMetadataV8',
+    FunctionMetadataV9: 'FunctionMetadataV8',
+    MapTypeV9: 'MapTypeV8',
+    MetadataV9: 'MetadataV8',
+    ModuleConstantMetadataV9: 'ModuleConstantMetadataV8',
+    ModuleMetadataV9: 'ModuleMetadataV8',
+    PlainTypeV9: 'Type',
+    StorageEntryModifierV9: 'StorageEntryModifierV8',
+    StorageEntryMetadataV9: 'StorageEntryMetadataV8',
+    StorageEntryTypeV9: 'StorageEntryTypeV8',
+    StorageHasherV9: 'StorageHasherV8',
+    StorageMetadataV9: 'StorageMetadataV8',
+
+    // v10
+    DoubleMapTypeV10: {
+      hasher: 'StorageHasherV10',
+      key1: 'Type',
+      key2: 'Type',
+      value: 'Type',
+      key2Hasher: 'StorageHasherV10'
+    },
+    ErrorMetadataV10: 'ErrorMetadataV9',
+    EventMetadataV10: 'EventMetadataV9',
+    FunctionArgumentMetadataV10: 'FunctionArgumentMetadataV9',
+    FunctionMetadataV10: 'FunctionMetadataV9',
+    MapTypeV10: {
+      hasher: 'StorageHasherV10',
+      key: 'Type',
+      value: 'Type',
+      linked: 'bool'
+    },
+    MetadataV10: {
+      modules: 'Vec<ModuleMetadataV10>'
+    },
+    ModuleConstantMetadataV10: 'ModuleConstantMetadataV9',
+    ModuleMetadataV10: {
+      name: 'Text',
+      storage: 'Option<StorageMetadataV10>',
+      calls: 'Option<Vec<FunctionMetadataV10>>',
+      events: 'Option<Vec<EventMetadataV10>>',
+      constants: 'Vec<ModuleConstantMetadataV10>',
+      errors: 'Vec<ErrorMetadataV10>'
+    },
+    PlainTypeV10: 'Type',
+    StorageEntryModifierV10: 'StorageEntryModifierV9',
+    StorageEntryMetadataV10: {
+      name: 'Text',
+      modifier: 'StorageEntryModifierV10',
+      type: 'StorageEntryTypeV10',
+      fallback: 'Bytes',
+      documentation: 'Vec<Text>'
+    },
+    StorageEntryTypeV10: {
+      _enum: {
+        Plain: 'PlainTypeV10',
+        Map: 'MapTypeV10',
+        DoubleMap: 'DoubleMapTypeV10'
+      }
+    },
+    StorageMetadataV10: {
+      prefix: 'Text',
+      items: 'Vec<StorageEntryMetadataV10>'
+    },
+    StorageHasherV10: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_128Concat: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null
+      }
+    },
 
     // This always maps to the latest
-    EventMetadataLatest: 'EventMetadataV8',
-    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV8',
-    FunctionMetadataLatest: 'FunctionMetadataV8',
-    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV8',
-    PlainTypeLatest: 'PlainTypeV8',
-    StorageEntryModifierLatest: 'StorageEntryModifierV8'
+    DoubleMapTypeLatest: 'DoubleMapTypeV10',
+    EventMetadataLatest: 'EventMetadataV10',
+    FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV10',
+    FunctionMetadataLatest: 'FunctionMetadataV10',
+    MapTypeLatest: 'MapTypeV10',
+    MetadataLatest: 'MetadataV10',
+    ModuleConstantMetadataLatest: 'ModuleConstantMetadataV10',
+    ModuleMetadataLatest: 'ModuleMetadataV10',
+    PlainTypeLatest: 'PlainTypeV10',
+    StorageEntryMetadataLatest: 'StorageEntryMetadataV10',
+    StorageEntryModifierLatest: 'StorageEntryModifierV10',
+    StorageEntryTypeLatest: 'StorageEntryTypeV10',
+    StorageMetadataLatest: 'StorageMetadataV10',
+    StorageHasher: 'StorageHasherV10',
+
+    // the enum containing all the mappings
+    MetadataAll: {
+      _enum: {
+        V0: 'MetadataV0',
+        V1: 'MetadataV1',
+        V2: 'MetadataV2',
+        V3: 'MetadataV3',
+        V4: 'MetadataV4',
+        V5: 'MetadataV5',
+        V6: 'MetadataV6',
+        V7: 'MetadataV7',
+        V8: 'MetadataV8',
+        V9: 'MetadataV9',
+        V10: 'MetadataV10'
+      }
+    }
   }
 };
