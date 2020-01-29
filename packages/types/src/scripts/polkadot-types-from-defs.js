@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Copyright 2017-2020 @polkadot/dev authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@babel/register')({
   extensions: ['.js', '.ts'],
   plugins: [
@@ -16,20 +16,48 @@ require('@babel/register')({
   ]
 });
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const chalk = require('chalk');
+const path = require('path');
+const yargs = require('yargs');
+const substrateDefs = require('../interfaces/definitions');
+const { generateInterfaceRegistry } = require('./generateTypes/interfaceRegistry');
+const { generateTsDef } = require('./generateTypes/tsDef');
 
-if (process.env.npm_execpath.includes('yarn')) {
-  process.exit(0);
-}
+const { input, package } = yargs.strict().options({
+  input: {
+    description: 'The directory to use for the user definitions',
+    type: 'string',
+    required: true
+  },
+  package: {
+    description: 'The package name & path to use for the user types',
+    type: 'string',
+    required: true
+  }
+}).argv;
 
-const blank = ''.padStart(75);
+const userDefs = require(path.join(process.cwd(), input, 'definitions.ts'));
+const userKeys = Object.keys(userDefs);
+const filteredBase = Object
+  .entries(substrateDefs)
+  .filter(([key]) => {
+    if (userKeys.includes(key)) {
+      console.warn(`Override found for ${key} in user types, ignoring in @polkadot/types`);
 
-console.error(
-  chalk.white.bold.bgRed(
-    `${blank}\n   ${chalk.bold('FATAL: The use of yarn is required, install via npm is not supported.')}   \n${blank}`
-  )
-);
-console.error(`\n   Technical explanation: All the projects in the ${chalk.bold('@polkadot')} family use \n   yarn workspaces, along with hoisting of dependencies. Currently only\n   yarn supports package.json workspaces, hence the limitation.\n\n\n   If yarn is not available, you can get it from https://yarnpkg.com/\n\n\n`);
+      return false;
+    }
 
-process.exit(1);
+    return true;
+  })
+  .reduce((defs, [key, value]) => {
+    defs[key] = value;
+
+    return defs;
+  }, {});
+
+const allDefs = {
+  '@polkadot/types/interfaces': filteredBase,
+  [package]: userDefs
+};
+
+generateTsDef(allDefs, path.join(process.cwd(), input), package);
+generateInterfaceRegistry(allDefs, path.join(process.cwd(), input, 'interfaceRegistry.ts'));

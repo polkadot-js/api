@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Copyright 2017-2020 @polkadot/dev authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@babel/register')({
   extensions: ['.js', '.ts'],
   plugins: [
@@ -25,6 +25,20 @@ const yargs = require('yargs');
 const { formatNumber } = require('@polkadot/util');
 const generateConst = require('./generateTypes/consts').default;
 const generateQuery = require('./generateTypes/query').default;
+
+const { endpoint, output } = yargs.strict().options({
+  endpoint: {
+    description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
+    type: 'string',
+    required: true
+  },
+  output: {
+    description: 'The target directory to write the data to',
+    type: 'string',
+    required: true
+  }
+}).argv;
+let websocket = null;
 
 function onSocketClose (event) {
   console.error(`${endpoint} disconnected, code: '${event.code}' reason: '${event.reason}'`);
@@ -50,28 +64,15 @@ function onSocketMessage (message) {
   const data = JSON.parse(message.data);
   const metaHex = data.result;
 
-  console.log(`Received metadata, ${formatNumber((metaHex.length - 2)/2)} bytes`);
+  console.log(`Received metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
-  generateConst(path.join(output, 'consts.types.ts'), metaHex);
-  generateQuery(path.join(output, 'query.types.ts'), metaHex);
+  generateConst(path.join(process.cwd(), output, 'consts.types.ts'), metaHex);
+  generateQuery(path.join(process.cwd(), output, 'query.types.ts'), metaHex);
 
   process.exit(0);
 }
 
-const { endpoint, output } = yargs.strict().options({
-  endpoint: {
-    description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
-    type: 'string',
-    required: true
-  },
-  output: {
-    description: 'The target directory to write the data to',
-    type: 'string',
-    required: true
-  }
-}).argv;
-const websocket = new WebSocket(endpoint);
-
+websocket = new WebSocket(endpoint);
 websocket.onclose = onSocketClose;
 websocket.onerror = onSocketError;
 websocket.onmessage = onSocketMessage;

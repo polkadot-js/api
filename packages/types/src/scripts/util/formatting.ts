@@ -8,7 +8,7 @@ import { getTypeDef } from '../../codec/create';
 import { paramsNotation } from '../../codec/utils';
 import { setImports, TypeImports } from './imports';
 
-export const HEADER = '// Auto-generated via `yarn build:interfaces`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
+export const HEADER = '// Auto-generated via `yarn polkadot-types-from-defs`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
 export const FOOTER = '\n';
 
 // creates the import lines
