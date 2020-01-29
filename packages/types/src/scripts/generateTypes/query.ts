@@ -4,7 +4,7 @@
 
 import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '../../interfaces/metadata';
 import { Registry } from '../../types';
-import * as defaultDefinitions from '../../interfaces/definitions';
+import * as defaultDefs from '../../interfaces/definitions';
 
 import fs from 'fs';
 import staticData from '@polkadot/metadata/Metadata/static';
@@ -26,41 +26,41 @@ function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: stri
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
-function entrySignature (definitions: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
   if (storageEntry.type.isPlain) {
-    setImports(definitions, imports, [storageEntry.type.asPlain.toString()]);
+    setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
-    return ['', formatType(definitions, addModifier(storageEntry, storageEntry.type.asPlain.toString()), imports)];
+    return ['', formatType(allDefs, addModifier(storageEntry, storageEntry.type.asPlain.toString()), imports)];
   } else if (storageEntry.type.isMap) {
     // Find similar types of the `key` type
-    const similarTypes = getSimilarTypes(definitions, registry, storageEntry.type.asMap.key.toString(), imports);
+    const similarTypes = getSimilarTypes(allDefs, registry, storageEntry.type.asMap.key.toString(), imports);
 
-    setImports(definitions, imports, [
+    setImports(allDefs, imports, [
       ...similarTypes,
       storageEntry.type.asMap.value.toString()
     ]);
 
     return [
-      `arg: ${similarTypes.map((type) => formatType(definitions, type, imports)).join(' | ')}`,
-      formatType(definitions, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
+      `arg: ${similarTypes.map((type) => formatType(allDefs, type, imports)).join(' | ')}`,
+      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
     // Find similartypes of `key1` and `key2` types
-    const similarTypes1 = getSimilarTypes(definitions, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
-    const similarTypes2 = getSimilarTypes(definitions, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
+    const similarTypes1 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
+    const similarTypes2 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
-    setImports(definitions, imports, [
+    setImports(allDefs, imports, [
       ...similarTypes1,
       ...similarTypes2,
       storageEntry.type.asDoubleMap.value.toString()
     ]);
 
-    const key1Types = similarTypes1.map((type) => formatType(definitions, type, imports)).join(' | ');
-    const key2Types = similarTypes2.map((type) => formatType(definitions, type, imports)).join(' | ');
+    const key1Types = similarTypes1.map((type) => formatType(allDefs, type, imports)).join(' | ');
+    const key2Types = similarTypes2.map((type) => formatType(allDefs, type, imports)).join(' | ');
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
-      formatType(definitions, addModifier(storageEntry, storageEntry.type.asDoubleMap.value.toString()), imports)
+      formatType(allDefs, addModifier(storageEntry, storageEntry.type.asDoubleMap.value.toString()), imports)
     ];
   }
 
@@ -69,8 +69,8 @@ function entrySignature (definitions: object, registry: Registry, storageEntry: 
 
 // Generate types for one storage entry in a module
 /** @internal */
-function generateEntry (definitions: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): string[] {
-  const [args, returnType] = entrySignature(definitions, registry, storageEntry, imports);
+function generateEntry (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): string[] {
+  const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
 
   return [
     `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
@@ -79,7 +79,7 @@ function generateEntry (definitions: object, registry: Registry, storageEntry: S
 
 // Generate types for one module
 /** @internal */
-function generateModule (definitions: object, registry: Registry, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
+function generateModule (allDefs: object, registry: Registry, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
   if (modul.storage.isNone) {
     return [];
   }
@@ -89,7 +89,7 @@ function generateModule (definitions: object, registry: Registry, modul: ModuleM
     .concat(
       modul.storage.unwrap().items
         .reduce((acc, storageEntry): string[] => {
-          return acc.concat(generateEntry(definitions, registry, storageEntry, imports).map(indent(6)));
+          return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
         }, [] as string[])
         .join('\n')
     )
@@ -99,17 +99,19 @@ function generateModule (definitions: object, registry: Registry, modul: ModuleM
 // Generate `packages/api/src/query.types.ts` for a particular
 // metadata
 /** @internal */
-function generateForMeta (definitions: object, registry: Registry, meta: Metadata, dest: string): void {
+function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
   console.log(`Writing ${dest}`);
 
-  const imports = createImports({ '@polkadot/types/interfaces': definitions }); // Will hold all needed imports
-
-  const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
-    const storageEntries = generateModule(definitions, registry, modul, imports);
+  const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+  const imports = createImports(allTypes);
+  const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
+    return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+  }, {});
+  const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+    const storageEntries = generateModule(allDefs, registry, mod, imports);
 
     return acc.concat(storageEntries);
   }, [] as string[]);
-
   const header = createImportCode(HEADER, [
     {
       file: 'rxjs',
@@ -124,7 +126,7 @@ function generateForMeta (definitions: object, registry: Registry, meta: Metadat
       types: Object.keys(imports.primitiveTypes)
     },
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `@polkadot/types/interfaces/${moduleName}`,
+      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
     })),
     {
@@ -132,12 +134,10 @@ function generateForMeta (definitions: object, registry: Registry, meta: Metadat
       types: Object.keys(imports.typesTypes)
     }
   ]);
-
-  const interfaceStart =
-    [
-      "declare module '@polkadot/api/types' {",
-      indent(2)('export interface QueryableStorageExact<ApiType> {\n')
-    ].join('\n');
+  const interfaceStart = [
+    "declare module '@polkadot/api/types' {",
+    indent(2)('export interface QueryableStorageExact<ApiType> {\n')
+  ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
   fs.writeFileSync(
@@ -153,8 +153,8 @@ function generateForMeta (definitions: object, registry: Registry, meta: Metadat
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (dest = 'packages/api/src/query.types.ts', data = staticData): void {
+export default function generateQuery (dest = 'packages/api/src/query.types.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(defaultDefinitions, registry, new Metadata(registry, data), dest);
+  return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes);
 }

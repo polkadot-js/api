@@ -26,7 +26,7 @@ const { formatNumber } = require('@polkadot/util');
 const generateConst = require('./generateTypes/consts').default;
 const generateQuery = require('./generateTypes/query').default;
 
-const { endpoint, output } = yargs.strict().options({
+const { endpoint, output, package } = yargs.strict().options({
   endpoint: {
     description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
     type: 'string',
@@ -36,6 +36,9 @@ const { endpoint, output } = yargs.strict().options({
     description: 'The target directory to write the data to',
     type: 'string',
     required: true
+  },
+  package: {
+    description: 'Optional package in output location (for extra definitions)'
   }
 }).argv;
 let websocket = null;
@@ -63,11 +66,14 @@ function onSocketOpen () {
 function onSocketMessage (message) {
   const data = JSON.parse(message.data);
   const metaHex = data.result;
+  const extraTypes = package
+    ? { [package]: require(path.join(process.cwd(), output, 'definitions')) }
+    : {};
 
   console.log(`Received metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
-  generateConst(path.join(process.cwd(), output, 'consts.types.ts'), metaHex);
-  generateQuery(path.join(process.cwd(), output, 'query.types.ts'), metaHex);
+  generateConst(path.join(process.cwd(), output, 'consts.types.ts'), metaHex, extraTypes);
+  generateQuery(path.join(process.cwd(), output, 'query.types.ts'), metaHex, extraTypes);
 
   process.exit(0);
 }
