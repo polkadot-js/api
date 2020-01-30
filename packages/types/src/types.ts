@@ -387,7 +387,7 @@ export interface RegistryMetadataModule {
 
 export interface RegistryMetadataLatest {
   modules: RegistryMetadataModule[];
-  extrinsic?: RegistryMetadataExtrinsic;
+  extrinsic: RegistryMetadataExtrinsic;
 }
 
 export interface RegistryMetadata {

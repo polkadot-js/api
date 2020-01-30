@@ -230,7 +230,7 @@ export class TypeRegistry implements Registry {
     decorateEvents(this, metadata, this._metadataEvents);
 
     // setup the available extensions
-    this._metadataExtensions = metadata.asLatest.extrinsic?.version.gtn(0)
+    this._metadataExtensions = metadata.asLatest.extrinsic.version.gtn(0)
       ? metadata.asLatest.extrinsic.signedExtensions.map((key): string => key.toString())
       : defaultExtensions;
   }
