@@ -20,6 +20,10 @@ import { SignedPayloadBaseV2 as SignedPayloadBaseV4 } from '../v2/ExtrinsicPaylo
  */
 export default class ExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    console.error({
+      ...SignedPayloadBaseV4,
+      ...registry.getSignedExtensionDef()
+    });
     super(registry, {
       ...SignedPayloadBaseV4,
       ...registry.getSignedExtensionDef()
