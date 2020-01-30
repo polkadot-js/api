@@ -372,6 +372,12 @@ export interface RegistryMetadataEvents {
   unwrap (): RegistryMetadataEvent[];
 }
 
+export interface RegistryMetadataExtrinsic {
+  version: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  signedExtensions: String[];
+}
+
 export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
   errors: RegistryMetadataErrors;
@@ -381,6 +387,7 @@ export interface RegistryMetadataModule {
 
 export interface RegistryMetadataLatest {
   modules: RegistryMetadataModule[];
+  extrinsic: RegistryMetadataExtrinsic;
 }
 
 export interface RegistryMetadata {
