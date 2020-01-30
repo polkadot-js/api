@@ -24,4 +24,4 @@ export { default as GenericExtrinsicV4 } from './v4/Extrinsic';
 export { default as GenericExtrinsicPayloadV4 } from './v4/ExtrinsicPayload';
 
 // extensions
-export { default as allExtensions, defaultExtensions, extensionNames } from './SignedExtensions';
+export * from './SignedExtensions';

@@ -29,5 +29,17 @@ const defaultExtensions: Array<keyof typeof allExtensions> = ['CheckVersion', 'C
 
 const extensionNames = Object.keys(allExtensions);
 
-export { defaultExtensions, extensionNames };
-export default allSignedExtensions;
+/** @internal */
+function getExtensionDef (extensions: string[]): Record<string, InterfaceTypes> {
+  return extensions.reduce((types, key): Record<string, InterfaceTypes> => {
+    if (!extensionNames.includes(key)) {
+      console.warn(`Unknown signed extension ${key} found, treating it as empty with no extra data`);
+
+      return types;
+    }
+
+    return { ...types, ...allExtensions[key] };
+  }, {});
+}
+
+export { allExtensions, defaultExtensions, extensionNames, getExtensionDef };
