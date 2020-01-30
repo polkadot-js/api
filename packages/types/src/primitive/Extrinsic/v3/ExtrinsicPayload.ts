@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
@@ -11,25 +11,6 @@ import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
 import { SignedPayloadBaseV2 as SignedPayloadBaseV3 } from '../v2/ExtrinsicPayload';
-
-// SignedExtra adds the following fields to the payload
-const SignedExtraV3: Record<string, InterfaceTypes> = {
-  // system::CheckVersion<Runtime>
-  specVersion: 'u32',
-  // system::CheckGenesis<Runtime>
-  genesisHash: 'Hash',
-  // system::CheckEra<Runtime>
-  blockHash: 'Hash'
-  // system::CheckNonce<Runtime>
-  // system::CheckWeight<Runtime>
-  // balances::TakeFees<Runtime>
-};
-
-// the full definition for the payload
-export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
-  ...SignedPayloadBaseV3,
-  ...SignedExtraV3
-};
 
 /**
  * @name ExtrinsicPayloadV3
@@ -39,7 +20,13 @@ export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
  */
 export default class ExtrinsicPayloadV3 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(registry, SignedPayloadDefV3, value);
+    super(registry, {
+      ...SignedPayloadBaseV3,
+      // signed extensions
+      specVersion: 'u32',
+      genesisHash: 'Hash',
+      blockHash: 'Hash'
+    }, value);
   }
 
   /**
