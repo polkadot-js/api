@@ -86,7 +86,7 @@ export class TypeRegistry implements Registry {
 
   private _metadataEvents: Record<string, Constructor<EventData>> = {};
 
-  private _metadataExtensions: string[] = [];
+  private _metadataExtensions: string[] = defaultExtensions;
 
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
