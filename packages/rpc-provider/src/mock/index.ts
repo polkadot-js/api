@@ -104,8 +104,11 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     this.emitter.on(type, sub);
+    return (): void => {
+      this.emitter.removeListener(type, sub);
+    };
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
