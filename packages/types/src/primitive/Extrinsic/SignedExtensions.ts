@@ -4,13 +4,11 @@
 
 import { InterfaceTypes } from '../../types';
 
-/**
- * A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
- * we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
- * into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
- * deemded fixed and non-changeable)
- */
-export default {
+// A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
+// we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
+// into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
+// deemded fixed and non-changeable)
+const allExtensions: Record<string, Record<string, InterfaceTypes>> = {
   ChargeTransactionPayment: {},
   CheckBlockGasLimit: {},
   CheckEra: {
@@ -24,4 +22,12 @@ export default {
     specVersion: 'u32'
   },
   CheckWeight: {}
-} as Record<string, Record<string, InterfaceTypes>>;
+};
+
+// the v4 signed extensions (the order is important here - we are only adding the ones with values, YMMV)
+const defaultExtensions: Array<keyof typeof allExtensions> = ['CheckVersion', 'CheckGenesis', 'CheckEra'];
+
+const extensionNames = Object.keys(allExtensions);
+
+export { defaultExtensions, extensionNames };
+export default allSignedExtensions;
