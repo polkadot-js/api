@@ -10,7 +10,7 @@ import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload';
+import { SignedPayloadBaseV2 as SignedPayloadBaseV4 } from '../v2/ExtrinsicPayload';
 
 /**
  * @name ExtrinsicPayloadV4
@@ -20,7 +20,21 @@ import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload
  */
 export default class ExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(registry, SignedPayloadDefV4, value);
+    super(registry, {
+      ...SignedPayloadBaseV4,
+      // TODO get the signed extensions from the registry and apply
+      ...{
+        // system::CheckVersion<Runtime>
+        specVersion: 'u32',
+        // system::CheckGenesis<Runtime>
+        genesisHash: 'Hash',
+        // system::CheckEra<Runtime>
+        blockHash: 'Hash'
+        // system::CheckNonce<Runtime>
+        // system::CheckWeight<Runtime>
+        // balances::TakeFees<Runtime>
+      }
+    }, value);
   }
 
   /**
