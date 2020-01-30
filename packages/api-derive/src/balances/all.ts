@@ -95,7 +95,8 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
               [api.query.balances.freeBalance, accountId],
               [api.query.balances.reservedBalance, accountId],
               [api.query.balances.locks, accountId],
-              [api.query.balances.vesting, accountId]
+              [api.query.balances.vesting, accountId],
+              [api.query.system.accountNonce, accountId]
             ])
           ])
           : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), undefined, [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null), createType(api.registry, 'Index')]])
