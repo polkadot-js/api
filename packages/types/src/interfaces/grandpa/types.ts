@@ -7,59 +7,73 @@ import { u64 } from '@polkadot/types/primitive';
 import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
-/** u64 */
+/**
+ * @name AuthorityIndex
+ * @description extends [[u64]]
+ */
 export interface AuthorityIndex extends u64 {}
 
-/** Vec<NextAuthority> */
+/**
+ * @name AuthorityList
+ * @description extends [[Vec<NextAuthority>]]
+ */
 export interface AuthorityList extends Vec<NextAuthority> {}
 
-/** u64 */
+/**
+ * @name AuthorityWeight
+ * @description extends [[u64]]
+ */
 export interface AuthorityWeight extends u64 {}
 
-/** ITuple<[AuthorityId, AuthorityWeight]> */
+/**
+ * @name NextAuthority
+ * @description extends [[ITuple<[AuthorityId, AuthorityWeight]>]]
+ */
 export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
 
-/** Struct */
+/**
+ * @name PendingPause
+ * @description extends [[Struct]]
+ */
 export interface PendingPause extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
-/** Struct */
+/**
+ * @name PendingResume
+ * @description extends [[Struct]]
+ */
 export interface PendingResume extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
-/** u64 */
+/**
+ * @name SetId
+ * @description extends [[u64]]
+ */
 export interface SetId extends u64 {}
 
-/** Struct */
+/**
+ * @name StoredPendingChange
+ * @description extends [[Struct]]
+ */
 export interface StoredPendingChange extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
-  /** AuthorityList */
   readonly nextAuthorities: AuthorityList;
 }
 
-/** Enum */
+/**
+ * @name StoredState
+ * @description extends [[Enum]]
+ */
 export interface StoredState extends Enum {
-  /** 0:: Live */
   readonly isLive: boolean;
-  /** 1:: PendingPause(PendingPause) */
   readonly isPendingPause: boolean;
-  /** PendingPause */
   readonly asPendingPause: PendingPause;
-  /** 2:: Paused */
   readonly isPaused: boolean;
-  /** 3:: PendingResume(PendingResume) */
   readonly isPendingResume: boolean;
-  /** PendingResume */
   readonly asPendingResume: PendingResume;
 }

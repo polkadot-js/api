@@ -7,25 +7,41 @@ import { Bytes } from '@polkadot/types/primitive';
 import { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
 import { IdentificationTuple } from '@polkadot/types/interfaces/session';
 
-/** Uint8Array, Codec */
+/**
+ * @name Kind
+ * @description extends [[Uint8Array, Codec]]
+ */
 export interface Kind extends Uint8Array, Codec {}
 
-/** Struct */
+/**
+ * @name OffenceDetails
+ * @description extends [[Struct]]
+ */
 export interface OffenceDetails extends Struct {
-  /** Offender */
   readonly offender: Offender;
-  /** Vec<Reporter> */
   readonly reporters: Vec<Reporter>;
 }
 
-/** IdentificationTuple */
+/**
+ * @name Offender
+ * @description extends [[IdentificationTuple]]
+ */
 export interface Offender extends IdentificationTuple {}
 
-/** Bytes */
+/**
+ * @name OpaqueTimeSlot
+ * @description extends [[Bytes]]
+ */
 export interface OpaqueTimeSlot extends Bytes {}
 
-/** AccountId */
+/**
+ * @name Reporter
+ * @description extends [[AccountId]]
+ */
 export interface Reporter extends AccountId {}
 
-/** Hash */
+/**
+ * @name ReportIdOf
+ * @description extends [[Hash]]
+ */
 export interface ReportIdOf extends Hash {}

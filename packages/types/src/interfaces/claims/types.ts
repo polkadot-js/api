@@ -3,5 +3,8 @@
 
 import { H160 } from '@polkadot/types/primitive';
 
-/** H160 */
+/**
+ * @name EthereumAddress
+ * @description extends [[H160]]
+ */
 export interface EthereumAddress extends H160 {}

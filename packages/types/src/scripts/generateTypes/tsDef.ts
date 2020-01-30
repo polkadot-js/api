@@ -18,10 +18,10 @@ interface Imports extends TypeImports {
 
 // helper to generate a `readonly <Name>: <Type>;` getter
 /** @internal */
-export function createGetter (definitions: object, name = '', type: string, imports: TypeImports, doc?: string): string {
+export function createGetter (definitions: object, name = '', type: string, imports: TypeImports): string {
   setImports(definitions, imports, [type]);
 
-  return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
+  return `  readonly ${name}: ${type};\n`;
 }
 
 /** @internal */
@@ -46,12 +46,12 @@ const tsTuple = tsExport;
 function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
-  const keys = (sub as TypeDef[]).map(({ info, name = '', type }, index): string => {
+  const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const [enumType, asGetter] = type === 'Null'
-      ? ['', '']
-      : [`(${type})`, createGetter(definitions, `as${getter}`, type, imports)];
-    const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports, `${index}:: ${name}${enumType}`);
+    const asGetter = type === 'Null'
+      ? ''
+      : createGetter(definitions, `as${getter}`, type, imports);
+    const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
       case TypeDefInfo.Plain:
@@ -68,11 +68,11 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
 
 /** @internal */
 function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
-  const { info, name = '', type } = def;
-  const [resultType, asGetter] = type === 'Null'
-    ? ['', '']
-    : [`(${type})`, createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports)];
-  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports, `${getter}:: ${name}${resultType}`);
+  const { info, type } = def;
+  const asGetter = type === 'Null'
+    ? ''
+    : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
+  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
     case TypeDefInfo.Plain:

@@ -6,34 +6,46 @@ import { Bytes, u32 } from '@polkadot/types/primitive';
 import { BlockNumber, Signature } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 
-/** u32 */
+/**
+ * @name AuthIndex
+ * @description extends [[u32]]
+ */
 export interface AuthIndex extends u32 {}
 
-/** Signature */
+/**
+ * @name AuthoritySignature
+ * @description extends [[Signature]]
+ */
 export interface AuthoritySignature extends Signature {}
 
-/** Struct */
+/**
+ * @name Heartbeat
+ * @description extends [[Struct]]
+ */
 export interface Heartbeat extends Struct {
-  /** BlockNumber */
   readonly blockNumber: BlockNumber;
-  /** OpaqueNetworkState */
   readonly networkState: OpaqueNetworkState;
-  /** SessionIndex */
   readonly sessionIndex: SessionIndex;
-  /** AuthIndex */
   readonly authorityIndex: AuthIndex;
 }
 
-/** Bytes */
+/**
+ * @name OpaqueMultiaddr
+ * @description extends [[Bytes]]
+ */
 export interface OpaqueMultiaddr extends Bytes {}
 
-/** Struct */
+/**
+ * @name OpaqueNetworkState
+ * @description extends [[Struct]]
+ */
 export interface OpaqueNetworkState extends Struct {
-  /** OpaquePeerId */
   readonly peerId: OpaquePeerId;
-  /** Vec<OpaqueMultiaddr> */
   readonly externalAddresses: Vec<OpaqueMultiaddr>;
 }
 
-/** Bytes */
+/**
+ * @name OpaquePeerId
+ * @description extends [[Bytes]]
+ */
 export interface OpaquePeerId extends Bytes {}

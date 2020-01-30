@@ -5,22 +5,22 @@ import { Struct, Vec } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/**
+ * @name Multisig
+ * @description extends [[Struct]]
+ */
 export interface Multisig extends Struct {
-  /** Timepoint */
   readonly when: Timepoint;
-  /** Balance */
   readonly deposit: Balance;
-  /** AccountId */
   readonly depositor: AccountId;
-  /** Vec<AccountId> */
   readonly approvals: Vec<AccountId>;
 }
 
-/** Struct */
+/**
+ * @name Timepoint
+ * @description extends [[Struct]]
+ */
 export interface Timepoint extends Struct {
-  /** BlockNumber */
   readonly height: BlockNumber;
-  /** u32 */
   readonly index: u32;
 }

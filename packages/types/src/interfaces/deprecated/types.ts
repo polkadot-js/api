@@ -6,38 +6,57 @@ import { Enum, Struct } from '@polkadot/types/codec';
 import { Bytes, i8, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/**
+ * @name AccountInfo
+ * @description extends [[Struct]]
+ */
 export interface AccountInfo extends Struct {
-  /** Bytes */
   readonly trieId: Bytes;
-  /** u64 */
   readonly currentMemStored: u64;
 }
 
-/** Balance */
+/**
+ * @name Amount
+ * @description extends [[Balance]]
+ */
 export interface Amount extends Balance {}
 
-/** u32 */
+/**
+ * @name AssetOf
+ * @description extends [[u32]]
+ */
 export interface AssetOf extends u32 {}
 
-/** ITuple<[]> */
+/**
+ * @name InherentOfflineReport
+ * @description extends [[ITuple<[]>]]
+ */
 export interface InherentOfflineReport extends ITuple<[]> {}
 
-/** i8 */
+/**
+ * @name LockPeriods
+ * @description extends [[i8]]
+ */
 export interface LockPeriods extends i8 {}
 
-/** Enum */
+/**
+ * @name NewAccountOutcome
+ * @description extends [[Enum]]
+ */
 export interface NewAccountOutcome extends Enum {
-  /** 0:: NoHint */
   readonly isNoHint: boolean;
-  /** 1:: GoodHint */
   readonly isGoodHint: boolean;
-  /** 2:: BadHint */
   readonly isBadHint: boolean;
 }
 
-/** Bytes */
+/**
+ * @name OpaqueKey
+ * @description extends [[Bytes]]
+ */
 export interface OpaqueKey extends Bytes {}
 
-/** AccountId */
+/**
+ * @name SessionKey
+ * @description extends [[AccountId]]
+ */
 export interface SessionKey extends AccountId {}
