@@ -10,27 +10,12 @@ import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import { sign } from '../util';
 
-// SignedExtra adds the following fields to the payload
-const SignedExtraV2: Record<string, InterfaceTypes> = {
-  // system::CheckEra<Runtime>
-  blockHash: 'Hash'
-  // system::CheckNonce<Runtime>
-  // system::CheckWeight<Runtime>
-  // balances::TakeFees<Runtime>
-};
-
 // the base definition (excluding extras)
 export const SignedPayloadBaseV2: Record<string, InterfaceTypes> = {
   method: 'Bytes',
   era: 'ExtrinsicEra',
   nonce: 'Compact<Index>',
   tip: 'Compact<Balance>'
-};
-
-// the full definition for the payload
-const SignedPayloadDefV2: Record<string, InterfaceTypes> = {
-  ...SignedPayloadBaseV2,
-  ...SignedExtraV2
 };
 
 /**
@@ -41,7 +26,10 @@ const SignedPayloadDefV2: Record<string, InterfaceTypes> = {
  */
 export default class ExtrinsicPayloadV2 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(registry, SignedPayloadDefV2, value);
+    super(registry, {
+      ...SignedPayloadBaseV2,
+      blockHash: 'Hash'
+    }, value);
   }
 
   /**
