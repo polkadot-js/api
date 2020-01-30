@@ -5,34 +5,25 @@ import { ITuple } from '@polkadot/types/types';
 import { Option, Struct, Vec } from '@polkadot/types/codec';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/** @name OpenTip */
 export interface OpenTip extends Struct {
-  /** Hash */
   readonly reason: Hash;
-  /** AccountId */
   readonly who: AccountId;
-  /** Option<OpenTipFinder> */
   readonly finder: Option<OpenTipFinder>;
-  /** Option<BlockNumber> */
   readonly closes: Option<BlockNumber>;
-  /** Vec<OpenTipTip> */
   readonly tips: Vec<OpenTipTip>;
 }
 
-/** ITuple<[AccountId, Balance]> */
+/** @name OpenTipFinder */
 export interface OpenTipFinder extends ITuple<[AccountId, Balance]> {}
 
-/** ITuple<[AccountId, Balance]> */
+/** @name OpenTipTip */
 export interface OpenTipTip extends ITuple<[AccountId, Balance]> {}
 
-/** Struct */
+/** @name TreasuryProposal */
 export interface TreasuryProposal extends Struct {
-  /** AccountId */
   readonly proposer: AccountId;
-  /** Balance */
   readonly value: Balance;
-  /** AccountId */
   readonly beneficiary: AccountId;
-  /** Balance */
   readonly bond: Balance;
 }
