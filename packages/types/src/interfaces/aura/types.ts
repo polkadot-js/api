@@ -4,8 +4,7 @@
 import { Struct } from '@polkadot/types/codec';
 import { u64 } from '@polkadot/types/primitive';
 
-/** Struct */
+/** @name RawAuraPreDigest */
 export interface RawAuraPreDigest extends Struct {
-  /** u64 */
   readonly slotNumber: u64;
 }

@@ -6,58 +6,43 @@ import { Enum, Struct } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/** @name Bid */
 export interface Bid extends Struct {
-  /** AccountId */
   readonly who: AccountId;
-  /** BidKind */
   readonly kind: BidKind;
-  /** Balance */
   readonly value: Balance;
 }
 
-/** Enum */
+/** @name BidKind */
 export interface BidKind extends Enum {
-  /** 0:: Deposit(Balance) */
   readonly isDeposit: boolean;
-  /** Balance */
   readonly asDeposit: Balance;
-  /** 1:: Vouch(BidKindVouch) */
   readonly isVouch: boolean;
-  /** BidKindVouch */
   readonly asVouch: BidKindVouch;
 }
 
-/** ITuple<[AccountId, Balance]> */
+/** @name BidKindVouch */
 export interface BidKindVouch extends ITuple<[AccountId, Balance]> {}
 
-/** Enum */
+/** @name SocietyJudgement */
 export interface SocietyJudgement extends Enum {
-  /** 0:: Rebid */
   readonly isRebid: boolean;
-  /** 1:: Reject */
   readonly isReject: boolean;
-  /** 2:: Approve */
   readonly isApprove: boolean;
 }
 
-/** Enum */
+/** @name SocietyVote */
 export interface SocietyVote extends Enum {
-  /** 0:: Skeptic */
   readonly isSkeptic: boolean;
-  /** 1:: Reject */
   readonly isReject: boolean;
-  /** 2:: Approve */
   readonly isApprove: boolean;
 }
 
-/** u32 */
+/** @name StrikeCount */
 export interface StrikeCount extends u32 {}
 
-/** Enum */
+/** @name VouchingStatus */
 export interface VouchingStatus extends Enum {
-  /** 0:: Vouching */
   readonly isVouching: boolean;
-  /** 1:: Banned */
   readonly isBanned: boolean;
 }

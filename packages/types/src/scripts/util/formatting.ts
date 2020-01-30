@@ -26,7 +26,10 @@ export function createImportCode (header: string, checks: { file: string; types:
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
 /** @internal */
 export function exportInterface (name = '', base: string, body = ''): string {
-  return `/** ${base} */\nexport interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
+  // * @description extends [[${base}]]
+  const doc = `/** @name ${name} */\n`;
+
+  return `${doc}export interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
 }
 
 // helper to create an `export type <Name> = <Base>`
