@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { OverrideModuleType } from '@polkadot/types/known/types';
-import { FunctionMetadataV10, FunctionMetadataLatest, MetadataV10, MetadataLatest, ModuleMetadataV10, ModuleMetadataLatest, StorageMetadataV10, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLatest, ModuleMetadataV11, ModuleMetadataLatest, StorageMetadataV11, StorageMetadataLatest, StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types/known';
@@ -20,7 +20,7 @@ function setTypeOverride (sectionTypes: OverrideModuleType, type: Type): void {
 
 // apply module-specific type overrides (always be done as part of toLatest)
 /** @internal */
-function convertCalls (registry: Registry, calls: FunctionMetadataV10[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
+function convertCalls (registry: Registry, calls: FunctionMetadataV11[], sectionTypes: OverrideModuleType): FunctionMetadataLatest[] {
   return calls.map(({ args, documentation, name }): FunctionMetadataLatest => {
     args.forEach(({ type }): void => setTypeOverride(sectionTypes, type));
 
@@ -30,7 +30,7 @@ function convertCalls (registry: Registry, calls: FunctionMetadataV10[], section
 
 // apply module-specific storage type overrides (always part of toLatest)
 /** @internal */
-function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV10, sectionTypes: OverrideModuleType): StorageMetadataLatest {
+function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV11, sectionTypes: OverrideModuleType): StorageMetadataLatest {
   return createType(registry, 'StorageMetadataLatest', {
     items: items.map(({ documentation, fallback, modifier, name, type }): StorageEntryMetadataLatest => {
       let resultType: Type;
@@ -52,7 +52,7 @@ function convertStorage (registry: Registry, { items, prefix }: StorageMetadataV
 }
 
 /** @internal */
-function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetadataLatest {
+function convertModule (registry: Registry, mod: ModuleMetadataV11): ModuleMetadataLatest {
   const calls = mod.calls.unwrapOr(null);
   const storage = mod.storage.unwrapOr(null);
   const sectionTypes = getModuleTypes(stringCamelCase(mod.name.toString()));
@@ -69,8 +69,9 @@ function convertModule (registry: Registry, mod: ModuleMetadataV10): ModuleMetad
 }
 
 /** @internal */
-export default function toLatest (registry: Registry, { modules }: MetadataV10): MetadataLatest {
+export default function toLatest (registry: Registry, { modules, extrinsic }: MetadataV11): MetadataLatest {
   return createType(registry, 'MetadataLatest', {
-    modules: modules.map((mod): ModuleMetadataLatest => convertModule(registry, mod))
+    modules: modules.map((mod): ModuleMetadataLatest => convertModule(registry, mod)),
+    extrinsic
   });
 }
