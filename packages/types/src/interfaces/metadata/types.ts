@@ -88,8 +88,8 @@ export interface DoubleMapTypeV9 extends DoubleMapTypeV8 {}
 /** ErrorMetadataV9 */
 export interface ErrorMetadataV10 extends ErrorMetadataV9 {}
 
-/** ErrorMetadata10 */
-export interface ErrorMetadataV11 extends ErrorMetadata10 {}
+/** ErrorMetadataV10 */
+export interface ErrorMetadataV11 extends ErrorMetadataV10 {}
 
 /** Struct */
 export interface ErrorMetadataV8 extends Struct {

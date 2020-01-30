@@ -436,7 +436,7 @@ export default {
 
     // v11
     DoubleMapTypeV11: 'DoubleMapTypeV10',
-    ErrorMetadataV11: 'ErrorMetadata10',
+    ErrorMetadataV11: 'ErrorMetadataV10',
     EventMetadataV11: 'EventMetadataV10',
     ExtrinsicMetadataV11: {
       version: 'u8',
