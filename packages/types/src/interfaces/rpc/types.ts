@@ -6,32 +6,20 @@ import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name ApiId
- * @description extends [[Uint8Array, Codec]]
- */
+/** @name ApiId */
 export interface ApiId extends Uint8Array, Codec {}
 
-/**
- * @name BlockHash
- * @description extends [[Hash]]
- */
+/** @name BlockHash */
 export interface BlockHash extends Hash {}
 
-/**
- * @name ChainProperties
- * @description extends [[Struct]]
- */
+/** @name ChainProperties */
 export interface ChainProperties extends Struct {
   readonly ss58Format: Option<u8>;
   readonly tokenDecimals: Option<u32>;
   readonly tokenSymbol: Option<Text>;
 }
 
-/**
- * @name ExtrinsicOrHash
- * @description extends [[Enum]]
- */
+/** @name ExtrinsicOrHash */
 export interface ExtrinsicOrHash extends Enum {
   readonly isHash: boolean;
   readonly asHash: Hash;
@@ -39,10 +27,7 @@ export interface ExtrinsicOrHash extends Enum {
   readonly asExtrinsic: Bytes;
 }
 
-/**
- * @name ExtrinsicStatus
- * @description extends [[Enum]]
- */
+/** @name ExtrinsicStatus */
 export interface ExtrinsicStatus extends Enum {
   readonly isFuture: boolean;
   readonly isReady: boolean;
@@ -56,34 +41,22 @@ export interface ExtrinsicStatus extends Enum {
   readonly isInvalid: boolean;
 }
 
-/**
- * @name Health
- * @description extends [[Struct]]
- */
+/** @name Health */
 export interface Health extends Struct {
   readonly peers: u64;
   readonly isSyncing: bool;
   readonly shouldHavePeers: bool;
 }
 
-/**
- * @name KeyValueOption
- * @description extends [[ITuple<[StorageKey, Option<StorageData>]>]]
- */
+/** @name KeyValueOption */
 export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
 
-/**
- * @name NetworkState
- * @description extends [[Struct]]
- */
+/** @name NetworkState */
 export interface NetworkState extends Struct {
   readonly peerId: Text;
 }
 
-/**
- * @name PeerInfo
- * @description extends [[Struct]]
- */
+/** @name PeerInfo */
 export interface PeerInfo extends Struct {
   readonly peerId: Text;
   readonly roles: Text;
@@ -92,29 +65,20 @@ export interface PeerInfo extends Struct {
   readonly bestNumber: BlockNumber;
 }
 
-/**
- * @name RpcMethods
- * @description extends [[Struct]]
- */
+/** @name RpcMethods */
 export interface RpcMethods extends Struct {
   readonly version: u32;
   readonly methods: Vec<Text>;
 }
 
-/**
- * @name RuntimeDispatchInfo
- * @description extends [[Struct]]
- */
+/** @name RuntimeDispatchInfo */
 export interface RuntimeDispatchInfo extends Struct {
   readonly weight: Weight;
   readonly class: DispatchClass;
   readonly partialFee: Balance;
 }
 
-/**
- * @name RuntimeVersion
- * @description extends [[Struct]]
- */
+/** @name RuntimeVersion */
 export interface RuntimeVersion extends Struct {
   readonly specName: Text;
   readonly implName: Text;
@@ -124,16 +88,10 @@ export interface RuntimeVersion extends Struct {
   readonly apis: Vec<RuntimeVersionApi>;
 }
 
-/**
- * @name RuntimeVersionApi
- * @description extends [[ITuple<[ApiId, u32]>]]
- */
+/** @name RuntimeVersionApi */
 export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 
-/**
- * @name StorageChangeSet
- * @description extends [[Struct]]
- */
+/** @name StorageChangeSet */
 export interface StorageChangeSet extends Struct {
   readonly block: Hash;
   readonly changes: Vec<KeyValueOption>;

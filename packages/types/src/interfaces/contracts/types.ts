@@ -6,10 +6,7 @@ import { Compact, Enum, Option, Raw, Struct } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name AliveContractInfo
- * @description extends [[Struct]]
- */
+/** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {
   readonly trieId: TrieId;
   readonly storageSize: u32;
@@ -19,16 +16,10 @@ export interface AliveContractInfo extends Struct {
   readonly lastWrite: Option<BlockNumber>;
 }
 
-/**
- * @name CodeHash
- * @description extends [[Hash]]
- */
+/** @name CodeHash */
 export interface CodeHash extends Hash {}
 
-/**
- * @name ContractCallRequest
- * @description extends [[Struct]]
- */
+/** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
   readonly origin: AccountId;
   readonly dest: AccountId;
@@ -37,29 +28,20 @@ export interface ContractCallRequest extends Struct {
   readonly inputData: Bytes;
 }
 
-/**
- * @name ContractExecResult
- * @description extends [[Enum]]
- */
+/** @name ContractExecResult */
 export interface ContractExecResult extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccess;
   readonly isError: boolean;
 }
 
-/**
- * @name ContractExecResultSuccess
- * @description extends [[Struct]]
- */
+/** @name ContractExecResultSuccess */
 export interface ContractExecResultSuccess extends Struct {
   readonly status: u8;
   readonly data: Raw;
 }
 
-/**
- * @name ContractInfo
- * @description extends [[Enum]]
- */
+/** @name ContractInfo */
 export interface ContractInfo extends Enum {
   readonly isAlive: boolean;
   readonly asAlive: AliveContractInfo;
@@ -67,22 +49,13 @@ export interface ContractInfo extends Enum {
   readonly asTombstone: TombstoneContractInfo;
 }
 
-/**
- * @name ContractStorageKey
- * @description extends [[Uint8Array, Codec]]
- */
+/** @name ContractStorageKey */
 export interface ContractStorageKey extends Uint8Array, Codec {}
 
-/**
- * @name Gas
- * @description extends [[u64]]
- */
+/** @name Gas */
 export interface Gas extends u64 {}
 
-/**
- * @name PrefabWasmModule
- * @description extends [[Struct]]
- */
+/** @name PrefabWasmModule */
 export interface PrefabWasmModule extends Struct {
   readonly scheduleVersion: Compact<u32>;
   readonly initial: Compact<u32>;
@@ -91,16 +64,10 @@ export interface PrefabWasmModule extends Struct {
   readonly code: Bytes;
 }
 
-/**
- * @name PrefabWasmModuleReserved
- * @description extends [[Option<Null>]]
- */
+/** @name PrefabWasmModuleReserved */
 export interface PrefabWasmModuleReserved extends Option<Null> {}
 
-/**
- * @name Schedule
- * @description extends [[Struct]]
- */
+/** @name Schedule */
 export interface Schedule extends Struct {
   readonly version: u32;
   readonly putCodePerByteCost: Gas;
@@ -119,20 +86,11 @@ export interface Schedule extends Struct {
   readonly maxSubjectLen: u32;
 }
 
-/**
- * @name SeedOf
- * @description extends [[Hash]]
- */
+/** @name SeedOf */
 export interface SeedOf extends Hash {}
 
-/**
- * @name TombstoneContractInfo
- * @description extends [[Hash]]
- */
+/** @name TombstoneContractInfo */
 export interface TombstoneContractInfo extends Hash {}
 
-/**
- * @name TrieId
- * @description extends [[Bytes]]
- */
+/** @name TrieId */
 export interface TrieId extends Bytes {}

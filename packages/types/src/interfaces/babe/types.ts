@@ -5,34 +5,19 @@ import { Codec } from '@polkadot/types/types';
 import { Enum, Option, Struct } from '@polkadot/types/codec';
 import { u32, u64 } from '@polkadot/types/primitive';
 
-/**
- * @name BabeAuthorityWeight
- * @description extends [[u64]]
- */
+/** @name BabeAuthorityWeight */
 export interface BabeAuthorityWeight extends u64 {}
 
-/**
- * @name BabeBlockWeight
- * @description extends [[u32]]
- */
+/** @name BabeBlockWeight */
 export interface BabeBlockWeight extends u32 {}
 
-/**
- * @name BabeWeight
- * @description extends [[u64]]
- */
+/** @name BabeWeight */
 export interface BabeWeight extends u64 {}
 
-/**
- * @name MaybeVrf
- * @description extends [[Option<VrfData>]]
- */
+/** @name MaybeVrf */
 export interface MaybeVrf extends Option<VrfData> {}
 
-/**
- * @name RawBabePreDigest
- * @description extends [[Enum]]
- */
+/** @name RawBabePreDigest */
 export interface RawBabePreDigest extends Enum {
   readonly isPhantom: boolean;
   readonly isPrimary: boolean;
@@ -41,10 +26,7 @@ export interface RawBabePreDigest extends Enum {
   readonly asSecondary: RawBabePreDigestSecondary;
 }
 
-/**
- * @name RawBabePreDigestCompat
- * @description extends [[Enum]]
- */
+/** @name RawBabePreDigestCompat */
 export interface RawBabePreDigestCompat extends Enum {
   readonly isZero: boolean;
   readonly asZero: u32;
@@ -54,10 +36,7 @@ export interface RawBabePreDigestCompat extends Enum {
   readonly asTwo: u32;
 }
 
-/**
- * @name RawBabePreDigestPrimary
- * @description extends [[Struct]]
- */
+/** @name RawBabePreDigestPrimary */
 export interface RawBabePreDigestPrimary extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
@@ -65,10 +44,7 @@ export interface RawBabePreDigestPrimary extends Struct {
   readonly vrfProof: VrfProof;
 }
 
-/**
- * @name RawBabePreDigestPrimaryTo159
- * @description extends [[Struct]]
- */
+/** @name RawBabePreDigestPrimaryTo159 */
 export interface RawBabePreDigestPrimaryTo159 extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
@@ -77,29 +53,20 @@ export interface RawBabePreDigestPrimaryTo159 extends Struct {
   readonly vrfProof: VrfProof;
 }
 
-/**
- * @name RawBabePreDigestSecondary
- * @description extends [[Struct]]
- */
+/** @name RawBabePreDigestSecondary */
 export interface RawBabePreDigestSecondary extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
 }
 
-/**
- * @name RawBabePreDigestSecondaryTo159
- * @description extends [[Struct]]
- */
+/** @name RawBabePreDigestSecondaryTo159 */
 export interface RawBabePreDigestSecondaryTo159 extends Struct {
   readonly authorityIndex: u32;
   readonly slotNumber: SlotNumber;
   readonly weight: BabeBlockWeight;
 }
 
-/**
- * @name RawBabePreDigestTo159
- * @description extends [[Enum]]
- */
+/** @name RawBabePreDigestTo159 */
 export interface RawBabePreDigestTo159 extends Enum {
   readonly isPrimary: boolean;
   readonly asPrimary: RawBabePreDigestPrimaryTo159;
@@ -107,20 +74,11 @@ export interface RawBabePreDigestTo159 extends Enum {
   readonly asSecondary: RawBabePreDigestSecondaryTo159;
 }
 
-/**
- * @name SlotNumber
- * @description extends [[u64]]
- */
+/** @name SlotNumber */
 export interface SlotNumber extends u64 {}
 
-/**
- * @name VrfData
- * @description extends [[Uint8Array, Codec]]
- */
+/** @name VrfData */
 export interface VrfData extends Uint8Array, Codec {}
 
-/**
- * @name VrfProof
- * @description extends [[Uint8Array, Codec]]
- */
+/** @name VrfProof */
 export interface VrfProof extends Uint8Array, Codec {}

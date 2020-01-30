@@ -5,34 +5,19 @@ import { Enum, Struct } from '@polkadot/types/codec';
 import { GenericVote, u32 } from '@polkadot/types/primitive';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name ApprovalFlag
- * @description extends [[u32]]
- */
+/** @name ApprovalFlag */
 export interface ApprovalFlag extends u32 {}
 
-/**
- * @name SetIndex
- * @description extends [[u32]]
- */
+/** @name SetIndex */
 export interface SetIndex extends u32 {}
 
-/**
- * @name Vote
- * @description extends [[GenericVote]]
- */
+/** @name Vote */
 export interface Vote extends GenericVote {}
 
-/**
- * @name VoteIndex
- * @description extends [[u32]]
- */
+/** @name VoteIndex */
 export interface VoteIndex extends u32 {}
 
-/**
- * @name VoterInfo
- * @description extends [[Struct]]
- */
+/** @name VoterInfo */
 export interface VoterInfo extends Struct {
   readonly lastActive: VoteIndex;
   readonly lastWin: VoteIndex;
@@ -40,10 +25,7 @@ export interface VoterInfo extends Struct {
   readonly stake: Balance;
 }
 
-/**
- * @name VoteThreshold
- * @description extends [[Enum]]
- */
+/** @name VoteThreshold */
 export interface VoteThreshold extends Enum {
   readonly isSupermajorityapproval: boolean;
   readonly isSupermajorityrejection: boolean;

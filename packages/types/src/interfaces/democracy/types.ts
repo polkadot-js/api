@@ -6,10 +6,7 @@ import { u32 } from '@polkadot/types/primitive';
 import { BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 
-/**
- * @name Conviction
- * @description extends [[Enum]]
- */
+/** @name Conviction */
 export interface Conviction extends Enum {
   readonly isNone: boolean;
   readonly isLocked1X: boolean;
@@ -20,28 +17,16 @@ export interface Conviction extends Enum {
   readonly isLocked6X: boolean;
 }
 
-/**
- * @name PropIndex
- * @description extends [[u32]]
- */
+/** @name PropIndex */
 export interface PropIndex extends u32 {}
 
-/**
- * @name Proposal
- * @description extends [[Call]]
- */
+/** @name Proposal */
 export interface Proposal extends Call {}
 
-/**
- * @name ReferendumIndex
- * @description extends [[u32]]
- */
+/** @name ReferendumIndex */
 export interface ReferendumIndex extends u32 {}
 
-/**
- * @name ReferendumInfo
- * @description extends [[Struct]]
- */
+/** @name ReferendumInfo */
 export interface ReferendumInfo extends Struct {
   readonly end: BlockNumber;
   readonly proposalHash: Hash;

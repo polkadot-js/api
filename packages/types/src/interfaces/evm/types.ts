@@ -4,19 +4,13 @@
 import { Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, H160, H256, U256 } from '@polkadot/types/primitive';
 
-/**
- * @name Account
- * @description extends [[Struct]]
- */
+/** @name Account */
 export interface Account extends Struct {
   readonly nonce: U256;
   readonly balance: U256;
 }
 
-/**
- * @name Log
- * @description extends [[Struct]]
- */
+/** @name Log */
 export interface Log extends Struct {
   readonly address: H160;
   readonly topics: Vec<H256>;

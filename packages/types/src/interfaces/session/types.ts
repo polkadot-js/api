@@ -6,62 +6,32 @@ import { u32 } from '@polkadot/types/primitive';
 import { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Exposure } from '@polkadot/types/interfaces/staking';
 
-/**
- * @name FullIdentification
- * @description extends [[Exposure]]
- */
+/** @name FullIdentification */
 export interface FullIdentification extends Exposure {}
 
-/**
- * @name IdentificationTuple
- * @description extends [[ITuple<[ValidatorId, FullIdentification]>]]
- */
+/** @name IdentificationTuple */
 export interface IdentificationTuple extends ITuple<[ValidatorId, FullIdentification]> {}
 
-/**
- * @name Keys
- * @description extends [[SessionKeys4]]
- */
+/** @name Keys */
 export interface Keys extends SessionKeys4 {}
 
-/**
- * @name SessionIndex
- * @description extends [[u32]]
- */
+/** @name SessionIndex */
 export interface SessionIndex extends u32 {}
 
-/**
- * @name SessionKeys1
- * @description extends [[AccountId]]
- */
+/** @name SessionKeys1 */
 export interface SessionKeys1 extends AccountId {}
 
-/**
- * @name SessionKeys2
- * @description extends [[ITuple<[AccountId, AccountId]>]]
- */
+/** @name SessionKeys2 */
 export interface SessionKeys2 extends ITuple<[AccountId, AccountId]> {}
 
-/**
- * @name SessionKeys3
- * @description extends [[ITuple<[AccountId, AccountId, AccountId]>]]
- */
+/** @name SessionKeys3 */
 export interface SessionKeys3 extends ITuple<[AccountId, AccountId, AccountId]> {}
 
-/**
- * @name SessionKeys4
- * @description extends [[ITuple<[AccountId, AccountId, AccountId, AccountId]>]]
- */
+/** @name SessionKeys4 */
 export interface SessionKeys4 extends ITuple<[AccountId, AccountId, AccountId, AccountId]> {}
 
-/**
- * @name SessionKeys5
- * @description extends [[ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]>]]
- */
+/** @name SessionKeys5 */
 export interface SessionKeys5 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId]> {}
 
-/**
- * @name SessionKeys6
- * @description extends [[ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]>]]
- */
+/** @name SessionKeys6 */
 export interface SessionKeys6 extends ITuple<[AccountId, AccountId, AccountId, AccountId, AccountId, AccountId]> {}

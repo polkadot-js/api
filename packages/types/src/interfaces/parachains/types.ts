@@ -6,31 +6,19 @@ import { Enum, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name AttestedCandidate
- * @description extends [[Struct]]
- */
+/** @name AttestedCandidate */
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
   readonly validityVotes: Vec<ValidityVote>;
 }
 
-/**
- * @name AuctionIndex
- * @description extends [[u32]]
- */
+/** @name AuctionIndex */
 export interface AuctionIndex extends u32 {}
 
-/**
- * @name BalanceUpload
- * @description extends [[ITuple<[AccountId, u64]>]]
- */
+/** @name BalanceUpload */
 export interface BalanceUpload extends ITuple<[AccountId, u64]> {}
 
-/**
- * @name Bidder
- * @description extends [[Enum]]
- */
+/** @name Bidder */
 export interface Bidder extends Enum {
   readonly isNew: boolean;
   readonly asNew: NewBidder;
@@ -38,10 +26,7 @@ export interface Bidder extends Enum {
   readonly asExisting: ParaId;
 }
 
-/**
- * @name CandidateReceipt
- * @description extends [[Struct]]
- */
+/** @name CandidateReceipt */
 export interface CandidateReceipt extends Struct {
   readonly parachainIndex: ParaId;
   readonly collator: AccountId;
@@ -53,34 +38,19 @@ export interface CandidateReceipt extends Struct {
   readonly blockDataHash: Hash;
 }
 
-/**
- * @name CollatorId
- * @description extends [[H256]]
- */
+/** @name CollatorId */
 export interface CollatorId extends H256 {}
 
-/**
- * @name CollatorSignature
- * @description extends [[Signature]]
- */
+/** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
 
-/**
- * @name EgressQueueRoot
- * @description extends [[ITuple<[ParaId, Hash]>]]
- */
+/** @name EgressQueueRoot */
 export interface EgressQueueRoot extends ITuple<[ParaId, Hash]> {}
 
-/**
- * @name HeadData
- * @description extends [[Bytes]]
- */
+/** @name HeadData */
 export interface HeadData extends Bytes {}
 
-/**
- * @name IncomingParachain
- * @description extends [[Enum]]
- */
+/** @name IncomingParachain */
 export interface IncomingParachain extends Enum {
   readonly isUnset: boolean;
   readonly asUnset: NewBidder;
@@ -90,97 +60,61 @@ export interface IncomingParachain extends Enum {
   readonly asDeploy: IncomingParachainDeploy;
 }
 
-/**
- * @name IncomingParachainDeploy
- * @description extends [[Struct]]
- */
+/** @name IncomingParachainDeploy */
 export interface IncomingParachainDeploy extends Struct {
   readonly code: Bytes;
   readonly initialHeadData: Bytes;
 }
 
-/**
- * @name IncomingParachainFixed
- * @description extends [[Struct]]
- */
+/** @name IncomingParachainFixed */
 export interface IncomingParachainFixed extends Struct {
   readonly codeHash: Hash;
   readonly initialHeadData: Bytes;
 }
 
-/**
- * @name LeasePeriod
- * @description extends [[BlockNumber]]
- */
+/** @name LeasePeriod */
 export interface LeasePeriod extends BlockNumber {}
 
-/**
- * @name LeasePeriodOf
- * @description extends [[LeasePeriod]]
- */
+/** @name LeasePeriodOf */
 export interface LeasePeriodOf extends LeasePeriod {}
 
-/**
- * @name NewBidder
- * @description extends [[Struct]]
- */
+/** @name NewBidder */
 export interface NewBidder extends Struct {
   readonly who: AccountId;
   readonly sub: SubId;
 }
 
-/**
- * @name ParachainDispatchOrigin
- * @description extends [[Enum]]
- */
+/** @name ParachainDispatchOrigin */
 export interface ParachainDispatchOrigin extends Enum {
   readonly isSigned: boolean;
   readonly isParachain: boolean;
 }
 
-/**
- * @name ParaId
- * @description extends [[u32]]
- */
+/** @name ParaId */
 export interface ParaId extends u32 {}
 
-/**
- * @name ParaIdOf
- * @description extends [[ParaId]]
- */
+/** @name ParaIdOf */
 export interface ParaIdOf extends ParaId {}
 
-/**
- * @name ParaInfo
- * @description extends [[Struct]]
- */
+/** @name ParaInfo */
 export interface ParaInfo extends Struct {
   readonly scheduling: ParaScheduling;
 }
 
-/**
- * @name ParaScheduling
- * @description extends [[Enum]]
- */
+/** @name ParaScheduling */
 export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
 }
 
-/**
- * @name Retriable
- * @description extends [[Enum]]
- */
+/** @name Retriable */
 export interface Retriable extends Enum {
   readonly isNever: boolean;
   readonly isWithRetries: boolean;
   readonly asWithRetries: u32;
 }
 
-/**
- * @name SlotRange
- * @description extends [[Enum]]
- */
+/** @name SlotRange */
 export interface SlotRange extends Enum {
   readonly isZeroZero: boolean;
   readonly isZeroOne: boolean;
@@ -194,31 +128,19 @@ export interface SlotRange extends Enum {
   readonly isThreeThree: boolean;
 }
 
-/**
- * @name SubId
- * @description extends [[u32]]
- */
+/** @name SubId */
 export interface SubId extends u32 {}
 
-/**
- * @name UpwardMessage
- * @description extends [[Struct]]
- */
+/** @name UpwardMessage */
 export interface UpwardMessage extends Struct {
   readonly origin: ParachainDispatchOrigin;
   readonly data: Bytes;
 }
 
-/**
- * @name ValidatorIndex
- * @description extends [[u32]]
- */
+/** @name ValidatorIndex */
 export interface ValidatorIndex extends u32 {}
 
-/**
- * @name ValidityAttestation
- * @description extends [[Enum]]
- */
+/** @name ValidityAttestation */
 export interface ValidityAttestation extends Enum {
   readonly isNone: boolean;
   readonly isImplicit: boolean;
@@ -227,20 +149,11 @@ export interface ValidityAttestation extends Enum {
   readonly asExplicit: CollatorSignature;
 }
 
-/**
- * @name ValidityVote
- * @description extends [[ITuple<[ValidatorIndex, ValidityAttestation]>]]
- */
+/** @name ValidityVote */
 export interface ValidityVote extends ITuple<[ValidatorIndex, ValidityAttestation]> {}
 
-/**
- * @name WinningData
- * @description extends [[Vec<WinningDataEntry>]]
- */
+/** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}
 
-/**
- * @name WinningDataEntry
- * @description extends [[ITuple<[AccountId, ParaIdOf, BalanceOf]>]]
- */
+/** @name WinningDataEntry */
 export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}

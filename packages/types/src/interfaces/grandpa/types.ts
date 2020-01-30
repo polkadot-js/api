@@ -7,68 +7,41 @@ import { u64 } from '@polkadot/types/primitive';
 import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
-/**
- * @name AuthorityIndex
- * @description extends [[u64]]
- */
+/** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}
 
-/**
- * @name AuthorityList
- * @description extends [[Vec<NextAuthority>]]
- */
+/** @name AuthorityList */
 export interface AuthorityList extends Vec<NextAuthority> {}
 
-/**
- * @name AuthorityWeight
- * @description extends [[u64]]
- */
+/** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
 
-/**
- * @name NextAuthority
- * @description extends [[ITuple<[AuthorityId, AuthorityWeight]>]]
- */
+/** @name NextAuthority */
 export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
 
-/**
- * @name PendingPause
- * @description extends [[Struct]]
- */
+/** @name PendingPause */
 export interface PendingPause extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
 }
 
-/**
- * @name PendingResume
- * @description extends [[Struct]]
- */
+/** @name PendingResume */
 export interface PendingResume extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
 }
 
-/**
- * @name SetId
- * @description extends [[u64]]
- */
+/** @name SetId */
 export interface SetId extends u64 {}
 
-/**
- * @name StoredPendingChange
- * @description extends [[Struct]]
- */
+/** @name StoredPendingChange */
 export interface StoredPendingChange extends Struct {
   readonly scheduledAt: BlockNumber;
   readonly delay: BlockNumber;
   readonly nextAuthorities: AuthorityList;
 }
 
-/**
- * @name StoredState
- * @description extends [[Enum]]
- */
+/** @name StoredState */
 export interface StoredState extends Enum {
   readonly isLive: boolean;
   readonly isPendingPause: boolean;

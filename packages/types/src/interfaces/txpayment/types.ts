@@ -3,8 +3,5 @@
 
 import { Fixed64 } from '@polkadot/types/primitive';
 
-/**
- * @name Multiplier
- * @description extends [[Fixed64]]
- */
+/** @name Multiplier */
 export interface Multiplier extends Fixed64 {}

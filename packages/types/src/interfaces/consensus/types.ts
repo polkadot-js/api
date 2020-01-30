@@ -3,8 +3,5 @@
 
 import { AccountId } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name AuthorityId
- * @description extends [[AccountId]]
- */
+/** @name AuthorityId */
 export interface AuthorityId extends AccountId {}

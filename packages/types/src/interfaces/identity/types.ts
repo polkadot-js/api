@@ -6,10 +6,7 @@ import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Data, H160, IdentityFields, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name IdentityInfo
- * @description extends [[Struct]]
- */
+/** @name IdentityInfo */
 export interface IdentityInfo extends Struct {
   readonly additional: Vec<IdentityInfoAdditional>;
   readonly display: Data;
@@ -22,16 +19,10 @@ export interface IdentityInfo extends Struct {
   readonly twitter: Data;
 }
 
-/**
- * @name IdentityInfoAdditional
- * @description extends [[ITuple<[Data, Data]>]]
- */
+/** @name IdentityInfoAdditional */
 export interface IdentityInfoAdditional extends ITuple<[Data, Data]> {}
 
-/**
- * @name IdentityJudgement
- * @description extends [[Enum]]
- */
+/** @name IdentityJudgement */
 export interface IdentityJudgement extends Enum {
   readonly isUnknown: boolean;
   readonly isFeePaid: boolean;
@@ -43,34 +34,22 @@ export interface IdentityJudgement extends Enum {
   readonly isErroneous: boolean;
 }
 
-/**
- * @name RegistrarIndex
- * @description extends [[u32]]
- */
+/** @name RegistrarIndex */
 export interface RegistrarIndex extends u32 {}
 
-/**
- * @name RegistrarInfo
- * @description extends [[Struct]]
- */
+/** @name RegistrarInfo */
 export interface RegistrarInfo extends Struct {
   readonly account: AccountId;
   readonly fee: Balance;
   readonly fields: IdentityFields;
 }
 
-/**
- * @name Registration
- * @description extends [[Struct]]
- */
+/** @name Registration */
 export interface Registration extends Struct {
   readonly judgements: Vec<RegistrationJudgement>;
   readonly deposit: Balance;
   readonly info: IdentityInfo;
 }
 
-/**
- * @name RegistrationJudgement
- * @description extends [[ITuple<[RegistrarIndex, IdentityJudgement]>]]
- */
+/** @name RegistrationJudgement */
 export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}

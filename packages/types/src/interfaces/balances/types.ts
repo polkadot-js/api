@@ -4,10 +4,7 @@
 import { Set, Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
 
-/**
- * @name BalanceLock
- * @description extends [[Struct]]
- */
+/** @name BalanceLock */
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;
   readonly amount: Balance;
@@ -15,20 +12,14 @@ export interface BalanceLock extends Struct {
   readonly reasons: WithdrawReasons;
 }
 
-/**
- * @name VestingSchedule
- * @description extends [[Struct]]
- */
+/** @name VestingSchedule */
 export interface VestingSchedule extends Struct {
   readonly offset: Balance;
   readonly perBlock: Balance;
   readonly startingBlock: BlockNumber;
 }
 
-/**
- * @name WithdrawReasons
- * @description extends [[Set]]
- */
+/** @name WithdrawReasons */
 export interface WithdrawReasons extends Set {
   readonly isTransactionPayment: boolean;
   readonly isTransfer: boolean;
