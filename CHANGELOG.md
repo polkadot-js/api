@@ -1,7 +1,8 @@
-# 1.0.0-beta-x
+# 1.0.1
 
 - **Breaking change** Drop support for Substrate v1 chain in all derives
-- Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators (`@polkadot/types` bin)
+- Return unsub functions from provider .on emitters (Thanks to https://github.com/jak-pan)
+- Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators to `@polkadot/types`
 - Only decorate derives where relevant parent `api.query.*` is available
 - Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
 - Remove un-deployed support for v11 metadata (this was decided against on Substrate)
@@ -12,6 +13,7 @@
 - Don't map empy tuples, e.. `()` to `Null`, rather keep them empty
 - Add lookups to the metadata erros via `findMetaError`
 - Update metadata and types for the lastest Substrate & Polkadot versions
+- Support metadata V11 as per lastest Substrate
 - Remove old known types for Substrate V1
 
 # 0.100.1
