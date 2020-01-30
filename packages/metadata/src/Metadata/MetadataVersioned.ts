@@ -166,7 +166,7 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    // This is non-existent & latest - applied here to do to the type conversions
+    // This is non-existent & latest - applied here to do the module-specific type conversions
     return this.getVersion(12, v11ToLatest);
   }
 
