@@ -2,6 +2,7 @@
 
 - **Breaking change** Drop support for Substrate v1 chain in all derives
 - Return unsub functions from provider .on emitters (Thanks to https://github.com/jak-pan)
+- `ApiPromise.isReady` now rejects on unrecoverable errors (Thanks to https://github.com/laec)
 - Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators to `@polkadot/types`
 - Only decorate derives where relevant parent `api.query.*` is available
 - Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
