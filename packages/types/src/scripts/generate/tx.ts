@@ -10,42 +10,41 @@ import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Metadata, TypeRegistry } from '../..';
-import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
+import { createImportCode, createImports, FOOTER, HEADER, indent, TypeImports } from '../util';
 
 // Generate types for one module
 /** @internal */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateModule (allDefs: object, { calls, name }: ModuleMetadataLatest, imports: TypeImports): string[] {
-  if (!calls.isSome) {
+  const allCalls = calls.unwrapOr(null);
+
+  if (!allCalls?.length) {
     return [];
   }
 
-  setImports(allDefs, imports, ['Codec']);
+  // setImports(allDefs, imports, ['Codec']);
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    .concat(indent(6)('[index: string]: Codec;'))
-    .concat(
-      calls.unwrap().map((c): string => {
-        setImports(allDefs, imports, [c.Type.toString()]);
+    // .concat(indent(6)('[index: string]: Codec;'))
+    .concat(allCalls.map(({ name }): string => {
+      // FIXME iterate, set args
 
-        return indent(6)(`${stringCamelCase(c.name.toString())}: ${c.Type} & ConstantCodec;`);
-      })
-    )
+      return indent(6)(`${stringCamelCase(name.toString())}: SubmittableExtrinsicFunction<ApiType>;`);
+    }))
     .concat([indent(4)('};')]);
 }
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
-  console.log(`Writing ${dest}`);
+  console.log(`${dest}\n\tGenerating`);
 
   const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
   const imports = createImports(allTypes);
   const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
     return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
   }, {});
-  const body = meta.asLatest.modules.reduce((acc, modul): string[] => {
-    const txEntries = generateModule(allDefs, modul, imports);
-
-    return acc.concat(txEntries);
+  const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+    return acc.concat(generateModule(allDefs, mod, imports));
   }, [] as string[]);
   const header = createImportCode(HEADER, [
     {
@@ -66,10 +65,12 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
     }
   ]);
   const interfaceStart = [
-    "declare module @polkadot/api/types/submittable' {",
-    indent(2)('AugmentedSubmittables<ApiType> {\n')
+    "declare module '@polkadot/api/types/submittable' {",
+    indent(2)('export interface AugmentedSubmittables<ApiType> {\n')
   ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
+
+  console.log('\tWriting');
 
   fs.writeFileSync(
     dest,
@@ -80,6 +81,8 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       .concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }
 
 // Call `generateForMeta()` with current static metadata

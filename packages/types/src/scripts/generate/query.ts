@@ -79,26 +79,25 @@ function generateEntry (allDefs: object, registry: Registry, storageEntry: Stora
 
 // Generate types for one module
 /** @internal */
-function generateModule (allDefs: object, registry: Registry, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
-  if (modul.storage.isNone) {
+function generateModule (allDefs: object, registry: Registry, { name, storage }: ModuleMetadataLatest, imports: TypeImports): string[] {
+  if (storage.isNone) {
     return [];
   }
 
-  return [indent(4)(`${stringLowerFirst(modul.name.toString())}: {`)]
-    .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(
-      modul.storage.unwrap().items
-        .reduce((acc, storageEntry): string[] => {
-          return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
-        }, [] as string[])
-        .join('\n')
-    )
+  return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
+    // .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
+    .concat(storage.unwrap()
+      .items
+      .reduce((acc, storageEntry): string[] => {
+        return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
+      }, [] as string[])
+      .join('\n'))
     .concat([indent(4)('};')]);
 }
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
-  console.log(`Writing ${dest}`);
+  console.log(`${dest}\n\tGenerating`);
 
   const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
   const imports = createImports(allTypes);
@@ -106,9 +105,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
   }, {});
   const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
-    const storageEntries = generateModule(allDefs, registry, mod, imports);
-
-    return acc.concat(storageEntries);
+    return acc.concat(generateModule(allDefs, registry, mod, imports));
   }, [] as string[]);
   const header = createImportCode(HEADER, [
     {
@@ -138,6 +135,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
   ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
+  console.log('\tWriting');
+
   fs.writeFileSync(
     dest,
     header
@@ -147,6 +146,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }
 
 // Call `generateForMeta()` with current static metadata

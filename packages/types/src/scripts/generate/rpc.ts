@@ -11,7 +11,7 @@ import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setIm
 
 /** @internal */
 export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.types.ts'): void {
-  console.log(`Writing ${dest}`);
+  console.log(`${dest}\n\tGenerating`);
 
   const registry = new TypeRegistry();
   const imports = createImports({ '@polkadot/types/interfaces': definitions });
@@ -76,9 +76,13 @@ export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.
   const interfaceStart = 'export interface RpcInterface {\n';
   const interfaceEnd = '\n}';
 
+  console.log('\tWriting');
+
   fs.writeFileSync(
     dest,
     header.concat(interfaceStart).concat(body).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }

@@ -16,7 +16,7 @@ const primitiveClasses = {
 
 /** @internal */
 export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, output: string): void {
-  console.log(`Writing ${output}`);
+  console.log(`${output}\n\tGenerating`);
 
   Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
@@ -65,11 +65,15 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
   const interfaceStart = 'export interface InterfaceRegistry {';
   const interfaceEnd = '\n}';
 
+  console.log('\tWriting');
+
   fs.writeFileSync(
     output,
     header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
