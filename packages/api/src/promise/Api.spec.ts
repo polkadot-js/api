@@ -125,7 +125,10 @@ describe('ApiPromise', (): void => {
       await transfer.signAsync(aliceEd.address, {});
 
       expect(transfer.signature.toHex()).toEqual(
-        '0x6b9ccc95afbd4e916d30c65c720f4f7b70a77db545735b48a763844aa5210e695aa346686bad1224af77d00bcfbf6fc8d2c216a60731027835d5a414186a2607'
+        // v1 extrinsic
+        // '0x6b9ccc95afbd4e916d30c65c720f4f7b70a77db545735b48a763844aa5210e695aa346686bad1224af77d00bcfbf6fc8d2c216a60731027835d5a414186a2607'
+        // v4 extrinsic
+        '0x0716cbdc3b649dad8741238bcc8e4336f859c518cf2b17a3427b2f5d0b8a79cf518da71b9ac71d92c517342e0978f297f5e05362babf5987d3f1c5ba3314af08'
       );
     });
   });
