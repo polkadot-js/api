@@ -7,14 +7,7 @@ import fs from 'fs';
 import Raw from '../../codec/Raw';
 import * as defaultDefinitions from '../../interfaces/definitions';
 import * as defaultPrimitives from '../../primitive';
-import {
-  createImportCode, createImports,
-  FOOTER,
-  getDerivedTypes,
-  HEADER,
-  indent,
-  setImports
-} from '../util';
+import { FOOTER, HEADER, createImportCode, createImports, getDerivedTypes, indent, setImports } from '../util';
 
 const primitiveClasses = {
   ...defaultPrimitives,
@@ -23,7 +16,7 @@ const primitiveClasses = {
 
 /** @internal */
 export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, output: string): void {
-  console.log(`Writing ${output}`);
+  console.log(`${output}\n\tGenerating`);
 
   Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
@@ -72,11 +65,15 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
   const interfaceStart = 'export interface InterfaceRegistry {';
   const interfaceEnd = '\n}';
 
+  console.log('\tWriting');
+
   fs.writeFileSync(
     output,
     header.concat(interfaceStart).concat(primitives).concat(srml).concat(interfaceEnd).concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces

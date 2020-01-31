@@ -49,7 +49,6 @@ export type DerivedBalancesMap = Record<string, DerivedBalances>;
 export interface DerivedContractFees {
   callBaseFee: BN;
   contractFee: BN;
-  createBaseFee: BN;
   creationFee: BN;
   rentByteFee: BN;
   rentDepositOffset: BN;

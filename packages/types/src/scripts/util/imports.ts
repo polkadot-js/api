@@ -35,7 +35,7 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
   types.forEach((type): void => {
     if (ignoredTypes.includes(type)) {
       // do nothing
-    } else if (['Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
+    } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
     } else if ((codecClasses as any)[type]) {
       codecTypes[type] = true;

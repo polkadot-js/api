@@ -12,7 +12,7 @@ import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
-import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
 /** @internal */
@@ -73,34 +73,32 @@ function generateEntry (allDefs: object, registry: Registry, storageEntry: Stora
   const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
 
   return [
-    `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
+    `${stringLowerFirst(storageEntry.name.toString())}: AugmentedQuery<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
   ];
 }
 
 // Generate types for one module
 /** @internal */
-function generateModule (allDefs: object, registry: Registry, modul: ModuleMetadataLatest, imports: TypeImports): string[] {
-  if (modul.storage.isNone) {
+function generateModule (allDefs: object, registry: Registry, { name, storage }: ModuleMetadataLatest, imports: TypeImports): string[] {
+  if (storage.isNone) {
     return [];
   }
 
-  return [indent(4)(`${stringLowerFirst(modul.name.toString())}: {`)]
-    .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(
-      modul.storage.unwrap().items
-        .reduce((acc, storageEntry): string[] => {
-          return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
-        }, [] as string[])
-        .join('\n')
-    )
+  // NOTE Not removing this concat yet, first see the fallout
+  return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
+    // .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
+    .concat(storage.unwrap()
+      .items
+      .reduce((acc, storageEntry): string[] => {
+        return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
+      }, [] as string[])
+      .join('\n'))
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/api/src/query.types.ts` for a particular
-// metadata
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
-  console.log(`Writing ${dest}`);
+  console.log(`${dest}\n\tGenerating`);
 
   const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
   const imports = createImports(allTypes);
@@ -108,9 +106,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
   }, {});
   const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
-    const storageEntries = generateModule(allDefs, registry, mod, imports);
-
-    return acc.concat(storageEntries);
+    return acc.concat(generateModule(allDefs, registry, mod, imports));
   }, [] as string[]);
   const header = createImportCode(HEADER, [
     {
@@ -135,10 +131,12 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     }
   ]);
   const interfaceStart = [
-    "declare module '@polkadot/api/types' {",
-    indent(2)('export interface QueryableStorageExact<ApiType> {\n')
+    "declare module '@polkadot/api/types/storage' {",
+    indent(2)('export interface AugmentedQueries<ApiType> {\n')
   ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
+
+  console.log('\tWriting');
 
   fs.writeFileSync(
     dest,
@@ -149,11 +147,13 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .concat(FOOTER)
     , { flag: 'w' }
   );
+
+  console.log('');
 }
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (dest = 'packages/api/src/query.types.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
+export default function generateQuery (dest = 'packages/api/src/types/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
   return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes);

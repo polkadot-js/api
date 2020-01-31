@@ -1965,10 +1965,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@polkadot/dev@^0.33.1":
-  version "0.33.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.1.tgz#843488aafa5ced312e7b79f7d09556d803266975"
-  integrity sha512-qX+vGZM+M2gPais2E1hUSg4BM8J2e2t0DeoyJpiwYqrK3Yp8eMUaCV08s9+l4G1l+5W3MgJdd6iH4JkvvQhhvg==
+"@polkadot/dev@^0.33.3":
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.3.tgz#a5ee8990ea240c655b0b1c065a53518d0fab3c86"
+  integrity sha512-AruWNAIAjbweoDUJAX4SSSgzbtsxZkociPAitcXBFul6XSU4eMJiyc68o0ZiQOXt/T9TWUjuVMSLEkcuNh536Q==
   dependencies:
     "@babel/cli" "^7.8.3"
     "@babel/core" "^7.8.3"
@@ -2015,14 +2015,14 @@
     typescript "^3.7.5"
     vuepress "^1.2.0"
 
-"@polkadot/keyring@^2.0.0-beta.10":
-  version "2.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.0.0-beta.10.tgz#2d0903b938bc6f50481096668f96097020c01e4f"
-  integrity sha512-MamR8pA1z3bTikjCnvuEg6LXkCoiePDT8+pbnpxGdBda9SsIpMKCe1+7Y0mYjX7AgXFFq6lPulZGtIhQE9AHpw==
+"@polkadot/keyring@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.0.1.tgz#bbcc10c1a96bf3c43a53414f93646f3d7cc0d5e8"
+  integrity sha512-VsQQgQVnc5rfMGdFOxDhyv+YdoI5gJaTAhAB++FKxELUtfQJiGOCb16NUs29vNLf7UX59ZkLZfvO+EL0JcZwdw==
   dependencies:
     "@babel/runtime" "^7.8.3"
-    "@polkadot/util" "^2.0.0-beta.10"
-    "@polkadot/util-crypto" "^2.0.0-beta.10"
+    "@polkadot/util" "^2.0.1"
+    "@polkadot/util-crypto" "^2.0.1"
 
 "@polkadot/ts@^0.2.1":
   version "0.2.1"
@@ -2031,14 +2031,14 @@
   dependencies:
     "@types/chrome" "^0.0.92"
 
-"@polkadot/util-crypto@^2.0.0-beta.10":
-  version "2.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.0.0-beta.10.tgz#7819091979857a134570059fa202f2b68f866b65"
-  integrity sha512-F2H1Sj3cZ0Ga7r47mdgwXfT9TBXoFqKu8H8Lq3m9e8DTZ4kannG7xOcCuN0nzFTk+0NfEJ8AewAv4zIkYGOOdw==
+"@polkadot/util-crypto@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.0.1.tgz#abfe4c229bb52b56b7ebab9256d366c65a3eca63"
+  integrity sha512-/PJXSVggnO6OHE6U3ji5u8Gal1HW0hDUWm85Wxw7ZQY1AnXwrnklrbTM2a+2myShxRe3HJ4A4pcYsaZPELxj4Q==
   dependencies:
     "@babel/runtime" "^7.8.3"
-    "@polkadot/util" "^2.0.0-beta.10"
-    "@polkadot/wasm-crypto" "^0.20.0-beta.4"
+    "@polkadot/util" "^2.0.1"
+    "@polkadot/wasm-crypto" "^0.20.1"
     "@types/bs58" "^4.0.0"
     "@types/elliptic" "^6.4.12"
     "@types/pbkdf2" "^3.0.0"
@@ -2052,10 +2052,10 @@
     tweetnacl "^1.0.2"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^2.0.0-beta.10":
-  version "2.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.0.0-beta.10.tgz#0e4f37d0a8e46521c4087cf2e67fdb7ec05d0908"
-  integrity sha512-QWnT0Qj6qAKaPPFubJy6o9s0JsBbmBkufu04/n5sNm8x0azVD0a2xiHA19B/A5nHglNuyoiOLixqJm3W14z5dw==
+"@polkadot/util@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.0.1.tgz#6004da88c7430992285a44cff1062e0bba963605"
+  integrity sha512-BjUVLpJ1UtuKpcW2V5NEm5739mmTVO7imQvf87HIpmsR37vC1aWcR6JSwn4O6VBEkCOaxjsVmyOVdzfsbYp4Ew==
   dependencies:
     "@babel/runtime" "^7.8.3"
     "@types/bn.js" "^4.11.6"
@@ -2065,10 +2065,10 @@
     ip-regex "^4.1.0"
     moment "^2.24.0"
 
-"@polkadot/wasm-crypto@^0.20.0-beta.4":
-  version "0.20.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-0.20.0-beta.4.tgz#813deab1b41aa2aeee15fec1b23791e0c6659df1"
-  integrity sha512-3TmbOmeneEaUTugH/7TxZhyUOgIV102Ey/kQazutn5CvIarTvYAQpuQF54k6F0I9uf+B/fvwuIY1COYHQMcY5Q==
+"@polkadot/wasm-crypto@^0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-0.20.1.tgz#422f61cf61c8067b9800e6493608aeed2c701729"
+  integrity sha512-HVmKEQoC7RTS15nGJkQDam8pvwBLjO/JJfhq1OI/zBSqi0KPoh2ZxThkyI+O4CjjY1W+HGvybe0uf0c+VDn62Q==
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.0"
@@ -2255,7 +2255,7 @@
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
   integrity sha512-FA/BWv8t8ZWJ+gEOnLLd8ygxH/2UFbAvgEonyfN6yWGLKc7zVjbpl2Y4CTjid9h2RfgPP6SEt6uHwEOply00yw==
 
-"@types/yargs@^15.0.0":
+"@types/yargs@^15.0.0", "@types/yargs@^15.0.2":
   version "15.0.2"
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-15.0.2.tgz#0bf292a0369493cee030e2e4f4ff84f5982b028d"
   integrity sha512-hFkuAp58M2xOc1QgJhkFrLMnqa8KWTFRTnzrI1zlEcOfg3DZ0eH3aPAo/N6QlVVu8E4KS4xD1jtEG3rdQYFmIg==
@@ -13402,7 +13402,7 @@ yargs@^14.2.2:
     y18n "^4.0.0"
     yargs-parser "^15.0.0"
 
-yargs@^15.0.0:
+yargs@^15.0.0, yargs@^15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.1.0.tgz#e111381f5830e863a89550bd4b136bb6a5f37219"
   integrity sha512-T39FNN1b6hCW4SOIk1XyTOWxtXdcen0t+XYrysQmChzSipvhBO8Bj0nK1ozAasdk24dNWuMZvr4k24nz+8HHLg==

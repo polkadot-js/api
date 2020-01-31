@@ -194,32 +194,28 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
     }))
   ]);
 
-  Object.entries(imports.localTypes).forEach(([moduleName, typeMap]): void => {
-    const types = Object.keys(typeMap).sort();
-
-    if (types.length) {
-      console.log(`\timport { ${types.join(', ')} } from '../${moduleName}'`);
-    }
-  });
-
   fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */
 export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
+  console.log(`${outputDir}\n\tGenerating`);
+
   const definitions = importDefinitions[generatingPackage];
 
   Object.entries(definitions).forEach(([defName, obj]): void => {
-    console.log(`Extracting interfaces for ${defName}`);
+    console.log(`\tExtracting interfaces for ${defName}`);
 
     generateTsDefFor(importDefinitions, defName, obj, outputDir);
   });
 
-  console.log(`Writing ${outputDir}`);
+  console.log('\tWriting');
 
   fs.writeFileSync(path.join(outputDir, 'types.ts'), HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+
+  console.log('');
 }
 
 /** @internal */

@@ -7,5 +7,4 @@ export * from './controllers';
 export * from './electedInfo';
 export * from './overview';
 export * from './query';
-export * from './recentlyOffline';
 export * from './validators';
