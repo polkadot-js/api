@@ -6,7 +6,6 @@ import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polk
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
-import { Codec } from '@polkadot/types/types';
 
 declare module '@polkadot/metadata/Decorated/types' {
   export interface Constants {

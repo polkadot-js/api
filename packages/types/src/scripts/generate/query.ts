@@ -12,7 +12,7 @@ import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
-import { createImportCode, createImports, FOOTER, formatType, getSimilarTypes, HEADER, indent, setImports, TypeImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
 /** @internal */

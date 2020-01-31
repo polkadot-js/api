@@ -8,6 +8,8 @@ import { Constructor, Registry } from '../../types';
 import { isChildClass, isCompactEncodable } from './class';
 import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
+import Compact from '../../codec/Compact';
+import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
@@ -70,12 +72,16 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     return ['any'];
   }
 
+  const instance = ClassOfUnsafe(registry, type);
+
   // Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(registry, type))) {
-    possibleTypes.push('Uint8Array', 'number', 'string');
-  } else if (isChildClass(Uint8Array, ClassOfUnsafe(registry, type))) {
+  if (isChildClass(AbstractInt as unknown as Constructor<any>, instance) || isChildClass(Compact as unknown as Constructor<any>, instance)) {
+    possibleTypes.push('Uint8Array', 'AnyNumber');
+  } else if (isChildClass(Struct as unknown as Constructor<any>, instance)) {
+    possibleTypes.push('Uint8Array', 'object', 'string');
+  } else if (isChildClass(Uint8Array, instance)) {
     possibleTypes.push('Uint8Array', 'string');
-  } else if (isChildClass(String, ClassOfUnsafe(registry, type))) {
+  } else if (isChildClass(String, instance)) {
     possibleTypes.push('string');
   }
 

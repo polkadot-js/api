@@ -25,7 +25,7 @@ import { DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/sy
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
-import { ITuple } from '@polkadot/types/types';
+import { AnyNumber, ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
@@ -34,8 +34,8 @@ declare module '@polkadot/api/types/storage' {
       extrinsicCount: AugmentedQuery<ApiType, () => Observable<Option<u32>>> & QueryableStorageEntry<ApiType>;
       allExtrinsicsWeight: AugmentedQuery<ApiType, () => Observable<Option<Weight>>> & QueryableStorageEntry<ApiType>;
       allExtrinsicsLen: AugmentedQuery<ApiType, () => Observable<Option<u32>>> & QueryableStorageEntry<ApiType>;
-      blockHash: AugmentedQuery<ApiType, (arg: BlockNumber | Uint8Array | number | string) => Observable<Hash>> & QueryableStorageEntry<ApiType>;
-      extrinsicData: AugmentedQuery<ApiType, (arg: u32 | Uint8Array | number | string) => Observable<Bytes>> & QueryableStorageEntry<ApiType>;
+      blockHash: AugmentedQuery<ApiType, (arg: BlockNumber | Uint8Array | AnyNumber) => Observable<Hash>> & QueryableStorageEntry<ApiType>;
+      extrinsicData: AugmentedQuery<ApiType, (arg: u32 | Uint8Array | AnyNumber) => Observable<Bytes>> & QueryableStorageEntry<ApiType>;
       number: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
       parentHash: AugmentedQuery<ApiType, () => Observable<Hash>> & QueryableStorageEntry<ApiType>;
       extrinsicsRoot: AugmentedQuery<ApiType, () => Observable<Hash>> & QueryableStorageEntry<ApiType>;
@@ -55,7 +55,7 @@ declare module '@polkadot/api/types/storage' {
       randomness: AugmentedQuery<ApiType, () => Observable<Raw>> & QueryableStorageEntry<ApiType>;
       nextRandomness: AugmentedQuery<ApiType, () => Observable<Raw>> & QueryableStorageEntry<ApiType>;
       segmentIndex: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
-      underConstruction: AugmentedQuery<ApiType, (arg: u32 | Uint8Array | number | string) => Observable<Vec<Raw>>> & QueryableStorageEntry<ApiType>;
+      underConstruction: AugmentedQuery<ApiType, (arg: u32 | Uint8Array | AnyNumber) => Observable<Vec<Raw>>> & QueryableStorageEntry<ApiType>;
       initialized: AugmentedQuery<ApiType, () => Observable<Option<MaybeVrf>>> & QueryableStorageEntry<ApiType>;
     };
     timestamp: {
@@ -69,7 +69,7 @@ declare module '@polkadot/api/types/storage' {
     };
     indices: {
       nextEnumSet: AugmentedQuery<ApiType, () => Observable<AccountIndex>> & QueryableStorageEntry<ApiType>;
-      enumSet: AugmentedQuery<ApiType, (arg: AccountIndex | Uint8Array | number | string) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      enumSet: AugmentedQuery<ApiType, (arg: AccountIndex | Uint8Array | AnyNumber) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
     };
     balances: {
       totalIssuance: AugmentedQuery<ApiType, () => Observable<Balance>> & QueryableStorageEntry<ApiType>;
@@ -100,10 +100,10 @@ declare module '@polkadot/api/types/storage' {
       forceEra: AugmentedQuery<ApiType, () => Observable<Forcing>> & QueryableStorageEntry<ApiType>;
       slashRewardFraction: AugmentedQuery<ApiType, () => Observable<Perbill>> & QueryableStorageEntry<ApiType>;
       canceledSlashPayout: AugmentedQuery<ApiType, () => Observable<BalanceOf>> & QueryableStorageEntry<ApiType>;
-      unappliedSlashes: AugmentedQuery<ApiType, (arg: EraIndex | Uint8Array | number | string) => Observable<Vec<UnappliedSlash>>> & QueryableStorageEntry<ApiType>;
+      unappliedSlashes: AugmentedQuery<ApiType, (arg: EraIndex | Uint8Array | AnyNumber) => Observable<Vec<UnappliedSlash>>> & QueryableStorageEntry<ApiType>;
       bondedEras: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[EraIndex, SessionIndex]>>>> & QueryableStorageEntry<ApiType>;
-      validatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | Uint8Array | number | string, key2: AccountId | Uint8Array | string) => Observable<Option<ITuple<[Perbill, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
-      nominatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | Uint8Array | number | string, key2: AccountId | Uint8Array | string) => Observable<Option<BalanceOf>>> & QueryableStorageEntry<ApiType>;
+      validatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | Uint8Array | AnyNumber, key2: AccountId | Uint8Array | string) => Observable<Option<ITuple<[Perbill, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
+      nominatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | Uint8Array | AnyNumber, key2: AccountId | Uint8Array | string) => Observable<Option<BalanceOf>>> & QueryableStorageEntry<ApiType>;
       slashingSpans: AugmentedQuery<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<SlashingSpans>>> & QueryableStorageEntry<ApiType>;
       spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId, SpanIndex]>) => Observable<SpanRecord>> & QueryableStorageEntry<ApiType>;
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
@@ -122,12 +122,12 @@ declare module '@polkadot/api/types/storage' {
       publicPropCount: AugmentedQuery<ApiType, () => Observable<PropIndex>> & QueryableStorageEntry<ApiType>;
       publicProps: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[PropIndex, Hash, AccountId]>>>> & QueryableStorageEntry<ApiType>;
       preimages: AugmentedQuery<ApiType, (arg: Hash | Uint8Array | string) => Observable<Option<ITuple<[Bytes, AccountId, BalanceOf, BlockNumber]>>>> & QueryableStorageEntry<ApiType>;
-      depositOf: AugmentedQuery<ApiType, (arg: PropIndex | Uint8Array | number | string) => Observable<Option<ITuple<[BalanceOf, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
+      depositOf: AugmentedQuery<ApiType, (arg: PropIndex | Uint8Array | AnyNumber) => Observable<Option<ITuple<[BalanceOf, Vec<AccountId>]>>>> & QueryableStorageEntry<ApiType>;
       referendumCount: AugmentedQuery<ApiType, () => Observable<ReferendumIndex>> & QueryableStorageEntry<ApiType>;
       lowestUnbaked: AugmentedQuery<ApiType, () => Observable<ReferendumIndex>> & QueryableStorageEntry<ApiType>;
-      referendumInfoOf: AugmentedQuery<ApiType, (arg: ReferendumIndex | Uint8Array | number | string) => Observable<Option<ReferendumInfo>>> & QueryableStorageEntry<ApiType>;
+      referendumInfoOf: AugmentedQuery<ApiType, (arg: ReferendumIndex | Uint8Array | AnyNumber) => Observable<Option<ReferendumInfo>>> & QueryableStorageEntry<ApiType>;
       dispatchQueue: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>> & QueryableStorageEntry<ApiType>;
-      votersFor: AugmentedQuery<ApiType, (arg: ReferendumIndex | Uint8Array | number | string) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      votersFor: AugmentedQuery<ApiType, (arg: ReferendumIndex | Uint8Array | AnyNumber) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
       voteOf: AugmentedQuery<ApiType, (arg: ITuple<[ReferendumIndex, AccountId]>) => Observable<Vote>> & QueryableStorageEntry<ApiType>;
       proxy: AugmentedQuery<ApiType, (arg: AccountId | Uint8Array | string) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
       delegations: AugmentedQuery<ApiType, (arg: AccountId | Uint8Array | string) => Observable<ITuple<[AccountId, Conviction]>>> & QueryableStorageEntry<ApiType>;
@@ -168,11 +168,11 @@ declare module '@polkadot/api/types/storage' {
       nextForced: AugmentedQuery<ApiType, () => Observable<Option<BlockNumber>>> & QueryableStorageEntry<ApiType>;
       stalled: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[BlockNumber, BlockNumber]>>>> & QueryableStorageEntry<ApiType>;
       currentSetId: AugmentedQuery<ApiType, () => Observable<SetId>> & QueryableStorageEntry<ApiType>;
-      setIdSession: AugmentedQuery<ApiType, (arg: SetId | Uint8Array | number | string) => Observable<Option<SessionIndex>>> & QueryableStorageEntry<ApiType>;
+      setIdSession: AugmentedQuery<ApiType, (arg: SetId | Uint8Array | AnyNumber) => Observable<Option<SessionIndex>>> & QueryableStorageEntry<ApiType>;
     };
     treasury: {
       proposalCount: AugmentedQuery<ApiType, () => Observable<ProposalIndex>> & QueryableStorageEntry<ApiType>;
-      proposals: AugmentedQuery<ApiType, (arg: ProposalIndex | Uint8Array | number | string) => Observable<Option<TreasuryProposal>>> & QueryableStorageEntry<ApiType>;
+      proposals: AugmentedQuery<ApiType, (arg: ProposalIndex | Uint8Array | AnyNumber) => Observable<Option<TreasuryProposal>>> & QueryableStorageEntry<ApiType>;
       approvals: AugmentedQuery<ApiType, () => Observable<Vec<ProposalIndex>>> & QueryableStorageEntry<ApiType>;
       tips: AugmentedQuery<ApiType, (arg: Hash | Uint8Array | string) => Observable<Option<OpenTip>>> & QueryableStorageEntry<ApiType>;
       reasons: AugmentedQuery<ApiType, (arg: Hash | Uint8Array | string) => Observable<Option<Bytes>>> & QueryableStorageEntry<ApiType>;
@@ -192,8 +192,8 @@ declare module '@polkadot/api/types/storage' {
     imOnline: {
       gossipAt: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
       keys: AugmentedQuery<ApiType, () => Observable<Vec<AuthorityId>>> & QueryableStorageEntry<ApiType>;
-      receivedHeartbeats: AugmentedQuery<ApiType, (key1: SessionIndex | Uint8Array | number | string, key2: AuthIndex | Uint8Array | number | string) => Observable<Option<Bytes>>> & QueryableStorageEntry<ApiType>;
-      authoredBlocks: AugmentedQuery<ApiType, (key1: SessionIndex | Uint8Array | number | string, key2: ValidatorId | Uint8Array | string) => Observable<u32>> & QueryableStorageEntry<ApiType>;
+      receivedHeartbeats: AugmentedQuery<ApiType, (key1: SessionIndex | Uint8Array | AnyNumber, key2: AuthIndex | Uint8Array | AnyNumber) => Observable<Option<Bytes>>> & QueryableStorageEntry<ApiType>;
+      authoredBlocks: AugmentedQuery<ApiType, (key1: SessionIndex | Uint8Array | AnyNumber, key2: ValidatorId | Uint8Array | string) => Observable<u32>> & QueryableStorageEntry<ApiType>;
     };
     offences: {
       reports: AugmentedQuery<ApiType, (arg: ReportIdOf | Uint8Array | string) => Observable<Option<OffenceDetails>>> & QueryableStorageEntry<ApiType>;

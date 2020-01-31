@@ -4,38 +4,65 @@
 
 import { ModuleMetadataLatest } from '../../interfaces/metadata';
 import * as defaultDefs from '../../interfaces/definitions';
+import { Registry } from '../../types';
 
 import fs from 'fs';
 import staticData from '@polkadot/metadata/Metadata/static';
+import { Text } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Metadata, TypeRegistry } from '../..';
-import { createImportCode, createImports, FOOTER, HEADER, indent, TypeImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
+
+const MAPPED_NAMES: Record<string, string> = {
+  new: 'updated'
+};
+
+function mapName (_name: Text): string {
+  const name = stringCamelCase(_name.toString());
+
+  return MAPPED_NAMES[name] || name;
+}
 
 // Generate types for one module
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function generateModule (allDefs: object, { calls, name }: ModuleMetadataLatest, imports: TypeImports): string[] {
+function generateModule (registry: Registry, allDefs: object, { calls, name }: ModuleMetadataLatest, imports: TypeImports): string[] {
   const allCalls = calls.unwrapOr(null);
 
   if (!allCalls?.length) {
     return [];
   }
 
-  // setImports(allDefs, imports, ['Codec']);
+  setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     // .concat(indent(6)('[index: string]: Codec;'))
-    .concat(allCalls.map(({ name }): string => {
-      // FIXME iterate, set args
+    .concat(allCalls.map(({ args, name }): string => {
+      const params = args.map(({ name, type }): string => {
+        const typeStr = type.toString();
+        const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports)
+          .map((type): string => {
+            try {
+              return formatType(allDefs, type, imports);
+            } catch (error) {
+              return '';
+            }
+          })
+          .filter((type): boolean => !!type);
 
-      return indent(6)(`${stringCamelCase(name.toString())}: SubmittableExtrinsicFunction<ApiType>;`);
+        setImports(allDefs, imports, [...similarTypes, typeStr]);
+
+        return `${mapName(name)}: ${similarTypes.length ? similarTypes.join(' | ') : formatType(allDefs, typeStr, imports)}`;
+      });
+
+      return indent(6)(`${stringCamelCase(name.toString())}: (${params.join(', ')}) => SubmittableExtrinsic<ApiType>;`);
     }))
     .concat([indent(4)('};')]);
 }
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
+function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
   console.log(`${dest}\n\tGenerating`);
 
   const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
@@ -44,9 +71,13 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
     return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
   }, {});
   const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
-    return acc.concat(generateModule(allDefs, mod, imports));
+    return acc.concat(generateModule(registry, allDefs, mod, imports));
   }, [] as string[]);
   const header = createImportCode(HEADER, [
+    {
+      file: '@polkadot/api/submittable/types',
+      types: ['SubmittableExtrinsic']
+    },
     {
       file: '@polkadot/types/codec',
       types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
@@ -90,5 +121,5 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 export default function generateTx (dest = 'packages/api/src/types/augment/tx.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(new Metadata(registry, data), dest, extraTypes);
+  return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes);
 }

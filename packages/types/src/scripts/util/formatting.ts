@@ -102,6 +102,7 @@ function formatVec (inner: string): string {
 /** @internal */
 export function formatType (definitions: object, type: string | TypeDef, imports: TypeImports): string {
   let typeDef: TypeDef;
+
   if (typeof type === 'string') {
     typeDef = getTypeDef(type);
   } else {
