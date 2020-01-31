@@ -35,7 +35,7 @@ async function derive (api: ApiPromise): Promise<void> {
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const intentions = await api.query.staking.intentions();
+  const intentions = await api.query.staking.bonded();
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed

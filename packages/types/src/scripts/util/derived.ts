@@ -79,7 +79,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
         getSimilarTypes(definitions, registry, type, imports).join(' | ')
       );
 
-      possibleTypes.push(`([${subs.join(', ')}])[]`)
+      possibleTypes.push(`([${subs.join(', ')}])[]`);
     } else {
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }

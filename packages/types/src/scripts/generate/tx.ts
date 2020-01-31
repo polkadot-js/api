@@ -34,7 +34,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
     return [];
   }
 
-  setImports(allDefs, imports, ['SubmittableExtrinsic']);
+  setImports(allDefs, imports, ['CallFunction', 'SubmittableExtrinsic']);
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     // .concat(indent(6)('[index: string]: Codec;'))
@@ -52,7 +52,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
         return `${mapName(name)}: ${similarTypes.join(' | ')}`;
       });
 
-      return indent(6)(`${stringCamelCase(name.toString())}: (${params.join(', ')}) => SubmittableExtrinsic<ApiType>;`);
+      return indent(6)(`${stringCamelCase(name.toString())}: AugmentedSubmittable<ApiType, (${params.join(', ')}) => SubmittableExtrinsic<ApiType> & CallFunction>;`);
     }))
     .concat([indent(4)('};')]);
 }
