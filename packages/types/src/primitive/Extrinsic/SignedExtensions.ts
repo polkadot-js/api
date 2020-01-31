@@ -4,9 +4,10 @@
 
 import { InterfaceTypes } from '../../types';
 
+type ExtTypes = Record<string, InterfaceTypes>;
 type ExtInfo = {
-  extra: Record<string, InterfaceTypes>;
-  types: Record<string, InterfaceTypes>;
+  extra: ExtTypes;
+  types: ExtTypes;
 }
 
 // A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
@@ -83,16 +84,12 @@ function getExtensions (extensions: string[]): ExtInfo[] {
     .filter((info): boolean => !!info);
 }
 
-function getExtensionExtra (extensions: string[]): Record<string, InterfaceTypes> {
-  return getExtensions(extensions).reduce((result, { extra }): Record<string, InterfaceTypes> => {
-    return { ...result, ...extra };
-  }, {});
+function getExtensionExtra (extensions: string[]): ExtTypes {
+  return getExtensions(extensions).reduce((result, { extra }): ExtTypes => ({ ...result, ...extra }), {});
 }
 
 function getExtensionTypes (extensions: string[]): Record<string, InterfaceTypes> {
-  return getExtensions(extensions).reduce((result, { types }): Record<string, InterfaceTypes> => {
-    return { ...result, ...types };
-  }, {});
+  return getExtensions(extensions).reduce((result, { types }): ExtTypes => ({ ...result, ...types }), {});
 }
 
 export { allExtensions, defaultExtensions, extensionNames, getExtensionExtra, getExtensionTypes };
