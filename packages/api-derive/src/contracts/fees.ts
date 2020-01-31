@@ -11,16 +11,13 @@ import { map } from 'rxjs/operators';
 
 import { memo } from '../util';
 
-type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
-
-const ZERO = new BN(0);
+type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
 // parse the result
-function parseResult ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]: ResultV2): DerivedContractFees {
+function parseResult ([callBaseFee, contractFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]: ResultV2): DerivedContractFees {
   return {
     callBaseFee,
     contractFee,
-    createBaseFee,
     creationFee,
     rentByteFee,
     rentDepositOffset,
@@ -36,7 +33,6 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
     api.consts.contracts.callBaseFee,
     api.consts.contracts.contractFee,
-    api.consts.contracts.createBaseFee,
     api.consts.contracts.creationFee,
     api.consts.contracts.rentByteFee,
     api.consts.contracts.rentDepositOffset,
@@ -62,15 +58,11 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return memo((): Observable<DerivedContractFees> => {
-    return (
-      api.consts.contracts
-        ? queryConstants(api)
-        : of([ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO])
-    ).pipe(
-      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
+    return queryConstants(api).pipe(
+      map(([callBaseFee, contractFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
         // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and see gaps
         parseResult([
-          callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
+          callBaseFee, contractFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
         ])
       )
     );

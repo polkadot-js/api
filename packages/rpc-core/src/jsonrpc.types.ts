@@ -7,51 +7,51 @@ import { Bytes, H256, Metadata, StorageData, StorageKey, Text, u32, u64 } from '
 import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
-import { Codec, IExtrinsic } from '@polkadot/types/types';
+import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 
 export interface RpcInterface {
   account: {
-    nextIndex(accountId: AccountId | Uint8Array | string): Observable<Index>;
+    nextIndex(accountId: AccountId | string | Uint8Array): Observable<Index>;
   };
   author: {
-    insertKey(keyType: Text | string, suri: Text | string, publicKey: Bytes | Uint8Array | string): Observable<Bytes>;
+    insertKey(keyType: Text | string, suri: Text | string, publicKey: Bytes | string | Uint8Array): Observable<Bytes>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
-    removeExtrinsic(bytesOrHash: (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
+    removeExtrinsic(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash)[]): Observable<Vec<Hash>>;
     rotateKeys(): Observable<Bytes>;
     submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;
     submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;
   };
   chain: {
-    getBlock(hash?: BlockHash | Uint8Array | string): Observable<SignedBlock>;
-    getBlockHash(blockNumber?: BlockNumber | Uint8Array | number | string): Observable<BlockHash>;
+    getBlock(hash?: BlockHash | string | Uint8Array): Observable<SignedBlock>;
+    getBlockHash(blockNumber?: BlockNumber | AnyNumber | Uint8Array): Observable<BlockHash>;
     getFinalizedHead(): Observable<BlockHash>;
-    getHeader(hash?: BlockHash | Uint8Array | string): Observable<Header>;
+    getHeader(hash?: BlockHash | string | Uint8Array): Observable<Header>;
     subscribeFinalizedHeads(): Observable<Header>;
     subscribeNewHeads(): Observable<Header>;
   };
   contracts: {
-    call(callRequest: ContractCallRequest, at?: BlockHash | Uint8Array | string): Observable<ContractExecResult>;
-    getStorage(address: AccountId | Uint8Array | string, key: H256 | Uint8Array | string, at?: BlockHash | Uint8Array | string): Observable<Option<Bytes>>;
+    call(callRequest: ContractCallRequest | object | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<ContractExecResult>;
+    getStorage(address: AccountId | string | Uint8Array, key: H256 | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Option<Bytes>>;
   };
   payment: {
-    queryInfo(extrinsic: Bytes | Uint8Array | string, at?: BlockHash | Uint8Array | string): Observable<RuntimeDispatchInfo>;
+    queryInfo(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<RuntimeDispatchInfo>;
   };
   rpc: {
     methods(): Observable<RpcMethods>;
   };
   state: {
-    call(method: Text | string, data: Bytes | Uint8Array | string, at?: BlockHash | Uint8Array | string): Observable<Bytes>;
-    getChildKeys(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageKey>>;
-    getChildStorage(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<StorageData>;
-    getChildStorageHash(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<Hash>;
-    getChildStorageSize(childStorageKey: any, childDefinition: any, childType: u32 | Uint8Array | number | string, key: any, at?: BlockHash | Uint8Array | string): Observable<u64>;
-    getKeys(key: any, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageKey>>;
-    getMetadata(at?: BlockHash | Uint8Array | string): Observable<Metadata>;
-    getRuntimeVersion(at?: BlockHash | Uint8Array | string): Observable<RuntimeVersion>;
+    call(method: Text | string, data: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Bytes>;
+    getChildKeys(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
+    getChildStorage(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<StorageData>;
+    getChildStorageHash(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
+    getChildStorageSize(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
+    getKeys(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
+    getMetadata(at?: BlockHash | string | Uint8Array): Observable<Metadata>;
+    getRuntimeVersion(at?: BlockHash | string | Uint8Array): Observable<RuntimeVersion>;
     getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;
-    getStorageHash(key: any, at?: BlockHash | Uint8Array | string): Observable<Hash>;
-    getStorageSize(key: any, at?: BlockHash | Uint8Array | string): Observable<u64>;
-    queryStorage(keys: (any)[], startBlock: Hash | Uint8Array | string, at?: BlockHash | Uint8Array | string): Observable<Vec<StorageChangeSet>>;
+    getStorageHash(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
+    getStorageSize(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
+    queryStorage(keys: Vec<StorageKey> | (StorageKey | any)[], startBlock: Hash | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageChangeSet>>;
     subscribeRuntimeVersion(): Observable<RuntimeVersion>;
     subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;
   };

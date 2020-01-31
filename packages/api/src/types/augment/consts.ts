@@ -6,41 +6,33 @@ import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polk
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
-import { Codec } from '@polkadot/types/types';
 
 declare module '@polkadot/metadata/Decorated/types' {
   export interface Constants {
     babe: {
-      [index: string]: Codec;
       epochDuration: u64 & ConstantCodec;
       expectedBlockTime: Moment & ConstantCodec;
     };
     timestamp: {
-      [index: string]: Codec;
       minimumPeriod: Moment & ConstantCodec;
     };
     balances: {
-      [index: string]: Codec;
       existentialDeposit: Balance & ConstantCodec;
       transferFee: Balance & ConstantCodec;
       creationFee: Balance & ConstantCodec;
     };
     transactionPayment: {
-      [index: string]: Codec;
       transactionBaseFee: BalanceOf & ConstantCodec;
       transactionByteFee: BalanceOf & ConstantCodec;
     };
     staking: {
-      [index: string]: Codec;
       sessionsPerEra: SessionIndex & ConstantCodec;
       bondingDuration: EraIndex & ConstantCodec;
     };
     session: {
-      [index: string]: Codec;
       dedupKeyPrefix: Bytes & ConstantCodec;
     };
     democracy: {
-      [index: string]: Codec;
       enactmentPeriod: BlockNumber & ConstantCodec;
       launchPeriod: BlockNumber & ConstantCodec;
       votingPeriod: BlockNumber & ConstantCodec;
@@ -50,7 +42,6 @@ declare module '@polkadot/metadata/Decorated/types' {
       preimageByteDeposit: BalanceOf & ConstantCodec;
     };
     elections: {
-      [index: string]: Codec;
       candidacyBond: BalanceOf & ConstantCodec;
       votingBond: BalanceOf & ConstantCodec;
       desiredMembers: u32 & ConstantCodec;
@@ -58,12 +49,10 @@ declare module '@polkadot/metadata/Decorated/types' {
       termDuration: BlockNumber & ConstantCodec;
     };
     finalityTracker: {
-      [index: string]: Codec;
       windowSize: BlockNumber & ConstantCodec;
       reportLatency: BlockNumber & ConstantCodec;
     };
     treasury: {
-      [index: string]: Codec;
       proposalBond: Permill & ConstantCodec;
       proposalBondMinimum: BalanceOf & ConstantCodec;
       spendPeriod: BlockNumber & ConstantCodec;
@@ -74,7 +63,6 @@ declare module '@polkadot/metadata/Decorated/types' {
       tipReportDepositPerByte: BalanceOf & ConstantCodec;
     };
     contracts: {
-      [index: string]: Codec;
       signedClaimHandicap: BlockNumber & ConstantCodec;
       tombstoneDeposit: BalanceOf & ConstantCodec;
       storageSizeOffset: u32 & ConstantCodec;
@@ -93,7 +81,6 @@ declare module '@polkadot/metadata/Decorated/types' {
       blockGasLimit: Gas & ConstantCodec;
     };
     society: {
-      [index: string]: Codec;
       candidateDeposit: BalanceOf & ConstantCodec;
       wrongSideDeduction: BalanceOf & ConstantCodec;
       maxStrikes: u32 & ConstantCodec;
