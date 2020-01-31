@@ -41,17 +41,17 @@ export interface RpcInterface {
   };
   state: {
     call(method: Text | string, data: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Bytes>;
-    getChildKeys(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
-    getChildStorage(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<StorageData>;
-    getChildStorageHash(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
-    getChildStorageSize(childStorageKey: StorageKey | any, childDefinition: StorageKey | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
-    getKeys(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
+    getChildKeys(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
+    getChildStorage(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<StorageData>;
+    getChildStorageHash(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
+    getChildStorageSize(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
+    getKeys(key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
     getMetadata(at?: BlockHash | string | Uint8Array): Observable<Metadata>;
     getRuntimeVersion(at?: BlockHash | string | Uint8Array): Observable<RuntimeVersion>;
     getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;
-    getStorageHash(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
-    getStorageSize(key: StorageKey | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
-    queryStorage(keys: Vec<StorageKey> | (StorageKey | any)[], startBlock: Hash | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageChangeSet>>;
+    getStorageHash(key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
+    getStorageSize(key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
+    queryStorage(keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], startBlock: Hash | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageChangeSet>>;
     subscribeRuntimeVersion(): Observable<RuntimeVersion>;
     subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;
   };

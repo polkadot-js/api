@@ -10,7 +10,7 @@ import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Metadata, TypeRegistry } from '../..';
-import { createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
+import { createDocComments, createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports } from '../util';
 
 // Generate types for one module
 /** @internal */
@@ -19,13 +19,15 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
     return [];
   }
 
-  // NOTE Not removing this concat yet, first see the fallout (needs: setImports(allDefs, imports, ['Codec']);)
-  return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    // .concat(indent(6)('[index: string]: Codec;'))
-    .concat(constants.map((constant): string => {
-      setImports(allDefs, imports, [constant.type.toString()]);
+  setImports(allDefs, imports, ['Codec']);
 
-      return indent(6)(`${stringCamelCase(constant.name.toString())}: ${constant.type} & ConstantCodec;`);
+  return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
+    .concat(indent(6)('[index: string]: Codec;'))
+    .concat(constants.map(({ documentation, name, type }): string => {
+      setImports(allDefs, imports, [type.toString()]);
+
+      return createDocComments(documentation).map((d): string => indent(6)(d)).join('\n') +
+        indent(6)(`${stringCamelCase(name.toString())}: ${type} & ConstantCodec;`);
     }))
     .concat([indent(4)('};')]);
 }

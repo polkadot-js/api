@@ -62,9 +62,11 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
   } else if (type === 'StorageKey') {
-    // FIXME This is a hack, it's hard to correctly type StorageKeys in the
-    // current state
-    return ['StorageKey', 'any'];
+    return ['StorageKey', 'string', 'Uint8Array', 'any'];
+  } else if (type === 'Address') {
+    return ['Address', 'string', 'AccountId', 'AccountIndex', 'Uint8Array'];
+  } else if (type === 'bool') {
+    return ['bool', 'boolean', 'Uint8Array'];
   }
 
   const instance = ClassOfUnsafe(registry, type);

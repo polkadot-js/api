@@ -12,7 +12,7 @@ import { Text } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Metadata, TypeRegistry } from '../..';
-import { FOOTER, HEADER, TypeImports, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {
   new: 'updated'
@@ -34,26 +34,28 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
     return [];
   }
 
-  setImports(allDefs, imports, ['CallFunction', 'SubmittableExtrinsic']);
+  setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
   // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    // .concat(indent(6)('[index: string]: Codec;'))
-    .concat(allCalls.map(({ args, name }): string => {
-      const params = args.map(({ name, type }): string => {
+    .concat(indent(6)('[index: string]: SubmittableExtrinsicFunction<ApiType>;'))
+    .concat(allCalls.map(({ args, documentation, name }): string => {
+      const params = args.map(({ name, type }): [string, string, string] => {
         const typeStr = type.toString();
         const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string =>
           type.startsWith('(')
             ? type
             : formatType(allDefs, type, imports)
         );
+        const nameStr = mapName(name);
 
         setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(')), typeStr]);
 
-        return `${mapName(name)}: ${similarTypes.join(' | ')}`;
+        return [`${nameStr}: ${similarTypes.join(' | ')}`, nameStr, typeStr];
       });
 
-      return indent(6)(`${stringCamelCase(name.toString())}: AugmentedSubmittable<ApiType, (${params.join(', ')}) => SubmittableExtrinsic<ApiType> & CallFunction>;`);
+      return createDocComments(documentation).map((d): string => indent(6)(d)).join('\n') +
+      indent(6)(`${stringCamelCase(name.toString())}: AugmentedExtrinsic<(${params.map(([full]): string => full).join(', ')}) => SubmittableExtrinsic<ApiType>>;`);
     }))
     .concat([indent(4)('};')]);
 }
