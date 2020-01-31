@@ -34,8 +34,6 @@ function generateModule (allDefs: object, modul: ModuleMetadataLatest, imports: 
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/api/src/consts.types.ts` for a particular
-// metadata
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
   console.log(`Writing ${dest}`);
@@ -87,7 +85,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (dest = 'packages/api/src/consts.types.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
+export default function generateConsts (dest = 'packages/api/src/types/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
   return generateForMeta(new Metadata(registry, data), dest, extraTypes);

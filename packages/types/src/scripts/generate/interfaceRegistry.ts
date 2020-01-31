@@ -7,14 +7,7 @@ import fs from 'fs';
 import Raw from '../../codec/Raw';
 import * as defaultDefinitions from '../../interfaces/definitions';
 import * as defaultPrimitives from '../../primitive';
-import {
-  createImportCode, createImports,
-  FOOTER,
-  getDerivedTypes,
-  HEADER,
-  indent,
-  setImports
-} from '../util';
+import { FOOTER, HEADER, createImportCode, createImports, getDerivedTypes, indent, setImports } from '../util';
 
 const primitiveClasses = {
   ...defaultPrimitives,

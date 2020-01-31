@@ -9,7 +9,6 @@ import * as definitions from '../../interfaces/definitions';
 import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
-// Generate `packages/rpc-core/jsonrpc.types.ts`
 /** @internal */
 export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.types.ts'): void {
   console.log(`Writing ${dest}`);

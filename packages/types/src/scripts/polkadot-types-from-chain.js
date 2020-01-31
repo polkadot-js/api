@@ -23,12 +23,13 @@ if (typeof WebSocket === 'undefined') {
 const path = require('path');
 const yargs = require('yargs');
 const { formatNumber } = require('@polkadot/util');
-const generateConst = require('./generateTypes/consts').default;
-const generateQuery = require('./generateTypes/query').default;
+const generateConst = require('./generate/consts').default;
+const generateQuery = require('./generate/query').default;
+const generateTx = require('./generate/tx').default;
 
 const { endpoint, output, package } = yargs.strict().options({
   endpoint: {
-    description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io',
+    description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
     type: 'string',
     required: true
   },
@@ -42,6 +43,20 @@ const { endpoint, output, package } = yargs.strict().options({
   }
 }).argv;
 let websocket = null;
+
+function generate (metaHex) {
+  console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
+
+  const extraTypes = package
+    ? { [package]: require(path.join(process.cwd(), output, 'definitions')) }
+    : {};
+
+  generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes);
+  generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes);
+  generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes);
+
+  process.exit(0);
+}
 
 function onSocketClose (event) {
   console.error(`${endpoint} disconnected, code: '${event.code}' reason: '${event.reason}'`);
@@ -64,22 +79,15 @@ function onSocketOpen () {
 }
 
 function onSocketMessage (message) {
-  const data = JSON.parse(message.data);
-  const metaHex = data.result;
-  const extraTypes = package
-    ? { [package]: require(path.join(process.cwd(), output, 'definitions')) }
-    : {};
-
-  console.log(`Received metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
-
-  generateConst(path.join(process.cwd(), output, 'consts.types.ts'), metaHex, extraTypes);
-  generateQuery(path.join(process.cwd(), output, 'query.types.ts'), metaHex, extraTypes);
-
-  process.exit(0);
+  generate(JSON.parse(message.data).result);
 }
 
-websocket = new WebSocket(endpoint);
-websocket.onclose = onSocketClose;
-websocket.onerror = onSocketError;
-websocket.onmessage = onSocketMessage;
-websocket.onopen = onSocketOpen;
+if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+  websocket = new WebSocket(endpoint);
+  websocket.onclose = onSocketClose;
+  websocket.onerror = onSocketError;
+  websocket.onmessage = onSocketMessage;
+  websocket.onopen = onSocketOpen;
+} else {
+  generate(require(path.join(process.cwd(), endpoint)).result);
+}

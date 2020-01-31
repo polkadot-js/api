@@ -73,7 +73,7 @@ function generateEntry (allDefs: object, registry: Registry, storageEntry: Stora
   const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
 
   return [
-    `${stringLowerFirst(storageEntry.name.toString())}: StorageEntryExact<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
+    `${stringLowerFirst(storageEntry.name.toString())}: AugmentedQuery<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
   ];
 }
 
@@ -96,8 +96,6 @@ function generateModule (allDefs: object, registry: Registry, modul: ModuleMetad
     .concat([indent(4)('};')]);
 }
 
-// Generate `packages/api/src/query.types.ts` for a particular
-// metadata
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
   console.log(`Writing ${dest}`);
@@ -135,8 +133,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     }
   ]);
   const interfaceStart = [
-    "declare module '@polkadot/api/types' {",
-    indent(2)('export interface QueryableStorageExact<ApiType> {\n')
+    "declare module '@polkadot/api/types/storage' {",
+    indent(2)('export interface AugmentedQueries<ApiType> {\n')
   ].join('\n');
   const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
@@ -153,7 +151,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (dest = 'packages/api/src/query.types.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
+export default function generateQuery (dest = 'packages/api/src/types/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
   const registry = new TypeRegistry();
 
   return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes);
