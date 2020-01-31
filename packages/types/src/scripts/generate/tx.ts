@@ -41,17 +41,13 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
     .concat(allCalls.map(({ args, name }): string => {
       const params = args.map(({ name, type }): string => {
         const typeStr = type.toString();
-        const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports)
-          .map((type): string => {
-            try {
-              return formatType(allDefs, type, imports);
-            } catch (error) {
-              return '';
-            }
-          })
-          .filter((type): boolean => !!type);
+        const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string =>
+          type.startsWith('(')
+            ? type
+            : formatType(allDefs, type, imports)
+        );
 
-        setImports(allDefs, imports, [...similarTypes, typeStr]);
+        setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(')), typeStr]);
 
         return `${mapName(name)}: ${similarTypes.length ? similarTypes.join(' | ') : formatType(allDefs, typeStr, imports)}`;
       });

@@ -9,6 +9,7 @@ import { isChildClass, isCompactEncodable } from './class';
 import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
 import Compact from '../../codec/Compact';
+import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { formatType } from './formatting';
@@ -51,7 +52,7 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 }
 
 // Make types a little bit more flexible
-// - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
+// - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
 export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
@@ -60,27 +61,38 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
-  }
-
-  if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
-    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
-  }
-
-  // FIXME This is a hack, it's hard to correctly type StorageKeys in the
-  // current state
-  if (type === 'StorageKey') {
-    return ['any'];
+  } else if (type === 'StorageKey') {
+    // FIXME This is a hack, it's hard to correctly type StorageKeys in the
+    // current state
+    return ['StorageKey', 'any'];
   }
 
   const instance = ClassOfUnsafe(registry, type);
 
-  // Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, instance) || isChildClass(Compact as unknown as Constructor<any>, instance)) {
-    possibleTypes.push('Uint8Array', 'AnyNumber');
-  } else if (isChildClass(Struct as unknown as Constructor<any>, instance)) {
-    possibleTypes.push('Uint8Array', 'object', 'string');
+  if (isChildClass(Vec, instance)) {
+    const subDef = (getTypeDef(type).sub) as TypeDef;
+
+    if (subDef.info === TypeDefInfo.Plain) {
+      possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+    } else if (subDef.info === TypeDefInfo.Tuple) {
+      const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
+        getSimilarTypes(definitions, registry, type, imports).join(' | ')
+      );
+
+      possibleTypes.push(`([${subs.join(', ')}])[]`)
+    } else {
+      throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+    }
+  }
+
+  if (isChildClass(AbstractInt as unknown as Constructor<any>, instance) || isChildClass(Compact, instance)) {
+    possibleTypes.push('AnyNumber', 'Uint8Array');
+  } else if (isChildClass(Struct, instance)) {
+    possibleTypes.push('object', 'string', 'Uint8Array');
+  } else if (isChildClass(Option, instance)) {
+    possibleTypes.push('null', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, instance)) {
-    possibleTypes.push('Uint8Array', 'string');
+    possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, instance)) {
     possibleTypes.push('string');
   }
