@@ -49,7 +49,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
 
         setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(')), typeStr]);
 
-        return `${mapName(name)}: ${similarTypes.length ? similarTypes.join(' | ') : formatType(allDefs, typeStr, imports)}`;
+        return `${mapName(name)}: ${similarTypes.join(' | ')}`;
       });
 
       return indent(6)(`${stringCamelCase(name.toString())}: (${params.join(', ')}) => SubmittableExtrinsic<ApiType>;`);
