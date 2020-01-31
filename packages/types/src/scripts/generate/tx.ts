@@ -36,6 +36,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
 
   setImports(allDefs, imports, ['CallFunction', 'SubmittableExtrinsic']);
 
+  // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     // .concat(indent(6)('[index: string]: Codec;'))
     .concat(allCalls.map(({ args, name }): string => {

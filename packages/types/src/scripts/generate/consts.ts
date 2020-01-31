@@ -19,8 +19,7 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
     return [];
   }
 
-  // setImports(allDefs, imports, ['Codec']);
-
+  // NOTE Not removing this concat yet, first see the fallout (needs: setImports(allDefs, imports, ['Codec']);)
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
     // .concat(indent(6)('[index: string]: Codec;'))
     .concat(constants.map((constant): string => {

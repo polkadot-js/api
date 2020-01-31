@@ -84,6 +84,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     return [];
   }
 
+  // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
     // .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
     .concat(storage.unwrap()

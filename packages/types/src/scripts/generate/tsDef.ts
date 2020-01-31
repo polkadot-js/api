@@ -194,14 +194,6 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
     }))
   ]);
 
-  // Object.entries(imports.localTypes).forEach(([moduleName, typeMap]): void => {
-  //   const types = Object.keys(typeMap).sort();
-
-  //   if (types.length) {
-  //     console.log(`\timport { ${types.join(', ')} } from '../${moduleName}'`);
-  //   }
-  // });
-
   fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
