@@ -403,7 +403,8 @@ export interface Registry {
 
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
-  getSignedExtensionDef (): Record<string, InterfaceTypes>;
+  getSignedExtensionExtra (): Record<string, InterfaceTypes>;
+  getSignedExtensionTypes (): Record<string, InterfaceTypes>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

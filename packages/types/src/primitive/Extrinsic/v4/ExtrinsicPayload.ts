@@ -22,7 +22,7 @@ export default class ExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
       ...SignedPayloadBaseV4,
-      ...registry.getSignedExtensionDef()
+      ...registry.getSignedExtensionExtra()
     }, value);
   }
 

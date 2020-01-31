@@ -10,7 +10,7 @@ import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } 
 
 import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
-import { defaultExtensions, getExtensionDef } from '../../primitive/Extrinsic/SignedExtensions';
+import { defaultExtensions, getExtensionExtra, getExtensionTypes } from '../../primitive/Extrinsic/SignedExtensions';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
@@ -168,8 +168,12 @@ export class TypeRegistry implements Registry {
     return type;
   }
 
-  public getSignedExtensionDef (): Record<string, InterfaceTypes> {
-    return getExtensionDef(this._metadataExtensions);
+  public getSignedExtensionExtra (): Record<string, InterfaceTypes> {
+    return getExtensionExtra(this._metadataExtensions);
+  }
+
+  public getSignedExtensionTypes (): Record<string, InterfaceTypes> {
+    return getExtensionTypes(this._metadataExtensions);
   }
 
   public hasClass (name: string): boolean {

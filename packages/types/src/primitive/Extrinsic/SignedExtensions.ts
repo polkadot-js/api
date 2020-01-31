@@ -4,42 +4,95 @@
 
 import { InterfaceTypes } from '../../types';
 
+type ExtInfo = {
+  extra: Record<string, InterfaceTypes>;
+  types: Record<string, InterfaceTypes>;
+}
+
 // A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemded fixed and non-changeable)
-const allExtensions: Record<string, Record<string, InterfaceTypes>> = {
-  ChargeTransactionPayment: {},
-  CheckBlockGasLimit: {},
+const allExtensions: Record<string, ExtInfo> = {
+  ChargeTransactionPayment: {
+    extra: {},
+    types: {
+      tip: 'Compact<Balance>'
+    }
+  },
+  CheckBlockGasLimit: {
+    extra: {},
+    types: {}
+  },
   CheckEra: {
-    blockHash: 'Hash'
+    extra: {
+      blockHash: 'Hash'
+    },
+    types: {
+      era: 'ExtrinsicEra'
+    }
   },
   CheckGenesis: {
-    genesisHash: 'Hash'
+    extra: {
+      genesisHash: 'Hash'
+    },
+    types: {}
   },
-  CheckNonce: {},
+  CheckNonce: {
+    extra: {},
+    types: {
+      nonce: 'Compact<Index>'
+    }
+  },
   CheckVersion: {
-    specVersion: 'u32'
+    extra: {
+      specVersion: 'u32'
+    },
+    types: {}
   },
-  CheckWeight: {}
+  CheckWeight: {
+    extra: {},
+    types: {}
+  }
 };
 
-// the v4 signed extensions (the order is important here - we are only adding the ones with values, YMMV)
-const defaultExtensions: Array<keyof typeof allExtensions> = ['CheckVersion', 'CheckGenesis', 'CheckEra'];
+// the v4 signed extensions (the order is important here)
+const defaultExtensions: Array<keyof typeof allExtensions> = [
+  'CheckVersion',
+  'CheckGenesis',
+  'CheckEra',
+  'CheckNonce',
+  'CheckWeight',
+  'ChargeTransactionPayment',
+  'CheckBlockGasLimit'
+];
 
 const extensionNames = Object.keys(allExtensions);
 
-/** @internal */
-function getExtensionDef (extensions: string[]): Record<string, InterfaceTypes> {
-  return extensions.reduce((types, key): Record<string, InterfaceTypes> => {
-    if (!extensionNames.includes(key)) {
-      console.warn(`Unknown signed extension ${key} found, treating it as empty with no extra data`);
+function getExtensions (extensions: string[]): ExtInfo[] {
+  return extensions
+    .map((key): ExtInfo => {
+      const info = allExtensions[key];
 
-      return types;
-    }
+      if (!info) {
+        console.warn(`Unknown signed extension ${key} found, treating it as empty with no extra data`);
+      }
 
-    return { ...types, ...allExtensions[key] };
+      return info;
+    })
+    .filter((info): boolean => !!info);
+}
+
+function getExtensionExtra (extensions: string[]): Record<string, InterfaceTypes> {
+  return getExtensions(extensions).reduce((result, { extra }): Record<string, InterfaceTypes> => {
+    return { ...result, ...extra };
   }, {});
 }
 
-export { allExtensions, defaultExtensions, extensionNames, getExtensionDef };
+function getExtensionTypes (extensions: string[]): Record<string, InterfaceTypes> {
+  return getExtensions(extensions).reduce((result, { types }): Record<string, InterfaceTypes> => {
+    return { ...result, ...types };
+  }, {});
+}
+
+export { allExtensions, defaultExtensions, extensionNames, getExtensionExtra, getExtensionTypes };

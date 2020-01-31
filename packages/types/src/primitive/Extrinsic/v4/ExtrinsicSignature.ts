@@ -24,9 +24,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     super(registry, {
       signer: 'Address',
       signature: 'MultiSignature',
-      era: 'ExtrinsicEra',
-      nonce: 'Compact<Index>',
-      tip: 'Compact<Balance>'
+      ...registry.getSignedExtensionTypes()
     }, ExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
   }
 
