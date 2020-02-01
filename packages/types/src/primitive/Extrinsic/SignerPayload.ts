@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -38,6 +38,11 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   version: 'u8'
 }) as any;
 
+/**
+ * @name SignerPayload
+ * @description
+ * A generic signer payload that can be used for serialization between API and signer
+ */
 export default class SignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON

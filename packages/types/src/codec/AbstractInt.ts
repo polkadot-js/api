@@ -39,6 +39,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     this._isNegative = isNegative;
   }
 
+  /** @internal */
   public static decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
     // This function returns a string, which will be passed in the BN
     // constructor. It would be ideal to actually return a BN, but there's a
@@ -54,6 +55,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     return bnToBn(value).toString();
   }
 
+  /** @internal */
   private static decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNegative: boolean): string {
     if (!value.length) {
       return '0';

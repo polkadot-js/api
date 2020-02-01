@@ -15,7 +15,7 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV4 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignatureV4
+ * @name GenericExtrinsicSignatureV4
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
@@ -24,12 +24,11 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     super(registry, {
       signer: 'Address',
       signature: 'MultiSignature',
-      era: 'ExtrinsicEra',
-      nonce: 'Compact<Index>',
-      tip: 'Compact<Balance>'
+      ...registry.getSignedExtensionTypes()
     }, ExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsicSignature (value: ExtrinsicSignatureV4 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV4 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;

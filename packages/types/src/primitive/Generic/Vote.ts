@@ -45,6 +45,7 @@ export default class Vote extends U8aFixed {
     this._conviction = createType(this.registry, 'Conviction', decoded[0] & CON_MASK);
   }
 
+  /** @internal */
   private static decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
     if (isUndefined(value)) {
       return Vote.decodeVoteBool(false);
@@ -62,12 +63,14 @@ export default class Vote extends U8aFixed {
     return new Uint8Array([vote | conviction.index]);
   }
 
+  /** @internal */
   private static decodeVoteBool (value: boolean): Uint8Array {
     return value
       ? new Uint8Array([AYE_BITS | DEF_CONV])
       : new Uint8Array([NAY_BITS]);
   }
 
+  /** @internal */
   private static decodeVoteU8a (value: Uint8Array): Uint8Array {
     return value.length
       ? value.subarray(0, 1)

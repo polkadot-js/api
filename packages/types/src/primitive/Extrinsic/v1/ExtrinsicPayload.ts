@@ -11,7 +11,7 @@ import Bytes from '../../../primitive/Bytes';
 import { sign } from '../util';
 
 /**
- * @name ExtrinsicPayloadV1
+ * @name GenericExtrinsicPayloadV1
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included

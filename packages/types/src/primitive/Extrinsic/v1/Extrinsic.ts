@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call } from '../../../interfaces/runtime';
+import { Address, Call, ExtrinsicSignatureV1 } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicOptions } from '../types';
 
@@ -10,7 +10,6 @@ import { isU8a } from '@polkadot/util';
 
 import { createType } from '../../../codec/create';
 import Struct from '../../../codec/Struct';
-import ExtrinsicSignatureV1 from './ExtrinsicSignature';
 
 export interface ExtrinsicValueV1 {
   method?: Call;
@@ -20,26 +19,25 @@ export interface ExtrinsicValueV1 {
 const TRANSACTION_VERSION = 1;
 
 /**
- * @name ExtrinsicV1
+ * @name GenericExtrinsicV1
  * @description
  * The first generation of compact extrinsics
  */
 export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV1, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
-      signature: ExtrinsicSignatureV1,
+      signature: 'ExtrinsicSignatureV1',
       method: 'Call'
     }, ExtrinsicV1.decodeExtrinsic(registry, value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsic (registry: Registry, value?: Uint8Array | ExtrinsicValueV1, isSigned = false): ExtrinsicValueV1 {
-    if (!value) {
-      return {};
-    } else if (value instanceof ExtrinsicV1) {
+    if (value instanceof ExtrinsicV1) {
       return value;
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignatureV1(registry, value, { isSigned });
+      const signature = createType(registry, 'ExtrinsicSignatureV1', value, { isSigned });
       const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
 
       return {
@@ -48,7 +46,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value;
+    return value || {};
   }
 
   /**

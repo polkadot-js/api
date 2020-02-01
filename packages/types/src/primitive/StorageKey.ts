@@ -74,6 +74,7 @@ export default class StorageKey extends Bytes {
     this._section = override.section || section;
   }
 
+  /** @internal */
   public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {

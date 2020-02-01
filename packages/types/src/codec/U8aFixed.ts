@@ -24,6 +24,7 @@ export default class U8aFixed extends Raw {
     super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
   }
 
+  /** @internal */
   private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
     if (Array.isArray(value) || isString(value)) {
       return U8aFixed.decodeU8aFixed(u8aToU8a(value), bitLength);

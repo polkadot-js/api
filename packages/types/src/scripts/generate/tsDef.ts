@@ -18,10 +18,10 @@ interface Imports extends TypeImports {
 
 // helper to generate a `readonly <Name>: <Type>;` getter
 /** @internal */
-export function createGetter (definitions: object, name = '', type: string, imports: TypeImports, doc?: string): string {
+export function createGetter (definitions: object, name = '', type: string, imports: TypeImports): string {
   setImports(definitions, imports, [type]);
 
-  return `  /** ${doc || type} */\n  readonly ${name}: ${type};\n`;
+  return `  readonly ${name}: ${type};\n`;
 }
 
 /** @internal */
@@ -46,12 +46,12 @@ const tsTuple = tsExport;
 function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Enum']);
 
-  const keys = (sub as TypeDef[]).map(({ info, name = '', type }, index): string => {
+  const keys = (sub as TypeDef[]).map(({ info, name = '', type }): string => {
     const getter = stringUpperFirst(stringCamelCase(name.replace(' ', '_')));
-    const [enumType, asGetter] = type === 'Null'
-      ? ['', '']
-      : [`(${type})`, createGetter(definitions, `as${getter}`, type, imports)];
-    const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports, `${index}:: ${name}${enumType}`);
+    const asGetter = type === 'Null'
+      ? ''
+      : createGetter(definitions, `as${getter}`, type, imports);
+    const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
     switch (info) {
       case TypeDefInfo.Plain:
@@ -68,11 +68,11 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
 
 /** @internal */
 function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
-  const { info, name = '', type } = def;
-  const [resultType, asGetter] = type === 'Null'
-    ? ['', '']
-    : [`(${type})`, createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports)];
-  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports, `${getter}:: ${name}${resultType}`);
+  const { info, type } = def;
+  const asGetter = type === 'Null'
+    ? ''
+    : createGetter(definitions, `as${getter}`, info === TypeDefInfo.Tuple ? formatType(definitions, def, imports) : type, imports);
+  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
     case TypeDefInfo.Plain:
@@ -194,32 +194,28 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
     }))
   ]);
 
-  Object.entries(imports.localTypes).forEach(([moduleName, typeMap]): void => {
-    const types = Object.keys(typeMap).sort();
-
-    if (types.length) {
-      console.log(`\timport { ${types.join(', ')} } from '../${moduleName}'`);
-    }
-  });
-
   fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */
 export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
+  console.log(`${outputDir}\n\tGenerating`);
+
   const definitions = importDefinitions[generatingPackage];
 
   Object.entries(definitions).forEach(([defName, obj]): void => {
-    console.log(`Extracting interfaces for ${defName}`);
+    console.log(`\tExtracting interfaces for ${defName}`);
 
     generateTsDefFor(importDefinitions, defName, obj, outputDir);
   });
 
-  console.log(`Writing ${outputDir}`);
+  console.log('\tWriting');
 
   fs.writeFileSync(path.join(outputDir, 'types.ts'), HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+
+  console.log('');
 }
 
 /** @internal */

@@ -25,6 +25,7 @@ export default class AccountId extends U8aFixed {
     return encodeAddress(value);
   }
 
+  /** @internal */
   private static decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
     if (isU8a(value) || Array.isArray(value)) {
       return u8aToU8a(value);

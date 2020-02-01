@@ -25,6 +25,7 @@ export default class Raw extends Uint8Array implements IU8a {
     this.registry = registry;
   }
 
+  /** @internal */
   private static decodeU8a (value?: any): Uint8Array {
     if (isU8a(value)) {
       return value;

@@ -25,6 +25,7 @@ export default class VecFixed<T extends Codec> extends AbstractArray<T> {
     this._Type = Clazz;
   }
 
+  /** @internal */
   public static decodeVecFixed<T extends Codec> (registry: Registry, Type: Constructor<T>, allocLength: number, value: VecFixed<any> | Uint8Array | string | any[]): T[] {
     const values = Vec.decodeVec(
       registry,

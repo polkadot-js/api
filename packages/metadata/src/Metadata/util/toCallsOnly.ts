@@ -8,12 +8,13 @@ import { AnyJsonObject, Registry } from '@polkadot/types/types';
 import { createType } from '@polkadot/types';
 
 /** @internal */
-export default function toCallsOnly (registry: Registry, { modules }: MetadataLatest): AnyJsonObject | string {
+export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJsonObject | string {
   return createType(registry, 'MetadataLatest', {
     // FIXME, this needs typing, not any
     modules: modules.map(({ calls, name }): any => ({
       name,
       calls
-    }))
+    })),
+    extrinsic
   }).toJSON();
 }

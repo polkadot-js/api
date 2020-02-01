@@ -39,7 +39,7 @@ const VERSIONS: InterfaceTypes[] = [
 export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
- * @name Extrinsic
+ * @name GenericExtrinsic
  * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
@@ -55,6 +55,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
   }
 
+  /** @internal */
   private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
       return value.raw;
@@ -68,6 +69,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
+  /** @internal */
   public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (Array.isArray(value) || isHex(value)) {
       return Extrinsic.decodeU8aLike(registry, value, version);
@@ -80,6 +82,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     return Extrinsic.newFromValue(registry, value, version);
   }
 
+  /** @internal */
   private static decodeU8aLike (registry: Registry, value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
     // Instead of the block below, it should simply be:
     // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -100,6 +103,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     );
   }
 
+  /** @internal */
   private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (!value.length) {
       return Extrinsic.newFromValue(registry, new Uint8Array(), version);

@@ -13,7 +13,7 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignatureV2
+ * @name GenericExtrinsicSignatureV2
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
@@ -28,6 +28,7 @@ export default class ExtrinsicSignatureV2 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV2.decodeExtrinsicSignature(value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsicSignature (value: ExtrinsicSignatureV2 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV2 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;

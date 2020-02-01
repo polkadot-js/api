@@ -11,7 +11,7 @@ import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignatureV3
+ * @name GenericExtrinsicSignatureV3
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
