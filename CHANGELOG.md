@@ -3,6 +3,7 @@
 - Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
 - Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
 - Remove additional V1-only derives `(staking.recentlyOffline`, `balances.nominatorsFor`)
+- Add `.isMax()` on int values, an opposite of `isZero()` (e.g. `u128`, as well as derived, e.g. `Balances`)
 
 # 1.0.1
 
