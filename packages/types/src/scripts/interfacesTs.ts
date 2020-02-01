@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import generateConstsTypes from './generateTypes/consts';
-import generateInterfaceRegistry from './generateTypes/interfaceRegistry';
-import generateQueryTypes from './generateTypes/query';
-import generateRpcTypes from './generateTypes/rpc';
-import generateTsDef from './generateTypes/tsDef';
+import generateConstsTypes from './generate/consts';
+import generateInterfaceRegistry from './generate/interfaceRegistry';
+import generateQueryTypes from './generate/query';
+import generateRpcTypes from './generate/rpc';
+import generateTsDef from './generate/tsDef';
+import generateTxTypes from './generate/tx';
 
-function main (): void {
-  generateConstsTypes();
-  generateInterfaceRegistry();
-  generateQueryTypes();
-  generateRpcTypes();
-  generateTsDef();
-}
+generateInterfaceRegistry();
 
-main();
+generateConstsTypes();
+generateQueryTypes();
+generateTxTypes();
+generateRpcTypes();
+
+generateTsDef();

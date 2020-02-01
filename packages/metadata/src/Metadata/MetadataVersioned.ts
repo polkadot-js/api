@@ -21,10 +21,11 @@ import v7ToV8 from './v7/toV8';
 import v8ToV9 from './v8/toV9';
 import v9ToV10 from './v9/toV10';
 import v10ToV11 from './v10/toV11';
+import v11ToLatest from './v11/toLatest';
 import { getUniqTypes, toCallsOnly } from './util';
 
 type MetaMapped = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7 | MetadataV8 | MetadataV9 | MetadataV10 | MetadataV11;
-type MetaVersions = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+type MetaVersions = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'asV7' | 'asV8' | 'asV9' | 'asV10' | 'asV11';
 
 /**
@@ -165,7 +166,8 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    return this.asV11;
+    // This is non-existent & latest - applied here to do the module-specific type conversions
+    return this.getVersion(12, v11ToLatest);
   }
 
   /**

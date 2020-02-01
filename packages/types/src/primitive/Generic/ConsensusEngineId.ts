@@ -62,7 +62,8 @@ export default class ConsensusEngineId extends U32 {
     return sessionValidators[
       createType(this.registry, 'RawAuraPreDigest', bytes.toU8a(true))
         .slotNumber
-        .modn(sessionValidators.length)
+        .mod(new BN(sessionValidators.length))
+        .toNumber()
     ];
   }
 
@@ -78,10 +79,12 @@ export default class ConsensusEngineId extends U32 {
    * @description From the input bytes, decode into an author
    */
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId | undefined {
-    if (this.isAura) {
-      return this.getAuraAuthor(bytes, sessionValidators);
-    } else if (this.isBabe) {
-      return this.getBabeAuthor(bytes, sessionValidators);
+    if (sessionValidators?.length) {
+      if (this.isAura) {
+        return this.getAuraAuthor(bytes, sessionValidators);
+      } else if (this.isBabe) {
+        return this.getBabeAuthor(bytes, sessionValidators);
+      }
     }
 
     return undefined;

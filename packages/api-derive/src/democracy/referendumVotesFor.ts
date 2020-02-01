@@ -19,7 +19,7 @@ export function referendumVotesFor (api: ApiInterfaceRx): (referendumId: BN | nu
       switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DerivedBalances[]]> =>
         combineLatest([
           of(votersFor),
-          api.derive.democracy.votes(referendumId as BN, votersFor),
+          api.derive.democracy.votes(referendumId, votersFor),
           api.derive.balances.votingBalances(votersFor)
         ])
       ),

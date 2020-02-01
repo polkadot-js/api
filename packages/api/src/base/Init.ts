@@ -3,18 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock } from '@polkadot/types/interfaces';
-import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import { Metadata, u32 as U32 } from '@polkadot/types';
+import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
-import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
 
@@ -46,9 +45,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
     this._rpcCore.provider.on('error', this._onProviderError);
     this._rpcCore.provider.on('connected', this._onProviderConnect);
-  }
 
-  public abstract registerTypes (types?: RegistryTypes): void;
+    // If the provider was instantiated earlier, and has already emitted a
+    // 'connected' event, then the `on('connected')` won't fire anymore. To
+    // cater for this case, we call manually `this._onProviderConnect`.
+    if (this._rpcCore.provider.isConnected()) {
+      this._onProviderConnect();
+    }
+  }
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;

@@ -6,14 +6,19 @@ import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
+import Compact from '../../codec/Compact';
+import Enum from '../../codec/Enum';
+import Option from '../../codec/Option';
+import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 import * as primitiveClasses from '../../primitive';
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
+/** @internal */
 export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
@@ -48,32 +53,52 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 }
 
 // Make types a little bit more flexible
-// - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
+// - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
+/** @internal */
 export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
+  } else if (type === 'StorageKey') {
+    // TODO We can do better
+    return ['StorageKey', 'string', 'Uint8Array', 'any'];
   }
 
-  if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
-    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
-  }
+  const clazz = ClassOfUnsafe(registry, type);
 
-  // FIXME This is a hack, it's hard to correctly type StorageKeys in the
-  // current state
-  if (type === 'StorageKey') {
-    return ['any'];
-  }
+  if (isChildClass(Vec, clazz)) {
+    const subDef = (getTypeDef(type).sub) as TypeDef;
 
-  // Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(registry, type))) {
-    possibleTypes.push('Uint8Array', 'number', 'string');
-  } else if (isChildClass(Uint8Array, ClassOfUnsafe(registry, type))) {
-    possibleTypes.push('Uint8Array', 'string');
-  } else if (isChildClass(String, ClassOfUnsafe(registry, type))) {
+    if (subDef.info === TypeDefInfo.Plain) {
+      possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+    } else if (subDef.info === TypeDefInfo.Tuple) {
+      const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
+        getSimilarTypes(definitions, registry, type, imports).join(' | ')
+      );
+
+      possibleTypes.push(`([${subs.join(', ')}])[]`);
+    } else {
+      throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+    }
+  } else if (isChildClass(Enum, clazz)) {
+    // TODO Handle this more gracefully (expand actual options)
+    possibleTypes.push('number', 'any');
+  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, clazz) || isChildClass(Compact, clazz)) {
+    possibleTypes.push('AnyNumber', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'Address'), clazz)) {
+    possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'bool'), clazz)) {
+    possibleTypes.push('boolean', 'Uint8Array');
+  } else if (isChildClass(Struct, clazz)) {
+    possibleTypes.push('object', 'string', 'Uint8Array');
+  } else if (isChildClass(Option, clazz)) {
+    possibleTypes.push('null', 'object', 'string', 'Uint8Array');
+  } else if (isChildClass(Uint8Array, clazz)) {
+    possibleTypes.push('string', 'Uint8Array');
+  } else if (isChildClass(String, clazz)) {
     possibleTypes.push('string');
   }
 

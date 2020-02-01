@@ -37,6 +37,7 @@ const EMPTY_U8A = new Uint8Array([]);
 const NULL_HASHER = (value: Uint8Array): Uint8Array => value;
 
 // with the prefix, method & options, create both the string & raw keys
+/** @internal */
 function expandKey ({ method, prefix }: CreateItemFn, options: CreateItemOptions): string {
   return options.key
     ? options.key
@@ -44,6 +45,7 @@ function expandKey ({ method, prefix }: CreateItemFn, options: CreateItemOptions
 }
 
 // get the hashers, the base (and  in the case of DoubleMap), the second key
+/** @internal */
 function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherFunction?] {
   if (type.isDoubleMap) {
     return [
@@ -59,11 +61,13 @@ function getHashers ({ meta: { type } }: CreateItemFn): [HasherFunction, HasherF
 }
 
 // create a base prefixed key
+/** @internal */
 function createPrefixedKey ({ method, prefix }: CreateItemFn): Uint8Array {
   return u8aConcat(xxhashAsU8a(prefix, 128), xxhashAsU8a(method, 128));
 }
 
 // create a key for a DoubleMap type
+/** @internal */
 function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey: string, args: [CreateArgType, CreateArgType], [hasher1, hasher2]: [HasherFunction, HasherFunction?], metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
 
@@ -97,9 +101,9 @@ function createKeyDoubleMap (registry: Registry, itemFn: CreateItemFn, stringKey
 }
 
 // create a key for either a map or a plain value
+/** @internal */
 function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string, arg: CreateArgType, hasher: (value: Uint8Array) => Uint8Array, metaVersion: number): Uint8Array {
   const { meta: { name, type } } = itemFn;
-  let key: Uint8Array | undefined;
   let param: Uint8Array = EMPTY_U8A;
 
   if (type.isMap) {
@@ -108,24 +112,18 @@ function createKey (registry: Registry, itemFn: CreateItemFn, stringKey: string,
     assert(!isUndefined(arg) && !isNull(arg), `${name} is a Map and requires one argument`);
 
     param = createTypeUnsafe(registry, map.key.toString(), [arg]).toU8a();
-
-    // prefix maps are using prefixes to optimize the trie, so the key generation are
-    // done differently where the prefix/method are hashed separately with only the
-    // parameter for the key being attached via the hasher
-    if (map.kind.isPrefixedMap) {
-      key = u8aConcat(createPrefixedKey(itemFn), hasher(param));
-    }
   }
 
   // StorageKey is a Bytes, so is length-prefixed
-  return Compact.addLengthPrefix(key || (
+  return Compact.addLengthPrefix(
     metaVersion <= 8
       ? hasher(u8aConcat(stringToU8a(stringKey), param))
       : u8aConcat(createPrefixedKey(itemFn), param.length ? hasher(param) : EMPTY_U8A)
-  ));
+  );
 }
 
 // attach the metadata to expand to a StorageFunction
+/** @internal */
 function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method);
@@ -142,16 +140,18 @@ function expandWithMeta ({ meta, method, prefix, section }: CreateItemFn, storag
   return storageFn;
 }
 
-function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: () => Raw): StorageKey {
-  const map = type.asMap;
-  const outputType = map.key.toString();
+/** @internal */
+function extendHeadMeta (registry: Registry, { meta: { documentation, name, type }, section }: CreateItemFn, { method }: StorageEntry, iterFn: (arg?: any) => Raw): StorageKey {
+  const outputType = type.isMap
+    ? type.asMap.key.toString()
+    : type.asDoubleMap.key1.toString();
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
   (iterFn as IterFn).meta = createType(registry, 'StorageEntryMetadataLatest', {
     name,
     modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', map.key), 0),
+    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
     fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, outputType).toHex()),
     documentation
   });
@@ -160,6 +160,7 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 }
 
 // attach the head key hashing for linked maps
+/** @internal */
 function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry, stringKey: string, hasher: HasherFunction, metaVersion: number): StorageEntry {
   const key = metaVersion <= 8
     ? hasher(`head of ${stringKey}`)
@@ -173,6 +174,7 @@ function extendLinkedMap (registry: Registry, itemFn: CreateItemFn, storageFn: S
 }
 
 // attach the full list hashing for prefixed maps
+/** @internal */
 function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (): Raw =>
     new Raw(registry, createPrefixedKey(itemFn))
@@ -181,16 +183,13 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   return storageFn;
 }
 
-/**
- * From the schema of a function in the module's storage, generate the function
- * that will return the correct storage key.
- *
- * @param item - The function's definition schema to create the function from.
- * The schema is taken from state_getMetadata.
- * @param options - Additional options when creating the function. These options
- * are not known at runtime (from state_getMetadata), they need to be supplied
- * by us manually at compile time.
- */
+// attach the full list hashing for double maps
+/** @internal */
+function extendDoubleMap (registry: Registry, itemFn: CreateItemFn, storageFn: StorageEntry): StorageEntry {
+  return extendPrefixedMap(registry, itemFn, storageFn);
+}
+
+/** @internal */
 export default function createFunction (registry: Registry, itemFn: CreateItemFn, options: CreateItemOptions): StorageEntry {
   const { meta: { type } } = itemFn;
   const stringKey = expandKey(itemFn, options);
@@ -210,11 +209,13 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   if (type.isMap) {
     const map = type.asMap;
 
-    if (map.kind.isLinkedMap) {
+    if (map.linked.isTrue) {
       extendLinkedMap(registry, itemFn, storageFn, stringKey, hasher, options.metaVersion);
     } else {
       extendPrefixedMap(registry, itemFn, storageFn);
     }
+  } else if (type.isDoubleMap) {
+    extendDoubleMap(registry, itemFn, storageFn);
   }
 
   return storageFn;

@@ -23,6 +23,7 @@ const map: Record<HasherCheck, HasherFunction> = {
   isTwox64Concat: (data: HasherInput): Uint8Array => u8aConcat(xxhashAsU8a(data, 64), u8aToU8a(data))
 };
 
+/** @internal */
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
   const [, fn] = (hasher && Object.entries(map).find(([check]): boolean =>
     hasher[check as HasherCheck]

@@ -16,6 +16,7 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
+/** @internal */
 function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
   return (registry: Registry, metaVersion: number): StorageEntry =>
     createFunction(registry, {

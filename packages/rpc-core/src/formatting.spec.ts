@@ -163,18 +163,11 @@ function formattingTests (version: string, decorated: Metadata, encodedValues: [
     });
 
     it('handles fallbacks for linked maps (new metadata only)', (done): void => {
-      const iterKey = decorated.query.staking.validators && decorated.query.staking.validators.iterKey;
-
-      // skip for old
-      if (!iterKey) {
-        return done();
-      }
-
       api.state
         .subscribeStorage([[decorated.query.staking.validators, '0x00']])
         .subscribe(([value]: Codec[]): void => {
           expect(value).toBeDefined();
-          // console.error('linked falklback', value);
+          // console.error('linked fallback', value);
 
           done();
         });

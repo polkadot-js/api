@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
@@ -7,59 +7,46 @@ import { u64 } from '@polkadot/types/primitive';
 import { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
-/** u64 */
+/** @name AuthorityIndex */
 export interface AuthorityIndex extends u64 {}
 
-/** Vec<NextAuthority> */
+/** @name AuthorityList */
 export interface AuthorityList extends Vec<NextAuthority> {}
 
-/** u64 */
+/** @name AuthorityWeight */
 export interface AuthorityWeight extends u64 {}
 
-/** ITuple<[AuthorityId, AuthorityWeight]> */
+/** @name NextAuthority */
 export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
 
-/** Struct */
+/** @name PendingPause */
 export interface PendingPause extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
-/** Struct */
+/** @name PendingResume */
 export interface PendingResume extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
 }
 
-/** u64 */
+/** @name SetId */
 export interface SetId extends u64 {}
 
-/** Struct */
+/** @name StoredPendingChange */
 export interface StoredPendingChange extends Struct {
-  /** BlockNumber */
   readonly scheduledAt: BlockNumber;
-  /** BlockNumber */
   readonly delay: BlockNumber;
-  /** AuthorityList */
   readonly nextAuthorities: AuthorityList;
 }
 
-/** Enum */
+/** @name StoredState */
 export interface StoredState extends Enum {
-  /** 0:: Live */
   readonly isLive: boolean;
-  /** 1:: PendingPause(PendingPause) */
   readonly isPendingPause: boolean;
-  /** PendingPause */
   readonly asPendingPause: PendingPause;
-  /** 2:: Paused */
   readonly isPaused: boolean;
-  /** 3:: PendingResume(PendingResume) */
   readonly isPendingResume: boolean;
-  /** PendingResume */
   readonly asPendingResume: PendingResume;
 }

@@ -25,7 +25,7 @@ export default {
 
     // Metadata v4
     // :: consensus
-    InherentOfflineReport: 'Null', // this is '()' originally (we don't handle that)
+    InherentOfflineReport: '()',
     SessionKey: 'AccountId',
 
     // Metadata v5

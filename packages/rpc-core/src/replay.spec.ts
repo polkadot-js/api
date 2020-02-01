@@ -32,7 +32,7 @@ describe('replay', (): void => {
   it('returns the observable value', (done): void => {
     rpc.system.chain().subscribe((value: any): void => {
       if (value) {
-        expect(value).toEqual('mockChain'); // Defined in MockProvider
+        expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
         done();
       }
     });

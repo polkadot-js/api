@@ -10,8 +10,6 @@ const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', '
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
   _alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
-  // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
-  _alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
   // <T::Balance as HasCompact>
   _cleanupCompact(),
   // Remove all the trait prefixes
@@ -24,8 +22,6 @@ const mappings: Mapper[] = [
   _removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
   _alias('String', 'Text'),
-  // alias () -> Null
-  _alias('\\(\\)', 'Null'),
   // alias Vec<u8> -> Bytes
   _alias('Vec<u8>', 'Bytes'),
   // alias &[u8] -> Bytes
@@ -100,7 +96,7 @@ function _cleanupCompact (): Mapper {
 
 function _flattenSingleTuple (): Mapper {
   return (value: string): string => {
-    return value.replace(/\(([^,]*)\)/, '$1');
+    return value.replace(/\(([^,]+)\)/, '$1');
   };
 }
 

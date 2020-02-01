@@ -9,6 +9,7 @@ interface RpcParamOptions {
   isOptional?: boolean;
 }
 
+/** @internal */
 export default function createParam (name: string, type: InterfaceTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
   return {
     isOptional,

@@ -1,44 +1,34 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/** @name AssetOptions */
 export interface AssetOptions extends Struct {
-  /** Compact<Balance> */
   readonly initalIssuance: Compact<Balance>;
-  /** PermissionLatest */
   readonly permissions: PermissionLatest;
 }
 
-/** Enum */
+/** @name Owner */
 export interface Owner extends Enum {
-  /** 0:: None */
   readonly isNone: boolean;
-  /** 1:: Address(AccountId) */
   readonly isAddress: boolean;
-  /** AccountId */
   readonly asAddress: AccountId;
 }
 
-/** PermissionsV1 */
+/** @name PermissionLatest */
 export interface PermissionLatest extends PermissionsV1 {}
 
-/** Struct */
+/** @name PermissionsV1 */
 export interface PermissionsV1 extends Struct {
-  /** Owner */
   readonly update: Owner;
-  /** Owner */
   readonly mint: Owner;
-  /** Owner */
   readonly burn: Owner;
 }
 
-/** Enum */
+/** @name PermissionVersions */
 export interface PermissionVersions extends Enum {
-  /** 0:: V1(PermissionsV1) */
   readonly isV1: boolean;
-  /** PermissionsV1 */
   readonly asV1: PermissionsV1;
 }

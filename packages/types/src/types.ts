@@ -9,6 +9,7 @@ import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr2551
 import BN from 'bn.js';
 
 import { InterfaceRegistry } from './interfaceRegistry';
+import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
@@ -166,6 +167,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: RuntimeVersionInterface;
+  signer?: Signer;
   tip?: AnyNumber;
 }
 
@@ -323,10 +325,18 @@ export interface ISignerPayload {
   toRaw (): SignerPayloadRaw;
 }
 
+export interface RegistryMetadataText extends String, Codec {
+  setOverride (override: string): void;
+}
+
+export interface RegistryMetadataCallArg {
+  name: RegistryMetadataText;
+  type: RegistryMetadataText;
+}
+
 export interface RegistryMetadataCall {
-  args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  args: RegistryMetadataCallArg[];
+  name: RegistryMetadataText;
 
   toJSON (): string | AnyJsonObject;
 }
@@ -336,10 +346,25 @@ export interface RegistryMetadataCalls {
   unwrap (): RegistryMetadataCall[];
 }
 
+export interface RegistryError {
+  documentation: string[];
+  index: number;
+  name: string;
+  section: string;
+}
+
+export interface RegistryMetadataError {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  documentation: String[];
+}
+
+export type RegistryMetadataErrors = RegistryMetadataError[];
+
 export interface RegistryMetadataEvent {
   args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataEvents {
@@ -349,9 +374,9 @@ export interface RegistryMetadataEvents {
 
 export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
+  errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataLatest {
@@ -364,7 +389,7 @@ export interface RegistryMetadata {
 
 export interface Registry {
   findMetaCall (callIndex: Uint8Array): CallFunction;
-
+  findMetaError (errorIndex: Uint8Array): any;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;

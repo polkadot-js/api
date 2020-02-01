@@ -4,7 +4,7 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { AnyNumber, AnyU8a, Callback, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiTypes } from '../types';
+import { ApiTypes, Signer } from '../types';
 
 import { Observable } from 'rxjs';
 
@@ -48,11 +48,14 @@ export interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
   nonce: AnyNumber;
+  signer?: Signer;
   tip?: AnyNumber;
 }
 
+export type AddressOrPair = IKeyringPair | string | AccountId | Address;
+
 export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrinsic {
-  paymentInfo (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
+  paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
 
   send(): SubmittableResultResult<ApiType>;
 
@@ -60,11 +63,11 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrins
 
   sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAsync(account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableThis<ApiType, this>;
+  signAsync(account: AddressOrPair, _options: Partial<SignatureOptions>): SubmittableThis<ApiType, this>;
 
-  signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
+  signAndSend(account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
-  signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+  signAndSend(account: AddressOrPair, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
-  signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+  signAndSend(account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 }

@@ -8,7 +8,7 @@ import substrateJson from './static-substrate.json';
 import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toLatest } from '../util/testUtil';
 
-describe('MetadataV11 (substrate)', (): void => {
+describe('MetadataV10 (substrate)', (): void => {
   const registry = new TypeRegistry();
 
   decodeLatestSubstrate(registry, 11, substrateData, substrateJson);

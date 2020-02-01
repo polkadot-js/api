@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { Option, Vec } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 import { retrieveInfo } from './referendumInfo';
@@ -17,9 +17,9 @@ import { retrieveInfo } from './referendumInfo';
 export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) => Observable<DerivedReferendum[]> {
   return memo((ids: (BN | number)[] = []): Observable<DerivedReferendum[]> =>
     (
-      !ids || !ids.length
+      !ids?.length
         ? of([] as Option<ReferendumInfo>[])
-        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<Vec<Option<ReferendumInfo>>>
+        : api.query.democracy.referendumInfoOf.multi<Option<ReferendumInfo>>(ids)
     ).pipe(
       switchMap((infos): Observable<(DerivedReferendum | null)[]> =>
         combineLatest(

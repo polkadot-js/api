@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, StakingLedger, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceOf, Bid, BidKind, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
@@ -49,7 +49,6 @@ export type DerivedBalancesMap = Record<string, DerivedBalances>;
 export interface DerivedContractFees {
   callBaseFee: BN;
   contractFee: BN;
-  createBaseFee: BN;
   creationFee: BN;
   rentByteFee: BN;
   rentDepositOffset: BN;
@@ -147,6 +146,32 @@ export interface DerivedSessionInfo extends DeriveSessionIndexes {
   sessionLength: BlockNumber;
   sessionsPerEra: SessionIndex;
   sessionProgress: BlockNumber;
+}
+
+export interface DeriveSociety {
+  bids: Bid[];
+  defender?: AccountId;
+  hasDefender: boolean;
+  head?: AccountId;
+  founder?: AccountId;
+  maxMembers: u32;
+  pot: BalanceOf;
+}
+
+export interface DeriveSocietyCandidate {
+  accountId: AccountId;
+  kind: BidKind;
+  value: Balance;
+  isSuspended: boolean;
+}
+
+export interface DeriveSocietyMember {
+  accountId: AccountId;
+  isSuspended: boolean;
+  payouts: [BlockNumber, Balance][];
+  strikes: StrikeCount;
+  vote?: SocietyVote;
+  vouching?: VouchingStatus;
 }
 
 export interface DerivedStakingElected {

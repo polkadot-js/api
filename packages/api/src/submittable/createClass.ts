@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
-import { Observable, combineLatest, from, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { createType, ClassOf } from '@polkadot/types';
-import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
 import ApiBase from '../base';
@@ -50,7 +50,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     // calculate the payment info for this transaction (if signed and submitted)
-    public paymentInfo (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType> {
+    public paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType> {
       const [allOptions] = this._makeSignAndSendOptions(options);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
@@ -82,54 +82,35 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`
     //
     // also supports signing through external signers
-    public signAsync (account: IKeyringPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
+    public signAsync (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       return this._decorateMethod(
-        (): Observable<this> => {
-          const optionsWithNonce = this._optionsOrNonce(optionsOrNonce);
-
-          return from(
-            this._api.signer
-              ? this._signViaSigner(account.address, this._makeSignOptions(optionsWithNonce, {}), null)
-              : Promise.resolve(this.sign(account, optionsWithNonce))
-          ).pipe(mapTo(this));
-        }
+        (): Observable<this> =>
+          this._signObservable(account, optionsOrNonce).pipe(mapTo(this))
       )();
     }
 
     // signAndSend with an immediate Hash result
-    public signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
+    public signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
     // signAndSend with a subscription, i.e. callback provided
-    public signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+    public signAndSend (account: AddressOrPair, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend with options and a callback
-    public signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+    public signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend implementation for all 3 cases above
-    public signAndSend (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+    public signAndSend (account: AddressOrPair, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
       const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
-      const address = isKeyringPair(account) ? account.address : account.toString();
-      let updateId: number | undefined;
 
       return this._decorateMethod(
         (): Observable<Codec> => (
-          this._getPrelimState(address, options).pipe(
-            first(),
-            mergeMap(async ([nonce, header]): Promise<void> => {
-              const eraOptions = this._makeEraOptions(options, { header, nonce });
-
-              if (isKeyringPair(account)) {
-                this.sign(account, eraOptions);
-              } else {
-                updateId = await this._signViaSigner(address, eraOptions, header);
-              }
-            }),
-            switchMap((): Observable<SubmittableResultImpl> | Observable<Hash> => {
-              return isSubscription
+          this._signObservable(account, options).pipe(
+            switchMap((updateId: number | undefined): Observable<SubmittableResultImpl> | Observable<Hash> =>
+              isSubscription
                 ? this._subscribeObservable(updateId)
-                : this._sendObservable(updateId);
-            })
+                : this._sendObservable(updateId)
+            )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
     }
@@ -163,10 +144,30 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return [options, statusCb];
     }
 
-    private async _signViaSigner (address: string, options: SignatureOptions, header: Header | null): Promise<number> {
-      if (!this._api.signer) {
-        throw new Error('no signer attached');
-      }
+    private _signObservable (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> {
+      const address = isKeyringPair(account) ? account.address : account.toString();
+      const options = this._optionsOrNonce(optionsOrNonce);
+      let updateId: number | undefined;
+
+      return this._getPrelimState(address, options).pipe(
+        first(),
+        mergeMap(async ([nonce, header]): Promise<void> => {
+          const eraOptions = this._makeEraOptions(options, { header, nonce });
+
+          if (isKeyringPair(account)) {
+            this.sign(account, eraOptions);
+          } else {
+            updateId = await this._signViaSigner(address, eraOptions, header);
+          }
+        }),
+        mapTo(updateId)
+      );
+    }
+
+    private async _signViaSigner (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> {
+      const signer = options.signer || this._api.signer;
+
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
 
       const payload = createType(this.registry, 'SignerPayload', {
         ...options,
@@ -176,10 +177,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       });
       let result: SignerResult;
 
-      if (this._api.signer.signPayload) {
-        result = await this._api.signer.signPayload(payload.toPayload());
-      } else if (this._api.signer.signRaw) {
-        result = await this._api.signer.signRaw(payload.toRaw());
+      if (signer.signPayload) {
+        result = await signer.signPayload(payload.toPayload());
+      } else if (signer.signRaw) {
+        result = await signer.signRaw(payload.toRaw());
       } else {
         throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
       }

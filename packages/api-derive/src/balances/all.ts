@@ -14,10 +14,10 @@ import { bnMax } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
-type Result = [AccountId, BlockNumber, ResultBalance, Index];
+type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>, Index];
+type Result = [AccountId, BlockNumber, ResultBalance];
 
-function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
+function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting, accountNonce]]: Result): DerivedBalances {
   let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: BalanceLock[] = [];
 
@@ -64,15 +64,6 @@ function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance
   };
 }
 
-function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
-  return api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>]>([
-    [api.query.balances.freeBalance, accountId],
-    [api.query.balances.reservedBalance, accountId],
-    [api.query.balances.locks, accountId],
-    [api.query.balances.vesting, accountId]
-  ]);
-}
-
 /**
  * @name all
  * @param {( AccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
@@ -96,15 +87,15 @@ export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | 
           ? combineLatest([
             of(accountId),
             api.derive.chain.bestNumber(),
-            queryBalances(api, accountId),
-            // FIXME This is having issues with Kusama, only use accountNonce atm
-            // api.rpc.account && api.rpc.account.nextIndex
-            //   ? api.rpc.account.nextIndex(accountId)
-            //   // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
-            //   : api.query.system.accountNonce<Index>(accountId)
-            api.query.system.accountNonce<Index>(accountId)
+            api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>, Index]>([
+              [api.query.balances.freeBalance, accountId],
+              [api.query.balances.reservedBalance, accountId],
+              [api.query.balances.locks, accountId],
+              [api.query.balances.vesting, accountId],
+              [api.query.system.accountNonce, accountId]
+            ])
           ])
-          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null)], createType(api.registry, 'Index')])
+          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Vec<BalanceLock>'), createType(api.registry, 'Option<VestingSchedule>', null), createType(api.registry, 'Index')]])
         )
       ),
       map((result): DerivedBalances => calcBalances(api, result))

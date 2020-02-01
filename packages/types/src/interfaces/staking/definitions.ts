@@ -49,9 +49,15 @@ export default {
       amount: 'Balance',
       ownSlash: 'Balance'
     },
+    SlashingSpansTo204: {
+      spanIndex: 'SpanIndex',
+      lastStart: 'EraIndex',
+      prior: 'Vec<EraIndex>'
+    },
     SlashingSpans: {
       spanIndex: 'SpanIndex',
       lastStart: 'EraIndex',
+      lastNonzeroSlash: 'EraIndex',
       prior: 'Vec<EraIndex>'
     },
     SpanIndex: 'u32',
