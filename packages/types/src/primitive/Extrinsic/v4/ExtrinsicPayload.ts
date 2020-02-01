@@ -10,7 +10,6 @@ import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-import { SignedPayloadBaseV2 as SignedPayloadBaseV4 } from '../v2/ExtrinsicPayload';
 
 /**
  * @name ExtrinsicPayloadV4
@@ -21,7 +20,8 @@ import { SignedPayloadBaseV2 as SignedPayloadBaseV4 } from '../v2/ExtrinsicPaylo
 export default class ExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
-      ...SignedPayloadBaseV4,
+      method: 'Bytes',
+      ...registry.getSignedExtensionTypes(),
       ...registry.getSignedExtensionExtra()
     }, value);
   }
