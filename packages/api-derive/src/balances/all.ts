@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountData, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo212, BlockNumber, Index, VestingInfo, VestingSchedule } from '@polkadot/types/interfaces';
-import { DerivedBalancesAll } from '../types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo212, BlockNumber, VestingInfo, VestingSchedule } from '@polkadot/types/interfaces';
+import { DerivedBalancesAccount, DerivedBalancesAll } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
@@ -14,10 +14,10 @@ import { bnMax } from '@polkadot/util';
 
 import { memo } from '../util';
 
-type ResultBalance = [Balance, Balance, Balance, Balance, VestingInfo | null, Index, (BalanceLock | BalanceLockTo212)[]];
-type Result = [AccountId, BlockNumber, ResultBalance];
+type ResultBalance = [VestingInfo | null, (BalanceLock | BalanceLockTo212)[]];
+type Result = [DerivedBalancesAccount, BlockNumber, ResultBalance];
 
-function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance, reservedBalance, frozenFree, frozenMisc, vesting, accountNonce, locks]]: Result): DerivedBalancesAll {
+function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFree, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DerivedBalancesAll {
   let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
 
@@ -65,20 +65,17 @@ function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance
     reservedBalance,
     vestedBalance,
     vestingTotal,
-    votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))
+    votingBalance
   };
 }
 
 // old
 function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
-  return api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>, Index]>([
-    [api.query.balances.freeBalance, accountId],
-    [api.query.balances.reservedBalance, accountId],
+  return api.queryMulti<[Vec<BalanceLock>, Option<VestingSchedule>]>([
     [api.query.balances.locks, accountId],
-    [api.query.balances.vesting, accountId],
-    [api.query.system.accountNonce, accountId]
+    [api.query.balances.vesting, accountId]
   ]).pipe(
-    map(([freeBalance, reservedBalance, locks, optVesting, accountNonce]): ResultBalance => {
+    map(([locks, optVesting]): ResultBalance => {
       let vestingNew = null;
 
       if (optVesting.isSome) {
@@ -87,7 +84,7 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
         vestingNew = createType(api.registry, 'VestingInfo', { locked, perBlock, startingBlock });
       }
 
-      return [freeBalance, reservedBalance, createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), vestingNew, accountNonce, locks];
+      return [vestingNew, locks];
     })
   );
 }
@@ -96,27 +93,19 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
   return (
     api.query.vesting.vesting
-      ? api.queryMulti<[AccountData, Vec<BalanceLock>, Option<VestingInfo>, Index]>([
-        [api.query.balances.account, accountId],
+      ? api.queryMulti<[Vec<BalanceLock>, Option<VestingInfo>]>([
         [api.query.balances.locks, accountId],
-        [api.query.vesting.vesting, accountId],
-        [api.query.system.accountNonce, accountId]
+        [api.query.vesting.vesting, accountId]
       ])
-      : api.queryMulti<[AccountData, Vec<BalanceLock>, Index]>([
-        [api.query.balances.account, accountId],
-        [api.query.balances.locks, accountId],
-        [api.query.system.accountNonce, accountId]
-      ]).pipe(
-        map(([accountData, locks, accountNonce]): [AccountData, Vec<BalanceLock>, Option<VestingInfo>, Index] =>
-          [accountData, locks, createType(api.registry, 'Option<VestingInfo>'), accountNonce]
+      : api.query.balances.locks(accountId).pipe(
+        map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
+          [locks, createType(api.registry, 'Option<VestingInfo>')]
         )
       )
   ).pipe(
-    map(([{ free, reserved, miscFrozen, feeFrozen }, locks, optVesting, accountNonce]): ResultBalance => {
-      const vesting = optVesting.unwrapOr(null);
-
-      return [free, reserved, feeFrozen, miscFrozen, vesting, accountNonce, locks];
-    })
+    map(([locks, optVesting]): ResultBalance =>
+      [optVesting.unwrapOr(null), locks]
+    )
   );
 }
 
@@ -137,17 +126,17 @@ function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Re
  */
 export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalancesAll> {
   return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalancesAll> =>
-    api.derive.accounts.info(address).pipe(
-      switchMap(({ accountId }): Observable<Result> =>
-        (accountId
+    api.derive.balances.account(address).pipe(
+      switchMap((account): Observable<Result> =>
+        (!account.accountId.isEmpty
           ? combineLatest([
-            of(accountId),
+            of(account),
             api.derive.chain.bestNumber(),
             api.query.balances.account
-              ? queryCurrent(api, accountId)
-              : queryOld(api, accountId)
+              ? queryCurrent(api, account.accountId)
+              : queryOld(api, account.accountId)
           ])
-          : of([createType(api.registry, 'AccountId'), createType(api.registry, 'BlockNumber'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), null, createType(api.registry, 'Index'), createType(api.registry, 'Vec<BalanceLock>')]])
+          : of([account, createType(api.registry, 'BlockNumber'), [null, createType(api.registry, 'Vec<BalanceLock>')]])
         )
       ),
       map((result): DerivedBalancesAll => calcBalances(api, result))

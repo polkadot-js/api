@@ -30,17 +30,21 @@ export interface DeriveAccountInfo {
   nickname?: string;
 }
 
-export interface DerivedBalancesAll {
+export interface DerivedBalancesAccount {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
   frozenFree: Balance;
   frozenMisc: Balance;
+  reservedBalance: Balance;
+  votingBalance: Balance;
+}
+
+export interface DerivedBalancesAll extends DerivedBalancesAccount {
   isVesting: boolean;
   lockedBalance: Balance;
   lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
   availableBalance: Balance;
-  reservedBalance: Balance;
   votingBalance: Balance;
   vestedBalance: Balance;
   vestingTotal: Balance;
