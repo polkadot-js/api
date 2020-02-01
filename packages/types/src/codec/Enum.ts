@@ -121,6 +121,7 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
+  /** @internal */
   private static decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
     // NOTE We check the index path first, before looking at values - this allows treating
     // the optional indexes before anything else, more-specific > less-specific

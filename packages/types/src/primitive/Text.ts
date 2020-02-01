@@ -31,6 +31,7 @@ export default class Text extends String implements Codec {
     this.registry = registry;
   }
 
+  /** @internal */
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
     if (isHex(value)) {
       return u8aToString(hexToU8a(value.toString()));

@@ -43,6 +43,7 @@ export default class StructAny extends Map<string, any> implements Codec {
     });
   }
 
+  /** @internal */
   private static decodeJson (value?: { [index: string]: any } | null): [string, any][] {
     return Object.entries(value || {});
   }

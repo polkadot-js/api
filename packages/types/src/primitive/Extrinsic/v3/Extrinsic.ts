@@ -32,6 +32,7 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
     }, ExtrinsicV3.decodeExtrinsic(registry, value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV3, isSigned = false): ExtrinsicValueV3 {
     if (value instanceof ExtrinsicV3) {
       return value;

@@ -21,6 +21,7 @@ export default class Bytes extends Raw {
     super(registry, Bytes.decodeBytes(value));
   }
 
+  /** @internal */
   private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
     if (Array.isArray(value) || isString(value)) {
       return u8aToU8a(value);
@@ -33,6 +34,7 @@ export default class Bytes extends Raw {
     return value;
   }
 
+  /** @internal */
   private static decodeBytesU8a (value: Uint8Array): Uint8Array {
     if (!value.length) {
       return new Uint8Array();

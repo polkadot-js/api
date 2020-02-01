@@ -32,6 +32,7 @@ export default class CodecSet extends Set<string> implements Codec {
     this._setValues = setValues;
   }
 
+  /** @internal */
   public static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0): string[] {
     if (isString(value)) {
       return CodecSet.decodeSet(setValues, u8aToU8a(value));
@@ -48,6 +49,7 @@ export default class CodecSet extends Set<string> implements Codec {
     return CodecSet.decodeSetNumber(setValues, value);
   }
 
+  /** @internal */
   private static decodeSetArray (setValues: SetValues, value: string[]): string[] {
     return value.reduce((result, key): string[] => {
       assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
@@ -58,6 +60,7 @@ export default class CodecSet extends Set<string> implements Codec {
     }, [] as string[]);
   }
 
+  /** @internal */
   private static decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
     const bn = bnToBn(_value);
     const result = Object.keys(setValues).reduce((result, key): string[] => {

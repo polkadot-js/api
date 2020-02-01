@@ -41,6 +41,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
     super(registry, ExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
+  /** @internal */
   public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;

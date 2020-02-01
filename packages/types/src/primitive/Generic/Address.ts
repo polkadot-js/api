@@ -30,6 +30,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
     super(registry, Address.decodeAddress(registry, value));
   }
 
+  /** @internal */
   public static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
@@ -44,6 +45,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
     return Address.decodeString(registry, value);
   }
 
+  /** @internal */
   private static decodeString (registry: Registry, value: string): AccountId | AccountIndex {
     const decoded = decodeAddress(value);
 
@@ -52,6 +54,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
       : createType(registry, 'AccountIndex', u8aToBn(decoded, true));
   }
 
+  /** @internal */
   private static decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
     // This allows us to instantiate an address with a raw publicKey. Do this first before
     // we checking the first byte, otherwise we may split an already-existent valid address

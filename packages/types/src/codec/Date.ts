@@ -35,6 +35,7 @@ export default class CodecDate extends Date implements Codec {
     this.raw = this;
   }
 
+  /** @internal */
   public static decodeDate (value: CodecDate | Date | AnyNumber): Date {
     if (value instanceof Date) {
       return value;

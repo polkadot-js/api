@@ -32,6 +32,7 @@ export default class AccountIndex extends U32 {
     super(registry, AccountIndex.decodeAccountIndex(value));
   }
 
+  /** @internal */
   public static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
     if (value instanceof AccountIndex) {
       // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an

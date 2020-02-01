@@ -28,6 +28,7 @@ export default class ExtrinsicSignatureV4 extends Struct implements IExtrinsicSi
     }, ExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsicSignature (value: ExtrinsicSignatureV4 | Uint8Array | undefined, isSigned = false): ExtrinsicSignatureV4 | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
