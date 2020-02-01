@@ -55,7 +55,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
       });
 
       return createDocComments(documentation).map((d): string => indent(6)(d)).join('\n') +
-      indent(6)(`${stringCamelCase(name.toString())}: AugmentedExtrinsic<(${params.map(([full]): string => full).join(', ')}) => SubmittableExtrinsic<ApiType>>;`);
+      indent(6)(`${stringCamelCase(name.toString())}: AugmentedSubmittable<(${params.map(([full]): string => full).join(', ')}) => SubmittableExtrinsic<ApiType>>;`);
     }))
     .concat([indent(4)('};')]);
 }
