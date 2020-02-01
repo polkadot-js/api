@@ -10,7 +10,7 @@ import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } 
 
 import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
-import { defaultExtensions, expandExtensionTypes } from '../../primitive/Extrinsic/SignedExtensions';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/SignedExtensions';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
@@ -237,5 +237,11 @@ export class TypeRegistry implements Registry {
     this._metadataExtensions = metadata.asLatest.extrinsic.version.gtn(0)
       ? metadata.asLatest.extrinsic.signedExtensions.map((key): string => key.toString())
       : defaultExtensions;
+
+    const unknown = findUnknownExtensions(this._metadataExtensions);
+
+    if (unknown.length) {
+      console.warn(`Unknown signed extensions [${unknown.join(', ')}] found, treating them as no-efect`);
+    }
   }
 }

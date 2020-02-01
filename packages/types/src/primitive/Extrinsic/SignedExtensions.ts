@@ -68,19 +68,17 @@ const defaultExtensions: Array<keyof typeof allExtensions> = [
   'CheckBlockGasLimit'
 ];
 
+function findUnknownExtensions (extensions: string[]): string[] {
+  const names = Object.keys(allExtensions);
+
+  return extensions.filter((key): boolean => !names.includes(key));
+}
+
 function expandExtensionTypes (extensions: string[], type: keyof ExtInfo): ExtTypes {
   return extensions
-    .map((key): ExtInfo => {
-      const info = allExtensions[key];
-
-      if (!info) {
-        console.warn(`Unknown signed extension ${key} found, treating it as empty with no extra data`);
-      }
-
-      return info;
-    })
+    .map((key): ExtInfo => allExtensions[key])
     .filter((info): boolean => !!info)
     .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
 }
 
-export { allExtensions, defaultExtensions, expandExtensionTypes };
+export { allExtensions, defaultExtensions, expandExtensionTypes, findUnknownExtensions };
