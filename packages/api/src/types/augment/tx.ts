@@ -211,8 +211,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `ensure_can_withdraw` is always called internally but has a bounded complexity.
        * - Transferring balances to accounts that did not exist before will cause
        * `T::OnNewAccount::on_new_account` to be called.
-       * - Removing enough funds from an account will trigger
-       * `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`.
+       * - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.
        * - `transfer_keep_alive` works the same way as `transfer`, but has an additional
        * check that the transfer will not kill the origin account.
        * # </weight>
@@ -570,6 +569,7 @@ declare module '@polkadot/api/types/submittable' {
        * work an additional `EnactmentPeriod` later.
        **/
       reapPreimage: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      unlock: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     council: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -970,9 +970,9 @@ declare module '@polkadot/api/types/submittable' {
        * - `info`: The identity information.
        * Emits `IdentitySet` if successful.
        * # <weight>
-       * - `O(X + R)` where `X` additional-field-count (deposit-bounded).
+       * - `O(X + X' + R)` where `X` additional-field-count (deposit-bounded and code-bounded).
        * - At most two balance operations.
-       * - One storage mutation (codec `O(X + R)`).
+       * - One storage mutation (codec-read `O(X' + R)`, codec-write `O(X + R)`).
        * - One event.
        * # </weight>
        **/
@@ -1527,6 +1527,37 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       removeRecovery: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+    };
+    vesting: {
+      [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Unlock any vested funds of the sender account.
+       * The dispatch origin for this call must be _Signed_ and the sender must have funds still
+       * locked under this module.
+       * Emits either `VestingCompleted` or `VestingUpdated`.
+       * # <weight>
+       * - `O(1)`.
+       * - One balance-lock operation.
+       * - One storage read (codec `O(1)`) and up to one removal.
+       * - One event.
+       * # </weight>
+       **/
+      vest: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Unlock any vested funds of a `target` account.
+       * The dispatch origin for this call must be _Signed_.
+       * - `target`: The account whose vested funds should be unlocked. Must have funds still
+       * locked under this module.
+       * Emits either `VestingCompleted` or `VestingUpdated`.
+       * # <weight>
+       * - `O(1)`.
+       * - Up to one account lookup.
+       * - One balance-lock operation.
+       * - One storage read (codec `O(1)`) and up to one removal.
+       * - One event.
+       * # </weight>
+       **/
+      vestOther: AugmentedSubmittable<(target: Address | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
   }
 }
