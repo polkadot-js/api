@@ -25,9 +25,11 @@ function calcBalances (api: ApiInterfaceRx, [accountId, bestNumber, [freeBalance
     // only get the locks that are valid until passed the current block
     lockedBreakdown = locks.filter(({ until }): boolean => bestNumber && until.gt(bestNumber));
 
+    const notAll = lockedBreakdown.filter(({ amount }): boolean => !amount.isMax());
+
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-    if (lockedBreakdown.length) {
-      lockedBalance = createType(api.registry, 'Balance', bnMax(...lockedBreakdown.map(({ amount }): Balance => amount)));
+    if (notAll.length) {
+      lockedBalance = createType(api.registry, 'Balance', bnMax(...notAll.map(({ amount }): Balance => amount)));
     }
   }
 
