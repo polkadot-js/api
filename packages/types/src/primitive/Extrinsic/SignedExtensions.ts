@@ -70,7 +70,7 @@ const defaultExtensions: Array<keyof typeof allExtensions> = [
 
 const extensionNames = Object.keys(allExtensions);
 
-function getExtensions (extensions: string[]): ExtInfo[] {
+function expandExtensionTypes (extensions: string[], type: keyof ExtInfo): ExtTypes {
   return extensions
     .map((key): ExtInfo => {
       const info = allExtensions[key];
@@ -81,15 +81,8 @@ function getExtensions (extensions: string[]): ExtInfo[] {
 
       return info;
     })
-    .filter((info): boolean => !!info);
+    .filter((info): boolean => !!info)
+    .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
 }
 
-function getExtensionExtra (extensions: string[]): ExtTypes {
-  return getExtensions(extensions).reduce((result, { extra }): ExtTypes => ({ ...result, ...extra }), {});
-}
-
-function getExtensionTypes (extensions: string[]): Record<string, InterfaceTypes> {
-  return getExtensions(extensions).reduce((result, { types }): ExtTypes => ({ ...result, ...types }), {});
-}
-
-export { allExtensions, defaultExtensions, extensionNames, getExtensionExtra, getExtensionTypes };
+export { allExtensions, defaultExtensions, extensionNames, expandExtensionTypes };
