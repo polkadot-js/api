@@ -12,7 +12,7 @@ import u32 from '../../../primitive/U32';
 import { sign } from '../util';
 
 /**
- * @name ExtrinsicPayloadV4
+ * @name GenericExtrinsicPayloadV4
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included

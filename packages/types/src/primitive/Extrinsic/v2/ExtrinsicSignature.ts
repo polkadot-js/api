@@ -13,7 +13,7 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV2 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignatureV2
+ * @name GenericExtrinsicSignatureV2
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */

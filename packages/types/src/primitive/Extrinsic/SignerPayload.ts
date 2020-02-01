@@ -38,6 +38,11 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   version: 'u8'
 }) as any;
 
+/**
+ * @name SignerPayload
+ * @description
+ * A generic signer payload that can be used for serialization between API and signer
+ */
 export default class SignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON

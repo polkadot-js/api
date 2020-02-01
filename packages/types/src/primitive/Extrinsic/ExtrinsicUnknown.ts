@@ -9,7 +9,7 @@ import Struct from '../../codec/Struct';
 import { UNMASK_VERSION } from './constants';
 
 /**
- * @name ExtrinsicUnknown
+ * @name GenericExtrinsicUnknown
  * @description
  * A default handler for extrinsics where the version is not known (default throw)
  */

@@ -39,7 +39,7 @@ const VERSIONS: InterfaceTypes[] = [
 export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
- * @name Extrinsic
+ * @name GenericExtrinsic
  * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix

@@ -68,8 +68,6 @@ const defaultExtensions: Array<keyof typeof allExtensions> = [
   'CheckBlockGasLimit'
 ];
 
-const extensionNames = Object.keys(allExtensions);
-
 function expandExtensionTypes (extensions: string[], type: keyof ExtInfo): ExtTypes {
   return extensions
     .map((key): ExtInfo => {
@@ -85,4 +83,4 @@ function expandExtensionTypes (extensions: string[], type: keyof ExtInfo): ExtTy
     .reduce((result, info): ExtTypes => ({ ...result, ...info[type] }), {});
 }
 
-export { allExtensions, defaultExtensions, extensionNames, expandExtensionTypes };
+export { allExtensions, defaultExtensions, expandExtensionTypes };

@@ -8,7 +8,7 @@ import { ExtrinsicPayloadOptions } from './types';
 import Struct from '../../codec/Struct';
 
 /**
- * @name ExtrinsicPayloadUnknown
+ * @name GenericExtrinsicPayloadUnknown
  * @description
  * A default handler for payloads where the version is not known (default throw)
  */

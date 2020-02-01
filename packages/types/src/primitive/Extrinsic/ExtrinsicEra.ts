@@ -189,7 +189,7 @@ export class MortalEra extends Tuple {
 }
 
 /**
- * @name ExtrinsicEra
+ * @name GenericExtrinsicEra
  * @description
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */

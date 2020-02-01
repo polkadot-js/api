@@ -15,7 +15,7 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import ExtrinsicPayloadV4 from './ExtrinsicPayload';
 
 /**
- * @name ExtrinsicSignatureV4
+ * @name GenericExtrinsicSignatureV4
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */

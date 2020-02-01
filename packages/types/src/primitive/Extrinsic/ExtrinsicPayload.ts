@@ -31,7 +31,7 @@ const VERSIONS: InterfaceTypes[] = [
 ];
 
 /**
- * @name ExtrinsicPayload
+ * @name GenericExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
