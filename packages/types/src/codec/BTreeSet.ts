@@ -37,6 +37,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * - Set<any>, where both key and value types are either
    *   constructors or decodeable values for their types.
    * @param jsonSet
+   * @internal
    */
   private static decodeBTreeSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Uint8Array | string | Set<any>): Set<V> {
     if (!value) {
@@ -52,6 +53,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     throw new Error('BTreeSet: cannot decode type');
   }
 
+  /** @internal */
   private static decodeBTreeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
     const output = new Set<V>();
     const [offset, length] = Compact.decodeU8a(u8a);
@@ -70,6 +72,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     return output;
   }
 
+  /** @internal */
   private static decodeBTreeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
     const output = new Set<V>();
 

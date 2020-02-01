@@ -25,6 +25,7 @@ export default class Bool extends Boolean implements Codec {
     this.registry = registry;
   }
 
+  /** @internal */
   private static decodeBool (value: any): boolean {
     if (value instanceof Boolean) {
       return value.valueOf();

@@ -31,7 +31,7 @@ const VERSIONS: InterfaceTypes[] = [
 ];
 
 /**
- * @name ExtrinsicPayload
+ * @name GenericExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
@@ -41,6 +41,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
     super(registry, ExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
+  /** @internal */
   public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;

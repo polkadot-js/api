@@ -81,6 +81,7 @@ export default class Event extends Struct {
     }, value);
   }
 
+  /** @internal */
   public static decodeEvent (registry: Registry, value: Uint8Array = new Uint8Array()): { DataType: Constructor<Null> | Constructor<EventData>; value?: { index: Uint8Array; data: Uint8Array } } {
     if (!value.length) {
       return {

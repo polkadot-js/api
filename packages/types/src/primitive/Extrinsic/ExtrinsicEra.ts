@@ -55,6 +55,7 @@ export class MortalEra extends Tuple {
     }, MortalEra.decodeMortalEra(registry, value));
   }
 
+  /** @internal */
   private static decodeMortalEra (registry: Registry, value?: MortalMethod | Uint8Array | number[] | string): MortalEraValue {
     if (isHex(value)) {
       return MortalEra.decodeMortalU8a(registry, hexToU8a(value));
@@ -71,6 +72,7 @@ export class MortalEra extends Tuple {
     throw new Error('Invalid data passed to Mortal era');
   }
 
+  /** @internal */
   private static decodeMortalObject (registry: Registry, value: MortalMethod): MortalEraValue {
     const { current, period } = value;
     let calPeriod = Math.pow(2, Math.ceil(Math.log2(period)));
@@ -82,6 +84,7 @@ export class MortalEra extends Tuple {
     return [new U64(registry, calPeriod), new U64(registry, quantizedPhase)];
   }
 
+  /** @internal */
   private static decodeMortalU8a (registry: Registry, value: Uint8Array): MortalEraValue {
     if (value.length === 0) {
       return [new U64(registry), new U64(registry)];
@@ -186,7 +189,7 @@ export class MortalEra extends Tuple {
 }
 
 /**
- * @name ExtrinsicEra
+ * @name GenericExtrinsicEra
  * @description
  * The era for an extrinsic, indicating either a mortal or immortal extrinsic
  */
@@ -198,6 +201,7 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
     }, ExtrinsicEra.decodeExtrinsicEra(value));
   }
 
+  /** @internal */
   // eslint-disable-next-line @typescript-eslint/ban-types
   private static decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef | ImmortalEnumDef | Uint8Array | string = new Uint8Array()): Uint8Array | Object | undefined {
     if (!value) {
