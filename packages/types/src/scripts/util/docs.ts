@@ -8,15 +8,11 @@ type Arg = [Text | string, Text | string];
 
 export function createDocComments (docs: Text[], args: Arg[] = []): string[] {
   const contents = [
-    ...(docs.length ? [` * ${docs.map((d): string => d.toString().trim()).join(' ')}`] : []),
+    ...docs.map((doc): string => doc.toString().trim()).filter((doc): boolean => !!doc).map((doc): string => ` * ${doc}`),
     ...args.map(([name, type]): string => ` * @param ${name} ${type}`)
   ];
 
   return contents.length
-    ? [
-      '/**',
-      ...contents,
-      ' **/\n'
-    ]
+    ? ['/**', ...contents, ' **/\n']
     : [];
 }
