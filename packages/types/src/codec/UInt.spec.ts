@@ -70,4 +70,17 @@ describe('UInt', (): void => {
       expect(test.eq('0x3039')).toBe(true);
     });
   });
+
+  describe('isMax()', (): void => {
+    it('is false where not full', (): void => {
+      expect(new UInt(registry, '0x1234', 32).isMax()).toEqual(false);
+      expect(new UInt(registry, '0xffffff', 32).isMax()).toEqual(false);
+      expect(new UInt(registry, '0x12345678', 32).isMax()).toEqual(false);
+      expect(new UInt(registry, '0xfffffff0', 32).isMax()).toEqual(false);
+    });
+
+    it('is true when full', (): void => {
+      expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+    });
+  });
 });

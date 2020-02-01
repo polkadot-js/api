@@ -112,6 +112,15 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description True if this value is the max of the type
+   */
+  public isMax (): boolean {
+    const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
+
+    return u8a.length === (this._bitLength / 8);
+  }
+
+  /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
   public toBn (): BN {
