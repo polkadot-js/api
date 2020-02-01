@@ -6,9 +6,10 @@ import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
 import Compact from '../../codec/Compact';
+import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
@@ -62,14 +63,13 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
   } else if (type === 'StorageKey') {
-    // FIXME This is a hack, it's hard to correctly type StorageKeys in the
-    // current state
-    return ['StorageKey', 'any'];
+    // TODO We can do better
+    return ['StorageKey', 'string', 'Uint8Array', 'any'];
   }
 
-  const instance = ClassOfUnsafe(registry, type);
+  const clazz = ClassOfUnsafe(registry, type);
 
-  if (isChildClass(Vec, instance)) {
+  if (isChildClass(Vec, clazz)) {
     const subDef = (getTypeDef(type).sub) as TypeDef;
 
     if (subDef.info === TypeDefInfo.Plain) {
@@ -83,17 +83,22 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     } else {
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
-  }
-
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, instance) || isChildClass(Compact, instance)) {
+  } else if (isChildClass(Enum, clazz)) {
+    // TODO Handle this more gracefully (expand actual options)
+    possibleTypes.push('number', 'any');
+  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, clazz) || isChildClass(Compact, clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(Struct, instance)) {
+  } else if (isChildClass(ClassOf(registry, 'Address'), clazz)) {
+    possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'bool'), clazz)) {
+    possibleTypes.push('boolean', 'Uint8Array');
+  } else if (isChildClass(Struct, clazz)) {
     possibleTypes.push('object', 'string', 'Uint8Array');
-  } else if (isChildClass(Option, instance)) {
+  } else if (isChildClass(Option, clazz)) {
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
-  } else if (isChildClass(Uint8Array, instance)) {
+  } else if (isChildClass(Uint8Array, clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(String, instance)) {
+  } else if (isChildClass(String, clazz)) {
     possibleTypes.push('string');
   }
 

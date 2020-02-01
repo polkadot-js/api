@@ -12,7 +12,7 @@ import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
-import { FOOTER, HEADER, TypeImports, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
 /** @internal */
@@ -67,16 +67,6 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
   throw new Error(`entryArgs: Cannot parse args of entry ${storageEntry.name}`);
 }
 
-// Generate types for one storage entry in a module
-/** @internal */
-function generateEntry (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): string[] {
-  const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
-
-  return [
-    `${stringLowerFirst(storageEntry.name.toString())}: AugmentedQuery<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`
-  ];
-}
-
 // Generate types for one module
 /** @internal */
 function generateModule (allDefs: object, registry: Registry, { name, storage }: ModuleMetadataLatest, imports: TypeImports): string[] {
@@ -84,15 +74,14 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     return [];
   }
 
-  // NOTE Not removing this concat yet, first see the fallout
   return [indent(4)(`${stringLowerFirst(name.toString())}: {`)]
-    // .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
-    .concat(storage.unwrap()
-      .items
-      .reduce((acc, storageEntry): string[] => {
-        return acc.concat(generateEntry(allDefs, registry, storageEntry, imports).map(indent(6)));
-      }, [] as string[])
-      .join('\n'))
+    .concat(indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
+    .concat(storage.unwrap().items.map((storageEntry): string => {
+      const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+
+      return createDocComments(storageEntry.documentation).map((d): string => indent(6)(d)).join('\n') +
+      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: AugmentedQuery<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`);
+    }))
     .concat([indent(4)('};')]);
 }
 
