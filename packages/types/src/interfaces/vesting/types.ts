@@ -7,6 +7,6 @@ import { Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 /** @name VestingInfo */
 export interface VestingInfo extends Struct {
   readonly locked: Balance;
-  readonly perBllock: Balance;
+  readonly perBlock: Balance;
   readonly startingBlock: BlockNumber;
 }

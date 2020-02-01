@@ -6,7 +6,7 @@ export default {
   types: {
     VestingInfo: {
       locked: 'Balance',
-      perBllock: 'Balance',
+      perBlock: 'Balance',
       startingBlock: 'BlockNumber'
     }
   }

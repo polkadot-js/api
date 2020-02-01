@@ -3,19 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { DerivedBalances } from '../types';
+import { DerivedBalancesAll } from '../types';
 
 import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
 
-export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalances[]> {
-  return memo((addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalances[]> =>
+export function votingBalances (api: ApiInterfaceRx): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DerivedBalancesAll[]> {
+  return memo((addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DerivedBalancesAll[]> =>
     !addresses || !addresses.length
-      ? of([] as DerivedBalances[])
+      ? of([] as DerivedBalancesAll[])
       : combineLatest(
-        addresses.map((accountId): Observable<DerivedBalances> =>
+        addresses.map((accountId): Observable<DerivedBalancesAll> =>
           api.derive.balances.all(accountId))
       )
   );
