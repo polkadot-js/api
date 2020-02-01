@@ -6,6 +6,8 @@ import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 
+export type AugmentedConst<T extends Codec> = T & ConstantCodec;
+
 export interface ConstantCodec extends Codec {
   meta: ModuleConstantMetadataLatest;
 }

@@ -10,7 +10,7 @@ import { ApiTypes } from './base';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AugmentedSubmittables<ApiType extends ApiTypes> { }
 
-export type AugmentedExtrinsic<T extends AnyFunction> = T & CallFunction;
+export type AugmentedSubmittable<T extends AnyFunction> = T & CallFunction;
 
 export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes> extends CallFunction {
   (...params: any[]): SubmittableExtrinsic<ApiType>;

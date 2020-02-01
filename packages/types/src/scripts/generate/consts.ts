@@ -27,7 +27,7 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
       setImports(allDefs, imports, [type.toString()]);
 
       return createDocComments(documentation).map((d): string => indent(6)(d)).join('\n') +
-        indent(6)(`${stringCamelCase(name.toString())}: ${type} & ConstantCodec;`);
+        indent(6)(`${stringCamelCase(name.toString())}: AugmentedConst<${type}>;`);
     }))
     .concat([indent(4)('};')]);
 }
