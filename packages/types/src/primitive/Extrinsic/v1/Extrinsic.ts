@@ -33,9 +33,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
   }
 
   public static decodeExtrinsic (registry: Registry, value?: Uint8Array | ExtrinsicValueV1, isSigned = false): ExtrinsicValueV1 {
-    if (!value) {
-      return {};
-    } else if (value instanceof ExtrinsicV1) {
+    if (value instanceof ExtrinsicV1) {
       return value;
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
@@ -48,7 +46,7 @@ export default class ExtrinsicV1 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value;
+    return value || {};
   }
 
   /**

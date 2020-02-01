@@ -33,9 +33,7 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
   }
 
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV3, isSigned = false): ExtrinsicValueV3 {
-    if (!value) {
-      return {};
-    } else if (value instanceof ExtrinsicV3) {
+    if (value instanceof ExtrinsicV3) {
       return value;
     } else if (value instanceof ClassOf(registry, 'Call')) {
       return { method: value };
@@ -50,7 +48,7 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value;
+    return value || {};
   }
 
   /**
