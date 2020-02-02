@@ -16,7 +16,7 @@ export interface RpcInterface {
   author: {
     insertKey(keyType: Text | string, suri: Text | string, publicKey: Bytes | string | Uint8Array): Observable<Bytes>;
     pendingExtrinsics(): Observable<Vec<Extrinsic>>;
-    removeExtrinsic(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | number | any)[]): Observable<Vec<Hash>>;
+    removeExtrinsic(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | object | number | Uint8Array | string)[]): Observable<Vec<Hash>>;
     rotateKeys(): Observable<Bytes>;
     submitAndWatchExtrinsic(extrinsic: IExtrinsic): Observable<ExtrinsicStatus>;
     submitExtrinsic(extrinsic: IExtrinsic): Observable<Hash>;

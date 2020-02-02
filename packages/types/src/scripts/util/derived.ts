@@ -18,7 +18,11 @@ import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 
-const voteConvictions = _voteConvictions.map((c): string => `'${c}'`).join(' | ');
+function arrayToStrType (arr: string[]): string {
+  return `(${arr.map((c): string => `'${c}'`).join(' | ')})`;
+}
+
+const voteConvictions = arrayToStrType(_voteConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
@@ -70,9 +74,9 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     return ['StorageKey', 'string', 'Uint8Array', 'any'];
   }
 
-  const clazz = ClassOfUnsafe(registry, type);
+  const Clazz = ClassOfUnsafe(registry, type);
 
-  if (isChildClass(Vec, clazz)) {
+  if (isChildClass(Vec, Clazz)) {
     const subDef = (getTypeDef(type).sub) as TypeDef;
 
     if (subDef.info === TypeDefInfo.Plain) {
@@ -86,24 +90,31 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     } else {
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
-  } else if (isChildClass(Enum, clazz)) {
-    // TODO Handle this more gracefully (expand actual options)
-    possibleTypes.push('number', 'any');
-  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, clazz) || isChildClass(Compact, clazz)) {
+  } else if (isChildClass(Enum, Clazz)) {
+    const e = new Clazz(registry) as Enum;
+
+    if (e.isBasic) {
+      possibleTypes.push(arrayToStrType(e.defKeys), 'number', 'Uint8Array');
+    } else {
+      // TODO Handle this more gracefully (expand actual options)
+      possibleTypes.push('object', 'number', 'Uint8Array', 'string');
+    }
+  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'Address'), clazz)) {
+  } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
     possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'bool'), clazz)) {
+  } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
-  } else if (isChildClass(Struct, clazz)) {
+  } else if (isChildClass(Struct, Clazz)) {
     possibleTypes.push('object', 'string', 'Uint8Array');
-  } else if (isChildClass(Option, clazz)) {
+  } else if (isChildClass(Option, Clazz)) {
+    // TODO inspect container
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
-  } else if (isChildClass(Vote, clazz)) {
-    possibleTypes.push(`{ aye: boolean; conviction?: number | (${voteConvictions}) }`, 'boolean', 'string', 'Uint8Array');
-  } else if (isChildClass(Uint8Array, clazz)) {
+  } else if (isChildClass(Vote, Clazz)) {
+    possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
+  } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(String, clazz)) {
+  } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
   }
 
