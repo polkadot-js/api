@@ -13,7 +13,7 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Vote from '../../primitives/Vote';
+import Vote from '../../primitive/Generic/Vote';
 import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
@@ -98,7 +98,8 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   } else if (isChildClass(Option, clazz)) {
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(Vote, clazz)) {
-    possibleTypes.push('boolean', 'object', 'string', 'Uint8Array');
+    // FIXME conviction should be the enum types
+    possibleTypes.push('{ aye?: boolean; conviction?: string }', 'boolean', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, clazz)) {
