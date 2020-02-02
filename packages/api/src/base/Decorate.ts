@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';

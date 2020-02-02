@@ -10,12 +10,11 @@ import { TypeRegistry } from '../../codec/create';
 import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports } from '../util';
 
 /** @internal */
-export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.types.ts'): void {
+export default function generateRpcTypes (dest = 'packages/api/src/types/augment/rpc.ts'): void {
   console.log(`${dest}\n\tGenerating`);
 
   const registry = new TypeRegistry();
   const imports = createImports({ '@polkadot/types/interfaces': definitions });
-
   const body = Object.keys(interfaces).sort().reduce<string[]>((allSections, section): string[] => {
     const allMethods = Object.keys(interfaces[section].methods).sort().map((key): string => {
       const method = interfaces[section].methods[key];
@@ -26,9 +25,9 @@ export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.
       if (section === 'state') {
         if (method.method === 'getStorage') {
           setImports(definitions, imports, ['Codec']);
-          return '    getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
+          return '      getStorage<T = Codec>(key: any, block?: Hash | Uint8Array | string): Observable<T>;';
         } else if (method.method === 'subscribeStorage') {
-          return '    subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
+          return '      subscribeStorage<T = Codec[]>(keys: any[]): Observable<T>;';
         }
       }
 
@@ -39,14 +38,14 @@ export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.
         return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
       });
 
-      return `    ${method.method}(${args.join(', ')}): Observable<${method.type}>;`;
+      return `      /**\n       * ${method.description}\n       **/\n      ${method.method}(${args.join(', ')}): Observable<${method.type}>;`;
     });
 
     return allSections.concat(
       [
-        `  ${section}: {`,
+        `    ${section}: {`,
         ...allMethods,
-        '  };'
+        '    };'
       ].join('\n')
     );
   }, []).join('\n');
@@ -73,8 +72,8 @@ export default function generateRpcTypes (dest = 'packages/rpc-core/src/jsonrpc.
       types: Object.keys(imports.typesTypes)
     }
   ]);
-  const interfaceStart = 'export interface RpcInterface {\n';
-  const interfaceEnd = '\n}';
+  const interfaceStart = "declare module '@polkadot/rpc-core/types.jsonrpc' {\n  export interface RpcInterface {\n";
+  const interfaceEnd = '\n  }\n}';
 
   console.log('\tWriting');
 
