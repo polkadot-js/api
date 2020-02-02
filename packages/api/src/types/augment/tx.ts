@@ -258,7 +258,7 @@ declare module '@polkadot/api/types/submittable' {
        * the `origin` falls below _existential deposit_ and gets removed as dust.
        * # </weight>
        **/
-      bond: AugmentedSubmittable<(controller: Address | string | AccountId | AccountIndex | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | number | any) => SubmittableExtrinsic<ApiType>>;
+      bond: AugmentedSubmittable<(controller: Address | string | AccountId | AccountIndex | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Add some extra amount that have appeared in the stash `free_balance` into the balance up
        * for staking.
@@ -352,7 +352,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Writes are limited to the `origin` account key.
        * # </weight>
        **/
-      setPayee: AugmentedSubmittable<(payee: RewardDestination | number | any) => SubmittableExtrinsic<ApiType>>;
+      setPayee: AugmentedSubmittable<(payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * (Re-)set the controller of a stash.
        * Effects will be felt at the beginning of the next era.
@@ -456,7 +456,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: number | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact
        * the proposal; otherwise it is a vote to keep the status quo.
@@ -465,7 +465,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one DB entry.
        * # </weight>
        **/
-      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: number | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      proxyVote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: Vote | { aye: boolean; conviction?: ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number } | boolean | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Schedule an emergency cancellation of a referendum. Cannot happen twice to the same
        * referendum.
@@ -540,7 +540,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One extra DB entry.
        * # </weight>
        **/
-      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | number | any) => SubmittableExtrinsic<ApiType>>;
+      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Undelegate vote.
        * # <weight>
@@ -991,7 +991,7 @@ declare module '@polkadot/api/types/submittable' {
        * one storage-exists.
        * # </weight>
        **/
-      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | number | any])[]) => SubmittableExtrinsic<ApiType>>;
+      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | object | number | Uint8Array | string])[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Clear an account's identity info and all sub-account and return all deposits.
        * Payment: All reserved balances on the account are returned.
@@ -1094,7 +1094,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: Address | string | AccountId | AccountIndex | Uint8Array, judgement: IdentityJudgement | number | any) => SubmittableExtrinsic<ApiType>>;
+      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: Address | string | AccountId | AccountIndex | Uint8Array, judgement: IdentityJudgement | object | number | Uint8Array | string) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an account's identity and sub-account information and slash the deposits.
        * Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by
@@ -1360,7 +1360,7 @@ declare module '@polkadot/api/types/submittable' {
        * Total Complexity: O(M + logM + B + X)
        * # </weight>
        **/
-      judgeSuspendedCandidate: AugmentedSubmittable<(who: AccountId | string | Uint8Array, judgement: SocietyJudgement | number | any) => SubmittableExtrinsic<ApiType>>;
+      judgeSuspendedCandidate: AugmentedSubmittable<(who: AccountId | string | Uint8Array, judgement: SocietyJudgement | ('Rebid' | 'Reject' | 'Approve') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Allows root origin to change the maximum number of members in society.
        * Max membership count must be greater than 1.

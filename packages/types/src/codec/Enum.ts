@@ -183,6 +183,13 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description true if this is a basic enum (no values)
+   */
+  public get isBasic (): boolean {
+    return this._isBasic;
+  }
+
+  /**
    * @description Checks if the Enum points to a [[Null]] type
    */
   public get isNone (): boolean {
@@ -197,10 +204,17 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this._def);
+  }
+
+  /**
    * @description The name of the type this enum value represents
    */
   public get type (): string {
-    return Object.keys(this._def)[this._index];
+    return this.defKeys[this._index];
   }
 
   /**
