@@ -13,9 +13,10 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+import Vote from '../../primitives/Vote';
+import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
-import * as primitiveClasses from '../../primitive';
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
@@ -96,6 +97,8 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('object', 'string', 'Uint8Array');
   } else if (isChildClass(Option, clazz)) {
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
+  } else if (isChildClass(Vote, clazz)) {
+    possibleTypes.push('boolean', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, clazz)) {

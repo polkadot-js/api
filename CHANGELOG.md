@@ -1,5 +1,6 @@
 # 1.1.0-beta.x
 
+- Add support for `balances.account` in all applicable derives (incl. `vesting` module)
 - Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
 - Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
 - Remove additional V1-only derives `(staking.recentlyOffline`, `balances.nominatorsFor`)
