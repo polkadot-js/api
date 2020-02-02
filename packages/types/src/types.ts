@@ -13,6 +13,11 @@ import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
+// helper to xtract keys from an array
+export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
+  ? ElementType
+  : never;
+
 export type BareOpts = boolean | Record<string, boolean>;
 
 export type InterfaceTypes = keyof InterfaceRegistry;
