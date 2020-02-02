@@ -79,6 +79,26 @@ export interface Schedule extends Struct {
   readonly eventBaseCost: Gas;
   readonly sandboxDataReadCost: Gas;
   readonly sandboxDataWriteCost: Gas;
+  readonly transferCost: Gas;
+  readonly maxEventTopics: u32;
+  readonly maxStackHeight: u32;
+  readonly maxMemoryPages: u32;
+  readonly enablePrintln: bool;
+  readonly maxSubjectLen: u32;
+}
+
+/** @name ScheduleTo212 */
+export interface ScheduleTo212 extends Struct {
+  readonly version: u32;
+  readonly putCodePerByteCost: Gas;
+  readonly growMemCost: Gas;
+  readonly regularOpCost: Gas;
+  readonly returnDataPerByteCost: Gas;
+  readonly eventDataPerByteCost: Gas;
+  readonly eventPerTopicCost: Gas;
+  readonly eventBaseCost: Gas;
+  readonly sandboxDataReadCost: Gas;
+  readonly sandboxDataWriteCost: Gas;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
   readonly maxMemoryPages: u32;

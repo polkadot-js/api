@@ -43,10 +43,6 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       existentialDeposit: AugmentedConst<Balance>;
       /**
-       * The fee required to make a transfer.
-       **/
-      transferFee: AugmentedConst<Balance>;
-      /**
        * The fee required to create an account.
        **/
       creationFee: AugmentedConst<Balance>;
@@ -205,10 +201,6 @@ declare module '@polkadot/metadata/Decorated/types' {
        * to removal of a contract.
        **/
       surchargeReward: AugmentedConst<BalanceOf>;
-      /**
-       * The fee required to make a transfer.
-       **/
-      transferFee: AugmentedConst<BalanceOf>;
       /**
        * The fee required to create an account.
        **/

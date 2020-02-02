@@ -18,7 +18,7 @@ describe('fromMetadata', (): void => {
     const decorated = new Decorated(registry, rpcMetadata);
 
     it('should throw if the storage function expects an argument', (): void => {
-      expect((): any => decorated.query.balances.freeBalance()).toThrowError(/requires one argument/);
+      expect((): any => decorated.query.balances.account()).toThrowError(/requires one argument/);
     });
 
     it('should return a value if the storage function does not expect an argument', (): void => {
@@ -28,11 +28,11 @@ describe('fromMetadata', (): void => {
     it('should return the correct length-prefixed storage key', (): void => {
       expect(
         u8aToHex(
-          decorated.query.balances.freeBalance(keyring.alice.address)
+          decorated.query.system.accountNonce(keyring.alice.address)
         )
       ).toEqual(
         // new storage key format
-        '0x0101c2261276cc9d1f8598ea4b6a74b15c2f6482b9ade7bc6657aaca787ba1add3b42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
+        '0x010126aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
       );
     });
   });

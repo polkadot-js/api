@@ -8,6 +8,7 @@ import { DerivedContractFees } from '../types';
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
@@ -39,7 +40,7 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
     api.consts.contracts.tombstoneDeposit,
     api.consts.contracts.transactionBaseFee,
     api.consts.contracts.transactionByteFee,
-    api.consts.contracts.transferFee
+    api.consts.contracts.transferFee || createType(api.registry, 'Balance')
   ]) as unknown as Observable<ResultV2>;
 }
 

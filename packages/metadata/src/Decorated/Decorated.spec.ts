@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ClassOf, createType, TypeRegistry } from '@polkadot/types/codec/create';
-import { hexToU8a } from '@polkadot/util';
+import { u8aToHex } from '@polkadot/util';
 
 import Decorated from './Decorated';
 import json from '../Metadata/static';
@@ -12,15 +12,13 @@ const registry = new TypeRegistry();
 const decorated = new Decorated(registry, json);
 
 describe('Decorated', () => {
-  it('should correctly get Alice\'s freeBalance storage key (u8a)', (): void => {
+  it('should correctly get Alice\'s nonce storage key (u8a)', (): void => {
     expect(
-      decorated.query
-        .balances
-        .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
-    ).toEqual(
-      hexToU8a(
-        '0x0101c2261276cc9d1f8598ea4b6a74b15c2f6482b9ade7bc6657aaca787ba1add3b42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
+      u8aToHex(
+        decorated.query.system.accountNonce('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
       )
+    ).toEqual(
+      '0x010126aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
     );
   });
 

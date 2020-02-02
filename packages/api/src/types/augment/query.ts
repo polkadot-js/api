@@ -7,7 +7,7 @@ import { Bytes, Data, bool, u32, u64 } from '@polkadot/types';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';
-import { BalanceLock, VestingSchedule } from '@polkadot/types/interfaces/balances';
+import { AccountData, BalanceLock } from '@polkadot/types/interfaces/balances';
 import { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { CodeHash, ContractInfo, Gas, PrefabWasmModule, Schedule } from '@polkadot/types/interfaces/contracts';
@@ -25,6 +25,7 @@ import { DigestOf, EventIndex, EventRecord } from '@polkadot/types/interfaces/sy
 import { OpenTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
+import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import { AnyNumber, ITuple } from '@polkadot/types/types';
 
 declare module '@polkadot/api/types/storage' {
@@ -193,36 +194,21 @@ declare module '@polkadot/api/types/storage' {
        **/
       totalIssuance: AugmentedQuery<ApiType, () => Observable<Balance>> & QueryableStorageEntry<ApiType>;
       /**
-       * Information regarding the vesting of a given account.
+       * The balance of an account.
+       * NOTE: THIS MAY NEVER BE IN EXISTENCE AND YET HAVE A `total().is_zero()`. If the total
+       * is ever zero, then the entry *MUST* be removed.
        **/
-      vesting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<VestingSchedule>>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The 'free' balance of a given account.
-       * This is the only balance that matters in terms of most operations on tokens. It
-       * alone is used to determine the balance when in the contract execution environment. When this
-       * balance falls below the value of `ExistentialDeposit`, then the 'current account' is
-       * deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback
-       * is invoked, giving a chance to external modules to clean up data associated with
-       * the deleted account.
-       * `frame_system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets
-       * collapsed to zero if it ever becomes less than `ExistentialDeposit`.
-       **/
-      freeBalance: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Balance>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The amount of the balance of a given account that is externally reserved; this can still get
-       * slashed, but gets slashed last of all.
-       * This balance is a 'reserve' balance that other subsystems use in order to set aside tokens
-       * that are still 'owned' by the account holder, but which are suspendable.
-       * When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'
-       * is deleted: specifically, `ReservedBalance`.
-       * `frame_system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets
-       * collapsed to zero if it ever becomes less than `ExistentialDeposit`.)
-       **/
-      reservedBalance: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Balance>> & QueryableStorageEntry<ApiType>;
+      account: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<AccountData>> & QueryableStorageEntry<ApiType>;
       /**
        * Any liquidity locks on some account balances.
+       * NOTE: Should only be accessed when setting, changing and freeing a lock.
        **/
       locks: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Vec<BalanceLock>>> & QueryableStorageEntry<ApiType>;
+      /**
+       * True if network has been upgraded to this version.
+       * True for new networks.
+       **/
+      isUpgraded: AugmentedQuery<ApiType, () => Observable<bool>> & QueryableStorageEntry<ApiType>;
     };
     transactionPayment: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -441,6 +427,11 @@ declare module '@polkadot/api/types/storage' {
        **/
       delegations: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[AccountId, Conviction]>>> & QueryableStorageEntry<ApiType>;
       /**
+       * Accounts for which there are locks in action which may be removed at some point in the
+       * future. The value is the block number at which the lock expires and may be removed.
+       **/
+      locks: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<BlockNumber>>> & QueryableStorageEntry<ApiType>;
+      /**
        * True if the last referendum tabled was submitted externally. False if it was a public
        * proposal.
        **/
@@ -644,9 +635,13 @@ declare module '@polkadot/api/types/storage' {
     imOnline: {
       [index: string]: QueryableStorageEntry<ApiType>;
       /**
-       * The block number when we should gossip.
+       * The block number after which it's ok to send heartbeats in current session.
+       * At the beginning of each session we set this to a value that should
+       * fall roughly in the middle of the session duration.
+       * The idea is to first wait for the validators to produce a block
+       * in the current session, so that the heartbeat later on will not be necessary.
        **/
-      gossipAt: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
+      heartbeatAfter: AugmentedQuery<ApiType, () => Observable<BlockNumber>> & QueryableStorageEntry<ApiType>;
       /**
        * The current set of keys that may issue a heartbeat.
        **/
@@ -797,6 +792,13 @@ declare module '@polkadot/api/types/storage' {
        * Map from the recovered account to the user who can access it.
        **/
       recovered: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<AccountId>>> & QueryableStorageEntry<ApiType>;
+    };
+    vesting: {
+      [index: string]: QueryableStorageEntry<ApiType>;
+      /**
+       * Information regarding the vesting of a given account.
+       **/
+      vesting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<VestingInfo>>> & QueryableStorageEntry<ApiType>;
     };
   }
 }
