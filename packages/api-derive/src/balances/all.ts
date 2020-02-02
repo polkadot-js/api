@@ -17,7 +17,7 @@ import { memo } from '../util';
 type ResultBalance = [VestingInfo | null, (BalanceLock | BalanceLockTo212)[]];
 type Result = [DerivedBalancesAccount, BlockNumber, ResultBalance];
 
-function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFree, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DerivedBalancesAll {
+function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DerivedBalancesAll {
   let lockedBalance = createType(api.registry, 'Balance');
   let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
 
@@ -57,7 +57,7 @@ function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBala
     accountNonce,
     availableBalance,
     freeBalance,
-    frozenFree,
+    frozenFee,
     frozenMisc,
     isVesting,
     lockedBalance,

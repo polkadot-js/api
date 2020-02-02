@@ -14,12 +14,12 @@ import { memo } from '../util';
 
 type Result = [Balance, Balance, Balance, Balance, Index];
 
-function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBalance, frozenFree, frozenMisc, accountNonce]]: [AccountId, Result]): DerivedBalancesAccount {
+function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBalance, frozenFee, frozenMisc, accountNonce]]: [AccountId, Result]): DerivedBalancesAccount {
   return {
     accountId,
     accountNonce,
     freeBalance,
-    frozenFree,
+    frozenFee,
     frozenMisc,
     reservedBalance,
     votingBalance: createType(api.registry, 'Balance', freeBalance.add(reservedBalance))

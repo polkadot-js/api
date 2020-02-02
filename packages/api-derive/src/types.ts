@@ -34,7 +34,7 @@ export interface DerivedBalancesAccount {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
-  frozenFree: Balance;
+  frozenFee: Balance;
   frozenMisc: Balance;
   reservedBalance: Balance;
   votingBalance: Balance;
