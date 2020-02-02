@@ -11,10 +11,21 @@ import { createType } from '../../codec/create';
 import U8aFixed from '../../codec/U8aFixed';
 import Bool from '../Bool';
 
+const convictions = {
+  None: 0,
+  Locked1x: 1,
+  Locked2x: 2,
+  Locked3x: 3,
+  Locked4x: 4,
+  Locked5x: 5
+};
+
+export const convictionNames = Object.keys(convictions);
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type InputTypes = boolean | number | Boolean | Uint8Array | {
   aye: boolean;
-  conviction?: number | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x');
+  conviction?: number | keyof typeof convictions;
 };
 
 // For votes, the topmost bit indicated aye/nay, the lower bits indicate the conviction

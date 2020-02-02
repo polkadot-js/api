@@ -13,10 +13,12 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Vote from '../../primitive/Generic/Vote';
+import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
 import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
+
+const voteConvictions = _voteConvictions.map((c): string => `'${c}'`).join(' | ');
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
@@ -100,7 +102,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   } else if (isChildClass(Vote, clazz)) {
     // FIXME conviction should be the enum types
     // TODO When we have a hex type, string should be that...
-    possibleTypes.push('{ aye?: boolean; conviction?: string }', 'boolean', 'string', 'Uint8Array');
+    possibleTypes.push(`{ aye?: boolean; conviction?: number | (${voteConvictions}) }`, 'boolean', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, clazz)) {
