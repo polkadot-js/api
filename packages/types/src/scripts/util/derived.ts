@@ -99,7 +99,8 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
   } else if (isChildClass(Vote, clazz)) {
     // FIXME conviction should be the enum types
-    possibleTypes.push('{ aye?: boolean; conviction?: string }', 'boolean', 'object', 'string', 'Uint8Array');
+    // TODO When we have a hex type, string should be that...
+    possibleTypes.push('{ aye?: boolean; conviction?: string }', 'boolean', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, clazz)) {
