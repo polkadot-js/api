@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-contract authors & contributors
+// Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -41,7 +41,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
     return {
       send: this.decorateMethod(
-        as === 'rpc'
+        as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> => {
             return this.rpcContractsCall(
               createType(this.registry, 'ContractCallRequest', {

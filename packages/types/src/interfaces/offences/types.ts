@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
@@ -7,25 +7,23 @@ import { Bytes } from '@polkadot/types/primitive';
 import { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
 import { IdentificationTuple } from '@polkadot/types/interfaces/session';
 
-/** Uint8Array, Codec */
+/** @name Kind */
 export interface Kind extends Uint8Array, Codec {}
 
-/** Struct */
+/** @name OffenceDetails */
 export interface OffenceDetails extends Struct {
-  /** Offender */
   readonly offender: Offender;
-  /** Vec<Reporter> */
   readonly reporters: Vec<Reporter>;
 }
 
-/** IdentificationTuple */
+/** @name Offender */
 export interface Offender extends IdentificationTuple {}
 
-/** Bytes */
+/** @name OpaqueTimeSlot */
 export interface OpaqueTimeSlot extends Bytes {}
 
-/** AccountId */
+/** @name Reporter */
 export interface Reporter extends AccountId {}
 
-/** Hash */
+/** @name ReportIdOf */
 export interface ReportIdOf extends Hash {}

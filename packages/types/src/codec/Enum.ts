@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -125,6 +125,7 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
+  /** @internal */
   private static decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
     // NOTE We check the index path first, before looking at values - this allows treating
     // the optional indexes before anything else, more-specific > less-specific
@@ -186,6 +187,13 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description true if this is a basic enum (no values)
+   */
+  public get isBasic (): boolean {
+    return this._isBasic;
+  }
+
+  /**
    * @description Checks if the Enum points to a [[Null]] type
    */
   public get isNone (): boolean {
@@ -200,10 +208,24 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description The available keys for this enum
+   */
+  public get defEntries (): string[] {
+    return Object.keys(this._def);
+  }
+
+  /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this._def);
+  }
+
+  /**
    * @description The name of the type this enum value represents
    */
   public get type (): string {
-    return Object.keys(this._def)[this._index];
+    return this.defKeys[this._index];
   }
 
   /**
@@ -248,7 +270,7 @@ export default class Enum extends Base<Codec> {
    */
   public toJSON (): AnyJson {
     return this._isBasic
-      ? this._index
+      ? stringCamelCase(this.toString())
       : { [this.type]: this.raw.toJSON() };
   }
 
@@ -264,7 +286,7 @@ export default class Enum extends Base<Codec> {
    */
   protected toRawStruct (): string[] | Record<string, string> {
     return this._isBasic
-      ? Object.keys(this._def)
+      ? this.defKeys
       : Struct.typesToMap(this.registry, this._def);
   }
 

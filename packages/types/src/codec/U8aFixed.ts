@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -24,6 +24,7 @@ export default class U8aFixed extends Raw {
     super(registry, U8aFixed.decodeU8aFixed(value, bitLength));
   }
 
+  /** @internal */
   private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength): AnyU8a {
     if (Array.isArray(value) || isString(value)) {
       return U8aFixed.decodeU8aFixed(u8aToU8a(value), bitLength);

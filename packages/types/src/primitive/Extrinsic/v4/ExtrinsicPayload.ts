@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,17 +10,20 @@ import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-import { SignedPayloadDefV3 as SignedPayloadDefV4 } from '../v3/ExtrinsicPayload';
 
 /**
- * @name ExtrinsicPayloadV4
+ * @name GenericExtrinsicPayloadV4
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
 export default class ExtrinsicPayloadV4 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(registry, SignedPayloadDefV4, value);
+    super(registry, {
+      method: 'Bytes',
+      ...registry.getSignedExtensionTypes(),
+      ...registry.getSignedExtensionExtra()
+    }, value);
   }
 
   /**

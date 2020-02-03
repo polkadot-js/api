@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,6 +9,7 @@ import { getTypeDef } from '@polkadot/types/codec/create';
 
 import flattenUniq from './flattenUniq';
 
+/** @internal */
 function extractTypes (types: string[]): any[] {
   return types.map((type): any => {
     const decoded = getTypeDef(type);
@@ -26,6 +27,7 @@ function extractTypes (types: string[]): any[] {
         return extractTypes([(decoded.ext as TypeDefExtVecFixed).type]);
 
       case TypeDefInfo.BTreeMap:
+      case TypeDefInfo.BTreeSet:
       case TypeDefInfo.Result:
       case TypeDefInfo.Tuple:
         return extractTypes((decoded.sub as TypeDef[]).map((sub): string => sub.type));
@@ -36,6 +38,7 @@ function extractTypes (types: string[]): any[] {
   });
 }
 
+/** @internal */
 export default function validateTypes (registry: Registry, types: string[], throwError: boolean): void {
   const missing = flattenUniq(extractTypes(types)).filter((type): boolean =>
     !registry.hasType(type)

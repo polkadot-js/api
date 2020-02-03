@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,6 +6,7 @@ import { asapScheduler, ConnectableObservable, MonoTypeOperatorFunction, Observa
 
 const DELAY = 1750;
 
+/** @internal */
 function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
   let connected = 0; // 0 = disconnected, 1 = disconnecting, 2 = connecting, 3 = connected
   let refCount = 0;
@@ -43,6 +44,7 @@ function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
   });
 }
 
+/** @internal */
 export function refCountDelay <T> (): MonoTypeOperatorFunction<T> {
   return refCountDelayInner;
 }

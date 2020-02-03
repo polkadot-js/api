@@ -1,19 +1,33 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
+import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOfUnsafe, getTypeDef } from '../../codec/create';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
+import Compact from '../../codec/Compact';
+import Enum from '../../codec/Enum';
+import Option from '../../codec/Option';
+import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+import Null from '../../primitive/Null';
+import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
+import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
-import * as primitiveClasses from '../../primitive';
+
+function arrayToStrType (arr: string[]): string {
+  return `(${arr.map((c): string => `'${c}'`).join(' | ')})`;
+}
+
+const voteConvictions = arrayToStrType(_voteConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
+/** @internal */
 export function getDerivedTypes (definitions: object, type: string, primitiveName: string, imports: TypeImports): string[] {
   // `primitiveName` represents the actual primitive type our type is mapped to
   const isCompact = isCompactEncodable((primitiveClasses as any)[primitiveName]);
@@ -48,32 +62,69 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 }
 
 // Make types a little bit more flexible
-// - if param instanceof AbstractInt, then param: u64 | Uint8array | string | number
+// - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
+/** @internal */
 export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
     return ['IExtrinsic'];
+  } else if (type === 'StorageKey') {
+    // TODO We can do better
+    return ['StorageKey', 'string', 'Uint8Array', 'any'];
   }
 
-  if (isChildClass(Vec, ClassOfUnsafe(registry, type))) {
-    return [`(${getSimilarTypes(definitions, registry, ((getTypeDef(type).sub) as TypeDef).type, imports).join(' | ')})[]`];
-  }
+  const Clazz = ClassOfUnsafe(registry, type);
 
-  // FIXME This is a hack, it's hard to correctly type StorageKeys in the
-  // current state
-  if (type === 'StorageKey') {
-    return ['any'];
-  }
+  if (isChildClass(Vec, Clazz)) {
+    const subDef = (getTypeDef(type).sub) as TypeDef;
 
-  // Cannot get isChildClass of abstract class, but it works
-  if (isChildClass(AbstractInt as unknown as Constructor<any>, ClassOfUnsafe(registry, type))) {
-    possibleTypes.push('Uint8Array', 'number', 'string');
-  } else if (isChildClass(Uint8Array, ClassOfUnsafe(registry, type))) {
-    possibleTypes.push('Uint8Array', 'string');
-  } else if (isChildClass(String, ClassOfUnsafe(registry, type))) {
+    if (subDef.info === TypeDefInfo.Plain) {
+      possibleTypes.push(`(${getSimilarTypes(definitions, registry, subDef.type, imports).join(' | ')})[]`);
+    } else if (subDef.info === TypeDefInfo.Tuple) {
+      const subs = (subDef.sub as TypeDef[]).map(({ type }): string =>
+        getSimilarTypes(definitions, registry, type, imports).join(' | ')
+      );
+
+      possibleTypes.push(`([${subs.join(', ')}])[]`);
+    } else {
+      throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
+    }
+  } else if (isChildClass(Enum, Clazz)) {
+    const e = new Clazz(registry) as Enum;
+
+    if (e.isBasic) {
+      possibleTypes.push(arrayToStrType(e.defKeys), 'number');
+    } else {
+      // TODO We don't really want any here, these should be expanded
+      possibleTypes.push(...e.defKeys.map((key): string => `{ ${stringLowerFirst(key)}: any }`), 'string');
+    }
+
+    possibleTypes.push('Uint8Array');
+  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
+    possibleTypes.push('AnyNumber', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
+    possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
+    possibleTypes.push('boolean', 'Uint8Array');
+  } else if (isChildClass(Null, Clazz)) {
+    possibleTypes.push('null');
+  } else if (isChildClass(Struct, Clazz)) {
+    // TODO We don't really want any here, these should be expanded
+    const s = new Clazz(registry) as Struct;
+    const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
+
+    possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
+  } else if (isChildClass(Option, Clazz)) {
+    // TODO inspect container
+    possibleTypes.push('null', 'object', 'string', 'Uint8Array');
+  } else if (isChildClass(Vote, Clazz)) {
+    possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
+  } else if (isChildClass(Uint8Array, Clazz)) {
+    possibleTypes.push('string', 'Uint8Array');
+  } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
   }
 

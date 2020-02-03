@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -45,7 +45,6 @@ describe('derive', (): void => {
     testFunction(api)('balances', 'fees', []);
     testFunction(api)('balances', 'votingBalance', []);
     testFunction(api)('balances', 'votingBalances', []);
-    testFunction(api)('balances', 'votingBalancesNominatorsFor', []);
 
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
@@ -62,7 +61,6 @@ describe('derive', (): void => {
     testFunction(api)('session', 'sessionProgress', []);
 
     testFunction(api)('staking', 'account', []);
-    testFunction(api)('staking', 'recentlyOffline', []);
     testFunction(api)('staking', 'controllers', []);
   });
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -17,13 +17,15 @@ import { memo } from '../util';
  */
 export function receivedHeartbeats (api: ApiInterfaceRx): () => Observable<DerivedHeartbeats> {
   return memo((): Observable<DerivedHeartbeats> =>
-    api.query.imOnline?.receivedHeartbeats && api.query.imOnline.authoredBlocks
+    api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
         switchMap(({ currentIndex, validators }): Observable<[AccountId[], Option<Bytes>[], u32[]]> =>
           combineLatest([
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
-            api.query.imOnline.authoredBlocks.multi<u32>(validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
+            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(
+              validators.map((_address, index): [SessionIndex, number] => [currentIndex, index])),
+            api.query.imOnline.authoredBlocks.multi<u32>(
+              validators.map((address): [SessionIndex, AccountId] => [currentIndex, address]))
           ])
         ),
         map(([validators, heartbeats, numBlocks]): DerivedHeartbeats =>

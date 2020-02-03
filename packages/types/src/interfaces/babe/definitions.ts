@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -26,20 +26,20 @@ export default {
       authorityIndex: 'u32', // AuthorityIndex (also in aura)
       slotNumber: 'SlotNumber'
     },
-    RawBabePreDigest0to159: {
+    RawBabePreDigestTo159: {
       _enum: {
-        Primary: 'RawBabePreDigestPrimary0to159',
-        Secondary: 'RawBabePreDigestSecondary0to159'
+        Primary: 'RawBabePreDigestPrimaryTo159',
+        Secondary: 'RawBabePreDigestSecondaryTo159'
       }
     },
-    RawBabePreDigestPrimary0to159: {
+    RawBabePreDigestPrimaryTo159: {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight',
       vrfOutput: 'VrfData',
       vrfProof: 'VrfProof'
     },
-    RawBabePreDigestSecondary0to159: {
+    RawBabePreDigestSecondaryTo159: {
       authorityIndex: 'u32',
       slotNumber: 'SlotNumber',
       weight: 'BabeBlockWeight'

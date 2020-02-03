@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -19,12 +19,13 @@ describe('getTypeDef', (): void => {
     ).toThrow(/Unable to find closing matching/);
   });
 
-  it('maps empty tuples to Null', (): void => {
+  it('maps empty tuples to empty tuple', (): void => {
     expect(
       getTypeDef('()')
     ).toEqual({
-      info: TypeDefInfo.Plain,
-      type: 'Null'
+      info: TypeDefInfo.Tuple,
+      sub: [],
+      type: '()'
     });
   });
 
@@ -44,6 +45,19 @@ describe('getTypeDef', (): void => {
           type: 'Text'
         }
       ]
+    });
+  });
+
+  it('properly decodes a BTreeSet<Text>', (): void => {
+    expect(
+      getTypeDef('BTreeSet<Text>')
+    ).toEqual({
+      info: TypeDefInfo.BTreeSet,
+      type: 'BTreeSet<Text>',
+      sub: {
+        info: TypeDefInfo.Plain,
+        type: 'Text'
+      }
     });
   });
 

@@ -1,8 +1,9 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Registry } from '../../types';
+import { ArrayElementType, Registry } from '../../types';
+import democracyDef from '../../interfaces/democracy/definitions';
 import { Conviction } from '../../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
@@ -11,10 +12,12 @@ import { createType } from '../../codec/create';
 import U8aFixed from '../../codec/U8aFixed';
 import Bool from '../Bool';
 
+export const convictionNames = democracyDef.types.Conviction._enum;
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type InputTypes = boolean | number | Boolean | Uint8Array | {
   aye: boolean;
-  conviction?: number | ('None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x');
+  conviction?: number | ArrayElementType<typeof convictionNames>;
 };
 
 // For votes, the topmost bit indicated aye/nay, the lower bits indicate the conviction
@@ -45,6 +48,7 @@ export default class Vote extends U8aFixed {
     this._conviction = createType(this.registry, 'Conviction', decoded[0] & CON_MASK);
   }
 
+  /** @internal */
   private static decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
     if (isUndefined(value)) {
       return Vote.decodeVoteBool(false);
@@ -62,12 +66,14 @@ export default class Vote extends U8aFixed {
     return new Uint8Array([vote | conviction.index]);
   }
 
+  /** @internal */
   private static decodeVoteBool (value: boolean): Uint8Array {
     return value
       ? new Uint8Array([AYE_BITS | DEF_CONV])
       : new Uint8Array([NAY_BITS]);
   }
 
+  /** @internal */
   private static decodeVoteU8a (value: Uint8Array): Uint8Array {
     return value.length
       ? value.subarray(0, 1)

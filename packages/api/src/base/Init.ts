@@ -1,20 +1,19 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignedBlock } from '@polkadot/types/interfaces';
-import { RegistryTypes } from '@polkadot/types/types';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata/Decorated';
 import { Metadata, u32 as U32 } from '@polkadot/types';
+import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import Decorate from './Decorate';
-import { getChainTypes, getMetadataTypes } from './typeInjector';
 
 const KEEPALIVE_INTERVAL = 15000;
 
@@ -46,9 +45,14 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
     this._rpcCore.provider.on('error', this._onProviderError);
     this._rpcCore.provider.on('connected', this._onProviderConnect);
-  }
 
-  public abstract registerTypes (types?: RegistryTypes): void;
+    // If the provider was instantiated earlier, and has already emitted a
+    // 'connected' event, then the `on('connected')` won't fire anymore. To
+    // cater for this case, we call manually `this._onProviderConnect`.
+    if (this._rpcCore.provider.isConnected()) {
+      this._onProviderConnect();
+    }
+  }
 
   protected async loadMeta (): Promise<boolean> {
     const { metadata = {} } = this._options;
@@ -124,9 +128,12 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this.registerTypes(getMetadataTypes(metadata.version));
 
     const decoratedMeta = new DecoratedMeta(this.registry, metadata);
+    const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)
-    if (!this._options.source) {
+    if (metaExtrinsic.version.gtn(0)) {
+      this._extrinsicType = metaExtrinsic.version.toNumber();
+    } else if (!this._options.source) {
       // detect the extrinsic version in-use based on the last block
       const { block: { extrinsics: [firstTx] } }: SignedBlock = await this._rpcCore.chain.getBlock().toPromise();
 

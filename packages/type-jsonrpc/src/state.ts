@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/jsonrpc authors & contributors
+// Copyright 2017-2020 @polkadot/jsonrpc authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -50,6 +50,8 @@ const getStorageSize: RpcMethodOpt = {
 
 const CHILD_QUERY_PARAMS = [
   createParam('childStorageKey', 'StorageKey'),
+  createParam('childDefinition', 'StorageKey'),
+  createParam('childType', 'u32'),
   createParam('key', 'StorageKey'),
   createParam('at', 'BlockHash', { isOptional: true })
 ];

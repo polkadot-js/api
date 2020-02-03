@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -45,6 +45,6 @@ describe('Result', (): void => {
   });
 
   it('returns a proper raw typedef rom a built-in', (): void => {
-    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<Null,Text>');
+    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
   });
 });

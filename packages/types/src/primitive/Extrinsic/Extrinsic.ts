@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -39,7 +39,7 @@ const VERSIONS: InterfaceTypes[] = [
 export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
 /**
- * @name Extrinsic
+ * @name GenericExtrinsic
  * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
@@ -55,6 +55,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
   }
 
+  /** @internal */
   private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (value instanceof Extrinsic) {
       return value.raw;
@@ -68,6 +69,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
+  /** @internal */
   public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (Array.isArray(value) || isHex(value)) {
       return Extrinsic.decodeU8aLike(registry, value, version);
@@ -80,6 +82,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     return Extrinsic.newFromValue(registry, value, version);
   }
 
+  /** @internal */
   private static decodeU8aLike (registry: Registry, value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
     // Instead of the block below, it should simply be:
     // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -100,6 +103,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     );
   }
 
+  /** @internal */
   private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
     if (!value.length) {
       return Extrinsic.newFromValue(registry, new Uint8Array(), version);
@@ -253,10 +257,19 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
+   * @describe Adds a fake signature to the extrinsic
+   */
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): Extrinsic {
+    (this.raw as ExtrinsicVx).signFake(signer, options);
+
+    return this;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
-  public toHex (): string {
-    return u8aToHex(this.toU8a());
+  public toHex (isBare?: boolean): string {
+    return u8aToHex(this.toU8a(isBare));
   }
 
   /**
@@ -275,10 +288,12 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   * @param isBare true when the value is not length-prefixed
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a(isBare));
+    // we do not apply bare to the internal values, rather this only determines out length addition,
+    // where we strip all lengths this creates an un-decodable extrinsic
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
 
     return isBare
       ? encoded

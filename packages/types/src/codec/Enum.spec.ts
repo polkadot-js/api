@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry, createType } from './create';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -178,7 +178,7 @@ describe('Enum', (): void => {
 
     const testEncode = (to: 'toJSON' | 'toNumber' | 'toString' | 'toU8a', expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const e = new Enum(registry, ['foo', 'bar'], 1);
+        const e = new Enum(registry, ['Foo', 'Bar'], 1);
 
         expect(e[to]()).toEqual(expected);
       });
@@ -191,9 +191,9 @@ describe('Enum', (): void => {
     testDecode('Uint8Array', Uint8Array.from([0]), 'foo');
     testDecode('Uint8Array', Uint8Array.from([1]), 'bar');
 
-    testEncode('toJSON', 1);
+    testEncode('toJSON', 'bar');
     testEncode('toNumber', 1);
-    testEncode('toString', 'bar');
+    testEncode('toString', 'Bar');
     testEncode('toU8a', Uint8Array.from([1]));
 
     it('provides a clean toString()', (): void => {
@@ -325,6 +325,29 @@ describe('Enum', (): void => {
 
         expect(test.toHex()).toEqual('0x017b000000');
         expect(test.encodedLength).toEqual(1 + 4);
+      });
+
+      it('encodes a single entry correctly', (): void => {
+        const Test = Enum.with({ A: 'u32' });
+        const test = new Test(registry, 0x44332211, 0);
+
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          '11223344' // u32 LE encoded
+        );
+      });
+
+      it('encodes a single entry correctly (with embedded encoding)', (): void => {
+        const Test = Enum.with({ A: 'Address' });
+        const test = new Test(registry, createType(registry, 'AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
+
+        expect(test.toHex()).toEqual(
+          '0x' +
+          '00' + // index
+          'ff' + // Address indicating an embedded AccountId
+          '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
+        );
       });
     });
   });

@@ -1,13 +1,13 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Registry } from '@polkadot/types/types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
 
-import { assert, stringCamelCase } from '@polkadot/util';
+import { assert, isFunction, stringCamelCase } from '@polkadot/util';
 import Abi from '../Abi';
 
 export abstract class Base<ApiType extends ApiTypes> implements ContractBase<ApiType> {
@@ -66,13 +66,13 @@ export abstract class BaseWithTx<ApiType extends ApiTypes> extends Base<ApiType>
 }
 
 export abstract class BaseWithTxAndRpcCall<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
-  protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
-    return this.api.rx.rpc.contracts.call;
+  public get hasRpcContractsCall (): boolean {
+    return isFunction(this.api.rx.rpc.contracts?.call);
   }
 
-  constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>) {
-    super(api, abi, decorateMethod);
+  protected get rpcContractsCall (): DecoratedRpc<'rxjs', RpcInterface>['contracts']['call'] {
+    assert(this.hasRpcContractsCall, 'You need to connect to a node with the contracts.call RPC method.');
 
-    assert(this.api.rx.rpc.contracts && this.api.rx.tx.contracts.call, 'You need to connect to a node with the contracts module, the metadata does not enable api.rpc.contracts.call on this instance');
+    return this.api.rx.rpc.contracts.call;
   }
 }

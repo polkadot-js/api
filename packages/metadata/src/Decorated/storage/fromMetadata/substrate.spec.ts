@@ -1,23 +1,13 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeRegistry } from '@polkadot/types';
 
-import { authorityCount, authorityPrefix, changesTrieConfig, childStorageKeyPrefix, code, extrinsicIndex, heapPages } from './substrate';
+import { changesTrieConfig, childStorageKeyPrefix, code, extrinsicIndex, heapPages } from './substrate';
 
 describe('substrate', (): void => {
   const registry = new TypeRegistry();
-
-  // @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
-  // have been removed in https://github.com/paritytech/substrate/pull/2802
-  it('authorityCount should return the correct storage key', (): void => {
-    expect(authorityCount(registry, 8)()).toEqual(Uint8Array.from([36, 58, 97, 117, 116, 104, 58, 108, 101, 110])); // Length-prefixed
-  });
-
-  it('authorityPrefix should return the correct storage key', (): void => {
-    expect(authorityPrefix(registry, 8)()).toEqual(Uint8Array.from([24, 58, 97, 117, 116, 104, 58])); // Length-prefixed
-  });
 
   it('changesTrieConfig should return the correct storage key', (): void => {
     expect(changesTrieConfig(registry, 8)()).toEqual(Uint8Array.from([52, 58, 99, 104, 97, 110, 103, 101, 115, 95, 116, 114, 105, 101])); // Length-prefixed

@@ -1,30 +1,27 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
+import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ModulesWithCalls, Registry } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
-import {
-  ApiInterfaceRx, ApiOptions, ApiTypes,
-  DecorateMethod, DecoratedRpc, DecoratedRpcSection,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg,
-  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
-} from '../types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
 import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { Metadata, Null, Option, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
@@ -37,6 +34,8 @@ interface MetaDecoration {
   section: string;
   toJSON: () => any;
 }
+
+type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
   public readonly registry: Registry;
@@ -129,6 +128,10 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
     this._rx.registry = this.registry;
   }
+
+  public abstract createType <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K];
+
+  public abstract registerTypes (types?: RegistryTypes): void;
 
   /**
    * @returns `true` if the API operates with subscriptions
@@ -255,10 +258,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
       : [creator, ...args];
 
     // FIXME We probably want to be able to query the full list with non-subs as well
-    const decorated = this.hasSubscriptions && creator.iterKey && (creator.meta.type.asMap.kind.isLinkedMap || creator.meta.type.asMap.kind.isPrefixedMap)
-      ? creator.meta.type.asMap.kind.isLinkedMap
-        ? this.decorateStorageLinked(creator, decorateMethod)
-        : this.decorateStoragePrefixed(creator, decorateMethod)
+    const decorated = this.hasSubscriptions && creator.iterKey && creator.meta.type.isMap && creator.meta.type.asMap.linked.isTrue
+      ? this.decorateStorageLinked(creator, decorateMethod)
       : decorateMethod((...args: any[]): Observable<Codec> => (
         this.hasSubscriptions
           ? this._rpcCore.state
@@ -275,8 +276,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.at = decorateMethod((hash: Hash, arg1?: Arg, arg2?: Arg): Observable<Codec> =>
       this._rpcCore.state.getStorage(getArgs(arg1, arg2), hash));
 
-    decorated.entries = decorateMethod((): Observable<[StorageKey, Codec][]> =>
-      this.retrieveMapEntries(creator));
+    decorated.entries = decorateMethod((doubleMapArg?: Arg): Observable<[StorageKey, Codec][]> =>
+      this.retrieveMapEntries(creator, doubleMapArg));
 
     decorated.hash = decorateMethod((arg1?: Arg, arg2?: Arg): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(arg1, arg2)));
@@ -298,7 +299,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
+    const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
 
@@ -306,13 +307,17 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> =>
-      this._rpcCore.state.subscribeStorage<[[Codec, Linkage<Codec>]]>([[creator, key]]).pipe(
-        switchMap(([data]: [[Codec, Linkage<Codec>]]): Observable<LinkageResult> => {
+      this._rpcCore.state.subscribeStorage<[LinkageData | Option<LinkageData>]>([[creator, key]]).pipe(
+        switchMap(([_data]: [LinkageData | Option<LinkageData>]): Observable<LinkageResult> => {
+          const data = creator.meta.modifier.isOptional
+            ? (_data as Option<LinkageData>).unwrapOr(null)
+            : _data as LinkageData;
+
           result.set(key, data);
 
           // iterate from this key to the linkages, constructing entries for all
           // those found and available
-          if (data[1].next.isSome) {
+          if (data && data[1].next.isSome) {
             return getNext(data[1].next.unwrap());
           }
 
@@ -334,7 +339,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
             keys.push(nextKey);
             vals.push(item);
 
-            nextKey = linkage.next && linkage.next.unwrapOr(null);
+            nextKey = linkage.next?.unwrapOr(null);
           }
 
           const nextResult = vals.length
@@ -365,15 +370,26 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     );
   }
 
-  private retrieveMapData (creator: StorageEntry): Observable<[StorageKey[], Vec<Codec>]> {
-    assert(creator.meta.type.isMap, 'entries can only be retrieved on maps');
+  private retrieveMapEntries (creator: StorageEntry, arg?: Arg): Observable<[StorageKey, Codec][]> {
+    assert(creator.iterKey && (creator.meta.type.isMap || creator.meta.type.isDoubleMap), 'entries can only be retrieved on maps, linked maps and double maps');
 
-    const outputType = creator.meta.type.asMap.value.toString();
+    const outputType = creator.meta.type.isMap
+      ? creator.meta.type.asMap.value.toString()
+      : creator.meta.type.asDoubleMap.value.toString();
 
     return this._rpcCore.state
       // FIXME This should really be some sort of subscription, so we can get stuff as
       // it changes (as of now it is a one-shot query). Not sure how to do this though...
-      .getKeys(creator.iterKey)
+      .getKeys(
+        this.createType('Raw', u8aConcat(
+          creator.iterKey,
+          creator.meta.type.isDoubleMap && !isUndefined(arg) && !isNull(arg)
+            ? getHasher(creator.meta.type.asDoubleMap.hasher)(
+              this.createType(creator.meta.type.asDoubleMap.key1.toString() as 'Raw', arg).toU8a()
+            )
+            : new Uint8Array([])
+        ))
+      )
       .pipe(
         switchMap((keys): Observable<[StorageKey[], Vec<Codec>]> =>
           combineLatest([
@@ -383,26 +399,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
               keys.map((key) => key.setOutputType(outputType))
             )
           ])
+        ),
+        map(([keys, values]): [StorageKey, Codec][] =>
+          keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
         )
       );
-  }
-
-  private retrieveMapEntries (creator: StorageEntry): Observable<[StorageKey, Codec][]> {
-    return this.retrieveMapData(creator).pipe(
-      map(([keys, values]): [StorageKey, Codec][] =>
-        keys.map((key, index): [StorageKey, Codec] => [key, values[index]])
-      )
-    );
-  }
-
-  private decorateStoragePrefixed<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    return decorateMethod((...args: any[]): Observable<Codec> =>
-      args.length
-        ? this._rpcCore.state
-          .subscribeStorage<[Codec]>([[creator, ...args]])
-          .pipe(map(([data]): Codec => data))
-        : this.retrieveMapData(creator).pipe(map(([, values]): Vec<Codec> => values))
-    );
   }
 
   protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {

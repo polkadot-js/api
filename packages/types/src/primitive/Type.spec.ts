@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -65,10 +65,10 @@ describe('Type', (): void => {
     ).toEqual('(Bytes,(Balance,Balance),Vec<AccountId>)');
   });
 
-  it('changes () -> Null', (): void => {
+  it('changes () -> ()', (): void => {
     expect(
       new Type(registry, '()').toString()
-    ).toEqual('Null');
+    ).toEqual('()');
   });
 
   it('has a length for the type', (): void => {

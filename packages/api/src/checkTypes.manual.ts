@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -35,7 +35,7 @@ async function derive (api: ApiPromise): Promise<void> {
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const intentions = await api.query.staking.intentions();
+  const intentions = await api.query.staking.bonded();
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed

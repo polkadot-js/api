@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -84,8 +84,11 @@ export default class HttpProvider implements ProviderInterface {
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     l.error('HTTP Provider does not have \'on\' emitters, use WebSockets instead');
+    return (): void => {
+      // noop
+    };
   }
 
   /**

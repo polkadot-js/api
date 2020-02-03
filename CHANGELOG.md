@@ -1,16 +1,55 @@
+# 1.1.0-beta.x
+
+- Add support for `balances.account` in all applicable derives (incl. `vesting` module)
+- Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
+- Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
+- Remove additional V1-only derives `(staking.recentlyOffline`, `balances.nominatorsFor`)
+- Add `.isMax()` on int values, an opposite of `isZero()` (e.g. `u128`, as well as derived, e.g. `Balances`)
+
+# 1.0.1
+
+- **Breaking change** Drop support for Substrate v1 chain in all derives
+- Return unsub functions from provider .on emitters (Thanks to https://github.com/jak-pan)
+- `ApiPromise.isReady` now rejects on unrecoverable errors (Thanks to https://github.com/laec)
+- Add `polkadot-types-from-chain` & `polkadot-types-from-defs` TypeScript generators to `@polkadot/types`
+- Only decorate derives where relevant parent `api.query.*` is available
+- Support `.entries(arg?: any)` lookups on DoubleMaps (in addition to previously supported maps)
+- Allow v9 metadata to parse even in cases where it was wrongly deployed pre-v10
+- Allow type-aliases on a per-module basis (e.g. `Judgement` in identity as well as society)
+- Allow passing `{ signer }` to both `api.tx.*` and `api.sign` (in addition to `api.setSigner`)
+- Add derives for the society module
+- Don't map empty tuples, e.. `()` to `Null`, rather keep them empty
+- Add lookups to the metadata errors via `findMetaError`
+- Update metadata and types for the latest Substrate & Polkadot versions
+- Support metadata V11 as per latest Substrate
+- Remove support for un-deployed metadata
+- Remove old known types for Substrate V1
+
+# 0.100.1
+
+- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
+- Add support for the Substrate identity module
+- Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
+- Fix for linked maps using `Option`
+- Add support for `BTreeSet` (Thanks to https://github.com/satellitex)
+- Add support for Metadata v10
+- Add support for latest Polkadot/Substrate types
+- Add `paymentInfo` to submittables to calculate fees
+
 # 0.99.1
 
 - **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
-- **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (mor effective) and `staking.account` that enhances query for all the information previously found `.info`
+- **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (more effective) and `staking.account` that enhances query for all the information previously found `.info`
 - Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
+- Update democracy derives to take care of nextTally and lowestU*nbaked
 - Add additional derives for both council & treasury
-- Alignment with latest Polkadot/Substrate master branches
+- Alignment with latest Polkadot/Substrate master branch types
 
 # 0.98.1
 
-- Make the TypeScript generation script mor re-usable (Thanks to @xlc)
+- Make the TypeScript generation script mor re-usable (Thanks to https://github.com/xlc)
 - Add `.entries()` for all map-types, returning storage keys and values
-- Add `.signAsync` to submittable extrinsics (Thanks to @c410-f3r)
+- Add `.signAsync` to submittable extrinsics (Thanks to https://github.com/c410-f3r)
 - Cleanup circular references between internal dependencies
 - Support for new Substrate democracy with preimages in derive
 - Alignment of types with Substrate/Polkadot master branches

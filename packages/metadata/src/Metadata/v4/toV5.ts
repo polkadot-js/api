@@ -1,14 +1,13 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV4, MetadataV5, ModuleMetadataV5, StorageFunctionMetadataV4, StorageFunctionMetadataV5 } from '@polkadot/types/interfaces/metadata';
+import { MetadataV4, MetadataV5, ModuleMetadataV5, StorageFunctionMetadataV4, StorageFunctionMetadataV5, StorageHasherV5 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
 import { createType, Option } from '@polkadot/types/codec';
-import StorageHasher from '@polkadot/types/primitive/StorageHasher';
 import Text from '@polkadot/types/primitive/Text';
 
 const hasherMap: Map<string, string> = new Map([
@@ -19,17 +18,16 @@ const hasherMap: Map<string, string> = new Map([
   ['twox_64_concat', 'Twox64Concat']
 ]);
 
-function toStorageHasher (registry: Registry, text: Text): StorageHasher {
+/** @internal */
+function toStorageHasher (registry: Registry, text: Text): StorageHasherV5 {
   const mapped = hasherMap.get(text.toString());
 
   assert(mapped, `Invalid Storage hasher: ${text.toString()}`);
 
-  return new StorageHasher(registry, mapped);
+  return createType(registry, 'StorageHasherV5', mapped);
 }
 
-/**
- * Convert V4 StorageFunction to V5 StorageFunction
- */
+/** @internal */
 function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV4): StorageFunctionMetadataV5 {
   const { documentation, fallback, modifier, name, type } = storageFn;
   const [newType, index] = type.isPlain
@@ -53,10 +51,7 @@ function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
   });
 }
 
-/**
- * Convert from MetadataV4 to MetadataV5
- * See https://github.com/paritytech/substrate/pull/2836/files for details
- */
+/** @internal */
 export default function toV5 (registry: Registry, { modules }: MetadataV4): MetadataV5 {
   return createType(registry, 'MetadataV5', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>

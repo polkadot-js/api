@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -23,6 +23,7 @@ import Raw from '../codec/Raw';
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
   public readonly registry: Registry;
+  private _override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(Text.decodeText(value));
@@ -30,6 +31,7 @@ export default class Text extends String implements Codec {
     this.registry = registry;
   }
 
+  /** @internal */
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
     if (isHex(value)) {
       return u8aToString(hexToU8a(value.toString()));
@@ -94,6 +96,13 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Set an override value for this
+   */
+  public setOverride (override: string): void {
+    this._override = override;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
@@ -120,8 +129,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    // only included here since we do not inherit docs
-    return super.toString();
+    return this._override || super.toString();
   }
 
   /**

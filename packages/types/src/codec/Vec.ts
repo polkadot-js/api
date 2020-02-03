@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -30,6 +30,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     this._Type = Clazz;
   }
 
+  /** @internal */
   public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
       return value.map((entry, index): T => {

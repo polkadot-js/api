@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,11 +9,7 @@ import { stringCamelCase } from '@polkadot/util';
 import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 
-/**
- * Return an object with the modules and the functions to use extrinsics.
- *
- * @param metadata - The metadata
- */
+/** @internal */
 export default function fromMetadata (registry: Registry, metadata: RegistryMetadata): ModulesWithCalls {
   return metadata.asLatest.modules
     .filter(({ calls }): boolean => calls.isSome)

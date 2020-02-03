@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -62,6 +62,7 @@ export default class Struct<
    * - array with `[value1, value2]` assuming the array has the same length as
    * `Object.keys(Types)`
    * @param jsonMap
+   * @internal
    */
   private static decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     if (isHex(value)) {
@@ -84,6 +85,7 @@ export default class Struct<
     return Struct.decodeStructFromObject(registry, Types, value, jsonMap);
   }
 
+  /** @internal */
   private static decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     // The key in the JSON can be snake_case (or other cases), but in our
     // Types, result or any other maps, it's camelCase
@@ -146,6 +148,13 @@ export default class Struct<
         });
       }
     };
+  }
+
+  /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this._Types);
   }
 
   /**

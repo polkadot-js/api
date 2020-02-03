@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,6 +8,7 @@ import { TypeDef, TypeDefExtStructAlias, TypeDefExtVecFixed, TypeDefInfo } from 
 import { assert } from '@polkadot/util';
 
 import BTreeMap from '../BTreeMap';
+import BTreeSet from '../BTreeSet';
 import Compact from '../Compact';
 import Enum from '../Enum';
 import Option from '../Option';
@@ -61,6 +62,9 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return BTreeMap.with(keyType, valueType);
   },
+
+  [TypeDefInfo.BTreeSet]: (registry: Registry, value: TypeDef): Constructor =>
+    BTreeSet.with(getSubType(value)),
 
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor =>
     Compact.with(getSubType(value)),

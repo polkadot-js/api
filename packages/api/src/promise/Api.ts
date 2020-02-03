@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -216,9 +216,12 @@ export default class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this._isReadyPromise = new Promise((resolve): void => {
+    this._isReadyPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
+      });
+      super.once('error', (e): void => {
+        reject(e);
       });
     });
   }

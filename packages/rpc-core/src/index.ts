@@ -1,12 +1,11 @@
-// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
 import { AnyJson, Codec, Registry } from '@polkadot/types/types';
-import { RpcInterface } from './jsonrpc.types';
-import { RpcInterfaceMethod, UserRpc } from './types';
+import { RpcInterface, RpcInterfaceMethod, UserRpc } from './types';
 
 import memoizee from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
@@ -16,7 +15,7 @@ import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
 import jsonrpcParam from '@polkadot/jsonrpc/create/param';
 import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
 import { createTypeUnsafe } from '@polkadot/types/codec';
-import { assert, isFunction, isNull, isNumber, logger, u8aToU8a } from '@polkadot/util';
+import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';
 
@@ -34,6 +33,7 @@ const EMPTY_META = {
 };
 
 // utility method to create a nicely-formatted error
+/** @internal */
 function createErrorMessage ({ method, params, type }: RpcMethod, error: Error): string {
   const inputs = params.map(({ isOptional, name, type }): string =>
     `${name}${isOptional ? '?' : ''}: ${type}`
@@ -390,24 +390,19 @@ export default class Rpc implements RpcInterface {
     const type = key.outputType || 'Raw';
     const hexKey = key.toHex();
     const meta = key.meta || EMPTY_META;
+    const found = changes.find(([key]): boolean => key === hexKey);
 
     // if we don't find the value, this is our fallback
     //   - in the case of an array of values, fill the hole from the cache
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
-    const emptyVal = (witCache && this._storageCache.get(hexKey)) || null;
-
-    // see if we have a result value for this specific key, fallback to the cache value
-    // when the value in the set is not available, or is null/empty.
-    const [, value] = changes.find(([key, value]): boolean =>
-      !isNull(value) && key === hexKey
-    ) || [null, emptyVal];
+    const value = isUndefined(found)
+      ? (witCache && this._storageCache.get(hexKey)) || null
+      : found[1];
     const isEmpty = isNull(value);
-    const input = isEmpty
-      ? null
-      : this.treatAsHex(key)
-        ? value
-        : u8aToU8a(value);
+    const input = isEmpty || this.treatAsHex(key)
+      ? value
+      : u8aToU8a(value);
 
     // store the retrieved result - the only issue with this cache is that there is no
     // clearing of it, so very long running processes (not just a couple of hours, longer)

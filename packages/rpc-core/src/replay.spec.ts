@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -32,7 +32,7 @@ describe('replay', (): void => {
   it('returns the observable value', (done): void => {
     rpc.system.chain().subscribe((value: any): void => {
       if (value) {
-        expect(value).toEqual('mockChain'); // Defined in MockProvider
+        expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
         done();
       }
     });

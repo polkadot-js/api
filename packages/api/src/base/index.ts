@@ -1,12 +1,12 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constants } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Metadata, createType } from '@polkadot/types';
@@ -16,6 +16,10 @@ import Init from './Init';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
+}
+
+interface SignerRawOptions {
+  signer?: Signer;
 }
 
 let pkgJson: { name: string; version: string };
@@ -239,10 +243,17 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
     return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
   }
 
   /**
@@ -262,20 +273,21 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Signs a raw signer payload, string or Uint8Array
    */
-  public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
-    // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
-    if (isString(signer)) {
-      assert(this._rx.signer?.signRaw, 'No signer exists with a signRaw interface');
+  public async sign (address: KeyringSigner | string, data: SignerPayloadRawBase, { signer }: SignerRawOptions = {}): Promise<string> {
+    if (isString(address)) {
+      const _signer = signer || this._rx.signer;
+
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
-        await this._rx.signer.signRaw({
+        await _signer.signRaw({
           type: 'bytes',
           ...data,
-          address: signer
+          address
         })
       ).signature;
     }
 
-    return u8aToHex(signer.sign(u8aToU8a(data.data)));
+    return u8aToHex(address.sign(u8aToU8a(data.data)));
   }
 }

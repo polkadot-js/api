@@ -1,16 +1,13 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2020 @polkadot/metadata authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataV3, MetadataV4, ModuleMetadataV4, StorageFunctionMetadataV3, StorageFunctionMetadataV4 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import StorageHasher from '@polkadot/types/primitive/StorageHasher';
 import { createType, Option } from '@polkadot/types/codec';
 
-/**
- * Convert V3 StorageFunction to V4 StorageFunction
- */
+/** @internal */
 function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV3): StorageFunctionMetadataV4 {
   const { documentation, fallback, modifier, name, type } = storageFn;
 
@@ -21,13 +18,13 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
     ? [type.asPlain, 0]
     : type.isMap
       ? [createType(registry, 'MapTypeV4', {
-        hasher: new StorageHasher(registry, 'Twox128'),
+        hasher: createType(registry, 'StorageHasherV4', 'Twox128'),
         key: type.asMap.key,
         value: type.asMap.value,
         linked: type.asMap.linked
       }), 1]
       : [createType(registry, 'DoubleMapTypeV4', {
-        hasher: new StorageHasher(registry, 'Twox128'),
+        hasher: createType(registry, 'StorageHasherV4', 'Twox128'),
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
         value: type.asDoubleMap.value,
@@ -43,10 +40,7 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
   });
 }
 
-/**
- * Convert from MetadataV3 to MetadataV4
- * See https://github.com/paritytech/substrate/pull/2268 for details
- */
+/** @internal */
 export default function toV4 (registry: Registry, { modules }: MetadataV3): MetadataV4 {
   return createType(registry, 'MetadataV4', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
