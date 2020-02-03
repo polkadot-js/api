@@ -13,7 +13,7 @@ import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, creat
 
 // Generate types for one module
 /** @internal */
-function generateModule (allDefs: object, { constants, name }: ModuleMetadataLatest, imports: TypeImports): string[] {
+function generateModule (allDefs: object, { constants, name }: ModuleMetadataLatest, imports: TypeImports, isStrict: boolean): string[] {
   if (!constants.length) {
     return [];
   }
@@ -21,18 +21,18 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
   setImports(allDefs, imports, ['Codec']);
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    .concat(indent(6)('[index: string]: Codec;'))
+    .concat(isStrict ? '' : indent(6)('[index: string]: Codec;'))
     .concat(constants.map(({ documentation, name, type }): string => {
       setImports(allDefs, imports, [type.toString()]);
 
-      return createDocComments(documentation).map((d): string => indent(6)(d)).join('\n') +
+      return createDocComments(6, documentation) +
         indent(6)(`${stringCamelCase(name.toString())}: AugmentedConst<${type}>;`);
     }))
     .concat([indent(4)('};')]);
 }
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>, isStrict: boolean): void {
   writeFile(dest, (): string => {
     const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
@@ -40,7 +40,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
     }, {});
     const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
-      return acc.concat(generateModule(allDefs, mod, imports));
+      return acc.concat(generateModule(allDefs, mod, imports, isStrict));
     }, [] as string[]);
     const header = createImportCode(HEADER, imports, [
       ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
@@ -49,7 +49,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       }))
     ]);
     const interfaceStart = [
-      "declare module '@polkadot/metadata/Decorated/types' {",
+      "declare module '@polkadot/metadata/Decorated/consts/types' {",
       indent(2)('export interface Constants {\n')
     ].join('\n');
     const interfaceEnd = `\n${indent(2)('}')}\n}`;
@@ -64,8 +64,8 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateConsts (dest = 'packages/api/src/types/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}): void {
+export default function generateConsts (dest = 'packages/api/src/types/augment/consts.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
 
-  return generateForMeta(new Metadata(registry, data), dest, extraTypes);
+  return generateForMeta(new Metadata(registry, data), dest, extraTypes, isStrict);
 }

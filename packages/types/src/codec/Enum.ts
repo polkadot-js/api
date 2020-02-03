@@ -206,6 +206,13 @@ export default class Enum extends Base<Codec> {
   /**
    * @description The available keys for this enum
    */
+  public get defEntries (): string[] {
+    return Object.keys(this._def);
+  }
+
+  /**
+   * @description The available keys for this enum
+   */
   public get defKeys (): string[] {
     return Object.keys(this._def);
   }
@@ -275,7 +282,7 @@ export default class Enum extends Base<Codec> {
    */
   protected toRawStruct (): string[] | Record<string, string> {
     return this._isBasic
-      ? Object.keys(this._def)
+      ? this.defKeys
       : Struct.typesToMap(this.registry, this._def);
   }
 

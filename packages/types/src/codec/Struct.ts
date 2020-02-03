@@ -140,6 +140,13 @@ export default class Struct<
   }
 
   /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this._Types);
+  }
+
+  /**
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
