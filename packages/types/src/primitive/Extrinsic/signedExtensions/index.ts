@@ -2,62 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceTypes } from '../../types';
+import { ExtDef, ExtInfo, ExtTypes } from './types';
 
-type ExtTypes = Record<string, InterfaceTypes>;
-type ExtInfo = {
-  extra: ExtTypes;
-  types: ExtTypes;
-}
+import polkadotExtensions from './polkadot';
+import substrateExtensions from './substrate';
 
 // A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemded fixed and non-changeable)
-const allExtensions: Record<string, ExtInfo> = {
-  ChargeTransactionPayment: {
-    extra: {},
-    types: {
-      tip: 'Compact<Balance>'
-    }
-  },
-  CheckBlockGasLimit: {
-    extra: {},
-    types: {}
-  },
-  CheckEra: {
-    extra: {
-      blockHash: 'Hash'
-    },
-    types: {
-      era: 'ExtrinsicEra'
-    }
-  },
-  CheckGenesis: {
-    extra: {
-      genesisHash: 'Hash'
-    },
-    types: {}
-  },
-  CheckNonce: {
-    extra: {},
-    types: {
-      nonce: 'Compact<Index>'
-    }
-  },
-  CheckVersion: {
-    extra: {
-      specVersion: 'u32'
-    },
-    types: {}
-  },
-  CheckWeight: {
-    extra: {},
-    types: {}
-  }
+const allExtensions: ExtDef = {
+  ...substrateExtensions,
+  ...polkadotExtensions
 };
 
-// the v4 signed extensions (the order is important here)
+// the v4 signed extensions (the order is important here, as applied by default)
 const defaultExtensions: Array<keyof typeof allExtensions> = [
   'CheckVersion',
   'CheckGenesis',

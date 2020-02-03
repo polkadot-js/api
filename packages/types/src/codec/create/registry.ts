@@ -10,7 +10,7 @@ import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } 
 
 import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
-import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/SignedExtensions';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/signedExtensions';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
