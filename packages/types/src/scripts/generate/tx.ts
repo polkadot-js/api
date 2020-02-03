@@ -59,7 +59,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
 
               return [`${nameStr}: ${similarTypes.join(' | ')}`, nameStr, typeStr];
             } catch (error) {
-              console.error(`Error decoding param ${name}: ${type}::`);
+              console.error(`Error encoding param ${name}: ${type} =>`);
 
               throw error;
             }
@@ -70,7 +70,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
         return createDocComments(6, documentation) +
         indent(6)(`${methodName}: AugmentedSubmittable<(${params}) => SubmittableExtrinsic<ApiType>>;`);
       } catch (error) {
-        console.error(`Error decoding method ${sectionName}.${methodName}::`);
+        console.error(`Error encoding method ${sectionName}.${methodName} =>`);
 
         throw error;
       }
