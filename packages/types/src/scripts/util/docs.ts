@@ -4,15 +4,20 @@
 
 import { Text } from '@polkadot/types';
 
-type Arg = [Text | string, Text | string];
+import { indent } from './formatting';
 
-export function createDocComments (docs: Text[], args: Arg[] = []): string[] {
+type AnyString = Text | string;
+type Arg = [AnyString, AnyString];
+
+export function createDocComments (spaces: number, docs: AnyString[], args: Arg[] = []): string {
   const contents = [
-    ...docs.map((doc): string => doc.toString().trim()).filter((doc): boolean => !!doc).map((doc): string => ` * ${doc}`),
-    ...args.map(([name, type]): string => ` * @param ${name} ${type}`)
-  ];
+    ...docs.map((doc): string => doc.toString().trim()).filter((doc): boolean => !!doc),
+    ...args.map(([name, type]): string => `@param ${name} ${type}`)
+  ].map((d): string => ` * ${d}`);
 
   return contents.length
     ? ['/**', ...contents, ' **/\n']
-    : [];
+      .map((s): string => indent(spaces)(s))
+      .join('\n')
+    : '';
 }

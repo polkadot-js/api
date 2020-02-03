@@ -76,7 +76,7 @@ declare module '@polkadot/api/types/submittable' {
        * and the error of the failed call. If all were successful, then the `BatchCompleted`
        * event is deposited.
        **/
-      batch: AugmentedSubmittable<(calls: Vec<Call> | (Call | object | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      batch: AugmentedSubmittable<(calls: Vec<Call> | (Call | { callIndex?: any; args?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Send a call through an indexed pseudonym of the sender.
        * The dispatch origin for this call must be _Signed_.
@@ -84,7 +84,7 @@ declare module '@polkadot/api/types/submittable' {
        * - The weight of the `call`.
        * # </weight>
        **/
-      asSub: AugmentedSubmittable<(index: u16 | AnyNumber | Uint8Array, call: Call | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      asSub: AugmentedSubmittable<(index: u16 | AnyNumber | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
        * approved by a total of `threshold - 1` of `other_signatories`.
@@ -121,7 +121,7 @@ declare module '@polkadot/api/types/submittable' {
        * `MultisigDepositBase + threshold * MultisigDepositFactor`.
        * # </weight>
        **/
-      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Call | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
        * approved by a total of `threshold - 1` of `other_signatories`.
@@ -173,7 +173,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Storage: removes one item.
        * # </weight>
        **/
-      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | object | string | Uint8Array, callHash: Raw | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: Raw | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     timestamp: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -192,7 +192,7 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Provide a set of uncles.
        **/
-      setUncles: AugmentedSubmittable<(newUncles: Vec<Header> | (Header | object | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      setUncles: AugmentedSubmittable<(newUncles: Vec<Header> | (Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
     };
     balances: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -319,7 +319,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Writes are limited to the `origin` account key.
        * # </weight>
        **/
-      validate: AugmentedSubmittable<(prefs: ValidatorPrefs | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      validate: AugmentedSubmittable<(prefs: ValidatorPrefs | { commission?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Declare the desire to nominate `targets` for the origin controller.
        * Effects will be felt at the beginning of the next era.
@@ -583,14 +583,14 @@ declare module '@polkadot/api/types/submittable' {
        * Dispatch a proposal from a member using the `Member` origin.
        * Origin must be a member of the collective.
        **/
-      execute: AugmentedSubmittable<(proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      execute: AugmentedSubmittable<(proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * # <weight>
        * - Bounded storage reads and writes.
        * - Argument `threshold` has bearing on weight.
        * # </weight>
        **/
-      propose: AugmentedSubmittable<(threshold: Compact<MemberCount> | AnyNumber | Uint8Array, proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      propose: AugmentedSubmittable<(threshold: Compact<MemberCount> | AnyNumber | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * # <weight>
        * - Bounded storage read and writes.
@@ -611,14 +611,14 @@ declare module '@polkadot/api/types/submittable' {
        * Dispatch a proposal from a member using the `Member` origin.
        * Origin must be a member of the collective.
        **/
-      execute: AugmentedSubmittable<(proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      execute: AugmentedSubmittable<(proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * # <weight>
        * - Bounded storage reads and writes.
        * - Argument `threshold` has bearing on weight.
        * # </weight>
        **/
-      propose: AugmentedSubmittable<(threshold: Compact<MemberCount> | AnyNumber | Uint8Array, proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      propose: AugmentedSubmittable<(threshold: Compact<MemberCount> | AnyNumber | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * # <weight>
        * - Bounded storage read and writes.
@@ -873,7 +873,7 @@ declare module '@polkadot/api/types/submittable' {
        * Updates the schedule for metering contracts.
        * The schedule must have a greater version than the stored schedule.
        **/
-      updateSchedule: AugmentedSubmittable<(schedule: Schedule | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      updateSchedule: AugmentedSubmittable<(schedule: Schedule | { version?: any; putCodePerByteCost?: any; growMemCost?: any; regularOpCost?: any; returnDataPerByteCost?: any; eventDataPerByteCost?: any; eventPerTopicCost?: any; eventBaseCost?: any; sandboxDataReadCost?: any; sandboxDataWriteCost?: any; transferCost?: any; maxEventTopics?: any; maxStackHeight?: any; maxMemoryPages?: any; enablePrintln?: any; maxSubjectLen?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Stores the given binary Wasm code into the chain's storage and returns its `codehash`.
        * You can instantiate contracts only with stored code.
@@ -919,7 +919,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Unknown weight of derivative `proposal` execution.
        * # </weight>
        **/
-      sudo: AugmentedSubmittable<(proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      sudo: AugmentedSubmittable<(proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo key.
        * The dispatch origin for this call must be _Signed_.
@@ -941,11 +941,11 @@ declare module '@polkadot/api/types/submittable' {
        * - Unknown weight of derivative `proposal` execution.
        * # </weight>
        **/
-      sudoAs: AugmentedSubmittable<(who: Address | string | AccountId | AccountIndex | Uint8Array, proposal: Proposal | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      sudoAs: AugmentedSubmittable<(who: Address | string | AccountId | AccountIndex | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     imOnline: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
-      heartbeat: AugmentedSubmittable<(heartbeat: Heartbeat | object | string | Uint8Array, signature: Signature | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      heartbeat: AugmentedSubmittable<(heartbeat: Heartbeat | { blockNumber?: any; networkState?: any; sessionIndex?: any; authorityIndex?: any } | string | Uint8Array, signature: Signature | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     identity: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -976,7 +976,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      setIdentity: AugmentedSubmittable<(info: IdentityInfo | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setIdentity: AugmentedSubmittable<(info: IdentityInfo | { additional?: any; display?: any; legal?: any; web?: any; riot?: any; email?: any; pgpFingerprint?: any; image?: any; twitter?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the sub-accounts of the sender.
        * Payment: Any aggregate balance reserved by previous `set_subs` calls will be returned
@@ -991,7 +991,7 @@ declare module '@polkadot/api/types/submittable' {
        * one storage-exists.
        * # </weight>
        **/
-      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | object | number | Uint8Array | string])[]) => SubmittableExtrinsic<ApiType>>;
+      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { none: any } | { raw: any } | { blakeTwo256: any } | { sha256: any } | { keccak256: any } | { shaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Clear an account's identity info and all sub-account and return all deposits.
        * Payment: All reserved balances on the account are returned.
@@ -1094,7 +1094,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: Address | string | AccountId | AccountIndex | Uint8Array, judgement: IdentityJudgement | object | number | Uint8Array | string) => SubmittableExtrinsic<ApiType>>;
+      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: Address | string | AccountId | AccountIndex | Uint8Array, judgement: IdentityJudgement | { unknown: any } | { feePaid: any } | { reasonable: any } | { knownGood: any } | { outOfDate: any } | { lowQuality: any } | { erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an account's identity and sub-account information and slash the deposits.
        * Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by
@@ -1389,7 +1389,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One storage lookup to check account is recovered by `who`. O(1)
        * # </weight>
        **/
-      asRecovered: AugmentedSubmittable<(account: AccountId | string | Uint8Array, call: Call | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      asRecovered: AugmentedSubmittable<(account: AccountId | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Allow ROOT to bypass the recovery process and set an a rescuer account
        * for a lost account directly.

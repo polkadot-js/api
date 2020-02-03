@@ -30,7 +30,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Remove given extrinsic from the pool and temporarily ban it to prevent reimporting
        **/
-      removeExtrinsic(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | object | number | Uint8Array | string)[]): Observable<Vec<Hash>>;
+      removeExtrinsic(bytesOrHash: Vec<ExtrinsicOrHash> | (ExtrinsicOrHash | { hash: any } | { extrinsic: any } | string | Uint8Array)[]): Observable<Vec<Hash>>;
       /**
        * Generate new session keys and returns the corresponding public keys
        **/
@@ -74,7 +74,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Executes a call to a contract
        **/
-      call(callRequest: ContractCallRequest | object | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<ContractExecResult>;
+      call(callRequest: ContractCallRequest | { origin?: any; dest?: any; value?: any; gasLimit?: any; inputData?: any } | string | Uint8Array, at?: BlockHash | string | Uint8Array): Observable<ContractExecResult>;
       /**
        * Returns the value under a specified storage key in a contract
        **/

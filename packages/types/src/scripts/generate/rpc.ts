@@ -5,7 +5,7 @@
 import interfaces from '../../../../type-jsonrpc/src';
 import * as definitions from '../../interfaces/definitions';
 import { TypeRegistry } from '../../codec/create';
-import { FOOTER, HEADER, createImportCode, createImports, getSimilarTypes, setImports, writeFile } from '../util';
+import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
 /** @internal */
 export default function generateRpcTypes (dest = 'packages/api/src/types/augment/rpc.ts'): void {
@@ -35,7 +35,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/types/augment
           return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
         });
 
-        return `      /**\n       * ${method.description}\n       **/\n      ${method.method}(${args.join(', ')}): Observable<${method.type}>;`;
+        return createDocComments(6, [method.description]) + indent(6)(`${method.method}(${args.join(', ')}): Observable<${method.type}>;`);
       });
 
       return allSections.concat(

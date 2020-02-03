@@ -5,6 +5,7 @@
 import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
+import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
 import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
@@ -13,6 +14,7 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+import Null from '../../primitive/Null';
 import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
 import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
@@ -94,19 +96,27 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     const e = new Clazz(registry) as Enum;
 
     if (e.isBasic) {
-      possibleTypes.push(arrayToStrType(e.defKeys), 'number', 'Uint8Array');
+      possibleTypes.push(arrayToStrType(e.defKeys), 'number');
     } else {
-      // TODO Handle this more gracefully (expand actual options)
-      possibleTypes.push('object', 'number', 'Uint8Array', 'string');
+      // TODO We don't really want any here, these should be expanded
+      possibleTypes.push(...e.defKeys.map((key): string => `{ ${stringLowerFirst(key)}: any }`), 'string');
     }
+
+    possibleTypes.push('Uint8Array');
   } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
   } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
     possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
   } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
+  } else if (isChildClass(Null, Clazz)) {
+    possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
-    possibleTypes.push('object', 'string', 'Uint8Array');
+    // TODO We don't really want any here, these should be expanded
+    const s = new Clazz(registry) as Struct;
+    const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
+
+    possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
   } else if (isChildClass(Option, Clazz)) {
     // TODO inspect container
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');

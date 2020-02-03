@@ -8,7 +8,7 @@ import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 
-declare module '@polkadot/metadata/Decorated/types' {
+declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {
     babe: {
       [index: string]: Codec;
