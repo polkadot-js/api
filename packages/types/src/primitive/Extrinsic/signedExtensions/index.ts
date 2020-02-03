@@ -2,72 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceTypes } from '../../types';
+import { ExtDef, ExtInfo, ExtTypes } from './types';
 
-type ExtTypes = Record<string, InterfaceTypes>;
-type ExtInfo = {
-  extra: ExtTypes;
-  types: ExtTypes;
-}
-type ExtDef = Record<string, ExtInfo>;
-
-const EMPTY_TYPE_EXTENSION: ExtInfo = {
-  extra: {},
-  types: {}
-};
+import polkadotExtensions from './polkadot';
+import substrateExtensions from './substrate';
 
 // A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemded fixed and non-changeable)
-const polkadotExtensions: ExtDef = {
-  RestrictFunctionality: EMPTY_TYPE_EXTENSION,
-  LimitParathreadCommits: EMPTY_TYPE_EXTENSION
-};
-
-const substrateExtensions: ExtDef = {
-  ChargeTransactionPayment: {
-    extra: {},
-    types: {
-      tip: 'Compact<Balance>'
-    }
-  },
-  CheckBlockGasLimit: EMPTY_TYPE_EXTENSION,
-  CheckEra: {
-    extra: {
-      blockHash: 'Hash'
-    },
-    types: {
-      era: 'ExtrinsicEra'
-    }
-  },
-  CheckGenesis: {
-    extra: {
-      genesisHash: 'Hash'
-    },
-    types: {}
-  },
-  CheckNonce: {
-    extra: {},
-    types: {
-      nonce: 'Compact<Index>'
-    }
-  },
-  CheckVersion: {
-    extra: {
-      specVersion: 'u32'
-    },
-    types: {}
-  },
-  CheckWeight: EMPTY_TYPE_EXTENSION
-};
-
 const allExtensions: ExtDef = {
   ...substrateExtensions,
   ...polkadotExtensions
 };
 
-// the v4 signed extensions (the order is important here)
+// the v4 signed extensions (the order is important here, as applied by default)
 const defaultExtensions: Array<keyof typeof allExtensions> = [
   'CheckVersion',
   'CheckGenesis',
