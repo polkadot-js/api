@@ -9,22 +9,30 @@ type ExtInfo = {
   extra: ExtTypes;
   types: ExtTypes;
 }
+type ExtDef = Record<string, ExtInfo>;
+
+const EMPTY_TYPE_EXTENSION: ExtInfo = {
+  extra: {},
+  types: {}
+};
 
 // A mapping of the known signed extensions to the extra fields that they contain. Unlike in the actual extensions,
 // we define the extra fields not as a Tuple, but rather as a struct so they can be named. These will be expanded
 // into the various fields when added to the payload (we only support V4 onwards with these, V3 and earlier are
 // deemded fixed and non-changeable)
-const allExtensions: Record<string, ExtInfo> = {
+const polkadotExtensions: ExtDef = {
+  RestrictFunctionality: EMPTY_TYPE_EXTENSION,
+  LimitParathreadCommits: EMPTY_TYPE_EXTENSION
+};
+
+const substrateExtensions: ExtDef = {
   ChargeTransactionPayment: {
     extra: {},
     types: {
       tip: 'Compact<Balance>'
     }
   },
-  CheckBlockGasLimit: {
-    extra: {},
-    types: {}
-  },
+  CheckBlockGasLimit: EMPTY_TYPE_EXTENSION,
   CheckEra: {
     extra: {
       blockHash: 'Hash'
@@ -51,10 +59,12 @@ const allExtensions: Record<string, ExtInfo> = {
     },
     types: {}
   },
-  CheckWeight: {
-    extra: {},
-    types: {}
-  }
+  CheckWeight: EMPTY_TYPE_EXTENSION
+};
+
+const allExtensions: ExtDef = {
+  ...substrateExtensions,
+  ...polkadotExtensions
 };
 
 // the v4 signed extensions (the order is important here)
