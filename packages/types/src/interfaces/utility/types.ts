@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types';
+import { u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name Multisig */

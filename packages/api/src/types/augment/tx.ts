@@ -3,7 +3,7 @@
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types';
+import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, Moment, Signature } from '@polkadot/types/interfaces/runtime';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';

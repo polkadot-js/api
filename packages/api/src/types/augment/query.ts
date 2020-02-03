@@ -3,7 +3,7 @@
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Option, Raw, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, bool, u32, u64 } from '@polkadot/types';
+import { Bytes, Data, bool, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Hash, Index, KeyTypeId, Moment, Perbill, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { BabeAuthorityWeight, MaybeVrf } from '@polkadot/types/interfaces/babe';

@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes } from '@polkadot/types';
+import { Bytes } from '@polkadot/types/primitive';
 import { AccountId, Hash } from '@polkadot/types/interfaces/runtime';
 import { IdentificationTuple } from '@polkadot/types/interfaces/session';
 
