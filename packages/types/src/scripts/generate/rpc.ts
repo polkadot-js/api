@@ -5,7 +5,7 @@
 import interfaces from '../../../../type-jsonrpc/src';
 import * as definitions from '../../interfaces/definitions';
 import { TypeRegistry } from '../../codec/create';
-import { createImportCode, createImports, FOOTER, getSimilarTypes, HEADER, setImports, writeFile } from '../util';
+import { FOOTER, HEADER, createImportCode, createImports, getSimilarTypes, setImports, writeFile } from '../util';
 
 /** @internal */
 export default function generateRpcTypes (dest = 'packages/api/src/types/augment/rpc.ts'): void {

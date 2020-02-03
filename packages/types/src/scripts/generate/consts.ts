@@ -9,7 +9,7 @@ import staticData from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase } from '@polkadot/util';
 
 import { Metadata, TypeRegistry } from '../..';
-import { createDocComments, createImportCode, createImports, FOOTER, HEADER, indent, setImports, TypeImports, writeFile } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, indent, setImports, writeFile } from '../util';
 
 // Generate types for one module
 /** @internal */
