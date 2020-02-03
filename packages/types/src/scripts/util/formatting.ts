@@ -13,13 +13,25 @@ export const FOOTER = '\n';
 
 // creates the import lines
 /** @internal */
-export function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
-  return checks.reduce((result, { file, types }): string => {
-    if (types.length) {
-      result += `import { ${types.sort().join(', ')} } from '${file}';\n`;
-    }
-
-    return result;
+export function createImportCode (header: string, imports: TypeImports, checks: { file: string; types: string[] }[]): string {
+  return [
+    {
+      file: '@polkadot/types/types',
+      types: Object.keys(imports.typesTypes)
+    },
+    {
+      file: '@polkadot/types/codec',
+      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: '@polkadot/types',
+      types: Object.keys(imports.primitiveTypes)
+    },
+    ...checks
+  ].reduce((result, { file, types }): string => {
+    return types.length
+      ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
+      : result;
   }, header) + '\n';
 }
 

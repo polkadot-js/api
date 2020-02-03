@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { u32 } from '@polkadot/types/primitive';
+import { u32 } from '@polkadot/types';
 import { AccountId, ValidatorId } from '@polkadot/types/interfaces/runtime';
 import { Exposure } from '@polkadot/types/interfaces/staking';
 

@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Compact, Enum, Option, Raw, Struct } from '@polkadot/types/codec';
-import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name AliveContractInfo */

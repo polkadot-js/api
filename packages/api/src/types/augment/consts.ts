@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { Codec } from '@polkadot/types/types';
 import { Bytes, u32, u64 } from '@polkadot/types';
 import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
-import { Codec } from '@polkadot/types/types';
 
 declare module '@polkadot/metadata/Decorated/types' {
   export interface Constants {

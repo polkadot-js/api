@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, Text, Type, bool, u16, u8 } from '@polkadot/types/primitive';
+import { Bytes, Text, Type, bool, u16, u8 } from '@polkadot/types';
 
 /** @name CallMetadataV0 */
 export interface CallMetadataV0 extends Struct {

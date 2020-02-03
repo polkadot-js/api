@@ -3,7 +3,7 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Enum, Option, Struct } from '@polkadot/types/codec';
-import { u32, u64 } from '@polkadot/types/primitive';
+import { u32, u64 } from '@polkadot/types';
 
 /** @name BabeAuthorityWeight */
 export interface BabeAuthorityWeight extends u64 {}

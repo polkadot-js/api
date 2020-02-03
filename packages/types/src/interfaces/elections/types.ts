@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Enum, Struct } from '@polkadot/types/codec';
-import { GenericVote, u32 } from '@polkadot/types/primitive';
+import { GenericVote, u32 } from '@polkadot/types';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */

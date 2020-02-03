@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { bool, u32 } from '@polkadot/types/primitive';
+import { bool, u32 } from '@polkadot/types';
 import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
 /** @name EraIndex */

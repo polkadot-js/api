@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { u16 } from '@polkadot/types/primitive';
+import { u16 } from '@polkadot/types';
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 /** @name ActiveRecovery */

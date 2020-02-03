@@ -10,7 +10,7 @@ import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
 import { getTypeDef } from '../../codec/create';
 import * as defaultDefinitions from '../../interfaces/definitions';
-import { createImportCode, createImports, exportInterface, exportType, formatType, FOOTER, HEADER, setImports, TypeImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -175,19 +175,7 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
   const interfaces = generateInterfaces(definitions, { types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
-  const header = createImportCode(HEADER, [
-    {
-      file: '@polkadot/types/types',
-      types: Object.keys(imports.typesTypes)
-    },
-    {
-      file: '@polkadot/types/codec',
-      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
-    },
-    {
-      file: '@polkadot/types/primitive',
-      types: Object.keys(imports.primitiveTypes)
-    },
+  const header = createImportCode(HEADER, imports, [
     ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
       file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
@@ -200,22 +188,26 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
 
 /** @internal */
 export function generateTsDef (importDefinitions: { [importPath: string]: object }, outputDir: string, generatingPackage: string): void {
-  console.log(`${outputDir}\n\tGenerating`);
+  writeFile(path.join(outputDir, 'types.ts'), (): string => {
+    const definitions = importDefinitions[generatingPackage];
 
-  const definitions = importDefinitions[generatingPackage];
+    Object.entries(definitions).forEach(([defName, obj]): void => {
+      console.log(`\tExtracting interfaces for ${defName}`);
 
-  Object.entries(definitions).forEach(([defName, obj]): void => {
-    console.log(`\tExtracting interfaces for ${defName}`);
+      generateTsDefFor(importDefinitions, defName, obj, outputDir);
+    });
 
-    generateTsDefFor(importDefinitions, defName, obj, outputDir);
+    return HEADER
+      .concat(
+        Object
+          .keys(definitions)
+          .map((moduleName): string => `export * from './${moduleName}/types';`)
+          .join('\n')
+      )
+      .concat(FOOTER);
   });
 
-  console.log('\tWriting');
-
-  fs.writeFileSync(path.join(outputDir, 'types.ts'), HEADER.concat(Object.keys(definitions).map((moduleName): string => `export * from './${moduleName}/types';`).join('\n')).concat(FOOTER), { flag: 'w' });
   fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
-
-  console.log('');
 }
 
 /** @internal */

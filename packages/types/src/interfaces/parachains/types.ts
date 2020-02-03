@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, H256, u32, u64 } from '@polkadot/types';
 import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
 /** @name AttestedCandidate */

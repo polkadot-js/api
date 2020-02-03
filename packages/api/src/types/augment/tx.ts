@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, Moment, Signature } from '@polkadot/types/interfaces/runtime';
@@ -16,7 +16,7 @@ import { SocietyJudgement } from '@polkadot/types/interfaces/society';
 import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
-import { AnyNumber, ITuple } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 
 declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType> {

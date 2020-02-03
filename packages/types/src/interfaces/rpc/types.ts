@@ -3,7 +3,7 @@
 
 import { Codec, ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types';
 import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApiId */

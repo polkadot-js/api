@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct } from '@polkadot/types/codec';
-import { u64 } from '@polkadot/types/primitive';
+import { u64 } from '@polkadot/types';
 
 /** @name RawAuraPreDigest */
 export interface RawAuraPreDigest extends Struct {

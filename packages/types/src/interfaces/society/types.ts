@@ -3,7 +3,7 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
+import { u32 } from '@polkadot/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name Bid */

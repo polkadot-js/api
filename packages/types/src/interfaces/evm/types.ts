@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, H160, H256, U256 } from '@polkadot/types/primitive';
+import { Bytes, H160, H256, U256 } from '@polkadot/types';
 
 /** @name Account */
 export interface Account extends Struct {

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Enum, Struct } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
+import { u32 } from '@polkadot/types';
 import { BlockNumber, Call, Hash } from '@polkadot/types/interfaces/runtime';
 import { VoteThreshold } from '@polkadot/types/interfaces/elections';
 

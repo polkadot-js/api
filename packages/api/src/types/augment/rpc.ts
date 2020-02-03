@@ -1,13 +1,13 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Observable } from 'rxjs';
+import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
 import { Bytes, H256, Metadata, StorageData, StorageKey, Text, u32, u64 } from '@polkadot/types';
 import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
-import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
+import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
