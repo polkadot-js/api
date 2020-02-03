@@ -6,13 +6,12 @@ import { ModuleMetadataLatest, StorageEntryMetadataLatest } from '../../interfac
 import { Registry } from '../../types';
 import * as defaultDefs from '../../interfaces/definitions';
 
-import fs from 'fs';
 import staticData from '@polkadot/metadata/Metadata/static';
 import { stringLowerFirst } from '@polkadot/util';
 
 import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
-import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
 /** @internal */
@@ -87,57 +86,37 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
 
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>): void {
-  console.log(`${dest}\n\tGenerating`);
+  writeFile(dest, (): string => {
+    const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const imports = createImports(allTypes);
+    const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
+      return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
+    }, {});
+    const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+      return acc.concat(generateModule(allDefs, registry, mod, imports));
+    }, [] as string[]);
+    const header = createImportCode(HEADER, imports, [
+      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
+        file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
+        types: Object.keys(imports.localTypes[moduleName])
+      })),
+      {
+        file: 'rxjs',
+        types: ['Observable']
+      }
+    ]);
+    const interfaceStart = [
+      "declare module '@polkadot/api/types/storage' {",
+      indent(2)('export interface AugmentedQueries<ApiType> {\n')
+    ].join('\n');
+    const interfaceEnd = `\n${indent(2)('}')}\n}`;
 
-  const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
-  const imports = createImports(allTypes);
-  const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
-    return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
-  }, {});
-  const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
-    return acc.concat(generateModule(allDefs, registry, mod, imports));
-  }, [] as string[]);
-  const header = createImportCode(HEADER, [
-    {
-      file: 'rxjs',
-      types: ['Observable']
-    },
-    {
-      file: '@polkadot/types/codec',
-      types: Object.keys(imports.codecTypes).filter((name): boolean => name !== 'Tuple')
-    },
-    {
-      file: '@polkadot/types',
-      types: Object.keys(imports.primitiveTypes)
-    },
-    ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
-      file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
-      types: Object.keys(imports.localTypes[moduleName])
-    })),
-    {
-      file: '@polkadot/types/types',
-      types: Object.keys(imports.typesTypes)
-    }
-  ]);
-  const interfaceStart = [
-    "declare module '@polkadot/api/types/storage' {",
-    indent(2)('export interface AugmentedQueries<ApiType> {\n')
-  ].join('\n');
-  const interfaceEnd = `\n${indent(2)('}')}\n}`;
-
-  console.log('\tWriting');
-
-  fs.writeFileSync(
-    dest,
-    header
+    return header
       .concat(interfaceStart)
       .concat(body.join('\n'))
       .concat(interfaceEnd)
-      .concat(FOOTER)
-    , { flag: 'w' }
-  );
-
-  console.log('');
+      .concat(FOOTER);
+  });
 }
 
 // Call `generateForMeta()` with current static metadata

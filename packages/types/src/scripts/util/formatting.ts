@@ -11,15 +11,39 @@ import { setImports, TypeImports } from './imports';
 export const HEADER = '// Auto-generated via `yarn polkadot-types-from-defs`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
 export const FOOTER = '\n';
 
+const TYPES_NON_PRIMITIVE = ['Metadata'];
+
 // creates the import lines
 /** @internal */
-export function createImportCode (header: string, checks: { file: string; types: string[] }[]): string {
-  return checks.reduce((result, { file, types }): string => {
-    if (types.length) {
-      result += `import { ${types.sort().join(', ')} } from '${file}';\n`;
-    }
-
-    return result;
+export function createImportCode (header: string, imports: TypeImports, checks: { file: string; types: string[] }[]): string {
+  return [
+    {
+      file: '@polkadot/types/types',
+      types: Object.keys(imports.typesTypes)
+    },
+    {
+      file: '@polkadot/types/codec',
+      types: Object
+        .keys(imports.codecTypes)
+        .filter((name): boolean => name !== 'Tuple')
+    },
+    {
+      file: '@polkadot/types/primitive',
+      types: Object
+        .keys(imports.primitiveTypes)
+        .filter((name): boolean => !TYPES_NON_PRIMITIVE.includes(name))
+    },
+    {
+      file: '@polkadot/types',
+      types: Object
+        .keys(imports.primitiveTypes)
+        .filter((name): boolean => TYPES_NON_PRIMITIVE.includes(name))
+    },
+    ...checks
+  ].reduce((result, { file, types }): string => {
+    return types.length
+      ? `${result}import { ${types.sort().join(', ')} } from '${file}';\n`
+      : result;
   }, header) + '\n';
 }
 
