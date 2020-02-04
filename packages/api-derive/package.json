@@ -32,6 +32,6 @@
     "@polkadot/types": "^1.1.0-beta.15"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.1.0-beta.0"
+    "@polkadot/keyring": "^2.1.0-beta.1"
   }
 }

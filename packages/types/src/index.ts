@@ -7,7 +7,7 @@
 
 import { detectPackage } from '@polkadot/util';
 
-let dirname = 'node_modules';
+let dirname;
 let pkgJson;
 
 try {
@@ -22,7 +22,7 @@ try {
   pkgJson = require('../package.json');
 }
 
-detectPackage(dirname, pkgJson);
+detectPackage(pkgJson, dirname);
 
 export * from './codec';
 export * from './index.types';
