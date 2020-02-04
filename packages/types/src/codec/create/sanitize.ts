@@ -6,6 +6,7 @@
 type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
+const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
@@ -114,7 +115,10 @@ function _removeGenerics (): Mapper {
         const box = ALLOWED_BOXES.find((box): boolean => {
           const start = index - box.length;
 
-          return start >= 0 && value.substr(start, box.length) === box;
+          return (start >= 0 && value.substr(start, box.length) === box) && (
+            // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
+            start === 0 || BOX_PRECEDING.includes(value[start - 1])
+          );
         });
 
         // we have not found anything, unwrap generic innards
