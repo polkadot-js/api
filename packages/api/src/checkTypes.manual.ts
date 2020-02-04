@@ -116,6 +116,13 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
       unsub2();
     });
+
+  // it allows for query & then using the submittable
+  const second = api.tx.democracy.second(123);
+
+  second.signAndSend('123', (result): void => {
+    console.log(result);
+  });
 }
 
 async function main (): Promise<void> {
