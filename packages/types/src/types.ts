@@ -30,7 +30,7 @@ export interface CallBase {
   toJSON: () => any;
 }
 
-export interface CallFunction {
+export interface CallFunction extends CallBase {
   (...args: any[]): Call;
 }
 
