@@ -6,7 +6,7 @@
 type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Linkage', 'Result', 'Option', 'Vec'];
-const BOX_START = ['<', '[', '(', '"']; // part of vec, tuple, fixed array or part of struct def
+const BOX_START = ['<', '(', '[', '"', ',']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
