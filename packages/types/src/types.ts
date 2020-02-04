@@ -22,13 +22,16 @@ export type BareOpts = boolean | Record<string, boolean>;
 
 export type InterfaceTypes = keyof InterfaceRegistry;
 
-export interface CallFunction {
-  (...args: any[]): Call;
+export interface CallBase {
   callIndex: Uint8Array;
   meta: FunctionMetadataLatest;
   method: string;
   section: string;
   toJSON: () => any;
+}
+
+export interface CallFunction extends CallBase {
+  (...args: any[]): Call;
 }
 
 export type Calls = Record<string, CallFunction>;
