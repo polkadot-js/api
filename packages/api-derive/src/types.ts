@@ -193,6 +193,7 @@ export interface DeriveStakingValidators {
 export interface DerivedStakingStash {
   controllerId?: AccountId;
   nominators?: AccountId[];
+  nominateAt?: EraIndex;
   rewardDestination?: RewardDestination;
   nextKeys?: Keys;
   stakers?: Exposure;

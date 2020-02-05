@@ -8,7 +8,7 @@ import { Codec, Registry } from '@polkadot/types/types';
 import BN from 'bn.js';
 import { Compact, Raw, createType, createTypeUnsafe } from '@polkadot/types/codec';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
+import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import getHasher, { HasherFunction } from './getHasher';
@@ -217,6 +217,8 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   } else if (type.isDoubleMap) {
     extendDoubleMap(registry, itemFn, storageFn);
   }
+
+  storageFn.keyPrefix = storageFn.iterKey || compactStripLength(storageFn())[1];
 
   return storageFn;
 }
