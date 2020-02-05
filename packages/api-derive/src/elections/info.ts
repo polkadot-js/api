@@ -13,21 +13,28 @@ import { createType, Vec, u32 } from '@polkadot/types';
 import { DerivedElectionsInfo } from '../types';
 import { memo } from '../util';
 
+function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]: ITuple<[AccountId, Balance]>): number {
+  return balanceB.cmp(balanceA);
+}
+
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-  return api.queryMulti<[Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+    api.query.council.members,
     api.query[section].candidates,
     api.query[section].members,
     api.query[section].runnersUp
   ]).pipe(
-    map(([candidates, members, runnersUp]): DerivedElectionsInfo => ({
+    map(([councilMembers, candidates, members, runnersUp]): DerivedElectionsInfo => ({
       candidates,
       candidateCount: createType(api.registry, 'u32', candidates.length),
       candidacyBond: api.consts[section].candidacyBond as Balance,
       desiredSeats: api.consts[section].desiredMembers as u32,
-      members: members.sort((a, b): number => b[1].cmp(a[1])),
-      runnersUp: runnersUp.sort((a, b): number => b[1].cmp(a[1])),
+      members: members.length
+        ? members.sort(sortAccounts)
+        : councilMembers.map((accountId): [AccountId, Balance] => [accountId, createType(api.registry, 'Balance')]),
+      runnersUp: runnersUp.sort(sortAccounts),
       termDuration: api.consts[section].termDuration as BlockNumber,
       votingBond: api.consts[section].votingBond as Balance
     }))
