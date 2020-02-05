@@ -218,5 +218,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
     extendDoubleMap(registry, itemFn, storageFn);
   }
 
+  storageFn.keyPrefix = storageFn.iterKey || storageFn();
+
   return storageFn;
 }

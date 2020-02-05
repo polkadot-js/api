@@ -285,6 +285,9 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     decorated.key = (arg1?: Arg, arg2?: Arg): string =>
       u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
+    decorated.keyPrefix = (): string =>
+      u8aToHex(creator.keyPrefix);
+
     if (this.hasSubscriptions) {
       // When using double map storage function, user need to pass double map key as an array
       decorated.multi = decorateMethod((args: (Arg | Arg[])[]): Observable<Codec[]> =>
