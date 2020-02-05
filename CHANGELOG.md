@@ -5,7 +5,7 @@
 - Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
 - Remove additional V1-only derives `(staking.recentlyOffline`, `balances.nominatorsFor`)
 - Add `.isMax()` on int values, an opposite of `isZero()` (e.g. `u128`, as well as derived, e.g. `Balances`)
-- Add `.keyPrefix()` to all `api.query.*` complimenting the `.key()` call, both returning a hex string
+- Add `.keyPrefix()` to all `api.query.*` complementing the `.key()` call, both returning a hex string
 
 # 1.0.1
 
