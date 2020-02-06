@@ -4,7 +4,7 @@
 
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
@@ -26,18 +26,18 @@ import { memo } from '../util';
  * ```
  */
 export function indexToId (api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
-  const querySection = api.query.indices || api.query.balances;
-
   return memo((_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
     const accountIndex = _accountIndex instanceof ClassOf(api.registry, 'AccountIndex')
       ? _accountIndex
       : createType(api.registry, 'AccountIndex', _accountIndex);
 
-    return querySection.enumSet<Vec<AccountId>>(accountIndex.div(ENUMSET_SIZE)).pipe(
-      startWith([]),
-      map((accounts): AccountId | undefined =>
-        (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]
+    return api.query.indices.enumSet
+      ? api.query.indices.enumSet<Vec<AccountId>>(accountIndex.div(ENUMSET_SIZE)).pipe(
+        startWith([]),
+        map((accounts): AccountId | undefined =>
+          (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]
+        )
       )
-    );
+      : of(undefined);
   });
 }

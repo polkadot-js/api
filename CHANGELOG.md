@@ -7,6 +7,8 @@
 - Add `.isMax()` on int values, an opposite of `isZero()` (e.g. `u128`, as well as derived, e.g. `Balances`)
 - Add `.keyPrefix()` to all `api.query.*` complementing the `.key()` call, both returning a hex string
 - Council derives now takes bootstrapping (member, no elections) into account
+- Account derives now allow for an optional indices module (not required)
+- Adjust balances fees derivation with optional transfer and creation fees (removed in Substrate)
 - Adjust enum `.toJSON()` to return type name as specified
 
 # 1.0.1
