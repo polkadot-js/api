@@ -1,4 +1,4 @@
-# 1.1.0-beta.x
+# 1.1.1
 
 - Add support for `balances.account` in all applicable derives (incl. `vesting` module)
 - Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
