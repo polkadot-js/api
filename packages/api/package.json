@@ -25,20 +25,17 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
-  "browser": {
-    "../package.json": "./package.json"
-  },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
     "@polkadot/api-derive": "^1.1.0-beta.21",
-    "@polkadot/keyring": "^2.1.1",
+    "@polkadot/keyring": "^2.2.0-beta.0",
     "@polkadot/metadata": "^1.1.0-beta.21",
     "@polkadot/rpc-core": "^1.1.0-beta.21",
     "@polkadot/rpc-provider": "^1.1.0-beta.21",
     "@polkadot/types": "^1.1.0-beta.21",
-    "@polkadot/util-crypto": "^2.1.1"
+    "@polkadot/util-crypto": "^2.2.0-beta.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^2.1.1"
+    "@polkadot/keyring": "^2.2.0-beta.0"
   }
 }

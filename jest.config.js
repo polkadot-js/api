@@ -31,5 +31,6 @@ module.exports = Object.assign({}, config, {
     ws_local_polkadot_alex: 'ws://127.0.0.1:9949/',
     ws_substrate_1: 'wss://substrate-rpc.parity.io/',
     ws_polkadot_alex: 'wss://poc3-rpc.polkadot.io/'
-  }
+  },
+  resolver: './jest.resolver.js'
 });
