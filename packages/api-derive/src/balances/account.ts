@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountData, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
 import { combineLatest, of, Observable } from 'rxjs';
@@ -39,12 +40,23 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
   );
 }
 
-function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryCurrentOldNonce (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[AccountData, Index]>([
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
     map(([{ free, reserved, miscFrozen, feeFrozen }, accountNonce]): Result =>
+      [free, reserved, feeFrozen, miscFrozen, accountNonce]
+    )
+  );
+}
+
+function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+  return api.queryMulti<[AccountData, ITuple<[Index, AccountData]>]>([
+    [api.query.balances.account, accountId],
+    [api.query.system.account, accountId]
+  ]).pipe(
+    map(([{ free, reserved, miscFrozen, feeFrozen }, [accountNonce]]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
   );
@@ -73,7 +85,9 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
           ? combineLatest([
             of(accountId),
             api.query.balances.account
-              ? queryCurrent(api, accountId)
+              ? api.query.system.account
+                ? queryCurrent(api, accountId)
+                : queryCurrentOldNonce(api, accountId)
               : queryOld(api, accountId)
           ])
           : of([createType(api.registry, 'AccountId'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Index')]])
