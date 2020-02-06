@@ -14,21 +14,6 @@ import { memo } from '../util';
 
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
-// parse the result
-function parseResult ([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]: ResultV2): DerivedContractFees {
-  return {
-    callBaseFee,
-    contractFee,
-    creationFee,
-    rentByteFee,
-    rentDepositOffset,
-    tombstoneDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  };
-}
-
 // query via constants (current applicable path)
 function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
@@ -63,7 +48,17 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return memo((): Observable<DerivedContractFees> => {
     return queryConstants(api).pipe(
-      map(parseResult)
+      map(([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]): DerivedContractFees => ({
+        callBaseFee,
+        contractFee,
+        creationFee,
+        rentByteFee,
+        rentDepositOffset,
+        tombstoneDeposit,
+        transactionBaseFee,
+        transactionByteFee,
+        transferFee
+      }))
     );
   });
 }
