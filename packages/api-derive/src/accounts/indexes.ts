@@ -6,7 +6,7 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import { AccountIndexes } from '../types';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
 import { Vec, createType } from '@polkadot/types';
@@ -32,14 +32,18 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  */
 export function indexes (api: ApiInterfaceRx): () => Observable<AccountIndexes> {
   return memo((): Observable<AccountIndexes> =>
-    api.query.indices.nextEnumSet<AccountIndex>().pipe(
-      // use the nextEnumSet (which is a counter of the number of sets) to construct
-      // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
-      // specific index - each query can return up to ENUMSET_SIZE (64) records, each
-      // containing an AccountId
-      switchMap((next: AccountIndex): Observable<Vec<AccountId>[]> =>
-        api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
-      ),
+    (api.query.indices.nextEnumSet
+      ? api.query.indices.nextEnumSet<AccountIndex>().pipe(
+        // use the nextEnumSet (which is a counter of the number of sets) to construct
+        // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
+        // specific index - each query can return up to ENUMSET_SIZE (64) records, each
+        // containing an AccountId
+        switchMap((next: AccountIndex): Observable<Vec<AccountId>[]> =>
+          api.query.indices.enumSet.multi<Vec<AccountId>>([...Array(next.toNumber() + 1).keys()])
+        )
+      )
+      : of([] as AccountId[][])
+    ).pipe(
       map((all: AccountId[][]): AccountIndexes =>
         all.reduce((result: AccountIndexes, list, outerIndex): AccountIndexes => {
           (list || []).forEach((accountId, innerIndex): void => {
