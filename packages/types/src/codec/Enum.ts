@@ -266,7 +266,7 @@ export default class Enum extends Base<Codec> {
    */
   public toJSON (): AnyJson {
     return this._isBasic
-      ? stringCamelCase(this.toString())
+      ? this.type
       : { [this.type]: this.raw.toJSON() };
   }
 
