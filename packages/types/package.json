@@ -29,9 +29,6 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
-  "browser": {
-    "../package.json": "./package.json"
-  },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
     "@polkadot/metadata": "^1.1.1",

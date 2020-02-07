@@ -7,9 +7,9 @@ import { Registry } from '../../types';
 import * as defaultDefs from '../../interfaces/definitions';
 
 import staticData from '@polkadot/metadata/Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
 import { stringLowerFirst } from '@polkadot/util';
 
-import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 
@@ -92,9 +92,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
     }, {});
-    const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
+    const body = meta.asLatest.modules.reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
-    }, [] as string[]);
+    }, []);
     const header = createImportCode(HEADER, imports, [
       ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,

@@ -7,7 +7,6 @@ const path = require('path');
 
 module.exports = function resolver (file, config) {
   if (file.includes('package.json')) {
-    console.error(file, config);
     return path.join(config.basedir.replace('/src', '/'), file);
   }
 

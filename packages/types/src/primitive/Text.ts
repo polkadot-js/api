@@ -11,6 +11,32 @@ import { createType } from '../codec/create';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+/** @internal */
+function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+  if (isHex(value)) {
+    return u8aToString(hexToU8a(value.toString()));
+  } else if (value instanceof Uint8Array) {
+    if (!value.length) {
+      return '';
+    }
+
+    // for Raw, the internal buffer does not have an internal length
+    // (the same applies in e.g. Bytes, where length is added at encoding-time)
+    if (value instanceof Raw) {
+      return u8aToString(value);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    return u8aToString(value.subarray(offset, total));
+  }
+
+  return `${value}`;
+}
+
 /**
  * @name Text
  * @description
@@ -26,35 +52,9 @@ export default class Text extends String implements Codec {
   private _override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
-    super(Text.decodeText(value));
+    super(decodeText(value));
 
     this.registry = registry;
-  }
-
-  /** @internal */
-  private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
-    if (isHex(value)) {
-      return u8aToString(hexToU8a(value.toString()));
-    } else if (value instanceof Uint8Array) {
-      if (!value.length) {
-        return '';
-      }
-
-      // for Raw, the internal buffer does not have an internal length
-      // (the same applies in e.g. Bytes, where length is added at encoding-time)
-      if (value instanceof Raw) {
-        return u8aToString(value);
-      }
-
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return u8aToString(value.subarray(offset, total));
-    }
-
-    return `${value}`;
   }
 
   /**

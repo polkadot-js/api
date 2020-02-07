@@ -9,6 +9,34 @@ import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+/** @internal */
+function decodeBytesU8a (value: Uint8Array): Uint8Array {
+  if (!value.length) {
+    return new Uint8Array();
+  }
+
+  // handle all other Uint8Array inputs, these do have a length prefix
+  const [offset, length] = Compact.decodeU8a(value);
+  const total = offset + length.toNumber();
+
+  assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+  return value.subarray(offset, total);
+}
+
+/** @internal */
+function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
+  if (Array.isArray(value) || isString(value)) {
+    return u8aToU8a(value);
+  } else if (!(value instanceof Raw) && isU8a(value)) {
+    // We are ensuring we are not a Rawv instance. In the case of a Raw we already have gotten
+    // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
+    return decodeBytesU8a(value);
+  }
+
+  return value;
+}
+
 /**
  * @name Bytes
  * @description
@@ -18,35 +46,7 @@ import Raw from '../codec/Raw';
  */
 export default class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
-    super(registry, Bytes.decodeBytes(value));
-  }
-
-  /** @internal */
-  private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
-    if (Array.isArray(value) || isString(value)) {
-      return u8aToU8a(value);
-    } else if (!(value instanceof Raw) && isU8a(value)) {
-      // We are ensuring we are not a Rawv instance. In the case of a Raw we already have gotten
-      // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
-      return Bytes.decodeBytesU8a(value);
-    }
-
-    return value;
-  }
-
-  /** @internal */
-  private static decodeBytesU8a (value: Uint8Array): Uint8Array {
-    if (!value.length) {
-      return new Uint8Array();
-    }
-
-    // handle all other Uint8Array inputs, these do have a length prefix
-    const [offset, length] = Compact.decodeU8a(value);
-    const total = offset + length.toNumber();
-
-    assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-    return value.subarray(offset, total);
+    super(registry, decodeBytes(value));
   }
 
   /**

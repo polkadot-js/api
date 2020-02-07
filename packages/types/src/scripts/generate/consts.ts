@@ -6,9 +6,10 @@ import { ModuleMetadataLatest } from '../../interfaces/metadata';
 import * as defaultDefs from '../../interfaces/definitions';
 
 import staticData from '@polkadot/metadata/Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
-import { Metadata, TypeRegistry } from '../..';
+import { TypeRegistry } from '../../codec';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, indent, setImports, writeFile } from '../util';
 
 // Generate types for one module
