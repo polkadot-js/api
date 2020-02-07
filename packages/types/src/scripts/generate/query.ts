@@ -7,9 +7,9 @@ import { Registry } from '../../types';
 import * as defaultDefs from '../../interfaces/definitions';
 
 import staticData from '@polkadot/metadata/Metadata/static';
+import Metadata from '@polkadot/metadata/Metadata';
 import { stringLowerFirst } from '@polkadot/util';
 
-import { Metadata } from '../..';
 import { TypeRegistry } from '../../codec';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 

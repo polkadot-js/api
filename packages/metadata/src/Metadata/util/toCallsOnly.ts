@@ -5,7 +5,7 @@
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJsonObject, Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
 /** @internal */
 export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJsonObject | string {
