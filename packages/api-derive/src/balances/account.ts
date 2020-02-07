@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountData, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
 import { combineLatest, of, Observable } from 'rxjs';
@@ -27,7 +28,7 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBa
 }
 
 // old
-function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[Balance, Balance, Index]>([
     [api.query.balances.freeBalance, accountId],
     [api.query.balances.reservedBalance, accountId],
@@ -39,12 +40,20 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
   );
 }
 
-function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[AccountData, Index]>([
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
   ]).pipe(
     map(([{ free, reserved, miscFrozen, feeFrozen }, accountNonce]): Result =>
+      [free, reserved, feeFrozen, miscFrozen, accountNonce]
+    )
+  );
+}
+
+function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+  return api.query.system.account<ITuple<[Index, AccountData]>>(accountId).pipe(
+    map(([accountNonce, { free, reserved, miscFrozen, feeFrozen }]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
   );
@@ -72,9 +81,11 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.balances.account
+            api.query.system.account
               ? queryCurrent(api, accountId)
-              : queryOld(api, accountId)
+              : api.query.balances.account
+                ? queryBalancesAccount(api, accountId)
+                : queryBalancesFree(api, accountId)
           ])
           : of([createType(api.registry, 'AccountId'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Index')]])
         )
