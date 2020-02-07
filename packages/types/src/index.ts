@@ -2,28 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// NOTE When adding any types here, we need to update the documentation links as
-// well - <root>/docs/SUMMARY.md as well as ../README.md
-
 import { detectPackage } from '@polkadot/util';
 
-let dirname;
-let pkgJson;
-
+// eslint-disable-next-line no-useless-catch
 try {
-  dirname = __dirname;
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  detectPackage(require('./package.json'), __dirname);
 } catch (error) {
-  // ignore
+  throw error;
 }
-
-try {
-  pkgJson = require('./package.json');
-} catch (error) {
-  pkgJson = require('../package.json');
-}
-
-detectPackage(pkgJson, dirname);
 
 export * from './codec';
 export * from './index.types';
+
+// FIXME We actually don't want to do this (if needed, it certainly is not in the right place)
 export { formatType } from './scripts/util/formatting';

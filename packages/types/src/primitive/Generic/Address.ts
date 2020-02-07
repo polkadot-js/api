@@ -17,6 +17,30 @@ type AnyAddress = BN | Address | AccountId | AccountIndex | number[] | Uint8Arra
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
+/** @internal */
+function decodeString (registry: Registry, value: string): AccountId | AccountIndex {
+  const decoded = decodeAddress(value);
+
+  return decoded.length === 32
+    ? createType(registry, 'AccountId', decoded)
+    : createType(registry, 'AccountIndex', u8aToBn(decoded, true));
+}
+
+/** @internal */
+function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
+  // This allows us to instantiate an address with a raw publicKey. Do this first before
+  // we checking the first byte, otherwise we may split an already-existent valid address
+  if (value.length === 32) {
+    return createType(registry, 'AccountId', value);
+  } else if (value[0] === 0xff) {
+    return createType(registry, 'AccountId', value.subarray(1));
+  }
+
+  const [offset, length] = AccountIndex.readLength(value);
+
+  return createType(registry, 'AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+}
+
 /**
  * @name Address
  * @description
@@ -39,34 +63,10 @@ export default class Address extends Base<AccountId | AccountIndex> {
     } else if (isBn(value) || isNumber(value)) {
       return createType(registry, 'AccountIndex', value);
     } else if (Array.isArray(value) || isHex(value) || isU8a(value)) {
-      return Address.decodeU8a(registry, u8aToU8a(value));
+      return decodeU8a(registry, u8aToU8a(value));
     }
 
-    return Address.decodeString(registry, value);
-  }
-
-  /** @internal */
-  private static decodeString (registry: Registry, value: string): AccountId | AccountIndex {
-    const decoded = decodeAddress(value);
-
-    return decoded.length === 32
-      ? createType(registry, 'AccountId', decoded)
-      : createType(registry, 'AccountIndex', u8aToBn(decoded, true));
-  }
-
-  /** @internal */
-  private static decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountIndex {
-    // This allows us to instantiate an address with a raw publicKey. Do this first before
-    // we checking the first byte, otherwise we may split an already-existent valid address
-    if (value.length === 32) {
-      return createType(registry, 'AccountId', value);
-    } else if (value[0] === 0xff) {
-      return createType(registry, 'AccountId', value.subarray(1));
-    }
-
-    const [offset, length] = AccountIndex.readLength(value);
-
-    return createType(registry, 'AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+    return decodeString(registry, value);
   }
 
   /**

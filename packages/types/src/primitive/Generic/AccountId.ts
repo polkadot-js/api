@@ -9,6 +9,19 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import U8aFixed from '../../codec/U8aFixed';
 
+/** @internal */
+function decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
+  if (isU8a(value) || Array.isArray(value)) {
+    return u8aToU8a(value);
+  } else if (isHex(value)) {
+    return hexToU8a(value.toString());
+  } else if (isString(value)) {
+    return decodeAddress((value as string).toString());
+  }
+
+  return value;
+}
+
 /**
  * @name AccountId
  * @description
@@ -18,31 +31,18 @@ import U8aFixed from '../../codec/U8aFixed';
  */
 export default class AccountId extends U8aFixed {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
-    super(registry, AccountId.decodeAccountId(value), 256);
+    super(registry, decodeAccountId(value), 256);
   }
 
   public static encode (value: Uint8Array): string {
     return encodeAddress(value);
   }
 
-  /** @internal */
-  private static decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
-    if (isU8a(value) || Array.isArray(value)) {
-      return u8aToU8a(value);
-    } else if (isHex(value)) {
-      return hexToU8a(value.toString());
-    } else if (isString(value)) {
-      return decodeAddress((value as string).toString());
-    }
-
-    return value;
-  }
-
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: any): boolean {
-    return super.eq(AccountId.decodeAccountId(other));
+    return super.eq(decodeAccountId(other));
   }
 
   /**

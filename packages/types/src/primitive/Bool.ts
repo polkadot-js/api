@@ -9,6 +9,17 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { createType } from '../codec/create';
 
+/** @internal */
+function decodeBool (value: any): boolean {
+  if (value instanceof Boolean) {
+    return value.valueOf();
+  } else if (isU8a(value)) {
+    return value[0] === 1;
+  }
+
+  return !!value;
+}
+
 /**
  * @name Bool
  * @description
@@ -20,20 +31,9 @@ export default class Bool extends Boolean implements Codec {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor (registry: Registry, value: Bool | Boolean | Uint8Array | boolean | number = false) {
-    super(Bool.decodeBool(value));
+    super(decodeBool(value));
 
     this.registry = registry;
-  }
-
-  /** @internal */
-  private static decodeBool (value: any): boolean {
-    if (value instanceof Boolean) {
-      return value.valueOf();
-    } else if (isU8a(value)) {
-      return value[0] === 1;
-    }
-
-    return !!value;
   }
 
   /**
