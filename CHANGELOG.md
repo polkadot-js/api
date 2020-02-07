@@ -1,3 +1,7 @@
+# 1.2.0-beta.x
+
+- Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
+
 # 1.1.1
 
 - Add support for `balances.account` in all applicable derives (incl. `vesting` module)
