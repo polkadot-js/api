@@ -28,7 +28,7 @@ function calcBalances (api: ApiInterfaceRx, [accountId, [freeBalance, reservedBa
 }
 
 // old
-function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesFree (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[Balance, Balance, Index]>([
     [api.query.balances.freeBalance, accountId],
     [api.query.balances.reservedBalance, accountId],
@@ -40,7 +40,7 @@ function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<Result
   );
 }
 
-function queryCurrentOldNonce (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
+function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
   return api.queryMulti<[AccountData, Index]>([
     [api.query.balances.account, accountId],
     [api.query.system.accountNonce, accountId]
@@ -52,11 +52,8 @@ function queryCurrentOldNonce (api: ApiInterfaceRx, accountId: AccountId): Obser
 }
 
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
-  return api.queryMulti<[AccountData, ITuple<[Index, AccountData]>]>([
-    [api.query.balances.account, accountId],
-    [api.query.system.account, accountId]
-  ]).pipe(
-    map(([{ free, reserved, miscFrozen, feeFrozen }, [accountNonce]]): Result =>
+  return api.query.system.account<ITuple<[Index, AccountData]>>(accountId).pipe(
+    map(([accountNonce, { free, reserved, miscFrozen, feeFrozen }]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )
   );
@@ -84,11 +81,11 @@ export function account (api: ApiInterfaceRx): (address: AccountIndex | AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.balances.account
-              ? api.query.system.account
-                ? queryCurrent(api, accountId)
-                : queryCurrentOldNonce(api, accountId)
-              : queryOld(api, accountId)
+            api.query.system.account
+              ? queryCurrent(api, accountId)
+              : api.query.balances.account
+                ? queryBalancesAccount(api, accountId)
+                : queryBalancesFree(api, accountId)
           ])
           : of([createType(api.registry, 'AccountId'), [createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Balance'), createType(api.registry, 'Index')]])
         )
