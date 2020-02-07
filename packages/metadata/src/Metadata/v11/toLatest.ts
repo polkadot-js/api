@@ -7,7 +7,8 @@ import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLates
 import { Registry } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types/known';
-import { Type, createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
+import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 
 // TODO Handle consts as well

@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// Module augmentation so that `api.{consts,query,tx}.*.*` work
+// Module augmentation so that `api.{consts,query,rpc,tx}.*.*` work
 import './augment';
 
 import BN from 'bn.js';
 import { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
 import { Constants } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
-import { UserRpc } from '@polkadot/rpc-core/types';
+import { RpcInterface, UserRpc } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw, Registry } from '@polkadot/types/types';

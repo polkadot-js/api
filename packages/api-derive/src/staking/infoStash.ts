@@ -3,24 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Exposure, Keys, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { AccountId, Exposure, Keys, Nominations, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DerivedStakingStash } from '../types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Option, Vec } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Option<AccountId>, [Vec<AccountId>], RewardDestination, Exposure, ValidatorPrefs, Option<Keys>?];
-type ResultV2 = [Option<AccountId>, ITuple<[Vec<AccountId>]>, RewardDestination, Exposure, ValidatorPrefs, Option<Keys>];
+type Result = [Option<AccountId>, Nominations, RewardDestination, Exposure, ValidatorPrefs, Option<Keys>];
 
-function parse (stashId: AccountId, [_controllerId, [nominators], rewardDestination, stakers, validatorPrefs, _nextKeys]: Result): DerivedStakingStash {
+function parse (stashId: AccountId, [_controllerId, nominators, rewardDestination, stakers, validatorPrefs, _nextKeys]: Result): DerivedStakingStash {
   return {
     controllerId: _controllerId.unwrapOr(undefined),
-    nextKeys: _nextKeys?.unwrapOr(undefined),
-    nominators,
+    nextKeys: _nextKeys.unwrapOr(undefined),
+    nominators: nominators.targets,
+    nominateAt: nominators.submittedIn,
     rewardDestination,
     stakers,
     stashId,
@@ -29,7 +28,7 @@ function parse (stashId: AccountId, [_controllerId, [nominators], rewardDestinat
 }
 
 function query (api: ApiInterfaceRx, stashId: AccountId): Observable<Result> {
-  return api.queryMulti<ResultV2>([
+  return api.queryMulti<Result>([
     [api.query.staking.bonded, stashId],
     [api.query.staking.nominators, stashId],
     [api.query.staking.payee, stashId],

@@ -27,7 +27,7 @@ const generateConst = require('./generate/consts').default;
 const generateQuery = require('./generate/query').default;
 const generateTx = require('./generate/tx').default;
 
-const { endpoint, output, package } = yargs.strict().options({
+const { endpoint, output, package, strict: isStrict } = yargs.strict().options({
   endpoint: {
     description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
     type: 'string',
@@ -40,6 +40,10 @@ const { endpoint, output, package } = yargs.strict().options({
   },
   package: {
     description: 'Optional package in output location (for extra definitions)'
+  },
+  strinct: {
+    description: 'Turns on stirct mode, not outputting genric versions',
+    type: 'boolean'
   }
 }).argv;
 let websocket = null;
@@ -51,9 +55,9 @@ function generate (metaHex) {
     ? { [package]: require(path.join(process.cwd(), output, 'definitions')) }
     : {};
 
-  generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes);
-  generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes);
-  generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes);
+  generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes, isStrict);
+  generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes, isStrict);
+  generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes, isStrict);
 
   process.exit(0);
 }

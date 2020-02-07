@@ -1,15 +1,37 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Set, Struct } from '@polkadot/types/codec';
+import { Enum, Set, Struct } from '@polkadot/types/codec';
 import { Balance, BlockNumber, LockIdentifier } from '@polkadot/types/interfaces/runtime';
+
+/** @name AccountData */
+export interface AccountData extends Struct {
+  readonly free: Balance;
+  readonly reserved: Balance;
+  readonly miscFrozen: Balance;
+  readonly feeFrozen: Balance;
+}
 
 /** @name BalanceLock */
 export interface BalanceLock extends Struct {
   readonly id: LockIdentifier;
   readonly amount: Balance;
+  readonly reasons: Reasons;
+}
+
+/** @name BalanceLockTo212 */
+export interface BalanceLockTo212 extends Struct {
+  readonly id: LockIdentifier;
+  readonly amount: Balance;
   readonly until: BlockNumber;
   readonly reasons: WithdrawReasons;
+}
+
+/** @name Reasons */
+export interface Reasons extends Enum {
+  readonly isFee: boolean;
+  readonly isMisc: boolean;
+  readonly isAll: boolean;
 }
 
 /** @name VestingSchedule */

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceOf, Bid, BidKind, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, EraIndex, EraPoints, Exposure, Hash, Index, Keys, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { u32, Vec } from '@polkadot/types';
@@ -30,21 +30,27 @@ export interface DeriveAccountInfo {
   nickname?: string;
 }
 
-export interface DerivedBalances {
+export interface DerivedBalancesAccount {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
+  frozenFee: Balance;
+  frozenMisc: Balance;
+  reservedBalance: Balance;
+  votingBalance: Balance;
+}
+
+export interface DerivedBalancesAll extends DerivedBalancesAccount {
   isVesting: boolean;
   lockedBalance: Balance;
-  lockedBreakdown: BalanceLock[];
+  lockedBreakdown: (BalanceLock | BalanceLockTo212)[];
   availableBalance: Balance;
-  reservedBalance: Balance;
   votingBalance: Balance;
   vestedBalance: Balance;
   vestingTotal: Balance;
 }
 
-export type DerivedBalancesMap = Record<string, DerivedBalances>;
+export type DerivedBalancesMap = Record<string, DerivedBalancesAll>;
 
 export interface DerivedContractFees {
   callBaseFee: BN;
@@ -187,6 +193,7 @@ export interface DeriveStakingValidators {
 export interface DerivedStakingStash {
   controllerId?: AccountId;
   nominators?: AccountId[];
+  nominateAt?: EraIndex;
   rewardDestination?: RewardDestination;
   nextKeys?: Keys;
   stakers?: Exposure;

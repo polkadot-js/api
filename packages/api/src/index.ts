@@ -4,15 +4,13 @@
 
 import { detectPackage } from '@polkadot/util';
 
-let pkgJson;
-
+// eslint-disable-next-line no-useless-catch
 try {
-  pkgJson = require('./package.json');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  detectPackage(require('./package.json'), __dirname);
 } catch (error) {
-  pkgJson = require('../package.json');
+  throw error;
 }
-
-detectPackage(pkgJson);
 
 export { Keyring } from '@polkadot/keyring';
 export { WsProvider } from '@polkadot/rpc-provider';

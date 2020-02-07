@@ -3,23 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import { sign } from '../util';
 
-// the base definition (excluding extras)
-export const SignedPayloadBaseV2: Record<string, InterfaceTypes> = {
-  method: 'Bytes',
-  era: 'ExtrinsicEra',
-  nonce: 'Compact<Index>',
-  tip: 'Compact<Balance>'
-};
-
 /**
- * @name ExtrinsicPayloadV2
+ * @name GenericExtrinsicPayloadV2
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
@@ -27,7 +19,10 @@ export const SignedPayloadBaseV2: Record<string, InterfaceTypes> = {
 export default class ExtrinsicPayloadV2 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
-      ...SignedPayloadBaseV2,
+      method: 'Bytes',
+      era: 'ExtrinsicEra',
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>',
       blockHash: 'Hash'
     }, value);
   }

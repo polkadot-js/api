@@ -5,6 +5,7 @@
 import { TypeDef, TypeDefInfo } from '../../codec/types';
 import { Constructor, Registry } from '../../types';
 
+import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
 import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
 import AbstractInt from '../../codec/AbstractInt';
@@ -13,9 +14,17 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+import Null from '../../primitive/Null';
+import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
+import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
-import * as primitiveClasses from '../../primitive';
+
+function arrayToStrType (arr: string[]): string {
+  return `(${arr.map((c): string => `'${c}'`).join(' | ')})`;
+}
+
+const voteConvictions = arrayToStrType(_voteConvictions);
 
 // From `T`, generate `Compact<T>, Option<T>, Vec<T>`
 /** @internal */
@@ -67,9 +76,9 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     return ['StorageKey', 'string', 'Uint8Array', 'any'];
   }
 
-  const clazz = ClassOfUnsafe(registry, type);
+  const Clazz = ClassOfUnsafe(registry, type);
 
-  if (isChildClass(Vec, clazz)) {
+  if (isChildClass(Vec, Clazz)) {
     const subDef = (getTypeDef(type).sub) as TypeDef;
 
     if (subDef.info === TypeDefInfo.Plain) {
@@ -83,22 +92,39 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     } else {
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
-  } else if (isChildClass(Enum, clazz)) {
-    // TODO Handle this more gracefully (expand actual options)
-    possibleTypes.push('number', 'any');
-  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, clazz) || isChildClass(Compact, clazz)) {
+  } else if (isChildClass(Enum, Clazz)) {
+    const e = new Clazz(registry) as Enum;
+
+    if (e.isBasic) {
+      possibleTypes.push(arrayToStrType(e.defKeys), 'number');
+    } else {
+      // TODO We don't really want any here, these should be expanded
+      possibleTypes.push(...e.defKeys.map((key): string => `{ ${stringLowerFirst(key)}: any }`), 'string');
+    }
+
+    possibleTypes.push('Uint8Array');
+  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'Address'), clazz)) {
+  } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
     possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'bool'), clazz)) {
+  } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
-  } else if (isChildClass(Struct, clazz)) {
-    possibleTypes.push('object', 'string', 'Uint8Array');
-  } else if (isChildClass(Option, clazz)) {
+  } else if (isChildClass(Null, Clazz)) {
+    possibleTypes.push('null');
+  } else if (isChildClass(Struct, Clazz)) {
+    // TODO We don't really want any here, these should be expanded
+    const s = new Clazz(registry) as Struct;
+    const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
+
+    possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
+  } else if (isChildClass(Option, Clazz)) {
+    // TODO inspect container
     possibleTypes.push('null', 'object', 'string', 'Uint8Array');
-  } else if (isChildClass(Uint8Array, clazz)) {
+  } else if (isChildClass(Vote, Clazz)) {
+    possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
+  } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(String, clazz)) {
+  } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
   }
 

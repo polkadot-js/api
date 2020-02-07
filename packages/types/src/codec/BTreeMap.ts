@@ -42,6 +42,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    * - Map<any, any>, where both key and value types are either
    *   constructors or decodeable values for their types.
    * @param jsonMap
+   * @internal
    */
   private static decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Uint8Array | string | Map<any, any>): Map<K, V> {
     if (!value) {
@@ -57,6 +58,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     throw new Error('BTreeMap: cannot decode type');
   }
 
+  /** @internal */
   private static decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
     const output = new Map<K, V>();
     const [offset, length] = Compact.decodeU8a(u8a);
@@ -75,6 +77,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     return output;
   }
 
+  /** @internal */
   private static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
     const output = new Map<K, V>();
 

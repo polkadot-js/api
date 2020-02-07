@@ -9,7 +9,7 @@
           "storage": [
             {
               "name": "AccountNonce",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -22,7 +22,7 @@
             },
             {
               "name": "ExtrinsicCount",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "u32"
               },
@@ -31,7 +31,7 @@
             },
             {
               "name": "AllExtrinsicsLen",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "u32"
               },
@@ -40,7 +40,7 @@
             },
             {
               "name": "BlockHash",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "BlockNumber",
@@ -53,7 +53,7 @@
             },
             {
               "name": "ExtrinsicData",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "u32",
@@ -66,7 +66,7 @@
             },
             {
               "name": "RandomSeed",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Hash"
               },
@@ -75,7 +75,7 @@
             },
             {
               "name": "Number",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -86,7 +86,7 @@
             },
             {
               "name": "ParentHash",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Hash"
               },
@@ -95,7 +95,7 @@
             },
             {
               "name": "ExtrinsicsRoot",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Hash"
               },
@@ -104,7 +104,7 @@
             },
             {
               "name": "Digest",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Digest"
               },
@@ -113,7 +113,7 @@
             },
             {
               "name": "Events",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<EventRecord>"
               },
@@ -152,7 +152,7 @@
           "storage": [
             {
               "name": "Now",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Moment"
               },
@@ -163,7 +163,7 @@
             },
             {
               "name": "BlockPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Moment"
               },
@@ -174,7 +174,7 @@
             },
             {
               "name": "DidUpdate",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "bool"
               },
@@ -213,7 +213,7 @@
           "storage": [
             {
               "name": "OriginalAuthorities",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "Vec<SessionKey>"
               },
@@ -303,7 +303,7 @@
           "storage": [
             {
               "name": "NextEnumSet",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "AccountIndex"
               },
@@ -314,7 +314,7 @@
             },
             {
               "name": "EnumSet",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountIndex",
@@ -351,7 +351,7 @@
           "storage": [
             {
               "name": "TotalIssuance",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -362,7 +362,7 @@
             },
             {
               "name": "ExistentialDeposit",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -373,7 +373,7 @@
             },
             {
               "name": "TransferFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -384,7 +384,7 @@
             },
             {
               "name": "CreationFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -395,7 +395,7 @@
             },
             {
               "name": "TransactionBaseFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -406,7 +406,7 @@
             },
             {
               "name": "TransactionByteFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -417,7 +417,7 @@
             },
             {
               "name": "Vesting",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -432,7 +432,7 @@
             },
             {
               "name": "FreeBalance",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -457,7 +457,7 @@
             },
             {
               "name": "ReservedBalance",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -483,7 +483,7 @@
             },
             {
               "name": "Locks",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -575,7 +575,7 @@
           "storage": [
             {
               "name": "Validators",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<AccountId>"
               },
@@ -586,7 +586,7 @@
             },
             {
               "name": "SessionLength",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -597,7 +597,7 @@
             },
             {
               "name": "CurrentIndex",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -608,7 +608,7 @@
             },
             {
               "name": "CurrentStart",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Moment"
               },
@@ -619,7 +619,7 @@
             },
             {
               "name": "ForcingNewSession",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "bool"
               },
@@ -631,7 +631,7 @@
             },
             {
               "name": "LastLengthChange",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -642,7 +642,7 @@
             },
             {
               "name": "NextKeyFor",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -657,7 +657,7 @@
             },
             {
               "name": "NextSessionLength",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -725,7 +725,7 @@
           "storage": [
             {
               "name": "ValidatorCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -736,7 +736,7 @@
             },
             {
               "name": "MinimumValidatorCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -747,7 +747,7 @@
             },
             {
               "name": "SessionsPerEra",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -758,7 +758,7 @@
             },
             {
               "name": "SessionReward",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Perbill"
               },
@@ -769,7 +769,7 @@
             },
             {
               "name": "OfflineSlash",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Perbill"
               },
@@ -780,7 +780,7 @@
             },
             {
               "name": "OfflineSlashGrace",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -791,7 +791,7 @@
             },
             {
               "name": "BondingDuration",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -802,7 +802,7 @@
             },
             {
               "name": "Invulnerables",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<AccountId>"
               },
@@ -814,7 +814,7 @@
             },
             {
               "name": "Bonded",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -829,7 +829,7 @@
             },
             {
               "name": "Ledger",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -844,7 +844,7 @@
             },
             {
               "name": "Payee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -859,7 +859,7 @@
             },
             {
               "name": "Validators",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -874,7 +874,7 @@
             },
             {
               "name": "Nominators",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -889,7 +889,7 @@
             },
             {
               "name": "Stakers",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -907,7 +907,7 @@
             },
             {
               "name": "CurrentElected",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<AccountId>"
               },
@@ -918,7 +918,7 @@
             },
             {
               "name": "CurrentEra",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -929,7 +929,7 @@
             },
             {
               "name": "CurrentSessionReward",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -940,7 +940,7 @@
             },
             {
               "name": "CurrentEraReward",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -952,7 +952,7 @@
             },
             {
               "name": "NextSessionsPerEra",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -963,7 +963,7 @@
             },
             {
               "name": "LastEraLengthChange",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -974,7 +974,7 @@
             },
             {
               "name": "SlotStake",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -987,7 +987,7 @@
             },
             {
               "name": "SlashCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -1002,7 +1002,7 @@
             },
             {
               "name": "ForcingNewEra",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "()"
               },
@@ -1013,7 +1013,7 @@
             },
             {
               "name": "RecentlyOffline",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<(AccountId,BlockNumber,u32)>"
               },
@@ -1287,7 +1287,7 @@
           "storage": [
             {
               "name": "PublicPropCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "PropIndex"
               },
@@ -1298,7 +1298,7 @@
             },
             {
               "name": "PublicProps",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<(PropIndex,Proposal,AccountId)>"
               },
@@ -1309,7 +1309,7 @@
             },
             {
               "name": "DepositOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "PropIndex",
@@ -1324,7 +1324,7 @@
             },
             {
               "name": "LaunchPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1335,7 +1335,7 @@
             },
             {
               "name": "MinimumDeposit",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -1346,7 +1346,7 @@
             },
             {
               "name": "PublicDelay",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1357,7 +1357,7 @@
             },
             {
               "name": "MaxLockPeriods",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "LockPeriods"
               },
@@ -1368,7 +1368,7 @@
             },
             {
               "name": "VotingPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1379,7 +1379,7 @@
             },
             {
               "name": "ReferendumCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "ReferendumIndex"
               },
@@ -1390,7 +1390,7 @@
             },
             {
               "name": "NextTally",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "ReferendumIndex"
               },
@@ -1401,7 +1401,7 @@
             },
             {
               "name": "ReferendumInfoOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "ReferendumIndex",
@@ -1416,7 +1416,7 @@
             },
             {
               "name": "DispatchQueue",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "BlockNumber",
@@ -1431,7 +1431,7 @@
             },
             {
               "name": "VotersFor",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "ReferendumIndex",
@@ -1446,7 +1446,7 @@
             },
             {
               "name": "VoteOf",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "(ReferendumIndex,AccountId)",
@@ -1463,7 +1463,7 @@
             },
             {
               "name": "Delegations",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -1673,7 +1673,7 @@
           "storage": [
             {
               "name": "CandidacyBond",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -1684,7 +1684,7 @@
             },
             {
               "name": "VotingBond",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -1695,7 +1695,7 @@
             },
             {
               "name": "PresentSlashPerVoter",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -1706,7 +1706,7 @@
             },
             {
               "name": "CarryCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -1717,7 +1717,7 @@
             },
             {
               "name": "PresentationDuration",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1728,7 +1728,7 @@
             },
             {
               "name": "InactiveGracePeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "VoteIndex"
               },
@@ -1740,7 +1740,7 @@
             },
             {
               "name": "VotingPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1751,7 +1751,7 @@
             },
             {
               "name": "TermDuration",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -1762,7 +1762,7 @@
             },
             {
               "name": "DesiredSeats",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -1773,7 +1773,7 @@
             },
             {
               "name": "ActiveCouncil",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<(AccountId,BlockNumber)>"
               },
@@ -1787,7 +1787,7 @@
             },
             {
               "name": "VoteCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "VoteIndex"
               },
@@ -1798,7 +1798,7 @@
             },
             {
               "name": "ApprovalsOf",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -1814,7 +1814,7 @@
             },
             {
               "name": "RegisterInfoOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -1830,7 +1830,7 @@
             },
             {
               "name": "LastActiveOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -1845,7 +1845,7 @@
             },
             {
               "name": "Voters",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<AccountId>"
               },
@@ -1856,7 +1856,7 @@
             },
             {
               "name": "Candidates",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<AccountId>"
               },
@@ -1867,7 +1867,7 @@
             },
             {
               "name": "CandidateCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -1876,7 +1876,7 @@
             },
             {
               "name": "NextFinalise",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "(BlockNumber,u32,Vec<AccountId>)"
               },
@@ -1887,7 +1887,7 @@
             },
             {
               "name": "SnapshotedStakes",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<BalanceOf>"
               },
@@ -1898,7 +1898,7 @@
             },
             {
               "name": "Leaderboard",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "Vec<(BalanceOf,AccountId)>"
               },
@@ -2104,7 +2104,7 @@
           "storage": [
             {
               "name": "CooloffPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -2113,7 +2113,7 @@
             },
             {
               "name": "VotingPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -2122,7 +2122,7 @@
             },
             {
               "name": "EnactDelayPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -2133,7 +2133,7 @@
             },
             {
               "name": "Proposals",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<(BlockNumber,Hash)>"
               },
@@ -2142,7 +2142,7 @@
             },
             {
               "name": "ProposalOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "Hash",
@@ -2155,7 +2155,7 @@
             },
             {
               "name": "ProposalVoters",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Map": {
                   "key": "Hash",
@@ -2168,7 +2168,7 @@
             },
             {
               "name": "CouncilVoteOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "(Hash,AccountId)",
@@ -2181,7 +2181,7 @@
             },
             {
               "name": "VetoedProposal",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "Hash",
@@ -2284,7 +2284,7 @@
           "storage": [
             {
               "name": "Proposals",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<Hash>"
               },
@@ -2295,7 +2295,7 @@
             },
             {
               "name": "ProposalOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "Hash",
@@ -2310,7 +2310,7 @@
             },
             {
               "name": "Voting",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "Hash",
@@ -2325,7 +2325,7 @@
             },
             {
               "name": "ProposalCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -2453,7 +2453,7 @@
           "storage": [
             {
               "name": "PendingChange",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "StoredPendingChange"
               },
@@ -2462,7 +2462,7 @@
             },
             {
               "name": "NextForced",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -2502,7 +2502,7 @@
           "storage": [
             {
               "name": "ProposalBond",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Permill"
               },
@@ -2514,7 +2514,7 @@
             },
             {
               "name": "ProposalBondMinimum",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -2525,7 +2525,7 @@
             },
             {
               "name": "SpendPeriod",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BlockNumber"
               },
@@ -2536,7 +2536,7 @@
             },
             {
               "name": "Burn",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Permill"
               },
@@ -2547,7 +2547,7 @@
             },
             {
               "name": "Pot",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "BalanceOf"
               },
@@ -2558,7 +2558,7 @@
             },
             {
               "name": "ProposalCount",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "ProposalIndex"
               },
@@ -2569,7 +2569,7 @@
             },
             {
               "name": "Proposals",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "ProposalIndex",
@@ -2584,7 +2584,7 @@
             },
             {
               "name": "Approvals",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Vec<ProposalIndex>"
               },
@@ -2731,7 +2731,7 @@
           "storage": [
             {
               "name": "ContractFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -2742,7 +2742,7 @@
             },
             {
               "name": "CallBaseFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Gas"
               },
@@ -2753,7 +2753,7 @@
             },
             {
               "name": "CreateBaseFee",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Gas"
               },
@@ -2764,7 +2764,7 @@
             },
             {
               "name": "GasPrice",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Balance"
               },
@@ -2775,7 +2775,7 @@
             },
             {
               "name": "MaxDepth",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u32"
               },
@@ -2786,7 +2786,7 @@
             },
             {
               "name": "BlockGasLimit",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Gas"
               },
@@ -2797,7 +2797,7 @@
             },
             {
               "name": "GasSpent",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Gas"
               },
@@ -2808,7 +2808,7 @@
             },
             {
               "name": "CurrentSchedule",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "Schedule"
               },
@@ -2819,7 +2819,7 @@
             },
             {
               "name": "CodeHashOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -2834,7 +2834,7 @@
             },
             {
               "name": "PristineCode",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "CodeHash",
@@ -2849,7 +2849,7 @@
             },
             {
               "name": "CodeStorage",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "CodeHash",
@@ -2864,7 +2864,7 @@
             },
             {
               "name": "AccountCounter",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "u64"
               },
@@ -2875,7 +2875,7 @@
             },
             {
               "name": "AccountInfoOf",
-              "modifier": "optional",
+              "modifier": "Optional",
               "type": {
                 "Map": {
                   "key": "AccountId",
@@ -3036,7 +3036,7 @@
           "storage": [
             {
               "name": "Key",
-              "modifier": "default",
+              "modifier": "Default",
               "type": {
                 "Plain": "AccountId"
               },

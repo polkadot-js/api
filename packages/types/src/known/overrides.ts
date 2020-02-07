@@ -38,6 +38,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1019, 1031],
     types: {
+      BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204'
@@ -46,6 +47,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1032, 1042],
     types: {
+      BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204'
     }
@@ -53,6 +55,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1043, undefined],
     types: {
+      BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5'
     }
   }

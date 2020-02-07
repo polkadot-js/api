@@ -40,10 +40,10 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
   // api.query.*.* is well-typed
   const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
-  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is Balance
-  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
-  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
-  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  const bal = await api.query.balances.totalIssuance(); // bal is Balance
+  const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.totalIssuance<Header>(); // override is still available
+  const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
   // In the meantime, we can case with `<Balance>`
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
@@ -116,6 +116,13 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
       unsub2();
     });
+
+  // it allows for query & then using the submittable
+  const second = api.tx.democracy.second(123);
+
+  second.signAndSend('123', (result): void => {
+    console.log(result);
+  });
 }
 
 async function main (): Promise<void> {

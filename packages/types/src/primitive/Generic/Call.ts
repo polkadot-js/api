@@ -61,6 +61,7 @@ export default class Call extends Struct implements IMethod {
    * - {@see DecodeMethodInput}
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
+   * @internal
    */
   private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
     if (isHex(value) || isU8a(value)) {
@@ -72,6 +73,7 @@ export default class Call extends Struct implements IMethod {
     throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
+  /** @internal */
   private static decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
     // we only pass args/methodsIndex out
     const { args, callIndex } = value;
@@ -92,6 +94,7 @@ export default class Call extends Struct implements IMethod {
     };
   }
 
+  /** @internal */
   private static decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
     // We need 2 bytes for the callIndex
     const callIndex = new Uint8Array(2);
@@ -124,6 +127,7 @@ export default class Call extends Struct implements IMethod {
    * its metadata.
    *
    * @param meta - The function metadata used to get the definition.
+   * @internal
    */
   private static getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
     return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {

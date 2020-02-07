@@ -13,17 +13,25 @@ import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
+// helper to xtract keys from an array
+export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
+  ? ElementType
+  : never;
+
 export type BareOpts = boolean | Record<string, boolean>;
 
 export type InterfaceTypes = keyof InterfaceRegistry;
 
-export interface CallFunction {
-  (...args: any[]): Call;
+export interface CallBase {
   callIndex: Uint8Array;
   meta: FunctionMetadataLatest;
   method: string;
   section: string;
   toJSON: () => any;
+}
+
+export interface CallFunction extends CallBase {
+  (...args: any[]): Call;
 }
 
 export type Calls = Record<string, CallFunction>;
@@ -372,6 +380,12 @@ export interface RegistryMetadataEvents {
   unwrap (): RegistryMetadataEvent[];
 }
 
+export interface RegistryMetadataExtrinsic {
+  version: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  signedExtensions: String[];
+}
+
 export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
   errors: RegistryMetadataErrors;
@@ -381,6 +395,7 @@ export interface RegistryMetadataModule {
 
 export interface RegistryMetadataLatest {
   modules: RegistryMetadataModule[];
+  extrinsic: RegistryMetadataExtrinsic;
 }
 
 export interface RegistryMetadata {
@@ -396,6 +411,8 @@ export interface Registry {
 
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  getSignedExtensionExtra (): Record<string, InterfaceTypes>;
+  getSignedExtensionTypes (): Record<string, InterfaceTypes>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

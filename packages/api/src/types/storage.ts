@@ -29,6 +29,7 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   entries: () => PromiseOrObs<ApiType, [StorageKey, ObsInnerType<ReturnType<F>>][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   key: (...args: Parameters<F>) => string;
+  keyPrefix: () => string;
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
   multi: ApiType extends 'rxjs' ? StorageEntryObservableMulti : StorageEntryPromiseMulti;
 }

@@ -10,10 +10,9 @@ import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-import { SignedPayloadBaseV2 as SignedPayloadBaseV3 } from '../v2/ExtrinsicPayload';
 
 /**
- * @name ExtrinsicPayloadV3
+ * @name GenericExtrinsicPayloadV3
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
@@ -21,8 +20,12 @@ import { SignedPayloadBaseV2 as SignedPayloadBaseV3 } from '../v2/ExtrinsicPaylo
 export default class ExtrinsicPayloadV3 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
     super(registry, {
-      ...SignedPayloadBaseV3,
-      // signed extensions
+      method: 'Bytes',
+      // extensions
+      era: 'ExtrinsicEra',
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>',
+      // extensions (additional)
       specVersion: 'u32',
       genesisHash: 'Hash',
       blockHash: 'Hash'

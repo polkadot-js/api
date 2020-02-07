@@ -3,13 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallFunction, Codec, Constructor, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/signedExtensions';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
@@ -84,6 +85,8 @@ export class TypeRegistry implements Registry {
   private _metadataErrors: Record<string, RegistryError> = {};
 
   private _metadataEvents: Record<string, Constructor<EventData>> = {};
+
+  private _metadataExtensions: string[] = defaultExtensions;
 
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
@@ -165,6 +168,14 @@ export class TypeRegistry implements Registry {
     return type;
   }
 
+  public getSignedExtensionExtra (): Record<string, InterfaceTypes> {
+    return expandExtensionTypes(this._metadataExtensions, 'extra');
+  }
+
+  public getSignedExtensionTypes (): Record<string, InterfaceTypes> {
+    return expandExtensionTypes(this._metadataExtensions, 'types');
+  }
+
   public hasClass (name: string): boolean {
     return this._classes.has(name);
   }
@@ -221,5 +232,16 @@ export class TypeRegistry implements Registry {
     decorateExtrinsics(this, metadata, this._metadataCalls);
     decorateErrors(this, metadata, this._metadataErrors);
     decorateEvents(this, metadata, this._metadataEvents);
+
+    // setup the available extensions
+    this._metadataExtensions = metadata.asLatest.extrinsic.version.gtn(0)
+      ? metadata.asLatest.extrinsic.signedExtensions.map((key): string => key.toString())
+      : defaultExtensions;
+
+    const unknown = findUnknownExtensions(this._metadataExtensions);
+
+    if (unknown.length) {
+      console.warn(`Unknown signed extensions [${unknown.join(', ')}] found, treating them as no-efect`);
+    }
   }
 }

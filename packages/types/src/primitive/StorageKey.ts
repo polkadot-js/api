@@ -12,6 +12,7 @@ import Bytes from './Bytes';
 export interface StorageEntry {
   (arg?: any): Uint8Array;
   iterKey?: Uint8Array & Codec;
+  keyPrefix: Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -74,6 +75,7 @@ export default class StorageKey extends Bytes {
     this._section = override.section || section;
   }
 
+  /** @internal */
   public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {

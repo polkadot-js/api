@@ -1,30 +1,38 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Bytes, u32, u64 } from '@polkadot/types';
+import { Codec } from '@polkadot/types/types';
+import { Bytes, u32, u64 } from '@polkadot/types/primitive';
 import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
-import { Codec } from '@polkadot/types/types';
 
-declare module '@polkadot/metadata/Decorated/types' {
+declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {
     babe: {
       [index: string]: Codec;
       /**
-       * The number of **slots** that an epoch takes. We couple sessions to epochs, i.e. we start a new session once the new epoch begins.
+       * The number of **slots** that an epoch takes. We couple sessions to
+       * epochs, i.e. we start a new session once the new epoch begins.
        **/
       epochDuration: AugmentedConst<u64>;
       /**
-       * The expected average block time at which BABE should be creating blocks. Since BABE is probabilistic it is not trivial to figure out what the expected average block time should be based on the slot duration and the security parameter `c` (where `1 - c` represents the probability of a slot being empty).
+       * The expected average block time at which BABE should be creating
+       * blocks. Since BABE is probabilistic it is not trivial to figure out
+       * what the expected average block time should be based on the slot
+       * duration and the security parameter `c` (where `1 - c` represents
+       * the probability of a slot being empty).
        **/
       expectedBlockTime: AugmentedConst<Moment>;
     };
     timestamp: {
       [index: string]: Codec;
       /**
-       * The minimum period between blocks. Beware that this is different to the *expected* period that the block production apparatus provides. Your chosen consensus system will generally work with this to determine a sensible block time. e.g. For Aura, it will be double this period on default settings.
+       * The minimum period between blocks. Beware that this is different to the *expected* period
+       * that the block production apparatus provides. Your chosen consensus system will generally
+       * work with this to determine a sensible block time. e.g. For Aura, it will be double this
+       * period on default settings.
        **/
       minimumPeriod: AugmentedConst<Moment>;
     };
@@ -34,10 +42,6 @@ declare module '@polkadot/metadata/Decorated/types' {
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: AugmentedConst<Balance>;
-      /**
-       * The fee required to make a transfer.
-       **/
-      transferFee: AugmentedConst<Balance>;
       /**
        * The fee required to create an account.
        **/
@@ -68,14 +72,18 @@ declare module '@polkadot/metadata/Decorated/types' {
     session: {
       [index: string]: Codec;
       /**
-       * Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch of the trie.
+       * Used as first key for `NextKeys` and `KeyOwner` to put all the data into the same branch
+       * of the trie.
        **/
       dedupKeyPrefix: AugmentedConst<Bytes>;
     };
     democracy: {
       [index: string]: Codec;
       /**
-       * The minimum period of locking and the period between a proposal being approved and enacted.  It should generally be a little more than the unstake period to ensure that voting stakers have an opportunity to remove themselves from the system in the case where they are on the losing side of a vote.
+       * The minimum period of locking and the period between a proposal being approved and enacted.
+       * It should generally be a little more than the unstake period to ensure that
+       * voting stakers have an opportunity to remove themselves from the system in the case where
+       * they are on the losing side of a vote.
        **/
       enactmentPeriod: AugmentedConst<BlockNumber>;
       /**
@@ -125,7 +133,8 @@ declare module '@polkadot/metadata/Decorated/types' {
     treasury: {
       [index: string]: Codec;
       /**
-       * Fraction of a proposal's value that should be bonded in order to place the proposal. An accepted proposal gets these back. A rejected proposal does not.
+       * Fraction of a proposal's value that should be bonded in order to place the proposal.
+       * An accepted proposal gets these back. A rejected proposal does not.
        **/
       proposalBond: AugmentedConst<Permill>;
       /**
@@ -160,7 +169,9 @@ declare module '@polkadot/metadata/Decorated/types' {
     contracts: {
       [index: string]: Codec;
       /**
-       * Number of block delay an extrinsic claim surcharge has.  When claim surcharge is called by an extrinsic the rent is checked for current_block - delay
+       * Number of block delay an extrinsic claim surcharge has.
+       * When claim surcharge is called by an extrinsic the rent is checked
+       * for current_block - delay
        **/
       signedClaimHandicap: AugmentedConst<BlockNumber>;
       /**
@@ -168,7 +179,8 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       tombstoneDeposit: AugmentedConst<BalanceOf>;
       /**
-       * Size of a contract at the time of instantiaion. This is a simple way to ensure that empty contracts eventually gets deleted.
+       * Size of a contract at the time of instantiaion. This is a simple way to ensure that
+       * empty contracts eventually gets deleted.
        **/
       storageSizeOffset: AugmentedConst<u32>;
       /**
@@ -176,17 +188,19 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       rentByteFee: AugmentedConst<BalanceOf>;
       /**
-       * The amount of funds a contract should deposit in order to offset the cost of one byte.  Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day, then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent. But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000, then it would pay 500 BU/day.
+       * The amount of funds a contract should deposit in order to offset
+       * the cost of one byte.
+       * Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,
+       * then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.
+       * But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,
+       * then it would pay 500 BU/day.
        **/
       rentDepositOffset: AugmentedConst<BalanceOf>;
       /**
-       * Reward that is received by the party whose touch has led to removal of a contract.
+       * Reward that is received by the party whose touch has led
+       * to removal of a contract.
        **/
       surchargeReward: AugmentedConst<BalanceOf>;
-      /**
-       * The fee required to make a transfer.
-       **/
-      transferFee: AugmentedConst<BalanceOf>;
       /**
        * The fee required to create an account.
        **/
@@ -200,19 +214,23 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       transactionByteFee: AugmentedConst<BalanceOf>;
       /**
-       * The fee required to instantiate a contract instance. A reasonable default value is 21.
+       * The fee required to instantiate a contract instance. A reasonable default value
+       * is 21.
        **/
       contractFee: AugmentedConst<BalanceOf>;
       /**
-       * The base fee charged for calling into a contract. A reasonable default value is 135.
+       * The base fee charged for calling into a contract. A reasonable default
+       * value is 135.
        **/
       callBaseFee: AugmentedConst<Gas>;
       /**
-       * The base fee charged for instantiating a contract. A reasonable default value is 175.
+       * The base fee charged for instantiating a contract. A reasonable default value
+       * is 175.
        **/
       instantiateBaseFee: AugmentedConst<Gas>;
       /**
-       * The maximum nesting level of a call/instantiate stack. A reasonable default value is 100.
+       * The maximum nesting level of a call/instantiate stack. A reasonable default
+       * value is 100.
        **/
       maxDepth: AugmentedConst<u32>;
       /**
@@ -220,7 +238,8 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       maxValueSize: AugmentedConst<u32>;
       /**
-       * The maximum amount of gas that could be expended per block. A reasonable default value is 10_000_000.
+       * The maximum amount of gas that could be expended per block. A reasonable
+       * default value is 10_000_000.
        **/
       blockGasLimit: AugmentedConst<Gas>;
     };
@@ -231,11 +250,13 @@ declare module '@polkadot/metadata/Decorated/types' {
        **/
       candidateDeposit: AugmentedConst<BalanceOf>;
       /**
-       * The amount of the unpaid reward that gets deducted in the case that either a skeptic doesn't vote or someone votes in the wrong way.
+       * The amount of the unpaid reward that gets deducted in the case that either a skeptic
+       * doesn't vote or someone votes in the wrong way.
        **/
       wrongSideDeduction: AugmentedConst<BalanceOf>;
       /**
-       * The number of times a member may vote the wrong way (or not at all, when they are a skeptic) before they become suspended.
+       * The number of times a member may vote the wrong way (or not at all, when they are a skeptic)
+       * before they become suspended.
        **/
       maxStrikes: AugmentedConst<u32>;
       /**

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call } from '../../../interfaces/runtime';
+import { Address, Call, ExtrinsicSignatureV3 } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicOptions } from '../types';
 
@@ -10,7 +10,6 @@ import { isU8a } from '@polkadot/util';
 
 import { createType, ClassOf } from '../../../codec/create';
 import Struct from '../../../codec/Struct';
-import ExtrinsicSignatureV3 from './ExtrinsicSignature';
 
 const TRANSACTION_VERSION = 3;
 
@@ -20,28 +19,27 @@ export interface ExtrinsicValueV3 {
 }
 
 /**
- * @name ExtrinsicV3
+ * @name GenericExtrinsicV3
  * @description
  * The third generation of compact extrinsics
  */
 export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV3 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
-      signature: ExtrinsicSignatureV3,
+      signature: 'ExtrinsicSignatureV3',
       method: 'Call'
     }, ExtrinsicV3.decodeExtrinsic(registry, value, isSigned));
   }
 
+  /** @internal */
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV3, isSigned = false): ExtrinsicValueV3 {
-    if (!value) {
-      return {};
-    } else if (value instanceof ExtrinsicV3) {
+    if (value instanceof ExtrinsicV3) {
       return value;
     } else if (value instanceof ClassOf(registry, 'Call')) {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = new ExtrinsicSignatureV3(registry, value, { isSigned });
+      const signature = createType(registry, 'ExtrinsicSignatureV3', value, { isSigned });
       const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
 
       return {
@@ -50,7 +48,7 @@ export default class ExtrinsicV3 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value;
+    return value || {};
   }
 
   /**
