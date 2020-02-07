@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Storage } from '@polkadot/api-metadata/storage/types';
+import { Storage } from '@polkadot/metadata/Decorated/types';
 
-import '@polkadot/types/injector';
-
-import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
-import Metadata from '@polkadot/types/Metadata';
-import metaStatic from '@polkadot/types/Metadata/static';
+import storageFromMeta from '@polkadot/metadata/Decorated/storage/fromMetadata';
+import Metadata from '@polkadot/metadata/Metadata';
+import metaStatic from '@polkadot/metadata/Metadata/static';
+import { TypeRegistry } from '@polkadot/types';
 
 import { extractStorageArgs } from './validate';
 
 describe('extractStorageArgs', (): void => {
+  const registry = new TypeRegistry();
   let storage: Storage;
 
   beforeEach((): void => {
-    const metadata = new Metadata(metaStatic);
+    const metadata = new Metadata(registry, metaStatic);
 
-    storage = storageFromMeta(metadata);
+    storage = storageFromMeta(registry, metadata);
   });
 
   it('validates no-arg plain', (): void => {
