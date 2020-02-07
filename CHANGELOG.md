@@ -1,6 +1,7 @@
 # 1.2.0-beta.x
 
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
+- Add runtime validation of number of arguments to `api.query.*`
 
 # 1.1.1
 
