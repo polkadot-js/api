@@ -1,5 +1,6 @@
 # 1.2.0-beta.x
 
+- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
 
 # 1.1.1

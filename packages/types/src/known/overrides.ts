@@ -12,6 +12,9 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
   identity: {
     Judgement: 'IdentityJudgement'
   },
+  parachains: {
+    Id: 'ParaId'
+  },
   society: {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
@@ -41,6 +44,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
@@ -49,6 +53,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      LookupSource: 'Address',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
@@ -56,7 +61,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     minmax: [1043, undefined],
     types: {
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      LookupSource: 'Address'
     }
   }
 ];

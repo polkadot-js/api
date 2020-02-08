@@ -29,10 +29,9 @@ const mappings: Mapper[] = [
   _alias('&\\[u8\\]', 'Bytes'),
   // alias RawAddress -> Address
   _alias('RawAddress', 'Address'),
-  // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
-  _alias('Lookup::Source', 'Address'),
-  // alias Lookup::Target to AccountId (always the case)
-  _alias('Lookup::Target', 'AccountId'),
+  // lookups, mapped to Address/AccountId as appropriate in runtime
+  _alias('Lookup::Source', 'LookupSource'),
+  _alias('Lookup::Target', 'LookupTarget'),
   // alias for grandpa internal, as used in polkadot
   _alias('grandpa::', ''),
   // specific for session internal
