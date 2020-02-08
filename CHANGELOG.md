@@ -1,6 +1,7 @@
 # 1.2.0-beta.x
 
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
+- Add `BitVec` type primitive
 
 # 1.1.1
 

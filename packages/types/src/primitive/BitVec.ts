@@ -4,37 +4,33 @@
 
 import { AnyU8a, Registry } from '../types';
 
-import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, isString, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
 /** @internal */
-function decodeBytesU8a (value: Uint8Array): Uint8Array {
-  if (!value.length) {
+function decodeBitVecU8a (value?: Uint8Array): Uint8Array {
+  if (!value || !value.length) {
     return new Uint8Array();
   }
 
-  // handle all other Uint8Array inputs, these do have a length prefix
+  // handle all other Uint8Array inputs, these do have a length prefix which is the number of bits encoded
   const [offset, length] = Compact.decodeU8a(value);
-  const total = offset + length.toNumber();
+  const total = Math.ceil((offset + length.toNumber()) / 8);
 
-  assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
+  assert(total <= value.length, `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
   return value.subarray(offset, total);
 }
 
 /** @internal */
-function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
+function decodeBitVec (value?: AnyU8a): Uint8Array | undefined {
   if (Array.isArray(value) || isString(value)) {
     return u8aToU8a(value);
-  } else if (!(value instanceof Raw) && isU8a(value)) {
-    // We are ensuring we are not a Raw instance. In the case of a Raw we already have gotten
-    // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
-    return decodeBytesU8a(value);
   }
 
-  return value;
+  return decodeBitVecU8a(value);
 }
 
 /**
@@ -46,7 +42,7 @@ function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
  */
 export default class Bytes extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
-    super(registry, decodeBytes(value));
+    super(registry, decodeBitVec(value));
   }
 
   /**
@@ -60,7 +56,7 @@ export default class Bytes extends Raw {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return 'Bytes';
+    return 'BitVec';
   }
 
   /**
@@ -68,8 +64,10 @@ export default class Bytes extends Raw {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
+    const bitVec = super.toU8a();
+
     return isBare
-      ? super.toU8a(isBare)
-      : Compact.addLengthPrefix(this);
+      ? bitVec
+      : u8aConcat(Compact.encodeU8a(this.length * 8), bitVec);
   }
 }
