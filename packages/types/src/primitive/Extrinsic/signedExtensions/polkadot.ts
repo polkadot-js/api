@@ -5,11 +5,15 @@
 import { ExtDef } from './types';
 
 export default {
-  RestrictFunctionality: {
+  LimitParathreadCommits: {
     extra: {},
     types: {}
   },
-  LimitParathreadCommits: {
+  OnlyStakingAndClaims: {
+    extra: {},
+    types: {}
+  },
+  RestrictFunctionality: {
     extra: {},
     types: {}
   }
