@@ -105,8 +105,10 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('Uint8Array');
   } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
+  } else if (isChildClass(ClassOf(registry, 'LookupSource'), Clazz)) {
     possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
+  } else if (isChildClass(ClassOf(registry, 'AccountId'), Clazz)) {
+    possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {

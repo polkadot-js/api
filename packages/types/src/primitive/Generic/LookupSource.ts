@@ -13,7 +13,7 @@ import Base from '../../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
-type AnyAddress = BN | Address | AccountId | AccountIndex | number[] | Uint8Array | number | string;
+type AnyLookupSource = BN | LookupSource | AccountId | AccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -42,23 +42,23 @@ function decodeU8a (registry: Registry, value: Uint8Array): AccountId | AccountI
 }
 
 /**
- * @name Address
+ * @name LookupSource
  * @description
  * A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix.
  * Since we are dealing with underlying publicKeys (or shorter encoded addresses),
- * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
+ * we extend from Base with an AccountId/AccountIndex wrapper. Basically the LookupSource
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class Address extends Base<AccountId | AccountIndex> {
-  constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, Address.decodeAddress(registry, value));
+export default class LookupSource extends Base<AccountId | AccountIndex> {
+  constructor (registry: Registry, value: AnyLookupSource = new Uint8Array()) {
+    super(registry, LookupSource.decodeAddress(registry, value));
   }
 
   /** @internal */
-  public static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
+  public static decodeAddress (registry: Registry, value: AnyLookupSource): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
-    } else if (value instanceof Address) {
+    } else if (value instanceof LookupSource) {
       return value.raw;
     } else if (isBn(value) || isNumber(value)) {
       return createType(registry, 'AccountIndex', value);
@@ -103,7 +103,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return 'Address';
+    return 'LookupSource';
   }
 
   /**

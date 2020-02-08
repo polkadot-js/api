@@ -32,7 +32,10 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1000, undefined], // from launch
     types: {
-      Keys: 'SessionKeys5'
+      Address: 'AccountId',
+      BalanceLock: 'BalanceLockTo212',
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
@@ -44,7 +47,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address',
+      Address: 'Address',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
@@ -68,6 +71,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1046, undefined],
     types: {
+      Address: 'AccountId',
+      BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       LookupSource: 'AccountId'
     }
