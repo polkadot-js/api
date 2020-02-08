@@ -58,11 +58,18 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [1043, undefined],
+    minmax: [1043, 1045],
     types: {
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       LookupSource: 'Address'
+    }
+  },
+  {
+    minmax: [1046, undefined],
+    types: {
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccounId'
     }
   }
 ];
