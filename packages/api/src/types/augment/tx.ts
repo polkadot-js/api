@@ -4,7 +4,7 @@
 import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types/primitive';
-import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Signature } from '@polkadot/types/interfaces/runtime';
+import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Signature } from '@polkadot/types/interfaces/runtime';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
@@ -216,7 +216,7 @@ declare module '@polkadot/api/types/submittable' {
        * check that the transfer will not kill the origin account.
        * # </weight>
        **/
-      transfer: AugmentedSubmittable<(dest: LookupSource | string | AccountId | AccountIndex | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      transfer: AugmentedSubmittable<(dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Set the balances of a given account.
        * This will alter `FreeBalance` and `ReservedBalance` in storage. it will
@@ -229,19 +229,19 @@ declare module '@polkadot/api/types/submittable' {
        * - Contains a limited number of reads and writes.
        * # </weight>
        **/
-      setBalance: AugmentedSubmittable<(who: LookupSource | string | AccountId | AccountIndex | Uint8Array, newFree: Compact<Balance> | AnyNumber | Uint8Array, newReserved: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setBalance: AugmentedSubmittable<(who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, newFree: Compact<Balance> | AnyNumber | Uint8Array, newReserved: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Exactly as `transfer`, except the origin must be root and the source account may be
        * specified.
        **/
-      forceTransfer: AugmentedSubmittable<(source: LookupSource | string | AccountId | AccountIndex | Uint8Array, dest: LookupSource | string | AccountId | AccountIndex | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      forceTransfer: AugmentedSubmittable<(source: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Same as the [`transfer`] call, but with a check that the transfer will not kill the
        * origin account.
        * 99% of the time you want [`transfer`] instead.
        * [`transfer`]: struct.Module.html#method.transfer
        **/
-      transferKeepAlive: AugmentedSubmittable<(dest: LookupSource | string | AccountId | AccountIndex | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      transferKeepAlive: AugmentedSubmittable<(dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     staking: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -258,7 +258,7 @@ declare module '@polkadot/api/types/submittable' {
        * the `origin` falls below _existential deposit_ and gets removed as dust.
        * # </weight>
        **/
-      bond: AugmentedSubmittable<(controller: LookupSource | string | AccountId | AccountIndex | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      bond: AugmentedSubmittable<(controller: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, payee: RewardDestination | ('Staked' | 'Stash' | 'Controller') | number | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Add some extra amount that have appeared in the stash `free_balance` into the balance up
        * for staking.
@@ -330,7 +330,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Both the reads and writes follow a similar pattern.
        * # </weight>
        **/
-      nominate: AugmentedSubmittable<(targets: Vec<LookupSource> | (LookupSource | string | AccountId | AccountIndex | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
+      nominate: AugmentedSubmittable<(targets: Vec<LookupSource> | (LookupSource | Address | AccountId | AccountIndex | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Declare no desire to either validate or nominate.
        * Effects will be felt at the beginning of the next era.
@@ -363,7 +363,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Writes are limited to the `origin` account key.
        * # </weight>
        **/
-      setController: AugmentedSubmittable<(controller: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setController: AugmentedSubmittable<(controller: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * The ideal number of validators.
        **/
@@ -666,7 +666,7 @@ declare module '@polkadot/api/types/submittable' {
        * Writes: O(1)
        * # </weight>
        **/
-      reportDefunctVoter: AugmentedSubmittable<(target: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      reportDefunctVoter: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Submit oneself for candidacy.
        * A candidate will either:
@@ -705,7 +705,7 @@ declare module '@polkadot/api/types/submittable' {
        * Writes: O(do_phragmen)
        * # </weight>
        **/
-      removeMember: AugmentedSubmittable<(who: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      removeMember: AugmentedSubmittable<(who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     technicalMembership: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -763,7 +763,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change, one extra DB entry.
        * # </weight>
        **/
-      proposeSpend: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array, beneficiary: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      proposeSpend: AugmentedSubmittable<(value: Compact<BalanceOf> | AnyNumber | Uint8Array, beneficiary: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Reject a proposed spend. The original deposit will be slashed.
        * # <weight>
@@ -887,7 +887,7 @@ declare module '@polkadot/api/types/submittable' {
        * * If no account exists and the call value is not less than `existential_deposit`,
        * a regular account will be created and any value will be transferred.
        **/
-      call: AugmentedSubmittable<(dest: LookupSource | string | AccountId | AccountIndex | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Gas> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      call: AugmentedSubmittable<(dest: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array, gasLimit: Compact<Gas> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Instantiates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.
        * Instantiation is executed as follows:
@@ -929,7 +929,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One DB change.
        * # </weight>
        **/
-      setKey: AugmentedSubmittable<(updated: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      setKey: AugmentedSubmittable<(updated: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Authenticates the sudo key and dispatches a function call with `Signed` origin from
        * a given account.
@@ -941,7 +941,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Unknown weight of derivative `proposal` execution.
        * # </weight>
        **/
-      sudoAs: AugmentedSubmittable<(who: LookupSource | string | AccountId | AccountIndex | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      sudoAs: AugmentedSubmittable<(who: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, proposal: Proposal | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     imOnline: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -1094,7 +1094,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: LookupSource | string | AccountId | AccountIndex | Uint8Array, judgement: IdentityJudgement | { unknown: any } | { feePaid: any } | { reasonable: any } | { knownGood: any } | { outOfDate: any } | { lowQuality: any } | { erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      provideJudgement: AugmentedSubmittable<(regIndex: Compact<RegistrarIndex> | AnyNumber | Uint8Array, target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, judgement: IdentityJudgement | { unknown: any } | { feePaid: any } | { reasonable: any } | { knownGood: any } | { outOfDate: any } | { lowQuality: any } | { erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Remove an account's identity and sub-account information and slash the deposits.
        * Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by
@@ -1111,7 +1111,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      killIdentity: AugmentedSubmittable<(target: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      killIdentity: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     society: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -1237,7 +1237,7 @@ declare module '@polkadot/api/types/submittable' {
        * Total Complexity: O(M + logM + C)
        * # </weight>
        **/
-      vote: AugmentedSubmittable<(candidate: LookupSource | string | AccountId | AccountIndex | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      vote: AugmentedSubmittable<(candidate: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * As a member, vote on the defender.
        * The dispatch origin for this call must be _Signed_ and a member.
@@ -1557,7 +1557,7 @@ declare module '@polkadot/api/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      vestOther: AugmentedSubmittable<(target: LookupSource | string | AccountId | AccountIndex | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      vestOther: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
   }
 }

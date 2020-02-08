@@ -160,10 +160,10 @@ export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 export interface LockIdentifier extends Uint8Array, Codec {}
 
 /** @name LookupSource */
-export interface LookupSource extends Address {}
+export interface LookupSource extends GenericAddress {}
 
 /** @name LookupTarget */
-export interface LookupTarget extends AccountId {}
+export interface LookupTarget extends GenericAccountId {}
 
 /** @name Moment */
 export interface Moment extends u64 {}
