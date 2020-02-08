@@ -79,7 +79,7 @@ export default class Raw extends Uint8Array implements IU8a {
         !this.some((value, index): boolean => value !== other[index]);
     }
 
-    return this.eq(Raw.decodeU8a(other));
+    return this.eq(decodeU8a(other));
   }
 
   /**
