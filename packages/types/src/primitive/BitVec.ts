@@ -34,13 +34,12 @@ function decodeBitVec (value?: AnyU8a): Uint8Array | undefined {
 }
 
 /**
- * @name Bytes
+ * @name BitVec
  * @description
- * A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
- * is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
- * as what is found in [[Text]] and [[Vec]])
+ * A BitVec that represents an array of bits. The bits are however stored encoded. The difference between this
+ * and a normal Bytes would be that the length prefix indicates the number of bits encoded, not the bytes
  */
-export default class Bytes extends Raw {
+export default class BitVec extends Raw {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, decodeBitVec(value));
   }
@@ -49,7 +48,7 @@ export default class Bytes extends Raw {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.length).length;
+    return this.length + Compact.encodeU8a(this.bitLength()).length;
   }
 
   /**
@@ -68,6 +67,6 @@ export default class Bytes extends Raw {
 
     return isBare
       ? bitVec
-      : u8aConcat(Compact.encodeU8a(this.length * 8), bitVec);
+      : u8aConcat(Compact.encodeU8a(this.bitLength()), bitVec);
   }
 }
