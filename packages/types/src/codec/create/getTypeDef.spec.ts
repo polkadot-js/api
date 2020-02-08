@@ -181,10 +181,10 @@ describe('getTypeDef', (): void => {
       getTypeDef('Vec<(Box<PropIndex>, Proposal,Lookup::Target)>')
     ).toEqual({
       info: TypeDefInfo.Vec,
-      type: 'Vec<(PropIndex,Proposal,AccountId)>',
+      type: 'Vec<(PropIndex,Proposal,LookupTarget)>',
       sub: {
         info: TypeDefInfo.Tuple,
-        type: '(PropIndex,Proposal,AccountId)',
+        type: '(PropIndex,Proposal,LookupTarget)',
         sub: [
           {
             info: TypeDefInfo.Plain,
@@ -196,7 +196,7 @@ describe('getTypeDef', (): void => {
           },
           {
             info: TypeDefInfo.Plain,
-            type: 'AccountId'
+            type: 'LookupTarget'
           }
         ]
       }
