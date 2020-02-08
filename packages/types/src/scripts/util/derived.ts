@@ -14,6 +14,7 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
+import GenericAccountId from '../../primitive/Generic/AccountId';
 import GenericAddress from '../../primitive/Generic/Address';
 import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
 import Null from '../../primitive/Null';
@@ -108,7 +109,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('AnyNumber', 'Uint8Array');
   } else if (isChildClass(GenericAddress, Clazz)) {
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'AccountId'), Clazz)) {
+  } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
