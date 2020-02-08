@@ -7,6 +7,15 @@ import { AnyU8a, IHash, IU8a, Registry } from '../types';
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+/** @internal */
+function decodeU8a (value?: any): Uint8Array {
+  if (isU8a(value)) {
+    return value;
+  }
+
+  return u8aToU8a(value);
+}
+
 /**
  * @name Raw
  * @description
@@ -20,18 +29,9 @@ export default class Raw extends Uint8Array implements IU8a {
   public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyU8a) {
-    super(Raw.decodeU8a(value));
+    super(decodeU8a(value));
 
     this.registry = registry;
-  }
-
-  /** @internal */
-  private static decodeU8a (value?: any): Uint8Array {
-    if (isU8a(value)) {
-      return value;
-    }
-
-    return u8aToU8a(value);
   }
 
   /**
@@ -79,7 +79,7 @@ export default class Raw extends Uint8Array implements IU8a {
         !this.some((value, index): boolean => value !== other[index]);
     }
 
-    return this.eq(Raw.decodeU8a(other));
+    return this.eq(decodeU8a(other));
   }
 
   /**
