@@ -17,7 +17,7 @@ function decodeBitVecU8a (value?: Uint8Array): Uint8Array {
 
   // handle all other Uint8Array inputs, these do have a length prefix which is the number of bits encoded
   const [offset, length] = Compact.decodeU8a(value);
-  const total = Math.ceil((offset + length.toNumber()) / 8);
+  const total = offset + Math.ceil(length.toNumber() / 8);
 
   assert(total <= value.length, `BitVec: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
