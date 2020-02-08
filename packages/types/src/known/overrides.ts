@@ -45,6 +45,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
+      LookupSource: 'GenericAddress',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
@@ -54,6 +55,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
+      LookupSource: 'GenericAddress',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
@@ -62,6 +64,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
+      LookupSource: 'GenericAddress',
       Keys: 'SessionKeys5'
     }
   },
@@ -69,7 +72,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     minmax: [1046, undefined],
     types: {
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      LookupSource: 'AccountId'
     }
   }
 ];
@@ -90,6 +94,7 @@ const TYPES_META: OverrideVersionedType[] = [
       BlockNumber: 'u64',
       Index: 'u64',
       EventRecord: 'EventRecordTo76',
+      LookupSource: 'GenericAddress',
       ValidatorPrefs: 'ValidatorPrefsTo145'
     }
   }
