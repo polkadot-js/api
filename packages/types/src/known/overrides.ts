@@ -34,8 +34,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      Keys: 'SessionKeys5'
     }
   }
 ];
@@ -44,28 +43,28 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1019, 1031],
     types: {
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
-      Address: 'Address',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
   {
     minmax: [1032, 1042],
     types: {
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address',
       SlashingSpans: 'SlashingSpansTo204'
     }
   },
   {
     minmax: [1043, 1045],
     types: {
+      Address: 'LookupSource',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5',
-      LookupSource: 'Address'
+      Keys: 'SessionKeys5'
     }
   },
   {
@@ -73,8 +72,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'AccountId',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      Keys: 'SessionKeys5'
     }
   }
 ];
@@ -91,6 +89,7 @@ const TYPES_META: OverrideVersionedType[] = [
     //   v4 = v1.0 branch
     minmax: [0, 4],
     types: {
+      Address: 'LookupSource',
       BlockNumber: 'u64',
       Index: 'u64',
       EventRecord: 'EventRecordTo76',
