@@ -763,7 +763,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -803,7 +803,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "new_free",
@@ -835,11 +835,11 @@
               "args": [
                 {
                   "name": "source",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -856,7 +856,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1515,7 +1515,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1652,7 +1652,7 @@
               "args": [
                 {
                   "name": "targets",
-                  "type": "Vec<Address>"
+                  "type": "Vec<LookupSource>"
                 }
               ],
               "documentation": [
@@ -1713,7 +1713,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -2605,7 +2605,7 @@
               "args": [
                 {
                   "name": "new",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -2625,7 +2625,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "proposal",
@@ -4249,7 +4249,7 @@
               "args": [
                 {
                   "name": "target",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4307,7 +4307,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4730,7 +4730,7 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -5904,7 +5904,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [

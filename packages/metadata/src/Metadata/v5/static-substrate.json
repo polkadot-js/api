@@ -556,7 +556,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -594,7 +594,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "new_free",
@@ -1042,7 +1042,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1179,7 +1179,7 @@
               "args": [
                 {
                   "name": "targets",
-                  "type": "Vec<Address>"
+                  "type": "Vec<LookupSource>"
                 }
               ],
               "documentation": [
@@ -1240,7 +1240,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -2290,7 +2290,7 @@
                 },
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "who_index",
@@ -2366,7 +2366,7 @@
               "args": [
                 {
                   "name": "candidate",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "total",
@@ -2407,7 +2407,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -2875,7 +2875,7 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -3324,7 +3324,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -3537,7 +3537,7 @@
               "args": [
                 {
                   "name": "new",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [

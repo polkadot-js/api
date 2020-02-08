@@ -68,6 +68,8 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
+    LookupSource: 'Address',
+    LookupTarget: 'AccountId',
     Moment: 'u64',
     Origin: 'GenericOrigin',
     Perbill: 'u32',
