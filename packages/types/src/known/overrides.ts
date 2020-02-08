@@ -69,7 +69,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     minmax: [1046, undefined],
     types: {
       Keys: 'SessionKeys5',
-      LookupSource: 'AccounId'
+      LookupSource: 'AccountId'
     }
   }
 ];
