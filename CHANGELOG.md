@@ -1,5 +1,6 @@
 # 1.2.0-beta.x
 
+- Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
 - Add `BitVec` type primitive
