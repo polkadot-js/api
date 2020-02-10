@@ -32,7 +32,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1000, undefined], // from launch
     types: {
-      // Indices optinal, not in transaction
+      // Indices optional, not in transaction
       // Address: 'AccountId',
       Keys: 'SessionKeys5'
     }
@@ -70,7 +70,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
   {
     minmax: [1046, undefined],
     types: {
-      // Indices optinal, not in transaction
+      // Indices optional, not in transaction
       // Address: 'AccountId',
       Keys: 'SessionKeys5'
     }
