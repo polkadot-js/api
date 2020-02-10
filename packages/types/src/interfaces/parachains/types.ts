@@ -43,6 +43,9 @@ export interface CollatorId extends H256 {}
 /** @name CollatorSignature */
 export interface CollatorSignature extends Signature {}
 
+/** @name EgressQueueRoot */
+export interface EgressQueueRoot extends ITuple<[ParaId, Hash]> {}
+
 /** @name HeadData */
 export interface HeadData extends Bytes {}
 
