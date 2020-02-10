@@ -45,7 +45,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
-      SlashingSpans: 'SlashingSpansTo204'
+      SlashingSpans: 'SlashingSpansTo204',
+      StakingLedger: 'StakingLedgerTo213'
     }
   },
   {
@@ -54,7 +55,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       LookupSource: 'Address',
-      SlashingSpans: 'SlashingSpansTo204'
+      SlashingSpans: 'SlashingSpansTo204',
+      StakingLedger: 'StakingLedgerTo213'
     }
   },
   {
@@ -62,14 +64,16 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      LookupSource: 'Address'
+      LookupSource: 'Address',
+      StakingLedger: 'StakingLedgerTo213'
     }
   },
   {
     minmax: [1046, undefined],
     types: {
       Keys: 'SessionKeys5',
-      LookupSource: 'AccountId'
+      LookupSource: 'AccountId',
+      StakingLedger: 'StakingLedgerTo213'
     }
   }
 ];
@@ -89,7 +93,8 @@ const TYPES_META: OverrideVersionedType[] = [
       BlockNumber: 'u64',
       Index: 'u64',
       EventRecord: 'EventRecordTo76',
-      ValidatorPrefs: 'ValidatorPrefsTo145'
+      ValidatorPrefs: 'ValidatorPrefsTo145',
+      StakingLedger: 'StakingLedgerTo213'
     }
   }
 ];

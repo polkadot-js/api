@@ -2,12 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+const deprecated = {
+  Points: 'u32',
+  EraPoints: {
+    total: 'Points',
+    individual: 'Vec<Points>'
+  }
+};
+
 export default {
   types: {
+    ...deprecated,
     EraIndex: 'u32',
-    EraPoints: {
-      total: 'Points',
-      individual: 'Vec<Points>'
+    EraRewardPoints: {
+      total: 'RewardPoint',
+      individual: 'BTreeMap<AccountId, RewardPoint>'
     },
     EraRewards: {
       total: 'u32',
@@ -36,7 +45,6 @@ export default {
       submittedIn: 'EraIndex',
       suppressed: 'bool'
     },
-    Points: 'u32',
     RewardDestination: {
       _enum: [
         'Staked',
@@ -44,6 +52,7 @@ export default {
         'Controller'
       ]
     },
+    RewardPoint: 'u32',
     SlashJournalEntry: {
       who: 'AccountId',
       amount: 'Balance',
@@ -65,11 +74,18 @@ export default {
       slashed: 'Balance',
       paidOut: 'Balance'
     },
-    StakingLedger: {
+    StakingLedgerTo213: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',
       unlocking: 'Vec<UnlockChunk>'
+    },
+    StakingLedger: {
+      stash: 'AccountId',
+      total: 'Compact<Balance>',
+      active: 'Compact<Balance>',
+      unlocking: 'Vec<UnlockChunk>',
+      nextReward: 'EraIndex'
     },
     UnappliedSlashOther: '(AccountId, Balance)',
     UnappliedSlash: {
