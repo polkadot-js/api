@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
+import { Codec, Tuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct } from '@polkadot/types/codec';
 import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 
@@ -42,7 +42,7 @@ export interface ChangesTrieConfiguration extends Struct {
 }
 
 /** @name Consensus */
-export interface Consensus extends ITuple<[ConsensusEngineId, Bytes]> {}
+export interface Consensus extends Tuple<[ConsensusEngineId, Bytes]> {}
 
 /** @name ConsensusEngineId */
 export interface ConsensusEngineId extends GenericConsensusEngineId {}
@@ -154,7 +154,7 @@ export interface Justification extends Bytes {}
 export interface KeyTypeId extends u32 {}
 
 /** @name KeyValue */
-export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
+export interface KeyValue extends Tuple<[StorageKey, StorageData]> {}
 
 /** @name LockIdentifier */
 export interface LockIdentifier extends Uint8Array, Codec {}
@@ -203,13 +203,13 @@ export interface Phantom extends Null {}
 export interface PhantomData extends Null {}
 
 /** @name PreRuntime */
-export interface PreRuntime extends ITuple<[ConsensusEngineId, Bytes]> {}
+export interface PreRuntime extends Tuple<[ConsensusEngineId, Bytes]> {}
 
 /** @name Seal */
-export interface Seal extends ITuple<[ConsensusEngineId, Bytes]> {}
+export interface Seal extends Tuple<[ConsensusEngineId, Bytes]> {}
 
 /** @name SealV0 */
-export interface SealV0 extends ITuple<[u64, Signature]> {}
+export interface SealV0 extends Tuple<[u64, Signature]> {}
 
 /** @name Signature */
 export interface Signature extends H512 {}

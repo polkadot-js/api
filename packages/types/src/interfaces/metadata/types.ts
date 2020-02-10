@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, Text, Type, bool, u16, u8 } from '@polkadot/types/primitive';
 
@@ -508,7 +508,7 @@ export interface OuterDispatchMetadataV0 extends Struct {
 export interface OuterEventEventMetadataEventsV0 extends Vec<EventMetadataV0> {}
 
 /** @name OuterEventEventMetadataV0 */
-export interface OuterEventEventMetadataV0 extends ITuple<[Text, OuterEventEventMetadataEventsV0]> {}
+export interface OuterEventEventMetadataV0 extends Tuple<[Text, OuterEventEventMetadataEventsV0]> {}
 
 /** @name OuterEventMetadataV0 */
 export interface OuterEventMetadataV0 extends Struct {

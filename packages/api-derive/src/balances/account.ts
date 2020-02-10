@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountData, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
 import { combineLatest, of, Observable } from 'rxjs';
@@ -52,7 +52,7 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Obser
 }
 
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
-  return api.query.system.account<ITuple<[Index, AccountData]>>(accountId).pipe(
+  return api.query.system.account<Tuple<[Index, AccountData]>>(accountId).pipe(
     map(([accountNonce, { free, reserved, miscFrozen, feeFrozen }]): Result =>
       [free, reserved, feeFrozen, miscFrozen, accountNonce]
     )

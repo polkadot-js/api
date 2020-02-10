@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
 import { Bytes, i8, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
@@ -19,7 +19,7 @@ export interface Amount extends Balance {}
 export interface AssetOf extends u32 {}
 
 /** @name InherentOfflineReport */
-export interface InherentOfflineReport extends ITuple<[]> {}
+export interface InherentOfflineReport extends Tuple<[]> {}
 
 /** @name LockPeriods */
 export interface LockPeriods extends i8 {}

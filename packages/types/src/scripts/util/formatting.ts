@@ -105,11 +105,11 @@ function formatOption (inner: string): string {
 }
 
 /**
- * Given the inners `T[]`, return a `ITuple<...T>` string
+ * Given the inners `T[]`, return a `Tuple<...T>` string
  */
 /** @internal */
 function formatTuple (inners: string[]): string {
-  return paramsNotation('ITuple', `[${inners.join(', ')}]`);
+  return paramsNotation('Tuple', `[${inners.join(', ')}]`);
 }
 
 /**
@@ -152,9 +152,9 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
-      setImports(definitions, imports, ['ITuple']);
+      setImports(definitions, imports, ['Tuple']);
 
-      // `(a,b)` gets transformed into `ITuple<[a, b]>`
+      // `(a,b)` gets transformed into `Tuple<[a, b]>`
       return formatTuple(
         ((typeDef.sub as TypeDef[])
           .map((sub): string => formatType(definitions, sub.type, imports)))

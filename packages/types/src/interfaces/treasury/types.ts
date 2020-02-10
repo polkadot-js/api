@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Option, Struct, Vec } from '@polkadot/types/codec';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -15,10 +15,10 @@ export interface OpenTip extends Struct {
 }
 
 /** @name OpenTipFinder */
-export interface OpenTipFinder extends ITuple<[AccountId, Balance]> {}
+export interface OpenTipFinder extends Tuple<[AccountId, Balance]> {}
 
 /** @name OpenTipTip */
-export interface OpenTipTip extends ITuple<[AccountId, Balance]> {}
+export interface OpenTipTip extends Tuple<[AccountId, Balance]> {}
 
 /** @name TreasuryProposal */
 export interface TreasuryProposal extends Struct {

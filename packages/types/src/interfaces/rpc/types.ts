@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
+import { Codec, Tuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
@@ -49,7 +49,7 @@ export interface Health extends Struct {
 }
 
 /** @name KeyValueOption */
-export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
+export interface KeyValueOption extends Tuple<[StorageKey, Option<StorageData>]> {}
 
 /** @name NetworkState */
 export interface NetworkState extends Struct {
@@ -89,7 +89,7 @@ export interface RuntimeVersion extends Struct {
 }
 
 /** @name RuntimeVersionApi */
-export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
+export interface RuntimeVersionApi extends Tuple<[ApiId, u32]> {}
 
 /** @name StorageChangeSet */
 export interface StorageChangeSet extends Struct {

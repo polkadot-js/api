@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, BalanceOf } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -28,7 +28,7 @@ function queryEnumSet (api: ApiInterfaceRx, _accountIndex: AccountIndex | string
 
 // current
 function query (api: ApiInterfaceRx, accountIndex: AccountIndex | string): Observable<AccountId | undefined> {
-  return api.query.indices.accounts<Option<ITuple<[AccountId, BalanceOf]>>>(accountIndex).pipe(
+  return api.query.indices.accounts<Option<Tuple<[AccountId, BalanceOf]>>>(accountIndex).pipe(
     map((optResult): AccountId | undefined =>
       optResult.unwrapOr([])[0]
     )

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, H256, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, BalanceOf, BlockNumber, Hash, Signature } from '@polkadot/types/interfaces/runtime';
@@ -16,7 +16,7 @@ export interface AttestedCandidate extends Struct {
 export interface AuctionIndex extends u32 {}
 
 /** @name BalanceUpload */
-export interface BalanceUpload extends ITuple<[AccountId, u64]> {}
+export interface BalanceUpload extends Tuple<[AccountId, u64]> {}
 
 /** @name Bidder */
 export interface Bidder extends Enum {
@@ -45,7 +45,7 @@ export interface CollatorId extends H256 {}
 export interface CollatorSignature extends Signature {}
 
 /** @name EgressQueueRoot */
-export interface EgressQueueRoot extends ITuple<[ParaId, Hash]> {}
+export interface EgressQueueRoot extends Tuple<[ParaId, Hash]> {}
 
 /** @name HeadData */
 export interface HeadData extends Bytes {}
@@ -150,10 +150,10 @@ export interface ValidityAttestation extends Enum {
 }
 
 /** @name ValidityVote */
-export interface ValidityVote extends ITuple<[ValidatorIndex, ValidityAttestation]> {}
+export interface ValidityVote extends Tuple<[ValidatorIndex, ValidityAttestation]> {}
 
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
-export interface WinningDataEntry extends ITuple<[AccountId, ParaIdOf, BalanceOf]> {}
+export interface WinningDataEntry extends Tuple<[AccountId, ParaIdOf, BalanceOf]> {}

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
 import { u64 } from '@polkadot/types/primitive';
 import { BlockNumber } from '@polkadot/types/interfaces/runtime';
@@ -17,7 +17,7 @@ export interface AuthorityList extends Vec<NextAuthority> {}
 export interface AuthorityWeight extends u64 {}
 
 /** @name NextAuthority */
-export interface NextAuthority extends ITuple<[AuthorityId, AuthorityWeight]> {}
+export interface NextAuthority extends Tuple<[AuthorityId, AuthorityWeight]> {}
 
 /** @name PendingPause */
 export interface PendingPause extends Struct {

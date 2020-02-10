@@ -6,7 +6,7 @@ import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, Tuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -35,7 +35,7 @@ interface MetaDecoration {
   toJSON: () => any;
 }
 
-type LinkageData = ITuple<[Codec, Linkage<Codec>]>;
+type LinkageData = Tuple<[Codec, Linkage<Codec>]>;
 
 export default abstract class Decorate<ApiType extends ApiTypes> extends Events {
   public readonly registry: Registry;
@@ -302,7 +302,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   private decorateStorageLinked<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const result: Map<Codec, ITuple<[Codec, Linkage<Codec>]> | null> = new Map();
+    const result: Map<Codec, Tuple<[Codec, Linkage<Codec>]> | null> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
 

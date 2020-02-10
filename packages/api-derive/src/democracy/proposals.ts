@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, BlockNumber, Hash, PropIndex, Proposal } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DeriveProposal } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -13,10 +13,10 @@ import { Bytes, Option, Vec, createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-export type PreImage = Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>;
+export type PreImage = Option<Tuple<[Bytes, AccountId, Balance, BlockNumber]>>;
 
-type Depositors = Option<ITuple<[Balance, Vec<AccountId>]>>;
-type Proposals = Vec<ITuple<[PropIndex, Hash, AccountId]>>;
+type Depositors = Option<Tuple<[Balance, Vec<AccountId>]>>;
+type Proposals = Vec<Tuple<[PropIndex, Hash, AccountId]>>;
 
 interface Result {
   depositors: Depositors[];

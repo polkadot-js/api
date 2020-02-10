@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DeriveSocietyCandidate } from '../types';
 
 import { combineLatest, of, Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type ResultSuspend = Option<ITuple<[BalanceOf, BidKind]>>;
+type ResultSuspend = Option<Tuple<[BalanceOf, BidKind]>>;
 type Result = [Bid[], ResultSuspend[]]
 
 /**

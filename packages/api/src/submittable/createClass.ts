@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountData, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, ITuple, Registry, SignatureOptions } from '@polkadot/types/types';
+import { Callback, Codec, Constructor, IKeyringPair, Tuple, Registry, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
@@ -236,7 +236,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
           //   ? this._api.rpc.account.nextIndex(address)
           //   : this._api.query.system.accountNonce(address)
           ? this._api.query.system.account
-            ? this._api.query.system.account<ITuple<[Index, AccountData]>>(address).pipe(
+            ? this._api.query.system.account<Tuple<[Index, AccountData]>>(address).pipe(
               map(([nonce]): Index => nonce)
             )
             : this._api.query.system.accountNonce<Index>(address)

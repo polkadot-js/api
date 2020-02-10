@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
 import { u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
@@ -22,7 +22,7 @@ export interface BidKind extends Enum {
 }
 
 /** @name BidKindVouch */
-export interface BidKindVouch extends ITuple<[AccountId, Balance]> {}
+export interface BidKindVouch extends Tuple<[AccountId, Balance]> {}
 
 /** @name SocietyJudgement */
 export interface SocietyJudgement extends Enum {

@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Exposure, Keys, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DerivedStakingQuery } from '../types';
 
 import { combineLatest, Observable, of } from 'rxjs';
@@ -13,7 +13,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type MultiResultV2 = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
+type MultiResultV2 = [Option<AccountId>, Option<Tuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -27,9 +27,9 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], 
   };
 }
 
-function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<[Vec<ITuple<[AccountId, Keys]>>, MultiResultV2]> {
+function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<[Vec<Tuple<[AccountId, Keys]>>, MultiResultV2]> {
   return combineLatest([
-    api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
+    api.query.session.queuedKeys<Vec<Tuple<[AccountId, Keys]>>>(),
     api.queryMulti([
       [api.query.staking.bonded, stashId],
       [api.query.staking.nominators, stashId],

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { AnyNumber, ITuple } from '@polkadot/types/types';
+import { AnyNumber, Tuple } from '@polkadot/types/types';
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, AccountIndex, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Signature } from '@polkadot/types/interfaces/runtime';
@@ -991,7 +991,7 @@ declare module '@polkadot/api/types/submittable' {
        * one storage-exists.
        * # </weight>
        **/
-      setSubs: AugmentedSubmittable<(subs: Vec<ITuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { none: any } | { raw: any } | { blakeTwo256: any } | { sha256: any } | { keccak256: any } | { shaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
+      setSubs: AugmentedSubmittable<(subs: Vec<Tuple<[AccountId, Data]>> | ([AccountId | string | Uint8Array, Data | { none: any } | { raw: any } | { blakeTwo256: any } | { sha256: any } | { keccak256: any } | { shaThree256: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>>;
       /**
        * Clear an account's identity info and all sub-account and return all deposits.
        * Payment: All reserved balances on the account are returned.

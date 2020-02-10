@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, Balance, BlockNumber, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DeriveSocietyMember } from '../types';
 
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { bool, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Vec<ITuple<[BlockNumber, Balance]>>, StrikeCount, Option<SocietyVote>, bool, Option<VouchingStatus>];
+type Result = [Vec<Tuple<[BlockNumber, Balance]>>, StrikeCount, Option<SocietyVote>, bool, Option<VouchingStatus>];
 
 /**
  * @description Get the member info for a society

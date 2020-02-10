@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
 import { Data, H160, IdentityFields, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
@@ -20,7 +20,7 @@ export interface IdentityInfo extends Struct {
 }
 
 /** @name IdentityInfoAdditional */
-export interface IdentityInfoAdditional extends ITuple<[Data, Data]> {}
+export interface IdentityInfoAdditional extends Tuple<[Data, Data]> {}
 
 /** @name IdentityJudgement */
 export interface IdentityJudgement extends Enum {
@@ -52,4 +52,4 @@ export interface Registration extends Struct {
 }
 
 /** @name RegistrationJudgement */
-export interface RegistrationJudgement extends ITuple<[RegistrarIndex, IdentityJudgement]> {}
+export interface RegistrationJudgement extends Tuple<[RegistrarIndex, IdentityJudgement]> {}

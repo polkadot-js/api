@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,14 +13,14 @@ import { createType, Vec, u32 } from '@polkadot/types';
 import { DerivedElectionsInfo } from '../types';
 import { memo } from '../util';
 
-function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]: ITuple<[AccountId, Balance]>): number {
+function sortAccounts ([, balanceA]: Tuple<[AccountId, Balance]>, [, balanceB]: Tuple<[AccountId, Balance]>): number {
   return balanceB.cmp(balanceA);
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<Tuple<[AccountId, Balance]>>, Vec<Tuple<[AccountId, Balance]>>]>([
     api.query.council.members,
     api.query[section].candidates,
     api.query[section].members,

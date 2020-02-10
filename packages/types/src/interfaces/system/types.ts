@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
+import { Codec, Tuple } from '@polkadot/types/types';
 import { Enum, Option, Result, Struct, Vec } from '@polkadot/types/codec';
 import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
@@ -31,22 +31,22 @@ export interface DispatchErrorTo198 extends Struct {
 }
 
 /** @name DispatchResult */
-export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
+export interface DispatchResult extends Result<Tuple<[]>, DispatchError> {
   readonly isError: boolean;
   readonly asError: DispatchError;
   readonly isOk: boolean;
-  readonly asOk: ITuple<[]>;
+  readonly asOk: Tuple<[]>;
 }
 
 /** @name DispatchResultOf */
 export interface DispatchResultOf extends DispatchResult {}
 
 /** @name DispatchResultTo198 */
-export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
+export interface DispatchResultTo198 extends Result<Tuple<[]>, Text> {
   readonly isError: boolean;
   readonly asError: Text;
   readonly isOk: boolean;
-  readonly asOk: ITuple<[]>;
+  readonly asOk: Tuple<[]>;
 }
 
 /** @name Event */

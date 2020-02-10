@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
 import { bool, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
@@ -111,7 +111,7 @@ export interface UnappliedSlash extends Struct {
 }
 
 /** @name UnappliedSlashOther */
-export interface UnappliedSlashOther extends ITuple<[AccountId, Balance]> {}
+export interface UnappliedSlashOther extends Tuple<[AccountId, Balance]> {}
 
 /** @name UnlockChunk */
 export interface UnlockChunk extends Struct {

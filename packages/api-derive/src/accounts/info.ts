@@ -4,7 +4,7 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, Registration } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { Tuple } from '@polkadot/types/types';
 import { DeriveAccountInfo, DeriveAccountRegistration } from '../types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -25,9 +25,9 @@ function dataAsString (data: Data): string | undefined {
 function retrieveNick (api: ApiInterfaceRx, accountId?: AccountId): Observable<string | undefined> {
   return ((
     accountId && api.query.nicks?.nameOf
-      ? api.query.nicks.nameOf<Option<ITuple<[Bytes, Balance]>>>(accountId)
+      ? api.query.nicks.nameOf<Option<Tuple<[Bytes, Balance]>>>(accountId)
       : of(undefined)
-  ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
+  ) as Observable<Option<Tuple<[Bytes, Balance]>> | undefined>).pipe(
     map((nameOf): string | undefined =>
       nameOf?.isSome
         ? u8aToString(nameOf.unwrap()[0]).substr(0, (api.consts.nicks.maxLength as u32).toNumber())
@@ -75,7 +75,7 @@ function retrieveIdentity (api: ApiInterfaceRx, accountId?: AccountId): Observab
         [api.query.identity.superOf, accountId]
       ])
       : of([undefined, undefined])
-  ) as Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]>).pipe(
+  ) as Observable<[Option<Registration> | undefined, Option<Tuple<[AccountId, Data]>> | undefined]>).pipe(
     switchMap(([identityOfOpt, superOfOpt]): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> => {
       if (identityOfOpt?.isSome) {
         // this identity has something set
