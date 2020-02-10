@@ -13,8 +13,14 @@ import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
+// Here for backwards-compatibility (prefer non-I-prefixed)
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export type ITuple<S extends Codec[]> = Tuple<S>;
+
+// these are interfaces for the bases types we do have
+// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
+// FIXME Implement this generic <Sub> on Tuple.ts itself.
+export type Tuple<S extends Codec[]> = S & Codec;
 
 // helper to extract keys from an array
 export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
@@ -183,10 +189,6 @@ export interface SignatureOptions {
 }
 
 export type ArgsDef = Record<string, Constructor>;
-
-// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
-// FIXME Implement this generic <Sub> on Tuple.ts itself.
-export type Tuple<S extends Codec[]> = S & Codec;
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IMethod extends Codec {
