@@ -30,10 +30,10 @@ const mappings: Mapper[] = [
   // lookups, mapped to Address/AccountId as appropriate in runtime
   _alias(['Lookup::Source'], 'LookupSource'),
   _alias(['Lookup::Target'], 'LookupTarget'),
-  // alias for internal module mappings
-  _alias(['grandpa::', 'marker::', 'session::', 'slashing::'], ''),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
   _alias(['exec::StorageKey'], 'ContractStorageKey'),
+  // alias for internal module mappings
+  _alias(['exec', 'grandpa', 'marker', 'session', 'slashing'].map((s) => `${s}::`), ''),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   _flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
