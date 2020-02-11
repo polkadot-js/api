@@ -38,7 +38,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [1003, undefined],
+    minmax: [1010, undefined],
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
