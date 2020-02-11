@@ -33,6 +33,15 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     minmax: [1000, undefined], // from launch
     types: {
       // Indices optional, not in transaction
+      Address: 'GenericAddress',
+      BalanceLock: 'BalanceLockTo212',
+      Keys: 'SessionKeys5'
+    }
+  },
+  {
+    minmax: [1003, undefined], // from launch
+    types: {
+      // Indices optional, not in transaction
       Address: 'AccountId',
       Keys: 'SessionKeys5'
     }
