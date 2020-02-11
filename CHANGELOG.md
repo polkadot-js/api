@@ -4,6 +4,7 @@
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
 - Add `BitVec` type primitive
+- Updated types for Polkadot parachains
 
 # 1.1.1
 

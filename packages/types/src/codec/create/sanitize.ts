@@ -10,7 +10,7 @@ const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fi
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
-  _alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
+  _alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport'),
   // <T::Balance as HasCompact>
   _cleanupCompact(),
   // Remove all the trait prefixes
@@ -22,30 +22,21 @@ const mappings: Mapper[] = [
   // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
   _removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
-  _alias('String', 'Text'),
+  _alias(['String'], 'Text'),
   // alias Vec<u8> -> Bytes
-  _alias('Vec<u8>', 'Bytes'),
-  // alias &[u8] -> Bytes
-  _alias('&\\[u8\\]', 'Bytes'),
+  _alias(['Vec<u8>', '&\\[u8\\]'], 'Bytes'),
   // alias RawAddress -> Address
-  _alias('RawAddress', 'Address'),
+  _alias(['RawAddress'], 'Address'),
   // lookups, mapped to Address/AccountId as appropriate in runtime
-  _alias('Lookup::Source', 'LookupSource'),
-  _alias('Lookup::Target', 'LookupTarget'),
-  // alias for grandpa internal, as used in polkadot
-  _alias('grandpa::', ''),
-  // specific for session internal
-  _alias('session::', ''),
-  // specific for staking/slashing.rs internal
-  _alias('slashing::', ''),
+  _alias(['Lookup::Source'], 'LookupSource'),
+  _alias(['Lookup::Target'], 'LookupTarget'),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
-  _alias('exec::StorageKey', 'ContractStorageKey'),
-  // Phantom
-  _alias('rstd::marker::PhantomData', 'PhantomData'),
-  _alias('sp_std::marker::PhantomData', 'PhantomData'),
+  _alias(['exec::StorageKey'], 'ContractStorageKey'),
+  // alias for internal module mappings
+  _alias(['exec', 'grandpa', 'marker', 'session', 'slashing'].map((s) => `${s}::`), ''),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
   _flattenSingleTuple(),
-  // converts ::Type to Type, <T as Trait<I>>::Proposal -> ::Proposal
+  // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
   _removeColonPrefix()
 ];
 
@@ -68,11 +59,11 @@ function _findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
-function _alias (src: string, dest: string): Mapper {
+function _alias (src: string[], dest: string): Mapper {
   return (value: string): string => {
-    return value.replace(
-      new RegExp(src, 'g'), dest
-    );
+    return src.reduce((value, src): string => {
+      return value.replace(new RegExp(src, 'g'), dest);
+    }, value);
   };
 }
 
@@ -157,25 +148,17 @@ function _removeTraits (): Mapper {
       // remove all whitespaces
       .replace(/\s/g, '')
       // anything `T::<type>` to end up as `<type>`
-      .replace(/T::/g, '')
-      // anything `Self::<type>` to end up as `<type>`
-      .replace(/Self::/g, '')
-      // `system::` with `` - basically we find `<T as system::Trait>`
-      .replace(/system::/g, '')
+      .replace(/(T|Self|wasm)::/g, '')
       // replace `<T as Trait>::` (whitespaces were removed above)
-      .replace(/<TasTrait>::/g, '')
+      .replace(/<(T|Self)asTrait>::/g, '')
       // replace `<T as something::Trait>::` (whitespaces were removed above)
       .replace(/<Tas[a-z]+::Trait>::/g, '')
-      // replace `<Self as Trait>::` (whitespaces were removed above)
-      .replace(/<SelfasTrait>::/g, '')
       // replace <Lookup as StaticLookup>
       .replace(/<LookupasStaticLookup>/g, 'Lookup')
       // replace `<...>::Type`
       .replace(/::Type/g, '')
-      // replace `wasm::*` eg. `wasm::PrefabWasmModule`
-      .replace(/wasm::/g, '')
       // `sr_std::marker::`
-      .replace(/sr_std::marker::/g, '');
+      .replace(/(sp_std|sr_std|rstd)::/g, '');
   };
 }
 
