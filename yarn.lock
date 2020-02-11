@@ -1965,10 +1965,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@polkadot/dev@^0.33.3":
-  version "0.33.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.3.tgz#a5ee8990ea240c655b0b1c065a53518d0fab3c86"
-  integrity sha512-AruWNAIAjbweoDUJAX4SSSgzbtsxZkociPAitcXBFul6XSU4eMJiyc68o0ZiQOXt/T9TWUjuVMSLEkcuNh536Q==
+"@polkadot/dev@^0.33.5":
+  version "0.33.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.5.tgz#3327a1ee996092aa3921c314c642cafc58fd9027"
+  integrity sha512-S03kn/WFj9bHFIQ9EN5aoyCk2jORsAU3Ux9pg+2FnK5vf4Et9fFfEp0TKjjxJ+AoItalUhjvV13YGBkLThnm9w==
   dependencies:
     "@babel/cli" "^7.8.3"
     "@babel/core" "^7.8.3"
