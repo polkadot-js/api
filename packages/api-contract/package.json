@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
   "dependencies": {
-    "@babel/runtime": "^7.8.3",
-    "@polkadot/types": "^1.2.0-beta.9"
+    "@babel/runtime": "^7.8.4",
+    "@polkadot/types": "^1.2.0-beta.9",
+    "bn.js": "^5.1.1",
+    "rxjs": "^6.5.4"
   }
 }

@@ -5,6 +5,7 @@
 - Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
 - Add `BitVec` type primitive
 - Updated types for Polkadot parachains
+- `registry.findMetaError` now can take in a `DispatchErrorModule` object for lookups
 
 # 1.1.1
 

@@ -8,7 +8,6 @@
     "packages/*"
   ],
   "resolutions": {
-    "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
@@ -26,10 +25,10 @@
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
+    "@babel/core": "^7.8.4",
     "@babel/register": "^7.8.3",
-    "@babel/runtime": "^7.8.3",
-    "@polkadot/dev": "^0.33.5",
-    "@polkadot/ts": "^0.2.1"
+    "@babel/runtime": "^7.8.4",
+    "@polkadot/dev": "^0.34.1",
+    "@polkadot/ts": "^0.2.2"
   }
 }
