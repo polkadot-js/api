@@ -3,10 +3,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DispatchErrorModule } from '../../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
-import { assert, isFunction, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Raw from '../Raw';
 import { EventData } from '../../primitive/Generic/Event';
@@ -25,7 +26,7 @@ function decorateErrors (_: Registry, metadata: RegistryMetadata, metadataErrors
       const eventIndex = new Uint8Array([sectionIndex, index]);
 
       metadataErrors[u8aToHex(eventIndex)] = {
-        documentation: documentation.map((doc): string => doc.toString()),
+        documentation: documentation.map((d): string => d.toString()),
         index,
         name: name.toString(),
         section: sectionName
@@ -113,8 +114,12 @@ export class TypeRegistry implements Registry {
     return fn;
   }
 
-  public findMetaError (errorIndex: Uint8Array): RegistryError {
-    const hexIndex = u8aToHex(errorIndex);
+  public findMetaError (errorIndex: Uint8Array | DispatchErrorModule): RegistryError {
+    const hexIndex = u8aToHex(
+      isU8a(errorIndex)
+        ? errorIndex
+        : new Uint8Array([errorIndex.index.toNumber(), errorIndex.error.toNumber()])
+    );
     const error = this._metadataErrors[hexIndex];
 
     assert(!isUndefined(error), `findMetaError: Unable to find Error with index ${hexIndex}/[${errorIndex}]`);
