@@ -3,7 +3,7 @@
 
 import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
-import { Bytes, H256, StorageData, StorageKey, Text, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, H256, StorageData, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
 import { AccountId, BlockNumber, Extrinsic, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
@@ -19,6 +19,14 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       nextIndex(accountId: AccountId | string | Uint8Array): Observable<Index>;
     };
     author: {
+      /**
+       * Returns true if the keystore has private keys for the given public key and key type.
+       **/
+      hasKey(publicKey: Bytes | string | Uint8Array, keyType: Text | string): Observable<bool>;
+      /**
+       * Returns true if the keystore has private keys for the given session public keys.
+       **/
+      hasSessionKeys(sessionKeys: Bytes | string | Uint8Array): Observable<bool>;
       /**
        * Insert a key into the keystore.
        **/
