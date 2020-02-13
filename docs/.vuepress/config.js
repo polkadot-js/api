@@ -75,7 +75,8 @@ module.exports = {
           ['substrate/constants.md', 'Constants'],
           ['substrate/storage.md', 'State storage'],
           ['substrate/extrinsics.md', 'Extrinsics'],
-          ['substrate/events.md', 'System events']
+          ['substrate/events.md', 'System events'],
+          ['substrate/errors.md', 'Errors']
         ]
       },
       ['/api/', '@polkadot/api'],
