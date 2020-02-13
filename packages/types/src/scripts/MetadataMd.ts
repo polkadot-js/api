@@ -28,7 +28,7 @@ const DESC_STORAGE = `\n\nThe following sections contain Storage methods are par
 
 /** @internal */
 function sectionLink (sectionName: string): string {
-  return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+  return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName).toLowerCase()})**\n\n`;
 }
 
 /** @internal */
