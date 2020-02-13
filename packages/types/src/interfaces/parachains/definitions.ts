@@ -6,10 +6,10 @@ export default {
   types: {
     AttestedCandidate: {
       candidate: 'CandidateReceipt',
-      validityVotes: 'Vec<ValidityVote>'
+      validityVotes: 'Vec<ValidityAttestation>',
+      validatorIndices: 'BitVec'
     },
     AuctionIndex: 'u32',
-    BalanceUpload: '(AccountId, u64)',
     Bidder: {
       _enum: {
         New: 'NewBidder',
@@ -18,13 +18,14 @@ export default {
     },
     CandidateReceipt: {
       parachainIndex: 'ParaId',
-      collator: 'AccountId',
+      collator: 'CollatorId',
       signature: 'CollatorSignature',
       headData: 'HeadData',
-      balanceUploads: 'Vec<BalanceUpload>',
-      egressQueueRoots: 'Vec<EgressQueueRoot>',
-      fees: 'u64',
-      blockDataHash: 'Hash'
+      egressQueueRoots: 'Vec<(ParaId, Hash)>',
+      fees: 'Balance',
+      blockDataHash: 'Hash',
+      upwardMessages: 'Vec<UpwardMessage>',
+      erasureRoot: 'Hash'
     },
     CollatorId: 'H256',
     CollatorSignature: 'Signature',
@@ -96,8 +97,6 @@ export default {
         Explicit: 'CollatorSignature' // 2
       }
     },
-    ValidatorIndex: 'u32',
-    ValidityVote: '(ValidatorIndex, ValidityAttestation)',
     WinningDataEntry: '(AccountId, ParaIdOf, BalanceOf)',
     WinningData: '[WinningDataEntry; 10]'
   }

@@ -29,7 +29,7 @@ function decodeBytes (value?: AnyU8a): Uint8Array | undefined {
   if (Array.isArray(value) || isString(value)) {
     return u8aToU8a(value);
   } else if (!(value instanceof Raw) && isU8a(value)) {
-    // We are ensuring we are not a Rawv instance. In the case of a Raw we already have gotten
+    // We are ensuring we are not a Raw instance. In the case of a Raw we already have gotten
     // rid of the length, i.e. new Bytes(new Bytes(...)) will work as expected
     return decodeBytesU8a(value);
   }

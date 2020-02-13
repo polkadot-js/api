@@ -7,6 +7,23 @@ import { RpcMethodOpt } from './types';
 import createMethod from './create/method';
 import createParam from './create/param';
 
+const hasKey: RpcMethodOpt = {
+  description: 'Returns true if the keystore has private keys for the given public key and key type.',
+  params: [
+    createParam('publicKey', 'Bytes'),
+    createParam('keyType', 'Text')
+  ],
+  type: 'bool'
+};
+
+const hasSessionKeys: RpcMethodOpt = {
+  description: 'Returns true if the keystore has private keys for the given session public keys.',
+  params: [
+    createParam('sessionKeys', 'Bytes')
+  ],
+  type: 'bool'
+};
+
 const removeExtrinsic: RpcMethodOpt = {
   description: 'Remove given extrinsic from the pool and temporarily ban it to prevent reimporting',
   params: [
@@ -71,6 +88,8 @@ export default {
   description: 'Authoring of network items',
   section,
   methods: {
+    hasKey: createMethod(section, 'hasKey', hasKey),
+    hasSessionKeys: createMethod(section, 'hasSessionKeys', hasSessionKeys),
     insertKey: createMethod(section, 'insertKey', insertKey),
     removeExtrinsic: createMethod(section, 'removeExtrinsic', removeExtrinsic),
     rotateKeys: createMethod(section, 'rotateKeys', rotateKeys),

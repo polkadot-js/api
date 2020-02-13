@@ -14,8 +14,10 @@ import Enum from '../../codec/Enum';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';
-import Null from '../../primitive/Null';
+import GenericAccountId from '../../primitive/Generic/AccountId';
+import GenericAddress from '../../primitive/Generic/Address';
 import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
+import Null from '../../primitive/Null';
 import * as primitiveClasses from '../../primitive';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
@@ -105,8 +107,10 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('Uint8Array');
   } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
-  } else if (isChildClass(ClassOf(registry, 'Address'), Clazz)) {
-    possibleTypes.push('string', 'AccountId', 'AccountIndex', 'Uint8Array');
+  } else if (isChildClass(GenericAddress, Clazz)) {
+    possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
+  } else if (isChildClass(GenericAccountId, Clazz)) {
+    possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(ClassOf(registry, 'bool'), Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {
