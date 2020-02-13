@@ -21,6 +21,7 @@ const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view
 
 const DESC_CONSTANTS = `\n\nThe following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}\n`;
 const DESC_EXTRINSICS = `\n\nThe following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}\n`;
+const DESC_ERRORS = `\n\nThis page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}\n`;
 const DESC_EVENTS = `\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}\n`;
 const DESC_RPC = '\n\nThe following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.\n';
 const DESC_STORAGE = `\n\nThe following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}\n`;
@@ -99,6 +100,35 @@ function addConstants (metadata: MetadataLatest): string {
   }, '');
 
   return renderHeading + renderAnchors + sections;
+}
+
+/** @internal */
+function addErrors (metadata: MetadataLatest): string {
+  const renderHeading = `## ${ANCHOR_TOP}Errors${DESC_ERRORS}`;
+  const orderedSections = metadata.modules.sort(sortByName);
+  let renderAnchors = '';
+  const sections = orderedSections.reduce((md, moduleMetadata): string => {
+    if (moduleMetadata.errors.isEmpty) {
+      return md;
+    }
+
+    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+
+    renderAnchors += sectionLink(sectionName);
+
+    const renderSection = generateSectionHeader(md, sectionName);
+    const orderedErrors = moduleMetadata.errors.sort(sortByName);
+
+    return orderedErrors.reduce((md, error): string => {
+      const errorName = error.name.toString();
+      const doc = error.documentation.reduce((md, doc): string =>
+        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+
+      return `${md}\n### ${errorName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+    }, renderSection);
+  }, '');
+
+  return renderHeading + renderAnchors + sectionLink('substrate') + sections;
 }
 
 /** @internal */
@@ -248,6 +278,11 @@ function writeToEventsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
 }
 
+/** @internal */
+function writeToErrorsMd (metadata: MetadataLatest): void {
+  writeFile('docs/substrate/errors.md', addErrors(metadata));
+}
+
 const registry = new TypeRegistry();
 const decorated = new Decorated(registry, rpcdata);
 const latest = decorated.metadata.asLatest;
@@ -257,3 +292,4 @@ writeToConstantsMd(latest);
 writeToStorageMd(latest);
 writeToExtrinsicsMd(latest);
 writeToEventsMd(latest);
+writeToErrorsMd(latest);
