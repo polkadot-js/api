@@ -20,8 +20,8 @@ function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
     api.consts.foo.bar,
-    api.consts.balances.creationFee.toNumber(),
-    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.existentialDeposit.toNumber(),
+    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 

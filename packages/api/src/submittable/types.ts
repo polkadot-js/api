@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiTypes, Signer } from '../types';
 
 import { Observable } from 'rxjs';
@@ -47,7 +47,7 @@ export type SubmittableThis<ApiType extends ApiTypes, THIS> =
 export interface SignerOptions {
   blockHash: AnyU8a;
   era?: IExtrinsicEra | number;
-  nonce: AnyNumber;
+  nonce: AnyNumber | Codec;
   signer?: Signer;
   tip?: AnyNumber;
 }
