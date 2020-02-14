@@ -267,10 +267,10 @@ export default class Rpc implements RpcInterface {
           // Delete from cache
           // Reason:
           // ```
-          //    const s = api.query.system.accountNonce(addr1).subscribe(); // let's say it's 6
+          //    const s = api.query.system.account(addr1).subscribe(); // let's say it's 6
           //    s.unsubscribe();
           //    // wait a bit, for the nonce to increase to 7
-          //    api.query.system.accountNonce(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
+          //    api.query.system.account(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
           //    // that's because all our observables are replay(1)
           // ```
           // eslint-disable-next-line @typescript-eslint/no-use-before-define

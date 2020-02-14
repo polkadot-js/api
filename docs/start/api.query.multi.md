@@ -52,7 +52,7 @@ const unsub = await api.queryMulti([
 The above example certainly does not quite look as ergonomic and clean, but the API needs to understand (a) which are all the calls we need to make and (b) the calls and their params (if required). So breaking it down -
 
 - `api.query.timestamp.now` - the timestamp is passed naked without any params. Also note that we do not call it while passing, but rather only provides a reference to the function, i.e. we do not have the expected `()` at the end. (This could also be of the form `[api.query.timestamp.now]`, aligning with subsequent entries)
-- `[api.query.system.accountNonce, ADDR]` - the nonce query is passed as an array containing the function (once again naked), followed by the parameters that apply.
+- `[api.query.system.account, ADDR]` - the nonce & balance query is passed as an array containing the function (once again naked), followed by the parameters that apply.
 
 ## Rounding out queries
 

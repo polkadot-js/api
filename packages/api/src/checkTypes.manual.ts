@@ -45,16 +45,17 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
   const override = await api.query.balances.totalIssuance<Header>(); // override is still available
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
-  // In the meantime, we can case with `<Balance>`
+  // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.system.accountNonce, keyring.eve.address],
+    [api.query.system.account, keyring.eve.address],
+    // older chains only
     [api.query.system.accountNonce, keyring.bob.address]
-  ], (balances): void => {
-    console.log('balances', balances);
+  ], (values): void => {
+    console.log('values', values);
 
     multiUnsub();
   });

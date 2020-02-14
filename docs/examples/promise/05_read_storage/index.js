@@ -12,8 +12,8 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Make our basic chain state/storage queries, all in one go
-  const [accountNonce, now, validators] = await Promise.all([
-    api.query.system.accountNonce(ALICE),
+  const [[accountNonce], now, validators] = await Promise.all([
+    api.query.system.account(ALICE),
     api.query.timestamp.now(),
     api.query.session.validators()
   ]);
