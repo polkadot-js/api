@@ -33,9 +33,9 @@ declare module '@polkadot/api/types/storage' {
     system: {
       [index: string]: QueryableStorageEntry<ApiType>;
       /**
-       * Extrinsics nonce for accounts.
+       * The full account information for a particular account ID.
        **/
-      accountNonce: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Index>> & QueryableStorageEntry<ApiType>;
+      account: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<ITuple<[Index, AccountData]>>> & QueryableStorageEntry<ApiType>;
       /**
        * Total extrinsics count for the current block.
        **/
@@ -179,13 +179,9 @@ declare module '@polkadot/api/types/storage' {
     indices: {
       [index: string]: QueryableStorageEntry<ApiType>;
       /**
-       * The next free enumeration set.
+       * The lookup from index to account.
        **/
-      nextEnumSet: AugmentedQuery<ApiType, () => Observable<AccountIndex>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The enumeration sets.
-       **/
-      enumSet: AugmentedQuery<ApiType, (arg: AccountIndex | AnyNumber | Uint8Array) => Observable<Vec<AccountId>>> & QueryableStorageEntry<ApiType>;
+      accounts: AugmentedQuery<ApiType, (arg: AccountIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
     };
     balances: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -197,6 +193,7 @@ declare module '@polkadot/api/types/storage' {
        * The balance of an account.
        * NOTE: THIS MAY NEVER BE IN EXISTENCE AND YET HAVE A `total().is_zero()`. If the total
        * is ever zero, then the entry *MUST* be removed.
+       * NOTE: This is only used in the case that this module is used to store balances.
        **/
       account: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<AccountData>> & QueryableStorageEntry<ApiType>;
       /**
@@ -327,10 +324,6 @@ declare module '@polkadot/api/types/storage' {
        * The earliest era for which we have a pending, unapplied slash.
        **/
       earliestUnappliedSlash: AugmentedQuery<ApiType, () => Observable<Option<EraIndex>>> & QueryableStorageEntry<ApiType>;
-      /**
-       * The version of storage for upgrade.
-       **/
-      storageVersion: AugmentedQuery<ApiType, () => Observable<u32>> & QueryableStorageEntry<ApiType>;
     };
     session: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -414,7 +407,7 @@ declare module '@polkadot/api/types/storage' {
        * Get the vote in a given referendum of a particular voter. The result is meaningful only
        * if `voters_for` includes the voter when called with the referendum (you'll get the
        * default `Vote` value otherwise). If you don't want to check `voters_for`, then you can
-       * also check for simple existence with `VoteOf::exists` first.
+       * also check for simple existence with `VoteOf::contains_key` first.
        **/
       voteOf: AugmentedQuery<ApiType, (arg: ITuple<[ReferendumIndex, AccountId]>) => Observable<Vote>> & QueryableStorageEntry<ApiType>;
       /**

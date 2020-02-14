@@ -15,10 +15,10 @@ describe('Decorated', () => {
   it('should correctly get Alice\'s nonce storage key (u8a)', (): void => {
     expect(
       u8aToHex(
-        decorated.query.system.accountNonce('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
+        decorated.query.system.account('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
       )
     ).toEqual(
-      '0x010126aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc42e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
+      '0x010126aa394eea5630e07c48ae0c9558cef7b99d880ec681799c0cf30e8886371da92e3fb4c297a84c5cebc0e78257d213d0927ccc7596044c6ba013dd05522aacba'
     );
   });
 
