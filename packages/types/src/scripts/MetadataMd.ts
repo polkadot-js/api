@@ -12,7 +12,8 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import interfaces from '../../../type-jsonrpc/src';
 import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
-import { TypeRegistry } from '../codec';
+import { TypeRegistry, Vec } from '../codec';
+import { Text } from '../primitive';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -34,6 +35,22 @@ function sectionLink (sectionName: string): string {
 /** @internal */
 function generateSectionHeader (md: string, sectionName: string): string {
   return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n## ${sectionName}\n`;
+}
+
+/** @internal */
+function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
+  const md = docLines
+    .map(docLine => docLine && docLine.substring(1)) // trim the leading space
+    .reduce((md, docLine): string => // generate paragraphs
+      !docLine.trim().length ? `${md}\n\n` // empty line
+        : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n') ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
+          : `${md}${docLine // line continuing the preceding line
+            .replace(/^# <weight>$/g, '\\# \\<weight>\n\n')
+            .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
+            .replace(/^#{1,3} /, '#### ')} `
+    , '');
+  // prefix each line with indentation
+  return md && md.split('\n\n').map(line => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 /** @internal */
@@ -92,10 +109,9 @@ function addConstants (metadata: MetadataLatest): string {
 
     return orderedConstants.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
-      const doc = func.documentation
-        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = documentationVecToMarkdown(func.documentation, 2);
 
-      return `${md}\n### ${methodName}: ` + '`' + func.type + '`' + `\n- **interface**: api.consts.${sectionName}.${methodName}` + (doc ? `\n- **summary**: ${doc}\n` : '\n');
+      return `${md}\n### ${methodName}: ` + '`' + func.type + '`' + `\n- **interface**: api.consts.${sectionName}.${methodName}` + (doc ? `\n- **summary**: ${doc.includes('\n\n') ? `\n\n${doc}` : doc}\n` : '\n');
     }, renderSection);
   }, '');
 
@@ -121,10 +137,9 @@ function addErrors (metadata: MetadataLatest): string {
 
     return orderedErrors.reduce((md, error): string => {
       const errorName = error.name.toString();
-      const doc = error.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = documentationVecToMarkdown(error.documentation, 2);
 
-      return `${md}\n### ${errorName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      return `${md}\n### ${errorName}` + `${doc ? `\n- **summary**: ${doc.includes('\n\n') ? `\n\n${doc}` : doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
@@ -152,10 +167,9 @@ function addEvents (metadata: MetadataLatest): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = func.name.toString();
       const args = func.args.map((type): string => '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = documentationVecToMarkdown(func.documentation, 2);
 
-      return `${md}\n### ${methodName}(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      return `${md}\n### ${methodName}(${args})` + `${doc ? `\n- **summary**: ${doc.includes('\n\n') ? `\n\n${doc}` : doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
@@ -183,10 +197,9 @@ function addExtrinsics (metadata: MetadataLatest): string {
     return orderedMethods.reduce((md, func): string => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = documentationVecToMarkdown(func.documentation, 2);
 
-      return `${md}\n### ${methodName}(${args})` + `\n- **interface**: api.tx.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      return `${md}\n### ${methodName}(${args})` + `\n- **interface**: api.tx.${sectionName}.${methodName}` + `${doc ? `\n- **summary**:\n\n${doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
@@ -217,8 +230,8 @@ function addStorage (metadata: MetadataLatest): string {
           : func.type.isDoubleMap
             ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
             : '';
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
+      const doc = documentationVecToMarkdown(func.documentation, 2);
+
       let result = unwrapStorageType(func.type);
 
       if (func.modifier.isOptional) {
@@ -227,7 +240,7 @@ function addStorage (metadata: MetadataLatest): string {
 
       const methodName = stringLowerFirst(func.name.toString());
 
-      return `${md}\n### ${methodName}(${arg}): ` + '`' + result + '`' + `\n- **interface**: api.query.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+      return `${md}\n### ${methodName}(${arg}): ` + '`' + result + '`' + `\n- **interface**: api.query.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc.includes('\n\n') ? `\n\n${doc}` : doc}\n` : '\n'}`;
     }, renderSection);
   }, '');
 
