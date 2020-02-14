@@ -14,6 +14,7 @@ export interface SubmittableResultImpl {
   readonly isCompleted: boolean;
   readonly isError: boolean;
   readonly isFinalized: boolean;
+  readonly isInBlock: boolean;
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;
