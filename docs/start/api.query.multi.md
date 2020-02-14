@@ -10,14 +10,14 @@ Where possible, the use of multi queries are encouraged since it tracks a number
 ...
 
 // Subscribe to balance changes for 2 accounts, ADDR1 & ADDR2 (already defined)
-const unsub = await api.query.balances.freeBalance.multi([ADDR1, ADDR2], (balances) => {
-  const [balance1, balance2] = balances;
+const unsub = await api.query.system.account.multi([ADDR1, ADDR2], (balances) => {
+  const [[, balance1], [, balance2]] = balances;
 
-  console.log(`The balances are ${balance1} and ${balance2}`);
+  console.log(`The balances are ${balance1.free} and ${balance2.free}`);
 });
 ```
 
-A couple of items to note in the example above: we don't call `freeBalance` directly, but rather `freeBalance.multi`. We pass the addresses we want to query as an array, and the length thereof would depend on the number of addresses we want to query. As an extended example, we can track the balances of a list of validators,
+A couple of items to note in the example above: we don't call `account` directly, but rather `account.multi`. We pass the addresses we want to query as an array, and the length thereof would depend on the number of addresses we want to query. As an extended example, we can track the balances of a list of validators,
 
 ```js
 ...
@@ -26,8 +26,8 @@ A couple of items to note in the example above: we don't call `freeBalance` dire
 const validators = await api.query.session.validators();
 
 // Subscribe to the balances for these accounts
-const unsub = await api.query.balances.freeBalance.multi(validators, (balances) => {
-  console.log(`The balances are: ${balances}`);
+const unsub = await api.query.balances.account.multi(validators, (balances) => {
+  console.log(`The nonce and free balances are: ${balances.map(([nonce, { free }]) => [nonce, free])}`);
 });
 ```
 
@@ -43,10 +43,9 @@ The previous `.multi` examples assumes that we do queries for the same types, i.
 // Subscribe to the timestamp, our index and balance
 const unsub = await api.queryMulti([
   api.query.timestamp.now,
-  [api.query.system.accountNonce, ADDR],
-  [api.query.balances.freeBalance, ADDR]
-], ([now, nonce, balance]) => {
-  console.log(`${now}: balance of ${balance} and a nonce of ${nonce}`);
+  [api.query.system.account, ADDR]
+], ([now, [nonce, balance]]) => {
+  console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
 });
 ```
 
