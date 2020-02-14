@@ -194,6 +194,67 @@ declare module '@polkadot/api/types/submittable' {
        **/
       setUncles: AugmentedSubmittable<(newUncles: Vec<Header> | (Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>>;
     };
+    indices: {
+      [index: string]: SubmittableExtrinsicFunction<ApiType>;
+      /**
+       * Assign an previously unassigned index.
+       * Payment: `Deposit` is reserved from the sender account.
+       * The dispatch origin for this call must be _Signed_.
+       * - `index`: the index to be claimed. This must not be in use.
+       * Emits `IndexAssigned` if successful.
+       * # <weight>
+       * - `O(1)`.
+       * - One storage mutation (codec `O(1)`).
+       * - One reserve operation.
+       * - One event.
+       * # </weight>
+       **/
+      claim: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Assign an index already owned by the sender to another account. The balance reservation
+       * is effectively transfered to the new account.
+       * The dispatch origin for this call must be _Signed_.
+       * - `index`: the index to be re-assigned. This must be owned by the sender.
+       * - `new`: the new owner of the index. This function is a no-op if it is equal to sender.
+       * Emits `IndexAssigned` if successful.
+       * # <weight>
+       * - `O(1)`.
+       * - One storage mutation (codec `O(1)`).
+       * - One transfer operation.
+       * - One event.
+       * # </weight>
+       **/
+      transfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Free up an index owned by the sender.
+       * Payment: Any previous deposit placed for the index is unreserved in the sender account.
+       * The dispatch origin for this call must be _Signed_ and the sender must own the index.
+       * - `index`: the index to be freed. This must be owned by the sender.
+       * Emits `IndexFreed` if successful.
+       * # <weight>
+       * - `O(1)`.
+       * - One storage mutation (codec `O(1)`).
+       * - One reserve operation.
+       * - One event.
+       * # </weight>
+       **/
+      free: AugmentedSubmittable<(index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      /**
+       * Force an index to an account. This doesn't require a deposit. If the index is already
+       * held, then any deposit is reimbursed to its current owner.
+       * The dispatch origin for this call must be _Root_.
+       * - `index`: the index to be (re-)assigned.
+       * - `new`: the new owner of the index. This function is a no-op if it is equal to sender.
+       * Emits `IndexAssigned` if successful.
+       * # <weight>
+       * - `O(1)`.
+       * - One storage mutation (codec `O(1)`).
+       * - Up to one reserve operation.
+       * - One event.
+       * # </weight>
+       **/
+      forceTransfer: AugmentedSubmittable<(updated: AccountId | string | Uint8Array, index: AccountIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+    };
     balances: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;
       /**
