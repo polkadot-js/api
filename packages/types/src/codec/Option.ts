@@ -29,6 +29,7 @@ export default class Option<T extends Codec> extends Base<T> {
     this._Type = Clazz;
   }
 
+  /** @internal */
   public static decodeOption (registry: Registry, Type: Constructor, value?: any): Codec {
     if (isNull(value) || isUndefined(value) || value instanceof Null) {
       return new Null(registry);
@@ -46,6 +47,7 @@ export default class Option<T extends Codec> extends Base<T> {
     return new Type(registry, value);
   }
 
+  /** @internal */
   private static decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
     return !value.length || value[0] === 0
       ? new Null(registry)

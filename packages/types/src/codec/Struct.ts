@@ -62,6 +62,7 @@ export default class Struct<
    * - array with `[value1, value2]` assuming the array has the same length as
    * `Object.keys(Types)`
    * @param jsonMap
+   * @internal
    */
   private static decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     if (isHex(value)) {
@@ -84,6 +85,7 @@ export default class Struct<
     return Struct.decodeStructFromObject(registry, Types, value, jsonMap);
   }
 
+  /** @internal */
   private static decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
     return Object.keys(Types).reduce((raw, key, index): T => {
       // The key in the JSON can be snake_case (or other cases), but in our
@@ -135,6 +137,13 @@ export default class Struct<
         });
       }
     };
+  }
+
+  /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this._Types);
   }
 
   /**

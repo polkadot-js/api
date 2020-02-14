@@ -10,6 +10,7 @@ import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Set from '../codec/Set';
 import { createType } from '../codec/create/createType';
 
+/** @internal */
 function decodeFields (registry: Registry, value?: any): any {
   if (isString(value)) {
     return decodeFields(registry, u8aToU8a(value.toString()));
@@ -20,6 +21,11 @@ function decodeFields (registry: Registry, value?: any): any {
   return value;
 }
 
+/**
+ * @name IdentityFields
+ * @description
+ * Encoder/Decoder class fo registry IdentityFields
+ */
 export default class IdentityFields extends Set {
   constructor (registry: Registry, value?: any) {
     super(registry, {
@@ -29,7 +35,8 @@ export default class IdentityFields extends Set {
       Riot: new BN(0b0000000000000000000000000000000000000000000000000000000000001000),
       Email: new BN(0b0000000000000000000000000000000000000000000000000000000000010000),
       PgpFingerprint: new BN(0b0000000000000000000000000000000000000000000000000000000000100000),
-      Image: new BN(0b0000000000000000000000000000000000000000000000000000000001000000)
+      Image: new BN(0b0000000000000000000000000000000000000000000000000000000001000000),
+      Twitter: new BN(0b0000000000000000000000000000000000000000000000000000000010000000)
     }, decodeFields(registry, value));
   }
 

@@ -10,7 +10,7 @@
             "items": [
               {
                 "name": "AccountNonce",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -26,7 +26,7 @@
               },
               {
                 "name": "ExtrinsicCount",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "u32"
                 },
@@ -37,7 +37,7 @@
               },
               {
                 "name": "AllExtrinsicsWeight",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "Weight"
                 },
@@ -48,7 +48,7 @@
               },
               {
                 "name": "AllExtrinsicsLen",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "u32"
                 },
@@ -59,7 +59,7 @@
               },
               {
                 "name": "BlockHash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -75,7 +75,7 @@
               },
               {
                 "name": "ExtrinsicData",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -91,7 +91,7 @@
               },
               {
                 "name": "Number",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -102,7 +102,7 @@
               },
               {
                 "name": "ParentHash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Hash"
                 },
@@ -113,7 +113,7 @@
               },
               {
                 "name": "ExtrinsicsRoot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Hash"
                 },
@@ -124,7 +124,7 @@
               },
               {
                 "name": "Digest",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "DigestOf"
                 },
@@ -135,7 +135,7 @@
               },
               {
                 "name": "Events",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<EventRecord>"
                 },
@@ -146,7 +146,7 @@
               },
               {
                 "name": "EventCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EventIndex"
                 },
@@ -157,23 +157,19 @@
               },
               {
                 "name": "EventTopics",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "Map": {
                     "hasher": "Blake2_256",
-                    "key1": "Null",
-                    "key2": "Hash",
+                    "key": "Hash",
                     "value": "Vec<(BlockNumber,EventIndex)>",
-                    "key2Hasher": "Blake2_256"
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
                   " Mapping between a topic (represented by T::Hash) and a vector of indexes",
                   " of events in the `<Events<T>>` list.",
-                  "",
-                  " The first key serves no purpose. This field is declared as double_map just",
-                  " for convenience of using `remove_prefix`.",
                   "",
                   " All topic vectors have deterministic storage locations depending on the topic. This",
                   " allows light-clients to leverage the changes trie storage tracking mechanism and",
@@ -298,7 +294,7 @@
             "items": [
               {
                 "name": "RandomMaterial",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -323,7 +319,7 @@
             "items": [
               {
                 "name": "EpochIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -334,7 +330,7 @@
               },
               {
                 "name": "Authorities",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
@@ -345,7 +341,7 @@
               },
               {
                 "name": "GenesisSlot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -357,7 +353,7 @@
               },
               {
                 "name": "CurrentSlot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -368,7 +364,7 @@
               },
               {
                 "name": "Randomness",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "[u8;32]"
                 },
@@ -388,7 +384,7 @@
               },
               {
                 "name": "NextRandomness",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "[u8;32]"
                 },
@@ -399,7 +395,7 @@
               },
               {
                 "name": "SegmentIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -418,7 +414,7 @@
               },
               {
                 "name": "UnderConstruction",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -432,7 +428,7 @@
               },
               {
                 "name": "Initialized",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "MaybeVrf"
                 },
@@ -478,7 +474,7 @@
             "items": [
               {
                 "name": "Now",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Moment"
                 },
@@ -489,7 +485,7 @@
               },
               {
                 "name": "DidUpdate",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -545,7 +541,7 @@
             "items": [
               {
                 "name": "NextEnumSet",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AccountIndex"
                 },
@@ -556,7 +552,7 @@
               },
               {
                 "name": "EnumSet",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -598,7 +594,7 @@
             "items": [
               {
                 "name": "TotalIssuance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Balance"
                 },
@@ -609,7 +605,7 @@
               },
               {
                 "name": "Vesting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -625,7 +621,7 @@
               },
               {
                 "name": "FreeBalance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -651,7 +647,7 @@
               },
               {
                 "name": "ReservedBalance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -677,7 +673,7 @@
               },
               {
                 "name": "Locks",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -699,7 +695,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -739,7 +735,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "new_free",
@@ -771,11 +767,11 @@
               "args": [
                 {
                   "name": "source",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -792,7 +788,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -876,7 +872,7 @@
             {
               "name": "TransferFee",
               "type": "Balance",
-              "value": "0x00e1f505000000000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The fee required to make a transfer."
               ]
@@ -884,7 +880,7 @@
             {
               "name": "CreationFee",
               "type": "Balance",
-              "value": "0x00e1f505000000000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The fee required to create an account."
               ]
@@ -948,7 +944,7 @@
             "items": [
               {
                 "name": "NextFeeMultiplier",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Multiplier"
                 },
@@ -963,7 +959,7 @@
             {
               "name": "TransactionBaseFee",
               "type": "BalanceOf",
-              "value": "0x00e1f505000000000000000000000000",
+              "value": "0x00e40b54020000000000000000000000",
               "documentation": [
                 " The fee to be paid for making a transaction; the base."
               ]
@@ -971,7 +967,7 @@
             {
               "name": "TransactionByteFee",
               "type": "BalanceOf",
-              "value": "0x40420f00000000000000000000000000",
+              "value": "0x00e1f505000000000000000000000000",
               "documentation": [
                 " The fee to be paid for making a transaction; the per-byte portion."
               ]
@@ -986,7 +982,7 @@
             "items": [
               {
                 "name": "Uncles",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<UncleEntryItem>"
                 },
@@ -997,7 +993,7 @@
               },
               {
                 "name": "Author",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "AccountId"
                 },
@@ -1008,7 +1004,7 @@
               },
               {
                 "name": "DidSetUncles",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -1087,7 +1083,7 @@
             "items": [
               {
                 "name": "ValidatorCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1098,7 +1094,7 @@
               },
               {
                 "name": "MinimumValidatorCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1109,7 +1105,7 @@
               },
               {
                 "name": "Invulnerables",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -1122,7 +1118,7 @@
               },
               {
                 "name": "Bonded",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1138,7 +1134,7 @@
               },
               {
                 "name": "Ledger",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1154,7 +1150,7 @@
               },
               {
                 "name": "Payee",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1170,7 +1166,7 @@
               },
               {
                 "name": "Validators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1186,7 +1182,7 @@
               },
               {
                 "name": "Nominators",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1205,7 +1201,7 @@
               },
               {
                 "name": "Stakers",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1224,7 +1220,7 @@
               },
               {
                 "name": "CurrentElected",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -1235,7 +1231,7 @@
               },
               {
                 "name": "CurrentEra",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EraIndex"
                 },
@@ -1246,7 +1242,7 @@
               },
               {
                 "name": "CurrentEraStart",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "MomentOf"
                 },
@@ -1257,7 +1253,7 @@
               },
               {
                 "name": "CurrentEraStartSessionIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SessionIndex"
                 },
@@ -1268,7 +1264,7 @@
               },
               {
                 "name": "CurrentEraPointsEarned",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EraPoints"
                 },
@@ -1279,7 +1275,7 @@
               },
               {
                 "name": "SlotStake",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -1292,7 +1288,7 @@
               },
               {
                 "name": "ForceEra",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Forcing"
                 },
@@ -1303,7 +1299,7 @@
               },
               {
                 "name": "SlashRewardFraction",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Perbill"
                 },
@@ -1316,7 +1312,7 @@
               },
               {
                 "name": "CanceledSlashPayout",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -1328,7 +1324,7 @@
               },
               {
                 "name": "UnappliedSlashes",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1344,7 +1340,7 @@
               },
               {
                 "name": "BondedEras",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(EraIndex,SessionIndex)>"
                 },
@@ -1355,7 +1351,7 @@
               },
               {
                 "name": "ValidatorSlashInEra",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -1373,7 +1369,7 @@
               },
               {
                 "name": "NominatorSlashInEra",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -1390,7 +1386,7 @@
               },
               {
                 "name": "SlashingSpans",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1406,7 +1402,7 @@
               },
               {
                 "name": "SpanSlash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1423,7 +1419,7 @@
               },
               {
                 "name": "EarliestUnappliedSlash",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "EraIndex"
                 },
@@ -1434,7 +1430,7 @@
               },
               {
                 "name": "StorageVersion",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1451,7 +1447,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1540,6 +1536,23 @@
               ]
             },
             {
+              "name": "rebond",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Rebond a portion of the stash scheduled to be unlocked.",
+                "",
+                " # <weight>",
+                " - Time complexity: O(1). Bounded by `MAX_UNLOCKING_CHUNKS`.",
+                " - Storage changes: Can't increase storage, only decrease it.",
+                " # </weight>"
+              ]
+            },
+            {
               "name": "withdraw_unbonded",
               "args": [],
               "documentation": [
@@ -1588,7 +1601,7 @@
               "args": [
                 {
                   "name": "targets",
-                  "type": "Vec<Address>"
+                  "type": "Vec<LookupSource>"
                 }
               ],
               "documentation": [
@@ -1649,7 +1662,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -1864,6 +1877,12 @@
               "documentation": [
                 " Can not schedule more unlock chunks."
               ]
+            },
+            {
+              "name": "NoUnlockChunk",
+              "documentation": [
+                " Can not rebond without unlocking chunks."
+              ]
             }
           ]
         },
@@ -1874,7 +1893,7 @@
             "items": [
               {
                 "name": "Reports",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1890,7 +1909,7 @@
               },
               {
                 "name": "ConcurrentReportsIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -1907,7 +1926,7 @@
               },
               {
                 "name": "ReportsByKindIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1952,7 +1971,7 @@
             "items": [
               {
                 "name": "Validators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ValidatorId>"
                 },
@@ -1963,7 +1982,7 @@
               },
               {
                 "name": "CurrentIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SessionIndex"
                 },
@@ -1974,7 +1993,7 @@
               },
               {
                 "name": "QueuedChanged",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -1986,7 +2005,7 @@
               },
               {
                 "name": "QueuedKeys",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(ValidatorId,Keys)>"
                 },
@@ -1998,7 +2017,7 @@
               },
               {
                 "name": "DisabledValidators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<u32>"
                 },
@@ -2011,7 +2030,7 @@
               },
               {
                 "name": "NextKeys",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -2031,7 +2050,7 @@
               },
               {
                 "name": "KeyOwner",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -2181,7 +2200,7 @@
             "items": [
               {
                 "name": "Authorities",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AuthorityList"
                 },
@@ -2195,7 +2214,7 @@
               },
               {
                 "name": "State",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "StoredState"
                 },
@@ -2206,7 +2225,7 @@
               },
               {
                 "name": "PendingChange",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "StoredPendingChange"
                 },
@@ -2217,7 +2236,7 @@
               },
               {
                 "name": "NextForced",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -2228,7 +2247,7 @@
               },
               {
                 "name": "Stalled",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "(BlockNumber,BlockNumber)"
                 },
@@ -2239,7 +2258,7 @@
               },
               {
                 "name": "CurrentSetId",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SetId"
                 },
@@ -2251,7 +2270,7 @@
               },
               {
                 "name": "SetIdSession",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2343,7 +2362,7 @@
             "items": [
               {
                 "name": "GossipAt",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -2354,7 +2373,7 @@
               },
               {
                 "name": "Keys",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AuthorityId>"
                 },
@@ -2365,7 +2384,7 @@
               },
               {
                 "name": "ReceivedHeartbeats",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -2383,7 +2402,7 @@
               },
               {
                 "name": "AuthoredBlocks",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -2475,7 +2494,7 @@
             "items": [
               {
                 "name": "PublicPropCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "PropIndex"
                 },
@@ -2486,7 +2505,7 @@
               },
               {
                 "name": "PublicProps",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
@@ -2497,7 +2516,7 @@
               },
               {
                 "name": "Preimages",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2514,7 +2533,7 @@
               },
               {
                 "name": "DepositOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2530,7 +2549,7 @@
               },
               {
                 "name": "ReferendumCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ReferendumIndex"
                 },
@@ -2541,7 +2560,7 @@
               },
               {
                 "name": "LowestUnbaked",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ReferendumIndex"
                 },
@@ -2553,7 +2572,7 @@
               },
               {
                 "name": "ReferendumInfoOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2569,7 +2588,7 @@
               },
               {
                 "name": "DispatchQueue",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(BlockNumber,Hash,ReferendumIndex)>"
                 },
@@ -2580,7 +2599,7 @@
               },
               {
                 "name": "VotersFor",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2596,7 +2615,7 @@
               },
               {
                 "name": "VoteOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2615,7 +2634,7 @@
               },
               {
                 "name": "Proxy",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2632,7 +2651,7 @@
               },
               {
                 "name": "Delegations",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2648,7 +2667,7 @@
               },
               {
                 "name": "LastTabledWasExternal",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -2660,7 +2679,7 @@
               },
               {
                 "name": "NextExternal",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "(Hash,VoteThreshold)"
                 },
@@ -2674,7 +2693,7 @@
               },
               {
                 "name": "Blacklist",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2691,7 +2710,7 @@
               },
               {
                 "name": "Cancellations",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3401,7 +3420,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -3412,7 +3431,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3428,7 +3447,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3444,7 +3463,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3455,7 +3474,7 @@
               },
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -3653,7 +3672,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -3664,7 +3683,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3680,7 +3699,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3696,7 +3715,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3707,7 +3726,7 @@
               },
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -3905,7 +3924,7 @@
             "items": [
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
@@ -3916,7 +3935,7 @@
               },
               {
                 "name": "RunnersUp",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
@@ -3927,7 +3946,7 @@
               },
               {
                 "name": "ElectionRounds",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3938,7 +3957,7 @@
               },
               {
                 "name": "VotesOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3954,7 +3973,7 @@
               },
               {
                 "name": "StakeOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3970,7 +3989,7 @@
               },
               {
                 "name": "Candidates",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -4031,7 +4050,7 @@
               "args": [
                 {
                   "name": "target",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4089,7 +4108,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4285,7 +4304,7 @@
             "items": [
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -4429,7 +4448,7 @@
             "items": [
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ProposalIndex"
                 },
@@ -4440,7 +4459,7 @@
               },
               {
                 "name": "Proposals",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4456,7 +4475,7 @@
               },
               {
                 "name": "Approvals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ProposalIndex>"
                 },
@@ -4464,10 +4483,206 @@
                 "documentation": [
                   " Proposal indices that have been approved but not yet awarded."
                 ]
+              },
+              {
+                "name": "Tips",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Hash",
+                    "value": "OpenTip",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Tips that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
+                  " This has the insecure enumerable hash function since the key itself is already",
+                  " guaranteed to be a secure hash."
+                ]
+              },
+              {
+                "name": "Reasons",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Hash",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Simple preimage lookup from the reason's hash to the original data. Again, has an",
+                  " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
+                ]
               }
             ]
           },
           "calls": [
+            {
+              "name": "report_awesome",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Report something `reason` that deserves a tip and claim any eventual the finder's fee.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
+                " `TipReportDepositPerByte` for each byte in `reason`.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R)` where `R` length of `reason`.",
+                " - One balance operation.",
+                " - One storage mutation (codec `O(R)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "retract_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Retract a prior tip-report from `report_awesome`, and cancel the process of tipping.",
+                "",
+                " If successful, the original deposit will be unreserved.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the tip identified by `hash`",
+                " must have been reported by the signing account through `report_awesome` (and not",
+                " through `tip_new`).",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " Emits `TipRetracted` if successful.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One balance operation.",
+                " - Two storage removals (one read, codec `O(T)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip_new",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " Give a tip for something new; no finder's fee will be taken.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + T)` where `R` length of `reason`, `T` is the number of tippers. `T` is",
+                "   naturally capped as a membership set, `R` is limited through transaction-size.",
+                " - Two storage insertions (codecs `O(R)`, `O(T)`), one read `O(1)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " Declare a tip value for an already-open tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the hash of the original tip `reason` and the beneficiary",
+                "   account ID.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `TipClosing` if the threshold of tippers has been reached and the countdown period",
+                " has started.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One storage mutation (codec `O(T)`), one storage read `O(1)`.",
+                " - Up to one event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "close_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Close and payout a tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " The tip identified by `hash` must have finished its countdown period.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One storage retrieval (codec `O(T)`) and two removals.",
+                " - Up to three balance operations.",
+                " # </weight>"
+              ]
+            },
             {
               "name": "propose_spend",
               "args": [
@@ -4477,7 +4692,7 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4596,6 +4811,44 @@
               "documentation": [
                 " Some funds have been deposited."
               ]
+            },
+            {
+              "name": "NewTip",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A new tip suggestion has been opened."
+              ]
+            },
+            {
+              "name": "TipClosing",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has reached threshold and is closing."
+              ]
+            },
+            {
+              "name": "TipClosed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A tip suggestion has been closed."
+              ]
+            },
+            {
+              "name": "TipRetracted",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has been retracted."
+              ]
             }
           ],
           "constants": [
@@ -4631,6 +4884,38 @@
               "documentation": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
               ]
+            },
+            {
+              "name": "TipCountdown",
+              "type": "BlockNumber",
+              "value": "0x40380000",
+              "documentation": [
+                " The period for which a tip remains open after is has achieved threshold tippers."
+              ]
+            },
+            {
+              "name": "TipFindersFee",
+              "type": "Percent",
+              "value": "0x14",
+              "documentation": [
+                " The amount of the final tip which goes to the original reporter of the tip."
+              ]
+            },
+            {
+              "name": "TipReportDepositBase",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount held on deposit for placing a tip report."
+              ]
+            },
+            {
+              "name": "TipReportDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x00e40b54020000000000000000000000",
+              "documentation": [
+                " The amount held on deposit per byte within the tip report reason."
+              ]
             }
           ],
           "errors": [
@@ -4645,6 +4930,42 @@
               "documentation": [
                 " No proposal at that index."
               ]
+            },
+            {
+              "name": "ReasonTooBig",
+              "documentation": [
+                " The reason given is just too big."
+              ]
+            },
+            {
+              "name": "AlreadyKnown",
+              "documentation": [
+                " The tip was already found/started."
+              ]
+            },
+            {
+              "name": "UnknownTip",
+              "documentation": [
+                " The tip hash is unknown."
+              ]
+            },
+            {
+              "name": "NotFinder",
+              "documentation": [
+                " The account attempting to retract the tip is not the finder of the tip."
+              ]
+            },
+            {
+              "name": "StillOpen",
+              "documentation": [
+                " The tip cannot be claimed/closed because there are not enough tippers yet."
+              ]
+            },
+            {
+              "name": "Premature",
+              "documentation": [
+                " The tip cannot be claimed/closed because it's still in the countdown period."
+              ]
             }
           ]
         },
@@ -4655,7 +4976,7 @@
             "items": [
               {
                 "name": "Claims",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4669,7 +4990,7 @@
               },
               {
                 "name": "Total",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -4678,7 +4999,7 @@
               },
               {
                 "name": "Vesting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4767,7 +5088,7 @@
             "items": [
               {
                 "name": "Authorities",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ValidatorId>"
                 },
@@ -4778,7 +5099,7 @@
               },
               {
                 "name": "Code",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4794,7 +5115,7 @@
               },
               {
                 "name": "Heads",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4810,7 +5131,7 @@
               },
               {
                 "name": "Watermarks",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4828,7 +5149,7 @@
               },
               {
                 "name": "UnroutedIngress",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4847,7 +5168,7 @@
               },
               {
                 "name": "RelayDispatchQueue",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4864,7 +5185,7 @@
               },
               {
                 "name": "RelayDispatchQueueSize",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4882,7 +5203,7 @@
               },
               {
                 "name": "NeedsDispatch",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ParaId>"
                 },
@@ -4893,7 +5214,7 @@
               },
               {
                 "name": "DidUpdate",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "Vec<ParaId>"
                 },
@@ -4932,7 +5253,7 @@
             "items": [
               {
                 "name": "RecentParaBlocks",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4949,7 +5270,7 @@
               },
               {
                 "name": "ParaBlockAttestations",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -4966,7 +5287,7 @@
               },
               {
                 "name": "DidUpdate",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -5000,7 +5321,7 @@
             "items": [
               {
                 "name": "AuctionCounter",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AuctionIndex"
                 },
@@ -5011,7 +5332,7 @@
               },
               {
                 "name": "ManagedIds",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ParaId>"
                 },
@@ -5023,7 +5344,7 @@
               },
               {
                 "name": "Deposits",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5051,7 +5372,7 @@
               },
               {
                 "name": "AuctionInfo",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "(LeasePeriodOf,BlockNumber)"
                 },
@@ -5066,7 +5387,7 @@
               },
               {
                 "name": "Winning",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5084,7 +5405,7 @@
               },
               {
                 "name": "ReservedAmounts",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5101,7 +5422,7 @@
               },
               {
                 "name": "OnboardQueue",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5118,7 +5439,7 @@
               },
               {
                 "name": "Onboarding",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5137,7 +5458,7 @@
               },
               {
                 "name": "Offboarding",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5261,7 +5582,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -5419,7 +5740,7 @@
             "items": [
               {
                 "name": "Parachains",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ParaId>"
                 },
@@ -5428,7 +5749,7 @@
               },
               {
                 "name": "ThreadCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -5439,7 +5760,7 @@
               },
               {
                 "name": "SelectedThreads",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Vec<(ParaId,CollatorId)>>"
                 },
@@ -5451,7 +5772,7 @@
               },
               {
                 "name": "Active",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(ParaId,Option<(CollatorId,Retriable)>)>"
                 },
@@ -5467,7 +5788,7 @@
               },
               {
                 "name": "NextFreeId",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ParaId"
                 },
@@ -5479,7 +5800,7 @@
               },
               {
                 "name": "PendingSwap",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5495,7 +5816,7 @@
               },
               {
                 "name": "Paras",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5511,7 +5832,7 @@
               },
               {
                 "name": "RetryQueue",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Vec<(ParaId,CollatorId)>>"
                 },
@@ -5522,7 +5843,7 @@
               },
               {
                 "name": "Debtors",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5692,758 +6013,13 @@
           "errors": []
         },
         {
-          "name": "Nicks",
-          "storage": {
-            "prefix": "Sudo",
-            "items": [
-              {
-                "name": "NameOf",
-                "modifier": 0,
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "(Bytes,BalanceOf)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The lookup table for names."
-                ]
-              }
-            ]
-          },
-          "calls": [
-            {
-              "name": "set_name",
-              "args": [
-                {
-                  "name": "name",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Set an account's name. The name should be a UTF-8-encoded string by convention, though",
-                " we don't check it.",
-                "",
-                " The name may not be more than `T::MaxLength` bytes, nor less than `T::MinLength` bytes.",
-                "",
-                " If the account doesn't already have a name, then a fee of `ReservationFee` is reserved",
-                " in the account.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - At most one balance operation.",
-                " - One storage read/write.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "clear_name",
-              "args": [],
-              "documentation": [
-                " Clear an account's name and return the deposit. Fails if the account was not named.",
-                "",
-                " The dispatch origin for this call must be _Signed_.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - One balance operation.",
-                " - One storage read/write.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "kill_name",
-              "args": [
-                {
-                  "name": "target",
-                  "type": "Address"
-                }
-              ],
-              "documentation": [
-                " Remove an account's name and take charge of the deposit.",
-                "",
-                " Fails if `who` has not been named. The deposit is dealt with through `T::Slashed`",
-                " imbalance handler.",
-                "",
-                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - One unbalanced handler (probably a balance transfer)",
-                " - One storage read/write.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "force_name",
-              "args": [
-                {
-                  "name": "target",
-                  "type": "Address"
-                },
-                {
-                  "name": "name",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": [
-                " Set a third-party account's name with no deposit.",
-                "",
-                " No length checking is done on the name.",
-                "",
-                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - At most one balance operation.",
-                " - One storage read/write.",
-                " - One event.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "NameSet",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was set."
-              ]
-            },
-            {
-              "name": "NameForced",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was forcibly set."
-              ]
-            },
-            {
-              "name": "NameChanged",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was changed."
-              ]
-            },
-            {
-              "name": "NameCleared",
-              "args": [
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " A name was cleared, and the given balance returned."
-              ]
-            },
-            {
-              "name": "NameKilled",
-              "args": [
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " A name was removed and the given balance slashed."
-              ]
-            }
-          ],
-          "constants": [
-            {
-              "name": "ReservationFee",
-              "type": "BalanceOf",
-              "value": "0x00a0724e180900000000000000000000",
-              "documentation": [
-                " Reservation fee."
-              ]
-            },
-            {
-              "name": "MinLength",
-              "type": "u32",
-              "value": "0x03000000",
-              "documentation": [
-                " The minimum length a name may be."
-              ]
-            },
-            {
-              "name": "MaxLength",
-              "type": "u32",
-              "value": "0x20000000",
-              "documentation": [
-                " The maximum length a name may be."
-              ]
-            }
-          ],
-          "errors": [
-            {
-              "name": "TooShort",
-              "documentation": [
-                " A name is too short."
-              ]
-            },
-            {
-              "name": "TooLong",
-              "documentation": [
-                " A name is too long."
-              ]
-            },
-            {
-              "name": "Unnamed",
-              "documentation": [
-                " An account in't named."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Identity",
-          "storage": {
-            "prefix": "Sudo",
-            "items": [
-              {
-                "name": "IdentityOf",
-                "modifier": 0,
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "Registration",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " Information that is pertinent to identify the entity behind an account."
-                ]
-              },
-              {
-                "name": "SuperOf",
-                "modifier": 0,
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "(AccountId,Data)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The super-identity of an alternative \"sub\" identity together with its name, within that",
-                  " context. If the account is not some other account's sub-identity, then just `None`."
-                ]
-              },
-              {
-                "name": "SubsOf",
-                "modifier": 1,
-                "type": {
-                  "Map": {
-                    "hasher": "Blake2_256",
-                    "key": "AccountId",
-                    "value": "(BalanceOf,Vec<AccountId>)",
-                    "linked": false
-                  }
-                },
-                "fallback": "0x0000000000000000000000000000000000",
-                "documentation": [
-                  " Alternative \"sub\" identities of this account.",
-                  "",
-                  " The first item is the deposit, the second is a vector of the accounts."
-                ]
-              },
-              {
-                "name": "Registrars",
-                "modifier": 1,
-                "type": {
-                  "Plain": "Vec<Option<RegistrarInfo>>"
-                },
-                "fallback": "0x00",
-                "documentation": [
-                  " The set of registrars. Not expected to get very big as can only be added through a",
-                  " special origin (likely a council motion).",
-                  "",
-                  " The index into this can be cast to `RegistrarIndex` to get a valid value."
-                ]
-              }
-            ]
-          },
-          "calls": [
-            {
-              "name": "add_registrar",
-              "args": [
-                {
-                  "name": "account",
-                  "type": "AccountId"
-                }
-              ],
-              "documentation": [
-                " Add a registrar to the system.",
-                "",
-                " The dispatch origin for this call must be `RegistrarOrigin` or `Root`.",
-                "",
-                " - `account`: the account of the registrar.",
-                "",
-                " Emits `RegistrarAdded` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R)` where `R` registrar-count (governance-bounded).",
-                " - One storage mutation (codec `O(R)`).",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_identity",
-              "args": [
-                {
-                  "name": "info",
-                  "type": "IdentityInfo"
-                }
-              ],
-              "documentation": [
-                " Set an account's identity information and reserve the appropriate deposit.",
-                "",
-                " If the account already has identity information, the deposit is taken as part payment",
-                " for the new deposit.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
-                " identity.",
-                "",
-                " - `info`: The identity information.",
-                "",
-                " Emits `IdentitySet` if successful.",
-                "",
-                " # <weight>",
-                " - `O(X + R)` where `X` additional-field-count (deposit-bounded).",
-                " - At most two balance operations.",
-                " - One storage mutation (codec `O(X + R)`).",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_subs",
-              "args": [
-                {
-                  "name": "subs",
-                  "type": "Vec<(AccountId,Data)>"
-                }
-              ],
-              "documentation": [
-                " Set the sub-accounts of the sender.",
-                "",
-                " Payment: Any aggregate balance reserved by previous `set_subs` calls will be returned",
-                " and an amount `SubAccountDeposit` will be reserved for each item in `subs`.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
-                " identity.",
-                "",
-                " - `subs`: The identity's sub-accounts.",
-                "",
-                " # <weight>",
-                " - `O(S)` where `S` subs-count (hard- and deposit-bounded).",
-                " - At most two balance operations.",
-                " - At most O(2 * S + 1) storage mutations; codec complexity `O(1 * S + S * 1)`);",
-                "   one storage-exists.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "clear_identity",
-              "args": [],
-              "documentation": [
-                " Clear an account's identity info and all sub-account and return all deposits.",
-                "",
-                " Payment: All reserved balances on the account are returned.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
-                " identity.",
-                "",
-                " Emits `IdentityCleared` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R + S + X)`.",
-                " - One balance-reserve operation.",
-                " - `S + 2` storage deletions.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "request_judgement",
-              "args": [
-                {
-                  "name": "reg_index",
-                  "type": "Compact<RegistrarIndex>"
-                },
-                {
-                  "name": "max_fee",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Request a judgement from a registrar.",
-                "",
-                " Payment: At most `max_fee` will be reserved for payment to the registrar if judgement",
-                " given.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a",
-                " registered identity.",
-                "",
-                " - `reg_index`: The index of the registrar whose judgement is requested.",
-                " - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:",
-                "",
-                " ```nocompile",
-                " Self::registrars(reg_index).uwnrap().fee",
-                " ```",
-                "",
-                " Emits `JudgementRequested` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R + X)`.",
-                " - One balance-reserve operation.",
-                " - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "cancel_request",
-              "args": [
-                {
-                  "name": "reg_index",
-                  "type": "RegistrarIndex"
-                }
-              ],
-              "documentation": [
-                " Cancel a previous request.",
-                "",
-                " Payment: A previously reserved deposit is returned on success.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must have a",
-                " registered identity.",
-                "",
-                " - `reg_index`: The index of the registrar whose judgement is no longer requested.",
-                "",
-                " Emits `JudgementUnrequested` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R + X)`.",
-                " - One balance-reserve operation.",
-                " - One storage mutation `O(R + X)`.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_fee",
-              "args": [
-                {
-                  "name": "index",
-                  "type": "Compact<RegistrarIndex>"
-                },
-                {
-                  "name": "fee",
-                  "type": "Compact<BalanceOf>"
-                }
-              ],
-              "documentation": [
-                " Set the fee required for a judgement to be requested from a registrar.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
-                " of the registrar whose index is `index`.",
-                "",
-                " - `index`: the index of the registrar whose fee is to be set.",
-                " - `fee`: the new fee.",
-                "",
-                " # <weight>",
-                " - `O(R)`.",
-                " - One storage mutation `O(R)`.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_account_id",
-              "args": [
-                {
-                  "name": "index",
-                  "type": "Compact<RegistrarIndex>"
-                },
-                {
-                  "name": "new",
-                  "type": "AccountId"
-                }
-              ],
-              "documentation": [
-                " Change the account associated with a registrar.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
-                " of the registrar whose index is `index`.",
-                "",
-                " - `index`: the index of the registrar whose fee is to be set.",
-                " - `new`: the new account ID.",
-                "",
-                " # <weight>",
-                " - `O(R)`.",
-                " - One storage mutation `O(R)`.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "set_fields",
-              "args": [
-                {
-                  "name": "index",
-                  "type": "Compact<RegistrarIndex>"
-                },
-                {
-                  "name": "fields",
-                  "type": "IdentityFields"
-                }
-              ],
-              "documentation": [
-                " Set the field information for a registrar.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
-                " of the registrar whose index is `index`.",
-                "",
-                " - `index`: the index of the registrar whose fee is to be set.",
-                " - `fields`: the fields that the registrar concerns themselves with.",
-                "",
-                " # <weight>",
-                " - `O(R)`.",
-                " - One storage mutation `O(R)`.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "provide_judgement",
-              "args": [
-                {
-                  "name": "reg_index",
-                  "type": "Compact<RegistrarIndex>"
-                },
-                {
-                  "name": "target",
-                  "type": "Address"
-                },
-                {
-                  "name": "judgement",
-                  "type": "Judgement"
-                }
-              ],
-              "documentation": [
-                " Provide a judgement for an account's identity.",
-                "",
-                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
-                " of the registrar whose index is `reg_index`.",
-                "",
-                " - `reg_index`: the index of the registrar whose judgement is being made.",
-                " - `target`: the account whose identity the judgement is upon. This must be an account",
-                "   with a registered identity.",
-                " - `judgement`: the judgement of the registrar of index `reg_index` about `target`.",
-                "",
-                " Emits `JudgementGiven` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R + X)`.",
-                " - One balance-transfer operation.",
-                " - Up to one account-lookup operation.",
-                " - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "kill_identity",
-              "args": [
-                {
-                  "name": "target",
-                  "type": "Address"
-                }
-              ],
-              "documentation": [
-                " Remove an account's identity and sub-account information and slash the deposits.",
-                "",
-                " Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by",
-                " `Slash`. Verification request deposits are not returned; they should be cancelled",
-                " manually using `cancel_request`.",
-                "",
-                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
-                "",
-                " - `target`: the account whose identity the judgement is upon. This must be an account",
-                "   with a registered identity.",
-                "",
-                " Emits `IdentityKilled` if successful.",
-                "",
-                " # <weight>",
-                " - `O(R + S + X)`.",
-                " - One balance-reserve operation.",
-                " - `S + 2` storage mutations.",
-                " - One event.",
-                " # </weight>"
-              ]
-            }
-          ],
-          "events": [
-            {
-              "name": "IdentitySet",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was set or reset (which will remove all judgements)."
-              ]
-            },
-            {
-              "name": "IdentityCleared",
-              "args": [
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " A name was cleared, and the given balance returned."
-              ]
-            },
-            {
-              "name": "IdentityKilled",
-              "args": [
-                "AccountId",
-                "Balance"
-              ],
-              "documentation": [
-                " A name was removed and the given balance slashed."
-              ]
-            },
-            {
-              "name": "JudgementRequested",
-              "args": [
-                "AccountId",
-                "RegistrarIndex"
-              ],
-              "documentation": [
-                " A judgement was asked from a registrar."
-              ]
-            },
-            {
-              "name": "JudgementUnrequested",
-              "args": [
-                "AccountId",
-                "RegistrarIndex"
-              ],
-              "documentation": [
-                " A judgement request was retracted."
-              ]
-            },
-            {
-              "name": "JudgementGiven",
-              "args": [
-                "AccountId",
-                "RegistrarIndex"
-              ],
-              "documentation": [
-                " A judgement was given by a registrar."
-              ]
-            },
-            {
-              "name": "RegistrarAdded",
-              "args": [
-                "RegistrarIndex"
-              ],
-              "documentation": [
-                " A registrar was added."
-              ]
-            }
-          ],
-          "constants": [],
-          "errors": [
-            {
-              "name": "TooManySubAccounts",
-              "documentation": [
-                " Too many subs-accounts."
-              ]
-            },
-            {
-              "name": "NotFound",
-              "documentation": [
-                " Account isn't found."
-              ]
-            },
-            {
-              "name": "NotNamed",
-              "documentation": [
-                " Account isn't named."
-              ]
-            },
-            {
-              "name": "EmptyIndex",
-              "documentation": [
-                " Empty index."
-              ]
-            },
-            {
-              "name": "FeeChanged",
-              "documentation": [
-                " Fee is changed."
-              ]
-            },
-            {
-              "name": "NoIdentity",
-              "documentation": [
-                " No identity found."
-              ]
-            },
-            {
-              "name": "StickyJudgement",
-              "documentation": [
-                " Sticky judgement."
-              ]
-            },
-            {
-              "name": "JudgementGiven",
-              "documentation": [
-                " Judgement given."
-              ]
-            },
-            {
-              "name": "InvalidJudgement",
-              "documentation": [
-                " Invalid judgement."
-              ]
-            },
-            {
-              "name": "InvalidIndex",
-              "documentation": [
-                " The index is invalid."
-              ]
-            },
-            {
-              "name": "InvalidTarget",
-              "documentation": [
-                " The target is invalid."
-              ]
-            }
-          ]
-        },
-        {
           "name": "Utility",
           "storage": {
             "prefix": "Utility",
             "items": [
               {
                 "name": "Multisigs",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -6747,6 +6323,536 @@
           ],
           "constants": [],
           "errors": []
+        },
+        {
+          "name": "Identity",
+          "storage": {
+            "prefix": "Sudo",
+            "items": [
+              {
+                "name": "IdentityOf",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "Registration",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Information that is pertinent to identify the entity behind an account."
+                ]
+              },
+              {
+                "name": "SuperOf",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "(AccountId,Data)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The super-identity of an alternative \"sub\" identity together with its name, within that",
+                  " context. If the account is not some other account's sub-identity, then just `None`."
+                ]
+              },
+              {
+                "name": "SubsOf",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "(BalanceOf,Vec<AccountId>)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "documentation": [
+                  " Alternative \"sub\" identities of this account.",
+                  "",
+                  " The first item is the deposit, the second is a vector of the accounts."
+                ]
+              },
+              {
+                "name": "Registrars",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<Option<RegistrarInfo>>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of registrars. Not expected to get very big as can only be added through a",
+                  " special origin (likely a council motion).",
+                  "",
+                  " The index into this can be cast to `RegistrarIndex` to get a valid value."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "add_registrar",
+              "args": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Add a registrar to the system.",
+                "",
+                " The dispatch origin for this call must be `RegistrarOrigin` or `Root`.",
+                "",
+                " - `account`: the account of the registrar.",
+                "",
+                " Emits `RegistrarAdded` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R)` where `R` registrar-count (governance-bounded).",
+                " - One storage mutation (codec `O(R)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_identity",
+              "args": [
+                {
+                  "name": "info",
+                  "type": "IdentityInfo"
+                }
+              ],
+              "documentation": [
+                " Set an account's identity information and reserve the appropriate deposit.",
+                "",
+                " If the account already has identity information, the deposit is taken as part payment",
+                " for the new deposit.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " - `info`: The identity information.",
+                "",
+                " Emits `IdentitySet` if successful.",
+                "",
+                " # <weight>",
+                " - `O(X + R)` where `X` additional-field-count (deposit-bounded).",
+                " - At most two balance operations.",
+                " - One storage mutation (codec `O(X + R)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_subs",
+              "args": [
+                {
+                  "name": "subs",
+                  "type": "Vec<(AccountId,Data)>"
+                }
+              ],
+              "documentation": [
+                " Set the sub-accounts of the sender.",
+                "",
+                " Payment: Any aggregate balance reserved by previous `set_subs` calls will be returned",
+                " and an amount `SubAccountDeposit` will be reserved for each item in `subs`.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " - `subs`: The identity's sub-accounts.",
+                "",
+                " # <weight>",
+                " - `O(S)` where `S` subs-count (hard- and deposit-bounded).",
+                " - At most two balance operations.",
+                " - At most O(2 * S + 1) storage mutations; codec complexity `O(1 * S + S * 1)`);",
+                "   one storage-exists.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "clear_identity",
+              "args": [],
+              "documentation": [
+                " Clear an account's identity info and all sub-account and return all deposits.",
+                "",
+                " Payment: All reserved balances on the account are returned.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " Emits `IdentityCleared` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + S + X)`.",
+                " - One balance-reserve operation.",
+                " - `S + 2` storage deletions.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "request_judgement",
+              "args": [
+                {
+                  "name": "reg_index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "max_fee",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Request a judgement from a registrar.",
+                "",
+                " Payment: At most `max_fee` will be reserved for payment to the registrar if judgement",
+                " given.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a",
+                " registered identity.",
+                "",
+                " - `reg_index`: The index of the registrar whose judgement is requested.",
+                " - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:",
+                "",
+                " ```nocompile",
+                " Self::registrars(reg_index).uwnrap().fee",
+                " ```",
+                "",
+                " Emits `JudgementRequested` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-reserve operation.",
+                " - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "cancel_request",
+              "args": [
+                {
+                  "name": "reg_index",
+                  "type": "RegistrarIndex"
+                }
+              ],
+              "documentation": [
+                " Cancel a previous request.",
+                "",
+                " Payment: A previously reserved deposit is returned on success.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a",
+                " registered identity.",
+                "",
+                " - `reg_index`: The index of the registrar whose judgement is no longer requested.",
+                "",
+                " Emits `JudgementUnrequested` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-reserve operation.",
+                " - One storage mutation `O(R + X)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_fee",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "fee",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Set the fee required for a judgement to be requested from a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `fee`: the new fee.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_account_id",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Change the account associated with a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `new`: the new account ID.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_fields",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "fields",
+                  "type": "IdentityFields"
+                }
+              ],
+              "documentation": [
+                " Set the field information for a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `fields`: the fields that the registrar concerns themselves with.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "provide_judgement",
+              "args": [
+                {
+                  "name": "reg_index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "judgement",
+                  "type": "IdentityJudgement"
+                }
+              ],
+              "documentation": [
+                " Provide a judgement for an account's identity.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `reg_index`.",
+                "",
+                " - `reg_index`: the index of the registrar whose judgement is being made.",
+                " - `target`: the account whose identity the judgement is upon. This must be an account",
+                "   with a registered identity.",
+                " - `judgement`: the judgement of the registrar of index `reg_index` about `target`.",
+                "",
+                " Emits `JudgementGiven` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-transfer operation.",
+                " - Up to one account-lookup operation.",
+                " - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "kill_identity",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Remove an account's identity and sub-account information and slash the deposits.",
+                "",
+                " Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by",
+                " `Slash`. Verification request deposits are not returned; they should be cancelled",
+                " manually using `cancel_request`.",
+                "",
+                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
+                "",
+                " - `target`: the account whose identity the judgement is upon. This must be an account",
+                "   with a registered identity.",
+                "",
+                " Emits `IdentityKilled` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + S + X)`.",
+                " - One balance-reserve operation.",
+                " - `S + 2` storage mutations.",
+                " - One event.",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "IdentitySet",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A name was set or reset (which will remove all judgements)."
+              ]
+            },
+            {
+              "name": "IdentityCleared",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A name was cleared, and the given balance returned."
+              ]
+            },
+            {
+              "name": "IdentityKilled",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A name was removed and the given balance slashed."
+              ]
+            },
+            {
+              "name": "JudgementRequested",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement was asked from a registrar."
+              ]
+            },
+            {
+              "name": "JudgementUnrequested",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement request was retracted."
+              ]
+            },
+            {
+              "name": "JudgementGiven",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement was given by a registrar."
+              ]
+            },
+            {
+              "name": "RegistrarAdded",
+              "args": [
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A registrar was added."
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": [
+            {
+              "name": "TooManySubAccounts",
+              "documentation": [
+                " Too many subs-accounts."
+              ]
+            },
+            {
+              "name": "NotFound",
+              "documentation": [
+                " Account isn't found."
+              ]
+            },
+            {
+              "name": "NotNamed",
+              "documentation": [
+                " Account isn't named."
+              ]
+            },
+            {
+              "name": "EmptyIndex",
+              "documentation": [
+                " Empty index."
+              ]
+            },
+            {
+              "name": "FeeChanged",
+              "documentation": [
+                " Fee is changed."
+              ]
+            },
+            {
+              "name": "NoIdentity",
+              "documentation": [
+                " No identity found."
+              ]
+            },
+            {
+              "name": "StickyJudgement",
+              "documentation": [
+                " Sticky judgement."
+              ]
+            },
+            {
+              "name": "JudgementGiven",
+              "documentation": [
+                " Judgement given."
+              ]
+            },
+            {
+              "name": "InvalidJudgement",
+              "documentation": [
+                " Invalid judgement."
+              ]
+            },
+            {
+              "name": "InvalidIndex",
+              "documentation": [
+                " The index is invalid."
+              ]
+            },
+            {
+              "name": "InvalidTarget",
+              "documentation": [
+                " The target is invalid."
+              ]
+            }
+          ]
         }
       ]
     }

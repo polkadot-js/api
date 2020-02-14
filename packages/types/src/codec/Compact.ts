@@ -56,6 +56,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
     return value;
   }
 
+  /** @internal */
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(registry, value.raw);

@@ -6,6 +6,7 @@ import { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../ty
 
 import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 
+/** @internal */
 export default class RpcCoder {
   private id = 0;
 

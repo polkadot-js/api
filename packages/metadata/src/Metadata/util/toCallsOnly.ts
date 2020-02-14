@@ -5,17 +5,16 @@
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJsonObject, Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
-/**
- * @description Convert from MetadataLatest to a stripped representation of MetadataLatest
- */
-export default function toCallsOnly (registry: Registry, { modules }: MetadataLatest): AnyJsonObject | string {
+/** @internal */
+export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJsonObject | string {
   return createType(registry, 'MetadataLatest', {
     // FIXME, this needs typing, not any
     modules: modules.map(({ calls, name }): any => ({
       name,
       calls
-    }))
+    })),
+    extrinsic
   }).toJSON();
 }

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryMetadataLatest, StorageEntryTypeLatest } from '../interfaces/metadata';
-import { AnyU8a, Registry } from '../types';
+import { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
@@ -11,7 +11,8 @@ import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;
-  iterKey?: Uint8Array;
+  iterKey?: Uint8Array & Codec;
+  keyPrefix: Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;
   prefix: string;
@@ -31,6 +32,7 @@ interface StorageKeyExtra {
 }
 
 // we unwrap the type here, turning into an output usable for createType
+/** @internal */
 export function unwrapStorageType (type: StorageEntryTypeLatest): string {
   if (type.isPlain) {
     return type.asPlain.toString();
@@ -40,10 +42,8 @@ export function unwrapStorageType (type: StorageEntryTypeLatest): string {
 
   const map = type.asMap;
 
-  if (map.kind.isLinkedMap) {
+  if (map.linked.isTrue) {
     return `(${map.value.toString()}, Linkage<${map.key.toString()}>)`;
-  } else if (map.kind.isPrefixedMap) {
-    // We are not 100% sure here yet if we are doing something specific or not
   }
 
   return map.value.toString();
@@ -75,6 +75,7 @@ export default class StorageKey extends Bytes {
     this._section = override.section || section;
   }
 
+  /** @internal */
   public static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {
@@ -128,7 +129,9 @@ export default class StorageKey extends Bytes {
     } else if (Array.isArray(value)) {
       const [fn] = value;
 
-      return unwrapStorageType(fn.meta.type);
+      if (fn.meta) {
+        return unwrapStorageType(fn.meta.type);
+      }
     }
 
     return undefined;

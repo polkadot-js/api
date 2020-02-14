@@ -8,42 +8,27 @@ import { DerivedContractFees } from '../types';
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
-
-const ZERO = new BN(0);
-
-// parse the result
-function parseResult ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]: ResultV2): DerivedContractFees {
-  return {
-    callBaseFee,
-    contractFee,
-    createBaseFee,
-    creationFee,
-    rentByteFee,
-    rentDepositOffset,
-    tombstoneDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  };
-}
+type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN];
 
 // query via constants (current applicable path)
 function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
   return of([
+    // deprecated
+    api.consts.contracts.creationFee || createType(api.registry, 'Balance'),
+    api.consts.contracts.transferFee || createType(api.registry, 'Balance'),
+
+    // current
     api.consts.contracts.callBaseFee,
     api.consts.contracts.contractFee,
-    api.consts.contracts.createBaseFee,
-    api.consts.contracts.creationFee,
     api.consts.contracts.rentByteFee,
     api.consts.contracts.rentDepositOffset,
     api.consts.contracts.tombstoneDeposit,
     api.consts.contracts.transactionBaseFee,
-    api.consts.contracts.transactionByteFee,
-    api.consts.contracts.transferFee
+    api.consts.contracts.transactionByteFee
   ]) as unknown as Observable<ResultV2>;
 }
 
@@ -62,17 +47,18 @@ function queryConstants (api: ApiInterfaceRx): Observable<ResultV2> {
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedContractFees> {
   return memo((): Observable<DerivedContractFees> => {
-    return (
-      api.consts.contracts
-        ? queryConstants(api)
-        : of([ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO])
-    ).pipe(
-      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]): DerivedContractFees =>
-        // We've done this on purpose, i.e. so we can  just copy the name/order from the parse above and see gaps
-        parseResult([
-          callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee
-        ])
-      )
+    return queryConstants(api).pipe(
+      map(([creationFee, transferFee, callBaseFee, contractFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee]): DerivedContractFees => ({
+        callBaseFee,
+        contractFee,
+        creationFee,
+        rentByteFee,
+        rentDepositOffset,
+        tombstoneDeposit,
+        transactionBaseFee,
+        transactionByteFee,
+        transferFee
+      }))
     );
   });
 }

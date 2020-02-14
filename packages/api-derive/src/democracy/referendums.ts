@@ -14,10 +14,9 @@ import { memo } from '../util';
 
 export function referendums (api: ApiInterfaceRx): () => Observable<DerivedReferendum[]> {
   return memo((): Observable<DerivedReferendum[]> =>
-    // V2 vs V1 (and early V2)
-    api.query.democracy?.lowestUnbaked || api.query.democracy?.nextTally
+    api.query.democracy?.lowestUnbaked
       ? api.queryMulti<[ReferendumIndex, ReferendumIndex]>([
-        api.query.democracy.lowestUnbaked || api.query.democracy.nextTally,
+        api.query.democracy.lowestUnbaked,
         api.query.democracy.referendumCount
       ]).pipe(
         switchMap(([earliest, referendumCount]): Observable<DerivedReferendum[]> =>

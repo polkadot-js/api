@@ -217,6 +217,19 @@ export default {
         DoubleMap: 'DoubleMapTypeV4'
       }
     },
+    StorageHasherV4: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null,
+        // We had a bug in some versions of V9, where it was not bumped - V10 fixed (add invalid for this range)
+        // At this point, things won't work anyway (indexes mismatched, but at least allow for parsing)
+        // (Technically this should be on V9, however then we need code as well...)
+        InvalidEntry: null
+      }
+    },
 
     // v5
     DoubleMapTypeV5: {
@@ -410,60 +423,48 @@ export default {
       prefix: 'Text',
       items: 'Vec<StorageEntryMetadataV10>'
     },
+    StorageHasherV10: {
+      _enum: {
+        Blake2_128: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
+        Blake2_128Concat: null, // eslint-disable-line @typescript-eslint/camelcase
+        Twox128: null,
+        Twox256: null,
+        Twox64Concat: null
+      }
+    },
 
     // v11
     DoubleMapTypeV11: 'DoubleMapTypeV10',
     ErrorMetadataV11: 'ErrorMetadataV10',
     EventMetadataV11: 'EventMetadataV10',
+    ExtrinsicMetadataV11: {
+      version: 'u8',
+      signedExtensions: 'Vec<Text>'
+    },
     FunctionArgumentMetadataV11: 'FunctionArgumentMetadataV10',
     FunctionMetadataV11: 'FunctionMetadataV10',
-    MapKindV11: {
-      _enum: ['Map', 'LinkedMap', 'PrefixedMap']
-    },
-    MapTypeV11: {
-      hasher: 'StorageHasherV11',
-      key: 'Type',
-      value: 'Type',
-      kind: 'MapKindV11'
-    },
+    MapTypeV11: 'MapTypeV10',
     MetadataV11: {
-      modules: 'Vec<ModuleMetadataV11>'
+      modules: 'Vec<ModuleMetadataV11>',
+      extrinsic: 'ExtrinsicMetadataV11'
     },
     ModuleConstantMetadataV11: 'ModuleConstantMetadataV10',
-    ModuleMetadataV11: {
-      name: 'Text',
-      storage: 'Option<StorageMetadataV11>',
-      calls: 'Option<Vec<FunctionMetadataV11>>',
-      events: 'Option<Vec<EventMetadataV11>>',
-      constants: 'Vec<ModuleConstantMetadataV11>',
-      errors: 'Vec<ErrorMetadataV11>'
-    },
+    ModuleMetadataV11: 'ModuleMetadataV10',
     PlainTypeV11: 'Type',
     StorageEntryModifierV11: 'StorageEntryModifierV10',
-    StorageEntryMetadataV11: {
-      name: 'Text',
-      modifier: 'StorageEntryModifierV11',
-      type: 'StorageEntryTypeV11',
-      fallback: 'Bytes',
-      documentation: 'Vec<Text>'
-    },
-    StorageEntryTypeV11: {
-      _enum: {
-        Plain: 'PlainTypeV11',
-        Map: 'MapTypeV11',
-        DoubleMap: 'DoubleMapTypeV11'
-      }
-    },
+    StorageEntryMetadataV11: 'StorageEntryMetadataV10',
+    StorageEntryTypeV11: 'StorageEntryTypeV10',
+    StorageMetadataV11: 'StorageMetadataV10',
     StorageHasherV11: 'StorageHasherV10',
-    StorageMetadataV11: {
-      prefix: 'Text',
-      items: 'Vec<StorageEntryMetadataV11>'
-    },
 
     // This always maps to the latest
+    DoubleMapTypeLatest: 'DoubleMapTypeV11',
     EventMetadataLatest: 'EventMetadataV11',
+    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV11',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV11',
     FunctionMetadataLatest: 'FunctionMetadataV11',
+    MapTypeLatest: 'MapTypeV11',
     MetadataLatest: 'MetadataV11',
     ModuleConstantMetadataLatest: 'ModuleConstantMetadataV11',
     ModuleMetadataLatest: 'ModuleMetadataV11',
@@ -471,6 +472,7 @@ export default {
     StorageEntryMetadataLatest: 'StorageEntryMetadataV11',
     StorageEntryModifierLatest: 'StorageEntryModifierV11',
     StorageEntryTypeLatest: 'StorageEntryTypeV11',
+    StorageMetadataLatest: 'StorageMetadataV11',
     StorageHasher: 'StorageHasherV11',
 
     // the enum containing all the mappings

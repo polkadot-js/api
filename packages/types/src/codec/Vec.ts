@@ -30,6 +30,7 @@ export default class Vec<T extends Codec> extends AbstractArray<T> {
     this._Type = Clazz;
   }
 
+  /** @internal */
   public static decodeVec<T extends Codec> (registry: Registry, Type: Constructor<T>, value: Vec<any> | Uint8Array | string | any[]): T[] {
     if (Array.isArray(value)) {
       return value.map((entry, index): T => {

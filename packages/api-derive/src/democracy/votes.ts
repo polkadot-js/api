@@ -10,12 +10,12 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 
 import { memo } from '../util';
 
-export function votes (api: ApiInterfaceRx): (referendumId: BN, accountIds?: AccountId[]) => Observable<Vote[]> {
-  return memo((referendumId: BN, accountIds: AccountId[] = []): Observable<Vote[]> =>
+export function votes (api: ApiInterfaceRx): (referendumId: BN | number, accountIds?: AccountId[]) => Observable<Vote[]> {
+  return memo((referendumId: BN | number, accountIds: AccountId[] = []): Observable<Vote[]> =>
     !accountIds || !accountIds.length
       ? of([] as Vote[])
       : api.query.democracy.voteOf.multi<Vote>(
-        accountIds.map((accountId): [BN, AccountId] =>
+        accountIds.map((accountId): [BN | number, AccountId] =>
           [referendumId, accountId]
         )
       )

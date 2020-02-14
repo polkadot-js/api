@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiTypes, DecorateMethod, DecoratedRpc, SubmittableModuleExtrinsics } from '@polkadot/api/types';
-import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Registry } from '@polkadot/types/types';
+import { ApiObject, ContractABIMessage, ContractABIPre, ContractBase, ContractMessage } from '../types';
 
 import { assert, isFunction, stringCamelCase } from '@polkadot/util';
 import Abi from '../Abi';

@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9 } from '@polkadot/types/interfaces/metadata';
+import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType, StorageHasherV10 } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
+/** @internal */
 function createStorageHasher (registry: Registry, hasher: StorageHasherV9): StorageHasherV10 {
   // Blake2_128_Concat has been added at index 2, so we increment all the
   // indexes greater than 2
@@ -19,6 +20,7 @@ function createStorageHasher (registry: Registry, hasher: StorageHasherV9): Stor
   return createType(registry, 'StorageHasherV10', hasher);
 }
 
+/** @internal */
 function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
   if (entryType.isMap) {
     return [{
@@ -38,6 +40,7 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): 
   return [entryType.asPlain, 0];
 }
 
+/** @internal */
 function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
@@ -55,9 +58,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
   });
 }
 
-/**
- * Convert from MetadataV9 to MetadataV10
- */
+/** @internal */
 export default function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
   return createType(registry, 'MetadataV10', {
     modules: modules.map((mod): ModuleMetadataV10 => convertModule(registry, mod))

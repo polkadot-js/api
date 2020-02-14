@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constants } from '@polkadot/metadata/Decorated/types';
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
 import { Metadata, createType } from '@polkadot/types';
@@ -16,6 +16,10 @@ import Init from './Init';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
+}
+
+interface SignerRawOptions {
+  signer?: Signer;
 }
 
 let pkgJson: { name: string; version: string };
@@ -119,14 +123,14 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.account(<accountId>)` (retrieving the associated nonce & balances for an account), takes the `AccountId` as a parameter.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.query.balances.freeBalance(<accountId>, (balance) => {
-   *   console.log('new balance', balance);
+   * api.query.system.account(<accountId>, ([nonce, balance]) => {
+   *   console.log('new free balance', balance.free, 'new nonce', nonce);
    * });
    * ```
    */
@@ -146,10 +150,10 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    *     // you can include the storage without any parameters
    *     api.query.balances.totalIssuance,
    *     // or you can pass parameters to the storage query
-   *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
+   *     [api.query.system.account, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
-   *   ([existential, balance]) => {
-   *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *   ([existential, [, { free }]]) => {
+   *     console.log(`You have ${free.sub(existential)} more than the existential deposit`);
    *
    *     unsub();
    *   }
@@ -239,10 +243,17 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
     return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
   }
 
   /**
@@ -262,20 +273,21 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Signs a raw signer payload, string or Uint8Array
    */
-  public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
-    // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
-    if (isString(signer)) {
-      assert(this._rx.signer?.signRaw, 'No signer exists with a signRaw interface');
+  public async sign (address: KeyringSigner | string, data: SignerPayloadRawBase, { signer }: SignerRawOptions = {}): Promise<string> {
+    if (isString(address)) {
+      const _signer = signer || this._rx.signer;
+
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
-        await this._rx.signer.signRaw({
+        await _signer.signRaw({
           type: 'bytes',
           ...data,
-          address: signer
+          address
         })
       ).signature;
     }
 
-    return u8aToHex(signer.sign(u8aToU8a(data.data)));
+    return u8aToHex(address.sign(u8aToU8a(data.data)));
   }
 }

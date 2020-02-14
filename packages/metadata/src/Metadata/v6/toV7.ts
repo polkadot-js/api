@@ -5,11 +5,9 @@
 import { MetadataV6, MetadataV7, ModuleMetadataV7 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
-/**
- * Convert from MetadataV6 to MetadataV7
- */
+/** @internal */
 export default function toV7 (registry: Registry, { modules }: MetadataV6): MetadataV7 {
   return createType(registry, 'MetadataV7', {
     modules: modules.map(({ calls, constants, events, name, prefix, storage }): ModuleMetadataV7 =>

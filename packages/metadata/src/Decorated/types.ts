@@ -3,18 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { Codec } from '@polkadot/types/types';
-import { ModuleConstantMetadataLatest } from '@polkadot/types/interfaces';
 
-export interface ConstantCodec extends Codec {
-  meta: ModuleConstantMetadataLatest;
-}
-
-export type ModuleConstants = Record<string, Codec>;
-
-export interface Constants {
-  [index: string]: ModuleConstants;
-}
+export * from './consts/types';
 
 export interface ModuleStorage {
   [key: string]: StorageEntry;

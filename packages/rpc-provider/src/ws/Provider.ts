@@ -167,9 +167,13 @@ export default class WsProvider implements WSProviderInterface {
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterfaceEmitted} type Event
    * @param  {ProviderInterfaceEmitCb}  sub  Callback
+   * @return unsubscribe function
    */
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     this._eventemitter.on(type, sub);
+    return (): void => {
+      this._eventemitter.removeListener(type, sub);
+    };
   }
 
   /**
@@ -225,7 +229,7 @@ export default class WsProvider implements WSProviderInterface {
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const rpc = new Rpc(provider);
    *
-   * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
+   * rpc.state.subscribeStorage([[storage.system.account, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)

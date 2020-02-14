@@ -13,7 +13,7 @@ These are the base types of the codec. They are typically not used directly, but
 | [[Compact]] | A compact length-encoding codec wrapper. Mostly used by other types to add length-prefixed encoding |
 | [[Enum]] | A codec wrapper for an enum. Enums are encoded as a single byte, where the byte is a zero-indexed value |
 | [[Int]] | A generic signed integer codec |
-| [[Option]] | An Option is an optional field. The first byte indicates that there is is value to follow |
+| [[Option]] | An Option is an optional field. The first byte indicates that there is a value to follow |
 | [[Set]] | An Set is an array of string values, represented an an encoded type by a bitwise representation of the values |
 | [[Struct]] | A Struct defines an Object with key-value pairs - where the values are Codec values. |
 | [[Tuple]] | A Tuple defines an anonymous fixed-length array, where each element has its own type |

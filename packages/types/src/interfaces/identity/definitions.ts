@@ -13,9 +13,10 @@ export default {
       riot: 'Data',
       email: 'Data',
       pgpFingerprint: 'Option<H160>',
-      image: 'Data'
+      image: 'Data',
+      twitter: 'Data'
     },
-    Judgement: {
+    IdentityJudgement: {
       _enum: {
         Unknown: 'Null',
         FeePaid: 'Balance',
@@ -26,7 +27,7 @@ export default {
         Erroneous: 'Null'
       }
     },
-    RegistrationJudgement: '(RegistrarIndex, Judgement)',
+    RegistrationJudgement: '(RegistrarIndex, IdentityJudgement)',
     Registration: {
       judgements: 'Vec<RegistrationJudgement>',
       deposit: 'Balance',

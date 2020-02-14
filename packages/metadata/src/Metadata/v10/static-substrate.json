@@ -10,7 +10,7 @@
             "items": [
               {
                 "name": "AccountNonce",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -26,7 +26,7 @@
               },
               {
                 "name": "ExtrinsicCount",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "u32"
                 },
@@ -37,7 +37,7 @@
               },
               {
                 "name": "AllExtrinsicsWeight",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "Weight"
                 },
@@ -48,7 +48,7 @@
               },
               {
                 "name": "AllExtrinsicsLen",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "u32"
                 },
@@ -59,7 +59,7 @@
               },
               {
                 "name": "BlockHash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -75,7 +75,7 @@
               },
               {
                 "name": "ExtrinsicData",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -91,7 +91,7 @@
               },
               {
                 "name": "Number",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -102,7 +102,7 @@
               },
               {
                 "name": "ParentHash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Hash"
                 },
@@ -113,7 +113,7 @@
               },
               {
                 "name": "ExtrinsicsRoot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Hash"
                 },
@@ -124,7 +124,7 @@
               },
               {
                 "name": "Digest",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "DigestOf"
                 },
@@ -135,7 +135,7 @@
               },
               {
                 "name": "Events",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<EventRecord>"
                 },
@@ -146,7 +146,7 @@
               },
               {
                 "name": "EventCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EventIndex"
                 },
@@ -157,23 +157,19 @@
               },
               {
                 "name": "EventTopics",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
-                  "DoubleMap": {
+                  "Map": {
                     "hasher": "Blake2_256",
-                    "key1": "Null",
-                    "key2": "Hash",
+                    "key": "Hash",
                     "value": "Vec<(BlockNumber,EventIndex)>",
-                    "key2Hasher": "Blake2_256"
+                    "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
                   " Mapping between a topic (represented by T::Hash) and a vector of indexes",
                   " of events in the `<Events<T>>` list.",
-                  "",
-                  " The first key serves no purpose. This field is declared as double_map just",
-                  " for convenience of using `remove_prefix`.",
                   "",
                   " All topic vectors have deterministic storage locations depending on the topic. This",
                   " allows light-clients to leverage the changes trie storage tracking mechanism and",
@@ -222,12 +218,36 @@
               "name": "set_code",
               "args": [
                 {
-                  "name": "new",
+                  "name": "code",
                   "type": "Bytes"
                 }
               ],
               "documentation": [
-                " Set the new code."
+                " Set the new runtime code."
+              ]
+            },
+            {
+              "name": "set_code_without_checks",
+              "args": [
+                {
+                  "name": "code",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Set the new runtime code without doing any checks of the given `code`."
+              ]
+            },
+            {
+              "name": "set_changes_trie_config",
+              "args": [
+                {
+                  "name": "changes_trie_config",
+                  "type": "Option<ChangesTrieConfiguration>"
+                }
+              ],
+              "documentation": [
+                " Set the new changes trie configuration."
               ]
             },
             {
@@ -289,7 +309,44 @@
             }
           ],
           "constants": [],
-          "errors": []
+          "errors": [
+            {
+              "name": "InvalidSpecName",
+              "documentation": [
+                " The name of specification does not match between the current runtime",
+                " and the new runtime."
+              ]
+            },
+            {
+              "name": "SpecVersionNotAllowedToDecrease",
+              "documentation": [
+                " The specification version is not allowed to decrease between the current runtime",
+                " and the new runtime."
+              ]
+            },
+            {
+              "name": "ImplVersionNotAllowedToDecrease",
+              "documentation": [
+                " The implementation version is not allowed to decrease between the current runtime",
+                " and the new runtime."
+              ]
+            },
+            {
+              "name": "SpecOrImplVersionNeedToIncrease",
+              "documentation": [
+                " The specification or the implementation version need to increase between the",
+                " current runtime and the new runtime."
+              ]
+            },
+            {
+              "name": "FailedToExtractRuntimeVersion",
+              "documentation": [
+                " Failed to extract the runtime version from the new runtime.",
+                "",
+                " Either calling `Core_version` or decoding `RuntimeVersion` failed."
+              ]
+            }
+          ]
         },
         {
           "name": "Utility",
@@ -298,7 +355,7 @@
             "items": [
               {
                 "name": "Multisigs",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -610,7 +667,7 @@
             "items": [
               {
                 "name": "EpochIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -621,7 +678,7 @@
               },
               {
                 "name": "Authorities",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AuthorityId,BabeAuthorityWeight)>"
                 },
@@ -632,7 +689,7 @@
               },
               {
                 "name": "GenesisSlot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -644,7 +701,7 @@
               },
               {
                 "name": "CurrentSlot",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -655,7 +712,7 @@
               },
               {
                 "name": "Randomness",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "[u8;32]"
                 },
@@ -675,7 +732,7 @@
               },
               {
                 "name": "NextRandomness",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "[u8;32]"
                 },
@@ -686,7 +743,7 @@
               },
               {
                 "name": "SegmentIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -705,7 +762,7 @@
               },
               {
                 "name": "UnderConstruction",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -719,7 +776,7 @@
               },
               {
                 "name": "Initialized",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "MaybeVrf"
                 },
@@ -765,7 +822,7 @@
             "items": [
               {
                 "name": "Now",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Moment"
                 },
@@ -776,7 +833,7 @@
               },
               {
                 "name": "DidUpdate",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -832,7 +889,7 @@
             "items": [
               {
                 "name": "Uncles",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<UncleEntryItem>"
                 },
@@ -843,7 +900,7 @@
               },
               {
                 "name": "Author",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "AccountId"
                 },
@@ -854,7 +911,7 @@
               },
               {
                 "name": "DidSetUncles",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -933,7 +990,7 @@
             "items": [
               {
                 "name": "NextEnumSet",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AccountIndex"
                 },
@@ -944,7 +1001,7 @@
               },
               {
                 "name": "EnumSet",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -986,7 +1043,7 @@
             "items": [
               {
                 "name": "TotalIssuance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Balance"
                 },
@@ -997,7 +1054,7 @@
               },
               {
                 "name": "Vesting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1013,7 +1070,7 @@
               },
               {
                 "name": "FreeBalance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1039,7 +1096,7 @@
               },
               {
                 "name": "ReservedBalance",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1065,7 +1122,7 @@
               },
               {
                 "name": "Locks",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1087,7 +1144,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1127,7 +1184,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "new_free",
@@ -1159,11 +1216,11 @@
               "args": [
                 {
                   "name": "source",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1180,7 +1237,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1336,7 +1393,7 @@
             "items": [
               {
                 "name": "NextFeeMultiplier",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Multiplier"
                 },
@@ -1374,7 +1431,7 @@
             "items": [
               {
                 "name": "ValidatorCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1385,7 +1442,7 @@
               },
               {
                 "name": "MinimumValidatorCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1396,7 +1453,7 @@
               },
               {
                 "name": "Invulnerables",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -1409,7 +1466,7 @@
               },
               {
                 "name": "Bonded",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1425,7 +1482,7 @@
               },
               {
                 "name": "Ledger",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1441,7 +1498,7 @@
               },
               {
                 "name": "Payee",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1457,7 +1514,7 @@
               },
               {
                 "name": "Validators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1473,7 +1530,7 @@
               },
               {
                 "name": "Nominators",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1492,7 +1549,7 @@
               },
               {
                 "name": "Stakers",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1511,7 +1568,7 @@
               },
               {
                 "name": "CurrentElected",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -1522,7 +1579,7 @@
               },
               {
                 "name": "CurrentEra",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EraIndex"
                 },
@@ -1533,7 +1590,7 @@
               },
               {
                 "name": "CurrentEraStart",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "MomentOf"
                 },
@@ -1544,7 +1601,7 @@
               },
               {
                 "name": "CurrentEraStartSessionIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SessionIndex"
                 },
@@ -1555,7 +1612,7 @@
               },
               {
                 "name": "CurrentEraPointsEarned",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "EraPoints"
                 },
@@ -1566,7 +1623,7 @@
               },
               {
                 "name": "SlotStake",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -1579,7 +1636,7 @@
               },
               {
                 "name": "ForceEra",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Forcing"
                 },
@@ -1590,7 +1647,7 @@
               },
               {
                 "name": "SlashRewardFraction",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Perbill"
                 },
@@ -1603,7 +1660,7 @@
               },
               {
                 "name": "CanceledSlashPayout",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -1615,7 +1672,7 @@
               },
               {
                 "name": "UnappliedSlashes",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1631,7 +1688,7 @@
               },
               {
                 "name": "BondedEras",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(EraIndex,SessionIndex)>"
                 },
@@ -1642,7 +1699,7 @@
               },
               {
                 "name": "ValidatorSlashInEra",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -1660,7 +1717,7 @@
               },
               {
                 "name": "NominatorSlashInEra",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -1677,7 +1734,7 @@
               },
               {
                 "name": "SlashingSpans",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1693,7 +1750,7 @@
               },
               {
                 "name": "SpanSlash",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -1710,7 +1767,7 @@
               },
               {
                 "name": "EarliestUnappliedSlash",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "EraIndex"
                 },
@@ -1721,7 +1778,7 @@
               },
               {
                 "name": "StorageVersion",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -1738,7 +1795,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -1875,7 +1932,7 @@
               "args": [
                 {
                   "name": "targets",
-                  "type": "Vec<Address>"
+                  "type": "Vec<LookupSource>"
                 }
               ],
               "documentation": [
@@ -1936,7 +1993,7 @@
               "args": [
                 {
                   "name": "controller",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -2042,6 +2099,23 @@
                 "",
                 " # <weight>",
                 " - One storage write.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "rebond",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Rebond a portion of the stash scheduled to be unlocked.",
+                "",
+                " # <weight>",
+                " - Time complexity: O(1). Bounded by `MAX_UNLOCKING_CHUNKS`.",
+                " - Storage changes: Can't increase storage, only decrease it.",
                 " # </weight>"
               ]
             }
@@ -2151,6 +2225,12 @@
               "documentation": [
                 " Can not schedule more unlock chunks."
               ]
+            },
+            {
+              "name": "NoUnlockChunk",
+              "documentation": [
+                " Can not rebond without unlocking chunks."
+              ]
             }
           ]
         },
@@ -2161,7 +2241,7 @@
             "items": [
               {
                 "name": "Validators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ValidatorId>"
                 },
@@ -2172,7 +2252,7 @@
               },
               {
                 "name": "CurrentIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SessionIndex"
                 },
@@ -2183,7 +2263,7 @@
               },
               {
                 "name": "QueuedChanged",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -2195,7 +2275,7 @@
               },
               {
                 "name": "QueuedKeys",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(ValidatorId,Keys)>"
                 },
@@ -2207,7 +2287,7 @@
               },
               {
                 "name": "DisabledValidators",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<u32>"
                 },
@@ -2220,7 +2300,7 @@
               },
               {
                 "name": "NextKeys",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -2240,7 +2320,7 @@
               },
               {
                 "name": "KeyOwner",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Twox64Concat",
@@ -2338,7 +2418,7 @@
             "items": [
               {
                 "name": "PublicPropCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "PropIndex"
                 },
@@ -2349,7 +2429,7 @@
               },
               {
                 "name": "PublicProps",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(PropIndex,Hash,AccountId)>"
                 },
@@ -2360,7 +2440,7 @@
               },
               {
                 "name": "Preimages",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2377,7 +2457,7 @@
               },
               {
                 "name": "DepositOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2393,7 +2473,7 @@
               },
               {
                 "name": "ReferendumCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ReferendumIndex"
                 },
@@ -2404,7 +2484,7 @@
               },
               {
                 "name": "LowestUnbaked",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ReferendumIndex"
                 },
@@ -2416,7 +2496,7 @@
               },
               {
                 "name": "ReferendumInfoOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2432,7 +2512,7 @@
               },
               {
                 "name": "DispatchQueue",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(BlockNumber,Hash,ReferendumIndex)>"
                 },
@@ -2443,7 +2523,7 @@
               },
               {
                 "name": "VotersFor",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2459,7 +2539,7 @@
               },
               {
                 "name": "VoteOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2478,7 +2558,7 @@
               },
               {
                 "name": "Proxy",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2495,7 +2575,7 @@
               },
               {
                 "name": "Delegations",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2511,7 +2591,7 @@
               },
               {
                 "name": "LastTabledWasExternal",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "bool"
                 },
@@ -2523,7 +2603,7 @@
               },
               {
                 "name": "NextExternal",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "(Hash,VoteThreshold)"
                 },
@@ -2537,7 +2617,7 @@
               },
               {
                 "name": "Blacklist",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2554,7 +2634,7 @@
               },
               {
                 "name": "Cancellations",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -2645,7 +2725,7 @@
               ],
               "documentation": [
                 " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
-                " the proposal;  otherwise it is a vote to keep the status quo.",
+                " the proposal; otherwise it is a vote to keep the status quo.",
                 "",
                 " # <weight>",
                 " - O(1).",
@@ -3264,7 +3344,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -3275,7 +3355,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3291,7 +3371,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3307,7 +3387,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3318,7 +3398,7 @@
               },
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -3516,7 +3596,7 @@
             "items": [
               {
                 "name": "Proposals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -3527,7 +3607,7 @@
               },
               {
                 "name": "ProposalOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3543,7 +3623,7 @@
               },
               {
                 "name": "Voting",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3559,7 +3639,7 @@
               },
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3570,7 +3650,7 @@
               },
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -3768,7 +3848,7 @@
             "items": [
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
@@ -3779,7 +3859,7 @@
               },
               {
                 "name": "RunnersUp",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<(AccountId,BalanceOf)>"
                 },
@@ -3790,7 +3870,7 @@
               },
               {
                 "name": "ElectionRounds",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u32"
                 },
@@ -3801,7 +3881,7 @@
               },
               {
                 "name": "VotesOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3817,7 +3897,7 @@
               },
               {
                 "name": "StakeOf",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -3833,14 +3913,14 @@
               },
               {
                 "name": "Candidates",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The present candidate list. Sorted based on account id. A current member can never enter",
-                  " this vector and is always implicitly assumed to be a candidate."
+                  " The present candidate list. Sorted based on account-id. A current member or a runner can",
+                  " never enter this vector and is always implicitly assumed to be a candidate."
                 ]
               }
             ]
@@ -3894,7 +3974,7 @@
               "args": [
                 {
                   "name": "target",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -3952,7 +4032,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4148,7 +4228,7 @@
             "items": [
               {
                 "name": "Members",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AccountId>"
                 },
@@ -4344,7 +4424,7 @@
             "items": [
               {
                 "name": "Authorities",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AuthorityList"
                 },
@@ -4358,7 +4438,7 @@
               },
               {
                 "name": "State",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "StoredState"
                 },
@@ -4369,7 +4449,7 @@
               },
               {
                 "name": "PendingChange",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "StoredPendingChange"
                 },
@@ -4380,7 +4460,7 @@
               },
               {
                 "name": "NextForced",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -4391,7 +4471,7 @@
               },
               {
                 "name": "Stalled",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Plain": "(BlockNumber,BlockNumber)"
                 },
@@ -4402,7 +4482,7 @@
               },
               {
                 "name": "CurrentSetId",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "SetId"
                 },
@@ -4414,7 +4494,7 @@
               },
               {
                 "name": "SetIdSession",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4506,7 +4586,7 @@
             "items": [
               {
                 "name": "ProposalCount",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "ProposalIndex"
                 },
@@ -4517,7 +4597,7 @@
               },
               {
                 "name": "Proposals",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4533,13 +4613,48 @@
               },
               {
                 "name": "Approvals",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<ProposalIndex>"
                 },
                 "fallback": "0x00",
                 "documentation": [
                   " Proposal indices that have been approved but not yet awarded."
+                ]
+              },
+              {
+                "name": "Tips",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Hash",
+                    "value": "OpenTip",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Tips that are not yet completed. Keyed by the hash of `(reason, who)` from the value.",
+                  " This has the insecure enumerable hash function since the key itself is already",
+                  " guaranteed to be a secure hash."
+                ]
+              },
+              {
+                "name": "Reasons",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "Hash",
+                    "value": "Bytes",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Simple preimage lookup from the reason's hash to the original data. Again, has an",
+                  " insecure enumerable hash since the key is guaranteed to be the result of a secure hash."
                 ]
               }
             ]
@@ -4554,7 +4669,7 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -4603,6 +4718,167 @@
                 " - O(1).",
                 " - Limited storage reads.",
                 " - One DB change.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "report_awesome",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Report something `reason` that deserves a tip and claim any eventual the finder's fee.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Payment: `TipReportDepositBase` will be reserved from the origin account, as well as",
+                " `TipReportDepositPerByte` for each byte in `reason`.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R)` where `R` length of `reason`.",
+                " - One balance operation.",
+                " - One storage mutation (codec `O(R)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "retract_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Retract a prior tip-report from `report_awesome`, and cancel the process of tipping.",
+                "",
+                " If successful, the original deposit will be unreserved.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the tip identified by `hash`",
+                " must have been reported by the signing account through `report_awesome` (and not",
+                " through `tip_new`).",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " Emits `TipRetracted` if successful.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One balance operation.",
+                " - Two storage removals (one read, codec `O(T)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip_new",
+              "args": [
+                {
+                  "name": "reason",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " Give a tip for something new; no finder's fee will be taken.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `reason`: The reason for, or the thing that deserves, the tip; generally this will be",
+                "   a UTF-8-encoded URL.",
+                " - `who`: The account which should be credited for the tip.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `NewTip` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + T)` where `R` length of `reason`, `T` is the number of tippers. `T` is",
+                "   naturally capped as a membership set, `R` is limited through transaction-size.",
+                " - Two storage insertions (codecs `O(R)`, `O(T)`), one read `O(1)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                },
+                {
+                  "name": "tip_value",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " Declare a tip value for an already-open tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the signing account must be a",
+                " member of the `Tippers` set.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the hash of the original tip `reason` and the beneficiary",
+                "   account ID.",
+                " - `tip_value`: The amount of tip that the sender would like to give. The median tip",
+                "   value of active tippers will be given to the `who`.",
+                "",
+                " Emits `TipClosing` if the threshold of tippers has been reached and the countdown period",
+                " has started.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One storage mutation (codec `O(T)`), one storage read `O(1)`.",
+                " - Up to one event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "close_tip",
+              "args": [
+                {
+                  "name": "hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Close and payout a tip.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " The tip identified by `hash` must have finished its countdown period.",
+                "",
+                " - `hash`: The identity of the open tip for which a tip value is declared. This is formed",
+                "   as the hash of the tuple of the original tip `reason` and the beneficiary account ID.",
+                "",
+                " # <weight>",
+                " - `O(T)`",
+                " - One storage retrieval (codec `O(T)`) and two removals.",
+                " - Up to three balance operations.",
                 " # </weight>"
               ]
             }
@@ -4673,6 +4949,44 @@
               "documentation": [
                 " Some funds have been deposited."
               ]
+            },
+            {
+              "name": "NewTip",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A new tip suggestion has been opened."
+              ]
+            },
+            {
+              "name": "TipClosing",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has reached threshold and is closing."
+              ]
+            },
+            {
+              "name": "TipClosed",
+              "args": [
+                "Hash",
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A tip suggestion has been closed."
+              ]
+            },
+            {
+              "name": "TipRetracted",
+              "args": [
+                "Hash"
+              ],
+              "documentation": [
+                " A tip suggestion has been retracted."
+              ]
             }
           ],
           "constants": [
@@ -4708,6 +5022,38 @@
               "documentation": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
               ]
+            },
+            {
+              "name": "TipCountdown",
+              "type": "BlockNumber",
+              "value": "0x80700000",
+              "documentation": [
+                " The period for which a tip remains open after is has achieved threshold tippers."
+              ]
+            },
+            {
+              "name": "TipFindersFee",
+              "type": "Percent",
+              "value": "0x14",
+              "documentation": [
+                " The amount of the final tip which goes to the original reporter of the tip."
+              ]
+            },
+            {
+              "name": "TipReportDepositBase",
+              "type": "BalanceOf",
+              "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " The amount held on deposit for placing a tip report."
+              ]
+            },
+            {
+              "name": "TipReportDepositPerByte",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The amount held on deposit per byte within the tip report reason."
+              ]
             }
           ],
           "errors": [
@@ -4722,6 +5068,42 @@
               "documentation": [
                 " No proposal at that index."
               ]
+            },
+            {
+              "name": "ReasonTooBig",
+              "documentation": [
+                " The reason given is just too big."
+              ]
+            },
+            {
+              "name": "AlreadyKnown",
+              "documentation": [
+                " The tip was already found/started."
+              ]
+            },
+            {
+              "name": "UnknownTip",
+              "documentation": [
+                " The tip hash is unknown."
+              ]
+            },
+            {
+              "name": "NotFinder",
+              "documentation": [
+                " The account attempting to retract the tip is not the finder of the tip."
+              ]
+            },
+            {
+              "name": "StillOpen",
+              "documentation": [
+                " The tip cannot be claimed/closed because there are not enough tippers yet."
+              ]
+            },
+            {
+              "name": "Premature",
+              "documentation": [
+                " The tip cannot be claimed/closed because it's still in the countdown period."
+              ]
             }
           ]
         },
@@ -4732,7 +5114,7 @@
             "items": [
               {
                 "name": "GasSpent",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Gas"
                 },
@@ -4743,7 +5125,7 @@
               },
               {
                 "name": "CurrentSchedule",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Schedule"
                 },
@@ -4754,7 +5136,7 @@
               },
               {
                 "name": "PristineCode",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4770,7 +5152,7 @@
               },
               {
                 "name": "CodeStorage",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4786,7 +5168,7 @@
               },
               {
                 "name": "AccountCounter",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "u64"
                 },
@@ -4797,7 +5179,7 @@
               },
               {
                 "name": "ContractInfoOf",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -4813,7 +5195,7 @@
               },
               {
                 "name": "GasPrice",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BalanceOf"
                 },
@@ -4861,7 +5243,7 @@
               "args": [
                 {
                   "name": "dest",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "value",
@@ -5194,7 +5576,7 @@
             "items": [
               {
                 "name": "Key",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "AccountId"
                 },
@@ -5232,7 +5614,7 @@
               "args": [
                 {
                   "name": "new",
-                  "type": "Address"
+                  "type": "LookupSource"
                 }
               ],
               "documentation": [
@@ -5252,7 +5634,7 @@
               "args": [
                 {
                   "name": "who",
-                  "type": "Address"
+                  "type": "LookupSource"
                 },
                 {
                   "name": "proposal",
@@ -5320,7 +5702,7 @@
             "items": [
               {
                 "name": "GossipAt",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "BlockNumber"
                 },
@@ -5331,7 +5713,7 @@
               },
               {
                 "name": "Keys",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<AuthorityId>"
                 },
@@ -5342,7 +5724,7 @@
               },
               {
                 "name": "ReceivedHeartbeats",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -5360,7 +5742,7 @@
               },
               {
                 "name": "AuthoredBlocks",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -5452,7 +5834,7 @@
             "items": [
               {
                 "name": "Reports",
-                "modifier": 0,
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5468,7 +5850,7 @@
               },
               {
                 "name": "ConcurrentReportsIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "DoubleMap": {
                     "hasher": "Blake2_256",
@@ -5485,7 +5867,7 @@
               },
               {
                 "name": "ReportsByKindIndex",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
@@ -5530,7 +5912,7 @@
             "items": [
               {
                 "name": "RandomMaterial",
-                "modifier": 1,
+                "modifier": "Default",
                 "type": {
                   "Plain": "Vec<Hash>"
                 },
@@ -5549,119 +5931,390 @@
           "errors": []
         },
         {
-          "name": "Nicks",
+          "name": "Identity",
           "storage": {
             "prefix": "Sudo",
             "items": [
               {
-                "name": "NameOf",
-                "modifier": 0,
+                "name": "IdentityOf",
+                "modifier": "Optional",
                 "type": {
                   "Map": {
                     "hasher": "Blake2_256",
                     "key": "AccountId",
-                    "value": "(Bytes,BalanceOf)",
+                    "value": "Registration",
                     "linked": false
                   }
                 },
                 "fallback": "0x00",
                 "documentation": [
-                  " The lookup table for names."
+                  " Information that is pertinent to identify the entity behind an account."
+                ]
+              },
+              {
+                "name": "SuperOf",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "(AccountId,Data)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The super-identity of an alternative \"sub\" identity together with its name, within that",
+                  " context. If the account is not some other account's sub-identity, then just `None`."
+                ]
+              },
+              {
+                "name": "SubsOf",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "(BalanceOf,Vec<AccountId>)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "documentation": [
+                  " Alternative \"sub\" identities of this account.",
+                  "",
+                  " The first item is the deposit, the second is a vector of the accounts."
+                ]
+              },
+              {
+                "name": "Registrars",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<Option<RegistrarInfo>>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of registrars. Not expected to get very big as can only be added through a",
+                  " special origin (likely a council motion).",
+                  "",
+                  " The index into this can be cast to `RegistrarIndex` to get a valid value."
                 ]
               }
             ]
           },
           "calls": [
             {
-              "name": "set_name",
+              "name": "add_registrar",
               "args": [
                 {
-                  "name": "name",
-                  "type": "Bytes"
+                  "name": "account",
+                  "type": "AccountId"
                 }
               ],
               "documentation": [
-                " Set an account's name. The name should be a UTF-8-encoded string by convention, though",
-                " we don't check it.",
+                " Add a registrar to the system.",
                 "",
-                " The name may not be more than `T::MaxLength` bytes, nor less than `T::MinLength` bytes.",
+                " The dispatch origin for this call must be `RegistrarOrigin` or `Root`.",
                 "",
-                " If the account doesn't already have a name, then a fee of `ReservationFee` is reserved",
-                " in the account.",
+                " - `account`: the account of the registrar.",
                 "",
-                " The dispatch origin for this call must be _Signed_.",
+                " Emits `RegistrarAdded` if successful.",
                 "",
                 " # <weight>",
-                " - O(1).",
-                " - At most one balance operation.",
-                " - One storage read/write.",
+                " - `O(R)` where `R` registrar-count (governance-bounded).",
+                " - One storage mutation (codec `O(R)`).",
                 " - One event.",
                 " # </weight>"
               ]
             },
             {
-              "name": "clear_name",
+              "name": "set_identity",
+              "args": [
+                {
+                  "name": "info",
+                  "type": "IdentityInfo"
+                }
+              ],
+              "documentation": [
+                " Set an account's identity information and reserve the appropriate deposit.",
+                "",
+                " If the account already has identity information, the deposit is taken as part payment",
+                " for the new deposit.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " - `info`: The identity information.",
+                "",
+                " Emits `IdentitySet` if successful.",
+                "",
+                " # <weight>",
+                " - `O(X + R)` where `X` additional-field-count (deposit-bounded).",
+                " - At most two balance operations.",
+                " - One storage mutation (codec `O(X + R)`).",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_subs",
+              "args": [
+                {
+                  "name": "subs",
+                  "type": "Vec<(AccountId,Data)>"
+                }
+              ],
+              "documentation": [
+                " Set the sub-accounts of the sender.",
+                "",
+                " Payment: Any aggregate balance reserved by previous `set_subs` calls will be returned",
+                " and an amount `SubAccountDeposit` will be reserved for each item in `subs`.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " - `subs`: The identity's sub-accounts.",
+                "",
+                " # <weight>",
+                " - `O(S)` where `S` subs-count (hard- and deposit-bounded).",
+                " - At most two balance operations.",
+                " - At most O(2 * S + 1) storage mutations; codec complexity `O(1 * S + S * 1)`);",
+                "   one storage-exists.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "clear_identity",
               "args": [],
               "documentation": [
-                " Clear an account's name and return the deposit. Fails if the account was not named.",
+                " Clear an account's identity info and all sub-account and return all deposits.",
                 "",
-                " The dispatch origin for this call must be _Signed_.",
+                " Payment: All reserved balances on the account are returned.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a registered",
+                " identity.",
+                "",
+                " Emits `IdentityCleared` if successful.",
                 "",
                 " # <weight>",
-                " - O(1).",
-                " - One balance operation.",
-                " - One storage read/write.",
+                " - `O(R + S + X)`.",
+                " - One balance-reserve operation.",
+                " - `S + 2` storage deletions.",
                 " - One event.",
                 " # </weight>"
               ]
             },
             {
-              "name": "kill_name",
+              "name": "request_judgement",
               "args": [
                 {
-                  "name": "target",
-                  "type": "Address"
-                }
-              ],
-              "documentation": [
-                " Remove an account's name and take charge of the deposit.",
-                "",
-                " Fails if `who` has not been named. The deposit is dealt with through `T::Slashed`",
-                " imbalance handler.",
-                "",
-                " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
-                "",
-                " # <weight>",
-                " - O(1).",
-                " - One unbalanced handler (probably a balance transfer)",
-                " - One storage read/write.",
-                " - One event.",
-                " # </weight>"
-              ]
-            },
-            {
-              "name": "force_name",
-              "args": [
-                {
-                  "name": "target",
-                  "type": "Address"
+                  "name": "reg_index",
+                  "type": "Compact<RegistrarIndex>"
                 },
                 {
-                  "name": "name",
-                  "type": "Bytes"
+                  "name": "max_fee",
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "documentation": [
-                " Set a third-party account's name with no deposit.",
+                " Request a judgement from a registrar.",
                 "",
-                " No length checking is done on the name.",
+                " Payment: At most `max_fee` will be reserved for payment to the registrar if judgement",
+                " given.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a",
+                " registered identity.",
+                "",
+                " - `reg_index`: The index of the registrar whose judgement is requested.",
+                " - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:",
+                "",
+                " ```nocompile",
+                " Self::registrars(reg_index).uwnrap().fee",
+                " ```",
+                "",
+                " Emits `JudgementRequested` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-reserve operation.",
+                " - Storage: 1 read `O(R)`, 1 mutate `O(X + R)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "cancel_request",
+              "args": [
+                {
+                  "name": "reg_index",
+                  "type": "RegistrarIndex"
+                }
+              ],
+              "documentation": [
+                " Cancel a previous request.",
+                "",
+                " Payment: A previously reserved deposit is returned on success.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must have a",
+                " registered identity.",
+                "",
+                " - `reg_index`: The index of the registrar whose judgement is no longer requested.",
+                "",
+                " Emits `JudgementUnrequested` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-reserve operation.",
+                " - One storage mutation `O(R + X)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_fee",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "fee",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "documentation": [
+                " Set the fee required for a judgement to be requested from a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `fee`: the new fee.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_account_id",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Change the account associated with a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `new`: the new account ID.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_fields",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "fields",
+                  "type": "IdentityFields"
+                }
+              ],
+              "documentation": [
+                " Set the field information for a registrar.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `index`.",
+                "",
+                " - `index`: the index of the registrar whose fee is to be set.",
+                " - `fields`: the fields that the registrar concerns themselves with.",
+                "",
+                " # <weight>",
+                " - `O(R)`.",
+                " - One storage mutation `O(R)`.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "provide_judgement",
+              "args": [
+                {
+                  "name": "reg_index",
+                  "type": "Compact<RegistrarIndex>"
+                },
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "judgement",
+                  "type": "IdentityJudgement"
+                }
+              ],
+              "documentation": [
+                " Provide a judgement for an account's identity.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and the sender must be the account",
+                " of the registrar whose index is `reg_index`.",
+                "",
+                " - `reg_index`: the index of the registrar whose judgement is being made.",
+                " - `target`: the account whose identity the judgement is upon. This must be an account",
+                "   with a registered identity.",
+                " - `judgement`: the judgement of the registrar of index `reg_index` about `target`.",
+                "",
+                " Emits `JudgementGiven` if successful.",
+                "",
+                " # <weight>",
+                " - `O(R + X)`.",
+                " - One balance-transfer operation.",
+                " - Up to one account-lookup operation.",
+                " - Storage: 1 read `O(R)`, 1 mutate `O(R + X)`.",
+                " - One event.",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "kill_identity",
+              "args": [
+                {
+                  "name": "target",
+                  "type": "LookupSource"
+                }
+              ],
+              "documentation": [
+                " Remove an account's identity and sub-account information and slash the deposits.",
+                "",
+                " Payment: Reserved balances from `set_subs` and `set_identity` are slashed and handled by",
+                " `Slash`. Verification request deposits are not returned; they should be cancelled",
+                " manually using `cancel_request`.",
                 "",
                 " The dispatch origin for this call must be _Root_ or match `T::ForceOrigin`.",
                 "",
+                " - `target`: the account whose identity the judgement is upon. This must be an account",
+                "   with a registered identity.",
+                "",
+                " Emits `IdentityKilled` if successful.",
+                "",
                 " # <weight>",
-                " - O(1).",
-                " - At most one balance operation.",
-                " - One storage read/write.",
+                " - `O(R + S + X)`.",
+                " - One balance-reserve operation.",
+                " - `S + 2` storage mutations.",
                 " - One event.",
                 " # </weight>"
               ]
@@ -5669,34 +6322,16 @@
           ],
           "events": [
             {
-              "name": "NameSet",
+              "name": "IdentitySet",
               "args": [
                 "AccountId"
               ],
               "documentation": [
-                " A name was set."
+                " A name was set or reset (which will remove all judgements)."
               ]
             },
             {
-              "name": "NameForced",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was forcibly set."
-              ]
-            },
-            {
-              "name": "NameChanged",
-              "args": [
-                "AccountId"
-              ],
-              "documentation": [
-                " A name was changed."
-              ]
-            },
-            {
-              "name": "NameCleared",
+              "name": "IdentityCleared",
               "args": [
                 "AccountId",
                 "Balance"
@@ -5706,7 +6341,7 @@
               ]
             },
             {
-              "name": "NameKilled",
+              "name": "IdentityKilled",
               "args": [
                 "AccountId",
                 "Balance"
@@ -5714,54 +6349,1471 @@
               "documentation": [
                 " A name was removed and the given balance slashed."
               ]
+            },
+            {
+              "name": "JudgementRequested",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement was asked from a registrar."
+              ]
+            },
+            {
+              "name": "JudgementUnrequested",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement request was retracted."
+              ]
+            },
+            {
+              "name": "JudgementGiven",
+              "args": [
+                "AccountId",
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A judgement was given by a registrar."
+              ]
+            },
+            {
+              "name": "RegistrarAdded",
+              "args": [
+                "RegistrarIndex"
+              ],
+              "documentation": [
+                " A registrar was added."
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": [
+            {
+              "name": "TooManySubAccounts",
+              "documentation": [
+                " Too many subs-accounts."
+              ]
+            },
+            {
+              "name": "NotFound",
+              "documentation": [
+                " Account isn't found."
+              ]
+            },
+            {
+              "name": "NotNamed",
+              "documentation": [
+                " Account isn't named."
+              ]
+            },
+            {
+              "name": "EmptyIndex",
+              "documentation": [
+                " Empty index."
+              ]
+            },
+            {
+              "name": "FeeChanged",
+              "documentation": [
+                " Fee is changed."
+              ]
+            },
+            {
+              "name": "NoIdentity",
+              "documentation": [
+                " No identity found."
+              ]
+            },
+            {
+              "name": "StickyJudgement",
+              "documentation": [
+                " Sticky judgement."
+              ]
+            },
+            {
+              "name": "JudgementGiven",
+              "documentation": [
+                " Judgement given."
+              ]
+            },
+            {
+              "name": "InvalidJudgement",
+              "documentation": [
+                " Invalid judgement."
+              ]
+            },
+            {
+              "name": "InvalidIndex",
+              "documentation": [
+                " The index is invalid."
+              ]
+            },
+            {
+              "name": "InvalidTarget",
+              "documentation": [
+                " The target is invalid."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Society",
+          "storage": {
+            "prefix": "Society",
+            "items": [
+              {
+                "name": "Founder",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "AccountId"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The first member."
+                ]
+              },
+              {
+                "name": "Rules",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "Hash"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " A hash of the rules of this society concerning membership. Can only be set once and",
+                  " only by the founder."
+                ]
+              },
+              {
+                "name": "Candidates",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<Bid>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current set of candidates; bidders that are attempting to become members."
+                ]
+              },
+              {
+                "name": "SuspendedCandidates",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "(BalanceOf,BidKind)",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of suspended candidates."
+                ]
+              },
+              {
+                "name": "Pot",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "BalanceOf"
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "documentation": [
+                  " Amount of our account balance that is specifically for the next round's bid(s)."
+                ]
+              },
+              {
+                "name": "Head",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "AccountId"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The most primary from the most recently approved members."
+                ]
+              },
+              {
+                "name": "Members",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<AccountId>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current set of members, ordered."
+                ]
+              },
+              {
+                "name": "SuspendedMembers",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "bool",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of suspended members."
+                ]
+              },
+              {
+                "name": "Bids",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "Vec<Bid>"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The current bids, stored ordered by the value of the bid."
+                ]
+              },
+              {
+                "name": "Vouching",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "VouchingStatus",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Members currently vouching or banned from vouching again"
+                ]
+              },
+              {
+                "name": "Payouts",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "Vec<(BlockNumber,BalanceOf)>",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Pending payouts; ordered by block number, with the amount that should be paid out."
+                ]
+              },
+              {
+                "name": "Strikes",
+                "modifier": "Default",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "StrikeCount",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The ongoing number of losing votes cast by the member."
+                ]
+              },
+              {
+                "name": "Votes",
+                "modifier": "Optional",
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "AccountId",
+                    "key2": "AccountId",
+                    "value": "SocietyVote",
+                    "key2Hasher": "Twox64Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Double map from Candidate -> Voter -> (Maybe) Vote."
+                ]
+              },
+              {
+                "name": "Defender",
+                "modifier": "Optional",
+                "type": {
+                  "Plain": "AccountId"
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The defending member currently being challenged."
+                ]
+              },
+              {
+                "name": "DefenderVotes",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Twox64Concat",
+                    "key": "AccountId",
+                    "value": "SocietyVote",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Votes for the defender."
+                ]
+              },
+              {
+                "name": "MaxMembers",
+                "modifier": "Default",
+                "type": {
+                  "Plain": "u32"
+                },
+                "fallback": "0x00000000",
+                "documentation": [
+                  " The max number of members for the society at one time."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "bid",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " A user outside of the society can make a bid for entry.",
+                "",
+                " Payment: `CandidateDeposit` will be reserved for making a bid. It is returned",
+                " when the bid becomes a member, or if the bid calls `unbid`.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Parameters:",
+                " - `value`: A one time payment the bid would like to receive when joining the society.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids), C (len of candidates), M (len of members), X (balance reserve)",
+                " - Storage Reads:",
+                " \t- One storage read to check for suspended candidate. O(1)",
+                " \t- One storage read to check for suspended member. O(1)",
+                " \t- One storage read to retrieve all current bids. O(B)",
+                " \t- One storage read to retrieve all current candidates. O(C)",
+                " \t- One storage read to retrieve all members. O(M)",
+                " - Storage Writes:",
+                " \t- One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)",
+                " \t- Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)",
+                " - Notable Computation:",
+                " \t- O(B + C + log M) search to check user is not already a part of society.",
+                " \t- O(log B) search to insert the new bid sorted.",
+                " - External Module Operations:",
+                " \t- One balance reserve operation. O(X)",
+                " \t- Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.",
+                " - Events:",
+                " \t- One event for new bid.",
+                " \t- Up to one event for AutoUnbid if bid.len() > MAX_BID_COUNT.",
+                "",
+                " Total Complexity: O(M + B + C + logM + logB + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unbid",
+              "args": [
+                {
+                  "name": "pos",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " A bidder can remove their bid for entry into society.",
+                " By doing so, they will have their candidate deposit returned or",
+                " they will unvouch their voucher.",
+                "",
+                " Payment: The bid deposit is unreserved if the user made a bid.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a bidder.",
+                "",
+                " Parameters:",
+                " - `pos`: Position in the `Bids` vector of the bid who wants to unbid.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids), X (balance unreserve)",
+                " - One storage read and write to retrieve and update the bids. O(B)",
+                " - Either one unreserve balance action O(X) or one vouching storage removal. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(B + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vouch",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "value",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "tip",
+                  "type": "BalanceOf"
+                }
+              ],
+              "documentation": [
+                " As a member, vouch for someone to join society by placing a bid on their behalf.",
+                "",
+                " There is no deposit required to vouch for a new bid, but a member can only vouch for",
+                " one bid at a time. If the bid becomes a suspended candidate and ultimately rejected by",
+                " the suspension judgement origin, the member will be banned from vouching again.",
+                "",
+                " As a vouching member, you can claim a tip if the candidate is accepted. This tip will",
+                " be paid as a portion of the reward the member will receive for joining the society.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a member.",
+                "",
+                " Parameters:",
+                " - `who`: The user who you would like to vouch for.",
+                " - `value`: The total reward to be paid between you and the candidate if they become",
+                " a member in the society.",
+                " - `tip`: Your cut of the total `value` payout when the candidate is inducted into",
+                " the society. Tips larger than `value` will be saturated upon payout.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids), C (len of candidates), M (len of members)",
+                " - Storage Reads:",
+                " \t- One storage read to retrieve all members. O(M)",
+                " \t- One storage read to check member is not already vouching. O(1)",
+                " \t- One storage read to check for suspended candidate. O(1)",
+                " \t- One storage read to check for suspended member. O(1)",
+                " \t- One storage read to retrieve all current bids. O(B)",
+                " \t- One storage read to retrieve all current candidates. O(C)",
+                " - Storage Writes:",
+                " \t- One storage write to insert vouching status to the member. O(1)",
+                " \t- One storage mutate to add a new bid to the vector O(B) (TODO: possible optimization w/ read)",
+                " \t- Up to one storage removal if bid.len() > MAX_BID_COUNT. O(1)",
+                " - Notable Computation:",
+                " \t- O(log M) search to check sender is a member.",
+                " \t- O(B + C + log M) search to check user is not already a part of society.",
+                " \t- O(log B) search to insert the new bid sorted.",
+                " - External Module Operations:",
+                " \t- One balance reserve operation. O(X)",
+                " \t- Up to one balance unreserve operation if bids.len() > MAX_BID_COUNT.",
+                " - Events:",
+                " \t- One event for vouch.",
+                " \t- Up to one event for AutoUnbid if bid.len() > MAX_BID_COUNT.",
+                "",
+                " Total Complexity: O(M + B + C + logM + logB + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unvouch",
+              "args": [
+                {
+                  "name": "pos",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " As a vouching member, unvouch a bid. This only works while vouched user is",
+                " only a bidder (and not a candidate).",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a vouching member.",
+                "",
+                " Parameters:",
+                " - `pos`: Position in the `Bids` vector of the bid who should be unvouched.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids)",
+                " - One storage read O(1) to check the signer is a vouching member.",
+                " - One storage mutate to retrieve and update the bids. O(B)",
+                " - One vouching storage removal. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(B)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "candidate",
+                  "type": "LookupSource"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " As a member, vote on a candidate.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a member.",
+                "",
+                " Parameters:",
+                " - `candidate`: The candidate that the member would like to bid on.",
+                " - `approve`: A boolean which says if the candidate should be",
+                "              approved (`true`) or rejected (`false`).",
+                "",
+                " # <weight>",
+                " Key: C (len of candidates), M (len of members)",
+                " - One storage read O(M) and O(log M) search to check user is a member.",
+                " - One account lookup.",
+                " - One storage read O(C) and O(C) search to check that user is a candidate.",
+                " - One storage write to add vote to votes. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(M + logM + C)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "defender_vote",
+              "args": [
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " As a member, vote on the defender.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a member.",
+                "",
+                " Parameters:",
+                " - `approve`: A boolean which says if the candidate should be",
+                " approved (`true`) or rejected (`false`).",
+                "",
+                " # <weight>",
+                " - Key: M (len of members)",
+                " - One storage read O(M) and O(log M) search to check user is a member.",
+                " - One storage write to add vote to votes. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(M + logM)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "payout",
+              "args": [],
+              "documentation": [
+                " Transfer the first matured payout for the sender and remove it from the records.",
+                "",
+                " NOTE: This extrinsic needs to be called multiple times to claim multiple matured payouts.",
+                "",
+                " Payment: The member will receive a payment equal to their first matured",
+                " payout to their free balance.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and a member with",
+                " payouts remaining.",
+                "",
+                " # <weight>",
+                " Key: M (len of members), P (number of payouts for a particular member)",
+                " - One storage read O(M) and O(log M) search to check signer is a member.",
+                " - One storage read O(P) to get all payouts for a member.",
+                " - One storage read O(1) to get the current block number.",
+                " - One currency transfer call. O(X)",
+                " - One storage write or removal to update the member's payouts. O(P)",
+                "",
+                " Total Complexity: O(M + logM + P + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "found",
+              "args": [
+                {
+                  "name": "founder",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "max_members",
+                  "type": "u32"
+                },
+                {
+                  "name": "rules",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Found the society.",
+                "",
+                " This is done as a discrete action in order to allow for the",
+                " module to be included into a running chain and can only be done once.",
+                "",
+                " The dispatch origin for this call must be from the _FounderSetOrigin_.",
+                "",
+                " Parameters:",
+                " - `founder` - The first member and head of the newly founded society.",
+                " - `max_members` - The initial max number of members for the society.",
+                " - `rules` - The rules of this society concerning membership.",
+                "",
+                " # <weight>",
+                " - Two storage mutates to set `Head` and `Founder`. O(1)",
+                " - One storage write to add the first member to society. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(1)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "unfound",
+              "args": [],
+              "documentation": [
+                " Anull the founding of the society.",
+                "",
+                " The dispatch origin for this call must be Signed, and the signing account must be both",
+                " the `Founder` and the `Head`. This implies that it may only be done when there is one",
+                " member.",
+                "",
+                " # <weight>",
+                " - Two storage reads O(1).",
+                " - Four storage removals O(1).",
+                " - One event.",
+                "",
+                " Total Complexity: O(1)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "judge_suspended_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "forgive",
+                  "type": "bool"
+                }
+              ],
+              "documentation": [
+                " Allow suspension judgement origin to make judgement on a suspended member.",
+                "",
+                " If a suspended member is forgiven, we simply add them back as a member, not affecting",
+                " any of the existing storage items for that member.",
+                "",
+                " If a suspended member is rejected, remove all associated storage items, including",
+                " their payouts, and remove any vouched bids they currently have.",
+                "",
+                " The dispatch origin for this call must be from the _SuspensionJudgementOrigin_.",
+                "",
+                " Parameters:",
+                " - `who` - The suspended member to be judged.",
+                " - `forgive` - A boolean representing whether the suspension judgement origin",
+                "               forgives (`true`) or rejects (`false`) a suspended member.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids), M (len of members)",
+                " - One storage read to check `who` is a suspended member. O(1)",
+                " - Up to one storage write O(M) with O(log M) binary search to add a member back to society.",
+                " - Up to 3 storage removals O(1) to clean up a removed member.",
+                " - Up to one storage write O(B) with O(B) search to remove vouched bid from bids.",
+                " - Up to one additional event if unvouch takes place.",
+                " - One storage removal. O(1)",
+                " - One event for the judgement.",
+                "",
+                " Total Complexity: O(M + logM + B)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "judge_suspended_candidate",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "judgement",
+                  "type": "SocietyJudgement"
+                }
+              ],
+              "documentation": [
+                " Allow suspended judgement origin to make judgement on a suspended candidate.",
+                "",
+                " If the judgement is `Approve`, we add them to society as a member with the appropriate",
+                " payment for joining society.",
+                "",
+                " If the judgement is `Reject`, we either slash the deposit of the bid, giving it back",
+                " to the society treasury, or we ban the voucher from vouching again.",
+                "",
+                " If the judgement is `Rebid`, we put the candidate back in the bid pool and let them go",
+                " through the induction process again.",
+                "",
+                " The dispatch origin for this call must be from the _SuspensionJudgementOrigin_.",
+                "",
+                " Parameters:",
+                " - `who` - The suspended candidate to be judged.",
+                " - `judgement` - `Approve`, `Reject`, or `Rebid`.",
+                "",
+                " # <weight>",
+                " Key: B (len of bids), M (len of members), X (balance action)",
+                " - One storage read to check `who` is a suspended candidate.",
+                " - One storage removal of the suspended candidate.",
+                " - Approve Logic",
+                " \t- One storage read to get the available pot to pay users with. O(1)",
+                " \t- One storage write to update the available pot. O(1)",
+                " \t- One storage read to get the current block number. O(1)",
+                " \t- One storage read to get all members. O(M)",
+                " \t- Up to one unreserve currency action.",
+                " \t- Up to two new storage writes to payouts.",
+                " \t- Up to one storage write with O(log M) binary search to add a member to society.",
+                " - Reject Logic",
+                " \t- Up to one repatriate reserved currency action. O(X)",
+                " \t- Up to one storage write to ban the vouching member from vouching again.",
+                " - Rebid Logic",
+                " \t- Storage mutate with O(log B) binary search to place the user back into bids.",
+                " - Up to one additional event if unvouch takes place.",
+                " - One storage removal.",
+                " - One event for the judgement.",
+                "",
+                " Total Complexity: O(M + logM + B + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_max_members",
+              "args": [
+                {
+                  "name": "max",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Allows root origin to change the maximum number of members in society.",
+                " Max membership count must be greater than 1.",
+                "",
+                " The dispatch origin for this call must be from _ROOT_.",
+                "",
+                " Parameters:",
+                " - `max` - The maximum number of members for the society.",
+                "",
+                " # <weight>",
+                " - One storage write to update the max. O(1)",
+                " - One event.",
+                "",
+                " Total Complexity: O(1)",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Founded",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " The society is founded by the given identity."
+              ]
+            },
+            {
+              "name": "Bid",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "documentation": [
+                " A membership bid just happened. The given account is the candidate's ID and their offer",
+                " is the second."
+              ]
+            },
+            {
+              "name": "Vouch",
+              "args": [
+                "AccountId",
+                "Balance",
+                "AccountId"
+              ],
+              "documentation": [
+                " A membership bid just happened by vouching. The given account is the candidate's ID and",
+                " their offer is the second. The vouching party is the third."
+              ]
+            },
+            {
+              "name": "AutoUnbid",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A candidate was dropped (due to an excess of bids in the system)."
+              ]
+            },
+            {
+              "name": "Unbid",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A candidate was dropped (by their request)."
+              ]
+            },
+            {
+              "name": "Unvouch",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A candidate was dropped (by request of who vouched for them)."
+              ]
+            },
+            {
+              "name": "Inducted",
+              "args": [
+                "AccountId",
+                "Vec<AccountId>"
+              ],
+              "documentation": [
+                " A group of candidates have been inducted. The batch's primary is the first value, the",
+                " batch in full is the second."
+              ]
+            },
+            {
+              "name": "SuspendedMemberJudgement",
+              "args": [
+                "AccountId",
+                "bool"
+              ],
+              "documentation": [
+                " A suspended member has been judged"
+              ]
+            },
+            {
+              "name": "CandidateSuspended",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A candidate has been suspended"
+              ]
+            },
+            {
+              "name": "MemberSuspended",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A member has been suspended"
+              ]
+            },
+            {
+              "name": "Challenged",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A member has been challenged"
+              ]
+            },
+            {
+              "name": "Vote",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "bool"
+              ],
+              "documentation": [
+                " A vote has been placed (candidate, voter, vote)"
+              ]
+            },
+            {
+              "name": "DefenderVote",
+              "args": [
+                "AccountId",
+                "bool"
+              ],
+              "documentation": [
+                " A vote has been placed for a defending member (voter, vote)"
+              ]
+            },
+            {
+              "name": "NewMaxMembers",
+              "args": [
+                "u32"
+              ],
+              "documentation": [
+                " A new max member count has been set"
+              ]
+            },
+            {
+              "name": "Unfounded",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " Society is unfounded."
+              ]
             }
           ],
           "constants": [
             {
-              "name": "ReservationFee",
+              "name": "CandidateDeposit",
               "type": "BalanceOf",
-              "value": "0x00407a10f35a00000000000000000000",
+              "value": "0x0080c6a47e8d03000000000000000000",
               "documentation": [
-                " Reservation fee."
+                " The minimum amount of a deposit required for a bid to be made."
               ]
             },
             {
-              "name": "MinLength",
-              "type": "u32",
-              "value": "0x03000000",
+              "name": "WrongSideDeduction",
+              "type": "BalanceOf",
+              "value": "0x0080f420e6b500000000000000000000",
               "documentation": [
-                " The minimum length a name may be."
+                " The amount of the unpaid reward that gets deducted in the case that either a skeptic",
+                " doesn't vote or someone votes in the wrong way."
               ]
             },
             {
-              "name": "MaxLength",
+              "name": "MaxStrikes",
               "type": "u32",
-              "value": "0x10000000",
+              "value": "0x0a000000",
               "documentation": [
-                " The maximum length a name may be."
+                " The number of times a member may vote the wrong way (or not at all, when they are a skeptic)",
+                " before they become suspended."
+              ]
+            },
+            {
+              "name": "PeriodSpend",
+              "type": "BalanceOf",
+              "value": "0x0000c52ebca2b1000000000000000000",
+              "documentation": [
+                " The amount of incentive paid within each period. Doesn't include VoterTip."
+              ]
+            },
+            {
+              "name": "RotationPeriod",
+              "type": "BlockNumber",
+              "value": "0x00770100",
+              "documentation": [
+                " The number of blocks between candidate/membership rotation periods."
+              ]
+            },
+            {
+              "name": "ChallengePeriod",
+              "type": "BlockNumber",
+              "value": "0x80130300",
+              "documentation": [
+                " The number of blocks between membership challenges."
               ]
             }
           ],
           "errors": [
             {
-              "name": "TooShort",
+              "name": "BadPosition",
               "documentation": [
-                " A name is too short."
+                " An incorrect position was provided."
               ]
             },
             {
-              "name": "TooLong",
+              "name": "NotMember",
               "documentation": [
-                " A name is too long."
+                " User is not a member."
               ]
             },
             {
-              "name": "Unnamed",
+              "name": "AlreadyMember",
               "documentation": [
-                " An account in't named."
+                " User is already a member."
+              ]
+            },
+            {
+              "name": "Suspended",
+              "documentation": [
+                " User is suspended."
+              ]
+            },
+            {
+              "name": "NotSuspended",
+              "documentation": [
+                " User is not suspended."
+              ]
+            },
+            {
+              "name": "NoPayout",
+              "documentation": [
+                " Nothing to payout."
+              ]
+            },
+            {
+              "name": "AlreadyFounded",
+              "documentation": [
+                " Society already founded."
+              ]
+            },
+            {
+              "name": "InsufficientPot",
+              "documentation": [
+                " Not enough in pot to accept candidate."
+              ]
+            },
+            {
+              "name": "AlreadyVouching",
+              "documentation": [
+                " Member is already vouching or banned from vouching again."
+              ]
+            },
+            {
+              "name": "NotVouching",
+              "documentation": [
+                " Member is not vouching."
+              ]
+            },
+            {
+              "name": "Head",
+              "documentation": [
+                " Cannot remove the head of the chain."
+              ]
+            },
+            {
+              "name": "Founder",
+              "documentation": [
+                " Cannot remove the founder."
+              ]
+            },
+            {
+              "name": "AlreadyBid",
+              "documentation": [
+                " User has already made a bid."
+              ]
+            },
+            {
+              "name": "AlreadyCandidate",
+              "documentation": [
+                " User is already a candidate."
+              ]
+            },
+            {
+              "name": "NotCandidate",
+              "documentation": [
+                " User is not a candidate."
+              ]
+            },
+            {
+              "name": "MaxMembers",
+              "documentation": [
+                " Too many members in the society."
+              ]
+            },
+            {
+              "name": "NotFounder",
+              "documentation": [
+                " The caller is not the founder."
+              ]
+            },
+            {
+              "name": "NotHead",
+              "documentation": [
+                " The caller is not the head."
               ]
             }
           ]
+        },
+        {
+          "name": "Recovery",
+          "storage": {
+            "prefix": "Recovery",
+            "items": [
+              {
+                "name": "Recoverable",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "RecoveryConfig",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The set of recoverable accounts and their recovery configuration."
+                ]
+              },
+              {
+                "name": "ActiveRecoveries",
+                "modifier": "Optional",
+                "type": {
+                  "DoubleMap": {
+                    "hasher": "Twox64Concat",
+                    "key1": "AccountId",
+                    "key2": "AccountId",
+                    "value": "ActiveRecovery",
+                    "key2Hasher": "Twox64Concat"
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " Active recovery attempts.",
+                  "",
+                  " First account is the account to be recovered, and the second account",
+                  " is the user trying to recover the account."
+                ]
+              },
+              {
+                "name": "Recovered",
+                "modifier": "Optional",
+                "type": {
+                  "Map": {
+                    "hasher": "Blake2_256",
+                    "key": "AccountId",
+                    "value": "AccountId",
+                    "linked": false
+                  }
+                },
+                "fallback": "0x00",
+                "documentation": [
+                  " The final list of recovered accounts.",
+                  "",
+                  " Map from the recovered account to the user who can access it."
+                ]
+              }
+            ]
+          },
+          "calls": [
+            {
+              "name": "as_recovered",
+              "args": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "call",
+                  "type": "Call"
+                }
+              ],
+              "documentation": [
+                " Send a call through a recovered account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and registered to",
+                " be able to make calls on behalf of the recovered account.",
+                "",
+                " Parameters:",
+                " - `account`: The recovered account you want to make a call on-behalf-of.",
+                " - `call`: The call you want to make with the recovered account.",
+                "",
+                " # <weight>",
+                " - The weight of the `call`.",
+                " - One storage lookup to check account is recovered by `who`. O(1)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "set_recovered",
+              "args": [
+                {
+                  "name": "lost",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "rescuer",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Allow ROOT to bypass the recovery process and set an a rescuer account",
+                " for a lost account directly.",
+                "",
+                " The dispatch origin for this call must be _ROOT_.",
+                "",
+                " Parameters:",
+                " - `lost`: The \"lost account\" to be recovered.",
+                " - `rescuer`: The \"rescuer account\" which can call as the lost account.",
+                "",
+                " # <weight>",
+                " - One storage write O(1)",
+                " - One event",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "create_recovery",
+              "args": [
+                {
+                  "name": "friends",
+                  "type": "Vec<AccountId>"
+                },
+                {
+                  "name": "threshold",
+                  "type": "u16"
+                },
+                {
+                  "name": "delay_period",
+                  "type": "BlockNumber"
+                }
+              ],
+              "documentation": [
+                " Create a recovery configuration for your account. This makes your account recoverable.",
+                "",
+                " Payment: `ConfigDepositBase` + `FriendDepositFactor` * #_of_friends balance",
+                " will be reserved for storing the recovery configuration. This deposit is returned",
+                " in full when the user calls `remove_recovery`.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Parameters:",
+                " - `friends`: A list of friends you trust to vouch for recovery attempts.",
+                "   Should be ordered and contain no duplicate values.",
+                " - `threshold`: The number of friends that must vouch for a recovery attempt",
+                "   before the account can be recovered. Should be less than or equal to",
+                "   the length of the list of friends.",
+                " - `delay_period`: The number of blocks after a recovery attempt is initialized",
+                "   that needs to pass before the account can be recovered.",
+                "",
+                " # <weight>",
+                " - Key: F (len of friends)",
+                " - One storage read to check that account is not already recoverable. O(1).",
+                " - A check that the friends list is sorted and unique. O(F)",
+                " - One currency reserve operation. O(X)",
+                " - One storage write. O(1). Codec O(F).",
+                " - One event.",
+                "",
+                " Total Complexity: O(F + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "initiate_recovery",
+              "args": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Initiate the process for recovering a recoverable account.",
+                "",
+                " Payment: `RecoveryDeposit` balance will be reserved for initiating the",
+                " recovery process. This deposit will always be repatriated to the account",
+                " trying to be recovered. See `close_recovery`.",
+                "",
+                " The dispatch origin for this call must be _Signed_.",
+                "",
+                " Parameters:",
+                " - `account`: The lost account that you want to recover. This account",
+                "   needs to be recoverable (i.e. have a recovery configuration).",
+                "",
+                " # <weight>",
+                " - One storage read to check that account is recoverable. O(F)",
+                " - One storage read to check that this recovery process hasn't already started. O(1)",
+                " - One currency reserve operation. O(X)",
+                " - One storage read to get the current block number. O(1)",
+                " - One storage write. O(1).",
+                " - One event.",
+                "",
+                " Total Complexity: O(F + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "vouch_recovery",
+              "args": [
+                {
+                  "name": "lost",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "rescuer",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Allow a \"friend\" of a recoverable account to vouch for an active recovery",
+                " process for that account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and must be a \"friend\"",
+                " for the recoverable account.",
+                "",
+                " Parameters:",
+                " - `lost`: The lost account that you want to recover.",
+                " - `rescuer`: The account trying to rescue the lost account that you",
+                "   want to vouch for.",
+                "",
+                " The combination of these two parameters must point to an active recovery",
+                " process.",
+                "",
+                " # <weight>",
+                " Key: F (len of friends in config), V (len of vouching friends)",
+                " - One storage read to get the recovery configuration. O(1), Codec O(F)",
+                " - One storage read to get the active recovery process. O(1), Codec O(V)",
+                " - One binary search to confirm caller is a friend. O(logF)",
+                " - One binary search to confirm caller has not already vouched. O(logV)",
+                " - One storage write. O(1), Codec O(V).",
+                " - One event.",
+                "",
+                " Total Complexity: O(F + logF + V + logV)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "claim_recovery",
+              "args": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " Allow a successful rescuer to claim their recovered account.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and must be a \"rescuer\"",
+                " who has successfully completed the account recovery process: collected",
+                " `threshold` or more vouches, waited `delay_period` blocks since initiation.",
+                "",
+                " Parameters:",
+                " - `account`: The lost account that you want to claim has been successfully",
+                "   recovered by you.",
+                "",
+                " # <weight>",
+                " Key: F (len of friends in config), V (len of vouching friends)",
+                " - One storage read to get the recovery configuration. O(1), Codec O(F)",
+                " - One storage read to get the active recovery process. O(1), Codec O(V)",
+                " - One storage read to get the current block number. O(1)",
+                " - One storage write. O(1), Codec O(V).",
+                " - One event.",
+                "",
+                " Total Complexity: O(F + V)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "close_recovery",
+              "args": [
+                {
+                  "name": "rescuer",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": [
+                " As the controller of a recoverable account, close an active recovery",
+                " process for your account.",
+                "",
+                " Payment: By calling this function, the recoverable account will receive",
+                " the recovery deposit `RecoveryDeposit` placed by the rescuer.",
+                "",
+                " The dispatch origin for this call must be _Signed_ and must be a",
+                " recoverable account with an active recovery process for it.",
+                "",
+                " Parameters:",
+                " - `rescuer`: The account trying to rescue this recoverable account.",
+                "",
+                " # <weight>",
+                " Key: V (len of vouching friends)",
+                " - One storage read/remove to get the active recovery process. O(1), Codec O(V)",
+                " - One balance call to repatriate reserved. O(X)",
+                " - One event.",
+                "",
+                " Total Complexity: O(V + X)",
+                " # </weight>"
+              ]
+            },
+            {
+              "name": "remove_recovery",
+              "args": [],
+              "documentation": [
+                " Remove the recovery process for your account.",
+                "",
+                " NOTE: The user must make sure to call `close_recovery` on all active",
+                " recovery attempts before calling this function else it will fail.",
+                "",
+                " Payment: By calling this function the recoverable account will unreserve",
+                " their recovery configuration deposit.",
+                " (`ConfigDepositBase` + `FriendDepositFactor` * #_of_friends)",
+                "",
+                " The dispatch origin for this call must be _Signed_ and must be a",
+                " recoverable account (i.e. has a recovery configuration).",
+                "",
+                " # <weight>",
+                " Key: F (len of friends)",
+                " - One storage read to get the prefix iterator for active recoveries. O(1)",
+                " - One storage read/remove to get the recovery configuration. O(1), Codec O(F)",
+                " - One balance call to unreserved. O(X)",
+                " - One event.",
+                "",
+                " Total Complexity: O(F + X)",
+                " # </weight>"
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "RecoveryCreated",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A recovery process has been set up for an account"
+              ]
+            },
+            {
+              "name": "RecoveryInitiated",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " A recovery process has been initiated for account_1 by account_2"
+              ]
+            },
+            {
+              "name": "RecoveryVouched",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " A recovery process for account_1 by account_2 has been vouched for by account_3"
+              ]
+            },
+            {
+              "name": "RecoveryClosed",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " A recovery process for account_1 by account_2 has been closed"
+              ]
+            },
+            {
+              "name": "AccountRecovered",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "documentation": [
+                " Account_1 has been successfully recovered by account_2"
+              ]
+            },
+            {
+              "name": "RecoveryRemoved",
+              "args": [
+                "AccountId"
+              ],
+              "documentation": [
+                " A recovery process has been removed for an account"
+              ]
+            }
+          ],
+          "constants": [],
+          "errors": []
         }
       ]
     }

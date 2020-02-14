@@ -4,11 +4,25 @@
 
 export default {
   types: {
-    BalanceLock: {
+    AccountData: {
+      free: 'Balance',
+      reserved: 'Balance',
+      miscFrozen: 'Balance',
+      feeFrozen: 'Balance'
+    },
+    BalanceLockTo212: {
       id: 'LockIdentifier',
       amount: 'Balance',
       until: 'BlockNumber',
       reasons: 'WithdrawReasons'
+    },
+    BalanceLock: {
+      id: 'LockIdentifier',
+      amount: 'Balance',
+      reasons: 'Reasons'
+    },
+    Reasons: {
+      _enum: ['Fee', 'Misc', 'All']
     },
     VestingSchedule: {
       offset: 'Balance',

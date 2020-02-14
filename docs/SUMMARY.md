@@ -17,6 +17,7 @@
   - [Type basics](start/types.basics.md)
   - [Type extension](start/types.extend.md)
   - [TypeScript interfaces](start/typescript.md)
+  - [TypeScript user generated](start/typescript.user.md)
 
 ## Packages
 

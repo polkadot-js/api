@@ -1,42 +1,38 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Null, i8, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, i8, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/** @name AccountInfo */
 export interface AccountInfo extends Struct {
-  /** Bytes */
   readonly trieId: Bytes;
-  /** u64 */
   readonly currentMemStored: u64;
 }
 
-/** Balance */
+/** @name Amount */
 export interface Amount extends Balance {}
 
-/** u32 */
+/** @name AssetOf */
 export interface AssetOf extends u32 {}
 
-/** Null */
-export interface InherentOfflineReport extends Null {}
+/** @name InherentOfflineReport */
+export interface InherentOfflineReport extends ITuple<[]> {}
 
-/** i8 */
+/** @name LockPeriods */
 export interface LockPeriods extends i8 {}
 
-/** Enum */
+/** @name NewAccountOutcome */
 export interface NewAccountOutcome extends Enum {
-  /** 0:: NoHint */
   readonly isNoHint: boolean;
-  /** 1:: GoodHint */
   readonly isGoodHint: boolean;
-  /** 2:: BadHint */
   readonly isBadHint: boolean;
 }
 
-/** Bytes */
+/** @name OpaqueKey */
 export interface OpaqueKey extends Bytes {}
 
-/** AccountId */
+/** @name SessionKey */
 export interface SessionKey extends AccountId {}

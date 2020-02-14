@@ -5,7 +5,7 @@
 import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { createType, Vec, u32 } from '@polkadot/types';
@@ -13,39 +13,31 @@ import { createType, Vec, u32 } from '@polkadot/types';
 import { DerivedElectionsInfo } from '../types';
 import { memo } from '../util';
 
-function deriveElections (api: ApiInterfaceRx, candidates: AccountId[], members: [AccountId, Balance][], runnersUp: [AccountId, Balance][], candidacyBond: Balance, desiredSeats: u32, termDuration: BlockNumber, votingBond: Balance): DerivedElectionsInfo {
-  return {
-    candidates,
-    candidateCount: createType(api.registry, 'u32', candidates.length),
-    candidacyBond,
-    desiredSeats,
-    members: members.sort((a, b): number => b[1].cmp(a[1])),
-    runnersUp: runnersUp.sort((a, b): number => b[1].cmp(a[1])),
-    termDuration,
-    votingBond
-  };
+function sortAccounts ([, balanceA]: ITuple<[AccountId, Balance]>, [, balanceB]: ITuple<[AccountId, Balance]>): number {
+  return balanceB.cmp(balanceA);
 }
 
 function queryElections (api: ApiInterfaceRx): Observable<DerivedElectionsInfo> {
   const section = api.query.electionsPhragmen ? 'electionsPhragmen' : 'elections';
 
-  // NOTE We have an issue where candidates can return `null` for an empty array, hence
-  // we are not using multi queries here, so empty array is empty (instead of space-filled)
-  return combineLatest([
-    api.query[section].candidates<Vec<AccountId>>(),
-    api.query[section].members<Vec<ITuple<[AccountId, Balance]>>>(),
-    api.query[section].runnersUp<Vec<ITuple<[AccountId, Balance]>>>()
+  return api.queryMulti<[Vec<AccountId>, Vec<AccountId>, Vec<ITuple<[AccountId, Balance]>>, Vec<ITuple<[AccountId, Balance]>>]>([
+    api.query.council.members,
+    api.query[section].candidates,
+    api.query[section].members,
+    api.query[section].runnersUp
   ]).pipe(
-    map(([candidates, members, runnersUp]): DerivedElectionsInfo => deriveElections(
-      api,
+    map(([councilMembers, candidates, members, runnersUp]): DerivedElectionsInfo => ({
       candidates,
-      members,
-      runnersUp,
-      api.consts[section].candidacyBond as Balance,
-      api.consts[section].desiredMembers as u32,
-      api.consts[section].termDuration as BlockNumber,
-      api.consts[section].votingBond as Balance
-    ))
+      candidateCount: createType(api.registry, 'u32', candidates.length),
+      candidacyBond: api.consts[section].candidacyBond as Balance,
+      desiredSeats: api.consts[section].desiredMembers as u32,
+      members: members.length
+        ? members.sort(sortAccounts)
+        : councilMembers.map((accountId): [AccountId, Balance] => [accountId, createType(api.registry, 'Balance')]),
+      runnersUp: runnersUp.sort(sortAccounts),
+      termDuration: api.consts[section].termDuration as BlockNumber,
+      votingBond: api.consts[section].votingBond as Balance
+    }))
   );
 }
 

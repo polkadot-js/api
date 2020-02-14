@@ -1,4 +1,4 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec } from '@polkadot/types/types';
@@ -6,131 +6,111 @@ import { Compact, Enum, Option, Raw, Struct } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
-/** Struct */
+/** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {
-  /** TrieId */
   readonly trieId: TrieId;
-  /** u32 */
   readonly storageSize: u32;
-  /** CodeHash */
   readonly codeHash: CodeHash;
-  /** Balance */
   readonly rentAllowance: Balance;
-  /** BlockNumber */
   readonly deductBlock: BlockNumber;
-  /** Option<BlockNumber> */
   readonly lastWrite: Option<BlockNumber>;
 }
 
-/** Hash */
+/** @name CodeHash */
 export interface CodeHash extends Hash {}
 
-/** Struct */
+/** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
-  /** AccountId */
   readonly origin: AccountId;
-  /** AccountId */
   readonly dest: AccountId;
-  /** Balance */
   readonly value: Balance;
-  /** u64 */
   readonly gasLimit: u64;
-  /** Bytes */
   readonly inputData: Bytes;
 }
 
-/** Enum */
+/** @name ContractExecResult */
 export interface ContractExecResult extends Enum {
-  /** 0:: Success(ContractExecResultSuccess) */
   readonly isSuccess: boolean;
-  /** ContractExecResultSuccess */
   readonly asSuccess: ContractExecResultSuccess;
-  /** 1:: Error */
   readonly isError: boolean;
 }
 
-/** Struct */
+/** @name ContractExecResultSuccess */
 export interface ContractExecResultSuccess extends Struct {
-  /** u8 */
   readonly status: u8;
-  /** Raw */
   readonly data: Raw;
 }
 
-/** Enum */
+/** @name ContractInfo */
 export interface ContractInfo extends Enum {
-  /** 0:: Alive(AliveContractInfo) */
   readonly isAlive: boolean;
-  /** AliveContractInfo */
   readonly asAlive: AliveContractInfo;
-  /** 1:: Tombstone(TombstoneContractInfo) */
   readonly isTombstone: boolean;
-  /** TombstoneContractInfo */
   readonly asTombstone: TombstoneContractInfo;
 }
 
-/** Uint8Array, Codec */
+/** @name ContractStorageKey */
 export interface ContractStorageKey extends Uint8Array, Codec {}
 
-/** u64 */
+/** @name Gas */
 export interface Gas extends u64 {}
 
-/** Struct */
+/** @name PrefabWasmModule */
 export interface PrefabWasmModule extends Struct {
-  /** Compact<u32> */
   readonly scheduleVersion: Compact<u32>;
-  /** Compact<u32> */
   readonly initial: Compact<u32>;
-  /** Compact<u32> */
   readonly maximum: Compact<u32>;
-  /** PrefabWasmModuleReserved */
   readonly _reserved: PrefabWasmModuleReserved;
-  /** Bytes */
   readonly code: Bytes;
 }
 
-/** Option<Null> */
+/** @name PrefabWasmModuleReserved */
 export interface PrefabWasmModuleReserved extends Option<Null> {}
 
-/** Struct */
+/** @name Schedule */
 export interface Schedule extends Struct {
-  /** u32 */
   readonly version: u32;
-  /** Gas */
   readonly putCodePerByteCost: Gas;
-  /** Gas */
   readonly growMemCost: Gas;
-  /** Gas */
   readonly regularOpCost: Gas;
-  /** Gas */
   readonly returnDataPerByteCost: Gas;
-  /** Gas */
   readonly eventDataPerByteCost: Gas;
-  /** Gas */
   readonly eventPerTopicCost: Gas;
-  /** Gas */
   readonly eventBaseCost: Gas;
-  /** Gas */
   readonly sandboxDataReadCost: Gas;
-  /** Gas */
   readonly sandboxDataWriteCost: Gas;
-  /** u32 */
+  readonly transferCost: Gas;
   readonly maxEventTopics: u32;
-  /** u32 */
   readonly maxStackHeight: u32;
-  /** u32 */
   readonly maxMemoryPages: u32;
-  /** bool */
   readonly enablePrintln: bool;
-  /** u32 */
   readonly maxSubjectLen: u32;
 }
 
-/** Hash */
+/** @name ScheduleTo212 */
+export interface ScheduleTo212 extends Struct {
+  readonly version: u32;
+  readonly putCodePerByteCost: Gas;
+  readonly growMemCost: Gas;
+  readonly regularOpCost: Gas;
+  readonly returnDataPerByteCost: Gas;
+  readonly eventDataPerByteCost: Gas;
+  readonly eventPerTopicCost: Gas;
+  readonly eventBaseCost: Gas;
+  readonly sandboxDataReadCost: Gas;
+  readonly sandboxDataWriteCost: Gas;
+  readonly maxEventTopics: u32;
+  readonly maxStackHeight: u32;
+  readonly maxMemoryPages: u32;
+  readonly enablePrintln: bool;
+  readonly maxSubjectLen: u32;
+}
+
+/** @name SeedOf */
 export interface SeedOf extends Hash {}
 
-/** Hash */
+/** @name TombstoneContractInfo */
 export interface TombstoneContractInfo extends Hash {}
 
-/** Bytes */
+/** @name TrieId */
 export interface TrieId extends Bytes {}

@@ -9,20 +9,29 @@ import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr2551
 import BN from 'bn.js';
 
 import { InterfaceRegistry } from './interfaceRegistry';
+import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
+
+// helper to xtract keys from an array
+export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
+  ? ElementType
+  : never;
 
 export type BareOpts = boolean | Record<string, boolean>;
 
 export type InterfaceTypes = keyof InterfaceRegistry;
 
-export interface CallFunction {
-  (...args: any[]): Call;
+export interface CallBase {
   callIndex: Uint8Array;
   meta: FunctionMetadataLatest;
   method: string;
   section: string;
   toJSON: () => any;
+}
+
+export interface CallFunction extends CallBase {
+  (...args: any[]): Call;
 }
 
 export type Calls = Record<string, CallFunction>;
@@ -166,6 +175,7 @@ export interface SignatureOptions {
   genesisHash: AnyU8a;
   nonce: AnyNumber;
   runtimeVersion: RuntimeVersionInterface;
+  signer?: Signer;
   tip?: AnyNumber;
 }
 
@@ -210,6 +220,7 @@ export interface ExtrinsicPayloadValue {
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
+  signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -222,6 +233,7 @@ export interface IExtrinsicEra extends Codec {
 interface IExtrinsicSignable<T> {
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
+  signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -321,10 +333,18 @@ export interface ISignerPayload {
   toRaw (): SignerPayloadRaw;
 }
 
+export interface RegistryMetadataText extends String, Codec {
+  setOverride (override: string): void;
+}
+
+export interface RegistryMetadataCallArg {
+  name: RegistryMetadataText;
+  type: RegistryMetadataText;
+}
+
 export interface RegistryMetadataCall {
-  args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  args: RegistryMetadataCallArg[];
+  name: RegistryMetadataText;
 
   toJSON (): string | AnyJsonObject;
 }
@@ -334,10 +354,25 @@ export interface RegistryMetadataCalls {
   unwrap (): RegistryMetadataCall[];
 }
 
+export interface RegistryError {
+  documentation: string[];
+  index: number;
+  name: string;
+  section: string;
+}
+
+export interface RegistryMetadataError {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: String;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  documentation: String[];
+}
+
+export type RegistryMetadataErrors = RegistryMetadataError[];
+
 export interface RegistryMetadataEvent {
   args: any[];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataEvents {
@@ -345,15 +380,22 @@ export interface RegistryMetadataEvents {
   unwrap (): RegistryMetadataEvent[];
 }
 
+export interface RegistryMetadataExtrinsic {
+  version: BN;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  signedExtensions: String[];
+}
+
 export interface RegistryMetadataModule {
   calls: RegistryMetadataCalls;
+  errors: RegistryMetadataErrors;
   events: RegistryMetadataEvents;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String & Codec;
+  name: RegistryMetadataText;
 }
 
 export interface RegistryMetadataLatest {
   modules: RegistryMetadataModule[];
+  extrinsic: RegistryMetadataExtrinsic;
 }
 
 export interface RegistryMetadata {
@@ -362,13 +404,15 @@ export interface RegistryMetadata {
 
 export interface Registry {
   findMetaCall (callIndex: Uint8Array): CallFunction;
-
+  findMetaError (errorIndex: Uint8Array): any;
   // due to same circular imports where types don't really want to import from EventData,
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  getSignedExtensionExtra (): Record<string, InterfaceTypes>;
+  getSignedExtensionTypes (): Record<string, InterfaceTypes>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

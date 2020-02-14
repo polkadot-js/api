@@ -11,6 +11,32 @@ import { createType } from '../codec/create';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
 
+/** @internal */
+function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+  if (isHex(value)) {
+    return u8aToString(hexToU8a(value.toString()));
+  } else if (value instanceof Uint8Array) {
+    if (!value.length) {
+      return '';
+    }
+
+    // for Raw, the internal buffer does not have an internal length
+    // (the same applies in e.g. Bytes, where length is added at encoding-time)
+    if (value instanceof Raw) {
+      return u8aToString(value);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    return u8aToString(value.subarray(offset, total));
+  }
+
+  return `${value}`;
+}
+
 /**
  * @name Text
  * @description
@@ -23,36 +49,12 @@ import Raw from '../codec/Raw';
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
   public readonly registry: Registry;
+  private _override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
-    super(Text.decodeText(value));
+    super(decodeText(value));
 
     this.registry = registry;
-  }
-
-  private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
-    if (isHex(value)) {
-      return u8aToString(hexToU8a(value.toString()));
-    } else if (value instanceof Uint8Array) {
-      if (!value.length) {
-        return '';
-      }
-
-      // for Raw, the internal buffer does not have an internal length
-      // (the same applies in e.g. Bytes, where length is added at encoding-time)
-      if (value instanceof Raw) {
-        return u8aToString(value);
-      }
-
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return u8aToString(value.subarray(offset, total));
-    }
-
-    return `${value}`;
   }
 
   /**
@@ -94,6 +96,13 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Set an override value for this
+   */
+  public setOverride (override: string): void {
+    this._override = override;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
@@ -120,8 +129,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    // only included here since we do not inherit docs
-    return super.toString();
+    return this._override || super.toString();
   }
 
   /**

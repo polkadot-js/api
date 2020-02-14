@@ -4,48 +4,40 @@
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposals } from '../types';
+import { DerivedCollectiveProposal } from '../types';
 
-import { Observable, combineLatest, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Option } from '@polkadot/types';
 
-import { memo } from '../util';
+type Result = [Hash[], Option<Proposal>[], Option<Votes>[]];
 
-function retrieveProposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee', hashes: Hash[]): Observable<DerivedCollectiveProposals> {
-  return combineLatest([
-    // We are doing single subscriptions on all these, multi may yield old results
-    combineLatest(
-      hashes.map((hash): Observable<Option<Proposal>> => api.query[section].proposalOf(hash))
-    ),
-    api.query[section].voting.multi<Option<Votes>>(hashes)
-  ]).pipe(
-    map(([proposals, votes]: [Option<Proposal>[], Option<Votes>[]]): DerivedCollectiveProposals => {
-      const result: DerivedCollectiveProposals = [];
-
-      proposals.forEach((proposalOpt, index): void => {
-        if (proposalOpt.isSome) {
-          result.push({
-            hash: hashes[index],
-            proposal: proposalOpt.unwrap(),
-            votes: votes[index].unwrapOr(null)
-          });
-        }
-      });
-
-      return result;
-    })
-  );
-}
-
-export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposals> {
-  return memo((): Observable<DerivedCollectiveProposals> =>
+export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposal[]> {
+  return (): Observable<DerivedCollectiveProposal[]> =>
     api.query[section]
       ? api.query[section].proposals().pipe(
-        switchMap((proposals: Hash[]): Observable<DerivedCollectiveProposals> =>
-          retrieveProposals(api, section, proposals)
+        switchMap((hashes: Hash[]): Observable<Result> =>
+          hashes.length
+            ? combineLatest([
+              of(hashes),
+              api.query[section].proposalOf.multi<Option<Proposal>>(hashes),
+              api.query[section].voting.multi<Option<Votes>>(hashes)
+            ])
+            : of([[], [], []])
+        ),
+        map(([hashes, proposals, votes]: Result): DerivedCollectiveProposal[] =>
+          proposals
+            .map((proposalOpt, index): DerivedCollectiveProposal | null =>
+              proposalOpt.isSome
+                ? {
+                  hash: hashes[index],
+                  proposal: proposalOpt.unwrap(),
+                  votes: votes[index].unwrapOr(null)
+                }
+                : null
+            )
+            .filter((proposal): boolean => !!proposal) as DerivedCollectiveProposal[]
         )
       )
-      : of([] as DerivedCollectiveProposals)
-  );
+      : of([] as DerivedCollectiveProposal[]);
 }

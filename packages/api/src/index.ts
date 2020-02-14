@@ -2,9 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assertSingletonPackage } from '@polkadot/util';
+import { detectPackage } from '@polkadot/util';
 
-assertSingletonPackage('@polkadot/api');
+// eslint-disable-next-line no-useless-catch
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  detectPackage(require('./package.json'), __dirname);
+} catch (error) {
+  throw error;
+}
 
 export { Keyring } from '@polkadot/keyring';
 export { WsProvider } from '@polkadot/rpc-provider';

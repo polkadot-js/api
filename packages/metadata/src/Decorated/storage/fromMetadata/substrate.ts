@@ -16,6 +16,7 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
+/** @internal */
 function createRuntimeFunction (method: string, key: string, { documentation, type }: SubstrateMetadata): (registry: Registry, metaVersion: number) => StorageEntry {
   return (registry: Registry, metaVersion: number): StorageEntry =>
     createFunction(registry, {
@@ -30,18 +31,6 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
       section: 'substrate'
     }, { key, metaVersion, skipHashing: true });
 }
-
-// @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
-// have been removed in https://github.com/paritytech/substrate/pull/2802
-export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
-  documentation: 'Number of authorities.',
-  type: 'u32'
-});
-
-export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
-  documentation: 'Prefix under which authorities are stored.',
-  type: 'u32'
-});
 
 export const code = createRuntimeFunction('code', ':code', {
   documentation: 'Wasm code of the runtime.',

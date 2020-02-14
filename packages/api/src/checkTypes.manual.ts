@@ -20,8 +20,8 @@ function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
     api.consts.foo.bar,
-    api.consts.balances.creationFee.toNumber(),
-    api.consts.balances.creationFee.meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.existentialDeposit.toNumber(),
+    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 
@@ -35,26 +35,27 @@ async function derive (api: ApiPromise): Promise<void> {
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const intentions = await api.query.staking.intentions();
+  const intentions = await api.query.staking.bonded();
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed
   const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
-  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is Balance
-  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
-  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
-  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  const bal = await api.query.balances.totalIssuance(); // bal is Balance
+  const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.totalIssuance<Header>(); // override is still available
+  const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
-  // In the meantime, we can case with `<Balance>`
+  // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.system.accountNonce, keyring.eve.address],
+    [api.query.system.account, keyring.eve.address],
+    // older chains only
     [api.query.system.accountNonce, keyring.bob.address]
-  ], (balances): void => {
-    console.log('balances', balances);
+  ], (values): void => {
+    console.log('values', values);
 
     multiUnsub();
   });
@@ -116,6 +117,13 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
       unsub2();
     });
+
+  // it allows for query & then using the submittable
+  const second = api.tx.democracy.second(123);
+
+  second.signAndSend('123', (result): void => {
+    console.log(result);
+  });
 }
 
 async function main (): Promise<void> {

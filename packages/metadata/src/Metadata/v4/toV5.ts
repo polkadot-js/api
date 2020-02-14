@@ -18,6 +18,7 @@ const hasherMap: Map<string, string> = new Map([
   ['twox_64_concat', 'Twox64Concat']
 ]);
 
+/** @internal */
 function toStorageHasher (registry: Registry, text: Text): StorageHasherV5 {
   const mapped = hasherMap.get(text.toString());
 
@@ -26,9 +27,7 @@ function toStorageHasher (registry: Registry, text: Text): StorageHasherV5 {
   return createType(registry, 'StorageHasherV5', mapped);
 }
 
-/**
- * Convert V4 StorageFunction to V5 StorageFunction
- */
+/** @internal */
 function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV4): StorageFunctionMetadataV5 {
   const { documentation, fallback, modifier, name, type } = storageFn;
   const [newType, index] = type.isPlain
@@ -52,10 +51,7 @@ function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
   });
 }
 
-/**
- * Convert from MetadataV4 to MetadataV5
- * See https://github.com/paritytech/substrate/pull/2836/files for details
- */
+/** @internal */
 export default function toV5 (registry: Registry, { modules }: MetadataV4): MetadataV5 {
   return createType(registry, 'MetadataV5', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>

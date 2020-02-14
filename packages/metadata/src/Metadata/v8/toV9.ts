@@ -5,11 +5,9 @@
 import { MetadataV8, MetadataV9 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types';
+import { createType } from '@polkadot/types/codec';
 
-/**
- * Convert from MetadataV8 to MetadataV9
- */
+/** @internal */
 export default function toV9 (registry: Registry, { modules }: MetadataV8): MetadataV9 {
   return createType(registry, 'MetadataV9', { modules });
 }

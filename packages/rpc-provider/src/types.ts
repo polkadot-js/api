@@ -47,7 +47,7 @@ export interface ProviderInterface {
   clone (): ProviderInterface;
   disconnect (): void;
   isConnected (): boolean;
-  on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void;
+  on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void;
   send (method: string, params: any[]): Promise<any>;
   subscribe (type: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number>;
   unsubscribe (type: string, method: string, id: number): Promise<boolean>;
