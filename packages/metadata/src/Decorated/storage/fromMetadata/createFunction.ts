@@ -196,7 +196,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   const [hasher, key2Hasher] = getHashers(itemFn);
 
   // Can only have zero or one argument:
-  //   - storage.balances.freeBalance(address)
+  //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>

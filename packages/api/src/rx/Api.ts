@@ -91,11 +91,11 @@ export function decorateMethod <Method extends AnyFunction> (method: Method): Me
  *
  * // retrieve nonce for the account
  * api.query.system
- *   .accountNonce(keyring.alice.address)
+ *   .account(keyring.alice.address)
  *   .pipe(
  *      first(),
  *      // pipe nonce into transfer
- *      switchMap((nonce) =>
+ *      switchMap(([nonce]) =>
  *        api.tx.balances
  *          // create transfer
  *          .transfer(keyring.bob.address, 12345)

@@ -13,13 +13,13 @@ Quite often is is useful (taking pruning into account, more on this later) to re
 const lastHdr = await api.rpc.chain.getHeader();
 
 // Retrieve the balance at both the current and the parent hashes
-const [balanceNow, balancePrev] = await Promise.all([
-  api.query.balances.freeBalance.at(lastHdr.hash, ADDR),
-  api.query.balances.freeBalance.at(lastHdr.parentHash, ADDR)
+const [[, balanceNow], [, balancePrev]] = await Promise.all([
+  api.query.system.account.at(lastHdr.hash, ADDR),
+  api.query.system.account.at(lastHdr.parentHash, ADDR)
 ]);
 
 // Display the difference
-console.log(`The delta was ${balanceNow.sub(balancePrev)}`);
+console.log(`The delta was ${balanceNow.free.sub(balancePrev.free)}`);
 ```
 
 In the above example, we introduce the `.at(<hash>[, ...params])` query. For all `.at` queries, the first parameter is always the block hash at which we want to make the query, in our example we use both the last retrieved block and the parent thereof. The params are optional as per the type of query made, for instance to retrieve the timestamp for a previous block, it would be -
@@ -44,8 +44,8 @@ In addition to using `api.query` to make actual on-chain queries, it can also be
 
 // Retrieve the hash & size of the entry as stored on-chain
 const [entryHash, entrySize] = await Promise.all([
-  api.query.balances.freeBalance.hash(ADDR),
-  api.query.balances.freeBalance.size(ADDR)
+  api.query.system.account.hash(ADDR),
+  api.query.system.account.size(ADDR)
 ]);
 
 // Output the info
@@ -60,11 +60,11 @@ It has been explained that the `api.query` interfaces are decorated from the met
 
 ```js
 // Extract the info
-const { meta, method, section } = api.query.balances.freeBalance;
+const { meta, method, section } = api.query.system.account;
 
 // Display some info on a specific entry
 console.log(`${section}.${method}: ${meta.documentation.join(' ')}`);
-console.log(`query key: ${api.query.balances.freeBalance.key(ADDR)}`);
+console.log(`query key: ${api.query.system.account.key(ADDR)}`);
 ```
 
 The `section` & `method` is an indication of where it is exposed on the API. In addition the `meta` holds an array with the metadata documentation for the entry.
