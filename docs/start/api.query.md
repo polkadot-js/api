@@ -16,7 +16,7 @@ const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
 // Retrieve the last timestamp
 const now = await api.query.timestamp.now();
 
-// Retrieve the account balance & nonce via the ystem module
+// Retrieve the account balance & nonce via the system module
 const [nonce, balance] = await api.query.system.account(ADDR);
 
 console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
