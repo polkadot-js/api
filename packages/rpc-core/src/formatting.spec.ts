@@ -93,8 +93,8 @@ function formattingTests (version: string, decorated: Metadata, encodedValues: [
 
     it('returns the fallback result on not-found values', (done): void => {
       api.state
-        .getStorage([decorated.query.system.accountNonce, ADDR_ONE])
-        .subscribe((value): void => {
+        .getStorage([decorated.query.system.account, ADDR_ONE])
+        .subscribe(([value]: any): void => {
           expect(value.toHex()).toEqual('0x00000000');
           done();
         });
