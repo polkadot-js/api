@@ -70,7 +70,7 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
     });
 }
 
-function parse (api: ApiInterfaceRx, [ids, infos, pendingSwaps, active, retryQueue, selectedThreads, heads, relayDispatchQueues, watermarks, didUpdate]: Result): DeriveParachain[] {
+function parse ([ids, infos, pendingSwaps, active, retryQueue, selectedThreads, heads, relayDispatchQueues, watermarks, didUpdate]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => {
     return {
       active: parseActive(id, active),
@@ -108,7 +108,7 @@ export function parachains (api: ApiInterfaceRx): () => Observable<DeriveParacha
           ]) as Observable<Result>
         ),
         map((result: Result): DeriveParachain[] =>
-          parse(api, result)
+          parse(result)
         )
       )
       : of([] as DeriveParachain[])
