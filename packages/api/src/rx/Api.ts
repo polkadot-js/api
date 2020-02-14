@@ -107,7 +107,7 @@ export function decorateMethod <Method extends AnyFunction> (method: Method): Me
  *   )
  *   // subscribe to overall result
  *   .subscribe(({ status }) => {
- *     if (status.isFinalized) {
+ *     if (status.isInBlock) {
  *       console.log('Completed at block hash', status.asFinalized.toHex());
  *     }
  *   });

@@ -6,6 +6,7 @@
 - Add `BitVec` type primitive
 - Updated types for Polkadot parachains
 - `registry.findMetaError` now can take in a `DispatchErrorModule` object for lookups
+- Update RPC status codes (Substrate 2), with the `isInBlock` (`isFinalized` indicates finality)
 
 # 1.1.1
 

@@ -256,11 +256,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     private _statusObservable (status: ExtrinsicStatus): Observable<SubmittableResultImpl> {
-      if (!status.isFinalized) {
+      if (!status.isFinalized && !status.isInBlock) {
         return of(new SubmittableResult({ status }));
       }
 
-      const blockHash = status.asFinalized;
+      const blockHash = status.isInBlock
+        ? status.asInBlock
+        : status.asFinalized;
 
       return combineLatest([
         this._api.rpc.chain.getBlock(blockHash),

@@ -62,7 +62,7 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
   private createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
     let contract: Contract<ApiType> | undefined;
 
-    if (result.isFinalized) {
+    if (result.isInBlock) {
       const record = result.findRecord('contract', 'Instantiated');
 
       if (record) {

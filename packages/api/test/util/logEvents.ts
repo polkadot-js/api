@@ -11,7 +11,7 @@ export const logEvents = (done: () => {}): (r: SubmittableResult) => void =>
   ({ events, status }: SubmittableResult): void => {
     console.log('Transaction status:', status.type);
 
-    if (status.isFinalized) {
+    if (status.isInBlock) {
       console.log('Completed at block hash', status.value.toHex());
       console.log('Events:');
 
