@@ -137,6 +137,8 @@ export default class Text extends String implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
+    // NOTE Here we use the super toString (we are not taking overrides into account,
+    // rather encoding the original value the string was constructed with)
     const encoded = stringToU8a(super.toString());
 
     return isBare

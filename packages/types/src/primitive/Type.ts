@@ -18,7 +18,7 @@ export default class Type extends Text {
   constructor (registry: Registry, value: Text | Uint8Array | string = '') {
     super(registry, value);
 
-    this.setOverride(sanitize(super.toString()));
+    this.setOverride(sanitize(this.toString()));
   }
 
   /**
