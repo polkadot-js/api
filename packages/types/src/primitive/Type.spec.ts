@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { stringToU8a, u8aConcat } from '@polkadot/util';
+import { compactFromU8a, stringToU8a, u8aConcat } from '@polkadot/util';
 
 import { TypeRegistry } from '../codec';
 import Text from './Text';
@@ -101,5 +101,15 @@ describe('Type', (): void => {
         stringToU8a(type)
       )
     );
+  });
+
+  it('creates a decodable U8a for sanitized types', (): void => {
+    const u8a = new Type(registry, '<T::InherentOfflineReport as InherentOfflineReport>::Inherent').toU8a();
+    const decoded = new Type(registry, u8a);
+    const expected = 'InherentOfflineReport';
+
+    expect(compactFromU8a(u8a)).toEqual([1, expected.length]);
+    expect(decoded.toString()).toEqual(expected);
+    expect(decoded.encodedLength).toEqual(expected.length);
   });
 });
