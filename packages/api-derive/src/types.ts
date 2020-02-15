@@ -123,7 +123,7 @@ export interface DeriveParachain {
   relayDispatchQueue: UpwardMessage[];
   retryCollators: (CollatorId | null)[];
   selectedCollators: (CollatorId | null)[];
-  watermarks: BlockNumber | null;
+  watermark: BlockNumber | null;
 }
 
 export interface DeriveProposalPreImage {

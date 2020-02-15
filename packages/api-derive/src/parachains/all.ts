@@ -77,7 +77,7 @@ function parse ([ids, [active, retryQueue, selectedThreads, didUpdate], infos, p
     return {
       active: parseActive(id, active),
       didUpdate: didUpdate.isSome
-        ? !!didUpdate.unwrap().find((paraId): boolean => paraId === id)
+        ? !!didUpdate.unwrap().some((paraId): boolean => paraId === id)
         : false,
       heads: heads[index],
       id,
@@ -86,7 +86,7 @@ function parse ([ids, [active, retryQueue, selectedThreads, didUpdate], infos, p
       relayDispatchQueue: relayDispatchQueues[index],
       retryCollators: parseCollators(id, retryQueue),
       selectedCollators: parseCollators(id, selectedThreads),
-      watermarks: watermarks[index].unwrapOr(null)
+      watermark: watermarks[index].unwrapOr(null)
     };
   });
 }
