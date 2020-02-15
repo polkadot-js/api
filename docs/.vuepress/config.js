@@ -68,6 +68,7 @@ module.exports = {
       },
       {
         title: 'Substrate defaults',
+        path: '/substrate/',
         collapsable: false,
         sidebarDepth: 0,
         children: [
