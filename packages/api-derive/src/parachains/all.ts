@@ -77,7 +77,7 @@ function parse ([ids, [active, retryQueue, selectedThreads, didUpdate], infos, p
     return {
       active: parseActive(id, active),
       didUpdate: didUpdate.isSome
-        ? !!didUpdate.unwrap().some((paraId): boolean => paraId === id)
+        ? didUpdate.unwrap().some((paraId): boolean => paraId === id)
         : false,
       heads: heads[index],
       id,
