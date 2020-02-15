@@ -44,14 +44,4 @@ export default class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | string) {
     super(registry, decodeMetadata(registry, value));
   }
-
-  /**
-   * @description Returns a hex string representation of the value. It is important to note that the output here
-   * will not be equivalent to the hex as received from Substrate. Since the Metadata parsing sanitizes the types
-   * for use in the JS environment, the re-created hex output will be functionally equivalent, but not match
-   * byte-for-byte with what is received from Substrate.
-   */
-  public toHex (): string {
-    return super.toHex();
-  }
 }
