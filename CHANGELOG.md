@@ -1,15 +1,21 @@
 # 1.2.0-beta.x
 
+- **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
 - Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
-- Add support for `system.account` for balance & nonce queries in derives (Substrate composites)
 - Add `BitVec` type primitive
-- Updated types for Polkadot parachains
-- `registry.findMetaError` now can take in a `DispatchErrorModule` object for lookups
-- Update RPC status codes (Substrate 2), with the `isInBlock` (`isFinalized` indicates finality)
+- Add support for `system.account` for balance & nonce queries in derives as well as Submittables (Substrate composites)
+- Add `rpc.author.hasKey` and `rpc.author.hasSessinKeys` RPCs
+- Add derives for the parachains interfaces
+- Applied the latest types for Polkadot parachains
+- `registry.findMetaError` now can take in a `DispatchErrorModule` object for error lookups (from `asModule` in `DispatchError`)
+- Metadata dcocumentation generation rework, including the output of errors from metadata
+- Update all examples and comments to use latest `system.account` queries (instead of `system.accountNonce` and `balances.freeBalance`/`balances.reservedBalance`)
+- Add explicit dependencies to all packages and move TypeScript `@types/*` to dev deps
 
 # 1.1.1
 
+- **Important** Chains without `balances.account` or `system.account` should supply `"BalanceLock": "BalanceLockTo212"` to their types to use the previous-generation `BalanceLock` (when querying locks)
 - Add support for `balances.account` in all applicable derives (incl. `vesting` module)
 - Inject and use SignedExtensions by name from V11 metadata (V4 extrinsics only)
 - Add typings for `api.tx.*.*` - the `polkadot-types-from-chain` now also generates these
@@ -33,7 +39,7 @@
 - Allow type-aliases on a per-module basis (e.g. `Judgement` in identity as well as society)
 - Allow passing `{ signer }` to both `api.tx.*` and `api.sign` (in addition to `api.setSigner`)
 - Add derives for the society module
-- Don't map empty tuples, e.. `()` to `Null`, rather keep them empty
+- Don't map empty tuples, e.g. `()` to `Null`, rather keep them empty
 - Add lookups to the metadata errors via `findMetaError`
 - Update metadata and types for the latest Substrate & Polkadot versions
 - Support metadata V11 as per latest Substrate
