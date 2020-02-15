@@ -9,6 +9,7 @@
 - Add derives for the parachains interfaces
 - Applied the latest types for Polkadot parachains
 - `registry.findMetaError` now can take in a `DispatchErrorModule` object for error lookups (from `asModule` in `DispatchError`)
+- Metadata now correctly serialized to the original data via `toHex()` & `toU8a()`
 - Metadata dcocumentation generation rework, including the output of errors from metadata
 - Update all examples and comments to use latest `system.account` queries (instead of `system.accountNonce` and `balances.freeBalance`/`balances.reservedBalance`)
 - Cleanup `codec/Date` tests to make it run properly on all timezones
