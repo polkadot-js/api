@@ -453,7 +453,3 @@ Changed the send signature (for future expansion of eg. events) to return `resul
 # 0.3.1 Nov 19, 2017
 
 # 0.2.1 Nov 18, 2017
-
-
-
-
