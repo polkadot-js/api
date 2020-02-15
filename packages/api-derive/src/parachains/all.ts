@@ -26,15 +26,17 @@ type DidUpdate = Option<Vec<ParaId>>;
 
 type Result = [
   ParaId[],
+  [
+    Active,
+    RetryQueue,
+    SelectedThreads,
+    DidUpdate
+  ],
   ParaInfoResult[],
   PendingSwap[],
-  Active,
-  RetryQueue,
-  SelectedThreads,
   Heads[],
   RelayDispatchQueue[],
   Watermarks[],
-  DidUpdate
 ];
 
 function parseActive (id: ParaId, active: Active): DeriveParachainActive | null {
@@ -70,7 +72,7 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
     });
 }
 
-function parse ([ids, infos, pendingSwaps, active, retryQueue, selectedThreads, heads, relayDispatchQueues, watermarks, didUpdate]: Result): DeriveParachain[] {
+function parse ([ids, [active, retryQueue, selectedThreads, didUpdate], infos, pendingSwaps, heads, relayDispatchQueues, watermarks]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => {
     return {
       active: parseActive(id, active),
@@ -89,22 +91,24 @@ function parse ([ids, infos, pendingSwaps, active, retryQueue, selectedThreads, 
   });
 }
 
-export function parachains (api: ApiInterfaceRx): () => Observable<DeriveParachain[]> {
+export function all (api: ApiInterfaceRx): () => Observable<DeriveParachain[]> {
   return memo((): Observable<DeriveParachain[]> =>
     api.query.registrar?.parachains && api.query.parachains
       ? api.query.registrar.parachains<ParaIds>().pipe(
         switchMap((paraIds) =>
           combineLatest([
             of(paraIds),
+            api.queryMulti([
+              api.query.registrar.active,
+              api.query.registrar.retryQueue,
+              api.query.registrar.selectedThreads,
+              api.query.parachains.didUpdate
+            ]),
             api.query.registrar.paras.multi<ParaInfo>(paraIds),
             api.query.registrar.pendingSwap.multi<PendingSwap>(paraIds),
-            api.query.registrar.active<Active>(),
-            api.query.registrar.retryQueue<RetryQueue>(),
-            api.query.registrar.selectedThreads<SelectedThreads>(),
             api.query.parachains.heads.multi<Heads>(paraIds),
             api.query.parachains.relayDispatchQueue.multi<RelayDispatchQueue>(paraIds),
-            api.query.parachains.watermarks.multi<Watermarks>(paraIds),
-            api.query.parachains.didUpdate<DidUpdate>()
+            api.query.parachains.watermarks.multi<Watermarks>(paraIds)
           ]) as Observable<Result>
         ),
         map((result: Result): DeriveParachain[] =>
