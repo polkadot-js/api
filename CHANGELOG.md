@@ -1,7 +1,7 @@
 # 1.2.0-beta.x
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
-- Storage `.entries(arg?: any)` now has the correct argument type for BoubleMap (Thanks to https://github.com/monitz87)
+- Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
 - Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
 - Add `BitVec` type primitive
