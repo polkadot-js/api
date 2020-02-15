@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "1.2.0-beta.24",
+  "version": "1.2.0-beta.25",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "bin": {
@@ -33,8 +33,8 @@
     "@babel/core": "^7.8.4",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
-    "@polkadot/api": "^1.2.0-beta.24",
-    "@polkadot/metadata": "^1.2.0-beta.24",
+    "@polkadot/api": "^1.2.0-beta.25",
+    "@polkadot/metadata": "^1.2.0-beta.25",
     "@polkadot/util": "^2.3.0-beta.6",
     "@polkadot/util-crypto": "^2.3.0-beta.6",
     "bn.js": "^5.1.1",
