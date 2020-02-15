@@ -11,6 +11,7 @@
 - `registry.findMetaError` now can take in a `DispatchErrorModule` object for error lookups (from `asModule` in `DispatchError`)
 - Metadata dcocumentation generation rework, including the output of errors from metadata
 - Update all examples and comments to use latest `system.account` queries (instead of `system.accountNonce` and `balances.freeBalance`/`balances.reservedBalance`)
+- Cleanup `codec/Date` tests to make it run properly on all timezones
 - Add explicit dependencies to all packages and move TypeScript `@types/*` to dev deps
 
 # 1.1.1
