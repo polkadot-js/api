@@ -97,7 +97,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * The set of open multisig operations.
        **/
-      multisigs: AugmentedQuery<ApiType, (key1: AccountId | string | Uint8Array, key2: Raw | string | Uint8Array) => Observable<Option<Multisig>>> & QueryableStorageEntry<ApiType>;
+      multisigs: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: Raw | string | Uint8Array) => Observable<Option<Multisig>>, AccountId | string | Uint8Array> & QueryableStorageEntry<ApiType>;
     };
     babe: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -306,11 +306,11 @@ declare module '@polkadot/api/types/storage' {
        * All slashing events on validators, mapped by era to the highest slash proportion
        * and slash value of the era.
        **/
-      validatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<ITuple<[Perbill, BalanceOf]>>>> & QueryableStorageEntry<ApiType>;
+      validatorSlashInEra: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<ITuple<[Perbill, BalanceOf]>>>, EraIndex | AnyNumber | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * All slashing events on nominators, mapped by era to the highest slash value of the era.
        **/
-      nominatorSlashInEra: AugmentedQuery<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<BalanceOf>>> & QueryableStorageEntry<ApiType>;
+      nominatorSlashInEra: AugmentedQueryDoubleMap<ApiType, (key1: EraIndex | AnyNumber | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<BalanceOf>>, EraIndex | AnyNumber | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * Slashing spans for stash accounts.
        **/
@@ -355,13 +355,13 @@ declare module '@polkadot/api/types/storage' {
        * The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of
        * the trie. Having all data in the same branch should prevent slowing down other queries.
        **/
-      nextKeys: AugmentedQuery<ApiType, (key1: Bytes | string | Uint8Array, key2: ValidatorId | string | Uint8Array) => Observable<Option<Keys>>> & QueryableStorageEntry<ApiType>;
+      nextKeys: AugmentedQueryDoubleMap<ApiType, (key1: Bytes | string | Uint8Array, key2: ValidatorId | string | Uint8Array) => Observable<Option<Keys>>, Bytes | string | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * The owner of a key. The second key is the `KeyTypeId` + the encoded key.
        * The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of
        * the trie. Having all data in the same branch should prevent slowing down other queries.
        **/
-      keyOwner: AugmentedQuery<ApiType, (key1: Bytes | string | Uint8Array, key2: ITuple<[KeyTypeId, Bytes]>) => Observable<Option<ValidatorId>>> & QueryableStorageEntry<ApiType>;
+      keyOwner: AugmentedQueryDoubleMap<ApiType, (key1: Bytes | string | Uint8Array, key2: ITuple<[KeyTypeId, Bytes]>) => Observable<Option<ValidatorId>>, Bytes | string | Uint8Array> & QueryableStorageEntry<ApiType>;
     };
     democracy: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -643,12 +643,12 @@ declare module '@polkadot/api/types/storage' {
        * For each session index, we keep a mapping of `AuthIndex`
        * to `offchain::OpaqueNetworkState`.
        **/
-      receivedHeartbeats: AugmentedQuery<ApiType, (key1: SessionIndex | AnyNumber | Uint8Array, key2: AuthIndex | AnyNumber | Uint8Array) => Observable<Option<Bytes>>> & QueryableStorageEntry<ApiType>;
+      receivedHeartbeats: AugmentedQueryDoubleMap<ApiType, (key1: SessionIndex | AnyNumber | Uint8Array, key2: AuthIndex | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, SessionIndex | AnyNumber | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * For each session index, we keep a mapping of `T::ValidatorId` to the
        * number of blocks authored by the given authority.
        **/
-      authoredBlocks: AugmentedQuery<ApiType, (key1: SessionIndex | AnyNumber | Uint8Array, key2: ValidatorId | string | Uint8Array) => Observable<u32>> & QueryableStorageEntry<ApiType>;
+      authoredBlocks: AugmentedQueryDoubleMap<ApiType, (key1: SessionIndex | AnyNumber | Uint8Array, key2: ValidatorId | string | Uint8Array) => Observable<u32>, SessionIndex | AnyNumber | Uint8Array> & QueryableStorageEntry<ApiType>;
     };
     offences: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -659,7 +659,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * A vector of reports of the same kind that happened at the same time slot.
        **/
-      concurrentReportsIndex: AugmentedQuery<ApiType, (key1: Kind | string | Uint8Array, key2: OpaqueTimeSlot | string | Uint8Array) => Observable<Vec<ReportIdOf>>> & QueryableStorageEntry<ApiType>;
+      concurrentReportsIndex: AugmentedQueryDoubleMap<ApiType, (key1: Kind | string | Uint8Array, key2: OpaqueTimeSlot | string | Uint8Array) => Observable<Vec<ReportIdOf>>, Kind | string | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * Enumerates all reports of a kind along with the time they happened.
        * All reports are sorted by the time of offence.
@@ -754,7 +754,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Double map from Candidate -> Voter -> (Maybe) Vote.
        **/
-      votes: AugmentedQuery<ApiType, (key1: AccountId | string | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<SocietyVote>>> & QueryableStorageEntry<ApiType>;
+      votes: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<SocietyVote>>, AccountId | string | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * The defending member currently being challenged.
        **/
@@ -779,7 +779,7 @@ declare module '@polkadot/api/types/storage' {
        * First account is the account to be recovered, and the second account
        * is the user trying to recover the account.
        **/
-      activeRecoveries: AugmentedQuery<ApiType, (key1: AccountId | string | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<ActiveRecovery>>> & QueryableStorageEntry<ApiType>;
+      activeRecoveries: AugmentedQueryDoubleMap<ApiType, (key1: AccountId | string | Uint8Array, key2: AccountId | string | Uint8Array) => Observable<Option<ActiveRecovery>>, AccountId | string | Uint8Array> & QueryableStorageEntry<ApiType>;
       /**
        * The final list of recovered accounts.
        * Map from the recovered account to the user who can access it.
