@@ -15,6 +15,3 @@ try {
 export * from './codec';
 export * from './create';
 export * from './index.types';
-
-// FIXME We actually don't want to do this (if needed, it certainly is not in the right place)
-export { formatType } from './scripts/util/formatting';
