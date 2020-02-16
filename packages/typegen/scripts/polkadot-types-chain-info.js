@@ -22,4 +22,4 @@ require('@babel/register')({
   ]
 });
 
-require('@polkadot/typegen/extractChain.ts');
+require('@polkadot/typegen/extractChain');
