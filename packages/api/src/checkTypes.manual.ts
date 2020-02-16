@@ -59,6 +59,10 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
     multiUnsub();
   });
+
+  // check entries()
+  await api.query.system.account.entries(); // should not take a param
+  await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 }
 
 async function rpc (api: ApiPromise): Promise<void> {

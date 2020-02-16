@@ -71,7 +71,7 @@ describe('Type', (): void => {
     ).toEqual('()');
   });
 
-  it('has a length for the type', (): void => {
+  it('has the sanitized', (): void => {
     expect(
       new Type(
         registry,
@@ -101,5 +101,15 @@ describe('Type', (): void => {
         stringToU8a(type)
       )
     );
+  });
+
+  it('creates a decodable U8a for sanitized types', (): void => {
+    const original = '<T::InherentOfflineReport as InherentOfflineReport>::Inherent';
+    const expected = 'InherentOfflineReport';
+    const u8a = new Type(registry, original).toU8a();
+    const decoded = new Type(registry, u8a);
+
+    expect(decoded.encodedLength).toEqual(original.length + 1); // extra byte for length
+    expect(decoded.toString()).toEqual(expected);
   });
 });
