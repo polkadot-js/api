@@ -1,3 +1,7 @@
+# 1.3.0-beta.x
+
+- Expose chain properies on registry (and use for API type formatting)
+
 # 1.2.1 Feb 16, 2020
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
