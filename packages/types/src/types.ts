@@ -405,7 +405,7 @@ export interface RegistryMetadata {
 
 export interface Registry {
   readonly chainDecimals: number;
-  readonly chainSS58: number;
+  readonly chainSS58: number | undefined;
   readonly chainToken: string;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;

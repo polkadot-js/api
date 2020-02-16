@@ -113,10 +113,10 @@ export class TypeRegistry implements Registry {
       : 12;
   }
 
-  public get chainSS58 (): number {
+  public get chainSS58 (): number | undefined {
     return this._chainProperties?.ss58Format.isSome
       ? this._chainProperties.ss58Format.unwrap().toNumber()
-      : 42;
+      : undefined;
   }
 
   public get chainToken (): string {

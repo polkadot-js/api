@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { setSS58Format } from '@polkadot/util-crypto';
-
 import { createType, TypeRegistry } from '../../codec/create';
 import Raw from '../../codec/Raw';
 import jsonVec from '../../json/AccountIdVec.001.json';
