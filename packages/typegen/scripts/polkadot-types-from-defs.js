@@ -4,18 +4,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-require('@babel/register')({
-  extensions: ['.js', '.ts'],
-  plugins: [
-    ['module-resolver', {
-      alias: {
-        '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
-        '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
-        '^@polkadot/types(.*)': './packages/types/src\\1'
-      }
-    }]
-  ]
-});
+// require('@babel/register')({
+//   extensions: ['.js', '.ts'],
+//   plugins: [
+//     ['module-resolver', {
+//       alias: {
+//         '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
+//         '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
+//         '^@polkadot/types(.*)': './packages/types/src\\1'
+//       }
+//     }]
+//   ]
+// });
 
 const path = require('path');
 const yargs = require('yargs');

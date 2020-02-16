@@ -4,7 +4,7 @@
 
 import { Constructor } from '@polkadot/types/types';
 
-import { UInt } from '@polkadot/types';
+import UInt from '@polkadot/types/codec/UInt';
 
 // See if a class is child of another class
 // FIMXE This could go in util some day
