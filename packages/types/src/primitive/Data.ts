@@ -7,7 +7,7 @@ import { Registry } from '../types';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import { createType } from '../codec/create/createType';
+import { createType } from '../create/createType';
 import Bytes from './Bytes';
 import H256 from './H256';
 

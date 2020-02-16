@@ -5,7 +5,7 @@
 import { Registry } from '@polkadot/types/types';
 import { Constants, ConstantCodec, ModuleConstants } from '../../types';
 
-import { createTypeUnsafe } from '@polkadot/types/codec';
+import { createTypeUnsafe } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
 import Metadata from '../../../Metadata';

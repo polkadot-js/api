@@ -8,7 +8,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import { TypeRegistry } from '../../../codec';
+import { TypeRegistry } from '../../../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();

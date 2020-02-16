@@ -4,7 +4,7 @@
 
 import interfaces from '../../../../type-jsonrpc/src';
 import * as definitions from '../../interfaces/definitions';
-import { TypeRegistry } from '../../codec/create';
+import { TypeRegistry } from '../../create';
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
 /** @internal */

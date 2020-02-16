@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Base from '../../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';

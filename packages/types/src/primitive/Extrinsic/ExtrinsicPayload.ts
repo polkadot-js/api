@@ -7,7 +7,7 @@ import { BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import Raw from '../../codec/Raw';

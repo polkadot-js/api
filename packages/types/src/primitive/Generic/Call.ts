@@ -7,7 +7,7 @@ import { AnyU8a, ArgsDef, Codec, IMethod, Registry } from '../../types';
 
 import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../../codec/create';
+import { getTypeDef, getTypeClass } from '../../create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
 

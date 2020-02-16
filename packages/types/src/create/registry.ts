@@ -3,17 +3,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties, DispatchErrorModule } from '../../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
+import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import Raw from '../Raw';
-import { EventData } from '../../primitive/Generic/Event';
-import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/signedExtensions';
-import { createClass } from './createClass';
-import { getTypeClass } from './getTypeClass';
+import Raw from '../codec/Raw';
+import { EventData } from '../primitive/Generic/Event';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
+import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';
 
 // create error mapping from metadata
@@ -95,8 +94,8 @@ export class TypeRegistry implements Registry {
     // we only want to import these on creation, i.e. we want to avoid types
     // weird side-effects from circular references. (Since registry is injected
     // into types, this can  be a real concern now)
-    const baseTypes: RegistryTypes = require('../../index.types');
-    const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
+    const baseTypes: RegistryTypes = require('../index.types');
+    const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
     // since these are classes, they are injected first
     this.register({ Raw, ...baseTypes });

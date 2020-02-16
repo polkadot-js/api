@@ -4,7 +4,7 @@
 
 import { stringToU8a, u8aConcat } from '@polkadot/util';
 
-import { TypeRegistry } from '../codec';
+import { TypeRegistry } from '../create';
 import Text from './Text';
 import Type from './Type';
 

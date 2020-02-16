@@ -10,7 +10,7 @@ import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types/codec';
+import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 

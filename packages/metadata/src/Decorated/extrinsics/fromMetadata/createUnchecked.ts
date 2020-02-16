@@ -6,8 +6,8 @@ import { Call } from '@polkadot/types/interfaces';
 import { AnyJsonObject, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
 
 // we do a direct import here to remove all circular dependencies (importing from
-// /types, /types/codec or /types/codec/create makes all hell break loose)
-import { createType } from '@polkadot/types/codec/create/createType';
+// /types, /types/codec or /types/create makes all hell break loose)
+import { createType } from '@polkadot/types/create/createType';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /** @internal */

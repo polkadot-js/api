@@ -5,7 +5,7 @@
 import { hexToString } from '@polkadot/util';
 
 import { u32, Text } from '../primitive';
-import { createType, TypeRegistry } from './create';
+import { createType, TypeRegistry } from '../create';
 import Result from './Result';
 
 describe('Result', (): void => {

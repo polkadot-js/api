@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDefInfo } from '../../create/types';
+
 import * as codecClasses from '../../codec';
-import { getTypeDef } from '../../codec/create';
-import { TypeDefInfo } from '../../codec/types';
+import { getTypeDef } from '../../create';
 import * as primitiveClasses from '../../primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If

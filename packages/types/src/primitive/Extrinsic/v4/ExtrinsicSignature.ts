@@ -8,7 +8,7 @@ import { ExtrinsicSignatureOptions } from '../types';
 
 import { u8aConcat } from '@polkadot/util';
 
-import { createType } from '../../../codec/create';
+import { createType } from '../../../create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';

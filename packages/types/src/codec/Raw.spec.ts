@@ -4,7 +4,7 @@
 
 import { CodecTo } from '../types';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import Raw from './Raw';
 
 const registry = new TypeRegistry();

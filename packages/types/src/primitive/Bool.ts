@@ -7,7 +7,7 @@ import { Codec, IHash, Registry } from '../types';
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../codec/create';
+import { createType } from '../create';
 
 /** @internal */
 function decodeBool (value: any): boolean {

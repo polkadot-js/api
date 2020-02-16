@@ -2,24 +2,44 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../../types';
-import { TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import { FromReg, TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
-import BTreeMap from '../BTreeMap';
-import BTreeSet from '../BTreeSet';
-import Compact from '../Compact';
-import Enum from '../Enum';
-import Option from '../Option';
-import Result from '../Result';
-import CodecSet from '../Set';
-import Struct from '../Struct';
-import Tuple from '../Tuple';
-import U8aFixed, { BitLength as U8aFixedBitLength } from '../U8aFixed';
-import Vec from '../Vec';
-import VecFixed from '../VecFixed';
-import { ClassOf } from './createClass';
+import BTreeMap from '../codec/BTreeMap';
+import BTreeSet from '../codec/BTreeSet';
+import Compact from '../codec/Compact';
+import Enum from '../codec/Enum';
+import Option from '../codec/Option';
+import Result from '../codec/Result';
+import CodecSet from '../codec/Set';
+import Struct from '../codec/Struct';
+import Tuple from '../codec/Tuple';
+import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
+import Vec from '../codec/Vec';
+import VecFixed from '../codec/VecFixed';
+import { InterfaceRegistry } from '../interfaceRegistry';
+import { getTypeDef } from './getTypeDef';
+
+export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return getTypeClass<FromReg<T, K>>(registry, getTypeDef(type));
+}
+
+// An unsafe version of the `createType` below. It's unsafe because the `type`
+// argument here can be any string, which, if it cannot be parsed, it will yield
+// a runtime error.
+export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string> (registry: Registry, name: K): Constructor<FromReg<T, K>> {
+  return createClass<T, K>(registry, name);
+}
+
+// alias for createClass
+export function ClassOf<K extends InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceRegistry[K]> {
+  // TS2589: Type instantiation is excessively deep and possibly infinite.
+  // The above happens with as Constructor<InterfaceRegistry[K]>;
+  return ClassOfUnsafe<Codec, K>(registry, name) as any;
+}
 
 function getSubDefArray (value: TypeDef): TypeDef[] {
   assert(value.sub && Array.isArray(value.sub), `Expected subtype as TypeDef[] in ${JSON.stringify(value)}`);

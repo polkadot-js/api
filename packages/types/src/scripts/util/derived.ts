@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '../../codec/types';
+import { TypeDef, TypeDefInfo } from '../../create/types';
 import { Constructor, Registry } from '../../types';
 
 import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../create';
 import AbstractInt from '../../codec/AbstractInt';
 import Compact from '../../codec/Compact';
 import Enum from '../../codec/Enum';

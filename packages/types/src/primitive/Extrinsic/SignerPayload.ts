@@ -6,7 +6,7 @@ import { u8aToHex } from '@polkadot/util';
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../../interfaces';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
-import { createType } from '../../codec';
+import { createType } from '../../create';
 import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../../types';
 import u8 from '../U8';
 
