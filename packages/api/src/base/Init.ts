@@ -10,7 +10,7 @@ import { Metadata } from '@polkadot/types';
 import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
-import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
 
@@ -114,9 +114,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // set our chain version & genesisHash as returned
     this._genesisHash = genesisHash;
     this._runtimeVersion = runtimeVersion;
-
-    // set the global ss58Format as detected by the chain
-    setSS58Format(this.registry.chainSS58);
 
     // get unique types & validate
     metadata.getUniqTypes(false);
