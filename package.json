@@ -12,8 +12,8 @@
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:interfaces": "polkadot-types-predefines",
-    "docs": "polkadot-types-metadata-docss && polkadot-dev-build-docs",
+    "build:interfaces": "polkadot-types-internal-interfaces",
+    "docs": "polkadot-types-internal-metadata && polkadot-dev-build-docs",
     "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",

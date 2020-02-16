@@ -6,10 +6,10 @@ import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create
 
 import fs from 'fs';
 import path from 'path';
+import { getTypeDef } from '@polkadot/types';
+import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef } from '@polkadot/types/create';
-import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {

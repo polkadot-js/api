@@ -10,6 +10,7 @@ require('@babel/register')({
     ['module-resolver', {
       alias: {
         '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
+        '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
         '^@polkadot/types(.*)': './packages/types/src\\1'
       }
     }]
@@ -23,9 +24,9 @@ if (typeof WebSocket === 'undefined') {
 const path = require('path');
 const yargs = require('yargs');
 const { formatNumber } = require('@polkadot/util');
-const generateConst = require('./generate/consts').default;
-const generateQuery = require('./generate/query').default;
-const generateTx = require('./generate/tx').default;
+const generateConst = require('@polkadot/typegen/generate/consts').default;
+const generateQuery = require('@polkadot/typegen/generate/query').default;
+const generateTx = require('@polkadot/typegen/generate/tx').default;
 
 const { endpoint, output, package, strict: isStrict } = yargs.strict().options({
   endpoint: {

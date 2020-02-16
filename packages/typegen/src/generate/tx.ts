@@ -7,11 +7,9 @@ import * as defaultDefs from '@polkadot/types/interfaces/definitions';
 import { Registry } from '@polkadot/types/types';
 
 import staticData from '@polkadot/metadata/Metadata/static';
-import Metadata from '@polkadot/metadata/Metadata';
-import { Text } from '@polkadot/types';
+import { Metadata, Text, TypeRegistry } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeRegistry } from '@polkadot/types/create';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {

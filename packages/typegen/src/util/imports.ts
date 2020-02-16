@@ -5,7 +5,7 @@
 import { TypeDefInfo } from '@polkadot/types/create/types';
 
 import * as codecClasses from '@polkadot/types/codec';
-import { getTypeDef } from '@polkadot/types/create';
+import { getTypeDef } from '@polkadot/types';
 import * as primitiveClasses from '@polkadot/types/primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If

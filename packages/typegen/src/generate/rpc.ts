@@ -4,7 +4,8 @@
 
 import interfaces from '@polkadot/jsonrpc';
 import * as definitions from '@polkadot/types/interfaces/definitions';
-import { TypeRegistry } from '@polkadot/types/create';
+import { TypeRegistry } from '@polkadot/types';
+
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
 /** @internal */

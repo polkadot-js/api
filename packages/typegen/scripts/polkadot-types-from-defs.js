@@ -10,6 +10,7 @@ require('@babel/register')({
     ['module-resolver', {
       alias: {
         '^@polkadot/metadata(.*)': './packages/metadata/src\\1',
+        '^@polkadot/typegen(.*)': './packages/typegen/src\\1',
         '^@polkadot/types(.*)': './packages/types/src\\1'
       }
     }]
@@ -18,9 +19,9 @@ require('@babel/register')({
 
 const path = require('path');
 const yargs = require('yargs');
-const substrateDefs = require('../interfaces/definitions');
-const { generateInterfaceRegistry } = require('./generateTypes/interfaceRegistry');
-const { generateTsDef } = require('./generateTypes/tsDef');
+const substrateDefs = require('@polkadot/types/interfaces/definitions');
+const { generateInterfaceRegistry } = require('@polkadot/typegen/generateTypes/interfaceRegistry');
+const { generateTsDef } = require('@polkadot/typegen/generateTypes/tsDef');
 
 const { input, package } = yargs.strict().options({
   input: {

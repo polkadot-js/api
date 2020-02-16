@@ -5,6 +5,7 @@
 import Raw from '@polkadot/types/codec/Raw';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
+
 import { FOOTER, HEADER, createImportCode, createImports, getDerivedTypes, indent, setImports, writeFile } from '../util';
 
 const primitiveClasses = {

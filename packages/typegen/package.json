@@ -4,11 +4,11 @@
   "description": "Type generation scripts",
   "main": "index.js",
   "bin": {
-    "polkadot-types-chain-info": "./polkadot-types-chain-info.js",
-    "polkadot-types-from-chain": "./polkadot-types-from-chain.js",
-    "polkadot-types-from-defs": "./polkadot-types-from-defs.js",
-    "polkadot-types-metadata-docs": "./polkadot-types-metadata-docs.js",
-    "polkadot-types-predefines": "./polkadot-types-predefines.js"
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.js",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.js",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
   },
   "publishConfig": {
     "access": "public",

@@ -10,9 +10,7 @@ import Decorated from '@polkadot/metadata/Decorated';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import Call from '@polkadot/types/primitive/Generic/Call';
-import { TypeRegistry } from '@polkadot/types/create';
-import { Vec } from '@polkadot/types/codec';
-import { Text } from '@polkadot/types/primitive';
+import { Text, TypeRegistry, Vec } from '@polkadot/types';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';

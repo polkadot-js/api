@@ -6,6 +6,7 @@ import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create
 
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
+
 import { setImports, TypeImports } from './imports';
 
 export const HEADER = '// Auto-generated via `yarn polkadot-types-from-defs`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';
