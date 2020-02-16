@@ -104,5 +104,6 @@ export interface Registry {
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+  setChainProperties (properties?: ChainProperties): void;
   setMetadata (metadata: RegistryMetadata): void;
 }
