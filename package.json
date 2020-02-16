@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:interfaces": "polkadot-types-prefedines",
+    "build:interfaces": "polkadot-types-predefines",
     "docs": "polkadot-types-metadata-docss && polkadot-dev-build-docs",
     "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
