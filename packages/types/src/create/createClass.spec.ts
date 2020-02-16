@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createClass, TypeRegistry } from '.';
+import { Codec, Constructor } from '../types';
+
+import { createClass, getTypeClass, TypeRegistry } from '.';
 
 describe('createClass', (): void => {
   const registry = new TypeRegistry();
@@ -19,5 +21,15 @@ describe('createClass', (): void => {
     const B = createClass(registry, 'Bytes');
 
     expect(new A(registry) instanceof B).toBe(true);
+  });
+});
+
+describe('getTypeClass', (): void => {
+  const registry = new TypeRegistry();
+
+  it('does not allow invalid types', (): void => {
+    expect(
+      (): Constructor<Codec> => getTypeClass(registry, 'SomethingInvalid' as any)
+    ).toThrow(/determine type/);
   });
 });
