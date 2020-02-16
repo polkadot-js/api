@@ -27,7 +27,7 @@ The API is split up into a number of internal packages -
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 
-- [@polkadot/jsonrpc](packages/type-jsonrpc/) Definitions for JSONRPC endpoints
+- [@polkadot/jsonrpc](packages/jsonrpc/) Definitions for JSONRPC endpoints
 - [@polkadot/types](packages/types/) Codecs for all Polkadot and Substrate primitives
 
 ## development
