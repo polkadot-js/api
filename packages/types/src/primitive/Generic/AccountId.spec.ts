@@ -4,7 +4,7 @@
 
 import { setSS58Format } from '@polkadot/util-crypto';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import Raw from '../../codec/Raw';
 import jsonVec from '../../json/AccountIdVec.001.json';
 import AccountId from './AccountId';

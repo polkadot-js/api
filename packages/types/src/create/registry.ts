@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DispatchErrorModule } from '../../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
+import { DispatchErrorModule } from '../interfaces/types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import Raw from '../Raw';
-import { EventData } from '../../primitive/Generic/Event';
-import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../../primitive/Extrinsic/signedExtensions';
+import Raw from '../codec/Raw';
+import { EventData } from '../primitive/Generic/Event';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
 import { createClass } from './createClass';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';

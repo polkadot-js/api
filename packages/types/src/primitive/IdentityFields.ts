@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Set from '../codec/Set';
-import { createType } from '../codec/create/createType';
+import { createType } from '../create/createType';
 
 /** @internal */
 function decodeFields (registry: Registry, value?: any): any {

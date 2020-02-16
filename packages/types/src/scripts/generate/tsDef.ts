@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef } from '../../codec/create';
+import { getTypeDef } from '../../create';
 import * as defaultDefinitions from '../../interfaces/definitions';
 import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
 

@@ -7,7 +7,7 @@ import { Constructor, Registry } from '../../types';
 
 import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../codec/create';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../create';
 import AbstractInt from '../../codec/AbstractInt';
 import Compact from '../../codec/Compact';
 import Enum from '../../codec/Enum';

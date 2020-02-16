@@ -4,7 +4,7 @@
 
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
 
-import { getTypeDef } from '../../codec/create';
+import { getTypeDef } from '../../create';
 import { paramsNotation } from '../../codec/utils';
 import { setImports, TypeImports } from './imports';
 

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, InterfaceTypes } from '../../types';
+import { Codec, InterfaceTypes } from '../types';
 
-import { InterfaceRegistry } from '../../interfaceRegistry';
+import { InterfaceRegistry } from '../interfaceRegistry';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
 export type FromReg<T extends Codec, K extends string> = K extends InterfaceTypes

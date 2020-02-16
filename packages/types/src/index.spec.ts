@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import { createTypeUnsafe, TypeRegistry } from './codec/create';
+import { createTypeUnsafe, TypeRegistry } from './create';
 import { Codec } from './types';
 import * as exported from './index.types';
 import * as definitions from './interfaces/definitions';

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import * as codecClasses from '../../codec';
-import { getTypeDef } from '../../codec/create';
+import { getTypeDef } from '../../create';
 import { TypeDefInfo } from '../../codec/types';
 import * as primitiveClasses from '../../primitive';
 

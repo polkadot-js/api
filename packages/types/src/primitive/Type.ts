@@ -4,7 +4,7 @@
 
 import { Registry } from '../types';
 
-import sanitize from '../codec/create/sanitize';
+import sanitize from '../create/sanitize';
 import Text from './Text';
 
 /**

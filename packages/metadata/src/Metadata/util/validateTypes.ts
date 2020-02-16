@@ -5,7 +5,7 @@
 import { Registry } from '@polkadot/types/types';
 import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/codec/types';
 
-import { getTypeDef } from '@polkadot/types/codec/create';
+import { getTypeDef } from '@polkadot/types/create';
 
 import flattenUniq from './flattenUniq';
 

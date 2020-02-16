@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import { InterfaceRegistry } from './interfaceRegistry';
 import { Signer } from '@polkadot/api/types';
 
-export * from './codec/types';
+export * from './create/types';
 
 // helper to xtract keys from an array
 export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
