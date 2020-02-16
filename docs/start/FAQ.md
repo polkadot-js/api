@@ -33,3 +33,9 @@ Tuples, as defined in the Polkadot/Substrate types appear as `(TypeA, TypeB)`. F
 Polkadot/Substrate supports both immortal and mortal transactions. For immortal, this means that the transaction has an infinite lifetime, for mortals, the transactions expire after a defined period. By default the API sends mortal transactions when no explicit extrinsic era has been specified. This means that all transaction has a limited lifetime and will expire if not included in the period set.
 
 The length for this transaction validity is set to 50 blocks, which translates to 5 minutes assuming a default of 6 second blocktimes. (10 blocks per minute in this default configuration).
+
+## My chain does not support the system.account
+
+The API always tracks the latest Substrate master in terms of examples. This means that nonce & balance queries are done via the `api.query.system.account(<account>)` which returns a Tuple `(Index, AccountData)` where the first is the nonce, the second a struct containing the free and reserved balances. As with all `api.query.*` endpoint, this is decorated based on what the chain you connect to support.
+
+It is possible that you are connecting to an older chain that has not been upgraded yet. For these chains, this storage entry won't be available (yet). To query the nonce on older chains, you can do a query to `api.query.system.accountNonce(<account>)` and balances can be retrieved via `api.query.balances.freeBalance(<account>)`.
