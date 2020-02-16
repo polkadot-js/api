@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
-import { SubmittableResult as ISubmittableResult } from '@polkadot/types/types';
+import { ISubmittableResult } from '@polkadot/types/types';
 import { SubmittableResultValue } from './types';
 
 export default class SubmittableResult implements ISubmittableResult {

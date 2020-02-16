@@ -170,7 +170,8 @@ export interface RuntimeVersionInterface {
   readonly specVersion: BN;
 }
 
-export interface SubmittableResult {
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
+export interface ISubmittableResult {
   readonly events: EventRecord[];
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
@@ -208,7 +209,7 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: IHash | SubmittableResult) => void;
+  update?: (id: number, status: IHash | ISubmittableResult) => void;
 }
 
 export interface SignatureOptions {
