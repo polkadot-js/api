@@ -108,7 +108,7 @@ export default class AccountIndex extends U32 {
   public toString (): string {
     const length = AccountIndex.calcLength(this);
 
-    return encodeAddress(this.toU8a().subarray(0, length));
+    return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
   }
 
   /**
