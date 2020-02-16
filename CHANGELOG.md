@@ -1,3 +1,7 @@
+# 1.3.0-beta.x
+
+- Expose chain properies on registry (and use for API type formatting)
+
 # 1.2.1 Feb 16, 2020
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
@@ -11,7 +15,7 @@
 - Applied the latest types for Polkadot parachains
 - `registry.findMetaError` now can take in a `DispatchErrorModule` object for error lookups (from `asModule` in `DispatchError`)
 - Metadata now correctly serializes to the original input data via `toHex()` & `toU8a()`
-- Metadata dcocumentation generation rework, including the output of errors from metadata
+- Metadata documentation generation rework, including the output of errors from metadata
 - Update all examples and comments to use latest `system.account` queries (instead of `system.accountNonce` and `balances.freeBalance`/`balances.reservedBalance`)
 - Cleanup `codec/Date` tests to make it run properly on all timezones
 - Add explicit dependencies to all packages and move TypeScript `@types/*` to dev deps

@@ -34,8 +34,8 @@ export default class AccountId extends U8aFixed {
     super(registry, decodeAccountId(value), 256);
   }
 
-  public static encode (value: Uint8Array): string {
-    return encodeAddress(value);
+  public static encode (value: Uint8Array, ss58Format?: number): string {
+    return encodeAddress(value, ss58Format);
   }
 
   /**
@@ -56,7 +56,7 @@ export default class AccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return AccountId.encode(this);
+    return AccountId.encode(this, this.registry.chainSS58);
   }
 
   /**

@@ -6,12 +6,11 @@ import { SignedBlock } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
 import DecoratedMeta from '@polkadot/metadata/Decorated';
-import { Metadata, u32 as U32 } from '@polkadot/types';
+import { Metadata } from '@polkadot/types';
 import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
-import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
-import addressDefaults from '@polkadot/util-crypto/address/defaults';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import Decorate from './Decorate';
 
@@ -73,6 +72,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._extrinsicType = source.extrinsicVersion;
     this._runtimeVersion = source.runtimeVersion;
     this._genesisHash = source.genesisHash;
+    this.registry.setChainProperties(source.registry.getChainProperties());
 
     const methods: string[] = [];
 
@@ -100,6 +100,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     // based on the node spec & chain, inject specific type overrides
     this.registerTypes(getChainTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.registry.setChainProperties(chainProps);
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
@@ -113,9 +114,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // set our chain version & genesisHash as returned
     this._genesisHash = genesisHash;
     this._runtimeVersion = runtimeVersion;
-
-    // set the global ss58Format as detected by the chain
-    setSS58Format(chainProps.ss58Format.unwrapOr(new U32(this.registry, addressDefaults.prefix)).toNumber());
 
     // get unique types & validate
     metadata.getUniqTypes(false);
