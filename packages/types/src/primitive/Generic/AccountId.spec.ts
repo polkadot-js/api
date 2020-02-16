@@ -84,7 +84,11 @@ describe('AccountId', (): void => {
 
   describe('storage decoding', (): void => {
     it('has the correct entries', (): void => {
-      setSS58Format(68);
+      registry.setChainProperties(
+        createType(registry, 'ChainProperties', {
+          ss58Format: 68
+        })
+      );
 
       const data = createType(registry, 'StorageData', jsonVec.params.result.changes[0][1]);
       const list = createType(registry, 'Vec<AccountId>', data).map((accountId): string => accountId.toString());
