@@ -95,8 +95,8 @@ export class TypeRegistry implements Registry {
     // we only want to import these on creation, i.e. we want to avoid types
     // weird side-effects from circular references. (Since registry is injected
     // into types, this can  be a real concern now)
-    const baseTypes: RegistryTypes = require('../../index.types');
-    const definitions: Record<string, { types: RegistryTypes }> = require('../../interfaces/definitions');
+    const baseTypes: RegistryTypes = require('../index.types');
+    const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
     // since these are classes, they are injected first
     this.register({ Raw, ...baseTypes });

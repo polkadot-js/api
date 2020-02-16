@@ -13,8 +13,7 @@ import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operat
 import jsonrpc from '@polkadot/jsonrpc';
 import jsonrpcMethod from '@polkadot/jsonrpc/create/method';
 import jsonrpcParam from '@polkadot/jsonrpc/create/param';
-import { Option, StorageKey, Vec, createClass } from '@polkadot/types';
-import { createTypeUnsafe } from '@polkadot/types/codec';
+import { Option, StorageKey, Vec, createClass, createTypeUnsafe } from '@polkadot/types';
 import { assert, isFunction, isNull, isNumber, isUndefined, logger, u8aToU8a } from '@polkadot/util';
 
 import { drr } from './rxjs';

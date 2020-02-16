@@ -8,7 +8,8 @@ import { Registry } from '@polkadot/types/types';
 
 import { stringUpperFirst } from '@polkadot/util';
 
-import { createType, Option, Vec } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
+import { Option, Vec } from '@polkadot/types/codec';
 import { Text } from '@polkadot/types/primitive';
 
 /** @internal */
