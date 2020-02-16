@@ -12,9 +12,9 @@
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
-    "docs": "node packages/types/src/scripts/MetadataMdWrapper.js && polkadot-dev-build-docs",
-    "chain:info": "node packages/types/src/scripts/extractChainWrapper.js",
+    "build:interfaces": "polkadot-types-prefedines",
+    "docs": "polkadot-types-metadata-docss && polkadot-dev-build-docs",
+    "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
