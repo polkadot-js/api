@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DispatchErrorModule } from '../../interfaces/types';
+import { ChainProperties, DispatchErrorModule } from '../../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
@@ -77,6 +77,8 @@ function decorateExtrinsics (registry: Registry, metadata: RegistryMetadata, met
 }
 
 export class TypeRegistry implements Registry {
+  private _chainProperties?: ChainProperties;
+
   private _classes: Map<string, Constructor> = new Map();
 
   private _definitions: Map<string, string> = new Map();
@@ -105,6 +107,25 @@ export class TypeRegistry implements Registry {
     );
   }
 
+  public get chainDecimals (): number {
+    return this._chainProperties?.tokenDecimals.isSome
+      ? this._chainProperties.tokenDecimals.unwrap().toNumber()
+      : 12;
+  }
+
+  public get chainSS58 (): number {
+    return this._chainProperties?.ss58Format.isSome
+      ? this._chainProperties.ss58Format.unwrap().toNumber()
+      : 42;
+  }
+
+  public get chainToken (): string {
+    return this._chainProperties?.tokenSymbol.isSome
+      ? this._chainProperties.tokenSymbol.unwrap().toString()
+      : 'DEV';
+  }
+
+  // find a specific call
   public findMetaCall (callIndex: Uint8Array): CallFunction {
     const hexIndex = u8aToHex(callIndex);
     const fn = this._metadataCalls[hexIndex];
@@ -114,6 +135,7 @@ export class TypeRegistry implements Registry {
     return fn;
   }
 
+  // finds an error
   public findMetaError (errorIndex: Uint8Array | DispatchErrorModule): RegistryError {
     const hexIndex = u8aToHex(
       isU8a(errorIndex)
@@ -157,6 +179,10 @@ export class TypeRegistry implements Registry {
     }
 
     return Type as Constructor<T>;
+  }
+
+  public getChainProperties (): ChainProperties | undefined {
+    return this._chainProperties;
   }
 
   public getDefinition (name: string): string | undefined {
@@ -230,6 +256,13 @@ export class TypeRegistry implements Registry {
         this._definitions.set(name, def);
       }
     });
+  }
+
+  // sets the chain properties
+  public setChainProperties (properties?: ChainProperties): void {
+    if (properties) {
+      this._chainProperties = properties;
+    }
   }
 
   // sets the metadata

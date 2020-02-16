@@ -4,6 +4,7 @@
 
 import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
+import { ChainProperties } from './interfaces/rpc';
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
 
 import BN from 'bn.js';
@@ -403,6 +404,10 @@ export interface RegistryMetadata {
 }
 
 export interface Registry {
+  readonly chainDecimals: number;
+  readonly chainSS58: number;
+  readonly chainToken: string;
+
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array): any;
   // due to same circular imports where types don't really want to import from EventData,
@@ -410,6 +415,8 @@ export interface Registry {
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
   get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
+  getChainProperties (): ChainProperties | undefined;
+  getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getSignedExtensionExtra (): Record<string, InterfaceTypes>;
   getSignedExtensionTypes (): Record<string, InterfaceTypes>;
@@ -419,5 +426,6 @@ export interface Registry {
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
+  setChainProperties (properties?: ChainProperties): void;
   setMetadata (metadata: RegistryMetadata): void;
 }
