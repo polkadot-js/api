@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/jsonrpc#readme",
   "dependencies": {
     "@babel/runtime": "^7.8.4",
     "@polkadot/types": "^1.3.0-beta.3",

@@ -5,11 +5,11 @@
 import { MetadataLatest, ModuleMetadataLatest } from '../interfaces/metadata';
 
 import fs from 'fs';
+import interfaces from '@polkadot/jsonrpc';
 import Decorated from '@polkadot/metadata/Decorated';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-import interfaces from '../../../type-jsonrpc/src';
 import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
 import { TypeRegistry } from '../create';
