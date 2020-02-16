@@ -11,10 +11,9 @@ import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface, UserRpc } from '@polkadot/rpc-core/types';
 import { Metadata } from '@polkadot/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { RegistryTypes, SignatureOptions, SignerPayloadJSON, SignerPayloadRaw, Registry } from '@polkadot/types/types';
+import { RegistryTypes, Signer, SignerResult, SignatureOptions, Registry } from '@polkadot/types/types';
 
 import ApiBase from '../base';
-import { SubmittableResultImpl } from '../submittable/types';
 import { DeriveAllSections } from '../util/decorate';
 import { DecoratedRpc } from './rpc';
 import { QueryableStorage, QueryableStorageMulti } from './storage';
@@ -98,33 +97,4 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
-export interface SignerResult {
-  /**
-   * @description The id for this request
-   */
-  id: number;
-
-  /**
-   * @description The resulting signature in hex
-   */
-  signature: string;
-}
-
-export interface Signer {
-  /**
-   * @description signs an extrinsic payload from a serialized form
-   */
-  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
-
-  /**
-   * @description signs a raw payload, only the bytes data as supplied
-   */
-  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
-
-  /**
-   * @description Receives an update for the extrinsic signed by a `signer.sign`
-   */
-  update?: (id: number, status: Hash | SubmittableResultImpl) => void;
-}
-
-export { ApiBase };
+export { ApiBase, Signer, SignerResult };
