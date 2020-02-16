@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiTypes, DecorateMethod, SubmittableResultImpl } from '@polkadot/api/types';
+import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
-import { IKeyringPair } from '@polkadot/types/types';
+import { IKeyringPair, SubmittableResult as ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject, ContractABIPre } from '../types';
 
 import BN from 'bn.js';
@@ -27,7 +27,7 @@ export interface CodePutCode<ApiType extends ApiTypes> {
 class CodePutCodeResult<ApiType extends ApiTypes> extends SubmittableResult {
   public readonly blueprint?: Blueprint<ApiType>;
 
-  constructor (result: SubmittableResultImpl, blueprint?: Blueprint<ApiType>) {
+  constructor (result: ISubmittableResult, blueprint?: Blueprint<ApiType>) {
     super(result);
 
     this.blueprint = blueprint;
@@ -55,7 +55,7 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
     };
   }
 
-  private createResult = (result: SubmittableResultImpl): CodePutCodeResult<ApiType> => {
+  private createResult = (result: ISubmittableResult): CodePutCodeResult<ApiType> => {
     let blueprint: Blueprint<ApiType> | undefined;
 
     if (result.isInBlock) {

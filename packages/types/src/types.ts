@@ -4,12 +4,13 @@
 
 import { SignOptions } from '@polkadot/keyring/types';
 import { FunctionMetadataLatest } from './interfaces/metadata';
+import { ExtrinsicStatus } from './interfaces/rpc';
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from './interfaces/runtime';
+import { EventRecord } from './interfaces/system';
 
 import BN from 'bn.js';
 
 import { InterfaceRegistry } from './interfaceRegistry';
-import { Signer } from '@polkadot/api/types';
 
 export * from './codec/types';
 
@@ -167,6 +168,47 @@ export interface RuntimeVersionInterface {
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly specName: String;
   readonly specVersion: BN;
+}
+
+export interface SubmittableResult {
+  readonly events: EventRecord[];
+  readonly status: ExtrinsicStatus;
+  readonly isCompleted: boolean;
+  readonly isError: boolean;
+  readonly isFinalized: boolean;
+  readonly isInBlock: boolean;
+
+  filterRecords (section: string, method: string): EventRecord[];
+  findRecord (section: string, method: string): EventRecord | undefined;
+}
+
+export interface SignerResult {
+  /**
+   * @description The id for this request
+   */
+  id: number;
+
+  /**
+   * @description The resulting signature in hex
+   */
+  signature: string;
+}
+
+export interface Signer {
+  /**
+   * @description signs an extrinsic payload from a serialized form
+   */
+  signPayload?: (payload: SignerPayloadJSON) => Promise<SignerResult>;
+
+  /**
+   * @description signs a raw payload, only the bytes data as supplied
+   */
+  signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
+
+  /**
+   * @description Receives an update for the extrinsic signed by a `signer.sign`
+   */
+  update?: (id: number, status: IHash | SubmittableResult) => void;
 }
 
 export interface SignatureOptions {

@@ -3,22 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions, SubmittableResult } from '@polkadot/types/types';
 import { ApiTypes, Signer } from '../types';
 
 import { Observable } from 'rxjs';
-
-export interface SubmittableResultImpl {
-  readonly events: EventRecord[];
-  readonly status: ExtrinsicStatus;
-  readonly isCompleted: boolean;
-  readonly isError: boolean;
-  readonly isFinalized: boolean;
-  readonly isInBlock: boolean;
-
-  filterRecords (section: string, method: string): EventRecord[];
-  findRecord (section: string, method: string): EventRecord | undefined;
-}
 
 export interface SubmittableResultValue {
   events?: EventRecord[];
@@ -32,12 +20,12 @@ export type SubmittablePaymentResult<ApiType extends ApiTypes> =
 
 export type SubmittableResultResult<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
-    ? Observable<SubmittableResultImpl>
+    ? Observable<SubmittableResult>
     : Promise<Hash>;
 
 export type SubmittableResultSubscription<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
-    ? Observable<SubmittableResultImpl>
+    ? Observable<SubmittableResult>
     : Promise<() => void>;
 
 export type SubmittableThis<ApiType extends ApiTypes, THIS> =
@@ -60,7 +48,7 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrins
 
   send(): SubmittableResultResult<ApiType>;
 
-  send(statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+  send(statusCb: Callback<SubmittableResult>): SubmittableResultSubscription<ApiType>;
 
   sign(account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
@@ -68,7 +56,7 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrins
 
   signAndSend(account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
-  signAndSend(account: AddressOrPair, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+  signAndSend(account: AddressOrPair, statusCb: Callback<SubmittableResult>): SubmittableResultSubscription<ApiType>;
 
-  signAndSend(account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+  signAndSend(account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResult>): SubmittableResultSubscription<ApiType>;
 }
