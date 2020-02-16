@@ -6,7 +6,7 @@ import { CodecTo } from '../types';
 
 import BN from 'bn.js';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import U64 from '../primitive/U64';
 import CodecDate from './Date';
 

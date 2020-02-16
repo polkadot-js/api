@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg } from './types';
 
-import { InterfaceRegistry } from '../../interfaceRegistry';
+import { InterfaceRegistry } from '../interfaceRegistry';
 import { getTypeClass } from './getTypeClass';
 import { getTypeDef } from './getTypeDef';
 

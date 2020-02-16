@@ -26,5 +26,5 @@ export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
 
 // Type management helper functions
-export * from './create';
+export * from '../create';
 export * from './utils/encodeTypes';

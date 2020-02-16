@@ -12,7 +12,8 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import interfaces from '../../../type-jsonrpc/src';
 import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
-import { TypeRegistry, Vec } from '../codec';
+import { TypeRegistry } from '../create';
+import { Vec } from '../codec';
 import { Text } from '../primitive';
 
 const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
