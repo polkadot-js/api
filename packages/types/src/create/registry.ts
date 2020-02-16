@@ -12,8 +12,7 @@ import { assert, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aT
 import Raw from '../codec/Raw';
 import { EventData } from '../primitive/Generic/Event';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
-import { createClass } from './createClass';
-import { getTypeClass } from './getTypeClass';
+import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';
 
 // create error mapping from metadata
