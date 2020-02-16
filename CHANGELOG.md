@@ -1,4 +1,4 @@
-# 1.2.0-beta.x
+# 1.2.1 Feb 16, 2020
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
 - Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
