@@ -7,7 +7,7 @@
 let main;
 
 try {
-  main = require('./extractChain').default;
+  main = require('../extractChain').default;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],

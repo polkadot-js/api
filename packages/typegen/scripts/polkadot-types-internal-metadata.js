@@ -7,7 +7,7 @@
 let main;
 
 try {
-  main = require('./metadataMd').default;
+  main = require('../metadataMd').default;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
