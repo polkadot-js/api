@@ -14,33 +14,13 @@ if (typeof WebSocket === 'undefined') {
   (global as any).WebSocket = require('websocket').w3cwebsocket;
 }
 
-const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
-  endpoint: {
-    description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
-    type: 'string',
-    required: true
-  },
-  output: {
-    description: 'The target directory to write the data to',
-    type: 'string',
-    required: true
-  },
-  package: {
-    description: 'Optional package in output location (for extra definitions)',
-    typ: 'string'
-  },
-  strict: {
-    description: 'Turns on stirct mode, not outputting genric versions',
-    type: 'boolean'
-  }
-}).argv;
 let websocket: any = null;
 
-function generate (metaHex: string): void {
+function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const extraTypes = pkg
-    ? { [pkg as string]: require(path.join(process.cwd(), output, 'definitions')) }
+    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) }
     : {};
 
   generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes, isStrict);
@@ -51,7 +31,7 @@ function generate (metaHex: string): void {
 }
 
 function onSocketClose (event: any): void {
-  console.error(`${endpoint} disconnected, code: '${event.code}' reason: '${event.reason}'`);
+  console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
 
   process.exit(1);
 }
@@ -63,25 +43,44 @@ function onSocketError (event: any): void {
 }
 
 function onSocketOpen (): boolean {
-  console.log(`${endpoint} connected`);
+  console.log('connected');
 
   websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
 
   return true;
 }
 
-function onSocketMessage (message: any): void {
-  generate(JSON.parse(message.data).result);
-}
-
 export default function main (): void {
+  const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
+    endpoint: {
+      description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
+      type: 'string',
+      required: true
+    },
+    output: {
+      description: 'The target directory to write the data to',
+      type: 'string',
+      required: true
+    },
+    package: {
+      description: 'Optional package in output location (for extra definitions)',
+      type: 'string'
+    },
+    strict: {
+      description: 'Turns on stirct mode, not outputting genric versions',
+      type: 'boolean'
+    }
+  }).argv;
+
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     websocket = new WebSocket(endpoint);
     websocket.onclose = onSocketClose;
     websocket.onerror = onSocketError;
-    websocket.onmessage = onSocketMessage;
     websocket.onopen = onSocketOpen;
+    websocket.onmessage = (message: any): void => {
+      generate(JSON.parse(message.data).result, pkg, output, isStrict);
+    };
   } else {
-    generate(require(path.join(process.cwd(), endpoint)).result);
+    generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }
 }

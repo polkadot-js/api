@@ -9,21 +9,8 @@ import process from 'process';
 import yargs from 'yargs';
 import { ApiPromise, WsProvider } from '@polkadot/api/index';
 
-// retrieve and parse arguments - we do this globally, since this is a single command
-const { argv: { ws } } = yargs
-  .usage('Usage: [options]')
-  .wrap(120)
-  .options({
-    ws: {
-      default: 'ws://127.0.0.1:9944',
-      description: 'The API endpoint to connect to, e.g. wss://poc3-rpc.polkadot.io',
-      type: 'string',
-      required: true
-    }
-  });
-
 /** @internal */
-async function run (): Promise<void> {
+async function run (ws: string): Promise<void> {
   const provider = new WsProvider(ws);
   const api = await ApiPromise.create({ provider });
   const [chain, props] = await Promise.all([
@@ -39,7 +26,20 @@ async function run (): Promise<void> {
 }
 
 export default function main (): void {
-  run()
+  // retrieve and parse arguments - we do this globally, since this is a single command
+  const { ws } = yargs
+    .usage('Usage: [options]')
+    .wrap(120)
+    .options({
+      ws: {
+        default: 'ws://127.0.0.1:9944',
+        description: 'The API endpoint to connect to, e.g. wss://poc3-rpc.polkadot.io',
+        type: 'string',
+        required: true
+      }
+    }).argv;
+
+  run(ws)
     .then((): void => {
       process.exit(0);
     })
