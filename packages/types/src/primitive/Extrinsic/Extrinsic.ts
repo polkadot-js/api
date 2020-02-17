@@ -8,7 +8,7 @@ import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../../codec/create';
+import { createType, ClassOf } from '../../create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';

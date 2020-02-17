@@ -10,7 +10,7 @@ import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types/codec';
+import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
@@ -59,6 +59,10 @@ async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
     multiUnsub();
   });
+
+  // check entries()
+  await api.query.system.account.entries(); // should not take a param
+  await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 }
 
 async function rpc (api: ApiPromise): Promise<void> {

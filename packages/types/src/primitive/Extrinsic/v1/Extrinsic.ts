@@ -8,7 +8,7 @@ import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { createType } from '../../../codec/create';
+import { createType } from '../../../create';
 import Struct from '../../../codec/Struct';
 
 export interface ExtrinsicValueV1 {

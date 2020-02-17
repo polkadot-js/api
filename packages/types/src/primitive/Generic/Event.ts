@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '../../codec/types';
+import { TypeDef } from '../../create/types';
 import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
 import { Constructor, Registry, RegistryMetadataEvent } from '../../types';

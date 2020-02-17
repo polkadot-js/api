@@ -6,7 +6,8 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Compact, Raw, createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { Compact, Raw } from '@polkadot/types/codec';
+import { createType, createTypeUnsafe } from '@polkadot/types/create';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';

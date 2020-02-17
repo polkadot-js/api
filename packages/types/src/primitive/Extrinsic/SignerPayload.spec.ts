@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType } from '@polkadot/types';
-
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { TypeRegistry } from '../../codec';
+import { createType, TypeRegistry } from '../../create';
 import SignerPayload from './SignerPayload';
 
 const registry = new TypeRegistry();

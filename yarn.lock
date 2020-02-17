@@ -2016,10 +2016,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@polkadot/dev@^0.40.16":
-  version "0.40.16"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.40.16.tgz#45dc5ec8f791e38bed0fb4f9d8fde2a0854e488a"
-  integrity sha512-/vlk7E8TwnmAlLfwNE/7ePMuqSgapPcheWxnH7L+6hXNWKaAVAphjNEDq89D4DpHECxuL9pQvlwGTFM1r8/qkw==
+"@polkadot/dev@^0.40.17":
+  version "0.40.17"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.40.17.tgz#493f4a7263797e416b12e6b735b39d428f6c0ef1"
+  integrity sha512-tAfUlcdOzixa6c4/5fxaXjO4cEmXpGZzx3EAIyqsQw+74FBFVR1BKEeGoGuWetTQfIWKqAMOKsFjF5O6VS+VfA==
   dependencies:
     "@babel/cli" "^7.8.4"
     "@babel/core" "^7.8.4"
@@ -2077,14 +2077,14 @@
     webpack-cli "^3.3.11"
     yargs "^15.1.0"
 
-"@polkadot/keyring@^2.3.0-beta.6":
-  version "2.3.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.3.0-beta.6.tgz#b647184f45ffa6ed3e332e2ce24f512bc6438964"
-  integrity sha512-/VSXoQ/uqE2sOoJWEFpyaR63GydoB0louQvPKWgL6URkAfJPjvqMMkTangQjD7Qa/RMiuUKpZ9mHLQLSrJtUjQ==
+"@polkadot/keyring@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.3.1.tgz#64ed052760c6ebf3e71a2413a0f362d8522d0060"
+  integrity sha512-MvkyR/ohYAsSQrSEVBo6w/S5S9i4AEPYGNqPOyR7erEJD3YQjZhJJkJx23w6XsbWr0XDfzJG9SQ5uq585DIi4g==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@polkadot/util" "^2.3.0-beta.6"
-    "@polkadot/util-crypto" "^2.3.0-beta.6"
+    "@polkadot/util" "^2.3.1"
+    "@polkadot/util-crypto" "^2.3.1"
 
 "@polkadot/ts@^0.2.3":
   version "0.2.3"
@@ -2093,14 +2093,14 @@
   dependencies:
     "@types/chrome" "^0.0.95"
 
-"@polkadot/util-crypto@^2.3.0-beta.6":
-  version "2.3.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.3.0-beta.6.tgz#c985f6bc3fafbcb73e202d2490d7e325075fc691"
-  integrity sha512-tLzrcG9ypnDaKkcGsxkCPNMAXO08q4YJf8k/+l2rvIH43jPYXg42WL6JRt40K0LVo8lq8FqUXPZEGJGscO6SIw==
+"@polkadot/util-crypto@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.3.1.tgz#e95bace6ef59408657df1068f8044766744f453c"
+  integrity sha512-I9lKhheW/cWeFSs5NBgiw5WkkfAsceEzW4/eWf/s39TLVueUnOiXG/+fcaRHBZmBDMhK9Mc2FxvLn2Df6YQGUg==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@polkadot/util" "^2.3.0-beta.6"
-    "@polkadot/wasm-crypto" "^0.20.1"
+    "@polkadot/util" "^2.3.1"
+    "@polkadot/wasm-crypto" "^1.0.1"
     base-x "^3.0.7"
     bip39 "^3.0.2"
     blakejs "^1.1.0"
@@ -2112,22 +2112,21 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^2.3.0-beta.6":
-  version "2.3.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.3.0-beta.6.tgz#a1ac033990ac4fdc1049697411879b9f9ca1489e"
-  integrity sha512-mEFyEou98vBrNHKMUvHmNcHG9PK+4CWYzKAyu9nM6BidM9J82vYILIfyN8SvESUKPH7Xa+ILVD1v0/7o4PZmkg==
+"@polkadot/util@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.3.1.tgz#ea4142386e66db14eae78c8fda4fb62693cf072a"
+  integrity sha512-g00HThGm0t1sciOxDKuqnSsh6fyGUKtazVac0v58fMOtbX0geTu0TpddRdFav/L5KO6lkq8DBFUQW95x9Cf4gw==
   dependencies:
     "@babel/runtime" "^7.8.4"
     bn.js "^5.1.1"
     camelcase "^5.3.1"
     chalk "^3.0.0"
     ip-regex "^4.1.0"
-    moment "^2.24.0"
 
-"@polkadot/wasm-crypto@^0.20.1":
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-0.20.1.tgz#422f61cf61c8067b9800e6493608aeed2c701729"
-  integrity sha512-HVmKEQoC7RTS15nGJkQDam8pvwBLjO/JJfhq1OI/zBSqi0KPoh2ZxThkyI+O4CjjY1W+HGvybe0uf0c+VDn62Q==
+"@polkadot/wasm-crypto@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/wasm-crypto/-/wasm-crypto-1.0.1.tgz#80a2a6e8d63a7decdd1163cc49b263ccef4ad36d"
+  integrity sha512-l6izEdPXl4V8SBU9m3ct5PkHcdKZVDJMb10CFPNuNXT5OXMRaDs+Rlt/EHKjh8wbv8s9EOqy42BSHO8Qqrcg/g==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -9287,11 +9286,6 @@ module-lookup-amd@^6.1.0:
     find "^0.3.0"
     requirejs "^2.3.5"
     requirejs-config-file "^3.1.1"
-
-moment@^2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

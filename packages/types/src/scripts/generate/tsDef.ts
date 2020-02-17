@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../codec/types';
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../create/types';
 
 import fs from 'fs';
 import path from 'path';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef } from '../../codec/create';
+import { getTypeDef } from '../../create';
 import * as defaultDefinitions from '../../interfaces/definitions';
 import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
 

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
-import { InterfaceRegistry } from '../../interfaceRegistry';
+import { InterfaceRegistry } from '../interfaceRegistry';
 import { createClass } from './createClass';
 
 function u8aHasValue (value: Uint8Array): boolean {

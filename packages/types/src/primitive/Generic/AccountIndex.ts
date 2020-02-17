@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import U32 from '../U32';
 
 export const ENUMSET_SIZE = new BN(64);
@@ -108,7 +108,7 @@ export default class AccountIndex extends U32 {
   public toString (): string {
     const length = AccountIndex.calcLength(this);
 
-    return encodeAddress(this.toU8a().subarray(0, length));
+    return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
   }
 
   /**

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import json1 from '../../json/Header.001.json';
 import json2 from '../../json/Header.002.json';
 import json3 from '../../json/Header.003.json';

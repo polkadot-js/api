@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import interfaces from '../../../../type-jsonrpc/src';
+import interfaces from '@polkadot/jsonrpc';
 import * as definitions from '../../interfaces/definitions';
-import { TypeRegistry } from '../../codec/create';
+import { TypeRegistry } from '../../create';
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
 /** @internal */

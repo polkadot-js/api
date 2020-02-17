@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, ClassOf, TypeRegistry } from './create';
+import { createType, ClassOf, TypeRegistry } from '../create';
 import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';

@@ -4,7 +4,7 @@
 
 import { RuntimeVersion } from './types';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {

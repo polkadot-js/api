@@ -11,7 +11,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import { Text } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 
 const MAPPED_NAMES: Record<string, string> = {

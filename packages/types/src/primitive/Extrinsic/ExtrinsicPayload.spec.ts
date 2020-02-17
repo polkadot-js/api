@@ -4,7 +4,7 @@
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import ExtrinsicPayload from './ExtrinsicPayload';
 
 describe('ExtrinsicPayload', (): void => {

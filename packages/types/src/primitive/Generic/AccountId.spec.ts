@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { setSS58Format } from '@polkadot/util-crypto';
-
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import Raw from '../../codec/Raw';
 import jsonVec from '../../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
@@ -84,7 +82,11 @@ describe('AccountId', (): void => {
 
   describe('storage decoding', (): void => {
     it('has the correct entries', (): void => {
-      setSS58Format(68);
+      registry.setChainProperties(
+        createType(registry, 'ChainProperties', {
+          ss58Format: 68
+        })
+      );
 
       const data = createType(registry, 'StorageData', jsonVec.params.result.changes[0][1]);
       const list = createType(registry, 'Vec<AccountId>', data).map((accountId): string => accountId.toString());

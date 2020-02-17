@@ -8,7 +8,7 @@ import { Conviction } from '../../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import U8aFixed from '../../codec/U8aFixed';
 import Bool from '../Bool';
 

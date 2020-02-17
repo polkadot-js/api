@@ -7,7 +7,7 @@ import { AnyNumber, AnyU8a, Registry } from '../../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Extrinsic from '../Extrinsic/Extrinsic';
 import Struct from '../../codec/Struct';
 import Vec from '../../codec/Vec';

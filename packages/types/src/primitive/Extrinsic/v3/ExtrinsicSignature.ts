@@ -5,7 +5,7 @@
 import { Address, Call } from '../../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../../../types';
 
-import { createType } from '../../../codec/create';
+import { createType } from '../../../create';
 import { IMMORTAL_ERA } from '../constants';
 import ExtrinsicSignatureV2 from '../v2/ExtrinsicSignature';
 import ExtrinsicPayloadV3 from './ExtrinsicPayload';

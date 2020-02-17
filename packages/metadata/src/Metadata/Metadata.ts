@@ -9,6 +9,32 @@ import { bnToU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 import { MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
 
+// first we try and parse using the versioned structure, if this does fail,
+// we adjust with the magic number and a manual version and re-try. As soon as
+// we remove support for V0, we will just do a new here
+function decodeMetadata (registry: Registry, _value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
+  const value = isHex(_value)
+    ? hexToU8a(_value)
+    : _value;
+
+  try {
+    return new MetadataVersioned(registry, value);
+  } catch (error) {
+    if (error.message.indexOf('MagicNumber mismatch') === -1) {
+      throw error;
+    }
+  }
+
+  return new MetadataVersioned(
+    registry,
+    u8aConcat(
+      bnToU8a(MAGIC_NUMBER), // manually add the magic number
+      Uint8Array.from([0]), // add the version for the original
+      value // the actual data as retrieved
+    )
+  );
+}
+
 /**
  * @name Metadata
  * @description
@@ -16,32 +42,6 @@ import MetadataVersioned from './MetadataVersioned';
  */
 export default class Metadata extends MetadataVersioned {
   constructor (registry: Registry, value?: Uint8Array | string) {
-    super(registry, Metadata.decodeMetadata(registry, value));
-  }
-
-  // first we try and parse using the versioned structure, if this does fail,
-  // we adjust with the magic number and a manual version and re-try. As soon as
-  // we remove support for V0, we will just do a new here
-  private static decodeMetadata (registry: Registry, _value: Uint8Array | string = new Uint8Array()): MetadataVersioned {
-    const value = isHex(_value)
-      ? hexToU8a(_value)
-      : _value;
-
-    try {
-      return new MetadataVersioned(registry, value);
-    } catch (error) {
-      if (error.message.indexOf('MagicNumber mismatch') === -1) {
-        throw error;
-      }
-    }
-
-    return new MetadataVersioned(
-      registry,
-      u8aConcat(
-        bnToU8a(MAGIC_NUMBER), // manually add the magic number
-        Uint8Array.from([0]), // add the version for the original
-        value // the actual data as retrieved
-      )
-    );
+    super(registry, decodeMetadata(registry, value));
   }
 }

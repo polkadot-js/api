@@ -4,9 +4,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountData, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, ITuple, Registry, SignatureOptions } from '@polkadot/types/types';
+import { Callback, Codec, Constructor, IKeyringPair, ITuple, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
-import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultImpl, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
+import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -93,20 +93,20 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType>;
 
     // signAndSend with a subscription, i.e. callback provided
-    public signAndSend (account: AddressOrPair, statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+    public signAndSend (account: AddressOrPair, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend with options and a callback
-    public signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+    public signAndSend (account: AddressOrPair, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
     // signAndSend implementation for all 3 cases above
-    public signAndSend (account: AddressOrPair, optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, optionalStatusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+    public signAndSend (account: AddressOrPair, optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = this._makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
       const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
 
       return this._decorateMethod(
         (): Observable<Codec> => (
           this._signObservable(account, options).pipe(
-            switchMap((updateId: number | undefined): Observable<SubmittableResultImpl> | Observable<Hash> =>
+            switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
               isSubscription
                 ? this._subscribeObservable(updateId)
                 : this._sendObservable(updateId)
@@ -119,10 +119,10 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public send (): SubmittableResultResult<ApiType>;
 
     // send with a status callback
-    public send (statusCb: Callback<SubmittableResultImpl>): SubmittableResultSubscription<ApiType>;
+    public send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
     // send implementation for both immediate Hash and statusCb variants
-    public send (statusCb?: Callback<SubmittableResultImpl>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+    public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = this._api.hasSubscriptions && (this._ignoreStatusCb || !!statusCb);
 
       return this._decorateMethod(
@@ -132,7 +132,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    private _makeSignAndSendOptions (optionsOrStatus?: Partial<SignerOptions> | Callback<SubmittableResultImpl>, statusCb?: Callback<SubmittableResultImpl>): [Partial<SignerOptions>, Callback<SubmittableResultImpl>?] {
+    private _makeSignAndSendOptions (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] {
       let options: Partial<SignerOptions> = {};
 
       if (isFunction(optionsOrStatus)) {
@@ -249,13 +249,13 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       ]);
     }
 
-    private _updateSigner (updateId: number, status: Hash | SubmittableResultImpl): void {
+    private _updateSigner (updateId: number, status: Hash | ISubmittableResult): void {
       if ((updateId !== -1) && this._api.signer && this._api.signer.update) {
         this._api.signer.update(updateId, status);
       }
     }
 
-    private _statusObservable (status: ExtrinsicStatus): Observable<SubmittableResultImpl> {
+    private _statusObservable (status: ExtrinsicStatus): Observable<ISubmittableResult> {
       if (!status.isFinalized && !status.isInBlock) {
         return of(new SubmittableResult({ status }));
       }
@@ -268,7 +268,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         this._api.rpc.chain.getBlock(blockHash),
         this._api.query.system.events.at(blockHash)
       ]).pipe(
-        map(([signedBlock, allEvents]): SubmittableResultImpl =>
+        map(([signedBlock, allEvents]): ISubmittableResult =>
           new SubmittableResult({
             events: filterEvents(this.hash, signedBlock, allEvents),
             status
@@ -287,11 +287,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         );
     }
 
-    private _subscribeObservable = (updateId = -1): Observable<SubmittableResultImpl> => {
+    private _subscribeObservable = (updateId = -1): Observable<ISubmittableResult> => {
       return this._api.rpc.author
         .submitAndWatchExtrinsic(this)
         .pipe(
-          switchMap((status): Observable<SubmittableResultImpl> =>
+          switchMap((status): Observable<ISubmittableResult> =>
             this._statusObservable(status)
           ),
           tap((status): void => {

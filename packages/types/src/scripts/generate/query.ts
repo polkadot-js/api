@@ -10,7 +10,7 @@ import staticData from '@polkadot/metadata/Metadata/static';
 import Metadata from '@polkadot/metadata/Metadata';
 import { stringLowerFirst } from '@polkadot/util';
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
@@ -77,9 +77,17 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     .concat(isStrict ? '' : indent(6)('[index: string]: QueryableStorageEntry<ApiType>;'))
     .concat(storage.unwrap().items.map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
+      let entryType = 'AugmentedQuery';
+      const entryTypeArgs: string[] = ['ApiType', `(${args}) => Observable<${returnType}>`];
+
+      if (storageEntry.type.isDoubleMap) {
+        entryType = `${entryType}DoubleMap`;
+        const firstKeyTypes = /^key1: (.*), key2/.exec(args)![1];
+        entryTypeArgs.push(firstKeyTypes);
+      }
 
       return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: AugmentedQuery<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`);
+      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<${entryTypeArgs.join(', ')}> & QueryableStorageEntry<ApiType>;`);
     }))
     .concat([indent(4)('};')]);
 }

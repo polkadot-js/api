@@ -5,60 +5,84 @@
 import { MetadataLatest, ModuleMetadataLatest } from '../interfaces/metadata';
 
 import fs from 'fs';
+import interfaces from '@polkadot/jsonrpc';
 import Decorated from '@polkadot/metadata/Decorated';
 import rpcdata from '@polkadot/metadata/Metadata/static';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
-import interfaces from '../../../type-jsonrpc/src';
 import { unwrapStorageType } from '../primitive/StorageKey';
 import Call from '../primitive/Generic/Call';
-import { TypeRegistry } from '../codec';
-
-const ANCHOR_TOP = '';
-const LINK_BACK_TO_TOP = '';
+import { TypeRegistry } from '../create';
+import { Vec } from '../codec';
+import { Text } from '../primitive';
 
 const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
 
-const DESC_CONSTANTS = `\n\nThe following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}\n`;
-const DESC_EXTRINSICS = `\n\nThe following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}\n`;
-const DESC_ERRORS = `\n\nThis page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}\n`;
-const DESC_EVENTS = `\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}\n`;
-const DESC_RPC = '\n\nThe following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.\n';
-const DESC_STORAGE = `\n\nThe following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}\n`;
+const DESC_CONSTANTS = `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}`;
+const DESC_EXTRINSICS = `The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}`;
+const DESC_ERRORS = `This page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}`;
+const DESC_EVENTS = `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}`;
+const DESC_RPC = 'The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.';
+const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
 
 /** @internal */
-function sectionLink (sectionName: string): string {
-  return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName).toLowerCase()})**\n\n`;
+function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
+  const md = docLines
+    .map(docLine => docLine && docLine.substring(1)) // trim the leading space
+    .reduce((md, docLine): string => // generate paragraphs
+      !docLine.trim().length ? `${md}\n\n` // empty line
+        : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n') ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
+          : `${md}${docLine // line continuing the preceding line
+            .replace(/^# <weight>$/g, '\\# \\<weight>\n\n')
+            .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
+            .replace(/^#{1,3} /, '#### ')} `
+    , '');
+  // prefix each line with indentation
+  return md && md.split('\n\n').map(line => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
-/** @internal */
-function generateSectionHeader (md: string, sectionName: string): string {
-  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n## ${sectionName}\n`;
+interface Page {
+  title: string;
+  description: string;
+  sections: {
+    name: string;
+    description?: string;
+    items: {
+      name: string;
+      [bullet: string]: string | Vec<Text>;
+    }[];
+  }[];
 }
 
-/** @internal */
-function addRpc (): string {
-  const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
-  const orderedSections = Object.keys(interfaces).sort();
-  const renderAnchors = Object.keys(interfaces).sort().map((sectionName): string =>
-    sectionLink(sectionName)
-  ).join('');
+function renderPage (page: Page): string {
+  let md = `## ${page.title}\n\n`;
 
-  return orderedSections.reduce((md, sectionName): string => {
-    const section = interfaces[sectionName];
-    const renderSection = generateSectionHeader(md, sectionName) + `\n_${section.description}_\n`;
-    const orderedMethods = Object.keys(section.methods).sort();
+  if (page.description) {
+    md += `${page.description}\n\n`;
+  }
 
-    return orderedMethods.reduce((md, methodName): string => {
-      const method = section.methods[methodName];
-      const args = method.params.map(({ name, isOptional, type }): string => {
-        return name + (isOptional ? '?' : '') + ': `' + type + '`';
-      }).join(', ');
-      const type = '`' + method.type + '`';
+  // index
+  page.sections.forEach(section => {
+    md += `- **[${stringCamelCase(section.name)}](#${stringCamelCase(section.name).toLowerCase()})**\n\n`;
+  });
 
-      return `${md}\n### ${methodName}(${args}): ${type}\n- **jsonrpc**: ${sectionName}_${methodName}\n- **interface**: api.rpc.${sectionName}.${methodName}` + (method.description ? `\n- **summary**: ${method.description}\n` : '\n\n');
-    }, renderSection);
-  }, renderHeading + renderAnchors);
+  // contents
+  page.sections.forEach(section => {
+    md += `\n___\n\n\n## ${section.name}\n`;
+    if (section.description) { md += `\n_${section.description}_\n`; }
+
+    section.items.forEach((item) => {
+      md += ` \n### ${item.name}`;
+
+      Object.keys(item).filter(i => i !== 'name').forEach(bullet => {
+        md += `\n- **${bullet}**: ${item[bullet] instanceof Vec ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2) : item[bullet]}`;
+      });
+
+      md += '\n';
+    });
+  });
+
+  return md;
 }
 
 /**
@@ -74,164 +98,171 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
 }
 
 /** @internal */
+function addRpc (): string {
+  return renderPage({
+    title: 'JSON-RPC',
+    description: DESC_RPC,
+    sections: Object.keys(interfaces).sort().map(sectionName => {
+      const section = interfaces[sectionName];
+
+      return {
+        name: sectionName,
+        description: section.description,
+        items: Object.keys(section.methods).sort().map(methodName => {
+          const method = section.methods[methodName];
+          const args = method.params.map(({ name, isOptional, type }): string => {
+            return name + (isOptional ? '?' : '') + ': `' + type + '`';
+          }).join(', ');
+          const type = '`' + method.type + '`';
+
+          return {
+            name: `${methodName}(${args}): ${type}`,
+            jsonrpc: `${sectionName}_${methodName}`,
+            interface: `api.rpc.${sectionName}.${methodName}`,
+            ...(method.description && { summary: method.description })
+          };
+        })
+      };
+    })
+  });
+}
+
+/** @internal */
 function addConstants (metadata: MetadataLatest): string {
-  const renderHeading = `## ${ANCHOR_TOP}Constants${DESC_CONSTANTS}`;
-  const orderedSections = metadata.modules.sort(sortByName);
-  let renderAnchors = '';
-  const sections = orderedSections.reduce((md, moduleMetadata): string => {
-    if (moduleMetadata.constants.isEmpty) {
-      return md;
-    }
+  return renderPage({
+    title: 'Constants',
+    description: DESC_CONSTANTS,
+    sections: metadata.modules.sort(sortByName).filter(moduleMetadata => !moduleMetadata.constants.isEmpty).map(moduleMetadata => {
+      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
-    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+      return {
+        name: sectionName,
+        items: moduleMetadata.constants.sort(sortByName).map(func => {
+          const methodName = stringCamelCase(func.name.toString());
 
-    renderAnchors += sectionLink(sectionName);
-
-    const renderSection = generateSectionHeader(md, sectionName);
-    const orderedConstants = moduleMetadata.constants.sort(sortByName);
-
-    return orderedConstants.reduce((md, func): string => {
-      const methodName = stringCamelCase(func.name.toString());
-      const doc = func.documentation
-        .reduce((md, doc): string => `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-
-      return `${md}\n### ${methodName}: ` + '`' + func.type + '`' + `\n- **interface**: api.consts.${sectionName}.${methodName}` + (doc ? `\n- **summary**: ${doc}\n` : '\n');
-    }, renderSection);
-  }, '');
-
-  return renderHeading + renderAnchors + sections;
-}
-
-/** @internal */
-function addErrors (metadata: MetadataLatest): string {
-  const renderHeading = `## ${ANCHOR_TOP}Errors${DESC_ERRORS}`;
-  const orderedSections = metadata.modules.sort(sortByName);
-  let renderAnchors = '';
-  const sections = orderedSections.reduce((md, moduleMetadata): string => {
-    if (moduleMetadata.errors.isEmpty) {
-      return md;
-    }
-
-    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
-
-    renderAnchors += sectionLink(sectionName);
-
-    const renderSection = generateSectionHeader(md, sectionName);
-    const orderedErrors = moduleMetadata.errors.sort(sortByName);
-
-    return orderedErrors.reduce((md, error): string => {
-      const errorName = error.name.toString();
-      const doc = error.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-
-      return `${md}\n### ${errorName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, renderSection);
-  }, '');
-
-  return renderHeading + renderAnchors + sectionLink('substrate') + sections;
-}
-
-/** @internal */
-function addEvents (metadata: MetadataLatest): string {
-  const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
-  const orderedSections = metadata.modules.sort(sortByName);
-  let renderAnchors = '';
-  const sections = orderedSections.reduce((md, meta): string => {
-    if (meta.events.isNone || !meta.events.unwrap().length) {
-      return md;
-    }
-
-    const events = meta.events.unwrap();
-    const sectionName = stringCamelCase(meta.name.toString());
-
-    renderAnchors += sectionLink(sectionName);
-
-    const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = events.sort(sortByName);
-
-    return orderedMethods.reduce((md, func): string => {
-      const methodName = func.name.toString();
-      const args = func.args.map((type): string => '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-
-      return `${md}\n### ${methodName}(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, renderSection);
-  }, '');
-
-  return renderHeading + renderAnchors + sections;
-}
-
-/** @internal */
-function addExtrinsics (metadata: MetadataLatest): string {
-  const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.map((i): ModuleMetadataLatest => i).sort(sortByName);
-  let renderAnchors = '';
-  const sections = orderedSections.reduce((md, meta): string => {
-    if (meta.calls.isNone || !meta.calls.unwrap().length) {
-      return md;
-    }
-
-    const calls = meta.calls.unwrap();
-    const sectionName = stringCamelCase(meta.name.toString());
-
-    renderAnchors += sectionLink(sectionName);
-
-    const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = calls.sort(sortByName);
-
-    return orderedMethods.reduce((md, func): string => {
-      const methodName = stringCamelCase(func.name.toString());
-      const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-
-      return `${md}\n### ${methodName}(${args})` + `\n- **interface**: api.tx.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, renderSection);
-  }, '');
-
-  return renderHeading + renderAnchors + sections;
+          return {
+            name: `${methodName}: ` + '`' + func.type + '`',
+            interface: `api.consts.${sectionName}.${methodName}`,
+            ...(func.documentation.length && { summary: func.documentation })
+          };
+        })
+      };
+    })
+  });
 }
 
 /** @internal */
 function addStorage (metadata: MetadataLatest): string {
-  const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
-  const orderedSections = metadata.modules.sort(sortByName);
-  let renderAnchors = '';
-  const sections = orderedSections.reduce((md, moduleMetadata): string => {
-    if (moduleMetadata.storage.isNone) {
-      return md;
-    }
+  const moduleSections = metadata.modules.sort(sortByName)
+    .filter(moduleMetadata => !moduleMetadata.storage.isNone)
+    .map(moduleMetadata => {
+      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
-    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+      return {
+        name: sectionName,
+        items: moduleMetadata.storage.unwrap().items.sort(sortByName).map(func => {
+          const arg =
+            func.type.isMap
+              ? ('`' + func.type.asMap.key.toString() + '`')
+              : func.type.isDoubleMap
+                ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
+                : '';
 
-    renderAnchors += sectionLink(sectionName);
+          const methodName = stringLowerFirst(func.name.toString());
 
-    const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.unwrap().items.sort(sortByName);
+          let result = unwrapStorageType(func.type);
 
-    return orderedMethods.reduce((md, func): string => {
-      const arg =
-        func.type.isMap
-          ? ('`' + func.type.asMap.key.toString() + '`')
-          : func.type.isDoubleMap
-            ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
-            : '';
-      const doc = func.documentation.reduce((md, doc): string =>
-        `${md.length ? `${md} ` : ''}${doc.trim()}`, '');
-      let result = unwrapStorageType(func.type);
+          if (func.modifier.isOptional) {
+            result = `Option<${result}>`;
+          }
 
-      if (func.modifier.isOptional) {
-        result = `Option<${result}>`;
-      }
+          return {
+            name: `${methodName}(${arg}): ` + '`' + result + '`',
+            interface: `api.query.${sectionName}.${methodName}`,
+            ...(func.documentation.length && { summary: func.documentation })
+          };
+        })
+      };
+    });
 
-      const methodName = stringLowerFirst(func.name.toString());
+  const options = { flags: 'r', encoding: 'utf8' };
+  const knownSection = JSON.parse(fs.readFileSync('docs/substrate/storage-known-section.json', options));
 
-      return `${md}\n### ${methodName}(${arg}): ` + '`' + result + '`' + `\n- **interface**: api.query.${sectionName}.${methodName}` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, renderSection);
-  }, '');
+  return renderPage({
+    title: 'Storage',
+    description: DESC_STORAGE,
+    sections: moduleSections.concat([knownSection])
+  });
+}
 
-  return renderHeading + renderAnchors + sectionLink('substrate') + sections;
+/** @internal */
+function addExtrinsics (metadata: MetadataLatest): string {
+  return renderPage({
+    title: 'Extrinsics',
+    description: DESC_EXTRINSICS,
+    sections: metadata.modules.map((i): ModuleMetadataLatest => i).sort(sortByName).filter(meta => !meta.calls.isNone && meta.calls.unwrap().length).map(meta => {
+      const sectionName = stringCamelCase(meta.name.toString());
+
+      return {
+        name: sectionName,
+        items: meta.calls.unwrap().sort(sortByName).map(func => {
+          const methodName = stringCamelCase(func.name.toString());
+          const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+
+          return {
+            name: `${methodName}(${args})`,
+            interface: `api.tx.${sectionName}.${methodName}`,
+            ...(func.documentation.length && { summary: func.documentation })
+          };
+        })
+      };
+    })
+  });
+}
+
+/** @internal */
+function addEvents (metadata: MetadataLatest): string {
+  return renderPage({
+    title: 'Events',
+    description: DESC_EVENTS,
+    sections: metadata.modules.sort(sortByName).filter(meta => !meta.events.isNone && meta.events.unwrap().length).map(meta => {
+      const sectionName = stringCamelCase(meta.name.toString());
+
+      return {
+        name: sectionName,
+        items: meta.events.unwrap().sort(sortByName).map(func => {
+          const methodName = func.name.toString();
+          const args = func.args.map((type): string => '`' + type + '`').join(', ');
+
+          return {
+            name: `${methodName}(${args})`,
+            ...(func.documentation.length && { summary: func.documentation })
+          };
+        })
+      };
+    })
+  });
+}
+
+/** @internal */
+function addErrors (metadata: MetadataLatest): string {
+  return renderPage({
+    title: 'Errors',
+    description: DESC_ERRORS,
+    sections: metadata.modules.sort(sortByName).filter(moduleMetadata => !moduleMetadata.errors.isEmpty).map(moduleMetadata => {
+      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+
+      return {
+        name: sectionName,
+        items: moduleMetadata.errors.sort(sortByName).map(error => {
+          return {
+            name: error.name.toString(),
+            ...(error.documentation.length && { summary: error.documentation })
+          };
+        })
+      };
+    })
+  });
 }
 
 /** @internal */
@@ -262,10 +293,7 @@ function writeToConstantsMd (metadata: MetadataLatest): void {
 
 /** @internal */
 function writeToStorageMd (metadata: MetadataLatest): void {
-  const options = { flags: 'r', encoding: 'utf8' };
-  const data = fs.readFileSync('docs/substrate/storage-known.md', options);
-
-  writeFile('docs/substrate/storage.md', addStorage(metadata), data);
+  writeFile('docs/substrate/storage.md', addStorage(metadata));
 }
 
 /** @internal */

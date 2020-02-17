@@ -4,7 +4,7 @@
 
 import { ExtrinsicStatus } from './types';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {

@@ -6,7 +6,7 @@ import { AnyNumber, Constructor, Registry } from '../types';
 
 import { bnToHex, bnToU8a } from '@polkadot/util';
 
-import { ClassOf } from './create/createClass';
+import { ClassOf } from '../create/createClass';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**

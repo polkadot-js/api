@@ -7,7 +7,8 @@ import { Registry } from '@polkadot/types/types';
 
 import { assert } from '@polkadot/util';
 
-import { createType, Option } from '@polkadot/types/codec';
+import { Option } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
 import Text from '@polkadot/types/primitive/Text';
 
 const hasherMap: Map<string, string> = new Map([
