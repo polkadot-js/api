@@ -215,7 +215,11 @@ export default class Call extends Struct implements IMethod {
       callIndex: u8aToHex(this.callIndex),
       section: call?.section,
       method: call?.method,
-      args: this.args.map((arg) => arg.toHuman(isExpanded))
+      args: this.args.map((arg) => arg.toHuman(isExpanded)),
+      ...(isExpanded && call
+        ? { documentation: call.meta.documentation.map((d) => d.toString()) }
+        : {}
+      )
     };
   }
 

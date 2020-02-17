@@ -2,6 +2,7 @@
 
 - The `@polkadot/types/codec/create` has been moved to `@polkadot/types/create`, imports from `@polkadot/types` are unaffected
 - Expose chain properies on registry (and use for API type formatting)
+- Add `toHuman(isExtended?: boolean)` to all codec types, formatting into a human-readable structure
 
 # 1.2.1 Feb 16, 2020
 
