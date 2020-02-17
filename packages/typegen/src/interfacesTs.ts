@@ -9,11 +9,13 @@ import generateRpcTypes from './generate/rpc';
 import generateTsDef from './generate/tsDef';
 import generateTxTypes from './generate/tx';
 
-generateInterfaceRegistry();
+export default function main (): void {
+  generateInterfaceRegistry();
 
-generateConstsTypes();
-generateQueryTypes();
-generateTxTypes();
-generateRpcTypes();
+  generateConstsTypes();
+  generateQueryTypes();
+  generateTxTypes();
+  generateRpcTypes();
 
-generateTsDef();
+  generateTsDef();
+}

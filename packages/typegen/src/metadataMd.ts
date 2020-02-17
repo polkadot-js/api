@@ -295,7 +295,7 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-function main (): void {
+export default function main (): void {
   const registry = new TypeRegistry();
   const metadata = new Decorated(registry, rpcdata).metadata.asLatest;
 
@@ -306,5 +306,3 @@ function main (): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
   writeFile('docs/substrate/errors.md', addErrors(metadata));
 }
-
-main();

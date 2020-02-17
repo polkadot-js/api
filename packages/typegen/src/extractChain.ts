@@ -23,7 +23,7 @@ const { argv: { ws } } = yargs
   });
 
 /** @internal */
-async function main (): Promise<void> {
+async function run (): Promise<void> {
   const provider = new WsProvider(ws);
   const api = await ApiPromise.create({ provider });
   const [chain, props] = await Promise.all([
@@ -38,11 +38,13 @@ async function main (): Promise<void> {
   api.runtimeMetadata.getUniqTypes(false);
 }
 
-main()
-  .then((): void => {
-    process.exit(0);
-  })
-  .catch((error: Error) => {
-    console.error('FATAL:', error.message);
-    process.exit(-1);
-  });
+export default function main (): void {
+  run()
+    .then((): void => {
+      process.exit(0);
+    })
+    .catch((error: Error) => {
+      console.error('FATAL:', error.message);
+      process.exit(-1);
+    });
+}

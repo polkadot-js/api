@@ -4,8 +4,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+let main;
+
 try {
-  require('./fromDefs');
+  main = require('./fromDefs').default;
 } catch (error) {
   require('@babel/register')({
     extensions: ['.js', '.ts'],
@@ -20,5 +22,7 @@ try {
     ]
   });
 
-  require('../sr/fromDefs.ts');
+  main = require('../sr/fromDefs.ts').default;
 }
+
+main();

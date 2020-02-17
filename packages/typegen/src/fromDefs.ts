@@ -9,43 +9,45 @@ import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 import { generateInterfaceRegistry } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
 
-const { input, package: pkg } = yargs.strict().options({
-  input: {
-    description: 'The directory to use for the user definitions',
-    type: 'string',
-    required: true
-  },
-  package: {
-    description: 'The package name & path to use for the user types',
-    type: 'string',
-    required: true
-  }
-}).argv;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const userDefs = require(path.join(process.cwd(), input, 'definitions.ts'));
-const userKeys = Object.keys(userDefs);
-const filteredBase = Object
-  .entries(substrateDefs)
-  .filter(([key]) => {
-    if (userKeys.includes(key)) {
-      console.warn(`Override found for ${key} in user types, ignoring in @polkadot/types`);
-
-      return false;
+export default function main (): void {
+  const { input, package: pkg } = yargs.strict().options({
+    input: {
+      description: 'The directory to use for the user definitions',
+      type: 'string',
+      required: true
+    },
+    package: {
+      description: 'The package name & path to use for the user types',
+      type: 'string',
+      required: true
     }
+  }).argv;
 
-    return true;
-  })
-  .reduce((defs: any, [key, value]) => {
-    defs[key] = value;
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const userDefs = require(path.join(process.cwd(), input, 'definitions.ts'));
+  const userKeys = Object.keys(userDefs);
+  const filteredBase = Object
+    .entries(substrateDefs)
+    .filter(([key]) => {
+      if (userKeys.includes(key)) {
+        console.warn(`Override found for ${key} in user types, ignoring in @polkadot/types`);
 
-    return defs;
-  }, {});
+        return false;
+      }
 
-const allDefs = {
-  '@polkadot/types/interfaces': filteredBase,
-  [pkg]: userDefs
-};
+      return true;
+    })
+    .reduce((defs: any, [key, value]) => {
+      defs[key] = value;
 
-generateTsDef(allDefs, path.join(process.cwd(), input), pkg);
-generateInterfaceRegistry(allDefs, path.join(process.cwd(), input, 'interfaceRegistry.ts'));
+      return defs;
+    }, {});
+
+  const allDefs = {
+    '@polkadot/types/interfaces': filteredBase,
+    [pkg]: userDefs
+  };
+
+  generateTsDef(allDefs, path.join(process.cwd(), input), pkg);
+  generateInterfaceRegistry(allDefs, path.join(process.cwd(), input, 'interfaceRegistry.ts'));
+}

@@ -74,12 +74,14 @@ function onSocketMessage (message: any): void {
   generate(JSON.parse(message.data).result);
 }
 
-if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-  websocket = new WebSocket(endpoint);
-  websocket.onclose = onSocketClose;
-  websocket.onerror = onSocketError;
-  websocket.onmessage = onSocketMessage;
-  websocket.onopen = onSocketOpen;
-} else {
-  generate(require(path.join(process.cwd(), endpoint)).result);
+export default function main (): void {
+  if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+    websocket = new WebSocket(endpoint);
+    websocket.onclose = onSocketClose;
+    websocket.onerror = onSocketError;
+    websocket.onmessage = onSocketMessage;
+    websocket.onopen = onSocketOpen;
+  } else {
+    generate(require(path.join(process.cwd(), endpoint)).result);
+  }
 }
