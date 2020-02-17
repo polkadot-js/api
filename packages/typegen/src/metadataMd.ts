@@ -27,10 +27,12 @@ const DESC_STORAGE = `The following sections contain Storage methods are part of
 /** @internal */
 function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
   const md = docLines
-    .map(docLine => docLine && docLine.substring(1)) // trim the leading space
+    .map((docLine) => docLine && docLine.substring(1)) // trim the leading space
     .reduce((md, docLine): string => // generate paragraphs
-      !docLine.trim().length ? `${md}\n\n` // empty line
-        : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n') ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
+      !docLine.trim().length
+        ? `${md}\n\n` // empty line
+        : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
+          ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
           : `${md}${docLine // line continuing the preceding line
             .replace(/^# <weight>$/g, '\\# \\<weight>\n\n')
             .replace(/^# <\/weight>$/g, '\n\n\\# \\</weight>')
@@ -101,28 +103,32 @@ function addRpc (): string {
   return renderPage({
     title: 'JSON-RPC',
     description: DESC_RPC,
-    sections: Object.keys(interfaces).sort().map(sectionName => {
-      const section = interfaces[sectionName];
+    sections: Object.keys(interfaces)
+      .sort()
+      .map((sectionName) => {
+        const section = interfaces[sectionName];
 
-      return {
-        name: sectionName,
-        description: section.description,
-        items: Object.keys(section.methods).sort().map(methodName => {
-          const method = section.methods[methodName];
-          const args = method.params.map(({ name, isOptional, type }): string => {
-            return name + (isOptional ? '?' : '') + ': `' + type + '`';
-          }).join(', ');
-          const type = '`' + method.type + '`';
+        return {
+          name: sectionName,
+          description: section.description,
+          items: Object.keys(section.methods)
+            .sort()
+            .map((methodName) => {
+              const method = section.methods[methodName];
+              const args = method.params.map(({ name, isOptional, type }): string => {
+                return name + (isOptional ? '?' : '') + ': `' + type + '`';
+              }).join(', ');
+              const type = '`' + method.type + '`';
 
-          return {
-            name: `${methodName}(${args}): ${type}`,
-            jsonrpc: `${sectionName}_${methodName}`,
-            interface: `api.rpc.${sectionName}.${methodName}`,
-            ...(method.description && { summary: method.description })
-          };
-        })
-      };
-    })
+              return {
+                name: `${methodName}(${args}): ${type}`,
+                jsonrpc: `${sectionName}_${methodName}`,
+                interface: `api.rpc.${sectionName}.${methodName}`,
+                ...(method.description && { summary: method.description })
+              };
+            })
+        };
+      })
   });
 }
 
@@ -131,56 +137,61 @@ function addConstants (metadata: MetadataLatest): string {
   return renderPage({
     title: 'Constants',
     description: DESC_CONSTANTS,
-    sections: metadata.modules.sort(sortByName).filter(moduleMetadata => !moduleMetadata.constants.isEmpty).map(moduleMetadata => {
-      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
+    sections: metadata.modules
+      .sort(sortByName)
+      .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
+      .map((moduleMetadata) => {
+        const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
-      return {
-        name: sectionName,
-        items: moduleMetadata.constants.sort(sortByName).map(func => {
-          const methodName = stringCamelCase(func.name.toString());
+        return {
+          name: sectionName,
+          items: moduleMetadata.constants
+            .sort(sortByName)
+            .map((func) => {
+              const methodName = stringCamelCase(func.name.toString());
 
-          return {
-            name: `${methodName}: ` + '`' + func.type + '`',
-            interface: `api.consts.${sectionName}.${methodName}`,
-            ...(func.documentation.length && { summary: func.documentation })
-          };
-        })
-      };
-    })
+              return {
+                name: `${methodName}: ` + '`' + func.type + '`',
+                interface: `api.consts.${sectionName}.${methodName}`,
+                ...(func.documentation.length && { summary: func.documentation })
+              };
+            })
+        };
+      })
   });
 }
 
 /** @internal */
 function addStorage (metadata: MetadataLatest): string {
-  const moduleSections = metadata.modules.sort(sortByName)
-    .filter(moduleMetadata => !moduleMetadata.storage.isNone)
-    .map(moduleMetadata => {
+  const moduleSections = metadata.modules
+    .sort(sortByName)
+    .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
+    .map((moduleMetadata) => {
       const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
       return {
         name: sectionName,
-        items: moduleMetadata.storage.unwrap().items.sort(sortByName).map(func => {
-          const arg =
-            func.type.isMap
+        items: moduleMetadata.storage.unwrap().items
+          .sort(sortByName)
+          .map((func) => {
+            const arg = func.type.isMap
               ? ('`' + func.type.asMap.key.toString() + '`')
               : func.type.isDoubleMap
                 ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
                 : '';
+            const methodName = stringLowerFirst(func.name.toString());
+            let result = unwrapStorageType(func.type);
 
-          const methodName = stringLowerFirst(func.name.toString());
+            if (func.modifier.isOptional) {
+              result = `Option<${result}>`;
+            }
 
-          let result = unwrapStorageType(func.type);
-
-          if (func.modifier.isOptional) {
-            result = `Option<${result}>`;
-          }
-
-          return {
-            name: `${methodName}(${arg}): ` + '`' + result + '`',
-            interface: `api.query.${sectionName}.${methodName}`,
-            ...(func.documentation.length && { summary: func.documentation })
-          };
-        })
+            return {
+              name: `${methodName}(${arg}): ` + '`' + result + '`',
+              interface: `api.query.${sectionName}.${methodName}`,
+              ...(func.documentation.length && { summary: func.documentation })
+            };
+          })
       };
     });
 
@@ -199,23 +210,27 @@ function addExtrinsics (metadata: MetadataLatest): string {
   return renderPage({
     title: 'Extrinsics',
     description: DESC_EXTRINSICS,
-    sections: metadata.modules.map((i): ModuleMetadataLatest => i).sort(sortByName).filter(meta => !meta.calls.isNone && meta.calls.unwrap().length).map(meta => {
-      const sectionName = stringCamelCase(meta.name.toString());
+    sections: metadata.modules
+      .map((i): ModuleMetadataLatest => i)
+      .sort(sortByName)
+      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length)
+      .map((meta) => {
+        const sectionName = stringCamelCase(meta.name.toString());
 
-      return {
-        name: sectionName,
-        items: meta.calls.unwrap().sort(sortByName).map(func => {
-          const methodName = stringCamelCase(func.name.toString());
-          const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+        return {
+          name: sectionName,
+          items: meta.calls.unwrap().sort(sortByName).map(func => {
+            const methodName = stringCamelCase(func.name.toString());
+            const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
 
-          return {
-            name: `${methodName}(${args})`,
-            interface: `api.tx.${sectionName}.${methodName}`,
-            ...(func.documentation.length && { summary: func.documentation })
-          };
-        })
-      };
-    })
+            return {
+              name: `${methodName}(${args})`,
+              interface: `api.tx.${sectionName}.${methodName}`,
+              ...(func.documentation.length && { summary: func.documentation })
+            };
+          })
+        };
+      })
   });
 }
 
@@ -224,22 +239,23 @@ function addEvents (metadata: MetadataLatest): string {
   return renderPage({
     title: 'Events',
     description: DESC_EVENTS,
-    sections: metadata.modules.sort(sortByName).filter(meta => !meta.events.isNone && meta.events.unwrap().length).map(meta => {
-      const sectionName = stringCamelCase(meta.name.toString());
+    sections: metadata.modules
+      .sort(sortByName)
+      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length)
+      .map((meta) => ({
+        name: stringCamelCase(meta.name.toString()),
+        items: meta.events.unwrap()
+          .sort(sortByName)
+          .map((func) => {
+            const methodName = func.name.toString();
+            const args = func.args.map((type): string => '`' + type + '`').join(', ');
 
-      return {
-        name: sectionName,
-        items: meta.events.unwrap().sort(sortByName).map(func => {
-          const methodName = func.name.toString();
-          const args = func.args.map((type): string => '`' + type + '`').join(', ');
-
-          return {
-            name: `${methodName}(${args})`,
-            ...(func.documentation.length && { summary: func.documentation })
-          };
-        })
-      };
-    })
+            return {
+              name: `${methodName}(${args})`,
+              ...(func.documentation.length && { summary: func.documentation })
+            };
+          })
+      }))
   });
 }
 
@@ -248,19 +264,18 @@ function addErrors (metadata: MetadataLatest): string {
   return renderPage({
     title: 'Errors',
     description: DESC_ERRORS,
-    sections: metadata.modules.sort(sortByName).filter(moduleMetadata => !moduleMetadata.errors.isEmpty).map(moduleMetadata => {
-      const sectionName = stringLowerFirst(moduleMetadata.name.toString());
-
-      return {
-        name: sectionName,
-        items: moduleMetadata.errors.sort(sortByName).map(error => {
-          return {
+    sections: metadata.modules
+      .sort(sortByName)
+      .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
+      .map((moduleMetadata) => ({
+        name: stringLowerFirst(moduleMetadata.name.toString()),
+        items: moduleMetadata.errors
+          .sort(sortByName)
+          .map((error) => ({
             name: error.name.toString(),
             ...(error.documentation.length && { summary: error.documentation })
-          };
-        })
-      };
-    })
+          }))
+      }))
   });
 }
 
@@ -280,43 +295,16 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-/** @internal */
-function writeToRpcMd (): void {
+function main (): void {
+  const registry = new TypeRegistry();
+  const metadata = new Decorated(registry, rpcdata).metadata.asLatest;
+
   writeFile('docs/substrate/rpc.md', addRpc());
-}
-
-/** @internal */
-function writeToConstantsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/constants.md', addConstants(metadata));
-}
-
-/** @internal */
-function writeToStorageMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/storage.md', addStorage(metadata));
-}
-
-/** @internal */
-function writeToExtrinsicsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(metadata));
-}
-
-/** @internal */
-function writeToEventsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/events.md', addEvents(metadata));
-}
-
-/** @internal */
-function writeToErrorsMd (metadata: MetadataLatest): void {
   writeFile('docs/substrate/errors.md', addErrors(metadata));
 }
 
-const registry = new TypeRegistry();
-const decorated = new Decorated(registry, rpcdata);
-const latest = decorated.metadata.asLatest;
-
-writeToRpcMd();
-writeToConstantsMd(latest);
-writeToStorageMd(latest);
-writeToExtrinsicsMd(latest);
-writeToEventsMd(latest);
-writeToErrorsMd(latest);
+main();
