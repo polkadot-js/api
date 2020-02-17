@@ -7,7 +7,7 @@ import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
 import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
-import { assert, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Raw from '../codec/Raw';
 import { EventData } from '../primitive/Generic/Event';
@@ -121,7 +121,7 @@ export class TypeRegistry implements Registry {
   public get chainToken (): string {
     return this._chainProperties?.tokenSymbol.isSome
       ? this._chainProperties.tokenSymbol.unwrap().toString()
-      : 'DEV';
+      : formatBalance.getDefaults().unit;
   }
 
   // find a specific call
