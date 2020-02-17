@@ -2,23 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '../../create/types';
-import { Constructor, Registry } from '../../types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
+import { Constructor, Registry } from '@polkadot/types/types';
 
 import { stringLowerFirst } from '@polkadot/util';
 import { isChildClass, isCompactEncodable } from './class';
-import { ClassOf, ClassOfUnsafe, getTypeDef } from '../../create';
-import AbstractInt from '../../codec/AbstractInt';
-import Compact from '../../codec/Compact';
-import Enum from '../../codec/Enum';
-import Option from '../../codec/Option';
-import Struct from '../../codec/Struct';
-import Vec from '../../codec/Vec';
-import GenericAccountId from '../../primitive/Generic/AccountId';
-import GenericAddress from '../../primitive/Generic/Address';
-import Vote, { convictionNames as _voteConvictions } from '../../primitive/Generic/Vote';
-import Null from '../../primitive/Null';
-import * as primitiveClasses from '../../primitive';
+import { ClassOf, ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
+import AbstractInt from '@polkadot/types/codec/AbstractInt';
+import Compact from '@polkadot/types/codec/Compact';
+import Enum from '@polkadot/types/codec/Enum';
+import Option from '@polkadot/types/codec/Option';
+import Struct from '@polkadot/types/codec/Struct';
+import Vec from '@polkadot/types/codec/Vec';
+import GenericAccountId from '@polkadot/types/primitive/Generic/AccountId';
+import GenericAddress from '@polkadot/types/primitive/Generic/Address';
+import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/primitive/Generic/Vote';
+import Null from '@polkadot/types/primitive/Null';
+import * as primitiveClasses from '@polkadot/types/primitive';
+
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 

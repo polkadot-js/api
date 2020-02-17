@@ -11,10 +11,10 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:interfaces": "node packages/types/src/scripts/interfacesTsWrapper.js",
-    "docs": "node packages/types/src/scripts/MetadataMdWrapper.js && polkadot-dev-build-docs",
-    "chain:info": "node packages/types/src/scripts/extractChainWrapper.js",
+    "build": "yarn build:interfaces && polkadot-dev-build-ts && (cd packages/typegen && copyfiles scripts/* build)",
+    "build:interfaces": "polkadot-types-internal-interfaces",
+    "docs": "polkadot-types-internal-metadata && polkadot-dev-build-docs",
+    "chain:info": "polkadot-types-chain-info",
     "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
@@ -27,6 +27,7 @@
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
     "@polkadot/dev": "^0.40.17",
-    "@polkadot/ts": "^0.2.3"
+    "@polkadot/ts": "^0.2.3",
+    "copyfiles": "^2.2.0"
   }
 }

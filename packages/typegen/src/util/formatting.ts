@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/typegen authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../create/types';
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
 
-import { getTypeDef } from '../../create';
-import { paramsNotation } from '../../codec/utils';
+import { getTypeDef } from '@polkadot/types/create';
+import { paramsNotation } from '@polkadot/types/codec/utils';
+
 import { setImports, TypeImports } from './imports';
 
 export const HEADER = '// Auto-generated via `yarn polkadot-types-from-defs`, do not edit\n/* eslint-disable @typescript-eslint/no-empty-interface */\n\n';

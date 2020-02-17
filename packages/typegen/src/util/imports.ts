@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/typegen authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDefInfo } from '../../create/types';
+import { TypeDefInfo } from '@polkadot/types/create/types';
 
-import * as codecClasses from '../../codec';
-import { getTypeDef } from '../../create';
-import * as primitiveClasses from '../../primitive';
+import * as codecClasses from '@polkadot/types/codec';
+import { getTypeDef } from '@polkadot/types/create';
+import * as primitiveClasses from '@polkadot/types/primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
 // we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`

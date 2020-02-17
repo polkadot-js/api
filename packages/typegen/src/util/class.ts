@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/typegen authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from '../../types';
+import { Constructor } from '@polkadot/types/types';
 
-import UInt from '../../codec/UInt';
+import UInt from '@polkadot/types/codec/UInt';
 
 // See if a class is child of another class
 // FIMXE This could go in util some day

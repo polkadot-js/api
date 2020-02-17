@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/typegen authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../../create/types';
+import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
 
 import fs from 'fs';
 import path from 'path';
+import { getTypeDef } from '@polkadot/types/create';
+import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { isString, stringCamelCase, stringUpperFirst } from '@polkadot/util';
 
-import { getTypeDef } from '../../create';
-import * as defaultDefinitions from '../../interfaces/definitions';
 import { FOOTER, HEADER, TypeImports, createImportCode, createImports, exportInterface, exportType, formatType, setImports, writeFile } from '../util';
 
 interface Imports extends TypeImports {

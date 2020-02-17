@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/typegen authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Raw from '../../codec/Raw';
-import * as defaultDefinitions from '../../interfaces/definitions';
-import * as defaultPrimitives from '../../primitive';
+import Raw from '@polkadot/types/codec/Raw';
+import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import * as defaultPrimitives from '@polkadot/types/primitive';
+
 import { FOOTER, HEADER, createImportCode, createImports, getDerivedTypes, indent, setImports, writeFile } from '../util';
 
 const primitiveClasses = {
