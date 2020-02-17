@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataLatest, ModuleMetadataLatest } from '@polkadot/types/interfaces/metadata';
+import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 
 import fs from 'fs';
 import interfaces from '@polkadot/jsonrpc';
@@ -14,6 +14,19 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { Vec } from '@polkadot/types/codec';
 import { Text } from '@polkadot/types/primitive';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+
+interface Page {
+  title: string;
+  description: string;
+  sections: {
+    name: string;
+    description?: string;
+    items: {
+      name: string;
+      [bullet: string]: string | Vec<Text>;
+    }[];
+  }[];
+}
 
 const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
 
@@ -40,19 +53,6 @@ function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
     , '');
   // prefix each line with indentation
   return md && md.split('\n\n').map(line => `${' '.repeat(indent)}${line}`).join('\n\n');
-}
-
-interface Page {
-  title: string;
-  description: string;
-  sections: {
-    name: string;
-    description?: string;
-    items: {
-      name: string;
-      [bullet: string]: string | Vec<Text>;
-    }[];
-  }[];
 }
 
 function renderPage (page: Page): string {
@@ -86,16 +86,9 @@ function renderPage (page: Page): string {
   return md;
 }
 
-/**
- * Sort object by their `.name`
- */
-/** @internal */
 function sortByName<T extends { name: any }> (a: T, b: T): number {
-  // ignore upper and lowercase
-  const nameA = a.name.toString().toUpperCase();
-  const nameB = b.name.toString().toUpperCase();
-
-  return nameA.localeCompare(nameB);
+  // case insensitive (all-uppercase) sorting
+  return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
 /** @internal */
@@ -211,7 +204,6 @@ function addExtrinsics (metadata: MetadataLatest): string {
     title: 'Extrinsics',
     description: DESC_EXTRINSICS,
     sections: metadata.modules
-      .map((i): ModuleMetadataLatest => i)
       .sort(sortByName)
       .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length)
       .map((meta) => {
@@ -219,16 +211,18 @@ function addExtrinsics (metadata: MetadataLatest): string {
 
         return {
           name: sectionName,
-          items: meta.calls.unwrap().sort(sortByName).map(func => {
-            const methodName = stringCamelCase(func.name.toString());
-            const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
+          items: meta.calls.unwrap()
+            .sort(sortByName)
+            .map((func) => {
+              const methodName = stringCamelCase(func.name.toString());
+              const args = Call.filterOrigin(func).map(({ name, type }): string => `${name}: ` + '`' + type + '`').join(', ');
 
-            return {
-              name: `${methodName}(${args})`,
-              interface: `api.tx.${sectionName}.${methodName}`,
-              ...(func.documentation.length && { summary: func.documentation })
-            };
-          })
+              return {
+                name: `${methodName}(${args})`,
+                interface: `api.tx.${sectionName}.${methodName}`,
+                ...(func.documentation.length && { summary: func.documentation })
+              };
+            })
         };
       })
   });
