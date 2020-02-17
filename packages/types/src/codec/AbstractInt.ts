@@ -135,7 +135,8 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toHuman (isExpanded?: boolean): string {
     return formatNumber(this);
   }
 
