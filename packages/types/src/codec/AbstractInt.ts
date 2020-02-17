@@ -5,7 +5,7 @@
 import { AnyNumber, Codec, IHash, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -131,6 +131,13 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns a hex string representation of the value
    */
   abstract toHex (): string;
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return formatNumber(this);
+  }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers

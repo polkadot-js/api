@@ -141,13 +141,28 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonArray {
+    const json: any = [];
+
+    this.forEach((v: V) => {
+      json.push(v.toHuman(isExtended));
+    });
+
+    return json;
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJsonArray {
     const json: any = [];
+
     this.forEach((v: V) => {
       json.push(v.toJSON());
     });
+
     return json;
   }
 

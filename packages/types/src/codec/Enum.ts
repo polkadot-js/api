@@ -262,6 +262,15 @@ export default class Enum extends Base<Codec> {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this._isBasic
+      ? this.type
+      : { [this.type]: this.raw.toHuman(isExtended) };
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {

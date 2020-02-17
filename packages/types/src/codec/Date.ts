@@ -104,6 +104,13 @@ export default class CodecDate extends Date implements Codec {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return this.toISOString();
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): any {
