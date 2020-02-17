@@ -55,5 +55,6 @@ export type ITuple<Sub extends Codec[]> = Sub & Codec
 
 export interface IU8a extends Uint8Array, Codec {
   bitLength (): number;
+  toHuman (isExtended?: boolean): any;
   toJSON (): any;
 }

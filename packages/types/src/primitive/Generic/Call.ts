@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, Codec, IMethod, Registry } from '../../types';
+import { AnyJsonObject, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../../types';
 
-import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../../create';
 import Struct from '../../codec/Struct';
@@ -197,6 +197,26 @@ export default class Call extends Struct implements IMethod {
    */
   public get sectionName (): string {
     return this.registry.findMetaCall(this.callIndex).section;
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): AnyJsonObject {
+    let call: CallFunction | undefined;
+
+    try {
+      call = this.registry.findMetaCall(this.callIndex);
+    } catch (error) {
+      // swallow
+    }
+
+    return {
+      callIndex: u8aToHex(this.callIndex),
+      section: call?.section,
+      method: call?.method,
+      args: this.args.map((arg) => arg.toHuman(isExpanded))
+    };
   }
 
   /**

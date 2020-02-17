@@ -68,6 +68,11 @@ export interface Codec {
   toHex (isLe?: boolean): string;
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  toHuman (isExtended?: boolean): AnyJson;
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): AnyJson;

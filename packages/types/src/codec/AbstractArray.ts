@@ -80,6 +80,15 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonArray {
+    return this.map((entry): AnyJson =>
+      entry.toHuman(isExtended)
+    );
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJsonArray {

@@ -147,6 +147,19 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    const json: any = {};
+
+    this.forEach((v: V, k: K) => {
+      json[k.toString()] = v.toHuman(isExtended);
+    });
+
+    return json;
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {

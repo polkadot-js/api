@@ -124,6 +124,14 @@ export class MortalEra extends Tuple {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): any {
+    // FIXME we need proper expansion here
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns a JSON representation of the actual value
    */
   public toJSON (): any {

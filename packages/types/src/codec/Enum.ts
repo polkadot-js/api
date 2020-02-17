@@ -91,6 +91,20 @@ function decodeFromValue (registry: Registry, def: TypesDef, value?: any): Decod
   return createFromValue(registry, def, 0);
 }
 
+function decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
+  // NOTE We check the index path first, before looking at values - this allows treating
+  // the optional indexes before anything else, more-specific > less-specific
+  if (isNumber(index)) {
+    return createFromValue(registry, def, index, value);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  } else if (value instanceof Enum) {
+    return createFromValue(registry, def, value.index, value.value);
+  }
+
+  // Or else, we just look at `value`
+  return decodeFromValue(registry, def, value);
+}
+
 /**
  * @name Enum
  * @description
@@ -111,7 +125,7 @@ export default class Enum extends Base<Codec> {
 
   constructor (registry: Registry, def: Record<string, InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(registry, def);
-    const decoded = Enum.decodeEnum(registry, defInfo.def, value, index);
+    const decoded = decodeEnum(registry, defInfo.def, value, index);
 
     super(registry, decoded.value);
 
@@ -119,20 +133,6 @@ export default class Enum extends Base<Codec> {
     this._isBasic = defInfo.isBasic;
     this._indexes = Object.keys(defInfo.def).map((_, index): number => index);
     this._index = this._indexes.indexOf(decoded.index) || 0;
-  }
-
-  /** @internal */
-  private static decodeEnum (registry: Registry, def: TypesDef, value?: any, index?: number): Decoded {
-    // NOTE We check the index path first, before looking at values - this allows treating
-    // the optional indexes before anything else, more-specific > less-specific
-    if (isNumber(index)) {
-      return createFromValue(registry, def, index, value);
-    } else if (value instanceof Enum) {
-      return createFromValue(registry, def, value._index, value.raw);
-    }
-
-    // Or else, we just look at `value`
-    return decodeFromValue(registry, def, value);
   }
 
   public static with (Types: Record<string, InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
@@ -259,6 +259,15 @@ export default class Enum extends Base<Codec> {
    */
   public toHex (): string {
     return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this._isBasic
+      ? this.type
+      : { [this.type]: this.raw.toHuman(isExtended) };
   }
 
   /**

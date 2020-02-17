@@ -58,6 +58,13 @@ export default abstract class Base<T extends Codec> implements Codec {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this.raw.toHuman(isExtended);
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {

@@ -4,7 +4,7 @@
 
 import { FunctionMetadataLatest } from '../../interfaces/metadata/types';
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../../interfaces/runtime';
-import { AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../../types';
+import { ArgsDef, AnyJsonObject, AnyU8a, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -270,6 +270,26 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
    */
   public toHex (isBare?: boolean): string {
     return u8aToHex(this.toU8a(isBare));
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): AnyJsonObject {
+    return {
+      call: this.method.toHuman(isExpanded),
+      isSigned: this.isSigned,
+      ...(this.isSigned
+        ? {
+          signer: this.signer.toHuman(isExpanded),
+          nonce: this.nonce.toHuman(isExpanded),
+          era: this.era.toHuman(isExpanded),
+          tip: this.tip.toHuman(isExpanded),
+          signature: this.signature.toHex()
+        }
+        : {}
+      )
+    };
   }
 
   /**

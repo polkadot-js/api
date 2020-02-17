@@ -229,6 +229,20 @@ export default class Struct<
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonObject {
+    return [...this.keys()].reduce((json, key): any => {
+      const jsonKey = this._jsonMap.get(key) || key;
+      const value = this.get(key);
+
+      json[jsonKey] = value && value.toHuman(isExtended);
+
+      return json;
+    }, {} as any);
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJsonObject {
