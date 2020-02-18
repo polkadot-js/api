@@ -2,35 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// log details to console
+function warn (prefix: string, type: 'calls' | 'modules', rmed: string[]): void {
+  if (rmed.length) {
+    console.warn(`api.${prefix}: Found ${rmed.length} removed ${type}: ${rmed.join(', ')}`);
+  }
+}
+
 // log all the stuff that has been removed/
 export function findRemoved (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): void {
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
-  const rmSections = dstSections
-    .filter((section): boolean => !srcSections.includes(section))
-    .sort();
 
-  if (rmSections.length) {
-    console.warn(`api.${prefix}: Found ${rmSections.length} removed modules: ${rmSections.join(', ')}`);
-  }
+  warn(
+    prefix,
+    'modules',
+    dstSections
+      .filter((section): boolean => !srcSections.includes(section))
+      .sort()
+  );
 
-  const rmMethods = dstSections
-    .filter((section): boolean => srcSections.includes(section))
-    .reduce((rmMethods: string[], section): string[] => {
-      const srcMethods = Object.keys(src[section]);
-      const dstMethods = Object.keys(dst[section]);
+  warn(
+    prefix,
+    'calls',
+    dstSections
+      .filter((section): boolean => srcSections.includes(section))
+      .reduce((rmMethods: string[], section): string[] => {
+        const srcMethods = Object.keys(src[section]);
+        const dstMethods = Object.keys(dst[section]);
 
-      return rmMethods.concat(
-        ...dstMethods
-          .filter((method): boolean => !srcMethods.includes(method))
-          .map((method): string => `${section}.${method}`)
-      );
-    }, [])
-    .sort();
-
-  if (rmMethods.length) {
-    console.warn(`api.${prefix}: Found ${rmMethods.length} removed calls: ${rmMethods.join(', ')}`);
-  }
+        return rmMethods.concat(
+          ...dstMethods
+            .filter((method): boolean => !srcMethods.includes(method))
+            .map((method): string => `${section}.${method}`)
+        );
+      }, [])
+      .sort()
+  );
 }
 
 /**
