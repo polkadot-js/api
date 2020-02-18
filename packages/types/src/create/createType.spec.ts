@@ -8,6 +8,12 @@ import { createClass, createType, createTypeUnsafe, ClassOf, TypeRegistry } from
 describe('createType', (): void => {
   const registry = new TypeRegistry();
 
+  it('allows creation of a H256 (with proper toRawType)', (): void => {
+    expect(
+      createTypeUnsafe(registry, 'H256').toRawType()
+    ).toEqual('H256');
+  });
+
   it('allows creation of a Struct', (): void => {
     expect(
       createTypeUnsafe(registry, '{"balance":"Balance","index":"u32"}', [{
