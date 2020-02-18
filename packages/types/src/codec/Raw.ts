@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyU8a, IU8a, Registry } from '../types';
+import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -102,7 +102,7 @@ export default class Raw extends Uint8Array implements IU8a {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): string {
+  public toHuman (): AnyJson {
     return this.toJSON();
   }
 
