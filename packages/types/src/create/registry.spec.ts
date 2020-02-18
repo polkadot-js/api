@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
@@ -22,6 +22,11 @@ describe('TypeRegistry', (): void => {
 
   it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
+  });
+
+  it('throws on non-existent via getOrThrow', (): void => {
+    expect((): Constructor<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
+    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foor bar blah')).toThrow('foo bar blah');
   });
 
   it('can register single type', (): void => {
