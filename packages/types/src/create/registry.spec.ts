@@ -26,7 +26,7 @@ describe('TypeRegistry', (): void => {
 
   it('throws on non-existent via getOrThrow', (): void => {
     expect((): Constructor<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
-    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foor bar blah')).toThrow('foo bar blah');
+    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
   });
 
   it('can register single type', (): void => {
