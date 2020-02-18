@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Codec, ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** @name AccountId */
 export interface AccountId extends GenericAccountId {}
@@ -51,7 +52,22 @@ export interface ConsensusEngineId extends GenericConsensusEngineId {}
 export interface Digest extends GenericDigest {}
 
 /** @name DigestItem */
-export interface DigestItem extends GenericDigestItem {}
+export interface DigestItem extends Enum {
+  readonly isOther: boolean;
+  readonly asOther: Bytes;
+  readonly isAuthoritiesChange: boolean;
+  readonly asAuthoritiesChange: Vec<AuthorityId>;
+  readonly isChangesTrieRoot: boolean;
+  readonly asChangesTrieRoot: Hash;
+  readonly isSealV0: boolean;
+  readonly asSealV0: SealV0;
+  readonly isConsensus: boolean;
+  readonly asConsensus: Consensus;
+  readonly isSeal: boolean;
+  readonly asSeal: Seal;
+  readonly isPreRuntime: boolean;
+  readonly asPreRuntime: PreRuntime;
+}
 
 /** @name DispatchClass */
 export interface DispatchClass extends Enum {

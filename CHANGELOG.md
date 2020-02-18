@@ -1,6 +1,7 @@
 # 1.4.0-beta.x
 
 - Add `.toHuman` on SubmittableResult, aligning with Codec
+- Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 
 # 1.3.1 Feb 18, 2020
 
