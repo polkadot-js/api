@@ -165,7 +165,6 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       if ((typeDef.ext as TypeDefExtVecFixed).type === 'u8') {
         setImports(definitions, imports, ['U8aFixed']);
 
-        // `[u8, 32]` gets transformed into Raw
         return 'U8aFixed';
       }
 
