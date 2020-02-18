@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Registry } from '../types';
-
 import UInt from '../codec/UInt';
 
 /**
@@ -11,8 +9,4 @@ import UInt from '../codec/UInt';
  * @description
  * An 8-bit unsigned integer
  */
-export default class U8 extends UInt {
-  constructor (registry: Registry, value?: AnyNumber) {
-    super(registry, value, 8);
-  }
-}
+export default class U8 extends UInt.with(8) {}
