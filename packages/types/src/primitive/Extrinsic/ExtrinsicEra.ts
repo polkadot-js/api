@@ -5,7 +5,7 @@
 import { AnyU8a, IExtrinsicEra, Registry } from '../../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
+import { assert, bnToBn, formatNumber, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
 
 import Enum from '../../codec/Enum';
 import Tuple from '../../codec/Tuple';
@@ -127,8 +127,10 @@ export class MortalEra extends Tuple {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): any {
-    // FIXME we need proper expansion here
-    return this.toJSON();
+    return {
+      period: formatNumber(this.period),
+      phase: formatNumber(this.phase)
+    };
   }
 
   /**
