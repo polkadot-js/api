@@ -78,11 +78,11 @@ export interface ApiInterfaceRx {
   // TODO This needs to be typed correctly
   derive: DeriveAllSections<'rxjs', ExactDerive>;
   extrinsicType: number;
-  genesisHash: Hash;
+  genesisHash?: Hash;
   hasSubscriptions: boolean;
   registry: Registry;
   runtimeMetadata: Metadata;
-  runtimeVersion: RuntimeVersion;
+  runtimeVersion?: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;

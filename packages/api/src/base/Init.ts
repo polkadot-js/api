@@ -5,7 +5,6 @@
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import DecoratedMeta from '@polkadot/metadata/Decorated';
 import { Metadata } from '@polkadot/types';
 import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
@@ -125,7 +124,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     // inject types based on metadata, if applicable
     this.registerTypes(getMetadataTypes(metadata.version));
 
-    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
     const metaExtrinsic = metadata.asLatest.extrinsic;
 
     // only inject if we are not a clone (global init)
@@ -139,16 +137,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this._extrinsicType = firstTx ? firstTx.type : LATEST_EXTRINSIC_VERSION;
     }
 
-    this._extrinsics = this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod);
-    this._query = this.decorateStorage(decoratedMeta.query, this.decorateMethod);
-    this._consts = decoratedMeta.consts;
-
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
-    this._rx.tx = this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod);
-    this._rx.query = this.decorateStorage(decoratedMeta.query, this.rxDecorateMethod);
-    this._rx.consts = decoratedMeta.consts;
+
+    this.injectMetadata(metadata);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
