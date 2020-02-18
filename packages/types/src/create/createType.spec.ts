@@ -9,15 +9,17 @@ describe('createType', (): void => {
   const registry = new TypeRegistry();
 
   it('allows creation of a Struct', (): void => {
-    expect(
-      createTypeUnsafe(registry, '{"balance":"Balance","index":"u32"}', [{
-        balance: 1234,
-        index: '0x10'
-      }]).toJSON()
-    ).toEqual({
+    const raw = '{"balance":"Balance","index":"u32"}';
+    const struct = createTypeUnsafe(registry, raw, [{
+      balance: 1234,
+      index: '0x10'
+    }]);
+
+    expect(struct.toJSON()).toEqual({
       balance: 1234,
       index: 16
     });
+    expect(struct.toRawType()).toEqual(raw);
   });
 
   it('allows creation of a BTreeMap', (): void => {
@@ -32,18 +34,6 @@ describe('createType', (): void => {
     ).toEqual('[2,24,30,80]');
   });
 
-  it('allows creation of a Result', (): void => {
-    expect(
-      createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
-    ).toEqual({ Error: 'defg' });
-  });
-
-  it('allows creation of a Tuple', (): void => {
-    expect(
-      createTypeUnsafe(registry, '(Balance,u32)', [[1234, 5678]]).toJSON()
-    ).toEqual([1234, 5678]);
-  });
-
   it('allows creation of a Enum (simple)', (): void => {
     expect(
       createTypeUnsafe(registry, '{"_enum": ["A", "B", "C"]}', [1]).toJSON()
@@ -56,10 +46,34 @@ describe('createType', (): void => {
     ).toEqual({ B: 0 });
   });
 
+  it('allows creation of a Result', (): void => {
+    expect(
+      createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
+    ).toEqual({ Error: 'defg' });
+  });
+
   it('allows creation of a Set', (): void => {
     expect(
       createTypeUnsafe<CodecSet>(registry, '{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
     ).toEqual(['A', 'C', 'E', 'H']);
+  });
+
+  it('allows creation of a Tuple', (): void => {
+    expect(
+      createTypeUnsafe(registry, '(Balance,u32)', [[1234, 5678]]).toJSON()
+    ).toEqual([1234, 5678]);
+  });
+
+  it('allows creation for a UInt<bitLength>', (): void => {
+    expect(
+      createTypeUnsafe(registry, 'UInt<2048>').toRawType()
+    ).toEqual('u2048');
+  });
+
+  it('fails creation for a UInt<bitLength> where bitLength is not power of 8', (): void => {
+    expect(
+      () => createTypeUnsafe(registry, 'UInt<20>').toRawType()
+    ).toThrow('UInt<20>: Only support for UInt<bitLength>, where length <= 8192 and a power of 8');
   });
 
   it('allows creation of a [u8; 8]', (): void => {
