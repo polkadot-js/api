@@ -50,7 +50,7 @@ export default class UInt extends AbstractInt {
   public toHuman (isExpanded?: boolean): any {
     // FIXME we need proper expansion here
     return this instanceof ClassOf(this.registry, 'Balance')
-      ? formatBalance(this, { withSi: true, withUnit: this.registry.chainToken }, this.registry.chainDecimals)
+      ? formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
       : super.toHuman(isExpanded);
   }
 
