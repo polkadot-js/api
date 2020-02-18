@@ -7,7 +7,7 @@ import { Constructor, Registry } from '../types';
 import Null from './Null';
 
 /**
- * @name Unknown
+ * @name Unconstructable
  * @description
  * An unknown type theat fails on constrction with the type info
  */
