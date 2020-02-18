@@ -1,9 +1,13 @@
+# 1.4.0-beta.x
+
+- Add `.toHuman` on SubmittableResult, aligning with Codec
+
 # 1.3.1 Feb 18, 2020
 
 - Add `@types/bn.js` as a normal dependency, exposed in `*.d.ts` ((Thanks to https://github.com/monitz87)
 - Type generation scripts (including `polkadot-types-from-{chain,defs}`) has been moved to the `@polkadot/typegen` package
 - The `@polkadot/types/codec/create` has been moved to `@polkadot/types/create`, imports from `@polkadot/types` are unaffected
-- Expose chain properies on registry (and use for API type formatting)
+- Expose chain properties on registry (and use for API type formatting)
 - Add `toHuman(isExtended?: boolean)` to all codec types, formatting into a human-readable structure
 
 # 1.2.1 Feb 16, 2020

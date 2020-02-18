@@ -6,7 +6,7 @@ import { ExtrinsicStatus } from '../interfaces/rpc';
 import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from '../interfaces/runtime';
 import { EventRecord } from '../interfaces/system';
 import { Codec } from './codec';
-import { AnyNumber, AnyU8a } from './helpers';
+import { AnyJson, AnyNumber, AnyU8a } from './helpers';
 import { ICompact, IHash, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -20,6 +20,7 @@ export interface ISubmittableResult {
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;
+  toHuman (isExtended?: boolean): AnyJson;
 }
 
 export interface SignerResult {

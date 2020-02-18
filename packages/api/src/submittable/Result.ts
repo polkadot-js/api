@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
-import { ISubmittableResult } from '@polkadot/types/types';
+import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import { SubmittableResultValue } from './types';
 
 export default class SubmittableResult implements ISubmittableResult {
@@ -48,5 +48,15 @@ export default class SubmittableResult implements ISubmittableResult {
     return this.events.find(({ event }): boolean =>
       event.section === section && event.method === method
     );
+  }
+
+  /**
+   * @description Creates a human representation of the output
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return {
+      events: this.events.map((event) => event.toHuman(isExtended)),
+      status: this.status.toHuman(isExtended)
+    };
   }
 }
