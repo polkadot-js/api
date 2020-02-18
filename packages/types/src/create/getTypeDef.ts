@@ -67,13 +67,13 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
 // decode a fixed vector, e.g. [u8;32]
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
-  const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
+  const [vecType, _vecLen, rawName] = type.substr(1, type.length - 2).split(';');
   const vecLen = parseInt(_vecLen.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
   assert(vecLen <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
-  value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
+  value.ext = { length: vecLen, rawName, type: vecType } as TypeDefExtVecFixed;
 
   return value;
 }

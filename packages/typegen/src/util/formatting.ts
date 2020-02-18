@@ -163,11 +163,11 @@ export function formatType (definitions: object, type: string | TypeDef, imports
     }
     case TypeDefInfo.VecFixed: {
       if ((typeDef.ext as TypeDefExtVecFixed).type === 'u8') {
-        setImports(definitions, imports, ['Raw']);
+        setImports(definitions, imports, ['U8aFixed']);
 
-        // `[u8, 32]` gets transformed into Raw
-        return 'Raw';
+        return 'U8aFixed';
       }
+
       setImports(definitions, imports, ['Vec']);
       return formatVec(formatType(definitions, (typeDef.ext as TypeDefExtVecFixed).type, imports));
     }

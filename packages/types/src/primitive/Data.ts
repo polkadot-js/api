@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { H256 } from '../interfaces/runtime';
 import { Registry } from '../types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
@@ -9,7 +10,6 @@ import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 import Enum from '../codec/Enum';
 import { createType } from '../create/createType';
 import Bytes from './Bytes';
-import H256 from './H256';
 
 /** @internal */
 function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {

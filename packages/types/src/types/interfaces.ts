@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
 import { SignOptions } from '@polkadot/keyring/types';
+import { Hash } from '../interfaces/runtime';
 import { FunctionMetadataLatest } from '../interfaces/metadata';
 
 import BN from 'bn.js';
@@ -15,9 +16,6 @@ export interface ICompact<T> extends Codec {
   toNumber (): number;
   unwrap (): T;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IHash extends IU8a { }
 
 export interface IKeyringPair {
   address: string;
@@ -31,7 +29,7 @@ export interface IMethod extends Codec {
   readonly argsDef: ArgsDef;
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
-  readonly hash: IHash;
+  readonly hash: Hash;
   readonly hasOrigin: boolean;
   readonly meta: FunctionMetadataLatest;
 }

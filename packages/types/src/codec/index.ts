@@ -19,6 +19,7 @@ export { default as Set } from './Set';
 export { default as Struct } from './Struct';
 // export { default as StructAny } from './StructAny';
 export { default as Tuple } from './Tuple';
+export { default as U8aFixed } from './U8aFixed';
 export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases

@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
-import { BitVec, Bytes, Data, Fixed64, H160, H256, H512, IdentityFields, Null, StorageData, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
-import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV1, ExtrinsicSignatureV2, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, MortalEra, MultiSignature, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
+import { BitVec, Bytes, Data, Fixed64, IdentityFields, Null, StorageData, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV1, ExtrinsicSignatureV2, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, H160, H256, H512, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, MortalEra, MultiSignature, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
 import { BabeAuthorityWeight, BabeBlockWeight, BabeWeight, MaybeVrf, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondary, RawBabePreDigestSecondaryTo159, RawBabePreDigestTo159, SlotNumber, VrfData, VrfProof } from '@polkadot/types/interfaces/babe';
@@ -48,15 +48,6 @@ export interface InterfaceRegistry {
   Data: Data;
   'Option<Data>': Option<Data>;
   'Vec<Data>': Vec<Data>;
-  H160: H160;
-  'Option<H160>': Option<H160>;
-  'Vec<H160>': Vec<H160>;
-  H256: H256;
-  'Option<H256>': Option<H256>;
-  'Vec<H256>': Vec<H256>;
-  H512: H512;
-  'Option<H512>': Option<H512>;
-  'Vec<H512>': Vec<H512>;
   IdentityFields: IdentityFields;
   'Option<IdentityFields>': Option<IdentityFields>;
   'Vec<IdentityFields>': Vec<IdentityFields>;
@@ -241,6 +232,15 @@ export interface InterfaceRegistry {
   DispatchInfoTo190: DispatchInfoTo190;
   'Option<DispatchInfoTo190>': Option<DispatchInfoTo190>;
   'Vec<DispatchInfoTo190>': Vec<DispatchInfoTo190>;
+  H160: H160;
+  'Option<H160>': Option<H160>;
+  'Vec<H160>': Vec<H160>;
+  H256: H256;
+  'Option<H256>': Option<H256>;
+  'Vec<H256>': Vec<H256>;
+  H512: H512;
+  'Option<H512>': Option<H512>;
+  'Vec<H512>': Vec<H512>;
   Hash: Hash;
   'Option<Hash>': Option<Hash>;
   'Vec<Hash>': Vec<Hash>;

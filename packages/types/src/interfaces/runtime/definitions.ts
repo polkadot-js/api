@@ -65,6 +65,9 @@ export default {
       weight: 'Weight',
       class: 'DispatchClass'
     },
+    H160: '[u8; 20; H160]',
+    H256: '[u8; 32; H256]',
+    H512: '[u8; 64; H512]',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
