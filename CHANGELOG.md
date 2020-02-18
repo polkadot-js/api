@@ -5,6 +5,7 @@
 - Move `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
 - Expose static with on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- Support for arbitrary UInt types via `UInt<bitLength>` definitions
 
 # 1.3.1 Feb 18, 2020
 
