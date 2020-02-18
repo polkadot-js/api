@@ -91,6 +91,8 @@ export class TypeRegistry implements Registry {
 
   private _metadataExtensions: string[] = defaultExtensions;
 
+  private _unknownTypes: Map<string, boolean> = new Map();
+
   constructor () {
     // we only want to import these on creation, i.e. we want to avoid types
     // weird side-effects from circular references. (Since registry is injected
@@ -172,6 +174,7 @@ export class TypeRegistry implements Registry {
       } else if (withUnknown) {
         console.warn(`Unable to resolve type ${name}, it will fail on constrution`);
 
+        this._unknownTypes.set(name, true);
         BaseType = Unknown.with(name);
       }
 
@@ -227,7 +230,7 @@ export class TypeRegistry implements Registry {
   }
 
   public hasType (name: string): boolean {
-    return this.hasClass(name) || this.hasDef(name);
+    return !this._unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
   public register (type: Constructor | RegistryTypes): void;
