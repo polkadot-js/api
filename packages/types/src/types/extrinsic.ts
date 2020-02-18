@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicStatus } from '../interfaces/rpc';
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, Index, Sr25519Signature } from '../interfaces/runtime';
+import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, H256, Index, Sr25519Signature } from '../interfaces/runtime';
 import { EventRecord } from '../interfaces/system';
 import { Codec } from './codec';
 import { AnyJson, AnyNumber, AnyU8a } from './helpers';
-import { ICompact, IHash, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
+import { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface ISubmittableResult {
@@ -49,7 +49,7 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: IHash | ISubmittableResult) => void;
+  update?: (id: number, status: H256 | ISubmittableResult) => void;
 }
 
 export interface SignatureOptions {

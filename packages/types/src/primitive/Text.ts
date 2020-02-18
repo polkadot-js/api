@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -67,8 +68,8 @@ export default class Text extends String implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
