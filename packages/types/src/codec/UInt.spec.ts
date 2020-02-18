@@ -83,4 +83,18 @@ describe('UInt', (): void => {
       expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
     });
   });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (UInt.with(64))(registry).toRawType()
+      ).toEqual('u64');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
+    });
+  });
 });

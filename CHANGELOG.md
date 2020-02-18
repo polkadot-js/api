@@ -2,6 +2,8 @@
 
 - Add `.toHuman` on SubmittableResult, aligning with Codec
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
+- Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
+- Expose static with on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 
 # 1.3.1 Feb 18, 2020
 
