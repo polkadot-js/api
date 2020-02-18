@@ -14,30 +14,23 @@ export function findRemoved (prefix: string, src: Record<string, Record<string, 
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
 
-  warn(
-    prefix,
-    'modules',
-    dstSections
-      .filter((section): boolean => !srcSections.includes(section))
-      .sort()
+  warn(prefix, 'modules', dstSections
+    .filter((section): boolean => !srcSections.includes(section))
+    .sort()
   );
 
-  warn(
-    prefix,
-    'calls',
-    dstSections
-      .filter((section): boolean => srcSections.includes(section))
-      .reduce((rmMethods: string[], section): string[] => {
-        const srcMethods = Object.keys(src[section]);
-        const dstMethods = Object.keys(dst[section]);
+  warn(prefix, 'calls', dstSections
+    .filter((section): boolean => srcSections.includes(section))
+    .reduce((rmMethods: string[], section): string[] => {
+      const srcMethods = Object.keys(src[section]);
 
-        return rmMethods.concat(
-          ...dstMethods
-            .filter((method): boolean => !srcMethods.includes(method))
-            .map((method): string => `${section}.${method}`)
-        );
-      }, [])
-      .sort()
+      return rmMethods.concat(
+        ...Object.keys(dst[section])
+          .filter((method): boolean => !srcMethods.includes(method))
+          .map((method): string => `${section}.${method}`)
+      );
+    }, [])
+    .sort()
   );
 }
 
