@@ -1,5 +1,6 @@
-# 1.3.0-beta.x
+# 1.3.1 Feb 18, 2020
 
+- Add `@types/bn.js` as a normal dependency, exposed in `*.d.ts` ((Thanks to https://github.com/monitz87)
 - The `@polkadot/types/codec/create` has been moved to `@polkadot/types/create`, imports from `@polkadot/types` are unaffected
 - Expose chain properies on registry (and use for API type formatting)
 - Add `toHuman(isExtended?: boolean)` to all codec types, formatting into a human-readable structure
