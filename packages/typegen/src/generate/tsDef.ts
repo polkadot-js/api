@@ -128,12 +128,10 @@ function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string
     ? (def.ext as TypeDefExtVecFixed).type
     : (def.sub as TypeDef).type;
 
-  // FIXME This should be a VecFixed
-  // FIXME Technically Vec has length prefix, so for others this is not 100%
   if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
-    setImports(definitions, imports, ['Codec']);
+    setImports(definitions, imports, ['U8aFixed']);
 
-    return exportType(def.name, 'Uint8Array, Codec');
+    return exportType(def.name, 'U8aFixed');
   }
 
   return exportInterface(def.name, formatType(definitions, def, imports));

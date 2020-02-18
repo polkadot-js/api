@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { ITuple } from '@polkadot/types/types';
+import { Compact, Enum, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
@@ -89,7 +89,7 @@ export interface DispatchInfoTo190 extends Struct {
 }
 
 /** @name EcdsaSignature */
-export interface EcdsaSignature extends Uint8Array, Codec {}
+export interface EcdsaSignature extends U8aFixed {}
 
 /** @name Ed25519Signature */
 export interface Ed25519Signature extends Signature {}
@@ -146,13 +146,13 @@ export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
 export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
 
 /** @name H160 */
-export interface H160 extends Uint8Array, Codec {}
+export interface H160 extends U8aFixed {}
 
 /** @name H256 */
-export interface H256 extends Uint8Array, Codec {}
+export interface H256 extends U8aFixed {}
 
 /** @name H512 */
-export interface H512 extends Uint8Array, Codec {}
+export interface H512 extends U8aFixed {}
 
 /** @name Hash */
 export interface Hash extends H256 {}
@@ -182,7 +182,7 @@ export interface KeyTypeId extends u32 {}
 export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 
 /** @name LockIdentifier */
-export interface LockIdentifier extends Uint8Array, Codec {}
+export interface LockIdentifier extends U8aFixed {}
 
 /** @name LookupSource */
 export interface LookupSource extends Address {}
