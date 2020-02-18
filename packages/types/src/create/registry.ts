@@ -12,7 +12,7 @@ import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, string
 import Raw from '../codec/Raw';
 import { EventData } from '../primitive/Generic/Event';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
-import Unknown from '../primitive/Unknown';
+import Unconstructable from '../primitive/Unconstructable';
 import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';
 
@@ -175,7 +175,7 @@ export class TypeRegistry implements Registry {
         console.warn(`Unable to resolve type ${name}, it will fail on constrution`);
 
         this._unknownTypes.set(name, true);
-        BaseType = Unknown.with(name);
+        BaseType = Unconstructable.with(name);
       }
 
       if (BaseType) {

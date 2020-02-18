@@ -11,7 +11,7 @@ import Null from './Null';
  * @description
  * An unknown type theat fails on constrction with the type info
  */
-export default class Unknown extends Null {
+export default class Unconstructable extends Null {
   constructor (registry: Registry, typeName: string) {
     super(registry);
 
@@ -19,7 +19,7 @@ export default class Unknown extends Null {
   }
 
   public static with (typeName: string): Constructor {
-    return class extends Unknown {
+    return class extends Unconstructable {
       constructor (registry: Registry) {
         super(registry, typeName);
       }
