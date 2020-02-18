@@ -10,6 +10,12 @@ import Digest from './Digest';
 describe('Digest', (): void => {
   const registry = new TypeRegistry();
 
+  it('has the correct JSON representation', (): void => {
+    const digest = new Digest(registry, json3.result.digest);
+
+    expect(digest.toJSON()).toEqual(json3.result.digest);
+  });
+
   it('decodes logs with consensus', (): void => {
     const digest = new Digest(registry, json3.result.digest);
 
