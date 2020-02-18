@@ -12,6 +12,7 @@ import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, string
 import Raw from '../codec/Raw';
 import { EventData } from '../primitive/Generic/Event';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
+import Unknown from '../primitive/Unknown';
 import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';
 
@@ -157,17 +158,24 @@ export class TypeRegistry implements Registry {
     return Event;
   }
 
-  public get <T extends Codec = Codec> (name: string): Constructor<T> | undefined {
+  public get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined {
     let Type = this._classes.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
       const definition = this._definitions.get(name);
+      let BaseType: Constructor<Codec> | undefined;
 
       // we have a definition, so create the class now (lazily)
       if (definition) {
-        const BaseType = createClass(this, definition);
+        BaseType = createClass(this, definition);
+      } else if (withUnknown) {
+        console.warn(`Unable to resolve type ${name}, it will fail on constrution`);
 
+        BaseType = Unknown.with(name);
+      }
+
+      if (BaseType) {
         // NOTE If we didn't extend here, we would have strange artifacts. An example is
         // Balance, with this, new Balance() instanceof u128 is true, but Balance !== u128
         // Additionally, we now pass through the registry, which is a link to ourselves
@@ -189,13 +197,17 @@ export class TypeRegistry implements Registry {
   }
 
   public getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T> {
-    const type = this.get<T>(name);
+    const Type = this.get<T>(name);
 
-    if (isUndefined(type)) {
+    if (isUndefined(Type)) {
       throw new Error(msg || `type ${name} not found`);
     }
 
-    return type;
+    return Type;
+  }
+
+  public getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T> {
+    return this.get<T>(name, true) as Constructor<T>;
   }
 
   public getSignedExtensionExtra (): Record<string, InterfaceTypes> {
