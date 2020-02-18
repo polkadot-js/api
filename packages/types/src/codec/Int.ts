@@ -23,7 +23,7 @@ export default class Int extends AbstractInt {
     super(registry, true, value, bitLength, isHexJson);
   }
 
-  public static with (bitLength?: UIntBitLength, typeName?: string): Constructor<Int> {
+  public static with (bitLength: UIntBitLength, typeName?: string): Constructor<Int> {
     return class extends Int {
       constructor (registry: Registry, value?: any) {
         super(registry, value, bitLength);

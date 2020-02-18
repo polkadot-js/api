@@ -63,4 +63,18 @@ describe('U8aFixed', (): void => {
       expect(u8a.toRawType()).toEqual('[u8;4]');
     });
   });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (U8aFixed.with(64))(registry).toRawType()
+      ).toEqual('[u8;8]');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (U8aFixed.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
+    });
+  });
 });

@@ -24,7 +24,7 @@ export default class UInt extends AbstractInt {
     super(registry, false, value, bitLength, isHexJson);
   }
 
-  public static with (bitLength?: UIntBitLength, typeName?: string): Constructor<UInt> {
+  public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
     return class extends UInt {
       constructor (registry: Registry, value?: any) {
         super(registry, value, bitLength);

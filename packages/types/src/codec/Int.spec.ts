@@ -51,4 +51,18 @@ describe('Int', (): void => {
     expect(new Int(registry, 0x12, 16).toJSON()).toEqual('0x0012');
     expect(new Int(registry, 0x12, 16, false).toJSON()).toEqual(0x12);
   });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (Int.with(64))(registry).toRawType()
+      ).toEqual('i64');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (Int.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
+    });
+  });
 });
