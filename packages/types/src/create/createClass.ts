@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { FromReg, TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -17,6 +17,7 @@ import CodecSet from '../codec/Set';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
+import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import VecFixed from '../codec/VecFixed';
 import { InterfaceRegistry } from '../interfaceRegistry';
@@ -131,6 +132,14 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): Constructor => Struct.with(getTypeClassMap(value)),
 
   [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
+
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => {
+    assert(value.ext, 'Expected bitLength information for UInt<bitLength>');
+
+    const ext = value.ext as TypeDefExtUInt;
+
+    return UInt.with(ext.length, ext.typeName);
+  },
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);

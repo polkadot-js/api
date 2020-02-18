@@ -123,6 +123,13 @@ function tsStruct (definitions: object, { name: structName, sub }: TypeDef, impo
 }
 
 /** @internal */
+function tsUInt (definitions: object, def: TypeDef, imports: TypeImports): string {
+  setImports(definitions, imports, ['UInt']);
+
+  return exportInterface(def.name, 'UInt');
+}
+
+/** @internal */
 function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
   const type = def.info === TypeDefInfo.VecFixed
     ? (def.ext as TypeDefExtVecFixed).type
@@ -155,6 +162,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
     [TypeDefInfo.Set]: tsSet,
     [TypeDefInfo.Struct]: tsStruct,
     [TypeDefInfo.Tuple]: tsTuple,
+    [TypeDefInfo.UInt]: tsUInt,
     [TypeDefInfo.Vec]: tsVec,
     [TypeDefInfo.VecFixed]: tsVec
   };
