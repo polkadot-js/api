@@ -38,6 +38,7 @@ export interface TypeDefExtUInt {
 
 export interface TypeDefExtVecFixed {
   length: number;
+  rawName?: string;
   type: string;
 }
 

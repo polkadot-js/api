@@ -158,7 +158,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       ext.type === 'u8'
-        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
+        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength, ext.rawName)
         : VecFixed.with(ext.type as InterfaceTypes, ext.length)
     );
   }

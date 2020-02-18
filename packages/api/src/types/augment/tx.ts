@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
-import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
+import { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Signature } from '@polkadot/types/interfaces/runtime';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
@@ -151,7 +151,7 @@ declare module '@polkadot/api/types/submittable' {
        * `MultisigDepositBase + threshold * MultisigDepositFactor`.
        * # </weight>
        **/
-      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: Raw | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], maybeTimepoint: Option<Timepoint> | null | object | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
       /**
        * Cancel a pre-existing, on-going multisig transaction. Any deposit reserved previously
        * for this operation will be unreserved on success.
@@ -173,7 +173,7 @@ declare module '@polkadot/api/types/submittable' {
        * - Storage: removes one item.
        * # </weight>
        **/
-      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: Raw | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
+      cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
     timestamp: {
       [index: string]: SubmittableExtrinsicFunction<ApiType>;

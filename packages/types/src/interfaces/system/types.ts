@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
-import { Enum, Option, Result, Struct, Vec } from '@polkadot/types/codec';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -53,7 +53,7 @@ export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
 export interface Event extends GenericEvent {}
 
 /** @name EventId */
-export interface EventId extends Uint8Array, Codec {}
+export interface EventId extends U8aFixed {}
 
 /** @name EventIndex */
 export interface EventIndex extends u32 {}
