@@ -25,7 +25,8 @@ export function findRemoved (prefix: string, src: Record<string, Record<string, 
       const srcMethods = Object.keys(src[section]);
 
       return rmMethods.concat(
-        ...Object.keys(dst[section])
+        ...Object
+          .keys(dst[section])
           .filter((method): boolean => !srcMethods.includes(method))
           .map((method): string => `${section}.${method}`)
       );
