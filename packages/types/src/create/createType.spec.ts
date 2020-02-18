@@ -12,6 +12,9 @@ describe('createType', (): void => {
     expect(
       createTypeUnsafe(registry, 'H256').toRawType()
     ).toEqual('H256');
+    expect(
+      createTypeUnsafe(registry, 'Hash').toRawType()
+    ).toEqual('H256');
   });
 
   it('allows creation of a Struct', (): void => {
