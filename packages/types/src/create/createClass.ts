@@ -107,7 +107,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
 
   [TypeDefInfo.Plain]: (registry: Registry, value: TypeDef): Constructor =>
-    registry.getOrThrow(value.type, `Unable to find plain type for ${JSON.stringify(value)}`),
+    registry.getOrUnknown(value.type),
 
   [TypeDefInfo.Result]: (registry: Registry, value: TypeDef): Constructor => {
     const [Ok, Error] = getTypeClassArray(value);
@@ -166,7 +166,7 @@ export function getTypeClass<T extends Codec = Codec> (registry: Registry, value
   const getFn = infoMapping[value.info];
 
   if (!getFn) {
-    throw new Error(`Unable to determine type from ${JSON.stringify(value)}`);
+    throw new Error(`Unable to construct class from ${JSON.stringify(value)}`);
   }
 
   return getFn(registry, value) as Constructor<T>;

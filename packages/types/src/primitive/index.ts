@@ -34,6 +34,7 @@ export { default as u32 } from './U32';
 export { default as u64 } from './U64';
 export { default as u128 } from './U128';
 export { default as u256, default as U256 } from './U256';
+export { default as Unconstructable } from './Unconstructable';
 export { default as usize } from './USize';
 
 export * from './Generic';

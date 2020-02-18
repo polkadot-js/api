@@ -92,10 +92,11 @@ export interface Registry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
-  get <T extends Codec = Codec> (name: string): Constructor<T> | undefined;
+  get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
+  getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
   getSignedExtensionExtra (): Record<string, InterfaceTypes>;
   getSignedExtensionTypes (): Record<string, InterfaceTypes>;
   hasClass (name: string): boolean;

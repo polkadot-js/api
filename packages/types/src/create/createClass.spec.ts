@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor } from '../types';
+import { TypeDefInfo } from '../types';
 
 import { createClass, getTypeClass, TypeRegistry } from '.';
 
@@ -27,9 +27,12 @@ describe('createClass', (): void => {
 describe('getTypeClass', (): void => {
   const registry = new TypeRegistry();
 
-  it('does not allow invalid types', (): void => {
-    expect(
-      (): Constructor<Codec> => getTypeClass(registry, 'SomethingInvalid' as any)
-    ).toThrow(/determine type/);
+  it('warns on invalid types', (): void => {
+    const spy = jest.spyOn(console, 'warn');
+    const typeDef = { info: TypeDefInfo.Plain, type: 'ABC' };
+
+    getTypeClass(registry, typeDef);
+
+    expect(spy).toHaveBeenCalledWith('Unable to resolve type ABC, it will fail on constrution');
   });
 });

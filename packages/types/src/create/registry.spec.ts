@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import Unconstructable from '../primitive/Unconstructable';
 import { TypeRegistry } from './registry';
 
 // Copied from interfacesTs
@@ -22,6 +23,19 @@ describe('TypeRegistry', (): void => {
 
   it('handles non exist type', (): void => {
     expect(registry.get('non-exist')).toBeUndefined();
+  });
+
+  it('throws on non-existent via getOrThrow', (): void => {
+    expect((): Constructor<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
+    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
+  });
+
+  it('handles non exist type as Unknown (via getOrUnknown)', (): void => {
+    const Type = registry.getOrUnknown('non-exist');
+
+    expect(Type).toBeDefined();
+    // eslint-disable-next-line no-prototype-builtins
+    expect(isChildClass(Unconstructable, Type));
   });
 
   it('can register single type', (): void => {
