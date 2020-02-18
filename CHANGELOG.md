@@ -1,6 +1,6 @@
 # 1.4.0-beta.x
 
-- Add `.toHuman` on SubmittableResult, aligning with Codec
+- Expand `.toHuman` on ExtrinsicEra, SubmittableResult & Vote
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
