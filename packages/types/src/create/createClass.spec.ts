@@ -27,12 +27,6 @@ describe('createClass', (): void => {
 describe('getTypeClass', (): void => {
   const registry = new TypeRegistry();
 
-  // it('does not allow invalid types', (): void => {
-  //   expect(
-  //     (): Constructor<Codec> => getTypeClass(registry, 'SomethingInvalid' as any)
-  //   ).toThrow(/determine type/);
-  // });
-
   it('warns on invalid types', (): void => {
     const spy = jest.spyOn(console, 'warn');
     const typeDef = { info: TypeDefInfo.Plain, type: 'ABC' };
