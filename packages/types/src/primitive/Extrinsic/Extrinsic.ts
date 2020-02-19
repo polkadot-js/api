@@ -71,36 +71,13 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
 
   /** @internal */
   public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (Array.isArray(value) || isHex(value)) {
-      return Extrinsic.decodeU8aLike(registry, value, version);
-    } else if (isU8a(value)) {
-      return Extrinsic.decodeU8a(registry, value, version);
+    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
     } else if (value instanceof ClassOf(registry, 'Call')) {
       return Extrinsic.newFromValue(registry, { method: value }, version);
     }
 
     return Extrinsic.newFromValue(registry, value, version);
-  }
-
-  /** @internal */
-  private static decodeU8aLike (registry: Registry, value: string | number[], version: number): ExtrinsicVx | ExtrinsicUnknown {
-    // Instead of the block below, it should simply be:
-    // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-    const u8a = u8aToU8a(value);
-
-    // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
-    // extrinsics didn't have the length, cater for both approaches. This is very
-    // inconsistent with any other `Vec<u8>` implementation
-    const [offset, length] = Compact.decodeU8a(u8a);
-    const withPrefix = u8a.length === (offset + length.toNumber());
-
-    return Extrinsic.decodeU8a(
-      registry,
-      withPrefix
-        ? u8a
-        : Compact.addLengthPrefix(u8a),
-      version
-    );
   }
 
   /** @internal */

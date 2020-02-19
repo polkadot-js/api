@@ -10,6 +10,7 @@
 - Support for arbitrary UInt types via `UInt<bitLength>` definitions
 - Add `api.injectMetadata(metadata)` to initialize with a specific version
 - The api now checks for runtime upgrades, decorating with new metadata
+- One-lners are normally not mentioned, however the [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) is fixed
 
 # 1.3.1 Feb 18, 2020
 
