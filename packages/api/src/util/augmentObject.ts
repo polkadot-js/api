@@ -2,10 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { logger } from '@polkadot/util';
+
+const l = logger('api/augment');
+
 // log details to console
 function warn (prefix: string, type: 'calls' | 'modules', rmed: string[]): void {
   if (rmed.length) {
-    console.warn(`api.${prefix}: Found ${rmed.length} removed ${type}: ${rmed.join(', ')}`);
+    l.warn(`api.${prefix}: Found ${rmed.length} removed ${type}: ${rmed.join(', ')}`);
   }
 }
 

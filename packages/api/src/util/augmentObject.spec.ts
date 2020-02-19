@@ -18,13 +18,13 @@ describe('findRemoved', (): void => {
   it('logs removed sections', (): void => {
     findRemoved('test', { foo: {}, bar: {} }, { cde: {}, foo: {}, bar: {}, baz: {} });
 
-    expect(spy).toHaveBeenCalledWith('api.test: Found 2 removed modules: baz, cde');
+    expect(spy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining('API/AUGMENT'), 'api.test: Found 2 removed modules: baz, cde');
   });
 
   it('logs removed calls', (): void => {
     findRemoved('test', { foo: { a: 1 }, bar: {} }, { foo: { a: 1 }, bar: { a: 1 } });
 
-    expect(spy).toHaveBeenCalledWith('api.test: Found 1 removed calls: bar.a');
+    expect(spy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining('API/AUGMENT'), 'api.test: Found 1 removed calls: bar.a');
   });
 });
 
