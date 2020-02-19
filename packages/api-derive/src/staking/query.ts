@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { AccountId, Exposure, Keys, Nominations, RewardDestination, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, Exposure, Keys, Nominations, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DerivedStakingQuery } from '../types';
 
@@ -13,7 +13,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type MultiResultV2 = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, Exposure, [ValidatorPrefs], Option<Keys>, Option<StakingLedger>];
+type MultiResultV2 = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, ITuple<[ValidatorPrefs]>, Option<Keys>, Exposure];
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -27,18 +27,30 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], 
   };
 }
 
-function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<[Vec<ITuple<[AccountId, Keys]>>, MultiResultV2]> {
-  return combineLatest([
-    api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
-    api.queryMulti([
-      [api.query.staking.bonded, stashId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId],
-      [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]]
-    ]) as Observable<MultiResultV2>
+function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResultV2> {
+  return api.queryMulti<MultiResultV2>([
+    [api.query.staking.bonded, stashId],
+    [api.query.staking.nominators, stashId],
+    [api.query.staking.payee, stashId],
+    [api.query.staking.validators, stashId],
+    [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]],
+    [api.query.staking.stakers, stashId]
   ]);
+}
+
+function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResultV2> {
+  return api.derive.session.indexes().pipe(
+    switchMap(({ activeEra }) =>
+      api.queryMulti<MultiResultV2>([
+        [api.query.staking.bonded, stashId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.validators, stashId],
+        [api.query.session.nextKeys, [api.consts.session.dedupKeyPrefix, stashId]],
+        [api.query.staking.erasStakers, [activeEra, stashId]]
+      ])
+    )
+  );
 }
 
 /**
@@ -48,8 +60,13 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
   return memo((accountId: Uint8Array | string): Observable<DerivedStakingQuery> => {
     const stashId = createType(api.registry, 'AccountId', accountId);
 
-    return retrieve(api, stashId).pipe(
-      switchMap(([queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, stakers, [validatorPrefs], nextKeys]]): Observable<DerivedStakingQuery> => {
+    return combineLatest([
+      api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
+      api.query.staking.erasStakers
+        ? retrieve(api, stashId)
+        : retrievePrev(api, stashId)
+    ]).pipe(
+      switchMap(([queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, [validatorPrefs], nextKeys, exposure]]): Observable<DerivedStakingQuery> => {
         const controllerId = controllerIdOpt.unwrapOr(null);
 
         return controllerId
@@ -57,9 +74,9 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
             map((stakingLedgerOpt): DerivedStakingQuery => ({
               accountId: stashId,
               controllerId,
+              exposure,
               nominators: nominatorsOpt.unwrapOr([{ targets: [] }])[0].targets,
               rewardDestination,
-              stakers,
               stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
               stashId,
               validatorPrefs,

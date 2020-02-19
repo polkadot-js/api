@@ -22,7 +22,8 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
       api.query.session
         ? api.query.session.validators()
         : of([]),
-      api.query.staking
+      // FIXME need a replacement for currentElected in new
+      api.query.staking?.currentElected
         ? api.query.staking.currentElected()
         : of([])
     ]).pipe(

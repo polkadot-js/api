@@ -12,6 +12,74 @@ import Compact from './Compact';
 import Raw from './Raw';
 import { compareMap, decodeU8a, typeToConstructor } from './utils';
 
+/** @internal */
+function decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
+  const output = new Map<K, V>();
+  const [offset, length] = Compact.decodeU8a(u8a);
+  const types = [];
+
+  for (let i = 0; i < length.toNumber(); i++) {
+    types.push(KeyClass, ValClass);
+  }
+
+  const values = decodeU8a(registry, u8a.subarray(offset), types);
+
+  for (let i = 0; i < values.length; i += 2) {
+    output.set(values[i] as K, values[i + 1] as V);
+  }
+
+  return output;
+}
+
+/** @internal */
+function decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
+  const output = new Map<K, V>();
+
+  value.forEach((v: any, k: any) => {
+    let key, val;
+    try {
+      key = (k instanceof KeyClass) ? k : new KeyClass(registry, k);
+      val = (v instanceof ValClass) ? v : new ValClass(registry, v);
+    } catch (error) {
+      console.error('Failed to decode BTreeMap key or value:', error.message);
+      throw error;
+    }
+
+    output.set(key, val);
+  });
+
+  return output;
+}
+
+/**
+ * Decode input to pass into constructor.
+ *
+ * @param KeyClass - Type of the map key
+ * @param ValClass - Type of the map value
+ * @param value - Value to decode, one of:
+ * - null
+ * - undefined
+ * - hex
+ * - Uint8Array
+ * - Map<any, any>, where both key and value types are either
+ *   constructors or decodeable values for their types.
+ * @param jsonMap
+ * @internal
+ */
+function decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+  if (!value) {
+    return new Map<K, V>();
+  } else if (isHex(value)) {
+    return decodeBTreeMap(registry, KeyClass, ValClass, hexToU8a(value));
+  } else if (isU8a(value)) {
+    return decodeBTreeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
+  } else if (value instanceof Map) {
+    return decodeBTreeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
+  }
+
+  throw new Error('BTreeMap: cannot decode type');
+}
+
 export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
@@ -23,79 +91,11 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     const KeyClass = typeToConstructor(registry, keyType);
     const ValClass = typeToConstructor(registry, valType);
 
-    super(BTreeMap.decodeBTreeMap(registry, KeyClass, ValClass, rawValue));
+    super(decodeBTreeMap(registry, KeyClass, ValClass, rawValue));
 
     this.registry = registry;
     this._KeyClass = KeyClass;
     this._ValClass = ValClass;
-  }
-
-  /**
-   * Decode input to pass into constructor.
-   *
-   * @param KeyClass - Type of the map key
-   * @param ValClass - Type of the map value
-   * @param value - Value to decode, one of:
-   * - null
-   * - undefined
-   * - hex
-   * - Uint8Array
-   * - Map<any, any>, where both key and value types are either
-   *   constructors or decodeable values for their types.
-   * @param jsonMap
-   * @internal
-   */
-  private static decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Uint8Array | string | Map<any, any>): Map<K, V> {
-    if (!value) {
-      return new Map<K, V>();
-    } else if (isHex(value)) {
-      return BTreeMap.decodeBTreeMap(registry, KeyClass, ValClass, hexToU8a(value));
-    } else if (isU8a(value)) {
-      return BTreeMap.decodeBTreeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
-    } else if (value instanceof Map) {
-      return BTreeMap.decodeBTreeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
-    }
-
-    throw new Error('BTreeMap: cannot decode type');
-  }
-
-  /** @internal */
-  private static decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
-    const output = new Map<K, V>();
-    const [offset, length] = Compact.decodeU8a(u8a);
-    const types = [];
-
-    for (let i = 0; i < length.toNumber(); i++) {
-      types.push(KeyClass, ValClass);
-    }
-
-    const values = decodeU8a(registry, u8a.subarray(offset), types);
-
-    for (let i = 0; i < values.length; i += 2) {
-      output.set(values[i] as K, values[i + 1] as V);
-    }
-
-    return output;
-  }
-
-  /** @internal */
-  private static decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
-    const output = new Map<K, V>();
-
-    value.forEach((v: any, k: any) => {
-      let key, val;
-      try {
-        key = (k instanceof KeyClass) ? k : new KeyClass(registry, k);
-        val = (v instanceof ValClass) ? v : new ValClass(registry, v);
-      } catch (error) {
-        console.error('Failed to decode BTreeMap key or value:', error.message);
-        throw error;
-      }
-
-      output.set(key, val);
-    });
-
-    return output;
   }
 
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes): Constructor<BTreeMap<K, V>> {

@@ -14,8 +14,8 @@ import { memo } from '../util';
 
 type Result = [EraIndex, Option<MomentOf>, EraIndex, SessionIndex, u32];
 
-// retrieve for previous V2
-function retrieveNoActive (api: ApiInterfaceRx): Observable<Result> {
+// query for previous V2
+function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
   return api.queryMulti<[EraIndex, SessionIndex, u32]>([
     api.query.staking.currentEra,
     api.query.session.currentIndex,
@@ -31,8 +31,8 @@ function retrieveNoActive (api: ApiInterfaceRx): Observable<Result> {
   );
 }
 
-// retrieve based on latest
-function retrieve (api: ApiInterfaceRx): Observable<Result> {
+// query based on latest
+function query (api: ApiInterfaceRx): Observable<Result> {
   return api.queryMulti<[Option<EraIndex>, Option<MomentOf>, Option<EraIndex>, SessionIndex, u32]>([
     api.query.staking.activeEra,
     api.query.staking.activeEraStart,
@@ -67,8 +67,8 @@ export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionInd
       // Some chains (eg. very limited node-template), does not have session
       api.query.session && api.query.staking
         ? api.query.staking.activeEra
-          ? retrieve(api)
-          : retrieveNoActive(api)
+          ? query(api)
+          : queryNoActive(api)
         : empty(api)
     ).pipe(
       map(([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => ({

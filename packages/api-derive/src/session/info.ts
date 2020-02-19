@@ -17,10 +17,10 @@ type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 type ResultType = [boolean, u64, SessionIndex];
 type Result = [ResultType, DeriveSessionIndexes, ResultSlotsFlat];
 
-function createDerived (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPerEra], { activeEra, activeEraStart, currentEra, currentIndex, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
+function createDerived (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPerEra], { activeEra, activeEraStart, currentEra, currentIndex, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]]: Result): DerivedSessionInfo {
   const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
+  const eraProgress = currentIndex.sub(activeEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
 
   return {
     activeEra,

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraPoints, Exposure, Hash, Index, Keys, MomentOf, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraRewardPoints, Exposure, Hash, Index, Keys, MomentOf, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { Bytes, Option, u32, Vec } from '@polkadot/types';
@@ -213,11 +213,11 @@ export interface DeriveStakingValidators {
 
 export interface DerivedStakingStash {
   controllerId?: AccountId;
+  exposure?: Exposure;
   nominators?: AccountId[];
   nominateAt?: EraIndex;
   rewardDestination?: RewardDestination;
   nextKeys?: Keys;
-  stakers?: Exposure;
   stashId?: AccountId;
   validatorPrefs?: ValidatorPrefs;
 }
@@ -236,7 +236,7 @@ export interface DerivedStakingAccount extends DerivedStakingQuery {
 
 export interface DerivedStakingOverview extends DeriveSessionIndexes {
   currentElected: AccountId[];
-  eraPoints: EraPoints;
+  eraPoints: EraRewardPoints;
   validators: AccountId[];
 }
 
