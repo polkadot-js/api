@@ -6,10 +6,22 @@ import { logger } from '@polkadot/util';
 
 const l = logger('api/augment');
 
+function logLength (type: 'added' | 'removed', values: string[], and: string[] = []): string {
+  return values.length
+    ? ` ${values.length} ${type}${and.length ? ' and' : ''}`
+    : '';
+}
+
+function logValues (type: 'added' | 'removed', values: string[]): string {
+  return values.length
+    ? `\n\t${type.padStart(7)}: ${values.sort().join(', ')}`
+    : '';
+}
+
 // log details to console
 function warn (prefix: string, type: 'calls' | 'modules', added: string[], removed: string[]): void {
   if (added.length || removed.length) {
-    l.warn(`api.${prefix}: Found${added.length ? ` ${added.length} added${removed.length ? ' and' : ''}` : ''}${removed.length ? ` ${removed.length} removed` : ''} ${type}:${added.length ? `\n\t  added: ${added.sort().join(', ')}` : ''}${removed.length ? `\n\tremoved: ${removed.sort().join(', ')}` : ''}`);
+    l.warn(`api.${prefix}: Found${logLength('added', added, removed)}${logLength('removed', removed)} ${type}:${logValues('added', added)}${logValues('removed', removed)}`);
   }
 }
 
@@ -55,12 +67,6 @@ function extractMethods (src: Record<string, Record<string, any>>, dst: Record<s
   ];
 }
 
-// log all the stuff that has been removed/
-export function logChanges (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): void {
-  warn(prefix, 'modules', ...extractSections(src, dst));
-  warn(prefix, 'calls', ...extractMethods(src, dst));
-}
-
 /**
  * Takes a decorated api section (e.g. api.tx) and augment it with the details. It does not override what is
  * already available, but rather just adds new missing ites into the result object.
@@ -74,7 +80,8 @@ export default function augmentObject (prefix: string, src: Record<string, Recor
   }
 
   if (prefix && Object.keys(dst).length) {
-    logChanges(prefix, src, dst);
+    warn(prefix, 'modules', ...extractSections(src, dst));
+    warn(prefix, 'calls', ...extractMethods(src, dst));
   }
 
   return Object

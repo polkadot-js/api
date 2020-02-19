@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import augmentObject, { logChanges } from './augmentObject';
+import augmentObject from './augmentObject';
 
-describe('logChanges', (): void => {
+describe('augmentObject', (): void => {
   let spy: any;
 
   beforeEach((): void => {
@@ -16,7 +16,7 @@ describe('logChanges', (): void => {
   });
 
   it('logs added/removed sections and methods', (): void => {
-    logChanges(
+    augmentObject(
       'test',
       { foo: { f: 1, d: 1 }, bar: { b: 1 }, new: { z: 1 } },
       { foo: { f: 1, c: 1 }, bar: { a: 1, c: 1 }, baz: { a: 1 } }
@@ -33,9 +33,7 @@ describe('logChanges', (): void => {
       'api.test: Found 2 added and 3 removed calls:\n\t  added: bar.b, foo.d\n\tremoved: bar.a, bar.c, foo.c'
     );
   });
-});
 
-describe('augmentObject', (): void => {
   it('copies sections to the dest', (): void => {
     const src = { foo: { a: 1 }, bar: { b: 1 } };
 
@@ -46,6 +44,10 @@ describe('augmentObject', (): void => {
     const src = { foo: { a: 1 }, bar: { b: 1 } };
     const dst = { foo: { b: 2 }, baz: { c: 1 } };
 
-    expect(augmentObject('test', src, dst)).toEqual({ foo: { b: 2, a: 1 }, bar: { b: 1 }, baz: { c: 1 } });
+    expect(augmentObject('test', src, dst)).toEqual({
+      foo: { b: 2, a: 1 },
+      bar: { b: 1 },
+      baz: { c: 1 }
+    });
   });
 });
