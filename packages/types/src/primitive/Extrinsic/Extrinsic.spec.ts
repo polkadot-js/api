@@ -43,33 +43,6 @@ describe('Extrinsic', (): void => {
       expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
       expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
     });
-
-    it('decodes an actual transaction (no length prefix, old version)', (): void => {
-      const extrinsic = new Extrinsic(
-        registry,
-        '0x' +
-        '81' +
-        'ff' +
-        'bfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080' +
-        'c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6' +
-        'b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e' +
-        '0c' +
-        '00' +
-        '0600' + // balances.transfer
-        'ff' +
-        '4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8' +
-        'e5c0'
-      );
-
-      expect(extrinsic.isSigned).toEqual(true);
-      expect(extrinsic.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
-      expect(extrinsic.signature.toHex()).toEqual('0xc0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e');
-      expect(extrinsic.nonce.toNumber()).toEqual(3);
-      expect(extrinsic.era.toU8a()).toEqual(new Uint8Array([0]));
-      expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
-      expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
-      expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
-    });
   });
 
   describe('V2', (): void => {
