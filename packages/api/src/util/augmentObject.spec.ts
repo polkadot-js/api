@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import augmentObject, { findRemoved } from './augmentObject';
+import augmentObject, { logChanges } from './augmentObject';
 
-describe('findRemoved', (): void => {
+describe('logChanges', (): void => {
   let spy: any;
 
   beforeEach((): void => {
@@ -15,16 +15,23 @@ describe('findRemoved', (): void => {
     spy.mockClear();
   });
 
-  it('logs removed sections', (): void => {
-    findRemoved('test', { foo: {}, bar: {} }, { cde: {}, foo: {}, bar: {}, baz: {} });
+  it('logs added/removed sections and methods', (): void => {
+    logChanges(
+      'test',
+      { foo: { f: 1, d: 1 }, bar: { b: 1 }, new: { z: 1 } },
+      { foo: { f: 1, c: 1 }, bar: { a: 1, c: 1 }, baz: { a: 1 } }
+    );
 
-    expect(spy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining('API/AUGMENT'), 'api.test: Found 2 removed modules: baz, cde');
-  });
-
-  it('logs removed calls', (): void => {
-    findRemoved('test', { foo: { a: 1 }, bar: {} }, { foo: { a: 1 }, bar: { a: 1 } });
-
-    expect(spy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining('API/AUGMENT'), 'api.test: Found 1 removed calls: bar.a');
+    expect(spy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('API/AUGMENT'),
+      'api.test: Found 1 added and 1 removed modules:\n\t  added: new\n\tremoved: baz'
+    );
+    expect(spy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('API/AUGMENT'),
+      'api.test: Found 2 added and 3 removed calls:\n\t  added: bar.b, foo.d\n\tremoved: bar.a, bar.c, foo.c'
+    );
   });
 });
 

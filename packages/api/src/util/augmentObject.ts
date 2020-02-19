@@ -7,23 +7,34 @@ import { logger } from '@polkadot/util';
 const l = logger('api/augment');
 
 // log details to console
-function warn (prefix: string, type: 'calls' | 'modules', rmed: string[]): void {
-  if (rmed.length) {
-    l.warn(`api.${prefix}: Found ${rmed.length} removed ${type}: ${rmed.join(', ')}`);
+function warn (prefix: string, type: 'calls' | 'modules', added: string[], removed: string[]): void {
+  if (added.length || removed.length) {
+    l.warn(`api.${prefix}: Found${added.length ? ` ${added.length} added${removed.length ? ' and ' : ''}` : ''}${removed.length ? `${removed.length} removed` : ''} ${type}:${added.length ? `\n\t  added: ${added.sort().join(', ')}` : ''}${removed.length ? `\n\tremoved: ${removed.sort().join(', ')}` : ''}`);
   }
 }
 
-// log all the stuff that has been removed/
-export function findRemoved (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): void {
+function extractKeys (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+  return [Object.keys(src), Object.keys(dst)];
+}
+
+function findSectionExcludes (a: string[], b: string[]): string[] {
+  return a.filter((section): boolean => !b.includes(section));
+}
+
+function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+  const [srcSections, dstSections] = extractKeys(src, dst);
+
+  return [
+    findSectionExcludes(srcSections, dstSections),
+    findSectionExcludes(dstSections, srcSections)
+  ];
+}
+
+function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): string[] {
   const srcSections = Object.keys(src);
   const dstSections = Object.keys(dst);
 
-  warn(prefix, 'modules', dstSections
-    .filter((section): boolean => !srcSections.includes(section))
-    .sort()
-  );
-
-  warn(prefix, 'calls', dstSections
+  return dstSections
     .filter((section): boolean => srcSections.includes(section))
     .reduce((rmMethods: string[], section): string[] => {
       const srcMethods = Object.keys(src[section]);
@@ -34,9 +45,20 @@ export function findRemoved (prefix: string, src: Record<string, Record<string, 
           .filter((method): boolean => !srcMethods.includes(method))
           .map((method): string => `${section}.${method}`)
       );
-    }, [])
-    .sort()
-  );
+    }, []);
+}
+
+function extractMethods (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+  return [
+    findMethodExcludes(dst, src),
+    findMethodExcludes(src, dst)
+  ];
+}
+
+// log all the stuff that has been removed/
+export function logChanges (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): void {
+  warn(prefix, 'modules', ...extractSections(src, dst));
+  warn(prefix, 'calls', ...extractMethods(src, dst));
 }
 
 /**
@@ -46,7 +68,7 @@ export function findRemoved (prefix: string, src: Record<string, Record<string, 
  */
 export default function augmentObject (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): Record<string, Record<string, any>> {
   if (prefix && Object.keys(dst).length) {
-    findRemoved(prefix, src, dst);
+    logChanges(prefix, src, dst);
   }
 
   return Object
