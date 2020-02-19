@@ -17,7 +17,7 @@ import Decorate from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
 
-const l = logger('api/decorator');
+const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
@@ -26,7 +26,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     super(options, type, decorateMethod);
 
     if (!this.hasSubscriptions) {
-      console.warn('Api will be available in a limited mode since the provider does not support subscriptions');
+      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
     // We only register the types (global) if this is not a cloned instance.
@@ -101,7 +101,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       ),
       tap(([version, metadata]: [RuntimeVersion, Metadata]): void => {
         if (!(this._runtimeVersion?.specVersion.eq(version.specVersion))) {
-          console.info(`Runtime version updated to ${version.specVersion}`);
+          l.log(`Runtime version updated to ${version.specVersion}`);
 
           this._runtimeVersion = version;
           this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
