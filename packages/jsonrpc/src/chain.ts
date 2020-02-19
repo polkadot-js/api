@@ -62,6 +62,17 @@ const subscribeFinalizedHeads: RpcMethodOpt = {
   type: 'Header'
 };
 
+const subscribeAllHeads: RpcMethodOpt = {
+  description: 'Retrieves the newest header via subscription',
+  params: [],
+  pubsub: [
+    'allHead',
+    'subscribeAllHeads',
+    'unsubscribeAllHeads'
+  ],
+  type: 'Header'
+};
+
 const section = 'chain';
 
 /**
@@ -78,6 +89,7 @@ export default {
     getFinalizedHead: createMethod(section, 'getFinalizedHead', getFinalizedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
-    subscribeNewHeads: createMethod(section, 'subscribeNewHeads', subscribeNewHeads)
+    subscribeNewHeads: createMethod(section, 'subscribeNewHeads', subscribeNewHeads),
+    subscribeAllHeads: createMethod(section, 'subscribeAllHeads', subscribeAllHeads)
   }
 };
