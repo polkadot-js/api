@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
+import { BTreeMap, Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
 import { bool, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
@@ -13,6 +13,12 @@ export interface EraIndex extends u32 {}
 export interface EraPoints extends Struct {
   readonly total: Points;
   readonly individual: Vec<Points>;
+}
+
+/** @name EraRewardPoints */
+export interface EraRewardPoints extends Struct {
+  readonly total: RewardPoint;
+  readonly individual: BTreeMap<AccountId, RewardPoint>;
 }
 
 /** @name EraRewards */
@@ -62,6 +68,9 @@ export interface RewardDestination extends Enum {
   readonly isController: boolean;
 }
 
+/** @name RewardPoint */
+export interface RewardPoint extends u32 {}
+
 /** @name SlashingSpans */
 export interface SlashingSpans extends Struct {
   readonly spanIndex: SpanIndex;
@@ -95,6 +104,15 @@ export interface SpanRecord extends Struct {
 
 /** @name StakingLedger */
 export interface StakingLedger extends Struct {
+  readonly stash: AccountId;
+  readonly total: Compact<Balance>;
+  readonly active: Compact<Balance>;
+  readonly unlocking: Vec<UnlockChunk>;
+  readonly nextReward: EraIndex;
+}
+
+/** @name StakingLedgerTo223 */
+export interface StakingLedgerTo223 extends Struct {
   readonly stash: AccountId;
   readonly total: Compact<Balance>;
   readonly active: Compact<Balance>;

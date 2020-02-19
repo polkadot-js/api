@@ -74,7 +74,7 @@ export default {
       slashed: 'Balance',
       paidOut: 'Balance'
     },
-    StakingLedgerTo213: {
+    StakingLedgerTo223: {
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',

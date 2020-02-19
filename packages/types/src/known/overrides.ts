@@ -56,7 +56,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204',
-      StakingLedger: 'StakingLedgerTo213'
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -66,7 +66,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
       SlashingSpans: 'SlashingSpansTo204',
-      StakingLedger: 'StakingLedgerTo213'
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -75,7 +75,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      StakingLedger: 'StakingLedgerTo213'
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -84,7 +84,7 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       // Indices optional, not in transaction
       Address: 'AccountId',
       Keys: 'SessionKeys5',
-      StakingLedger: 'StakingLedgerTo213'
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];
@@ -106,7 +106,7 @@ const TYPES_META: OverrideVersionedType[] = [
       Index: 'u64',
       EventRecord: 'EventRecordTo76',
       ValidatorPrefs: 'ValidatorPrefsTo145',
-      StakingLedger: 'StakingLedgerTo213'
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];
