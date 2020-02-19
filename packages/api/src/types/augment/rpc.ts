@@ -70,6 +70,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        **/
       getHeader(hash?: BlockHash | string | Uint8Array): Observable<Header>;
       /**
+       * Retrieves the newest header via subscription
+       **/
+      subscribeAllHeads(): Observable<Header>;
+      /**
        * Retrieves the best finalized header via subscription
        **/
       subscribeFinalizedHeads(): Observable<Header>;
