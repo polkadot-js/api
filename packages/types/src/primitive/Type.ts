@@ -4,7 +4,7 @@
 
 import { Registry } from '../types';
 
-import sanitize from '../codec/create/sanitize';
+import sanitize from '../create/sanitize';
 import Text from './Text';
 
 /**
@@ -15,27 +15,10 @@ import Text from './Text';
  * i.e. we remove the `T::` prefixes found in some types for consistency across implementation.
  */
 export default class Type extends Text {
-  private _originalLength: number;
-
   constructor (registry: Registry, value: Text | Uint8Array | string = '') {
-    // First decode it with Text
-    const textValue = new Text(registry, value);
+    super(registry, value);
 
-    // Then cleanup the textValue to get the @polkadot/types type, and pass the
-    // sanitized value to constructor
-    super(registry, sanitize(textValue.toString()));
-
-    this._originalLength = textValue.encodedLength;
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
-    // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
-    // only the decoding leg, allowing the decoders to work with original pointers
-    return this._originalLength;
+    this.setOverride(sanitize(this.toString()));
   }
 
   /**

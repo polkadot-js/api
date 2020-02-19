@@ -4,9 +4,9 @@
 
 import { AnyNumber, Constructor, Registry } from '../types';
 
-import { bnToHex, bnToU8a } from '@polkadot/util';
+import { bnToHex, bnToU8a, formatBalance } from '@polkadot/util';
 
-import { ClassOf } from './create/createClass';
+import { ClassOf } from '../create/createClass';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -24,10 +24,14 @@ export default class UInt extends AbstractInt {
     super(registry, false, value, bitLength, isHexJson);
   }
 
-  public static with (bitLength?: UIntBitLength): Constructor<UInt> {
+  public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
     return class extends UInt {
       constructor (registry: Registry, value?: any) {
         super(registry, value, bitLength);
+      }
+
+      public toRawType (): string {
+        return typeName || super.toRawType();
       }
     };
   }
@@ -42,6 +46,16 @@ export default class UInt extends AbstractInt {
       isLe,
       isNegative: false
     });
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): any {
+    // FIXME we need proper expansion here
+    return this instanceof ClassOf(this.registry, 'Balance')
+      ? formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
+      : super.toHuman(isExpanded);
   }
 
   /**

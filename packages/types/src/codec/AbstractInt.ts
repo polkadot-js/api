@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -79,7 +80,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
+  public get hash (): H256 {
     return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
@@ -131,6 +132,14 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns a hex string representation of the value
    */
   abstract toHex (): string;
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toHuman (isExpanded?: boolean): string {
+    return formatNumber(this);
+  }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers

@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, BareOpts, Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJson, BareOpts, Codec, Registry } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -32,7 +33,7 @@ export default abstract class Base<T extends Codec> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
+  public get hash (): H256 {
     return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
@@ -55,6 +56,13 @@ export default abstract class Base<T extends Codec> implements Codec {
    */
   public toHex (isLe?: boolean): string {
     return this.raw.toHex(isLe);
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this.raw.toHuman(isExtended);
   }
 
   /**

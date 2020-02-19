@@ -21,9 +21,12 @@ export default {
       _enum: {
         Future: 'Null',
         Ready: 'Null',
+        Broadcast: 'Vec<Text>',
+        InBlock: 'Hash',
+        Retracted: 'Hash',
+        FinalityTimeout: 'Hash',
         Finalized: 'Hash',
         Usurped: 'Hash',
-        Broadcast: 'Vec<Text>',
         Dropped: 'Null',
         Invalid: 'Null'
       }

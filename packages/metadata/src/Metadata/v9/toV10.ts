@@ -5,7 +5,7 @@
 import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
 
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462

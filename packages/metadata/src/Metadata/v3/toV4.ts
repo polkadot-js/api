@@ -5,7 +5,8 @@
 import { MetadataV3, MetadataV4, ModuleMetadataV4, StorageFunctionMetadataV3, StorageFunctionMetadataV4 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType, Option } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
+import { Option } from '@polkadot/types/codec';
 
 /** @internal */
 function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMetadataV3): StorageFunctionMetadataV4 {

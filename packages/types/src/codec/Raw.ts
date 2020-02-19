@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, IHash, IU8a, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJson, AnyU8a, IU8a, Registry } from '../types';
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -44,7 +45,7 @@ export default class Raw extends Uint8Array implements IU8a {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
+  public get hash (): H256 {
     return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
@@ -96,6 +97,13 @@ export default class Raw extends Uint8Array implements IU8a {
    */
   public toHex (): string {
     return u8aToHex(this);
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): AnyJson {
+    return this.toJSON();
   }
 
   /**

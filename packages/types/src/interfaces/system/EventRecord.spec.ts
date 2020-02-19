@@ -6,7 +6,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadataV0 from '@polkadot/metadata/Metadata/v0/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import json1 from '../../json/EventRecord.001.json';
 import json3 from '../../json/EventRecord.003.json';
 

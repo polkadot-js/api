@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import block00300 from '../../json/SignedBlock.003.00.json';
 import Block from './Block';
 

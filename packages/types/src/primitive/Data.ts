@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { H256 } from '../interfaces/runtime';
 import { Registry } from '../types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import { createType } from '../codec/create/createType';
+import { createType } from '../create/createType';
 import Bytes from './Bytes';
-import H256 from './H256';
 
+/** @internal */
 function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | undefined] {
   if (!value.length) {
     return [undefined, undefined];
@@ -33,6 +34,7 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | u
   throw new Error(`Unable to decode Data, invalid indicator byte ${indicator}`);
 }
 
+/** @internal */
 function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
   if (!value) {
     return [undefined, undefined];

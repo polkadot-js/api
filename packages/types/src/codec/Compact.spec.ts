@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, ClassOf, TypeRegistry } from './create';
+import { createType, ClassOf, TypeRegistry } from '../create';
 import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';
@@ -24,7 +24,7 @@ describe('Compact', (): void => {
 
     it('encodes max u8 values', (): void => {
       expect(
-        Compact.encodeU8a(new (UInt.with())(registry, 63))
+        Compact.encodeU8a(new (UInt.with(32))(registry, 63))
       ).toEqual(
         new Uint8Array([0b11111100])
       );

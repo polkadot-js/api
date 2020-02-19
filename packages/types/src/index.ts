@@ -4,16 +4,9 @@
 
 import { detectPackage } from '@polkadot/util';
 
-// eslint-disable-next-line no-useless-catch
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  detectPackage(require('./package.json'), __dirname);
-} catch (error) {
-  throw error;
-}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+detectPackage(require('./package.json'), __dirname);
 
 export * from './codec';
+export * from './create';
 export * from './index.types';
-
-// FIXME We actually don't want to do this (if needed, it certainly is not in the right place)
-export { formatType } from './scripts/util/formatting';

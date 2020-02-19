@@ -2,13 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import json3 from '../../json/Header.003.json';
 import block1 from '../../json/SignedBlock.003.00.json';
 import Digest from './Digest';
 
 describe('Digest', (): void => {
   const registry = new TypeRegistry();
+
+  it('has the correct JSON representation', (): void => {
+    const digest = new Digest(registry, json3.result.digest);
+
+    expect(digest.toJSON()).toEqual(json3.result.digest);
+  });
 
   it('decodes logs with consensus', (): void => {
     const digest = new Digest(registry, json3.result.digest);

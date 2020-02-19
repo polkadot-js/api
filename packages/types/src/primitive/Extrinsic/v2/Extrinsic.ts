@@ -8,7 +8,7 @@ import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../../../codec/create';
+import { createType, ClassOf } from '../../../create';
 import Struct from '../../../codec/Struct';
 
 const TRANSACTION_VERSION = 2;

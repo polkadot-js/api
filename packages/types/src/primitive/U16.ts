@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Registry } from '../types';
-
 import UInt from '../codec/UInt';
 
 /**
@@ -11,8 +9,4 @@ import UInt from '../codec/UInt';
  * @description
  * A 16-bit unsigned integer
  */
-export default class U16 extends UInt {
-  constructor (registry: Registry, value?: AnyNumber) {
-    super(registry, value, 16);
-  }
-}
+export default class U16 extends UInt.with(16) {}

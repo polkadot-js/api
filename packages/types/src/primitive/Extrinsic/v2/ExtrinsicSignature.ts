@@ -6,7 +6,7 @@ import { Address, Balance, Call, ExtrinsicEra, Index, Signature } from '../../..
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 
-import { createType } from '../../../codec/create';
+import { createType } from '../../../create';
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';

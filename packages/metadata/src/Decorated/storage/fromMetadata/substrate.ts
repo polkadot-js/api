@@ -6,7 +6,7 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Registry } from '@polkadot/types/types';
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { createType } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
 
 import createFunction from './createFunction';
 

@@ -11,7 +11,7 @@ import rpcDataV7 from '@polkadot/metadata/Metadata/v7/static';
 import rpcDataV8 from '@polkadot/metadata/Metadata/v8/static';
 import { hexToU8a } from '@polkadot/util';
 
-import { TypeRegistry } from '../codec';
+import { TypeRegistry } from '../create';
 import StorageKey from './StorageKey';
 
 describe('StorageKey', (): void => {
