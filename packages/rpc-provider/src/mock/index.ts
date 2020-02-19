@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { Codec, Registry } from '@polkadot/types/types';
 import { ProviderInterface, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 import { MockStateSubscriptions, MockStateSubscriptionCallback, MockStateDb } from './types';
 
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
+import Metadata from '@polkadot/metadata/Decorated';
+import rpcMetadata from '@polkadot/metadata/Metadata/static';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
-import storage from '@polkadot/api-metadata/storage/static';
-import rpcMetadata from '@polkadot/types/Metadata/static';
+import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
 import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
@@ -40,6 +41,7 @@ const l = logger('api-mock');
 /**
  * A mock provider mainly used for testing.
  * @return {ProviderInterface} The mock provider
+ * @internal
  */
 export default class Mock implements ProviderInterface {
   private db: MockStateDb = {};
@@ -48,19 +50,20 @@ export default class Mock implements ProviderInterface {
 
   public isUpdating = true;
 
+  private registry: Registry;
+
+  private prevNumber = new BN(-1);
+
   private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlock: (hash: string): any => createType('SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: (hash: string): any => createType(this.registry, 'SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    state_getRuntimeVersion: (): string => createType('RuntimeVersion').toHex(),
-    state_getStorage: (storage: MockStateDb, params: any[]): string => {
-      return u8aToHex(
-        storage[(params[0] as string)]
-      );
-    },
-    system_chain: (): string => 'mockChain',
+    chain_getHeader: (): any => createType(this.registry, 'Header', rpcHeader.result).toJSON(),
+    state_getRuntimeVersion: (): string => createType(this.registry, 'RuntimeVersion').toHex(),
     state_getMetadata: (): string => rpcMetadata,
+    state_getStorage: (storage: MockStateDb, params: any[]): string => u8aToHex(storage[(params[0] as string)]),
+    system_chain: (): string => 'mockChain',
     system_name: (): string => 'mockClient',
     system_properties: (): Record<string, number | string> => ({ ss58Format: 42 }),
     system_version: (): string => '9.8.7'
@@ -73,13 +76,15 @@ export default class Mock implements ProviderInterface {
     };
 
     return subs;
-  }, ({} as unknown as MockStateSubscriptions));
+  }, ({} as MockStateSubscriptions));
 
   private subscriptionId = 0;
 
   private subscriptionMap: Record<number, string> = {};
 
-  public constructor () {
+  constructor (registry: Registry) {
+    this.registry = registry;
+
     this.init();
   }
 
@@ -99,8 +104,11 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     this.emitter.on(type, sub);
+    return (): void => {
+      this.emitter.removeListener(type, sub);
+    };
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -152,8 +160,10 @@ export default class Mock implements ProviderInterface {
   private init (): void {
     const emitEvents: ProviderInterfaceEmitted[] = ['connected', 'disconnected'];
     let emitIndex = 0;
-    let newHead = this.makeBlockHeader(new BN(-1));
+    let newHead = this.makeBlockHeader();
     let counter = -1;
+
+    const metadata = new Metadata(this.registry, rpcMetadata);
 
     // Do something every 1 seconds
     setInterval((): void => {
@@ -162,16 +172,15 @@ export default class Mock implements ProviderInterface {
       }
 
       // create a new header (next block)
-      newHead = this.makeBlockHeader(newHead.number.toBn());
+      newHead = this.makeBlockHeader();
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.number.toBn().muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(metadata.query.system.account(publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(storage.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(metadata.query.timestamp.now(), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals
@@ -185,10 +194,9 @@ export default class Mock implements ProviderInterface {
     }, INTERVAL);
   }
 
-  private makeBlockHeader (prevNumber: BN): Header {
-    const blockNumber = prevNumber.addn(1);
-
-    return createType('Header', {
+  private makeBlockHeader (): Header {
+    const blockNumber = this.prevNumber.addn(1);
+    const header = createType(this.registry, 'Header', {
       digest: {
         logs: []
       },
@@ -196,9 +204,13 @@ export default class Mock implements ProviderInterface {
       number: blockNumber,
       parentHash: blockNumber.isZero()
         ? new Uint8Array(32)
-        : bnToU8a(prevNumber, 256, false),
+        : bnToU8a(this.prevNumber, 256, false),
       stateRoot: bnToU8a(blockNumber, 256, false)
     });
+
+    this.prevNumber = blockNumber;
+
+    return header;
   }
 
   private setStateBn (key: Uint8Array, value: BN | number): void {

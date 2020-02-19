@@ -1,9 +1,31 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// Extrinsic definitions, extracted for readability
+const extrinsic = {
+  Extrinsic: 'GenericExtrinsic',
+  ExtrinsicEra: 'GenericExtrinsicEra',
+  ExtrinsicPayload: 'GenericExtrinsicPayload',
+  ExtrinsicV1: 'GenericExtrinsicV1',
+  ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
+  ExtrinsicSignatureV1: 'GenericExtrinsicSignatureV1',
+  ExtrinsicV2: 'GenericExtrinsicV2',
+  ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
+  ExtrinsicSignatureV2: 'GenericExtrinsicSignatureV2',
+  ExtrinsicV3: 'GenericExtrinsicV3',
+  ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
+  ExtrinsicSignatureV3: 'GenericExtrinsicSignatureV3',
+  ExtrinsicV4: 'GenericExtrinsicV4',
+  ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
+  ExtrinsicSignatureV4: 'GenericExtrinsicSignatureV4',
+  ExtrinsicUnknown: 'GenericExtrinsicUnknown',
+  ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown'
+};
+
 export default {
   types: {
+    ...extrinsic,
     AccountId: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
@@ -14,22 +36,38 @@ export default {
     Block: 'GenericBlock',
     BlockNumber: 'u32',
     Call: 'GenericCall',
+    ChangesTrieConfiguration: {
+      digestInterval: 'u32',
+      digestLevels: 'u32'
+    },
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
-    DigestItem: 'GenericDigestItem',
-    Extrinsic: 'GenericExtrinsic',
-    ExtrinsicEra: 'GenericExtrinsicEra',
-    ExtrinsicPayload: 'GenericExtrinsicPayload',
-    ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown',
-    ExtrinsicPayloadV1: 'GenericExtrinsicPayloadV1',
-    ExtrinsicPayloadV2: 'GenericExtrinsicPayloadV2',
-    ExtrinsicPayloadV3: 'GenericExtrinsicPayloadV3',
-    ExtrinsicPayloadV4: 'GenericExtrinsicPayloadV4',
-    ExtrinsicUnknown: 'GenericExtrinsicUnknown',
-    ExtrinsicV1: 'GenericExtrinsicV1',
-    ExtrinsicV2: 'GenericExtrinsicV2',
-    ExtrinsicV3: 'GenericExtrinsicV3',
-    ExtrinsicV4: 'GenericExtrinsicV4',
+    DigestItem: {
+      _enum: {
+        Other: 'Bytes', // 0
+        AuthoritiesChange: 'Vec<AuthorityId>', // 1
+        ChangesTrieRoot: 'Hash', // 2
+        SealV0: 'SealV0', // 3
+        Consensus: 'Consensus', // 4
+        Seal: 'Seal', // 5
+        PreRuntime: 'PreRuntime' // 6
+      }
+    },
+    DispatchClass: {
+      _enum: ['Normal', 'Operational']
+    },
+    DispatchInfo: {
+      weight: 'Weight',
+      class: 'DispatchClass',
+      paysFee: 'bool'
+    },
+    DispatchInfoTo190: {
+      weight: 'Weight',
+      class: 'DispatchClass'
+    },
+    H160: '[u8; 20; H160]',
+    H256: '[u8; 32; H256]',
+    H512: '[u8; 64; H512]',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',
@@ -43,10 +81,14 @@ export default {
     KeyValue: '(StorageKey, StorageData)',
     KeyTypeId: 'u32',
     LockIdentifier: '[u8; 8]',
+    LookupSource: 'Address',
+    LookupTarget: 'AccountId',
     Moment: 'u64',
     Origin: 'GenericOrigin',
     Perbill: 'u32',
+    Percent: 'u8',
     Permill: 'u32',
+    Perquintill: 'u64',
     Phantom: 'Null',
     PhantomData: 'Null',
     Signature: 'H512',

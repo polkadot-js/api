@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, Constructor, InterfaceTypes } from '../types';
+import { AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 
 import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBn, isNumber, isString } from '@polkadot/util';
@@ -26,15 +26,15 @@ export interface CompactEncodable extends Codec {
  * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
  * a number and making the compact representation thereof
  */
-export default class Compact<T extends CompactEncodable> extends Base<T> {
-  public constructor (Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
-    super(Compact.decodeCompact<T>(typeToConstructor(Type), value));
+export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
+  constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+    super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
   public static with<T extends CompactEncodable> (Type: Constructor<T> | InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
-      public constructor (value?: any) {
-        super(Type, value);
+      constructor (registry: Registry, value?: any) {
+        super(registry, Type, value);
       }
     };
   }
@@ -56,16 +56,17 @@ export default class Compact<T extends CompactEncodable> extends Base<T> {
     return value;
   }
 
-  public static decodeCompact<T extends CompactEncodable> (Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
+  /** @internal */
+  public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
-      return new Type(value.raw);
+      return new Type(registry, value.raw);
     } else if (isString(value) || isNumber(value) || isBn(value)) {
-      return new Type(value);
+      return new Type(registry, value);
     }
 
-    const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());
+    const [, _value] = Compact.decodeU8a(value, new Type(registry, 0).bitLength());
 
-    return new Type(_value);
+    return new Type(registry, _value);
   }
 
   /**

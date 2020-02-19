@@ -1,14 +1,15 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, IHash } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from './create';
+import { createType } from '../create';
 import { UIntBitLength } from './AbstractInt';
 
 const BITLENGTH: UIntBitLength = 64;
@@ -24,16 +25,18 @@ const BITLENGTH: UIntBitLength = 64;
  * @noInheritDoc
  */
 export default class CodecDate extends Date implements Codec {
+  public readonly registry: Registry;
+
   protected raw: Date; // FIXME Remove this once we convert all types out of Base
 
-  public constructor (value: CodecDate | Date | AnyNumber = 0) {
-    super(
-      CodecDate.decodeDate(value)
-    );
+  constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
+    super(CodecDate.decodeDate(value));
 
+    this.registry = registry;
     this.raw = this;
   }
 
+  /** @internal */
   public static decodeDate (value: CodecDate | Date | AnyNumber): Date {
     if (value instanceof Date) {
       return value;
@@ -58,8 +61,8 @@ export default class CodecDate extends Date implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -99,6 +102,13 @@ export default class CodecDate extends Date implements Codec {
       isLe,
       isNegative: false
     });
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return this.toISOString();
   }
 
   /**

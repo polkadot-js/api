@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,33 +8,22 @@ import { DerivedFees } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { createType } from '@polkadot/types';
 
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
 type Result = [Balance, Balance, Balance, Balance, Balance];
 
-function queryV2 (api: ApiInterfaceRx): Observable<Result> {
-  const paymentBase = api.consts.transactionPayment || api.consts.balances;
-
+function query (api: ApiInterfaceRx): Observable<Result> {
   return of([
-    // get values from api.const for substrate versions post spec_version: 101
-    // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
-    api.consts.balances.creationFee as Balance,
-    api.consts.balances.existentialDeposit as Balance,
-    api.consts.balances.transferFee as Balance,
-    paymentBase.transactionBaseFee as Balance,
-    paymentBase.transactionByteFee as Balance
-  ]);
-}
+    // deprecated - remove
+    (api.consts.balances.creationFee as Balance) || createType(api.registry, 'Balance'),
+    (api.consts.balances.transferFee as Balance) || createType(api.registry, 'Balance'),
 
-function queryV1 (api: ApiInterfaceRx): Observable<Result> {
-  return api.queryMulti<Result>([
-    // Support older versions and get values from storage
-    api.query.balances.creationFee,
-    api.query.balances.existentialDeposit,
-    api.query.balances.transferFee,
-    api.query.balances.transactionBaseFee,
-    api.query.balances.transactionByteFee
+    // current
+    api.consts.balances.existentialDeposit,
+    api.consts.transactionPayment.transactionBaseFee,
+    api.consts.transactionPayment.transactionByteFee
   ]);
 }
 
@@ -52,20 +41,14 @@ function queryV1 (api: ApiInterfaceRx): Observable<Result> {
  * ```
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
-  return (): Observable<DerivedFees> => {
-    return (
-      api.consts.balances
-        ? queryV2(api)
-        : queryV1(api)
-    ).pipe(
-      map(([creationFee, existentialDeposit, transferFee, transactionBaseFee, transactionByteFee]): DerivedFees => ({
+  return memo((): Observable<DerivedFees> =>
+    query(api).pipe(
+      map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,
         transactionByteFee,
         transferFee
-      })),
-      drr()
-    );
-  };
+      }))
+    ));
 }

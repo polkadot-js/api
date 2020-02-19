@@ -1,58 +1,82 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '@polkadot/types/types';
-import { Enum, Option, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, u32, u8 } from '@polkadot/types/primitive';
+import { ITuple } from '@polkadot/types/types';
+import { Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
-/** Digest */
+/** @name DigestOf */
 export interface DigestOf extends Digest {}
 
-/** Struct */
-export interface DispatchError extends Struct {
-  /** Option<u8> */
-  readonly module: Option<u8>;
-  /** u8 */
+/** @name DispatchError */
+export interface DispatchError extends Enum {
+  readonly isOther: boolean;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: DispatchErrorModule;
+}
+
+/** @name DispatchErrorModule */
+export interface DispatchErrorModule extends Struct {
+  readonly index: u8;
   readonly error: u8;
 }
 
-/** GenericEvent */
+/** @name DispatchErrorTo198 */
+export interface DispatchErrorTo198 extends Struct {
+  readonly module: Option<u8>;
+  readonly error: u8;
+}
+
+/** @name DispatchResult */
+export interface DispatchResult extends Result<ITuple<[]>, DispatchError> {
+  readonly isError: boolean;
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: ITuple<[]>;
+}
+
+/** @name DispatchResultOf */
+export interface DispatchResultOf extends DispatchResult {}
+
+/** @name DispatchResultTo198 */
+export interface DispatchResultTo198 extends Result<ITuple<[]>, Text> {
+  readonly isError: boolean;
+  readonly asError: Text;
+  readonly isOk: boolean;
+  readonly asOk: ITuple<[]>;
+}
+
+/** @name Event */
 export interface Event extends GenericEvent {}
 
-/** Uint8Array, Codec */
-export interface EventId extends Uint8Array, Codec {}
+/** @name EventId */
+export interface EventId extends U8aFixed {}
 
-/** u32 */
+/** @name EventIndex */
 export interface EventIndex extends u32 {}
 
-/** Struct */
+/** @name EventRecord */
 export interface EventRecord extends Struct {
-  /** Phase */
   readonly phase: Phase;
-  /** Event */
   readonly event: Event;
-  /** Vec<Hash> */
   readonly topics: Vec<Hash>;
 }
 
-/** Struct */
-export interface EventRecord0to76 extends Struct {
-  /** Phase */
+/** @name EventRecordTo76 */
+export interface EventRecordTo76 extends Struct {
   readonly phase: Phase;
-  /** Event */
   readonly event: Event;
 }
 
-/** Bytes */
+/** @name Key */
 export interface Key extends Bytes {}
 
-/** Enum */
+/** @name Phase */
 export interface Phase extends Enum {
-  /** 0:: ApplyExtrinsic(u32) */
   readonly isApplyExtrinsic: boolean;
-  /** u32 */
   readonly asApplyExtrinsic: u32;
-  /** 1:: Finalization */
   readonly isFinalization: boolean;
 }

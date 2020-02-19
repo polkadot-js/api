@@ -1,17 +1,19 @@
-// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable, of } from 'rxjs';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
 
 describe('replay', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
 
   beforeEach((): void => {
-    rpc = new Rpc(new MockProvider());
+    rpc = new Rpc(registry, new MockProvider(registry));
   });
 
   it('subscribes via the rpc section', (done): void => {
@@ -30,7 +32,7 @@ describe('replay', (): void => {
   it('returns the observable value', (done): void => {
     rpc.system.chain().subscribe((value: any): void => {
       if (value) {
-        expect(value).toEqual('mockChain'); // Defined in MockProvider
+        expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
         done();
       }
     });
@@ -57,12 +59,12 @@ describe('replay', (): void => {
     const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
       subscription.unsubscribe();
 
-      // There's a promise inside .unsubscribe(), wait a bit
+      // There's a promise inside .unsubscribe(), wait a bit (> 2s)
       setTimeout((): void => {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(rpc.provider.unsubscribe).toHaveBeenCalled();
         done();
-      }, 200);
+      }, 3500);
     });
   });
 });

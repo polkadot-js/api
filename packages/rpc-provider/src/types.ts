@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -47,7 +47,7 @@ export interface ProviderInterface {
   clone (): ProviderInterface;
   disconnect (): void;
   isConnected (): boolean;
-  on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void;
+  on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void;
   send (method: string, params: any[]): Promise<any>;
   subscribe (type: string, method: string, params: any[], cb: ProviderInterfaceCallback): Promise<number>;
   unsubscribe (type: string, method: string, id: number): Promise<boolean>;

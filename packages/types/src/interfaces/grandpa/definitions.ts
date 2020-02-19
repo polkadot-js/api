@@ -1,11 +1,13 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
   types: {
+    AuthorityIndex: 'u64',
+    AuthorityList: 'Vec<NextAuthority>',
     AuthorityWeight: 'u64',
-    NextAuthority: '(AuthorityId, u64)',
+    NextAuthority: '(AuthorityId, AuthorityWeight)',
     PendingPause: {
       /// Block at which the intention to pause was scheduled.
       scheduledAt: 'BlockNumber',
@@ -22,7 +24,7 @@ export default {
     StoredPendingChange: {
       scheduledAt: 'BlockNumber',
       delay: 'BlockNumber',
-      nextAuthorities: 'Vec<NextAuthority>'
+      nextAuthorities: 'AuthorityList'
     },
     StoredState: {
       _enum: {

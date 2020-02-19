@@ -1,45 +1,35 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicEra, Hash, Index } from '../../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../../types';
+import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../../types';
 
 import Compact from '../../../codec/Compact';
 import Struct from '../../../codec/Struct';
 import Bytes from '../../../primitive/Bytes';
 import u32 from '../../../primitive/U32';
 import { sign } from '../util';
-import { SignedPayloadBaseV2 as SignedPayloadBaseV3 } from '../v2/ExtrinsicPayload';
-
-// SignedExtra adds the following fields to the payload
-const SignedExtraV3: Record<string, InterfaceTypes> = {
-  // system::CheckVersion<Runtime>
-  specVersion: 'u32',
-  // system::CheckGenesis<Runtime>
-  genesisHash: 'Hash',
-  // system::CheckEra<Runtime>
-  blockHash: 'Hash'
-  // system::CheckNonce<Runtime>
-  // system::CheckWeight<Runtime>
-  // balances::TakeFees<Runtime>
-};
-
-// the full definition for the payload
-export const SignedPayloadDefV3: Record<string, InterfaceTypes> = {
-  ...SignedPayloadBaseV3,
-  ...SignedExtraV3
-};
 
 /**
- * @name ExtrinsicPayloadV3
+ * @name GenericExtrinsicPayloadV3
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
 export default class ExtrinsicPayloadV3 extends Struct {
-  public constructor (value?: ExtrinsicPayloadValue | Uint8Array | string) {
-    super(SignedPayloadDefV3, value);
+  constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | string) {
+    super(registry, {
+      method: 'Bytes',
+      // extensions
+      era: 'ExtrinsicEra',
+      nonce: 'Compact<Index>',
+      tip: 'Compact<Balance>',
+      // extensions (additional)
+      specVersion: 'u32',
+      genesisHash: 'Hash',
+      blockHash: 'Hash'
+    }, value);
   }
 
   /**
@@ -95,6 +85,6 @@ export default class ExtrinsicPayloadV3 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (signerPair: IKeyringPair): Uint8Array {
-    return sign(signerPair, this.toU8a(true));
+    return sign(signerPair, this.toU8a({ method: true }));
   }
 }

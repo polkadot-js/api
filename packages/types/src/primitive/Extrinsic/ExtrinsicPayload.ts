@@ -1,16 +1,16 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../../interfaces/runtime';
-import { ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes } from '../../types';
+import { AnyJsonObject, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
-import U8a from '../../codec/U8a';
+import Raw from '../../codec/Raw';
 import u32 from '../../primitive/U32';
 import ExtrinsicEra from './ExtrinsicEra';
 import { DEFAULT_VERSION } from './constants';
@@ -31,24 +31,23 @@ const VERSIONS: InterfaceTypes[] = [
 ];
 
 /**
- * @name ExtrinsicPayload
+ * @name GenericExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
  * on the contents included
  */
 export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
-  public constructor (value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
-    super(
-      ExtrinsicPayload.decodeExtrinsicPayload(value as ExtrinsicPayloadValue, version)
-    );
+  constructor (registry: Registry, value: Partial<ExtrinsicPayloadValue> | Uint8Array | string | undefined, { version }: ExtrinsicPayloadOptions = {}) {
+    super(registry, ExtrinsicPayload.decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
   }
 
-  public static decodeExtrinsicPayload (value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+  /** @internal */
+  public static decodeExtrinsicPayload (registry: Registry, value: ExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string | undefined, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
     if (value instanceof ExtrinsicPayload) {
       return value.raw;
     }
 
-    return createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
+    return createType(registry, VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
   }
 
   /**
@@ -70,13 +69,13 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType('Hash');
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType(this.registry, 'Hash');
   }
 
   /**
-   * @description The [[U8a]] contained in the payload
+   * @description The [[Raw]] contained in the payload
    */
-  public get method (): U8a {
+  public get method (): Raw {
     return this.raw.method;
   }
 
@@ -92,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).specVersion || createType('u32');
+    return (this.raw as ExtrinsicPayloadV3).specVersion || createType(this.registry, 'u32');
   }
 
   /**
@@ -100,7 +99,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this.raw as ExtrinsicPayloadV2).tip || createType('Compact<Balance>');
+    return (this.raw as ExtrinsicPayloadV2).tip || createType(this.registry, 'Compact<Balance>');
   }
 
   /**
@@ -126,6 +125,13 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonObject {
+    return this.raw.toHuman(isExtended);
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): any {
@@ -137,5 +143,13 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public toString (): string {
     return this.toHex();
+  }
+
+  /**
+   * @description Returns a serialized u8a form
+   */
+  public toU8a (isBare?: BareOpts): Uint8Array {
+    // call our parent, with only the method stripped
+    return super.toU8a(isBare ? { method: true } : false);
   }
 }

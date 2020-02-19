@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { u8aToHex } from '@polkadot/util';
 import { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../../interfaces';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
-import { createType } from '../../codec';
+import { createType } from '../../create';
 import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../../types';
 import u8 from '../U8';
 
@@ -38,6 +38,11 @@ const _Payload: Constructor<SignerPayloadType> = Struct.with({
   version: 'u8'
 }) as any;
 
+/**
+ * @name SignerPayload
+ * @description
+ * A generic signer payload that can be used for serialization between API and signer
+ */
 export default class SignerPayload extends _Payload implements ISignerPayload {
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
@@ -65,7 +70,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
     // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
-    const data = u8aToHex(createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(true));
+    const data = u8aToHex(createType(this.registry, 'ExtrinsicPayload', payload, { version: payload.version }).toU8a({ method: true }));
 
     return {
       address: payload.address,

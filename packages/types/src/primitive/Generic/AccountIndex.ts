@@ -1,14 +1,14 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../../types';
+import { AnyNumber, Registry } from '../../types';
 
 import BN from 'bn.js';
 import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import U32 from '../U32';
 
 export const ENUMSET_SIZE = new BN(64);
@@ -28,12 +28,11 @@ const MAX_4BYTE = new BN(1).shln(32);
  * for an Account. We extends from [[U32]] to provide the number-like properties.
  */
 export default class AccountIndex extends U32 {
-  public constructor (value: AnyNumber = new BN(0)) {
-    super(
-      AccountIndex.decodeAccountIndex(value)
-    );
+  constructor (registry: Registry, value: AnyNumber = new BN(0)) {
+    super(registry, AccountIndex.decodeAccountIndex(value));
   }
 
+  /** @internal */
   public static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
     if (value instanceof AccountIndex) {
       // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
@@ -93,7 +92,14 @@ export default class AccountIndex extends U32 {
     }
 
     // convert and compare
-    return super.eq(createType('AccountIndex', other));
+    return super.eq(createType(this.registry, 'AccountIndex', other));
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return this.toJSON();
   }
 
   /**
@@ -109,7 +115,7 @@ export default class AccountIndex extends U32 {
   public toString (): string {
     const length = AccountIndex.calcLength(this);
 
-    return encodeAddress(this.toU8a().subarray(0, length));
+    return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
   }
 
   /**

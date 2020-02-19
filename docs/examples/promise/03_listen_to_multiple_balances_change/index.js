@@ -15,8 +15,8 @@ async function main () {
   console.log('Tracking balances for:', [ALICE, BOB]);
 
   // Subscribe and listen to several balance changes
-  api.query.balances.freeBalance.multi([ALICE, BOB], (balances) => {
-    console.log('Change detected, new balances: ', balances);
+  api.query.system.account.multi([ALICE, BOB], (balances) => {
+    console.log('Change detected, new balances: ', balances.map(([, { free }]) => free));
   });
 }
 

@@ -1,14 +1,42 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, IHash } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyU8a, Codec, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../codec/create';
+import { createType } from '../create';
 import Compact from '../codec/Compact';
+import Raw from '../codec/Raw';
+
+/** @internal */
+function decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+  if (isHex(value)) {
+    return u8aToString(hexToU8a(value.toString()));
+  } else if (value instanceof Uint8Array) {
+    if (!value.length) {
+      return '';
+    }
+
+    // for Raw, the internal buffer does not have an internal length
+    // (the same applies in e.g. Bytes, where length is added at encoding-time)
+    if (value instanceof Raw) {
+      return u8aToString(value);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    return u8aToString(value.subarray(offset, total));
+  }
+
+  return `${value}`;
+}
 
 /**
  * @name Text
@@ -21,29 +49,13 @@ import Compact from '../codec/Compact';
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
-  public constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
-    super(
-      Text.decodeText(value)
-    );
-  }
+  public readonly registry: Registry;
+  private _override: string | null = null;
 
-  private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
-    if (isHex(value)) {
-      return u8aToString(hexToU8a(value.toString()));
-    } else if (value instanceof Uint8Array) {
-      if (!value.length) {
-        return '';
-      }
+  constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
+    super(decodeText(value));
 
-      const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
-
-      assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return u8aToString(value.subarray(offset, total));
-    }
-
-    return `${value}`;
+    this.registry = registry;
   }
 
   /**
@@ -56,8 +68,8 @@ export default class Text extends String implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return createType('Hash', blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -85,12 +97,26 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Set an override value for this
+   */
+  public setOverride (override: string): void {
+    this._override = override;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (): string {
     // like  with Vec<u8>, when we are encoding to hex, we don't actually add
     // the length prefix (it is already implied by the actual string length)
     return u8aToHex(this.toU8a(true));
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): string {
+    return this.toJSON();
   }
 
   /**
@@ -111,8 +137,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    // only included here since we do not inherit docs
-    return super.toString();
+    return this._override || super.toString();
   }
 
   /**
@@ -120,7 +145,9 @@ export default class Text extends String implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = stringToU8a(this.toString());
+    // NOTE Here we use the super toString (we are not taking overrides into account,
+    // rather encoding the original value the string was constructed with)
+    const encoded = stringToU8a(super.toString());
 
     return isBare
       ? encoded

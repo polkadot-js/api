@@ -1,113 +1,136 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
+import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BlockNumber, Moment } from '@polkadot/types/interfaces/runtime';
+import { bool, u32 } from '@polkadot/types/primitive';
+import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
-/** u32 */
+/** @name EraIndex */
 export interface EraIndex extends u32 {}
 
-/** Struct */
+/** @name EraPoints */
 export interface EraPoints extends Struct {
-  /** Points */
   readonly total: Points;
-  /** Vec<Points> */
   readonly individual: Vec<Points>;
 }
 
-/** Struct */
+/** @name EraRewards */
 export interface EraRewards extends Struct {
-  /** u32 */
   readonly total: u32;
-  /** Vec<u32> */
   readonly rewards: Vec<u32>;
 }
 
-/** Struct */
+/** @name Exposure */
 export interface Exposure extends Struct {
-  /** Compact<Balance> */
   readonly total: Compact<Balance>;
-  /** Compact<Balance> */
   readonly own: Compact<Balance>;
-  /** Vec<IndividualExposure> */
   readonly others: Vec<IndividualExposure>;
 }
 
-/** Enum */
+/** @name Forcing */
 export interface Forcing extends Enum {
-  /** 0:: NotForcing */
   readonly isNotForcing: boolean;
-  /** 1:: ForceNew */
   readonly isForceNew: boolean;
-  /** 2:: ForceNone */
   readonly isForceNone: boolean;
+  readonly isForceAlways: boolean;
 }
 
-/** Struct */
+/** @name IndividualExposure */
 export interface IndividualExposure extends Struct {
-  /** AccountId */
   readonly who: AccountId;
-  /** Compact<Balance> */
   readonly value: Compact<Balance>;
 }
 
-/** Moment */
+/** @name MomentOf */
 export interface MomentOf extends Moment {}
 
-/** u32 */
+/** @name Nominations */
+export interface Nominations extends Struct {
+  readonly targets: Vec<AccountId>;
+  readonly submittedIn: EraIndex;
+  readonly suppressed: bool;
+}
+
+/** @name Points */
 export interface Points extends u32 {}
 
-/** Enum */
+/** @name RewardDestination */
 export interface RewardDestination extends Enum {
-  /** 0:: Staked */
   readonly isStaked: boolean;
-  /** 1:: Stash */
   readonly isStash: boolean;
-  /** 2:: Controller */
   readonly isController: boolean;
 }
 
-/** Struct */
+/** @name SlashingSpans */
+export interface SlashingSpans extends Struct {
+  readonly spanIndex: SpanIndex;
+  readonly lastStart: EraIndex;
+  readonly lastNonzeroSlash: EraIndex;
+  readonly prior: Vec<EraIndex>;
+}
+
+/** @name SlashingSpansTo204 */
+export interface SlashingSpansTo204 extends Struct {
+  readonly spanIndex: SpanIndex;
+  readonly lastStart: EraIndex;
+  readonly prior: Vec<EraIndex>;
+}
+
+/** @name SlashJournalEntry */
 export interface SlashJournalEntry extends Struct {
-  /** AccountId */
   readonly who: AccountId;
-  /** Balance */
   readonly amount: Balance;
-  /** Balance */
   readonly ownSlash: Balance;
 }
 
-/** Struct */
+/** @name SpanIndex */
+export interface SpanIndex extends u32 {}
+
+/** @name SpanRecord */
+export interface SpanRecord extends Struct {
+  readonly slashed: Balance;
+  readonly paidOut: Balance;
+}
+
+/** @name StakingLedger */
 export interface StakingLedger extends Struct {
-  /** AccountId */
   readonly stash: AccountId;
-  /** Compact<Balance> */
   readonly total: Compact<Balance>;
-  /** Compact<Balance> */
   readonly active: Compact<Balance>;
-  /** Vec<UnlockChunk> */
   readonly unlocking: Vec<UnlockChunk>;
 }
 
-/** Struct */
+/** @name UnappliedSlash */
+export interface UnappliedSlash extends Struct {
+  readonly validator: AccountId;
+  readonly own: Balance;
+  readonly others: Vec<UnappliedSlashOther>;
+  readonly reporters: Vec<AccountId>;
+  readonly payout: Balance;
+}
+
+/** @name UnappliedSlashOther */
+export interface UnappliedSlashOther extends ITuple<[AccountId, Balance]> {}
+
+/** @name UnlockChunk */
 export interface UnlockChunk extends Struct {
-  /** Compact<Balance> */
   readonly value: Compact<Balance>;
-  /** Compact<BlockNumber> */
   readonly era: Compact<BlockNumber>;
 }
 
-/** Struct */
+/** @name ValidatorPrefs */
 export interface ValidatorPrefs extends Struct {
-  /** Compact<Balance> */
+  readonly commission: Compact<Perbill>;
+}
+
+/** @name ValidatorPrefsTo145 */
+export interface ValidatorPrefsTo145 extends Struct {
+  readonly unstakeThreshold: Compact<u32>;
   readonly validatorPayment: Compact<Balance>;
 }
 
-/** Struct */
-export interface ValidatorPrefs0to145 extends Struct {
-  /** Compact<u32> */
-  readonly unstakeThreshold: Compact<u32>;
-  /** Compact<Balance> */
+/** @name ValidatorPrefsTo196 */
+export interface ValidatorPrefsTo196 extends Struct {
   readonly validatorPayment: Compact<Balance>;
 }

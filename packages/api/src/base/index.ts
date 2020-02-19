@@ -1,21 +1,25 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcInterface } from '@polkadot/rpc-core/jsonrpc.types';
+import { Constants } from '@polkadot/metadata/Decorated/types';
+import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { CallFunction, InterfaceTypes, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
-import { ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
+import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Constants } from '@polkadot/api-metadata/consts/types';
-import { GenericCall, Metadata, createType, getTypeRegistry } from '@polkadot/types';
+import { Metadata, createType } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
+}
+
+interface SignerRawOptions {
+  signer?: Signer;
 }
 
 let pkgJson: { name: string; version: string };
@@ -30,10 +34,10 @@ try {
 function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');
 
-  return value as T;
+  return value;
 }
 
-export default abstract class ApiBase<ApiType> extends Init<ApiType> {
+export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description Create an instance of the class
    *
@@ -52,7 +56,7 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    * });
    * ```
    */
-  public constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (options: ApiOptions = {}, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
   }
 
@@ -119,14 +123,14 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.account(<accountId>)` (retrieving the associated nonce & balances for an account), takes the `AccountId` as a parameter.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.query.balances.freeBalance(<accountId>, (balance) => {
-   *   console.log('new balance', balance);
+   * api.query.system.account(<accountId>, ([nonce, balance]) => {
+   *   console.log('new free balance', balance.free, 'new nonce', nonce);
    * });
    * ```
    */
@@ -146,10 +150,10 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
    *     // you can include the storage without any parameters
    *     api.query.balances.totalIssuance,
    *     // or you can pass parameters to the storage query
-   *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
+   *     [api.query.system.account, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
-   *   ([existential, balance]) => {
-   *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *   ([existential, [, { free }]]) => {
+   *     console.log(`You have ${free.sub(existential)} more than the existential deposit`);
    *
    *     unsub();
    *   }
@@ -193,6 +197,13 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   }
 
   /**
+   * @description The underlying Rx API interface
+   */
+  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc'> {
+    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc'>);
+  }
+
+  /**
    * @description The type of this API instance, either 'rxjs' or 'promise'
    */
   public get type (): ApiTypes {
@@ -220,8 +231,8 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType<K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] {
-    return createType(type, ...params);
+  public createType = <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] => {
+    return createType(this.registry, type, ...params);
   }
 
   /**
@@ -232,17 +243,24 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   }
 
   /**
-   * @description Finds the definition for a specific [[Call]] based on the index supplied
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
-    return GenericCall.findFunction(u8aToU8a(callIndex));
+    return this.registry.findMetaCall(u8aToU8a(callIndex));
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return this.registry.findMetaError(u8aToU8a(errorIndex));
   }
 
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
-    types && getTypeRegistry().register(types);
+    types && this.registry.register(types);
   }
 
   /**
@@ -255,22 +273,21 @@ export default abstract class ApiBase<ApiType> extends Init<ApiType> {
   /**
    * @description Signs a raw signer payload, string or Uint8Array
    */
-  public async sign (signer: KeyringSigner | string, data: SignerPayloadRawBase): Promise<string> {
-    // NOTE Do we really want to do this? Or turn it into an observable for rxjs?
-    if (isString(signer)) {
-      if (!this._rx.signer || !this._rx.signer.signRaw) {
-        throw new Error('No signer exists with a signRaw interface');
-      }
+  public async sign (address: KeyringSigner | string, data: SignerPayloadRawBase, { signer }: SignerRawOptions = {}): Promise<string> {
+    if (isString(address)) {
+      const _signer = signer || this._rx.signer;
+
+      assert(_signer?.signRaw, 'No signer exists with a signRaw interface');
 
       return (
-        await this._rx.signer.signRaw({
+        await _signer.signRaw({
           type: 'bytes',
           ...data,
-          address: signer
+          address
         })
       ).signature;
     }
 
-    return u8aToHex(signer.sign(u8aToU8a(data.data)));
+    return u8aToHex(address.sign(u8aToU8a(data.data)));
   }
 }

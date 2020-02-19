@@ -1,14 +1,12 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../types';
+import { TypeDef, TypeDefInfo, TypeDefExtUInt, TypeDefExtVecFixed } from '../../create/types';
 
 import { assert } from '@polkadot/util';
 
-import { getTypeDef } from '../create';
-
-const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+export const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const identity = (value: string): string => value;
 
@@ -23,22 +21,44 @@ export function paramsNotation (outer: string, inner?: string | any[], transform
 }
 
 function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayName || typeDef.type): string {
-  const { params } = typeDef;
+  const { info, sub, params } = typeDef;
 
-  return paramsNotation(
-    outer,
-    params,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    (param: TypeDef) => displayType(param)
-  );
+  switch (info) {
+    case TypeDefInfo.BTreeMap:
+    case TypeDefInfo.BTreeSet:
+    case TypeDefInfo.Compact:
+    case TypeDefInfo.Linkage:
+    case TypeDefInfo.Option:
+    case TypeDefInfo.Result:
+    case TypeDefInfo.Vec:
+      return paramsNotation(
+        outer,
+        params || sub,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        (param: TypeDef) => displayType(param)
+      );
+    default:
+      return outer;
+  }
 }
 
 function encodeSubTypes (sub: TypeDef[], asEnum?: boolean): string {
-  return `{ ${asEnum ? '"_enum": { ' : ''}${
-    sub
-      .map((type: TypeDef): string => `"${type.name}": "${encodeWithParams(type)}"`)
-      .join(', ')
-  }} }`;
+  const inner = sub.reduce(
+    (result: Record<string, string>, type: TypeDef): Record<string, string> => {
+      return {
+        ...result,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        [type.name as string]: encodeType(type)
+      };
+    },
+    {}
+  );
+
+  return JSON.stringify(
+    asEnum
+      ? { _enum: inner }
+      : inner
+  );
 }
 
 function encodeEnum (typeDef: Pick<TypeDef, any>): string {
@@ -77,9 +97,18 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
 
   return `(${
     sub
-      .map((type: TypeDef): string => encodeWithParams(type))
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      .map((type: TypeDef): string => encodeType(type))
       .join(', ')
   })`;
+}
+
+function encodeUInt (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.ext, 'Unable to encode VecFixed type');
+
+  const { length } = typeDef.ext as TypeDefExtUInt;
+
+  return `UInt<${length}>`;
 }
 
 function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
@@ -87,19 +116,15 @@ function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
 
   const { type, length } = typeDef.ext as TypeDefExtVecFixed;
 
-  return `[${
-    encodeWithParams(getTypeDef(type))
-  };${
-    length
-  }]`;
+  return `[${type};${length}]`;
 }
 
 // We setup a record here to ensure we have comprehensive coverage (any item not covered will result
 // in a compile-time error with the missing index)
 const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeMap'),
+  [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
-  [TypeDefInfo.DoubleMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'DoubleMap'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -110,6 +135,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
   [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
   [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
+  [TypeDefInfo.UInt]: (typeDef: TypeDef): string => encodeUInt(typeDef),
   [TypeDefInfo.Vec]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Vec'),
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };
@@ -138,10 +164,12 @@ export function displayType (typeDef: Pick<TypeDef, any>): string {
 }
 
 export function withTypeString (typeDef: Pick<TypeDef, any>): Pick<TypeDef, any> {
+  const type = SPECIAL_TYPES.includes(typeDef.displayName)
+    ? typeDef.displayName
+    : encodeType(typeDef);
+
   return {
     ...typeDef,
-    type: SPECIAL_TYPES.includes(typeDef.name)
-      ? typeDef.name
-      : encodeType(typeDef)
+    type
   };
 }

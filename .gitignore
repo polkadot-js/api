@@ -3,6 +3,7 @@ build/
 build-docs/
 coverage/
 docs/.vuepress/dist/
+docs/substrate/*.md
 node_modules/
 tmp/
 .DS_Store
@@ -12,6 +13,7 @@ tmp/
 .env.production.local
 .npmrc
 .rpt2_cache
+.vscode/
 cc-test-reporter
 lerna-debug.log*
 npm-debug.log*

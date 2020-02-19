@@ -1,26 +1,29 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeRegistry } from '../create';
 import U8aFixed from './U8aFixed';
 
 describe('U8aFixed', (): void => {
+  const registry = new TypeRegistry();
+
   describe('construction', (): void => {
     it('allows empty values', (): void => {
       expect(
-        new U8aFixed().toHex()
+        new U8aFixed(registry).toHex()
       ).toEqual('0x0000000000000000000000000000000000000000000000000000000000000000');
     });
 
     it('allows construction via with', (): void => {
       expect(
-        new (U8aFixed.with(64))().bitLength()
+        new (U8aFixed.with(64))(registry).bitLength()
       ).toEqual(64);
     });
 
     it('constructs from hex', (): void => {
       expect(
-        new (U8aFixed.with(32))('0x01020304').toU8a()
+        new (U8aFixed.with(32))(registry, '0x01020304').toU8a()
       ).toEqual(
         new Uint8Array([0x01, 0x02, 0x03, 0x04])
       );
@@ -28,7 +31,7 @@ describe('U8aFixed', (): void => {
 
     it('constructs from number[]', (): void => {
       expect(
-        new (U8aFixed.with(32))([0x02, 0x03]).toU8a()
+        new (U8aFixed.with(32))(registry, [0x02, 0x03]).toU8a()
       ).toEqual(
         new Uint8Array([0x02, 0x03, 0x00, 0x00])
       );
@@ -39,7 +42,7 @@ describe('U8aFixed', (): void => {
     let u8a: U8aFixed;
 
     beforeEach((): void => {
-      u8a = new U8aFixed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
+      u8a = new U8aFixed(registry, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
     });
 
     it('limits the length', (): void => {
@@ -58,6 +61,20 @@ describe('U8aFixed', (): void => {
 
     it('hash a sane toRawType', (): void => {
       expect(u8a.toRawType()).toEqual('[u8;4]');
+    });
+  });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (U8aFixed.with(64))(registry).toRawType()
+      ).toEqual('[u8;8]');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (U8aFixed.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
     });
   });
 });

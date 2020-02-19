@@ -1,10 +1,11 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable, from } from 'rxjs';
 import ApiRx from '@polkadot/api/rx/Api';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { TypeRegistry } from '@polkadot/types';
 
 import { ExactDerive } from '.';
 
@@ -26,8 +27,10 @@ const testFunction = (api: ApiRx): any => {
 };
 
 describe('derive', (): void => {
+  const registry = new TypeRegistry();
+
   describe('builtin', (): void => {
-    const api = new ApiRx({ provider: new MockProvider() });
+    const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
     beforeAll((done): void => {
       api.isReady.subscribe((): void => done());
@@ -42,7 +45,6 @@ describe('derive', (): void => {
     testFunction(api)('balances', 'fees', []);
     testFunction(api)('balances', 'votingBalance', []);
     testFunction(api)('balances', 'votingBalances', []);
-    testFunction(api)('balances', 'votingBalancesNominatorsFor', []);
 
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
@@ -52,18 +54,13 @@ describe('derive', (): void => {
     testFunction(api)('democracy', 'referendumVotesFor', []);
     testFunction(api)('democracy', 'votes', []);
 
-    testFunction(api)('elections', 'approvalsOf', []);
-    // FIXME This one has an additional check which mock doesnt (yet) cater for
-    // testFunction(api)('elections', 'approvalsOfAt', []);
     testFunction(api)('elections', 'info', []);
-    testFunction(api)('elections', 'voters', []);
 
     testFunction(api)('session', 'eraLength', []);
     testFunction(api)('session', 'eraProgress', []);
     testFunction(api)('session', 'sessionProgress', []);
 
-    testFunction(api)('staking', 'info', []);
-    testFunction(api)('staking', 'recentlyOffline', []);
+    testFunction(api)('staking', 'account', []);
     testFunction(api)('staking', 'controllers', []);
   });
 
@@ -77,7 +74,8 @@ describe('derive', (): void => {
           test: (): any => (): Observable<any> => from([1, 2, 3])
         }
       },
-      provider: new MockProvider()
+      provider: new MockProvider(registry),
+      registry
     });
 
     beforeAll((done): void => {

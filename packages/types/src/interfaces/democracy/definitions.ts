@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -17,7 +17,9 @@ export default {
         // 4x votes, locked for 8x...
         'Locked4x',
         // 5x votes, locked for 16x...
-        'Locked5x'
+        'Locked5x',
+        /// 6x votes, locked for 32x...
+        'Locked6x'
       ]
     },
     PropIndex: 'u32',
@@ -25,7 +27,7 @@ export default {
     ReferendumIndex: 'u32',
     ReferendumInfo: {
       end: 'BlockNumber',
-      proposal: 'Proposal',
+      proposalHash: 'Hash',
       threshold: 'VoteThreshold',
       delay: 'BlockNumber'
     }

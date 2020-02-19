@@ -1,14 +1,15 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, AnyJsonArray, Codec, IHash } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJson, AnyJsonArray, Codec, Registry } from '../types';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
-import U8a from './U8a';
+import Raw from './Raw';
 import { compareArray } from './utils';
 
 /**
@@ -19,6 +20,14 @@ import { compareArray } from './utils';
  * @noInheritDoc
  */
 export default abstract class AbstractArray<T extends Codec> extends Array<T> implements Codec {
+  public readonly registry: Registry;
+
+  protected constructor (registry: Registry, ...values: T[]) {
+    super(...values);
+
+    this.registry = registry;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -31,8 +40,8 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -69,6 +78,15 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
    */
   public toHex (): string {
     return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonArray {
+    return this.map((entry): AnyJson =>
+      entry.toHuman(isExtended)
+    );
   }
 
   /**

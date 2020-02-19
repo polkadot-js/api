@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../injector';
+import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import Struct from './Struct';
@@ -10,18 +10,19 @@ import { CodecTo } from '../types';
 
 import BTreeMap from './BTreeMap';
 
+const registry = new TypeRegistry();
 const mockU32TextMap = new Map<Text, U32>();
-mockU32TextMap.set(new Text('bazzing'), new U32(69));
+mockU32TextMap.set(new Text(registry, 'bazzing'), new U32(registry, 69));
 const mockU32TextMapString = '{"bazzing":69}';
 const mockU32TextMapObject = { bazzing: 69 };
 const mockU32TextMapHexString = '0x041c62617a7a696e6745000000';
 const mockU32TextMapUint8Array = Uint8Array.from([4, 28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]);
 
 const mockU32U32Map = new Map<U32, U32>();
-mockU32U32Map.set(new U32(1), new U32(2));
-mockU32U32Map.set(new U32(23), new U32(24));
-mockU32U32Map.set(new U32(28), new U32(30));
-mockU32U32Map.set(new U32(45), new U32(80));
+mockU32U32Map.set(new U32(registry, 1), new U32(registry, 2));
+mockU32U32Map.set(new U32(registry, 23), new U32(registry, 24));
+mockU32U32Map.set(new U32(registry, 28), new U32(registry, 30));
+mockU32U32Map.set(new U32(registry, 45), new U32(registry, 80));
 const mockU32U32MapString = '{"1":2,"23":24,"28":30,"45":80}';
 const mockU32U32MapObject = { 1: 2, 23: 24, 28: 30, 45: 80 };
 const mockU32U32MapHexString = '0x10043102000000083233180000000832381e00000008343550000000';
@@ -31,7 +32,7 @@ describe('BTreeMap', (): void => {
   describe('decoding', (): void => {
     const testDecode = (type: string, input: any, output: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const s = new BTreeMap(Text, U32, input);
+        const s = new BTreeMap(registry, Text, U32, input);
 
         expect(s.toString()).toBe(output);
       });
@@ -48,7 +49,7 @@ describe('BTreeMap', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new BTreeMap(Text, U32, mockU32TextMap);
+        const s = new BTreeMap(registry, Text, U32, mockU32TextMap);
         expect(s[to]()).toEqual(expected);
       });
 
@@ -61,7 +62,7 @@ describe('BTreeMap', (): void => {
   describe('encoding muple values', (): void => {
     const testEncode = (to: CodecTo, expected: any): void =>
       it(`can encode ${to}`, (): void => {
-        const s = new BTreeMap(Text, U32, mockU32U32Map);
+        const s = new BTreeMap(registry, Text, U32, mockU32U32Map);
         expect(s[to]()).toEqual(expected);
       });
 
@@ -75,16 +76,16 @@ describe('BTreeMap', (): void => {
     expect(
       new (
         BTreeMap.with(Text, U32)
-      )(null).toString()
+      )(registry, null).toString()
     ).toEqual('{}');
   });
 
   it('decodes within more complicated types', (): void => {
-    const s = new Struct({
+    const s = new Struct(registry, {
       placeholder: U32,
       value: BTreeMap.with(Text, U32)
     });
-    s.set('value', new BTreeMap(Text, U32, mockU32TextMap));
+    s.set('value', new BTreeMap(registry, Text, U32, mockU32TextMap));
     expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
   });
 
@@ -92,21 +93,21 @@ describe('BTreeMap', (): void => {
     expect(
       (): BTreeMap<Text, U32> => new (
         BTreeMap.with(Text, U32)
-      )('ABC')
+      )(registry, 'ABC')
     ).toThrowError(/BTreeMap: cannot decode type/);
   });
 
   it('correctly encodes length', (): void => {
     expect(
       new (
-        BTreeMap.with(Text, U32))(mockU32TextMap).encodedLength
+        BTreeMap.with(Text, U32))(registry, mockU32TextMap).encodedLength
     ).toEqual(13);
   });
 
   it('generates sane toRawTypes', (): void => {
-    expect(new (BTreeMap.with(Text, U32))().toRawType()).toBe('BTreeMap<Text,u32>');
-    expect(new (BTreeMap.with(Text, Text))().toRawType()).toBe('BTreeMap<Text,Text>');
-    expect(new (BTreeMap.with(Text, Struct.with({ a: U32, b: Text })))().toRawType())
+    expect(new (BTreeMap.with(Text, U32))(registry).toRawType()).toBe('BTreeMap<Text,u32>');
+    expect(new (BTreeMap.with(Text, Text))(registry).toRawType()).toBe('BTreeMap<Text,Text>');
+    expect(new (BTreeMap.with(Text, Struct.with({ a: U32, b: Text })))(registry).toRawType())
       .toBe('BTreeMap<Text,{"a":"u32","b":"Text"}>');
   });
 });

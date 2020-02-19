@@ -1,30 +1,34 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { CodecTo } from '../types';
+
 import BN from 'bn.js';
 
-import { CodecTo } from '../types';
-import CodecDate from './Date';
+import { TypeRegistry } from '../create';
 import U64 from '../primitive/U64';
+import CodecDate from './Date';
 
 describe('Date', (): void => {
+  const registry = new TypeRegistry();
+
   describe('decode', (): void => {
     const testDecode = (type: string, input: Date | CodecDate | U64 | number, expected: string | number, toJSON = false): void =>
       it(`can decode from ${type}`, (): void => {
-        expect(new CodecDate(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
+        expect(new CodecDate(registry, input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });
 
     testDecode('Date', new Date(1537968546280), '2018-09-26T13:29:06.280Z');
-    testDecode('CodecDate', new CodecDate(1234), 1234, true);
+    testDecode('CodecDate', new CodecDate(registry, 1234), 1234, true);
     testDecode('number', 1234, 1234, true);
-    testDecode('U64', new U64(69), 69, true);
+    testDecode('U64', new U64(registry, 69), 69, true);
   });
 
   describe('encode', (): void => {
     const testEncode = (to: 'toBn' | 'toISOString' | 'toNumber' | CodecTo, expected: BN | number | string | Uint8Array): void =>
       it(`can encode ${to}`, (): void => {
-        expect(new CodecDate(421)[to]()).toEqual(expected);
+        expect(new CodecDate(registry, 421)[to]()).toEqual(expected);
       });
 
     testEncode('toBn', new BN(421));
@@ -35,33 +39,35 @@ describe('Date', (): void => {
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
 
     it('can encode toString', (): void => {
+      const date = new Date(Date.UTC(1970, 0, 1, 2, 3, 4));
+
+      date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
       expect(
-        new CodecDate(421)
-          .toString()
-          .startsWith('Thu Jan 01 1970') // The time depends on the timezone this test is run in
-      ).toBe(true);
+        new CodecDate(registry, date).toString()
+      ).toMatch(/^Thu Jan 01 1970 02:03:04/);
     });
 
     it('encodes default BE hex', (): void => {
       expect(
-        new CodecDate(3).toHex()
+        new CodecDate(registry, 3).toHex()
       ).toEqual('0x0000000000000003');
     });
 
     it('encodes options LE hex', (): void => {
       expect(
-        new CodecDate(3).toHex(true)
+        new CodecDate(registry, 3).toHex(true)
       ).toEqual('0x0300000000000000');
     });
   });
 
   describe('utils', (): void => {
     it('compares values', (): void => {
-      expect(new CodecDate(123).eq(123)).toBe(true);
+      expect(new CodecDate(registry, 123).eq(123)).toBe(true);
     });
 
     it('compares values (non-match)', (): void => {
-      expect(new CodecDate(123).eq(456)).toBe(false);
+      expect(new CodecDate(registry, 123).eq(456)).toBe(false);
     });
   });
 });

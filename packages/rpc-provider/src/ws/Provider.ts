@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -89,7 +89,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  public constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
+  constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._eventemitter = new EventEmitter();
@@ -167,9 +167,13 @@ export default class WsProvider implements WSProviderInterface {
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterfaceEmitted} type Event
    * @param  {ProviderInterfaceEmitCb}  sub  Callback
+   * @return unsubscribe function
    */
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     this._eventemitter.on(type, sub);
+    return (): void => {
+      this._eventemitter.removeListener(type, sub);
+    };
   }
 
   /**
@@ -225,7 +229,7 @@ export default class WsProvider implements WSProviderInterface {
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const rpc = new Rpc(provider);
    *
-   * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
+   * rpc.state.subscribeStorage([[storage.system.account, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)

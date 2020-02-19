@@ -45,6 +45,7 @@ module.exports = {
           ['start/types.extend.md', 'Extending types'],
           ['start/extrinsic.extend.md', 'Extending extrinsics'],
           ['start/typescript.md', 'TypeScript interfaces'],
+          ['start/typescript.user.md', 'TypeScript user generated'],
           ['start/FAQ.md', 'FAQ']
         ]
       },
@@ -67,6 +68,7 @@ module.exports = {
       },
       {
         title: 'Substrate defaults',
+        path: '/substrate/',
         collapsable: false,
         sidebarDepth: 0,
         children: [
@@ -74,7 +76,8 @@ module.exports = {
           ['substrate/constants.md', 'Constants'],
           ['substrate/storage.md', 'State storage'],
           ['substrate/extrinsics.md', 'Extrinsics'],
-          ['substrate/events.md', 'System events']
+          ['substrate/events.md', 'System events'],
+          ['substrate/errors.md', 'Errors']
         ]
       },
       ['/api/', '@polkadot/api'],

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import { from, Observable } from 'rxjs';
 
 import ApiBase from '../base';
 
-function decorateMethod <Method extends AnyFunction> (method: Method): Method {
+export function decorateMethod <Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
@@ -91,11 +91,11 @@ function decorateMethod <Method extends AnyFunction> (method: Method): Method {
  *
  * // retrieve nonce for the account
  * api.query.system
- *   .accountNonce(keyring.alice.address)
+ *   .account(keyring.alice.address)
  *   .pipe(
  *      first(),
  *      // pipe nonce into transfer
- *      switchMap((nonce) =>
+ *      switchMap(([nonce]) =>
  *        api.tx.balances
  *          // create transfer
  *          .transfer(keyring.bob.address, 12345)
@@ -107,7 +107,7 @@ function decorateMethod <Method extends AnyFunction> (method: Method): Method {
  *   )
  *   // subscribe to overall result
  *   .subscribe(({ status }) => {
- *     if (status.isFinalized) {
+ *     if (status.isInBlock) {
  *       console.log('Completed at block hash', status.asFinalized.toHex());
  *     }
  *   });
@@ -160,7 +160,7 @@ export default class ApiRx extends ApiBase<'rxjs'> {
    *   });
    * ```
    */
-  public constructor (options?: ApiOptions) {
+  constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
     this._isReadyRx = from(

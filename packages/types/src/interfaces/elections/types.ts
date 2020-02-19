@@ -1,40 +1,33 @@
-// Auto-generated via `yarn build:interfaces`, do not edit
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Enum, Struct } from '@polkadot/types/codec';
 import { GenericVote, u32 } from '@polkadot/types/primitive';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 
-/** u32 */
+/** @name ApprovalFlag */
 export interface ApprovalFlag extends u32 {}
 
-/** u32 */
+/** @name SetIndex */
 export interface SetIndex extends u32 {}
 
-/** GenericVote */
+/** @name Vote */
 export interface Vote extends GenericVote {}
 
-/** u32 */
+/** @name VoteIndex */
 export interface VoteIndex extends u32 {}
 
-/** Struct */
+/** @name VoterInfo */
 export interface VoterInfo extends Struct {
-  /** VoteIndex */
   readonly lastActive: VoteIndex;
-  /** VoteIndex */
   readonly lastWin: VoteIndex;
-  /** Balance */
   readonly pot: Balance;
-  /** Balance */
   readonly stake: Balance;
 }
 
-/** Enum */
+/** @name VoteThreshold */
 export interface VoteThreshold extends Enum {
-  /** 0:: Supermajorityapproval */
   readonly isSupermajorityapproval: boolean;
-  /** 1:: Supermajorityrejection */
   readonly isSupermajorityrejection: boolean;
-  /** 2:: Simplemajority */
   readonly isSimplemajority: boolean;
 }

@@ -1,12 +1,12 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Constructor, Registry } from '../types';
 
-import { bnToHex, bnToU8a } from '@polkadot/util';
+import { bnToHex, bnToU8a, formatBalance } from '@polkadot/util';
 
-import { ClassOf } from './create';
+import { ClassOf } from '../create/createClass';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
@@ -20,15 +20,20 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
  * @noInheritDoc
  */
 export default class UInt extends AbstractInt {
-  public constructor (
-    value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false) {
-    super(
-      false,
-      value,
-      bitLength,
-      isHexJson
-    );
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = false) {
+    super(registry, false, value, bitLength, isHexJson);
+  }
+
+  public static with (bitLength: UIntBitLength, typeName?: string): Constructor<UInt> {
+    return class extends UInt {
+      constructor (registry: Registry, value?: any) {
+        super(registry, value, bitLength);
+      }
+
+      public toRawType (): string {
+        return typeName || super.toRawType();
+      }
+    };
   }
 
   /**
@@ -44,13 +49,23 @@ export default class UInt extends AbstractInt {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): any {
+    // FIXME we need proper expansion here
+    return this instanceof ClassOf(this.registry, 'Balance')
+      ? formatBalance(this, { decimals: this.registry.chainDecimals, withSi: true, withUnit: this.registry.chainToken })
+      : super.toHuman(isExpanded);
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
     // NOTE In the case of balances, which have a special meaning on the UI
     // and can be interpreted differently, return a specific value for it so
     // underlying it always matches (no matter which length it actually is)
-    return this instanceof ClassOf('Balance')
+    return this instanceof ClassOf(this.registry, 'Balance')
       ? 'Balance'
       : `u${this._bitLength}`;
   }

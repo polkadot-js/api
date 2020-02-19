@@ -1,14 +1,15 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, IHash } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
@@ -22,25 +23,24 @@ export const DEFAULT_UINT_BITS = 64;
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export default abstract class AbstractInt extends BN implements Codec {
+  public readonly registry: Registry;
+
   protected _bitLength: UIntBitLength;
 
   private _isHexJson: boolean;
 
   private _isNegative: boolean;
 
-  public constructor (
-    isNegative: boolean,
-    value: AnyNumber = 0,
-    bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(
-      AbstractInt.decodeAbstracInt(value, bitLength, isNegative)
-    );
+  protected constructor (registry: Registry, isNegative: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
+    super(AbstractInt.decodeAbstracInt(value, bitLength, isNegative));
 
+    this.registry = registry;
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
     this._isNegative = isNegative;
   }
 
+  /** @internal */
   public static decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
     // This function returns a string, which will be passed in the BN
     // constructor. It would be ideal to actually return a BN, but there's a
@@ -56,6 +56,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     return bnToBn(value).toString();
   }
 
+  /** @internal */
   private static decodeAbstracIntU8a (value: Uint8Array, bitLength: UIntBitLength, isNegative: boolean): string {
     if (!value.length) {
       return '0';
@@ -79,8 +80,8 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -112,6 +113,15 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description True if this value is the max of the type
+   */
+  public isMax (): boolean {
+    const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
+
+    return u8a.length === (this._bitLength / 8);
+  }
+
+  /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
   public toBn (): BN {
@@ -122,6 +132,14 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns a hex string representation of the value
    */
   abstract toHex (): string;
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toHuman (isExpanded?: boolean): string {
+    return formatNumber(this);
+  }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers

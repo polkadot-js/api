@@ -1,8 +1,9 @@
-// Copyright 2017-2019 @polkadot/api-derive authors & contributors
+// Copyright 2017-2020 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, VestingSchedule } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BalanceLockTo212, BlockNumber, VestingInfo, VestingSchedule } from '@polkadot/types/interfaces';
+import { DerivedBalancesAccount, DerivedBalancesAll } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, of, Observable } from 'rxjs';
@@ -11,60 +12,101 @@ import { ApiInterfaceRx } from '@polkadot/api/types';
 import { Option, Vec, createType } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
-import { idAndIndex } from '../accounts/idAndIndex';
-import { bestNumber } from '../chain/bestNumber';
-import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
+import { memo } from '../util';
 
-type ResultBalance = [Balance, Balance, BalanceLock[], Option<VestingSchedule>];
-type Result = [AccountId, BlockNumber, ResultBalance, Index];
+type ResultBalance = [VestingInfo | null, (BalanceLock | BalanceLockTo212)[]];
+type Result = [DerivedBalancesAccount, BlockNumber, ResultBalance];
 
-function calcBalances ([accountId, bestNumber, [freeBalance, reservedBalance, locks, vesting], accountNonce]: Result): DerivedBalances {
-  let lockedBalance = createType('Balance');
+function calcBalances (api: ApiInterfaceRx, [{ accountId, accountNonce, freeBalance, frozenFee, frozenMisc, reservedBalance, votingBalance }, bestNumber, [vesting, locks]]: Result): DerivedBalancesAll {
+  let lockedBalance = createType(api.registry, 'Balance');
+  let lockedBreakdown: (BalanceLock | BalanceLockTo212)[] = [];
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
-    const totals = locks.filter((value): boolean => bestNumber && value.until.gt(bestNumber));
+    lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
+
+    const notAll = lockedBreakdown.filter(({ amount }): boolean => !amount.isMax());
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-    lockedBalance = totals[0]
-      ? createType('Balance', bnMax(...totals.map(({ amount }): Balance => amount)))
-      : createType('Balance');
+    if (notAll.length) {
+      lockedBalance = createType(api.registry, 'Balance', bnMax(...notAll.map(({ amount }): Balance => amount)));
+    }
   }
 
-  // offset = balance locked at genesis, perBlock is the unlock amount
-  const { offset, perBlock } = vesting.unwrapOr(createType('VestingSchedule'));
-  const vestedNow = createType('Balance', perBlock.mul(bestNumber));
-  const vestedBalance = vestedNow.gt(offset)
-    ? freeBalance
-    : createType('Balance', freeBalance.sub(offset).add(vestedNow));
+  // Calculate the vesting balances,
+  //  - offset = balance locked at startingBlock
+  //  - perBlock is the unlock amount
+  const { locked: vestingTotal, perBlock, startingBlock } = vesting || createType(api.registry, 'VestingInfo');
+  const isStarted = bestNumber.gt(startingBlock);
+  const vestedBalance = createType(api.registry, 'Balance', isStarted ? perBlock.mul(bestNumber.sub(startingBlock)) : 0);
+  const isVesting = isStarted && vestedBalance.lt(vestingTotal);
 
-  // NOTE Workaround for this account on Alex (one of a couple reported) -
-  //   5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N
-  // The locked is > the vested and ended up with the locked > free,
-  // i.e. related to https://github.com/paritytech/polkadot/issues/225
-  // (most probably due to movements from stash -> controller -> free)
-  const availableBalance = createType('Balance', bnMax(new BN(0), vestedBalance.sub(lockedBalance)));
+  // The available balance & vested has an interplay here
+  // "
+  // vesting is a guarantee that the account's balance will never go below a certain amount. so it functions in the opposite way, a bit like a lock that is monotonically decreasing rather than a liquid amount that is monotonically increasing.
+  // locks function as the same guarantee - that a balance will not be lower than a particular amount.
+  // because of this you can see that if there is a "vesting lock" that guarantees the balance cannot go below 200, and a "staking lock" that guarantees the balance cannot drop below 300, then we just have two guarantees of which the first is irrelevant.
+  // i.e. (balance >= 200 && balance >= 300) == (balance >= 300)
+  // ""
+  const floating = freeBalance.sub(lockedBalance);
+  const extraReceived = isVesting ? freeBalance.sub(vestingTotal) : new BN(0);
+  const availableBalance = createType(api.registry, 'Balance', bnMax(new BN(0), isVesting && floating.gt(vestedBalance) ? vestedBalance.add(extraReceived) : floating));
 
   return {
     accountId,
     accountNonce,
     availableBalance,
     freeBalance,
+    frozenFee,
+    frozenMisc,
+    isVesting,
     lockedBalance,
+    lockedBreakdown,
     reservedBalance,
     vestedBalance,
-    votingBalance: createType('Balance', freeBalance.add(reservedBalance))
+    vestingTotal,
+    votingBalance
   };
 }
 
-function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
-  return api.queryMulti<[Balance, Balance, Vec<BalanceLock>, Option<VestingSchedule>]>([
-    [api.query.balances.freeBalance, accountId],
-    [api.query.balances.reservedBalance, accountId],
+// old
+function queryOld (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
+  return api.queryMulti<[Vec<BalanceLock>, Option<VestingSchedule>]>([
     [api.query.balances.locks, accountId],
     [api.query.balances.vesting, accountId]
-  ]);
+  ]).pipe(
+    map(([locks, optVesting]): ResultBalance => {
+      let vestingNew = null;
+
+      if (optVesting.isSome) {
+        const { offset: locked, perBlock, startingBlock } = optVesting.unwrap();
+
+        vestingNew = createType(api.registry, 'VestingInfo', { locked, perBlock, startingBlock });
+      }
+
+      return [vestingNew, locks];
+    })
+  );
+}
+
+// current (balances  vesting)
+function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<ResultBalance> {
+  return (
+    api.query.vesting.vesting
+      ? api.queryMulti<[Vec<BalanceLock>, Option<VestingInfo>]>([
+        [api.query.balances.locks, accountId],
+        [api.query.vesting.vesting, accountId]
+      ])
+      : api.query.balances.locks(accountId).pipe(
+        map((locks): [Vec<BalanceLock>, Option<VestingInfo>] =>
+          [locks, createType(api.registry, 'Option<VestingInfo>')]
+        )
+      )
+  ).pipe(
+    map(([locks, optVesting]): ResultBalance =>
+      [optVesting.unwrapOr(null), locks]
+    )
+  );
 }
 
 /**
@@ -82,25 +124,21 @@ function queryBalances (api: ApiInterfaceRx, accountId: AccountId): Observable<R
  * });
  * ```
  */
-export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalances> {
-  return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
-    return idAndIndex(api)(address).pipe(
-      switchMap(([accountId]): Observable<Result> =>
-        (accountId
+export function all (api: ApiInterfaceRx): (address: AccountIndex | AccountId | Address | string) => Observable<DerivedBalancesAll> {
+  return memo((address: AccountIndex | AccountId | Address | string): Observable<DerivedBalancesAll> =>
+    api.derive.balances.account(address).pipe(
+      switchMap((account): Observable<Result> =>
+        (!account.accountId.isEmpty
           ? combineLatest([
-            of(accountId),
-            bestNumber(api)(),
-            queryBalances(api, accountId),
-            api.rpc.account && api.rpc.account.nextIndex
-              ? api.rpc.account.nextIndex(accountId)
-              // otherwise we end up with this: type 'Codec | Index' is not assignable to type 'Index'.
-              : api.query.system.accountNonce<Index>(accountId)
+            of(account),
+            api.derive.chain.bestNumber(),
+            api.query.balances.account
+              ? queryCurrent(api, account.accountId)
+              : queryOld(api, account.accountId)
           ])
-          : of([createType('AccountId'), createType('BlockNumber'), [createType('Balance'), createType('Balance'), createType('Vec<BalanceLock>'), createType('Option<VestingSchedule>', null)], createType('Index')])
+          : of([account, createType(api.registry, 'BlockNumber'), [null, createType(api.registry, 'Vec<BalanceLock>')]])
         )
       ),
-      map(calcBalances),
-      drr()
-    );
-  };
+      map((result): DerivedBalancesAll => calcBalances(api, result))
+    ));
 }

@@ -1,25 +1,27 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2020 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import { Balance, Header, Index } from '@polkadot/types/interfaces';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 
 import { SubmittableResult } from './';
+
+const registry = new TypeRegistry();
 
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
-    api.consts.balances.creationFee.toHex(),
-    (api.consts.balances.creationFee as ConstantCodec).meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.foo.bar,
+    api.consts.balances.existentialDeposit.toNumber(),
+    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
   );
 }
 
@@ -33,29 +35,34 @@ async function derive (api: ApiPromise): Promise<void> {
 }
 
 async function query (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const intentions = await api.query.staking.intentions();
+  const intentions = await api.query.staking.bonded();
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed
   const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
-  const bal = await api.query.balances.freeBalance(keyring.alice.address); // bal is Balance
-  const bal2 = await api.query.balances.freeBalance(keyring.alice.address, 'WRONG_ARG'); // bal2 is Codec (wrong args)
-  const override = await api.query.balances.freeBalance<Header>(keyring.alice.address); // override is still available
-  const oldBal = await api.query.balances.freeBalance.at('abcd', keyring.alice.address);
+  const bal = await api.query.balances.totalIssuance(); // bal is Balance
+  const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
+  const override = await api.query.balances.totalIssuance<Header>(); // override is still available
+  const oldBal = await api.query.balances.totalIssuance.at('abcd');
   // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
-  // In the meantime, we can case with `<Balance>`
+  // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
   const multi = await api.query.balances.freeBalance.multi<Balance>([keyring.alice.address, keyring.bob.address]);
   console.log('query types:', bar, bal, bal2, override, oldBal, multi);
 
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.system.accountNonce, keyring.eve.address],
+    [api.query.system.account, keyring.eve.address],
+    // older chains only
     [api.query.system.accountNonce, keyring.bob.address]
-  ], (balances): void => {
-    console.log('balances', balances);
+  ], (values): void => {
+    console.log('values', values);
 
     multiUnsub();
   });
+
+  // check entries()
+  await api.query.system.account.entries(); // should not take a param
+  await api.query.staking.nominatorSlashInEra.entries(123); // should take a param
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
@@ -70,13 +77,13 @@ async function rpc (api: ApiPromise): Promise<void> {
 
 function types (): void {
   // check correct types with `createType`
-  const balance = createType('Balance', 2);
-  const gas = createType('Gas', 2);
-  const compact = createType('Compact<u32>', 2);
-  // const random = createType('RandomType', 2); // This one should deliberately show a TS error
+  const balance = createType(registry, 'Balance', 2);
+  const gas = createType(registry, 'Gas', 2);
+  const compact = createType(registry, 'Compact<u32>', 2);
+  // const random = createType(registry, 'RandomType', 2); // This one should deliberately show a TS error
 
-  const gasUnsafe = createTypeUnsafe('Gas', [2]);
-  const overriddenUnsafe = createTypeUnsafe<Header>('Gas', [2]);
+  const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
+  const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
 }
@@ -114,6 +121,13 @@ async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
 
       unsub2();
     });
+
+  // it allows for query & then using the submittable
+  const second = api.tx.democracy.second(123);
+
+  second.signAndSend('123', (result): void => {
+    console.log(result);
+  });
 }
 
 async function main (): Promise<void> {

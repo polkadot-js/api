@@ -1,19 +1,17 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '../../injector';
-
-import { setSS58Format } from '@polkadot/util-crypto';
-
-import { createType } from '../../codec/create';
-import U8a from '../../codec/U8a';
+import { createType, TypeRegistry } from '../../create';
+import Raw from '../../codec/Raw';
 import jsonVec from '../../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
 
 describe('AccountId', (): void => {
+  const registry = new TypeRegistry();
+
   describe('defaults', (): void => {
-    const id = createType('AccountId');
+    const id = createType(registry, 'AccountId');
 
     it('has a 32-byte length', (): void => {
       expect(id).toHaveLength(32);
@@ -31,20 +29,20 @@ describe('AccountId', (): void => {
   describe('decoding', (): void => {
     const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
-        const a = createType('AccountId', input);
+        const a = createType(registry, 'AccountId', input);
         expect(a.toString()).toBe(expected);
       });
 
     testDecode(
       'AccountId',
-      createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
+      createType(registry, 'AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode('hex', '0x0102030405060708010203040506070801020304050607080102030405060708', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
     testDecode('string', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
     testDecode(
-      'U8a',
-      new U8a([
+      'Raw',
+      new Raw(registry, [
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
       ]),
@@ -63,7 +61,7 @@ describe('AccountId', (): void => {
   describe('encoding', (): void => {
     const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'): void =>
       it(`can encode ${to}`, (): void => {
-        const a = createType('AccountId', input);
+        const a = createType(registry, 'AccountId', input);
 
         expect(a[to]()).toEqual(expected);
       });
@@ -78,16 +76,20 @@ describe('AccountId', (): void => {
     ]));
 
     it('decodes to a non-empty value', (): void => {
-      expect(createType('AccountId', '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
+      expect(createType(registry, 'AccountId', '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJdMX').isEmpty).toBe(false);
     });
   });
 
   describe('storage decoding', (): void => {
     it('has the correct entries', (): void => {
-      setSS58Format(68);
+      registry.setChainProperties(
+        createType(registry, 'ChainProperties', {
+          ss58Format: 68
+        })
+      );
 
-      const data = createType('StorageData', jsonVec.params.result.changes[0][1]);
-      const list = createType('Vec<AccountId>', data).map((accountId): string => accountId.toString());
+      const data = createType(registry, 'StorageData', jsonVec.params.result.changes[0][1]);
+      const list = createType(registry, 'Vec<AccountId>', data).map((accountId): string => accountId.toString());
 
       expect(list).toEqual([
         '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTLup',

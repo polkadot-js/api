@@ -1,24 +1,23 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-
-import '../injector';
 
 import { hexToString } from '@polkadot/util';
 
 import { u32, Text } from '../primitive';
-import { createType } from './create';
+import { createType, TypeRegistry } from '../create';
 import Result from './Result';
 
 describe('Result', (): void => {
+  const registry = new TypeRegistry();
   const Type = Result.with({ Ok: u32, Error: Text });
 
   it('has a sane toRawType representation', (): void => {
-    expect(new Type().toRawType()).toEqual('Result<u32,Text>');
+    expect(new Type(registry).toRawType()).toEqual('Result<u32,Text>');
   });
 
   it('decodes from a u8a (success)', (): void => {
-    const result = new Type(new Uint8Array([0, 1, 2, 3, 4]));
+    const result = new Type(registry, new Uint8Array([0, 1, 2, 3, 4]));
 
     expect(result.isOk);
     expect(result.asOk.toU8a()).toEqual(new Uint8Array([1, 2, 3, 4]));
@@ -29,7 +28,7 @@ describe('Result', (): void => {
   });
 
   it('decodes from a u8a (error)', (): void => {
-    const result = new Type(new Uint8Array([1, 4 << 2, 100, 101, 102, 103]));
+    const result = new Type(registry, new Uint8Array([1, 4 << 2, 100, 101, 102, 103]));
 
     expect(result.isError);
     expect(result.asError.toU8a()).toEqual(new Uint8Array([4 << 2, 100, 101, 102, 103]));
@@ -40,12 +39,12 @@ describe('Result', (): void => {
   });
 
   it('decodes from a JSON representation', (): void => {
-    const result = new Type({ Error: 'error' });
+    const result = new Type(registry, { Error: 'error' });
 
     expect(result.toHex()).toEqual('0x01146572726f72');
   });
 
   it('returns a proper raw typedef rom a built-in', (): void => {
-    expect(createType('DispatchResult').toRawType()).toEqual('Result<Null,Text>');
+    expect(createType(registry, 'DispatchResult').toRawType()).toEqual('Result<(),{"_enum":{"Other":"Null","CannotLookup":"Null","BadOrigin":"Null","Module":"{\\"index\\":\\"u8\\",\\"error\\":\\"u8\\"}"}}>');
   });
 });

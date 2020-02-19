@@ -1,10 +1,13 @@
-// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2020 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+import { TypeRegistry } from '@polkadot/types';
 
 import Rpc from '.';
 
 describe('methodSend', (): void => {
+  const registry = new TypeRegistry();
   let rpc: Rpc;
   let methods: any;
   let provider: any;
@@ -33,7 +36,7 @@ describe('methodSend', (): void => {
       })
     };
 
-    rpc = new Rpc(provider);
+    rpc = new Rpc(registry, provider);
   });
 
   it('wraps errors with the call signature', (done): void => {
@@ -41,9 +44,9 @@ describe('methodSend', (): void => {
     const method = (rpc as any).createMethodSend(methods.blah);
 
     method().subscribe(
-      (): void => {},
+      (): void => undefined,
       (error: Error): void => {
-        expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
+        expect(error.message).toMatch(/blah\(foo: Bytes\): Bytes/);
         done();
       }
     );
@@ -54,7 +57,7 @@ describe('methodSend', (): void => {
     const method = (rpc as any).createMethodSend(methods.bleh);
 
     method(1).subscribe(
-      (): void => {},
+      (): void => undefined,
       (error: Error): void => {
         expect(error.message).toMatch(/parameters, 1 found instead/);
         done();

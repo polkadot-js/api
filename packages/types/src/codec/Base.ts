@@ -1,21 +1,25 @@
-// Copyright 2017-2019 @polkadot/types authors & contributors
+// Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec, IHash } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJson, BareOpts, Codec, Registry } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import U8a from './U8a';
+import Raw from './Raw';
 
 /**
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
 export default abstract class Base<T extends Codec> implements Codec {
+  public readonly registry: Registry;
+
   protected raw: T;
 
-  public constructor (value?: any) {
+  protected constructor (registry: Registry, value?: any) {
+    this.registry = registry;
     this.raw = value;
   }
 
@@ -29,8 +33,8 @@ export default abstract class Base<T extends Codec> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return new U8a(blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -55,6 +59,13 @@ export default abstract class Base<T extends Codec> implements Codec {
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return this.raw.toHuman(isExtended);
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
@@ -72,7 +83,7 @@ export default abstract class Base<T extends Codec> implements Codec {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (isBare?: BareOpts): Uint8Array {
     return this.raw.toU8a(isBare);
   }
 
