@@ -18,7 +18,7 @@ import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, Option, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/primitive/Extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -68,6 +68,8 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore;
+
+  protected _runtimeChain?: Text;
 
   protected _runtimeMetadata?: Metadata;
 

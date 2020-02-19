@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock } from '@polkadot/types/interfaces';
+import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import { Metadata } from '@polkadot/types';
-import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
+import { combineLatest, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { Metadata, Text } from '@polkadot/types';
+import { getMetadataTypes, getSpecTypes, getUserTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -88,6 +90,27 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     return source.runtimeMetadata;
   }
 
+  // subscribe to metadata updates, inject the types on changes
+  private subscribeUpdates (): void {
+    this._rpcCore.state.subscribeRuntimeVersion().pipe(
+      switchMap((version: RuntimeVersion) =>
+        combineLatest(
+          of(version),
+          this._rpcCore.state.getMetadata()
+        )
+      ),
+      tap(([version, metadata]: [RuntimeVersion, Metadata]): void => {
+        if (!(this._runtimeVersion?.specVersion.eq(version.specVersion))) {
+          console.info(`Runtime version updated to ${version.specVersion}`);
+
+          this._runtimeVersion = version;
+          this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
+          this.injectMetadata(metadata);
+        }
+      })
+    );
+  }
+
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const { typesChain, typesSpec } = this._options;
     const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
@@ -97,9 +120,16 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
       this._rpcCore.system.properties().toPromise()
     ]);
 
-    // based on the node spec & chain, inject specific type overrides
-    this.registerTypes(getChainTypes(chain, runtimeVersion, typesChain, typesSpec));
+    // set our chain version & genesisHash as returned
+    this._genesisHash = genesisHash;
+    this._runtimeChain = chain;
+    this._runtimeVersion = runtimeVersion;
+
+    // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
+    this.registerTypes(getSpecTypes(chain, runtimeVersion));
+    this.registerTypes(getUserTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
@@ -109,10 +139,6 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
-
-    // set our chain version & genesisHash as returned
-    this._genesisHash = genesisHash;
-    this._runtimeVersion = runtimeVersion;
 
     // get unique types & validate
     metadata.getUniqTypes(false);
