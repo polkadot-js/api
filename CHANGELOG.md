@@ -1,5 +1,6 @@
 # 1.4.0-beta.x
 
+- **Important** Support for lazy payouts has been added (latest Substrate 2), older chains should supply `"StakingLedger": "StakingLedgerTo223"` to their types (when using staking ledgers)
 - Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add support for `api.rpc.engine.*` for manual seal support
 - Expand `.toHuman` on ExtrinsicEra, SubmittableResult & Vote
