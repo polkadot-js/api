@@ -5,8 +5,8 @@
 import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import { combineLatest, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Subscription, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
 import { getMetadataTypes, getSpecTypes, getUserTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
@@ -21,6 +21,8 @@ const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
+
+  private _updateSub?: Subscription;
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -55,15 +57,30 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   protected async loadMeta (): Promise<boolean> {
+    const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
+
+    // on re-connection to the same chain, we don't want to re-do everything from chain again
+    if (this._isReady && !this._options.source && genesisHash.eq(this._genesisHash)) {
+      return true;
+    }
+
+    if (this._genesisHash) {
+      l.warn('Connection to new genesis detected, re-initializing');
+    }
+
+    this._genesisHash = genesisHash;
+
+    if (this._updateSub) {
+      this._updateSub.unsubscribe();
+    }
+
     const { metadata = {} } = this._options;
 
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
-    if (!this._options.source || !this._options.source._isReady) {
-      this._runtimeMetadata = await this.metaFromChain(metadata);
-    } else {
-      this._runtimeMetadata = await this.metaFromSource(this._options.source);
-    }
+    this._runtimeMetadata = this._options.source?._isReady
+      ? await this.metaFromSource(this._options.source)
+      : await this.metaFromChain(metadata);
 
     return this.initFromMeta(this._runtimeMetadata);
   }
@@ -92,36 +109,44 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   // subscribe to metadata updates, inject the types on changes
   private subscribeUpdates (): void {
-    this._rpcCore.state.subscribeRuntimeVersion().pipe(
+    if (this._updateSub) {
+      return;
+    }
+
+    this._updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
       switchMap((version: RuntimeVersion) =>
         combineLatest(
           of(version),
           this._rpcCore.state.getMetadata()
         )
       ),
-      tap(([version, metadata]: [RuntimeVersion, Metadata]): void => {
-        if (!(this._runtimeVersion?.specVersion.eq(version.specVersion))) {
-          l.log(`Runtime version updated to ${version.specVersion}`);
-
-          this._runtimeVersion = version;
-          this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
-          this.injectMetadata(metadata);
+      map(([version, metadata]: [RuntimeVersion, Metadata]): boolean => {
+        if (this._runtimeVersion?.specVersion.eq(version.specVersion)) {
+          return false;
         }
+
+        l.log(`Runtime version updated to ${version.specVersion}`);
+
+        this._runtimeMetadata = metadata;
+        this._runtimeVersion = version;
+
+        this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
+        this.injectMetadata(metadata, false);
+
+        return true;
       })
-    );
+    ).subscribe();
   }
 
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const { typesChain, typesSpec } = this._options;
-    const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
-      this._rpcCore.chain.getBlockHash(0).toPromise(),
+    const [runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise()
     ]);
 
     // set our chain version & genesisHash as returned
-    this._genesisHash = genesisHash;
     this._runtimeChain = chain;
     this._runtimeVersion = runtimeVersion;
 
@@ -135,7 +160,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     await this.filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
+    const metadataKey = `${this._genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
@@ -167,7 +192,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
 
-    this.injectMetadata(metadata);
+    this.injectMetadata(metadata, true);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);

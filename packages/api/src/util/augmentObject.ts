@@ -9,7 +9,7 @@ const l = logger('api/augment');
 // log details to console
 function warn (prefix: string, type: 'calls' | 'modules', added: string[], removed: string[]): void {
   if (added.length || removed.length) {
-    l.warn(`api.${prefix}: Found${added.length ? ` ${added.length} added${removed.length ? ' and ' : ''}` : ''}${removed.length ? `${removed.length} removed` : ''} ${type}:${added.length ? `\n\t  added: ${added.sort().join(', ')}` : ''}${removed.length ? `\n\tremoved: ${removed.sort().join(', ')}` : ''}`);
+    l.warn(`api.${prefix}: Found${added.length ? ` ${added.length} added${removed.length ? ' and' : ''}` : ''}${removed.length ? ` ${removed.length} removed` : ''} ${type}:${added.length ? `\n\t  added: ${added.sort().join(', ')}` : ''}${removed.length ? `\n\tremoved: ${removed.sort().join(', ')}` : ''}`);
   }
 }
 
@@ -66,7 +66,13 @@ export function logChanges (prefix: string, src: Record<string, Record<string, a
  * already available, but rather just adds new missing ites into the result object.
  * @internal
  */
-export default function augmentObject (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): Record<string, Record<string, any>> {
+export default function augmentObject (prefix: string, src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>, fromEmpty = false): Record<string, Record<string, any>> {
+  if (fromEmpty) {
+    Object.keys(dst).forEach((key): void => {
+      delete dst[key];
+    });
+  }
+
   if (prefix && Object.keys(dst).length) {
     logChanges(prefix, src, dst);
   }
