@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '../../codec/types';
+import { TypeDef } from '../../create/types';
 import { EventMetadataLatest } from '../../interfaces/metadata';
 import { EventId } from '../../interfaces/system';
-import { Constructor, Registry, RegistryMetadataEvent } from '../../types';
+import { AnyJsonObject, Constructor, Registry, RegistryMetadataEvent } from '../../types';
 
 import Struct from '../../codec/Struct';
 import Tuple from '../../codec/Tuple';
@@ -140,5 +140,14 @@ export default class Event extends Struct {
    */
   public get typeDef (): TypeDef[] {
     return this.data.typeDef;
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public toHuman (isExpanded?: boolean): AnyJsonObject {
+    // FIXME May this human-friendly
+    return this.toJSON();
   }
 }

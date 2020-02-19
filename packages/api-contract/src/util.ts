@@ -4,8 +4,7 @@
 
 import { Codec, Registry, TypeDefInfo, TypeDef } from '@polkadot/types/types';
 
-import { Option, Raw, createClass } from '@polkadot/types';
-import { createTypeUnsafe } from '@polkadot/types/codec';
+import { Option, Raw, createClass, createTypeUnsafe } from '@polkadot/types';
 
 export function formatData (registry: Registry, data: Raw, { info, type }: TypeDef): Codec {
   if (info === TypeDefInfo.Option) {

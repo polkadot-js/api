@@ -13,21 +13,23 @@ async function main () {
 
   // Retrieve the initial balance. Since the call has no callback, it is simply a promise
   // that resolves to the current on-chain value
-  let previous = await api.query.balances.freeBalance(Alice);
+  let [previousNonce, { free: previousFree }] = await api.query.system.account(Alice);
 
-  console.log(`${Alice} has a balance of ${previous}`);
+  console.log(`${Alice} has a balance of ${previousFree}, nonce ${previousNonce}`);
   console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
 
   // Here we subscribe to any balance changes and update the on-screen value
-  api.query.balances.freeBalance(Alice, (current) => {
+  api.query.system.account(Alice, ([currentNonce, { free: currentFree }]) => {
     // Calculate the delta
-    const change = current.sub(previous);
+    const change = currentFree.sub(previousFree);
 
     // Only display positive value changes (Since we are pulling `previous` above already,
     // the initial balance change will also be zero)
     if (!change.isZero()) {
-      previous = current;
-      console.log(`New balance change of: ${change}`);
+      console.log(`New balance change of ${change}, nonce ${currentNonce}`);
+
+      previousFree = currentFree;
+      previousNonce = currentNonce;
     }
   });
 }

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import UInt from './UInt';
 
 describe('UInt', (): void => {
@@ -81,6 +81,20 @@ describe('UInt', (): void => {
 
     it('is true when full', (): void => {
       expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+    });
+  });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (UInt.with(64))(registry).toRawType()
+      ).toEqual('u64');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (UInt.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
     });
   });
 });

@@ -46,10 +46,14 @@ export default class U8aFixed extends Raw {
     return u8a;
   }
 
-  public static with (bitLength: BitLength): Constructor<U8aFixed> {
+  public static with (bitLength: BitLength, typeName?: string): Constructor<U8aFixed> {
     return class extends U8aFixed {
       constructor (registry: Registry, value?: any) {
         super(registry, value, bitLength);
+      }
+
+      public toRawType (): string {
+        return typeName || super.toRawType();
       }
     };
   }

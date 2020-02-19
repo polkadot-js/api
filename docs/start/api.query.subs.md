@@ -25,8 +25,8 @@ If we had a query with parameters, i.e. where we wish to perform a query for a s
 ...
 
 // Subscribe to balance changes for our account
-const unsub = await api.query.balances.freeBalance(ADDR, (balance) => {
-  console.log(`Your account balance is ${balance}`);
+const unsub = await api.query.system.account(ADDR, ([nonce, balance]) => {
+  console.log(`free balance is ${balance.freee} with ${balance.reserved} reserved and a nonce of ${nonce}`);
 });
 ```
 

@@ -14,6 +14,7 @@ import BN from 'bn.js';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { ExactDerive } from '@polkadot/api-derive';
+import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
@@ -25,6 +26,7 @@ import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } 
 
 import { createSubmittable } from '../submittable';
 import { decorateSections, DeriveAllSections } from '../util/decorate';
+import augmentObject from '../util/augmentObject';
 import Events from './Events';
 
 interface MetaDecoration {
@@ -43,11 +45,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
-  protected _consts?: Constants;
+  protected _consts: Constants = {} as Constants;
 
   protected _derive?: ReturnType<Decorate<ApiType>['decorateDerive']>;
 
-  protected _extrinsics?: SubmittableExtrinsics<ApiType>;
+  protected _extrinsics: SubmittableExtrinsics<ApiType> = {} as SubmittableExtrinsics<ApiType>;
 
   protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
@@ -59,7 +61,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected readonly _options: ApiOptions;
 
-  protected _query?: QueryableStorage<ApiType>;
+  protected _query: QueryableStorage<ApiType> = {} as QueryableStorage<ApiType>;
 
   protected _queryMulti?: QueryableStorageMulti<ApiType>;
 
@@ -71,7 +73,11 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected _runtimeVersion?: RuntimeVersion;
 
-  protected _rx: Partial<ApiInterfaceRx> = {};
+  protected _rx: ApiInterfaceRx = {
+    consts: {} as Constants,
+    query: {} as QueryableStorage<'rxjs'>,
+    tx: {} as SubmittableExtrinsics<'rxjs'>
+  } as ApiInterfaceRx;
 
   protected _type: ApiTypes;
 
@@ -138,6 +144,20 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
    */
   get hasSubscriptions (): boolean {
     return this._rpcCore.provider.hasSubscriptions;
+  }
+
+  public injectMetadata (metadata: Metadata): void {
+    const decoratedMeta = new DecoratedMeta(this.registry, metadata);
+
+    // this API
+    augmentObject('tx', this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod), this._extrinsics);
+    augmentObject('query', this.decorateStorage(decoratedMeta.query, this.decorateMethod), this._query);
+    augmentObject('consts', decoratedMeta.consts, this._consts);
+
+    // rx
+    augmentObject('', this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod), this._rx.tx);
+    augmentObject('', this.decorateStorage(decoratedMeta.query, this.rxDecorateMethod), this._rx.query);
+    augmentObject('', decoratedMeta.consts, this._rx.consts);
   }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -219,7 +239,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   }
 
   protected decorateExtrinsics<ApiType extends ApiTypes> (extrinsics: ModulesWithCalls, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
-    const creator = createSubmittable(this._type, this._rx as ApiInterfaceRx, decorateMethod);
+    const creator = createSubmittable(this._type, this._rx, decorateMethod);
 
     return Object.entries(extrinsics).reduce((out, [name, section]): SubmittableExtrinsics<ApiType> => {
       out[name] = Object.entries(section).reduce((out, [name, method]): SubmittableModuleExtrinsics<ApiType> => {
@@ -411,13 +431,13 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected decorateDeriveRx (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<'rxjs', ExactDerive> {
     // Pull in derive from api-derive
-    const derive = decorateDerive(this._rx as ApiInterfaceRx, this._options.derives);
+    const derive = decorateDerive(this._rx, this._options.derives);
 
     return decorateSections<'rxjs', ExactDerive>(derive, decorateMethod);
   }
 
   protected decorateDerive (decorateMethod: DecorateMethod<ApiType>): DeriveAllSections<ApiType, ExactDerive> {
-    return decorateSections<ApiType, ExactDerive>(this._rx.derive as DeriveAllSections<'rxjs', ExactDerive>, decorateMethod);
+    return decorateSections<ApiType, ExactDerive>(this._rx.derive, decorateMethod);
   }
 
   /**

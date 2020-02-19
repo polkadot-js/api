@@ -7,7 +7,7 @@ import { AccountId } from '../../interfaces/runtime';
 import BN from 'bn.js';
 import { bnToBn } from '@polkadot/util';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Bytes from '../Bytes';
 import U32 from '../U32';
 

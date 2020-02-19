@@ -5,7 +5,7 @@
 import { MetadataV7, MetadataV8, ModuleMetadataV8 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
 
 /** @internal */
 export default function toV8 (registry: Registry, { modules }: MetadataV7): MetadataV8 {

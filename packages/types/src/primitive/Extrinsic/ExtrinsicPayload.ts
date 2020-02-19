@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../../interfaces/runtime';
-import { BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
+import { AnyJsonObject, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../../codec/create';
+import { createType } from '../../create';
 import Base from '../../codec/Base';
 import Compact from '../../codec/Compact';
 import Raw from '../../codec/Raw';
@@ -122,6 +122,13 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
     return {
       signature: u8aToHex(signature)
     };
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonObject {
+    return this.raw.toHuman(isExtended);
   }
 
   /**

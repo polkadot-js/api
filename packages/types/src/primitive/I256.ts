@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Registry } from '../types';
-
 import Int from '../codec/Int';
 
 /**
@@ -11,8 +9,4 @@ import Int from '../codec/Int';
  * @description
  * A 256-bit signed integer
  */
-export default class I256 extends Int {
-  constructor (registry: Registry, value?: AnyNumber) {
-    super(registry, value, 256);
-  }
-}
+export default class I256 extends Int.with(256) {}

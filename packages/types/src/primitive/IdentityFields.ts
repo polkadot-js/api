@@ -8,8 +8,9 @@ import BN from 'bn.js';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Set from '../codec/Set';
-import { createType } from '../codec/create/createType';
+import { createType } from '../create/createType';
 
+/** @internal */
 function decodeFields (registry: Registry, value?: any): any {
   if (isString(value)) {
     return decodeFields(registry, u8aToU8a(value.toString()));
@@ -20,6 +21,11 @@ function decodeFields (registry: Registry, value?: any): any {
   return value;
 }
 
+/**
+ * @name IdentityFields
+ * @description
+ * Encoder/Decoder class fo registry IdentityFields
+ */
 export default class IdentityFields extends Set {
   constructor (registry: Registry, value?: any) {
     super(registry, {

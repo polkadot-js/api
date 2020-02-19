@@ -9,7 +9,7 @@ import { CodecTo } from '../types';
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { ClassOf, TypeRegistry } from './create';
+import { ClassOf, TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import U128 from '../primitive/U128';

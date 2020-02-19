@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../types';
+import { TypeDef, TypeDefInfo, TypeDefExtUInt, TypeDefExtVecFixed } from '../../create/types';
 
 import { assert } from '@polkadot/util';
 
@@ -103,6 +103,14 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   })`;
 }
 
+function encodeUInt (typeDef: Pick<TypeDef, any>): string {
+  assert(typeDef.ext, 'Unable to encode VecFixed type');
+
+  const { length } = typeDef.ext as TypeDefExtUInt;
+
+  return `UInt<${length}>`;
+}
+
 function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.ext, 'Unable to encode VecFixed type');
 
@@ -127,6 +135,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
   [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
   [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
+  [TypeDefInfo.UInt]: (typeDef: TypeDef): string => encodeUInt(typeDef),
   [TypeDefInfo.Vec]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Vec'),
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };

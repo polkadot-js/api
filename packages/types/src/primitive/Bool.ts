@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IHash, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { Codec, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../codec/create';
+import { createType } from '../create';
 
 /** @internal */
 function decodeBool (value: any): boolean {
@@ -46,8 +47,8 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
-    return createType(this.registry, 'Hash', blake2AsU8a(this.toU8a(), 256));
+  public get hash (): H256 {
+    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**
@@ -87,6 +88,13 @@ export default class Bool extends Boolean implements Codec {
    */
   public toHex (): string {
     return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (): boolean {
+    return this.toJSON();
   }
 
   /**

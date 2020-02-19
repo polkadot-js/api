@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, TypeRegistry } from '../../codec/create';
+import { createType, TypeRegistry } from '../../create';
 import AccountIndex from './AccountIndex';
 
 describe('AccountIndex', (): void => {

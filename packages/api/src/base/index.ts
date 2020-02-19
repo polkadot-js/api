@@ -123,14 +123,14 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.account(<accountId>)` (retrieving the associated nonce & balances for an account), takes the `AccountId` as a parameter.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.query.balances.freeBalance(<accountId>, (balance) => {
-   *   console.log('new balance', balance);
+   * api.query.system.account(<accountId>, ([nonce, balance]) => {
+   *   console.log('new free balance', balance.free, 'new nonce', nonce);
    * });
    * ```
    */
@@ -150,10 +150,10 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    *     // you can include the storage without any parameters
    *     api.query.balances.totalIssuance,
    *     // or you can pass parameters to the storage query
-   *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
+   *     [api.query.system.account, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
-   *   ([existential, balance]) => {
-   *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *   ([existential, [, { free }]]) => {
+   *     console.log(`You have ${free.sub(existential)} more than the existential deposit`);
    *
    *     unsub();
    *   }

@@ -8,7 +8,7 @@ import Decorated from '@polkadot/metadata/Decorated';
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import { TypeRegistry } from '../../../codec/create';
+import { TypeRegistry } from '../../../create';
 import Extrinsic from './Extrinsic';
 
 const registry = new TypeRegistry();

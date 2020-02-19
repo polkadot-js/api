@@ -5,7 +5,7 @@
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
 import { Codec, CodecArg } from '@polkadot/types/types';
-import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/codec/create/types';
+import { MetaRegistryJson, StringIndex, TypeIndex, TypeDef } from '@polkadot/types/create/types';
 
 // import { Observable } from 'rxjs';
 import { ApiPromise, ApiRx } from '@polkadot/api';

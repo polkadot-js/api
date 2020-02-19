@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import { TypeRegistry } from '../../codec';
+import { TypeRegistry } from '../../create';
 import Call from './Call';
 
 const registry = new TypeRegistry();

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import U8aFixed from './U8aFixed';
 
 describe('U8aFixed', (): void => {
@@ -61,6 +61,20 @@ describe('U8aFixed', (): void => {
 
     it('hash a sane toRawType', (): void => {
       expect(u8a.toRawType()).toEqual('[u8;4]');
+    });
+  });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (U8aFixed.with(64))(registry).toRawType()
+      ).toEqual('[u8;8]');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (U8aFixed.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
     });
   });
 });

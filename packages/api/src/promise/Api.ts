@@ -154,7 +154,7 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
  * import ApiPromise from '@polkadot/api/promise';
  *
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.query.system.accountNonce(keyring.alice.address);
+ *   const [nonce] = await api.query.system.account(keyring.alice.address);
  *
  *   api.tx.balances
  *     // create transfer
@@ -256,10 +256,9 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
    *   api.rpc.chain.subscribeNewHeads,
-   *   [api.query.balances.freeBalance, address],
-   *   (cb) => api.query.system.accountNonce(address, cb)
-   * ], ([head, balance, nonce]) => {
-   *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
+   *   (cb) => api.query.system.account(address, cb)
+   * ], ([head, [balance, nonce]]) => {
+   *   console.log(`#${head.number}: You have ${balance.free} units, with ${nonce} transactions sent`);
    * });
    * ```
    */

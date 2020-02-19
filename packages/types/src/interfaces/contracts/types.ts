@@ -1,8 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec } from '@polkadot/types/types';
-import { Compact, Enum, Option, Raw, Struct } from '@polkadot/types/codec';
+import { Compact, Enum, Option, Raw, Struct, U8aFixed } from '@polkadot/types/codec';
 import { Bytes, Null, bool, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
@@ -50,7 +49,7 @@ export interface ContractInfo extends Enum {
 }
 
 /** @name ContractStorageKey */
-export interface ContractStorageKey extends Uint8Array, Codec {}
+export interface ContractStorageKey extends U8aFixed {}
 
 /** @name Gas */
 export interface Gas extends u64 {}

@@ -2,7 +2,7 @@
 
 function copy_folder () {
   SRC="packages/$1/build"
-  DST="../apps/node_modules/@polkadot/$2"
+  DST="../apps/node_modules/@polkadot/$1"
 
   echo "** Copying $SRC to $DST"
 
@@ -12,11 +12,11 @@ function copy_folder () {
 
 yarn polkadot-dev-build-ts
 
-copy_folder "api" "api"
-copy_folder "api-contract" "api-contract"
-copy_folder "api-derive" "api-derive"
-copy_folder "metadata" "metadata"
-copy_folder "rpc-core" "rpc-core"
-copy_folder "rpc-provider" "rpc-provider"
-copy_folder "type-jsonrpc" "jsonrpc"
-copy_folder "types" "types"
+copy_folder "api"
+copy_folder "api-contract"
+copy_folder "api-derive"
+copy_folder "metadata"
+copy_folder "rpc-core"
+copy_folder "rpc-provider"
+copy_folder "jsonrpc"
+copy_folder "types"

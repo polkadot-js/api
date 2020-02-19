@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from '../create';
 import Int from './Int';
 
 describe('Int', (): void => {
@@ -50,5 +50,19 @@ describe('Int', (): void => {
   it('converts to JSON depending on flags', (): void => {
     expect(new Int(registry, 0x12, 16).toJSON()).toEqual('0x0012');
     expect(new Int(registry, 0x12, 16, false).toJSON()).toEqual(0x12);
+  });
+
+  describe('static with', (): void => {
+    it('allows default toRawType', (): void => {
+      expect(
+        new (Int.with(64))(registry).toRawType()
+      ).toEqual('i64');
+    });
+
+    it('allows toRawType override', (): void => {
+      expect(
+        new (Int.with(64, 'SomethingElse'))(registry).toRawType()
+      ).toEqual('SomethingElse');
+    });
   });
 });

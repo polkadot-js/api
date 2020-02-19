@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../../interfaces/metadata';
-import { AnyU8a, ArgsDef, Codec, IMethod, Registry } from '../../types';
+import { AnyJsonObject, AnyU8a, ArgsDef, CallFunction, Codec, IMethod, Registry } from '../../types';
 
-import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../../codec/create';
+import { getTypeDef, getTypeClass } from '../../create';
 import Struct from '../../codec/Struct';
 import U8aFixed from '../../codec/U8aFixed';
 
@@ -19,6 +19,84 @@ interface DecodeMethodInput {
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadataLatest;
+}
+
+/**
+ * Get a mapping of `argument name -> argument type` for the function, from
+ * its metadata.
+ *
+ * @param meta - The function metadata used to get the definition.
+ * @internal
+ */
+function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
+    const Type = getTypeClass(registry, getTypeDef(type.toString()));
+    result[name.toString()] = Type;
+
+    return result;
+  }, {} as ArgsDef);
+}
+
+/** @internal */
+function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
+  // we only pass args/methodsIndex out
+  const { args, callIndex } = value;
+
+  // Get the correct lookupIndex
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const lookupIndex = callIndex instanceof CallIndex
+    ? callIndex.toU8a()
+    : callIndex;
+
+  // Find metadata with callIndex
+  const meta = _meta || registry.findMetaCall(lookupIndex).meta;
+
+  return {
+    args,
+    argsDef: getArgsDef(registry, meta),
+    meta,
+    callIndex
+  };
+}
+
+/** @internal */
+function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
+  // We need 2 bytes for the callIndex
+  const callIndex = new Uint8Array(2);
+
+  callIndex.set(value.subarray(0, 2), 0);
+
+  // Find metadata with callIndex
+  const meta = _meta || registry.findMetaCall(callIndex).meta;
+
+  return {
+    args: value.subarray(2),
+    argsDef: getArgsDef(registry, meta),
+    callIndex,
+    meta
+  };
+}
+
+/**
+ * Decode input to pass into constructor.
+ *
+ * @param value - Value to decode, one of:
+ * - hex
+ * - Uint8Array
+ * - {@see DecodeMethodInput}
+ * @param _meta - Metadata to use, so that `injectMethods` lookup is not
+ * necessary.
+ * @internal
+ */
+function decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+  if (isHex(value) || isU8a(value)) {
+    return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
+  } else if (isObject(value) && value.callIndex && value.args) {
+    return decodeCallViaObject(registry, value, _meta);
+  }
+
+  throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
 }
 
 /**
@@ -42,7 +120,7 @@ export default class Call extends Struct implements IMethod {
   protected _meta: FunctionMetadataLatest;
 
   constructor (registry: Registry, value: any, meta?: FunctionMetadataLatest) {
-    const decoded = Call.decodeCall(registry, value, meta);
+    const decoded = decodeCall(registry, value, meta);
 
     super(registry, {
       callIndex: CallIndex,
@@ -50,66 +128,6 @@ export default class Call extends Struct implements IMethod {
     }, decoded);
 
     this._meta = decoded.meta;
-  }
-
-  /**
-   * Decode input to pass into constructor.
-   *
-   * @param value - Value to decode, one of:
-   * - hex
-   * - Uint8Array
-   * - {@see DecodeMethodInput}
-   * @param _meta - Metadata to use, so that `injectMethods` lookup is not
-   * necessary.
-   * @internal
-   */
-  private static decodeCall (registry: Registry, value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
-    if (isHex(value) || isU8a(value)) {
-      return Call.decodeCallViaU8a(registry, u8aToU8a(value), _meta);
-    } else if (isObject(value) && value.callIndex && value.args) {
-      return Call.decodeCallViaObject(registry, value, _meta);
-    }
-
-    throw new Error(`Call: Cannot decode value '${value}' of type ${typeof value}`);
-  }
-
-  /** @internal */
-  private static decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: FunctionMetadataLatest): DecodedMethod {
-    // we only pass args/methodsIndex out
-    const { args, callIndex } = value;
-
-    // Get the correct lookupIndex
-    const lookupIndex = callIndex instanceof CallIndex
-      ? callIndex.toU8a()
-      : callIndex;
-
-    // Find metadata with callIndex
-    const meta = _meta || registry.findMetaCall(lookupIndex).meta;
-
-    return {
-      args,
-      argsDef: Call.getArgsDef(registry, meta),
-      meta,
-      callIndex
-    };
-  }
-
-  /** @internal */
-  private static decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
-    // We need 2 bytes for the callIndex
-    const callIndex = new Uint8Array(2);
-
-    callIndex.set(value.subarray(0, 2), 0);
-
-    // Find metadata with callIndex
-    const meta = _meta || registry.findMetaCall(callIndex).meta;
-
-    return {
-      args: value.subarray(2),
-      argsDef: Call.getArgsDef(registry, meta),
-      callIndex,
-      meta
-    };
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
@@ -120,22 +138,6 @@ export default class Call extends Struct implements IMethod {
         type.toString() !== 'Origin'
       )
       : [];
-  }
-
-  /**
-   * Get a mapping of `argument name -> argument type` for the function, from
-   * its metadata.
-   *
-   * @param meta - The function metadata used to get the definition.
-   * @internal
-   */
-  private static getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
-    return Call.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-      const Type = getTypeClass(registry, getTypeDef(type.toString()));
-      result[name.toString()] = Type;
-
-      return result;
-    }, {} as ArgsDef);
   }
 
   /**
@@ -150,7 +152,7 @@ export default class Call extends Struct implements IMethod {
    * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
-    return Call.getArgsDef(this.registry, this.meta);
+    return getArgsDef(this.registry, this.meta);
   }
 
   /**
@@ -195,6 +197,30 @@ export default class Call extends Struct implements IMethod {
    */
   public get sectionName (): string {
     return this.registry.findMetaCall(this.callIndex).section;
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): AnyJsonObject {
+    let call: CallFunction | undefined;
+
+    try {
+      call = this.registry.findMetaCall(this.callIndex);
+    } catch (error) {
+      // swallow
+    }
+
+    return {
+      callIndex: u8aToHex(this.callIndex),
+      section: call?.section,
+      method: call?.method,
+      args: this.args.map((arg) => arg.toHuman(isExpanded)),
+      ...(isExpanded && call
+        ? { documentation: call.meta.documentation.map((d) => d.toString()) }
+        : {}
+      )
+    };
   }
 
   /**
