@@ -34,7 +34,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -42,7 +43,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];
