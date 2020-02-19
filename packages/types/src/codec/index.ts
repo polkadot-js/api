@@ -19,12 +19,12 @@ export { default as Set } from './Set';
 export { default as Struct } from './Struct';
 // export { default as StructAny } from './StructAny';
 export { default as Tuple } from './Tuple';
-export { default as U8aFixed } from './U8aFixed';
 export { default as Vec } from './Vec';
 
 // Convenience base classes, used as "anything of this type" bases
 export { default as Raw } from './Raw';
 export { default as UInt } from './UInt';
+export { default as U8aFixed } from './U8aFixed';
 
 // Type management helper functions
 export * from './utils/encodeTypes';
