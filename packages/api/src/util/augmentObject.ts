@@ -4,6 +4,8 @@
 
 import { logger } from '@polkadot/util';
 
+type StringsStrings = [string[], string[]];
+
 const l = logger('api/augment');
 
 function logLength (type: 'added' | 'removed', values: string[], and: string[] = []): string {
@@ -19,13 +21,13 @@ function logValues (type: 'added' | 'removed', values: string[]): string {
 }
 
 // log details to console
-function warn (prefix: string, type: 'calls' | 'modules', added: string[], removed: string[]): void {
+function warn (prefix: string, type: 'calls' | 'modules', [added, removed]: StringsStrings): void {
   if (added.length || removed.length) {
     l.warn(`api.${prefix}: Found${logLength('added', added, removed)}${logLength('removed', removed)} ${type}:${logValues('added', added)}${logValues('removed', removed)}`);
   }
 }
 
-function extractKeys (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+function extractKeys (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
   return [Object.keys(src), Object.keys(dst)];
 }
 
@@ -33,7 +35,7 @@ function findSectionExcludes (a: string[], b: string[]): string[] {
   return a.filter((section): boolean => !b.includes(section));
 }
 
-function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
   const [srcSections, dstSections] = extractKeys(src, dst);
 
   return [
@@ -60,7 +62,7 @@ function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Reco
     }, []);
 }
 
-function extractMethods (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): [string[], string[]] {
+function extractMethods (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
   return [
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
@@ -80,8 +82,8 @@ export default function augmentObject (prefix: string, src: Record<string, Recor
   }
 
   if (prefix && Object.keys(dst).length) {
-    warn(prefix, 'modules', ...extractSections(src, dst));
-    warn(prefix, 'calls', ...extractMethods(src, dst));
+    warn(prefix, 'modules', extractSections(src, dst));
+    warn(prefix, 'calls', extractMethods(src, dst));
   }
 
   return Object
