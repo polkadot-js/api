@@ -50,8 +50,6 @@ const getStorageSize: RpcMethodOpt = {
 
 const CHILD_QUERY_PARAMS = [
   createParam('childStorageKey', 'StorageKey'),
-  createParam('childDefinition', 'StorageKey'),
-  createParam('childType', 'u32'),
   createParam('key', 'StorageKey'),
   createParam('at', 'BlockHash', { isOptional: true })
 ];

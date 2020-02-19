@@ -3,7 +3,7 @@
 
 import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, StorageData, StorageKey, Text, bool, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
 import { AccountId, BlockNumber, Extrinsic, H256, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
@@ -108,19 +108,19 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Retrieves the keys with prefix of a specific child storage
        **/
-      getChildKeys(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
+      getChildKeys(childStorageKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Vec<StorageKey>>;
       /**
        * Retrieves the child storage for a key
        **/
-      getChildStorage(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<StorageData>;
+      getChildStorage(childStorageKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<StorageData>;
       /**
        * Retrieves the child storage hash
        **/
-      getChildStorageHash(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
+      getChildStorageHash(childStorageKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<Hash>;
       /**
        * Retrieves the child storage size
        **/
-      getChildStorageSize(childStorageKey: StorageKey | string | Uint8Array | any, childDefinition: StorageKey | string | Uint8Array | any, childType: u32 | AnyNumber | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
+      getChildStorageSize(childStorageKey: StorageKey | string | Uint8Array | any, key: StorageKey | string | Uint8Array | any, at?: BlockHash | string | Uint8Array): Observable<u64>;
       /**
        * Retrieves the keys with a certain prefix
        **/
