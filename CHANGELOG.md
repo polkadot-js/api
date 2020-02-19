@@ -1,5 +1,7 @@
 # 1.4.0-beta.x
 
+- Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
+- Add support for `api.rpc.engine.*` for manual seal support
 - Expand `.toHuman` on ExtrinsicEra, SubmittableResult & Vote
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
@@ -7,6 +9,7 @@
 - Expose static with on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 - Support for arbitrary UInt types via `UInt<bitLength>` definitions
 - Add `api.injectMetadata(metadata)` to initialize with a specific version
+- The api now checks for runtime upgrades, decorating with new metadata
 
 # 1.3.1 Feb 18, 2020
 
@@ -24,7 +27,7 @@
 - Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
 - Add `BitVec` type primitive
 - Add support for `system.account` for balance & nonce queries in derives as well as Submittables (Substrate composites)
-- Add `rpc.author.hasKey` and `rpc.author.hasSessinKeys` RPCs
+- Add `rpc.author.hasKey` and `rpc.author.hasSessionKeys` RPCs
 - Add derives for the parachains interfaces
 - Applied the latest types for Polkadot parachains
 - `registry.findMetaError` now can take in a `DispatchErrorModule` object for error lookups (from `asModule` in `DispatchError`)

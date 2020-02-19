@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock } from '@polkadot/types/interfaces';
+import { SignedBlock, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 
-import { Metadata } from '@polkadot/types';
-import { getChainTypes, getMetadataTypes } from '@polkadot/types/known';
+import { Subscription, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Metadata, Text } from '@polkadot/types';
+import { getMetadataTypes, getSpecTypes, getUserTypes } from '@polkadot/types/known';
 import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -15,16 +17,18 @@ import Decorate from './Decorate';
 
 const KEEPALIVE_INTERVAL = 15000;
 
-const l = logger('api/decorator');
+const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   private _healthTimer: NodeJS.Timeout | null = null;
+
+  private _updateSub?: Subscription;
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
 
     if (!this.hasSubscriptions) {
-      console.warn('Api will be available in a limited mode since the provider does not support subscriptions');
+      l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
     // We only register the types (global) if this is not a cloned instance.
@@ -53,15 +57,30 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
   }
 
   protected async loadMeta (): Promise<boolean> {
+    const genesisHash = await this._rpcCore.chain.getBlockHash(0).toPromise();
+
+    // on re-connection to the same chain, we don't want to re-do everything from chain again
+    if (this._isReady && !this._options.source && genesisHash.eq(this._genesisHash)) {
+      return true;
+    }
+
+    if (this._genesisHash) {
+      l.warn('Connection to new genesis detected, re-initializing');
+    }
+
+    this._genesisHash = genesisHash;
+
+    if (this._updateSub) {
+      this._updateSub.unsubscribe();
+    }
+
     const { metadata = {} } = this._options;
 
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
-    if (!this._options.source || !this._options.source._isReady) {
-      this._runtimeMetadata = await this.metaFromChain(metadata);
-    } else {
-      this._runtimeMetadata = await this.metaFromSource(this._options.source);
-    }
+    this._runtimeMetadata = this._options.source?._isReady
+      ? await this.metaFromSource(this._options.source)
+      : await this.metaFromChain(metadata);
 
     return this.initFromMeta(this._runtimeMetadata);
   }
@@ -88,31 +107,63 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     return source.runtimeMetadata;
   }
 
+  // subscribe to metadata updates, inject the types on changes
+  private subscribeUpdates (): void {
+    if (this._updateSub) {
+      return;
+    }
+
+    this._updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
+      switchMap((version: RuntimeVersion) =>
+        combineLatest(
+          of(version),
+          this._rpcCore.state.getMetadata()
+        )
+      ),
+      map(([version, metadata]: [RuntimeVersion, Metadata]): boolean => {
+        if (this._runtimeVersion?.specVersion.eq(version.specVersion)) {
+          return false;
+        }
+
+        l.log(`Runtime version updated to ${version.specVersion}`);
+
+        this._runtimeMetadata = metadata;
+        this._runtimeVersion = version;
+
+        this.registerTypes(getSpecTypes(this._runtimeChain as Text, version));
+        this.injectMetadata(metadata, false);
+
+        return true;
+      })
+    ).subscribe();
+  }
+
   private async metaFromChain (optMetadata: Record<string, string>): Promise<Metadata> {
     const { typesChain, typesSpec } = this._options;
-    const [genesisHash, runtimeVersion, chain, chainProps] = await Promise.all([
-      this._rpcCore.chain.getBlockHash(0).toPromise(),
+    const [runtimeVersion, chain, chainProps] = await Promise.all([
       this._rpcCore.state.getRuntimeVersion().toPromise(),
       this._rpcCore.system.chain().toPromise(),
       this._rpcCore.system.properties().toPromise()
     ]);
 
-    // based on the node spec & chain, inject specific type overrides
-    this.registerTypes(getChainTypes(chain, runtimeVersion, typesChain, typesSpec));
+    // set our chain version & genesisHash as returned
+    this._runtimeChain = chain;
+    this._runtimeVersion = runtimeVersion;
+
+    // do the setup for the specific chain
     this.registry.setChainProperties(chainProps);
+    this.registerTypes(getSpecTypes(chain, runtimeVersion));
+    this.registerTypes(getUserTypes(chain, runtimeVersion, typesChain, typesSpec));
+    this.subscribeUpdates();
 
     // filter the RPC methods (this does an rpc-methods call)
     await this.filterRpc();
 
     // retrieve metadata, either from chain  or as pass-in via options
-    const metadataKey = `${genesisHash}-${runtimeVersion.specVersion}`;
+    const metadataKey = `${this._genesisHash}-${runtimeVersion.specVersion}`;
     const metadata = metadataKey in optMetadata
       ? new Metadata(this.registry, optMetadata[metadataKey])
       : await this._rpcCore.state.getMetadata().toPromise();
-
-    // set our chain version & genesisHash as returned
-    this._genesisHash = genesisHash;
-    this._runtimeVersion = runtimeVersion;
 
     // get unique types & validate
     metadata.getUniqTypes(false);
@@ -141,7 +192,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
 
-    this.injectMetadata(metadata);
+    this.injectMetadata(metadata, true);
 
     // derive is last, since it uses the decorated rx
     this._rx.derive = this.decorateDeriveRx(this.rxDecorateMethod);
