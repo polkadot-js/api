@@ -3,4 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as Metadata } from '@polkadot/metadata/Metadata';
+
+export * from './extrinsic';
+export * from './generic';
 export * from './primitive';
