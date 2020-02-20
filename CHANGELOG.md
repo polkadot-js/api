@@ -2,6 +2,7 @@
 
 - Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add support for `api.rpc.engine.*` for manual seal support
+- Add runtime validation of number of arguments to `api.query.*`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
