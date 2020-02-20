@@ -6,7 +6,6 @@ import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
 import { createType, TypeRegistry } from '../../create';
-import events from '../../json/SignedBlock.002.json';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
 import knownMehods from '../../json/SignedBlock.005.json';
@@ -18,21 +17,16 @@ new Metadata(registry, metadataStatic);
 
 describe('SignedBlock', (): void => {
   it('decodes a full block', (): void => {
-    const s = createType(registry, 'SignedBlock', events.result);
+    const s = createType(registry, 'SignedBlock', knownMehods.result);
 
     expect(
       s.block.header.stateRoot.toString()
-    ).toEqual('0x24bab7fe0fee187a57bd0029ba151e81a0bae0fea96ad9f85c579c1ba9d88948');
-    expect(s.block.header.digest.logs.length).toBe(1);
-    expect(s.block.header.digest.logs[0].type).toBe('AuthoritiesChange');
-    expect(s.block.header.digest.logs[0].value.toJSON()).toEqual([
-      '5EyrU8k6worwXWfW2LajRvS7XF6eta286tMpHeHUwMPpzUwT',
-      '5Dpq7rU6KAZVdRtcegvpCoeJtZzFPzieRkRz4xajRAiMRxCd',
-      '5CCtQPAYtuDXt6H4WMrn5nFNk4gemkVRD3k1r1mA7YiZLPP5',
-      '5F2ABwFm3fUhWMZT7Zeu7UjCr1dndjJD7qBeHChJhiJC99UH',
-      '5CA1n5DSpE46Q9Y7NaqD39T9X7S2dRtscsPvrv2dWuYhFg5U',
-      '5CrxmsTCLbPRzHnFPs8Q6cx8jzHweegMSQYEJBGXLjDZWDNv',
-      '5EQ4ZxYew2CXPkjGCBuPdTVg7Hp3bmBXiXBwn1iDmvj6CY3u'
+    ).toEqual('0xc7803b39c1b30a87566ec9d95890db76cf2eee7034faee4c8a0997759e7bcb7e');
+    expect(s.block.header.digest.logs.length).toBe(2);
+    expect(s.block.header.digest.logs[0].type).toBe('PreRuntime');
+    expect(s.block.header.digest.logs[0].value.toHuman()).toEqual([
+      'BABE',
+      '0xa5cb8138000000000000000000000000549baa911a66f7bab6318a6930380bfd015713f77b6775d2df467d37dadd224dda0a80881cfbddc580d45b3b7358f28e4990d950df4508590543d39d635b3402822279397c1d55449b201710c706ce5de3fd3cb2e269bea6ba89c71e4446fd06'
     ]);
   });
 

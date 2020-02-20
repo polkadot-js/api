@@ -66,6 +66,12 @@ function tsEnum (definitions: object, { name: enumName, sub }: TypeDef, imports:
   return exportInterface(enumName, 'Enum', keys.join(''));
 }
 
+function tsInt (definitions: object, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
+  setImports(definitions, imports, [type]);
+
+  return exportInterface(def.name, type);
+}
+
 /** @internal */
 function tsResultGetter (definitions: object, resultName = '', getter: 'Ok' | 'Error', def: TypeDef, imports: TypeImports): string {
   const { info, type } = def;
@@ -124,9 +130,7 @@ function tsStruct (definitions: object, { name: structName, sub }: TypeDef, impo
 
 /** @internal */
 function tsUInt (definitions: object, def: TypeDef, imports: TypeImports): string {
-  setImports(definitions, imports, ['UInt']);
-
-  return exportInterface(def.name, 'UInt');
+  return tsInt(definitions, def, imports, 'UInt');
 }
 
 /** @internal */
@@ -154,6 +158,7 @@ function generateInterfaces (definitions: object, { types }: { types: Record<str
     [TypeDefInfo.BTreeSet]: tsBTreeSet,
     [TypeDefInfo.Compact]: tsCompact,
     [TypeDefInfo.Enum]: tsEnum,
+    [TypeDefInfo.Int]: tsInt,
     [TypeDefInfo.Linkage]: errorUnhandled,
     [TypeDefInfo.Null]: errorUnhandled,
     [TypeDefInfo.Option]: tsOption,

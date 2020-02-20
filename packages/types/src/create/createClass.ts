@@ -11,6 +11,7 @@ import BTreeMap from '../codec/BTreeMap';
 import BTreeSet from '../codec/BTreeSet';
 import Compact from '../codec/Compact';
 import Enum from '../codec/Enum';
+import Int from '../codec/Int';
 import Option from '../codec/Option';
 import Result from '../codec/Result';
 import CodecSet from '../codec/Set';
@@ -76,6 +77,14 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
   );
 }
 
+function createInt (value: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
+  assert(value.ext, `Expected bitLength information for ${Clazz.constructor.name}<bitLength>`);
+
+  const ext = value.ext as TypeDefExtUInt;
+
+  return Clazz.with(ext.length, ext.typeName);
+}
+
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
   [TypeDefInfo.BTreeMap]: (registry: Registry, value: TypeDef): Constructor => {
     const [keyType, valueType] = getTypeClassArray(value);
@@ -89,6 +98,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
+
+  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
@@ -133,13 +144,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => {
-    assert(value.ext, 'Expected bitLength information for UInt<bitLength>');
-
-    const ext = value.ext as TypeDefExtUInt;
-
-    return UInt.with(ext.length, ext.typeName);
-  },
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);

@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   Tuple,
   Vec,
   VecFixed,
+  Int,
   UInt,
   // anything not fully supported (keep this as the last entry)
   Null
