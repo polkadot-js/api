@@ -8,7 +8,6 @@
 // others, so there _should_ not be need for direct use)
 
 // These are the base codec types, generally used for construction
-export { default as BitVec } from './BitVec';
 export { default as BTreeMap } from './BTreeMap';
 export { default as BTreeSet } from './BTreeSet';
 export { default as Compact } from './Compact';

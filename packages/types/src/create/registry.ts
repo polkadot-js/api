@@ -102,7 +102,7 @@ export class TypeRegistry implements Registry {
     const definitions: Record<string, { types: RegistryTypes }> = require('../interfaces/definitions');
 
     // since these are classes, they are injected first
-    this.register({ BitVec, Raw, ...baseTypes });
+    this.register({ Raw, ...baseTypes });
 
     // since these are definitions, they would only get created when needed
     Object.values(definitions).forEach(({ types }): void =>

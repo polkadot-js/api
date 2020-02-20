@@ -8,6 +8,7 @@
 /**
  * @summary Type definitions that are used in the system
  */
+export { default as BitVec } from './BitVec';
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
