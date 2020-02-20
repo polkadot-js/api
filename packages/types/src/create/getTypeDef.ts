@@ -90,18 +90,22 @@ function _decodeTuple (value: TypeDef, _: string, subType: string): TypeDef {
   return value;
 }
 
-// decode a fixed vector, e.g. [u8;32]
+// decode a Int/UInt<bitLength[, name]>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _decodeUInt (value: TypeDef, type: string, _: string): TypeDef {
-  const _bitLength = type.substr(5, type.length - 6);
-  const length = parseInt(_bitLength.trim(), 10);
+function _decodeInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt' = 'Int'): TypeDef {
+  const [strLength, typeName] = type.substr(clazz.length + 1, type.length - clazz.length - 1 - 1).split(',');
+  const length = parseInt(strLength.trim(), 10);
 
   // as a first round, only u8 via u8aFixed, we can add more support
-  assert(length <= 8192 && (length % 8) === 0, `${type}: Only support for UInt<bitLength>, where length <= 8192 and a power of 8`);
+  assert(length <= 8192 && (length % 8) === 0, `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
 
-  value.ext = { length } as TypeDefExtUInt;
+  value.ext = { length, typeName } as TypeDefExtUInt;
 
   return value;
+}
+
+function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
+  return _decodeInt(value, type, subType, 'UInt');
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
@@ -120,6 +124,7 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
   // the inner for these are the same as tuple, multiple values
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
+  ['Int<', '>', TypeDefInfo.Int, _decodeInt],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt]
 ];

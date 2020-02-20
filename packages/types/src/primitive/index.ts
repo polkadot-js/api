@@ -17,7 +17,6 @@ export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';
 export { default as i64 } from './I64';
-export { default as Fixed64 } from './I64Fixed';
 export { default as i128 } from './I128';
 export { default as i256 } from './I256';
 export { default as Null } from './Null';

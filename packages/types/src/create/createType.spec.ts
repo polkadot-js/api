@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Int from '../codec/Int';
 import CodecSet from '../codec/Set';
 import { createClass, createType, createTypeUnsafe, ClassOf, TypeRegistry } from '.';
 
@@ -10,11 +11,20 @@ describe('createType', (): void => {
 
   it('allows creation of a H256 (with proper toRawType)', (): void => {
     expect(
-      createTypeUnsafe(registry, 'H256').toRawType()
+      createType(registry, 'H256').toRawType()
     ).toEqual('H256');
     expect(
-      createTypeUnsafe(registry, 'Hash').toRawType()
+      createType(registry, 'Hash').toRawType()
     ).toEqual('H256');
+  });
+
+  it('allows creation of a Fixed64 (with proper toRawType & instance)', (): void => {
+    const f64 = createType(registry, 'Fixed64');
+
+    expect(f64.toRawType()).toEqual('Fixed64');
+    expect(f64.bitLength()).toEqual(64);
+    expect(f64.isUnsigned).toBe(false);
+    expect(f64 instanceof Int).toBe(true);
   });
 
   it('allows creation of a Struct', (): void => {

@@ -4,7 +4,7 @@
 - Add support for `api.rpc.engine.*` for manual seal support
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
-- Move `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
+- Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
 - Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 - `UInt` & `Int` now does source bitLength checks upon construction
