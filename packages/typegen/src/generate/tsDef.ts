@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import fs from 'fs';
 import path from 'path';
@@ -135,9 +135,7 @@ function tsUInt (definitions: object, def: TypeDef, imports: TypeImports): strin
 
 /** @internal */
 function tsVec (definitions: object, def: TypeDef, imports: TypeImports): string {
-  const type = def.info === TypeDefInfo.VecFixed
-    ? (def.ext as TypeDefExtVecFixed).type
-    : (def.sub as TypeDef).type;
+  const type = (def.sub as TypeDef).type;
 
   if (def.info === TypeDefInfo.VecFixed && type === 'u8') {
     setImports(definitions, imports, ['U8aFixed']);

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UIntBitLength } from '../codec/AbstractInt';
 import { Codec, InterfaceTypes } from '../types';
 
 import { InterfaceRegistry } from '../interfaceRegistry';
@@ -32,15 +31,8 @@ export enum TypeDefInfo {
   Null
 }
 
-export interface TypeDefExtUInt {
-  length: UIntBitLength;
-  typeName?: string;
-}
-
-export interface TypeDefExtVecFixed {
+export interface TypeDefExtLength {
   length: number;
-  rawName?: string;
-  type: string;
 }
 
 export interface TypeDefExtEnumDiscriminant {
@@ -51,7 +43,7 @@ export interface TypeDef {
   info: TypeDefInfo;
   index?: number;
   displayName?: string;
-  ext?: TypeDefExtEnumDiscriminant | TypeDefExtUInt | TypeDefExtVecFixed; // add additional here as required
+  ext?: TypeDefExtEnumDiscriminant | TypeDefExtLength; // add additional here as required
   name?: string;
   namespace?: string;
   params?: TypeDef[];

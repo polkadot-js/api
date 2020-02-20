@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { FromReg, TypeDef, TypeDefExtLength, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
+import { UIntBitLength } from '../codec/AbstractInt';
 import BTreeMap from '../codec/BTreeMap';
 import BTreeSet from '../codec/BTreeSet';
 import Compact from '../codec/Compact';
@@ -80,9 +81,9 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
 function createInt (value: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
   assert(value.ext, `Expected bitLength information for ${Clazz.constructor.name}<bitLength>`);
 
-  const ext = value.ext as TypeDefExtUInt;
+  const { length } = value.ext as TypeDefExtLength;
 
-  return Clazz.with(ext.length, ext.typeName);
+  return Clazz.with(length as UIntBitLength, value.displayName);
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
@@ -159,12 +160,13 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.VecFixed]: (registry: Registry, value: TypeDef): Constructor => {
     assert(value.ext, 'Expected length & type information for fixed vector');
 
-    const ext = value.ext as TypeDefExtVecFixed;
+    const { length } = value.ext as TypeDefExtLength;
+    const sub = value.sub as TypeDef;
 
     return (
-      ext.type === 'u8'
-        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength, ext.rawName)
-        : VecFixed.with(ext.type as InterfaceTypes, ext.length)
+      sub.type === 'u8'
+        ? U8aFixed.with((length * 8) as U8aFixedBitLength, value.displayName)
+        : VecFixed.with(sub.type as InterfaceTypes, length)
     );
   }
 };
