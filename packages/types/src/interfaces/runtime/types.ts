@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct, U8aFixed, UInt, Vec } from '@polkadot/types/codec';
+import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { Bytes, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
@@ -146,7 +146,7 @@ export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
 export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
 
 /** @name Fixed64 */
-export interface Fixed64 extends UInt {}
+export interface Fixed64 extends Int {}
 
 /** @name H160 */
 export interface H160 extends U8aFixed {}
