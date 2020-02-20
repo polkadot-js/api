@@ -11,7 +11,7 @@ import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, string
 
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { EventData } from '../primitive/Generic/Event';
+import { EventData } from '../generic/Event';
 import Unconstructable from '../primitive/Unconstructable';
 import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';

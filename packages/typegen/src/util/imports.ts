@@ -7,6 +7,7 @@ import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as codecClasses from '@polkadot/types/codec';
 import { getTypeDef } from '@polkadot/types/create';
 import * as extrinsicClasses from '@polkadot/types/extrinsic';
+import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
@@ -20,8 +21,9 @@ type TypeExistMap = Record<string, TypeExist>;
 export interface TypeImports {
   codecTypes: TypeExist; // `import {} from '@polkadot/types/codec`
   extrinsicTypes: TypeExist; // `import {} from '@polkadot/types/extrinsic`
-  localTypes: TypeExistMap; // `import {} from '../something'`
+  genericTypes: TypeExist; // `import {} from '@polkadot/types/generic`
   ignoredTypes: string[]; // No need to import these types
+  localTypes: TypeExistMap; // `import {} from '../something'`
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: object; // all definitions
@@ -33,7 +35,7 @@ export interface TypeImports {
 // imports in the output file, dep-duped and sorted
 /** @internal */
 export function setImports (allDefs: object, imports: TypeImports, types: string[]): void {
-  const { codecTypes, extrinsicTypes, localTypes, ignoredTypes, primitiveTypes, typesTypes } = imports;
+  const { codecTypes, extrinsicTypes, genericTypes, ignoredTypes, localTypes, primitiveTypes, typesTypes } = imports;
 
   types.forEach((type): void => {
     if (ignoredTypes.includes(type)) {
@@ -44,6 +46,8 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       codecTypes[type] = true;
     } else if ((extrinsicClasses as any)[type]) {
       extrinsicTypes[type] = true;
+    } else if ((genericClasses as any)[type]) {
+      genericTypes[type] = true;
     } else if ((primitiveClasses as any)[type] || type === 'Metadata') {
       primitiveTypes[type] = true;
     } else if (type.includes('<') || type.includes('(') || type.includes('[')) {
@@ -102,12 +106,13 @@ export function createImports (importDefinitions: Record<string, object>, { type
   return {
     codecTypes: {},
     extrinsicTypes: {},
+    genericTypes: {},
+    ignoredTypes: Object.keys(types),
     localTypes: Object.keys(definitions).reduce((local: Record<string, TypeExist>, mod): Record<string, TypeExist> => {
       local[mod] = {};
 
       return local;
     }, {}),
-    ignoredTypes: Object.keys(types),
     primitiveTypes: {},
     typesTypes: {},
     definitions,

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, TypeRegistry } from '../../create';
-import Raw from '../../codec/Raw';
-import jsonVec from '../../json/AccountIdVec.001.json';
+import { createType, TypeRegistry } from '../create';
+import Raw from '../codec/Raw';
+import jsonVec from '../json/AccountIdVec.001.json';
 import AccountId from './AccountId';
 
 describe('AccountId', (): void => {

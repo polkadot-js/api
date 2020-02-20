@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DigestItem } from '../../interfaces/runtime';
-import { Registry, AnyJsonObject } from '../../types';
+import { DigestItem } from '../interfaces/runtime';
+import { Registry, AnyJsonObject } from '../types';
 
-import Struct from '../../codec/Struct';
-import Vec from '../../codec/Vec';
+import Struct from '../codec/Struct';
+import Vec from '../codec/Vec';
 
 /**
  * @name Digest

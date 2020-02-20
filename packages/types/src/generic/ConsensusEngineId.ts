@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '../../interfaces/runtime';
+import { AccountId } from '../interfaces/runtime';
 
 import BN from 'bn.js';
 import { bnToBn } from '@polkadot/util';
 
-import { createType } from '../../create';
-import Bytes from '../Bytes';
-import U32 from '../U32';
+import { createType } from '../create';
+import Bytes from '../primitive/Bytes';
+import U32 from '../primitive/U32';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x45424142; // 'BABE'

@@ -33,6 +33,10 @@ export function createImportCode (header: string, imports: TypeImports, checks: 
       types: Object.keys(imports.extrinsicTypes)
     },
     {
+      file: '@polkadot/types/generic',
+      types: Object.keys(imports.genericTypes)
+    },
+    {
       file: '@polkadot/types/primitive',
       types: Object
         .keys(imports.primitiveTypes)

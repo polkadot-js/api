@@ -8,7 +8,7 @@ import { ITuple } from '@polkadot/types/types';
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
+import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
 import { ClassOf, Option, Vec, createType } from '@polkadot/types';
 
 import { memo } from '../util';

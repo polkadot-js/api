@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, ArrayElementType, Registry } from '../../types';
-import democracyDef from '../../interfaces/democracy/definitions';
-import { Conviction } from '../../interfaces/democracy';
+import { AnyJsonObject, ArrayElementType, Registry } from '../types';
+import democracyDef from '../interfaces/democracy/definitions';
+import { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 
-import { createType } from '../../create';
-import U8aFixed from '../../codec/U8aFixed';
-import Bool from '../Bool';
+import { createType } from '../create';
+import U8aFixed from '../codec/U8aFixed';
+import Bool from '../primitive/Bool';
 
 export const convictionNames = democracyDef.types.Conviction._enum;
 

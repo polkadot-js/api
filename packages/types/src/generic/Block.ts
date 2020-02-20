@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Digest, DigestItem, H256, Header } from '../../interfaces/runtime';
-import { AnyNumber, AnyU8a, Registry } from '../../types';
+import { Digest, DigestItem, H256, Header } from '../interfaces/runtime';
+import { AnyNumber, AnyU8a, Registry } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../../create';
-import Extrinsic from '../../extrinsic/Extrinsic';
-import Struct from '../../codec/Struct';
-import Vec from '../../codec/Vec';
+import { createType } from '../create';
+import Extrinsic from '../extrinsic/Extrinsic';
+import Struct from '../codec/Struct';
+import Vec from '../codec/Vec';
 
 export interface HeaderValue {
   digest?: Digest | { logs: DigestItem[] };

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '../../create/types';
-import { EventMetadataLatest } from '../../interfaces/metadata';
-import { EventId } from '../../interfaces/system';
-import { AnyJsonObject, Constructor, Registry, RegistryMetadataEvent } from '../../types';
+import { TypeDef } from '../create/types';
+import { EventMetadataLatest } from '../interfaces/metadata';
+import { EventId } from '../interfaces/system';
+import { AnyJsonObject, Constructor, Registry, RegistryMetadataEvent } from '../types';
 
-import Struct from '../../codec/Struct';
-import Tuple from '../../codec/Tuple';
-import Null from '../Null';
+import Struct from '../codec/Struct';
+import Tuple from '../codec/Tuple';
+import Null from '../primitive/Null';
 
 /**
  * @name EventData

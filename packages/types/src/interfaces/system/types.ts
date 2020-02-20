@@ -3,7 +3,8 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, GenericEvent, Text, u32, u8 } from '@polkadot/types/primitive';
+import { GenericEvent } from '@polkadot/types/generic';
+import { Bytes, Text, u32, u8 } from '@polkadot/types/primitive';
 import { Digest, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name DigestOf */
