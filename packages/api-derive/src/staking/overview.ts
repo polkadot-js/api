@@ -36,12 +36,12 @@ export function overview (api: ApiInterfaceRx): () => Observable<DerivedStakingO
       api.derive.session.indexes(),
       api.derive.staking.validators()
     ]).pipe(
-      switchMap(([indexes, { currentElected, validators }]) =>
+      switchMap(([indexes, { nextElected, validators }]) =>
         combineLatest([
-          of({ ...indexes, currentElected, validators }),
+          of({ ...indexes, nextElected, validators }),
           api.query.staking.erasRewardPoints
             ? api.query.staking.erasRewardPoints<EraRewardPoints>(indexes.activeEra)
-            : retrievePointsPrev(api, indexes.activeEra, currentElected)
+            : retrievePointsPrev(api, indexes.activeEra, nextElected)
         ])
       ),
       map(([info, eraPoints]): DerivedStakingOverview => ({

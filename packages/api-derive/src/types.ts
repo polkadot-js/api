@@ -202,12 +202,12 @@ export interface DeriveSocietyMember {
 }
 
 export interface DerivedStakingElected {
-  currentElected: AccountId[];
+  nextElected: AccountId[];
   info: DerivedStakingQuery[];
 }
 
 export interface DeriveStakingValidators {
-  currentElected: AccountId[];
+  nextElected: AccountId[];
   validators: AccountId[];
 }
 
@@ -235,8 +235,8 @@ export interface DerivedStakingAccount extends DerivedStakingQuery {
 }
 
 export interface DerivedStakingOverview extends DeriveSessionIndexes {
-  currentElected: AccountId[];
   eraPoints: EraRewardPoints;
+  nextElected: AccountId[];
   validators: AccountId[];
 }
 
