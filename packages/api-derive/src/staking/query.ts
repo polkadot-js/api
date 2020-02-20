@@ -13,7 +13,7 @@ import { createType, Option, Vec } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type MultiResultV2 = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, ITuple<[ValidatorPrefs]>, Option<Keys>, Exposure];
+type MultiResult = [Option<AccountId>, Option<ITuple<[Nominations]>>, RewardDestination, ITuple<[ValidatorPrefs]>, Option<Keys>, Exposure];
 
 function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], nextKeys: Option<Keys>): { nextSessionIds: AccountId[]; sessionIds: AccountId[] } {
   const sessionIds = (queuedKeys.find(([currentId]): boolean =>
@@ -27,8 +27,8 @@ function unwrapSessionIds (stashId: AccountId, queuedKeys: [AccountId, Keys][], 
   };
 }
 
-function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResultV2> {
-  return api.queryMulti<MultiResultV2>([
+function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {
+  return api.queryMulti<MultiResult>([
     [api.query.staking.bonded, stashId],
     [api.query.staking.nominators, stashId],
     [api.query.staking.payee, stashId],
@@ -38,10 +38,10 @@ function retrievePrev (api: ApiInterfaceRx, stashId: AccountId): Observable<Mult
   ]);
 }
 
-function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResultV2> {
+function retrieveCurr (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiResult> {
   return api.derive.session.indexes().pipe(
     switchMap(({ activeEra }) =>
-      api.queryMulti<MultiResultV2>([
+      api.queryMulti<MultiResult>([
         [api.query.staking.bonded, stashId],
         [api.query.staking.nominators, stashId],
         [api.query.staking.payee, stashId],
@@ -51,6 +51,26 @@ function retrieve (api: ApiInterfaceRx, stashId: AccountId): Observable<MultiRes
       ])
     )
   );
+}
+
+function retrieveController (api: ApiInterfaceRx, stashId: AccountId, [queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, [validatorPrefs], nextKeys, exposure]]: [Vec<ITuple<[AccountId, Keys]>>, MultiResult]): Observable<DerivedStakingQuery> {
+  const controllerId = controllerIdOpt.unwrapOr(null);
+
+  return controllerId
+    ? api.query.staking.ledger(controllerId).pipe(
+      map((stakingLedgerOpt): DerivedStakingQuery => ({
+        accountId: stashId,
+        controllerId,
+        exposure,
+        nominators: nominatorsOpt.unwrapOr([{ targets: [] }])[0].targets,
+        rewardDestination,
+        stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
+        stashId,
+        validatorPrefs,
+        ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
+      }))
+    )
+    : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] });
 }
 
 /**
@@ -63,28 +83,12 @@ export function query (api: ApiInterfaceRx): (accountId: Uint8Array | string) =>
     return combineLatest([
       api.query.session.queuedKeys<Vec<ITuple<[AccountId, Keys]>>>(),
       api.query.staking.erasStakers
-        ? retrieve(api, stashId)
+        ? retrieveCurr(api, stashId)
         : retrievePrev(api, stashId)
     ]).pipe(
-      switchMap(([queuedKeys, [controllerIdOpt, nominatorsOpt, rewardDestination, [validatorPrefs], nextKeys, exposure]]): Observable<DerivedStakingQuery> => {
-        const controllerId = controllerIdOpt.unwrapOr(null);
-
-        return controllerId
-          ? api.query.staking.ledger(controllerId).pipe(
-            map((stakingLedgerOpt): DerivedStakingQuery => ({
-              accountId: stashId,
-              controllerId,
-              exposure,
-              nominators: nominatorsOpt.unwrapOr([{ targets: [] }])[0].targets,
-              rewardDestination,
-              stakingLedger: stakingLedgerOpt.unwrapOr(undefined),
-              stashId,
-              validatorPrefs,
-              ...unwrapSessionIds(stashId, queuedKeys, nextKeys)
-            }))
-          )
-          : of({ accountId: stashId, nextSessionIds: [], sessionIds: [] });
-      })
+      switchMap((result): Observable<DerivedStakingQuery> =>
+        retrieveController(api, stashId, result)
+      )
     );
   });
 }
