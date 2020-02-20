@@ -29,15 +29,15 @@ export default abstract class AbstractInt extends BN implements Codec {
 
   private _isHexJson: boolean;
 
-  private _isNegative: boolean;
+  private _isSigned: boolean;
 
-  protected constructor (registry: Registry, isNegative: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(AbstractInt.decodeAbstracInt(value, bitLength, isNegative));
+  protected constructor (registry: Registry, isSigned: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
+    super(AbstractInt.decodeAbstracInt(value, bitLength, isSigned));
 
     this.registry = registry;
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
-    this._isNegative = isNegative;
+    this._isSigned = isSigned;
 
     assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
   }
@@ -94,6 +94,13 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Checks if the value is an unsigned type
+   */
+  public get isUnsigned (): boolean {
+    return !this._isSigned;
+  }
+
+  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): UIntBitLength {
@@ -109,7 +116,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: this._isNegative })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: this._isSigned })
         : bnToBn(other)
     );
   }

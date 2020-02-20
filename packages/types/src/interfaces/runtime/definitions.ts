@@ -65,6 +65,7 @@ export default {
       weight: 'Weight',
       class: 'DispatchClass'
     },
+    Fixed64: 'Int<64, Fixed64>',
     H160: '[u8; 20; H160]',
     H256: '[u8; 32; H256]',
     H512: '[u8; 64; H512]',
