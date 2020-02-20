@@ -1,0 +1,50 @@
+{
+  "name": "@polkadot/typegen",
+  "version": "1.4.0-beta.17",
+  "description": "Type generation scripts",
+  "main": "index.js",
+  "bin": {
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.js",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.js",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.js",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.js",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "keywords": [
+    "Polkadot",
+    "JsonRPC"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
+  "dependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "@babel/runtime": "^7.8.4",
+    "@polkadot/api": "1.4.0-beta.17",
+    "@polkadot/jsonrpc": "1.4.0-beta.17",
+    "@polkadot/metadata": "1.4.0-beta.17",
+    "@polkadot/types": "1.4.0-beta.17",
+    "@polkadot/util": "^2.4.1",
+    "websocket": "^1.0.31",
+    "yargs": "^15.1.0"
+  },
+  "devDependencies": {
+    "@types/yargs": "^15.0.3"
+  }
+}

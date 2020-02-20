@@ -5,7 +5,7 @@
 import { MetadataAll, MetadataLatest, MetadataV0, MetadataV1, MetadataV2, MetadataV3, MetadataV4, MetadataV5, MetadataV6, MetadataV7, MetadataV8, MetadataV9, MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/codec/create/createType';
+import { createType } from '@polkadot/types/create/createType';
 import Struct from '@polkadot/types/codec/Struct';
 import { assert } from '@polkadot/util';
 

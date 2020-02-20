@@ -19,6 +19,9 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
   },
+  staking: {
+    Compact: 'CompactAssignments'
+  },
   treasury: {
     Proposal: 'TreasuryProposal'
   }
@@ -38,7 +41,7 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [1010, undefined],
+    minmax: [1004, undefined],
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',

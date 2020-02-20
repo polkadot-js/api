@@ -6,7 +6,7 @@ import { Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry, createType } from './create';
+import { TypeRegistry, createType } from '../create';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';

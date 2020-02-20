@@ -23,7 +23,7 @@ export default function fromMetadata (registry: Registry, metadata: Metadata): S
     const unwrapped = moduleMetadata.storage.unwrap();
     const prefix = unwrapped.prefix.toString();
 
-    // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
+    // For access, we change the index names, i.e. System.Account -> system.account
     result[section] = unwrapped.items.reduce((newModule, meta): ModuleStorage => {
       const method = meta.name.toString();
 

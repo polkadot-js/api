@@ -33,14 +33,24 @@ export function getMetadataTypes (version: number): RegistryTypes {
 
 // based on the chain and runtimeVersion, get the applicable types (ready for registration)
 /** @internal */
-export function getChainTypes (chainName: Text, { specName, specVersion }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+export function getSpecTypes (chainName: Text | string, { specName, specVersion }: RuntimeVersion): RegistryTypes {
   const _chainName = chainName.toString();
   const _specName = specName.toString();
   const _specVersion = specVersion.toNumber();
 
   return {
     ...filterVersions(TYPES_SPEC[_specName], _specVersion),
-    ...filterVersions(TYPES_CHAIN[_chainName], _specVersion),
+    ...filterVersions(TYPES_CHAIN[_chainName], _specVersion)
+  };
+}
+
+// based on the spec and chain, get the specific user-defind types
+/** @internal */
+export function getUserTypes (chainName: Text | string, { specName }: RuntimeVersion, typesChain: Record<string, RegistryTypes> = {}, typesSpec: Record<string, RegistryTypes> = {}): RegistryTypes {
+  const _chainName = chainName.toString();
+  const _specName = specName.toString();
+
+  return {
     ...(typesSpec[_specName] || {}),
     ...(typesChain[_chainName] || {})
   };

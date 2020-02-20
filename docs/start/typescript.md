@@ -30,11 +30,10 @@ For any interface injected by metadata, the types are not available by default (
 However, to make this sane from a developer perspective the injected methods are generic, effectively making the following possible -
 
 ```js
-import { Balance, Index } from '@polkadot/types/interfaces';
+import { AccountData, Index } from '@polkadot/types/interfaces';
 
 ...
-const nonce = await api.query.system.accountNonce<Index>(ADDR);
-const balance = await api.query.balances.freeBalance<Balance>(ADDR);
+const [nonce, balance] = await api.query.system.account<[Index, AccountData]>(ADDR);
 ```
 
 In both these case we can instruct the TypeScript compiler that the type we are expecting in `Index` and `Balance` respectively, not just pure `Codec`. This means that functions like `.toNumber()` is available on both these types - as opposed to just the [general type defaults](types.basics.md#everything-is-a-type) with `.toHex()` and friends.

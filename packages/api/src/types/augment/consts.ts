@@ -42,10 +42,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: AugmentedConst<Balance>;
-      /**
-       * The fee required to create an account.
-       **/
-      creationFee: AugmentedConst<Balance>;
     };
     transactionPayment: {
       [index: string]: Codec;
@@ -201,10 +197,6 @@ declare module '@polkadot/metadata/Decorated/consts/types' {
        * to removal of a contract.
        **/
       surchargeReward: AugmentedConst<BalanceOf>;
-      /**
-       * The fee required to create an account.
-       **/
-      creationFee: AugmentedConst<BalanceOf>;
       /**
        * The fee to be paid for making a transaction; the base.
        **/

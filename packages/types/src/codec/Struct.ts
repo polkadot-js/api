@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, IHash, InterfaceTypes, Registry } from '../types';
+import { H256 } from '../interfaces/runtime';
+import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -11,6 +12,77 @@ import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
 type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
+
+/** @internal */
+function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  return Object.keys(Types).reduce((raw, key, index): T => {
+    // The key in the JSON can be snake_case (or other cases), but in our
+    // Types, result or any other maps, it's camelCase
+    const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+
+    try {
+      if (Array.isArray(value)) {
+        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+        (raw as any)[key] = value[index] instanceof Types[key]
+          ? value[index]
+          : new Types[key](registry, value[index]);
+      } else if (value instanceof Map) {
+        const mapped = value.get(jsonKey);
+
+        (raw as any)[key] = mapped instanceof Types[key]
+          ? mapped
+          : new Types[key](registry, mapped);
+      } else if (isObject(value)) {
+        (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
+          ? value[jsonKey as string]
+          : new Types[key](registry, value[jsonKey as string]);
+      } else {
+        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+      }
+    } catch (error) {
+      throw new Error(`Struct: failed on '${jsonKey}':: ${error.message}`);
+    }
+
+    return raw;
+  }, {} as T);
+}
+
+/**
+ * Decode input to pass into constructor.
+ *
+ * @param Types - Types definition.
+ * @param value - Value to decode, one of:
+ * - null
+ * - undefined
+ * - hex
+ * - Uint8Array
+ * - object with `{ key1: value1, key2: value2 }`, assuming `key1` and `key2`
+ * are also keys in `Types`
+ * - array with `[value1, value2]` assuming the array has the same length as
+ * `Object.keys(Types)`
+ * @param jsonMap
+ * @internal
+ */
+function decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
+  if (isHex(value)) {
+    return decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
+  } else if (isU8a(value)) {
+    const values = decodeU8a(registry, value, Object.values(Types));
+
+    // Transform array of values to {key: value} mapping
+    return Object.keys(Types).reduce((raw, key, index): T => {
+      // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+      (raw as any)[key] = values[index];
+
+      return raw;
+    }, {} as T);
+  } else if (!value) {
+    return {} as T;
+  }
+
+  // We assume from here that value is a JS object (Array, Map, Object)
+  return decodeStructFromObject(registry, Types, value, jsonMap);
+}
 
 /**
  * @name Struct
@@ -39,84 +111,13 @@ export default class Struct<
 
   constructor (registry: Registry, Types: S, value: V | Map<any, any> | any[] | string = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const Clazzes = mapToTypeMap(registry, Types);
-    const decoded: T = Struct.decodeStruct(registry, Clazzes, value, jsonMap);
+    const decoded: T = decodeStruct(registry, Clazzes, value, jsonMap);
 
     super(Object.entries(decoded));
 
     this.registry = registry;
     this._jsonMap = jsonMap;
     this._Types = Clazzes;
-  }
-
-  /**
-   * Decode input to pass into constructor.
-   *
-   * @param Types - Types definition.
-   * @param value - Value to decode, one of:
-   * - null
-   * - undefined
-   * - hex
-   * - Uint8Array
-   * - object with `{ key1: value1, key2: value2 }`, assuming `key1` and `key2`
-   * are also keys in `Types`
-   * - array with `[value1, value2]` assuming the array has the same length as
-   * `Object.keys(Types)`
-   * @param jsonMap
-   * @internal
-   */
-  private static decodeStruct <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
-    if (isHex(value)) {
-      return Struct.decodeStruct(registry, Types, hexToU8a(value as string), jsonMap);
-    } else if (isU8a(value)) {
-      const values = decodeU8a(registry, value, Object.values(Types));
-
-      // Transform array of values to {key: value} mapping
-      return Object.keys(Types).reduce((raw, key, index): T => {
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        (raw as any)[key] = values[index];
-
-        return raw;
-      }, {} as T);
-    } else if (!value) {
-      return {} as T;
-    }
-
-    // We assume from here that value is a JS object (Array, Map, Object)
-    return Struct.decodeStructFromObject(registry, Types, value, jsonMap);
-  }
-
-  /** @internal */
-  private static decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
-    return Object.keys(Types).reduce((raw, key, index): T => {
-      // The key in the JSON can be snake_case (or other cases), but in our
-      // Types, result or any other maps, it's camelCase
-      const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
-
-      try {
-        if (Array.isArray(value)) {
-          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-          (raw as any)[key] = value[index] instanceof Types[key]
-            ? value[index]
-            : new Types[key](registry, value[index]);
-        } else if (value instanceof Map) {
-          const mapped = value.get(jsonKey);
-
-          (raw as any)[key] = mapped instanceof Types[key]
-            ? mapped
-            : new Types[key](registry, mapped);
-        } else if (isObject(value)) {
-          (raw as any)[key] = value[jsonKey as string] instanceof Types[key]
-            ? value[jsonKey as string]
-            : new Types[key](registry, value[jsonKey as string]);
-        } else {
-          throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
-        }
-      } catch (error) {
-        throw new Error(`Struct: failed on '${jsonKey}':: ${error.message}`);
-      }
-
-      return raw;
-    }, {} as T);
   }
 
   public static with<S extends TypesDef> (Types: S): Constructor<Struct<S>> {
@@ -188,7 +189,7 @@ export default class Struct<
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IHash {
+  public get hash (): H256 {
     return new Raw(this.registry, blake2AsU8a(this.toU8a(), 256));
   }
 
@@ -229,9 +230,23 @@ export default class Struct<
   }
 
   /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExtended?: boolean): AnyJsonObject {
+    return [...this.keys()].reduce((json, key): any => {
+      const jsonKey = this._jsonMap.get(key) || key;
+      const value = this.get(key);
+
+      json[jsonKey] = value && value.toHuman(isExtended);
+
+      return json;
+    }, {} as any);
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonObject | string {
+  public toJSON (): AnyJsonObject {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key): any => {

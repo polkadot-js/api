@@ -7,7 +7,7 @@ import { FunctionMetadataV11, FunctionMetadataLatest, MetadataV11, MetadataLates
 import { Registry } from '@polkadot/types/types';
 
 import { getModuleTypes } from '@polkadot/types/known';
-import { createType } from '@polkadot/types/codec';
+import { createType } from '@polkadot/types/create';
 import { Type } from '@polkadot/types/primitive';
 import { stringCamelCase } from '@polkadot/util';
 

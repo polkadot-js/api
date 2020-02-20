@@ -5,7 +5,7 @@
 import { Codec, Registry } from '@polkadot/types/types';
 import { MetadataInterface } from '../types';
 
-import { createTypeUnsafe } from '@polkadot/types/codec/create';
+import { createTypeUnsafe } from '@polkadot/types/create';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 import getUniqTypes from './getUniqTypes';

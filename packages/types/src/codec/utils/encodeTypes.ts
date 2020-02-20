@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../types';
+import { TypeDef, TypeDefInfo, TypeDefExtUInt, TypeDefExtVecFixed } from '../../create/types';
 
 import { assert } from '@polkadot/util';
 
@@ -103,6 +103,14 @@ function encodeTuple (typeDef: Pick<TypeDef, any>): string {
   })`;
 }
 
+function encodeUInt (typeDef: Pick<TypeDef, any>, type: 'Int' | 'UInt'): string {
+  assert(typeDef.ext, 'Unable to encode VecFixed type');
+
+  const { length } = typeDef.ext as TypeDefExtUInt;
+
+  return `${type}<${length}>`;
+}
+
 function encodeVecFixed (typeDef: Pick<TypeDef, any>): string {
   assert(typeDef.ext, 'Unable to encode VecFixed type');
 
@@ -118,6 +126,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
+  [TypeDefInfo.Int]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'Int'),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [TypeDefInfo.Null]: (typeDef: TypeDef): string => 'Null',
@@ -127,6 +136,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.Set]: (typeDef: TypeDef): string => typeDef.type,
   [TypeDefInfo.Struct]: (typeDef: TypeDef): string => encodeStruct(typeDef),
   [TypeDefInfo.Tuple]: (typeDef: TypeDef): string => encodeTuple(typeDef),
+  [TypeDefInfo.UInt]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'UInt'),
   [TypeDefInfo.Vec]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Vec'),
   [TypeDefInfo.VecFixed]: (typeDef: TypeDef): string => encodeVecFixed(typeDef)
 };

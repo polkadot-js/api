@@ -16,24 +16,20 @@ const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
 // Retrieve the last timestamp
 const now = await api.query.timestamp.now();
 
-// Retrieve the account nonce via the system module
-const nonce = await api.query.system.accountNonce(ADDR);
+// Retrieve the account balance & nonce via the system module
+const [nonce, balance] = await api.query.system.account(ADDR);
 
-// Retrieve the account balance via the balances module
-const balance = await api.query.balances.freeBalance(ADDR);
-
-console.log(`${now}: balance of ${balance} and a nonce of ${nonce}`);
+console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
 ```
 
 There have been some additions in the code above comparing with retrieving runtime constants. In these cases, since we are making a query to the actual chain, we use the `await` syntax to retrieve the information. Since the API is Promise-based, this means we can also rewrite the above to follow a Promise pattern,
 
 ```js
 ...
-// Retrieve last block timestamp, account nonce & balance
-const [now, nonce, balance] = await Promise.all([
+// Retrieve last block timestamp, account nonce & balances
+const [now, [nonce, balances]] = await Promise.all([
   api.query.timestamp.now(),
-  api.query.system.accountNonce(ADDR),
-  api.query.balances.freeBalance(ADDR)
+  api.query.system.account(ADDR)
 ]);
 ```
 

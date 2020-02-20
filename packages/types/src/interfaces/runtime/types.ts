@@ -1,9 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { Codec, ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericDigestItem, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, H256, H512, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { ITuple } from '@polkadot/types/types';
+import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
+import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericOrigin } from '@polkadot/types/generic';
+import { Bytes, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** @name AccountId */
 export interface AccountId extends GenericAccountId {}
@@ -51,7 +54,22 @@ export interface ConsensusEngineId extends GenericConsensusEngineId {}
 export interface Digest extends GenericDigest {}
 
 /** @name DigestItem */
-export interface DigestItem extends GenericDigestItem {}
+export interface DigestItem extends Enum {
+  readonly isOther: boolean;
+  readonly asOther: Bytes;
+  readonly isAuthoritiesChange: boolean;
+  readonly asAuthoritiesChange: Vec<AuthorityId>;
+  readonly isChangesTrieRoot: boolean;
+  readonly asChangesTrieRoot: Hash;
+  readonly isSealV0: boolean;
+  readonly asSealV0: SealV0;
+  readonly isConsensus: boolean;
+  readonly asConsensus: Consensus;
+  readonly isSeal: boolean;
+  readonly asSeal: Seal;
+  readonly isPreRuntime: boolean;
+  readonly asPreRuntime: PreRuntime;
+}
 
 /** @name DispatchClass */
 export interface DispatchClass extends Enum {
@@ -73,7 +91,7 @@ export interface DispatchInfoTo190 extends Struct {
 }
 
 /** @name EcdsaSignature */
-export interface EcdsaSignature extends Uint8Array, Codec {}
+export interface EcdsaSignature extends U8aFixed {}
 
 /** @name Ed25519Signature */
 export interface Ed25519Signature extends Signature {}
@@ -129,6 +147,18 @@ export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
 /** @name ExtrinsicV4 */
 export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
 
+/** @name Fixed64 */
+export interface Fixed64 extends Int {}
+
+/** @name H160 */
+export interface H160 extends U8aFixed {}
+
+/** @name H256 */
+export interface H256 extends U8aFixed {}
+
+/** @name H512 */
+export interface H512 extends U8aFixed {}
+
 /** @name Hash */
 export interface Hash extends H256 {}
 
@@ -157,7 +187,7 @@ export interface KeyTypeId extends u32 {}
 export interface KeyValue extends ITuple<[StorageKey, StorageData]> {}
 
 /** @name LockIdentifier */
-export interface LockIdentifier extends Uint8Array, Codec {}
+export interface LockIdentifier extends U8aFixed {}
 
 /** @name LookupSource */
 export interface LookupSource extends Address {}

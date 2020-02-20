@@ -4,6 +4,39 @@
 
 export default {
   types: {
+    CompactAssignments: {
+      votes1: 'Vec<(AccountId, AccountId)>',
+      votes2: 'Vec<(AccountId, (AccountId, u128), AccountId)>',
+      votes3: 'Vec<(AccountId, [(AccountId, u128); 2], AccountId)>',
+      votes4: 'Vec<(AccountId, [(AccountId, u128); 3], AccountId)>',
+      votes5: 'Vec<(AccountId, [(AccountId, u128); 4], AccountId)>',
+      votes6: 'Vec<(AccountId, [(AccountId, u128); 5], AccountId)>',
+      votes7: 'Vec<(AccountId, [(AccountId, u128); 6], AccountId)>',
+      votes8: 'Vec<(AccountId, [(AccountId, u128); 7], AccountId)>',
+      votes9: 'Vec<(AccountId, [(AccountId, u128); 8], AccountId)>',
+      votes10: 'Vec<(AccountId, [(AccountId, u128); 9], AccountId)>',
+      votes11: 'Vec<(AccountId, [(AccountId, u128); 10], AccountId)>',
+      votes12: 'Vec<(AccountId, [(AccountId, u128); 11], AccountId)>',
+      votes13: 'Vec<(AccountId, [(AccountId, u128); 12], AccountId)>',
+      votes14: 'Vec<(AccountId, [(AccountId, u128); 13], AccountId)>',
+      votes15: 'Vec<(AccountId, [(AccountId, u128); 14], AccountId)>',
+      votes16: 'Vec<(AccountId, [(AccountId, u128); 15], AccountId)>',
+    },
+    ElectionCompute: {
+      _enum: ['OnChain', 'Signed', 'Authority']
+    },
+    ElectionResult: {
+      compute: 'ElectionCompute',
+      slotStake: 'Balance',
+      electedStashes: 'Vec<AccountId>',
+      exposures: 'Vec<(AccountId, Exposure)>'
+    },
+    ElectionStatus: {
+      _enum: {
+        Close: 'Null',
+        Open: 'BlockNumber'
+      }
+    },
     EraIndex: 'u32',
     EraPoints: {
       total: 'Points',
@@ -30,12 +63,14 @@ export default {
       who: 'AccountId',
       value: 'Compact<Balance>'
     },
+    KeyType: 'AccountId',
     MomentOf: 'Moment',
     Nominations: {
       targets: 'Vec<AccountId>',
       submittedIn: 'EraIndex',
       suppressed: 'bool'
     },
+    PhragmenScore: '[u128; 3]',
     Points: 'u32',
     RewardDestination: {
       _enum: [
@@ -83,6 +118,7 @@ export default {
       value: 'Compact<Balance>',
       era: 'Compact<BlockNumber>'
     },
+    ValidatorIndex: 'u16',
     ValidatorPrefs: {
       commission: 'Compact<Perbill>'
     },

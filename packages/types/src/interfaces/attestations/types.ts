@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Struct, Vec } from '@polkadot/types/codec';
-import { H256 } from '@polkadot/types/primitive';
-import { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
+import { AccountId, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { CandidateReceipt, ParaId } from '@polkadot/types/interfaces/parachains';
 

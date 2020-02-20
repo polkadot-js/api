@@ -42,7 +42,17 @@ export default {
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
     Digest: 'GenericDigest',
-    DigestItem: 'GenericDigestItem',
+    DigestItem: {
+      _enum: {
+        Other: 'Bytes', // 0
+        AuthoritiesChange: 'Vec<AuthorityId>', // 1
+        ChangesTrieRoot: 'Hash', // 2
+        SealV0: 'SealV0', // 3
+        Consensus: 'Consensus', // 4
+        Seal: 'Seal', // 5
+        PreRuntime: 'PreRuntime' // 6
+      }
+    },
     DispatchClass: {
       _enum: ['Normal', 'Operational']
     },
@@ -55,6 +65,10 @@ export default {
       weight: 'Weight',
       class: 'DispatchClass'
     },
+    Fixed64: 'Int<64, Fixed64>',
+    H160: '[u8; 20; H160]',
+    H256: '[u8; 32; H256]',
+    H512: '[u8; 64; H512]',
     Hash: 'H256',
     Header: {
       parentHash: 'Hash',

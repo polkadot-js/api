@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '../../types';
-import { TypeRegistry } from '../create';
+import { TypeRegistry } from '../../create';
 import U32 from '../../primitive/U32';
 import compareMap from './compareMap';
 

@@ -12,6 +12,7 @@ export * from './contracts/types';
 export * from './democracy/types';
 export * from './deprecated/types';
 export * from './elections/types';
+export * from './engine/types';
 export * from './evm/types';
 export * from './genericAsset/types';
 export * from './grandpa/types';

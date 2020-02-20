@@ -6,7 +6,8 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import { Compact, Raw, createType, createTypeUnsafe } from '@polkadot/types/codec';
+import { Compact, Raw } from '@polkadot/types/codec';
+import { createType, createTypeUnsafe } from '@polkadot/types/create';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
@@ -196,7 +197,7 @@ export default function createFunction (registry: Registry, itemFn: CreateItemFn
   const [hasher, key2Hasher] = getHashers(itemFn);
 
   // Can only have zero or one argument:
-  //   - storage.balances.freeBalance(address)
+  //   - storage.system.account(address)
   //   - storage.timestamp.blockPeriod()
   // For doublemap queries the params is passed in as an tuple, [key1, key2]
   const _storageFn = (arg?: CreateArgType | [CreateArgType?, CreateArgType?]): Uint8Array =>

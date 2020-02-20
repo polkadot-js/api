@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ExtrinsicStatus, EventRecord } from '@polkadot/types/interfaces';
-import { SubmittableResultImpl, SubmittableResultValue } from './types';
+import { AnyJson, ISubmittableResult } from '@polkadot/types/types';
+import { SubmittableResultValue } from './types';
 
-export default class SubmittableResult implements SubmittableResultImpl {
+export default class SubmittableResult implements ISubmittableResult {
   public readonly events: EventRecord[];
 
   public readonly status: ExtrinsicStatus;
@@ -16,15 +17,19 @@ export default class SubmittableResult implements SubmittableResultImpl {
   }
 
   public get isCompleted (): boolean {
-    return this.isError || this.isFinalized;
+    return this.isError || this.status.isInBlock || this.status.isFinalized;
   }
 
   public get isError (): boolean {
-    return this.status.isDropped || this.status.isInvalid || this.status.isUsurped;
+    return this.status.isDropped || this.status.isFinalityTimeout || this.status.isInvalid || this.status.isRetracted || this.status.isUsurped;
   }
 
   public get isFinalized (): boolean {
     return this.status.isFinalized;
+  }
+
+  public get isInBlock (): boolean {
+    return this.status.isInBlock;
   }
 
   /**
@@ -43,5 +48,15 @@ export default class SubmittableResult implements SubmittableResultImpl {
     return this.events.find(({ event }): boolean =>
       event.section === section && event.method === method
     );
+  }
+
+  /**
+   * @description Creates a human representation of the output
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return {
+      events: this.events.map((event) => event.toHuman(isExtended)),
+      status: this.status.toHuman(isExtended)
+    };
   }
 }

@@ -68,6 +68,12 @@ await api.isReady;
 console.log(api.genesisHash.toHex());
 ```
 
+## Failures
+
+In all cases the API will handle reconnections automatically. This means that when you connect and the endpoint is not (yet) ready, the promise will not resolve immediately, but rather when connected. The same applies to when connection is lost, the API will manage re-connections.
+
+In cases where the API does not support the chain being connected to, such as it using an unknown metadata version, the ready promise will fail to resolve and instead reject.
+
 ## Advanced creation
 
 There are more advanced cases where you would prefer to use the longer version, for instance: if you want to explicitly listen to events emitted, you probably want to attach to the API even before connecting to the chain. All API instances implement an `EventEmitter` interface, with `on` handlers, which emit `connected`, `disconnected`, `ready` and `error` events, allowing you to listen to events on the transport layer.
