@@ -10,7 +10,7 @@ import UInt from './UInt';
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
-  it('fails on numbers that is too large', (): void => {
+  it('fails on a number that is too large for the bits specified', (): void => {
     expect(
       (): UInt => new UInt(registry, '12345678901234567890123456789012345678901234567890', 32)
     ).toThrow('u32: Input too large. Found input with 164 bits, expected 32');
