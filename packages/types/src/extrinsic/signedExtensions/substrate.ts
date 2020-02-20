@@ -44,5 +44,9 @@ export default {
   CheckWeight: {
     extra: {},
     types: {}
+  },
+  LockStakingStatus: {
+    extra: {},
+    types: {}
   }
 } as ExtDef;

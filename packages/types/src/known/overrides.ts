@@ -19,6 +19,9 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
   },
+  staking: {
+    Compact: 'CompactAssignments'
+  },
   treasury: {
     Proposal: 'TreasuryProposal'
   }
