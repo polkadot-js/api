@@ -4,7 +4,7 @@
 
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
-import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
 import Extrinsic from './Extrinsic';
