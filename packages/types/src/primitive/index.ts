@@ -8,8 +8,8 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as bool } from './Bool';
 export { default as BitVec } from './BitVec';
+export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
 export { default as IdentityFields } from './IdentityFields';
@@ -33,6 +33,3 @@ export { default as u128 } from './U128';
 export { default as u256, default as U256 } from './U256';
 export { default as Unconstructable } from './Unconstructable';
 export { default as usize } from './USize';
-
-export * from './Generic';
-export * from './Extrinsic';

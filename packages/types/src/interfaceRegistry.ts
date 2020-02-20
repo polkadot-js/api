@@ -37,12 +37,12 @@ import { CallMetadataV0, DoubleMapTypeLatest, DoubleMapTypeV10, DoubleMapTypeV11
 import { ApiId, BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, KeyValueOption, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, RuntimeVersionApi, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
 
 export interface InterfaceRegistry {
-  bool: bool;
-  'Option<bool>': Option<bool>;
-  'Vec<bool>': Vec<bool>;
   BitVec: BitVec;
   'Option<BitVec>': Option<BitVec>;
   'Vec<BitVec>': Vec<BitVec>;
+  bool: bool;
+  'Option<bool>': Option<bool>;
+  'Vec<bool>': Vec<bool>;
   Bytes: Bytes;
   'Option<Bytes>': Option<Bytes>;
   'Vec<Bytes>': Vec<Bytes>;
@@ -184,7 +184,6 @@ export interface InterfaceRegistry {
   'Option<AccountIdOf>': Option<AccountIdOf>;
   'Vec<AccountIdOf>': Vec<AccountIdOf>;
   AccountIndex: AccountIndex;
-  'Compact<AccountIndex>': Compact<AccountIndex>;
   'Option<AccountIndex>': Option<AccountIndex>;
   'Vec<AccountIndex>': Vec<AccountIndex>;
   Address: Address;
@@ -215,7 +214,6 @@ export interface InterfaceRegistry {
   'Option<ChangesTrieConfiguration>': Option<ChangesTrieConfiguration>;
   'Vec<ChangesTrieConfiguration>': Vec<ChangesTrieConfiguration>;
   ConsensusEngineId: ConsensusEngineId;
-  'Compact<ConsensusEngineId>': Compact<ConsensusEngineId>;
   'Option<ConsensusEngineId>': Option<ConsensusEngineId>;
   'Vec<ConsensusEngineId>': Vec<ConsensusEngineId>;
   Digest: Digest;

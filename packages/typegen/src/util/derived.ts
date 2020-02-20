@@ -14,9 +14,9 @@ import Enum from '@polkadot/types/codec/Enum';
 import Option from '@polkadot/types/codec/Option';
 import Struct from '@polkadot/types/codec/Struct';
 import Vec from '@polkadot/types/codec/Vec';
-import GenericAccountId from '@polkadot/types/primitive/Generic/AccountId';
-import GenericAddress from '@polkadot/types/primitive/Generic/Address';
-import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/primitive/Generic/Vote';
+import GenericAccountId from '@polkadot/types/generic/AccountId';
+import GenericAddress from '@polkadot/types/generic/Address';
+import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
 
