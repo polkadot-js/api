@@ -6,7 +6,7 @@ import { H256 } from '../interfaces/runtime';
 import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -38,6 +38,8 @@ export default abstract class AbstractInt extends BN implements Codec {
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
     this._isNegative = isNegative;
+
+    assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
   }
 
   /** @internal */
