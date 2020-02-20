@@ -9,7 +9,6 @@ import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, Regist
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
-import BitVec from '../codec/BitVec';
 import Raw from '../codec/Raw';
 import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { EventData } from '../generic/Event';
