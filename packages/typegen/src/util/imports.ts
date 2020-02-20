@@ -60,7 +60,7 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
         typeDef.sub.forEach((subType): void => setImports(allDefs, imports, [subType.type]));
-      } else if (typeDef.sub) {
+      } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.type]);
       }
