@@ -14,6 +14,17 @@ import { memo } from '../util';
 
 type Result = [EraIndex, Option<MomentOf>, EraIndex, SessionIndex, u32];
 
+// parse into Indexes
+function parse ([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]: Result): DeriveSessionIndexes {
+  return {
+    activeEra,
+    activeEraStart,
+    currentEra,
+    currentIndex,
+    validatorCount
+  };
+}
+
 // query for previous V2
 function queryNoActive (api: ApiInterfaceRx): Observable<Result> {
   return api.queryMulti<[EraIndex, SessionIndex, u32]>([
@@ -64,15 +75,11 @@ function empty (api: ApiInterfaceRx): Observable<Result> {
 export function indexes (api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
   return memo((): Observable<DeriveSessionIndexes> =>
     (
-      // Some chains (eg. very limited node-template), does not have session
       api.query.session && api.query.staking
         ? api.query.staking.activeEra
           ? query(api)
           : queryNoActive(api)
         : empty(api)
-    ).pipe(
-      map(([activeEra, activeEraStart, currentEra, currentIndex, validatorCount]): DeriveSessionIndexes => ({
-        activeEra, activeEraStart, currentEra, currentIndex, validatorCount
-      }))
-    ));
+    ).pipe(map(parse))
+  );
 }
