@@ -119,12 +119,12 @@ describe('Extrinsic', (): void => {
         '0bc01eb1fc185f' // value, 104.560 KSM
       );
 
-      expect(extrinsic.era.toHex()).toEqual('0xa90b');
+      expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '1,024', phase: '186' } });
       expect(extrinsic.nonce.toNumber()).toEqual(68);
-      expect(u8aToHex(extrinsic.tip.toU8a())).toEqual('0x0700ac23fc06');
+      expect(extrinsic.tip.toHuman()).toEqual('30.000m Unit');
       expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(extrinsic.args[0].toHex()).toEqual('0xff495e1e506f266418af07fa0c5c108dd436f2faa59fe7d9e54403779f5bbd7718');
-      expect(u8aToHex(extrinsic.args[1].toU8a())).toEqual('0x0bc01eb1fc185f');
+      expect(extrinsic.args[1].toHuman()).toEqual('104.560 Unit');
     });
   });
 });
