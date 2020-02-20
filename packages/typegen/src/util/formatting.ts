@@ -29,6 +29,10 @@ export function createImportCode (header: string, imports: TypeImports, checks: 
         .filter((name): boolean => name !== 'Tuple')
     },
     {
+      file: '@polkadot/types/extrinsic',
+      types: Object.keys(imports.extrinsicTypes)
+    },
+    {
       file: '@polkadot/types/primitive',
       types: Object
         .keys(imports.primitiveTypes)

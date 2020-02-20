@@ -10,8 +10,8 @@ import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMeta
 import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Raw from '../codec/Raw';
+import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../extrinsic/signedExtensions';
 import { EventData } from '../primitive/Generic/Event';
-import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '../primitive/Extrinsic/signedExtensions';
 import Unconstructable from '../primitive/Unconstructable';
 import { createClass, getTypeClass } from './createClass';
 import { getTypeDef } from './getTypeDef';
