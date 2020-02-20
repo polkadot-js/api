@@ -25,10 +25,10 @@ import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isNull, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { createSubmittable } from '../submittable';
-import { decorateSections, DeriveAllSections } from '../util/decorate';
 import augmentObject from '../util/augmentObject';
+import { decorateSections, DeriveAllSections } from '../util/decorate';
+import { extractStorageArgs } from '../util/validate';
 import Events from './Events';
-import { extractStorageArgs } from './validate';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;
