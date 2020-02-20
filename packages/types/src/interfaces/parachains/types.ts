@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { BitVec, Enum, Struct, Vec } from '@polkadot/types/codec';
-import { Bytes, u32 } from '@polkadot/types/primitive';
+import { Enum, Struct, Vec } from '@polkadot/types/codec';
+import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Signature } from '@polkadot/types/interfaces/runtime';
 
 /** @name AttestedCandidate */
