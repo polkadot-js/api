@@ -89,7 +89,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
     const [offset, length] = Compact.decodeU8a(value);
     const total = offset + length.toNumber();
 
-    assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
 
     const data = value.subarray(offset, total);
 
