@@ -2,19 +2,20 @@
 
 - Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add support for `api.rpc.engine.*` for manual seal support
-- Expand `.toHuman` on ExtrinsicEra, SubmittableResult & Vote
+- Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
-- Expose static with on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- `UInt` & `Int` now does source bitLength checks upon construction
 - Support for arbitrary UInt types via `UInt<bitLength>` definitions
 - Add `api.injectMetadata(metadata)` to initialize with a specific version
 - The api now checks for runtime upgrades, decorating with new metadata
-- One-lners are normally not mentioned, however the [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) is fixed
+- Remove old [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
 
 # 1.3.1 Feb 18, 2020
 
-- Add `@types/bn.js` as a normal dependency, exposed in `*.d.ts` ((Thanks to https://github.com/monitz87)
+- Add `@types/bn.js` as a normal dependency, exposed in `*.d.ts` (Thanks to https://github.com/monitz87)
 - Type generation scripts (including `polkadot-types-from-{chain,defs}`) has been moved to the `@polkadot/typegen` package
 - The `@polkadot/types/codec/create` has been moved to `@polkadot/types/create`, imports from `@polkadot/types` are unaffected
 - Expose chain properties on registry (and use for API type formatting)
