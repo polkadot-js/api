@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '@polkadot/types/create/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 
 import { getTypeDef } from '@polkadot/types/create';
 import { paramsNotation } from '@polkadot/types/codec/utils';
@@ -170,14 +170,17 @@ export function formatType (definitions: object, type: string | TypeDef, imports
       );
     }
     case TypeDefInfo.VecFixed: {
-      if ((typeDef.ext as TypeDefExtVecFixed).type === 'u8') {
+      const type = (typeDef.sub as TypeDef).type;
+
+      if (type === 'u8') {
         setImports(definitions, imports, ['U8aFixed']);
 
         return 'U8aFixed';
       }
 
       setImports(definitions, imports, ['Vec']);
-      return formatVec(formatType(definitions, (typeDef.ext as TypeDefExtVecFixed).type, imports));
+
+      return formatVec(formatType(definitions, type, imports));
     }
     case TypeDefInfo.BTreeMap: {
       setImports(definitions, imports, ['BTreeMap']);

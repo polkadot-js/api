@@ -265,4 +265,28 @@ describe('getTypeDef', (): void => {
       ]
     });
   });
+
+  it('creates a nested fixed vec', (): void => {
+    expect(
+      getTypeDef('[[u8;32];3]')
+    ).toEqual({
+      info: TypeDefInfo.VecFixed,
+      type: '[[u8;32];3]',
+      ext: {
+        length: 3,
+        type: '[u8;32]'
+      },
+      sub: {
+        info: TypeDefInfo.VecFixed,
+        type: '[u8;32]',
+        ext: {
+          length: 32
+        },
+        sub: {
+          info: TypeDefInfo.Plain,
+          type: 'u8'
+        }
+      }
+    });
+  });
 });
