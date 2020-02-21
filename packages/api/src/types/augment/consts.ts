@@ -3,8 +3,8 @@
 
 import { Codec } from '@polkadot/types/types';
 import { Bytes, u32, u64 } from '@polkadot/types/primitive';
-import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { Gas } from '@polkadot/types/interfaces/contracts';
+import { Balance, BalanceOf, BlockNumber, Moment, Percent, Permill } from '@polkadot/types/interfaces/runtime';
 import { SessionIndex } from '@polkadot/types/interfaces/session';
 import { EraIndex } from '@polkadot/types/interfaces/staking';
 

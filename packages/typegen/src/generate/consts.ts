@@ -44,7 +44,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
       return acc.concat(generateModule(allDefs, mod, imports, isStrict));
     }, [] as string[]);
     const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
+      ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])
       }))
