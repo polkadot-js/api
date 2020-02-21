@@ -9,7 +9,7 @@ import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isB
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import { typeToConstructor } from './utils';
-import { UIntBitLength } from './AbstractInt';
+import { UIntBitLength, isBigInt } from './AbstractInt';
 import Base from './Base';
 
 export interface CompactEncodable extends Codec {
@@ -60,6 +60,8 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(registry, value.raw);
+    } else if (isBigInt(value)) {
+      return new Type(registry, value.toString());
     } else if (isString(value) || isNumber(value) || isBn(value)) {
       return new Type(registry, value);
     }

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header } from '@polkadot/types/interfaces';
-import { AnyJsonObject, Constructor, Registry } from '@polkadot/types/types';
+import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
@@ -55,11 +55,23 @@ export default class HeaderExtended extends _Header {
   }
 
   /**
+   * @description Creates a human-friendly JSON representation
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return {
+      ...super.toHuman(isExtended) as { [index: string]: AnyJson },
+      author: this.author
+        ? this.author.toHuman()
+        : undefined
+    };
+  }
+
+  /**
    * @description Creates the JSON representation
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     return {
-      ...super.toJSON() as AnyJsonObject,
+      ...super.toJSON() as { [index: string]: AnyJson },
       author: this.author
         ? this.author.toJSON()
         : undefined

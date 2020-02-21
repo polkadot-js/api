@@ -8,7 +8,7 @@ import BN from 'bn.js';
 
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
-import { AnyJsonObject, InterfaceTypes } from './helpers';
+import { AnyJson, InterfaceTypes } from './helpers';
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
@@ -25,7 +25,7 @@ export interface RegistryMetadataCall {
   args: RegistryMetadataCallArg[];
   name: RegistryMetadataText;
 
-  toJSON (): string | AnyJsonObject;
+  toJSON (): AnyJson;
 }
 
 export interface RegistryMetadataCalls {
@@ -41,10 +41,8 @@ export interface RegistryError {
 }
 
 export interface RegistryMetadataError {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  documentation: String[];
+  name: RegistryMetadataText;
+  documentation: RegistryMetadataText[];
 }
 
 export type RegistryMetadataErrors = RegistryMetadataError[];
@@ -61,8 +59,7 @@ export interface RegistryMetadataEvents {
 
 export interface RegistryMetadataExtrinsic {
   version: BN;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  signedExtensions: String[];
+  signedExtensions: RegistryMetadataText[];
 }
 
 export interface RegistryMetadataModule {

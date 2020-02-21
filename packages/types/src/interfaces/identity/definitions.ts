@@ -7,16 +7,15 @@ export default {
     IdentityFields: {
       _set: {
         _bitLength: 64,
-        // Mapped here to the least amount of bits visible, in Rust it is preceded by
-        // `00000000000000000000000000000000000000000000000000000000' for 64-bits
-        Display: 0b00000001,
-        Legal: 0b00000010,
-        Web: 0b00000100,
-        Riot: 0b00001000,
-        Email: 0b00010000,
-        PgpFingerprint: 0b00100000,
-        Image: 0b01000000,
-        Twitter: 0b10000000
+        // Mapped here to 32 bits, in Rust these are 64-bit values
+        Display: 0b00000000_00000000_00000000_0000_0001,
+        Legal: 0b00000000_00000000_00000000_0000_0010,
+        Web: 0b00000000_00000000_00000000_0000_0100,
+        Riot: 0b00000000_00000000_00000000_0000_1000,
+        Email: 0b00000000_00000000_00000000_0001_0000,
+        PgpFingerprint: 0b00000000_00000000_00000000_0010_0000,
+        Image: 0b00000000_00000000_00000000_0100_0000,
+        Twitter: 0b00000000_00000000_00000000_1000_0000
       }
     },
     IdentityInfoAdditional: '(Data, Data)',

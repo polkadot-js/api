@@ -121,15 +121,12 @@ describe('ApiPromise', (): void => {
 
       const signer = new SingleAccountSigner(registry, aliceEd);
       const api = await ApiPromise.create({ provider, registry, signer });
-      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 12345);
+      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321_564_789_876_512_345n);
 
       await transfer.signAsync(aliceEd.address, {});
 
       expect(transfer.signature.toHex()).toEqual(
-        // v1 extrinsic
-        // '0x6b9ccc95afbd4e916d30c65c720f4f7b70a77db545735b48a763844aa5210e695aa346686bad1224af77d00bcfbf6fc8d2c216a60731027835d5a414186a2607'
-        // v4 extrinsic
-        '0x0716cbdc3b649dad8741238bcc8e4336f859c518cf2b17a3427b2f5d0b8a79cf518da71b9ac71d92c517342e0978f297f5e05362babf5987d3f1c5ba3314af08'
+        '0x62bfcd07a9f50ba32ed9e2c41ca11267ac62a24c95949e25efdccc4989d48573f84754dbbaa1d0937ceb888ad8a2cf71daced1545a839d9d6cceac33a5771401'
       );
     });
   });

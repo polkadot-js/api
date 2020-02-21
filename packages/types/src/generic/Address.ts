@@ -55,7 +55,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   /** @internal */
-  public static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
+  private static decodeAddress (registry: Registry, value: AnyAddress): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (value instanceof Address) {

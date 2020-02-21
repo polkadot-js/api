@@ -4,7 +4,7 @@
 
 import { ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import { Balance, Hash, Index } from '../interfaces/runtime';
-import { AnyJsonObject, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
+import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -128,7 +128,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonObject {
+  public toHuman (isExtended?: boolean): AnyJson {
     return this.raw.toHuman(isExtended);
   }
 
