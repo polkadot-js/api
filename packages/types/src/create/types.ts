@@ -31,10 +31,6 @@ export enum TypeDefInfo {
   Null
 }
 
-export interface TypeDefExtLength {
-  length: number;
-}
-
 export interface TypeDefExtEnumDiscriminant {
   discriminant: number;
 }
@@ -43,7 +39,8 @@ export interface TypeDef {
   info: TypeDefInfo;
   index?: number;
   displayName?: string;
-  ext?: TypeDefExtEnumDiscriminant | TypeDefExtLength; // add additional here as required
+  ext?: TypeDefExtEnumDiscriminant; // add additional here as required
+  length?: number;
   name?: string;
   namespace?: string;
   params?: TypeDef[];
