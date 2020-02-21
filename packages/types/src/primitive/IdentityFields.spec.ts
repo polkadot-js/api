@@ -20,9 +20,15 @@ describe('IdentityFields', (): void => {
     ).toBe(true);
   });
 
-  it('encodes to a valid hex value', (): void => {
+  it('encodes to a valid u8a value', (): void => {
     expect(
-      new IdentityFields(registry, ['Display', 'Legal']).toHex()
-    ).toEqual('0x0300000000000000');
+      new IdentityFields(registry, ['Display', 'Legal']).toU8a()
+    ).toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 3]));
+  });
+
+  it('decodes from a u8a', (): void => {
+    expect(
+      new IdentityFields(registry, new Uint8Array([0, 0, 0, 0, 0, 0, 0, 1 + 2 + 64])).toHuman()
+    ).toEqual(['Display', 'Legal', 'Image']);
   });
 });
