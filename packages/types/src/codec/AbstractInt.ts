@@ -15,6 +15,11 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
+// TODO Impot this from util once supported there
+export function isBigInt (value: any): value is BigInt {
+  return typeof value === 'bigint';
+}
+
 /**
  * @name AbstractInt
  * @ignore
@@ -51,6 +56,8 @@ export default abstract class AbstractInt extends BN implements Codec {
       return hexToBn(value, { isLe: false, isNegative }).toString();
     } else if (isU8a(value)) {
       return AbstractInt.decodeAbstracIntU8a(value, bitLength, isNegative);
+    } else if (isBigInt(value)) {
+      return value.toString();
     } else if (isString(value)) {
       return new BN(value, 10).toString();
     }

@@ -1,7 +1,8 @@
 # 1.4.0-beta.x
 
-- Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
-- Add support for `api.rpc.engine.*` for manual seal support
+- Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
+- Add `api.rpc.engine.*` for manual seal support
+- Support JS `BigInt` inputs in any `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`

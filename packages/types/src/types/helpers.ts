@@ -17,7 +17,7 @@ interface AnyJsonArray extends Array<AnyJson> {}
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJsonArray | { [index: string]: AnyJson };
 
-export type AnyNumber = BN | Uint8Array | number | string;
+export type AnyNumber = BN | BigInt | Uint8Array | number | string;
 
 export type AnyString = string | string;
 

@@ -16,6 +16,12 @@ describe('UInt', (): void => {
     ).toThrow('u32: Input too large. Found input with 164 bits, expected 32');
   });
 
+  it('allows for construction via BigInt', (): void => {
+    expect(
+      new UInt(registry, 123_456_789_123_456_789_123_456_789n, 128).toHuman()
+    ).toEqual('123,456,789,123,456,789,123,456,789');
+  });
+
   it('provides a toBn interface', (): void => {
     expect(
       new UInt(registry, 987).toBn().toNumber()
