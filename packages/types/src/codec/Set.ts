@@ -57,10 +57,12 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
     return value.length === 0
       ? []
       : decodeSetNumber(setValues, u8aToBn(value.subarray(0, byteLength), { isLe: false }));
-  } else if (value instanceof Set) {
-    return decodeSetArray(setValues, [...value.values()]);
-  } else if (Array.isArray(value)) {
-    return decodeSetArray(setValues, value);
+  } else if (value instanceof Set || Array.isArray(value)) {
+    const input = Array.isArray(value)
+      ? value
+      : [...value.values()];
+
+    return decodeSetArray(setValues, input);
   }
 
   return decodeSetNumber(setValues, value);
