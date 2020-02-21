@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { Compact, Option, Raw, Vec } from '@polkadot/types/codec';
-import { BitVec, Bytes, Data, IdentityFields, Null, StorageData, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
+import { BitVec, Bytes, Data, Null, StorageData, StorageKey, Text, Type, U256, Unconstructable, bool, i128, i16, i256, i32, i64, i8, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types/primitive';
 import { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, ChangesTrieConfiguration, Consensus, ConsensusEngineId, Digest, DigestItem, DispatchClass, DispatchInfo, DispatchInfoTo190, EcdsaSignature, Ed25519Signature, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, ExtrinsicSignatureV1, ExtrinsicSignatureV2, ExtrinsicSignatureV3, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Fixed64, H160, H256, H512, Hash, Header, ImmortalEra, Index, Justification, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, Moment, MortalEra, MultiSignature, Origin, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Seal, SealV0, Signature, SignedBlock, SignerPayload, Sr25519Signature, ValidatorId, Weight, WeightMultiplier } from '@polkadot/types/interfaces/runtime';
 import { InclusionHeight, Uncle, UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -18,7 +18,7 @@ import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import { Account, Log } from '@polkadot/types/interfaces/evm';
 import { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import { AuthorityIndex, AuthorityList, AuthorityWeight, NextAuthority, PendingPause, PendingResume, SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
-import { IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
+import { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement } from '@polkadot/types/interfaces/identity';
 import { AuthIndex, AuthoritySignature, Heartbeat, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } from '@polkadot/types/interfaces/offences';
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
@@ -49,9 +49,6 @@ export interface InterfaceRegistry {
   Data: Data;
   'Option<Data>': Option<Data>;
   'Vec<Data>': Vec<Data>;
-  IdentityFields: IdentityFields;
-  'Option<IdentityFields>': Option<IdentityFields>;
-  'Vec<IdentityFields>': Vec<IdentityFields>;
   i8: i8;
   'Option<i8>': Option<i8>;
   'Vec<i8>': Vec<i8>;
@@ -603,6 +600,9 @@ export interface InterfaceRegistry {
   StoredState: StoredState;
   'Option<StoredState>': Option<StoredState>;
   'Vec<StoredState>': Vec<StoredState>;
+  IdentityFields: IdentityFields;
+  'Option<IdentityFields>': Option<IdentityFields>;
+  'Vec<IdentityFields>': Vec<IdentityFields>;
   IdentityInfoAdditional: IdentityInfoAdditional;
   'Option<IdentityInfoAdditional>': Option<IdentityInfoAdditional>;
   'Vec<IdentityInfoAdditional>': Vec<IdentityInfoAdditional>;

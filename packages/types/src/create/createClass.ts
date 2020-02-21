@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefExtLength, TypeDefInfo } from './types';
+import { FromReg, TypeDef, TypeDefInfo } from './types';
 
-import { assert } from '@polkadot/util';
+import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 import { UIntBitLength } from '../codec/AbstractInt';
 import BTreeMap from '../codec/BTreeMap';
@@ -78,12 +78,10 @@ function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
   );
 }
 
-function createInt (value: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
-  assert(value.ext, `Expected bitLength information for ${Clazz.constructor.name}<bitLength>`);
+function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
+  assert(isNumber(length), `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
 
-  const { length } = value.ext as TypeDefExtLength;
-
-  return Clazz.with(length as UIntBitLength, value.displayName);
+  return Clazz.with(length as UIntBitLength, displayName);
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
@@ -137,7 +135,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
         result[name as string] = index as number;
 
         return result;
-      }, result)
+      }, result),
+      value.length
     );
   },
 
@@ -157,16 +156,13 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, value: TypeDef): Constructor => {
-    assert(value.ext, 'Expected length & type information for fixed vector');
-
-    const { length } = value.ext as TypeDefExtLength;
-    const sub = value.sub as TypeDef;
+  [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
+    assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
     return (
-      sub.type === 'u8'
-        ? U8aFixed.with((length * 8) as U8aFixedBitLength, value.displayName)
-        : VecFixed.with(sub.type as InterfaceTypes, length)
+      (sub as TypeDef).type === 'u8'
+        ? U8aFixed.with((length * 8) as U8aFixedBitLength, displayName)
+        : VecFixed.with((sub as TypeDef).type as InterfaceTypes, length)
     );
   }
 };
