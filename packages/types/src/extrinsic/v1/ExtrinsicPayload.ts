@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, ExtrinsicEra, Index } from '../../interfaces/runtime';
+import { ExtrinsicEra } from '../../interfaces/extrinsics';
+import { Hash, Index } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IKeyringPair, Registry } from '../../types';
 
 import Compact from '../../codec/Compact';

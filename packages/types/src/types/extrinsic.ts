@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
 import { ExtrinsicStatus } from '../interfaces/rpc';
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, H256, Index, Sr25519Signature } from '../interfaces/runtime';
+import { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
 import { EventRecord } from '../interfaces/system';
 import { Codec } from './codec';
 import { AnyJson, AnyNumber, AnyU8a } from './helpers';
