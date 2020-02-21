@@ -121,7 +121,7 @@ describe('ApiPromise', (): void => {
 
       const signer = new SingleAccountSigner(registry, aliceEd);
       const api = await ApiPromise.create({ provider, registry, signer });
-      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 12345);
+      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 9_876_512_345n);
 
       await transfer.signAsync(aliceEd.address, {});
 

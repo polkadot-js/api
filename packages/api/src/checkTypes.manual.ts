@@ -89,7 +89,8 @@ function types (): void {
 }
 
 async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
+  // transfer, also allows for BigInt inputs here
+  const transfer = api.tx.balances.transfer(keyring.bob.address, 123_456_789n);
 
   console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);

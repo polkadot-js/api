@@ -29,7 +29,7 @@ describe('ExtrinsicV4', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).toHex()
     ).toEqual(
       '0x' +
@@ -44,7 +44,7 @@ describe('ExtrinsicV4', (): void => {
     expect(
       new Extrinsic(
         registry,
-        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969)
+        decorated.tx.balances.transfer(keyring.bob.publicKey, 6969n)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
