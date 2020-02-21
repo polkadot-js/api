@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Index, MultiSignature, Sr25519Signature } from '../../interfaces/runtime';
+import { EcdsaSignature, Ed25519Signature, ExtrinsicEra, MultiSignature, Sr25519Signature } from '../../interfaces/extrinsics';
+import { Address, Balance, Call, Index } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import { ExtrinsicSignatureOptions } from '../types';
 

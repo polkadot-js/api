@@ -5,8 +5,8 @@ import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Result, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { GenericEvent } from '@polkadot/types/generic';
 import { Bytes, Text, u32, u8 } from '@polkadot/types/primitive';
-import { Digest, Hash, Index } from '@polkadot/types/interfaces/runtime';
 import { AccountData } from '@polkadot/types/interfaces/balances';
+import { Digest, Hash, Index } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountInfo */
 export interface AccountInfo extends Struct {

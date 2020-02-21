@@ -46,7 +46,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
     }, '');
 
     const header = createImportCode(HEADER, imports, [
-      ...Object.keys(imports.localTypes).map((moduleName): { file: string; types: string[] } => ({
+      ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])
       }))

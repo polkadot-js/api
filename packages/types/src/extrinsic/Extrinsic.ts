@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadataLatest } from '../interfaces/metadata/types';
-import { Address, Balance, Call, EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Index, Sr25519Signature } from '../interfaces/runtime';
+import { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV1, ExtrinsicV2, ExtrinsicV3, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
+import { Address, Balance, Call, Index } from '../interfaces/runtime';
 import { ArgsDef, AnyJsonObject, AnyU8a, Codec, ExtrinsicPayloadValue, IExtrinsic, IKeyringPair, InterfaceTypes, Registry, SignatureOptions } from '../types';
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';

@@ -3,11 +3,12 @@
 
 import { AnyNumber, Codec, IExtrinsic } from '@polkadot/types/types';
 import { Option, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, StorageKey, Text, bool, u32, u64 } from '@polkadot/types/primitive';
 import { Metadata } from '@polkadot/types';
-import { AccountId, BlockNumber, Extrinsic, H256, Hash, Header, Index, SignedBlock } from '@polkadot/types/interfaces/runtime';
 import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import { BlockHash, ChainProperties, ExtrinsicOrHash, ExtrinsicStatus, Health, NetworkState, PeerInfo, RpcMethods, RuntimeDispatchInfo, RuntimeVersion, StorageChangeSet } from '@polkadot/types/interfaces/rpc';
+import { AccountId, BlockNumber, H256, Hash, Header, Index, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import { Observable } from 'rxjs';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
