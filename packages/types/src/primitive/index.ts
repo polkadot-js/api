@@ -12,7 +12,6 @@ export { default as BitVec } from './BitVec';
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
-export { default as IdentityFields } from './IdentityFields';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';

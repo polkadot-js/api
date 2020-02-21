@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefExtLength, TypeDefInfo } from './types';
+import { TypeDef, TypeDefInfo } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -34,12 +34,16 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
 function _decodeSet (value: TypeDef, details: Record<string, number>): TypeDef {
   value.info = TypeDefInfo.Set;
-  value.sub = Object.entries(details).map(([name, index]): TypeDef => ({
-    index,
-    info: TypeDefInfo.Plain,
-    name,
-    type: name
-  }));
+  value.length = details._bitLength;
+  value.sub = Object
+    .entries(details)
+    .filter(([name]): boolean => !name.startsWith('_'))
+    .map(([name, index]): TypeDef => ({
+      index,
+      info: TypeDefInfo.Plain,
+      name,
+      type: name
+    }));
 
   return value;
 }
@@ -74,7 +78,7 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string): TypeDef {
   assert(length <= 256, `${type}: Only support for [Type; <length>], where length <= 256`);
 
   value.displayName = displayName;
-  value.ext = { length } as TypeDefExtLength;
+  value.length = length;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   value.sub = getTypeDef(vecType);
 
@@ -103,7 +107,7 @@ function _decodeInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UI
   assert(length <= 8192 && (length % 8) === 0, `${type}: Only support for ${clazz}<bitLength>, where length <= 8192 and a power of 8, found ${length}`);
 
   value.displayName = displayName;
-  value.ext = { length } as TypeDefExtLength;
+  value.length = length;
 
   return value;
 }

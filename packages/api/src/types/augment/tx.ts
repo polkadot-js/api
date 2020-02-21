@@ -3,13 +3,13 @@
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
 import { Compact, Option, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, Data, IdentityFields, bool, u16, u32, u64 } from '@polkadot/types/primitive';
+import { Bytes, Data, bool, u16, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment, Signature } from '@polkadot/types/interfaces/runtime';
 import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import { Vote } from '@polkadot/types/interfaces/elections';
-import { IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
+import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import { Keys } from '@polkadot/types/interfaces/session';
 import { SocietyJudgement } from '@polkadot/types/interfaces/society';
