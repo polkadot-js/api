@@ -4,6 +4,11 @@
 
 export default {
   types: {
+    AccountInfo: {
+      nonce: 'Index',
+      refcount: 'RefCount',
+      data: 'AccountData'
+    },
     DigestOf: 'Digest',
     DispatchError: {
       _enum: {
@@ -42,6 +47,7 @@ export default {
         ApplyExtrinsic: 'u32',
         Finalization: 'Null'
       }
-    }
+    },
+    RefCount: 'u8'
   }
 };

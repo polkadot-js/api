@@ -95,7 +95,7 @@ export function createImports (importDefinitions: Record<string, object>, { type
 
       Object.keys(moduleDef.types).forEach((type): void => {
         if (typeToModule[type]) {
-          throw new Error(`Duplicated type: ${type}. Modules: ${name}, ${typeToModule[type]}`);
+          throw new Error(`Duplicated type: ${type}, found in: ${name}, ${typeToModule[type]}`);
         }
 
         typeToModule[type] = name;
