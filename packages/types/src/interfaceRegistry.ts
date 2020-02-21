@@ -24,7 +24,7 @@ import { Kind, OffenceDetails, Offender, OpaqueTimeSlot, ReportIdOf, Reporter } 
 import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recovery';
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, BidKindVouch, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
-import { CompactAssignments, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
+import { CompactAssignment, CompactAssignments, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
 import { AccountInfo, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -724,6 +724,9 @@ export interface InterfaceRegistry {
   VouchingStatus: VouchingStatus;
   'Option<VouchingStatus>': Option<VouchingStatus>;
   'Vec<VouchingStatus>': Vec<VouchingStatus>;
+  CompactAssignment: CompactAssignment;
+  'Option<CompactAssignment>': Option<CompactAssignment>;
+  'Vec<CompactAssignment>': Vec<CompactAssignment>;
   CompactAssignments: CompactAssignments;
   'Option<CompactAssignments>': Option<CompactAssignments>;
   'Vec<CompactAssignments>': Vec<CompactAssignments>;

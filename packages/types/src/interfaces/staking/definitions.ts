@@ -4,9 +4,10 @@
 
 export default {
   types: {
+    CompactAssignment: '(AccountId, u128)',
     CompactAssignments: {
-      votes1: 'Vec<(AccountId, AccountId)>',
-      votes2: 'Vec<(AccountId, (AccountId, u128), AccountId)>',
+      votes1: 'Vec<(AccountId, [(AccountId, u128); 0], AccountId)>',
+      votes2: 'Vec<(AccountId, [(AccountId, u128); 1], AccountId)>',
       votes3: 'Vec<(AccountId, [(AccountId, u128); 2], AccountId)>',
       votes4: 'Vec<(AccountId, [(AccountId, u128); 3], AccountId)>',
       votes5: 'Vec<(AccountId, [(AccountId, u128); 4], AccountId)>',
@@ -20,7 +21,7 @@ export default {
       votes13: 'Vec<(AccountId, [(AccountId, u128); 12], AccountId)>',
       votes14: 'Vec<(AccountId, [(AccountId, u128); 13], AccountId)>',
       votes15: 'Vec<(AccountId, [(AccountId, u128); 14], AccountId)>',
-      votes16: 'Vec<(AccountId, [(AccountId, u128); 15], AccountId)>',
+      votes16: 'Vec<(AccountId, [(AccountId, u128); 15], AccountId)>'
     },
     ElectionCompute: {
       _enum: ['OnChain', 'Signed', 'Authority']
