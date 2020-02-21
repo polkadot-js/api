@@ -5,21 +5,8 @@
 import { Registry } from '../types';
 
 import BN from 'bn.js';
-import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Set from '../codec/Set';
-import { createType } from '../create/createType';
-
-/** @internal */
-function decodeFields (registry: Registry, value?: any): any {
-  if (isString(value)) {
-    return decodeFields(registry, u8aToU8a(value.toString()));
-  } else if (isU8a(value)) {
-    return createType(registry, 'u64', value);
-  }
-
-  return value;
-}
 
 /**
  * @name IdentityFields
@@ -37,20 +24,6 @@ export default class IdentityFields extends Set {
       PgpFingerprint: new BN(0b0000000000000000000000000000000000000000000000000000000000100000),
       Image: new BN(0b0000000000000000000000000000000000000000000000000000000001000000),
       Twitter: new BN(0b0000000000000000000000000000000000000000000000000000000010000000)
-    }, decodeFields(registry, value));
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return 8;
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   */
-  public toU8a (): Uint8Array {
-    return createType(this.registry, 'u64', this.valueEncoded).toU8a();
+    }, value, 64);
   }
 }
