@@ -11,8 +11,8 @@ import { AccountData, BalanceLock, BalanceLockTo212, Reasons, VestingSchedule, W
 import { MemberCount, ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import { AliveContractInfo, CodeHash, ContractCallRequest, ContractExecResult, ContractExecResultSuccess, ContractInfo, ContractStorageKey, Gas, PrefabWasmModule, PrefabWasmModuleReserved, Schedule, ScheduleTo212, SeedOf, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import { Conviction, PropIndex, Proposal, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import { AccountInfo, Amount, AssetOf, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from '@polkadot/types/interfaces/deprecated';
+import { Conviction, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
+import { Amount, AssetOf, ContractAccountInfo, InherentOfflineReport, LockPeriods, NewAccountOutcome, OpaqueKey, SessionKey } from '@polkadot/types/interfaces/deprecated';
 import { ApprovalFlag, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import { Account, Log } from '@polkadot/types/interfaces/evm';
@@ -25,7 +25,7 @@ import { ActiveRecovery, RecoveryConfig } from '@polkadot/types/interfaces/recov
 import { FullIdentification, IdentificationTuple, Keys, SessionIndex, SessionKeys1, SessionKeys2, SessionKeys3, SessionKeys4, SessionKeys5, SessionKeys6 } from '@polkadot/types/interfaces/session';
 import { Bid, BidKind, BidKindVouch, SocietyJudgement, SocietyVote, StrikeCount, VouchingStatus } from '@polkadot/types/interfaces/society';
 import { CompactAssignments, ElectionCompute, ElectionResult, ElectionStatus, EraIndex, EraPoints, EraRewards, Exposure, Forcing, IndividualExposure, KeyType, MomentOf, Nominations, PhragmenScore, Points, RewardDestination, SlashJournalEntry, SlashingSpans, SlashingSpansTo204, SpanIndex, SpanRecord, StakingLedger, UnappliedSlash, UnappliedSlashOther, UnlockChunk, ValidatorIndex, ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces/staking';
-import { DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase } from '@polkadot/types/interfaces/system';
+import { AccountInfo, DigestOf, DispatchError, DispatchErrorModule, DispatchErrorTo198, DispatchResult, DispatchResultOf, DispatchResultTo198, Event, EventId, EventIndex, EventRecord, EventRecordTo76, Key, Phase, RefCount } from '@polkadot/types/interfaces/system';
 import { OpenTip, OpenTipFinder, OpenTipTip, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
@@ -493,6 +493,9 @@ export interface InterfaceRegistry {
   Proposal: Proposal;
   'Option<Proposal>': Option<Proposal>;
   'Vec<Proposal>': Vec<Proposal>;
+  ProxyState: ProxyState;
+  'Option<ProxyState>': Option<ProxyState>;
+  'Vec<ProxyState>': Vec<ProxyState>;
   ReferendumIndex: ReferendumIndex;
   'Compact<ReferendumIndex>': Compact<ReferendumIndex>;
   'Option<ReferendumIndex>': Option<ReferendumIndex>;
@@ -510,9 +513,9 @@ export interface InterfaceRegistry {
   'Compact<AssetOf>': Compact<AssetOf>;
   'Option<AssetOf>': Option<AssetOf>;
   'Vec<AssetOf>': Vec<AssetOf>;
-  AccountInfo: AccountInfo;
-  'Option<AccountInfo>': Option<AccountInfo>;
-  'Vec<AccountInfo>': Vec<AccountInfo>;
+  ContractAccountInfo: ContractAccountInfo;
+  'Option<ContractAccountInfo>': Option<ContractAccountInfo>;
+  'Vec<ContractAccountInfo>': Vec<ContractAccountInfo>;
   LockPeriods: LockPeriods;
   'Option<LockPeriods>': Option<LockPeriods>;
   'Vec<LockPeriods>': Vec<LockPeriods>;
@@ -812,6 +815,9 @@ export interface InterfaceRegistry {
   ValidatorPrefsTo145: ValidatorPrefsTo145;
   'Option<ValidatorPrefsTo145>': Option<ValidatorPrefsTo145>;
   'Vec<ValidatorPrefsTo145>': Vec<ValidatorPrefsTo145>;
+  AccountInfo: AccountInfo;
+  'Option<AccountInfo>': Option<AccountInfo>;
+  'Vec<AccountInfo>': Vec<AccountInfo>;
   DigestOf: DigestOf;
   'Option<DigestOf>': Option<DigestOf>;
   'Vec<DigestOf>': Vec<DigestOf>;
@@ -855,6 +861,10 @@ export interface InterfaceRegistry {
   Phase: Phase;
   'Option<Phase>': Option<Phase>;
   'Vec<Phase>': Vec<Phase>;
+  RefCount: RefCount;
+  'Compact<RefCount>': Compact<RefCount>;
+  'Option<RefCount>': Option<RefCount>;
+  'Vec<RefCount>': Vec<RefCount>;
   OpenTipFinder: OpenTipFinder;
   'Option<OpenTipFinder>': Option<OpenTipFinder>;
   'Vec<OpenTipFinder>': Vec<OpenTipFinder>;

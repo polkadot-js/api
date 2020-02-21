@@ -7,6 +7,7 @@ import { OverrideModuleType, OverrideVersionedType } from './types';
 // type overrides for modules (where duplication between modules exist)
 const TYPES_MODULES: Record<string, OverrideModuleType> = {
   contracts: {
+    AccountInfo: 'ContractAccountInfo', // old metadata V3
     StorageKey: 'ContractStorageKey'
   },
   identity: {

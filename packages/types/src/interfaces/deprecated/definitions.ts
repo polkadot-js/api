@@ -16,7 +16,7 @@ export default {
 
     // Metadata v3
     // :: contracts
-    AccountInfo: {
+    ContractAccountInfo: {
       trieId: 'Bytes',
       currentMemStored: 'u64'
     },

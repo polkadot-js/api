@@ -6,17 +6,17 @@ import { Enum, Struct } from '@polkadot/types/codec';
 import { Bytes, i8, u32, u64 } from '@polkadot/types/primitive';
 import { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** @name AccountInfo */
-export interface AccountInfo extends Struct {
-  readonly trieId: Bytes;
-  readonly currentMemStored: u64;
-}
-
 /** @name Amount */
 export interface Amount extends Balance {}
 
 /** @name AssetOf */
 export interface AssetOf extends u32 {}
+
+/** @name ContractAccountInfo */
+export interface ContractAccountInfo extends Struct {
+  readonly trieId: Bytes;
+  readonly currentMemStored: u64;
+}
 
 /** @name InherentOfflineReport */
 export interface InherentOfflineReport extends ITuple<[]> {}
