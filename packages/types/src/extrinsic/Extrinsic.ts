@@ -254,7 +254,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
    */
   public toHuman (isExpanded?: boolean): AnyJsonObject {
     return {
-      call: this.method.toHuman(isExpanded),
+      method: this.method.toHuman(isExpanded),
       isSigned: this.isSigned,
       ...(this.isSigned
         ? {
