@@ -9,6 +9,7 @@ import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import { createType } from '../create';
+import { isBigInt } from '../codec/AbstractInt';
 import U32 from '../primitive/U32';
 
 export const ENUMSET_SIZE = new BN(64);
@@ -21,6 +22,20 @@ const MAX_1BYTE = new BN(PREFIX_1BYTE);
 const MAX_2BYTE = new BN(1).shln(16);
 const MAX_4BYTE = new BN(1).shln(32);
 
+/** @internal */
+function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | number | string {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  if (value instanceof AccountIndex) {
+    // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
+    // AccountIndex), which has the initial `toString()` implementation.
+    return value.toBn();
+  } else if (isBn(value) || isNumber(value) || isHex(value) || isU8a(value) || isBigInt(value)) {
+    return value;
+  }
+
+  return decodeAccountIndex(decodeAddress(value));
+}
+
 /**
  * @name AccountIndex
  * @description
@@ -29,20 +44,7 @@ const MAX_4BYTE = new BN(1).shln(32);
  */
 export default class AccountIndex extends U32 {
   constructor (registry: Registry, value: AnyNumber = new BN(0)) {
-    super(registry, AccountIndex.decodeAccountIndex(value));
-  }
-
-  /** @internal */
-  public static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
-    if (value instanceof AccountIndex) {
-      // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
-      // AccountIndex), which has the initial `toString()` implementation.
-      return value.toBn();
-    } else if (isBn(value) || isNumber(value) || isHex(value) || isU8a(value)) {
-      return value;
-    }
-
-    return AccountIndex.decodeAccountIndex(decodeAddress(value));
+    super(registry, decodeAccountIndex(value));
   }
 
   public static calcLength (_value: BN | number): number {

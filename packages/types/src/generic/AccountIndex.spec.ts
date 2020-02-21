@@ -16,6 +16,12 @@ describe('AccountIndex', (): void => {
     ).toEqual(336794129);
   });
 
+  it('creates from BigInt', (): void => {
+    expect(
+      createType(registry, 'AccountIndex', 336_794_129n).toNumber()
+    ).toEqual(336794129);
+  });
+
   it('creates a BN representation (from ss-58)', (): void => {
     expect(
       createType(registry, 'AccountIndex', 'Mwz15xP2').toNumber()
