@@ -31,11 +31,11 @@ export default {
     },
     WithdrawReasons: {
       _set: {
-        TransactionPayment: 0b00000001,
-        Transfer: 0b00000010,
-        Reserve: 0b00000100,
-        Fee: 0b00001000,
-        Tip: 0b00010000
+        TransactionPayment: 0b0000_0001,
+        Transfer: 0b0000_0010,
+        Reserve: 0b0000_0100,
+        Fee: 0b0000_1000,
+        Tip: 0b0001_0000
       }
     }
   }
