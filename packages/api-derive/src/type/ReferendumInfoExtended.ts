@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ReferendumIndex, ReferendumInfo } from '@polkadot/types/interfaces/democracy';
-import { AnyJsonObject, Constructor, Registry } from '@polkadot/types/types';
+import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import democracyTypes from '@polkadot/types/interfaces/democracy/definitions';
@@ -36,11 +36,21 @@ export default class ReferendumInfoExtended extends _ReferendumInfo {
   }
 
   /**
+   * @description Creates a human-friendly JSON representation
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return {
+      ...super.toHuman(isExtended) as { [index: string]: AnyJson },
+      index: this.index.toHuman(isExtended)
+    };
+  }
+
+  /**
    * @description Creates the JSON representation
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     return {
-      ...super.toJSON() as AnyJsonObject,
+      ...super.toJSON() as { [index: string]: AnyJson },
       index: this.index.toJSON()
     };
   }

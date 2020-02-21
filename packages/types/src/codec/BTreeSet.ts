@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJsonArray, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -144,7 +144,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonArray {
+  public toHuman (isExtended?: boolean): AnyJson {
     const json: any = [];
 
     this.forEach((v: V) => {
@@ -157,7 +157,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonArray {
+  public toJSON (): AnyJson {
     const json: any = [];
 
     this.forEach((v: V) => {

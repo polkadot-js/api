@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { AnyJsonObject, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
+import { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
 
 // we do a direct import here to remove all circular dependencies (importing from
 // /types, /types/codec or /types/create makes all hell break loose)
@@ -31,7 +31,7 @@ export default function createDescriptor (registry: Registry, section: string, s
   extrinsicFn.meta = callMetadata;
   extrinsicFn.method = funcName;
   extrinsicFn.section = section;
-  extrinsicFn.toJSON = (): string | AnyJsonObject =>
+  extrinsicFn.toJSON = (): AnyJson =>
     callMetadata.toJSON();
 
   return extrinsicFn as CallFunction;

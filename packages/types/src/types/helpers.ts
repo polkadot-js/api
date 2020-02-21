@@ -26,10 +26,4 @@ export type AnyString = string | string;
 
 export type AnyU8a = Uint8Array | number[] | string;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AnyJsonObject extends Record<string, AnyJson> {}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AnyJsonArray extends Array<AnyJson> {}
-
-export type AnyJson = string | number | boolean | null | undefined | AnyJsonObject | AnyJsonArray;
+export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
