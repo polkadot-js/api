@@ -19,7 +19,6 @@ export { default as i64 } from './I64';
 export { default as i128 } from './I128';
 export { default as i256 } from './I256';
 export { default as Null } from './Null';
-export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
 export { default as Type } from './Type';

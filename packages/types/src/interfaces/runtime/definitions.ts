@@ -98,6 +98,7 @@ export default {
       justification: 'Justification'
     },
     SignerPayload: 'GenericSignerPayload',
+    StorageData: 'Bytes',
     ValidatorId: 'AccountId',
     Weight: 'u32',
     WeightMultiplier: 'Fixed64',

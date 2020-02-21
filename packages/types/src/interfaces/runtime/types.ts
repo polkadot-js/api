@@ -5,7 +5,7 @@ import { ITuple } from '@polkadot/types/types';
 import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
 import { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types/extrinsic';
 import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericOrigin } from '@polkadot/types/generic';
-import { Bytes, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Bytes, Null, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
 
 /** @name AccountId */
@@ -255,6 +255,9 @@ export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
 export interface Sr25519Signature extends Signature {}
+
+/** @name StorageData */
+export interface StorageData extends Bytes {}
 
 /** @name ValidatorId */
 export interface ValidatorId extends AccountId {}
