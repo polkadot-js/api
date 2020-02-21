@@ -6,9 +6,6 @@ import { Compact, Enum, Struct, Vec } from '@polkadot/types/codec';
 import { bool, u128, u16, u32 } from '@polkadot/types/primitive';
 import { AccountId, Balance, BlockNumber, Moment, Perbill } from '@polkadot/types/interfaces/runtime';
 
-/** @name CompactAssignment */
-export interface CompactAssignment extends ITuple<[AccountId, u128]> {}
-
 /** @name CompactAssignments */
 export interface CompactAssignments extends Struct {
   readonly votes1: Vec<ITuple<[AccountId, Vec<ITuple<[AccountId, u128]>>, AccountId]>>;

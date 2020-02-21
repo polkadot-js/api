@@ -4,7 +4,6 @@
 
 export default {
   types: {
-    CompactAssignment: '(AccountId, u128)',
     CompactAssignments: {
       votes1: 'Vec<(AccountId, [(AccountId, u128); 0], AccountId)>',
       votes2: 'Vec<(AccountId, [(AccountId, u128); 1], AccountId)>',
