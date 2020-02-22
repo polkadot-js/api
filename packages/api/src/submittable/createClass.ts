@@ -222,7 +222,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       ]).pipe(
         map(([signedBlock, allEvents]): ISubmittableResult =>
           new SubmittableResult({
-            events: filterEvents(this.hash, signedBlock, allEvents),
+            events: filterEvents(this.hash, signedBlock, allEvents, status),
             status
           })
         )
