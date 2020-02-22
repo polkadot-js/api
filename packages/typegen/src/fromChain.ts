@@ -4,15 +4,12 @@
 
 import path from 'path';
 import yargs from 'yargs';
+import getWSClass from '@polkadot/rpc-provider/ws/getWSClass';
 import { formatNumber } from '@polkadot/util';
 
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
 import generateTx from './generate/tx';
-
-if (typeof WebSocket === 'undefined') {
-  (global as any).WebSocket = require('websocket').w3cwebsocket;
-}
 
 let websocket: any = null;
 
@@ -67,19 +64,25 @@ export default function main (): void {
       type: 'string'
     },
     strict: {
-      description: 'Turns on stirct mode, not outputting genric versions',
+      description: 'Turns on stict mode, no output of catch-all generic versions',
       type: 'boolean'
     }
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    websocket = new WebSocket(endpoint);
-    websocket.onclose = onSocketClose;
-    websocket.onerror = onSocketError;
-    websocket.onopen = onSocketOpen;
-    websocket.onmessage = (message: any): void => {
-      generate(JSON.parse(message.data).result, pkg, output, isStrict);
-    };
+    getWSClass()
+      .then((WS): void => {
+        websocket = new WS(endpoint);
+        websocket.onclose = onSocketClose;
+        websocket.onerror = onSocketError;
+        websocket.onopen = onSocketOpen;
+        websocket.onmessage = (message: any): void => {
+          generate(JSON.parse(message.data).result, pkg, output, isStrict);
+        };
+      })
+      .catch((): void => {
+        process.exit(1);
+      });
   } else {
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }
