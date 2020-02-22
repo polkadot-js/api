@@ -4,23 +4,14 @@
 
 import path from 'path';
 import yargs from 'yargs';
+import getWSClass from '@polkadot/rpc-provider/ws/getWSClass';
 import { formatNumber } from '@polkadot/util';
 
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
 import generateTx from './generate/tx';
 
-if (typeof WebSocket === 'undefined') {
-  (global as any).WebSocket = require('websocket').w3cwebsocket;
-}
-
 let websocket: any = null;
-
-function getWS (): Promise<typeof WebSocket> {
-  return typeof WebSocket === 'undefined'
-    ? import('websocket').then(({ w3cwebsocket }) => w3cwebsocket as unknown as typeof WebSocket)
-    : Promise.resolve().then(() => WebSocket);
-}
 
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
@@ -73,13 +64,13 @@ export default function main (): void {
       type: 'string'
     },
     strict: {
-      description: 'Turns on stirct mode, not outputting genric versions',
+      description: 'Turns on stict mode, no output of catch-all generic versions',
       type: 'boolean'
     }
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    getWS()
+    getWSClass()
       .then((WS): void => {
         websocket = new WS(endpoint);
         websocket.onclose = onSocketClose;
