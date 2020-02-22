@@ -16,6 +16,12 @@ if (typeof WebSocket === 'undefined') {
 
 let websocket: any = null;
 
+function getWS (): Promise<typeof WebSocket> {
+  return typeof WebSocket === 'undefined'
+    ? import('websocket').then(({ w3cwebsocket }) => w3cwebsocket as unknown as typeof WebSocket)
+    : Promise.resolve().then(() => WebSocket);
+}
+
 function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
@@ -73,13 +79,19 @@ export default function main (): void {
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    websocket = new WebSocket(endpoint);
-    websocket.onclose = onSocketClose;
-    websocket.onerror = onSocketError;
-    websocket.onopen = onSocketOpen;
-    websocket.onmessage = (message: any): void => {
-      generate(JSON.parse(message.data).result, pkg, output, isStrict);
-    };
+    getWS()
+      .then((WS): void => {
+        websocket = new WS(endpoint);
+        websocket.onclose = onSocketClose;
+        websocket.onerror = onSocketError;
+        websocket.onopen = onSocketOpen;
+        websocket.onmessage = (message: any): void => {
+          generate(JSON.parse(message.data).result, pkg, output, isStrict);
+        };
+      })
+      .catch((): void => {
+        process.exit(1);
+      });
   } else {
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }

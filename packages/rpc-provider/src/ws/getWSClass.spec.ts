@@ -5,10 +5,11 @@
 import { Constructor } from '@polkadot/types/types';
 
 import { Global } from './../mock/types';
+import getWSClass from './getWSClass';
 
 declare const global: Global;
 
-describe('ws/polyfill', (): void => {
+describe('getWebScoket', (): void => {
   let origWs: Constructor<WebSocket>;
 
   beforeEach((): void => {
@@ -19,17 +20,19 @@ describe('ws/polyfill', (): void => {
     global.WebSocket = origWs;
   });
 
-  it('polyfills with no exceptions (with WebSocket)', (): void => {
+  it('polyfills with no exceptions (with WebSocket)', async (): Promise<void> => {
     (global as any).WebSocket = undefined;
-    require('./polyfill');
 
-    expect(global.WebSocket).toBeDefined();
+    const WS = await getWSClass();
+
+    expect(WS).toBeDefined();
   });
 
-  it('polyfills with no exceptions (without WebSocket)', (): void => {
+  it('polyfills with no exceptions (without WebSocket)', async (): Promise<void> => {
     (global as any).WebSocket = (): boolean => true;
-    require('./polyfill');
 
-    expect(global.WebSocket).toBeDefined();
+    const WS = await getWSClass();
+
+    expect(WS).toBeDefined();
   });
 });

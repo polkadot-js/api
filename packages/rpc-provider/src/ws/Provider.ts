@@ -5,13 +5,12 @@
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitted, ProviderInterfaceEmitCb } from '../types';
 
-import './polyfill';
-
 import EventEmitter from 'eventemitter3';
 import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
 import Coder from '../coder';
 import defaults from '../defaults';
+import getWSClass from './getWSClass';
 
 type CallbackHandler = (error?: null | Error, value?: any) => void;
 
@@ -122,9 +121,11 @@ export default class WsProvider implements WSProviderInterface {
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
    */
-  public connect (): void {
+  public async connect (): Promise<void> {
     try {
-      this.#websocket = new WebSocket(this.#endpoint);
+      const WS = await getWSClass();
+
+      this.#websocket = new WS(this.#endpoint);
       this.#websocket.onclose = this.#onSocketClose;
       this.#websocket.onerror = this.#onSocketError;
       this.#websocket.onmessage = this.#onSocketMessage;
