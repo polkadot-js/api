@@ -125,11 +125,10 @@ export default class WsProvider implements WSProviderInterface {
   public connect (): void {
     try {
       this.#websocket = new WebSocket(this.#endpoint);
-
-      this.#websocket.onclose = this.onSocketClose;
-      this.#websocket.onerror = this.onSocketError;
-      this.#websocket.onmessage = this.onSocketMessage;
-      this.#websocket.onopen = this.onSocketOpen;
+      this.#websocket.onclose = this.#onSocketClose;
+      this.#websocket.onerror = this.#onSocketError;
+      this.#websocket.onmessage = this.#onSocketMessage;
+      this.#websocket.onopen = this.#onSocketOpen;
     } catch (error) {
       l.error(error);
     }
@@ -262,17 +261,17 @@ export default class WsProvider implements WSProviderInterface {
     return result as boolean;
   }
 
-  private emit (type: ProviderInterfaceEmitted, ...args: any[]): void {
+  #emit = (type: ProviderInterfaceEmitted, ...args: any[]): void => {
     this.#eventemitter.emit(type, ...args);
   }
 
-  private onSocketClose = (event: CloseEvent): void => {
+  #onSocketClose = (event: CloseEvent): void => {
     if (this.#autoConnect) {
       l.error(`disconnected from ${this.#endpoint} code: '${event.code}' reason: '${event.reason}'`);
     }
 
     this.#isConnected = false;
-    this.emit('disconnected');
+    this.#emit('disconnected');
 
     if (this.#autoConnect) {
       setTimeout((): void => {
@@ -281,22 +280,22 @@ export default class WsProvider implements WSProviderInterface {
     }
   }
 
-  private onSocketError = (error: Event): void => {
+  #onSocketError = (error: Event): void => {
     l.debug((): any => ['socket error', error]);
-    this.emit('error', error);
+    this.#emit('error', error);
   }
 
-  private onSocketMessage = (message: MessageEvent): void => {
+  #onSocketMessage = (message: MessageEvent): void => {
     l.debug((): any => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);
 
     return isUndefined(response.method)
-      ? this.onSocketMessageResult(response)
-      : this.onSocketMessageSubscribe(response);
+      ? this.#onSocketMessageResult(response)
+      : this.#onSocketMessageSubscribe(response);
   }
 
-  private onSocketMessageResult = (response: JsonRpcResponse): void => {
+  #onSocketMessageResult = (response: JsonRpcResponse): void => {
     const handler = this.#handlers[response.id];
 
     if (!handler) {
@@ -323,7 +322,7 @@ export default class WsProvider implements WSProviderInterface {
 
         // if we have a result waiting for this subscription already
         if (this.#waitingForId[subId]) {
-          this.onSocketMessageSubscribe(this.#waitingForId[subId]);
+          this.#onSocketMessageSubscribe(this.#waitingForId[subId]);
         }
       }
     } catch (error) {
@@ -333,7 +332,7 @@ export default class WsProvider implements WSProviderInterface {
     delete this.#handlers[response.id];
   }
 
-  private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
+  #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const method = ALIASSES[response.method as string] || response.method;
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
@@ -358,21 +357,21 @@ export default class WsProvider implements WSProviderInterface {
     }
   }
 
-  private onSocketOpen = (): boolean => {
+  #onSocketOpen = (): boolean => {
     assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
     l.debug((): any[] => ['connected to', this.#endpoint]);
 
     this.#isConnected = true;
-    this.emit('connected');
 
-    this.sendQueue();
-    this.resubscribe();
+    this.#emit('connected');
+    this.#sendQueue();
+    this.#resubscribe();
 
     return true;
   }
 
-  private resubscribe (): void {
+  #resubscribe = (): void => {
     const subscriptions = this.#subscriptions;
 
     this.#subscriptions = {};
@@ -396,7 +395,7 @@ export default class WsProvider implements WSProviderInterface {
     });
   }
 
-  private sendQueue (): void {
+  #sendQueue = (): void => {
     Object.keys(this.#queued).forEach((id): void => {
       try {
         // we have done the websocket check in onSocketOpen, if an issue, will catch it
