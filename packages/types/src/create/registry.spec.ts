@@ -4,19 +4,13 @@
 
 import { Codec, Constructor } from '../types';
 
+import { isChildClass } from '@polkadot/util';
+
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import Unconstructable from '../primitive/Unconstructable';
 import { TypeRegistry } from './registry';
-
-// Copied from interfacesTs
-function isChildClass (Parent: Constructor<any>, Child?: Constructor<any>): boolean {
-  return Child
-    // eslint-disable-next-line no-prototype-builtins
-    ? Parent === Child || Parent.isPrototypeOf(Child)
-    : false;
-}
 
 describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();
