@@ -11,6 +11,8 @@ describe('Metadata', (): void => {
   it('allows creation from hex with JSON equivalence', (): void => {
     const test = new Metadata(new TypeRegistry(), substrateData);
 
+    console.error(Object.keys(test));
+
     expect(
       new Metadata(new TypeRegistry(), test.toHex()).toJSON()
     ).toEqual(test.toJSON());

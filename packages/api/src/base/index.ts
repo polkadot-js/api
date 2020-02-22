@@ -22,14 +22,20 @@ interface SignerRawOptions {
   signer?: Signer;
 }
 
-let pkgJson: { name: string; version: string };
-
-try {
-  pkgJson = require('../package.json');
-} catch (error) {
-  // development environment
-  pkgJson = { name: '@polkadot/api', version: '-' };
+interface PkgJson {
+  name: string;
+  version: string;
 }
+
+let pkgJson: PkgJson = { name: '@polkadot/api', version: '-' };
+
+import('../package.json')
+  .then((_pkgJson: any): void => {
+    pkgJson = _pkgJson;
+  })
+  .catch((): void => {
+    // ignore
+  });
 
 function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');

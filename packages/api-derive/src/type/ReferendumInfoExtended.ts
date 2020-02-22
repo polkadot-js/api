@@ -18,12 +18,12 @@ const _ReferendumInfo: Constructor<ReferendumInfo> = Struct.with(democracyTypes.
  * A [[ReferendumInfo]] with an additional `index` field
  */
 export default class ReferendumInfoExtended extends _ReferendumInfo {
-  private _index: ReferendumIndex;
+  readonly #index: ReferendumIndex;
 
   constructor (registry: Registry, value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
     super(registry, value);
 
-    this._index = value instanceof ReferendumInfoExtended
+    this.#index = value instanceof ReferendumInfoExtended
       ? value.index
       : createType(registry, 'ReferendumIndex', index);
   }
@@ -32,7 +32,7 @@ export default class ReferendumInfoExtended extends _ReferendumInfo {
    * @description Convenience getter, returns the referendumIndex
    */
   public get index (): ReferendumIndex {
-    return this._index;
+    return this.#index;
   }
 
   /**

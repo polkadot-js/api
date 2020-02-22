@@ -65,9 +65,9 @@ const l = logger('api-ws');
  * @see [[HttpProvider]]
  */
 export default class WsProvider implements WSProviderInterface {
-  private _eventemitter: EventEmitter;
+  #eventemitter: EventEmitter;
 
-  private _isConnected = false;
+  #isConnected = false;
 
   private autoConnect: boolean;
 
@@ -92,7 +92,7 @@ export default class WsProvider implements WSProviderInterface {
   constructor (endpoint: string = defaults.WS_URL, autoConnect = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
-    this._eventemitter = new EventEmitter();
+    this.#eventemitter = new EventEmitter();
     this.autoConnect = autoConnect;
     this.coder = new Coder();
     this.endpoint = endpoint;

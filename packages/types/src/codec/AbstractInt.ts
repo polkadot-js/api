@@ -32,17 +32,17 @@ export default abstract class AbstractInt extends BN implements Codec {
 
   protected _bitLength: UIntBitLength;
 
-  private _isHexJson: boolean;
+  readonly #isHexJson: boolean;
 
-  private _isSigned: boolean;
+  readonly #isSigned: boolean;
 
   protected constructor (registry: Registry, isSigned: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
     super(AbstractInt.decodeAbstracInt(value, bitLength, isSigned));
 
     this.registry = registry;
     this._bitLength = bitLength;
-    this._isHexJson = isHexJson;
-    this._isSigned = isSigned;
+    this.#isHexJson = isHexJson;
+    this.#isSigned = isSigned;
 
     assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
   }
@@ -104,7 +104,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Checks if the value is an unsigned type
    */
   public get isUnsigned (): boolean {
-    return !this._isSigned;
+    return !this.#isSigned;
   }
 
   /**
@@ -123,7 +123,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: this._isSigned })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
         : bnToBn(other)
     );
   }
@@ -164,7 +164,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return this._isHexJson || (super.bitLength() > 52)
+    return this.#isHexJson || (super.bitLength() > 52)
       ? this.toHex()
       : this.toNumber();
   }
