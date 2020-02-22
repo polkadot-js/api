@@ -5,11 +5,10 @@
 import { AnyNumber, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
+import { bnToBn, isBn, isBigInt, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import { createType } from '../create';
-import { isBigInt } from '../codec/AbstractInt';
 import U32 from '../primitive/U32';
 
 export const ENUMSET_SIZE = new BN(64);

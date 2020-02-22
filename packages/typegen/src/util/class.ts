@@ -5,15 +5,7 @@
 import { Constructor } from '@polkadot/types/types';
 
 import UInt from '@polkadot/types/codec/UInt';
-
-// See if a class is child of another class
-// FIMXE This could go in util some day
-/** @internal */
-export function isChildClass (Parent: Constructor<any>, Child: Constructor<any>): boolean {
-  // https://stackoverflow.com/questions/30993434/check-if-a-constructor-inherits-another-in-es6/30993664
-  // eslint-disable-next-line no-prototype-builtins
-  return Parent === Child || Parent.isPrototypeOf(Child);
-}
+import { isChildClass } from '@polkadot/util';
 
 /** @internal */
 export function isCompactEncodable (Child: Constructor<any>): boolean {

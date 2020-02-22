@@ -2040,14 +2040,14 @@
     webpack-cli "^3.3.11"
     yargs "^15.1.0"
 
-"@polkadot/keyring@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.4.1.tgz#1f6e59dd55031481d3642f18e407141d596fd388"
-  integrity sha512-NBsw6ypCvTUNBUTB/LIZGcJE6R8qrsZ6CEa+Hu6uKrwhR/xjtPBCH2sPaXj+OeNAZ2sMQuEoUJlJUhYnMal2pg==
+"@polkadot/keyring@^2.5.0-beta.2":
+  version "2.5.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-2.5.0-beta.2.tgz#6dfc0a23cf8b57496af6546f58c747458e70814d"
+  integrity sha512-yAiBHUxcKrPVVIpBFNppondB/Ef5EKbpkW3U2oTkyZaw/apBVpCzZN9Q0MnPkK9WG3BD0SWJ54YivLQQmEeBsQ==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@polkadot/util" "^2.4.1"
-    "@polkadot/util-crypto" "^2.4.1"
+    "@polkadot/util" "2.5.0-beta.2"
+    "@polkadot/util-crypto" "2.5.0-beta.2"
 
 "@polkadot/ts@^0.2.3":
   version "0.2.3"
@@ -2056,13 +2056,13 @@
   dependencies:
     "@types/chrome" "^0.0.95"
 
-"@polkadot/util-crypto@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.4.1.tgz#f02e4dca225882c7f1a7762bc416530567c4803c"
-  integrity sha512-5mPuRhpvYXeLqqGEqOtJqp+lZCr1Z2NIxIKgabaFfrp1malbgWhKDnafkAg7kwL3BrRQbOge0vgK6VmDiuXljQ==
+"@polkadot/util-crypto@2.5.0-beta.2", "@polkadot/util-crypto@^2.5.0-beta.2":
+  version "2.5.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.5.0-beta.2.tgz#9365627439d9134f0716869562db7a22b258782d"
+  integrity sha512-1/MRKHmnHCeEK+Mz9FNHaLnQ9xtRERzGkAc7AhgD1VqsVb+OWx/giEC+GoJlkE2KhjexwxgiAyh+QlEBhIu7Cg==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@polkadot/util" "^2.4.1"
+    "@polkadot/util" "2.5.0-beta.2"
     "@polkadot/wasm-crypto" "^1.0.1"
     base-x "^3.0.7"
     bip39 "^3.0.2"
@@ -2075,10 +2075,10 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.4.1.tgz#7c0d0619af6ced647e99d6bc8ccc24bc3202a2a7"
-  integrity sha512-60yBpgYgowx/TVuJyrjYYIJJpw4aCNzay8imy5L2Fug2y3lvgrHyTxPAgrykOmuFeZ3jq9ayjXk5bpAJ179vFg==
+"@polkadot/util@2.5.0-beta.2", "@polkadot/util@^2.5.0-beta.2":
+  version "2.5.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.5.0-beta.2.tgz#181e73d842e71eae61a45c1a1544e72953f2b725"
+  integrity sha512-0rjOw5q5ZydFGV4oskYgGZVPR7a6nLgiTCLZZfvxQI7rIQz8K1HhUAg2CiRHL5TTYhwZcO0E9a6LLJfi6FzL3A==
   dependencies:
     "@babel/runtime" "^7.8.4"
     "@types/bn.js" "^4.11.6"

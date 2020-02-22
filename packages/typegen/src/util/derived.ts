@@ -5,8 +5,8 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { Constructor, Registry } from '@polkadot/types/types';
 
-import { stringLowerFirst } from '@polkadot/util';
-import { isChildClass, isCompactEncodable } from './class';
+import { isChildClass, stringLowerFirst } from '@polkadot/util';
+import { isCompactEncodable } from './class';
 import { ClassOf, ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import AbstractInt from '@polkadot/types/codec/AbstractInt';
 import Compact from '@polkadot/types/codec/Compact';
