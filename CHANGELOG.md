@@ -2,6 +2,7 @@
 
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
+- Support types & interfaces required for lazy reaping & offchain phragmen
 - Support JS `BigInt` inputs in any `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
@@ -9,10 +10,12 @@
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
 - Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 - `UInt` & `Int` now does source bitLength checks upon construction
-- Support for arbitrary UInt types via `UInt<bitLength>` definitions
+- Support for arbitrary UInt types via `UInt<bitLength>` type definitions
 - Add `api.injectMetadata(metadata)` to initialize with a specific version
-- The api now checks for runtime upgrades, decorating with new metadata
-- Remove old [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- The api now checks for runtime upgrades, augmenting with new metadata when found
+- (internal) Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- (internal) Use ES `#<varname>` on private class members as applicable
+- (internal) Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
 
 # 1.3.1 Feb 18, 2020
 
