@@ -30,7 +30,7 @@ export function isBigInt (value: any): value is BigInt {
 export default abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
-  protected _bitLength: UIntBitLength;
+  readonly #bitLength: UIntBitLength;
 
   readonly #isHexJson: boolean;
 
@@ -40,7 +40,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     super(AbstractInt.decodeAbstracInt(value, bitLength, isSigned));
 
     this.registry = registry;
-    this._bitLength = bitLength;
+    this.#bitLength = bitLength;
     this.#isHexJson = isHexJson;
     this.#isSigned = isSigned;
 
@@ -83,7 +83,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this._bitLength / 8;
+    return this.#bitLength / 8;
   }
 
   /**
@@ -111,7 +111,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Returns the number of bits in the value
    */
   public bitLength (): UIntBitLength {
-    return this._bitLength;
+    return this.#bitLength;
   }
 
   /**
@@ -134,7 +134,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   public isMax (): boolean {
     const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
 
-    return u8a.length === (this._bitLength / 8);
+    return u8a.length === (this.#bitLength / 8);
   }
 
   /**

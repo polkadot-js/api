@@ -15,7 +15,7 @@ import { compareSet, decodeU8a, typeToConstructor } from './utils';
 export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
-  protected _ValClass: Constructor<V>;
+  private readonly _ValClass: Constructor<V>;
 
   constructor (registry: Registry, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
     const ValClass = typeToConstructor(registry, valType);
