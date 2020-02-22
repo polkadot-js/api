@@ -224,16 +224,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return combineLatest([
         // if we have a nonce already, don't retrieve the latest, use what is there
         isUndefined(options.nonce)
-          // FIXME This apparently is having issues on latest Kusama for nonce retrieval,
-          // hence we are using the accountNonce only
-          // ? api.rpc.account.nextIndex
-          //   ? api.rpc.account.nextIndex(address)
-          //   : api.query.system.accountNonce(address)
-          ? api.query.system.account
-            ? api.query.system.account<ITuple<[Index, AccountData]>>(address).pipe(
-              map(([nonce]): Index => nonce)
-            )
-            : api.query.system.accountNonce<Index>(address)
+          ? api.derive.balances.account(address).pipe(
+            map(({ accountNonce }): Index => accountNonce)
+          )
           : of(createType(this.registry, 'Index', options.nonce)),
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
