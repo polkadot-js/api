@@ -97,7 +97,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const e = new Clazz(registry);
+    const e = new (Clazz as Constructor)(registry) as Enum;
 
     if (e.isBasic) {
       possibleTypes.push(arrayToStrType(e.defKeys), 'number');
@@ -118,7 +118,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
-    const s = new Clazz(registry);
+    const s = new (Clazz as Constructor)(registry) as Struct;
     const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
