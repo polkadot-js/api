@@ -65,25 +65,25 @@ const l = logger('api-ws');
  * @see [[HttpProvider]]
  */
 export default class WsProvider implements WSProviderInterface {
-  #eventemitter: EventEmitter;
+  readonly #coder: Coder;
+
+  readonly #endpoint: string;
+
+  readonly #eventemitter: EventEmitter;
+
+  readonly #handlers: Record<string, WsStateAwaiting> = {};
+
+  readonly #queued: Record<string, string> = {};
+
+  readonly #waitingForId: Record<string, JsonRpcResponse> = {};
+
+  #autoConnect: boolean;
 
   #isConnected = false;
 
-  private autoConnect: boolean;
+  #subscriptions: Record<string, WsStateSubscription> = {};
 
-  private coder: Coder;
-
-  private endpoint: string;
-
-  private handlers: Record<string, WsStateAwaiting>;
-
-  private queued: Record<string, string>;
-
-  private subscriptions: Record<string, WsStateSubscription>;
-
-  private waitingForId: Record<string, JsonRpcResponse>;
-
-  private websocket: WebSocket | null;
+  #websocket: WebSocket | null;
 
   /**
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
@@ -93,14 +93,10 @@ export default class WsProvider implements WSProviderInterface {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this.#eventemitter = new EventEmitter();
-    this.autoConnect = autoConnect;
-    this.coder = new Coder();
-    this.endpoint = endpoint;
-    this.handlers = {};
-    this.queued = {};
-    this.subscriptions = {};
-    this.waitingForId = {};
-    this.websocket = null;
+    this.#autoConnect = autoConnect;
+    this.#coder = new Coder();
+    this.#endpoint = endpoint;
+    this.#websocket = null;
 
     if (autoConnect) {
       this.connect();
@@ -118,7 +114,7 @@ export default class WsProvider implements WSProviderInterface {
    * @description Returns a clone of the object
    */
   public clone (): WsProvider {
-    return new WsProvider(this.endpoint);
+    return new WsProvider(this.#endpoint);
   }
 
   /**
@@ -128,12 +124,12 @@ export default class WsProvider implements WSProviderInterface {
    */
   public connect (): void {
     try {
-      this.websocket = new WebSocket(this.endpoint);
+      this.#websocket = new WebSocket(this.#endpoint);
 
-      this.websocket.onclose = this.onSocketClose;
-      this.websocket.onerror = this.onSocketError;
-      this.websocket.onmessage = this.onSocketMessage;
-      this.websocket.onopen = this.onSocketOpen;
+      this.#websocket.onclose = this.onSocketClose;
+      this.#websocket.onerror = this.onSocketError;
+      this.#websocket.onmessage = this.onSocketMessage;
+      this.#websocket.onopen = this.onSocketOpen;
     } catch (error) {
       l.error(error);
     }
@@ -143,16 +139,16 @@ export default class WsProvider implements WSProviderInterface {
    * @description Manually disconnect from the connection, clearing autoconnect logic
    */
   public disconnect (): void {
-    if (isNull(this.websocket)) {
+    if (isNull(this.#websocket)) {
       throw new Error('Cannot disconnect on a non-open websocket');
     }
 
     // switch off autoConnect, we are in manual mode now
-    this.autoConnect = false;
+    this.#autoConnect = false;
 
     // 1000 - Normal closure; the connection successfully completed
-    this.websocket.close(1000);
-    this.websocket = null;
+    this.#websocket.close(1000);
+    this.#websocket = null;
   }
 
   /**
@@ -160,7 +156,7 @@ export default class WsProvider implements WSProviderInterface {
    * @return {boolean} true if connected
    */
   public isConnected (): boolean {
-    return this._isConnected;
+    return this.#isConnected;
   }
 
   /**
@@ -170,9 +166,10 @@ export default class WsProvider implements WSProviderInterface {
    * @return unsubscribe function
    */
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
-    this._eventemitter.on(type, sub);
+    this.#eventemitter.on(type, sub);
+
     return (): void => {
-      this._eventemitter.removeListener(type, sub);
+      this.#eventemitter.removeListener(type, sub);
     };
   }
 
@@ -185,8 +182,8 @@ export default class WsProvider implements WSProviderInterface {
   public send (method: string, params: any[], subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
-        const json = this.coder.encodeJson(method, params);
-        const id = this.coder.getId();
+        const json = this.#coder.encodeJson(method, params);
+        const id = this.#coder.getId();
         const callback = (error?: Error | null, result?: any): void => {
           error
             ? reject(error)
@@ -195,17 +192,17 @@ export default class WsProvider implements WSProviderInterface {
 
         l.debug((): string[] => ['calling', method, json]);
 
-        this.handlers[id] = {
+        this.#handlers[id] = {
           callback,
           method,
           params,
           subscription
         };
 
-        if (this.isConnected() && !isNull(this.websocket)) {
-          this.websocket.send(json);
+        if (this.isConnected() && !isNull(this.#websocket)) {
+          this.#websocket.send(json);
         } else {
-          this.queued[id] = json;
+          this.#queued[id] = json;
         }
       } catch (error) {
         reject(error);
@@ -252,13 +249,13 @@ export default class WsProvider implements WSProviderInterface {
     // the assigned id now does not match what the API user originally received. It has
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
-    if (isUndefined(this.subscriptions[subscription])) {
+    if (isUndefined(this.#subscriptions[subscription])) {
       l.debug((): string => `Unable to find active subscription=${subscription}`);
 
       return false;
     }
 
-    delete this.subscriptions[subscription];
+    delete this.#subscriptions[subscription];
 
     const result = await this.send(method, [id]);
 
@@ -266,18 +263,18 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private emit (type: ProviderInterfaceEmitted, ...args: any[]): void {
-    this._eventemitter.emit(type, ...args);
+    this.#eventemitter.emit(type, ...args);
   }
 
   private onSocketClose = (event: CloseEvent): void => {
-    if (this.autoConnect) {
-      l.error(`disconnected from ${this.endpoint} code: '${event.code}' reason: '${event.reason}'`);
+    if (this.#autoConnect) {
+      l.error(`disconnected from ${this.#endpoint} code: '${event.code}' reason: '${event.reason}'`);
     }
 
-    this._isConnected = false;
+    this.#isConnected = false;
     this.emit('disconnected');
 
-    if (this.autoConnect) {
+    if (this.#autoConnect) {
       setTimeout((): void => {
         this.connect();
       }, 1000);
@@ -300,7 +297,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageResult = (response: JsonRpcResponse): void => {
-    const handler = this.handlers[response.id];
+    const handler = this.#handlers[response.id];
 
     if (!handler) {
       l.debug((): string => `Unable to find handler for id=${response.id}`);
@@ -309,7 +306,7 @@ export default class WsProvider implements WSProviderInterface {
 
     try {
       const { method, params, subscription } = handler;
-      const result = this.coder.decodeResponse(response);
+      const result = this.#coder.decodeResponse(response);
 
       // first send the result - in case of subs, we may have an update
       // immediately if we have some queued results already
@@ -318,42 +315,42 @@ export default class WsProvider implements WSProviderInterface {
       if (subscription) {
         const subId = `${subscription.type}::${result}`;
 
-        this.subscriptions[subId] = {
+        this.#subscriptions[subId] = {
           ...subscription,
           method,
           params
         };
 
         // if we have a result waiting for this subscription already
-        if (this.waitingForId[subId]) {
-          this.onSocketMessageSubscribe(this.waitingForId[subId]);
+        if (this.#waitingForId[subId]) {
+          this.onSocketMessageSubscribe(this.#waitingForId[subId]);
         }
       }
     } catch (error) {
       handler.callback(error, undefined);
     }
 
-    delete this.handlers[response.id];
+    delete this.#handlers[response.id];
   }
 
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const method = ALIASSES[response.method as string] || response.method;
     const subId = `${method}::${response.params.subscription}`;
-    const handler = this.subscriptions[subId];
+    const handler = this.#subscriptions[subId];
 
     if (!handler) {
       // store the JSON, we could have out-of-order subid coming in
-      this.waitingForId[subId] = response;
+      this.#waitingForId[subId] = response;
 
       l.debug((): string => `Unable to find handler for subscription=${subId}`);
       return;
     }
 
     // housekeeping
-    delete this.waitingForId[subId];
+    delete this.#waitingForId[subId];
 
     try {
-      const result = this.coder.decodeResponse(response);
+      const result = this.#coder.decodeResponse(response);
 
       handler.callback(null, result);
     } catch (error) {
@@ -362,11 +359,11 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketOpen = (): boolean => {
-    assert(!isNull(this.websocket), 'WebSocket cannot be null in onOpen');
+    assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug((): any[] => ['connected to', this.endpoint]);
+    l.debug((): any[] => ['connected to', this.#endpoint]);
 
-    this._isConnected = true;
+    this.#isConnected = true;
     this.emit('connected');
 
     this.sendQueue();
@@ -376,9 +373,9 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private resubscribe (): void {
-    const subscriptions = this.subscriptions;
+    const subscriptions = this.#subscriptions;
 
-    this.subscriptions = {};
+    this.#subscriptions = {};
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     Object.keys(subscriptions).forEach(async (id): Promise<void> => {
@@ -400,14 +397,14 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private sendQueue (): void {
-    Object.keys(this.queued).forEach((id): void => {
+    Object.keys(this.#queued).forEach((id): void => {
       try {
         // we have done the websocket check in onSocketOpen, if an issue, will catch it
-        (this.websocket as WebSocket).send(
-          this.queued[id]
+        (this.#websocket as WebSocket).send(
+          this.#queued[id]
         );
 
-        delete this.queued[id];
+        delete this.#queued[id];
       } catch (error) {
         l.error(error);
       }
