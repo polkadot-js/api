@@ -35,17 +35,11 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
   const Extrinsic = ClassOf(api.registry, 'Extrinsic');
 
   return class Submittable extends Extrinsic implements SubmittableExtrinsic<ApiType> {
-    readonly #api: ApiInterfaceRx;
-
-    readonly #decorateMethod: ApiBase<ApiType>['decorateMethod'];
-
     readonly #ignoreStatusCb: boolean;
 
     constructor (registry: Registry, extrinsic: Call | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
 
-      this.#api = api;
-      this.#decorateMethod = decorateMethod;
       this.#ignoreStatusCb = apiType === 'rxjs';
     }
 
@@ -54,7 +48,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       const [allOptions] = this.#makeSignAndSendOptions(options);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
-      return this.#decorateMethod(
+      return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           this.#getPrelimState(address, allOptions).pipe(
             first(),
@@ -66,7 +60,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
               // add a fake signature to the extrinsic
               this.signFake(address, signOptions);
 
-              return this.#api.rpc.payment.queryInfo(this.toHex());
+              return api.rpc.payment.queryInfo(this.toHex());
             })
           )
       )();
@@ -83,7 +77,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     //
     // also supports signing through external signers
     public signAsync (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
-      return this.#decorateMethod(
+      return decorateMethod(
         (): Observable<this> =>
           this.#signObservable(account, optionsOrNonce).pipe(mapTo(this))
       )();
@@ -101,9 +95,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     // signAndSend implementation for all 3 cases above
     public signAndSend (account: AddressOrPair, optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = this.#makeSignAndSendOptions(optionsOrStatus, optionalStatusCb);
-      const isSubscription = this.#api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
-      return this.#decorateMethod(
+      return decorateMethod(
         (): Observable<Codec> => (
           this.#signObservable(account, options).pipe(
             switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
@@ -123,9 +117,9 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     // send implementation for both immediate Hash and statusCb variants
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const isSubscription = this.#api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
-      return this.#decorateMethod(
+      return decorateMethod(
         isSubscription
           ? this.#subscribeObservable
           : this.#sendObservable
@@ -165,7 +159,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
-      const signer = options.signer || this.#api.signer;
+      const signer = options.signer || api.signer;
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options');
 
@@ -195,12 +189,12 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
     #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
       return {
-        blockHash: this.#api.genesisHash,
+        blockHash: api.genesisHash,
         ...options,
         ...extras,
-        genesisHash: this.#api.genesisHash,
-        runtimeVersion: this.#api.runtimeVersion,
-        version: this.#api.extrinsicType
+        genesisHash: api.genesisHash,
+        runtimeVersion: api.runtimeVersion,
+        version: api.extrinsicType
       } as SignatureOptions;
     }
 
@@ -232,26 +226,26 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         isUndefined(options.nonce)
           // FIXME This apparently is having issues on latest Kusama for nonce retrieval,
           // hence we are using the accountNonce only
-          // ? this.#api.rpc.account.nextIndex
-          //   ? this.#api.rpc.account.nextIndex(address)
-          //   : this.#api.query.system.accountNonce(address)
-          ? this.#api.query.system.account
-            ? this.#api.query.system.account<ITuple<[Index, AccountData]>>(address).pipe(
+          // ? api.rpc.account.nextIndex
+          //   ? api.rpc.account.nextIndex(address)
+          //   : api.query.system.accountNonce(address)
+          ? api.query.system.account
+            ? api.query.system.account<ITuple<[Index, AccountData]>>(address).pipe(
               map(([nonce]): Index => nonce)
             )
-            : this.#api.query.system.accountNonce<Index>(address)
+            : api.query.system.accountNonce<Index>(address)
           : of(createType(this.registry, 'Index', options.nonce)),
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
         (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-          ? this.#api.rpc.chain.getHeader()
+          ? api.rpc.chain.getHeader()
           : of(null)
       ]);
     }
 
     #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
-      if ((updateId !== -1) && this.#api.signer && this.#api.signer.update) {
-        this.#api.signer.update(updateId, status);
+      if ((updateId !== -1) && api.signer && api.signer.update) {
+        api.signer.update(updateId, status);
       }
     }
 
@@ -265,8 +259,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         : status.asFinalized;
 
       return combineLatest([
-        this.#api.rpc.chain.getBlock(blockHash),
-        this.#api.query.system.events.at(blockHash)
+        api.rpc.chain.getBlock(blockHash),
+        api.query.system.events.at(blockHash)
       ]).pipe(
         map(([signedBlock, allEvents]): ISubmittableResult =>
           new SubmittableResult({
@@ -278,7 +272,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #sendObservable = (updateId = -1): Observable<Hash> => {
-      return this.#api.rpc.author
+      return api.rpc.author
         .submitExtrinsic(this)
         .pipe(
           tap((hash): void => {
@@ -288,7 +282,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     }
 
     #subscribeObservable = (updateId = -1): Observable<ISubmittableResult> => {
-      return this.#api.rpc.author
+      return api.rpc.author
         .submitAndWatchExtrinsic(this)
         .pipe(
           switchMap((status): Observable<ISubmittableResult> =>
