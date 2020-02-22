@@ -79,7 +79,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
     public signAsync (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): SubmittableThis<ApiType, this> {
       return decorateMethod(
         (): Observable<this> =>
-          this.#signObservable(account, optionsOrNonce).pipe(mapTo(this))
+          this.#observeSign(account, optionsOrNonce).pipe(mapTo(this))
       )();
     }
 
@@ -99,7 +99,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return decorateMethod(
         (): Observable<Codec> => (
-          this.#signObservable(account, options).pipe(
+          this.#observeSign(account, options).pipe(
             switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
               isSubscription
                 ? this.#observeSubscribe(updateId)
@@ -126,76 +126,20 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       )(statusCb);
     }
 
-    #makeSignAndSendOptions = (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] => {
-      let options: Partial<SignerOptions> = {};
-
-      if (isFunction(optionsOrStatus)) {
-        statusCb = optionsOrStatus;
-      } else {
-        options = { ...optionsOrStatus };
-      }
-
-      return [options, statusCb];
-    }
-
-    #signObservable = (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> => {
-      const address = isKeyringPair(account) ? account.address : account.toString();
-      const options = this.#optionsOrNonce(optionsOrNonce);
-      let updateId: number | undefined;
-
-      return this.#getPrelimState(address, options).pipe(
-        first(),
-        mergeMap(async ([nonce, header]): Promise<void> => {
-          const eraOptions = this.#makeEraOptions(options, { header, nonce });
-
-          if (isKeyringPair(account)) {
-            this.sign(account, eraOptions);
-          } else {
-            updateId = await this.#signViaSigner(address, eraOptions, header);
-          }
-        }),
-        mapTo(updateId)
-      );
-    }
-
-    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
-      const signer = options.signer || api.signer;
-
-      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
-
-      const payload = createType(this.registry, 'SignerPayload', {
-        ...options,
-        address,
-        method: this.method,
-        blockNumber: header ? header.number : 0
-      });
-      let result: SignerResult;
-
-      if (signer.signPayload) {
-        result = await signer.signPayload(payload.toPayload());
-      } else if (signer.signRaw) {
-        result = await signer.signRaw(payload.toRaw());
-      } else {
-        throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
-      }
-
-      // Here we explicitly call `toPayload()` again instead of working with an object
-      // (reference) as passed to the signer. This means that we are sure that the
-      // payload data is not modified from our inputs, but the signer
-      super.addSignature(address, result.signature, payload.toPayload());
-
-      return result.id;
-    }
-
-    #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
-      return {
-        blockHash: api.genesisHash,
-        ...options,
-        ...extras,
-        genesisHash: api.genesisHash,
-        runtimeVersion: api.runtimeVersion,
-        version: api.extrinsicType
-      } as SignatureOptions;
+    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> => {
+      return combineLatest([
+        // if we have a nonce already, don't retrieve the latest, use what is there
+        isUndefined(options.nonce)
+          ? api.derive.balances.account(address).pipe(
+            map(({ accountNonce }): Index => accountNonce)
+          )
+          : of(createType(this.registry, 'Index', options.nonce)),
+        // if we have an era provided already or eraLength is <= 0 (immortal)
+        // don't get the latest block, just pass null, handle in mergeMap
+        (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
+          ? api.rpc.chain.getHeader()
+          : of(null)
+      ]);
     }
 
     #makeEraOptions = (options: Partial<SignerOptions>, { header, nonce }: { header: Header | null; nonce: Index }): SignatureOptions => {
@@ -220,26 +164,47 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       });
     }
 
-    #getPrelimState = (address: string, options: Partial<SignerOptions>): Observable<[Index, Header | null]> => {
-      return combineLatest([
-        // if we have a nonce already, don't retrieve the latest, use what is there
-        isUndefined(options.nonce)
-          ? api.derive.balances.account(address).pipe(
-            map(({ accountNonce }): Index => accountNonce)
-          )
-          : of(createType(this.registry, 'Index', options.nonce)),
-        // if we have an era provided already or eraLength is <= 0 (immortal)
-        // don't get the latest block, just pass null, handle in mergeMap
-        (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
-          ? api.rpc.chain.getHeader()
-          : of(null)
-      ]);
+    #makeSignOptions = (options: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions => {
+      return {
+        blockHash: api.genesisHash,
+        ...options,
+        ...extras,
+        genesisHash: api.genesisHash,
+        runtimeVersion: api.runtimeVersion,
+        version: api.extrinsicType
+      } as SignatureOptions;
     }
 
-    #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
-      if ((updateId !== -1) && api.signer && api.signer.update) {
-        api.signer.update(updateId, status);
+    #makeSignAndSendOptions = (optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] => {
+      let options: Partial<SignerOptions> = {};
+
+      if (isFunction(optionsOrStatus)) {
+        statusCb = optionsOrStatus;
+      } else {
+        options = { ...optionsOrStatus };
       }
+
+      return [options, statusCb];
+    }
+
+    #observeSign = (account: AddressOrPair, optionsOrNonce: Partial<SignerOptions>): Observable<number | undefined> => {
+      const address = isKeyringPair(account) ? account.address : account.toString();
+      const options = this.#optionsOrNonce(optionsOrNonce);
+      let updateId: number | undefined;
+
+      return this.#getPrelimState(address, options).pipe(
+        first(),
+        mergeMap(async ([nonce, header]): Promise<void> => {
+          const eraOptions = this.#makeEraOptions(options, { header, nonce });
+
+          if (isKeyringPair(account)) {
+            this.sign(account, eraOptions);
+          } else {
+            updateId = await this.#signViaSigner(address, eraOptions, header);
+          }
+        }),
+        mapTo(updateId)
+      );
     }
 
     #observeStatus = (status: ExtrinsicStatus): Observable<ISubmittableResult> => {
@@ -293,6 +258,41 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       return isBn(optionsOrNonce) || isNumber(optionsOrNonce)
         ? { nonce: optionsOrNonce }
         : optionsOrNonce;
+    }
+
+    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
+      const signer = options.signer || api.signer;
+
+      assert(signer, 'No signer specified, either via api.setSigner or via sign options');
+
+      const payload = createType(this.registry, 'SignerPayload', {
+        ...options,
+        address,
+        method: this.method,
+        blockNumber: header ? header.number : 0
+      });
+      let result: SignerResult;
+
+      if (signer.signPayload) {
+        result = await signer.signPayload(payload.toPayload());
+      } else if (signer.signRaw) {
+        result = await signer.signRaw(payload.toRaw());
+      } else {
+        throw new Error('Invalid signer interface, it should implement either signPayload or signRaw (or both)');
+      }
+
+      // Here we explicitly call `toPayload()` again instead of working with an object
+      // (reference) as passed to the signer. This means that we are sure that the
+      // payload data is not modified from our inputs, but the signer
+      super.addSignature(address, result.signature, payload.toPayload());
+
+      return result.id;
+    }
+
+    #updateSigner = (updateId: number, status: Hash | ISubmittableResult): void => {
+      if ((updateId !== -1) && api.signer && api.signer.update) {
+        api.signer.update(updateId, status);
+      }
     }
   };
 }
