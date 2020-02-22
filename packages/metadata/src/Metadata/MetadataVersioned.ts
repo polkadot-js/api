@@ -34,7 +34,7 @@ type MetaAsX = 'asV0' | 'asV1' | 'asV2' | 'asV3' | 'asV4' | 'asV5' | 'asV6' | 'a
  * The versioned runtime metadata as a decoded structure
  */
 export default class MetadataVersioned extends Struct {
-  private _converted: Map<number, MetaMapped> = new Map();
+  readonly #converted: Map<number, MetaMapped> = new Map();
 
   constructor (registry: Registry, value?: any) {
     super(registry, {
@@ -59,11 +59,11 @@ export default class MetadataVersioned extends Struct {
       return this.metadata[asCurr] as T;
     }
 
-    if (!this._converted.has(version)) {
-      this._converted.set(version, fromPrev(this.registry, this[asPrev] as F));
+    if (!this.#converted.has(version)) {
+      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F));
     }
 
-    return this._converted.get(version) as T;
+    return this.#converted.get(version) as T;
   }
 
   /**

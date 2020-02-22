@@ -13,31 +13,31 @@ export interface CombinatorFunction {
 }
 
 export default class Combinator {
-  protected _allHasFired = false;
+  #allHasFired = false;
 
-  protected _callback: CombinatorCallback;
+  #callback: CombinatorCallback;
 
-  protected _fired: boolean[] = [];
+  #fired: boolean[] = [];
 
-  protected _fns: CombinatorFunction[] = [];
+  #fns: CombinatorFunction[] = [];
 
-  protected _isActive = true;
+  #isActive = true;
 
-  protected _results: any[] = [];
+  #results: any[] = [];
 
-  protected _subscriptions: UnsubscribePromise[] = [];
+  #subscriptions: UnsubscribePromise[] = [];
 
   constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback) {
-    this._callback = callback;
+    this.#callback = callback;
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    this._subscriptions = fns.map(async (input, index): UnsubscribePromise => {
+    this.#subscriptions = fns.map(async (input, index): UnsubscribePromise => {
       const [fn, ...args] = Array.isArray(input)
         ? input
         : [input];
 
-      this._fired.push(false);
-      this._fns.push(fn);
+      this.#fired.push(false);
+      this.#fns.push(fn);
 
       // Not quite 100% how to have a variable number at the front here
       return (fn as Function)(...args, this.createCallback(index));
@@ -45,43 +45,43 @@ export default class Combinator {
   }
 
   protected allHasFired (): boolean {
-    if (!this._allHasFired) {
-      this._allHasFired = this._fired.filter((hasFired): boolean => !hasFired).length === 0;
+    if (!this.#allHasFired) {
+      this.#allHasFired = this.#fired.filter((hasFired): boolean => !hasFired).length === 0;
     }
 
-    return this._allHasFired;
+    return this.#allHasFired;
   }
 
   protected createCallback (index: number): (value: any) => void {
     return (value: any): void => {
-      this._fired[index] = true;
-      this._results[index] = value;
+      this.#fired[index] = true;
+      this.#results[index] = value;
 
       this.triggerUpdate();
     };
   }
 
   protected triggerUpdate (): void {
-    if (!this._isActive || !isFunction(this._callback) || !this.allHasFired()) {
+    if (!this.#isActive || !isFunction(this.#callback) || !this.allHasFired()) {
       return;
     }
 
     try {
-      this._callback(this._results);
+      this.#callback(this.#results);
     } catch (error) {
       // swallow, we don't want the handler to trip us up
     }
   }
 
   public unsubscribe (): void {
-    if (!this._isActive) {
+    if (!this.#isActive) {
       return;
     }
 
-    this._isActive = false;
+    this.#isActive = false;
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this._subscriptions.forEach(async (subscription): Promise<void> => {
+    this.#subscriptions.forEach(async (subscription): Promise<void> => {
       try {
         const unsubscribe = await subscription;
 

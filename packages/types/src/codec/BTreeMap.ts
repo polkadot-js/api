@@ -15,9 +15,9 @@ import { compareMap, decodeU8a, typeToConstructor } from './utils';
 export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
-  protected _KeyClass: Constructor<K>;
+  private readonly _KeyClass: Constructor<K>;
 
-  protected _ValClass: Constructor<V>;
+  private readonly _ValClass: Constructor<V>;
 
   constructor (registry: Registry, keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
     const KeyClass = typeToConstructor(registry, keyType);

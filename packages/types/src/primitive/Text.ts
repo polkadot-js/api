@@ -50,7 +50,8 @@ function decodeText (value: Text | string | AnyU8a | { toString: () => string })
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 export default class Text extends String implements Codec {
   public readonly registry: Registry;
-  private _override: string | null = null;
+
+  #override: string | null = null;
 
   constructor (registry: Registry, value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(decodeText(value));
@@ -100,7 +101,7 @@ export default class Text extends String implements Codec {
    * @description Set an override value for this
    */
   public setOverride (override: string): void {
-    this._override = override;
+    this.#override = override;
   }
 
   /**
@@ -137,7 +138,7 @@ export default class Text extends String implements Codec {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this._override || super.toString();
+    return this.#override || super.toString();
   }
 
   /**

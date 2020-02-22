@@ -17,12 +17,12 @@ const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header as an
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
 export default class HeaderExtended extends _Header {
-  private _author?: AccountId;
+  readonly #author?: AccountId;
 
   constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
     super(registry, header);
 
-    this._author = this.extractAuthor(sessionValidators);
+    this.#author = this.extractAuthor(sessionValidators);
   }
 
   private extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
@@ -51,7 +51,7 @@ export default class HeaderExtended extends _Header {
    * @description Convenience method, returns the author for the block
    */
   public get author (): AccountId | undefined {
-    return this._author;
+    return this.#author;
   }
 
   /**
