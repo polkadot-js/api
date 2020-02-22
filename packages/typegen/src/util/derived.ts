@@ -5,8 +5,6 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/create/types';
 import { Constructor, Registry } from '@polkadot/types/types';
 
-import { isChildClass, stringLowerFirst } from '@polkadot/util';
-import { isCompactEncodable } from './class';
 import { ClassOf, ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
 import AbstractInt from '@polkadot/types/codec/AbstractInt';
 import Compact from '@polkadot/types/codec/Compact';
@@ -19,7 +17,9 @@ import GenericAddress from '@polkadot/types/generic/Address';
 import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/generic/Vote';
 import Null from '@polkadot/types/primitive/Null';
 import * as primitiveClasses from '@polkadot/types/primitive';
+import { isChildClass, stringLowerFirst } from '@polkadot/util';
 
+import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
 import { setImports, TypeImports } from './imports';
 
@@ -96,7 +96,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
       throw new Error(`Unhandled subtype in Vec, ${JSON.stringify(subDef)}`);
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const e = new Clazz(registry) as Enum;
+    const e = new Clazz(registry);
 
     if (e.isBasic) {
       possibleTypes.push(arrayToStrType(e.defKeys), 'number');
@@ -118,7 +118,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
     // TODO We don't really want any here, these should be expanded
-    const s = new Clazz(registry) as Struct;
+    const s = new Clazz(registry);
     const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
