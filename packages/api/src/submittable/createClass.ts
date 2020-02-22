@@ -3,8 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountData, Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { Callback, Codec, Constructor, IKeyringPair, ITuple, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
+import { Address, Call, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { Callback, Codec, Constructor, IKeyringPair, Registry, SignatureOptions, ISubmittableResult } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiTypes, SignerResult } from '../types';
 import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription, SubmittableThis } from './types';
 
@@ -102,8 +102,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
           this.#signObservable(account, options).pipe(
             switchMap((updateId: number | undefined): Observable<ISubmittableResult> | Observable<Hash> =>
               isSubscription
-                ? this.#subscribeObservable(updateId)
-                : this.#sendObservable(updateId)
+                ? this.#observeSubscribe(updateId)
+                : this.#observeSend(updateId)
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -121,8 +121,8 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return decorateMethod(
         isSubscription
-          ? this.#subscribeObservable
-          : this.#sendObservable
+          ? this.#observeSubscribe
+          : this.#observeSend
       )(statusCb);
     }
 
@@ -242,7 +242,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       }
     }
 
-    #statusObservable = (status: ExtrinsicStatus): Observable<ISubmittableResult> => {
+    #observeStatus = (status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
         return of(new SubmittableResult({ status }));
       }
@@ -264,7 +264,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
       );
     }
 
-    #sendObservable = (updateId = -1): Observable<Hash> => {
+    #observeSend = (updateId = -1): Observable<Hash> => {
       return api.rpc.author
         .submitExtrinsic(this)
         .pipe(
@@ -274,12 +274,12 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
         );
     }
 
-    #subscribeObservable = (updateId = -1): Observable<ISubmittableResult> => {
+    #observeSubscribe = (updateId = -1): Observable<ISubmittableResult> => {
       return api.rpc.author
         .submitAndWatchExtrinsic(this)
         .pipe(
           switchMap((status): Observable<ISubmittableResult> =>
-            this.#statusObservable(status)
+            this.#observeStatus(status)
           ),
           tap((status): void => {
             this.#updateSigner(updateId, status);
