@@ -11,6 +11,7 @@ import Compact from '@polkadot/types/codec/Compact';
 import Enum from '@polkadot/types/codec/Enum';
 import Option from '@polkadot/types/codec/Option';
 import Struct from '@polkadot/types/codec/Struct';
+import UInt from '@polkadot/types/codec/UInt';
 import Vec from '@polkadot/types/codec/Vec';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
 import GenericAddress from '@polkadot/types/generic/Address';
@@ -106,7 +107,7 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
     }
 
     possibleTypes.push('Uint8Array');
-  } else if (isChildClass(AbstractInt as unknown as Constructor<any>, Clazz) || isChildClass(Compact, Clazz)) {
+  } else if (isChildClass(AbstractInt as unknown as Constructor<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
   } else if (isChildClass(GenericAddress, Clazz)) {
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'string', 'Uint8Array');
@@ -117,7 +118,6 @@ export function getSimilarTypes (definitions: object, registry: Registry, type: 
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
-    // TODO We don't really want any here, these should be expanded
     const s = new Clazz(registry);
     const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
 
