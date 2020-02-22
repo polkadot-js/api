@@ -39,15 +39,15 @@ async function main () {
     .signAndSend(adminPair, ({ events = [], status }) => {
       console.log('Proposal status:', status.type);
 
-      if (status.isFinalized) {
+      if (status.isInBlock) {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.asFinalized.toHex());
+        console.log('Included at block hash', status.asInBlock.toHex());
         console.log('Events:');
 
-        events.forEach(({ phase, event: { data, method, section } }) => {
-          console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-        });
+        console.log(JSON.stringify(events.toHuman(), null, 2));
+      } else if (status.isFinalized) {
+        console.log('Finalized block hash', status.asFinalized.toHex());
 
         process.exit(0);
       }
