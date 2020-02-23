@@ -14,6 +14,7 @@ import { defaultExtensions, expandExtensionTypes, findUnknownExtensions } from '
 import { EventData } from '../generic/Event';
 import Unconstructable from '../primitive/Unconstructable';
 import { createClass, getTypeClass } from './createClass';
+import { createType } from './createType';
 import { getTypeDef } from './getTypeDef';
 
 // create error mapping from metadata
@@ -125,6 +126,13 @@ export class TypeRegistry implements Registry {
     return this.#chainProperties?.tokenSymbol.isSome
       ? this.#chainProperties.tokenSymbol.unwrap().toString()
       : formatBalance.getDefaults().unit;
+  }
+
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+    return createType(this, type, ...params);
   }
 
   // find a specific call

@@ -17,7 +17,7 @@ import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { createType, Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -136,9 +136,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._rx.registry = this.registry;
   }
 
-  public abstract createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K];
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+    return createType(this.registry, type, ...params);
+  }
 
-  public abstract registerTypes (types?: RegistryTypes): void;
+  /**
+   * @description Register additional user-defined of chain-specific types in the type registry
+   */
+  public registerTypes (types?: RegistryTypes): void {
+    types && this.registry.register(types);
+  }
 
   /**
    * @returns `true` if the API operates with subscriptions
