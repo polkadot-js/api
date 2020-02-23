@@ -67,6 +67,6 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 export default function generateDefaultInterfaceRegistry (): void {
   generateInterfaceRegistry(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/interfaceAugment.ts'
+    'packages/types/src/augment/interfaceRegistry.ts'
   );
 }
