@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+// augment the registry
+import '@polkadot/types/interfaceAugment';
+import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 
-import { InterfaceRegistry } from '../interfaceRegistry';
+import BN from 'bn.js';
 
 export type InterfaceTypes = keyof InterfaceRegistry;
 
