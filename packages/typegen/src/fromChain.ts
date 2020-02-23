@@ -21,7 +21,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   const extraTypes = pkg
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) }
     : {};
-  const hasRegistry = fs.existsSync(path.join(process.cwd(), output, 'augment-registry.ts'));
+  const hasRegistry = fs.existsSync(path.join(process.cwd(), output, 'augment-types.ts'));
 
   generateConst(path.join(process.cwd(), output, 'augment-consts.ts'), metaHex, extraTypes, isStrict);
   generateQuery(path.join(process.cwd(), output, 'augment-query.ts'), metaHex, extraTypes, isStrict);
@@ -31,8 +31,8 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     [
       HEADER,
       ...[
-        '@polkadot/api/types/augment/rpc',
-        ...['consts', 'query', hasRegistry ? 'registry' : '', 'tx'].filter((key) => !!key).map((key) => `./augment-${key}`)
+        '@polkadot/api/augment/rpc',
+        ...['consts', 'query', hasRegistry ? 'types' : '', 'tx'].filter((key) => !!key).map((key) => `./augment-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );

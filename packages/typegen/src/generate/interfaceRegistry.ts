@@ -14,13 +14,13 @@ const primitiveClasses = {
 };
 
 /** @internal */
-export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string, skipPrimitives?: boolean): void {
+export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string): void {
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-    const primitives = skipPrimitives ? '' : Object
+    const primitives = Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
       .reduce((accumulator, primitiveName): string => {
@@ -67,6 +67,6 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 export default function generateDefaultInterfaceRegistry (): void {
   generateInterfaceRegistry(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/interfaceAugment.ts'
+    'packages/types/src/augment/interfaceRegistry.ts'
   );
 }

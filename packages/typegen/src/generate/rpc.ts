@@ -9,7 +9,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { FOOTER, HEADER, createDocComments, createImportCode, createImports, getSimilarTypes, setImports, writeFile, indent } from '../util';
 
 /** @internal */
-export default function generateRpcTypes (dest = 'packages/api/src/types/augment/rpc.ts'): void {
+export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.ts'): void {
   writeFile(dest, (): string => {
     const registry = new TypeRegistry();
     const imports = createImports({ '@polkadot/types/interfaces': definitions });

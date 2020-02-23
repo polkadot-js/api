@@ -49,5 +49,5 @@ export default function main (): void {
   };
 
   generateTsDef(allDefs, path.join(process.cwd(), input), pkg);
-  generateInterfaceRegistry({ [pkg]: userDefs }, path.join(process.cwd(), input, 'augment-registry.ts'), true);
+  generateInterfaceRegistry({ [pkg]: userDefs }, path.join(process.cwd(), input, 'augment-types.ts'));
 }
