@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceRegistry, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -11,7 +11,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, keyof InterfaceRegistry | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {

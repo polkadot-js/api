@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, Constructor, Codec, InterfaceRegistry, Registry } from '../types';
 
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -19,7 +19,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   private readonly _ValClass: Constructor<V>;
 
-  constructor (registry: Registry, keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceRegistry, valType: Constructor<V> | keyof InterfaceRegistry, rawValue: any) {
     const KeyClass = typeToConstructor(registry, keyType);
     const ValClass = typeToConstructor(registry, valType);
 
@@ -98,7 +98,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     return output;
   }
 
-  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes): Constructor<BTreeMap<K, V>> {
+  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceRegistry, valType: Constructor<V> | keyof InterfaceRegistry): Constructor<BTreeMap<K, V>> {
     return class extends BTreeMap<K, V> {
       constructor (registry: Registry, value?: any) {
         super(registry, keyType, valType, value);

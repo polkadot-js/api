@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceTypes } from '@polkadot/types/types';
+import { InterfaceRegistry } from '@polkadot/types/types';
 import { RpcParam } from '../types';
 
 interface RpcParamOptions {
@@ -10,7 +10,7 @@ interface RpcParamOptions {
 }
 
 /** @internal */
-export default function createParam (name: string, type: InterfaceTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
+export default function createParam (name: string, type: keyof InterfaceRegistry, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
   return {
     isOptional,
     name,

@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { Codec, InterfaceTypes } from '../types';
+import { Codec, InterfaceRegistry } from '../types';
 
 // Type which says: if `K` is in the InterfaceRegistry, then return InterfaceRegistry[K], else fallback to T
-export type FromReg<T extends Codec, K extends string> = K extends InterfaceTypes
+export type FromReg<T extends Codec, K extends string> = K extends keyof InterfaceRegistry
   ? InterfaceRegistry[K]
   : T;
 

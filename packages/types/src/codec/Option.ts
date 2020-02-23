@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
+import { Codec, Constructor, InterfaceRegistry, Registry } from '../types';
 
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -21,7 +21,7 @@ import Base from './Base';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  constructor (registry: Registry, Type: Constructor | InterfaceTypes, value?: any) {
+  constructor (registry: Registry, Type: Constructor | keyof InterfaceRegistry, value?: any) {
     const Clazz = typeToConstructor(registry, Type);
 
     super(registry, Option.decodeOption(registry, Clazz, value));
@@ -54,7 +54,7 @@ export default class Option<T extends Codec> extends Base<T> {
       : new Type(registry, value.subarray(1));
   }
 
-  public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor | keyof InterfaceRegistry): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);

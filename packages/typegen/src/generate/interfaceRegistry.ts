@@ -51,7 +51,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       }))
     ]);
 
-    const interfaceStart = "declare module '@polkadot/types/interfaceRegistry' {\n  export interface InterfaceRegistry {";
+    const interfaceStart = "declare module '@polkadot/types/types/registry' {\n  export interface InterfaceRegistry {";
     const interfaceEnd = '\n  }\n}';
 
     return header
@@ -67,6 +67,6 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 export default function generateDefaultInterfaceRegistry (): void {
   generateInterfaceRegistry(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/augment/interfaceRegistry.ts'
+    'packages/types/src/augment/registry.ts'
   );
 }

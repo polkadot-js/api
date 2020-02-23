@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, Constructor, Codec, InterfaceRegistry, Registry } from '../types';
 
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -17,7 +17,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
 
   private readonly _ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceRegistry, rawValue: any) {
     const ValClass = typeToConstructor(registry, valType);
 
     super(BTreeSet.decodeBTreeSet(registry, ValClass, rawValue));
@@ -92,7 +92,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     return output;
   }
 
-  public static with<V extends Codec> (valType: Constructor<V> | InterfaceTypes): Constructor<BTreeSet<V>> {
+  public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceRegistry): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: any) {
         super(registry, valType, value);
