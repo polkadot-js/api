@@ -2,6 +2,7 @@
 
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
+- Registry now exposes `.createType(<type>, ...args)` as well
 - Support types & interfaces required for lazy reaping & offchain phragmen
 - Support JS `BigInt` inputs in any `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`

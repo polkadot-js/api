@@ -5,10 +5,10 @@
 import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Metadata, createType } from '@polkadot/types';
+import { Metadata } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -234,13 +234,6 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Creates an instance of a type as registered
-   */
-  public createType = <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] => {
-    return createType(this.registry, type, ...params);
-  }
-
-  /**
    * @description Disconnect from the underlying provider, halting all network traffic
    */
   public disconnect (): void {
@@ -259,13 +252,6 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    */
   public findError (errorIndex: Uint8Array | string): RegistryError {
     return this.registry.findMetaError(u8aToU8a(errorIndex));
-  }
-
-  /**
-   * @description Register additional user-defined of chain-specific types in the type registry
-   */
-  public registerTypes (types?: RegistryTypes): void {
-    types && this.registry.register(types);
   }
 
   /**
