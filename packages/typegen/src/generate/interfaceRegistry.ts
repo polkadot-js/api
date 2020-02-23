@@ -14,14 +14,13 @@ const primitiveClasses = {
 };
 
 /** @internal */
-export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string, augment?: boolean): void {
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-
-    const primitives = Object
+    const primitives = augment ? '' : Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
       .reduce((accumulator, primitiveName): string => {
@@ -40,7 +39,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       return [
         accumulator,
         ...Object.keys(types).map((type): string =>
-          getDerivedTypes(definitions, type, types[type], imports).map(indent(2)).join('\n')
+          getDerivedTypes(definitions, type, types[type], imports).map(indent(augment ? 4 : 2)).join('\n')
         )
       ].join('\n');
     }, '');
@@ -52,14 +51,18 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       }))
     ]);
 
-    const interfaceStart = 'export interface InterfaceRegistry {';
-    const interfaceEnd = '\n}';
+    const augmentStart = augment ? "declare module '@polkadot/types/interfaceRegistry' {\n" : '';
+    const augmentEnd = augment ? '\n}' : '';
+    const interfaceStart = indent(augment ? 2 : 0)('export interface InterfaceRegistry {');
+    const interfaceEnd = indent(augment ? 2 : 0)('\n}');
 
     return header
+      .concat(augmentStart)
       .concat(interfaceStart)
       .concat(primitives)
       .concat(srml)
       .concat(interfaceEnd)
+      .concat(augmentEnd)
       .concat(FOOTER);
   });
 }
