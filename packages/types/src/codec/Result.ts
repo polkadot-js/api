@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceRegistry, Registry } from '../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert } from '@polkadot/util';
 
@@ -14,12 +14,12 @@ import Enum from './Enum';
  * A Result maps to the Rust Result type, that can either wrap a success or error value
  */
 export default class Result<O extends Codec, E extends Codec> extends Enum {
-  constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceRegistry, Error: Constructor<E> | keyof InterfaceRegistry, value?: any) {
+  constructor (registry: Registry, Ok: Constructor<O> | keyof InterfaceTypes, Error: Constructor<E> | keyof InterfaceTypes, value?: any) {
     // NOTE This is order-dependent, Ok (with index 0) needs to be first
     super(registry, { Ok, Error }, value);
   }
 
-  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | keyof InterfaceRegistry; Error: Constructor<E> | keyof InterfaceRegistry }): Constructor<Result<O, E>> {
+  public static with<O extends Codec, E extends Codec> (Types: { Ok: Constructor<O> | keyof InterfaceTypes; Error: Constructor<E> | keyof InterfaceTypes }): Constructor<Result<O, E>> {
     return class extends Result<O, E> {
       constructor (registry: Registry, value?: any) {
         super(registry, Types.Ok, Types.Error, value);

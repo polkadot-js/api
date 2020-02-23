@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, Constructor, ICompact, InterfaceRegistry, Registry } from '../types';
+import { AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 
 import BN from 'bn.js';
 import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
@@ -27,11 +27,11 @@ export interface CompactEncodable extends Codec {
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceRegistry, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceRegistry): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);

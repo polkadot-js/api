@@ -4,7 +4,7 @@
 
 import { ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
 import { Balance, Hash, Index } from '../interfaces/runtime';
-import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceRegistry, Registry } from '../types';
+import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ interface ExtrinsicPayloadOptions {
 // all our known types that can be returned
 type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
 
-const VERSIONS: (keyof InterfaceRegistry)[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadV1',
   'ExtrinsicPayloadV2',

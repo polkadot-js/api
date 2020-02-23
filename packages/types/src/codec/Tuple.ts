@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceRegistry, Registry } from '../types';
+import { AnyNumber, AnyU8a, AnyString, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { isU8a, u8aConcat, isHex, hexToU8a } from '@polkadot/util';
 
@@ -13,8 +13,8 @@ type TupleConstructors = Constructor[] | {
   [index: string]: Constructor;
 };
 
-type TupleTypes = (Constructor | keyof InterfaceRegistry)[] | {
-  [index: string]: Constructor | keyof InterfaceRegistry;
+type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
+  [index: string]: Constructor | keyof InterfaceTypes;
 };
 
 /**

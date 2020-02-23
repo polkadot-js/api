@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJson, Codec, Constructor, InterfaceRegistry, Registry } from '../types';
+import { AnyJson, Codec, Constructor, InterfaceTypes, Registry } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, stringCamelCase, stringUpperFirst, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ interface Decoded {
   value: Codec;
 }
 
-function extractDef (registry: Registry, _def: Record<string, keyof InterfaceRegistry | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
+function extractDef (registry: Registry, _def: Record<string, keyof InterfaceTypes | Constructor> | string[]): { def: TypesDef; isBasic: boolean } {
   if (!Array.isArray(_def)) {
     const def = mapToTypeMap(registry, _def);
     const isBasic = !Object.values(def).some((type): boolean => type !== Null);
@@ -123,7 +123,7 @@ export default class Enum extends Base<Codec> {
 
   private _isBasic: boolean;
 
-  constructor (registry: Registry, def: Record<string, keyof InterfaceRegistry | Constructor> | string[], value?: any, index?: number) {
+  constructor (registry: Registry, def: Record<string, keyof InterfaceTypes | Constructor> | string[], value?: any, index?: number) {
     const defInfo = extractDef(registry, def);
     const decoded = decodeEnum(registry, defInfo.def, value, index);
 
@@ -135,7 +135,7 @@ export default class Enum extends Base<Codec> {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  public static with (Types: Record<string, keyof InterfaceRegistry | Constructor> | string[]): EnumConstructor<Enum> {
+  public static with (Types: Record<string, keyof InterfaceTypes | Constructor> | string[]): EnumConstructor<Enum> {
     return class extends Enum {
       constructor (registry: Registry, value?: any, index?: number) {
         super(registry, Types, value, index);

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceRegistry, Registry } from '../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
@@ -73,6 +73,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<K extends keyof InterfaceRegistry> (registry: Registry, type: K, ...params: any[]): InterfaceRegistry[K] {
-  return createTypeUnsafe<InterfaceRegistry[K], K>(registry, type, params);
+export function createType<K extends keyof InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceTypes[K] {
+  return createTypeUnsafe<InterfaceTypes[K], K>(registry, type, params);
 }

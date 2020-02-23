@@ -5,7 +5,7 @@
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceRegistry, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecorateMethod, DecoratedRpc, DecoratedRpcSection, QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
 
@@ -136,7 +136,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._rx.registry = this.registry;
   }
 
-  public abstract createType <K extends keyof InterfaceRegistry> (type: K, ...params: any[]): InterfaceRegistry[K];
+  public abstract createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K];
 
   public abstract registerTypes (types?: RegistryTypes): void;
 

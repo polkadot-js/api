@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor, Codec, InterfaceRegistry, Registry } from '../types';
+import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import Option from './Option';
 import Struct from './Struct';
@@ -18,14 +18,14 @@ const EMPTY = new Uint8Array();
  * @description The wrapper for the result from a LinkedMap
  */
 export default class Linkage<T extends Codec> extends Struct {
-  constructor (registry: Registry, Type: Constructor | keyof InterfaceRegistry, value?: any) {
+  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: any) {
     super(registry, {
       previous: Option.with(Type),
       next: Option.with(Type)
     }, value);
   }
 
-  public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceRegistry): Constructor<Linkage<O>> {
+  public static withKey<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Linkage<O>> {
     return class extends Linkage<O> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);

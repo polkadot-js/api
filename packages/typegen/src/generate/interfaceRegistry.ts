@@ -14,7 +14,7 @@ const primitiveClasses = {
 };
 
 /** @internal */
-export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: { [importPath: string]: object }, dest: string): void {
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
@@ -51,7 +51,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       }))
     ]);
 
-    const interfaceStart = "declare module '@polkadot/types/types/registry' {\n  export interface InterfaceRegistry {";
+    const interfaceStart = "declare module '@polkadot/types/types/registry' {\n  export interface InterfaceTypes {";
     const interfaceEnd = '\n  }\n}';
 
     return header
@@ -64,8 +64,8 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 }
 
 // Generate `packages/types/src/interfaceRegistry.ts`, the registry of all interfaces
-export default function generateDefaultInterfaceRegistry (): void {
-  generateInterfaceRegistry(
+export default function generateDefaultInterfaceTypes (): void {
+  generateInterfaceTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
     'packages/types/src/augment/registry.ts'
   );

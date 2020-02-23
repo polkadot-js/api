@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceRegistry } from '@polkadot/types/types';
+import { InterfaceTypes } from '@polkadot/types/types';
 
 type PubSub = [string, string, string];
 
 export interface RpcParam {
   isOptional: boolean;
   name: string;
-  type: keyof InterfaceRegistry;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcMethodOpt {
@@ -21,7 +21,7 @@ export interface RpcMethodOpt {
   isSubscription?: boolean;
   params: RpcParam[];
   pubsub?: PubSub;
-  type: keyof InterfaceRegistry;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcMethod {
@@ -36,7 +36,7 @@ export interface RpcMethod {
   params: RpcParam[];
   pubsub: PubSub;
   section: string;
-  type: keyof InterfaceRegistry;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcSection {

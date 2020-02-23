@@ -38,7 +38,7 @@ import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 
 declare module '@polkadot/types/types/registry' {
-  export interface InterfaceRegistry {
+  export interface InterfaceTypes {
     BitVec: BitVec;
     'Option<BitVec>': Option<BitVec>;
     'Vec<BitVec>': Vec<BitVec>;

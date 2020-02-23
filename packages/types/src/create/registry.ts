@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ChainProperties, DispatchErrorModule } from '../interfaces/types';
-import { CallFunction, Codec, Constructor, InterfaceRegistry, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
+import { CallFunction, Codec, Constructor, InterfaceTypes, RegistryError, RegistryTypes, Registry, RegistryMetadata, TypeDef } from '../types';
 
 import extrinsicsFromMeta from '@polkadot/metadata/Decorated/extrinsics/fromMetadata';
 import { assert, formatBalance, isFunction, isString, isU8a, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
@@ -213,11 +213,11 @@ export class TypeRegistry implements Registry {
     return this.get<T>(name, true) as Constructor<T>;
   }
 
-  public getSignedExtensionExtra (): Record<string, keyof InterfaceRegistry> {
+  public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
     return expandExtensionTypes(this.#metadataExtensions, 'extra');
   }
 
-  public getSignedExtensionTypes (): Record<string, keyof InterfaceRegistry> {
+  public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
     return expandExtensionTypes(this.#metadataExtensions, 'types');
   }
 

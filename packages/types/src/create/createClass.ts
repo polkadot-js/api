@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, InterfaceRegistry, Registry } from '../types';
+import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg, TypeDef, TypeDefInfo } from './types';
 
 import { assert, isNumber, isUndefined } from '@polkadot/util';
@@ -37,9 +37,9 @@ export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string
 }
 
 // alias for createClass
-export function ClassOf<K extends keyof InterfaceRegistry> (registry: Registry, name: K): Constructor<InterfaceRegistry[K]> {
+export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceTypes[K]> {
   // TS2589: Type instantiation is excessively deep and possibly infinite.
-  // The above happens with as Constructor<InterfaceRegistry[K]>;
+  // The above happens with as Constructor<InterfaceTypes[K]>;
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
@@ -55,15 +55,15 @@ function getSubDef (value: TypeDef): TypeDef {
   return value.sub;
 }
 
-function getSubType (value: TypeDef): keyof InterfaceRegistry {
-  return getSubDef(value).type as keyof InterfaceRegistry;
+function getSubType (value: TypeDef): keyof InterfaceTypes {
+  return getSubDef(value).type as keyof InterfaceTypes;
 }
 
 // create a maps of type string constructors from the input
-function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceRegistry> {
-  const result: Record<string, keyof InterfaceRegistry> = {};
+function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> {
+  const result: Record<string, keyof InterfaceTypes> = {};
 
-  return getSubDefArray(value).reduce((result, sub): Record<string, keyof InterfaceRegistry> => {
+  return getSubDefArray(value).reduce((result, sub): Record<string, keyof InterfaceTypes> => {
     result[sub.name as string] = sub.type as any;
 
     return result;
@@ -71,9 +71,9 @@ function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceRegistr
 }
 
 // create an array of type string constructors from the input
-function getTypeClassArray (value: TypeDef): (keyof InterfaceRegistry)[] {
-  return getSubDefArray(value).map(({ type }): keyof InterfaceRegistry =>
-    type as keyof InterfaceRegistry
+function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
+  return getSubDefArray(value).map(({ type }): keyof InterfaceTypes =>
+    type as keyof InterfaceTypes
   );
 }
 
@@ -161,7 +161,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     return (
       (sub as TypeDef).type === 'u8'
         ? U8aFixed.with((length * 8) as U8aFixedBitLength, displayName)
-        : VecFixed.with((sub as TypeDef).type as keyof InterfaceRegistry, length)
+        : VecFixed.with((sub as TypeDef).type as keyof InterfaceTypes, length)
     );
   }
 };

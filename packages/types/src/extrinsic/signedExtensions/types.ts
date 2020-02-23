@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InterfaceRegistry } from '../../types';
+import { InterfaceTypes } from '../../types';
 
-export type ExtTypes = Record<string, keyof InterfaceRegistry>;
+export type ExtTypes = Record<string, keyof InterfaceTypes>;
 
 export type ExtInfo = {
   extra: ExtTypes;
