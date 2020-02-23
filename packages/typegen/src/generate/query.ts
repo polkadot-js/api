@@ -11,7 +11,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import { TypeRegistry } from '@polkadot/types/create';
 import { stringLowerFirst } from '@polkadot/util';
 
-import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, setImports, writeFile } from '../util';
+import { FOOTER, HEADER, TypeImports, createDocComments, createImportCode, createImports, formatType, getSimilarTypes, indent, registerDefinitions, setImports, writeFile } from '../util';
 
 // If the StorageEntry returns T, output `Option<T>` if the modifier is optional
 /** @internal */
@@ -93,9 +93,9 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
 }
 
 /** @internal */
-function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, object>>, isStrict: boolean): void {
+function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: Record<string, Record<string, { types: Record<string, any> }>>, isStrict: boolean): void {
   writeFile(dest, (): string => {
-    const allTypes: Record<string, Record<string, object>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes: Record<string, Record<string, { types: Record<string, any> }>> = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [key]: value }), defs);
@@ -129,8 +129,10 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export default function generateQuery (dest = 'packages/api/src/types/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, object>> = {}, isStrict = false): void {
+export default function generateQuery (dest = 'packages/api/src/types/augment/query.ts', data = staticData, extraTypes: Record<string, Record<string, { types: Record<string, any> }>> = {}, isStrict = false): void {
   const registry = new TypeRegistry();
+
+  registerDefinitions(registry, extraTypes);
 
   return generateForMeta(registry, new Metadata(registry, data), dest, extraTypes, isStrict);
 }

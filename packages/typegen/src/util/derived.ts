@@ -69,7 +69,9 @@ export function getDerivedTypes (definitions: object, type: string, primitiveNam
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
 /** @internal */
-export function getSimilarTypes (definitions: object, registry: Registry, type: string, imports: TypeImports): string[] {
+export function getSimilarTypes (definitions: object, registry: Registry, _type: string, imports: TypeImports): string[] {
+  const typeParts = _type.split('::');
+  const type = typeParts[typeParts.length - 1];
   const possibleTypes = [type];
 
   if (type === 'Extrinsic') {
