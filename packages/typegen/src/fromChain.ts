@@ -31,7 +31,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     [
       HEADER,
       ...[
-        '@polkadot/api/types/augment/rpc',
+        '@polkadot/api/augment/rpc',
         ...['consts', 'query', hasRegistry ? 'types' : '', 'tx'].filter((key) => !!key).map((key) => `./augment-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
