@@ -10,6 +10,7 @@ import { formatNumber } from '@polkadot/util';
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
 import generateTx from './generate/tx';
+import { HEADER, writeFile } from './util';
 
 let websocket: any = null;
 
@@ -23,6 +24,13 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes, isStrict);
   generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes, isStrict);
   generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes, isStrict);
+
+  writeFile(path.join(process.cwd(), output, 'augment.ts'), (): string =>
+    [
+      HEADER,
+      ...['./augment.consts', './augment.query', './augment.tx', '@polkadot/api/types/augment/rpc'].map((path) => `import '${path}';\n`)
+    ].join('')
+  );
 
   process.exit(0);
 }
