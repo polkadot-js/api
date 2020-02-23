@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
 import { FromReg, TypeDef, TypeDefInfo } from './types';
 
@@ -22,7 +23,6 @@ import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
 import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import VecFixed from '../codec/VecFixed';
-import { InterfaceRegistry } from '../interfaceRegistry';
 import { getTypeDef } from './getTypeDef';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {

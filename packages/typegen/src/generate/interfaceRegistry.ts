@@ -14,14 +14,13 @@ const primitiveClasses = {
 };
 
 /** @internal */
-export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string): void {
+export function generateInterfaceRegistry (importDefinitions: { [importPath: string]: object }, dest: string, skipPrimitives?: boolean): void {
   writeFile(dest, (): string => {
     Object.entries(importDefinitions).reduce((acc, def) => Object.assign(acc, def), {} as object);
 
     const imports = createImports(importDefinitions);
     const definitions = imports.definitions;
-
-    const primitives = Object
+    const primitives = skipPrimitives ? '' : Object
       .keys(primitiveClasses)
       .filter((name): boolean => !!name.indexOf('Generic'))
       .reduce((accumulator, primitiveName): string => {
@@ -29,7 +28,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 
         return [
           accumulator,
-          getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(2)).join('\n')
+          getDerivedTypes(definitions, primitiveName, primitiveName, imports).map(indent(4)).join('\n')
         ].join('\n');
       }, '');
 
@@ -40,7 +39,7 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       return [
         accumulator,
         ...Object.keys(types).map((type): string =>
-          getDerivedTypes(definitions, type, types[type], imports).map(indent(2)).join('\n')
+          getDerivedTypes(definitions, type, types[type], imports).map(indent(4)).join('\n')
         )
       ].join('\n');
     }, '');
@@ -52,8 +51,8 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
       }))
     ]);
 
-    const interfaceStart = 'export interface InterfaceRegistry {';
-    const interfaceEnd = '\n}';
+    const interfaceStart = "declare module '@polkadot/types/interfaceRegistry' {\n  export interface InterfaceRegistry {";
+    const interfaceEnd = '\n  }\n}';
 
     return header
       .concat(interfaceStart)
@@ -68,6 +67,6 @@ export function generateInterfaceRegistry (importDefinitions: { [importPath: str
 export default function generateDefaultInterfaceRegistry (): void {
   generateInterfaceRegistry(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/interfaceRegistry.ts'
+    'packages/types/src/interfaceAugment.ts'
   );
 }

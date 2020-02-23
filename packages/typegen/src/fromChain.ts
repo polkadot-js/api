@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
 import getWSClass from '@polkadot/rpc-provider/ws/getWSClass';
@@ -20,15 +21,19 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
   const extraTypes = pkg
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) }
     : {};
+  const hasRegistry = fs.existsSync(path.join(process.cwd(), output, 'augment-registry.ts'));
 
-  generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes, isStrict);
-  generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes, isStrict);
-  generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes, isStrict);
+  generateConst(path.join(process.cwd(), output, 'augment-consts.ts'), metaHex, extraTypes, isStrict);
+  generateQuery(path.join(process.cwd(), output, 'augment-query.ts'), metaHex, extraTypes, isStrict);
+  generateTx(path.join(process.cwd(), output, 'augment-tx.ts'), metaHex, extraTypes, isStrict);
 
   writeFile(path.join(process.cwd(), output, 'augment.ts'), (): string =>
     [
       HEADER,
-      ...['./augment.consts', './augment.query', './augment.tx', '@polkadot/api/types/augment/rpc'].map((path) => `import '${path}';\n`)
+      ...[
+        '@polkadot/api/types/augment/rpc',
+        ...['consts', 'query', hasRegistry ? 'registry' : '', 'tx'].filter((key) => !!key).map((key) => `./augment-${key}`)
+      ].map((path) => `import '${path}';\n`)
     ].join('')
   );
 

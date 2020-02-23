@@ -8,3 +8,4 @@ exclude_patterns:
 - "packages/typegen/scripts"
 - "packages/typegen/src"
 - "packages/types/src/interfaces/"
+- "packages/types/src/interfaceAugment.ts"
