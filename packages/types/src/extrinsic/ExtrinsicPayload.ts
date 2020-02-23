@@ -23,7 +23,7 @@ interface ExtrinsicPayloadOptions {
 // all our known types that can be returned
 type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
 
-const VERSIONS: InterfaceTypes[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadV1',
   'ExtrinsicPayloadV2',

@@ -37,8 +37,8 @@ import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 
-declare module '@polkadot/types/interfaceRegistry' {
-  export interface InterfaceRegistry {
+declare module '@polkadot/types/types/registry' {
+  export interface InterfaceTypes {
     BitVec: BitVec;
     'Option<BitVec>': Option<BitVec>;
     'Vec<BitVec>': Vec<BitVec>;

@@ -19,7 +19,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
 
   private readonly _ValClass: Constructor<V>;
 
-  constructor (registry: Registry, keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
     const KeyClass = typeToConstructor(registry, keyType);
     const ValClass = typeToConstructor(registry, valType);
 
@@ -98,7 +98,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
     return output;
   }
 
-  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | InterfaceTypes, valType: Constructor<V> | InterfaceTypes): Constructor<BTreeMap<K, V>> {
+  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeMap<K, V>> {
     return class extends BTreeMap<K, V> {
       constructor (registry: Registry, value?: any) {
         super(registry, keyType, valType, value);

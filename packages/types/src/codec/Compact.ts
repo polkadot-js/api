@@ -27,11 +27,11 @@ export interface CompactEncodable extends Codec {
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
-  constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T> | InterfaceTypes): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);

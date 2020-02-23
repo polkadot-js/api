@@ -10,7 +10,7 @@ interface RpcParamOptions {
 }
 
 /** @internal */
-export default function createParam (name: string, type: InterfaceTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
+export default function createParam (name: string, type: keyof InterfaceTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
   return {
     isOptional,
     name,

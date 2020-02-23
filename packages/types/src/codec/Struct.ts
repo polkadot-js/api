@@ -11,7 +11,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {

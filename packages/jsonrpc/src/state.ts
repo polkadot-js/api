@@ -85,7 +85,7 @@ const getMetadata: RpcMethodOpt = {
   params: [
     createParam('at', 'BlockHash', { isOptional: true })
   ],
-  // This is not part of InterfaceTypes
+  // This is not part of keyof InterfaceTypes
   type: 'Metadata' as any
 };
 

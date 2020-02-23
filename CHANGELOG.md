@@ -16,6 +16,7 @@
 - (internal) Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
 - (internal) Use ES `#<varname>` on private class members as applicable
 - (internal) Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
+- (internal) Cleanup augmentation and generation scripts of `interfaceRegistry` in types, aligning with api
 
 # 1.3.1 Feb 18, 2020
 

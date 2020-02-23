@@ -29,7 +29,7 @@ interface CreateOptions {
 type ExtrinsicVx = ExtrinsicV1 | ExtrinsicV2 | ExtrinsicV3 | ExtrinsicV4;
 type ExtrinsicValue = ExtrinsicValueV1 | ExtrinsicValueV2 | ExtrinsicValueV3 | ExtrinsicValueV4;
 
-const VERSIONS: InterfaceTypes[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicV1',
   'ExtrinsicV2',

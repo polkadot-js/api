@@ -5,7 +5,6 @@
 import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
@@ -237,7 +236,7 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   /**
    * @description Creates an instance of a type as registered
    */
-  public createType = <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] => {
+  public createType = <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] => {
     return createType(this.registry, type, ...params);
   }
 

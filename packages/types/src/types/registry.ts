@@ -8,7 +8,10 @@ import BN from 'bn.js';
 
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
-import { AnyJson, InterfaceTypes } from './helpers';
+import { AnyJson } from './helpers';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InterfaceTypes { }
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
@@ -94,8 +97,8 @@ export interface Registry {
   getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
-  getSignedExtensionExtra (): Record<string, InterfaceTypes>;
-  getSignedExtensionTypes (): Record<string, InterfaceTypes>;
+  getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
+  getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

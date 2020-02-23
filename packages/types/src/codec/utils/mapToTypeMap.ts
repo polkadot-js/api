@@ -8,7 +8,7 @@ import { isString } from '@polkadot/util';
 
 import { ClassOf } from '../../create/createClass';
 
-export function typeToConstructor <T = Codec> (registry: Registry, type: InterfaceTypes | Constructor<T>): Constructor<T> {
+export function typeToConstructor <T = Codec> (registry: Registry, type: keyof InterfaceTypes | Constructor<T>): Constructor<T> {
   return (
     isString(type)
       ? ClassOf(registry, type)
@@ -19,7 +19,7 @@ export function typeToConstructor <T = Codec> (registry: Registry, type: Interfa
 /**
  * @description takes an input map of the form `{ [string]: string | Constructor }` and returns a map of `{ [string]: Constructor }`
  */
-export function mapToTypeMap (registry: Registry, input: Record<string, InterfaceTypes | Constructor>): Record<string, Constructor> {
+export function mapToTypeMap (registry: Registry, input: Record<string, keyof InterfaceTypes | Constructor>): Record<string, Constructor> {
   return Object
     .entries(input)
     .reduce((output: Record<string, Constructor>, [key, type]): Record<string, Constructor> => {

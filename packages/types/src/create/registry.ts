@@ -213,11 +213,11 @@ export class TypeRegistry implements Registry {
     return this.get<T>(name, true) as Constructor<T>;
   }
 
-  public getSignedExtensionExtra (): Record<string, InterfaceTypes> {
+  public getSignedExtensionExtra (): Record<string, keyof InterfaceTypes> {
     return expandExtensionTypes(this.#metadataExtensions, 'extra');
   }
 
-  public getSignedExtensionTypes (): Record<string, InterfaceTypes> {
+  public getSignedExtensionTypes (): Record<string, keyof InterfaceTypes> {
     return expandExtensionTypes(this.#metadataExtensions, 'types');
   }
 

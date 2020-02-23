@@ -17,7 +17,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
 
   private readonly _ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
     const ValClass = typeToConstructor(registry, valType);
 
     super(BTreeSet.decodeBTreeSet(registry, ValClass, rawValue));
@@ -92,7 +92,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     return output;
   }
 
-  public static with<V extends Codec> (valType: Constructor<V> | InterfaceTypes): Constructor<BTreeSet<V>> {
+  public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: any) {
         super(registry, valType, value);
