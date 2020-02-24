@@ -5,9 +5,10 @@
 - Add `api.rpc.engine.*` for manual seal support
 - Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
 - The api now checks for runtime upgrades, augmenting the interfaces with new metadata when found
+- Support types & interfaces required for lazy reaping, lazy payouts & offchain phragmen
+- `api.derive.staking.*` has updated result types and query support for lazy payouts
 - Support JS `BigInt` inputs in any derived `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Registry now exposes `.createType(<type>, ...args)` as an additional helper (like the API)
-- Support types & interfaces required for lazy reaping, lazy payouts & offchain phragmen
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Move `DigestItem`, `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types in `registry.get` consistently warn on detection, throw on use
