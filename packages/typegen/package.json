@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/typegen",
-  "version": "1.4.0-beta.39",
+  "version": "1.4.0-beta.40",
   "description": "Type generation scripts",
   "main": "index.js",
   "bin": {
@@ -36,11 +36,11 @@
     "@babel/core": "^7.8.3",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
-    "@polkadot/api": "1.4.0-beta.39",
-    "@polkadot/jsonrpc": "1.4.0-beta.39",
-    "@polkadot/metadata": "1.4.0-beta.39",
-    "@polkadot/rpc-provider": "1.4.0-beta.39",
-    "@polkadot/types": "1.4.0-beta.39",
+    "@polkadot/api": "1.4.0-beta.40",
+    "@polkadot/jsonrpc": "1.4.0-beta.40",
+    "@polkadot/metadata": "1.4.0-beta.40",
+    "@polkadot/rpc-provider": "1.4.0-beta.40",
+    "@polkadot/types": "1.4.0-beta.40",
     "@polkadot/util": "^2.5.1",
     "websocket": "^1.0.31",
     "yargs": "^15.1.0"
