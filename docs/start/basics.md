@@ -6,13 +6,15 @@ To unpack this, we will start with the Metadata and explain what it actually pro
 
 ## Metadata
 
-When the API connects to a node, one of the first things it does is to retrieve the metadata. The metadata, effectively provides data in the form of `api.<type>.<module>.<section>` that fits into one of the following categories -
+When the API connects to a node, one of the first things it does is to retrieve the metadata and decorate the API based on the metadata information. The metadata effectively provides data in the form of `api.<type>.<module>.<section>` that fits into one of the following categories -
 
 - [consts](../substrate/constants.md) - All runtime constants, e.g. `api.consts.balances.existentialDeposit`. These are not functions, rather accessing the endpoint immediately yields the result as defined.
 - [query](../substrate/storage.md) - All chain state, e.g. `api.query.system.account(<accountId>)`.
 - [tx](../substrate/extrinsics.md) - All extrinsics, e.g. `api.tx.balances.transfer(<accountId>, <value>)`.
 
 Additionally the metadata also provides information on [events](../substrate/events.md), these are query-able via the `api.query.system.events()` interface and also appear on transactions... both these cases are detailed later.
+
+None of the information contained within the `api.{consts, query, tx}.<module>.<method>` endpoints are hard coded in the API. Rather everything is fully decorated by what the metadata exposes and is therefore completely dynamic. This means that when you connect to different chains, the metadata and API decoration will change and the API interfaces will reflect what is available on the chain you are connected to.
 
 ## Types
 
