@@ -154,7 +154,10 @@ export interface SpanRecord extends Struct {
 }
 
 /** @name StakingLedger */
-export interface StakingLedger extends Struct {
+export interface StakingLedger extends StakingLedgerTo223 {}
+
+/** @name StakingLedgerNew */
+export interface StakingLedgerNew extends Struct {
   readonly stash: AccountId;
   readonly total: Compact<Balance>;
   readonly active: Compact<Balance>;
