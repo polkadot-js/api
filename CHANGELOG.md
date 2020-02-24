@@ -1,5 +1,6 @@
 # 1.4.0-beta.x
 
+- **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
 - Registry now exposes `.createType(<type>, ...args)` as well
