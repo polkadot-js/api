@@ -32,8 +32,8 @@
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
 - Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
-- Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
-- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
+- Swap Kusama and Polkadot aliases for `Address` to `AccountId` (future update)
+- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliasing
 - Add `BitVec` type primitive
 - Add support for `system.account` for balance & nonce queries in derives as well as Submittables (Substrate composites)
 - Add `rpc.author.hasKey` and `rpc.author.hasSessionKeys` RPCs
@@ -81,7 +81,7 @@
 
 # 0.100.1 Jan 13, 2020
 
-- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chans, dependent libraries such as sr25519 may not be compatible.
+- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chains, dependent libraries such as sr25519 may not be compatible.
 - Add support for the Substrate identity module
 - Remove the `codec/Data` type, to remove a conflict with Substrate. This type is now named `Raw`
 - Fix for linked maps using `Option`
@@ -95,7 +95,7 @@
 - **Breaking change** The `Data` and `U8a` type has been renamed and just replaced with the `Raw` type
 - **Breaking change** The `api.derive.staking.info` has been split into 2 - `staking.query` for non-balance related information (more effective) and `staking.account` that enhances query for all the information previously found `.info`
 - Cleanup `DoubleMap` hashing to always hash over the full value (in the case of `Vec<T>`, this includes the length)
-- Update democracy derives to take care of nextTally and lowestU*nbaked
+- Update democracy derives to take care of nextTally and lowestUnbaked
 - Add additional derives for both council & treasury
 - Alignment with latest Polkadot/Substrate master branch types
 
@@ -150,7 +150,7 @@
 - Adjust API cloning now takes RPC filters from source into account
 - Simplification of isPedantic checks and less overhead on StorageData types
 - Cleanups and fixes around RPC and derive type definitions
-- Fix `derive.imOnline.receivedHeatbeats` to query via indexes
+- Fix `derive.imOnline.receivedHeartbeats` to query via indexes
 - Adjustment of `api.derive.elections.{approvalsOf|approvalsOfAt}` to allow ss58 address input
 - Cleanup `Enum` `.eq` handling to be more exhaustive
 - Add documentation for custom extrinsic formats (advanced chains)
@@ -184,7 +184,7 @@
 - Redeemed balance calculation if `api.derive` now returns the correct  values again (bug fix)
 - added the `yarn chain:info [--ws URL]` utility to extract a calls-only metadata version
 - Missing types are now logged via a `console.warn`, not via `.error`
-- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overriden now
+- `Extrinsic`, `ExtrinsicPayload` & `SignerPayload` is registered in the type registry and can be overridden now
   - **Breaking change** `SignerPayload` is renamed to `SignerPayloadJSON`
   - **Breaking change** `SignerPayloadJSON`, `SignerPayloadRawBase` and `SignerPayloadRaw` are all moved to `@polkadot/types`
 
@@ -210,7 +210,7 @@ If you are upgrading form an older version, use the CHANGELOG hand-in-hand with 
 
 - Support for substrate 2.x (master) has been extended,
   - Additional types have been addedd for the modules
-  - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
+  - `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feature detection is used so it supports both 1.x and 2.x chains)
   - Addition of `api.derive.elections`
 
 - Support latest substrate 2 v6 metadata with module constants using `api.consts`.
