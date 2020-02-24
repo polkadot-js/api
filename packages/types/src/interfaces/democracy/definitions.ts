@@ -24,6 +24,10 @@ export default {
     },
     PropIndex: 'u32',
     Proposal: 'Call',
+    ProxyState: {
+      Open: 'AccountId',
+      Active: 'AccountId'
+    },
     ReferendumIndex: 'u32',
     ReferendumInfo: {
       end: 'BlockNumber',

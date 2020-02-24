@@ -4,7 +4,7 @@
 
 import { InterfaceTypes } from '../../types';
 
-export type ExtTypes = Record<string, InterfaceTypes>;
+export type ExtTypes = Record<string, keyof InterfaceTypes>;
 
 export type ExtInfo = {
   extra: ExtTypes;

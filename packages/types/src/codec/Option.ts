@@ -21,7 +21,7 @@ import Base from './Base';
 export default class Option<T extends Codec> extends Base<T> {
   private _Type: Constructor;
 
-  constructor (registry: Registry, Type: Constructor | InterfaceTypes, value?: any) {
+  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: any) {
     const Clazz = typeToConstructor(registry, Type);
 
     super(registry, Option.decodeOption(registry, Clazz, value));
@@ -54,7 +54,7 @@ export default class Option<T extends Codec> extends Base<T> {
       : new Type(registry, value.subarray(1));
   }
 
-  public static with<O extends Codec> (Type: Constructor | InterfaceTypes): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);

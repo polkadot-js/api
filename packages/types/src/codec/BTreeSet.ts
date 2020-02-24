@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJsonArray, Constructor, Codec, InterfaceTypes, Registry } from '../types';
+import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -15,9 +15,9 @@ import { compareSet, decodeU8a, typeToConstructor } from './utils';
 export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
-  protected _ValClass: Constructor<V>;
+  private readonly _ValClass: Constructor<V>;
 
-  constructor (registry: Registry, valType: Constructor<V> | InterfaceTypes, rawValue: any) {
+  constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
     const ValClass = typeToConstructor(registry, valType);
 
     super(BTreeSet.decodeBTreeSet(registry, ValClass, rawValue));
@@ -92,7 +92,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
     return output;
   }
 
-  public static with<V extends Codec> (valType: Constructor<V> | InterfaceTypes): Constructor<BTreeSet<V>> {
+  public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: any) {
         super(registry, valType, value);
@@ -144,7 +144,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonArray {
+  public toHuman (isExtended?: boolean): AnyJson {
     const json: any = [];
 
     this.forEach((v: V) => {
@@ -157,7 +157,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonArray {
+  public toJSON (): AnyJson {
     const json: any = [];
 
     this.forEach((v: V) => {

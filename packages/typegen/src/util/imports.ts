@@ -60,7 +60,7 @@ export function setImports (allDefs: object, imports: TypeImports, types: string
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
         typeDef.sub.forEach((subType): void => setImports(allDefs, imports, [subType.type]));
-      } else if (typeDef.sub) {
+      } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.type]);
       }
@@ -95,7 +95,7 @@ export function createImports (importDefinitions: Record<string, object>, { type
 
       Object.keys(moduleDef.types).forEach((type): void => {
         if (typeToModule[type]) {
-          throw new Error(`Duplicated type: ${type}. Modules: ${name}, ${typeToModule[type]}`);
+          throw new Error(`Duplicated type: ${type}, found in: ${name}, ${typeToModule[type]}`);
         }
 
         typeToModule[type] = name;

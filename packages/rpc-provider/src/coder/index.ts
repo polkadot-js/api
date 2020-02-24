@@ -8,7 +8,7 @@ import { assert, isUndefined, isNumber, isString } from '@polkadot/util';
 
 /** @internal */
 export default class RpcCoder {
-  private id = 0;
+  #id = 0;
 
   public decodeResponse (response: JsonRpcResponse): any {
     assert(response, 'Empty response object received');
@@ -39,7 +39,7 @@ export default class RpcCoder {
 
   public encodeObject (method: string, params: any | any[]): JsonRpcRequest {
     return {
-      id: ++this.id,
+      id: ++this.#id,
       jsonrpc: '2.0',
       method,
       params
@@ -47,7 +47,7 @@ export default class RpcCoder {
   }
 
   public getId (): number {
-    return this.id;
+    return this.#id;
   }
 
   private checkError (error?: JsonRpcResponseBaseError): void {

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJsonObject, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
+import { AnyJson, BareOpts, Codec, Constructor, ConstructorDef, InterfaceTypes, Registry } from '../types';
 
 import { hexToU8a, isBoolean, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -11,7 +11,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Raw from './Raw';
 import { compareMap, decodeU8a, mapToTypeMap } from './utils';
 
-type TypesDef<T = Codec> = Record<string, InterfaceTypes | Constructor<T>>;
+type TypesDef<T = Codec> = Record<string, keyof InterfaceTypes | Constructor<T>>;
 
 /** @internal */
 function decodeStructFromObject <T> (registry: Registry, Types: ConstructorDef, value: any, jsonMap: Map<any, string>): T {
@@ -232,7 +232,7 @@ export default class Struct<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonObject {
+  public toHuman (isExtended?: boolean): AnyJson {
     return [...this.keys()].reduce((json, key): any => {
       const jsonKey = this._jsonMap.get(key) || key;
       const value = this.get(key);
@@ -246,7 +246,7 @@ export default class Struct<
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     // FIXME the return type string is only used by Extrinsic (extends Struct),
     // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key): any => {

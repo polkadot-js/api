@@ -13,8 +13,8 @@ type TupleConstructors = Constructor[] | {
   [index: string]: Constructor;
 };
 
-type TupleTypes = (Constructor | InterfaceTypes)[] | {
-  [index: string]: Constructor | InterfaceTypes;
+type TupleTypes = (Constructor | keyof InterfaceTypes)[] | {
+  [index: string]: Constructor | keyof InterfaceTypes;
 };
 
 /**

@@ -27,7 +27,7 @@ For example:
 
 ```js
 const { metadata } = await api.rpc.state.getMetadata();
-const modules = metadata.asV3.modules;
+const modules = metadata.asLatest.modules;
 
 // This will not work, because `name` is an instance of `Text`, not a string
 // const system = modules.find(m => m.name === 'system');
@@ -78,6 +78,8 @@ const [count, accountId] = tuple;
 
 console.log(`${accountId} has ${count.toNumber()} values`);
 ```
+
+When making a call that expect a `Tuple` input, pass it as an array, so to pass the example above into a call, it would be `.call([123, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'])`
 
 ## Extending types
 

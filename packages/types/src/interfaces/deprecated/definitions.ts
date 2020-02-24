@@ -14,12 +14,14 @@ export default {
     Amount: 'Balance',
     AssetOf: 'u32',
 
-    // Metadata v3
+    // Metadata v2
     // :: contracts
-    AccountInfo: {
+    ContractAccountInfo: {
       trieId: 'Bytes',
       currentMemStored: 'u64'
     },
+
+    // Metadata v3
     // :: democracy
     LockPeriods: 'i8',
 

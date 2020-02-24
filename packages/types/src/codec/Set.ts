@@ -6,13 +6,67 @@ import { H256 } from '../interfaces/runtime';
 import { Codec, Constructor, Registry } from '../types';
 
 import BN from 'bn.js';
-import { assert, bnToBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, isBn, u8aToU8a } from '@polkadot/util';
+import { assert, bnToBn, bnToU8a, isBn, isU8a, isNumber, isString, isUndefined, stringCamelCase, stringUpperFirst, u8aToHex, u8aToBn, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
 import { compareArray } from './utils';
 
 type SetValues = Record<string, number | BN>;
+
+function encodeSet (setValues: SetValues, value: string[]): BN {
+  return value.reduce((result, value): BN => {
+    return result.or(bnToBn(setValues[value] || 0));
+  }, new BN(0));
+}
+
+/** @internal */
+function decodeSetArray (setValues: SetValues, value: string[]): string[] {
+  return value.reduce((result, key): string[] => {
+    assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
+
+    result.push(key);
+
+    return result;
+  }, [] as string[]);
+}
+
+/** @internal */
+function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
+  const bn = bnToBn(_value);
+  const result = Object.keys(setValues).reduce((result, key): string[] => {
+    if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
+      result.push(key);
+    }
+
+    return result;
+  }, [] as string[]);
+
+  const computed = encodeSet(setValues, result);
+
+  assert(bn.eq(computed), `Set: Mismatch decoding '${bn}', computed as '${computed}' with ${result}`);
+
+  return result;
+}
+
+/** @internal */
+function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0, byteLength: number): string[] {
+  if (isString(value)) {
+    return decodeSet(setValues, u8aToU8a(value), byteLength);
+  } else if (isU8a(value)) {
+    return value.length === 0
+      ? []
+      : decodeSetNumber(setValues, u8aToBn(value.subarray(0, byteLength), { isLe: false }));
+  } else if (value instanceof Set || Array.isArray(value)) {
+    const input = Array.isArray(value)
+      ? value
+      : [...value.values()];
+
+    return decodeSetArray(setValues, input);
+  }
+
+  return decodeSetNumber(setValues, value);
+}
 
 /**
  * @name Set
@@ -24,71 +78,26 @@ type SetValues = Record<string, number | BN>;
 export default class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
+  protected _byteLength: number;
+
   protected _setValues: SetValues;
 
-  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
-    super(CodecSet.decodeSet(setValues, value));
+  constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
+    assert(bitLength % 8 === 0, `Expected valid bitLength, power of 8, found ${bitLength}`);
+
+    const byteLength = bitLength / 8;
+
+    super(decodeSet(setValues, value, byteLength));
 
     this.registry = registry;
+    this._byteLength = byteLength;
     this._setValues = setValues;
   }
 
-  /** @internal */
-  public static decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0): string[] {
-    if (isString(value)) {
-      return CodecSet.decodeSet(setValues, u8aToU8a(value));
-    } else if (isU8a(value)) {
-      return value.length === 0
-        ? []
-        : CodecSet.decodeSetNumber(setValues, value[0]);
-    } else if (value instanceof Set) {
-      return CodecSet.decodeSetArray(setValues, [...value.values()]);
-    } else if (Array.isArray(value)) {
-      return CodecSet.decodeSetArray(setValues, value);
-    }
-
-    return CodecSet.decodeSetNumber(setValues, value);
-  }
-
-  /** @internal */
-  private static decodeSetArray (setValues: SetValues, value: string[]): string[] {
-    return value.reduce((result, key): string[] => {
-      assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
-
-      result.push(key);
-
-      return result;
-    }, [] as string[]);
-  }
-
-  /** @internal */
-  private static decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
-    const bn = bnToBn(_value);
-    const result = Object.keys(setValues).reduce((result, key): string[] => {
-      if (bn.and(bnToBn(setValues[key])).eq(bnToBn(setValues[key]))) {
-        result.push(key);
-      }
-
-      return result;
-    }, [] as string[]);
-
-    const computed = CodecSet.encodeSet(setValues, result);
-
-    assert(bn.eq(computed), `Set: Mismatch decoding '${bn}', computed as '${computed}' with ${result}`);
-
-    return result;
-  }
-
-  public static encodeSet (setValues: SetValues, value: string[]): BN {
-    return value.reduce((result, value): BN => {
-      return result.or(bnToBn(setValues[value] || 0));
-    }, new BN(0));
-  }
-
-  public static with (values: SetValues): Constructor<CodecSet> {
+  public static with (values: SetValues, bitLength?: number): Constructor<CodecSet> {
     return class extends CodecSet {
       constructor (registry: Registry, value?: any) {
-        super(registry, values, value);
+        super(registry, values, value, bitLength);
 
         Object.keys(values).forEach((_key): void => {
           const name = stringUpperFirst(stringCamelCase(_key));
@@ -110,7 +119,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return 1;
+    return this._byteLength;
   }
 
   /**
@@ -138,7 +147,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description The encoded value for the set members
    */
   public get valueEncoded (): BN {
-    return CodecSet.encodeSet(this._setValues, this.strings);
+    return encodeSet(this._setValues, this.strings);
   }
 
   /**
@@ -219,6 +228,6 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this.valueEncoded.toNumber()]);
+    return bnToU8a(this.valueEncoded, { isLe: false, bitLength: this._byteLength * 8 });
   }
 }

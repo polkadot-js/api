@@ -3,8 +3,8 @@
 
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Option, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, StorageData, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
-import { Balance, BlockNumber, DispatchClass, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import { Bytes, StorageKey, Text, bool, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Balance, BlockNumber, DispatchClass, Hash, StorageData, Weight } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApiId */
 export interface ApiId extends U8aFixed {}

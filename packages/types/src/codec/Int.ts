@@ -40,7 +40,7 @@ export default class Int extends AbstractInt {
    */
   public toHex (isLe = false): string {
     return bnToHex(this, {
-      bitLength: this._bitLength,
+      bitLength: this.bitLength(),
       isLe,
       isNegative: true
     });
@@ -50,7 +50,7 @@ export default class Int extends AbstractInt {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `i${this._bitLength}`;
+    return `i${this.bitLength()}`;
   }
 
   /**
@@ -60,7 +60,7 @@ export default class Int extends AbstractInt {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this, {
-      bitLength: this._bitLength,
+      bitLength: this.bitLength(),
       isLe: true,
       isNegative: true
     });

@@ -4,7 +4,6 @@
 
 import { Constants, Storage } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
-import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
 import { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import { AnyFunction, CallFunction, Codec, CodecArg as Arg, ITuple, InterfaceTypes, ModulesWithCalls, Registry, RegistryTypes } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '../submittable/types';
@@ -137,9 +136,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
     this._rx.registry = this.registry;
   }
 
-  public abstract createType <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K];
+  /**
+   * @description Creates an instance of a type as registered
+   */
+  public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
+    return this.registry.createType(type, ...params);
+  }
 
-  public abstract registerTypes (types?: RegistryTypes): void;
+  /**
+   * @description Register additional user-defined of chain-specific types in the type registry
+   */
+  public registerTypes (types?: RegistryTypes): void {
+    types && this.registry.register(types);
+  }
 
   /**
    * @returns `true` if the API operates with subscriptions

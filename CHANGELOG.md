@@ -1,18 +1,25 @@
 # 1.4.0-beta.x
 
+- **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
 - **Important** Support for lazy payouts has been added (latest Substrate 2), older chains should supply `"StakingLedger": "StakingLedgerTo223"` to their types (when using staking ledgers)
-- Add support for `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
-- Add support for `api.rpc.engine.*` for manual seal support
+- Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
+- Add `api.rpc.engine.*` for manual seal support
+- Registry now exposes `.createType(<type>, ...args)` as well
+- Support types & interfaces required for lazy reaping & offchain phragmen
+- Support JS `BigInt` inputs in any `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
 - Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
 - Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 - `UInt` & `Int` now does source bitLength checks upon construction
-- Support for arbitrary UInt types via `UInt<bitLength>` definitions
+- Support for arbitrary UInt types via `UInt<bitLength>` type definitions
 - Add `api.injectMetadata(metadata)` to initialize with a specific version
-- The api now checks for runtime upgrades, decorating with new metadata
-- Remove old [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- The api now checks for runtime upgrades, augmenting with new metadata when found
+- (internal) Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- (internal) Use ES `#<varname>` on private class members as applicable
+- (internal) Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
+- (internal) Cleanup augmentation and generation scripts of `interfaceRegistry` in types, aligning with api
 
 # 1.3.1 Feb 18, 2020
 
@@ -26,8 +33,8 @@
 
 - **Important** Update RPC status codes (latest Substrate 2), with the `isInBlock` (`isFinalized` now indicates finality)
 - Storage `.entries(arg?: any)` now has the correct argument type for DoubleMap (Thanks to https://github.com/monitz87)
-- Swap Kusama and Polkadot aliasses for `Address` to `AccountId` (future update)
-- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliassing
+- Swap Kusama and Polkadot aliases for `Address` to `AccountId` (future update)
+- Add `LookupSource` and `LookupTarget` types instead of mapping these directly for aliasing
 - Add `BitVec` type primitive
 - Add support for `system.account` for balance & nonce queries in derives as well as Submittables (Substrate composites)
 - Add `rpc.author.hasKey` and `rpc.author.hasSessionKeys` RPCs

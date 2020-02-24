@@ -173,7 +173,7 @@ export function decorateMethod<Method extends AnyFunction> (method: Method, opti
  * ```
  */
 export default class ApiPromise extends ApiBase<'promise'> {
-  private _isReadyPromise: Promise<ApiPromise>;
+  #isReadyPromise: Promise<ApiPromise>;
 
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
@@ -216,7 +216,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', decorateMethod);
 
-    this._isReadyPromise = new Promise((resolve, reject): void => {
+    this.#isReadyPromise = new Promise((resolve, reject): void => {
       super.once('ready', (): void => {
         resolve(this);
       });
@@ -230,7 +230,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
    * @description Promise that returns the first time we are connected and loaded
    */
   public get isReady (): Promise<ApiPromise> {
-    return this._isReadyPromise;
+    return this.#isReadyPromise;
   }
 
   /**

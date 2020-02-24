@@ -5,11 +5,10 @@
 import { Constants } from '@polkadot/metadata/Decorated/types';
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import { InterfaceRegistry } from '@polkadot/types/interfaceRegistry';
-import { CallFunction, InterfaceTypes, RegistryError, RegistryTypes, SignerPayloadRawBase } from '@polkadot/types/types';
+import { CallFunction, RegistryError, SignerPayloadRawBase } from '@polkadot/types/types';
 import { ApiInterfaceRx, ApiOptions, ApiTypes, DecoratedRpc, DecorateMethod, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics, Signer } from '../types';
 
-import { Metadata, createType } from '@polkadot/types';
+import { Metadata } from '@polkadot/types';
 import { assert, isString, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import Init from './Init';
@@ -22,14 +21,20 @@ interface SignerRawOptions {
   signer?: Signer;
 }
 
-let pkgJson: { name: string; version: string };
-
-try {
-  pkgJson = require('../package.json');
-} catch (error) {
-  // development environment
-  pkgJson = { name: '@polkadot/api', version: '-' };
+interface PkgJson {
+  name: string;
+  version: string;
 }
+
+let pkgJson: PkgJson = { name: '@polkadot/api', version: '-' };
+
+import('../package.json')
+  .then((_pkgJson: any): void => {
+    pkgJson = _pkgJson;
+  })
+  .catch((): void => {
+    // ignore
+  });
 
 function assertResult<T> (value: T | undefined): T {
   assert(!isUndefined(value), 'Api needs to be initialized before using, listen on \'ready\'');
@@ -229,13 +234,6 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
   }
 
   /**
-   * @description Creates an instance of a type as registered
-   */
-  public createType = <K extends InterfaceTypes> (type: K, ...params: any[]): InterfaceRegistry[K] => {
-    return createType(this.registry, type, ...params);
-  }
-
-  /**
    * @description Disconnect from the underlying provider, halting all network traffic
    */
   public disconnect (): void {
@@ -254,13 +252,6 @@ export default abstract class ApiBase<ApiType extends ApiTypes> extends Init<Api
    */
   public findError (errorIndex: Uint8Array | string): RegistryError {
     return this.registry.findMetaError(u8aToU8a(errorIndex));
-  }
-
-  /**
-   * @description Register additional user-defined of chain-specific types in the type registry
-   */
-  public registerTypes (types?: RegistryTypes): void {
-    types && this.registry.register(types);
   }
 
   /**

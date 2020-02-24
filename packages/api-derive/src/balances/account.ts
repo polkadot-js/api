@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountData, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
+import { AccountId, AccountData, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 import { DerivedBalancesAccount } from '../types';
 
@@ -52,10 +52,16 @@ function queryBalancesAccount (api: ApiInterfaceRx, accountId: AccountId): Obser
 }
 
 function queryCurrent (api: ApiInterfaceRx, accountId: AccountId): Observable<Result> {
-  return api.query.system.account<ITuple<[Index, AccountData]>>(accountId).pipe(
-    map(([accountNonce, { free, reserved, miscFrozen, feeFrozen }]): Result =>
-      [free, reserved, feeFrozen, miscFrozen, accountNonce]
-    )
+  // AccountInfo is current, support old, eg. Edgeware
+  return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
+    map((infoOrTuple): Result => {
+      const { free, reserved, miscFrozen, feeFrozen } = (infoOrTuple as AccountInfo).nonce
+        ? (infoOrTuple as AccountInfo).data
+        : (infoOrTuple as [Index, AccountData])[1];
+      const accountNonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
+
+      return [free, reserved, feeFrozen, miscFrozen, accountNonce];
+    })
   );
 }
 

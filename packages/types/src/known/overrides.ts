@@ -6,6 +6,12 @@ import { OverrideModuleType, OverrideVersionedType } from './types';
 
 // type overrides for modules (where duplication between modules exist)
 const TYPES_MODULES: Record<string, OverrideModuleType> = {
+  // old metadata & naming
+  contract: {
+    // v2 & v3
+    AccountInfo: 'ContractAccountInfo'
+  },
+  // current from here on
   contracts: {
     StorageKey: 'ContractStorageKey'
   },
@@ -18,6 +24,9 @@ const TYPES_MODULES: Record<string, OverrideModuleType> = {
   society: {
     Judgement: 'SocietyJudgement',
     Vote: 'SocietyVote'
+  },
+  staking: {
+    Compact: 'CompactAssignments'
   },
   treasury: {
     Proposal: 'TreasuryProposal'

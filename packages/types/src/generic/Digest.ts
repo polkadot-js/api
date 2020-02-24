@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DigestItem } from '../interfaces/runtime';
-import { Registry, AnyJsonObject } from '../types';
+import { AnyJson, Registry } from '../types';
 
 import Struct from '../codec/Struct';
 import Vec from '../codec/Vec';
@@ -44,7 +44,7 @@ export default class Digest extends Struct {
   /**
    * @desrcript The JSON representation as it goes over RPC
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     return {
       logs: this.logs.map((log): string => log.toHex())
     };

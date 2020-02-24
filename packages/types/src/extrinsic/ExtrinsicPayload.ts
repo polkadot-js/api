@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4, Hash, Index } from '../interfaces/runtime';
-import { AnyJsonObject, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
+import { ExtrinsicPayloadV1, ExtrinsicPayloadV2, ExtrinsicPayloadV3, ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
+import { Balance, Hash, Index } from '../interfaces/runtime';
+import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes, Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
@@ -22,7 +23,7 @@ interface ExtrinsicPayloadOptions {
 // all our known types that can be returned
 type ExtrinsicPayloadVx = ExtrinsicPayloadV1 | ExtrinsicPayloadV2 | ExtrinsicPayloadV3 | ExtrinsicPayloadV4;
 
-const VERSIONS: InterfaceTypes[] = [
+const VERSIONS: (keyof InterfaceTypes)[] = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadV1',
   'ExtrinsicPayloadV2',
@@ -127,7 +128,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJsonObject {
+  public toHuman (isExtended?: boolean): AnyJson {
     return this.raw.toHuman(isExtended);
   }
 

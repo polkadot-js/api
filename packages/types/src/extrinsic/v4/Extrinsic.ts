@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Address, Call, ExtrinsicSignatureV4 } from '../../interfaces/runtime';
+import { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
+import { Address, Call } from '../../interfaces/runtime';
 import { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import { ExtrinsicOptions } from '../types';
 

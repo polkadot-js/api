@@ -260,7 +260,7 @@ export default class MetaRegistry extends MetadataRegistryLookup {
 
     return {
       info: TypeDefInfo.VecFixed,
-      ext: { length: vecLength, type },
+      length: vecLength, // ex: { type: type }
       type: `[${type};${vecLength}]`,
       sub: this.typeDefFromMetaTypeAt(vecTypeIndex)
     };

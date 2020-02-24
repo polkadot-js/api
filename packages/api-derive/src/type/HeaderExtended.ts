@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header } from '@polkadot/types/interfaces';
-import { AnyJsonObject, Constructor, Registry } from '@polkadot/types/types';
+import { AnyJson, Constructor, Registry } from '@polkadot/types/types';
 
 import runtimeTypes from '@polkadot/types/interfaces/runtime/definitions';
 import { Struct } from '@polkadot/types';
@@ -17,12 +17,12 @@ const _Header: Constructor<Header> = Struct.with(runtimeTypes.types.Header as an
  * A [[Block]] header with an additional `author` field that indicates the block author
  */
 export default class HeaderExtended extends _Header {
-  private _author?: AccountId;
+  readonly #author?: AccountId;
 
   constructor (registry: Registry, header?: Header, sessionValidators?: AccountId[]) {
     super(registry, header);
 
-    this._author = this.extractAuthor(sessionValidators);
+    this.#author = this.extractAuthor(sessionValidators);
   }
 
   private extractAuthor (sessionValidators: AccountId[] = []): AccountId | undefined {
@@ -51,15 +51,27 @@ export default class HeaderExtended extends _Header {
    * @description Convenience method, returns the author for the block
    */
   public get author (): AccountId | undefined {
-    return this._author;
+    return this.#author;
+  }
+
+  /**
+   * @description Creates a human-friendly JSON representation
+   */
+  public toHuman (isExtended?: boolean): AnyJson {
+    return {
+      ...super.toHuman(isExtended) as { [index: string]: AnyJson },
+      author: this.author
+        ? this.author.toHuman()
+        : undefined
+    };
   }
 
   /**
    * @description Creates the JSON representation
    */
-  public toJSON (): AnyJsonObject {
+  public toJSON (): AnyJson {
     return {
-      ...super.toJSON() as AnyJsonObject,
+      ...super.toJSON() as { [index: string]: AnyJson },
       author: this.author
         ? this.author.toJSON()
         : undefined

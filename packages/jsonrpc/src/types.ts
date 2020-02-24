@@ -9,7 +9,7 @@ type PubSub = [string, string, string];
 export interface RpcParam {
   isOptional: boolean;
   name: string;
-  type: InterfaceTypes;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcMethodOpt {
@@ -21,7 +21,7 @@ export interface RpcMethodOpt {
   isSubscription?: boolean;
   params: RpcParam[];
   pubsub?: PubSub;
-  type: InterfaceTypes;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcMethod {
@@ -36,7 +36,7 @@ export interface RpcMethod {
   params: RpcParam[];
   pubsub: PubSub;
   section: string;
-  type: InterfaceTypes;
+  type: keyof InterfaceTypes;
 }
 
 export interface RpcSection {
