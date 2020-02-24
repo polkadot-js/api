@@ -2,6 +2,7 @@
 
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
 - **Breaking change** - `api.derive.staking.*` has updated result types and detects support for lazy payouts queries
+- Rework type generation for `api.{query, tx}` to properly handle complex type inputs (Thanks to https://github.com/monitz87)
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
 - Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
