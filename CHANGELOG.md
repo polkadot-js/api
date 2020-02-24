@@ -3,22 +3,22 @@
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
-- Registry now exposes `.createType(<type>, ...args)` as well
+- Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
+- The api now checks for runtime upgrades, augmenting the interfaces with new metadata when found
+- Support JS `BigInt` inputs in any derived `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
+- Registry now exposes `.createType(<type>, ...args)` as an additional helper (like the API)
 - Support types & interfaces required for lazy reaping & offchain phragmen
-- Support JS `BigInt` inputs in any `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
-- Remove `GenericDigestItem`, the `DigestItem` is now a type interface via `@polkadot/types/interfaces`
-- Move `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
-- Align construction of unknown types via `registry.get` e.g. in Events, warn on detection, throw on use
-- Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- Move `DigestItem`, `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
+- Align construction of unknown types in `registry.get` consistently warn on detection, throw on use
 - `UInt` & `Int` now does source bitLength checks upon construction
 - Support for arbitrary UInt types via `UInt<bitLength>` type definitions
-- Add `api.injectMetadata(metadata)` to initialize with a specific version
-- The api now checks for runtime upgrades, augmenting with new metadata when found
-- (internal) Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
-- (internal) Use ES `#<varname>` on private class members as applicable
-- (internal) Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
-- (internal) Cleanup augmentation and generation scripts of `interfaceRegistry` in types, aligning with api
+- Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
+- Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
+- Use ES `#field` on private class fields as applicable
+- Move `types/primitive/{extrinsics, generic}` to `types/{extrinsics, generic}`
+- Cleanup augmentation and generation scripts for type definitions, aligning with api augmentation
+- Bump to `@polkadot/{util, util-crypto, keyring}` 2.5.1
 
 # 1.3.1 Feb 18, 2020
 
