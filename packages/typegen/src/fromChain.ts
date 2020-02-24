@@ -61,7 +61,7 @@ function onSocketOpen (): boolean {
 export default function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
-      description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
+      description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       type: 'string',
       required: true
     },
@@ -75,7 +75,7 @@ export default function main (): void {
       type: 'string'
     },
     strict: {
-      description: 'Turns on stict mode, no output of catch-all generic versions',
+      description: 'Turns on strict mode, no output of catch-all generic versions',
       type: 'boolean'
     }
   }).argv;

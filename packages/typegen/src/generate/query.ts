@@ -26,6 +26,8 @@ function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: stri
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+  const format = (type: string): string => formatType(allDefs, type, imports);
+
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
@@ -40,7 +42,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
     ]);
 
     return [
-      `arg: ${similarTypes.map((type) => formatType(allDefs, type, imports)).join(' | ')}`,
+      `arg: ${similarTypes.map(format).join(' | ')}`,
       formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
@@ -54,8 +56,8 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
       storageEntry.type.asDoubleMap.value.toString()
     ]);
 
-    const key1Types = similarTypes1.map((type) => formatType(allDefs, type, imports)).join(' | ');
-    const key2Types = similarTypes2.map((type) => formatType(allDefs, type, imports)).join(' | ');
+    const key1Types = similarTypes1.map(format).join(' | ');
+    const key2Types = similarTypes2.map(format).join(' | ');
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,
@@ -78,16 +80,13 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     .concat(storage.unwrap().items.map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
       let entryType = 'AugmentedQuery';
-      const entryTypeArgs: string[] = ['ApiType', `(${args}) => Observable<${returnType}>`];
 
       if (storageEntry.type.isDoubleMap) {
         entryType = `${entryType}DoubleMap`;
-        const firstKeyTypes = /^key1: (.*), key2/.exec(args)![1];
-        entryTypeArgs.push(firstKeyTypes);
       }
 
       return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<${entryTypeArgs.join(', ')}> & QueryableStorageEntry<ApiType>;`);
+      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`);
     }))
     .concat([indent(4)('};')]);
 }
