@@ -137,6 +137,6 @@ const api = await ApiPromise.create({
 
 `Balance` would be defined as an `u128` at the end. Effectively based on the flow it is first registered as a `u32`, then overridden as a `u64` and finally overridden once more as a `u128` by the chain types.
 
-## Extending extrinsics
+## Type creation
 
-On customized chains, it is possible to [extend the format of the extrinsics and extrinsic payload as customized on the chain](extrinsic.extend.md), next up we will look at this advanced use-case.
+While the API always converts all the inputs into the underlying type required by the operation, in some cases you may want to [cret an instance of a type](types.create.md) yourself.
