@@ -223,11 +223,7 @@ export default {
         Blake2_256: null, // eslint-disable-line @typescript-eslint/camelcase
         Twox128: null,
         Twox256: null,
-        Twox64Concat: null,
-        // We had a bug in some versions of V9, where it was not bumped - V10 fixed (add invalid for this range)
-        // At this point, things won't work anyway (indexes mismatched, but at least allow for parsing)
-        // (Technically this should be on V9, however then we need code as well...)
-        InvalidEntry: null
+        Twox64Concat: null
       }
     },
 
