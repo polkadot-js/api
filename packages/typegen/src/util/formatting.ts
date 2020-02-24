@@ -137,6 +137,12 @@ export function formatType (definitions: object, type: string | TypeDef, imports
   let typeDef: TypeDef;
 
   if (typeof type === 'string') {
+    // If type is "unorthodox" (i.e. `{ something: any }` for an Enum input or `[a | b | c, d | e | f]` for a Tuple's similar types),
+    // we return it as-is
+    if (/(^{.+:.+})|^\([^,]+\)|^\(.+\)\[\]|^\[([^;]+|)?[^;]+\]/.exec(type)) {
+      return type;
+    }
+
     typeDef = getTypeDef(type);
   } else {
     typeDef = type;

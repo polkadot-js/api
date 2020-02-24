@@ -43,11 +43,7 @@ function generateModule (registry: Registry, allDefs: object, { calls, name }: M
       const params = args
         .map(({ name, type }): [string, string, string] => {
           const typeStr = type.toString();
-          const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string =>
-            type.startsWith('(') || type.startsWith('{')
-              ? type
-              : formatType(allDefs, type, imports)
-          );
+          const similarTypes = getSimilarTypes(allDefs, registry, typeStr, imports).map((type): string => formatType(allDefs, type, imports));
           const nameStr = mapName(name);
 
           setImports(allDefs, imports, [...similarTypes.filter((type): boolean => !type.startsWith('(') && !type.startsWith('{')), typeStr]);

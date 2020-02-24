@@ -319,7 +319,7 @@ declare module '@polkadot/api/types/storage' {
        * Records information about the maximum slash of a stash within a slashing span,
        * as well as how much reward has been paid out.
        **/
-      spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId, SpanIndex]>) => Observable<SpanRecord>> & QueryableStorageEntry<ApiType>;
+      spanSlash: AugmentedQuery<ApiType, (arg: ITuple<[AccountId, SpanIndex]> | [AccountId | string | Uint8Array, SpanIndex | AnyNumber | Uint8Array]) => Observable<SpanRecord>> & QueryableStorageEntry<ApiType>;
       /**
        * The earliest era for which we have a pending, unapplied slash.
        **/
@@ -361,7 +361,7 @@ declare module '@polkadot/api/types/storage' {
        * The first key is always `DEDUP_KEY_PREFIX` to have all the data in the same branch of
        * the trie. Having all data in the same branch should prevent slowing down other queries.
        **/
-      keyOwner: AugmentedQueryDoubleMap<ApiType, (key1: Bytes | string | Uint8Array, key2: ITuple<[KeyTypeId, Bytes]>) => Observable<Option<ValidatorId>>, Bytes | string | Uint8Array> & QueryableStorageEntry<ApiType>;
+      keyOwner: AugmentedQueryDoubleMap<ApiType, (key1: Bytes | string | Uint8Array, key2: ITuple<[KeyTypeId, Bytes]> | [KeyTypeId | AnyNumber | Uint8Array, Bytes | string | Uint8Array]) => Observable<Option<ValidatorId>>, Bytes | string | Uint8Array> & QueryableStorageEntry<ApiType>;
     };
     democracy: {
       [index: string]: QueryableStorageEntry<ApiType>;
@@ -409,7 +409,7 @@ declare module '@polkadot/api/types/storage' {
        * default `Vote` value otherwise). If you don't want to check `voters_for`, then you can
        * also check for simple existence with `VoteOf::contains_key` first.
        **/
-      voteOf: AugmentedQuery<ApiType, (arg: ITuple<[ReferendumIndex, AccountId]>) => Observable<Vote>> & QueryableStorageEntry<ApiType>;
+      voteOf: AugmentedQuery<ApiType, (arg: ITuple<[ReferendumIndex, AccountId]> | [ReferendumIndex | AnyNumber | Uint8Array, AccountId | string | Uint8Array]) => Observable<Vote>> & QueryableStorageEntry<ApiType>;
       /**
        * Who is able to vote for whom. Value is the fund-holding account, key is the
        * vote-transaction-sending account.
