@@ -43,7 +43,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -51,7 +52,8 @@ const TYPES_POLKADOT_VERSIONED: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];
@@ -64,7 +66,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       BalanceLock: 'BalanceLockTo212',
       DispatchError: 'DispatchErrorTo198',
       Keys: 'SessionKeys5',
-      SlashingSpans: 'SlashingSpansTo204'
+      SlashingSpans: 'SlashingSpansTo204',
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -73,7 +76,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
       Keys: 'SessionKeys5',
-      SlashingSpans: 'SlashingSpansTo204'
+      SlashingSpans: 'SlashingSpansTo204',
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -81,7 +85,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       Address: 'GenericAddress',
       BalanceLock: 'BalanceLockTo212',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   },
   {
@@ -89,7 +94,8 @@ const TYPES_KUSAMA_VERSIONED: OverrideVersionedType[] = [
     types: {
       // Indices optional, not in transaction
       Address: 'AccountId',
-      Keys: 'SessionKeys5'
+      Keys: 'SessionKeys5',
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];
@@ -110,7 +116,8 @@ const TYPES_META: OverrideVersionedType[] = [
       BlockNumber: 'u64',
       Index: 'u64',
       EventRecord: 'EventRecordTo76',
-      ValidatorPrefs: 'ValidatorPrefsTo145'
+      ValidatorPrefs: 'ValidatorPrefsTo145',
+      StakingLedger: 'StakingLedgerTo223'
     }
   }
 ];

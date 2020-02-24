@@ -12,21 +12,6 @@ import { createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type Result = [Balance, Balance, Balance, Balance, Balance];
-
-function query (api: ApiInterfaceRx): Observable<Result> {
-  return of([
-    // deprecated - remove
-    (api.consts.balances.creationFee as Balance) || createType(api.registry, 'Balance'),
-    (api.consts.balances.transferFee as Balance) || createType(api.registry, 'Balance'),
-
-    // current
-    api.consts.balances.existentialDeposit,
-    api.consts.transactionPayment.transactionBaseFee,
-    api.consts.transactionPayment.transactionByteFee
-  ]);
-}
-
 /**
  * @name fees
  * @returns An object containing the combined results of the storage queries for
@@ -42,7 +27,16 @@ function query (api: ApiInterfaceRx): Observable<Result> {
  */
 export function fees (api: ApiInterfaceRx): () => Observable<DerivedFees> {
   return memo((): Observable<DerivedFees> =>
-    query(api).pipe(
+    of([
+      // deprecated - remove
+      (api.consts.balances.creationFee as Balance) || createType(api.registry, 'Balance'),
+      (api.consts.balances.transferFee as Balance) || createType(api.registry, 'Balance'),
+
+      // current
+      api.consts.balances.existentialDeposit,
+      api.consts.transactionPayment.transactionBaseFee,
+      api.consts.transactionPayment.transactionByteFee
+    ]).pipe(
       map(([creationFee, transferFee, existentialDeposit, transactionBaseFee, transactionByteFee]): DerivedFees => ({
         creationFee,
         existentialDeposit,

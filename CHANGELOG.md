@@ -1,13 +1,14 @@
 # 1.4.0-beta.x
 
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
+- **Breaking change** - `api.derive.staking.*` has updated result types and detects support for lazy payouts queries
 - Add `api.rpc.chain.subscribeAllHeads` (not just best) (Thanks to https://github.com/jak-pan)
 - Add `api.rpc.engine.*` for manual seal support
 - Add `api.injectMetadata(metadata)` to initialize API with a specific metadata version
 - The api now checks for runtime upgrades, augmenting the interfaces with new metadata when found
+- Support types & interfaces required for lazy reaping, lazy payouts & offchain phragmen
 - Support JS `BigInt` inputs in any derived `UInt` and `Int` object, `api.tx.balances.transfer(..., 9876543210123456789n)`
 - Registry now exposes `.createType(<type>, ...args)` as an additional helper (like the API)
-- Support types & interfaces required for lazy reaping & offchain phragmen
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Move `DigestItem`, `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types in `registry.get` consistently warn on detection, throw on use
