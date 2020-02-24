@@ -17,7 +17,7 @@ import DecoratedMeta from '@polkadot/metadata/Decorated';
 import getHasher from '@polkadot/metadata/Decorated/storage/fromMetadata/getHasher';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { createType, Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
+import { Metadata, Null, Option, Text, TypeRegistry, u64, Vec } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { DEFAULT_VERSION as EXTRINSIC_DEFAULT_VERSION } from '@polkadot/types/extrinsic/constants';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -140,7 +140,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
    * @description Creates an instance of a type as registered
    */
   public createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K] {
-    return createType(this.registry, type, ...params);
+    return this.registry.createType(type, ...params);
   }
 
   /**
