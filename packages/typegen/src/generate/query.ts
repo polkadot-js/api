@@ -26,6 +26,9 @@ function addModifier (storageEntry: StorageEntryMetadataLatest, returnType: stri
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
 function entrySignature (allDefs: object, registry: Registry, storageEntry: StorageEntryMetadataLatest, imports: TypeImports): [string, string] {
+  const isUnorthodoxType = (type: string): boolean => (type.startsWith('(') && !type.includes(',')) || type.startsWith('{') || type.startsWith('[');
+  const formatIfOrthodox = (type: string): string => isUnorthodoxType(type) ? type : formatType(allDefs, type, imports);
+
   if (storageEntry.type.isPlain) {
     setImports(allDefs, imports, [storageEntry.type.asPlain.toString()]);
 
@@ -40,7 +43,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
     ]);
 
     return [
-      `arg: ${similarTypes.map((type) => formatType(allDefs, type, imports)).join(' | ')}`,
+      `arg: ${similarTypes.map(formatIfOrthodox).join(' | ')}`,
       formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
@@ -54,8 +57,8 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
       storageEntry.type.asDoubleMap.value.toString()
     ]);
 
-    const key1Types = similarTypes1.map((type) => formatType(allDefs, type, imports)).join(' | ');
-    const key2Types = similarTypes2.map((type) => formatType(allDefs, type, imports)).join(' | ');
+    const key1Types = similarTypes1.map(formatIfOrthodox).join(' | ');
+    const key2Types = similarTypes2.map(formatIfOrthodox).join(' | ');
 
     return [
       `key1: ${key1Types}, key2: ${key2Types}`,

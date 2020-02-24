@@ -13,6 +13,7 @@ import Option from '@polkadot/types/codec/Option';
 import Struct from '@polkadot/types/codec/Struct';
 import UInt from '@polkadot/types/codec/UInt';
 import Vec from '@polkadot/types/codec/Vec';
+import Tuple from '@polkadot/types/codec/Tuple';
 import GenericAccountId from '@polkadot/types/generic/AccountId';
 import GenericAddress from '@polkadot/types/generic/Address';
 import Vote, { convictionNames as _voteConvictions } from '@polkadot/types/generic/Vote';
@@ -80,6 +81,8 @@ export function getSimilarTypes (definitions: object, registry: Registry, _type:
   } else if (type === 'StorageKey') {
     // TODO We can do better
     return ['StorageKey', 'string', 'Uint8Array', 'any'];
+  } else if (type === '()') {
+    return ['null'];
   }
 
   const Clazz = ClassOfUnsafe(registry, type);
@@ -133,6 +136,14 @@ export function getSimilarTypes (definitions: object, registry: Registry, _type:
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, Clazz)) {
     possibleTypes.push('string');
+  } else if (isChildClass(Tuple, Clazz)) {
+    const subDef = getTypeDef(type).sub;
+
+    if (Array.isArray(subDef)) {
+      const subs = subDef.map(({ type }) => getSimilarTypes(definitions, registry, type, imports).join(' | '));
+
+      possibleTypes.push(`[${subs.join(', ')}]`);
+    }
   }
 
   return possibleTypes;
