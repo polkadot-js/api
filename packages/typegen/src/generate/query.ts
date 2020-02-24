@@ -80,16 +80,13 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
     .concat(storage.unwrap().items.map((storageEntry): string => {
       const [args, returnType] = entrySignature(allDefs, registry, storageEntry, imports);
       let entryType = 'AugmentedQuery';
-      const entryTypeArgs: string[] = ['ApiType', `(${args}) => Observable<${returnType}>`];
 
       if (storageEntry.type.isDoubleMap) {
         entryType = `${entryType}DoubleMap`;
-        const firstKeyTypes = /^key1: (.*), key2/.exec(args)![1];
-        entryTypeArgs.push(firstKeyTypes);
       }
 
       return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<${entryTypeArgs.join(', ')}> & QueryableStorageEntry<ApiType>;`);
+      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`);
     }))
     .concat([indent(4)('};')]);
 }
