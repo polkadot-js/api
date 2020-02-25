@@ -14,16 +14,17 @@ import { memo } from '../util';
 export function electedInfo (api: ApiInterfaceRx): () => Observable<DerivedStakingElected> {
   return memo((): Observable<DerivedStakingElected> =>
     api.derive.staking.validators().pipe(
-      switchMap(({ currentElected }): Observable<[AccountId[], DerivedStakingQuery[]]> =>
+      switchMap(({ nextElected }): Observable<[AccountId[], DerivedStakingQuery[]]> =>
         combineLatest([
-          of(currentElected),
-          combineLatest(currentElected.map((accountId): Observable<DerivedStakingQuery> =>
+          of(nextElected),
+          combineLatest(nextElected.map((accountId): Observable<DerivedStakingQuery> =>
             api.derive.staking.query(accountId)
           ))
         ])
       ),
-      map(([currentElected, info]): DerivedStakingElected => ({
-        currentElected, info
+      map(([nextElected, info]): DerivedStakingElected => ({
+        info,
+        nextElected
       }))
     )
   );

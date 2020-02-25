@@ -22,12 +22,16 @@ export function validators (api: ApiInterfaceRx): () => Observable<DeriveStaking
       api.query.session
         ? api.query.session.validators()
         : of([]),
-      api.query.staking
-        ? api.query.staking.currentElected()
+      // FIXME need a replacement for currentElected in new
+      api.query.staking?.currentElected
+        ? api.query.staking.erasStakers
+          ? of(null)
+          : api.query.staking.currentElected()
         : of([])
     ]).pipe(
-      map(([validators, currentElected]): DeriveStakingValidators => ({
-        currentElected, validators
+      map(([validators, nextElected]): DeriveStakingValidators => ({
+        nextElected: nextElected || validators,
+        validators
       }))
     ));
 }
