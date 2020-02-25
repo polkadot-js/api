@@ -212,7 +212,6 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    // FIXME We don't cater for this in createType as of yet
     return JSON.stringify({ _set: this.#allowed });
   }
 
