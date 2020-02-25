@@ -27,7 +27,7 @@ describe('Metadata', (): void => {
     }
   });
 
-  toLatest(registry, 0, rpcData);
+  toLatest(registry, 0, rpcData, false);
 
-  defaultValues(registry, rpcData);
+  defaultValues(registry, rpcData, false);
 });
