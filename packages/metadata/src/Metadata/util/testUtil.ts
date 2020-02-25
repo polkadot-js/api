@@ -29,21 +29,21 @@ export function decodeLatestSubstrate<Modules extends Codec> (registry: Registry
 }
 
 /** @internal */
-export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string): void {
+export function toLatest<Modules extends Codec> (registry: Registry, version: number, rpcData: string, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
     const metadata = new Metadata(registry, rpcData)[`asV${version}` as keyof Metadata];
     const metadataLatest = new Metadata(registry, rpcData).asLatest;
 
     expect(
-      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, true)
+      getUniqTypes(registry, metadata as unknown as MetadataInterface<Modules>, withThrow)
     ).toEqual(
-      getUniqTypes(registry, metadataLatest, true)
+      getUniqTypes(registry, metadataLatest, withThrow)
     );
   });
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, rpcData: string): void {
+export function defaultValues (registry: Registry, rpcData: string, withThrow = true): void {
   describe('storage with default values', (): void => {
     const metadata = new Metadata(registry, rpcData);
 
@@ -56,11 +56,17 @@ export function defaultValues (registry: Registry, rpcData: string): void {
 
           it(`creates default types for ${location}`, (): void => {
             expect(
-              (): Codec => {
+              (): void => {
                 try {
-                  return createTypeUnsafe(registry, inner, [fallback]);
+                  createTypeUnsafe(registry, inner, [fallback]);
                 } catch (error) {
-                  throw new Error(`${location}:: ${error.message}`);
+                  const message = `${location}:: ${error.message}`;
+
+                  if (withThrow) {
+                    throw new Error(message);
+                  } else {
+                    console.warn(message);
+                  }
                 }
               }
             ).not.toThrow();

@@ -13,7 +13,7 @@ describe('MetadataV2', (): void => {
 
   decodeLatestSubstrate(registry, 2, rpcData, staticSubstrate);
 
-  toLatest(registry, 2, rpcData);
+  toLatest(registry, 2, rpcData, false);
 
-  defaultValues(registry, rpcData);
+  defaultValues(registry, rpcData, false);
 });
