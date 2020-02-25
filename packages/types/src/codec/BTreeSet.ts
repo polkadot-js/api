@@ -12,84 +12,86 @@ import Compact from './Compact';
 import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
+/** @internal */
+function decodeBTreeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
+  const output = new Set<V>();
+  const [offset, length] = Compact.decodeU8a(u8a);
+  const types = [];
+
+  for (let i = 0; i < length.toNumber(); i++) {
+    types.push(ValClass);
+  }
+
+  const values = decodeU8a(registry, u8a.subarray(offset), types);
+
+  for (let i = 0; i < values.length; i++) {
+    output.add(values[i] as V);
+  }
+
+  return output;
+}
+
+/** @internal */
+function decodeBTreeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
+  const output = new Set<V>();
+
+  value.forEach((v: any) => {
+    let val;
+    try {
+      val = (v instanceof ValClass) ? v : new ValClass(registry, v);
+    } catch (error) {
+      console.error('Failed to decode BTreeSet key or value:', error.message);
+      throw error;
+    }
+
+    output.add(val);
+  });
+
+  return output;
+}
+
+/**
+ * Decode input to pass into constructor.
+ *
+ * @param ValClass - Type of the map value
+ * @param value - Value to decode, one of:
+ * - null
+ * - undefined
+ * - hex
+ * - Uint8Array
+ * - Set<any>, where both key and value types are either
+ *   constructors or decodeable values for their types.
+ * @param jsonSet
+ * @internal
+ */
+function decodeBTreeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Set<any>): Set<V> {
+  if (!value) {
+    return new Set<V>();
+  }
+
+  const ValClass = typeToConstructor(registry, valType);
+
+  if (isHex(value)) {
+    return decodeBTreeSet(registry, ValClass, hexToU8a(value));
+  } else if (isU8a(value)) {
+    return decodeBTreeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
+  } else if (value instanceof Set) {
+    return decodeBTreeSetFromSet<V>(registry, ValClass, value);
+  }
+
+  throw new Error('BTreeSet: cannot decode type');
+}
+
 export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements Codec {
   public readonly registry: Registry;
 
-  private readonly _ValClass: Constructor<V>;
+  readonly #ValClass: Constructor<V>;
 
   constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
-    const ValClass = typeToConstructor(registry, valType);
-
-    super(BTreeSet.decodeBTreeSet(registry, ValClass, rawValue));
+    super(decodeBTreeSet(registry, valType, rawValue));
 
     this.registry = registry;
-    this._ValClass = ValClass;
-  }
-
-  /**
-   * Decode input to pass into constructor.
-   *
-   * @param ValClass - Type of the map value
-   * @param value - Value to decode, one of:
-   * - null
-   * - undefined
-   * - hex
-   * - Uint8Array
-   * - Set<any>, where both key and value types are either
-   *   constructors or decodeable values for their types.
-   * @param jsonSet
-   * @internal
-   */
-  private static decodeBTreeSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Uint8Array | string | Set<any>): Set<V> {
-    if (!value) {
-      return new Set<V>();
-    } else if (isHex(value)) {
-      return BTreeSet.decodeBTreeSet(registry, ValClass, hexToU8a(value));
-    } else if (isU8a(value)) {
-      return BTreeSet.decodeBTreeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
-    } else if (value instanceof Set) {
-      return BTreeSet.decodeBTreeSetFromSet<V>(registry, ValClass, value);
-    }
-
-    throw new Error('BTreeSet: cannot decode type');
-  }
-
-  /** @internal */
-  private static decodeBTreeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
-    const output = new Set<V>();
-    const [offset, length] = Compact.decodeU8a(u8a);
-    const types = [];
-
-    for (let i = 0; i < length.toNumber(); i++) {
-      types.push(ValClass);
-    }
-
-    const values = decodeU8a(registry, u8a.subarray(offset), types);
-
-    for (let i = 0; i < values.length; i++) {
-      output.add(values[i] as V);
-    }
-
-    return output;
-  }
-
-  /** @internal */
-  private static decodeBTreeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
-    const output = new Set<V>();
-
-    value.forEach((v: any) => {
-      let val;
-      try {
-        val = (v instanceof ValClass) ? v : new ValClass(registry, v);
-      } catch (error) {
-        console.error('Failed to decode BTreeSet key or value:', error.message);
-        throw error;
-      }
-
-      output.add(val);
-    });
-
-    return output;
+    this.#ValClass = typeToConstructor(registry, valType);
   }
 
   public static with<V extends Codec> (valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeSet<V>> {
@@ -171,7 +173,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${new this._ValClass(this.registry).toRawType()}>`;
+    return `BTreeSet<${new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

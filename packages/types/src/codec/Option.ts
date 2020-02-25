@@ -18,11 +18,15 @@ function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Arr
 }
 
 /** @internal */
-function decodeOption (registry: Registry, Type: Constructor, value?: any): Codec {
+function decodeOption (registry: Registry, typeName: Constructor | keyof InterfaceTypes, value?: any): Codec {
   if (isNull(value) || isUndefined(value) || value instanceof Null) {
     return new Null(registry);
+  }
+
+  const Type = typeToConstructor(registry, typeName);
+
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  } else if (value instanceof Option) {
+  if (value instanceof Option) {
     return decodeOption(registry, Type, value.value);
   } else if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
@@ -45,14 +49,12 @@ function decodeOption (registry: Registry, Type: Constructor, value?: any): Code
  * with a value if/as required/found.
  */
 export default class Option<T extends Codec> extends Base<T> {
-  private _Type: Constructor<T>;
+  readonly #Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value?: any) {
-    const Clazz = typeToConstructor(registry, Type);
+  constructor (registry: Registry, typeName: Constructor<T> | keyof InterfaceTypes, value?: any) {
+    super(registry, decodeOption(registry, typeName, value));
 
-    super(registry, decodeOption(registry, Clazz, value));
-
-    this._Type = Clazz;
+    this.#Type = typeToConstructor(registry, typeName);
   }
 
   public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
@@ -125,7 +127,7 @@ export default class Option<T extends Codec> extends Base<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = new this._Type(this.registry).toRawType();
+    const wrapped = new this.#Type(this.registry).toRawType();
 
     return isBare
       ? wrapped
@@ -179,6 +181,6 @@ export default class Option<T extends Codec> extends Base<T> {
   public unwrapOrDefault (): T {
     return this.isSome
       ? this.unwrap()
-      : new this._Type(this.registry);
+      : new this.#Type(this.registry);
   }
 }
