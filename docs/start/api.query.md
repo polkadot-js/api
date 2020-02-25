@@ -17,7 +17,7 @@ const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
 const now = await api.query.timestamp.now();
 
 // Retrieve the account balance & nonce via the system module
-const [nonce, balance] = await api.query.system.account(ADDR);
+const { nonce, data: balance } = await api.query.system.account(ADDR);
 
 console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
 ```
@@ -27,7 +27,7 @@ There have been some additions in the code above comparing with retrieving runti
 ```js
 ...
 // Retrieve last block timestamp, account nonce & balances
-const [now, [nonce, balances]] = await Promise.all([
+const [now, { nonce, data: balances }] = await Promise.all([
   api.query.timestamp.now(),
   api.query.system.account(ADDR)
 ]);

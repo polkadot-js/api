@@ -24,7 +24,7 @@ async function main () {
   const keyring = testKeyring.default();
 
   // Get the nonce for the admin key
-  const [nonce] = await api.query.system.account(ALICE);
+  const { nonce } = await api.query.system.account(ALICE);
 
   // Find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);

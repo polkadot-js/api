@@ -36,16 +36,16 @@ function main () {
       })
     )
     // Then we're subscribing to the emitted results
-    .subscribe(([[accountNonce], blockPeriod, validators, validatorBalances]) => {
-      console.log(`accountNonce(${Alice}) ${accountNonce}`);
+    .subscribe(([{ nonce }, blockPeriod, validators, validatorBalances]) => {
+      console.log(`accountNonce(${Alice}) ${nonce}`);
       console.log(`blockPeriod ${blockPeriod.toNumber()} seconds`);
 
       if (validatorBalances) {
         // And lastly we print out the authorityIds and balances of all validators
         console.log('validators', validators.map((authorityId, index) => ({
           address: authorityId.toString(),
-          balance: validatorBalances[index][1].free.toString(),
-          nonce: validatorBalances[index][0].toString()
+          balance: validatorBalances[index].data.free.toString(),
+          nonce: validatorBalances[index].data.toString()
         })));
       }
     });

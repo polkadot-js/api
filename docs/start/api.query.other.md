@@ -13,7 +13,7 @@ Quite often is is useful (taking pruning into account, more on this later) to re
 const lastHdr = await api.rpc.chain.getHeader();
 
 // Retrieve the balance at both the current and the parent hashes
-const [[, balanceNow], [, balancePrev]] = await Promise.all([
+const [{ data: balanceNow }, { data: balancePrev }] = await Promise.all([
   api.query.system.account.at(lastHdr.hash, ADDR),
   api.query.system.account.at(lastHdr.parentHash, ADDR)
 ]);

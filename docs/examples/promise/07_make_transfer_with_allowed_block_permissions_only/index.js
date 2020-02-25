@@ -19,7 +19,7 @@ async function main () {
   const alice = keyring.addFromUri('//Alice');
 
   // Get nonce for account
-  const [nonce] = await api.query.system.account(alice.address);
+  const [{ nonce } = await api.query.system.account(alice.address);
 
   // Get current block
   const signedBlock = await api.rpc.chain.getBlock();
