@@ -5,9 +5,7 @@
 import { MetadataV1, MetadataV2 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create';
-
 /** @internal */
 export default function toV2 (registry: Registry, metadataV1: MetadataV1): MetadataV2 {
-  return createType(registry, 'MetadataV2', metadataV1);
+  return registry.createType('MetadataV2', metadataV1);
 }

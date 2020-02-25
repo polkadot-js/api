@@ -5,11 +5,9 @@
 import { MetadataLatest } from '@polkadot/types/interfaces/metadata';
 import { AnyJson, Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create';
-
 /** @internal */
 export default function toCallsOnly (registry: Registry, { extrinsic, modules }: MetadataLatest): AnyJson {
-  return createType(registry, 'MetadataLatest', {
+  return registry.createType('MetadataLatest', {
     // FIXME, this needs typing, not any
     modules: modules.map(({ calls, name }): any => ({
       name,

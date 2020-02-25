@@ -5,11 +5,9 @@
 import { MetadataV4, MetadataV5, ModuleMetadataV5, StorageFunctionMetadataV4, StorageFunctionMetadataV5, StorageHasherV5 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { assert } from '@polkadot/util';
-
 import { Option } from '@polkadot/types/codec';
-import { createType } from '@polkadot/types/create';
 import Text from '@polkadot/types/primitive/Text';
+import { assert } from '@polkadot/util';
 
 const hasherMap: Map<string, string> = new Map([
   ['blake2_128', 'Blake2_128'],
@@ -25,7 +23,7 @@ function toStorageHasher (registry: Registry, text: Text): StorageHasherV5 {
 
   assert(mapped, `Invalid Storage hasher: ${text.toString()}`);
 
-  return createType(registry, 'StorageHasherV5', mapped);
+  return registry.createType('StorageHasherV5', mapped);
 }
 
 /** @internal */
@@ -35,7 +33,7 @@ function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
     ? [type.asPlain, 0]
     : type.isMap
       ? [type.asMap, 1]
-      : [createType(registry, 'DoubleMapTypeV5', {
+      : [registry.createType('DoubleMapTypeV5', {
         hasher: type.asDoubleMap.hasher,
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
@@ -43,20 +41,20 @@ function toV5StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
         key2Hasher: toStorageHasher(registry, type.asDoubleMap.key2Hasher)
       }), 2];
 
-  return createType(registry, 'StorageFunctionMetadataV5', {
+  return registry.createType('StorageFunctionMetadataV5', {
     documentation,
     fallback,
     name,
     modifier,
-    type: createType(registry, 'StorageFunctionTypeV5', newType, index)
+    type: registry.createType('StorageFunctionTypeV5', newType, index)
   });
 }
 
 /** @internal */
 export default function toV5 (registry: Registry, { modules }: MetadataV4): MetadataV5 {
-  return createType(registry, 'MetadataV5', {
+  return registry.createType('MetadataV5', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV5 =>
-      createType(registry, 'ModuleMetadataV5', {
+      registry.createType('ModuleMetadataV5', {
         name,
         prefix,
         storage: storage.isSome
