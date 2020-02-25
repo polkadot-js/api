@@ -66,7 +66,10 @@ function decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec>
  * @param jsonMap
  * @internal
  */
-function decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+function decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Map<any, any>): Map<K, V> {
+  const KeyClass = typeToConstructor(registry, keyType);
+  const ValClass = typeToConstructor(registry, valType);
+
   if (!value) {
     return new Map<K, V>();
   } else if (isHex(value)) {
@@ -83,19 +86,16 @@ function decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (regis
 export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
-  protected _KeyClass: Constructor<K>;
+  readonly #KeyClass: Constructor<K>;
 
-  protected _ValClass: Constructor<V>;
+  readonly #ValClass: Constructor<V>;
 
   constructor (registry: Registry, keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
-    const KeyClass = typeToConstructor(registry, keyType);
-    const ValClass = typeToConstructor(registry, valType);
-
-    super(decodeBTreeMap(registry, KeyClass, ValClass, rawValue));
+    super(decodeBTreeMap(registry, keyType, valType, rawValue));
 
     this.registry = registry;
-    this._KeyClass = KeyClass;
-    this._ValClass = ValClass;
+    this.#KeyClass = typeToConstructor(registry, keyType);
+    this.#ValClass = typeToConstructor(registry, valType);
   }
 
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeMap<K, V>> {
@@ -177,7 +177,7 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeMap<${new this._KeyClass(this.registry).toRawType()},${new this._ValClass(this.registry).toRawType()}>`;
+    return `BTreeMap<${new this.#KeyClass(this.registry).toRawType()},${new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

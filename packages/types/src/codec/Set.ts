@@ -50,7 +50,11 @@ function decodeSetNumber (setValues: SetValues, _value: BN | number): string[] {
 }
 
 /** @internal */
-function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0, byteLength: number): string[] {
+function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8Array | BN | number | string = 0, bitLength: number): string[] {
+  assert(bitLength % 8 === 0, `Expected valid bitLength, power of 8, found ${bitLength}`);
+
+  const byteLength = bitLength / 8;
+
   if (isString(value)) {
     return decodeSet(setValues, u8aToU8a(value), byteLength);
   } else if (isU8a(value)) {
@@ -78,20 +82,16 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 export default class CodecSet extends Set<string> implements Codec {
   public readonly registry: Registry;
 
-  protected _byteLength: number;
+  readonly #allowed: SetValues;
 
-  protected _setValues: SetValues;
+  readonly #byteLength: number;
 
   constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
-    assert(bitLength % 8 === 0, `Expected valid bitLength, power of 8, found ${bitLength}`);
-
-    const byteLength = bitLength / 8;
-
-    super(decodeSet(setValues, value, byteLength));
+    super(decodeSet(setValues, value, bitLength));
 
     this.registry = registry;
-    this._byteLength = byteLength;
-    this._setValues = setValues;
+    this.#allowed = setValues;
+    this.#byteLength = bitLength / 8;
   }
 
   public static with (values: SetValues, bitLength?: number): Constructor<CodecSet> {
@@ -119,7 +119,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this._byteLength;
+    return this.#byteLength;
   }
 
   /**
@@ -147,16 +147,17 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description The encoded value for the set members
    */
   public get valueEncoded (): BN {
-    return encodeSet(this._setValues, this.strings);
+    return encodeSet(this.#allowed, this.strings);
   }
 
   /**
    * @description adds a value to the Set (extended to allow for validity checking)
    */
-  public add (key: string): this {
+  public add = (key: string): this => {
+    // ^^^ add = () property done to assign this instance's this, otherwise Set.add creates "some" chaos
     // we have the isUndefined(this._setValues) in here as well, add is used internally
     // in the Set constructor (so it is undefined at this point, and should allow)
-    assert(isUndefined(this._setValues) || !isUndefined(this._setValues[key]), `Set: Invalid key '${key}' on add`);
+    assert(isUndefined(this.#allowed) || !isUndefined(this.#allowed[key]), `Set: Invalid key '${key}' on add`);
 
     super.add(key);
 
@@ -211,8 +212,7 @@ export default class CodecSet extends Set<string> implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    // FIXME We don't cater for this in createType as of yet
-    return JSON.stringify({ _set: this._setValues });
+    return JSON.stringify({ _set: this.#allowed });
   }
 
   /**
@@ -228,6 +228,6 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this.valueEncoded, { isLe: false, bitLength: this._byteLength * 8 });
+    return bnToU8a(this.valueEncoded, { isLe: false, bitLength: this.#byteLength * 8 });
   }
 }
