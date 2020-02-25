@@ -27,7 +27,7 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
 
   writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
     [
-      HEADER,
+      HEADER('chain'),
       ...[
         '@polkadot/api/augment/rpc',
         ...['consts', 'query', 'tx'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
