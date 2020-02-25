@@ -15,6 +15,7 @@ export interface DeriveAccountRegistration {
   email?: string;
   image?: string;
   legal?: string;
+  other?: Record<string, string>;
   parent?: AccountId;
   pgp?: string;
   riot?: string;
