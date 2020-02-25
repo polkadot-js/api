@@ -4,7 +4,7 @@
 
 import { RuntimeVersion } from './types';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {
@@ -12,7 +12,7 @@ describe('RuntimeVersion', (): void => {
   let version: RuntimeVersion;
 
   beforeEach((): void => {
-    version = createType(registry, 'RuntimeVersion', rpc.result);
+    version = registry.createType('RuntimeVersion', rpc.result);
   });
 
   it('has the correct authoring', (): void => {

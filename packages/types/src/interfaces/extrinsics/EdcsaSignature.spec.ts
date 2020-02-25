@@ -4,7 +4,7 @@
 
 import { hexToU8a } from '@polkadot/util';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 
 const TESTS = [
   '0x55bd020bdbbdc02de34e915effc9b18a99002f4c29f64e22e8dcbb69e722ea6c28e1bb53b9484063fbbfd205e49dcc1f620929f520c9c4c3695150f05a28f52a01',
@@ -16,19 +16,19 @@ describe('EdcsaSignature', (): void => {
 
   it('constructs and has a valid representation (toHex)', (): void => {
     expect(
-      createType(registry, 'EcdsaSignature', TESTS[0]).toHex()
+      registry.createType('EcdsaSignature', TESTS[0]).toHex()
     ).toEqual(TESTS[0]);
   });
 
   it('constructs and has a valid representation (toJSON)', (): void => {
     expect(
-      createType(registry, 'EcdsaSignature', TESTS[0]).toJSON()
+      registry.createType('EcdsaSignature', TESTS[0]).toJSON()
     ).toEqual(TESTS[0]);
   });
 
   it('constructs and has a valid representation (toU8a)', (): void => {
     expect(
-      createType(registry, 'EcdsaSignature', TESTS[1]).toU8a()
+      registry.createType('EcdsaSignature', TESTS[1]).toU8a()
     ).toEqual(hexToU8a(TESTS[1]));
   });
 });

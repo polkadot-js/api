@@ -9,7 +9,7 @@ import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKe
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../create';
+import { ClassOf } from '../create';
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';
@@ -67,7 +67,7 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a
     // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
+    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
   /** @internal */

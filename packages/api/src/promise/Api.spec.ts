@@ -7,7 +7,7 @@ import { ApiOptions } from '../types';
 import createPair from '@polkadot/keyring/pair';
 import testKeyring from '@polkadot/keyring/testing';
 import Mock from '@polkadot/rpc-provider/mock/index';
-import { createType, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
@@ -33,7 +33,7 @@ describe('ApiPromise', (): void => {
   describe('initialization', (): void => {
     it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async (): Promise<void> => {
       const rpcData = await provider.send('state_getMetadata', []);
-      const genesisHash = createType(registry, 'Hash', await provider.send('chain_getBlockHash', [])).toHex();
+      const genesisHash = registry.createType('Hash', await provider.send('chain_getBlockHash', [])).toHex();
       const specVersion = 0;
       const metadata: any = {};
       const key = `${genesisHash}-${specVersion}`;

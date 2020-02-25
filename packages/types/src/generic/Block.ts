@@ -7,7 +7,6 @@ import { AnyNumber, AnyU8a, Registry } from '../types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
 import Extrinsic from '../extrinsic/Extrinsic';
 import Struct from '../codec/Struct';
 import Vec from '../codec/Vec';
@@ -42,7 +41,7 @@ export default class Block extends Struct {
    * @description Encodes a content [[Hash]] for the block
    */
   public get contentHash (): H256 {
-    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
+    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

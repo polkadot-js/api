@@ -8,8 +8,6 @@ import { Codec, Registry } from '../types';
 import { isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
-
 /** @internal */
 function decodeBool (value: any): boolean {
   if (value instanceof Boolean) {
@@ -48,7 +46,7 @@ export default class Bool extends Boolean implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
+    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

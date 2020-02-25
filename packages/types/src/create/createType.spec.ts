@@ -4,22 +4,22 @@
 
 import Int from '../codec/Int';
 import CodecSet from '../codec/Set';
-import { createClass, createType, createTypeUnsafe, ClassOf, TypeRegistry } from '.';
+import { createClass, createTypeUnsafe, ClassOf, TypeRegistry } from '.';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();
 
   it('allows creation of a H256 (with proper toRawType)', (): void => {
     expect(
-      createType(registry, 'H256').toRawType()
+      registry.createType('H256').toRawType()
     ).toEqual('H256');
     expect(
-      createType(registry, 'Hash').toRawType()
+      registry.createType('Hash').toRawType()
     ).toEqual('H256');
   });
 
   it('allows creation of a Fixed64 (with proper toRawType & instance)', (): void => {
-    const f64 = createType(registry, 'Fixed64');
+    const f64 = registry.createType('Fixed64');
 
     expect(f64.toRawType()).toEqual('Fixed64');
     expect(f64.bitLength()).toEqual(64);
@@ -109,13 +109,13 @@ describe('createType', (): void => {
 
   describe('instanceof', (): void => {
     it('instanceof should work (primitive type)', (): void => {
-      const value = createType(registry, 'Balance', 1234);
+      const value = registry.createType('Balance', 1234);
 
       expect(value instanceof ClassOf(registry, 'Balance')).toBe(true);
     });
 
     it('instanceof should work (srml type)', (): void => {
-      const value = createType(registry, 'Gas', 1234);
+      const value = registry.createType('Gas', 1234);
       const Gas = ClassOf(registry, 'Gas');
 
       expect(value instanceof Gas).toBe(true);
@@ -142,14 +142,14 @@ describe('createType', (): void => {
     });
 
     it('allows for re-registration of a type', (): void => {
-      const balDef = createType(registry, 'Balance');
+      const balDef = registry.createType('Balance');
 
       expect(balDef instanceof ClassOf(registry, 'Balance'));
       expect(balDef.bitLength()).toEqual(128);
 
       registry.register({ Balance: 'u32' });
 
-      const balu32 = createType(registry, 'Balance');
+      const balu32 = registry.createType('Balance');
 
       expect(balu32 instanceof ClassOf(registry, 'Balance'));
       expect(balu32.bitLength()).toEqual(32);

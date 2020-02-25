@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Metadata, TypeRegistry } from '@polkadot/types';
+import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import json from '../../../Metadata/static';
 import fromMetadata from '.';
@@ -23,7 +23,7 @@ describe('fromMetadata', (): void => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      createType(registry, 'Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
+      registry.createType('Extrinsic', newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

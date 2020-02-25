@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { createType, Metadata, TypeRegistry } from '@polkadot/types';
+import { Metadata, TypeRegistry } from '@polkadot/types';
 
 import metadataStatic from '../../Metadata/static';
 import fromMetadata from './fromMetadata';
@@ -17,7 +17,7 @@ const extrinsics = fromMetadata(registry, metadata);
 describe('extrinsics', (): void => {
   it('encodes an actual transfer (actual data)', (): void => {
     expect(
-      createType(registry, 'Extrinsic',
+      registry.createType('Extrinsic',
         extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
