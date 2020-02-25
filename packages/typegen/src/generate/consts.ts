@@ -19,10 +19,12 @@ function generateModule (allDefs: object, { constants, name }: ModuleMetadataLat
     return [];
   }
 
-  setImports(allDefs, imports, ['Codec']);
+  if (!isStrict) {
+    setImports(allDefs, imports, ['Codec']);
+  }
 
   return [indent(4)(`${stringCamelCase(name.toString())}: {`)]
-    .concat(isStrict ? '' : indent(6)('[index: string]: Codec;'))
+    .concat(isStrict ? '' : indent(6)('[index: string]: AugmentedConst<object & Codec>;'))
     .concat(constants.map(({ documentation, name, type }): string => {
       setImports(allDefs, imports, [type.toString()]);
 
@@ -43,7 +45,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
     const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
       return acc.concat(generateModule(allDefs, mod, imports, isStrict));
     }, [] as string[]);
-    const header = createImportCode(HEADER, imports, [
+    const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])

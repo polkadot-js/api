@@ -1,4 +1,4 @@
-// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
+// Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { AnyNumber, ITuple } from '@polkadot/types/types';
@@ -17,8 +17,7 @@ import { SocietyJudgement } from '@polkadot/types/interfaces/society';
 import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/interfaces/staking';
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
-import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
-import { ApiTypes } from '@polkadot/api/types';
+import { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType> {

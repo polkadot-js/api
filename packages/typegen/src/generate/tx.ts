@@ -70,18 +70,14 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const body = meta.asLatest.modules.reduce((acc, mod): string[] => {
       return acc.concat(generateModule(registry, allDefs, mod, imports, isStrict));
     }, [] as string[]);
-    const header = createImportCode(HEADER, imports, [
+    const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])
       })),
       {
-        file: '@polkadot/api/submittable/types',
-        types: ['SubmittableExtrinsic']
-      },
-      {
         file: '@polkadot/api/types',
-        types: ['ApiTypes']
+        types: ['ApiTypes', 'SubmittableExtrinsic']
       }
     ]);
     const interfaceStart = [
