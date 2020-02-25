@@ -5,8 +5,6 @@
 import { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create';
-
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
 /** @internal */
@@ -14,10 +12,10 @@ function createStorageHasher (registry: Registry, hasher: StorageHasherV9): Stor
   // Blake2_128_Concat has been added at index 2, so we increment all the
   // indexes greater than 2
   if (hasher.toNumber() >= 2) {
-    return createType(registry, 'StorageHasherV10', hasher.toNumber() + 1);
+    return registry.createType('StorageHasherV10', hasher.toNumber() + 1);
   }
 
-  return createType(registry, 'StorageHasherV10', hasher);
+  return registry.createType('StorageHasherV10', hasher);
 }
 
 /** @internal */
@@ -44,14 +42,14 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): 
 function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
-  return createType(registry, 'ModuleMetadataV10', {
+  return registry.createType('ModuleMetadataV10', {
     ...mod,
     storage: storage
       ? {
         ...storage,
         items: storage.items.map((item: StorageEntryMetadataV9): any => ({
           ...item,
-          type: createType(registry, 'StorageEntryTypeV10', ...createStorageType(registry, item.type))
+          type: registry.createType('StorageEntryTypeV10', ...createStorageType(registry, item.type))
         }))
       }
       : null
@@ -60,7 +58,7 @@ function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetada
 
 /** @internal */
 export default function toV10 (registry: Registry, { modules }: MetadataV9): MetadataV10 {
-  return createType(registry, 'MetadataV10', {
+  return registry.createType('MetadataV10', {
     modules: modules.map((mod): ModuleMetadataV10 => convertModule(registry, mod))
   });
 }

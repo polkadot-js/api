@@ -35,14 +35,14 @@ function toV1Storage (registry: Registry, { storage }: RuntimeModuleMetadataV0):
 
 /** @internal */
 export default function toV1 (registry: Registry, metadataV0: MetadataV0): MetadataV1 {
-  return createType(registry, 'MetadataV1', {
+  return registry.createType('MetadataV1', {
     modules: metadataV0.modules.map((mod): ModuleMetadataV1 => {
       // The prefix of this module (capitalized)
       const prefix = mod.storage.isSome
         ? mod.storage.unwrap().prefix.toString()
         : stringUpperFirst(mod.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
-      return createType(registry, 'ModuleMetadataV1', {
+      return registry.createType('ModuleMetadataV1', {
         name: mod.prefix, // Not capitalized
         prefix, // Capitalized
         storage: toV1Storage(registry, mod),
