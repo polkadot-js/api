@@ -25,12 +25,12 @@ async function main () {
       if (balance[0] === 'first') {
         // Now we know that if the previous value emitted as balance[0] is `first`,
         // then balance[1] is the initial value of Alice account.
-        console.log(`Alice ${Alice} has a balance of ${balance[1][1].free}`);
+        console.log(`Alice ${Alice} has a balance of ${balance[1].data.free}`);
         console.log('You may leave this example running and start the "Make a transfer" example or transfer any value to Alice address');
         return;
       }
 
-      const change = balance[1][1].free.sub(balance[0][1].free);
+      const change = balance[1].data.free.sub(balance[0].date.free);
 
       // Only display value changes
       if (!change.isZero()) {
