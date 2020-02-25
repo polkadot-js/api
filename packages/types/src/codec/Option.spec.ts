@@ -108,11 +108,11 @@ describe('Option', (): void => {
     });
 
     it('unwrapOr to specified if empty', (): void => {
-      expect(new Option(registry, Text).unwrapOr('6789')).toBe('6789');
+      expect(new Option(registry, Text).unwrapOr('6789').toString()).toEqual('6789');
     });
 
     it('unwrapOr to specified if non-empty', (): void => {
-      expect((new Option(registry, Text, '1234').unwrapOr(null) as Text).toString()).toBe('1234');
+      expect(new Option(registry, Text, '1234').unwrapOr(null)?.toString()).toEqual('1234');
     });
 
     it('unwrapOrDefault to default if empty', (): void => {
@@ -120,7 +120,7 @@ describe('Option', (): void => {
     });
 
     it('unwrapOrDefault to specified if non-empty', (): void => {
-      expect((new Option(registry, U32, '1234').unwrapOrDefault().toNumber()).toString()).toBe(1234);
+      expect(new Option(registry, U32, '1234').unwrapOrDefault().toNumber()).toEqual(1234);
     });
   });
 });
