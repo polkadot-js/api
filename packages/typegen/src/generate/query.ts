@@ -46,7 +46,7 @@ function entrySignature (allDefs: object, registry: Registry, storageEntry: Stor
       formatType(allDefs, addModifier(storageEntry, storageEntry.type.asMap.value.toString()), imports)
     ];
   } else if (storageEntry.type.isDoubleMap) {
-    // Find similartypes of `key1` and `key2` types
+    // Find similar types of `key1` and `key2` types
     const similarTypes1 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key1.toString(), imports);
     const similarTypes2 = getSimilarTypes(allDefs, registry, storageEntry.type.asDoubleMap.key2.toString(), imports);
 
@@ -102,7 +102,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const body = meta.asLatest.modules.reduce((acc: string[], mod): string[] => {
       return acc.concat(generateModule(allDefs, registry, mod, imports, isStrict));
     }, []);
-    const header = createImportCode(HEADER, imports, [
+    const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])

@@ -184,7 +184,7 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
   const interfaces = generateInterfaces(definitions, { types }, imports);
   const sortedDefs = interfaces.sort((a, b): number => a[0].localeCompare(b[0])).map(([, definition]): string => definition).join('\n\n');
 
-  const header = createImportCode(HEADER, imports, [
+  const header = createImportCode(HEADER('defs'), imports, [
     ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
       file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
       types: Object.keys(imports.localTypes[moduleName])
@@ -192,7 +192,7 @@ function generateTsDefFor (importDefinitions: { [importPath: string]: object }, 
   ]);
 
   fs.writeFileSync(path.join(outputDir, defName, 'types.ts'), header.concat(sortedDefs).concat(FOOTER), { flag: 'w' });
-  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, defName, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */
@@ -206,7 +206,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       generateTsDefFor(importDefinitions, defName, obj, outputDir);
     });
 
-    return HEADER
+    return HEADER('defs')
       .concat(
         Object
           .keys(definitions)
@@ -216,7 +216,7 @@ export function generateTsDef (importDefinitions: { [importPath: string]: object
       .concat(FOOTER);
   });
 
-  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER.concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
+  fs.writeFileSync(path.join(outputDir, 'index.ts'), HEADER('defs').concat('export * from \'./types\';').concat(FOOTER), { flag: 'w' });
 }
 
 /** @internal */

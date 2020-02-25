@@ -44,7 +44,7 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
       ].join('\n');
     }, '');
 
-    const header = createImportCode(HEADER, imports, [
+    const header = createImportCode(HEADER('defs'), imports, [
       ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `${imports.moduleToPackage[moduleName]}/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])

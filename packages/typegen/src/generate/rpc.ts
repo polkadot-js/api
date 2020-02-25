@@ -48,7 +48,7 @@ export default function generateRpcTypes (dest = 'packages/api/src/augment/rpc.t
       );
     }, []).join('\n');
 
-    const header = createImportCode(HEADER, imports, [
+    const header = createImportCode(HEADER('chain'), imports, [
       ...Object.keys(imports.localTypes).sort().map((moduleName): { file: string; types: string[] } => ({
         file: `@polkadot/types/interfaces/${moduleName}`,
         types: Object.keys(imports.localTypes[moduleName])
