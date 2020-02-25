@@ -25,14 +25,10 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes, w
   return ids.map((id, index): DeriveParachain => {
     return {
       didUpdate: didUpdate.isSome
-        ? !!didUpdate.unwrap().some((paraId): boolean => paraId === id)
+        ? !!didUpdate.unwrap().some((paraId): boolean => paraId.eq(id))
         : false,
       id,
-      info: {
-        name: '<unknown>',
-        owner: '<unknown>',
-        ...infos[index].unwrapOr(null)
-      } as DeriveParachainInfo,
+      info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
       pendingSwapId: pendingSwaps[index].unwrapOr(null),
       relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber(),
       watermark: watermarks[index].unwrapOr(null)

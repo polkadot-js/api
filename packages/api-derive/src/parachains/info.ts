@@ -4,7 +4,7 @@
 
 import { CollatorId, ParaId } from '@polkadot/types/interfaces';
 import { DeriveParachainInfo, DeriveParachainFull, DeriveParachainActive } from '../types';
-import { Active, Code, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads, Watermarks } from './types';
+import { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispatchQueue, RetryQueue, SelectedThreads, Watermarks } from './types';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +20,6 @@ type Result = [
   DidUpdate,
   ParaInfoResult,
   PendingSwap,
-  Code,
   Heads,
   RelayDispatchQueue,
   Watermarks
@@ -59,20 +58,15 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
     });
 }
 
-function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, code, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull {
+function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull {
   return {
     active: parseActive(id, active),
     didUpdate: didUpdate.isSome
-      ? !!didUpdate.unwrap().some((paraId): boolean => paraId === id)
+      ? !!didUpdate.unwrap().some((paraId): boolean => paraId.eq(id))
       : false,
-    code,
     heads,
     id,
-    info: {
-      name: '<unknown>',
-      owner: '<unknown>',
-      ...info.unwrapOr(null)
-    } as DeriveParachainInfo,
+    info: { id, ...info.unwrapOr(null) } as DeriveParachainInfo,
     pendingSwapId: pendingSwap.unwrapOr(null),
     relayDispatchQueue,
     retryCollators: parseCollators(id, retryQueue),
@@ -91,7 +85,6 @@ export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<
         api.query.parachains.didUpdate,
         [api.query.registrar.paras, id],
         [api.query.registrar.pendingSwap, id],
-        [api.query.parachains.code, id],
         [api.query.parachains.heads, id],
         [api.query.parachains.relayDispatchQueue, id],
         [api.query.parachains.watermarks, id]

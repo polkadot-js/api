@@ -114,8 +114,10 @@ export interface DeriveParachainActive {
 }
 
 export interface DeriveParachainInfo extends ParaInfo {
-  name: string;
-  owner: string;
+  id: ParaId;
+  icon?: string;
+  name?: string;
+  owner?: string;
 }
 
 export interface DeriveParachain {
@@ -129,7 +131,6 @@ export interface DeriveParachain {
 
 export interface DeriveParachainFull extends DeriveParachain {
   active: DeriveParachainActive | null;
-  code: Bytes | null;
   heads: Bytes | null;
   relayDispatchQueue: UpwardMessage[];
   retryCollators: (CollatorId | null)[];
