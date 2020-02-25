@@ -10,6 +10,7 @@ import { EraIndex } from '@polkadot/types/interfaces/staking';
 
 declare module '@polkadot/metadata/Decorated/consts/types' {
   export interface Constants {
+    [index: string]: ModuleConstants;
     babe: {
       [index: string]: Codec;
       /**

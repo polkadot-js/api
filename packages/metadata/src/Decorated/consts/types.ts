@@ -10,10 +10,6 @@ export type AugmentedConst<T extends Codec> = T & ConstantCodec;
 
 export type ModuleConstants = Record<string, Codec>;
 
-export interface Constants {
-  [index: string]: ModuleConstants;
-}
-
 export interface ConstantCodec extends Codec {
   meta: ModuleConstantMetadataLatest;
 }

@@ -86,7 +86,7 @@ function generateModule (allDefs: object, registry: Registry, { name, storage }:
       }
 
       return createDocComments(6, storageEntry.documentation) +
-      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>> & QueryableStorageEntry<ApiType>;`);
+      indent(6)(`${stringLowerFirst(storageEntry.name.toString())}: ${entryType}<ApiType, (${args}) => Observable<${returnType}>>${isStrict ? '' : ' & QueryableStorageEntry<ApiType>'};`);
     }))
     .concat([indent(4)('};')]);
 }
@@ -110,18 +110,28 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       {
         file: 'rxjs',
         types: ['Observable']
+      },
+      {
+        file: '@polkadot/api/types',
+        types: ['ApiTypes']
       }
     ]);
     const interfaceStart = [
       "declare module '@polkadot/api/types/storage' {",
       indent(2)('export interface AugmentedQueries<ApiType> {\n')
     ].join('\n');
-    const interfaceEnd = `\n${indent(2)('}')}\n}`;
+    const interfaceEnd = `\n${indent(2)('}')}\n\n`;
+    const queryableStorageInterface = indent(2)('export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {')
+      .concat('\n')
+      .concat(isStrict ? '' : indent(4)('[index: string]: QueryableModuleStorage<ApiType>;\n'))
+      .concat(indent(2)('}\n'));
 
     return header
       .concat(interfaceStart)
       .concat(body.join('\n'))
       .concat(interfaceEnd)
+      .concat(queryableStorageInterface)
+      .concat('}')
       .concat(FOOTER);
   });
 }

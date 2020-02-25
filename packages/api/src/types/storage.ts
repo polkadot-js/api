@@ -77,7 +77,3 @@ export type QueryableStorageMulti<ApiType extends ApiTypes> =
   ApiType extends 'rxjs'
     ? QueryableStorageMultiBase<ApiType>
     : QueryableStorageMultiPromise<ApiType>;
-
-export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-  [index: string]: QueryableModuleStorage<ApiType>;
-}

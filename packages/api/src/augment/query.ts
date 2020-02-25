@@ -27,6 +27,7 @@ import { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import { Multisig } from '@polkadot/types/interfaces/utility';
 import { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import { Observable } from 'rxjs';
+import { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
@@ -793,5 +794,9 @@ declare module '@polkadot/api/types/storage' {
        **/
       vesting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<VestingInfo>>> & QueryableStorageEntry<ApiType>;
     };
+  }
+
+  export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
+    [index: string]: QueryableModuleStorage<ApiType>;
   }
 }

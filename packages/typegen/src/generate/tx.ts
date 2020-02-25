@@ -78,18 +78,29 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       {
         file: '@polkadot/api/submittable/types',
         types: ['SubmittableExtrinsic']
+      },
+      {
+        file: '@polkadot/api/types',
+        types: ['ApiTypes']
       }
     ]);
     const interfaceStart = [
       "declare module '@polkadot/api/types/submittable' {",
       indent(2)('export interface AugmentedSubmittables<ApiType> {\n')
     ].join('\n');
-    const interfaceEnd = `\n${indent(2)('}')}\n}`;
+    const interfaceEnd = `\n${indent(2)('}')}\n\n`;
+    const submittableExtrinsicsInterface = indent(2)('export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {')
+      .concat('\n')
+      .concat(indent(4)('(extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;\n'))
+      .concat(isStrict ? '' : indent(4)('[index: string]: SubmittableModuleExtrinsics<ApiType>;\n'))
+      .concat(indent(2)('}\n'));
 
     return header
       .concat(interfaceStart)
       .concat(body.join('\n'))
       .concat(interfaceEnd)
+      .concat(submittableExtrinsicsInterface)
+      .concat('}')
       .concat(FOOTER);
   });
 }

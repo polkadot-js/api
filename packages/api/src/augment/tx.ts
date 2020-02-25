@@ -18,6 +18,7 @@ import { EraIndex, RewardDestination, ValidatorPrefs } from '@polkadot/types/int
 import { Key } from '@polkadot/types/interfaces/system';
 import { Timepoint } from '@polkadot/types/interfaces/utility';
 import { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
+import { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/submittable' {
   export interface AugmentedSubmittables<ApiType> {
@@ -1621,5 +1622,10 @@ declare module '@polkadot/api/types/submittable' {
        **/
       vestOther: AugmentedSubmittable<(target: LookupSource | Address | AccountId | AccountIndex | string | Uint8Array) => SubmittableExtrinsic<ApiType>>;
     };
+  }
+
+  export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
+    (extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;
+    [index: string]: SubmittableModuleExtrinsics<ApiType>;
   }
 }

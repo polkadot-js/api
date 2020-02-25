@@ -57,6 +57,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: Record<strin
 
     return header
       .concat(interfaceStart)
+      .concat(isStrict ? '' : indent(4)('[index: string]: ModuleConstants;\n'))
       .concat(body.join('\n'))
       .concat(interfaceEnd)
       .concat(FOOTER);
