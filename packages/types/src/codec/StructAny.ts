@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { H256 } from '../interfaces/runtime';
-import { AnyJsonObject, Codec, Registry } from '../types';
+import { AnyJson, Codec, Registry } from '../types';
 
 import { isUndefined } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -87,19 +87,19 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): AnyJsonObject {
+  public toHuman (): AnyJson {
     return this.toJSON();
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJsonObject {
-    return [...this.entries()].reduce((json, [key, value]): AnyJsonObject => {
+  public toJSON (): AnyJson {
+    return [...this.entries()].reduce((json: { [index: string]: AnyJson }, [key, value]): { [index: string]: AnyJson } => {
       json[key] = value;
 
       return json;
-    }, {} as any);
+    }, {});
   }
 
   /**

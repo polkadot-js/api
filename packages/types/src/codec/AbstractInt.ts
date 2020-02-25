@@ -6,7 +6,7 @@ import { H256 } from '../interfaces/runtime';
 import { AnyNumber, Codec, Registry } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { assert, bnToBn, formatNumber, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Raw from './Raw';
@@ -25,19 +25,21 @@ export const DEFAULT_UINT_BITS = 64;
 export default abstract class AbstractInt extends BN implements Codec {
   public readonly registry: Registry;
 
-  protected _bitLength: UIntBitLength;
+  readonly #bitLength: UIntBitLength;
 
-  private _isHexJson: boolean;
+  readonly #isHexJson: boolean;
 
-  private _isNegative: boolean;
+  readonly #isSigned: boolean;
 
-  protected constructor (registry: Registry, isNegative: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
-    super(AbstractInt.decodeAbstracInt(value, bitLength, isNegative));
+  protected constructor (registry: Registry, isSigned: boolean, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson = true) {
+    super(AbstractInt.decodeAbstracInt(value, bitLength, isSigned));
 
     this.registry = registry;
-    this._bitLength = bitLength;
-    this._isHexJson = isHexJson;
-    this._isNegative = isNegative;
+    this.#bitLength = bitLength;
+    this.#isHexJson = isHexJson;
+    this.#isSigned = isSigned;
+
+    assert(super.bitLength() <= bitLength, `${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${bitLength}`);
   }
 
   /** @internal */
@@ -50,7 +52,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     } else if (isU8a(value)) {
       return AbstractInt.decodeAbstracIntU8a(value, bitLength, isNegative);
     } else if (isString(value)) {
-      return new BN(value, 10).toString();
+      return new BN(value.toString(), 10).toString();
     }
 
     return bnToBn(value).toString();
@@ -74,7 +76,7 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this._bitLength / 8;
+    return this.#bitLength / 8;
   }
 
   /**
@@ -92,10 +94,17 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Checks if the value is an unsigned type
+   */
+  public get isUnsigned (): boolean {
+    return !this.#isSigned;
+  }
+
+  /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): UIntBitLength {
-    return this._bitLength;
+    return this.#bitLength;
   }
 
   /**
@@ -107,7 +116,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: this._isNegative })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: this.#isSigned })
         : bnToBn(other)
     );
   }
@@ -118,7 +127,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   public isMax (): boolean {
     const u8a = this.toU8a().filter((byte): boolean => byte === 0xff);
 
-    return u8a.length === (this._bitLength / 8);
+    return u8a.length === (this.#bitLength / 8);
   }
 
   /**
@@ -148,7 +157,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // FIXME this return type should by string | number, but BN's return type
     // is string.
     // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
-    return this._isHexJson || (super.bitLength() > 52)
+    return this.#isHexJson || (super.bitLength() > 52)
       ? this.toHex()
       : this.toNumber();
   }

@@ -22,7 +22,7 @@ try {
     ]
   });
 
-  main = require('../sr/fromDefs.ts').default;
+  main = require('../src/fromDefs.ts').default;
 }
 
 main();

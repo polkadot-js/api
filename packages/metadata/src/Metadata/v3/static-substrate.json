@@ -2982,7 +2982,7 @@
               "type": {
                 "Map": {
                   "key": "AccountId",
-                  "value": "AccountInfo",
+                  "value": "ContractAccountInfo",
                   "linked": false
                 }
               },

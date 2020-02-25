@@ -21,12 +21,12 @@ async function main () {
   // the format is always `.at(<blockhash>, ...params)`
   const balance = await api.query.system.account.at(parentHash, ALICE);
 
-  console.log(`Alice's balance at ${parentHash.toHex()} was ${balance[1].free}`);
+  console.log(`Alice's balance at ${parentHash.toHex()} was ${balance.data.free}`);
 
   // Now perform a multi query, returning multiple balances at once
   const balances = await api.query.system.account.multi([ALICE, BOB]);
 
-  console.log(`Current balances for Alice and Bob are ${balances[0][1].free} and ${balances[1][1].free}`);
+  console.log(`Current balances for Alice and Bob are ${balances[0].data.free} and ${balances[1].data.free}`);
 }
 
 main().catch(console.error).finally(() => process.exit());

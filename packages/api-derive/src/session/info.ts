@@ -5,23 +5,26 @@
 import { SessionIndex } from '@polkadot/types/interfaces';
 import { DerivedSessionInfo, DeriveSessionIndexes } from '../types';
 
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
-import { u64, createType } from '@polkadot/types';
+import { createType, Option, u64 } from '@polkadot/types';
 
 import { memo } from '../util';
 
-type ResultSlots = [u64, u64, u64, SessionIndex];
+type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
+type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 type ResultType = [boolean, u64, SessionIndex];
-type Result = [ResultType, DeriveSessionIndexes, ResultSlots];
+type Result = [ResultType, DeriveSessionIndexes, ResultSlotsFlat];
 
-function createDerivedLatest (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPerEra], { currentIndex, currentEra, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, currentEraStartSessionIndex]]: Result): DerivedSessionInfo {
+function createDerived (api: ApiInterfaceRx, [[hasBabe, epochDuration, sessionsPerEra], { activeEra, activeEraStart, currentEra, currentIndex, validatorCount }, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]]: Result): DerivedSessionInfo {
   const epochStartSlot = epochIndex.mul(epochDuration).add(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
-  const eraProgress = currentIndex.sub(currentEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
+  const eraProgress = currentIndex.sub(activeEraStartSessionIndex).mul(epochDuration).add(sessionProgress);
 
   return {
+    activeEra,
+    activeEraStart,
     currentEra,
     currentIndex,
     eraLength: createType(api.registry, 'BlockNumber', sessionsPerEra.mul(epochDuration)),
@@ -34,46 +37,76 @@ function createDerivedLatest (api: ApiInterfaceRx, [[hasBabe, epochDuration, ses
   };
 }
 
-function infoLatestAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+function queryAura (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
   return api.derive.session.indexes().pipe(
     map((indexes): DerivedSessionInfo =>
-      createDerivedLatest(api, [
-        [false, createType(api.registry, 'u64', 1), api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)],
+      createDerived(api, [
+        [
+          false,
+          createType(api.registry, 'u64', 1),
+          api.consts.staking?.sessionsPerEra || createType(api.registry, 'SessionIndex', 1)
+        ],
         indexes,
-        [createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'u64', 1), createType(api.registry, 'SessionIndex', 1)]
+        [
+          createType(api.registry, 'u64', 1),
+          createType(api.registry, 'u64', 1),
+          createType(api.registry, 'u64', 1),
+          createType(api.registry, 'SessionIndex', 1)
+        ]
       ])
     )
   );
 }
 
-function infoLatestBabe (api: ApiInterfaceRx): Observable<DerivedSessionInfo> {
+function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, ResultSlotsFlat]> {
+  return api.derive.session.indexes().pipe(
+    switchMap((indexes): Observable<[DeriveSessionIndexes, ResultSlots]> =>
+      combineLatest([
+        of(indexes),
+        api.queryMulti<ResultSlots>([
+          api.query.babe.currentSlot,
+          api.query.babe.epochIndex,
+          api.query.babe.genesisSlot,
+          [api.query.staking.erasStartSessionIndex, indexes.activeEra]
+        ])
+      ])
+    ),
+    map(([indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionIndexes, ResultSlotsFlat] => [
+      indexes, [currentSlot, epochIndex, genesisSlot, optStartIndex.unwrapOr(createType(api.registry, 'SessionIndex', 1))]
+    ])
+  );
+}
+
+function queryBabeNoHistory (api: ApiInterfaceRx): Observable<[DeriveSessionIndexes, ResultSlotsFlat]> {
   return combineLatest([
     api.derive.session.indexes(),
-    api.queryMulti<ResultSlots>([
+    api.queryMulti<ResultSlotsFlat>([
       api.query.babe.currentSlot,
       api.query.babe.epochIndex,
       api.query.babe.genesisSlot,
       api.query.staking.currentEraStartSessionIndex
     ])
-  ]).pipe(
-    map(([indexes, slots]: [DeriveSessionIndexes, ResultSlots]): DerivedSessionInfo =>
-      createDerivedLatest(api, [
-        [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],
-        indexes,
-        slots
-      ])
-    )
-  );
+  ]);
 }
 
 /**
- * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
+ * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterfaceRx): () => Observable<DerivedSessionInfo> {
-  const query = api.consts.babe
-    ? infoLatestBabe // 2.x with Babe
-    : infoLatestAura; // 2.x with Aura (not all info there)
-
   return memo((): Observable<DerivedSessionInfo> =>
-    query(api));
+    api.consts.babe
+      ? (api.query.staking.erasStartSessionIndex
+        ? queryBabe(api) // 2.x with Babe
+        : queryBabeNoHistory(api)
+      ).pipe(
+        map(([indexes, slots]: [DeriveSessionIndexes, ResultSlotsFlat]): DerivedSessionInfo =>
+          createDerived(api, [
+            [true, api.consts.babe.epochDuration, api.consts.staking.sessionsPerEra],
+            indexes,
+            slots
+          ])
+        )
+      )
+      : queryAura(api)
+  );
 }

@@ -33,17 +33,10 @@ However, to make this sane from a developer perspective the injected methods are
 import { AccountData, Index } from '@polkadot/types/interfaces';
 
 ...
-const [nonce, balance] = await api.query.system.account<[Index, AccountData]>(ADDR);
+const { nonce, data: balances } = await api.query.system.account<[Index, AccountData]>(ADDR);
 ```
 
 In both these case we can instruct the TypeScript compiler that the type we are expecting in `Index` and `Balance` respectively, not just pure `Codec`. This means that functions like `.toNumber()` is available on both these types - as opposed to just the [general type defaults](types.basics.md#everything-is-a-type) with `.toHex()` and friends.
-
-## Future work
-
-As of this writing, there are still some gray areas to type detection, specifically around the following interfaces -
-
-- `.at` & `.multi` on `api.query` does not (yet) have a `<TypeOverride>` interface. This means `as <TypeOverride>` casts are presently needed for these results
-- `api.queryMulti` does not (yet) allow you to provide a hint to the types returned, this ties to the previous point
 
 ## Adding user types
 

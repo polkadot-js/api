@@ -42,7 +42,7 @@ export default class UInt extends AbstractInt {
   public toHex (isLe = false): string {
     // For display/JSON, this is BE, for compare, use isLe
     return bnToHex(this, {
-      bitLength: this._bitLength,
+      bitLength: this.bitLength(),
       isLe,
       isNegative: false
     });
@@ -67,7 +67,7 @@ export default class UInt extends AbstractInt {
     // underlying it always matches (no matter which length it actually is)
     return this instanceof ClassOf(this.registry, 'Balance')
       ? 'Balance'
-      : `u${this._bitLength}`;
+      : `u${this.bitLength()}`;
   }
 
   /**
@@ -77,7 +77,7 @@ export default class UInt extends AbstractInt {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this, {
-      bitLength: this._bitLength,
+      bitLength: this.bitLength(),
       isLe: true,
       isNegative: false
     });

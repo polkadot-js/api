@@ -4,7 +4,8 @@
 import { ITuple } from '@polkadot/types/types';
 import { Enum, Struct, Vec } from '@polkadot/types/codec';
 import { BitVec, Bytes, u32 } from '@polkadot/types/primitive';
-import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Signature } from '@polkadot/types/interfaces/runtime';
+import { Signature } from '@polkadot/types/interfaces/extrinsics';
+import { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name AttestedCandidate */
 export interface AttestedCandidate extends Struct {

@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraPoints, Exposure, Hash, Index, Keys, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Balance, BalanceLock, BalanceLockTo212, BalanceOf, Bid, BidKind, BlockNumber, CollatorId, EraIndex, EraRewardPoints, Exposure, Hash, Index, Keys, MomentOf, ParaId, ParaInfo, Proposal, PropIndex, ProposalIndex, ReferendumInfo, RegistrationJudgement, RewardDestination, SessionIndex, SetIndex, SocietyVote, StakingLedger, StrikeCount, TreasuryProposal, UpwardMessage, ValidatorPrefs, Vote, Votes, VoteIndex, VouchingStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { Bytes, u32, Vec } from '@polkadot/types';
+import { Bytes, Option, u32, Vec } from '@polkadot/types';
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
@@ -15,6 +15,7 @@ export interface DeriveAccountRegistration {
   email?: string;
   image?: string;
   legal?: string;
+  other?: Record<string, string>;
   parent?: AccountId;
   pgp?: string;
   riot?: string;
@@ -170,6 +171,8 @@ export interface DerivedReferendumVote {
 }
 
 export interface DeriveSessionIndexes {
+  activeEra: EraIndex;
+  activeEraStart: Option<MomentOf>;
   currentEra: EraIndex;
   currentIndex: SessionIndex;
   validatorCount: u32;
@@ -211,22 +214,22 @@ export interface DeriveSocietyMember {
 }
 
 export interface DerivedStakingElected {
-  currentElected: AccountId[];
+  nextElected: AccountId[];
   info: DerivedStakingQuery[];
 }
 
 export interface DeriveStakingValidators {
-  currentElected: AccountId[];
+  nextElected: AccountId[];
   validators: AccountId[];
 }
 
 export interface DerivedStakingStash {
   controllerId?: AccountId;
+  exposure?: Exposure;
   nominators?: AccountId[];
   nominateAt?: EraIndex;
   rewardDestination?: RewardDestination;
   nextKeys?: Keys;
-  stakers?: Exposure;
   stashId?: AccountId;
   validatorPrefs?: ValidatorPrefs;
 }
@@ -244,8 +247,8 @@ export interface DerivedStakingAccount extends DerivedStakingQuery {
 }
 
 export interface DerivedStakingOverview extends DeriveSessionIndexes {
-  currentElected: AccountId[];
-  eraPoints: EraPoints;
+  eraPoints: EraRewardPoints;
+  nextElected: AccountId[];
   validators: AccountId[];
 }
 

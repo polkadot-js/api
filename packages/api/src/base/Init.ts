@@ -8,8 +8,8 @@ import { ApiBase, ApiOptions, ApiTypes, DecorateMethod } from '../types';
 import { Subscription, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Metadata, Text } from '@polkadot/types';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/Extrinsic';
 import { getMetadataTypes, getSpecTypes, getUserTypes } from '@polkadot/types/known';
-import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/primitive/Extrinsic/Extrinsic';
 import { logger } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -20,9 +20,9 @@ const KEEPALIVE_INTERVAL = 15000;
 const l = logger('api/init');
 
 export default abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
-  private _healthTimer: NodeJS.Timeout | null = null;
+  #healthTimer: NodeJS.Timeout | null = null;
 
-  private _updateSub?: Subscription;
+  #updateSub?: Subscription;
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -44,15 +44,15 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     this._rx.queryMulti = this.decorateMulti(this.rxDecorateMethod);
     this._rx.signer = options.signer;
 
-    this._rpcCore.provider.on('disconnected', this._onProviderDisconnect);
-    this._rpcCore.provider.on('error', this._onProviderError);
-    this._rpcCore.provider.on('connected', this._onProviderConnect);
+    this._rpcCore.provider.on('disconnected', this.#onProviderDisconnect);
+    this._rpcCore.provider.on('error', this.#onProviderError);
+    this._rpcCore.provider.on('connected', this.#onProviderConnect);
 
     // If the provider was instantiated earlier, and has already emitted a
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected()) {
-      this._onProviderConnect();
+      this.#onProviderConnect();
     }
   }
 
@@ -70,8 +70,8 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
     this._genesisHash = genesisHash;
 
-    if (this._updateSub) {
-      this._updateSub.unsubscribe();
+    if (this.#updateSub) {
+      this.#updateSub.unsubscribe();
     }
 
     const { metadata = {} } = this._options;
@@ -109,11 +109,11 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
 
   // subscribe to metadata updates, inject the types on changes
   private subscribeUpdates (): void {
-    if (this._updateSub) {
+    if (this.#updateSub) {
       return;
     }
 
-    this._updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
+    this.#updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
       switchMap((version: RuntimeVersion) =>
         combineLatest(
           of(version),
@@ -201,7 +201,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     return true;
   }
 
-  private _onProviderConnect = async (): Promise<void> => {
+  #onProviderConnect = async (): Promise<void> => {
     this.emit('connected');
     this._isConnected.next(true);
 
@@ -217,7 +217,7 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
         this.emit('ready', this);
       }
 
-      this._healthTimer = setInterval((): void => {
+      this.#healthTimer = setInterval((): void => {
         this._rpcCore.system.health().toPromise().catch((): void => {
           // ignore
         });
@@ -231,17 +231,17 @@ export default abstract class Init<ApiType extends ApiTypes> extends Decorate<Ap
     }
   }
 
-  private _onProviderDisconnect = (): void => {
+  #onProviderDisconnect = (): void => {
     this.emit('disconnected');
     this._isConnected.next(false);
 
-    if (this._healthTimer) {
-      clearInterval(this._healthTimer);
-      this._healthTimer = null;
+    if (this.#healthTimer) {
+      clearInterval(this.#healthTimer);
+      this.#healthTimer = null;
     }
   };
 
-  private _onProviderError = (error: Error): void => {
+  #onProviderError = (error: Error): void => {
     this.emit('error', error);
   };
 }

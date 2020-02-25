@@ -5,7 +5,7 @@
 import { AnyNumber, Codec, Constructor, ICompact, InterfaceTypes, Registry } from '../types';
 
 import BN from 'bn.js';
-import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBn, isNumber, isString } from '@polkadot/util';
+import { compactAddLength, compactFromU8a, compactStripLength, compactToU8a, isBigInt, isBn, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import { typeToConstructor } from './utils';
@@ -27,11 +27,11 @@ export interface CompactEncodable extends Codec {
  * a number and making the compact representation thereof
  */
 export default class Compact<T extends CompactEncodable> extends Base<T> implements ICompact<T> {
-  constructor (registry: Registry, Type: Constructor<T> | InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value: Compact<T> | AnyNumber = 0) {
     super(registry, Compact.decodeCompact<T>(registry, typeToConstructor(registry, Type), value));
   }
 
-  public static with<T extends CompactEncodable> (Type: Constructor<T> | InterfaceTypes): Constructor<Compact<T>> {
+  public static with<T extends CompactEncodable> (Type: Constructor<T> | keyof InterfaceTypes): Constructor<Compact<T>> {
     return class extends Compact<T> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);
@@ -60,7 +60,7 @@ export default class Compact<T extends CompactEncodable> extends Base<T> impleme
   public static decodeCompact<T extends CompactEncodable> (registry: Registry, Type: Constructor<T>, value: Compact<T> | AnyNumber): CompactEncodable {
     if (value instanceof Compact) {
       return new Type(registry, value.raw);
-    } else if (isString(value) || isNumber(value) || isBn(value)) {
+    } else if (isString(value) || isNumber(value) || isBn(value) || isBigInt(value)) {
       return new Type(registry, value);
     }
 

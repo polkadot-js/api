@@ -75,7 +75,7 @@ async function rpc (api: ApiPromise): Promise<void> {
   });
 }
 
-function types (): void {
+function types (api: ApiPromise): void {
   // check correct types with `createType`
   const balance = createType(registry, 'Balance', 2);
   const gas = createType(registry, 'Gas', 2);
@@ -85,11 +85,12 @@ function types (): void {
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe);
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));
 }
 
 async function tx (api: ApiPromise, keyring: TestKeyringMap): Promise<void> {
-  const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
+  // transfer, also allows for BigInt inputs here
+  const transfer = api.tx.balances.transfer(keyring.bob.address, 123_456_789n);
 
   console.log('transfer as Call', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
@@ -138,7 +139,7 @@ async function main (): Promise<void> {
   derive(api);
   query(api, keyring);
   rpc(api);
-  types();
+  types(api);
   tx(api, keyring);
 }
 

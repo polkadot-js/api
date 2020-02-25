@@ -5,11 +5,9 @@
 import { MetadataV10, MetadataV11 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { createType } from '@polkadot/types/create';
-
 /** @internal */
 export default function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {
-  return createType(registry, 'MetadataV11', {
+  return registry.createType('MetadataV11', {
     modules,
     // This is new in V11, pass V0 here - something non-existing, telling the API to use
     // the fallback for this information (on-chain detection)

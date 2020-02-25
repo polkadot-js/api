@@ -7,7 +7,6 @@ import { FromReg } from './types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
-import { InterfaceRegistry } from '../interfaceRegistry';
 import { createClass } from './createClass';
 
 function u8aHasValue (value: Uint8Array): boolean {
@@ -74,6 +73,6 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
  * instance from
  * @param params - The value to instantiate the type with
  */
-export function createType<K extends InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceRegistry[K] {
-  return createTypeUnsafe<InterfaceRegistry[K], K>(registry, type, params);
+export function createType<K extends keyof InterfaceTypes> (registry: Registry, type: K, ...params: any[]): InterfaceTypes[K] {
+  return createTypeUnsafe<InterfaceTypes[K], K>(registry, type, params);
 }

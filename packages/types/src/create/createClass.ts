@@ -3,14 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec, Constructor, InterfaceTypes, Registry } from '../types';
-import { FromReg, TypeDef, TypeDefExtUInt, TypeDefExtVecFixed, TypeDefInfo } from './types';
+import { FromReg, TypeDef, TypeDefInfo } from './types';
 
-import { assert } from '@polkadot/util';
+import { assert, isNumber, isUndefined } from '@polkadot/util';
 
+import { UIntBitLength } from '../codec/AbstractInt';
 import BTreeMap from '../codec/BTreeMap';
 import BTreeSet from '../codec/BTreeSet';
 import Compact from '../codec/Compact';
 import Enum from '../codec/Enum';
+import Int from '../codec/Int';
 import Option from '../codec/Option';
 import Result from '../codec/Result';
 import CodecSet from '../codec/Set';
@@ -20,7 +22,6 @@ import U8aFixed, { BitLength as U8aFixedBitLength } from '../codec/U8aFixed';
 import UInt from '../codec/UInt';
 import Vec from '../codec/Vec';
 import VecFixed from '../codec/VecFixed';
-import { InterfaceRegistry } from '../interfaceRegistry';
 import { getTypeDef } from './getTypeDef';
 
 export function createClass<T extends Codec = Codec, K extends string = string> (registry: Registry, type: K): Constructor<FromReg<T, K>> {
@@ -36,9 +37,9 @@ export function ClassOfUnsafe<T extends Codec = Codec, K extends string = string
 }
 
 // alias for createClass
-export function ClassOf<K extends InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceRegistry[K]> {
+export function ClassOf<K extends keyof InterfaceTypes> (registry: Registry, name: K): Constructor<InterfaceTypes[K]> {
   // TS2589: Type instantiation is excessively deep and possibly infinite.
-  // The above happens with as Constructor<InterfaceRegistry[K]>;
+  // The above happens with as Constructor<InterfaceTypes[K]>;
   return ClassOfUnsafe<Codec, K>(registry, name) as any;
 }
 
@@ -54,15 +55,15 @@ function getSubDef (value: TypeDef): TypeDef {
   return value.sub;
 }
 
-function getSubType (value: TypeDef): InterfaceTypes {
-  return getSubDef(value).type as InterfaceTypes;
+function getSubType (value: TypeDef): keyof InterfaceTypes {
+  return getSubDef(value).type as keyof InterfaceTypes;
 }
 
 // create a maps of type string constructors from the input
-function getTypeClassMap (value: TypeDef): Record<string, InterfaceTypes> {
-  const result: Record<string, InterfaceTypes> = {};
+function getTypeClassMap (value: TypeDef): Record<string, keyof InterfaceTypes> {
+  const result: Record<string, keyof InterfaceTypes> = {};
 
-  return getSubDefArray(value).reduce((result, sub): Record<string, InterfaceTypes> => {
+  return getSubDefArray(value).reduce((result, sub): Record<string, keyof InterfaceTypes> => {
     result[sub.name as string] = sub.type as any;
 
     return result;
@@ -70,10 +71,16 @@ function getTypeClassMap (value: TypeDef): Record<string, InterfaceTypes> {
 }
 
 // create an array of type string constructors from the input
-function getTypeClassArray (value: TypeDef): (InterfaceTypes)[] {
-  return getSubDefArray(value).map(({ type }): InterfaceTypes =>
-    type as InterfaceTypes
+function getTypeClassArray (value: TypeDef): (keyof InterfaceTypes)[] {
+  return getSubDefArray(value).map(({ type }): keyof InterfaceTypes =>
+    type as keyof InterfaceTypes
   );
+}
+
+function createInt ({ displayName, length }: TypeDef, Clazz: typeof Int | typeof UInt): Constructor {
+  assert(isNumber(length), `Expected bitLength information for ${displayName || Clazz.constructor.name}<bitLength>`);
+
+  return Clazz.with(length as UIntBitLength, displayName);
 }
 
 const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => Constructor> = {
@@ -89,6 +96,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   [TypeDefInfo.Compact]: (registry: Registry, value: TypeDef): Constructor => Compact.with(getSubType(value)),
 
   [TypeDefInfo.Enum]: (registry: Registry, value: TypeDef): Constructor => Enum.with(getTypeClassMap(value)),
+
+  [TypeDefInfo.Int]: (registry: Registry, value: TypeDef): Constructor => createInt(value, Int),
 
   // We have circular deps between Linkage & Struct
   [TypeDefInfo.Linkage]: (registry: Registry, value: TypeDef): Constructor => {
@@ -125,7 +134,8 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
         result[name as string] = index as number;
 
         return result;
-      }, result)
+      }, result),
+      value.length
     );
   },
 
@@ -133,13 +143,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
   [TypeDefInfo.Tuple]: (registry: Registry, value: TypeDef): Constructor => Tuple.with(getTypeClassArray(value)),
 
-  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => {
-    assert(value.ext, 'Expected bitLength information for UInt<bitLength>');
-
-    const ext = value.ext as TypeDefExtUInt;
-
-    return UInt.with(ext.length, ext.typeName);
-  },
+  [TypeDefInfo.UInt]: (registry: Registry, value: TypeDef): Constructor => createInt(value, UInt),
 
   [TypeDefInfo.Vec]: (registry: Registry, value: TypeDef): Constructor => {
     const subType = getSubType(value);
@@ -151,15 +155,13 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     );
   },
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, value: TypeDef): Constructor => {
-    assert(value.ext, 'Expected length & type information for fixed vector');
-
-    const ext = value.ext as TypeDefExtVecFixed;
+  [TypeDefInfo.VecFixed]: (registry: Registry, { displayName, length, sub }: TypeDef): Constructor => {
+    assert(isNumber(length) && !isUndefined(sub), 'Expected length & type information for fixed vector');
 
     return (
-      ext.type === 'u8'
-        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength, ext.rawName)
-        : VecFixed.with(ext.type as InterfaceTypes, ext.length)
+      (sub as TypeDef).type === 'u8'
+        ? U8aFixed.with((length * 8) as U8aFixedBitLength, displayName)
+        : VecFixed.with((sub as TypeDef).type as keyof InterfaceTypes, length)
     );
   }
 };

@@ -65,7 +65,7 @@ function createErrorMessage ({ method, params, type }: RpcMethod, error: Error):
  * ```
  */
 export default class Rpc implements RpcInterface {
-  private _storageCache = new Map<string, string | null>();
+  readonly #storageCache = new Map<string, string | null>();
 
   public readonly mapping: Map<string, RpcMethod> = new Map();
 
@@ -396,7 +396,7 @@ export default class Rpc implements RpcInterface {
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
     const value = isUndefined(found)
-      ? (witCache && this._storageCache.get(hexKey)) || null
+      ? (witCache && this.#storageCache.get(hexKey)) || null
       : found[1];
     const isEmpty = isNull(value);
     const input = isEmpty || this.treatAsHex(key)
@@ -406,7 +406,7 @@ export default class Rpc implements RpcInterface {
     // store the retrieved result - the only issue with this cache is that there is no
     // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
-    this._storageCache.set(hexKey, value);
+    this.#storageCache.set(hexKey, value);
 
     if (meta.modifier.isOptional) {
       return new Option(

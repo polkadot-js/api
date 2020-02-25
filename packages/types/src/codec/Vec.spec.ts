@@ -9,7 +9,7 @@ import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { createTypeUnsafe, TypeRegistry } from '../create';
-import AccountId from '../primitive/Generic/AccountId';
+import AccountId from '../generic/AccountId';
 import Text from '../primitive/Text';
 import Vec from './Vec';
 import Tuple from './Tuple';

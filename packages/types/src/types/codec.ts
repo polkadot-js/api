@@ -11,14 +11,11 @@ import BN from 'bn.js';
 
 export type ArgsDef = Record<string, Constructor>;
 
+// We cannot inline this into CodecArg, TS thrws up when building docs
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CodecArgArray extends Array<CodecArg> {}
 
-interface CodecArgObject {
-  [index: string]: CodecArg;
-}
-
-export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
+export type CodecArg = Codec | BN | boolean | string | Uint8Array | boolean | number | string | undefined | CodecArgArray | { [index: string]: CodecArg };
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 

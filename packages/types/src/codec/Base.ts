@@ -16,7 +16,7 @@ import Raw from './Raw';
 export default abstract class Base<T extends Codec> implements Codec {
   public readonly registry: Registry;
 
-  protected raw: T;
+  protected readonly raw: T;
 
   protected constructor (registry: Registry, value?: any) {
     this.registry = registry;

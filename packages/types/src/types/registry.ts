@@ -8,7 +8,10 @@ import BN from 'bn.js';
 
 import { CallFunction } from './calls';
 import { Codec, Constructor } from './codec';
-import { AnyJsonObject, InterfaceTypes } from './helpers';
+import { AnyJson } from './helpers';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InterfaceTypes { }
 
 export type RegistryTypes = Record<string, Constructor | string | Record<string, string> | { _enum: string[] | Record<string, string | null> } | { _set: Record<string, number> }>;
 
@@ -25,7 +28,7 @@ export interface RegistryMetadataCall {
   args: RegistryMetadataCallArg[];
   name: RegistryMetadataText;
 
-  toJSON (): string | AnyJsonObject;
+  toJSON (): AnyJson;
 }
 
 export interface RegistryMetadataCalls {
@@ -41,10 +44,8 @@ export interface RegistryError {
 }
 
 export interface RegistryMetadataError {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  name: String;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  documentation: String[];
+  name: RegistryMetadataText;
+  documentation: RegistryMetadataText[];
 }
 
 export type RegistryMetadataErrors = RegistryMetadataError[];
@@ -61,8 +62,7 @@ export interface RegistryMetadataEvents {
 
 export interface RegistryMetadataExtrinsic {
   version: BN;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  signedExtensions: String[];
+  signedExtensions: RegistryMetadataText[];
 }
 
 export interface RegistryMetadataModule {
@@ -92,13 +92,14 @@ export interface Registry {
   // keep this as a generic Codec, however the actual impl. returns the correct
   findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
 
+  createType <K extends keyof InterfaceTypes> (type: K, ...params: any[]): InterfaceTypes[K];
   get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
   getChainProperties (): ChainProperties | undefined;
   getDefinition (name: string): string | undefined;
   getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
   getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
-  getSignedExtensionExtra (): Record<string, InterfaceTypes>;
-  getSignedExtensionTypes (): Record<string, InterfaceTypes>;
+  getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
+  getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
   hasType (name: string): boolean;

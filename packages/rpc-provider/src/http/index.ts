@@ -36,9 +36,9 @@ const l = logger('api-http');
  * @see [[WsProvider]]
  */
 export default class HttpProvider implements ProviderInterface {
-  private coder: Coder;
+  readonly #coder: Coder;
 
-  private endpoint: string;
+  readonly #endpoint: string;
 
   /**
    * @param {string} endpoint The endpoint url starting with http://
@@ -46,8 +46,8 @@ export default class HttpProvider implements ProviderInterface {
   constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
-    this.coder = new Coder();
-    this.endpoint = endpoint;
+    this.#coder = new Coder();
+    this.#endpoint = endpoint;
   }
 
   /**
@@ -95,8 +95,8 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
   public async send (method: string, params: any[]): Promise<any> {
-    const body = this.coder.encodeJson(method, params);
-    const response = await fetch(this.endpoint, {
+    const body = this.#coder.encodeJson(method, params);
+    const response = await fetch(this.#endpoint, {
       body,
       headers: {
         Accept: 'application/json',
@@ -110,7 +110,7 @@ export default class HttpProvider implements ProviderInterface {
 
     const result = await response.json();
 
-    return this.coder.decodeResponse(result);
+    return this.#coder.decodeResponse(result);
   }
 
   /**

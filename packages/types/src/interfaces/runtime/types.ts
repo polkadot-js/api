@@ -2,9 +2,11 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ITuple } from '@polkadot/types/types';
-import { Compact, Enum, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
-import { Bytes, Fixed64, GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV1, GenericExtrinsicPayloadV2, GenericExtrinsicPayloadV3, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV1, GenericExtrinsicSignatureV2, GenericExtrinsicSignatureV3, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV1, GenericExtrinsicV2, GenericExtrinsicV3, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericOrigin, GenericSignerPayload, Null, StorageData, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
+import { Compact, Enum, Int, Struct, U8aFixed, Vec } from '@polkadot/types/codec';
+import { GenericAccountId, GenericAccountIndex, GenericAddress, GenericBlock, GenericCall, GenericConsensusEngineId, GenericDigest, GenericOrigin } from '@polkadot/types/generic';
+import { Bytes, Null, StorageKey, bool, u128, u32, u64, u8 } from '@polkadot/types/primitive';
 import { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import { Signature } from '@polkadot/types/interfaces/extrinsics';
 
 /** @name AccountId */
 export interface AccountId extends GenericAccountId {}
@@ -88,62 +90,8 @@ export interface DispatchInfoTo190 extends Struct {
   readonly class: DispatchClass;
 }
 
-/** @name EcdsaSignature */
-export interface EcdsaSignature extends U8aFixed {}
-
-/** @name Ed25519Signature */
-export interface Ed25519Signature extends Signature {}
-
-/** @name Extrinsic */
-export interface Extrinsic extends GenericExtrinsic {}
-
-/** @name ExtrinsicEra */
-export interface ExtrinsicEra extends GenericExtrinsicEra {}
-
-/** @name ExtrinsicPayload */
-export interface ExtrinsicPayload extends GenericExtrinsicPayload {}
-
-/** @name ExtrinsicPayloadUnknown */
-export interface ExtrinsicPayloadUnknown extends GenericExtrinsicPayloadUnknown {}
-
-/** @name ExtrinsicPayloadV1 */
-export interface ExtrinsicPayloadV1 extends GenericExtrinsicPayloadV1 {}
-
-/** @name ExtrinsicPayloadV2 */
-export interface ExtrinsicPayloadV2 extends GenericExtrinsicPayloadV2 {}
-
-/** @name ExtrinsicPayloadV3 */
-export interface ExtrinsicPayloadV3 extends GenericExtrinsicPayloadV3 {}
-
-/** @name ExtrinsicPayloadV4 */
-export interface ExtrinsicPayloadV4 extends GenericExtrinsicPayloadV4 {}
-
-/** @name ExtrinsicSignatureV1 */
-export interface ExtrinsicSignatureV1 extends GenericExtrinsicSignatureV1 {}
-
-/** @name ExtrinsicSignatureV2 */
-export interface ExtrinsicSignatureV2 extends GenericExtrinsicSignatureV2 {}
-
-/** @name ExtrinsicSignatureV3 */
-export interface ExtrinsicSignatureV3 extends GenericExtrinsicSignatureV3 {}
-
-/** @name ExtrinsicSignatureV4 */
-export interface ExtrinsicSignatureV4 extends GenericExtrinsicSignatureV4 {}
-
-/** @name ExtrinsicUnknown */
-export interface ExtrinsicUnknown extends GenericExtrinsicUnknown {}
-
-/** @name ExtrinsicV1 */
-export interface ExtrinsicV1 extends GenericExtrinsicV1 {}
-
-/** @name ExtrinsicV2 */
-export interface ExtrinsicV2 extends GenericExtrinsicV2 {}
-
-/** @name ExtrinsicV3 */
-export interface ExtrinsicV3 extends GenericExtrinsicV3 {}
-
-/** @name ExtrinsicV4 */
-export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
+/** @name Fixed64 */
+export interface Fixed64 extends Int {}
 
 /** @name H160 */
 export interface H160 extends U8aFixed {}
@@ -165,9 +113,6 @@ export interface Header extends Struct {
   readonly extrinsicsRoot: Hash;
   readonly digest: Digest;
 }
-
-/** @name ImmortalEra */
-export interface ImmortalEra extends GenericImmortalEra {}
 
 /** @name Index */
 export interface Index extends u32 {}
@@ -192,19 +137,6 @@ export interface LookupTarget extends AccountId {}
 
 /** @name Moment */
 export interface Moment extends u64 {}
-
-/** @name MortalEra */
-export interface MortalEra extends GenericMortalEra {}
-
-/** @name MultiSignature */
-export interface MultiSignature extends Enum {
-  readonly isEd25519: boolean;
-  readonly asEd25519: Ed25519Signature;
-  readonly isSr25519: boolean;
-  readonly asSr25519: Sr25519Signature;
-  readonly isEcdsa: boolean;
-  readonly asEcdsa: EcdsaSignature;
-}
 
 /** @name Origin */
 export interface Origin extends GenericOrigin {}
@@ -236,20 +168,14 @@ export interface Seal extends ITuple<[ConsensusEngineId, Bytes]> {}
 /** @name SealV0 */
 export interface SealV0 extends ITuple<[u64, Signature]> {}
 
-/** @name Signature */
-export interface Signature extends H512 {}
-
 /** @name SignedBlock */
 export interface SignedBlock extends Struct {
   readonly block: Block;
   readonly justification: Justification;
 }
 
-/** @name SignerPayload */
-export interface SignerPayload extends GenericSignerPayload {}
-
-/** @name Sr25519Signature */
-export interface Sr25519Signature extends Signature {}
+/** @name StorageData */
+export interface StorageData extends Bytes {}
 
 /** @name ValidatorId */
 export interface ValidatorId extends AccountId {}

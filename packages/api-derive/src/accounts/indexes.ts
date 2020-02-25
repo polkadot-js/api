@@ -8,7 +8,7 @@ import { AccountIndexes } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/Generic/AccountIndex';
+import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
 import { Vec, createType } from '@polkadot/types';
 
 import { memo } from '../util';

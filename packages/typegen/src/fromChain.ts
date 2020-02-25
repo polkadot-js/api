@@ -4,15 +4,13 @@
 
 import path from 'path';
 import yargs from 'yargs';
+import getWSClass from '@polkadot/rpc-provider/ws/getWSClass';
 import { formatNumber } from '@polkadot/util';
 
 import generateConst from './generate/consts';
 import generateQuery from './generate/query';
 import generateTx from './generate/tx';
-
-if (typeof WebSocket === 'undefined') {
-  (global as any).WebSocket = require('websocket').w3cwebsocket;
-}
+import { HEADER, writeFile } from './util';
 
 let websocket: any = null;
 
@@ -23,9 +21,19 @@ function generate (metaHex: string, pkg: string | undefined, output: string, isS
     ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) }
     : {};
 
-  generateConst(path.join(process.cwd(), output, 'augment.consts.ts'), metaHex, extraTypes, isStrict);
-  generateQuery(path.join(process.cwd(), output, 'augment.query.ts'), metaHex, extraTypes, isStrict);
-  generateTx(path.join(process.cwd(), output, 'augment.tx.ts'), metaHex, extraTypes, isStrict);
+  generateConst(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
+  generateQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
+  generateTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
+
+  writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
+    [
+      HEADER('chain'),
+      ...[
+        '@polkadot/api/augment/rpc',
+        ...['consts', 'query', 'tx'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
+      ].map((path) => `import '${path}';\n`)
+    ].join('')
+  );
 
   process.exit(0);
 }
@@ -53,7 +61,7 @@ function onSocketOpen (): boolean {
 export default function main (): void {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
-      description: 'The endpoint to connect to, e.g. wss://kusama-rpc.polkadot.io or relative file to JSON output',
+      description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       type: 'string',
       required: true
     },
@@ -67,19 +75,25 @@ export default function main (): void {
       type: 'string'
     },
     strict: {
-      description: 'Turns on stirct mode, not outputting genric versions',
+      description: 'Turns on strict mode, no output of catch-all generic versions',
       type: 'boolean'
     }
   }).argv;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    websocket = new WebSocket(endpoint);
-    websocket.onclose = onSocketClose;
-    websocket.onerror = onSocketError;
-    websocket.onopen = onSocketOpen;
-    websocket.onmessage = (message: any): void => {
-      generate(JSON.parse(message.data).result, pkg, output, isStrict);
-    };
+    getWSClass()
+      .then((WS): void => {
+        websocket = new WS(endpoint);
+        websocket.onclose = onSocketClose;
+        websocket.onerror = onSocketError;
+        websocket.onopen = onSocketOpen;
+        websocket.onmessage = (message: any): void => {
+          generate(JSON.parse(message.data).result, pkg, output, isStrict);
+        };
+      })
+      .catch((): void => {
+        process.exit(1);
+      });
   } else {
     generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
   }

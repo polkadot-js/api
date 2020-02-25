@@ -15,9 +15,9 @@ describe('MetadataV5 (substrate)', (): void => {
 
   decodeLatestSubstrate(registry, 5, substrateData, substrateJson);
 
-  toLatest(registry, 5, substrateData);
+  toLatest(registry, 5, substrateData, false);
 
-  defaultValues(registry, substrateData);
+  defaultValues(registry, substrateData, false);
 });
 
 describe('MetadataV5 (polkadot)', (): void => {
@@ -25,7 +25,7 @@ describe('MetadataV5 (polkadot)', (): void => {
 
   decodeLatestSubstrate(registry, 5, polkadotData, polkadotJson);
 
-  toLatest(registry, 5, polkadotData);
+  toLatest(registry, 5, polkadotData, false);
 
-  defaultValues(registry, polkadotData);
+  defaultValues(registry, polkadotData, false);
 });
