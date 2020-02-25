@@ -9,14 +9,14 @@ import { Registry } from '@polkadot/types/types';
 import { stringUpperFirst } from '@polkadot/util';
 
 import { createType } from '@polkadot/types/create';
-import { Option, Vec } from '@polkadot/types/codec';
+import { Option } from '@polkadot/types/codec';
 import { Text } from '@polkadot/types/primitive';
 
 /** @internal */
 function toV1Calls (registry: Registry, { module: { call: { functions } } }: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
   return functions.length
-    ? new Option(registry, Vec.with('FunctionMetadataV1'), functions)
-    : new Option(registry, Vec.with('FunctionMetadataV1'));
+    ? new Option(registry, 'Vec<FunctionMetadataV1>', functions)
+    : new Option(registry, 'Vec<FunctionMetadataV1>');
 }
 
 /** @internal */
@@ -24,15 +24,13 @@ function toV1Events (registry: Registry, metadataV0: MetadataV0, prefix: Text): 
   const events = metadataV0.outerEvent.events.find((event): boolean => event[0].eq(prefix));
 
   return events
-    ? new Option(registry, Vec.with('EventMetadataV1'), events[1])
-    : new Option(registry, Vec.with('EventMetadataV1'));
+    ? new Option(registry, 'Vec<EventMetadataV1>', events[1])
+    : new Option(registry, 'Vec<EventMetadataV1>');
 }
 
 /** @internal */
 function toV1Storage (registry: Registry, { storage }: RuntimeModuleMetadataV0): Option<StorageFunctionMetadataV1> {
-  return storage.isSome
-    ? new Option(registry, 'Vec<StorageFunctionMetadataV1>', storage.unwrap().functions)
-    : new Option(registry, 'Vec<StorageFunctionMetadataV1>');
+  return new Option(registry, 'Vec<StorageFunctionMetadataV1>', storage.unwrapOr(undefined)?.functions);
 }
 
 /** @internal */
