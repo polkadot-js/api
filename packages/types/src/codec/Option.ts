@@ -10,6 +10,32 @@ import Null from '../primitive/Null';
 import { typeToConstructor } from './utils';
 import Base from './Base';
 
+/** @internal */
+function decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
+  return !value.length || value[0] === 0
+    ? new Null(registry)
+    : new Type(registry, value.subarray(1));
+}
+
+/** @internal */
+function decodeOption (registry: Registry, Type: Constructor, value?: any): Codec {
+  if (isNull(value) || isUndefined(value) || value instanceof Null) {
+    return new Null(registry);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  } else if (value instanceof Option) {
+    return decodeOption(registry, Type, value.value);
+  } else if (value instanceof Type) {
+    // don't re-create, use as it (which also caters for derived types)
+    return value;
+  } else if (isU8a(value)) {
+    // the isU8a check happens last in the if-tree - since the wrapped value
+    // may be an instance of it, so Type and Option checks go in first
+    return decodeOptionU8a(registry, Type, value);
+  }
+
+  return new Type(registry, value);
+}
+
 /**
  * @name Option
  * @description
@@ -19,42 +45,17 @@ import Base from './Base';
  * with a value if/as required/found.
  */
 export default class Option<T extends Codec> extends Base<T> {
-  private _Type: Constructor;
+  private _Type: Constructor<T>;
 
-  constructor (registry: Registry, Type: Constructor | keyof InterfaceTypes, value?: any) {
+  constructor (registry: Registry, Type: Constructor<T> | keyof InterfaceTypes, value?: any) {
     const Clazz = typeToConstructor(registry, Type);
 
-    super(registry, Option.decodeOption(registry, Clazz, value));
+    super(registry, decodeOption(registry, Clazz, value));
 
     this._Type = Clazz;
   }
 
-  /** @internal */
-  public static decodeOption (registry: Registry, Type: Constructor, value?: any): Codec {
-    if (isNull(value) || isUndefined(value) || value instanceof Null) {
-      return new Null(registry);
-    } else if (value instanceof Option) {
-      return Option.decodeOption(registry, Type, value.value);
-    } else if (value instanceof Type) {
-      // don't re-create, use as it (which also caters for derived types)
-      return value;
-    } else if (isU8a(value)) {
-      // the isU8a check happens last in the if-tree - since the wrapped value
-      // may be an instance of it, so Type and Option checks go in first
-      return Option.decodeOptionU8a(registry, Type, value);
-    }
-
-    return new Type(registry, value);
-  }
-
-  /** @internal */
-  private static decodeOptionU8a (registry: Registry, Type: Constructor, value: Uint8Array): Codec {
-    return !value.length || value[0] === 0
-      ? new Null(registry)
-      : new Type(registry, value.subarray(1));
-  }
-
-  public static with<O extends Codec> (Type: Constructor | keyof InterfaceTypes): Constructor<Option<O>> {
+  public static with<O extends Codec> (Type: Constructor<O> | keyof InterfaceTypes): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (registry: Registry, value?: any) {
         super(registry, Type, value);
@@ -169,5 +170,15 @@ export default class Option<T extends Codec> extends Base<T> {
     return this.isSome
       ? this.unwrap()
       : defaultValue;
+  }
+
+  /**
+   * @description Returns the value that the Option represents (if available) or defaultValue if none
+   * @param defaultValue The value to return if the option isNone
+   */
+  public unwrapOrDefault (): T {
+    return this.isSome
+      ? this.unwrap()
+      : new this._Type(this.registry);
   }
 }
