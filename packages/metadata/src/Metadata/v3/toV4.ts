@@ -44,7 +44,7 @@ function toV4StorageFunction (registry: Registry, storageFn: StorageFunctionMeta
 export default function toV4 (registry: Registry, { modules }: MetadataV3): MetadataV4 {
   return registry.createType('MetadataV4', {
     modules: modules.map(({ calls, events, name, prefix, storage }): ModuleMetadataV4 =>
-    registry.createType('ModuleMetadataV4', {
+      registry.createType('ModuleMetadataV4', {
         calls,
         events,
         name,

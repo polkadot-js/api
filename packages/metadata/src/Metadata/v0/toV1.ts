@@ -6,11 +6,9 @@
 import { EventMetadataV1, FunctionMetadataV1, MetadataV0, MetadataV1, ModuleMetadataV1, RuntimeModuleMetadataV0, StorageFunctionMetadataV1 } from '@polkadot/types/interfaces/metadata';
 import { Registry } from '@polkadot/types/types';
 
-import { stringUpperFirst } from '@polkadot/util';
-
-import { createType } from '@polkadot/types/create';
 import { Option } from '@polkadot/types/codec';
 import { Text } from '@polkadot/types/primitive';
+import { stringUpperFirst } from '@polkadot/util';
 
 /** @internal */
 function toV1Calls (registry: Registry, { module: { call: { functions } } }: RuntimeModuleMetadataV0): Option<FunctionMetadataV1> {
