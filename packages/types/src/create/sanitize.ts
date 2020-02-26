@@ -10,7 +10,7 @@ const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fi
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
-  alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport'),
+  alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
   // <T::Balance as HasCompact>
   cleanupCompact(),
   // Remove all the trait prefixes
@@ -59,14 +59,14 @@ export function findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
-export function alias (src: string[], dest: string): Mapper {
+export function alias (src: string[], dest: string, withChecks = true): Mapper {
   return (value: string): string => {
     return src.reduce((value, src): string => {
       return value
         .replace(
           new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
           (src): string =>
-            BOX_PRECEDING.includes(src[0])
+            withChecks && BOX_PRECEDING.includes(src[0])
               ? `${src[0]}${dest}`
               : dest
         );
