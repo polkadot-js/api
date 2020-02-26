@@ -13,7 +13,7 @@ import Raw from './Raw';
 import { compareSet, decodeU8a, typeToConstructor } from './utils';
 
 /** @internal */
-function decodeBTreeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
+function decodeSetFromU8a<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, u8a: Uint8Array): Set<V> {
   const output = new Set<V>();
   const [offset, length] = Compact.decodeU8a(u8a);
   const types = [];
@@ -32,19 +32,16 @@ function decodeBTreeSetFromU8a<V extends Codec = Codec> (registry: Registry, Val
 }
 
 /** @internal */
-function decodeBTreeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
+function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass: Constructor<V>, value: Set<any>): Set<V> {
   const output = new Set<V>();
 
-  value.forEach((v: any) => {
-    let val;
+  value.forEach((val: any) => {
     try {
-      val = (v instanceof ValClass) ? v : new ValClass(registry, v);
+      output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
       console.error('Failed to decode BTreeSet key or value:', error.message);
       throw error;
     }
-
-    output.add(val);
   });
 
   return output;
@@ -64,7 +61,7 @@ function decodeBTreeSetFromSet<V extends Codec = Codec> (registry: Registry, Val
  * @param jsonSet
  * @internal
  */
-function decodeBTreeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Set<any>): Set<V> {
+function decodeSet<V extends Codec = Codec> (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, value: Uint8Array | string | Set<any>): Set<V> {
   if (!value) {
     return new Set<V>();
   }
@@ -72,11 +69,11 @@ function decodeBTreeSet<V extends Codec = Codec> (registry: Registry, valType: C
   const ValClass = typeToConstructor(registry, valType);
 
   if (isHex(value)) {
-    return decodeBTreeSet(registry, ValClass, hexToU8a(value));
+    return decodeSet(registry, ValClass, hexToU8a(value));
   } else if (isU8a(value)) {
-    return decodeBTreeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
+    return decodeSetFromU8a<V>(registry, ValClass, u8aToU8a(value));
   } else if (value instanceof Set) {
-    return decodeBTreeSetFromSet<V>(registry, ValClass, value);
+    return decodeSetFromSet<V>(registry, ValClass, value);
   }
 
   throw new Error('BTreeSet: cannot decode type');
@@ -88,7 +85,7 @@ export default class BTreeSet<V extends Codec = Codec> extends Set<V> implements
   readonly #ValClass: Constructor<V>;
 
   constructor (registry: Registry, valType: Constructor<V> | keyof InterfaceTypes, rawValue: any) {
-    super(decodeBTreeSet(registry, valType, rawValue));
+    super(decodeSet(registry, valType, rawValue));
 
     this.registry = registry;
     this.#ValClass = typeToConstructor(registry, valType);

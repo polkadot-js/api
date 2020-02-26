@@ -64,7 +64,8 @@ module.exports = {
           ['examples/promise/06_make_transfer/', 'Make a transfer'],
           ['examples/promise/08_system_events/', 'Display system events'],
           ['examples/promise/09_transfer_events/', 'Transaction with events'],
-          ['examples/promise/10_upgrade_chain/', 'Upgrade via sudo']
+          ['examples/promise/10_upgrade_chain/', 'Upgrade via sudo'],
+          ['examples/promise/90_typegen/', 'TypeScript augmentation']
         ]
       },
       {

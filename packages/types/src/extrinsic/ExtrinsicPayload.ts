@@ -8,7 +8,6 @@ import { AnyJson, BareOpts, ExtrinsicPayloadValue, IKeyringPair, InterfaceTypes,
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../create';
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
 import Raw from '../codec/Raw';
@@ -48,7 +47,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
       return value.raw;
     }
 
-    return createType(registry, VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
+    return registry.createType(VERSIONS[version] || VERSIONS[0], value, { version }) as ExtrinsicPayloadVx;
   }
 
   /**
@@ -70,7 +69,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): Hash {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).genesisHash || createType(this.registry, 'Hash');
+    return (this.raw as ExtrinsicPayloadV3).genesisHash || this.registry.createType('Hash');
   }
 
   /**
@@ -92,7 +91,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get specVersion (): u32 {
     // NOTE only v3+
-    return (this.raw as ExtrinsicPayloadV3).specVersion || createType(this.registry, 'u32');
+    return (this.raw as ExtrinsicPayloadV3).specVersion || this.registry.createType('u32');
   }
 
   /**
@@ -100,7 +99,7 @@ export default class ExtrinsicPayload extends Base<ExtrinsicPayloadVx> {
    */
   public get tip (): Compact<Balance> {
     // NOTE from v2+
-    return (this.raw as ExtrinsicPayloadV2).tip || createType(this.registry, 'Compact<Balance>');
+    return (this.raw as ExtrinsicPayloadV2).tip || this.registry.createType('Compact<Balance>');
   }
 
   /**

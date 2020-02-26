@@ -9,7 +9,6 @@ import { AnyJson, AnyU8a, ArgsDef, Codec, ExtrinsicPayloadValue, IExtrinsic, IKe
 
 import { assert, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../create';
 import Base from '../codec/Base';
 import Compact from '../codec/Compact';
 import { ExtrinsicValueV1 } from './v1/Extrinsic';
@@ -67,14 +66,14 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
 
     // we cast here since the VERSION definition is incredibly broad - we don't have a
     // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return createType(registry, type, value, { isSigned, version }) as ExtrinsicVx;
+    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
   }
 
   /** @internal */
   public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
     if (isU8a(value) || Array.isArray(value) || isHex(value)) {
       return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
-    } else if (value instanceof ClassOf(registry, 'Call')) {
+    } else if (value instanceof registry.createClass('Call')) {
       return Extrinsic.newFromValue(registry, { method: value }, version);
     }
 

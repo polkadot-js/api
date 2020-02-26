@@ -6,7 +6,7 @@ import { Registry } from '../types';
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry, createType } from '../create';
+import { TypeRegistry } from '../create';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -340,7 +340,7 @@ describe('Enum', (): void => {
 
       it('encodes a single entry correctly (with embedded encoding)', (): void => {
         const Test = Enum.with({ A: 'Address' });
-        const test = new Test(registry, createType(registry, 'AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
+        const test = new Test(registry, registry.createType('AccountId', '0x0001020304050607080910111213141516171819202122232425262728293031'), 0);
 
         expect(test.toHex()).toEqual(
           '0x' +

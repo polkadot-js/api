@@ -6,7 +6,6 @@ import { StorageEntryMetadataLatest } from '@polkadot/types/interfaces/metadata'
 import { Registry } from '@polkadot/types/types';
 
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
-import { createType } from '@polkadot/types/create';
 
 import createFunction from './createFunction';
 
@@ -21,9 +20,9 @@ function createRuntimeFunction (method: string, key: string, { documentation, ty
   return (registry: Registry, metaVersion: number): StorageEntry =>
     createFunction(registry, {
       meta: {
-        documentation: createType(registry, 'Vec<Text>', [documentation]),
-        modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-        type: createType(registry, 'StorageEntryTypeLatest', type, 0),
+        documentation: registry.createType('Vec<Text>', [documentation]),
+        modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+        type: registry.createType('StorageEntryTypeLatest', type, 0),
         toJSON: (): any => key
       } as StorageEntryMetadataLatest,
       method,

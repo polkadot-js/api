@@ -10,7 +10,6 @@ import { AddressOrPair, SignerOptions, SubmittableExtrinsic, SubmittablePaymentR
 
 import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { createType, ClassOf } from '@polkadot/types';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util';
@@ -32,7 +31,7 @@ const DEFAULT_MORTAL_LENGTH = 5 * ONE_MINUTE;
 
 export default function createClass <ApiType extends ApiTypes> ({ api, apiType, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
-  const Extrinsic = ClassOf(api.registry, 'Extrinsic');
+  const Extrinsic = api.registry.createClass('Extrinsic');
 
   return class Submittable extends Extrinsic implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
@@ -133,7 +132,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
           ? api.derive.balances.account(address).pipe(
             map(({ accountNonce }): Index => accountNonce)
           )
-          : of(createType(this.registry, 'Index', options.nonce)),
+          : of(this.registry.createType('Index', options.nonce)),
         // if we have an era provided already or eraLength is <= 0 (immortal)
         // don't get the latest block, just pass null, handle in mergeMap
         (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
@@ -156,7 +155,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       return this.#makeSignOptions(options, {
         blockHash: header.hash,
-        era: createType(this.registry, 'ExtrinsicEra', {
+        era: this.registry.createType('ExtrinsicEra', {
           current: header.number,
           period: options.era || DEFAULT_MORTAL_LENGTH
         }),
@@ -265,7 +264,7 @@ export default function createClass <ApiType extends ApiTypes> ({ api, apiType, 
 
       assert(signer, 'No signer specified, either via api.setSigner or via sign options');
 
-      const payload = createType(this.registry, 'SignerPayload', {
+      const payload = this.registry.createType('SignerPayload', {
         ...options,
         address,
         method: this.method,

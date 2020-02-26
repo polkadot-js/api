@@ -16,7 +16,6 @@ import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
 import rpcHeader from '@polkadot/types/json/Header.004.json';
 import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { createType } from '@polkadot/types';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
@@ -56,11 +55,11 @@ export default class Mock implements ProviderInterface {
 
   private requests: Record<string, (...params: any[]) => any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    chain_getBlock: (hash: string): any => createType(this.registry, 'SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: (hash: string): any => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: (blockNumber: number): string => '0x1234',
-    chain_getHeader: (): any => createType(this.registry, 'Header', rpcHeader.result).toJSON(),
-    state_getRuntimeVersion: (): string => createType(this.registry, 'RuntimeVersion').toHex(),
+    chain_getHeader: (): any => this.registry.createType('Header', rpcHeader.result).toJSON(),
+    state_getRuntimeVersion: (): string => this.registry.createType('RuntimeVersion').toHex(),
     state_getMetadata: (): string => rpcMetadata,
     state_getStorage: (storage: MockStateDb, params: any[]): string => u8aToHex(storage[(params[0] as string)]),
     system_chain: (): string => 'mockChain',
@@ -196,7 +195,7 @@ export default class Mock implements ProviderInterface {
 
   private makeBlockHeader (): Header {
     const blockNumber = this.prevNumber.addn(1);
-    const header = createType(this.registry, 'Header', {
+    const header = this.registry.createType('Header', {
       digest: {
         logs: []
       },

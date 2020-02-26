@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import Bytes from './Bytes';
 
 describe('Bytes', (): void => {
@@ -40,7 +40,7 @@ describe('Bytes', (): void => {
       expect(
         new Bytes(
           registry,
-          createType(registry, 'StorageData', HEX)
+          registry.createType('StorageData', HEX)
         ).toU8a()
       ).toEqual(U8A);
     });

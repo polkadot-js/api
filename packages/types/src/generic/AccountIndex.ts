@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import { bnToBn, isBn, isBigInt, isNumber, isU8a, isHex } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
 import U32 from '../primitive/U32';
 
 export const ENUMSET_SIZE = new BN(64);
@@ -93,7 +92,7 @@ export default class AccountIndex extends U32 {
     }
 
     // convert and compare
-    return super.eq(createType(this.registry, 'AccountIndex', other));
+    return super.eq(this.registry.createType('AccountIndex', other));
   }
 
   /**

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, ClassOf, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import Moment from './Date';
 import U32 from '../primitive/U32';
 import Compact from './Compact';
@@ -64,7 +64,7 @@ describe('Compact', (): void => {
 
     it('encondes a large balance', (): void => {
       expect(
-        Compact.encodeU8a(createType(registry, 'Balance', '0x5af3107a4000'))
+        Compact.encodeU8a(registry.createType('Balance', '0x5af3107a4000'))
       ).toEqual(
         new Uint8Array([
           3 + ((6 - 4) << 2),
@@ -115,7 +115,7 @@ describe('Compact', (): void => {
 
     it('has the correct bitLength for constructor values (BlockNumber)', (): void => {
       expect(
-        new (Compact.with(ClassOf(registry, 'BlockNumber')))(registry, 0xfffffff9).bitLength()
+        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).bitLength()
       ).toEqual(32);
     });
 
@@ -127,7 +127,7 @@ describe('Compact', (): void => {
 
     it('has the correct encodedLength for constructor values (class BlockNumber)', (): void => {
       expect(
-        new (Compact.with(ClassOf(registry, 'BlockNumber')))(registry, 0xfffffff9).encodedLength
+        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 

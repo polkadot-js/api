@@ -1,47 +1,47 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 // Copyright 2017-2020 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
+const ALLOWED_BOXES = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Int', 'Linkage', 'Result', 'Option', 'UInt', 'Vec'];
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
   // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
-  _alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport'),
+  alias(['<T::InherentOfflineReport as InherentOfflineReport>::Inherent'], 'InherentOfflineReport', false),
   // <T::Balance as HasCompact>
-  _cleanupCompact(),
+  cleanupCompact(),
   // Remove all the trait prefixes
-  _removeTraits(),
+  removeTraits(),
   // remove PairOf<T> -> (T, T)
-  _removePairOf(),
+  removePairOf(),
   // remove boxing, `Box<Proposal>` -> `Proposal`
-  _removeWrap('Box'),
+  removeWrap('Box'),
   // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-  _removeGenerics(),
+  removeGenerics(),
   // alias String -> Text (compat with jsonrpc methods)
-  _alias(['String'], 'Text'),
+  alias(['String'], 'Text'),
   // alias Vec<u8> -> Bytes
-  _alias(['Vec<u8>', '&\\[u8\\]'], 'Bytes'),
+  alias(['Vec<u8>', '&\\[u8\\]'], 'Bytes'),
   // alias RawAddress -> Address
-  _alias(['RawAddress'], 'Address'),
+  alias(['RawAddress'], 'Address'),
   // lookups, mapped to Address/AccountId as appropriate in runtime
-  _alias(['Lookup::Source'], 'LookupSource'),
-  _alias(['Lookup::Target'], 'LookupTarget'),
+  alias(['Lookup::Source'], 'LookupSource'),
+  alias(['Lookup::Target'], 'LookupTarget'),
   // HACK duplication between contracts & primitives, however contracts prefixed with exec
-  _alias(['exec::StorageKey'], 'ContractStorageKey'),
+  alias(['exec::StorageKey'], 'ContractStorageKey'),
   // alias for internal module mappings
-  _alias(['exec', 'grandpa', 'marker', 'session', 'slashing'].map((s) => `${s}::`), ''),
+  alias(['exec', 'grandpa', 'marker', 'session', 'slashing'].map((s) => `${s}::`), ''),
   // flattens tuples with one value, `(AccountId)` -> `AccountId`
-  _flattenSingleTuple(),
+  flattenSingleTuple(),
   // converts ::Type to Type, <T as Trait<I>>::Proposal -> Proposal
-  _removeColonPrefix()
+  removeColonPrefix()
 ];
 
 // given a starting index, find the closing >
-function _findClosing (value: string, start: number): number {
+export function findClosing (value: string, start: number): number {
   let depth = 0;
 
   for (let index = start; index < value.length; index++) {
@@ -59,22 +59,29 @@ function _findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
-function _alias (src: string[], dest: string): Mapper {
+export function alias (src: string[], dest: string, withChecks = true): Mapper {
   return (value: string): string => {
     return src.reduce((value, src): string => {
-      return value.replace(new RegExp(src, 'g'), dest);
+      return value
+        .replace(
+          new RegExp(`(^${src}|${BOX_PRECEDING.map((box) => `\\${box}${src}`).join('|')})`, 'g'),
+          (src): string =>
+            withChecks && BOX_PRECEDING.includes(src[0])
+              ? `${src[0]}${dest}`
+              : dest
+        );
     }, value);
   };
 }
 
-function _cleanupCompact (): Mapper {
+export function cleanupCompact (): Mapper {
   return (value: string): string => {
     for (let index = 0; index < value.length; index++) {
       if (value[index] !== '<') {
         continue;
       }
 
-      const end = _findClosing(value, index + 1) - 14;
+      const end = findClosing(value, index + 1) - 14;
 
       if (value.substr(end, 14) === ' as HasCompact') {
         value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
@@ -85,19 +92,19 @@ function _cleanupCompact (): Mapper {
   };
 }
 
-function _flattenSingleTuple (): Mapper {
+export function flattenSingleTuple (): Mapper {
   return (value: string): string => {
     return value.replace(/\(([^,]+)\)/, '$1');
   };
 }
 
-function _removeColonPrefix (): Mapper {
+export function removeColonPrefix (): Mapper {
   return (value: string): string => {
     return value.replace(/^::/, '');
   };
 }
 
-function _removeGenerics (): Mapper {
+export function removeGenerics (): Mapper {
   return (value: string): string => {
     for (let index = 0; index < value.length; index++) {
       if (value[index] === '<') {
@@ -113,7 +120,7 @@ function _removeGenerics (): Mapper {
 
         // we have not found anything, unwrap generic innards
         if (!box) {
-          const end = _findClosing(value, index + 1);
+          const end = findClosing(value, index + 1);
 
           value = `${value.substr(0, index)}${value.substr(end + 1)}`;
         }
@@ -125,12 +132,12 @@ function _removeGenerics (): Mapper {
 }
 
 // remove the PairOf wrappers
-function _removePairOf (): Mapper {
+export function removePairOf (): Mapper {
   return (value: string): string => {
     for (let index = 0; index < value.length; index++) {
       if (value.substr(index, 7) === 'PairOf<') {
         const start = index + 7;
-        const end = _findClosing(value, start);
+        const end = findClosing(value, start);
         const type = value.substr(start, end - start);
 
         value = `${value.substr(0, index)}(${type},${type})${value.substr(end + 1)}`;
@@ -142,7 +149,7 @@ function _removePairOf (): Mapper {
 }
 
 // remove the type traits
-function _removeTraits (): Mapper {
+export function removeTraits (): Mapper {
   return (value: string): string => {
     return value
       // remove all whitespaces
@@ -163,7 +170,7 @@ function _removeTraits (): Mapper {
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
-function _removeWrap (_check: string): Mapper {
+export function removeWrap (_check: string): Mapper {
   const check = `${_check}<`;
 
   return (value: string): string => {
@@ -174,7 +181,7 @@ function _removeWrap (_check: string): Mapper {
 
       if (index !== -1) {
         const start = index + check.length;
-        const end = _findClosing(value, start);
+        const end = findClosing(value, start);
 
         value = `${value.substr(0, index)}${value.substr(start, end - start)}${value.substr(end + 1)}`;
       }

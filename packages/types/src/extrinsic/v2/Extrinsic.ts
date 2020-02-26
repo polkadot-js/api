@@ -9,7 +9,6 @@ import { ExtrinsicOptions } from '../types';
 
 import { isU8a } from '@polkadot/util';
 
-import { createType, ClassOf } from '../../create';
 import Struct from '../../codec/Struct';
 
 const TRANSACTION_VERSION = 2;
@@ -36,12 +35,12 @@ export default class ExtrinsicV2 extends Struct implements IExtrinsicImpl {
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV2, isSigned = false): ExtrinsicValueV2 {
     if (value instanceof ExtrinsicV2) {
       return value;
-    } else if (value instanceof ClassOf(registry, 'Call')) {
+    } else if (value instanceof registry.createClass('Call')) {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = createType(registry, 'ExtrinsicSignatureV2', value, { isSigned });
-      const method = createType(registry, 'Call', value.subarray(signature.encodedLength));
+      const signature = registry.createType('ExtrinsicSignatureV2', value, { isSigned });
+      const method = registry.createType('Call', value.subarray(signature.encodedLength));
 
       return {
         method,
