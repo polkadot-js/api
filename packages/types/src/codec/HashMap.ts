@@ -4,21 +4,14 @@
 
 import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import BTreeMap from './BTreeMap';
+import CodecMap from './Map';
 
-export default class HashMap<K extends Codec = Codec, V extends Codec = Codec> extends BTreeMap<K, V> {
-  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<BTreeMap<K, V>> {
-    return class extends HashMap<K, V> {
+export default class HashMap<K extends Codec = Codec, V extends Codec = Codec> extends CodecMap<K, V> {
+  public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
+    return class extends CodecMap<K, V> {
       constructor (registry: Registry, value?: any) {
-        super(registry, keyType, valType, value);
+        super(registry, 'HashMap', keyType, valType, value);
       }
     };
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    return super.toRawType('HashMap');
   }
 }
