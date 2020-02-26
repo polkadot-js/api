@@ -50,7 +50,8 @@ export default class Tuple extends AbstractArray<Codec> {
 
     return Types.map((Type, index): Codec => {
       try {
-        return new Type(registry, value && value[index]);
+        if (value?.[index] instanceof Type) return value?.[index];
+        return new Type(registry, value?.[index]);
       } catch (error) {
         throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
       }

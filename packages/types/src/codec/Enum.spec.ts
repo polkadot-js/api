@@ -46,6 +46,35 @@ describe('Enum', (): void => {
       ).toEqual('some text value');
     });
 
+    it('decodes reusing instanciated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
+
+      expect(
+        new Enum(
+          registry,
+          { foo: Text },
+          { foo }
+        ).value
+      ).toBe(foo);
+
+      expect(
+        new Enum(
+          registry,
+          { foo: Text },
+          foo,
+          0
+        ).value
+      ).toBe(foo);
+
+      expect(
+        new Enum(
+          registry,
+          { foo: Text },
+          new Enum(registry, { foo: Text }, { foo })
+        ).value
+      ).toBe(foo);
+    });
+
     it('decodes from hex', (): void => {
       expect(
         new Enum(

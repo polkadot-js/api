@@ -80,6 +80,15 @@ describe('BTreeMap', (): void => {
     ).toEqual('{}');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const key = new Text(registry, 'foo');
+    const val = new Text(registry, 'bar');
+
+    expect(
+      (new BTreeMap(registry, Text, Text, new Map([[key, val]]))).eq(new Map([[key, val]]))
+    ).toBe(true);
+  });
+
   it('decodes within more complicated types', (): void => {
     const s = new Struct(registry, {
       placeholder: U32,

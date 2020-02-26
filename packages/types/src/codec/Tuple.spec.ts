@@ -42,6 +42,14 @@ describe('Tuple', (): void => {
     testDecode('array', ['bazzing', 69]);
     testDecode('hex', '0x1c62617a7a696e6745000000');
     testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
+    it('decodes reusing instanciated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
+
+      expect(
+        (new Tuple(registry, [Text], [foo]))[0]
+      ).toBe(foo);
+    });
   });
 
   describe('encoding', (): void => {

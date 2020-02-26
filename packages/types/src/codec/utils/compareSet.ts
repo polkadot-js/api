@@ -11,9 +11,9 @@ export default function compareSet (a: Set<any>, b?: any): boolean {
     // equal number of entries and each entry in the array should match
     return (a.size === b.length) && !b.some((entry): boolean => !a.has(entry));
   } else if (b instanceof Set) {
-    return compareSet(a, [...b.entries()]);
+    return compareSet(a, [...b.values()]);
   } else if (isObject(b)) {
-    return compareSet(a, Object.entries(b));
+    return compareSet(a, Object.values(b));
   }
 
   return false;

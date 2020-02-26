@@ -51,7 +51,7 @@ function createFromValue (registry: Registry, def: TypesDef, index = 0, value?: 
 
   return {
     index,
-    value: new Clazz(registry, value)
+    value: value instanceof Clazz ? value : new Clazz(registry, value)
   };
 }
 

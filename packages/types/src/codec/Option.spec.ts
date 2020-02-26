@@ -63,6 +63,14 @@ describe('Option', (): void => {
     ).toEqual(0x12345678);
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new Option(registry, Text, foo)).value
+    ).toBe(foo);
+  });
+
   testDecode('string (with)', 'foo', 'foo');
   testDecode('string (without)', undefined, '');
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');

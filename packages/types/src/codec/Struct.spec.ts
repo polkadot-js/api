@@ -61,6 +61,18 @@ describe('Struct', (): void => {
     ).toEqual('{}');
   });
 
+  it('decodes reusing instanciated inputs', (): void => {
+    const foo = new Text(registry, 'bar');
+
+    expect(
+      (new Struct(
+        registry,
+        { foo: Text },
+        { foo }
+      )).get('foo')
+    ).toBe(foo);
+  });
+
   it('decodes a more complicated type', (): void => {
     const s = new Struct(registry, {
       foo: Vec.with(Struct.with({
