@@ -26,7 +26,7 @@ const api = await ApiPromise.create({
 
 The above introduces the `types` registry, effectively allowing overrides and the definition of new types. The override above would mean that immediately the API will treat all occurrences of `Balance` not as the default, but rather as the defined size.
 
-## User-defined types
+## User-defined structs
 
 Registration also applies to any type that can be found on a specific chain, i.e. we can add any types that is available on a specific node -
 
@@ -53,6 +53,30 @@ const api = await ApiPromise.create({
 ```
 
 The example above defines non-primitive types (as found in the specific implementation) as structures. Additionally it also shows the user-defined types can depend on other user-defined types with `Transaction` referencing both `TransactionInput` and `TransactionOutput`. Here you can reference any known types, i.e. in the above we have referenced primitives such as `u32` and `Signature` (itself an alias for `H512`).
+
+## Definition clashes
+
+As explained in a previous section, the underlying API Codec types have a [number of built-in properties](type.basics.md) and in some cases it could be that your struct has a field that conflicts. These should be minimal, however it can happen. Take the following example where a defined `hash` property clashes with the same-name Codec property -
+
+```js
+Document: {
+  name: 'Text',
+  uri: 'Text',
+  hash: 'Text'
+}
+```
+
+For this struct the `hash` will not be exposed, but rather be kept as the built-in `hash`. At this point it is important to know that the values "over-the-wire" for calls, queries, events and consts is in binary form, i.e. it is an encoding of the values only. So on the JS side you can apply a rename with no ill-effects. Here we rename the `hash` to `docHash`, which mean the value will be available on `<instance>.docHash`.
+
+```js
+Document: {
+  name: 'Text',
+  uri: 'Text',
+  docHash: 'Text'
+}
+```
+
+## User-defined enum
 
 One form of types that appear regularly is enums, these can be defined as follow -
 
