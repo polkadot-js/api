@@ -1,6 +1,6 @@
-# 1.4.0-beta.x
+# 1.4.1 Feb 26, 2020
 
-- **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features, `#private`, which is not usable in older versions
+- **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features (specifically `#private`), which is not usable in TS versions < 3.8
 - **Breaking change** - `api.derive.staking.*` has updated result types and detects support for lazy payouts queries
 - Rework type generation for `api.{query, tx}` to properly handle complex type inputs (Thanks to https://github.com/monitz87)
 - Rework metadata `--strict` mode to effectively decorate chain metadata (Thanks to https://github.com/monitz87)
