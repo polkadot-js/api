@@ -14,7 +14,7 @@ const consts = fromMetadata(registry, metadata);
 
 describe('fromMetadata', (): void => {
   it('should return constants with the correct type and value', (): void => {
-    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createType('BlockNumber'));
+    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     // 3 second blocks, 28 days
     expect(consts.democracy.cooloffPeriod.toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });

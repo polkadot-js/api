@@ -40,7 +40,7 @@ describe('Decorated', () => {
   });
 
   it('should return constants with the correct type and value', (): void => {
-    expect(decorated.consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createType('BlockNumber'));
+    expect(decorated.consts.democracy.cooloffPeriod).toBeInstanceOf(registry.createClass('BlockNumber'));
     expect(decorated.consts.democracy.cooloffPeriod.toHex()).toEqual('0x000c4e00');
   });
 });
