@@ -6,11 +6,11 @@ import { Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
 import CodecMap from './Map';
 
-export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends CodecMap<K, V> {
+export default class HashMap<K extends Codec = Codec, V extends Codec = Codec> extends CodecMap<K, V> {
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
-    return class extends BTreeMap<K, V> {
+    return class extends HashMap<K, V> {
       constructor (registry: Registry, value?: any) {
-        super(registry, 'BTreeMap', keyType, valType, value);
+        super(registry, 'HashMap', keyType, valType, value);
       }
     };
   }

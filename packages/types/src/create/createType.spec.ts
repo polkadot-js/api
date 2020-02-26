@@ -4,7 +4,7 @@
 
 import Int from '../codec/Int';
 import CodecSet from '../codec/Set';
-import { createClass, createTypeUnsafe, ClassOf, TypeRegistry } from '.';
+import { createClass, createTypeUnsafe, TypeRegistry } from '.';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();
@@ -111,12 +111,12 @@ describe('createType', (): void => {
     it('instanceof should work (primitive type)', (): void => {
       const value = registry.createType('Balance', 1234);
 
-      expect(value instanceof ClassOf(registry, 'Balance')).toBe(true);
+      expect(value instanceof registry.createClass('Balance')).toBe(true);
     });
 
     it('instanceof should work (srml type)', (): void => {
       const value = registry.createType('Gas', 1234);
-      const Gas = ClassOf(registry, 'Gas');
+      const Gas = registry.createClass('Gas');
 
       expect(value instanceof Gas).toBe(true);
     });
@@ -144,14 +144,14 @@ describe('createType', (): void => {
     it('allows for re-registration of a type', (): void => {
       const balDef = registry.createType('Balance');
 
-      expect(balDef instanceof ClassOf(registry, 'Balance'));
+      expect(balDef instanceof registry.createClass('Balance'));
       expect(balDef.bitLength()).toEqual(128);
 
       registry.register({ Balance: 'u32' });
 
       const balu32 = registry.createType('Balance');
 
-      expect(balu32 instanceof ClassOf(registry, 'Balance'));
+      expect(balu32 instanceof registry.createClass('Balance'));
       expect(balu32.bitLength()).toEqual(32);
     });
 

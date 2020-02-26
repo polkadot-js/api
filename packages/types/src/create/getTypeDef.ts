@@ -135,6 +135,7 @@ const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: str
   ['(', ')', TypeDefInfo.Tuple, _decodeTuple],
   // the inner for these are the same as tuple, multiple values
   ['BTreeMap<', '>', TypeDefInfo.BTreeMap, _decodeTuple],
+  ['HashMap<', '>', TypeDefInfo.HashMap, _decodeTuple],
   ['Int<', '>', TypeDefInfo.Int, _decodeInt],
   ['Result<', '>', TypeDefInfo.Result, _decodeTuple],
   ['UInt<', '>', TypeDefInfo.UInt, _decodeUInt]

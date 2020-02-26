@@ -41,9 +41,8 @@ export default {
       peerId: 'Text',
       listenedAddresses: 'Vec<Text>',
       externalAddresses: 'Vec<Text>',
-      // FIXME These are HashMap
-      connectedPeers: 'BTreeMap<Text, Peer>',
-      notConnectedPeers: 'BTreeMap<Text, NotConnectedPeer>',
+      connectedPeers: 'HashMap<Text, Peer>',
+      notConnectedPeers: 'HashMap<Text, NotConnectedPeer>',
       averageDownloadPerSec: 'u64',
       averageUploadPerSec: 'u64',
       peerset: 'NetworkStatePeerset'
@@ -78,8 +77,7 @@ export default {
     },
     NetworkStatePeerset: {
       messageQueue: 'u64',
-      // FIXME This is HashMap
-      nodes: 'BTreeMap<Text, NetworkStatePeersetInfo>'
+      nodes: 'HashMap<Text, NetworkStatePeersetInfo>'
     },
     NetworkStatePeersetInfo: {
       connected: 'bool',

@@ -1,3 +1,10 @@
+# 1.5.0-beta.x
+
+- Allow `BTreeMap` to be initialized with a `Record<string, any>` object (in addition to `Map`)
+- Allow for `HashMap<KeyType, ValueType>` definitions
+- Refresh the `NetworkState` types as returned by the `rpc.system.networkState()` call to current
+- Expose `registry.createClass(<typeName>)`, to allow for creating type classes. If you are using `createClass` or `ClassOf` in your code, it is recommended to swap to this instance.
+
 # 1.4.1 Feb 26, 2020
 
 - **Breaking change** (TypeScript only) The `*.d.ts` files now contain TypeScript 3.8 features (specifically `#private`), which is not usable in TS versions < 3.8
