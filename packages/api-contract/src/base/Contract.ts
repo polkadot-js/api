@@ -11,7 +11,6 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
-import { createType } from '@polkadot/types';
 import Abi from '../Abi';
 import { formatData } from '../util';
 import { BaseWithTxAndRpcCall } from './util';
@@ -44,7 +43,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
         as === 'rpc' && this.hasRpcContractsCall
           ? (account: IKeyringPair | string | AccountId | Address): ContractCallResult<'rpc'> => {
             return this.rpcContractsCall(
-              createType(this.registry, 'ContractCallRequest', {
+              this.registry.createType('ContractCallRequest', {
                 origin: account,
                 dest: this.address.toString(),
                 value,
@@ -54,7 +53,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
             )
               .pipe(
                 map((result: ContractExecResult): ContractCallOutcome =>
-                  this.createOutcome(result, createType(this.registry, 'AccountId', account), def, params)
+                  this.createOutcome(result, this.registry.createType('AccountId', account), def, params)
                 )
               );
           }
@@ -75,7 +74,7 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
 
       output = message.returnType
         ? formatData(this.registry, data, message.returnType)
-        : createType(this.registry, 'Raw', data);
+        : this.registry.createType('Raw', data);
     }
 
     return {
@@ -92,6 +91,6 @@ export default class Contract<ApiType extends ApiTypes> extends BaseWithTxAndRpc
   constructor (api: ApiObject<ApiType>, abi: ContractABIPre | Abi, decorateMethod: DecorateMethod<ApiType>, address: string | AccountId | Address) {
     super(api, abi, decorateMethod);
 
-    this.address = createType(this.registry, 'Address', address);
+    this.address = this.registry.createType('Address', address);
   }
 }

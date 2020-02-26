@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import { createType, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import AccountIndex from './AccountIndex';
 
 describe('AccountIndex', (): void => {
@@ -12,40 +12,40 @@ describe('AccountIndex', (): void => {
 
   it('creates a BN representation', (): void => {
     expect(
-      createType(registry, 'AccountIndex', new Uint8Array([17, 18, 19, 20])).toNumber()
+      registry.createType('AccountIndex', new Uint8Array([17, 18, 19, 20])).toNumber()
     ).toEqual(336794129);
   });
 
   it('creates from BigInt', (): void => {
     expect(
-      createType(registry, 'AccountIndex', 336_794_129n).toNumber()
+      registry.createType('AccountIndex', 336_794_129n).toNumber()
     ).toEqual(336794129);
   });
 
   it('creates a BN representation (from ss-58)', (): void => {
     expect(
-      createType(registry, 'AccountIndex', 'Mwz15xP2').toNumber()
+      registry.createType('AccountIndex', 'Mwz15xP2').toNumber()
     ).toEqual(336794129);
   });
 
   it('constructs 2-byte from number', (): void => {
     expect(
-      createType(registry, 'AccountIndex', 256 * 1).toString()
+      registry.createType('AccountIndex', 256 * 1).toString()
     ).toEqual('25GUyv');
   });
 
   it('constructs from number', (): void => {
     expect(
-      createType(registry, 'AccountIndex', new BN(336794129)).toString()
+      registry.createType('AccountIndex', new BN(336794129)).toString()
     ).toEqual('Mwz15xP2');
   });
 
   it('compares ss-58 values', (): void => {
-    expect(createType(registry, 'AccountIndex', 256 * 1).eq('25GUyv')).toBe(true);
+    expect(registry.createType('AccountIndex', 256 * 1).eq('25GUyv')).toBe(true);
   });
 
   it('compares numbers', (): void => {
-    expect(createType(registry, 'AccountIndex', '2jpAFn').eq(256 * 1)).toBe(true);
+    expect(registry.createType('AccountIndex', '2jpAFn').eq(256 * 1)).toBe(true);
   });
 
   describe('calcLength', (): void => {

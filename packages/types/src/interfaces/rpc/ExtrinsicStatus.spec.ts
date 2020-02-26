@@ -4,7 +4,7 @@
 
 import { ExtrinsicStatus } from './types';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
@@ -12,7 +12,7 @@ describe('ExtrinsicStatus', (): void => {
   let status: ExtrinsicStatus;
 
   beforeEach((): void => {
-    status = createType(registry, 'ExtrinsicStatus', rpc.params.result);
+    status = registry.createType('ExtrinsicStatus', rpc.params.result);
   });
 
   it('has the correct type', (): void => {

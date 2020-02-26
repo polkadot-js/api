@@ -8,7 +8,6 @@ import { Conviction } from '../interfaces/democracy';
 
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
 
-import { createType } from '../create';
 import U8aFixed from '../codec/U8aFixed';
 import Bool from '../primitive/Bool';
 
@@ -53,7 +52,7 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
   }
 
   const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = createType(registry, 'Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
+  const conviction = registry.createType('Conviction', isUndefined(value.conviction) ? DEF_CONV : value.conviction);
 
   return new Uint8Array([vote | conviction.index]);
 }
@@ -77,7 +76,7 @@ export default class Vote extends U8aFixed {
     super(registry, decoded, 8);
 
     this._aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this._conviction = createType(this.registry, 'Conviction', decoded[0] & CON_MASK);
+    this._conviction = this.registry.createType('Conviction', decoded[0] & CON_MASK);
   }
 
   /**

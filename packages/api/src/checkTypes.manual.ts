@@ -10,7 +10,7 @@ import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring, { TestKeyringMap } from '@polkadot/keyring/testingPairs';
-import { createType, createTypeUnsafe, TypeRegistry } from '@polkadot/types';
+import { createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
@@ -77,10 +77,10 @@ async function rpc (api: ApiPromise): Promise<void> {
 
 function types (api: ApiPromise): void {
   // check correct types with `createType`
-  const balance = createType(registry, 'Balance', 2);
-  const gas = createType(registry, 'Gas', 2);
-  const compact = createType(registry, 'Compact<u32>', 2);
-  // const random = createType(registry, 'RandomType', 2); // This one should deliberately show a TS error
+  const balance = registry.createType('Balance', 2);
+  const gas = registry.createType('Gas', 2);
+  const compact = registry.createType('Compact<u32>', 2);
+  // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);

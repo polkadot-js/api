@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry, createType, createTypeUnsafe } from '../../create';
+import { TypeRegistry, createTypeUnsafe } from '../../create';
 
 describe('CompactAssignments', (): void => {
   const registry = new TypeRegistry();
   const votes2 = [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', [['5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', 123456]], '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']];
-  const test = createType(registry, 'CompactAssignments', {
+  const test = registry.createType('CompactAssignments', {
     votes1: [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', [], '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty']],
     votes2
   });

@@ -5,9 +5,6 @@
 import { Call } from '@polkadot/types/interfaces';
 import { AnyJson, CallFunction, Registry, RegistryMetadataCall } from '@polkadot/types/types';
 
-// we do a direct import here to remove all circular dependencies (importing from
-// /types, /types/codec or /types/create makes all hell break loose)
-import { createType } from '@polkadot/types/create/createType';
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /** @internal */
@@ -21,7 +18,7 @@ export default function createDescriptor (registry: Registry, section: string, s
       `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
     );
 
-    return createType(registry, 'Call', {
+    return registry.createType('Call', {
       args,
       callIndex
     }, callMetadata);

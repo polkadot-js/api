@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/metadata/Metadata';
 import metadataStatic from '@polkadot/metadata/Metadata/static';
 
-import { createType, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 import immortalTxs from '../../json/SignedBlock.004.immortal.json';
 import mortalTxs from '../../json/SignedBlock.004.mortal.json';
 import knownMehods from '../../json/SignedBlock.005.json';
@@ -17,7 +17,7 @@ new Metadata(registry, metadataStatic);
 
 describe('SignedBlock', (): void => {
   it('decodes a full block', (): void => {
-    const s = createType(registry, 'SignedBlock', knownMehods.result);
+    const s = registry.createType('SignedBlock', knownMehods.result);
 
     expect(
       s.block.header.stateRoot.toString()
@@ -32,7 +32,7 @@ describe('SignedBlock', (): void => {
 
   // Test to replicate https://github.com/polkadot-js/api/issues/1212
   it('decodes to known extrinsics', (): void => {
-    const s = createType(registry, 'SignedBlock', knownMehods.result);
+    const s = registry.createType('SignedBlock', knownMehods.result);
     const indexes = s.block.extrinsics.map(({ method: { callIndex } }): Uint8Array => callIndex);
 
     expect(indexes).toEqual([
@@ -43,7 +43,7 @@ describe('SignedBlock', (): void => {
 
   describe('eras', (): void => {
     it('can decode immortals', (): void => {
-      const s = createType(registry, 'SignedBlock', immortalTxs.result);
+      const s = registry.createType('SignedBlock', immortalTxs.result);
       const immortalTx = s.block.extrinsics[0];
 
       expect(immortalTx.method.methodName).toEqual('transfer');
@@ -51,7 +51,7 @@ describe('SignedBlock', (): void => {
     });
 
     it('can decode mortals', (): void => {
-      const s = createType(registry, 'SignedBlock', mortalTxs.result);
+      const s = registry.createType('SignedBlock', mortalTxs.result);
       const mortalTx = s.block.extrinsics[0];
 
       expect(mortalTx.method.methodName).toEqual('transfer');

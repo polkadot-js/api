@@ -7,7 +7,7 @@ import { Codec, Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import { Compact, Raw } from '@polkadot/types/codec';
-import { createType, createTypeUnsafe } from '@polkadot/types/create';
+import { createTypeUnsafe } from '@polkadot/types/create';
 import StorageKey, { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
@@ -149,15 +149,15 @@ function extendHeadMeta (registry: Registry, { meta: { documentation, name, type
 
   // metadata with a fallback value using the type of the key, the normal
   // meta fallback only applies to actual entry values, create one for head
-  (iterFn as IterFn).meta = createType(registry, 'StorageEntryMetadataLatest', {
+  (iterFn as IterFn).meta = registry.createType('StorageEntryMetadataLatest', {
     name,
-    modifier: createType(registry, 'StorageEntryModifierLatest', 1), // required
-    type: createType(registry, 'StorageEntryTypeLatest', createType(registry, 'PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
-    fallback: createType(registry, 'Bytes', createTypeUnsafe(registry, outputType).toHex()),
+    modifier: registry.createType('StorageEntryModifierLatest', 1), // required
+    type: registry.createType('StorageEntryTypeLatest', registry.createType('PlainTypeLatest', type.isMap ? type.asMap.key : type.asDoubleMap.key1), 0),
+    fallback: registry.createType('Bytes', createTypeUnsafe(registry, outputType).toHex()),
     documentation
   });
 
-  return createType(registry, 'StorageKey', iterFn, { method, section });
+  return registry.createType('StorageKey', iterFn, { method, section });
 }
 
 // attach the head key hashing for linked maps

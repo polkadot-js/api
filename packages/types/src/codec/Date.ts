@@ -9,7 +9,6 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { createType } from '../create';
 import { UIntBitLength } from './AbstractInt';
 
 const BITLENGTH: UIntBitLength = 64;
@@ -59,7 +58,7 @@ export default class CodecDate extends Date implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): H256 {
-    return createType(this.registry, 'H256', blake2AsU8a(this.toU8a(), 256));
+    return this.registry.createType('H256', blake2AsU8a(this.toU8a(), 256));
   }
 
   /**

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
@@ -13,7 +13,7 @@ describe('getHasher', (): void => {
 
   describe('Twox64Concat', (): void => {
     it('matches the foo test from Rust', (): void => {
-      const hasher = getHasher(createType(registry, 'StorageHasher', 'Twox64Concat'));
+      const hasher = getHasher(registry.createType('StorageHasher', 'Twox64Concat'));
       const hash = hasher('foo');
       const xxhash = xxhashAsU8a('foo', 128);
 

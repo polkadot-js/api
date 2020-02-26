@@ -8,7 +8,6 @@ import { Registry } from '../types';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import { createType } from '../create/createType';
 import Bytes from './Bytes';
 
 /** @internal */
@@ -26,7 +25,7 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [any, number | u
     const data = value.subarray(1, length + 1);
 
     // in this case, we are passing a Raw back (since we have no length)
-    return [createType(registry, 'Raw', data), 1];
+    return [registry.createType('Raw', data), 1];
   } else if (indicator >= 34 && indicator <= 37) {
     return [value.subarray(1, 32 + 1), indicator - 32]; // 34 becomes 2
   }

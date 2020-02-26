@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ClassOf, createType, TypeRegistry } from '@polkadot/types/create';
+import { ClassOf, TypeRegistry } from '@polkadot/types/create';
 import { u8aToHex } from '@polkadot/util';
 
 import Decorated from './Decorated';
@@ -24,7 +24,7 @@ describe('Decorated', () => {
 
   it('should return properly-encoded transactions', (): void => {
     expect(
-      createType(registry, 'Extrinsic', decorated.tx.timestamp.set([10101])).toU8a()
+      registry.createType('Extrinsic', decorated.tx.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

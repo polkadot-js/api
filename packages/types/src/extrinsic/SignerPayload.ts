@@ -7,7 +7,6 @@ import { Codec, Constructor, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw
 
 import { u8aToHex } from '@polkadot/util';
 
-import { createType } from '../create';
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import u8 from '../primitive/U8';
@@ -72,7 +71,7 @@ export default class SignerPayload extends _Payload implements ISignerPayload {
   public toRaw (): SignerPayloadRaw {
     const payload = this.toPayload();
     // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
-    const data = u8aToHex(createType(this.registry, 'ExtrinsicPayload', payload, { version: payload.version }).toU8a({ method: true }));
+    const data = u8aToHex(this.registry.createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a({ method: true }));
 
     return {
       address: payload.address,
