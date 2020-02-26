@@ -12,11 +12,11 @@ import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 
 // our local stuff
-import * as defintions from './interfaces/definitions';
+import * as definitions from './interfaces/definitions';
 
 async function main (): Promise<void> {
   // extract all types from definitions - fast and dirty approach, flatted on 'types'
-  const types = Object.values(defintions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+  const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 
   const api = await ApiPromise.create({
     types: {
