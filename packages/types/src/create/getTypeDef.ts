@@ -60,7 +60,10 @@ function _decodeStruct (value: TypeDef, type: string, _: string): TypeDef {
     return _decodeSet(value, parsed[keys[0]]);
   }
 
-  value.sub = keys.map((name): TypeDef =>
+  value.alias = parsed._alias
+    ? new Map(Object.entries(parsed._alias))
+    : undefined;
+  value.sub = keys.filter((name) => !['_alias'].includes(name)).map((name): TypeDef =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     getTypeDef(parsed[name], { name })
   );

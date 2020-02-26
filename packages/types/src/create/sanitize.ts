@@ -62,7 +62,12 @@ function _findClosing (value: string, start: number): number {
 function _alias (src: string[], dest: string): Mapper {
   return (value: string): string => {
     return src.reduce((value, src): string => {
-      return value.replace(new RegExp(src, 'g'), dest);
+      // HACK... f-ing HACK. This needs a fix, so this is a HUGE FIXME
+      // ignore versionString, the replace just does global replace, check the box aliases
+      // (versionString from network alias definitions)
+      return value.includes('versionString')
+        ? value
+        : value.replace(new RegExp(src, 'g'), dest);
     }, value);
   };
 }
