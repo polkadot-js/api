@@ -16,7 +16,7 @@
 - Expand `.toHuman` on `ExtrinsicEra`, `SubmittableResult` & `Vote`
 - Move `DigestItem`, `Fixed64`, `H160`, `H256` & `H512` to interfaces in `@polkadot/types/interfaces`
 - Align construction of unknown types in `registry.get` consistently warn on detection, throw on use
-- Support for arbitrary UInt types via `UInt<bitLength>` type definitions
+- Support for arbitrary `u*`` types via `UInt<bitLength>` type definitions
 - Expose static `.with` on `UInt`, `Int` & `U8aFixed` classes with optional type name override
 - Remove [11 Jan 2019](https://github.com/polkadot-js/api/issues/574) extrinsic length hack
 - Use ES `#field` on private class fields as applicable

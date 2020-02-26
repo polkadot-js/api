@@ -4,6 +4,7 @@ exclude_patterns:
 - "**/*.test.js"
 - "**/*.test.ts"
 - "docs/**/*.js"
+- "docs/**/*.ts"
 - "packages/api/src/augment/"
 - "packages/typegen/scripts"
 - "packages/typegen/src"
