@@ -38,7 +38,52 @@ export default {
     },
     KeyValueOption: '(StorageKey, Option<StorageData>)',
     NetworkState: {
-      peerId: 'Text'
+      peerId: 'Text',
+      listenedAddresses: 'Vec<Text>',
+      externalAddresses: 'Vec<Text>',
+      // FIXME These are HashMap
+      connectedPeers: 'BTreeMap<Text, Peer>',
+      notConnectedPeers: 'BTreeMap<Text, NotConnectedPeer>',
+      averageDownloadPerSec: 'u64',
+      averageUploadPerSec: 'u64',
+      peerset: 'NetworkStatePeerset'
+    },
+    Peer: {
+      enabled: 'bool',
+      endpoint: 'PeerEndpoint',
+      knownAddresses: 'Vec<Text>',
+      latestPingTime: 'PeerPing',
+      open: 'bool',
+      versionString: 'Text'
+    },
+    NotConnectedPeer: {
+      knownAddresses: 'Vec<Text>',
+      latestPingTime: 'Option<PeerPing>',
+      versionString: 'Option<Text>'
+    },
+    PeerEndpoint: {
+      listening: 'PeerEndpointAddr'
+    },
+    PeerEndpointAddr: {
+      _alias: {
+        localAddr: 'local_addr',
+        sendBackAddr: 'send_back_addr'
+      },
+      localAddr: 'Text',
+      sendBackAddr: 'Text'
+    },
+    PeerPing: {
+      nanos: 'u64',
+      secs: 'u64'
+    },
+    NetworkStatePeerset: {
+      messageQueue: 'u64',
+      // FIXME This is HashMap
+      nodes: 'BTreeMap<Text, NetworkStatePeersetInfo>'
+    },
+    NetworkStatePeersetInfo: {
+      connected: 'bool',
+      reputation: 'u64'
     },
     PeerInfo: {
       peerId: 'Text',

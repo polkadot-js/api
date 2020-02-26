@@ -34,6 +34,7 @@ export interface TypeDefExtEnumDiscriminant {
 }
 
 export interface TypeDef {
+  alias?: Map<string, string>;
   info: TypeDefInfo;
   index?: number;
   displayName?: string;

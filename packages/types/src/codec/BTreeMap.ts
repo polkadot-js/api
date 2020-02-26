@@ -5,7 +5,7 @@
 import { H256 } from '../interfaces/runtime';
 import { AnyJson, Constructor, Codec, InterfaceTypes, Registry } from '../types';
 
-import { isHex, hexToU8a, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, hexToU8a, isObject, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
@@ -35,17 +35,21 @@ function decodeBTreeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec>
 function decodeBTreeMapFromMap<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, value: Map<any, any>): Map<K, V> {
   const output = new Map<K, V>();
 
-  value.forEach((v: any, k: any) => {
-    let key, val;
+  value.forEach((val: any, key: any) => {
     try {
-      key = (k instanceof KeyClass) ? k : new KeyClass(registry, k);
-      val = (v instanceof ValClass) ? v : new ValClass(registry, v);
+      output.set(
+        key instanceof KeyClass
+          ? key
+          : new KeyClass(registry, key),
+        val instanceof ValClass
+          ? val
+          : new ValClass(registry, val)
+      );
     } catch (error) {
       console.error('Failed to decode BTreeMap key or value:', error.message);
+
       throw error;
     }
-
-    output.set(key, val);
   });
 
   return output;
@@ -78,6 +82,8 @@ function decodeBTreeMap<K extends Codec = Codec, V extends Codec = Codec> (regis
     return decodeBTreeMapFromU8a<K, V>(registry, KeyClass, ValClass, u8aToU8a(value));
   } else if (value instanceof Map) {
     return decodeBTreeMapFromMap<K, V>(registry, KeyClass, ValClass, value);
+  } else if (isObject(value)) {
+    return decodeBTreeMapFromMap<K, V>(registry, KeyClass, ValClass, new Map(Object.entries(value)));
   }
 
   throw new Error('BTreeMap: cannot decode type');
