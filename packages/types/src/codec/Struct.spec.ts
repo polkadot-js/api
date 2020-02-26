@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ClassOf, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import AccountId from '../generic/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
@@ -193,7 +193,7 @@ describe('Struct', (): void => {
     // replicate https://github.com/polkadot-js/api/issues/640
     expect(
       new Struct(registry, {
-        blockNumber: ClassOf(registry, 'Option<BlockNumber>')
+        blockNumber: registry.createClass('Option<BlockNumber>')
       }, { blockNumber: '0x0000000010abcdef' }).toString()
     ).toEqual('{"blockNumber":279694831}');
   });
@@ -202,10 +202,10 @@ describe('Struct', (): void => {
     expect(
       new Struct(registry, {
         accountId: AccountId,
-        balanceCompact: ClassOf(registry, 'Compact<Balance>'),
-        blockNumber: ClassOf(registry, 'BlockNumber'),
-        compactNumber: ClassOf(registry, 'Compact<BlockNumber>'),
-        optionNumber: ClassOf(registry, 'Option<BlockNumber>'),
+        balanceCompact: registry.createClass('Compact<Balance>'),
+        blockNumber: registry.createClass('BlockNumber'),
+        compactNumber: registry.createClass('Compact<BlockNumber>'),
+        optionNumber: registry.createClass('Option<BlockNumber>'),
         counter: U32,
         vector: Vec.with(AccountId)
       }).toRawType()
@@ -223,7 +223,7 @@ describe('Struct', (): void => {
   it('generates sane toRawType (via with)', (): void => {
     const Type = Struct.with({
       accountId: AccountId,
-      balance: ClassOf(registry, 'Balance')
+      balance: registry.createClass('Balance')
     });
 
     expect(

@@ -116,7 +116,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => ClassOf(registry, 'Null'),
+  [TypeDefInfo.Null]: (registry: Registry, _: TypeDef): Constructor => createClass(registry, 'Null'),
 
   [TypeDefInfo.Option]: (registry: Registry, value: TypeDef): Constructor => Option.with(getSubType(value)),
 
@@ -154,7 +154,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
 
     return (
       subType === 'u8'
-        ? ClassOf(registry, 'Bytes')
+        ? createClass(registry, 'Bytes')
         : Vec.with(subType)
     );
   },

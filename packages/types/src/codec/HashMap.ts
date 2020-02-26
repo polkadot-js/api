@@ -8,7 +8,7 @@ import CodecMap from './Map';
 
 export default class HashMap<K extends Codec = Codec, V extends Codec = Codec> extends CodecMap<K, V> {
   public static with<K extends Codec, V extends Codec> (keyType: Constructor<K> | keyof InterfaceTypes, valType: Constructor<V> | keyof InterfaceTypes): Constructor<CodecMap<K, V>> {
-    return class extends CodecMap<K, V> {
+    return class extends HashMap<K, V> {
       constructor (registry: Registry, value?: any) {
         super(registry, 'HashMap', keyType, valType, value);
       }

@@ -9,12 +9,12 @@ import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterfaceRx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/generic/AccountIndex';
-import { ClassOf, Option, Vec, createType } from '@polkadot/types';
+import { Option, Vec, createType } from '@polkadot/types';
 
 import { memo } from '../util';
 
 function queryEnumSet (api: ApiInterfaceRx, _accountIndex: AccountIndex | string): Observable<AccountId | undefined> {
-  const accountIndex = _accountIndex instanceof ClassOf(api.registry, 'AccountIndex')
+  const accountIndex = _accountIndex instanceof api.registry.createClass('AccountIndex')
     ? _accountIndex
     : createType(api.registry, 'AccountIndex', _accountIndex);
 

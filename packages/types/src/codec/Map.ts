@@ -10,7 +10,9 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './Compact';
 import Raw from './Raw';
-import { compareMap, decodeU8a, typeToConstructor } from './utils';
+import compareMap from './utils/compareMap';
+import decodeU8a from './utils/decodeU8a';
+import typeToConstructor from './utils/typeToConstructor';
 
 /** @internal */
 function decodeMapFromU8a<K extends Codec = Codec, V extends Codec = Codec> (registry: Registry, KeyClass: Constructor<K>, ValClass: Constructor<V>, u8a: Uint8Array): Map<K, V> {
@@ -89,7 +91,7 @@ function decodeMap<K extends Codec = Codec, V extends Codec = Codec> (registry: 
   throw new Error('Map: cannot decode type');
 }
 
-export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
+export default class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements Codec {
   public readonly registry: Registry;
 
   readonly #KeyClass: Constructor<K>;

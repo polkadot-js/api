@@ -9,7 +9,7 @@ import { CodecTo } from '../types';
 import Metadata from '@polkadot/metadata/Metadata';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
-import { ClassOf, TypeRegistry } from '../create';
+import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import U128 from '../primitive/U128';
@@ -71,7 +71,7 @@ describe('Tuple', (): void => {
     new Metadata(registry, rpcMetadata);
 
     const test = new (Tuple.with([
-      ClassOf(registry, 'BlockNumber'), ClassOf(registry, 'VoteThreshold')
+      registry.createClass('BlockNumber'), registry.createClass('VoteThreshold')
     ]
     ))(registry, '0x6219000001');
 
@@ -85,8 +85,8 @@ describe('Tuple', (): void => {
 
   it('exposes the Types (object creation)', (): void => {
     const test = new Tuple(registry, {
-      BlockNumber: ClassOf(registry, 'BlockNumber'),
-      VoteThreshold: ClassOf(registry, 'VoteThreshold')
+      BlockNumber: registry.createClass('BlockNumber'),
+      VoteThreshold: registry.createClass('VoteThreshold')
     }, []);
 
     expect(test.Types).toEqual(['BlockNumber', 'VoteThreshold']);
@@ -113,13 +113,13 @@ describe('Tuple', (): void => {
   describe('toRawType', (): void => {
     it('generates sane value with array types', (): void => {
       expect(
-        new Tuple(registry, [U128, ClassOf(registry, 'BlockNumber')]).toRawType()
+        new Tuple(registry, [U128, registry.createClass('BlockNumber')]).toRawType()
       ).toEqual('(u128,u32)');
     });
 
     it('generates sane value with object types', (): void => {
       expect(
-        new Tuple(registry, { number: U128, blockNumber: ClassOf(registry, 'BlockNumber') }).toRawType()
+        new Tuple(registry, { number: U128, blockNumber: registry.createClass('BlockNumber') }).toRawType()
       ).toEqual('(u128,u32)');
     });
   });
