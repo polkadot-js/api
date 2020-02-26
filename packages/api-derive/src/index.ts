@@ -46,6 +46,7 @@ const deriveAvail: Record<string, string[]> = {
   democracy: ['democracy'],
   elections: ['electionsPhragmen', 'elections'],
   imOnline: ['imOnline'],
+  parachains: ['parachains', 'registrar'],
   session: ['session'],
   society: ['society'],
   staking: ['staking'],

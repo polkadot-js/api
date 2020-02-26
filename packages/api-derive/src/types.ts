@@ -114,17 +114,28 @@ export interface DeriveParachainActive {
   retries: number;
 }
 
+export interface DeriveParachainInfo extends ParaInfo {
+  id: ParaId;
+  icon?: string;
+  name?: string;
+  owner?: string;
+}
+
 export interface DeriveParachain {
-  active: DeriveParachainActive | null;
   didUpdate: boolean;
   pendingSwapId: ParaId | null;
-  heads: Bytes | null;
   id: ParaId;
-  info: ParaInfo | null;
+  info: DeriveParachainInfo | null;
+  relayDispatchQueueSize?: number;
+  watermark: BlockNumber | null;
+}
+
+export interface DeriveParachainFull extends DeriveParachain {
+  active: DeriveParachainActive | null;
+  heads: Bytes | null;
   relayDispatchQueue: UpwardMessage[];
   retryCollators: (CollatorId | null)[];
   selectedCollators: (CollatorId | null)[];
-  watermark: BlockNumber | null;
 }
 
 export interface DeriveProposalPreImage {
