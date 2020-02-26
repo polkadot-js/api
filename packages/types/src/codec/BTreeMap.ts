@@ -182,8 +182,8 @@ export default class BTreeMap<K extends Codec = Codec, V extends Codec = Codec> 
   /**
    * @description Returns the base runtime type name for this instance
    */
-  public toRawType (): string {
-    return `BTreeMap<${new this.#KeyClass(this.registry).toRawType()},${new this.#ValClass(this.registry).toRawType()}>`;
+  public toRawType (nameOverride: 'BTreeMap' | 'HashMap' = 'BTreeMap'): string {
+    return `${nameOverride}<${new this.#KeyClass(this.registry).toRawType()},${new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

@@ -98,6 +98,14 @@ function formatCompact (inner: string): string {
 }
 
 /**
+ * Given the inner `K` & `V`, return a `BTreeMap<K, V>`  string
+ */
+/** @internal */
+function formatHashMap (key: string, val: string): string {
+  return `HashMap<${key}, ${val}>`;
+}
+
+/**
  * Given the inner `O` & `E`, return a `Result<O, E>`  string
  */
 /** @internal */
@@ -150,13 +158,16 @@ export function formatType (definitions: object, type: string | TypeDef, imports
 
   setImports(definitions, imports, [typeDef.type]);
 
+  // FIXME Swap to Record<TypeDefInfo, fn> to check all types
   switch (typeDef.info) {
     case TypeDefInfo.Compact: {
       setImports(definitions, imports, ['Compact']);
+
       return formatCompact(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Option: {
       setImports(definitions, imports, ['Option']);
+
       return formatOption(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Plain: {
@@ -164,6 +175,7 @@ export function formatType (definitions: object, type: string | TypeDef, imports
     }
     case TypeDefInfo.Vec: {
       setImports(definitions, imports, ['Vec']);
+
       return formatVec(formatType(definitions, (typeDef.sub as TypeDef).type, imports));
     }
     case TypeDefInfo.Tuple: {
@@ -190,21 +202,34 @@ export function formatType (definitions: object, type: string | TypeDef, imports
     }
     case TypeDefInfo.BTreeMap: {
       setImports(definitions, imports, ['BTreeMap']);
+
       const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
       return formatBTreeMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.BTreeSet: {
       setImports(definitions, imports, ['BTreeSet']);
+
       const valDef = typeDef.sub as TypeDef;
+
       return formatBTreeSet(formatType(definitions, valDef.type, imports));
+    }
+    case TypeDefInfo.HashMap: {
+      setImports(definitions, imports, ['HashMap']);
+
+      const [keyDef, valDef] = (typeDef.sub as TypeDef[]);
+
+      return formatHashMap(formatType(definitions, keyDef.type, imports), formatType(definitions, valDef.type, imports));
     }
     case TypeDefInfo.Result: {
       setImports(definitions, imports, ['Result']);
+
       const [okDef, errorDef] = (typeDef.sub as TypeDef[]);
+
       return formatResult(formatType(definitions, okDef.type, imports), formatType(definitions, errorDef.type, imports));
     }
     default: {
-      throw new Error(`Cannot format ${type}.`);
+      throw new Error(`Cannot format ${JSON.stringify(type)}`);
     }
   }
 }

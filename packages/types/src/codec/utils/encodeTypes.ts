@@ -27,6 +27,7 @@ function encodeWithParams (typeDef: Pick<TypeDef, any>, outer = typeDef.displayN
     case TypeDefInfo.BTreeMap:
     case TypeDefInfo.BTreeSet:
     case TypeDefInfo.Compact:
+    case TypeDefInfo.HashMap:
     case TypeDefInfo.Linkage:
     case TypeDefInfo.Option:
     case TypeDefInfo.Result:
@@ -122,6 +123,7 @@ const encoders: Record<TypeDefInfo, (typeDef: TypeDef) => string> = {
   [TypeDefInfo.BTreeSet]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'BTreeSet'),
   [TypeDefInfo.Compact]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Compact'),
   [TypeDefInfo.Enum]: (typeDef: TypeDef): string => encodeEnum(typeDef),
+  [TypeDefInfo.HashMap]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'HashMap'),
   [TypeDefInfo.Int]: (typeDef: TypeDef): string => encodeUInt(typeDef, 'Int'),
   [TypeDefInfo.Linkage]: (typeDef: TypeDef): string => encodeWithParams(typeDef, 'Linkage'),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
