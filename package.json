@@ -26,7 +26,7 @@
     "@babel/core": "^7.8.4",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
-    "@polkadot/dev": "^0.41.3",
+    "@polkadot/dev": "^0.41.4",
     "@polkadot/ts": "^0.2.3",
     "copyfiles": "^2.2.0"
   }
