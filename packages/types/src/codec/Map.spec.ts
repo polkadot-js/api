@@ -5,7 +5,6 @@
 import { TypeRegistry } from '../create';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import Struct from './Struct';
 import { CodecTo } from '../types';
 
 import CodecMap from './Map';
@@ -70,44 +69,5 @@ describe('CodecMap', (): void => {
     testEncode('toJSON', mockU32U32MapObject);
     testEncode('toU8a', mockU32U32MapUint8Array);
     testEncode('toString', mockU32U32MapString);
-  });
-
-  it('decodes null', (): void => {
-    expect(
-      new (
-        CodecMap.with(Text, U32)
-      )(registry, null).toString()
-    ).toEqual('{}');
-  });
-
-  it('decodes within more complicated types', (): void => {
-    const s = new Struct(registry, {
-      placeholder: U32,
-      value: CodecMap.with(Text, U32)
-    });
-    s.set('value', new CodecMap(registry, 'BTreeMap', Text, U32, mockU32TextMap));
-    expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
-  });
-
-  it('throws when it cannot decode', (): void => {
-    expect(
-      (): CodecMap<Text, U32> => new (
-        CodecMap.with(Text, U32)
-      )(registry, 'ABC')
-    ).toThrowError(/CodecMap: cannot decode type/);
-  });
-
-  it('correctly encodes length', (): void => {
-    expect(
-      new (
-        CodecMap.with(Text, U32))(registry, mockU32TextMap).encodedLength
-    ).toEqual(13);
-  });
-
-  it('generates sane toRawTypes', (): void => {
-    expect(new (CodecMap.with(Text, U32))(registry).toRawType()).toBe('CodecMap<Text,u32>');
-    expect(new (CodecMap.with(Text, Text))(registry).toRawType()).toBe('CodecMap<Text,Text>');
-    expect(new (CodecMap.with(Text, Struct.with({ a: U32, b: Text })))(registry).toRawType())
-      .toBe('CodecMap<Text,{"a":"u32","b":"Text"}>');
   });
 });

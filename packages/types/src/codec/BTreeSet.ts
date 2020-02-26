@@ -37,7 +37,7 @@ function decodeSetFromSet<V extends Codec = Codec> (registry: Registry, ValClass
 
   value.forEach((val: any) => {
     try {
-      output.add((v instanceof ValClass) ? val : new ValClass(registry, val));
+      output.add((val instanceof ValClass) ? val : new ValClass(registry, val));
     } catch (error) {
       console.error('Failed to decode BTreeSet key or value:', error.message);
       throw error;
