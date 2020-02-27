@@ -13,6 +13,6 @@ import { memo } from '../util';
 export function sessionProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return memo((): Observable<BlockNumber> =>
     api.derive.session.info().pipe(
-      map(({ sessionProgress }) => sessionProgress)
+      map((info) => info.sessionProgress)
     ));
 }

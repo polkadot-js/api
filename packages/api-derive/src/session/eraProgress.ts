@@ -13,6 +13,6 @@ import { memo } from '../util';
 export function eraProgress (api: ApiInterfaceRx): () => Observable<BlockNumber> {
   return memo((): Observable<BlockNumber> =>
     api.derive.session.info().pipe(
-      map(({ eraProgress }) => eraProgress)
+      map((info) => info.eraProgress)
     ));
 }
