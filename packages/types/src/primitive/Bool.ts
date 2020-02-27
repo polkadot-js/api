@@ -50,10 +50,10 @@ export default class Bool extends Boolean implements Codec {
   }
 
   /**
-   * @description Checks if the value is an empty value (always false)
+   * @description Checks if the value is an empty value (true when it wraps false/default)
    */
   public get isEmpty (): boolean {
-    return false;
+    return this.isFalse;
   }
 
   /**
