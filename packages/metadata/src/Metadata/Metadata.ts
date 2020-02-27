@@ -23,18 +23,16 @@ function decodeMetadata (registry: Registry, _value: Uint8Array | string = new U
   try {
     return new MetadataVersioned(registry, value);
   } catch (error) {
-    if (!error.message.includes('MagicNumber mismatch')) {
-      // This is an f-ing hack as a follow-up to another ugly hack
-      // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
-      // when we fail on V9, try to re-parse it as v10... yes... HACK
-      if (version === 9) {
-        value[VERSION_IDX] = 10;
+    // This is an f-ing hack as a follow-up to another ugly hack
+    // https://github.com/polkadot-js/api/commit/a9211690be6b68ad6c6dad7852f1665cadcfa5b2
+    // when we fail on V9, try to re-parse it as v10... yes... HACK
+    if (version === 9) {
+      value[VERSION_IDX] = 10;
 
-        return decodeMetadata(registry, value);
-      }
-
-      throw error;
+      return decodeMetadata(registry, value);
     }
+
+    throw error;
   }
 
   return new MetadataVersioned(

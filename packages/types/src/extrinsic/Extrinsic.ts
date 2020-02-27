@@ -38,64 +38,7 @@ const VERSIONS: (keyof InterfaceTypes)[] = [
 
 export { TRANSACTION_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 
-/**
- * @name GenericExtrinsic
- * @description
- * Representation of an Extrinsic in the system. It contains the actual call,
- * (optional) signature and encodes with an actual length prefix
- *
- * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
- *
- * Can be:
- * - signed, to create a transaction
- * - left as is, to create an inherent
- */
-export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> implements IExtrinsic {
-  constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
-    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
-  }
-
-  /** @internal */
-  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (value instanceof Extrinsic) {
-      return value.raw;
-    }
-
-    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
-
-    // we cast here since the VERSION definition is incredibly broad - we don't have a
-    // slice for "only add extrinsic types", and more string definitions become unwieldy
-    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
-  }
-
-  /** @internal */
-  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
-    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
-    } else if (value instanceof registry.createClass('Call')) {
-      return Extrinsic.newFromValue(registry, { method: value }, version);
-    }
-
-    return Extrinsic.newFromValue(registry, value, version);
-  }
-
-  /** @internal */
-  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
-    if (!value.length) {
-      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
-    }
-
-    const [offset, length] = Compact.decodeU8a(value);
-    const total = offset + length.toNumber();
-
-    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
-
-    const data = value.subarray(offset, total);
-
-    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
-  }
-
+abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Call]]
    */
@@ -216,33 +159,6 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Injects an already-generated signature into the extrinsic
-   */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
-    (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
-
-    return this;
-  }
-
-  /**
-   * @description Sign the extrinsic with a specific keypair
-   */
-  public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
-    (this.raw as ExtrinsicVx).sign(account, options);
-
-    return this;
-  }
-
-  /**
-   * @describe Adds a fake signature to the extrinsic
-   */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): Extrinsic {
-    (this.raw as ExtrinsicVx).signFake(signer, options);
-
-    return this;
-  }
-
-  /**
    * @description Returns a hex string representation of the value
    */
   public toHex (isBare?: boolean): string {
@@ -277,23 +193,109 @@ export default class Extrinsic extends Base<ExtrinsicVx | ExtrinsicUnknown> impl
   }
 
   /**
-   * @description Returns the base runtime type name for this instance
-   */
-  public toRawType (): string {
-    return 'Extrinsic';
-  }
-
-  /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value is not length-prefixed
    */
   public toU8a (isBare?: boolean): Uint8Array {
     // we do not apply bare to the internal values, rather this only determines out length addition,
-    // where we strip all lengths this creates an un-decodable extrinsic
+    // where we strip all lengths this creates an extrinsic that cannot be decoded
     const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
 
     return isBare
       ? encoded
       : Compact.addLengthPrefix(encoded);
+  }
+}
+
+/**
+ * @name GenericExtrinsic
+ * @description
+ * Representation of an Extrinsic in the system. It contains the actual call,
+ * (optional) signature and encodes with an actual length prefix
+ *
+ * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ *
+ * Can be:
+ * - signed, to create a transaction
+ * - left as is, to create an inherent
+ */
+export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
+  constructor (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, { version }: CreateOptions = {}) {
+    super(registry, Extrinsic.decodeExtrinsic(registry, value, version));
+  }
+
+  /** @internal */
+  private static newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (value instanceof Extrinsic) {
+      return value.raw;
+    }
+
+    const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
+    const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+
+    // we cast here since the VERSION definition is incredibly broad - we don't have a
+    // slice for "only add extrinsic types", and more string definitions become unwieldy
+    return registry.createType(type, value, { isSigned, version }) as ExtrinsicVx;
+  }
+
+  /** @internal */
+  public static decodeExtrinsic (registry: Registry, value: Extrinsic | ExtrinsicValue | AnyU8a | Call | undefined, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+    if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+      return Extrinsic.decodeU8a(registry, u8aToU8a(value), version);
+    } else if (value instanceof registry.createClass('Call')) {
+      return Extrinsic.newFromValue(registry, { method: value }, version);
+    }
+
+    return Extrinsic.newFromValue(registry, value, version);
+  }
+
+  /** @internal */
+  private static decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+    if (!value.length) {
+      return Extrinsic.newFromValue(registry, new Uint8Array(), version);
+    }
+
+    const [offset, length] = Compact.decodeU8a(value);
+    const total = offset + length.toNumber();
+
+    assert(total <= value.length, `Extrinsic: length less than remainder, expected at least ${total}, found ${value.length}`);
+
+    const data = value.subarray(offset, total);
+
+    return Extrinsic.newFromValue(registry, data.subarray(1), data[0]);
+  }
+
+  /**
+   * @description Injects an already-generated signature into the extrinsic
+   */
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): Extrinsic {
+    (this.raw as ExtrinsicVx).addSignature(signer, signature, payload);
+
+    return this;
+  }
+
+  /**
+   * @description Sign the extrinsic with a specific keypair
+   */
+  public sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
+    (this.raw as ExtrinsicVx).sign(account, options);
+
+    return this;
+  }
+
+  /**
+   * @describe Adds a fake signature to the extrinsic
+   */
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): Extrinsic {
+    (this.raw as ExtrinsicVx).signFake(signer, options);
+
+    return this;
+  }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public toRawType (): string {
+    return 'Extrinsic';
   }
 }
