@@ -4,9 +4,8 @@
 
 import { Registry } from '@polkadot/types/types';
 
-import { bnToU8a, isHex, hexToU8a, u8aConcat } from '@polkadot/util';
+import { isHex, hexToU8a } from '@polkadot/util';
 
-import { MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
 
 const VERSION_IDX = 4; // magic u32 preceding
@@ -34,15 +33,6 @@ function decodeMetadata (registry: Registry, _value: Uint8Array | string = new U
 
     throw error;
   }
-
-  return new MetadataVersioned(
-    registry,
-    u8aConcat(
-      bnToU8a(MAGIC_NUMBER), // manually add the magic number
-      Uint8Array.from([0]), // add the version for the original
-      value // the actual data as retrieved
-    )
-  );
 }
 
 /**
