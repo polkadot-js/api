@@ -23,7 +23,7 @@ function parse ([hashes, proposals, votes]: Result): DerivedCollectiveProposal[]
         }
         : null
     )
-    .filter((proposal): proposal is DerivedCollectiveProposal => !!proposal)
+    .filter((proposal): proposal is DerivedCollectiveProposal => !!proposal);
 }
 
 export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposal[]> {

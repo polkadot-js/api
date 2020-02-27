@@ -29,7 +29,7 @@ export function referendumInfos (api: ApiInterfaceRx): (ids?: (BN | number)[]) =
         )
       ),
       map((infos): DerivedReferendum[] =>
-        infos.filter((referendum): boolean => !!referendum) as DerivedReferendum[]
+        infos.filter((referendum): referendum is DerivedReferendum => !!referendum)
       )
     ));
 }

@@ -157,54 +157,6 @@ abstract class ExtrinsicBase extends Base<ExtrinsicVx | ExtrinsicUnknown> {
   public get version (): number {
     return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
   }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  public toHex (isBare?: boolean): string {
-    return u8aToHex(this.toU8a(isBare));
-  }
-
-  /**
-   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
-   */
-  public toHuman (isExpanded?: boolean): AnyJson {
-    return {
-      method: this.method.toHuman(isExpanded),
-      isSigned: this.isSigned,
-      ...(this.isSigned
-        ? {
-          signer: this.signer.toHuman(isExpanded),
-          nonce: this.nonce.toHuman(isExpanded),
-          era: this.era.toHuman(isExpanded),
-          tip: this.tip.toHuman(isExpanded),
-          signature: this.signature.toHex()
-        }
-        : {}
-      )
-    };
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string {
-    return this.toHex();
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value is not length-prefixed
-   */
-  public toU8a (isBare?: boolean): Uint8Array {
-    // we do not apply bare to the internal values, rather this only determines out length addition,
-    // where we strip all lengths this creates an extrinsic that cannot be decoded
-    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
-  }
 }
 
 /**
@@ -293,9 +245,57 @@ export default class Extrinsic extends ExtrinsicBase implements IExtrinsic {
   }
 
   /**
+   * @description Returns a hex string representation of the value
+   */
+  public toHex (isBare?: boolean): string {
+    return u8aToHex(this.toU8a(isBare));
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public toHuman (isExpanded?: boolean): AnyJson {
+    return {
+      method: this.method.toHuman(isExpanded),
+      isSigned: this.isSigned,
+      ...(this.isSigned
+        ? {
+          signer: this.signer.toHuman(isExpanded),
+          nonce: this.nonce.toHuman(isExpanded),
+          era: this.era.toHuman(isExpanded),
+          tip: this.tip.toHuman(isExpanded),
+          signature: this.signature.toHex()
+        }
+        : {}
+      )
+    };
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): string {
+    return this.toHex();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
     return 'Extrinsic';
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
+   * @param isBare true when the value is not length-prefixed
+   */
+  public toU8a (isBare?: boolean): Uint8Array {
+    // we do not apply bare to the internal values, rather this only determines out length addition,
+    // where we strip all lengths this creates an extrinsic that cannot be decoded
+    const encoded = u8aConcat(new Uint8Array([this.version]), this.raw.toU8a());
+
+    return isBare
+      ? encoded
+      : Compact.addLengthPrefix(encoded);
   }
 }

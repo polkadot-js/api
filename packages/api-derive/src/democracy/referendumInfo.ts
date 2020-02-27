@@ -44,7 +44,7 @@ function constructInfo (api: ApiInterfaceRx, index: BN | number, _info: Option<R
 export function retrieveInfo (api: ApiInterfaceRx, index: BN | number, info: Option<ReferendumInfo>): Observable<DerivedReferendum | null> {
   return ((
     info?.isSome
-      ? api.query.democracy.preimages<PreImage>(info.unwrap().proposalHash)
+      ? api.query.democracy.preimages(info.unwrap().proposalHash)
       : of(undefined)
   ) as Observable<PreImage | undefined>).pipe(
     map((preimage?: PreImage): DerivedReferendum | null =>
