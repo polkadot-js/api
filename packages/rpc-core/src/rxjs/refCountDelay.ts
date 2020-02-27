@@ -27,14 +27,12 @@ function refCountDelayInner <T> (source: Observable<T>): Observable<T> {
     return (): void => {
       if (--refCount === 0) {
         if (state === 2) {
-          state = 0;
-          scheduler.unsubscribe();
+          state = 0; scheduler.unsubscribe();
         } else {
           // state === 3
           state = 1;
           scheduler = asapScheduler.schedule((): void => {
-            connection.unsubscribe();
-            state = 0;
+            state = 0; connection.unsubscribe();
           }, DELAY);
         }
       }
