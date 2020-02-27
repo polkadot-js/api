@@ -26,17 +26,17 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
       const accountId = createType(api.registry, 'AccountId', decoded);
 
       return api.derive.accounts.idToIndex(accountId).pipe(
-        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
+        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
       );
     }
 
     const accountIndex = createType(api.registry, 'AccountIndex', decoded);
 
     return api.derive.accounts.indexToId(accountIndex).pipe(
-      map((accountId): AccountIdAndIndex => [accountId, accountIndex] as AccountIdAndIndex)
+      map((accountId): AccountIdAndIndex => [accountId, accountIndex])
     );
   } catch (error) {
-    return of([undefined, undefined] as AccountIdAndIndex);
+    return of([undefined, undefined]);
   }
 }
 

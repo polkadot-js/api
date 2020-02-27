@@ -17,18 +17,22 @@ function notEntry (value: any): boolean {
   return !Array.isArray(value) || value.length !== 2;
 }
 
+function compareMapArray (a: Map<any, any>, b: [any, any][]): boolean {
+  // equal number of entries and each entry in the array should match
+  return (a.size === b.length) && !b.some((entry): boolean =>
+    notEntry(entry) || hasMismatch(a.get(entry[0]), entry[1])
+  );
+}
+
 // NOTE These are used internally and when comparing objects, expects that
 // when the second is an Map<string, Codec> that the first has to be as well
 export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
-    // equal number of entries and each entry in the array should match
-    return (a.size === b.length) && !b.some((entry): boolean =>
-      notEntry(entry) || hasMismatch(a.get(entry[0]), entry[1])
-    );
+    return compareMapArray(a, b);
   } else if (b instanceof Map) {
-    return compareMap(a, [...b.entries()]);
+    return compareMapArray(a, [...b.entries()]);
   } else if (isObject(b)) {
-    return compareMap(a, Object.entries(b));
+    return compareMapArray(a, Object.entries(b));
   }
 
   return false;

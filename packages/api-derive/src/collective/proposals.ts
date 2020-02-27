@@ -12,6 +12,20 @@ import { Option } from '@polkadot/types';
 
 type Result = [Hash[], Option<Proposal>[], Option<Votes>[]];
 
+function parse ([hashes, proposals, votes]: Result): DerivedCollectiveProposal[] {
+  return proposals
+    .map((proposalOpt, index): DerivedCollectiveProposal | null =>
+      proposalOpt.isSome
+        ? {
+          hash: hashes[index],
+          proposal: proposalOpt.unwrap(),
+          votes: votes[index].unwrapOr(null)
+        }
+        : null
+    )
+    .filter((proposal): proposal is DerivedCollectiveProposal => !!proposal);
+}
+
 export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalCommittee'): () => Observable<DerivedCollectiveProposal[]> {
   return (): Observable<DerivedCollectiveProposal[]> =>
     api.query[section]
@@ -25,19 +39,7 @@ export function proposals (api: ApiInterfaceRx, section: 'council' | 'technicalC
             ])
             : of([[], [], []])
         ),
-        map(([hashes, proposals, votes]: Result): DerivedCollectiveProposal[] =>
-          proposals
-            .map((proposalOpt, index): DerivedCollectiveProposal | null =>
-              proposalOpt.isSome
-                ? {
-                  hash: hashes[index],
-                  proposal: proposalOpt.unwrap(),
-                  votes: votes[index].unwrapOr(null)
-                }
-                : null
-            )
-            .filter((proposal): boolean => !!proposal) as DerivedCollectiveProposal[]
-        )
+        map(parse)
       )
       : of([] as DerivedCollectiveProposal[]);
 }

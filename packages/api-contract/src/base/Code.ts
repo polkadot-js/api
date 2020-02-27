@@ -47,10 +47,11 @@ export default class Code<ApiType extends ApiTypes> extends BaseWithTx<ApiType> 
   public createBlueprint = (maxGas: number | BN): CodePutCode<ApiType> => {
     return {
       signAndSend: this.decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> => this.apiContracts
-          .putCode(maxGas, compactAddLength(this.code))
-          .signAndSend(account)
-          .pipe(map(this.createResult))
+        (account: IKeyringPair | string | AccountId | Address): CodePutCodeResultSubscription<ApiType> =>
+          this.apiContracts
+            .putCode(maxGas, compactAddLength(this.code))
+            .signAndSend(account)
+            .pipe(map(this.createResult))
       )
     };
   }

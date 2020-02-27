@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Metadata from '@polkadot/metadata/Metadata';
-import rpcMetadataV0 from '@polkadot/metadata/Metadata/v0/static';
+import rpcMetadataV1 from '@polkadot/metadata/Metadata/v1/static';
 import rpcMetadata from '@polkadot/metadata/Metadata/static';
 
 import { TypeRegistry } from '../../create';
@@ -16,7 +16,7 @@ describe('EventRecord', (): void => {
   describe('EventRecordTo76', (): void => {
     beforeEach((): void => {
       // eslint-disable-next-line no-new
-      new Metadata(registry, rpcMetadataV0);
+      new Metadata(registry, rpcMetadataV1);
     });
 
     it('decodes correctly', (): void => {
