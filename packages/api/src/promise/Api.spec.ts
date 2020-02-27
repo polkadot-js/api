@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiOptions } from '../types';
+import { ApiOptions, SubmittableExtrinsic } from '../types';
 
 import createPair from '@polkadot/keyring/pair';
 import testKeyring from '@polkadot/keyring/testing';
@@ -12,6 +12,8 @@ import { hexToU8a } from '@polkadot/util';
 
 import { SingleAccountSigner } from '../../test/util';
 import ApiPromise from './Api';
+
+const TRANSFER_SIG = '0x62bfcd07a9f50ba32ed9e2c41ca11267ac62a24c95949e25efdccc4989d48573f84754dbbaa1d0937ceb888ad8a2cf71daced1545a839d9d6cceac33a5771401';
 
 describe('ApiPromise', (): void => {
   const registry = new TypeRegistry();
@@ -24,6 +26,23 @@ describe('ApiPromise', (): void => {
     })
   );
   let provider: Mock;
+
+  async function createTransfer (): Promise<{ api: ApiPromise; transfer: SubmittableExtrinsic<'promise'> }> {
+    provider.subscriptions.state_subscribeStorage.lastValue = {
+      changes: [
+        [
+          '0x26aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc4d560eb8d00e57357cf76492334e43bb2ecaa9f28df6a8c4426d7b6090f7ad3c9',
+          '0x00'
+        ]
+      ]
+    };
+
+    const signer = new SingleAccountSigner(registry, aliceEd);
+    const api = await ApiPromise.create({ provider, registry, signer });
+    const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321_564_789_876_512_345n);
+
+    return { api, transfer: await transfer.signAsync(aliceEd.address, {}) };
+  }
 
   beforeEach((): void => {
     jest.setTimeout(3000000);
@@ -110,24 +129,18 @@ describe('ApiPromise', (): void => {
 
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
-      provider.subscriptions.state_subscribeStorage.lastValue = {
-        changes: [
-          [
-            '0x26aa394eea5630e07c48ae0c9558cef79c2f82b23e5fd031fb54c292794b4cc4d560eb8d00e57357cf76492334e43bb2ecaa9f28df6a8c4426d7b6090f7ad3c9',
-            '0x00'
-          ]
-        ]
-      };
+      const { transfer } = await createTransfer();
 
-      const signer = new SingleAccountSigner(registry, aliceEd);
-      const api = await ApiPromise.create({ provider, registry, signer });
-      const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321_564_789_876_512_345n);
+      expect(transfer.signature.toHex()).toEqual(TRANSFER_SIG);
+    });
+  });
 
-      await transfer.signAsync(aliceEd.address, {});
+  describe('api.tx(...)', (): void => {
+    it('allows construction from existing extrinsic', async (): Promise<void> => {
+      const { api, transfer } = await createTransfer();
 
-      expect(transfer.signature.toHex()).toEqual(
-        '0x62bfcd07a9f50ba32ed9e2c41ca11267ac62a24c95949e25efdccc4989d48573f84754dbbaa1d0937ceb888ad8a2cf71daced1545a839d9d6cceac33a5771401'
-      );
+      expect(api.tx(transfer.toHex()).signature.toHex()).toEqual(TRANSFER_SIG);
+      expect(api.tx(transfer).signature.toHex()).toEqual(TRANSFER_SIG);
     });
   });
 });

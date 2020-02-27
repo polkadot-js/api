@@ -48,7 +48,7 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
 
   protected _derive?: ReturnType<Decorate<ApiType>['decorateDerive']>;
 
-  protected _extrinsics: SubmittableExtrinsics<ApiType> = {} as SubmittableExtrinsics<ApiType>;
+  protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
   protected _extrinsicType: number = EXTRINSIC_DEFAULT_VERSION;
 
@@ -160,13 +160,19 @@ export default abstract class Decorate<ApiType extends ApiTypes> extends Events 
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean): void {
     const decoratedMeta = new DecoratedMeta(this.registry, metadata);
 
+    if (fromEmpty || !this._extrinsics) {
+      this._extrinsics = this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod);
+      this._rx.tx = this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod);
+    } else {
+      augmentObject('tx', this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod), this._extrinsics, false);
+      augmentObject('', this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod), this._rx.tx, false);
+    }
+
     // this API
-    augmentObject('tx', this.decorateExtrinsics(decoratedMeta.tx, this.decorateMethod), this._extrinsics, fromEmpty);
     augmentObject('query', this.decorateStorage(decoratedMeta.query, this.decorateMethod), this._query, fromEmpty);
     augmentObject('consts', decoratedMeta.consts, this._consts, fromEmpty);
 
     // rx
-    augmentObject('', this.decorateExtrinsics(decoratedMeta.tx, this.rxDecorateMethod), this._rx.tx, fromEmpty);
     augmentObject('', this.decorateStorage(decoratedMeta.query, this.rxDecorateMethod), this._rx.query, fromEmpty);
     augmentObject('', decoratedMeta.consts, this._rx.consts, fromEmpty);
   }
