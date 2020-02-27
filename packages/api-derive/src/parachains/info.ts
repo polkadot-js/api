@@ -58,7 +58,11 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
     });
 }
 
-function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull {
+function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull | null {
+  if (info.isNone) {
+    return null;
+  }
+
   return {
     active: parseActive(id, active),
     didUpdate: didUpdate.isSome
@@ -66,7 +70,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
       : false,
     heads,
     id,
-    info: { id, ...info.unwrapOr(null) } as DeriveParachainInfo,
+    info: { id, ...info.unwrap() } as DeriveParachainInfo,
     pendingSwapId: pendingSwap.unwrapOr(null),
     relayDispatchQueue,
     retryCollators: parseCollators(id, retryQueue),
@@ -90,7 +94,7 @@ export function info (api: ApiInterfaceRx): (id: ParaId | number) => Observable<
         [api.query.parachains.watermarks, id]
       ])
         .pipe(
-          map((result: Result): DeriveParachainFull =>
+          map((result: Result): DeriveParachainFull | null =>
             parse(createType(api.registry, 'ParaId', id), result)
           )
         )
