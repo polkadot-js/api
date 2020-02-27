@@ -163,14 +163,14 @@ export default class ApiRx extends ApiBase<'rxjs'> {
   constructor (options?: ApiOptions) {
     super(options, 'rxjs', decorateMethod);
 
-    this.#isReadyRx = from(
+    this.#isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', (): void => {
           resolve(this);
         });
       })
-    ) as Observable<ApiRx>;
+    );
   }
 
   /**

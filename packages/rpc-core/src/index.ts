@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc-provider/types';
 import { RpcMethod, RpcSection, RpcParam } from '@polkadot/jsonrpc/types';
 import { AnyJson, Codec, Registry } from '@polkadot/types/types';
 import { RpcInterface, RpcInterfaceMethod, UserRpc } from './types';
@@ -214,7 +214,7 @@ export default class Rpc implements RpcInterface {
   }
 
   // create a subscriptor, it subscribes once and resolves with the id as subscribe
-  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: (error?: Error, result?: any) => void }, errorHandler: (error: Error) => void): Promise<number> {
+  private createSubscriber ({ subType, subName, paramsJson, update }: { subType: string; subName: string; paramsJson: AnyJson[]; update: ProviderInterfaceCallback }, errorHandler: (error: Error) => void): Promise<number> {
     return new Promise((resolve, reject): void => {
       this.provider
         .subscribe(subType, subName, paramsJson, update)
@@ -247,7 +247,7 @@ export default class Rpc implements RpcInterface {
         try {
           const params = this.formatInputs(method, values);
           const paramsJson = params.map((param): AnyJson => param.toJSON());
-          const update = (error?: Error, result?: any): void => {
+          const update = (error?: Error | null, result?: any): void => {
             if (error) {
               l.error(createErrorMessage(method, error));
               return;

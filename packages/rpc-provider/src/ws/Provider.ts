@@ -12,15 +12,13 @@ import Coder from '../coder';
 import defaults from '../defaults';
 import getWSClass from './getWSClass';
 
-type CallbackHandler = (error?: null | Error, value?: any) => void;
-
 interface SubscriptionHandler {
-  callback: CallbackHandler;
+  callback: ProviderInterfaceCallback;
   type: string;
 }
 
 interface WsStateAwaiting {
-  callback: CallbackHandler;
+  callback: ProviderInterfaceCallback;
   method: string;
   params: any[];
   subscription?: SubscriptionHandler;

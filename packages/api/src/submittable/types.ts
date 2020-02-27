@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions, Signer, ISubmittableResult } from '@polkadot/types/types';
+import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsicEra, IKeyringPair, SignatureOptions, Signer, ISubmittableResult } from '@polkadot/types/types';
 import { ApiTypes } from '../types';
 
 import { Observable } from 'rxjs';
@@ -43,7 +43,7 @@ export interface SignerOptions {
 
 export type AddressOrPair = IKeyringPair | string | AccountId | Address;
 
-export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends IExtrinsic {
+export interface SubmittableExtrinsic<ApiType extends ApiTypes> extends Extrinsic {
   paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;
 
   send(): SubmittableResultResult<ApiType>;

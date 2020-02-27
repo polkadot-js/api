@@ -8,7 +8,7 @@ import { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collectiv
 import { CodeHash, Gas, Schedule } from '@polkadot/types/interfaces/contracts';
 import { Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import { Vote } from '@polkadot/types/interfaces/elections';
-import { Signature } from '@polkadot/types/interfaces/extrinsics';
+import { Extrinsic, Signature } from '@polkadot/types/interfaces/extrinsics';
 import { IdentityFields, IdentityInfo, IdentityJudgement, RegistrarIndex } from '@polkadot/types/interfaces/identity';
 import { Heartbeat } from '@polkadot/types/interfaces/imOnline';
 import { AccountId, AccountIndex, Address, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, Header, KeyValue, LookupSource, Moment } from '@polkadot/types/interfaces/runtime';
@@ -1624,7 +1624,7 @@ declare module '@polkadot/api/types/submittable' {
   }
 
   export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
-    (extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;
+    (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
     [index: string]: SubmittableModuleExtrinsics<ApiType>;
   }
 }
