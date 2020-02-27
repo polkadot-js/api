@@ -62,7 +62,6 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
   if (info.isNone) {
     return null;
   }
-
   return {
     active: parseActive(id, active),
     didUpdate: didUpdate.isSome
