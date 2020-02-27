@@ -59,7 +59,7 @@ function parseCollators (id: ParaId, collatorQueue: SelectedThreads | RetryQueue
 }
 
 function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, info, pendingSwap, heads, relayDispatchQueue, watermarks]: Result): DeriveParachainFull | null {
-  if (!info.unwrap()) {
+  if (info.isNone) {
     return null;
   }
 
