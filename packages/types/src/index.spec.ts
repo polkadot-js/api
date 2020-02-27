@@ -18,7 +18,6 @@ const UNCONSTRUCTABLE = [
   'ExtrinsicPayloadUnknown', 'GenericExtrinsicPayloadUnknown',
   'ExtrinsicUnknown', 'GenericExtrinsicUnknown',
   'GenericOrigin', 'Origin',
-  'Metadata',
   'Unconstructable',
   'usize'
 ].map((v): string => v.toLowerCase());
